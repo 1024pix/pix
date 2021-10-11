@@ -4,7 +4,6 @@ const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../.
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const {
   NotFoundError,

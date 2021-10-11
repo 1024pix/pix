@@ -15,7 +15,6 @@ const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 

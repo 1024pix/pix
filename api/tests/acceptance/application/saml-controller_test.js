@@ -6,8 +6,6 @@ const samlify = require('samlify');
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
 
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
 UjEPMA0GA1UECAwGRlJBTkNFMQ4wDAYDVQQHDAVQQVJJUzEMMAoGA1UECgwDUElY
 MQwwCgYDVQQLDANERVYwHhcNMTgxMDIyMTQ1MjQ5WhcNMTkxMDIyMTQ1MjQ5WjBK
