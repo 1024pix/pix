@@ -10,6 +10,7 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/update-email-serializer');
+const authenticationMethodsSerializer = require('../../infrastructure/serializers/jsonapi/authentication-methods-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -291,5 +292,13 @@ module.exports = {
     });
 
     return updateEmailSerializer.serialize(updatedUserAttributes);
+  },
+
+  async getUserAuthenticationMethods(request) {
+    const userId = request.params.id;
+
+    const authenticationMethods = await usecases.findUserAuthenticationMethods({ userId });
+
+    return authenticationMethodsSerializer.serialize(authenticationMethods);
   },
 };

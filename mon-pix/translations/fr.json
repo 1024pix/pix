@@ -1346,7 +1346,12 @@
         "edit-button": "Modifier",
         "email": "Adresse e-mail",
         "menu-link-title": "Mes méthodes de connexion",
-        "username": "Identifiant"
+        "username": "Identifiant",
+        "authentication-methods": {
+          "label": "Connexion externe",
+          "gar": "via ENT/Mediacentre",
+          "pole-emploi": "via Pôle Emploi"
+        }
       },
       "email-verification": {
         "title": "Vérification de votre adresse e-mail",

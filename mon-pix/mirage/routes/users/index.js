@@ -25,6 +25,10 @@ export default function index(config) {
   config.get('/users/:id/campaign-participations', getUserCampaignParticipations);
   config.get('/users/:id/campaign-participation-overviews', getUserCampaignParticipationOverviews);
 
+  config.get('/users/:id/authentication-methods', (schema, request) => {
+    return schema.authenticationMethods.where({ userId: request.params.id });
+  });
+
   config.patch('/users/:id/email', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user = schema.users.find(request.params.id);
