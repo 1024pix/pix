@@ -7,9 +7,15 @@ async function handleCleaCertificationRescoring({
   event,
   cleaCertificationResultRepository,
   partnerCertificationScoringRepository,
+  certificationCenterRepository,
 }) {
   checkEventTypes(event, eventTypes);
   const { certificationCourseId } = event;
+
+  const certificationCenter = await certificationCenterRepository.getByCertificationCourseId(certificationCourseId);
+  if (!certificationCenter.isAccreditedClea) {
+    return;
+  }
   const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
   if (!cleaCertificationResult.isTaken()) {
     return;
