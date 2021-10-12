@@ -34,7 +34,7 @@ function build({
 
 function buildWithUser(sendingAttributes, externalIdentifier) {
   const { id: userId } = buildUser();
-  buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({ userId, externalIdentifier });
+  buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId, externalIdentifier });
   const { id: campaignParticipationId } = buildCampaignParticipation({ userId });
   return build({ ...sendingAttributes, campaignParticipationId });
 }

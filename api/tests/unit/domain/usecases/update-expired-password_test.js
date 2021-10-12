@@ -19,7 +19,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
   beforeEach(function () {
     user = domainBuilder.buildUser({ username });
-    const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword({
+    const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
       userId: user.id,
       rawPassword: expiredPassword,
       shouldChangePassword: true,
@@ -104,12 +104,11 @@ describe('Unit | UseCase | update-expired-password', function () {
   context('When changing password is not required', function () {
     it('should throw ForbiddenAccess when shouldChangePassword is false', async function () {
       // given
-      const authenticationMethod =
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword({
-          userId: user.id,
-          rawPassword: expiredPassword,
-          shouldChangePassword: false,
-        });
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
+        userId: user.id,
+        rawPassword: expiredPassword,
+        shouldChangePassword: false,
+      });
       user.authenticationMethods = [authenticationMethod];
 
       authenticationService.getUserByUsernameAndPassword.resolves(user);

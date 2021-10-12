@@ -426,11 +426,10 @@ function createUserWithValidCredentialsWhoShouldChangePassword({
   userRepository,
 }) {
   const email = 'john.doe@example.net';
-  const emailAuthenticationMethod =
-    domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
-      hashedPassword: oneTimePassword,
-      shouldChangePassword: true,
-    });
+  const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+    hashedPassword: oneTimePassword,
+    shouldChangePassword: true,
+  });
 
   const user = domainBuilder.buildUser({
     email,

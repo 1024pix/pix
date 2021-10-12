@@ -16,10 +16,10 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
   beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: null });
-    databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+    databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
       userId: user.id,
     });
-    databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId: user.id });
+    databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
 
     const pixMaster = await insertUserWithRolePixMaster();
     options = {

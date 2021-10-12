@@ -6,7 +6,7 @@ const encrypt = require('../../../lib/domain/services/encryption-service');
 
 const buildAuthenticationMethod = {};
 
-buildAuthenticationMethod.withGarAuthenticationComplement = function ({
+buildAuthenticationMethod.withGarAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = 'externalId',
@@ -31,7 +31,7 @@ buildAuthenticationMethod.withGarAuthenticationComplement = function ({
   });
 };
 
-buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword = function ({
   id = databaseBuffer.getNextId(),
   hashedPassword = 'ABCDEF123',
   shouldChangePassword = false,
@@ -59,7 +59,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = fun
   });
 };
 
-buildAuthenticationMethod.withPixAuthenticationComplementAndPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndPassword = function ({
   id = databaseBuffer.getNextId(),
   password = 'Password123',
   shouldChangePassword = false,
@@ -89,7 +89,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndPassword = function 
   });
 };
 
-buildAuthenticationMethod.withPoleEmploiAuthenticationComplement = function ({
+buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
   accessToken = 'ABC789',

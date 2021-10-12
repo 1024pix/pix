@@ -16,7 +16,7 @@ function _buildUser() {
 
 const buildAuthenticationMethod = {};
 
-buildAuthenticationMethod.withGarAuthenticationComplement = function ({
+buildAuthenticationMethod.withGarAsIdentityProvider = function ({
   id = 123,
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = `externalId${id}`,
@@ -37,7 +37,7 @@ buildAuthenticationMethod.withGarAuthenticationComplement = function ({
   });
 };
 
-buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword = function ({
   id,
   rawPassword = 'pix123',
   shouldChangePassword = false,
@@ -62,7 +62,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword = functi
   });
 };
 
-buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword = function ({
   id,
   hashedPassword = 'hashedPassword',
   shouldChangePassword = false,
@@ -87,7 +87,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = fun
   });
 };
 
-buildAuthenticationMethod.withPoleEmploiAuthenticationComplement = function ({
+buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   id,
   externalIdentifier = `externalId${id}`,
   accessToken = 'ABC456789',

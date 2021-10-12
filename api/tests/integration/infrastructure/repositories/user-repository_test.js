@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
     userInDB = databaseBuilder.factory.buildUser(userToInsert);
     passwordAuthenticationMethodInDB =
-      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId: userInDB.id,
         hashedPassword: 'ABCDEF1234',
         shouldChangePassword: false,
@@ -130,7 +130,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       beforeEach(async function () {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'some-saml-id',
           userId: userInDb.id,
         });
@@ -165,7 +165,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       beforeEach(async function () {
         userInDb = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           externalIdentifier: externalIdentityId,
           userId: userInDb.id,
         });
@@ -646,10 +646,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       it('should return the user with his authentication methods', async function () {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           userId: userInDB.id,
         });
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId: userInDB.id });
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
         await databaseBuilder.commit();
 
         // when
@@ -857,7 +857,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
     beforeEach(async function () {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: 'samlId',
         userId: userInDb.id,
       });

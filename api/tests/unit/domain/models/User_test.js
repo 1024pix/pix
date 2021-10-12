@@ -248,7 +248,7 @@ describe('Unit | Domain | Models | User', function () {
         const oneTimePassword = 'Azerty123*';
 
         const pixAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
             hashedPassword: oneTimePassword,
             shouldChangePassword: true,
           });
@@ -269,7 +269,7 @@ describe('Unit | Domain | Models | User', function () {
       it('should return false when should not change password', function () {
         // given
         const pixAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
             shouldChangePassword: false,
           });
 
@@ -291,7 +291,7 @@ describe('Unit | Domain | Models | User', function () {
       it('should return null', function () {
         // given
         const poleEmploiAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement();
+          domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider();
 
         const user = new User({
           id: 1,

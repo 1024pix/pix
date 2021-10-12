@@ -866,7 +866,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
     beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: '234',
         userId: user.id,
       });

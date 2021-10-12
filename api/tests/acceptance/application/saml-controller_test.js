@@ -221,7 +221,7 @@ describe('Acceptance | Controller | saml-controller', function () {
         samlId,
         cgu: false,
       }).id;
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: samlId,
         userId,
       });

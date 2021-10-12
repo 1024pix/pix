@@ -207,7 +207,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       };
       authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({ userId });
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({
           externalIdentifier: decodedUserInfo.externalIdentityId,
