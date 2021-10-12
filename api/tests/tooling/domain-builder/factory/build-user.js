@@ -22,7 +22,7 @@ module.exports = function buildUser({
   pixRoles = [buildPixRole()],
   memberships = [buildMembership()],
   certificationCenterMemberships = [buildCertificationCenterMembership()],
-  authenticationMethods = [buildAuthenticationMethod.withGarAsIdentityProvider()],
+  authenticationMethods = [buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword()],
 } = {}) {
   return new User({
     id,
