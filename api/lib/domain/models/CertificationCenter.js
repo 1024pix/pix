@@ -3,6 +3,7 @@ const SCO = 'SCO';
 const PRO = 'PRO';
 
 const PIX_PLUS_DROIT = 'Pix+ Droit';
+const CLEA = 'CléA Numérique';
 
 const types = {
   SUP,
@@ -26,6 +27,10 @@ class CertificationCenter {
 
   get isAccreditedPixPlusDroit() {
     return this.accreditations.some((accreditation) => accreditation.name === PIX_PLUS_DROIT);
+  }
+
+  get isAccreditedClea() {
+    return this.accreditations.some((accreditation) => accreditation.name === CLEA);
   }
 }
 
