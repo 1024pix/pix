@@ -73,6 +73,31 @@ module.exports = {
     throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
   },
 
+  async getByCertificationCourseId(certificationCourseId) {
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({
+      'certification-courses.id': certificationCourseId,
+    })
+      .query((qb) => {
+        qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
+        qb.innerJoin('certification-courses', 'certification-courses.sessionId', 'sessions.id');
+      })
+      .fetch({
+        require: false,
+        withRelated: [
+          {
+            accreditations: function (query) {
+              query.orderBy('id');
+            },
+          },
+        ],
+      });
+
+    if (certificationCenterBookshelf) {
+      return _toDomain(certificationCenterBookshelf);
+    }
+    throw new NotFoundError(`Could not find certification center for certificationCourseId ${certificationCourseId}.`);
+  },
+
   async save(certificationCenter) {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'accreditations']);
     const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
