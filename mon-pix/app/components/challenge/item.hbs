@@ -4,6 +4,7 @@
   data-challenge-id="{{@challenge.id}}"
   {{on "mouseenter" this.hideOutOfFocusBorder}}
   {{on "mouseleave" this.showOutOfFocusBorder}}
+  {{will-destroy this.clearOnBlurMethod}}
 >
   <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 

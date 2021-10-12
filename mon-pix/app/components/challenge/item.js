@@ -40,11 +40,11 @@ export default class Item extends Component {
   _setOnBlurEventToWindow() {
     window.onblur = () => {
       this.args.onFocusOutOfWindow();
-      this._clearOnBlurMethod();
+      this.clearOnBlurMethod();
     };
   }
 
-  _clearOnBlurMethod() {
+  clearOnBlurMethod() {
     window.onblur = null;
   }
 
