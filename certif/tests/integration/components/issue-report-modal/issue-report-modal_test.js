@@ -4,7 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { render as renderScreen } from '../../../helpers/testing-library';
 
 module('Integration | Component | issue-report-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -165,7 +165,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
     <IssueReportModal::IssueReportsModal
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
@@ -173,8 +173,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
       @report={{this.report}}
       />
     `);
-
-    await clickByLabel('Ajouter un signalement');
+    await click(screen.getByRole('button', { name: 'Ajouter un signalement' }));
 
     // then
     sinon.assert.calledOnce(onClickIssueReport);
