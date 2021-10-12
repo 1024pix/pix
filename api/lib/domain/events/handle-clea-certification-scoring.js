@@ -8,15 +8,23 @@ async function handleCleaCertificationScoring({
   partnerCertificationScoringRepository,
   badgeRepository,
   certificationCourseRepository,
+  certificationCenterRepository,
   knowledgeElementRepository,
   targetProfileRepository,
   badgeCriteriaService,
 }) {
   checkEventTypes(event, eventTypes);
+  const { certificationCourseId, userId, reproducibilityRate } = event;
+
+  const certificationCenter = await certificationCenterRepository.getByCertificationCourseId(certificationCourseId);
+  if (!certificationCenter.isAccreditedClea) {
+    return;
+  }
+
   const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-    certificationCourseId: event.certificationCourseId,
-    userId: event.userId,
-    reproducibilityRate: event.reproducibilityRate,
+    certificationCourseId,
+    userId,
+    reproducibilityRate,
   });
 
   if (cleaCertificationScoring.hasAcquiredBadge) {
