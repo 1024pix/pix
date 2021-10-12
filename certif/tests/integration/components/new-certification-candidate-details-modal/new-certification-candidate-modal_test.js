@@ -185,7 +185,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
         />
       `);
 
-      await fillInByLabel('Pays de naissance', '99123');
+      await fillInByLabel('* Pays de naissance', '99123');
 
       // then
       assert.dom(queryByLabel('Code INSEE de naissance')).isNotVisible();
@@ -295,16 +295,16 @@ module('Integration | Component | new-certification-candidate-modal', function(h
           />
       `);
 
-      await fillInByLabel('Prénom', 'Guybrush');
-      await fillInByLabel('Nom de famille', 'Threepwood');
-      await fillInByLabel('Date de naissance', '28/04/2019');
+      await fillInByLabel('* Prénom', 'Guybrush');
+      await fillInByLabel('* Nom de famille', 'Threepwood');
+      await fillInByLabel('* Date de naissance', '28/04/2019');
       await clickByLabel('Homme');
-      await fillInByLabel('Pays de naissance', 99100);
+      await fillInByLabel('* Pays de naissance', 99100);
       await clickByLabel('Code INSEE');
       await fillInByLabel('Identifiant externe', '44AA3355');
-      await fillInByLabel('Code INSEE de naissance', '75100');
+      await fillInByLabel('* Code INSEE de naissance', '75100');
       await fillInByLabel('Temps majoré (%)', '20');
-      await fillInByLabel('E-mail du destinataire des résultats', 'guybrush.threepwood@example.net');
+      await fillInByLabel('E-mail du destinataire des résultats (formateur, enseignant...)', 'guybrush.threepwood@example.net');
       await fillInByLabel('E-mail de convocation', 'roooooar@example.net');
 
       await clickByLabel('Ajouter le candidat');

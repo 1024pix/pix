@@ -99,7 +99,7 @@ module('Acceptance | authenticated', function(hooks) {
 
       // when
       await visit('/');
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Bibiche (ABC123)');
       await clickByLabel('Poupoune');
 
       // then
@@ -132,7 +132,7 @@ module('Acceptance | authenticated', function(hooks) {
 
       // when
       await visit('/sessions/555');
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Bibiche (ABC123)');
       await clickByLabel('Poupoune');
 
       // then
@@ -166,7 +166,7 @@ module('Acceptance | authenticated', function(hooks) {
 
       // when
       await visit('/sessions/555');
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Bibiche (ABC123)');
       await clickByLabel('Poupoune');
 
       // then
@@ -200,7 +200,7 @@ module('Acceptance | authenticated', function(hooks) {
 
       // when
       await visit('/');
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Bibiche (ABC123)');
       await clickByLabel('Poupoune');
 
       // then

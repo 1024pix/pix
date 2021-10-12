@@ -82,8 +82,8 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     test('should hide the disconnect link', async function(assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
-      await clickByLabel('Buffy');
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Sunnydale');
+      await clickByLabel('Buffy Summers Sunnydale');
 
       // then
       assert.dom('.logged-user-menu-item__last').doesNotExist();
@@ -95,7 +95,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     test('should display the chevron-up icon', async function(assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Sunnydale');
 
       // then
       assert.dom('.fa-chevron-up').exists();
@@ -105,7 +105,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     test('should display the disconnect link', async function(assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Sunnydale');
 
       // then
       assert.dom('.logged-user-menu-item__last').exists();
@@ -132,7 +132,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
       // when
       await render(hbs`<UserLoggedMenu />`);
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Sunnydale');
 
       // then
       assert.contains('Torreilles');
@@ -159,7 +159,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
       // when
       await render(hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`);
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Sunnydale');
       await clickByLabel('Torreilles');
 
       // then
@@ -182,7 +182,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
       // when
       await render(hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`);
-      await clickByLabel('Buffy');
+      await clickByLabel('Buffy Summers Sunnydale');
       await clickByLabel('Torreilles');
 
       // then

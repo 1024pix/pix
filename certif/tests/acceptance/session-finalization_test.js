@@ -121,7 +121,7 @@ module('Acceptance | Session Finalization', function(hooks) {
           await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2);
           await click(RADIO_BTN_OF_TYPE_OTHER);
           await fillIn(TEXT_AREA_OF_TYPE_OTHER, 'Coucou');
-          await clickByLabel('Valider');
+          await clickByLabel('Ajouter le signalement');
 
           // then
           assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1).hasText(expectedTextWithoutIssueReport);
