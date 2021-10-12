@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { fillInByLabel } from '../../../helpers/testing-library';
 
 module('Integration | Component | Ui::SearchInput', function (hooks) {
   setupRenderingTest(hooks);

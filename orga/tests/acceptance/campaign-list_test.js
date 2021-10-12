@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';

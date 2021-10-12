@@ -139,7 +139,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
               hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`
             );
 
-            assert.contains('Certifiable');
+            assert.contains('Certifiable', { exact: true });
           });
         });
 
@@ -155,7 +155,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
               hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`
             );
 
-            assert.notContains('Certifiable');
+            assert.notContains('Certifiable', { exact: true });
           });
         });
       });

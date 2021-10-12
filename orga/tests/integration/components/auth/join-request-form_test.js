@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { fillInByLabel } from '../../../helpers/testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Auth::JoinRequestForm', function (hooks) {

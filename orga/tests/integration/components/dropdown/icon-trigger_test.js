@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../../../helpers/testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Dropdown | icon-trigger', function (hooks) {
