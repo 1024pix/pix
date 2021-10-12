@@ -5,12 +5,17 @@ const { handleCleaCertificationScoring } = require('../../../../lib/domain/event
 describe('Unit | Domain | Events | handle-clea-certification-scoring', function () {
   let partnerCertificationScoringRepository;
   let certificationCourseRepository;
+  let certificationCenterRepository;
   let badgeRepository;
   let knowledgeElementRepository;
   let targetProfileRepository;
   let badgeCriteriaService;
 
   beforeEach(function () {
+    certificationCenterRepository = {
+      getByCertificationCourseId: sinon.stub(),
+    };
+
     partnerCertificationScoringRepository = {
       buildCleaCertificationScoring: sinon.stub(),
       save: sinon.stub(),
@@ -74,6 +79,18 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         reproducibilityRate: 85,
       });
 
+      const accreditation = domainBuilder.buildAccreditation({
+        name: 'CléA Numérique',
+      });
+
+      const certificationCenter = domainBuilder.buildCertificationCenter({
+        accreditations: [accreditation],
+      });
+
+      certificationCenterRepository.getByCertificationCourseId
+        .withArgs(certificationCourseId)
+        .resolves(certificationCenter);
+
       partnerCertificationScoringRepository.buildCleaCertificationScoring
         .withArgs({
           certificationCourseId,
@@ -88,6 +105,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         partnerCertificationScoringRepository,
         badgeRepository,
         knowledgeElementRepository,
+        certificationCenterRepository,
         certificationCourseRepository,
         targetProfileRepository,
         badgeCriteriaService,
@@ -122,6 +140,18 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
         const date = '2021-01-01';
 
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'CléA Numérique',
+        });
+
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId
+          .withArgs(certificationCourseId)
+          .resolves(certificationCenter);
+
         partnerCertificationScoringRepository.buildCleaCertificationScoring
           .withArgs({
             certificationCourseId,
@@ -151,6 +181,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           badgeRepository,
           knowledgeElementRepository,
           certificationCourseRepository,
+          certificationCenterRepository,
           targetProfileRepository,
           badgeCriteriaService,
         });
@@ -185,6 +216,18 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
         const date = '2021-01-01';
 
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'CléA Numérique',
+        });
+
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId
+          .withArgs(certificationCourseId)
+          .resolves(certificationCenter);
+
         partnerCertificationScoringRepository.buildCleaCertificationScoring
           .withArgs({
             certificationCourseId,
@@ -214,6 +257,49 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           badgeRepository,
           knowledgeElementRepository,
           certificationCourseRepository,
+          certificationCenterRepository,
+          targetProfileRepository,
+          badgeCriteriaService,
+        });
+
+        // then
+        expect(partnerCertificationScoringRepository.save).not.to.have.been.called;
+      });
+    });
+
+    context('when certification center is not accredited', function () {
+      it('should not save a certif partner', async function () {
+        // given
+        const userId = 1234;
+        const certificationCourseId = 4567;
+
+        const event = new CertificationScoringCompleted({
+          certificationCourseId,
+          userId,
+          isCertification: true,
+          reproducibilityRate: 85,
+        });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'Tarte au fromage',
+        });
+
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId
+          .withArgs(certificationCourseId)
+          .resolves(certificationCenter);
+
+        // when
+        await handleCleaCertificationScoring({
+          event,
+          partnerCertificationScoringRepository,
+          badgeRepository,
+          knowledgeElementRepository,
+          certificationCourseRepository,
+          certificationCenterRepository,
           targetProfileRepository,
           badgeCriteriaService,
         });
