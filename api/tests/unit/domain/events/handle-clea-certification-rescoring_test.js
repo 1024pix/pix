@@ -1,31 +1,13 @@
-const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleCleaCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-clea-certification-rescoring', function () {
-  const partnerCertificationScoringRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    buildCleaCertificationScoring: _.noop(),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    save: _.noop(),
-  };
-  const cleaCertificationResultRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    get: _.noop(),
-  };
-
-  const dependencies = {
-    partnerCertificationScoringRepository,
-    cleaCertificationResultRepository,
-  };
+  let partnerCertificationScoringRepository;
+  let cleaCertificationResultRepository;
 
   beforeEach(function () {
-    partnerCertificationScoringRepository.buildCleaCertificationScoring = sinon.stub();
-    partnerCertificationScoringRepository.save = sinon.stub();
-    cleaCertificationResultRepository.get = sinon.stub();
+    partnerCertificationScoringRepository = { buildCleaCertificationScoring: sinon.stub(), save: sinon.stub() };
+    cleaCertificationResultRepository = { get: sinon.stub() };
   });
 
   it('fails when event is not of correct type', async function () {
@@ -33,7 +15,11 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
     const event = 'not an event of the correct type';
 
     // when / then
-    const error = await catchErr(handleCleaCertificationRescoring)({ event, ...dependencies });
+    const error = await catchErr(handleCleaCertificationRescoring)({
+      event,
+      partnerCertificationScoringRepository,
+      cleaCertificationResultRepository,
+    });
 
     // then
     expect(error.message).to.equal('event must be one of types CertificationRescoringCompleted');
@@ -54,7 +40,8 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
 
         // when
         await handleCleaCertificationRescoring({
-          ...dependencies,
+          partnerCertificationScoringRepository,
+          cleaCertificationResultRepository,
           event: certificationRescoringCompletedEvent,
         });
 
@@ -81,7 +68,8 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
 
         // when
         await handleCleaCertificationRescoring({
-          ...dependencies,
+          partnerCertificationScoringRepository,
+          cleaCertificationResultRepository,
           event: certificationRescoringCompletedEvent,
         });
 
