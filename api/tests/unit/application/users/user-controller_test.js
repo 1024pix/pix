@@ -983,7 +983,7 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const user = domainBuilder.buildUser();
       const authenticationMethods = [
-        domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId: user.id }),
+        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id }),
       ];
 
       const responseSerialized = Symbol('an response serialized');
