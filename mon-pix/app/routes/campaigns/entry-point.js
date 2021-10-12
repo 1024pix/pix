@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 export default class EntryPoint extends Route {
   @service currentUser;
   @service campaignStorage;
+  @service session;
 
   model() {
     return this.modelFor('campaigns');
@@ -23,10 +24,9 @@ export default class EntryPoint extends Route {
       this.campaignStorage.set(campaign.code, 'retry', transition.to.queryParams.retry);
     }
 
-    const currentUserId = get(this.currentUser, 'user.id', null);
     let ongoingCampaignParticipation = null;
-
-    if (currentUserId) {
+    if (this.session.isAuthenticated) {
+      const currentUserId = get(this.currentUser, 'user.id', null);
       ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
         campaignId: campaign.id,
         userId: currentUserId,
@@ -37,6 +37,10 @@ export default class EntryPoint extends Route {
       return this.replaceWith('campaigns.campaign-not-found', campaign);
     }
 
-    return this.replaceWith('campaigns.start-or-resume', campaign);
+    if (ongoingCampaignParticipation) {
+      return this.replaceWith('campaigns.start-or-resume', campaign);
+    }
+
+    return this.replaceWith('campaigns.campaign-landing-page', campaign);
   }
 }

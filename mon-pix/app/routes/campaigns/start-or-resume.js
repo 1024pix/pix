@@ -29,10 +29,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       await this._findOngoingCampaignParticipationAndUpdateState(campaign);
     }
 
-    if (this._shouldVisitLandingPage(campaign)) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign);
-    }
-
     if (this._shouldVisitPoleEmploiLoginPage) {
       return this._redirectToPoleEmploiLoginPage(transition);
     }
@@ -203,12 +199,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.state.isUserLogged
       && this.currentUser.user.isAnonymous
       && !this.state.participantExternalId;
-  }
-
-  _shouldVisitLandingPage(campaign) {
-    const shouldDisplayLandingPage = campaign.isForAbsoluteNovice ? false : !this.campaignStorage.get(this.state.campaignCode, 'landingPageShown');
-    return shouldDisplayLandingPage
-      && !this.state.doesUserHaveOngoingParticipation;
   }
 
   get _shouldProvideExternalIdToAccessCampaign() {

@@ -208,7 +208,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           it('should redirect to tutoriel page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
@@ -216,7 +217,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#yearOfBirth', '2000');
             await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
-            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
             await fillIn('#id-pix-label', 'truc');
 
             // when
