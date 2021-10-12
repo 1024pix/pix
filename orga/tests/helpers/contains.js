@@ -1,37 +1,21 @@
-import { getRootElement } from '@ember/test-helpers';
+import { getScreen } from './testing-library';
 
-function _isChildrenContainsText(element, text) {
-  const sanitizedElementText = element.textContent.trim().replace(/\s+/g, ' ');
-  if (sanitizedElementText.includes(text)) {
-    return true;
-  } else if (element.children.length > 0) {
-    for (let i = 0; i < element.children.length; i++) {
-      if (_isChildrenContainsText(element.children[i], text)) {
-        return true;
-      }
-    }
+export function contains(text, options = { exact: false }) {
+  const elements = getScreen().queryAllByText(text, options);
+
+  if (elements.length > 0) {
+    this.pushResult({ result: true, message: `Element with "${text}" found` });
+  } else {
+    this.pushResult({ result: false, message: `There is no elements with "${text}"` });
   }
-  return false;
 }
 
-export function contains(text) {
-  const result = _isChildrenContainsText(getRootElement(), text);
+export function notContains(text, options = { exact: false }) {
+  const elements = getScreen().queryAllByText(text, options);
 
-  let message = `There is no elements with "${text}"`;
-  if (result) {
-    message = `Element with "${text}" found`;
+  if (elements.length > 0) {
+    this.pushResult({ result: false, message: `Element with "${text}" found` });
+  } else {
+    this.pushResult({ result: true, message: `There is no elements with "${text}"` });
   }
-
-  this.pushResult({ result, message });
-}
-
-export function notContains(text) {
-  const result = !_isChildrenContainsText(getRootElement(), text);
-
-  let message = `Element with "${text}" found`;
-  if (result) {
-    message = `There is no elements with "${text}"`;
-  }
-
-  this.pushResult({ result, message });
 }

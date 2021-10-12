@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../../../helpers/testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';

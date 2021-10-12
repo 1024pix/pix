@@ -2,8 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel, fillInByLabel } from '../../../../helpers/testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -41,9 +40,8 @@ module('Integration | Component | edit-student-number-modal', function (hooks) {
   module('when the edit student number modal is open', function () {
     module('when there is student number', function () {
       test('should render component with student number text', async function (assert) {
-        assert.contains(
-          `Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`
-        );
+        assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est :`);
+        assert.contains(this.student.studentNumber);
       });
     });
 

@@ -4,7 +4,7 @@ import { render, click, fillIn, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../../../../helpers/testing-library';
 
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
   setupIntlRenderingTest(hooks);

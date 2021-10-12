@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import authenticateSession from '../helpers/authenticate-session';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';

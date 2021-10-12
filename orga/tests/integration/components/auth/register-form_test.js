@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 import { render, triggerEvent } from '@ember/test-helpers';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel, fillInByLabel } from '../../../helpers/testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
