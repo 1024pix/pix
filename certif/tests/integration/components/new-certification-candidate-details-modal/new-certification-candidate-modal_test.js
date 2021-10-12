@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { render as renderScreen } from '../../../helpers/testing-library';
 
 module('Integration | Component | new-certification-candidate-modal', function(hooks) {
@@ -184,7 +183,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
         />
       `);
 
-      await fillInByLabel('* Pays de naissance', '99123');
+      await fillIn(screen.getByLabelText('* Pays de naissance'), '99123');
 
       // then
       assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
@@ -283,7 +282,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('countries', [{ code: '99100', name: 'FRANCE' }]);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -294,17 +293,17 @@ module('Integration | Component | new-certification-candidate-modal', function(h
           />
       `);
 
-      await fillInByLabel('* Prénom', 'Guybrush');
-      await fillInByLabel('* Nom de famille', 'Threepwood');
-      await fillInByLabel('* Date de naissance', '28/04/2019');
+      await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
+      await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+      await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
       await clickByLabel('Homme');
-      await fillInByLabel('* Pays de naissance', 99100);
+      await fillIn(screen.getByLabelText('* Pays de naissance'), 99100);
       await clickByLabel('Code INSEE');
-      await fillInByLabel('Identifiant externe', '44AA3355');
-      await fillInByLabel('* Code INSEE de naissance', '75100');
-      await fillInByLabel('Temps majoré (%)', '20');
-      await fillInByLabel('E-mail du destinataire des résultats (formateur, enseignant...)', 'guybrush.threepwood@example.net');
-      await fillInByLabel('E-mail de convocation', 'roooooar@example.net');
+      await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+      await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+      await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+      await fillIn(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'), 'guybrush.threepwood@example.net');
+      await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
       await clickByLabel('Ajouter le candidat');
 

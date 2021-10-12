@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
 import { authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { visit as visitScreen } from '../helpers/testing-library';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
@@ -315,16 +314,16 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
   });
 
   async function _fillFormWithCorrectData(screen) {
-    await fillInByLabel('* Prénom', 'Guybrush');
-    await fillInByLabel('* Nom de famille', 'Threepwood');
-    await fillInByLabel('* Date de naissance', '28/04/2019');
+    await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
+    await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+    await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
     await click(screen.getByLabelText('Homme'));
-    await fillInByLabel('* Pays de naissance', '99100');
+    await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');
     await click(screen.getByLabelText('Code INSEE'));
-    await fillInByLabel('Identifiant externe', '44AA3355');
-    await fillInByLabel('* Code INSEE de naissance', '75100');
-    await fillInByLabel('Temps majoré (%)', '20');
-    await fillInByLabel('E-mail du destinataire des résultats (formateur, enseignant...)', 'guybrush.threepwood@example.net');
-    await fillInByLabel('E-mail de convocation', 'roooooar@example.net');
+    await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+    await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+    await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+    await fillIn(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'), 'guybrush.threepwood@example.net');
+    await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
   }
 });
