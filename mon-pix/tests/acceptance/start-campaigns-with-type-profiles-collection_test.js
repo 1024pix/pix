@@ -178,7 +178,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
         context('When association is not already done', function() {
           it('should redirect to send profile page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('C\'est parti !');
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
@@ -186,7 +187,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#yearOfBirth', '2000');
             await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
-            await clickByLabel(this.intl.t('pages.campaign-landing.profiles-collection.action'));
             await fillIn('#id-pix-label', 'truc');
 
             // when
@@ -206,7 +206,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
             it('should display error modal when fields are filled in', async function() {
               // given
-              await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+              await visit(`/campagnes/${campaign.code}`);
+              await clickByLabel('C\'est parti !');
 
               // when
               await fillIn('#firstName', 'Robert');
@@ -222,7 +223,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
             it('should redirect to connection form when continue button is clicked', async function() {
               // given
-              await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+              await visit(`/campagnes/${campaign.code}`);
+              await clickByLabel('C\'est parti !');
 
               // when
               await fillIn('#firstName', 'Robert');
@@ -232,7 +234,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#yearOfBirth', '2000');
               await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
-              await clickByLabel('C\'est parti !');
 
               //then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification?displayRegisterForm=false`);

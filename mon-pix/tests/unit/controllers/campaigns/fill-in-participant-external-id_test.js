@@ -30,12 +30,12 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
   });
 
   describe('#onCancel', () => {
-    it('should transition to start or resume', () => {
+    it('should transition to landing page', () => {
       // when
       controller.actions.onCancel.call(controller);
 
       // then
-      sinon.assert.calledWithExactly(controller.router.transitionTo, 'campaigns.start-or-resume', controller.get('model.code'));
+      sinon.assert.calledWithExactly(controller.router.transitionTo, 'campaigns.campaign-landing-page', controller.get('model.code'));
     });
   });
 });

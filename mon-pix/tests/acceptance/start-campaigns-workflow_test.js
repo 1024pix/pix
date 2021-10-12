@@ -654,25 +654,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should begin campaign participation when fields are filled in and associate button is clicked', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
-
-            // when
-            await fillIn('#firstName', 'Robert');
-            await fillIn('#lastName', 'Smith');
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-
-            // when
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.associate'));
-
-            //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-          });
-
-          it('should begin campaign participation when landing page has been seen', async function() {
-            // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
             await fillIn('#firstName', 'Robert');
@@ -981,7 +962,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should redirect to landing page', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
