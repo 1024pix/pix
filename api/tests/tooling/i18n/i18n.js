@@ -9,6 +9,9 @@ function getI18n() {
     directory,
     objectNotation: true,
     updateFiles: false,
+    missingKeyFn: function (locale, value) {
+      throw new Error(`Key "${value}" not found in locale "${locale}"`);
+    },
   });
   return i18n;
 }
