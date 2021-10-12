@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { render as renderScreen } from '../../../helpers/testing-library';
 
 module('Integration | Component | certification-candidate-details-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -131,13 +132,13 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('candidate', candidate);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <CertificationCandidateDetailsModal
           @closeModal={{this.closeModal}}
           @candidate={{this.candidate}}
         />
       `);
-      await clickByLabel('Fermer');
+      await click(screen.getByRole('button', { name: 'Fermer' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);

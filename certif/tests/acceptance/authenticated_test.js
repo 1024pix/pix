@@ -6,9 +6,8 @@ import {
   createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { visit as visitScreen } from '../helpers/testing-library';
 
 module('Acceptance | authenticated', function(hooks) {
 
@@ -98,9 +97,9 @@ module('Acceptance | authenticated', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/');
-      await clickByLabel('Buffy Summers Bibiche (ABC123)');
-      await clickByLabel('Poupoune');
+      const screen = await visitScreen('/');
+      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Poupoune' }));
 
       // then
       assert.contains('Poupoune (DEF456)');
@@ -131,9 +130,9 @@ module('Acceptance | authenticated', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/sessions/555');
-      await clickByLabel('Buffy Summers Bibiche (ABC123)');
-      await clickByLabel('Poupoune');
+      const screen = await visitScreen('/sessions/555');
+      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Poupoune' }));
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
@@ -165,9 +164,9 @@ module('Acceptance | authenticated', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/sessions/555');
-      await clickByLabel('Buffy Summers Bibiche (ABC123)');
-      await clickByLabel('Poupoune');
+      const screen = await visitScreen('/sessions/555');
+      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Poupoune' }));
 
       // then
       assert.equal(currentURL(), '/espace-ferme');
@@ -199,9 +198,9 @@ module('Acceptance | authenticated', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/');
-      await clickByLabel('Buffy Summers Bibiche (ABC123)');
-      await clickByLabel('Poupoune');
+      const screen = await visitScreen('/');
+      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Poupoune' }));
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
