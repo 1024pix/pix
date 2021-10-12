@@ -4,10 +4,12 @@ const { handleCleaCertificationRescoring } = require('../../../../lib/domain/eve
 describe('Unit | Domain | Events | handle-clea-certification-rescoring', function () {
   let partnerCertificationScoringRepository;
   let cleaCertificationResultRepository;
+  let certificationCenterRepository;
 
   beforeEach(function () {
     partnerCertificationScoringRepository = { buildCleaCertificationScoring: sinon.stub(), save: sinon.stub() };
     cleaCertificationResultRepository = { get: sinon.stub() };
+    certificationCenterRepository = { getByCertificationCourseId: sinon.stub() };
   });
 
   it('fails when event is not of correct type', async function () {
@@ -34,15 +36,26 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           userId: 456,
           reproducibilityRate: 80,
         });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'CléA Numérique',
+        });
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
+
         cleaCertificationResultRepository.get
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildCleaCertificationResult.notTaken());
 
         // when
         await handleCleaCertificationRescoring({
+          event: certificationRescoringCompletedEvent,
           partnerCertificationScoringRepository,
           cleaCertificationResultRepository,
-          event: certificationRescoringCompletedEvent,
+          certificationCenterRepository,
         });
 
         // then
@@ -59,6 +72,16 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           userId: 456,
           reproducibilityRate: 80,
         });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'CléA Numérique',
+        });
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
+
         cleaCertificationResultRepository.get
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildCleaCertificationResult.acquired());
@@ -68,9 +91,10 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
 
         // when
         await handleCleaCertificationRescoring({
+          event: certificationRescoringCompletedEvent,
           partnerCertificationScoringRepository,
           cleaCertificationResultRepository,
-          event: certificationRescoringCompletedEvent,
+          certificationCenterRepository,
         });
 
         // then
@@ -82,6 +106,37 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
         expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
           partnerCertificationScoring: cleaCertificationRescoring,
         });
+      });
+    });
+
+    context('when certification center is not accredited', function () {
+      it('should not save the re-scored cleA certification', async function () {
+        // given
+        const certificationRescoringCompletedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
+          certificationCourseId: 123,
+          userId: 456,
+          reproducibilityRate: 80,
+        });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'Tarte au fromage',
+        });
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
+
+        // when
+        await handleCleaCertificationRescoring({
+          event: certificationRescoringCompletedEvent,
+          cleaCertificationResultRepository,
+          partnerCertificationScoringRepository,
+          certificationCenterRepository,
+        });
+
+        // then
+        expect(partnerCertificationScoringRepository.save).not.to.have.been.called;
       });
     });
   });
