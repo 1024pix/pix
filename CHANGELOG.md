@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.112.0 (12/10/2021)
+
+- [#3560](https://github.com/1024pix/pix/pull/3560) [FEATURE] Afficher la classe des élèves sur la feuille d'émargement (PIX-3492)
+- [#3539](https://github.com/1024pix/pix/pull/3539) [FEATURE] Envoyer le code de vérification une fois le champ de code rempli pour le changement d'adresse e-mail sur Pix App (PIX-3534).
+- [#3583](https://github.com/1024pix/pix/pull/3583) [BUGFIX] On ne peut pas filtrer par classe et statut en même temps (PIX-3601).
+- [#3569](https://github.com/1024pix/pix/pull/3569) [BUGFIX] Mettre à jour la date de dernière modif quand la demande de récupération est mise à jour (PIX-3489)
+- [#3576](https://github.com/1024pix/pix/pull/3576) [BUGFIX] Réparer le script d'installation suite à la mise à jour du nom des conteneurs docker.
+- [#3574](https://github.com/1024pix/pix/pull/3574) [BUGFIX] Corriger le label du bouton pour éditer une organisation sur Pix Admin (PIX-3454).
+- [#3577](https://github.com/1024pix/pix/pull/3577) [TECH] Corriger l'erreur flaky sur la gestion des erreurs du fichier SIECLE
+
 ## v3.111.0 (08/10/2021)
 
 - [#3558](https://github.com/1024pix/pix/pull/3558) [FEATURE] Toujours afficher la page de présentation au début de la campagne (Pix-3180).
