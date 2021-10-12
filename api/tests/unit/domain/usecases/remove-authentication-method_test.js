@@ -21,9 +21,9 @@ describe('Unit | UseCase | remove-authentication-method', function () {
 
   function buildPIXAndGARAndPoleEmploiAuthenticationMethod(userId) {
     return [
-      domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId }),
-      domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({ userId }),
-      domainBuilder.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({ userId }),
+      domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
+      domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
+      domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId }),
     ];
   }
 
@@ -180,8 +180,9 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethod =
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId: user.id });
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId: user.id,
+      });
       authenticationMethodRepository.findByUserId.resolves([authenticationMethod]);
 
       // when
@@ -200,8 +201,9 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethod =
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId: user.id });
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId: user.id,
+      });
       authenticationMethodRepository.findByUserId.resolves([authenticationMethod]);
 
       // when

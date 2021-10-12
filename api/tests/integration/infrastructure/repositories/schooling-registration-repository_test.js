@@ -2054,7 +2054,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Norris',
             user: { email: null, username: null },
           });
-          databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: 'chucky',
             userId: schoolingRegistrationOfUserWithSamlId.userId,
           });
@@ -2184,7 +2184,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           username: null,
           email: null,
         });
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'samlId',
           userId: user.id,
         });

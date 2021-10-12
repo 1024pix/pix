@@ -56,7 +56,7 @@ describe('Unit | UseCase | send-verification-code', function () {
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
       .resolves(
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           hashedPassword: passwordHash,
         })
       );
@@ -100,7 +100,7 @@ describe('Unit | UseCase | send-verification-code', function () {
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
       .resolves(
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           hashedPassword: passwordHash,
         })
       );
@@ -173,7 +173,7 @@ describe('Unit | UseCase | send-verification-code', function () {
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
       .resolves(
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           hashedPassword: passwordHash,
         })
       );

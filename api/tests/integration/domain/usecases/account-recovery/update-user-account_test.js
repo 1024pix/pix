@@ -15,7 +15,7 @@ describe('Integration | UseCases | Account-recovery | updateUserAccount', functi
     const user = databaseBuilder.factory.buildUser();
     await databaseBuilder.commit();
     const authenticatedMethod =
-      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId: user.id,
       });
     await databaseBuilder.commit();

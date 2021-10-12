@@ -49,7 +49,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: 'samlId',
     userId: userWithSamlId.id,
   });
@@ -62,7 +62,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
+  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
     userId: userFromPoleEmploi.id,
   });
 

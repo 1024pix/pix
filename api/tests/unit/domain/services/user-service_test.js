@@ -46,7 +46,7 @@ describe('Unit | Service | user-service', function () {
   describe('#createUserWithPassword', function () {
     beforeEach(function () {
       user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId: user.id,
         hashedPassword,
       });
@@ -77,7 +77,7 @@ describe('Unit | Service | user-service', function () {
   describe('#updateUsernameAndAddPassword', function () {
     beforeEach(function () {
       user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId: user.id,
         hashedPassword,
       });
@@ -116,7 +116,7 @@ describe('Unit | Service | user-service', function () {
 
     beforeEach(async function () {
       user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: samlId,
         userId: user.id,
       });

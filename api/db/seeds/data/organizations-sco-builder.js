@@ -208,7 +208,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: '1234567',
     userId: userWithGAR.id,
   });
@@ -352,12 +352,12 @@ function organizationsScoBuilder({ databaseBuilder }) {
     emailConfirmedAt: new Date(),
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: '1234555',
     userId: userWhoHasLeftSCO.id,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndPassword({
+  databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
     userId: userWhoHasLeftSCO.id,
   });
 

@@ -185,12 +185,11 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     it('should throw UserShouldChangePasswordError', async function () {
       // given
       const user = domainBuilder.buildUser({ email: userEmail });
-      const authenticationMethod =
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword({
-          userId: user.id,
-          rawPassword: password,
-          shouldChangePassword: true,
-        });
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
+        userId: user.id,
+        rawPassword: password,
+        shouldChangePassword: true,
+      });
       user.authenticationMethods = [authenticationMethod];
 
       authenticationService.getUserByUsernameAndPassword.resolves(user);
