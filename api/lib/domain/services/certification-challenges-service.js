@@ -21,8 +21,6 @@ module.exports = {
       uc.sortSkillsByDecreasingDifficulty();
     }
 
-    const allOperativeChallenges = await challengeRepository.findOperativeHavingLocale(locale);
-
     const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds(
       knowledgeElementRepository,
       answerRepository,
@@ -30,10 +28,11 @@ module.exports = {
       placementProfile.profileDate
     );
 
+    const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
     return _pickCertificationChallengesForAllCompetences(
       certifiableUserCompetencesWithOrderedSkills,
       alreadyAnsweredChallengeIds,
-      allOperativeChallenges
+      allOperativeChallengesForLocale
     );
   },
 
@@ -46,15 +45,17 @@ module.exports = {
       profileDate: new Date(),
       targetProfileWithLearningContent,
     });
+
     const excludedOrigins = [PIX_ORIGIN];
     const skillIdsByArea = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
 
     const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
-    const allFrFrOperativeChallenges = await challengeRepository.findOperativeHavingLocale(locale);
+
+    const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
     return _pickCertificationChallengesForAllAreas(
       skillIdsByArea,
       alreadyAnsweredChallengeIds,
-      allFrFrOperativeChallenges,
+      allOperativeChallengesForLocale,
       targetProfileWithLearningContent,
       certifiableBadge.key
     );
@@ -92,19 +93,13 @@ function _pick3CertificationChallengesForCompetence(
   allChallenges,
   certificationChallengesPickedForOtherCompetences
 ) {
-  const certificationChallengesForCurrentCompetence = [];
+  const result = [];
+  const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
+
   for (const skill of competence.skills) {
-    if (
-      _haveEnoughCertificationChallenges(
-        certificationChallengesForCurrentCompetence,
-        MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION
-      )
-    )
+    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION)) {
       break;
-    const alreadySelectedChallengeIds = [
-      ..._.map(certificationChallengesPickedForOtherCompetences, 'challengeId'),
-      ..._.map(certificationChallengesForCurrentCompetence, 'challengeId'),
-    ];
+    }
 
     const challenge = _pickChallengeForSkill({
       skill,
@@ -112,6 +107,7 @@ function _pick3CertificationChallengesForCompetence(
       alreadyAnsweredChallengeIds,
       alreadySelectedChallengeIds,
     });
+
     if (challenge) {
       const certificationChallenge = CertificationChallenge.createForPixCertification({
         challengeId: challenge.id,
@@ -119,11 +115,13 @@ function _pick3CertificationChallengesForCompetence(
         associatedSkillName: skill.name,
         associatedSkillId: skill.id,
       });
-      certificationChallengesForCurrentCompetence.push(certificationChallenge);
+
+      alreadySelectedChallengeIds.push(certificationChallenge.challengeId);
+      result.push(certificationChallenge);
     }
   }
 
-  return certificationChallengesForCurrentCompetence;
+  return result;
 }
 
 function _pickCertificationChallengesForAllAreas(
@@ -157,21 +155,16 @@ function _pick4CertificationChallengesForArea(
   certifiableBadgeKey,
   certificationChallengesPickedForOtherCompetences
 ) {
-  const certificationChallengesForCurrentArea = [];
+  const result = [];
+  const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
+
   for (const skillId of skillIds) {
-    if (
-      _haveEnoughCertificationChallenges(
-        certificationChallengesForCurrentArea,
-        MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS
-      )
-    )
+    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS)) {
       break;
+    }
+
     const skill = targetProfileWithLearningContent.findSkill(skillId);
     const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
-    const alreadySelectedChallengeIds = [
-      ..._.map(certificationChallengesPickedForOtherCompetences, 'challengeId'),
-      ..._.map(certificationChallengesForCurrentArea, 'challengeId'),
-    ];
 
     const challenge = _pickChallengeForSkill({
       skill,
@@ -187,11 +180,13 @@ function _pick4CertificationChallengesForArea(
         associatedSkillId: skill.id,
         certifiableBadgeKey,
       });
-      certificationChallengesForCurrentArea.push(certificationChallenge);
+
+      alreadySelectedChallengeIds.push(certificationChallenge.challengeId);
+      result.push(certificationChallenge);
     }
   }
 
-  return certificationChallengesForCurrentArea;
+  return result;
 }
 
 function _haveEnoughCertificationChallenges(certificationChallenges, limitCount) {
