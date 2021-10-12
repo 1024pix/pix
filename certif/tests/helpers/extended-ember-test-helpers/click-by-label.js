@@ -1,8 +1,9 @@
+import { getScreen } from '../testing-library';
 import { click } from '@ember/test-helpers';
-import getByLabel from './get-by-label';
 
 export default function clickByLabel(labelText) {
-  const clickableElement = getByLabel(labelText);
-
-  return click(clickableElement);
+  console.warn(`The clickByLabel helper is deprecated. Use testing-library's click(getByRole('${labelText}')) instead.`);
+  const { getByRole } = getScreen();
+  const element = getByRole(/button|link|radio|checkbox/, { name: labelText });
+  return click(element);
 }
