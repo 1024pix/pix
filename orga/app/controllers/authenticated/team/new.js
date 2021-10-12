@@ -25,7 +25,7 @@ export default class NewController extends Controller {
       });
       const organization = this.currentUser.organization;
       await organization.organizationInvitations.reload();
-      this.transitionToRoute('authenticated.team');
+      this.transitionToRoute('authenticated.team.list.invitations');
     } catch (error) {
       this._handleResponseError(error);
     }
