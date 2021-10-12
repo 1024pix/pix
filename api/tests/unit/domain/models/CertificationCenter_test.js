@@ -39,4 +39,25 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       expect(certificationCenter.isAccreditedPixPlusDroit).to.be.true;
     });
   });
+
+  describe('#isAccreditedClea', function () {
+    it('should return false when the certification center does not have Cléa numérique accreditation', function () {
+      // given
+      const certificationCenter = domainBuilder.buildCertificationCenter({ accreditations: [] });
+
+      // then
+      expect(certificationCenter.isAccreditedClea).to.be.false;
+    });
+
+    it('should return true when the certification center has Cléa numérique accreditation', function () {
+      // given
+      const pixPlusDroitAccreditation = domainBuilder.buildAccreditation({ name: 'CléA Numérique' });
+      const certificationCenter = domainBuilder.buildCertificationCenter({
+        accreditations: [pixPlusDroitAccreditation],
+      });
+
+      // then
+      expect(certificationCenter.isAccreditedClea).to.be.true;
+    });
+  });
 });
