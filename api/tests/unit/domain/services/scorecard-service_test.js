@@ -246,13 +246,13 @@ describe('Unit | Service | ScorecardService', function () {
           id: 1,
           campaign,
           campaignId: campaign.id,
-          isShared: false,
+          status: 'STARTED',
         });
         campaignParticipation2 = domainBuilder.buildCampaignParticipation({
           id: 2,
           campaign,
           campaignId: campaign.id,
-          isShared: false,
+          status: 'STARTED',
         });
         oldAssessment1 = domainBuilder.buildAssessment.ofTypeCampaign({
           id: assessmentId1,
@@ -398,13 +398,11 @@ describe('Unit | Service | ScorecardService', function () {
             assessmentId: assessmentId1,
             campaign,
             campaignId: campaign.id,
-            isShared: true,
           });
           const campaignParticipation4 = domainBuilder.buildCampaignParticipation({
             assessmentId: assessmentId2,
             campaign,
             campaignId: campaign.id,
-            isShared: true,
           });
           campaignParticipationRepository.findOneByAssessmentIdWithSkillIds
             .withArgs(assessmentId1)
