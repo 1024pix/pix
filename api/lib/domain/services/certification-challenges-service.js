@@ -155,21 +155,16 @@ function _pick4CertificationChallengesForArea(
   certifiableBadgeKey,
   certificationChallengesPickedForOtherCompetences
 ) {
-  const certificationChallengesForCurrentArea = [];
+  const result = [];
+  const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
+
   for (const skillId of skillIds) {
-    if (
-      _haveEnoughCertificationChallenges(
-        certificationChallengesForCurrentArea,
-        MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS
-      )
-    )
+    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS)) {
       break;
+    }
+
     const skill = targetProfileWithLearningContent.findSkill(skillId);
     const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
-    const alreadySelectedChallengeIds = [
-      ..._.map(certificationChallengesPickedForOtherCompetences, 'challengeId'),
-      ..._.map(certificationChallengesForCurrentArea, 'challengeId'),
-    ];
 
     const challenge = _pickChallengeForSkill({
       skill,
@@ -185,11 +180,13 @@ function _pick4CertificationChallengesForArea(
         associatedSkillId: skill.id,
         certifiableBadgeKey,
       });
-      certificationChallengesForCurrentArea.push(certificationChallenge);
+
+      alreadySelectedChallengeIds.push(certificationChallenge.challengeId);
+      result.push(certificationChallenge);
     }
   }
 
-  return certificationChallengesForCurrentArea;
+  return result;
 }
 
 function _haveEnoughCertificationChallenges(certificationChallenges, limitCount) {
