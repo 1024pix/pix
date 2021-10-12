@@ -707,129 +707,84 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendVerificationCodeEmail', function () {
-    let translationsMapping;
-    let testCases;
-    let code;
-    let userEmail;
-    let translate;
-
-    before(function () {
-      translate = getI18n().__;
-      userEmail = 'user@example.net';
-      code = '999999';
-
-      translationsMapping = {
-        fr: mainTranslationsMapping.fr['verification-code-email'],
-        en: mainTranslationsMapping.en['verification-code-email'],
-      };
-
-      testCases = [
-        {
-          locale: FRENCH_SPOKEN,
-          expected: {
-            from: 'ne-pas-repondre@pix.fr',
-            to: userEmail,
-            subject: translate(translationsMapping.fr.subject, { code }),
-            template: 'test-email-verification-code-template-id',
-            tags: ['EMAIL_VERIFICATION_CODE'],
-            variables: {
-              homeName: 'pix.org',
-              homeUrl: 'https://pix.org/fr/',
-              displayNationalLogo: false,
-              code,
-              ...translationsMapping.fr.body,
-            },
-          },
-        },
-        {
-          locale: FRENCH_FRANCE,
-          expected: {
-            from: 'ne-pas-repondre@pix.fr',
-            to: userEmail,
-            subject: translate(translationsMapping.fr.subject, { code }),
-            template: 'test-email-verification-code-template-id',
-            tags: ['EMAIL_VERIFICATION_CODE'],
-            variables: {
-              homeName: 'pix.fr',
-              homeUrl: 'https://pix.fr',
-              displayNationalLogo: true,
-              code,
-              ...translationsMapping.fr.body,
-            },
-          },
-        },
-        {
-          locale: ENGLISH_SPOKEN,
-          expected: {
-            from: 'ne-pas-repondre@pix.fr',
-            to: userEmail,
-            subject: translate(translationsMapping.en.subject, { code }),
-            tags: ['EMAIL_VERIFICATION_CODE'],
-            template: 'test-email-verification-code-template-id',
-            variables: {
-              homeName: 'pix.org',
-              homeUrl: 'https://pix.org/en-gb/',
-              displayNationalLogo: false,
-              code,
-              ...translationsMapping.en.body,
-            },
-          },
-        },
-      ];
-    });
-
     it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function () {
       // given
-      const testCase = testCases[0];
+      const translate = getI18n().__;
+      const userEmail = 'user@example.net';
+      const code = '999999';
 
       // when
       await mailService.sendVerificationCodeEmail({
         code,
         email: userEmail,
-        locale: testCase.locale,
+        locale: FRENCH_SPOKEN,
         translate,
       });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
-      expect(options.subject).to.equal(testCase.expected.subject);
-      expect(options.variables).to.include(testCase.expected.variables);
+      expect(options.subject).to.equal(translate('verification-code-email.subject', { code }));
+      expect(options.variables).to.include({
+        homeName: 'pix.org',
+        homeUrl: 'https://pix.org/fr/',
+        displayNationalLogo: false,
+        code,
+        ...mainTranslationsMapping.fr['verification-code-email'].body,
+      });
     });
 
     it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function () {
       // given
-      const testCase = testCases[1];
+      const translate = getI18n().__;
+      const userEmail = 'user@example.net';
+      const code = '999999';
 
       // when
       await mailService.sendVerificationCodeEmail({
         code,
         email: userEmail,
-        locale: testCase.locale,
+        locale: FRENCH_FRANCE,
         translate,
       });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
-      expect(options.subject).to.equal(testCase.expected.subject);
-      expect(options.variables).to.include(testCase.expected.variables);
+      expect(options.subject).to.equal(translate('verification-code-email.subject', { code }));
+      expect(options.variables).to.include({
+        homeName: 'pix.fr',
+        homeUrl: 'https://pix.fr',
+        displayNationalLogo: true,
+        code,
+        ...mainTranslationsMapping.fr['verification-code-email'].body,
+      });
     });
 
     it(`should call sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function () {
       // given
-      const testCase = testCases[2];
+      const translate = getI18n().__;
+      const userEmail = 'user@example.net';
+      const code = '999999';
 
       // when
       await mailService.sendVerificationCodeEmail({
         code,
         email: userEmail,
-        locale: testCase.locale,
+        locale: ENGLISH_SPOKEN,
         translate,
       });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
-      expect(options.subject).to.equal(testCase.expected.subject);
-      expect(options.variables).to.include(testCase.expected.variables);
+      expect(options.subject).to.equal(
+        translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code })
+      );
+      expect(options.variables).to.include({
+        homeName: 'pix.org',
+        homeUrl: 'https://pix.org/en-gb/',
+        displayNationalLogo: false,
+        code,
+        ...mainTranslationsMapping.en['verification-code-email'].body,
+      });
     });
   });
 });
