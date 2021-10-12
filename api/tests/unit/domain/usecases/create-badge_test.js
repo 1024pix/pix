@@ -10,12 +10,13 @@ describe('Unit | UseCase | create-badge', function () {
     const targetProfileRepository = { get: sinon.stub().resolves({ id: targetProfileId }) };
     const badgeRepository = { isKeyAvailable: sinon.stub().resolves(true), save: sinon.stub().resolves(badgeCreated) };
     const badge = { title: 'My badge' };
+    const badgeWithTargetProfile = { ...badge, targetProfileId };
 
     // when
     const result = await createBadge({ targetProfileId, badge, badgeRepository, targetProfileRepository });
 
     // then
-    expect(badgeRepository.save).to.have.been.calledWith(badge);
+    expect(badgeRepository.save).to.have.been.calledWith(badgeWithTargetProfile);
     expect(result).to.equal(badgeCreated);
   });
 

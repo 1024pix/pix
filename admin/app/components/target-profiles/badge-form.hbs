@@ -1,0 +1,56 @@
+<form {{on "submit" this.createBadge}} class="badge-form">
+  <div class="badge-form__text-field">
+    <label for="title">Nom du badge : </label>
+    <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
+  </div>
+  <div class="badge-form__text-field">
+    <label for="image-url">Url de l'image : </label>
+    <Input id="image-url" required="true" class="form-control" @type="text" @value={{this.badge.imageUrl}} />
+  </div>
+  <div class="badge-form__text-field">
+    <label for="alt-message">Texte alternatif pour l'image : </label>
+    <Input id="alt-message" required="true" class="form-control" @type="text" @value={{this.badge.altMessage}} />
+  </div>
+  <div class="badge-form__text-field">
+    <label for="message">Message : </label>
+    <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
+  </div>
+  <div class="badge-form__text-field">
+    <label for="badge-key">Clé : </label>
+    <Input id="badge-key" class="form-control" maxlength="255" @type="text" required="true" @value={{this.badge.key}} />
+  </div>
+  <div class="badge-form__check-field">
+    <label for="isCertifiable">Certifiable : </label>
+    <Input
+      class="badge-form-check-field__control"
+      @type="checkbox"
+      @checked={{this.badge.isCertifiable}}
+      id="isCertifiable"
+    />
+  </div>
+  <div class="badge-form__check-field">
+    <label for="isAlwaysVisible">Lacunes : </label>
+    <Input
+      class="badge-form-check-field__control"
+      @type="checkbox"
+      @checked={{this.badge.isAlwaysVisible}}
+      id="isAlwaysVisible"
+    />
+  </div>
+
+  <div class="badge-form__action-buttons">
+    <PixButtonLink
+      data-test="badge-form-cancel-button"
+      class="badge-form-action-buttons__cancel"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+      @route="authenticated.target-profiles.target-profile.insights"
+    >
+      Annuler
+    </PixButtonLink>
+    <PixButton data-test="badge-form-submit-button" @backgroundColor="green" @size="small" @type="submit">
+      Créer le badge
+    </PixButton>
+  </div>
+</form>

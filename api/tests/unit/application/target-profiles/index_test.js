@@ -583,6 +583,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
       const method = 'POST';
       const payload = {
         data: {
+          type: 'badges',
           attributes: {
             key: 'KEY',
             'alt-message': 'alt-message',
@@ -615,6 +616,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
         const method = 'POST';
         const payload = {
           data: {
+            type: 'badges',
             attributes: {
               key: 'KEY',
               'alt-message': 'alt-message',
