@@ -10,11 +10,23 @@ export default class ConnectionMethodsController extends Controller {
   @tracked showEmailUpdatedMessage = false;
 
   get shouldShowEmail() {
-    return !!this.model.email;
+    return !!this.model.user.email;
   }
 
   get shouldShowUsername() {
-    return !!this.model.username;
+    return !!this.model.user.username;
+  }
+
+  get shouldShowPixAuthenticationMethod() {
+    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isPixIdentityProvider);
+  }
+
+  get shouldShowGarAuthenticationMethod() {
+    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isGarIdentityProvider);
+  }
+
+  get shouldShowPoleEmploiAuthenticationMethod() {
+    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isPoleEmploiIdentityProvider);
   }
 
   @action
@@ -34,10 +46,10 @@ export default class ConnectionMethodsController extends Controller {
 
   @action
   async saveNewEmail(newEmail, password) {
-    this.model.email = newEmail.trim().toLowerCase();
-    this.model.password = password;
-    await this.model.save({ adapterOptions: { updateEmail: true } });
-    this.model.password = null;
+    this.model.user.email = newEmail.trim().toLowerCase();
+    this.model.user.password = password;
+    await this.model.user.save({ adapterOptions: { updateEmail: true } });
+    this.model.user.password = null;
     this.disableEmailEditionMode();
   }
 }
