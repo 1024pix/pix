@@ -1365,7 +1365,9 @@
         "did-not-receive": "Je n'ai rien reçu,",
         "send-back-the-code": "me renvoyer le code",
         "confirmation-message": "E-mail envoyé !",
-        "code-label": "Champ du code de vérification",
+        "code-label": "Champ",
+        "code-legend": "Saisir le code de vérification envoyé par email",
+        "code-explanation-of-use": "Pour se déplacer de champ en champ, utilisez soit la tabulation, soit les flèches gauche et droite du clavier. Pour remplir un champ, saisissez des chiffres de 1 à 9 ou bien utilisez les flèches haut et bas du clavier.",
         "update-successful": "Votre adresse e-mail a été changé !",
         "errors": {
           "incorrect-code": "Le code saisi est incorrect.",
