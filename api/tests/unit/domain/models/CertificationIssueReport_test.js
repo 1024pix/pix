@@ -15,13 +15,15 @@ const UNDEFINED_VALUE = undefined;
 describe('Unit | Domain | Models | CertificationIssueReport', function () {
   describe('#create', function () {
     context('CATEGORY: OTHER', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.OTHER,
-        description: 'Une description obligatoire',
-      };
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.OTHER,
+          description: 'Une description obligatoire',
+        };
+      });
 
       it('should create an OTHER CertificationIssueReport', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
@@ -51,16 +53,16 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
     });
 
     context('CATEGORY: LATE_OR_LEAVING', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-        description: 'Une description obligatoire',
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subcategory: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
-      };
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
+          description: 'Une description obligatoire',
+          subcategory: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+        };
+      });
 
       it('should create a LATE_OR_LEAVING CertificationIssueReport of category', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
@@ -105,16 +107,16 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
     });
 
     context('CATEGORY: CANDIDATE_INFORMATIONS_CHANGES', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
-        description: 'Une description obligatoire',
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subcategory: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
-      };
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+          description: 'Une description obligatoire',
+          subcategory: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+        };
+      });
 
       it('should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
@@ -159,12 +161,14 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
     });
 
     context('CATEGORY: CONNECTION_OR_END_SCREEN', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
-      };
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+        };
+      });
 
       it('should create a CONNECTION_OR_END_SCREEN CertificationIssueReport', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
@@ -194,16 +198,16 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
     });
 
     context('CATEGORY: IN_CHALLENGE', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-        questionNumber: 5,
-      };
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+          questionNumber: 5,
+        };
+      });
 
       it('should create an IN_CHALLENGE CertificationIssueReport', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
@@ -289,26 +293,26 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
     });
 
     context('CATEGORY: FRAUD', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.FRAUD,
-      };
-
       it('should be valid', function () {
+        const certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.FRAUD,
+        };
+
         expect(() => CertificationIssueReport.create(certificationIssueReportDTO)).not.to.throw();
       });
     });
 
     context('CATEGORY: TECHNICAL_PROBLEM', function () {
-      const certificationIssueReportDTO = {
-        certificationCourseId: 123,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        category: CertificationIssueReportCategories.TECHNICAL_PROBLEM,
-        description: 'Une description obligatoire',
-      };
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.TECHNICAL_PROBLEM,
+          description: 'Une description obligatoire',
+        };
+      });
 
       it('should create an TECHNICAL_PROBLEM CertificationIssueReport', function () {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
