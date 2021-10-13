@@ -14,13 +14,14 @@ export default class NewController extends Controller {
   async addCertificationCenter(event) {
     event.preventDefault();
 
-    if (!this.model.externalId || !this.model.externalId.trim()) {
-      this.model.externalId = null;
+    const certificationCenter = this.model.certificationCenter;
+    if (!certificationCenter.externalId || !certificationCenter.externalId.trim()) {
+      certificationCenter.externalId = null;
     }
 
     try {
-      await this.model.save();
-      this.notifications.success('Le centre de certif a été créé avec succès.');
+      await certificationCenter.save();
+      this.notifications.success('Le centre de certification a été créé avec succès.');
       this.transitionToRoute('authenticated.certification-centers.list');
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');

@@ -1,6 +1,29 @@
-.certification-center-form__select-type {
+.certification-center-form {
+  max-width: 400px;
+
+  .form-field__label {
+    color: $grey-70;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
 
   .ember-power-select-trigger {
-    width: 250px;
+    width: 100%;
+  }
+
+  .accreditations-title {
+    color: $grey-70;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+
+  .accreditations-checkbox-list {
+    display: flex;
+
+    ul {
+      list-style-type: none;
+      margin: 8px;
+      padding: 0;
+    }
   }
 }
