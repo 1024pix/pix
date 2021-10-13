@@ -3,7 +3,7 @@ import Service, { inject as service } from '@ember/service';
 export default class FeatureTogglesService extends Service {
   @service store;
 
-  _featureToggles = undefined;
+  _featureToggles = {};
 
   get featureToggles() {
     return this._featureToggles;
