@@ -16,6 +16,7 @@ export default class NewController extends Controller {
     event.preventDefault();
     this.isLoading = true;
     this.notifications.clearAll();
+    const emails = this.model.email.split(',');
 
     try {
       await this.model.save({
@@ -26,6 +27,12 @@ export default class NewController extends Controller {
       const organization = this.currentUser.organization;
       await organization.organizationInvitations.reload();
       this.transitionToRoute('authenticated.team.list.invitations');
+
+      const message =
+        emails.length > 1
+          ? this.intl.t('pages.team-new.success.multiple-invitations')
+          : this.intl.t('pages.team-new.success.invitation', { email: emails[0] });
+      this.notifications.success(message);
     } catch (error) {
       this._handleResponseError(error);
     }
@@ -34,7 +41,7 @@ export default class NewController extends Controller {
 
   @action
   cancel() {
-    this.transitionToRoute('authenticated.team');
+    this.transitionToRoute('authenticated.team.list.invitations');
   }
 
   _handleResponseError({ errors }) {
