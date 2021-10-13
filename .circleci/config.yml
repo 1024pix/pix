@@ -141,12 +141,12 @@ jobs:
           paths:
             - ~/.npm
       - run:
-          name: Lint
-          command: npm run lint
-      - run:
          name: Test
          command: |
           npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
+      - run:
+          name: Lint
+          command: npm run lint
 
   orga_build_and_test:
     docker:
