@@ -3,17 +3,20 @@ const { sinon, expect } = require('../../../test-helper');
 const publishSessionsInBatch = require('../../../../lib/domain/usecases/publish-sessions-in-batch');
 
 describe('Unit | UseCase | publish-sessions-in-batch', function () {
-  const dependencies = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    certificationRepository: Symbol('certificationRepository'),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    finalizedSessionRepository: Symbol('finalizedSessionRepository'),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    sessionRepository: Symbol('sessionRepository'),
-  };
+  let sessionPublicationService;
+  let certificationRepository;
+  let finalizedSessionRepository;
+  let sessionRepository;
+
+  beforeEach(function () {
+    certificationRepository = Symbol('certificationRepository');
+    finalizedSessionRepository = Symbol('finalizedSessionRepository');
+    sessionRepository = Symbol('sessionRepository');
+
+    sessionPublicationService = {
+      publishSession: sinon.stub(),
+    };
+  });
 
   it('delegates to the publish session service', async function () {
     // given
@@ -21,28 +24,30 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     const sessionId2 = Symbol('second session id');
     const publishedAt = Symbol('a publication date');
 
-    const sessionPublicationService = {
-      publishSession: sinon.stub(),
-    };
-
     // when
     await publishSessionsInBatch({
-      ...dependencies,
       sessionIds: [sessionId1, sessionId2],
+      certificationRepository,
+      finalizedSessionRepository,
       sessionPublicationService,
+      sessionRepository,
       publishedAt,
       batchId: 'batch id',
     });
 
     // then
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
-      ...dependencies,
       sessionId: sessionId1,
+      certificationRepository,
+      finalizedSessionRepository,
+      sessionRepository,
       publishedAt,
     });
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
-      ...dependencies,
       sessionId: sessionId2,
+      certificationRepository,
+      finalizedSessionRepository,
+      sessionRepository,
       publishedAt,
     });
   });
@@ -54,29 +59,33 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       const sessionId2 = Symbol('second session id');
       const publishedAt = Symbol('a publication date');
 
-      const sessionPublicationService = {
-        publishSession: sinon.stub(),
-      };
       sessionPublicationService.publishSession
         .withArgs({
-          ...dependencies,
           sessionId: sessionId1,
+          certificationRepository,
+          finalizedSessionRepository,
+          sessionPublicationService,
+          sessionRepository,
           publishedAt,
         })
         .rejects(new Error('an error'));
 
       // when
       await publishSessionsInBatch({
-        ...dependencies,
         sessionIds: [sessionId1, sessionId2],
+        certificationRepository,
+        finalizedSessionRepository,
         sessionPublicationService,
+        sessionRepository,
         publishedAt,
         batchId: 'batch id',
       });
 
       expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
-        ...dependencies,
         sessionId: sessionId2,
+        certificationRepository,
+        finalizedSessionRepository,
+        sessionRepository,
         publishedAt,
       });
     });
@@ -94,24 +103,30 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       const error2 = new Error('another error');
       sessionPublicationService.publishSession
         .withArgs({
-          ...dependencies,
           sessionId: sessionId1,
+          finalizedSessionRepository,
+          sessionPublicationService,
+          sessionRepository,
           publishedAt,
         })
         .rejects(error1);
       sessionPublicationService.publishSession
         .withArgs({
-          ...dependencies,
           sessionId: sessionId2,
+          finalizedSessionRepository,
+          sessionPublicationService,
+          sessionRepository,
           publishedAt,
         })
         .rejects(error2);
 
       // when
       const result = await publishSessionsInBatch({
-        ...dependencies,
         sessionIds: [sessionId1, sessionId2],
+        certificationRepository,
+        finalizedSessionRepository,
         sessionPublicationService,
+        sessionRepository,
         publishedAt,
         batchId: 'batch id',
       });
