@@ -73,12 +73,12 @@ export default class Tooltip extends Component {
   }
 
   async _rememberUserHasSeenChallengeTooltip() {
-    if (this.currentUser.user) {
-      if (this.args.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-        await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
-      } else if (!this.args.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
-        await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'other' } });
-      }
+    if (!this.currentUser.user) return;
+
+    if (this.args.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+    } else if (!this.args.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'other' } });
     }
   }
 }
