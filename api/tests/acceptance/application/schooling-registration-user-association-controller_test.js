@@ -155,8 +155,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
             email: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
             userId: userWithSamlOnly.id,
           });
@@ -202,8 +201,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             email: null,
             username: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
             userId: userWithSamlIdOnly.id,
           });
@@ -519,8 +517,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             lastName: schoolingRegistration.lastName,
             birthdate: schoolingRegistration.birthdate,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
             userId: user.id,
           });
@@ -569,8 +566,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
             userId: userWithSamlIdOnly.id,
           });
@@ -1044,8 +1040,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
             email: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
             userId: userWithEmailOnly.id,
           });
@@ -1203,8 +1198,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             email: null,
             username: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
             userId: userWithSamlIdOnly.id,
           });

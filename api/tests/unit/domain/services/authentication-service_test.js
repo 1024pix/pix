@@ -28,7 +28,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
 
     beforeEach(function () {
       user = domainBuilder.buildUser({ username });
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
         userId: user.id,
         rawPassword: password,
       });

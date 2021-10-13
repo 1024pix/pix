@@ -21,7 +21,6 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -48,11 +47,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     userInDB = databaseBuilder.factory.buildUser(userToInsert);
-    passwordAuthenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-      userId: userInDB.id,
-      hashedPassword: 'ABCDEF1234',
-      shouldChangePassword: false,
-    });
+    passwordAuthenticationMethodInDB =
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId: userInDB.id,
+        hashedPassword: 'ABCDEF1234',
+        shouldChangePassword: false,
+      });
 
     organizationRoleInDB = Membership.roles.ADMIN;
 
@@ -130,9 +130,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       beforeEach(async function () {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'some-saml-id',
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           userId: userInDb.id,
         });
         await databaseBuilder.commit();
@@ -166,7 +165,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       beforeEach(async function () {
         userInDb = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           externalIdentifier: externalIdentityId,
           userId: userInDb.id,
         });
@@ -647,14 +646,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       it('should return the user with his authentication methods', async function () {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.PIX,
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           userId: userInDB.id,
         });
-        databaseBuilder.factory.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
-          userId: userInDB.id,
-        });
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
         await databaseBuilder.commit();
 
         // when
@@ -862,8 +857,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
     beforeEach(async function () {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      databaseBuilder.factory.buildAuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: 'samlId',
         userId: userInDb.id,
       });

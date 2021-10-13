@@ -44,9 +44,8 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
     it('should return authenticated with samlId when user is authenticated with samlId only', async function () {
       // given
       const user = domainBuilder.buildUser();
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
@@ -65,7 +64,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       // given
       const username = 'john.harry.0702';
       const user = new User({ username });
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId: user.id,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
@@ -87,9 +86,8 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       const username = 'john.harry.0702';
       const email = 'john.harry@example.net';
       const user = new User({ username, email });
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 

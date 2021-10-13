@@ -49,9 +49,8 @@ describe('Unit | Usecases | update-user-account', function () {
       const hashedPassword = 'hashedpassword';
 
       const user = domainBuilder.buildUser({ id: 1234, email: null });
-      const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod({
+      const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
@@ -98,10 +97,8 @@ describe('Unit | Usecases | update-user-account', function () {
         email: null,
         username: 'manuella.philippe0702',
       });
-      const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
-      });
+      const authenticationMethodFromGAR =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: user.id });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
@@ -142,10 +139,8 @@ describe('Unit | Usecases | update-user-account', function () {
       email: null,
       username: 'manuella.philippe0702',
     });
-    const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-      userId: user.id,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
-    });
+    const authenticationMethodFromGAR =
+      domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: user.id });
 
     scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand
       .withArgs({

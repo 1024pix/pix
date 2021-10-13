@@ -4,7 +4,6 @@ const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../.
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const {
   NotFoundError,
@@ -2055,8 +2054,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Norris',
             user: { email: null, username: null },
           });
-          databaseBuilder.factory.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: 'chucky',
             userId: schoolingRegistrationOfUserWithSamlId.userId,
           });
@@ -2186,8 +2184,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           username: null,
           email: null,
         });
-        databaseBuilder.factory.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'samlId',
           userId: user.id,
         });

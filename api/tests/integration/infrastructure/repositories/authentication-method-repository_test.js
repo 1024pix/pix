@@ -28,8 +28,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
 
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'externalIdentifier',
           userId,
         });
@@ -52,8 +51,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
 
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'externalIdentifier',
           userId,
         });
@@ -77,16 +75,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           // given
           const userIdA = databaseBuilder.factory.buildUser().id;
           const userIdB = databaseBuilder.factory.buildUser().id;
-          const authenticationMethodA = domainBuilder.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          const authenticationMethodA = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: 'alreadyExistingExternalIdentifier',
             userId: userIdA,
           });
           delete authenticationMethodA.id;
-          databaseBuilder.factory.buildAuthenticationMethod(authenticationMethodA);
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethodA);
           await databaseBuilder.commit();
-          const authenticationMethodB = domainBuilder.buildAuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          const authenticationMethodB = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: 'alreadyExistingExternalIdentifier',
             userId: userIdB,
           });
@@ -107,16 +103,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       it('should throw an AlreadyExistingEntityError', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        const authenticationMethodA = domainBuilder.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        const authenticationMethodA = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'someIdentifierA',
           userId,
         });
         delete authenticationMethodA.id;
-        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethodA);
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethodA);
         await databaseBuilder.commit();
-        const authenticationMethodB = domainBuilder.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        const authenticationMethodB = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'someIdentifierB',
           userId,
         });
@@ -136,8 +130,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: 'externalIdentifier',
         userId,
       });
@@ -167,10 +160,11 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should update the password in database', async function () {
       // given
-      const authenticationMethodId = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-        userId,
-        hashedPassword,
-      }).id;
+      const authenticationMethodId =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId,
+          hashedPassword,
+        }).id;
       await databaseBuilder.commit();
 
       // when
@@ -188,12 +182,15 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should return the updated AuthenticationMethod', async function () {
       // given
-      const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword,
-      });
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword(originalAuthenticationMethod);
+      const originalAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword,
+        });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword(
+        originalAuthenticationMethod
+      );
       await databaseBuilder.commit();
 
       // when
@@ -203,18 +200,19 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       });
 
       // then
-      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: newHashedPassword,
-        updatedAt: new Date(),
-      });
+      const expectedAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: newHashedPassword,
+          updatedAt: new Date(),
+        });
       expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
     it('should disable changing password', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId,
         hashedPassword,
         shouldChangePassword: true,
@@ -247,10 +245,11 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should be DomainTransaction compliant', async function () {
       // given
-      const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-        userId,
-        hashedPassword,
-      });
+      const authenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId,
+          hashedPassword,
+        });
       await databaseBuilder.commit();
 
       // when
@@ -275,19 +274,24 @@ describe('Integration | Repository | AuthenticationMethod', function () {
   describe('#findOneByUserIdAndIdentityProvider', function () {
     it('should return the AuthenticationMethod associated to a user for a given identity provider', async function () {
       // given
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId,
       });
-      const garAuthenticationMethod = domainBuilder.buildAuthenticationMethod({ id: 123, identityProvider, userId });
+      const garAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+        id: 123,
+        userId,
+      });
       garAuthenticationMethod.authenticationComplement = undefined;
-      databaseBuilder.factory.buildAuthenticationMethod(garAuthenticationMethod);
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(garAuthenticationMethod);
       await databaseBuilder.commit();
 
       // when
       const authenticationMethodsByUserIdAndIdentityProvider =
-        await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+        await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        });
 
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.deepEqualInstance(garAuthenticationMethod);
@@ -296,10 +300,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should return null if there is no AuthenticationMethod for the given user and identity provider', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-        userId,
-      });
+      databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId });
       await databaseBuilder.commit();
 
       // when
@@ -317,25 +318,25 @@ describe('Integration | Repository | AuthenticationMethod', function () {
   describe('#findOneByExternalIdentifierAndIdentityProvider', function () {
     it('should return the AuthenticationMethod for a given external identifier and identity provider', async function () {
       // given
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const externalIdentifier = 'samlId';
       const userId = databaseBuilder.factory.buildUser().id;
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         id: 123,
         externalIdentifier,
-        identityProvider,
         userId,
       });
       authenticationMethod.authenticationComplement = undefined;
-      databaseBuilder.factory.buildAuthenticationMethod(authenticationMethod);
-      databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier: 'another_sub', identityProvider });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        externalIdentifier: 'another_sub',
+      });
       await databaseBuilder.commit();
 
       // when
       const authenticationMethodsByTypeAndValue =
         await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
           externalIdentifier,
-          identityProvider,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
         });
 
       // then
@@ -343,15 +344,11 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     });
 
     it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async function () {
-      // given
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
-      const externalIdentifier = 'samlId';
-
-      // when
+      // given & when
       const authenticationMethodsByTypeAndValue =
         await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
-          externalIdentifier,
-          identityProvider,
+          externalIdentifier: 'samlId',
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
         });
 
       // then
@@ -364,13 +361,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       it('should update external identifier by userId and identity provider', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'old_value',
           userId,
         });
         authenticationMethod.authenticationComplement = undefined;
-        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethod);
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
         await databaseBuilder.commit();
 
         // when
@@ -390,13 +386,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       it('should return the updated AuthenticationMethod', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'old_value',
           userId,
         });
         authenticationMethod.authenticationComplement = undefined;
-        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethod);
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
         await databaseBuilder.commit();
 
         // when
@@ -442,7 +437,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should update password in database and set shouldChangePassword to true', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         id: 123,
         userId,
         hashedPassword,
@@ -466,13 +461,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should return an updated AuthenticationMethod', async function () {
       // given
-      const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword,
-        shouldChangePassword: false,
-      });
-      databaseBuilder.factory.buildAuthenticationMethod(originalAuthenticationMethod);
+      const originalAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword,
+          shouldChangePassword: false,
+        });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(originalAuthenticationMethod);
       await databaseBuilder.commit();
 
       // when
@@ -482,13 +478,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       });
 
       // then
-      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: newHashedPassword,
-        shouldChangePassword: true,
-        updatedAt: new Date(),
-      });
+      const expectedAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: newHashedPassword,
+          shouldChangePassword: true,
+          updatedAt: new Date(),
+        });
       expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
@@ -508,7 +505,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should be DomainTransaction compliant', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         id: 123,
         userId,
         hashedPassword,
@@ -566,10 +563,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should not replace an existing authenticationMethod with a different identity provider', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
-      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId });
       await databaseBuilder.commit();
       await authenticationMethodRepository.createPasswordThatShouldBeChanged({
         userId,
@@ -632,7 +626,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         id: 123,
         userId,
         hashedPassword,
@@ -658,13 +652,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should return the updated AuthenticationMethod', async function () {
       // given
-      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: newHashedPassword,
-        shouldChangePassword: false,
-        updatedAt: new Date(),
-      });
+      const expectedAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: newHashedPassword,
+          shouldChangePassword: false,
+          updatedAt: new Date(),
+        });
 
       // when
       const updatedAuthenticationMethod = await authenticationMethodRepository.updateExpiredPassword({
@@ -698,7 +693,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       beforeEach(function () {
         const userId = databaseBuilder.factory.buildUser().id;
         poleEmploiAuthenticationMethod =
-          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             id: 123,
             externalIdentifier: 'identifier',
             accessToken: 'to_be_updated',
@@ -752,16 +747,15 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           });
 
         // then
-        const expectedAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
-            id: 123,
-            externalIdentifier: 'identifier',
-            accessToken: 'new_access_token',
-            refreshToken: 'new_refresh_token',
-            expiredDate,
-            userId,
-            updatedAt: new Date(),
-          });
+        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          id: 123,
+          externalIdentifier: 'identifier',
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+          userId,
+          updatedAt: new Date(),
+        });
         expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
       });
     });
@@ -788,7 +782,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should return true if user have an authenticationMethod with an IdentityProvider PIX ', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId,
       });
       await databaseBuilder.commit();
@@ -805,10 +799,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should return false if user have no authenticationMethod with an IdentityProvider PIX ', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
-      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId });
       await databaseBuilder.commit();
 
       // when
@@ -825,17 +816,18 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should delete from database the authentication method by userId and identityProvider', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
-      databaseBuilder.factory.buildAuthenticationMethod({
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         id: 123,
-        identityProvider,
         externalIdentifier: 'externalIdentifier',
         userId,
       });
       await databaseBuilder.commit();
 
       // when
-      await authenticationMethodRepository.removeByUserIdAndIdentityProvider({ userId, identityProvider });
+      await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
 
       // then
       const result = await knex('authentication-methods').where({ id: 123 }).first();
@@ -847,20 +839,20 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it("should return the user's authentication methods", async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const secondAuthenticationMethod = domainBuilder.buildAuthenticationMethod({
+      const secondAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         id: 456,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
         externalIdentifier: 'externalIdentifier',
         userId,
       });
       secondAuthenticationMethod.authenticationComplement = undefined;
-      databaseBuilder.factory.buildAuthenticationMethod(secondAuthenticationMethod);
-      const firstAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: 'Hello',
-      });
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(secondAuthenticationMethod);
+      const firstAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: 'Hello',
+        });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         ...firstAuthenticationMethod,
         hashedPassword: 'Hello',
       });

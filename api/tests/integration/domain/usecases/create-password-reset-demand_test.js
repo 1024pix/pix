@@ -15,7 +15,7 @@ describe('Integration | UseCases | create-password-reset-demand', function () {
 
   beforeEach(async function () {
     const userId = databaseBuilder.factory.buildUser({ email }).id;
-    databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId });
+    databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
     await databaseBuilder.commit();
   });
 

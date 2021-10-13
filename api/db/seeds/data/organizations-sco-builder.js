@@ -1,5 +1,4 @@
 const Membership = require('../../../lib/domain/models/Membership');
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
@@ -209,8 +208,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: '1234567',
     userId: userWithGAR.id,
   });
@@ -354,13 +352,12 @@ function organizationsScoBuilder({ databaseBuilder }) {
     emailConfirmedAt: new Date(),
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: '1234555',
     userId: userWhoHasLeftSCO.id,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.buildWithPassword({
+  databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
     userId: userWhoHasLeftSCO.id,
   });
 

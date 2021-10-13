@@ -323,7 +323,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           // given
           const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+            domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
             })
           );
@@ -362,7 +362,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           _fakePoleEmploiAPI({ authenticationService });
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+            domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
               externalIdentifier: 'other_external_identifier',
             })
           );

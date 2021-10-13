@@ -1,6 +1,6 @@
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildUser = require('./build-user');
-const buildAuthencationMethod = require('./build-authentication-method');
+const buildAuthenticationMethod = require('./build-authentication-method');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
@@ -34,7 +34,7 @@ function build({
 
 function buildWithUser(sendingAttributes, externalIdentifier) {
   const { id: userId } = buildUser();
-  buildAuthencationMethod.buildPoleEmploiAuthenticationMethod({ userId, externalIdentifier });
+  buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId, externalIdentifier });
   const { id: campaignParticipationId } = buildCampaignParticipation({ userId });
   return build({ ...sendingAttributes, campaignParticipationId });
 }

@@ -9,7 +9,7 @@ describe('Unit | UseCase | find-user-authentication-methods', function () {
     };
 
     const user = domainBuilder.buildUser();
-    domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId: user.id });
+    domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id });
 
     // when
     await findUserAuthenticationMethods({ userId: user.id, authenticationMethodRepository });

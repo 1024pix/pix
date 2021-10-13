@@ -9,7 +9,9 @@ describe('Acceptance | Route | Users', function () {
       const server = await createServer();
 
       const user = databaseBuilder.factory.buildUser({});
-      const garAuthenticationMethod = databaseBuilder.factory.buildAuthenticationMethod({ userId: user.id });
+      const garAuthenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: user.id,
+      });
 
       await databaseBuilder.commit();
 
