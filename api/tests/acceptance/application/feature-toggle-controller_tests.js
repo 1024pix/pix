@@ -24,6 +24,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-download-certification-attestation-by-division-enabled': false,
             'is-manage-uncompleted-certif-enabled': false,
             'is-email-validation-enabled': false,
+            'is-halloween-enabled': false,
           },
           type: 'feature-toggles',
         },

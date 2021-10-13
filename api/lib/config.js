@@ -160,6 +160,7 @@ module.exports = (function () {
         process.env.FT_IS_DOWNLOAD_CERTIFICATION_ATTESTATION_BY_DIVISION_ENABLED
       ),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
+      isHalloweenEnabled: isFeatureEnabled(process.env.FT_HALLOWEEN_ENABLED),
     },
 
     infra: {
