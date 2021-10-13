@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { handleCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
@@ -8,43 +7,28 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationAssessmentRepository = { get: _.noop };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessmentResultRepository = { save: _.noop };
-  const certificationCourseRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    get: _.noop,
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    update: _.noop,
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getCreationDate: _.noop,
-  };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceMarkRepository = { save: _.noop };
+  let scoringCertificationService;
+  let certificationAssessmentRepository;
+  let assessmentResultRepository;
+  let certificationCourseRepository;
+  let competenceMarkRepository;
+
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
   let event;
 
-  const dependencies = {
-    assessmentResultRepository,
-    certificationCourseRepository,
-    competenceMarkRepository,
-    scoringCertificationService,
-    certificationAssessmentRepository,
-  };
-
   beforeEach(function () {
     clock = sinon.useFakeTimers(now);
+
+    scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+    certificationAssessmentRepository = { get: sinon.stub() };
+    assessmentResultRepository = { save: sinon.stub() };
+    certificationCourseRepository = {
+      get: sinon.stub(),
+      update: sinon.stub(),
+      getCreationDate: sinon.stub(),
+    };
+    competenceMarkRepository = { save: sinon.stub() };
   });
 
   afterEach(function () {
@@ -52,13 +36,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   });
 
   context('when assessment is of type CERTIFICATION', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const assessmentId = Symbol('assessmentId');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const userId = Symbol('userId');
+    const assessmentId = 1214;
     const certificationCourseId = 1234;
+    const userId = 4567;
     let certificationAssessment;
 
     beforeEach(function () {
@@ -73,14 +53,21 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         userId,
         createdAt: Symbol('someCreationDate'),
       };
-      sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId).resolves(certificationAssessment);
+      certificationAssessmentRepository.get.withArgs(assessmentId).resolves(certificationAssessment);
     });
 
     it('fails when event is not of correct type', async function () {
       // given
       const event = 'not an event of the correct type';
       // when / then
-      const error = await catchErr(handleCertificationScoring)({ event, ...dependencies });
+      const error = await catchErr(handleCertificationScoring)({
+        event,
+        assessmentResultRepository,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        scoringCertificationService,
+        certificationAssessmentRepository,
+      });
 
       // then
       expect(error).not.to.be.null;
@@ -89,18 +76,19 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     context('when an error different from a compute error happens', function () {
       const otherError = new Error();
       beforeEach(function () {
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
+        scoringCertificationService.calculateCertificationAssessmentScore.rejects(otherError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
-        sinon.stub(assessmentResultRepository, 'save');
-        sinon.stub(certificationCourseRepository, 'get');
-        sinon.stub(certificationCourseRepository, 'update');
       });
 
       it('should not save any results', async function () {
         // when
         await catchErr(handleCertificationScoring)({
           event,
-          ...dependencies,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationAssessmentRepository,
         });
 
         // then
@@ -111,32 +99,35 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     });
 
     context('when an error of type CertificationComputeError happens while scoring the assessment', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const certificationCourse = domainBuilder.buildCertificationCourse({
-        id: certificationCourseId,
-        completedAt: null,
-      });
+      let errorAssessmentResult;
+      let certificationCourse;
+
       beforeEach(function () {
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
+        errorAssessmentResult = Symbol('ErrorAssessmentResult');
+        certificationCourse = domainBuilder.buildCertificationCourse({
+          id: certificationCourseId,
+          completedAt: null,
+        });
+
+        scoringCertificationService.calculateCertificationAssessmentScore.rejects(computeError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
-        sinon.stub(assessmentResultRepository, 'save').resolves();
-        sinon
-          .stub(certificationCourseRepository, 'get')
+        assessmentResultRepository.save.resolves();
+        certificationCourseRepository.get
           .withArgs(certificationAssessment.certificationCourseId)
           .resolves(certificationCourse);
-        sinon.stub(certificationCourseRepository, 'update').resolves(certificationCourse);
+        certificationCourseRepository.update.resolves(certificationCourse);
       });
 
       it('should call the scoring service with the right arguments', async function () {
         // when
         await handleCertificationScoring({
           event,
-          ...dependencies,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationAssessmentRepository,
         });
 
         // then
@@ -150,7 +141,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         // when
         await handleCertificationScoring({
           event,
-          ...dependencies,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationAssessmentRepository,
         });
 
         // then
@@ -171,55 +166,53 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     });
 
     context('when scoring is successful', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const certificationCourse = domainBuilder.buildCertificationCourse({
-        id: certificationCourseId,
-        completedAt: null,
-      });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 99;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
-      const savedAssessmentResult = { id: assessmentResultId };
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const nbPix = Symbol('nbPix');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const status = Symbol('status');
-      const certificationAssessmentScore = {
-        nbPix,
-        status,
-        competenceMarks: [competenceMarkData1, competenceMarkData2],
-        percentageCorrectAnswers: 80,
-      };
+      let certificationCourse;
+      let assessmentResult;
+      let competenceMarkData1;
+      let competenceMarkData2;
+      let savedAssessmentResult;
+      let nbPix;
+      let status;
+      let certificationAssessmentScore;
 
       beforeEach(function () {
+        certificationCourse = domainBuilder.buildCertificationCourse({
+          id: certificationCourseId,
+          completedAt: null,
+        });
+        assessmentResult = Symbol('AssessmentResult');
+        competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
+        competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
+        savedAssessmentResult = { id: assessmentResultId };
+        nbPix = Symbol('nbPix');
+        status = Symbol('status');
+        certificationAssessmentScore = {
+          nbPix,
+          status,
+          competenceMarks: [competenceMarkData1, competenceMarkData2],
+          percentageCorrectAnswers: 80,
+        };
+
         sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
-        sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
-        sinon.stub(competenceMarkRepository, 'save').resolves();
-        sinon
-          .stub(scoringCertificationService, 'calculateCertificationAssessmentScore')
-          .resolves(certificationAssessmentScore);
-        sinon
-          .stub(certificationCourseRepository, 'get')
+        assessmentResultRepository.save.resolves(savedAssessmentResult);
+        competenceMarkRepository.save.resolves();
+        scoringCertificationService.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+        certificationCourseRepository.get
           .withArgs(certificationAssessment.certificationCourseId)
           .resolves(certificationCourse);
-        sinon.stub(certificationCourseRepository, 'update').resolves(certificationCourse);
+        certificationCourseRepository.update.resolves(certificationCourse);
       });
 
       it('should build and save an assessment result with the expected arguments', async function () {
         // when
         await handleCertificationScoring({
           event,
-          ...dependencies,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationAssessmentRepository,
         });
 
         // then
@@ -242,7 +235,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         // when
         const certificationScoringCompleted = await handleCertificationScoring({
           event,
-          ...dependencies,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationAssessmentRepository,
         });
 
         // then
@@ -258,7 +255,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         // when
         await handleCertificationScoring({
           event,
-          ...dependencies,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationAssessmentRepository,
         });
 
         // then
@@ -280,7 +281,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       // when
       const certificationScoringCompleted = await handleCertificationScoring({
         event,
-        ...dependencies,
+        assessmentResultRepository,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        scoringCertificationService,
+        certificationAssessmentRepository,
       });
 
       expect(certificationScoringCompleted).to.be.null;
