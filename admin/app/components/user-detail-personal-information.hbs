@@ -6,85 +6,10 @@
 </section>
 
 <section class="page-section mb_10 user-authentication-method">
-  <header class="page-section__header">
-    <h2 class="page-section__title">Méthodes de connexion</h2>
-  </header>
-  <div class="user-authentication-method__item" data-test-email>
-    <div class="user-authentication-method-item__label">
-      <span>Adresse e-mail</span>
-      {{#if @user.hasEmailAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-      {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
-      {{/if}}
-    </div>
-    {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-      <PixButton
-        class="user-authentication-method__remove-button"
-        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
-        data-test-remove-email
-      >
-        SUPPRIMER
-      </PixButton>
-    {{/if}}
-  </div>
-  <div class="user-authentication-method__item" data-test-username>
-    <div class="user-authentication-method-item__label">
-      <span>Identifiant</span>
-      {{#if @user.hasUsernameAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-      {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
-      {{/if}}
-    </div>
-    {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-      <PixButton
-        class="user-authentication-method__remove-button"
-        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
-        data-test-remove-username
-      >
-        SUPPRIMER
-      </PixButton>
-    {{/if}}
-  </div>
-  <div class="user-authentication-method__item" data-test-pole-emploi>
-    <div class="user-authentication-method-item__label">
-      <span>Pôle Emploi</span>
-      {{#if @user.hasPoleEmploiAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-      {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
-      {{/if}}
-    </div>
-    {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-      <PixButton
-        class="user-authentication-method__remove-button"
-        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
-        data-test-remove-pole-emploi
-      >
-        SUPPRIMER
-      </PixButton>
-    {{/if}}
-  </div>
-  <div class="user-authentication-method__item" data-test-mediacentre>
-    <div class="user-authentication-method-item__label">
-      <span>Médiacentre</span>
-      {{#if @user.hasGARAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-      {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
-      {{/if}}
-    </div>
-    {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-      <PixButton
-        class="user-authentication-method__remove-button"
-        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
-        data-test-remove-mediacentre
-      >
-        SUPPRIMER
-      </PixButton>
-    {{/if}}
-  </div>
+  <UserDetailPersonalInformation::AuthenticationMethod
+    @user={{@user}}
+    @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+  />
 </section>
 
 <section class="page-section mb_10">
