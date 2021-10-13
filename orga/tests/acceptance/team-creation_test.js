@@ -76,7 +76,7 @@ module('Acceptance | Team Creation', function (hooks) {
         assert.equal(currentURL(), '/equipe/creation');
       });
 
-      test('it should allow to invite a prescriber and redirect to invitations list', async function (assert) {
+      test('it should allow to invite a prescriber, redirect to invitations list and display confirmation invitation message', async function (assert) {
         // given
         const code = 'ABCDEFGH01';
         server.create('user', {
@@ -99,6 +99,21 @@ module('Acceptance | Team Creation', function (hooks) {
         assert.equal(organizationInvitation.code, code);
         assert.equal(currentURL(), '/equipe/invitations');
         assert.contains(email);
+        assert.contains(this.intl.t('pages.team-new.success.invitation', { email }));
+      });
+
+      test('it should display other confirm invitation message when there is multiple invitations', async function (assert) {
+        // given
+        const emails = 'elisa.agnard@example.net,fred.durand@example.net';
+
+        await visit('/equipe/creation');
+        await fillInByLabel(inputLabel, emails);
+
+        // when
+        await clickByLabel(inviteButton);
+
+        // then
+        assert.contains(this.intl.t('pages.team-new.success.multiple-invitations'));
       });
 
       test('it should not allow to invite a prescriber when an email is not given', async function (assert) {
@@ -123,7 +138,18 @@ module('Acceptance | Team Creation', function (hooks) {
         await visit('/equipe/creation');
 
         // then
-        assert.dom('#email').hasText('');
+        assert.contains('');
+      });
+
+      test('should redirect to invitations list after cancelling on invite page', async function (assert) {
+        // given
+        await visit('/equipe/creation');
+
+        // when
+        await clickByLabel(cancelButton);
+
+        // then
+        assert.equal(currentURL(), '/equipe/invitations');
       });
 
       test('it should display error on global form when error 500 is returned from backend', async function (assert) {
@@ -151,8 +177,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
+        assert.contains(expectedErrorMessage);
       });
 
       test('it should display error on global form when error 412 is returned from backend', async function (assert) {
@@ -180,8 +205,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
+        assert.contains(expectedErrorMessage);
       });
 
       test('it should display error on global form when error 404 is returned from backend', async function (assert) {
@@ -209,8 +233,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
+        assert.contains(expectedErrorMessage);
       });
 
       test('it should display error on global form when error 400 is returned from backend', async function (assert) {
@@ -238,8 +261,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
+        assert.contains(expectedErrorMessage);
       });
     });
   });
