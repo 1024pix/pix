@@ -64,6 +64,27 @@
   }
 }
 
+.pumpkin-mode {
+  background: url('/images/background/citrouille.svg') no-repeat center center;
+  background-size: cover;
+  width: 250px;
+  height: 190px;
+
+  .hexagon-score-content__title {
+    top: 45px;
+  }
+
+  .hexagon-score-content__pix-score {
+    top: 55px;
+  }
+
+  .hexagon-score-content__pix-total {
+    top: 115px;
+    margin-left: 60px;
+    border-color: #F86A01;
+  }
+}
+
 .hexagon-score__information {
   padding: 24px 16px;
 
