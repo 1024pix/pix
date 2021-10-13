@@ -156,7 +156,8 @@ describe('Acceptance | API | Certification Center', function () {
   });
 
   describe('POST /api/certification-centers', function () {
-    beforeEach(function () {
+    beforeEach(async function () {
+      const accreditation = databaseBuilder.factory.buildAccreditation();
       request = {
         method: 'POST',
         url: '/api/certification-centers',
@@ -167,12 +168,25 @@ describe('Acceptance | API | Certification Center', function () {
               name: 'Nouveau Centre de Certif',
               type: 'SCO',
             },
+            relationships: {
+              accreditations: {
+                data: [
+                  {
+                    type: 'accreditations',
+                    id: `${accreditation.id}`,
+                  },
+                ],
+              },
+            },
           },
         },
       };
+
+      await databaseBuilder.commit();
     });
 
     afterEach(async function () {
+      await knex('granted-accreditations').delete();
       await knex('certification-centers').delete();
     });
 

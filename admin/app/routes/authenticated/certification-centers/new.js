@@ -1,10 +1,11 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class NewRoute extends Route {
-  @service store;
-
   model() {
-    return this.store.createRecord('certification-center');
+    return RSVP.hash({
+      certificationCenter: this.store.createRecord('certification-center'),
+      accreditations: this.store.findAll('accreditation'),
+    });
   }
 }

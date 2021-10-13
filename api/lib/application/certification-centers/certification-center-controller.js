@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 
-const accreditationSerializer = require('../../infrastructure/serializers/jsonapi/accreditation-serializer');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
@@ -8,17 +7,27 @@ const studentCertificationSerializer = require('../../infrastructure/serializers
 const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const map = require('lodash/map');
 
 module.exports = {
-  async save(request) {
+  async create(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
-    const accreditations = await Promise.all(
-      (request.payload.data.included || [])
-        .filter((data) => data.type === 'accreditations')
-        .map((data) => accreditationSerializer.deserialize({ data }))
-    );
-    const savedCertificationCenter = await usecases.saveCertificationCenter({ certificationCenter, accreditations });
-    return certificationCenterSerializer.serialize(savedCertificationCenter);
+    const accreditationIds = map(request.payload.data.relationships?.accreditations?.data, 'id');
+    const createdCertificationCenter = await usecases.createCertificationCenter({
+      certificationCenter,
+      accreditationIds,
+    });
+    return certificationCenterSerializer.serialize(createdCertificationCenter);
+  },
+
+  async update(request) {
+    const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
+    const accreditationIds = map(request.payload.data.relationships?.accreditations?.data, 'id');
+    const updatedCertificationCenter = await usecases.updateCertificationCenter({
+      certificationCenter,
+      accreditationIds,
+    });
+    return certificationCenterSerializer.serialize(updatedCertificationCenter);
   },
 
   getById(request) {

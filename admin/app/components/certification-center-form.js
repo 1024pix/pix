@@ -9,4 +9,14 @@ export default class CertificationCenterForm extends Component {
   selectCertificationCenterType(event) {
     this.args.certificationCenter.type = event.target.value;
   }
+
+  @action
+  updateGrantedAccreditation(accreditation) {
+    const accreditations = this.args.certificationCenter.accreditations;
+    if (accreditations.includes(accreditation)) {
+      accreditations.removeObject(accreditation);
+    } else {
+      accreditations.addObject(accreditation);
+    }
+  }
 }
