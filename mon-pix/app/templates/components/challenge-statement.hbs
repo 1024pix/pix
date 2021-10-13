@@ -5,7 +5,7 @@
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
 
       {{#if this.isFocusedChallengeToggleEnabled}}
-        <Challenge::Statement::Tooltip @challenge={{@challenge}} @onTooltipClose={{@onTooltipClose}} />
+        <Challenge::Statement::Tooltip @challenge={{@challenge}} />
       {{/if}}
     </div>
   {{/if}}

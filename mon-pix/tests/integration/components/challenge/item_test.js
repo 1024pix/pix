@@ -22,6 +22,5 @@ describe('Integration | Component | Challenge | Item', function() {
 
     // then
     expect(find('.challenge-item')).to.exist;
-    expect(find('.challenge-item__container')).to.exist;
   });
 });

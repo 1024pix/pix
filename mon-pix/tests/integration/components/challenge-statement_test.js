@@ -18,9 +18,10 @@ describe('Integration | Component | ChallengeStatement', function() {
     component.set('assessment', assessment);
   }
 
-  function renderChallengeStatement(component) {
-    component.set('onTooltipClose', () => {});
-    return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @onTooltipClose={{this.onTooltipClose}}/>`);
+  function renderChallengeStatement() {
+    return render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}/>`);
   }
 
   beforeEach(async function() {

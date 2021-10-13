@@ -18,7 +18,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
-  @tracked hasFocusedOutOfWindow = false;
+  @tracked hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   @tracked hasUserConfirmedWarning = false;
 
   get showLevelup() {
@@ -51,21 +51,6 @@ export default class ChallengeController extends Controller {
 
   get displayInfoAlertForFocusOut() {
     return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
-  }
-
-  @action
-  async removeTooltipOverlay() {
-    if (this.currentUser.user) {
-      if (this.model.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-        await this._updateUserAndTriggerOverlayRemoval({ tooltipChallengeType: 'focused' });
-      } else if (!this.model.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
-        await this._updateUserAndTriggerOverlayRemoval({ tooltipChallengeType: 'other' });
-      }
-    }
-  }
-
-  async _updateUserAndTriggerOverlayRemoval(tooltipChallengeType) {
-    await this.currentUser.user.save({ adapterOptions: tooltipChallengeType });
   }
 
   @action

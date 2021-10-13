@@ -19,6 +19,7 @@ describe('Integration | Component | Tooltip', function() {
         class currentUser extends Service {
             user = {
               hasSeenFocusedChallengeTooltip: false,
+              save: () => {},
             }
         }
         this.owner.unregister('service:currentUser');
@@ -29,9 +30,7 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: true,
         });
-        this.set('onTooltipClose', () => {});
-
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
       it('should render the tooltip with a confirmation button', async function() {
@@ -44,7 +43,6 @@ describe('Integration | Component | Tooltip', function() {
       it('should remove the tooltip when confirmation button has been clicked', async function() {
         // when
         await click('.tooltip-tag-information__button');
-
         // then
         expect(find(tooltip)).not.to.be.displayed;
       });
@@ -67,9 +65,7 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: true,
         });
-        this.set('onTooltipClose', () => {});
-
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
       describe('when the challenge starts', function() {
@@ -136,6 +132,7 @@ describe('Integration | Component | Tooltip', function() {
         class currentUser extends Service {
           user = {
             hasSeenOtherChallengesTooltip: false,
+            save: () => {},
           }
         }
         this.owner.unregister('service:currentUser');
@@ -146,9 +143,7 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: false,
         });
-        this.set('onTooltipClose', () => {});
-
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
       it('should render the tooltip with a confirmation button', async function() {
@@ -184,9 +179,7 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: false,
         });
-        this.set('onTooltipClose', () => {});
-
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
       describe('when the challenge starts', function() {
