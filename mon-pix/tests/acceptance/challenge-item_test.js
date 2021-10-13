@@ -62,7 +62,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             // then
             expect(find('.challenge__info-alert--show')).to.exist;
-            expect(find('.challenge-item__container--focused')).to.exist;
+            expect(find('.challenge-item--focused')).to.exist;
             expect(find('.challenge__focused-out-overlay')).to.exist;
           });
 
@@ -104,7 +104,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
               // then
               expect(find('.challenge__info-alert--could-show')).to.exist;
-              expect(find('.challenge-item__container--focused')).to.exist;
+              expect(find('.challenge-item--focused')).to.exist;
               expect(find('.challenge__focused-out-overlay')).to.exist;
             });
 
@@ -114,7 +114,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await triggerEvent(challengeItem, 'mouseleave');
 
               expect(find('.challenge__info-alert--could-show')).to.exist;
-              expect(find('.challenge-item__container--focused')).to.exist;
+              expect(find('.challenge-item--focused')).to.exist;
               expect(find('.challenge__focused-out-overlay')).to.exist;
 
               // when
@@ -123,7 +123,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               // then
               expect(find('.challenge__info-alert--could-show')).to.not.exist;
               expect(find('[data-test="alert-message-focused-out-of-window"]')).to.exist;
-              expect(find('.challenge-item__container--focused')).to.exist;
+              expect(find('.challenge-item--focused')).to.exist;
               expect(find('.challenge__focused-out-overlay')).to.exist;
             });
           });

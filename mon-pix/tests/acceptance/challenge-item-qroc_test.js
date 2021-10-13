@@ -398,7 +398,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.alert')).to.exist;
         const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
         const optionToFillIn = selectOptions[1];
-        console.log(optionToFillIn);
+
         // when
         await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
 
