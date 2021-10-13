@@ -14,7 +14,9 @@ function _buildUser() {
   });
 }
 
-const buildAuthenticationMethod = function ({
+const buildAuthenticationMethod = {};
+
+buildAuthenticationMethod.withGarAsIdentityProvider = function ({
   id = 123,
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = `externalId${id}`,
@@ -35,7 +37,7 @@ const buildAuthenticationMethod = function ({
   });
 };
 
-buildAuthenticationMethod.buildWithRawPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword = function ({
   id,
   rawPassword = 'pix123',
   shouldChangePassword = false,
@@ -60,7 +62,7 @@ buildAuthenticationMethod.buildWithRawPassword = function ({
   });
 };
 
-buildAuthenticationMethod.buildWithHashedPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword = function ({
   id,
   hashedPassword = 'hashedPassword',
   shouldChangePassword = false,
@@ -85,7 +87,7 @@ buildAuthenticationMethod.buildWithHashedPassword = function ({
   });
 };
 
-buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function ({
+buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   id,
   externalIdentifier = `externalId${id}`,
   accessToken = 'ABC456789',

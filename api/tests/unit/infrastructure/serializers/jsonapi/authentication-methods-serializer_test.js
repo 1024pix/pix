@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | authentication-methods-serializer', func
       // given
       const user = domainBuilder.buildUser();
       const authenticationMethods = [
-        domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId: user.id }),
+        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id }),
       ];
 
       // when

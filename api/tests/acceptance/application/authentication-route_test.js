@@ -350,7 +350,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
             lastName,
           }).id;
 
-          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             externalIdentifier,
             accessToken: 'old_access_token',
             refreshToken: 'old_refresh_token',
@@ -443,7 +443,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
       context('When the user does have a POLE_EMPLOI authentication method', function () {
         it('should update POLE_EMPLOI authentication method authentication complement', async function () {
           // given
-          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             externalIdentifier,
             accessToken: 'old_access_token',
             refreshToken: 'old_refresh_token',
@@ -472,7 +472,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
         it('should return a 409 Conflict if the authenticated user is not the expected one', async function () {
           // given
           const otherUser = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             externalIdentifier: 'other_external_identifier',
             userId: otherUser.id,
           });

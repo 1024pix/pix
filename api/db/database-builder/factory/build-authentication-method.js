@@ -4,7 +4,9 @@ const buildUser = require('./build-user');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const encrypt = require('../../../lib/domain/services/encryption-service');
 
-const buildAuthenticationMethod = function ({
+const buildAuthenticationMethod = {};
+
+buildAuthenticationMethod.withGarAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = 'externalId',
@@ -29,7 +31,7 @@ const buildAuthenticationMethod = function ({
   });
 };
 
-buildAuthenticationMethod.buildWithHashedPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword = function ({
   id = databaseBuffer.getNextId(),
   hashedPassword = 'ABCDEF123',
   shouldChangePassword = false,
@@ -57,7 +59,7 @@ buildAuthenticationMethod.buildWithHashedPassword = function ({
   });
 };
 
-buildAuthenticationMethod.buildWithPassword = function ({
+buildAuthenticationMethod.withPixAsIdentityProviderAndPassword = function ({
   id = databaseBuffer.getNextId(),
   password = 'Password123',
   shouldChangePassword = false,
@@ -87,7 +89,7 @@ buildAuthenticationMethod.buildWithPassword = function ({
   });
 };
 
-buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function ({
+buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
   accessToken = 'ABC789',

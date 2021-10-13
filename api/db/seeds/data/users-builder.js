@@ -1,6 +1,5 @@
 const PIX_MASTER_ID = 199;
 const DEFAULT_PASSWORD = 'pix123';
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 function usersBuilder({ databaseBuilder }) {
 
@@ -50,8 +49,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: 'samlId',
     userId: userWithSamlId.id,
   });
@@ -64,7 +62,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
     userId: userFromPoleEmploi.id,
   });
 
