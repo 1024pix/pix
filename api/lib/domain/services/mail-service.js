@@ -338,7 +338,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
   };
 
   if (locale === FRENCH_SPOKEN) {
-    options.subject = translate(frTranslations['verification-code-email'].subject, { code });
+    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'fr' }, { code });
 
     options.variables = {
       code,
@@ -348,7 +348,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
       ...frTranslations['verification-code-email'].body,
     };
   } else if (locale === FRENCH_FRANCE) {
-    options.subject = translate(frTranslations['verification-code-email'].subject, { code });
+    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'fr' }, { code });
 
     options.variables = {
       code,
@@ -358,7 +358,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
       ...frTranslations['verification-code-email'].body,
     };
   } else if (locale === ENGLISH_SPOKEN) {
-    options.subject = translate(enTranslations['verification-code-email'].subject, { code });
+    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code });
 
     options.variables = {
       code,
