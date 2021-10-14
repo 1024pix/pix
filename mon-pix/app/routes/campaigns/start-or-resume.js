@@ -55,7 +55,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async model() {
-    this.isLoading = true;
     return this.modelFor('campaigns');
   }
 
