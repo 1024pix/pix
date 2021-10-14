@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
-import ENV from 'pix-admin/config/environment';
 import sinon from 'sinon';
 
 module('Unit | Component | user-detail-personal-information', function (hooks) {
@@ -15,26 +14,6 @@ module('Unit | Component | user-detail-personal-information', function (hooks) {
       success: sinon.stub(),
       error: sinon.stub(),
     };
-  });
-
-  test('it should generate dashboard URL based on environment and object', async function (assert) {
-    // given
-    const args = {
-      user: {
-        id: 1,
-      },
-    };
-    const baseUrl = 'https://metabase.pix.fr/dashboard/132?id=';
-    const expectedUrl = baseUrl + args.user.id;
-
-    ENV.APP.USER_DASHBOARD_URL = baseUrl;
-    component.args = args;
-
-    // when
-    const actualUrl = component.externalURL;
-
-    // then
-    assert.equal(actualUrl, expectedUrl);
   });
 
   module('#dissociate', function (hooks) {

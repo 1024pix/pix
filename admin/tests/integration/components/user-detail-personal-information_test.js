@@ -11,371 +11,116 @@ import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-lab
 module('Integration | Component | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('When the administrator click on user details', function () {
-    module('update button', function () {
-      test('should display the update button', async function (assert) {
+  module('schooling registrations', function () {
+    module('When user has no schoolingRegistrations', function () {
+      test('should display no result in schooling registrations table', async function (assert) {
         // given
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: 'john.harry0102',
-        });
+        this.set('user', { schoolingRegistrations: [] });
 
         // when
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.contains('Modifier');
+        assert.contains('Aucun résultat');
       });
     });
 
-    module('user authentication', function () {
-      test('should display user’s first name', async function (assert) {
+    module('When user has schoolingRegistrations', function () {
+      test('should display schooling registrations in table', async function (assert) {
         // given
-        this.set('user', { firstName: 'John' });
+        this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
 
         // when
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.contains(this.user.firstName);
+        assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
       });
 
-      test('should display user’s last name', async function (assert) {
-        // given
-        this.set('user', { lastName: 'Snow' });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains(this.user.lastName);
-      });
-
-      test('should display user’s email', async function (assert) {
-        // given
-        this.set('user', { email: 'john.snow@winterfell.got' });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains(this.user.email);
-      });
-
-      test('should display user’s username', async function (assert) {
-        // given
-        this.set('user', { username: 'kingofthenorth' });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains(this.user.username);
-      });
-    });
-
-    module('terms of service', function () {
-      test('should display "OUI" when user accepted Pix App terms of service', async function (assert) {
-        // given
-        this.set('user', { cgu: true });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains('OUI');
-      });
-
-      test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
-        // given
-        this.set('user', { cgu: false });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains('NON');
-      });
-
-      test('should display "OUI" when user accepted Pix Orga terms of service', async function (assert) {
-        // given
-        this.set('user', { pixOrgaTermsOfServiceAccepted: true });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains('OUI');
-      });
-
-      test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
-        // given
-        this.set('user', { pixOrgaTermsOfServiceAccepted: false });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains('NON');
-      });
-
-      test('should display "OUI" when user accepted Pix Certif terms of service', async function (assert) {
-        // given
-        this.set('user', { pixCertifTermsOfServiceAccepted: true });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains('OUI');
-      });
-
-      test('should display "NON" when user not accepted Pix Certif terms of service', async function (assert) {
-        // given
-        this.set('user', { pixCertifTermsOfServiceAccepted: false });
-
-        // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.contains('NON');
-      });
-    });
-
-    module('schooling registrations', function () {
-      module('When user has no schoolingRegistrations', function () {
-        test('should display no result in schooling registrations table', async function (assert) {
+      module('Display the schooling registrations status', function () {
+        test('Should display a green tick mark on the table when "isDisabled = false"', async function (assert) {
           // given
-          this.set('user', { schoolingRegistrations: [] });
+          this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
 
           // when
           await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
-          assert.contains('Aucun résultat');
+          assert.dom('[aria-label="Inscription activée"]').exists();
         });
-      });
 
-      module('When user has schoolingRegistrations', function () {
-        test('should display schooling registrations in table', async function (assert) {
+        test('Should display a red cross on the table when "isDisabled= true"', async function (assert) {
           // given
-          this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
+          this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
 
           // when
           await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
-          assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
-        });
-
-        module('Display the schooling registrations status', function () {
-          test('Should display a green tick mark on the table when "isDisabled = false"', async function (assert) {
-            // given
-            this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
-
-            // when
-            await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-            // then
-            assert.dom('[aria-label="Inscription activée"]').exists();
-          });
-
-          test('Should display a red cross on the table when "isDisabled= true"', async function (assert) {
-            // given
-            this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
-
-            // when
-            await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-            // then
-            assert.dom('[aria-label="Inscription désactivée"]').exists();
-          });
-        });
-      });
-    });
-
-    module('authentication methods', function () {
-      module('When user has authentication methods', function () {
-        test('should display user’s email authentication method', async function (assert) {
-          // given
-          this.set('user', { hasEmailAuthenticationMethod: true });
-
-          // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__check');
-        });
-
-        test('should display user’s username authentication method', async function (assert) {
-          // given
-          this.set('user', { hasUsernameAuthenticationMethod: true });
-
-          // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom('div[data-test-username] > div > svg').hasClass('user-authentication-method-item__check');
-        });
-
-        test('should display user’s Pole Emploi authentication method', async function (assert) {
-          // given
-          this.set('user', { hasPoleEmploiAuthenticationMethod: true });
-
-          // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom('div[data-test-pole-emploi] > div > svg').hasClass('user-authentication-method-item__check');
-        });
-
-        test('should display user’s GAR authentication method', async function (assert) {
-          // given
-          this.set('user', { hasGARAuthenticationMethod: true });
-
-          // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom('div[data-test-mediacentre] > div > svg').hasClass('user-authentication-method-item__check');
-        });
-
-        module('When user has only one authentication method', function () {
-          test('it should not display a remove authentication method link', async function (assert) {
-            // given
-            this.set('user', { hasOnlyOneAuthenticationMethod: true });
-
-            // when
-            await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-            // then
-            assert.notOk(find('.user-authentication-method__remove-button'));
-          });
+          assert.dom('[aria-label="Inscription désactivée"]').exists();
         });
       });
     });
   });
 
-  module('When the administrator click to update user details', function (hooks) {
-    let user = null;
-
-    hooks.beforeEach(function () {
-      user = EmberObject.create({
-        lastName: 'Harry',
-        firstName: 'John',
-        email: 'john.harry@gmail.com',
-        username: null,
-      });
-    });
-
-    test('should display the edit and cancel buttons', async function (assert) {
-      // given
-      this.set('user', {
-        firstName: 'John',
-        lastName: 'Harry',
-        email: 'john.harry@example.net',
-        username: null,
-      });
-
-      // when
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
-      await clickByLabel('Modifier');
-
-      // then
-      assert.contains('Editer');
-      assert.contains('Annuler');
-    });
-
-    test('should display user’s first name and last name in edit mode', async function (assert) {
-      // given
-      this.set('user', user);
-
-      // when
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByLabel('Modifier');
-
-      // then
-      assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
-      assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
-    });
-
-    module('when user has an email only', function () {
-      test('should display user’s email in edit mode', async function (assert) {
+  module('authentication methods', function () {
+    module('When user has authentication methods', function () {
+      test('should display user’s email authentication method', async function (assert) {
         // given
-        this.set('user', user);
+        this.set('user', { hasEmailAuthenticationMethod: true });
 
         // when
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-        await clickByLabel('Modifier');
 
         // then
-        assert.dom('.user-edit-form__email').hasValue(this.user.email);
+        assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__check');
       });
 
-      test('should not display username in edit mode', async function (assert) {
+      test('should display user’s username authentication method', async function (assert) {
         // given
-        this.set('user', user);
+        this.set('user', { hasUsernameAuthenticationMethod: true });
 
         // when
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-        await clickByLabel('Modifier');
 
         // then
-        assert.notContains('Identifiant :');
+        assert.dom('div[data-test-username] > div > svg').hasClass('user-authentication-method-item__check');
       });
-    });
 
-    module('when user has a username only', function () {
-      test('should display user’s username in edit mode', async function (assert) {
+      test('should display user’s Pole Emploi authentication method', async function (assert) {
         // given
-        const user = EmberObject.create({
-          lastName: 'Harry',
-          firstName: 'John',
-          email: null,
-          username: 'user.name1212',
-        });
-        this.set('user', user);
+        this.set('user', { hasPoleEmploiAuthenticationMethod: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user-edit-form__username').hasValue(this.user.username);
+        assert.dom('div[data-test-pole-emploi] > div > svg').hasClass('user-authentication-method-item__check');
       });
 
-      test('should not display email', async function (assert) {
+      test('should display user’s GAR authentication method', async function (assert) {
         // given
-        const user = EmberObject.create({
-          lastName: 'Harry',
-          firstName: 'John',
-          email: null,
-          username: 'user.name1212',
-        });
-        this.set('user', user);
+        this.set('user', { hasGARAuthenticationMethod: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.notContains('E-mail :');
+        assert.dom('div[data-test-mediacentre] > div > svg').hasClass('user-authentication-method-item__check');
       });
-    });
 
-    test('should not display user’s terms of service', async function (assert) {
-      // given
-      this.set('user', user);
+      module('When user has only one authentication method', function () {
+        test('it should not display a remove authentication method link', async function (assert) {
+          // given
+          this.set('user', { hasOnlyOneAuthenticationMethod: true });
 
-      // when
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByLabel('Modifier');
+          // when
+          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      // then
-      assert.notContains('CGU Pix Orga validé :');
-      assert.notContains('CGU Pix Certif validé :');
+          // then
+          assert.notOk(find('.user-authentication-method__remove-button'));
+        });
+      });
     });
   });
 
