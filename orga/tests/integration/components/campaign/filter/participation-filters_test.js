@@ -9,6 +9,7 @@ import { clickByLabel } from '../../../../helpers/testing-library';
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
   setupIntlRenderingTest(hooks);
   let store;
+  const campaignId = 1;
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
@@ -16,7 +17,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
   module('when campaign does not need filters', function () {
     test('it should not display anything', async function (assert) {
-      const campaign = store.createRecord('campaign', { id: 1 });
+      const campaign = store.createRecord('campaign', { id: campaignId });
       this.set('campaign', campaign);
 
       // when
@@ -33,58 +34,24 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       isSCOManagingStudents = true;
     }
 
-    module('when there is no division', function () {
-      test('it should not display division filter', async function (assert) {
+    module('when there are some divisions', function (hooks) {
+      hooks.beforeEach(function () {
         this.owner.register('service:current-user', CurrentUserStub);
-        const campaign = store.createRecord('campaign', { id: 1 });
-        campaign.set('divisions', []);
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-        // then
-        assert.notContains('Classes');
+        const division = store.createRecord('division', { id: 'd1', name: 'd1' });
+        this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
       });
-    });
 
-    module('when there are some divisions', function () {
       test('it displays the division filter', async function (assert) {
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        // given
-        const division = store.createRecord('division', {
-          id: 'd1',
-          name: 'd1',
-        });
-        const campaign = store.createRecord('campaign', { id: 1 });
-        campaign.set('divisions', [division]);
-        this.set('campaign', campaign);
-
         // when
         await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+
         // then
         assert.contains('Classes');
         assert.contains('d1');
       });
 
       test('it triggers the filter when a division is selected', async function (assert) {
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        // given
-        const division = store.createRecord('division', {
-          id: 'd1',
-          name: 'd1',
-        });
-        const campaign = store.createRecord('campaign', {
-          id: 1,
-          name: 'campagne 1',
-          stages: [],
-        });
-        campaign.set('divisions', [division]);
-
         const triggerFiltering = sinon.stub();
-        this.set('campaign', campaign);
         this.set('triggerFiltering', triggerFiltering);
 
         // when
@@ -103,7 +70,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     test('it triggers the filter when a status is selected', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: campaignId,
         name: 'campagne 1',
         type: 'ASSESSMENT',
         stages: [],
@@ -126,7 +93,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     test('it select the option passed as selectedStatus args', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: campaignId,
         name: 'campagne 1',
         type: 'ASSESSMENT',
         stages: [],
@@ -148,7 +115,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     test('it should display 3 statuses for assessment campaign', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: campaignId,
         name: 'campagne 1',
         type: 'ASSESSMENT',
         stages: [],
@@ -171,7 +138,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     test('it should display 2 statuses for profiles collection campaign', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: campaignId,
         name: 'campagne 1',
         type: 'PROFILES_COLLECTION',
         stages: [],
@@ -202,18 +169,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       this.owner.register('service:current-user', CurrentUserStub);
 
       // given
-      const division = store.createRecord('division', {
-        id: 'd2',
-        name: 'd2',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        stages: [],
-        divisions: [division],
-      });
-
-      this.set('campaign', campaign);
+      const division = store.createRecord('division', { id: 'd2', name: 'd2' });
+      this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
 
       // when
       await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
