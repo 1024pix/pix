@@ -18,17 +18,17 @@ describe('Unit | chai-custom-helpers | deepEqualInstanceOmitting', function () {
 
   it('should fail assertion when both objects have not the same content', function () {
     // given
-    const badgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const skillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
-    const otherBadgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const otherSkillSet = domainBuilder.buildSkillSet({
       id: 124,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
-    const anotherBadgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const anotherSkillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'name',
       skillIds: ['recUVW', 'recXYZ'],
@@ -37,21 +37,21 @@ describe('Unit | chai-custom-helpers | deepEqualInstanceOmitting', function () {
     // when/then
     global.chaiErr(
       function () {
-        expect(otherBadgePartnerCompetence).to.deepEqualInstanceOmitting(badgePartnerCompetence);
+        expect(otherSkillSet).to.deepEqualInstanceOmitting(skillSet);
       },
       {
-        actual: otherBadgePartnerCompetence,
-        expected: badgePartnerCompetence,
+        actual: otherSkillSet,
+        expected: skillSet,
         operator: 'deepStrictEqual',
       }
     );
     global.chaiErr(
       function () {
-        expect(anotherBadgePartnerCompetence).to.deepEqualInstanceOmitting(badgePartnerCompetence);
+        expect(anotherSkillSet).to.deepEqualInstanceOmitting(skillSet);
       },
       {
-        actual: anotherBadgePartnerCompetence,
-        expected: badgePartnerCompetence,
+        actual: anotherSkillSet,
+        expected: skillSet,
         operator: 'deepStrictEqual',
       }
     );
@@ -59,36 +59,36 @@ describe('Unit | chai-custom-helpers | deepEqualInstanceOmitting', function () {
 
   it('should succeed assertion when both objects have the same type and content, regardless of the reference', function () {
     // given
-    const badgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const skillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
-    const sameBadgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const sameSkillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
 
     // then
-    expect(badgePartnerCompetence).to.deepEqualInstanceOmitting(badgePartnerCompetence);
-    expect(badgePartnerCompetence).to.deepEqualInstanceOmitting(sameBadgePartnerCompetence);
+    expect(skillSet).to.deepEqualInstanceOmitting(skillSet);
+    expect(skillSet).to.deepEqualInstanceOmitting(sameSkillSet);
   });
 
   it('should succeed assertion when both objects have the same type and partial content', function () {
     // given
-    const badgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const skillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
-    const badgePartnerCompetenceDifferentId = domainBuilder.buildBadgePartnerCompetence({
+    const skillSetDifferentId = domainBuilder.buildSkillSet({
       id: 456,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
 
     // then
-    expect(badgePartnerCompetence).to.deepEqualInstanceOmitting(badgePartnerCompetenceDifferentId, ['id']);
+    expect(skillSet).to.deepEqualInstanceOmitting(skillSetDifferentId, ['id']);
   });
 });

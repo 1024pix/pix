@@ -11,8 +11,8 @@ class CampaignParticipationBadge extends Badge {
     isAcquired,
     isCertifiable = false,
     badgeCriteria = [],
-    badgePartnerCompetences = [],
-    partnerCompetenceResults = [],
+    skillSets = [],
+    skillSetResults = [],
     targetProfileId,
   } = {}) {
     super({
@@ -24,17 +24,17 @@ class CampaignParticipationBadge extends Badge {
       title,
       isCertifiable,
       badgeCriteria,
-      badgePartnerCompetences,
+      skillSets,
       targetProfileId,
     });
-    this.partnerCompetenceResults = partnerCompetenceResults;
+    this.skillSetResults = skillSetResults;
     this.isAcquired = isAcquired;
   }
 
-  static buildFrom({ badge, partnerCompetenceResults, isAcquired }) {
+  static buildFrom({ badge, skillSetResults, isAcquired }) {
     return new CampaignParticipationBadge({
       ...badge,
-      partnerCompetenceResults,
+      skillSetResults,
       isAcquired,
     });
   }
