@@ -15,7 +15,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
 
   let user, campaign, assessment, campaignParticipation, targetProfile, targetProfileSkills;
 
-  let server, badge, badgePartnerCompetence, stage;
+  let server, badge, skillSet, stage;
 
   beforeEach(async function () {
     server = await createServer();
@@ -70,7 +70,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       targetProfileId: targetProfile.id,
     });
 
-    badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({
+    skillSet = databaseBuilder.factory.buildSkillSet({
       id: 1,
       badgeId: 1,
       name: 'Pix Emploi',
@@ -242,8 +242,8 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'total-skills-count': 8,
               'validated-skills-count': 3,
             },
-            id: badgePartnerCompetence.id.toString(),
-            type: 'partnerCompetenceResults',
+            id: skillSet.id.toString(),
+            type: 'skillSetResults',
           },
           {
             attributes: {
@@ -258,11 +258,11 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             id: '1',
             type: 'campaignParticipationBadges',
             relationships: {
-              'partner-competence-results': {
+              'skill-set-results': {
                 data: [
                   {
                     id: '1',
-                    type: 'partnerCompetenceResults',
+                    type: 'skillSetResults',
                   },
                 ],
               },

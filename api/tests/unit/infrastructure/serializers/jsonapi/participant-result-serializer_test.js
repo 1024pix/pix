@@ -124,7 +124,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               'validated-skills-count': 1,
             },
             id: '31',
-            type: 'partnerCompetenceResults',
+            type: 'skillSetResults',
           },
           {
             attributes: {
@@ -139,11 +139,11 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             id: '3',
             type: 'campaignParticipationBadges',
             relationships: {
-              'partner-competence-results': {
+              'skill-set-results': {
                 data: [
                   {
                     id: '31',
-                    type: 'partnerCompetenceResults',
+                    type: 'skillSetResults',
                   },
                 ],
               },

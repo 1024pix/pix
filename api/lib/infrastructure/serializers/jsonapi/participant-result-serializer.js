@@ -28,10 +28,10 @@ module.exports = {
           'imageUrl',
           'key',
           'isAcquired',
-          'partnerCompetenceResults',
+          'skillSetResults',
           'isAlwaysVisible',
         ],
-        partnerCompetenceResults: {
+        skillSetResults: {
           ref: 'id',
           included: true,
           attributes: [
@@ -78,8 +78,8 @@ function transform(record) {
 function mapBadgeResult(badgeResult) {
   return {
     ...badgeResult,
-    partnerCompetenceResults: badgeResult.partnerCompetenceResults.map((partnerCompetenceResult) => {
-      return { ...partnerCompetenceResult, areaColor: partnerCompetenceResult.color };
+    skillSetResults: badgeResult.skillSetResults.map((skillSetResult) => {
+      return { ...skillSetResult, areaColor: skillSetResult.color };
     }),
   };
 }

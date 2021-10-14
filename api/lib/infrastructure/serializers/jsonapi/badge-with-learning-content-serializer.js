@@ -3,34 +3,24 @@ const _ = require('lodash');
 
 const mapType = {
   badgeCriteria: 'badge-criteria',
-  badgePartnerCompetences: 'badge-partner-competences',
-  partnerCompetences: 'badge-partner-competences',
+  skillSets: 'skill-sets',
 };
 
 module.exports = {
   serialize(badgeWithLearningContent = {}) {
     return new Serializer('badge', {
       ref: 'id',
-      attributes: [
-        'altMessage',
-        'imageUrl',
-        'message',
-        'key',
-        'title',
-        'isCertifiable',
-        'badgeCriteria',
-        'badgePartnerCompetences',
-      ],
+      attributes: ['altMessage', 'imageUrl', 'message', 'key', 'title', 'isCertifiable', 'badgeCriteria', 'skillSets'],
       badgeCriteria: {
         include: true,
         ref: 'id',
-        attributes: ['threshold', 'scope', 'partnerCompetences'],
-        partnerCompetences: {
+        attributes: ['threshold', 'scope', 'skillSets'],
+        skillSets: {
           include: false,
           ref: 'id',
         },
       },
-      badgePartnerCompetences: {
+      skillSets: {
         include: true,
         ref: 'id',
         attributes: ['name', 'skills'],
@@ -51,16 +41,16 @@ module.exports = {
       transform(record) {
         const badge = record.badge;
         badge.badgeCriteria.forEach((badgeCriterion) => {
-          badgeCriterion.partnerCompetences = badgeCriterion.skillSetIds?.map((partnerCompetenceId) => {
-            return { id: partnerCompetenceId };
+          badgeCriterion.skillSets = badgeCriterion.skillSetIds?.map((skillSetId) => {
+            return { id: skillSetId };
           });
         });
-        badge.badgePartnerCompetences.forEach((badgePartnerCompetence) => {
-          const skills = badgePartnerCompetence.skillIds.map((skillId) => {
+        badge.skillSets.forEach((skillSet) => {
+          const skills = skillSet.skillIds.map((skillId) => {
             return record.skills.find(({ id }) => skillId === id);
           });
-          badgePartnerCompetence.skills = _.compact(skills);
-          badgePartnerCompetence.skills.forEach((skill) => {
+          skillSet.skills = _.compact(skills);
+          skillSet.skills.forEach((skill) => {
             skill.tube = { ...record.tubes.find(({ id }) => id === skill.tubeId) };
           });
         });
