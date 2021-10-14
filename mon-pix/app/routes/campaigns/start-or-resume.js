@@ -76,13 +76,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
   }
 
-  async redirect(campaign) {
+  redirect(campaign) {
     if (this.state.doesUserHaveOngoingParticipation) {
-      if (campaign.isProfilesCollection) {
-        this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
-      } else {
-        return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
-      }
+      return this.replaceWith('campaigns.entrance', campaign);
     }
   }
 
