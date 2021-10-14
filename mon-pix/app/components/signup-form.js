@@ -18,23 +18,23 @@ class SignupFormValidation {
   lastName = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   firstName = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   email = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   password = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   cgu = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
 }
 
 export default class SignupForm extends Component {
@@ -61,11 +61,11 @@ export default class SignupForm extends Component {
   }
 
   _getErrorMessage(status, key) {
-    return (status === 'error') ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
+    return status === 'error' ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
   }
 
   _getValidationStatus(isValidField) {
-    return (isValidField) ? 'error' : 'success';
+    return isValidField ? 'error' : 'success';
   }
 
   _isValuePresent(value) {
@@ -129,21 +129,24 @@ export default class SignupForm extends Component {
     this.args.user.lang = this.intl.t('current-lang');
 
     const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
-    this.args.user.save({ adapterOptions: { campaignCode } }).then(() => {
-      const credentials = { login: this.args.user.email, password: this.args.user.password };
-      this.args.authenticateUser(credentials);
-      this._tokenHasBeenUsed = true;
-      this.args.user.password = null;
-    }).catch((response) => {
-      const error = get(response, 'errors[0]');
-      if (error) {
-        this._manageErrorsApi(error);
-      } else {
-        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-      }
-      this._tokenHasBeenUsed = true;
-      this.isLoading = false;
-    });
+    this.args.user
+      .save({ adapterOptions: { campaignCode } })
+      .then(() => {
+        const credentials = { login: this.args.user.email, password: this.args.user.password };
+        this.args.authenticateUser(credentials);
+        this._tokenHasBeenUsed = true;
+        this.args.user.password = null;
+      })
+      .catch((response) => {
+        const error = get(response, 'errors[0]');
+        if (error) {
+          this._manageErrorsApi(error);
+        } else {
+          this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+        }
+        this._tokenHasBeenUsed = true;
+        this.isLoading = false;
+      });
   }
 
   _manageErrorsApi(firstError) {
@@ -156,11 +159,11 @@ export default class SignupForm extends Component {
 
   _showErrorMessages(statusCode) {
     const httpStatusCodeMessages = {
-      '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      '500': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      '502': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      '504': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
-      'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
+      500: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      502: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      504: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }

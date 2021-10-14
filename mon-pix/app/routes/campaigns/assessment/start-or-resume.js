@@ -18,10 +18,9 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
   }
 
   async redirect(campaign) {
-    const campaignAssessment = await this.store.query(
-      'assessment',
-      { filter: { type: 'CAMPAIGN', codeCampaign: campaign.code } },
-    );
+    const campaignAssessment = await this.store.query('assessment', {
+      filter: { type: 'CAMPAIGN', codeCampaign: campaign.code },
+    });
     const assessment = await campaignAssessment.get('firstObject');
 
     if (this._shouldShowTutorial(assessment, campaign.isForAbsoluteNovice)) {
@@ -33,11 +32,11 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
 
   _shouldShowTutorial(assessment, isCampaignForAbsoluteNovice) {
     return (
-      !this.userHasJustConsultedTutorial
-      && assessment.answers.length === 0
-      && !assessment.isCompleted
-      && !this.currentUser.user.hasSeenAssessmentInstructions
-      && !isCampaignForAbsoluteNovice
+      !this.userHasJustConsultedTutorial &&
+      assessment.answers.length === 0 &&
+      !assessment.isCompleted &&
+      !this.currentUser.user.hasSeenAssessmentInstructions &&
+      !isCampaignForAbsoluteNovice
     );
   }
 }

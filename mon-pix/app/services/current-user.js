@@ -14,8 +14,7 @@ export default class CurrentUserService extends Service {
     if (this.session.isAuthenticated) {
       try {
         this._user = await this.store.queryRecord('user', { me: true });
-      }
-      catch (error) {
+      } catch (error) {
         this._user = null;
         return this.session.invalidate();
       }

@@ -4,10 +4,10 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | navbar desktop menu', function() {
+describe('Integration | Component | navbar desktop menu', function () {
   setupIntlRenderingTest();
 
-  it('should be rendered', async function() {
+  it('should be rendered', async function () {
     // when
     await render(hbs`<NavbarDesktopMenu/>`);
 

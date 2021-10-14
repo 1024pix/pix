@@ -6,17 +6,17 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
 
-describe('Unit | Service | competence-evaluation', function() {
+describe('Unit | Service | competence-evaluation', function () {
   setupTest();
   let competenceEvaluationService;
 
-  describe('#improve()', function() {
+  describe('#improve()', function () {
     const competenceId = 'recCompetenceId';
     const userId = 'userId';
     const scorecardId = 'scorecardId';
     let store, router;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
       store = Service.create({
@@ -28,13 +28,13 @@ describe('Unit | Service | competence-evaluation', function() {
       competenceEvaluationService.set('store', store);
     });
 
-    context('nominal case', function() {
-      beforeEach(async function() {
+    context('nominal case', function () {
+      beforeEach(async function () {
         // when
         await competenceEvaluationService.improve({ userId, competenceId });
       });
 
-      it('creates a competence-evaluation for improving', async function() {
+      it('creates a competence-evaluation for improving', async function () {
         // then
         sinon.assert.calledWith(store.queryRecord, 'competence-evaluation', {
           improve: true,
@@ -43,14 +43,14 @@ describe('Unit | Service | competence-evaluation', function() {
         });
       });
 
-      it('redirects to competences.resume route', async function() {
+      it('redirects to competences.resume route', async function () {
         // then
         sinon.assert.calledWith(router.transitionTo, 'competences.resume', competenceId);
       });
     });
 
-    context('when improving fails with ImproveCompetenceEvaluationForbidden error', async function() {
-      beforeEach(async function() {
+    context('when improving fails with ImproveCompetenceEvaluationForbidden error', async function () {
+      beforeEach(async function () {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
@@ -65,16 +65,16 @@ describe('Unit | Service | competence-evaluation', function() {
         await competenceEvaluationService.improve({ userId, competenceId, scorecardId });
       });
 
-      it('does not redirect to competence.resume route', async function() {
+      it('does not redirect to competence.resume route', async function () {
         // then
         sinon.assert.notCalled(router.transitionTo);
       });
     });
 
-    context('when improving fails with another error', async function() {
+    context('when improving fails with another error', async function () {
       const error = new Error();
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
@@ -85,7 +85,7 @@ describe('Unit | Service | competence-evaluation', function() {
         competenceEvaluationService.set('store', store);
       });
 
-      it('throws error', async function() {
+      it('throws error', async function () {
         // when
         try {
           await competenceEvaluationService.improve({ userId, competenceId });
@@ -97,7 +97,7 @@ describe('Unit | Service | competence-evaluation', function() {
         sinon.assert.fail('Improve Competence Evaluation should have throw an error.');
       });
 
-      it('does not redirect to competence.resume route', async function() {
+      it('does not redirect to competence.resume route', async function () {
         // when
         try {
           await competenceEvaluationService.improve({ userId, competenceId });
@@ -109,7 +109,5 @@ describe('Unit | Service | competence-evaluation', function() {
         sinon.assert.fail('Improve Competence Evaluation should have throw an error.');
       });
     });
-
   });
-
 });

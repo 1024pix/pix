@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class SharedProfileForCampaign extends ApplicationAdapter {
-
   urlForQueryRecord(query) {
     if (query.userId && query.campaignId) {
       const url = `${this.host}/${this.namespace}/users/${query.userId}/campaigns/${query.campaignId}/profile`;
@@ -11,5 +10,4 @@ export default class SharedProfileForCampaign extends ApplicationAdapter {
     }
     return super.urlForQueryRecord(...arguments);
   }
-
 }

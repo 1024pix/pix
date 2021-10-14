@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class Certification extends ApplicationAdapter {
-
   queryRecord(store, type, query) {
     if (query.verificationCode) {
       const url = `${this.host}/${this.namespace}/shared-certifications`;

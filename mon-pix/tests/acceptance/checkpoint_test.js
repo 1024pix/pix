@@ -11,14 +11,14 @@ describe('Acceptance | Checkpoint', () => {
   setupMirage();
   let assessment;
 
-  beforeEach(function() {
+  beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
   describe('With answers', () => {
     const NB_ANSWERS = 3;
 
-    beforeEach(function() {
+    beforeEach(function () {
       for (let i = 0; i < NB_ANSWERS; ++i) {
         const challenge = server.create('challenge', 'forCompetenceEvaluation');
         server.create('answer', {
@@ -44,7 +44,6 @@ describe('Acceptance | Checkpoint', () => {
   });
 
   describe('Without answers', () => {
-
     it('should display a message indicating that there is no answers to provide', async () => {
       // when
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
@@ -56,12 +55,13 @@ describe('Acceptance | Checkpoint', () => {
 
       expect(find('.checkpoint__continue')).to.exist;
       expect(find('.checkpoint__continue').textContent).to.contain('Voir mes résultats');
-      expect(find('.checkpoint-no-answer__info').textContent).to.contain('Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.');
+      expect(find('.checkpoint-no-answer__info').textContent).to.contain(
+        'Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.'
+      );
     });
   });
 
   describe('When user is anonymous', () => {
-
     it('should not display home link', async () => {
       //given
       const user = server.create('user', 'withEmail', {

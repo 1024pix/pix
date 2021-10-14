@@ -3,23 +3,22 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | form-textfield', function() {
-
+describe('Unit | Component | form-textfield', function () {
   setupTest();
 
   let component;
-  beforeEach(function() {
+  beforeEach(function () {
     component = createGlimmerComponent('component:form-textfield');
   });
 
-  describe('#textfieldType', function() {
+  describe('#textfieldType', function () {
     [
       { type: 'text', inputId: 'shi' },
       { type: 'text', inputId: '' },
       { type: 'email', inputId: 'email' },
       { type: 'password', inputId: 'password' },
     ].forEach((data) => {
-      it(`should return ${data.type} when input id is ${data.inputId}`, function() {
+      it(`should return ${data.type} when input id is ${data.inputId}`, function () {
         // given
         component.args.textfieldName = data.inputId;
         // when
@@ -30,8 +29,8 @@ describe('Unit | Component | form-textfield', function() {
     });
   });
 
-  describe('#validationStatus', function() {
-    it('should return default values when validationStatus is "default"', function() {
+  describe('#validationStatus', function () {
+    it('should return default values when validationStatus is "default"', function () {
       // When
       component.args.validationStatus = 'default';
 
@@ -43,7 +42,7 @@ describe('Unit | Component | form-textfield', function() {
       expect(component.validationMessageClass).to.equal('form-textfield__message--default');
     });
 
-    it('should return error values when validationStatus is "error"', function() {
+    it('should return error values when validationStatus is "error"', function () {
       // When
       component.args.validationStatus = 'error';
 
@@ -55,7 +54,7 @@ describe('Unit | Component | form-textfield', function() {
       expect(component.validationMessageClass).to.equal('form-textfield__message--error');
     });
 
-    it('should return success values when validationStatus is "success"', function() {
+    it('should return success values when validationStatus is "success"', function () {
       // When
       component.args.validationStatus = 'success';
 

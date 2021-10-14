@@ -7,15 +7,13 @@ import Service from '@ember/service';
 
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Helper | scorecard-aria-label', function() {
-
+describe('Unit | Helper | scorecard-aria-label', function () {
   setupTest();
 
-  describe('#compute', function() {
-
+  describe('#compute', function () {
     let intlServiceStub, component;
 
-    beforeEach(function() {
+    beforeEach(function () {
       class IntlServiceStub extends Service {
         t() {}
       }
@@ -26,7 +24,7 @@ describe('Unit | Helper | scorecard-aria-label', function() {
       component = createGlimmerComponent('component:scorecard-aria-label');
     });
 
-    it('should return that competence is not started', async function() {
+    it('should return that competence is not started', async function () {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: true,
@@ -39,7 +37,7 @@ describe('Unit | Helper | scorecard-aria-label', function() {
       sinon.assert.calledWith(intlServiceStub.t, 'pages.profile.competence-card.image-info.no-level');
     });
 
-    it('should return that first level of competence is started but not finished', async function() {
+    it('should return that first level of competence is started but not finished', async function () {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: false,
@@ -54,10 +52,14 @@ describe('Unit | Helper | scorecard-aria-label', function() {
       const expectedTranslationsParams = {
         percentageAheadOfNextLevel: 12,
       };
-      sinon.assert.calledWith(intlServiceStub.t, 'pages.profile.competence-card.image-info.first-level', expectedTranslationsParams);
+      sinon.assert.calledWith(
+        intlServiceStub.t,
+        'pages.profile.competence-card.image-info.first-level',
+        expectedTranslationsParams
+      );
     });
 
-    it('should return current level and percentage completed of the next level', async function() {
+    it('should return current level and percentage completed of the next level', async function () {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: false,
@@ -73,7 +75,11 @@ describe('Unit | Helper | scorecard-aria-label', function() {
         currentLevel: 2,
         percentageAheadOfNextLevel: 30,
       };
-      sinon.assert.calledWith(intlServiceStub.t, 'pages.profile.competence-card.image-info.level', expectedTranslationsParams);
+      sinon.assert.calledWith(
+        intlServiceStub.t,
+        'pages.profile.competence-card.image-info.level',
+        expectedTranslationsParams
+      );
     });
   });
 });

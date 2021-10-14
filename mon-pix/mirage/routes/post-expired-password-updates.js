@@ -1,4 +1,4 @@
-export default function(schema, request) {
+export default function (schema, request) {
   const params = JSON.parse(request.requestBody);
   const { username, expiredPassword, newPassword } = params.data.attributes;
 

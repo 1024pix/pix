@@ -9,7 +9,6 @@ const RED_GAUGE_ICON_PATH = '/images/icons/icon-timeout-red.svg';
 const TICK_INTERVAL_IN_MILLISECONDS = 1000;
 
 export default class TimeoutGauge extends Component {
-
   @tracked remainingSeconds;
   _timer;
 

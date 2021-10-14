@@ -3,18 +3,18 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | user-tutorial', function() {
+describe('Unit | Adapters | user-tutorial', function () {
   setupTest();
 
   let adapter;
 
-  beforeEach(function() {
+  beforeEach(function () {
     adapter = this.owner.lookup('adapter:user-tutorial');
     adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#createRecord', () => {
-    it('should call API to create a user-tutorial', async function() {
+    it('should call API to create a user-tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { adapterOptions: { tutorialId } };
@@ -28,7 +28,7 @@ describe('Unit | Adapters | user-tutorial', function() {
   });
 
   describe('#urlForFindAll', () => {
-    it('should return API to find related tutorials', async function() {
+    it('should return API to find related tutorials', async function () {
       // when
       const url = adapter.urlForFindAll('user-tutorial');
 
@@ -38,7 +38,7 @@ describe('Unit | Adapters | user-tutorial', function() {
   });
 
   describe('#urlForDeleteRecord', () => {
-    it('should return API to delete a user-tutorial', async function() {
+    it('should return API to delete a user-tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { adapterOptions: { tutorialId } };
@@ -50,5 +50,4 @@ describe('Unit | Adapters | user-tutorial', function() {
       expect(url).to.equal('http://localhost:3000/api/users/tutorials/tutorialId');
     });
   });
-
 });

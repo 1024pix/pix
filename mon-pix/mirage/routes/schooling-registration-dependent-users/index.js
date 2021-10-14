@@ -49,7 +49,10 @@ export default function index(config) {
     const user = schema.users.create(newUser);
     student.update({ userId: user.id, organizationId });
 
-    return schema.externalUsers.create({ accessToken: 'aaa.' + btoa(`{"user_id":${user.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb' });
+    return schema.externalUsers.create({
+      accessToken:
+        'aaa.' + btoa(`{"user_id":${user.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb',
+    });
   });
 
   config.post('/schooling-registration-dependent-users/recover-account', (schema, request) => {
@@ -62,26 +65,39 @@ export default function index(config) {
     const foundStudent = schema.studentInformation.findBy({ ineIna, firstName, lastName, birthdate });
 
     if (foundUser && foundStudent) {
-      return new Response(200, {}, {
-        data: {
-          type: 'student-information',
-          id: 3,
-          attributes: {
-            'first-name': foundUser.firstName,
-            'last-name': foundUser.lastName,
-            username: foundUser.username,
-            email: foundUser.email,
-            'latest-organization-name': 'Collège FouFouFou',
+      return new Response(
+        200,
+        {},
+        {
+          data: {
+            type: 'student-information',
+            id: 3,
+            attributes: {
+              'first-name': foundUser.firstName,
+              'last-name': foundUser.lastName,
+              username: foundUser.username,
+              email: foundUser.email,
+              'latest-organization-name': 'Collège FouFouFou',
+            },
           },
-        } });
+        }
+      );
     } else if (foundUser) {
-      return new Response(409, {}, {
-        errors: [{ status: '409' }],
-      });
+      return new Response(
+        409,
+        {},
+        {
+          errors: [{ status: '409' }],
+        }
+      );
     } else {
-      return new Response(404, {}, {
-        errors: [{ status: '404', message: 'Not found' }],
-      });
+      return new Response(
+        404,
+        {},
+        {
+          errors: [{ status: '404', message: 'Not found' }],
+        }
+      );
     }
   });
 }

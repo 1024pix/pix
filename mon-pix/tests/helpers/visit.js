@@ -1,7 +1,6 @@
 import { visit as emberVisit } from '@ember/test-helpers';
 
 export default async function visit(url) {
-
   try {
     await emberVisit(url);
   } catch (error) {

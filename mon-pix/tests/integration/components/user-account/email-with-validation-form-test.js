@@ -9,12 +9,10 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
 describe('Integration | Component | user-account | email-with-validation-form', () => {
-
   setupIntlRenderingTest();
 
-  context('when editing e-mail', function() {
-
-    it('should display save and cancel button', async function() {
+  context('when editing e-mail', function () {
+    it('should display save and cancel button', async function () {
       // when
       await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
@@ -23,14 +21,15 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'))).to.exist;
     });
 
-    context('when the user cancel edition', function() {
-
-      it('should call disableEmailEditionMode', async function() {
+    context('when the user cancel edition', function () {
+      it('should call disableEmailEditionMode', async function () {
         // given
         const disableEmailEditionMode = sinon.stub();
         this.set('disableEmailEditionMode', disableEmailEditionMode);
 
-        await render(hbs`<UserAccount::EmailWithValidationForm @disableEmailEditionMode={{this.disableEmailEditionMode}} />`);
+        await render(
+          hbs`<UserAccount::EmailWithValidationForm @disableEmailEditionMode={{this.disableEmailEditionMode}} />`
+        );
 
         // when
         await clickByLabel(this.intl.t('common.actions.cancel'));
@@ -38,31 +37,32 @@ describe('Integration | Component | user-account | email-with-validation-form', 
         // then
         sinon.assert.called(disableEmailEditionMode);
       });
-
     });
 
-    context('when the user fills inputs with errors', function() {
-
-      context('in new email input', function() {
-
-        it('should display an invalid error message when focus-out', async function() {
+    context('when the user fills inputs with errors', function () {
+      context('in new email input', function () {
+        it('should display an invalid error message when focus-out', async function () {
           // given
           const invalidEmail = 'invalidEmail';
 
           await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
           // when
-          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), invalidEmail);
+          await fillInByLabel(
+            this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+            invalidEmail
+          );
           await triggerEvent('#newEmail', 'focusout');
 
           // then
-          expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))).to.exist;
+          expect(
+            contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))
+          ).to.exist;
         });
       });
 
-      context('in password input', function() {
-
-        it('should display an empty password error message when focus-out', async function() {
+      context('in password input', function () {
+        it('should display an empty password error message when focus-out', async function () {
           // given
           const newEmail = 'newEmail@example.net';
           const emptyPassword = '';
@@ -70,24 +70,34 @@ describe('Integration | Component | user-account | email-with-validation-form', 
           await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
           // when
-          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
-          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), emptyPassword);
+          await fillInByLabel(
+            this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+            newEmail
+          );
+          await fillInByLabel(
+            this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+            emptyPassword
+          );
 
           // then
-          expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'))).to.exist;
+          expect(
+            contains(
+              this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password')
+            )
+          ).to.exist;
         });
       });
     });
   });
 
-  context('when the user submits new email and password', function() {
+  context('when the user submits new email and password', function () {
     let store;
 
-    beforeEach(function() {
+    beforeEach(function () {
       store = this.owner.lookup('service:store');
     });
 
-    it('should call the show verification code method only once', async function() {
+    it('should call the show verification code method only once', async function () {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
@@ -97,8 +107,14 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+        newEmail
+      );
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+        password
+      );
       clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
@@ -106,84 +122,114 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       sinon.assert.calledOnce(this.showVerificationCode);
     });
 
-    it('should display email already exists error if response status is 400', async function() {
+    it('should display email already exists error if response status is 400', async function () {
       // given
       const emailAlreadyExist = 'email@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws(
-          { errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] }),
+        sendNewEmail: sinon.stub().throws({ errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] }),
       });
 
       await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), emailAlreadyExist);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+        emailAlreadyExist
+      );
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+        password
+      );
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist'))).to.exist;
+      expect(
+        contains(
+          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist')
+        )
+      ).to.exist;
     });
 
-    it('should display error message from server if response status is 400 or 403', async function() {
+    it('should display error message from server if response status is 400 or 403', async function () {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws(
-          { errors: [{ status: '400' }] }),
+        sendNewEmail: sinon.stub().throws({ errors: [{ status: '400' }] }),
       });
 
       await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+        newEmail
+      );
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+        password
+      );
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password'))).to.exist;
+      expect(
+        contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password'))
+      ).to.exist;
     });
 
-    it('should display invalid email format error if response status is 422', async function() {
+    it('should display invalid email format error if response status is 422', async function () {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws(
-          { errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
+        sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
       });
 
       await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+        newEmail
+      );
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+        password
+      );
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))).to.exist;
+      expect(
+        contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))
+      ).to.exist;
     });
 
-    it('should display empty password error if response status is 422', async function() {
+    it('should display empty password error if response status is 422', async function () {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws(
-          { errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
+        sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
       });
 
       await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+        newEmail
+      );
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+        password
+      );
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'))).to.exist;
+      expect(
+        contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'))
+      ).to.exist;
     });
   });
 });

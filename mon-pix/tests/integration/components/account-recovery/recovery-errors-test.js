@@ -5,11 +5,10 @@ import { render, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 
-describe('Integration | Component | recovery-errors', function() {
-
+describe('Integration | Component | recovery-errors', function () {
   setupIntlRenderingTest();
 
-  it('should render an account recovery error', async function() {
+  it('should render an account recovery error', async function () {
     // given
     const firstName = 'Philippe';
     const title = this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName });
@@ -27,7 +26,7 @@ describe('Integration | Component | recovery-errors', function() {
     expect(contains(this.intl.t('pages.account-recovery.support.recover'))).to.exist;
   });
 
-  it('should display renew demand link when asked for', async function() {
+  it('should display renew demand link when asked for', async function () {
     // given;
     this.set('showRenewLink', true);
 
@@ -38,7 +37,7 @@ describe('Integration | Component | recovery-errors', function() {
     expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
   });
 
-  it('should display back to home link when asked for', async function() {
+  it('should display back to home link when asked for', async function () {
     // given;
     this.set('showBackToHomeButton', true);
 
@@ -49,7 +48,7 @@ describe('Integration | Component | recovery-errors', function() {
     expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
   });
 
-  it('should display support link', async function() {
+  it('should display support link', async function () {
     // given & when
     await render(hbs`<AccountRecovery::RecoveryErrors />`);
 

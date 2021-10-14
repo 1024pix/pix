@@ -3,12 +3,11 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Checkpoint', function() {
+describe('Unit | Route | Assessments | Checkpoint', function () {
   setupTest();
 
-  describe('#afterModel', function() {
-
-    it('should force the progression reload when assessment is of competence evaluation', async function() {
+  describe('#afterModel', function () {
+    it('should force the progression reload when assessment is of competence evaluation', async function () {
       // given
       const route = this.owner.lookup('route:assessments/checkpoint');
       const reloadStub = sinon.stub();
@@ -25,7 +24,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       sinon.assert.calledOnce(reloadStub);
     });
 
-    it('should force the progression reload when assessment is for campaign', async function() {
+    it('should force the progression reload when assessment is for campaign', async function () {
       // given
       const route = this.owner.lookup('route:assessments/checkpoint');
       const storeStub = {
@@ -46,7 +45,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       sinon.assert.calledOnce(reloadStub);
     });
 
-    it('should set campaign attribute in assessment with the right campaign when assessment is for campaign', async function() {
+    it('should set campaign attribute in assessment with the right campaign when assessment is for campaign', async function () {
       // given
       const code = 'somecampaigncode';
       const campaign = Symbol('Campaign');

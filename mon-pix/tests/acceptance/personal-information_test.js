@@ -6,13 +6,12 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { contains } from '../helpers/contains';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | personal-information', function() {
+describe('Acceptance | personal-information', function () {
   setupApplicationTest();
   setupMirage();
 
-  context('When user is connected', function() {
-
-    it('should display user personal information', async function() {
+  context('When user is connected', function () {
+    it('should display user personal information', async function () {
       // given
       const user = server.create('user', {
         firstName: 'John',

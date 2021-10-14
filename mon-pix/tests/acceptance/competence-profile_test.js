@@ -7,21 +7,21 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
-describe('Acceptance | Profile | Start competence', function() {
+describe('Acceptance | Profile | Start competence', function () {
   setupApplicationTest();
   setupMirage();
   let user;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function() {
-    beforeEach(async function() {
+  describe('Authenticated cases as simple user', function () {
+    beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('can start a competence', async function() {
+    it('can start a competence', async function () {
       //given
       const firstScorecard = user.scorecards.models[0];
       const competenceId = firstScorecard.competenceId;
@@ -34,7 +34,9 @@ describe('Acceptance | Profile | Start competence', function() {
       // when
       await visit('/competences');
       await setBreakpoint('tablet');
-      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__button`);
+      await click(
+        `.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__button`
+      );
 
       // then
       expect(currentURL()).to.contains('/assessments/');

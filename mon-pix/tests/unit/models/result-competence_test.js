@@ -2,23 +2,22 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | result-competence model', function() {
+describe('Unit | Model | result-competence model', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const model = store.createRecord('result-competence');
     expect(model).to.be.ok;
   });
 
   describe('#area relationship', () => {
-
-    it('should exist', function() {
+    it('should exist', function () {
       // given
       const competence = store.modelFor('result-competence');
 

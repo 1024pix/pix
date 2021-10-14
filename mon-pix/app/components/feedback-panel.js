@@ -72,9 +72,11 @@ export default class FeedbackPanel extends Component {
       return;
     }
 
-    const category = this._category ?
-      this.intl.t(this._category) :
-      this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory);
+    const category = this._category
+      ? this.intl.t(this._category)
+      : this.intl.t(
+          'pages.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory
+        );
     const feedback = this.store.createRecord('feedback', {
       content: this.content,
       category,
@@ -156,7 +158,7 @@ export default class FeedbackPanel extends Component {
   }
 
   _scrollIntoFeedbackPanel() {
-    later(function() {
+    later(function () {
       const feedbackPanelElements = document.getElementsByClassName('feedback-panel__view');
       if (feedbackPanelElements && feedbackPanelElements[0]) {
         feedbackPanelElements[0].scrollIntoView();
@@ -167,5 +169,4 @@ export default class FeedbackPanel extends Component {
   get _isComparisonWindowContext() {
     return this.args.context && this.args.context === 'comparison-window';
   }
-
 }

@@ -2,10 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import SelectBlock from 'mon-pix/utils/proposals-parser/select-block';
 
-describe('Unit | Utils | Proposals Parser | Select Block', function() {
-
-  describe('#constructor', function() {
-    context('when there is options without aria label nor placeholder', function() {
+describe('Unit | Utils | Proposals Parser | Select Block', function () {
+  describe('#constructor', function () {
+    context('when there is options without aria label nor placeholder', function () {
       [
         {
           input: '${}',
@@ -25,7 +24,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato',
                 label: 'potato',
               },
@@ -43,7 +43,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato',
                 label: 'potato',
               },
@@ -61,7 +62,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato$',
                 label: 'potato$',
               },
@@ -79,7 +81,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato}',
                 label: 'potato}',
               },
@@ -97,7 +100,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato${}',
                 label: 'potato${}',
               },
@@ -138,7 +142,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           },
         },
       ].forEach((data) => {
-        it(`should parse input and options properly for ${data.input}`, function() {
+        it(`should parse input and options properly for ${data.input}`, function () {
           // given
           const input = data.input;
 
@@ -156,7 +160,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
       });
     });
 
-    context('when options are standards and there is specific aria label and/or placeholder', function() {
+    context('when options are standards and there is specific aria label and/or placeholder', function () {
       [
         {
           input: '${banana#Ceci est le place holder options=["mango","potato"]}',
@@ -166,7 +170,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato',
                 label: 'potato',
               },
@@ -184,7 +189,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato',
                 label: 'potato',
               },
@@ -202,7 +208,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato',
                 label: 'potato',
               },
@@ -220,7 +227,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               {
                 value: 'mango',
                 label: 'mango',
-              }, {
+              },
+              {
                 value: 'potato',
                 label: 'potato',
               },
@@ -231,7 +239,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           },
         },
       ].forEach((data) => {
-        it(`should parse a11y elements properly for ${data.input}`, function() {
+        it(`should parse a11y elements properly for ${data.input}`, function () {
           // given
           const input = data.input;
 

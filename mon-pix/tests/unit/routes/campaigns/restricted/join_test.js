@@ -8,22 +8,27 @@ import ENV from 'mon-pix/config/environment';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
-describe('Unit | Route | campaigns/restricted/join', function() {
+describe('Unit | Route | campaigns/restricted/join', function () {
   setupTest();
 
-  describe('#afterModel', function() {
-
-    it('should redirect to campaigns.start-or-resume when an association already exists', async function() {
+  describe('#afterModel', function () {
+    it('should redirect to campaigns.start-or-resume when an association already exists', async function () {
       // given
       const route = this.owner.lookup('route:campaigns.restricted.join');
       const campaign = { code: 'campaignCode' };
       route.paramsFor = sinon.stub().returns(campaign);
-      route.set('store', Service.create({
-        queryRecord: sinon.stub().resolves('a student user association'),
-      }));
-      route.set('currentUser', Service.create({
-        user: { id: 'id' },
-      }));
+      route.set(
+        'store',
+        Service.create({
+          queryRecord: sinon.stub().resolves('a student user association'),
+        })
+      );
+      route.set(
+        'currentUser',
+        Service.create({
+          user: { id: 'id' },
+        })
+      );
       route.replaceWith = sinon.stub();
 
       // when
@@ -34,18 +39,25 @@ describe('Unit | Route | campaigns/restricted/join', function() {
     });
   });
 
-  describe('#setupController', function() {
-    it('should set firstName and lastName attributes in controller when coming from an external source', async function() {
+  describe('#setupController', function () {
+    it('should set firstName and lastName attributes in controller when coming from an external source', async function () {
       // given
       const route = this.owner.lookup('route:campaigns.restricted.join');
       const controller = EmberObject.create();
-      route.set('session', Service.create({
-        data: { authenticated: { source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE } },
-      }));
-      const firstName = 'firstName', lastName = 'lastName';
-      route.set('currentUser', Service.create({
-        user: { firstName, lastName },
-      }));
+      route.set(
+        'session',
+        Service.create({
+          data: { authenticated: { source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE } },
+        })
+      );
+      const firstName = 'firstName',
+        lastName = 'lastName';
+      route.set(
+        'currentUser',
+        Service.create({
+          user: { firstName, lastName },
+        })
+      );
 
       // when
       await route.setupController(controller);

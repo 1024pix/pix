@@ -37,7 +37,6 @@ class FirstNameValidation {
 }
 
 export default class StudentInformationFormComponent extends Component {
-
   @service intl;
   @service store;
 
@@ -53,12 +52,14 @@ export default class StudentInformationFormComponent extends Component {
   @tracked yearOfBirth = '';
 
   get isFormValid() {
-    return !isEmpty(this.lastName) &&
+    return (
+      !isEmpty(this.lastName) &&
       !isEmpty(this.firstName) &&
       this._isDayOfBirthValid &&
       this._isMonthOfBirthValid &&
       this._isYearOfBirthValid &&
-      this._isIneInaValid;
+      this._isIneInaValid
+    );
   }
 
   get _isIneInaValid() {

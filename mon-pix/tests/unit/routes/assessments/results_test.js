@@ -4,18 +4,16 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-describe('Unit | Route | Assessments | Results', function() {
-
+describe('Unit | Route | Assessments | Results', function () {
   setupTest();
 
-  it('exists', function() {
+  it('exists', function () {
     const route = this.owner.lookup('route:assessments.results');
     expect(route).to.be.ok;
   });
 
-  describe('#afterModel', function() {
-
-    it('should redirect to homepage if assessment is a certification', function() {
+  describe('#afterModel', function () {
+    it('should redirect to homepage if assessment is a certification', function () {
       // given
       const route = this.owner.lookup('route:assessments.results');
       route.transitionTo = sinon.spy();
@@ -29,7 +27,7 @@ describe('Unit | Route | Assessments | Results', function() {
       sinon.assert.calledWith(route.transitionTo, 'index');
     });
 
-    it('should not redirect to homepage if assessment is not a certification', function() {
+    it('should not redirect to homepage if assessment is not a certification', function () {
       // given
       const route = this.owner.lookup('route:assessments.results');
       route.transitionTo = sinon.spy();
@@ -42,7 +40,5 @@ describe('Unit | Route | Assessments | Results', function() {
       // then
       sinon.assert.notCalled(route.transitionTo);
     });
-
   });
-
 });

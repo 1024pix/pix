@@ -4,19 +4,18 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | feedback-panel', function() {
+describe('Unit | Component | feedback-panel', function () {
   let component;
 
   setupTest();
 
-  beforeEach(function() {
+  beforeEach(function () {
     // given
     component = createGlimmerComponent('component:feedback-panel');
   });
 
-  describe('#toggleFeedbackForm', function() {
-
-    it('should open form', function() {
+  describe('#toggleFeedbackForm', function () {
+    it('should open form', function () {
       // when
       component.toggleFeedbackForm();
 
@@ -24,7 +23,7 @@ describe('Unit | Component | feedback-panel', function() {
       expect(component.isFormOpened).to.be.true;
     });
 
-    it('should close and reset form', function() {
+    it('should close and reset form', function () {
       // given
       component.isFormOpened = true;
       component.emptyTextBoxMessageError = '10, 9, 8, ...';
@@ -40,9 +39,8 @@ describe('Unit | Component | feedback-panel', function() {
     });
   });
 
-  describe('#isSendButtonDisabled', function() {
-
-    it('should return false when the feedback has not already been sent', function() {
+  describe('#isSendButtonDisabled', function () {
+    it('should return false when the feedback has not already been sent', function () {
       // given
       component._sendButtonStatus = 'unrecorded';
 
@@ -53,7 +51,7 @@ describe('Unit | Component | feedback-panel', function() {
       expect(result).to.equal(false);
     });
 
-    it('should return false when the feedback has already been sent', function() {
+    it('should return false when the feedback has already been sent', function () {
       // given
       component._sendButtonStatus = 'recorded';
 
@@ -64,7 +62,7 @@ describe('Unit | Component | feedback-panel', function() {
       expect(result).to.equal(false);
     });
 
-    it('should return true when the send operation is in progress', function() {
+    it('should return true when the send operation is in progress', function () {
       // given
       component._sendButtonStatus = 'pending';
 
@@ -74,10 +72,9 @@ describe('Unit | Component | feedback-panel', function() {
       // then
       expect(result).to.equal(true);
     });
-
   });
 
-  describe('#sendFeedback', function() {
+  describe('#sendFeedback', function () {
     let feedback;
     let store;
 
@@ -90,7 +87,7 @@ describe('Unit | Component | feedback-panel', function() {
       };
     });
 
-    it('should re-initialise the form correctly', async function() {
+    it('should re-initialise the form correctly', async function () {
       // given
       component._category = 'CATEGORY';
       component.content = 'TEXT';
@@ -104,6 +101,5 @@ describe('Unit | Component | feedback-panel', function() {
       expect(component.content).to.be.null;
       expect(component.nextCategory).to.be.null;
     });
-
   });
 });

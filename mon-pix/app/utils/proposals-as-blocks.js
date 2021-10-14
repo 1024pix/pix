@@ -5,14 +5,9 @@ import SelectBlock from './proposals-parser/select-block';
 import TextBlock from './proposals-parser/text-block';
 import splitters from './proposals-parser/splitters';
 
-const {
-  BLOCK,
-  RESPONSE_BLOCK_BEGIN,
-  SELECT,
-} = splitters;
+const { BLOCK, RESPONSE_BLOCK_BEGIN, SELECT } = splitters;
 
 export default function proposalsAsBlocks(proposals) {
-
   if (isEmpty(proposals)) {
     return [];
   }

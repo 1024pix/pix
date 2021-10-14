@@ -6,21 +6,20 @@ import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
-describe('Unit | Component | progress-bar', function() {
-
+describe('Unit | Component | progress-bar', function () {
   setupTest();
   let component;
 
-  beforeEach(function() {
+  beforeEach(function () {
     component = createGlimmerComponent('component:progress-bar');
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sinon.restore();
   });
 
-  describe('@currentStepIndex', function() {
-    it('should return the current step index from service', function() {
+  describe('@currentStepIndex', function () {
+    it('should return the current step index from service', function () {
       // given
       const expectedCurrentStepIndex = 2;
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(expectedCurrentStepIndex);
@@ -33,9 +32,8 @@ describe('Unit | Component | progress-bar', function() {
     });
   });
 
-  describe('@maxStepsNumber', function() {
-
-    it('should return the maxStepsNumber from service', function() {
+  describe('@maxStepsNumber', function () {
+    it('should return the maxStepsNumber from service', function () {
       // given
       const expectedMaxStepsNumber = 5;
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(expectedMaxStepsNumber);
@@ -48,9 +46,8 @@ describe('Unit | Component | progress-bar', function() {
     });
   });
 
-  describe('@currentStepNumber', function() {
-
-    it('should return the currentStepNumber from service', function() {
+  describe('@currentStepNumber', function () {
+    it('should return the currentStepNumber from service', function () {
       // given
       const expectedCurrentStepNumber = 3;
       sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(expectedCurrentStepNumber);
@@ -63,9 +60,8 @@ describe('Unit | Component | progress-bar', function() {
     });
   });
 
-  describe('@steps', function() {
-
-    it('should return the steps specifics', function() {
+  describe('@steps', function () {
+    it('should return the steps specifics', function () {
       // given
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(4);
@@ -83,9 +79,8 @@ describe('Unit | Component | progress-bar', function() {
     });
   });
 
-  describe('@progressionWidth', function() {
-
-    it('should return the progressionWidth', function() {
+  describe('@progressionWidth', function () {
+    it('should return the progressionWidth', function () {
       // given
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
@@ -96,7 +91,7 @@ describe('Unit | Component | progress-bar', function() {
       expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
     });
 
-    it('should return the initial progressionWidth', function() {
+    it('should return the initial progressionWidth', function () {
       // given
       sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(0);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);

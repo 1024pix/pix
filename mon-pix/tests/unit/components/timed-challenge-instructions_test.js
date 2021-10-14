@@ -3,19 +3,17 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | timed-challenge-instructions', function() {
-
+describe('Unit | Component | timed-challenge-instructions', function () {
   setupTest();
 
   let component;
 
-  beforeEach(function() {
+  beforeEach(function () {
     component = createGlimmerComponent('component:timed-challenge-instructions');
   });
 
-  describe('Component rendering', function() {
-
-    describe('#allocatedTime', function() {
+  describe('Component rendering', function () {
+    describe('#allocatedTime', function () {
       [
         { input: '', expected: 0 },
         { input: ' ', expected: 0 },
@@ -32,7 +30,7 @@ describe('Unit | Component | timed-challenge-instructions', function() {
         { input: 122, expected: '2:02' },
         { input: 130, expected: '2:10' },
       ].forEach((data) => {
-        it(`should return "${data.expected}" when passing ${data.input}`, function() {
+        it(`should return "${data.expected}" when passing ${data.input}`, function () {
           // given
           component.args.time = data.input;
 
@@ -45,7 +43,7 @@ describe('Unit | Component | timed-challenge-instructions', function() {
       });
     });
 
-    describe('#allocatedHumanTime', function() {
+    describe('#allocatedHumanTime', function () {
       [
         { input: '', expected: '' },
         { input: ' ', expected: '' },
@@ -62,7 +60,7 @@ describe('Unit | Component | timed-challenge-instructions', function() {
         { input: 122, expected: '2 minutes et 2 secondes' },
         { input: 130, expected: '2 minutes et 10 secondes' },
       ].forEach((data) => {
-        it(`should return "${data.expected}" when passing ${data.input}`, function() {
+        it(`should return "${data.expected}" when passing ${data.input}`, function () {
           // given
           component.args.time = data.input;
 
@@ -74,7 +72,5 @@ describe('Unit | Component | timed-challenge-instructions', function() {
         });
       });
     });
-
   });
-
 });

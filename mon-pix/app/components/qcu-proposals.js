@@ -14,5 +14,4 @@ export default class QcuProposals extends Component {
   radioClicked() {
     this.args.answerChanged();
   }
-
 }

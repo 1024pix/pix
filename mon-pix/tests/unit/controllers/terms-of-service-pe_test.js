@@ -3,45 +3,46 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | terms-of-service-pe', function() {
+describe('Unit | Controller | terms-of-service-pe', function () {
   setupTest();
   let controller;
 
-  describe('#action submit', function() {
-
-    beforeEach(function() {
+  describe('#action submit', function () {
+    beforeEach(function () {
       controller = this.owner.lookup('controller:terms-of-service-pe');
       controller.session = {
         authenticate: sinon.stub(),
       };
     });
 
-    it('it should save the acceptance date of the last terms of service', async function() {
+    it('it should save the acceptance date of the last terms of service', async function () {
       // when
-      controller.isTermsOfServiceValidated = true ;
-      controller.showErrorTermsOfServiceNotSelected = false ;
+      controller.isTermsOfServiceValidated = true;
+      controller.showErrorTermsOfServiceNotSelected = false;
       controller.authenticationKey = 'authenticationKey';
       await controller.send('submit');
 
       // then
-      sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oidc', { authenticationKey: 'authenticationKey' });
+      sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oidc', {
+        authenticationKey: 'authenticationKey',
+      });
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
     });
 
-    it('it should show an error to user to validate terms of service ', async function() {
+    it('it should show an error to user to validate terms of service ', async function () {
       // when
-      controller.isTermsOfServiceValidated = false ;
-      controller.showErrorTermsOfServiceNotSelected = false ;
+      controller.isTermsOfServiceValidated = false;
+      controller.showErrorTermsOfServiceNotSelected = false;
       await controller.send('submit');
 
       // then
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.true;
     });
 
-    it('it should show an error expired authentication key', async function() {
+    it('it should show an error expired authentication key', async function () {
       // given
       controller.session.authenticate.rejects();
-      controller.isTermsOfServiceValidated = true ;
+      controller.isTermsOfServiceValidated = true;
       controller.showErrorTermsOfServiceExpiredAuthenticatedKey = false;
 
       // when
@@ -50,6 +51,5 @@ describe('Unit | Controller | terms-of-service-pe', function() {
       // then
       expect(controller.showErrorTermsOfServiceExpiredAuthenticatedKey).to.be.true;
     });
-
   });
 });

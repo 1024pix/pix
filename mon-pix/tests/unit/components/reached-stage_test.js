@@ -3,8 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | reached-stage', function() {
-
+describe('Unit | Component | reached-stage', function () {
   setupTest();
 
   const acquiredStarImgSrc = 'stage-plain-star.svg';
@@ -18,13 +17,12 @@ describe('Unit | Component | reached-stage', function() {
     { starCount: 2, stageCount: 10, expectedAcquiredStarsCount: 1, expectedUnacquiredStarsCount: 8 },
   ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
     context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
-
-      beforeEach(function() {
+      beforeEach(function () {
         component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
       });
 
-      describe('#get totalStarsCount', function() {
-        it(`should return ${expectedAcquiredStarsCount + expectedUnacquiredStarsCount}`, function() {
+      describe('#get totalStarsCount', function () {
+        it(`should return ${expectedAcquiredStarsCount + expectedUnacquiredStarsCount}`, function () {
           const totalStarsCount = component.totalStarsCount;
 
           const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
@@ -32,8 +30,8 @@ describe('Unit | Component | reached-stage', function() {
         });
       });
 
-      describe('#get acquiredStarsCount', function() {
-        it(`should return ${expectedAcquiredStarsCount}`, function() {
+      describe('#get acquiredStarsCount', function () {
+        it(`should return ${expectedAcquiredStarsCount}`, function () {
           // given
           const component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
 
@@ -45,47 +43,46 @@ describe('Unit | Component | reached-stage', function() {
   });
 
   context('has no acquired star', () => {
-    [
-      { starCount: 1, stageCount: 3, expectedAcquiredStarsCount: 0, expectedUnacquiredStarsCount: 2 },
-    ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-      context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
+    [{ starCount: 1, stageCount: 3, expectedAcquiredStarsCount: 0, expectedUnacquiredStarsCount: 2 }].map(
+      ({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
+        context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
+          beforeEach(function () {
+            component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
+          });
 
-        beforeEach(function() {
-          component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
-        });
+          describe('#get firstStar', function () {
+            it('should return first star with its image', function () {
+              const firstStar = component.firstStar;
 
-        describe('#get firstStar', function() {
-          it('should return first star with its image', function() {
-            const firstStar = component.firstStar;
+              expect(firstStar.imageSrc).to.equal(unacquiredStarImgSrc);
+            });
+          });
 
-            expect(firstStar.imageSrc).to.equal(unacquiredStarImgSrc);
+          describe('#get otherStars', function () {
+            let otherStars;
+
+            beforeEach(function () {
+              otherStars = component.otherStars;
+            });
+
+            it('should return correct count of stars minus the first one', function () {
+              const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
+
+              expect(otherStars.length).to.equal(totalStars - 1);
+            });
+
+            it('should return correct image for each star', function () {
+              const firstStarCount = 1;
+              const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
+              const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
+
+              expect(acquiredStarsCount).to.equal(expectedAcquiredStarsCount);
+              expect(unacquiredStarsCount + firstStarCount).to.equal(expectedUnacquiredStarsCount);
+            });
           });
         });
-
-        describe('#get otherStars', function() {
-          let otherStars;
-
-          beforeEach(function() {
-            otherStars = component.otherStars;
-          });
-
-          it('should return correct count of stars minus the first one', function() {
-            const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
-
-            expect(otherStars.length).to.equal(totalStars - 1);
-          });
-
-          it('should return correct image for each star', function() {
-            const firstStarCount = 1;
-            const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
-            const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
-
-            expect(acquiredStarsCount).to.equal(expectedAcquiredStarsCount);
-            expect(unacquiredStarsCount + firstStarCount).to.equal(expectedUnacquiredStarsCount);
-          });
-        });
-      });
-    });
+      }
+    );
   });
 
   context('has acquired at least one star', () => {
@@ -97,33 +94,32 @@ describe('Unit | Component | reached-stage', function() {
       { starCount: 4, stageCount: 5, expectedAcquiredStarsCount: 3, expectedUnacquiredStarsCount: 1 },
     ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
       context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
-
-        beforeEach(function() {
+        beforeEach(function () {
           component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
         });
 
-        describe('#get firstStar', function() {
-          it('should return first star with its image', function() {
+        describe('#get firstStar', function () {
+          it('should return first star with its image', function () {
             const firstStar = component.firstStar;
 
             expect(firstStar.imageSrc).to.equal(acquiredStarImgSrc);
           });
         });
 
-        describe('#get otherStars', function() {
+        describe('#get otherStars', function () {
           let otherStars;
 
-          beforeEach(function() {
+          beforeEach(function () {
             otherStars = component.otherStars;
           });
 
-          it('should return correct count of stars minus the first one', function() {
+          it('should return correct count of stars minus the first one', function () {
             const totalStars = expectedAcquiredStarsCount + expectedUnacquiredStarsCount;
 
             expect(otherStars.length).to.equal(totalStars - 1);
           });
 
-          it('should return correct image for each star', function() {
+          it('should return correct image for each star', function () {
             const firstStarCount = 1;
             const acquiredStarsCount = otherStars.filter((star) => star.imageSrc === acquiredStarImgSrc).length;
             const unacquiredStarsCount = otherStars.filter((star) => star.imageSrc === unacquiredStarImgSrc).length;
@@ -135,6 +131,4 @@ describe('Unit | Component | reached-stage', function() {
       });
     });
   });
-
 });
-

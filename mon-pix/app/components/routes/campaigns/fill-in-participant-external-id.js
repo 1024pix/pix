@@ -15,12 +15,16 @@ export default class FillInParticipantExternalId extends Component {
     event.preventDefault();
 
     if (!this.participantExternalId) {
-      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.missing-id-pix-label', { idPixLabel: this.args.campaign.idPixLabel });
+      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.missing-id-pix-label', {
+        idPixLabel: this.args.campaign.idPixLabel,
+      });
       return;
     }
 
     if (this.participantExternalId.length > 255) {
-      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.max-length-id-pix-label', { idPixLabel: this.args.campaign.idPixLabel });
+      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.max-length-id-pix-label', {
+        idPixLabel: this.args.campaign.idPixLabel,
+      });
       return;
     }
 

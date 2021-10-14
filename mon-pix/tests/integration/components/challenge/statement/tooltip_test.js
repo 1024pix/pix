@@ -5,22 +5,21 @@ import { click, find, render, triggerEvent, triggerKeyEvent } from '@ember/test-
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Tooltip', function() {
-
+describe('Integration | Component | Tooltip', function () {
   setupIntlRenderingTest();
 
   const tooltip = '.tooltip-tag__information';
   const confirmationButton = '.tooltip-tag-information__button';
 
-  describe('when challenge is focused', function() {
-    describe('when user has not seen the tooltip yet', function() {
-      beforeEach(async function() {
+  describe('when challenge is focused', function () {
+    describe('when user has not seen the tooltip yet', function () {
+      beforeEach(async function () {
         // given
         class currentUser extends Service {
-            user = {
-              hasSeenFocusedChallengeTooltip: false,
-              save: () => {},
-            }
+          user = {
+            hasSeenFocusedChallengeTooltip: false,
+            save: () => {},
+          };
         }
         this.owner.unregister('service:currentUser');
         this.owner.register('service:currentUser', currentUser);
@@ -33,14 +32,14 @@ describe('Integration | Component | Tooltip', function() {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      it('should render the tooltip with a confirmation button', async function() {
+      it('should render the tooltip with a confirmation button', async function () {
         // then
         expect(find(tooltip)).to.be.displayed;
         expect(find('.tooltip__tag--focused')).to.be.displayed;
         expect(find(confirmationButton)).to.exist;
       });
 
-      it('should remove the tooltip when confirmation button has been clicked', async function() {
+      it('should remove the tooltip when confirmation button has been clicked', async function () {
         // when
         await click('.tooltip-tag-information__button');
         // then
@@ -48,13 +47,13 @@ describe('Integration | Component | Tooltip', function() {
       });
     });
 
-    describe('when user has seen the tooltip', function() {
-      beforeEach(async function() {
+    describe('when user has seen the tooltip', function () {
+      beforeEach(async function () {
         // given
         class currentUser extends Service {
-            user = {
-              hasSeenFocusedChallengeTooltip: true,
-            }
+          user = {
+            hasSeenFocusedChallengeTooltip: true,
+          };
         }
 
         this.owner.unregister('service:currentUser');
@@ -68,16 +67,16 @@ describe('Integration | Component | Tooltip', function() {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      describe('when the challenge starts', function() {
-        it('should not render the tooltip', async function() {
+      describe('when the challenge starts', function () {
+        it('should not render the tooltip', async function () {
           // then
           expect(find(tooltip)).not.to.be.displayed;
         });
       });
 
-      describe('when the user hovers the challenge icon', function() {
-        describe('when using a mouse', function() {
-          it('should display the tooltip without a confirmation button when entering the icon', async function() {
+      describe('when the user hovers the challenge icon', function () {
+        describe('when using a mouse', function () {
+          it('should display the tooltip without a confirmation button when entering the icon', async function () {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
 
@@ -86,7 +85,7 @@ describe('Integration | Component | Tooltip', function() {
             expect(find(confirmationButton)).to.not.exist;
           });
 
-          it('should the hide tooltip when mouse leaves the icon', async function() {
+          it('should the hide tooltip when mouse leaves the icon', async function () {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
             await triggerEvent('.tooltip-tag__icon-button', 'mouseleave');
@@ -96,8 +95,8 @@ describe('Integration | Component | Tooltip', function() {
           });
         });
 
-        describe('when using a keyboard', function() {
-          it('should hide the tooltip button when escaping', async function() {
+        describe('when using a keyboard', function () {
+          it('should hide the tooltip button when escaping', async function () {
             // given
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
             expect(find(tooltip)).to.be.displayed;
@@ -112,8 +111,8 @@ describe('Integration | Component | Tooltip', function() {
         });
       });
 
-      describe('when the user clicks on the challenge icon', function() {
-        it('should display the tooltip without a confirmation button when entering the icon', async function() {
+      describe('when the user clicks on the challenge icon', function () {
+        it('should display the tooltip without a confirmation button when entering the icon', async function () {
           // when
           await click('.tooltip-tag__icon-button');
 
@@ -125,15 +124,15 @@ describe('Integration | Component | Tooltip', function() {
     });
   });
 
-  describe('when challenge is not focused', function() {
-    describe('when user has not seen the tooltip yet', function() {
-      beforeEach(async function() {
+  describe('when challenge is not focused', function () {
+    describe('when user has not seen the tooltip yet', function () {
+      beforeEach(async function () {
         // given
         class currentUser extends Service {
           user = {
             hasSeenOtherChallengesTooltip: false,
             save: () => {},
-          }
+          };
         }
         this.owner.unregister('service:currentUser');
         this.owner.register('service:currentUser', currentUser);
@@ -146,14 +145,14 @@ describe('Integration | Component | Tooltip', function() {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      it('should render the tooltip with a confirmation button', async function() {
+      it('should render the tooltip with a confirmation button', async function () {
         // then
         expect(find(tooltip)).to.be.displayed;
         expect(find('.tooltip__tag--regular')).to.be.displayed;
         expect(find(confirmationButton)).to.exist;
       });
 
-      it('should remove the tooltip when confirmation button has been clicked', async function() {
+      it('should remove the tooltip when confirmation button has been clicked', async function () {
         // when
         await click('.tooltip-tag-information__button');
 
@@ -162,13 +161,13 @@ describe('Integration | Component | Tooltip', function() {
       });
     });
 
-    describe('when user has seen the tooltip', function() {
-      beforeEach(async function() {
+    describe('when user has seen the tooltip', function () {
+      beforeEach(async function () {
         // given
         class currentUser extends Service {
           user = {
             hasSeenOtherChallengesTooltip: true,
-          }
+          };
         }
 
         this.owner.unregister('service:currentUser');
@@ -182,16 +181,16 @@ describe('Integration | Component | Tooltip', function() {
         await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
       });
 
-      describe('when the challenge starts', function() {
-        it('should not render the tooltip', async function() {
+      describe('when the challenge starts', function () {
+        it('should not render the tooltip', async function () {
           // then
           expect(find(tooltip)).not.to.be.displayed;
         });
       });
 
-      describe('when the user hovers the challenge icon', function() {
-        describe('when using a mouse', function() {
-          it('should display the tooltip without a confirmation button when entering the icon', async function() {
+      describe('when the user hovers the challenge icon', function () {
+        describe('when using a mouse', function () {
+          it('should display the tooltip without a confirmation button when entering the icon', async function () {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
 
@@ -200,7 +199,7 @@ describe('Integration | Component | Tooltip', function() {
             expect(find(confirmationButton)).to.not.exist;
           });
 
-          it('should the hide tooltip when mouse leaves the icon', async function() {
+          it('should the hide tooltip when mouse leaves the icon', async function () {
             // when
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
             await triggerEvent('.tooltip-tag__icon-button', 'mouseleave');
@@ -210,8 +209,8 @@ describe('Integration | Component | Tooltip', function() {
           });
         });
 
-        describe('when using a keyboard', function() {
-          it('should hide the tooltip button when escaping', async function() {
+        describe('when using a keyboard', function () {
+          it('should hide the tooltip button when escaping', async function () {
             // given
             await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
             expect(find(tooltip)).to.be.displayed;
@@ -226,8 +225,8 @@ describe('Integration | Component | Tooltip', function() {
         });
       });
 
-      describe('when the user clicks on the challenge icon', function() {
-        it('should display the tooltip without a confirmation button when entering the icon', async function() {
+      describe('when the user clicks on the challenge icon', function () {
+        it('should display the tooltip without a confirmation button when entering the icon', async function () {
           // when
           await click('.tooltip-tag__icon-button');
 
@@ -239,4 +238,3 @@ describe('Integration | Component | Tooltip', function() {
     });
   });
 });
-

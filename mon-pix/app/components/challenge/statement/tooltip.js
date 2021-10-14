@@ -17,8 +17,10 @@ export default class Tooltip extends Component {
   }
 
   _showTooltip() {
-    if (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()
-      || !this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
+    if (
+      (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()) ||
+      (!this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip())
+    ) {
       this.shouldDisplayTooltip = true;
     } else {
       this.shouldDisplayTooltip = false;
@@ -39,8 +41,7 @@ export default class Tooltip extends Component {
   get shouldDisplayButton() {
     if (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()) {
       return true;
-    }
-    else if (!this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
+    } else if (!this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
       return true;
     }
     return false;

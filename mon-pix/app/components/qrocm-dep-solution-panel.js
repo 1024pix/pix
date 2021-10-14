@@ -53,9 +53,9 @@ export default class QrocmDepSolutionPanel extends Component {
       return solutions[key][0];
     });
 
-    return answersCount === solutionsKeys.length ?
-      `${expectedAnswers.slice(0, -1).join(', ')} et ${expectedAnswers.slice(-1)}` :
-      `${expectedAnswers.join(' ou ')} ou ...`;
+    return answersCount === solutionsKeys.length
+      ? `${expectedAnswers.slice(0, -1).join(', ')} et ${expectedAnswers.slice(-1)}`
+      : `${expectedAnswers.join(' ou ')} ou ...`;
   }
 
   get _inputCount() {

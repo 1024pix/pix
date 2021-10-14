@@ -1,12 +1,8 @@
 import splitters from './splitters';
 
-const {
-  ARIA_LABEL,
-  PLACEHOLDER,
-} = splitters;
+const { ARIA_LABEL, PLACEHOLDER } = splitters;
 
 export default class ResponseBlock {
-
   constructor({ inputIndex }) {
     this._input = null;
     this._placeholder = null;

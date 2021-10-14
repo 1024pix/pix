@@ -8,14 +8,12 @@ import sinon from 'sinon';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-describe('Integration | Component | certification-starter', function() {
+describe('Integration | Component | certification-starter', function () {
   setupIntlRenderingTest();
 
-  describe('#submit', function() {
-
-    context('when no access code is provided', function() {
-
-      it('should display an appropriated error message', async function() {
+  describe('#submit', function () {
+    context('when no access code is provided', function () {
+      it('should display an appropriated error message', async function () {
         // given
         this.set('sessionId', '123');
         await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
@@ -28,11 +26,9 @@ describe('Integration | Component | certification-starter', function() {
       });
     });
 
-    context('when access code is provided', function() {
-
-      context('when the creation of certification course is successful', function() {
-
-        it('should redirect to certifications.resume', async function() {
+    context('when access code is provided', function () {
+      context('when the creation of certification course is successful', function () {
+        it('should redirect to certifications.resume', async function () {
           // given
           const replaceWithStub = sinon.stub();
           class RouterStubService extends Service {
@@ -59,15 +55,17 @@ describe('Integration | Component | certification-starter', function() {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          sinon.assert.calledWithExactly(createRecordStub, 'certification-course', { accessCode: 'ABC123', sessionId: '123' });
+          sinon.assert.calledWithExactly(createRecordStub, 'certification-course', {
+            accessCode: 'ABC123',
+            sessionId: '123',
+          });
           sinon.assert.calledOnce(certificationCourse.save);
           sinon.assert.calledWithExactly(replaceWithStub, 'certifications.resume', 456);
         });
       });
 
-      context('when the creation of certification course is in error', function() {
-
-        it('should display the appropriate error message when error status is 404', async function() {
+      context('when the creation of certification course is in error', function () {
+        it('should display the appropriate error message when error status is 404', async function () {
           // given
           const replaceWithStub = sinon.stub();
           class RouterStubService extends Service {
@@ -88,7 +86,7 @@ describe('Integration | Component | certification-starter', function() {
           this.set('sessionId', '123');
           await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
           await fillIn('#certificationStarterSessionCode', 'ABC123');
-          certificationCourse.save.rejects({ errors: [ { status: '404' }] });
+          certificationCourse.save.rejects({ errors: [{ status: '404' }] });
 
           // when
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
@@ -97,7 +95,7 @@ describe('Integration | Component | certification-starter', function() {
           expect(contains('Ce code n’existe pas ou n’est plus valide.'));
         });
 
-        it('should display the appropriate error message when error status is 412', async function() {
+        it('should display the appropriate error message when error status is 412', async function () {
           // given
           const replaceWithStub = sinon.stub();
           class RouterStubService extends Service {
@@ -118,16 +116,16 @@ describe('Integration | Component | certification-starter', function() {
           this.set('sessionId', '123');
           await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
           await fillIn('#certificationStarterSessionCode', 'ABC123');
-          certificationCourse.save.rejects({ errors: [ { status: '412' }] });
+          certificationCourse.save.rejects({ errors: [{ status: '412' }] });
 
           // when
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains('La session de certification n\'est plus accessible.'));
+          expect(contains("La session de certification n'est plus accessible."));
         });
 
-        it('should display a generic error message when error status unknown', async function() {
+        it('should display a generic error message when error status unknown', async function () {
           // given
           const replaceWithStub = sinon.stub();
           class RouterStubService extends Service {
@@ -148,7 +146,7 @@ describe('Integration | Component | certification-starter', function() {
           this.set('sessionId', '123');
           await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
           await fillIn('#certificationStarterSessionCode', 'ABC123');
-          certificationCourse.save.rejects({ errors: [ { status: 'other' }] });
+          certificationCourse.save.rejects({ errors: [{ status: 'other' }] });
 
           // when
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));

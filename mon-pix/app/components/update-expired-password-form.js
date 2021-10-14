@@ -15,15 +15,16 @@ const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_
 
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null,
+    status: 'default',
+    message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+    status: 'error',
+    message: ERROR_PASSWORD_MESSAGE,
   },
 };
 
 export default class UpdateExpiredPasswordForm extends Component {
-
   @service intl;
   @service session;
   @service url;
@@ -49,7 +50,7 @@ export default class UpdateExpiredPasswordForm extends Component {
   @action
   validatePassword() {
     this.errorMessage = null;
-    const validationStatus = (isPasswordValid(this.newPassword)) ? 'default' : 'error';
+    const validationStatus = isPasswordValid(this.newPassword) ? 'default' : 'error';
     this.validation = VALIDATION_MAP[validationStatus];
   }
 
@@ -65,12 +66,14 @@ export default class UpdateExpiredPasswordForm extends Component {
       this.validation = VALIDATION_MAP.default;
 
       try {
-
         this.resetExpiredPasswordDemand.newPassword = this.newPassword;
         await this.resetExpiredPasswordDemand.save();
         this.resetExpiredPasswordDemand.unloadRecord();
 
-        await this._authenticateWithUpdatedPassword({ login: this.resetExpiredPasswordDemand.username, password: this.newPassword });
+        await this._authenticateWithUpdatedPassword({
+          login: this.resetExpiredPasswordDemand.username,
+          password: this.newPassword,
+        });
 
         if (this.session.get('data.externalUser')) {
           this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
@@ -87,7 +90,9 @@ export default class UpdateExpiredPasswordForm extends Component {
   async _authenticateWithUpdatedPassword({ login, password }) {
     try {
       await this.session.authenticate('authenticator:oauth2', {
-        login, password, scope: SCOPE_MON_PIX,
+        login,
+        password,
+        scope: SCOPE_MON_PIX,
       });
       this.session.set('data.externalUser', null);
       this.session.set('data.expectedUserId', null);
@@ -107,8 +112,8 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   _showErrorMessages(statusCode) {
     const httpStatusCodeMessages = {
-      '401': ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
-      'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      401: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
+      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }

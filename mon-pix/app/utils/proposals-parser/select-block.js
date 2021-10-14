@@ -1,17 +1,10 @@
 import ResponseBlock from './response-block';
 import splitters from './splitters';
 
-const {
-  ARIA_LABEL,
-  PLACEHOLDER_AND_ARIA_LABEL,
-  PLACEHOLDER,
-  RESPONSE_BLOCK_BEGIN,
-  RESPONSE_BLOCK_END,
-  SELECT,
-} = splitters;
+const { ARIA_LABEL, PLACEHOLDER_AND_ARIA_LABEL, PLACEHOLDER, RESPONSE_BLOCK_BEGIN, RESPONSE_BLOCK_END, SELECT } =
+  splitters;
 
 export default class SelectBlock extends ResponseBlock {
-
   constructor({ input, inputIndex }) {
     super({ inputIndex });
     const end = input.lastIndexOf(RESPONSE_BLOCK_END);

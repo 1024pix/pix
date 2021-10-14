@@ -1,6 +1,6 @@
 import { Response } from 'ember-cli-mirage';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const requestedAssessment = JSON.parse(request.requestBody);
   let courseData = null;
   if (requestedAssessment.data.relationships) {

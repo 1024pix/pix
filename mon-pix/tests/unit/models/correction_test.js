@@ -3,22 +3,21 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import { run } from '@ember/runloop';
 
-describe('Unit | Model | correction', function() {
+describe('Unit | Model | correction', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const model = store.createRecord('correction');
     expect(model).to.be.ok;
   });
 
-  describe('#noHintsNorTutorialsAtAll', function() {
-
+  describe('#noHintsNorTutorialsAtAll', function () {
     let model;
     const defaultAttributes = {
       solution: 'a fake solution',
@@ -27,7 +26,7 @@ describe('Unit | Model | correction', function() {
       learningMoreTutorials: [],
     };
 
-    it('should be true when correction has only solution', function() {
+    it('should be true when correction has only solution', function () {
       // given
       model = store.createRecord('correction', defaultAttributes);
 
@@ -38,11 +37,14 @@ describe('Unit | Model | correction', function() {
       expect(result).to.be.true;
     });
 
-    it('should be false when correction has an hint', function() {
+    it('should be false when correction has an hint', function () {
       // given
-      model = store.createRecord('correction', Object.assign({}, defaultAttributes, {
-        hint: 'a fake hint',
-      }));
+      model = store.createRecord(
+        'correction',
+        Object.assign({}, defaultAttributes, {
+          hint: 'a fake hint',
+        })
+      );
 
       // when
       const result = model.noHintsNorTutorialsAtAll;
@@ -51,26 +53,15 @@ describe('Unit | Model | correction', function() {
       expect(result).to.be.false;
     });
 
-    it('should be false when correction has a tutorial', function() {
-      // given
-      const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
-      model = store.createRecord('correction', Object.assign({}, defaultAttributes, {
-        tutorials: [ givenTutorial ],
-      }));
-
-      // when
-      const result = model.noHintsNorTutorialsAtAll;
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should be false when correction has a learningMoreTutorial', function() {
+    it('should be false when correction has a tutorial', function () {
       // given
       const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
-      model = store.createRecord('correction', Object.assign({}, defaultAttributes, {
-        learningMoreTutorials: [ givenTutorial ],
-      }));
+      model = store.createRecord(
+        'correction',
+        Object.assign({}, defaultAttributes, {
+          tutorials: [givenTutorial],
+        })
+      );
 
       // when
       const result = model.noHintsNorTutorialsAtAll;
@@ -79,5 +70,21 @@ describe('Unit | Model | correction', function() {
       expect(result).to.be.false;
     });
 
+    it('should be false when correction has a learningMoreTutorial', function () {
+      // given
+      const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
+      model = store.createRecord(
+        'correction',
+        Object.assign({}, defaultAttributes, {
+          learningMoreTutorials: [givenTutorial],
+        })
+      );
+
+      // when
+      const result = model.noHintsNorTutorialsAtAll;
+
+      // then
+      expect(result).to.be.false;
+    });
   });
 });

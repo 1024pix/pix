@@ -12,9 +12,5 @@ export default ApplicationSerializer.extend({
     'isShared',
     'participantExternalId',
   ],
-  include: [
-    'campaignParticipationBadges',
-    'competenceResults',
-    'reachedStage',
-  ],
+  include: ['campaignParticipationBadges', 'competenceResults', 'reachedStage'],
 });

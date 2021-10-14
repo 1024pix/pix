@@ -4,16 +4,14 @@ import { setupTest } from 'ember-mocha';
 import setupIntl from '../../helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | qroc-solution-panel', function() {
-
+describe('Unit | Component | qroc-solution-panel', function () {
   setupTest();
   setupIntl();
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
 
-  describe('#isNotCorrectlyAnswered', function() {
-
-    it('should return false when result is ok', function() {
+  describe('#isNotCorrectlyAnswered', function () {
+    it('should return false when result is ok', function () {
       // given
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer: rightAnswer });
       // when
@@ -22,7 +20,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       expect(isNotCorrectlyAnswered).to.be.false;
     });
 
-    it('should return true when result is not ok', function() {
+    it('should return true when result is not ok', function () {
       // given
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer: wrongAnswer });
       // when
@@ -30,12 +28,10 @@ describe('Unit | Component | qroc-solution-panel', function() {
       // then
       expect(isNotCorrectlyAnswered).to.be.true;
     });
-
   });
 
-  describe('#answerToDisplay', function() {
-
-    it('should return PAS DE REPONSE if the answer is #ABAND#', function() {
+  describe('#answerToDisplay', function () {
+    it('should return PAS DE REPONSE if the answer is #ABAND#', function () {
       // given
       const answer = {
         value: '#ABAND#',
@@ -47,7 +43,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       expect(answerToDisplay).to.equal('Pas de réponse');
     });
 
-    it('should return the answer if the answer is not #ABAND#', function() {
+    it('should return the answer if the answer is not #ABAND#', function () {
       // given
       const answer = {
         value: 'La Reponse B',
@@ -60,9 +56,8 @@ describe('Unit | Component | qroc-solution-panel', function() {
     });
   });
 
-  describe('#solutionToDisplay', function() {
-
-    it('should return the first solution if the solution has some variants', function() {
+  describe('#solutionToDisplay', function () {
+    it('should return the first solution if the solution has some variants', function () {
       // given
       const solution = 'Reponse\nreponse\nréponse';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
@@ -72,7 +67,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       expect(solutionToDisplay).to.equal('Reponse');
     });
 
-    it('should return the solution', function() {
+    it('should return the solution', function () {
       // given
       const solution = 'Reponse';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
@@ -82,7 +77,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       expect(solutionToDisplay).to.equal('Reponse');
     });
 
-    it('should return an empty string if the solution is null', function() {
+    it('should return an empty string if the solution is null', function () {
       // given
       const emptySolution = '';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: emptySolution });
@@ -92,7 +87,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       expect(solutionToDisplay).to.equal('');
     });
 
-    it('should return an empty string if the solution is an empty String', function() {
+    it('should return an empty string if the solution is an empty String', function () {
       // given
       const solutionNull = null;
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: solutionNull });

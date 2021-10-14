@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Resume', function() {
+describe('Unit | Route | Assessments | Resume', function () {
   setupTest();
 
   let route;
@@ -12,7 +12,7 @@ describe('Unit | Route | Assessments | Resume', function() {
   let findRecordStub;
   let queryRecordStub;
 
-  beforeEach(function() {
+  beforeEach(function () {
     // define stubs
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
@@ -26,46 +26,41 @@ describe('Unit | Route | Assessments | Resume', function() {
     route.replaceWith = sinon.stub();
   });
 
-  describe('#redirect', function() {
-
+  describe('#redirect', function () {
     let assessment;
 
-    beforeEach(function() {
+    beforeEach(function () {
       assessment = EmberObject.create({ id: 123, isDemo: true, competenceId: 'recCompetenceId' });
       assessment.save = sinon.stub().resolves();
     });
 
-    context('when the next challenge exists', function() {
-
+    context('when the next challenge exists', function () {
       let nextChallenge;
 
-      beforeEach(function() {
+      beforeEach(function () {
         nextChallenge = EmberObject.create({ id: 456 });
         queryRecordStub.resolves(nextChallenge);
         route.assessmentHasNoMoreQuestions = false;
       });
 
-      context('when assessment is a CAMPAIGN', function() {
-
-        beforeEach(function() {
+      context('when assessment is a CAMPAIGN', function () {
+        beforeEach(function () {
           assessment.isForCampaign = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
         });
 
-        context('when checkpoint is reached', function() {
-
-          beforeEach(function() {
+        context('when checkpoint is reached', function () {
+          beforeEach(function () {
             assessment.answers = [{}, {}, {}, {}, {}];
           });
 
-          context('when user has seen checkpoint', function() {
-
-            beforeEach(function() {
+          context('when user has seen checkpoint', function () {
+            beforeEach(function () {
               route.hasSeenCheckpoint = true;
             });
 
-            it('should redirect to the challenge view', function() {
+            it('should redirect to the challenge view', function () {
               // when
               const promise = route.redirect(assessment);
 
@@ -77,13 +72,12 @@ describe('Unit | Route | Assessments | Resume', function() {
             });
           });
 
-          context('when user has not seen checkpoint', function() {
-
-            beforeEach(function() {
+          context('when user has not seen checkpoint', function () {
+            beforeEach(function () {
               route.hasSeenCheckpoint = false;
             });
 
-            it('should redirect to assessment checkpoint page', function() {
+            it('should redirect to assessment checkpoint page', function () {
               // when
               const promise = route.redirect(assessment);
 
@@ -96,9 +90,8 @@ describe('Unit | Route | Assessments | Resume', function() {
           });
         });
 
-        context('when checkpoint is not reached', function() {
-
-          it('should redirect to the challenge view', function() {
+        context('when checkpoint is not reached', function () {
+          it('should redirect to the challenge view', function () {
             // when
             const promise = route.redirect(assessment);
 
@@ -111,11 +104,11 @@ describe('Unit | Route | Assessments | Resume', function() {
         });
       });
 
-      context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
+      context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function () {
         beforeEach(() => {
           assessment.isPlacement = true;
         });
-        it('should redirect to the challenge view', function() {
+        it('should redirect to the challenge view', function () {
           // when
           const promise = route.redirect(assessment);
 
@@ -128,36 +121,32 @@ describe('Unit | Route | Assessments | Resume', function() {
       });
     });
 
-    context('when the next challenge does not exist (is null)', function() {
-
-      beforeEach(function() {
+    context('when the next challenge does not exist (is null)', function () {
+      beforeEach(function () {
         queryRecordStub.resolves(null);
         route.assessmentHasNoMoreQuestions = true;
       });
 
-      context('when assessment is a CAMPAIGN', function() {
-
-        beforeEach(function() {
+      context('when assessment is a CAMPAIGN', function () {
+        beforeEach(function () {
           assessment.isForCampaign = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
           assessment.codeCampaign = 'konami';
         });
 
-        context('when assessment is not completed', function() {
-
-          beforeEach(function() {
+        context('when assessment is not completed', function () {
+          beforeEach(function () {
             assessment.state = 'started';
             assessment.isCompleted = false;
           });
 
-          context('when user has seen checkpoint', function() {
-
-            beforeEach(function() {
+          context('when user has seen checkpoint', function () {
+            beforeEach(function () {
               route.hasSeenCheckpoint = true;
             });
 
-            it('should redirect to campaigns.assessment.skill-review page', function() {
+            it('should redirect to campaigns.assessment.skill-review page', function () {
               // when
               const promise = route.redirect(assessment);
 
@@ -168,33 +157,33 @@ describe('Unit | Route | Assessments | Resume', function() {
             });
           });
 
-          context('when user has not seen checkpoint', function() {
-
-            beforeEach(function() {
+          context('when user has not seen checkpoint', function () {
+            beforeEach(function () {
               route.hasSeenCheckpoint = false;
             });
 
-            it('should redirect to assessment last checkpoint page', function() {
+            it('should redirect to assessment last checkpoint page', function () {
               // when
               const promise = route.redirect(assessment);
 
               // then
               return promise.then(() => {
                 sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, { queryParams: { finalCheckpoint: true, newLevel: null, competenceLeveled: null } });
+                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, {
+                  queryParams: { finalCheckpoint: true, newLevel: null, competenceLeveled: null },
+                });
               });
             });
           });
         });
 
-        context('when assessment is completed', function() {
-
-          beforeEach(function() {
+        context('when assessment is completed', function () {
+          beforeEach(function () {
             assessment.state = 'completed';
             assessment.isCompleted = true;
           });
 
-          it('should redirect to campaigns.assessment.skill-review page', function() {
+          it('should redirect to campaigns.assessment.skill-review page', function () {
             // when
             route.redirect(assessment);
 
@@ -204,13 +193,13 @@ describe('Unit | Route | Assessments | Resume', function() {
         });
       });
 
-      context('when assessment is a CERTIFICATION', function() {
+      context('when assessment is a CERTIFICATION', function () {
         beforeEach(() => {
           assessment.isCertification = true;
           assessment.certificationNumber = 666;
         });
 
-        it('should redirect to certifications.results page', function() {
+        it('should redirect to certifications.results page', function () {
           // when
           const promise = route.redirect(assessment);
 
@@ -221,12 +210,12 @@ describe('Unit | Route | Assessments | Resume', function() {
         });
       });
 
-      context('when assessment is a COMPETENCE_EVALUATION', function() {
+      context('when assessment is a COMPETENCE_EVALUATION', function () {
         beforeEach(() => {
           assessment.isCompetenceEvaluation = true;
         });
 
-        it('should redirect to competences.results page', function() {
+        it('should redirect to competences.results page', function () {
           // when
           const competenceId = 'recCompetenceId';
           const promise = route.redirect(assessment);
@@ -238,8 +227,8 @@ describe('Unit | Route | Assessments | Resume', function() {
         });
       });
 
-      context('when assessment is a DEMO', function() {
-        it('should redirect to assessments.results page', function() {
+      context('when assessment is a DEMO', function () {
+        it('should redirect to assessments.results page', function () {
           // when
           const promise = route.redirect(assessment);
 

@@ -25,8 +25,4 @@ function getCurrentStepNumber(assessment, currentChallengeNumber) {
   return getCurrentStepIndex(assessment, currentChallengeNumber) + 1;
 }
 
-export {
-  getMaxStepsNumber,
-  getCurrentStepIndex,
-  getCurrentStepNumber,
-};
+export { getMaxStepsNumber, getCurrentStepIndex, getCurrentStepNumber };

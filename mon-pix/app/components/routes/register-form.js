@@ -29,31 +29,31 @@ class FormValidation {
   lastName = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   firstName = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   dayOfBirth = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   monthOfBirth = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   yearOfBirth = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   email = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
   password = {
     @tracked status: 'default',
     @tracked message: null,
-  }
+  };
 }
 
 export default class RegisterForm extends Component {
@@ -94,8 +94,13 @@ export default class RegisterForm extends Component {
   }
 
   get isSearchFormNotValid() {
-    return !isStringValid(this.firstName) || !isStringValid(this.lastName)
-      || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
+    return (
+      !isStringValid(this.firstName) ||
+      !isStringValid(this.lastName) ||
+      !isDayValid(this.dayOfBirth) ||
+      !isMonthValid(this.monthOfBirth) ||
+      !isYearValid(this.yearOfBirth)
+    );
   }
 
   get isCreationFormNotValid() {
@@ -120,7 +125,7 @@ export default class RegisterForm extends Component {
     this._validateInputYear('yearOfBirth', this.yearOfBirth);
 
     if (this.isSearchFormNotValid) {
-      return this.isLoading = false;
+      return (this.isLoading = false);
     }
 
     this.schoolingRegistrationUserAssociation = this.store.createRecord('schooling-registration-user-association', {
@@ -131,42 +136,49 @@ export default class RegisterForm extends Component {
       campaignCode: this.args.campaignCode,
     });
 
-    return this.schoolingRegistrationUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } })
-      .then((response) => {
+    return this.schoolingRegistrationUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } }).then(
+      (response) => {
         this.matchingStudentFound = true;
         this.isLoading = false;
         this.username = response.username;
-        return this.schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
-          id: this.args.campaignCode + '_' + this.lastName,
-          campaignCode: this.args.campaignCode,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          birthdate: this.birthdate,
-          email: '',
-          username: this.username,
-          password: '',
-        });
-      }, (errorResponse) => {
+        return (this.schoolingRegistrationDependentUser = this.store.createRecord(
+          'schooling-registration-dependent-user',
+          {
+            id: this.args.campaignCode + '_' + this.lastName,
+            campaignCode: this.args.campaignCode,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            birthdate: this.birthdate,
+            email: '',
+            username: this.username,
+            password: '',
+          }
+        ));
+      },
+      (errorResponse) => {
         this.schoolingRegistrationUserAssociation.unloadRecord();
         this.isLoading = false;
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {
-            return this.errorMessage = 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.';
+            return (this.errorMessage =
+              'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.');
           }
           if (error.status === '409') {
             const message = this._showErrorMessageByShortCode(error.meta);
-            return this.errorMessage = message;
+            return (this.errorMessage = message);
           }
           const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-          return this.errorMessage = (error.detail) ? error.detail : defaultMessage;
+          return (this.errorMessage = error.detail ? error.detail : defaultMessage);
         });
-      });
+      }
+    );
   }
 
   _showErrorMessageByShortCode(meta) {
     const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-    return this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe: true }) || defaultMessage;
-
+    return (
+      this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe: true }) || defaultMessage
+    );
   }
 
   @action
@@ -177,7 +189,7 @@ export default class RegisterForm extends Component {
     this.displayRegisterErrorMessage = false;
 
     if (this.isCreationFormNotValid) {
-      return this.isLoading = false;
+      return (this.isLoading = false);
     }
     try {
       this.schoolingRegistrationDependentUser.password = this.password;
@@ -196,9 +208,15 @@ export default class RegisterForm extends Component {
     }
 
     if (this.loginWithUsername) {
-      await this._authenticate(this.schoolingRegistrationDependentUser.username, this.schoolingRegistrationDependentUser.password);
+      await this._authenticate(
+        this.schoolingRegistrationDependentUser.username,
+        this.schoolingRegistrationDependentUser.password
+      );
     } else {
-      await this._authenticate(this.schoolingRegistrationDependentUser.email, this.schoolingRegistrationDependentUser.password);
+      await this._authenticate(
+        this.schoolingRegistrationDependentUser.email,
+        this.schoolingRegistrationDependentUser.password
+      );
     }
 
     this.schoolingRegistrationDependentUser.password = null;

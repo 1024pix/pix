@@ -1,11 +1,8 @@
 export default class TextBlock {
-
   constructor({ text }) {
-
     const firstCharacter = text.substring(0, 1);
     const secondCharacter = text.substring(1, 2);
-    const isListItem = firstCharacter === '-'
-      || Number.isInteger(Number(firstCharacter)) && secondCharacter === '.';
+    const isListItem = firstCharacter === '-' || (Number.isInteger(Number(firstCharacter)) && secondCharacter === '.');
     if (isListItem) {
       text = '\n' + text;
     }

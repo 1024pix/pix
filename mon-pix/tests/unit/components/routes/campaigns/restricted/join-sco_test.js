@@ -6,8 +6,7 @@ import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
-
+describe('Unit | Component | routes/campaigns/restricted/join-sco', function () {
   setupTest();
   setupIntl();
 
@@ -19,7 +18,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
   let eventStub;
   let record;
 
-  beforeEach(function() {
+  beforeEach(function () {
     record = { unloadRecord: sinon.stub() };
     storeStub = { createRecord: sinon.stub().returns(record) };
     sessionStub = { data: { authenticated: { source: 'pix' } }, get: sinon.stub(), set: sinon.stub() };
@@ -36,18 +35,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     component.currentUser = { user: {} };
   });
 
-  describe('#triggerInputDayValidation', function() {
-    context('when dayOfBirth is invalid', function() {
-
-      [
-        '',
-        ' ',
-        '32',
-        '0',
-        '444',
-        'ee',
-      ].forEach(function(wrongDayOfBirth) {
-        it(`should display an error when dayOfBirth is ${wrongDayOfBirth}`, async function() {
+  describe('#triggerInputDayValidation', function () {
+    context('when dayOfBirth is invalid', function () {
+      ['', ' ', '32', '0', '444', 'ee'].forEach(function (wrongDayOfBirth) {
+        it(`should display an error when dayOfBirth is ${wrongDayOfBirth}`, async function () {
           // when
           await component.actions.triggerInputDayValidation.call(component, 'dayOfBirth', wrongDayOfBirth);
 
@@ -57,14 +48,9 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    context('when dayOfBirth is valid', function() {
-
-      [
-        '1',
-        '01',
-        '31',
-      ].forEach(function(validDayOfBirth) {
-        it(`should not display an error when dayOfBirth is ${validDayOfBirth}`, async function() {
+    context('when dayOfBirth is valid', function () {
+      ['1', '01', '31'].forEach(function (validDayOfBirth) {
+        it(`should not display an error when dayOfBirth is ${validDayOfBirth}`, async function () {
           // when
           await component.actions.triggerInputDayValidation.call(component, 'dayOfBirth', validDayOfBirth);
 
@@ -75,19 +61,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
   });
 
-  describe('#triggerInputMonthValidation', function() {
-
-    context('when monthOfBirth is invalid', function() {
-
-      [
-        '',
-        ' ',
-        '13',
-        '0',
-        '444',
-        'ee',
-      ].forEach(function(wrongMonthOfBirth) {
-        it(`should display an error when monthOfBirth is ${wrongMonthOfBirth}`, async function() {
+  describe('#triggerInputMonthValidation', function () {
+    context('when monthOfBirth is invalid', function () {
+      ['', ' ', '13', '0', '444', 'ee'].forEach(function (wrongMonthOfBirth) {
+        it(`should display an error when monthOfBirth is ${wrongMonthOfBirth}`, async function () {
           // when
           await component.actions.triggerInputMonthValidation.call(component, 'monthOfBirth', wrongMonthOfBirth);
 
@@ -97,14 +74,9 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    context('when monthOfBirth is valid', function() {
-
-      [
-        '1',
-        '01',
-        '12',
-      ].forEach(function(validMonthOfBirth) {
-        it(`should not display an error when monthOfBirth is ${validMonthOfBirth}`, async function() {
+    context('when monthOfBirth is valid', function () {
+      ['1', '01', '12'].forEach(function (validMonthOfBirth) {
+        it(`should not display an error when monthOfBirth is ${validMonthOfBirth}`, async function () {
           // when
           await component.actions.triggerInputMonthValidation.call(component, 'monthOfBirth', validMonthOfBirth);
 
@@ -115,23 +87,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
   });
 
-  describe('#triggerInputYearValidation', function() {
-
-    context('when yearOfBirth is invalid', function() {
-
-      [
-        '',
-        ' ',
-        '1',
-        '11',
-        '100',
-        '0000',
-        '0001',
-        '0011',
-        '0111',
-        '10000',
-      ].forEach(function(wrongYearOfBirth) {
-        it(`should display an error when yearOfBirth is ${wrongYearOfBirth}`, async function() {
+  describe('#triggerInputYearValidation', function () {
+    context('when yearOfBirth is invalid', function () {
+      ['', ' ', '1', '11', '100', '0000', '0001', '0011', '0111', '10000'].forEach(function (wrongYearOfBirth) {
+        it(`should display an error when yearOfBirth is ${wrongYearOfBirth}`, async function () {
           // when
           await component.actions.triggerInputYearValidation.call(component, 'yearOfBirth', wrongYearOfBirth);
 
@@ -141,13 +100,9 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    context('when yearOfBirth is valid', function() {
-
-      [
-        '1000',
-        '9999',
-      ].forEach(function(validYearOfBirth) {
-        it(`should not display an error when yearOfBirth is ${validYearOfBirth}`, async function() {
+    context('when yearOfBirth is valid', function () {
+      ['1000', '9999'].forEach(function (validYearOfBirth) {
+        it(`should not display an error when yearOfBirth is ${validYearOfBirth}`, async function () {
           // when
           await component.actions.triggerInputYearValidation.call(component, 'yearOfBirth', validYearOfBirth);
 
@@ -158,15 +113,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
   });
 
-  describe('#triggerInputStringValidation', function() {
-
-    context('when string is invalid', function() {
-
-      [
-        '',
-        ' ',
-      ].forEach(function(wrongString) {
-        it(`should display an error when firstName is "${wrongString}"`, async function() {
+  describe('#triggerInputStringValidation', function () {
+    context('when string is invalid', function () {
+      ['', ' '].forEach(function (wrongString) {
+        it(`should display an error when firstName is "${wrongString}"`, async function () {
           // when
           await component.actions.triggerInputStringValidation.call(component, 'firstName', wrongString);
 
@@ -174,7 +124,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
         });
 
-        it(`should display an error when lastName is "${wrongString}"`, async function() {
+        it(`should display an error when lastName is "${wrongString}"`, async function () {
           // when
           await component.actions.triggerInputStringValidation.call(component, 'lastName', wrongString);
 
@@ -184,13 +134,9 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    context('when string is valid', function() {
-
-      [
-        'Robert',
-        'Smith',
-      ].forEach(function(validString) {
-        it(`should not display an error when firstName is ${validString}`, async function() {
+    context('when string is valid', function () {
+      ['Robert', 'Smith'].forEach(function (validString) {
+        it(`should not display an error when firstName is ${validString}`, async function () {
           // when
           await component.actions.triggerInputStringValidation.call(component, 'firstName', validString);
 
@@ -198,7 +144,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           expect(component.validation.firstName).to.equal(null);
         });
 
-        it(`should not display an error when lastName is ${validString}`, async function() {
+        it(`should not display an error when lastName is ${validString}`, async function () {
           // when
           await component.actions.triggerInputStringValidation.call(component, 'lastName', validString);
 
@@ -209,9 +155,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
   });
 
-  describe('#isFormNotValid', function() {
-
-    it('should be true if firstName is not valid', function() {
+  describe('#isFormNotValid', function () {
+    it('should be true if firstName is not valid', function () {
       // given
       component.firstName = ' ';
       component.lastName = 'Smith';
@@ -226,7 +171,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(result).to.equal(true);
     });
 
-    it('should be true if lastName is not valid', function() {
+    it('should be true if lastName is not valid', function () {
       // given
       component.firstName = 'Robert';
       component.lastName = '';
@@ -241,7 +186,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(result).to.equal(true);
     });
 
-    it('should be true if dayOfBirth is not valid', function() {
+    it('should be true if dayOfBirth is not valid', function () {
       // given
       component.dayOfBirth = '99';
       component.monthOfBirth = '12';
@@ -254,7 +199,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(result).to.equal(true);
     });
 
-    it('should be true if monthOfBirth is not valid', function() {
+    it('should be true if monthOfBirth is not valid', function () {
       // given
       component.dayOfBirth = '15';
       component.monthOfBirth = '99';
@@ -267,7 +212,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(result).to.equal(true);
     });
 
-    it('should be true if yearOfBirth is not valid', function() {
+    it('should be true if yearOfBirth is not valid', function () {
       // given
       component.dayOfBirth = '15';
       component.monthOfBirth = '12';
@@ -280,7 +225,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(result).to.equal(true);
     });
 
-    it('should be false', function() {
+    it('should be false', function () {
       // given
       component.firstName = 'Robert';
       component.lastName = 'Smith';
@@ -296,11 +241,11 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
   });
 
-  describe('#isDisabled', function() {
-
-    it('should disable lastName,firstName inputs if external User', function() {
+  describe('#isDisabled', function () {
+    it('should disable lastName,firstName inputs if external User', function () {
       // given
-      const tokenIdExternalUser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiRmlyc3QiLCJsYXN0X25hbWUiOiJMYXN0Iiwic2FtbF9pZCI6InNhbWxJRHFzZnNmcWZxZnNxZmhmZmdyciIsImlhdCI6MTU5NzkyOTQ0OCwiZXhwIjoxNTk3OTMzMDQ4fQ.KRh6ZKr6EwM1QvveTHsWush6z9meVAI6enVYgSQ-MuI';
+      const tokenIdExternalUser =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiRmlyc3QiLCJsYXN0X25hbWUiOiJMYXN0Iiwic2FtbF9pZCI6InNhbWxJRHFzZnNmcWZxZnNxZmhmZmdyciIsImlhdCI6MTU5NzkyOTQ0OCwiZXhwIjoxNTk3OTMzMDQ4fQ.KRh6ZKr6EwM1QvveTHsWush6z9meVAI6enVYgSQ-MuI';
       sessionStub.data.externalUser = tokenIdExternalUser;
 
       // when
@@ -310,19 +255,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(result).to.equal(true);
     });
 
-    it('should enable lastName,firstName inputs if not external User', function() {
+    it('should enable lastName,firstName inputs if not external User', function () {
       // when
       const result = component.isDisabled;
 
       // then
       expect(result).to.equal(false);
     });
-
   });
 
-  describe('#submit', function() {
-
-    beforeEach(function() {
+  describe('#submit', function () {
+    beforeEach(function () {
       component.firstName = 'Robert';
       component.lastName = 'Smith';
       component.dayOfBirth = '10';
@@ -330,7 +273,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       component.yearOfBirth = '2000';
     });
 
-    it('should prevent default handling of event', async function() {
+    it('should prevent default handling of event', async function () {
       // given
       // when
       await component.actions.submit.call(component, eventStub);
@@ -339,13 +282,12 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    context('When user does not come from external identity provider', function() {
-
-      beforeEach(function() {
+    context('When user does not come from external identity provider', function () {
+      beforeEach(function () {
         sessionStub.get.withArgs('data.externalUser').returns(undefined);
       });
 
-      it('should create a schooling-registration-user-association', async function() {
+      it('should create a schooling-registration-user-association', async function () {
         // given
         storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -362,7 +304,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         });
       });
 
-      it('should call onSubmitToReconcile with withReconciliation adapterOption to false', async function() {
+      it('should call onSubmitToReconcile with withReconciliation adapterOption to false', async function () {
         // given
         const schoolingRegistration = { unloadRecord: () => {} };
         storeStub.createRecord.returns(schoolingRegistration);
@@ -374,7 +316,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, { withReconciliation: false });
       });
 
-      it('should call unloadRecord on schooling-registration-user-association', async function() {
+      it('should call unloadRecord on schooling-registration-user-association', async function () {
         // given
         const schoolingRegistration = { unloadRecord: sinon.stub() };
         storeStub.createRecord.returns(schoolingRegistration);
@@ -386,9 +328,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
       });
 
-      context('When user is logged in with email', function() {
-
-        it('should open information modal and set reconciliationWarning', async function() {
+      context('When user is logged in with email', function () {
+        it('should open information modal and set reconciliationWarning', async function () {
           // given
           const schoolingRegistration = { unloadRecord: () => {} };
           storeStub.createRecord.returns(schoolingRegistration);
@@ -409,9 +350,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         });
       });
 
-      context('When user is logged in with username', function() {
-
-        it('should open information modal and set reconciliationWarning', async function() {
+      context('When user is logged in with username', function () {
+        it('should open information modal and set reconciliationWarning', async function () {
           // given
           const schoolingRegistration = { unloadRecord: () => {} };
           storeStub.createRecord.returns(schoolingRegistration);
@@ -433,15 +373,14 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    context('When user comes from external identity provider', function() {
-
+    context('When user comes from external identity provider', function () {
       const externalUserToken = 'external-user-token';
 
-      beforeEach(function() {
+      beforeEach(function () {
         sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
       });
 
-      it('should create an external-user', async function() {
+      it('should create an external-user', async function () {
         // given
         storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -456,7 +395,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         });
       });
 
-      it('should call createAndReconcile action', async function() {
+      it('should call createAndReconcile action', async function () {
         // given
         const externalUser = {};
         storeStub.createRecord.returns(externalUser);
@@ -470,7 +409,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
       it('should reset error message when submit', async () => {
         // given
-        component.errorMessage = 'Vous êtes un élève ? Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.';
+        component.errorMessage =
+          'Vous êtes un élève ? Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.';
 
         // when
         await component.actions.submit.call(component, eventStub);
@@ -480,9 +420,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    describe('Errors', function() {
-
-      beforeEach(function() {
+    describe('Errors', function () {
+      beforeEach(function () {
         component.firstName = 'pix';
         component.lastName = 'aile';
         component.dayOfBirth = '10';
@@ -490,7 +429,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         component.yearOfBirth = '1010';
       });
 
-      it('should display no error', async function() {
+      it('should display no error', async function () {
         // when
         await component.actions.submit.call(component, eventStub);
 
@@ -499,7 +438,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.errorMessage).to.be.null;
       });
 
-      it('should display an error on firstName', async function() {
+      it('should display an error on firstName', async function () {
         // given
         component.firstName = ' ';
 
@@ -511,7 +450,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
       });
 
-      it('should display an error on lastName', async function() {
+      it('should display an error on lastName', async function () {
         // given
         component.lastName = '';
 
@@ -523,7 +462,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.validation.lastName).to.equal('Votre nom n’est pas renseigné.');
       });
 
-      it('should display an error on dayOfBirth', async function() {
+      it('should display an error on dayOfBirth', async function () {
         // given
         component.dayOfBirth = '99';
 
@@ -535,7 +474,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.validation.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
       });
 
-      it('should display an error on monthOfBirth', async function() {
+      it('should display an error on monthOfBirth', async function () {
         // given
         component.monthOfBirth = '99';
 
@@ -547,7 +486,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.validation.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
       });
 
-      it('should display an error on yearOfBirth', async function() {
+      it('should display an error on yearOfBirth', async function () {
         // given
         component.yearOfBirth = '99';
 
@@ -559,7 +498,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
       });
 
-      it('should display a not found error', async function() {
+      it('should display a not found error', async function () {
         // given
         onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
         const expectedErrorMessage = this.intl.t('pages.join.sco.error-not-found');
@@ -573,8 +512,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
 
       describe('When student is already reconciled', () => {
-
-        it('should open information modal and set reconciliationError', async function() {
+        it('should open information modal and set reconciliationError', async function () {
           // given
           const error = { status: '409', meta: { userId: 1 } };
 
@@ -589,13 +527,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           expect(component.reconciliationError).to.equal(error);
           sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
         });
-
       });
 
-      describe('When another student is already reconciled on the same organization', async function() {
-
-        it('should return a conflict error and display the error message related to the short code R70)', async function() {
-
+      describe('When another student is already reconciled on the same organization', async function () {
+        it('should return a conflict error and display the error message related to the short code R70)', async function () {
           // given
           const meta = { shortCode: 'R70' };
           const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r70');
@@ -615,20 +550,19 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           // then
           expect(component.errorMessage).to.equal(expectedErrorMessage);
-
         });
-
       });
 
       describe('When student mistyped its information, has an error, and correct it', () => {
-
-        it('should reconcile', async function() {
+        it('should reconcile', async function () {
           // given
           const error = { status: '409', meta: { userId: 1 } };
 
           onSubmitToReconcileStub
-            .onFirstCall().rejects({ errors: [error] })
-            .onSecondCall().resolves();
+            .onFirstCall()
+            .rejects({ errors: [error] })
+            .onSecondCall()
+            .resolves();
 
           // when
           await component.actions.submit.call(component, eventStub);
@@ -641,8 +575,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
 
       describe('When user has an invalid reconciliation', () => {
-
-        it('should return a bad request error and display the invalid reconciliation error message', async function() {
+        it('should return a bad request error and display the invalid reconciliation error message', async function () {
           // given
           const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');
           const error = { status: '400' };
@@ -659,9 +592,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
   });
 
-  describe('#associate', function() {
-
-    beforeEach(function() {
+  describe('#associate', function () {
+    beforeEach(function () {
       component.firstName = 'Robert';
       component.lastName = 'Smith';
       component.dayOfBirth = '10';
@@ -669,7 +601,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       component.yearOfBirth = '2000';
     });
 
-    it('should prevent default handling of event', async function() {
+    it('should prevent default handling of event', async function () {
       // given
       // when
       await component.actions.associate.call(component, eventStub);
@@ -678,7 +610,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    it('should display an error on firstName', async function() {
+    it('should display an error on firstName', async function () {
       // given
       component.firstName = ' ';
 
@@ -690,7 +622,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
     });
 
-    it('should display an error on lastName', async function() {
+    it('should display an error on lastName', async function () {
       // given
       component.lastName = '';
 
@@ -702,7 +634,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.lastName).to.equal('Votre nom n’est pas renseigné.');
     });
 
-    it('should display an error on dayOfBirth', async function() {
+    it('should display an error on dayOfBirth', async function () {
       // given
       component.dayOfBirth = '99';
 
@@ -714,7 +646,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
     });
 
-    it('should display an error on monthOfBirth', async function() {
+    it('should display an error on monthOfBirth', async function () {
       // given
       component.monthOfBirth = '99';
 
@@ -726,7 +658,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
     });
 
-    it('should display an error on yearOfBirth', async function() {
+    it('should display an error on yearOfBirth', async function () {
       // given
       component.yearOfBirth = '99';
 
@@ -738,7 +670,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
     });
 
-    it('should create a schooling-registration-user-association', async function() {
+    it('should create a schooling-registration-user-association', async function () {
       // given
       storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -755,7 +687,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       });
     });
 
-    it('should call onSubmitToReconcile with withReconciliation adapterOption to true', async function() {
+    it('should call onSubmitToReconcile with withReconciliation adapterOption to true', async function () {
       // given
       const schoolingRegistration = { unloadRecord: () => {} };
       storeStub.createRecord.returns(schoolingRegistration);
@@ -767,13 +699,12 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, { withReconciliation: true });
     });
 
-    it('should close the modal', async function() {
+    it('should close the modal', async function () {
       // when
       await component.actions.associate.call(component, eventStub);
 
       // then
       expect(component.displayInformationModal).to.be.false;
     });
-
   });
 });

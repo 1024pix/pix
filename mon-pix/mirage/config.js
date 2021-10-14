@@ -24,7 +24,7 @@ import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
 
 /* eslint max-statements: off */
-export default function() {
+export default function () {
   this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
@@ -70,10 +70,10 @@ export default function() {
 
   this.post('/users/:id/update-email', () => {
     const response = {
-      'data': {
-        'type': 'email-verification-codes',
-        'attributes': {
-          'email': 'new-email@example.net',
+      data: {
+        type: 'email-verification-codes',
+        attributes: {
+          email: 'new-email@example.net',
         },
       },
     };
@@ -89,14 +89,17 @@ export default function() {
     return user;
   });
 
-  this.post('/pole-emplois/users', (schema) =>{
+  this.post('/pole-emplois/users', (schema) => {
     const createdUser = schema.users.create({
       firstName: 'Paul',
       lastName: 'Emploi',
     });
 
     return {
-      access_token: 'aaa.' + btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) + '.bbb',
+      access_token:
+        'aaa.' +
+        btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) +
+        '.bbb',
       id_token: 'id_token',
       user_id: createdUser.id,
     };

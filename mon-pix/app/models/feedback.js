@@ -1,7 +1,6 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Feedback extends Model {
-
   // attributes
   @attr('string') answer;
   @attr('string') category;

@@ -2,18 +2,18 @@ import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | tutorial-evaluation', function() {
+describe('Unit | Adapters | tutorial-evaluation', function () {
   setupTest();
 
   let adapter;
 
-  beforeEach(function() {
+  beforeEach(function () {
     adapter = this.owner.lookup('adapter:tutorial-evaluation');
     adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#createRecord', () => {
-    it('should call API to create a tutorial-evaluation', async function() {
+    it('should call API to create a tutorial-evaluation', async function () {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { adapterOptions: { tutorialId } };
@@ -24,7 +24,5 @@ describe('Unit | Adapters | tutorial-evaluation', function() {
       // then
       sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/tutorials/tutorialId/evaluate', 'PUT');
     });
-
   });
-
 });

@@ -7,7 +7,9 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   if (!isNaN(number) && number >= minValue) {
     return number;
   }
-  throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
+  throw new Error(
+    `Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`
+  );
 }
 
 function _isFeatureEnabled(environmentVariable) {
@@ -15,7 +17,7 @@ function _isFeatureEnabled(environmentVariable) {
 }
 
 /* eslint max-statements: off */
-module.exports = function(environment) {
+module.exports = function (environment) {
   const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'mon-pix',
@@ -61,15 +63,29 @@ module.exports = function(environment) {
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
-      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
-      MILLISECONDS_BEFORE_MAIL_RESEND: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MILLISECONDS_BEFORE_MAIL_RESEND', defaultValue: 7000, minValue: 0 }),
+      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS',
+        defaultValue: 8,
+        minValue: 1,
+      }),
+      MILLISECONDS_BEFORE_MAIL_RESEND: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'MILLISECONDS_BEFORE_MAIL_RESEND',
+        defaultValue: 7000,
+        minValue: 0,
+      }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FRENCH_NEW_LEVEL_MESSAGE: process.env.FRENCH_NEW_LEVEL_MESSAGE || '',
       ENGLISH_NEW_LEVEL_MESSAGE: process.env.ENGLISH_NEW_LEVEL_MESSAGE || '',
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
-      MAX_REACHABLE_LEVEL: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_REACHABLE_LEVEL', defaultValue: 5, minValue: 5 }),
-      EMBED_ALLOWED_ORIGINS: (process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io').split(','),
+      MAX_REACHABLE_LEVEL: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'MAX_REACHABLE_LEVEL',
+        defaultValue: 5,
+        minValue: 5,
+      }),
+      EMBED_ALLOWED_ORIGINS: (
+        process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
+      ).split(','),
 
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
@@ -109,13 +125,13 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
-      'default-src': '\'none\'',
-      'script-src': '\'self\' www.google-analytics.com \'unsafe-inline\' \'unsafe-eval\' cdn.ravenjs.com',
-      'font-src': '\'self\' fonts.gstatic.com',
-      'connect-src': '\'self\' www.google-analytics.com',
-      'img-src': '\'self\'',
-      'style-src': '\'self\' fonts.googleapis.com',
-      'media-src': '\'self\'',
+      'default-src': "'none'",
+      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' www.google-analytics.com",
+      'img-src': "'self'",
+      'style-src': "'self' fonts.googleapis.com",
+      'media-src': "'self'",
     },
 
     showdown: {
@@ -135,8 +151,12 @@ module.exports = function(environment) {
       disablePerformance: true,
       sentry: {
         dsn: process.env.SENTRY_DSN,
-        environment: (process.env.SENTRY_ENVIRONMENT || 'development'),
-        maxBreadcrumbs: _getEnvironmentVariableAsNumber({ environmentVariable: process.env.SENTRY_MAX_BREADCRUMBS, defaultValue: 100, minValue: 100 }),
+        environment: process.env.SENTRY_ENVIRONMENT || 'development',
+        maxBreadcrumbs: _getEnvironmentVariableAsNumber({
+          environmentVariable: process.env.SENTRY_MAX_BREADCRUMBS,
+          defaultValue: 100,
+          minValue: 100,
+        }),
         debug: _isFeatureEnabled(process.env.SENTRY_DEBUG),
         release: `v${process.env.npm_package_version}`,
       },

@@ -23,21 +23,19 @@ export default class FillInCertificateVerificationCode extends Controller {
     this.clearErrors();
 
     if (!this.certificateVerificationCode) {
-      this.errorMessage = this.intl.t(
-        'pages.fill-in-certificate-verification-code.errors.missing-code',
-      );
+      this.errorMessage = this.intl.t('pages.fill-in-certificate-verification-code.errors.missing-code');
       return;
     }
 
     if (!this.isVerificationCodeValid()) {
-      this.errorMessage = this.intl.t(
-        'pages.fill-in-certificate-verification-code.errors.wrong-format',
-      );
+      this.errorMessage = this.intl.t('pages.fill-in-certificate-verification-code.errors.wrong-format');
       return;
     }
 
     try {
-      const certification = await this.store.queryRecord('certification', { verificationCode: this.certificateVerificationCode.toUpperCase() });
+      const certification = await this.store.queryRecord('certification', {
+        verificationCode: this.certificateVerificationCode.toUpperCase(),
+      });
       return this.transitionToRoute('shared-certification', certification);
     } catch (error) {
       this.onVerificateCertificationCodeError(error);

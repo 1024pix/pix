@@ -2,28 +2,26 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns/restricted/join', function() {
+describe('Unit | Controller | campaigns/restricted/join', function () {
   setupTest();
 
   let controller;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.restricted.join');
     controller.router = { transitionTo: sinon.stub() };
     controller.set('model', 'AZERTY999');
   });
 
-  describe('#reconcile', function() {
-
+  describe('#reconcile', function () {
     let schoolingRegistration;
 
-    beforeEach(function() {
+    beforeEach(function () {
       schoolingRegistration = { save: sinon.stub() };
     });
 
-    context('When withReconciliation is false', function() {
-
-      it('should run reconciliation checks and not redirect', async function() {
+    context('When withReconciliation is false', function () {
+      it('should run reconciliation checks and not redirect', async function () {
         // given
         schoolingRegistration.save.resolves();
         const adapterOptions = { withReconciliation: false };
@@ -37,9 +35,8 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
       });
     });
 
-    context('When withReconciliation is true', function() {
-
-      it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
+    context('When withReconciliation is true', function () {
+      it('should associate user with student and redirect to campaigns.start-or-resume', async function () {
         // given
         schoolingRegistration.save.resolves();
         const adapterOptions = { withReconciliation: true };
@@ -54,13 +51,12 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
     });
   });
 
-  describe('#createAndReconcile', function() {
-
+  describe('#createAndReconcile', function () {
     let externalUser;
     let sessionStub;
     let currentUserStub;
 
-    beforeEach(function() {
+    beforeEach(function () {
       externalUser = { save: sinon.stub() };
       sessionStub = {
         set: sinon.stub(),
@@ -71,7 +67,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
       controller.set('currentUser', currentUserStub);
     });
 
-    it('should authenticate the user and redirect to campaigns.start-or-resume after save', async function() {
+    it('should authenticate the user and redirect to campaigns.start-or-resume after save', async function () {
       // given
       const accessToken = 'access-token';
       externalUser.save.resolves({ accessToken });

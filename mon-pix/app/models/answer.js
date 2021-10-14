@@ -5,7 +5,6 @@ import { equal, not } from '@ember/object/computed';
 import ValueAsArrayOfString from './answer/value-as-array-of-string-mixin';
 
 export default Model.extend(ValueAsArrayOfString, {
-
   value: attr('string'),
   result: attr('string'),
   resultDetails: attr('string'),
@@ -18,5 +17,4 @@ export default Model.extend(ValueAsArrayOfString, {
 
   isResultOk: equal('result', 'ok'),
   isResultNotOk: not('isResultOk'),
-
 });

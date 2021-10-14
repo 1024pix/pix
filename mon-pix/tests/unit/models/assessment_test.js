@@ -4,24 +4,23 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import times from 'lodash/times';
 
-describe('Unit | Model | Assessment', function() {
+describe('Unit | Model | Assessment', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  describe('@answersSinceLastCheckpoints', function() {
-
+  describe('@answersSinceLastCheckpoints', function () {
     function newAnswers(store, nbAnswers) {
       return run(() => {
         return times(nbAnswers, () => store.createRecord('answer'));
       });
     }
 
-    it('should return an empty array when no answers has been given', function() {
+    it('should return an empty array when no answers has been given', function () {
       // given
       const assessment = store.createRecord('assessment');
       assessment.answers = [];
@@ -33,12 +32,12 @@ describe('Unit | Model | Assessment', function() {
       expect(answersSinceLastCheckpoints).to.deep.equal([]);
     });
 
-    it('should return the one answer when only one answer has been given', function() {
+    it('should return the one answer when only one answer has been given', function () {
       // given
       const answer = run(() => store.createRecord('answer'));
       const assessment = store.createRecord('assessment');
       const answers = [answer];
-      run(() => assessment.answers = answers);
+      run(() => (assessment.answers = answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -47,12 +46,12 @@ describe('Unit | Model | Assessment', function() {
       expect(answersSinceLastCheckpoints).to.deep.equal(answers);
     });
 
-    it('should return the last 2 answers when there is 7 answers', function() {
+    it('should return the last 2 answers when there is 7 answers', function () {
       // given
       const answers = newAnswers(store, 7);
       const [answer6, answer7] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => assessment.answers = answers);
+      run(() => (assessment.answers = answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -61,12 +60,12 @@ describe('Unit | Model | Assessment', function() {
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
     });
 
-    it('should return the last 5 answers when there is 10 answers', function() {
+    it('should return the last 5 answers when there is 10 answers', function () {
       // given
       const answers = newAnswers(store, 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => assessment.answers = answers);
+      run(() => (assessment.answers = answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -75,12 +74,12 @@ describe('Unit | Model | Assessment', function() {
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
     });
 
-    it('should return the last 1 answer when there is 11 answers', function() {
+    it('should return the last 1 answer when there is 11 answers', function () {
       // given
       const answers = newAnswers(store, 11);
       const answer11 = answers[10];
       const assessment = store.createRecord('assessment');
-      run(() => assessment.answers = answers);
+      run(() => (assessment.answers = answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -90,8 +89,8 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#isForCampaign', function() {
-    it('should return true when the assessment type is a campaign assessment', function() {
+  describe('#isForCampaign', function () {
+    it('should return true when the assessment type is a campaign assessment', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -101,7 +100,7 @@ describe('Unit | Model | Assessment', function() {
       //then
       expect(model.isForCampaign).to.be.true;
     });
-    it('should return false when the assessment type is not a campaign assessment', function() {
+    it('should return false when the assessment type is not a campaign assessment', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -113,8 +112,8 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#isCertification', function() {
-    it('should return true when the assessment type is a certification', function() {
+  describe('#isCertification', function () {
+    it('should return true when the assessment type is a certification', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -124,7 +123,7 @@ describe('Unit | Model | Assessment', function() {
       //then
       expect(model.isCertification).to.be.true;
     });
-    it('should return false when the assessment type is not a certification', function() {
+    it('should return false when the assessment type is not a certification', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -136,8 +135,8 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#isDemo', function() {
-    it('should return true when the assessment type is demo', function() {
+  describe('#isDemo', function () {
+    it('should return true when the assessment type is demo', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -147,7 +146,7 @@ describe('Unit | Model | Assessment', function() {
       //then
       expect(model.isDemo).to.be.true;
     });
-    it('should return false when the assessment type is not demo', function() {
+    it('should return false when the assessment type is not demo', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -159,8 +158,8 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#isPreview', function() {
-    it('should return true when the assessment type is placement', function() {
+  describe('#isPreview', function () {
+    it('should return true when the assessment type is placement', function () {
       // given
       const model = store.createRecord('assessment');
 
@@ -170,7 +169,7 @@ describe('Unit | Model | Assessment', function() {
       //then
       expect(model.isPreview).to.be.true;
     });
-    it('should return false when the assessment type is not placement', function() {
+    it('should return false when the assessment type is not placement', function () {
       // given
       const model = store.createRecord('assessment');
 

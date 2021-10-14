@@ -3,14 +3,13 @@ import { beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Unit | Controller | Fill in certificate verification Code', function() {
-
+describe('Unit | Controller | Fill in certificate verification Code', function () {
   setupIntlRenderingTest();
 
   let controller;
   let storeStub;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-certificate-verification-code');
     storeStub = { queryRecord: sinon.stub() };
     controller.transitionToRoute = sinon.stub();
@@ -21,7 +20,6 @@ describe('Unit | Controller | Fill in certificate verification Code', function()
   });
 
   describe('#checkCertificate', () => {
-
     it('should set error when certificateVerificationCode code is empty', async () => {
       // given
       controller.set('certificateVerificationCode', '');

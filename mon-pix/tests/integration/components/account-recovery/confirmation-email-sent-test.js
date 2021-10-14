@@ -5,10 +5,10 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | account-recovery/confirmation-email-sent', function() {
+describe('Integration | Component | account-recovery/confirmation-email-sent', function () {
   setupIntlRenderingTest();
 
-  it('should display a sent email confirmation message', async function() {
+  it('should display a sent email confirmation message', async function () {
     //given / when
     await render(hbs`<AccountRecovery::ConfirmationEmailSent />`);
 

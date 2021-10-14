@@ -5,15 +5,15 @@ import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card | Ongoing ', function() {
+describe('Integration | Component | CampaignParticipationOverview | Card | Ongoing ', function () {
   setupIntlRenderingTest();
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should render card info when card has "ONGOING" status', async function() {
+  it('should render card info when card has "ONGOING" status', async function () {
     // given
     const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
@@ -32,6 +32,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ongoi
     expect(contains('My campaign')).to.exist;
     expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.started'))).to.exist;
     expect(contains(this.intl.t('pages.campaign-participation-overview.card.resume'))).to.exist;
-    expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' }))).to.exist;
+    expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' }))).to
+      .exist;
   });
 });

@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-  plugins: [ 'ember-template-lint-plugin-prettier' ],
+  plugins: ['ember-template-lint-plugin-prettier'],
 
-  extends: [ 'recommended', 'a11y', 'ember-template-lint-plugin-prettier:recommended' ],
+  extends: ['recommended', 'a11y', 'ember-template-lint-plugin-prettier:recommended'],
 
   rules: {
     'no-duplicate-landmark-elements': false,

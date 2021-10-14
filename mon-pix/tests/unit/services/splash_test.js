@@ -19,12 +19,12 @@ function hasSplash() {
   return document.getElementById('app-splash') != null;
 }
 
-describe('Unit | Service | splash', function() {
+describe('Unit | Service | splash', function () {
   setupTest();
 
-  describe('#hide', function() {
-    context('when a splash is present in the DOM', function() {
-      it('removes the splash from the DOM', function() {
+  describe('#hide', function () {
+    context('when a splash is present in the DOM', function () {
+      it('removes the splash from the DOM', function () {
         // Given
         const splash = this.owner.lookup('service:splash');
         createSplash();
@@ -36,8 +36,8 @@ describe('Unit | Service | splash', function() {
       });
     });
 
-    context('when there is no splash', function() {
-      it('does nothing', function() {
+    context('when there is no splash', function () {
+      it('does nothing', function () {
         // Given
         const splash = this.owner.lookup('service:splash');
         expect(hasSplash()).to.be.false;
@@ -48,7 +48,7 @@ describe('Unit | Service | splash', function() {
       });
     });
 
-    afterEach(function() {
+    afterEach(function () {
       removeSplash();
     });
   });

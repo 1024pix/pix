@@ -30,6 +30,4 @@ export default class TermsOfServiceController extends Controller {
       this.showErrorTermsOfServiceNotSelected = true;
     }
   }
-
 }
-

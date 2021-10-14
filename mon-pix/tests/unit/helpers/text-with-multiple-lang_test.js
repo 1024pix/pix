@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import textWithMultipleLang from 'mon-pix/helpers/text-with-multiple-lang';
 
-describe('Unit | Helper | text with multiple lang', function() {
+describe('Unit | Helper | text with multiple lang', function () {
   let textWithMultipleLangHelper;
 
-  beforeEach(function() {
+  beforeEach(function () {
     textWithMultipleLangHelper = new textWithMultipleLang();
     textWithMultipleLangHelper.intl = { locales: ['fr', 'en'] };
   });
@@ -18,7 +18,7 @@ describe('Unit | Helper | text with multiple lang', function() {
     { text: '[fr]des mots[/fr][en]some words[/en]', lang: 'fr', outputText: 'des mots' },
     { text: '[fr]des mots[/fr][en]some words[/en]', lang: 'notexist', outputText: 'des motssome words' },
   ].forEach((expected) => {
-    it(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function() {
+    it(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function () {
       textWithMultipleLangHelper.intl.t = () => expected.lang;
 
       expect(textWithMultipleLangHelper.compute([expected.text, expected.lang])).to.equal(expected.outputText);

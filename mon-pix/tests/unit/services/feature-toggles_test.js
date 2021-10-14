@@ -6,25 +6,23 @@ import { setupTest } from 'ember-mocha';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Service | feature-toggles', function() {
-
+describe('Unit | Service | feature-toggles', function () {
   setupTest();
 
-  describe('feature toggles are loaded', function() {
-
+  describe('feature toggles are loaded', function () {
     const featureToggles = Object.create({
       isEmailValidationEnabled: false,
     });
 
     let storeStub;
 
-    beforeEach(function() {
+    beforeEach(function () {
       storeStub = Service.create({
         queryRecord: sinon.stub().resolves(featureToggles),
       });
     });
 
-    it('should load the feature toggles', async function() {
+    it('should load the feature toggles', async function () {
       // given
       const featureToggleService = this.owner.lookup('service:featureToggles');
       featureToggleService.set('store', storeStub);

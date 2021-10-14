@@ -1,4 +1,4 @@
-export default function(hexStart, hexEnd, colorCount) {
+export default function (hexStart, hexEnd, colorCount) {
   const rgbStart = convertToRGB(hexStart);
   const rgbEnd = convertToRGB(hexEnd);
 
@@ -9,7 +9,7 @@ export default function(hexStart, hexEnd, colorCount) {
 
   for (let i = 0; i < colorCount; i++) {
     const c = [];
-    alpha += (1.0 / colorCount);
+    alpha += 1.0 / colorCount;
 
     c[0] = (1 - alpha) * rgbStart[0] + rgbEnd[0] * alpha;
     c[1] = (1 - alpha) * rgbStart[1] + rgbEnd[1] * alpha;
@@ -42,5 +42,5 @@ function _hex(c) {
   const s = '0123456789abcdef';
   const i = parseInt(c);
 
-  return s.charAt((i - i % 16) / 16) + s.charAt(i % 16);
+  return s.charAt((i - (i % 16)) / 16) + s.charAt(i % 16);
 }

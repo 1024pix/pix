@@ -3,13 +3,11 @@ import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | account-recovery | update-sco-record-form', function() {
-
+describe('Unit | Component | account-recovery | update-sco-record-form', function () {
   setupTest();
 
-  context('#isSubmitButtonEnabled', function() {
-
-    it('should return false if password is not valid and cgu are not accepted', function() {
+  context('#isSubmitButtonEnabled', function () {
+    it('should return false if password is not valid and cgu are not accepted', function () {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Pass';
@@ -22,7 +20,7 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       expect(result).to.be.false;
     });
 
-    it('should return false if password is valid and cgu are not accepted', function() {
+    it('should return false if password is valid and cgu are not accepted', function () {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Password123';
@@ -35,7 +33,7 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       expect(result).to.be.false;
     });
 
-    it('should return true if password is valid and cgu are accepted', function() {
+    it('should return true if password is valid and cgu are accepted', function () {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Password123';

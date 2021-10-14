@@ -4,12 +4,11 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | hexagon-score', function() {
+describe('Integration | Component | hexagon-score', function () {
   setupIntlRenderingTest();
 
-  describe('Component rendering', function() {
-
-    it('should render component', async function() {
+  describe('Component rendering', function () {
+    it('should render component', async function () {
       // when
       await render(hbs`<HexagonScore />`);
       // then
@@ -17,7 +16,7 @@ describe('Integration | Component | hexagon-score', function() {
       expect(this.element.querySelector('.hexagon-score')).to.exist;
     });
 
-    it('should display two dashes, when no pixScore provided', async function() {
+    it('should display two dashes, when no pixScore provided', async function () {
       // when
       await render(hbs`<HexagonScore />`);
 
@@ -25,7 +24,7 @@ describe('Integration | Component | hexagon-score', function() {
       expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('–');
     });
 
-    it('should display provided score in hexagon', async function() {
+    it('should display provided score in hexagon', async function () {
       // given
       const pixScore = '777';
       this.set('pixScore', pixScore);

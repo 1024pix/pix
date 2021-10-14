@@ -6,7 +6,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class LoginForm extends Component {
-
   @inject session;
   @inject store;
   @inject router;
@@ -49,7 +48,10 @@ export default class LoginForm extends Component {
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
-        this.store.createRecord('reset-expired-password-demand', { username: this.login, oneTimePassword: this.password });
+        this.store.createRecord('reset-expired-password-demand', {
+          username: this.login,
+          oneTimePassword: this.password,
+        });
         return this.router.replaceWith('update-expired-password');
       }
       this.isErrorMessagePresent = true;
@@ -66,10 +68,13 @@ export default class LoginForm extends Component {
       });
       await this.args.addGarAuthenticationMethodToUser(externalUserAuthenticationRequest);
     } catch (err) {
-      const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
+      const title = 'errors' in err ? err.errors.get('firstObject').title : null;
 
       if (title === 'PasswordShouldChange') {
-        this.store.createRecord('reset-expired-password-demand', { username: this.login, oneTimePassword: this.password });
+        this.store.createRecord('reset-expired-password-demand', {
+          username: this.login,
+          oneTimePassword: this.password,
+        });
         return this.router.replaceWith('update-expired-password');
       }
 
@@ -82,7 +87,9 @@ export default class LoginForm extends Component {
     const defaultErrorMessage = this.intl.t('api-error-messages.internal-server-error');
     const errorMessageStatusCode4xx = this.intl.t('api-error-messages.bad-request-error');
     const invalidCredentialsErrorMessage = this.intl.t('pages.login-or-register.login-form.error');
-    const unexpectedUserAccountErrorMessage = this.intl.t('pages.login-or-register.login-form.unexpected-user-account-error');
+    const unexpectedUserAccountErrorMessage = this.intl.t(
+      'pages.login-or-register.login-form.unexpected-user-account-error'
+    );
 
     let errorMessage = defaultErrorMessage;
 
@@ -101,5 +108,4 @@ export default class LoginForm extends Component {
 
     this.updateErrorMessage = errorMessage;
   }
-
 }

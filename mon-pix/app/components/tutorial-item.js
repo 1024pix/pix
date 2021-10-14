@@ -10,9 +10,9 @@ export default class TutorialItemComponent extends Component {
   @service intl;
 
   imageForFormat = {
-    'vidéo': 'video',
-    'son': 'son',
-    'page': 'page',
+    vidéo: 'video',
+    son: 'son',
+    page: 'page',
   };
   @tracked savingStatus = buttonStatusTypes.unrecorded;
   @tracked evaluationStatus = buttonStatusTypes.unrecorded;
@@ -44,15 +44,15 @@ export default class TutorialItemComponent extends Component {
   }
 
   get buttonLabel() {
-    return this.savingStatus === buttonStatusTypes.recorded ?
-      this.intl.t('pages.user-tutorials.list.tutorial.actions.remove.label') :
-      this.intl.t('pages.user-tutorials.list.tutorial.actions.save.label');
+    return this.savingStatus === buttonStatusTypes.recorded
+      ? this.intl.t('pages.user-tutorials.list.tutorial.actions.remove.label')
+      : this.intl.t('pages.user-tutorials.list.tutorial.actions.save.label');
   }
 
   get buttonExtraInformation() {
-    return this.savingStatus === buttonStatusTypes.recorded ?
-      this.intl.t('pages.user-tutorials.list.tutorial.actions.remove.extra-information') :
-      this.intl.t('pages.user-tutorials.list.tutorial.actions.save.extra-information');
+    return this.savingStatus === buttonStatusTypes.recorded
+      ? this.intl.t('pages.user-tutorials.list.tutorial.actions.remove.extra-information')
+      : this.intl.t('pages.user-tutorials.list.tutorial.actions.save.extra-information');
   }
 
   get isSaveButtonDisabled() {

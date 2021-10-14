@@ -6,7 +6,6 @@ import { computed } from '@ember/object';
 export const ACQUIRED = 'acquired';
 
 export default class Certification extends Model {
-
   static PARTNER_KEY_CLEA = 'PIX_EMPLOI_CLEA';
   // attributes
   @attr('string') firstName;

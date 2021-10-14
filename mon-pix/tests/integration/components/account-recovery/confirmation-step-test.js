@@ -9,10 +9,10 @@ import { clickByLabel } from '../../../helpers/click-by-label';
 import findByLabel from '../../../helpers/find-by-label';
 import sinon from 'sinon';
 
-describe('Integration | Component | confirmation-step', function() {
+describe('Integration | Component | confirmation-step', function () {
   setupIntlRenderingTest();
 
-  it('should render account recovery confirmation step', async function() {
+  it('should render account recovery confirmation step', async function () {
     // given
     const studentInformationForAccountRecovery = EmberObject.create({
       firstName: 'Philippe',
@@ -29,7 +29,11 @@ describe('Integration | Component | confirmation-step', function() {
     />`);
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName: 'Philippe' }))).to.exist;
+    expect(
+      contains(
+        this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName: 'Philippe' })
+      )
+    ).to.exist;
     expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.found-account'))).to.exist;
     expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.contact-support'))).to.exist;
     expect(contains('Auguste'));
@@ -39,9 +43,8 @@ describe('Integration | Component | confirmation-step', function() {
     expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'))).to.exist;
   });
 
-  context('when user does not have a username', function() {
-
-    it('should not display username', async function() {
+  context('when user does not have a username', function () {
+    it('should not display username', async function () {
       // given
       const studentInformationForAccountRecovery = EmberObject.create({
         firstName: 'Philippe',
@@ -57,11 +60,13 @@ describe('Integration | Component | confirmation-step', function() {
       />`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username'))).to.not.exist;
+      expect(
+        contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username'))
+      ).to.not.exist;
     });
   });
 
-  it('should be possible to cancel the account recovery process', async function() {
+  it('should be possible to cancel the account recovery process', async function () {
     // given
     const studentInformationForAccountRecovery = EmberObject.create({
       firstName: 'Philippe',
@@ -85,7 +90,7 @@ describe('Integration | Component | confirmation-step', function() {
     sinon.assert.calledOnce(cancelAccountRecovery);
   });
 
-  it('should not be possible to continue the account recovery process when have not checked to certify', async function() {
+  it('should not be possible to continue the account recovery process when have not checked to certify', async function () {
     // given
     const studentInformationForAccountRecovery = EmberObject.create({
       firstName: 'Philippe',
@@ -105,12 +110,14 @@ describe('Integration | Component | confirmation-step', function() {
     />`);
 
     // then
-    const confirmButton = findByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+    const confirmButton = findByLabel(
+      this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm')
+    );
     expect(confirmButton).to.exist;
     expect(confirmButton.disabled).to.be.true;
   });
 
-  it('should be possible to continue the account recovery process', async function() {
+  it('should be possible to continue the account recovery process', async function () {
     // given
     const studentInformationForAccountRecovery = EmberObject.create({
       firstName: 'Philippe',

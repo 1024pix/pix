@@ -8,7 +8,6 @@ import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 
 export default Route.extend(ApplicationRouteMixin, {
-
   splash: service(),
   currentUser: service(),
   session: service(),
@@ -23,7 +22,6 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   async _checkForURLAuthentication(transition) {
-
     if (transition.to.queryParams && transition.to.queryParams.externalUser) {
       // Logout user when a new external user is authenticated.
       await this._logoutUser();
@@ -32,16 +30,26 @@ export default Route.extend(ApplicationRouteMixin, {
     if (transition.to.queryParams && transition.to.queryParams.token) {
       // Logout user when existing external user is authenticated.
       await this._logoutUser();
-      return this.session.authenticate(
-        'authenticator:oauth2', { token: transition.to.queryParams.token },
-      );
+      return this.session.authenticate('authenticator:oauth2', { token: transition.to.queryParams.token });
     }
   },
 
   async _checkAnonymousAccess(transition) {
-    const allowedRoutesForAnonymousAccess = ['fill-in-campaign-code', 'campaigns.assessment.tutorial', 'campaigns.start-or-resume', 'campaigns.entry-point', 'campaigns.campaign-landing-page', 'assessments.challenge', 'campaigns.assessment.skill-review', 'assessments.checkpoint', 'campaigns.campaign-not-found'];
+    const allowedRoutesForAnonymousAccess = [
+      'fill-in-campaign-code',
+      'campaigns.assessment.tutorial',
+      'campaigns.start-or-resume',
+      'campaigns.entry-point',
+      'campaigns.campaign-landing-page',
+      'assessments.challenge',
+      'campaigns.assessment.skill-review',
+      'assessments.checkpoint',
+      'campaigns.campaign-not-found',
+    ];
     const isUserAnonymous = get(this.session, 'data.authenticated.authenticator') === 'authenticator:anonymous';
-    const isRouteAccessNotAllowedForAnonymousUser = !allowedRoutesForAnonymousAccess.includes(get(transition, 'to.name'));
+    const isRouteAccessNotAllowedForAnonymousUser = !allowedRoutesForAnonymousAccess.includes(
+      get(transition, 'to.name')
+    );
 
     if (isUserAnonymous && isRouteAccessNotAllowedForAnonymousUser) {
       await this._logoutUser();
@@ -84,7 +92,6 @@ export default Route.extend(ApplicationRouteMixin, {
   sessionInvalidated() {},
 
   async _handleLocale(localeFromQueryParam = null) {
-
     const isUserLoaded = !!this.currentUser.user;
     const domain = this.currentDomain.getExtension();
     const defaultLocale = 'fr';
@@ -118,7 +125,6 @@ export default Route.extend(ApplicationRouteMixin, {
       } else {
         await this._setLocale(defaultLocale);
       }
-
     }
   },
 
@@ -129,8 +135,7 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   _loadCurrentUser() {
-    return this.currentUser.load()
-      .catch(() => this.session.invalidate());
+    return this.currentUser.load().catch(() => this.session.invalidate());
   },
 
   _logoutUser() {
