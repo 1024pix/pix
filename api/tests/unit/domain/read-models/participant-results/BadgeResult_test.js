@@ -62,9 +62,9 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
     };
 
     const badgeResult = new BadgeResult(badge, participationResults);
-    const partnerCompetenceResult1 = badgeResult.partnerCompetenceResults.find(({ id }) => id === 11);
-    const partnerCompetenceResult2 = badgeResult.partnerCompetenceResults.find(({ id }) => id === 12);
-    expect(partnerCompetenceResult1).to.deep.include({ masteryPercentage: 33, name: 'BadgeCompetence1' });
-    expect(partnerCompetenceResult2).to.deep.include({ masteryPercentage: 100, name: 'BadgeCompetence2' });
+    const skillSetResult1 = badgeResult.skillSetResults.find(({ id }) => id === 11);
+    const skillSetResult2 = badgeResult.skillSetResults.find(({ id }) => id === 12);
+    expect(skillSetResult1).to.deep.include({ masteryPercentage: 33, name: 'BadgeCompetence1' });
+    expect(skillSetResult2).to.deep.include({ masteryPercentage: 100, name: 'BadgeCompetence2' });
   });
 });
