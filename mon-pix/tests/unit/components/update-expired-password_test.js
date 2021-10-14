@@ -11,26 +11,26 @@ const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
 
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null,
+    status: 'default',
+    message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+    status: 'error',
+    message: ERROR_PASSWORD_MESSAGE,
   },
 };
 
 describe('Unit | Component | Update Expired Password', () => {
-
   setupTest();
   setupIntl();
 
   let component;
 
-  beforeEach(function() {
+  beforeEach(function () {
     component = this.owner.lookup('component:update-expired-password-form');
   });
 
   describe('#validatePassword', () => {
-
     it('should set validation status to default, when component is used', () => {
       expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
     });
@@ -61,7 +61,6 @@ describe('Unit | Component | Update Expired Password', () => {
   });
 
   describe('#handleUpdatePasswordAndAuthenticate', () => {
-
     const username = 'username.123';
     const expiredPassword = 'Pix12345';
     const newPassword = 'Pix67890';
@@ -86,7 +85,6 @@ describe('Unit | Component | Update Expired Password', () => {
     });
 
     describe('When user password is saved', () => {
-
       it('should update validation with success data', async () => {
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
@@ -121,11 +119,10 @@ describe('Unit | Component | Update Expired Password', () => {
     });
 
     describe('When update password is rejected by api', () => {
-
       it('should set validation with errors data if http 400 error', async () => {
         // given
         const response = {
-          errors: [ { status: '400' } ],
+          errors: [{ status: '400' }],
         };
         component.resetExpiredPasswordDemand.save.rejects(response);
 
@@ -140,7 +137,7 @@ describe('Unit | Component | Update Expired Password', () => {
         // given
         const expectedErrorMessage = component.intl.t('api-error-messages.login-unauthorized-error');
         const response = {
-          errors: [ { status: '401' } ],
+          errors: [{ status: '401' }],
         };
         component.resetExpiredPasswordDemand.save.rejects(response);
 
@@ -162,11 +159,9 @@ describe('Unit | Component | Update Expired Password', () => {
         // then
         expect(component.errorMessage).to.equal(expectedErrorMessage);
       });
-
     });
 
     describe('When authentication after update fails', () => {
-
       it('should set authenticationHasFailed to true', async () => {
         // given
         component.session.authenticate.rejects();

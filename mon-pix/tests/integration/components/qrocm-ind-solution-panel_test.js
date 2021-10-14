@@ -16,8 +16,7 @@ const NO_ANSWER_POSITION = 0;
 const WRONG_ANSWER_POSITION = 1;
 const CORRECT_ANSWER_POSITION = 2;
 
-describe('Integration | Component | QROCm ind solution panel', function() {
-
+describe('Integration | Component | QROCm ind solution panel', function () {
   setupIntlRenderingTest();
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
@@ -28,117 +27,111 @@ describe('Integration | Component | QROCm ind solution panel', function() {
   });
   const answer = EmberObject.create({
     id: 'answer_id',
-    value: 'key1: \'\' key2: \'wrongAnswer2\' key3: \'rightAnswer3\'',
+    value: "key1: '' key2: 'wrongAnswer2' key3: 'rightAnswer3'",
     resultDetails: 'key1: false\nkey2: false\nkey3: true',
     assessment,
     challenge,
   });
-  const solution = 'key1:\n- rightAnswer1\n' +
-    'key2:\n- rightAnswer20\n- rightAnswer21\n' +
-    'key3 :\n- rightAnswer3' ;
+  const solution = 'key1:\n- rightAnswer1\n' + 'key2:\n- rightAnswer20\n- rightAnswer21\n' + 'key3 :\n- rightAnswer3';
 
-  [
-    { format: 'petit' },
-    { format: 'phrase' },
-    { format: 'paragraphe' },
-    { format: 'unreferenced_format' },
-  ].forEach((data) => {
-    describe(`Whatever the format (testing "${data.format}" format)`, function() {
+  [{ format: 'petit' }, { format: 'phrase' }, { format: 'paragraphe' }, { format: 'unreferenced_format' }].forEach(
+    (data) => {
+      describe(`Whatever the format (testing "${data.format}" format)`, function () {
+        beforeEach(async function () {
+          // given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+          this.challenge.set('format', data.format);
 
-      beforeEach(async function() {
-        // given
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-        this.challenge.set('format', data.format);
-
-        // when
-        await render(hbs`<QrocmIndSolutionPanel
+          // when
+          await render(hbs`<QrocmIndSolutionPanel
           @answer={{this.answer}}
           @solution={{this.solution}}
           @challenge={{this.challenge}} />`);
+        });
+
+        it('should dqrocm-ind-solution-panel-test.jsisplay the labels', function () {
+          const labels = findAll('.correction-qrocm-text__label');
+          expect(labels.length).to.equal(3);
+        });
+
+        describe('When the answer is correct', function () {
+          it('should display the correct answer in green bold', async function () {
+            // then
+            const correctAnswerText = findAll(ANSWER)[CORRECT_ANSWER_POSITION];
+            expect(correctAnswerText.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
+          });
+
+          it('should not display the solution block', async function () {
+            // then
+            const solutionBlockList = findAll(SOLUTION_BLOCK);
+            const correctSolutionBlock = solutionBlockList[CORRECT_ANSWER_POSITION];
+
+            expect(correctSolutionBlock).to.not.exist;
+            expect(solutionBlockList).to.have.lengthOf(2);
+          });
+        });
+
+        describe('When there is no answer', function () {
+          const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
+
+          it('should display one solution in bold green', async function () {
+            // then
+            const noAnswerSolutionBlock = findAll(SOLUTION_BLOCK)[NO_ANSWER_POSITION];
+            const noAnswerSolutionText = findAll(SOLUTION_TEXT)[NO_ANSWER_POSITION];
+
+            expect(noAnswerSolutionBlock).to.exist;
+            expect(noAnswerSolutionText).to.exist;
+          });
+
+          it('should display the empty answer with the default message "Pas de réponse" in italic', async function () {
+            // then
+            const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
+
+            expect(answerInput).to.exist;
+            expect(answerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
+            expect(answerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
+          });
+        });
+
+        describe('When the answer is wrong', function () {
+          it('should display one solution in bold green', async function () {
+            // then
+            const wrongSolutionBlock = findAll(SOLUTION_BLOCK)[WRONG_ANSWER_POSITION];
+            const wrongSolutionText = findAll(SOLUTION_TEXT)[WRONG_ANSWER_POSITION];
+
+            expect(wrongSolutionBlock).to.exist;
+            expect(wrongSolutionText).to.exist;
+          });
+
+          it('should display the solutionToDisplay if exist', async function () {
+            // when
+            const solutionToDisplay = 'Ceci est la solution !';
+            this.set('solutionToDisplay', solutionToDisplay);
+            await render(
+              hbs`<QrocmIndSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+            );
+
+            // then
+            expect(find('.comparison-window-solution')).to.exist;
+            expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+          });
+
+          it('should display the wrong answer in line-throughed bold', async function () {
+            // then
+            const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
+
+            expect(answerInput).to.exist;
+            expect(answerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.true;
+          });
+        });
       });
+    }
+  );
 
-      it('should dqrocm-ind-solution-panel-test.jsisplay the labels', function() {
-        const labels = findAll('.correction-qrocm-text__label');
-        expect(labels.length).to.equal(3);
-      });
-
-      describe('When the answer is correct', function() {
-
-        it('should display the correct answer in green bold', async function() {
-          // then
-          const correctAnswerText = findAll(ANSWER)[CORRECT_ANSWER_POSITION];
-          expect(correctAnswerText.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
-        });
-
-        it('should not display the solution block', async function() {
-          // then
-          const solutionBlockList = findAll(SOLUTION_BLOCK);
-          const correctSolutionBlock = solutionBlockList[CORRECT_ANSWER_POSITION];
-
-          expect(correctSolutionBlock).to.not.exist;
-          expect(solutionBlockList).to.have.lengthOf(2);
-        });
-      });
-
-      describe('When there is no answer', function() {
-        const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
-
-        it('should display one solution in bold green', async function() {
-          // then
-          const noAnswerSolutionBlock = findAll(SOLUTION_BLOCK)[NO_ANSWER_POSITION];
-          const noAnswerSolutionText = findAll(SOLUTION_TEXT)[NO_ANSWER_POSITION];
-
-          expect(noAnswerSolutionBlock).to.exist;
-          expect(noAnswerSolutionText).to.exist;
-        });
-
-        it('should display the empty answer with the default message "Pas de réponse" in italic', async function() {
-          // then
-          const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
-
-          expect(answerInput).to.exist;
-          expect(answerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
-          expect(answerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
-        });
-      });
-
-      describe('When the answer is wrong', function() {
-        it('should display one solution in bold green', async function() {
-          // then
-          const wrongSolutionBlock = findAll(SOLUTION_BLOCK)[WRONG_ANSWER_POSITION];
-          const wrongSolutionText = findAll(SOLUTION_TEXT)[WRONG_ANSWER_POSITION];
-
-          expect(wrongSolutionBlock).to.exist;
-          expect(wrongSolutionText).to.exist;
-        });
-
-        it('should display the solutionToDisplay if exist', async function() {
-          // when
-          const solutionToDisplay = 'Ceci est la solution !';
-          this.set('solutionToDisplay', solutionToDisplay);
-          await render(hbs`<QrocmIndSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
-
-          // then
-          expect(find('.comparison-window-solution')).to.exist;
-          expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
-        });
-
-        it('should display the wrong answer in line-throughed bold', async function() {
-          // then
-          const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
-
-          expect(answerInput).to.exist;
-          expect(answerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.true;
-        });
-      });
-
-    });
-  });
-
-  describe('When format is neither a paragraph nor a phrase', function() {
-    beforeEach(function() {
+  describe('When format is neither a paragraph nor a phrase', function () {
+    beforeEach(function () {
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -149,7 +142,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
       { format: 'mots', expectedSize: '20' },
       { format: 'unreferenced_format', expectedSize: '20' },
     ].forEach((data) => {
-      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
+      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function () {
         //given
         this.challenge.set('format', data.format);
 
@@ -163,18 +156,17 @@ describe('Integration | Component | QROCm ind solution panel', function() {
         expect(find(INPUT).hasAttribute('disabled')).to.be.true;
       });
     });
-
   });
 
-  describe('When format is a paragraph', function() {
-    beforeEach(function() {
+  describe('When format is a paragraph', function () {
+    beforeEach(function () {
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
       this.challenge.set('format', 'paragraphe');
     });
 
-    it('should display a disabled textarea', async function() {
+    it('should display a disabled textarea', async function () {
       // when
       await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
@@ -186,15 +178,15 @@ describe('Integration | Component | QROCm ind solution panel', function() {
     });
   });
 
-  describe('When format is a sentence', function() {
-    beforeEach(function() {
+  describe('When format is a sentence', function () {
+    beforeEach(function () {
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
       this.challenge.set('format', 'phrase');
     });
 
-    it('should display a disabled input', async function() {
+    it('should display a disabled input', async function () {
       // when
       await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
@@ -205,5 +197,4 @@ describe('Integration | Component | QROCm ind solution panel', function() {
       expect(find(SENTENCE).hasAttribute('disabled')).to.be.true;
     });
   });
-
 });

@@ -3,27 +3,27 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | assessment', function() {
+describe('Unit | Adapters | assessment', function () {
   setupTest();
 
   let adapter;
 
-  beforeEach(function() {
+  beforeEach(function () {
     adapter = this.owner.lookup('adapter:assessment');
     adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#urlForUpdateRecord', () => {
-    it('should build update url from assessment id', async function() {
+    it('should build update url from assessment id', async function () {
       // when
-      const options = { adapterOptions: { } };
+      const options = { adapterOptions: {} };
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
       expect(url.endsWith('/assessments/123')).to.be.true;
     });
 
-    it('should redirect to complete-assessment', async function() {
+    it('should redirect to complete-assessment', async function () {
       // when
       const options = { adapterOptions: { completeAssessment: true } };
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
@@ -32,7 +32,7 @@ describe('Unit | Adapters | assessment', function() {
       expect(url.endsWith('/assessments/123/complete-assessment')).to.be.true;
     });
 
-    it('should redirect to update last-question-state', async function() {
+    it('should redirect to update last-question-state', async function () {
       // when
       const options = { adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } };
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
@@ -40,7 +40,5 @@ describe('Unit | Adapters | assessment', function() {
       // then
       expect(url.endsWith('/assessments/123/last-challenge-state/timeout')).to.be.true;
     });
-
   });
-
 });

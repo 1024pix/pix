@@ -19,8 +19,7 @@ const classByResultKey = {
   aband: 'aband',
 };
 
-describe('Integration | Component | QROCm dep solution panel', function() {
-
+describe('Integration | Component | QROCm dep solution panel', function () {
   setupIntlRenderingTest();
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
@@ -29,144 +28,145 @@ describe('Integration | Component | QROCm dep solution panel', function() {
     proposals: '${key1}\n${key2}',
     format: 'petit',
   });
-  const solution = 'rightAnswer:\n' +
-    '- rightAnswer1\n' +
-    '- rightAnswer2';
+  const solution = 'rightAnswer:\n' + '- rightAnswer1\n' + '- rightAnswer2';
 
-  [
-    { format: 'petit' },
-    { format: 'phrase' },
-    { format: 'paragraphe' },
-    { format: 'unreferenced_format' },
-  ].forEach((data) => {
-    describe(`Whatever the format (testing ${data.format} format)`, function() {
+  [{ format: 'petit' }, { format: 'phrase' }, { format: 'paragraphe' }, { format: 'unreferenced_format' }].forEach(
+    (data) => {
+      describe(`Whatever the format (testing ${data.format} format)`, function () {
+        beforeEach(function () {
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+          this.challenge.set('format', data.format);
+        });
 
-      beforeEach(function() {
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-        this.challenge.set('format', data.format);
-      });
+        describe('When the answer is correct', function () {
+          beforeEach(async function () {
+            // given
+            const answer = EmberObject.create({
+              id: 'answer_id',
+              value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
+              result: classByResultKey.ok,
+              assessment,
+              challenge,
+            });
+            this.set('answer', answer);
 
-      describe('When the answer is correct', function() {
-
-        beforeEach(async function() {
-          // given
-          const answer = EmberObject.create({
-            id: 'answer_id',
-            value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
-            result: classByResultKey.ok,
-            assessment,
-            challenge,
+            // when
+            await render(
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+            );
           });
-          this.set('answer', answer);
 
-          // when
-          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
-        });
-
-        it('should display the correct answer in green bold', function() {
-          // then
-          const firstAnswerInput = findAll(ANSWER)[0];
-          expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
-        });
-
-        it('should not have solution block', function() {
-          // then
-          const solutionBlockList = findAll(SOLUTION_BLOCK);
-          expect(solutionBlockList).to.have.lengthOf(0);
-        });
-      });
-
-      describe('When there is no answer', function() {
-        const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
-
-        beforeEach(async function() {
-          // given
-          const answer = EmberObject.create({
-            id: 'answer_id',
-            value: 'key1: \'\' key2: \'\'',
-            result: classByResultKey.aband,
-            assessment,
-            challenge,
+          it('should display the correct answer in green bold', function () {
+            // then
+            const firstAnswerInput = findAll(ANSWER)[0];
+            expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
           });
-          this.set('answer', answer);
 
-          // when
-          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
-        });
-
-        it('should display one solution in bold green', async function() {
-          // then
-          const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
-          expect(noAnswerSolutionBlockList).to.have.lengthOf(1);
-        });
-
-        it('should display the empty answer with the default message "Pas de réponse" in italic', async function() {
-          // then
-          const firstAnswerInput = findAll(ANSWER)[0];
-          expect(firstAnswerInput).to.exist;
-          expect(firstAnswerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
-          expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
-        });
-      });
-
-      describe('When the answer is wrong', function() {
-        beforeEach(async function() {
-          // given
-          const answer = EmberObject.create({
-            id: 'answer_id',
-            value: 'key1: \'wrongAnswer1\' key2: \'wrongAnswer2\'',
-            result: classByResultKey.ko,
-            assessment,
-            challenge,
+          it('should not have solution block', function () {
+            // then
+            const solutionBlockList = findAll(SOLUTION_BLOCK);
+            expect(solutionBlockList).to.have.lengthOf(0);
           });
-          this.set('answer', answer);
-
         });
 
-        it('should display one solution in bold green', async function() {
-          // when
-          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
+        describe('When there is no answer', function () {
+          const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
 
-          // then
-          const wrongSolutionBlock = find(SOLUTION_BLOCK);
-          const wrongSolutionText = find(SOLUTION_TEXT);
+          beforeEach(async function () {
+            // given
+            const answer = EmberObject.create({
+              id: 'answer_id',
+              value: "key1: '' key2: ''",
+              result: classByResultKey.aband,
+              assessment,
+              challenge,
+            });
+            this.set('answer', answer);
 
-          expect(wrongSolutionBlock).to.exist;
-          expect(wrongSolutionText).to.exist;
+            // when
+            await render(
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+            );
+          });
+
+          it('should display one solution in bold green', async function () {
+            // then
+            const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
+            expect(noAnswerSolutionBlockList).to.have.lengthOf(1);
+          });
+
+          it('should display the empty answer with the default message "Pas de réponse" in italic', async function () {
+            // then
+            const firstAnswerInput = findAll(ANSWER)[0];
+            expect(firstAnswerInput).to.exist;
+            expect(firstAnswerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
+            expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
+          });
         });
 
-        it('should display the solutionToDisplay if exist', async function() {
-          // when
-          const solutionToDisplay = 'Ceci est la solution !';
-          this.set('solutionToDisplay', solutionToDisplay);
-          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+        describe('When the answer is wrong', function () {
+          beforeEach(async function () {
+            // given
+            const answer = EmberObject.create({
+              id: 'answer_id',
+              value: "key1: 'wrongAnswer1' key2: 'wrongAnswer2'",
+              result: classByResultKey.ko,
+              assessment,
+              challenge,
+            });
+            this.set('answer', answer);
+          });
 
-          // then
-          expect(find(SOLUTION_BLOCK)).to.exist;
-          expect(find(SOLUTION_TEXT).textContent).to.contains(solutionToDisplay);
-        });
+          it('should display one solution in bold green', async function () {
+            // when
+            await render(
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+            );
 
-        it('should display the wrong answer in standard style since we do not handle single wrong answer yet', async function() {
-          // when
-          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
+            // then
+            const wrongSolutionBlock = find(SOLUTION_BLOCK);
+            const wrongSolutionText = find(SOLUTION_TEXT);
 
-          // then
-          const firstAnswerInput = findAll(ANSWER)[0];
+            expect(wrongSolutionBlock).to.exist;
+            expect(wrongSolutionText).to.exist;
+          });
 
-          expect(firstAnswerInput).to.exist;
-          expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.false;
+          it('should display the solutionToDisplay if exist', async function () {
+            // when
+            const solutionToDisplay = 'Ceci est la solution !';
+            this.set('solutionToDisplay', solutionToDisplay);
+            await render(
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+            );
+
+            // then
+            expect(find(SOLUTION_BLOCK)).to.exist;
+            expect(find(SOLUTION_TEXT).textContent).to.contains(solutionToDisplay);
+          });
+
+          it('should display the wrong answer in standard style since we do not handle single wrong answer yet', async function () {
+            // when
+            await render(
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+            );
+
+            // then
+            const firstAnswerInput = findAll(ANSWER)[0];
+
+            expect(firstAnswerInput).to.exist;
+            expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.false;
+          });
         });
       });
+    }
+  );
 
-    });
-  });
-
-  describe('When format is neither a paragraph nor a sentence', function() {
-    beforeEach(function() {
+  describe('When format is neither a paragraph nor a sentence', function () {
+    beforeEach(function () {
       const answer = EmberObject.create({
         id: 'answer_id',
-        value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
+        value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
         result: classByResultKey.ok,
         assessment,
         challenge,
@@ -181,12 +181,14 @@ describe('Integration | Component | QROCm dep solution panel', function() {
       { format: 'mots', expectedSize: '20' },
       { format: 'unreferenced_format', expectedSize: '20' },
     ].forEach((data) => {
-      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
+      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function () {
         //given
         this.challenge.set('format', data.format);
 
         //when
-        await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
+        await render(
+          hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+        );
 
         //then
         expect(find(PARAGRAPH)).to.not.exist;
@@ -196,14 +198,13 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         expect(find(INPUT).hasAttribute('disabled')).to.be.true;
       });
     });
-
   });
 
-  describe('When format is a paragraph', function() {
-    beforeEach(function() {
+  describe('When format is a paragraph', function () {
+    beforeEach(function () {
       const answer = EmberObject.create({
         id: 'answer_id',
-        value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
+        value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
         result: classByResultKey.ok,
         assessment,
         challenge,
@@ -214,7 +215,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
       this.challenge.set('format', 'paragraphe');
     });
 
-    it('should display a disabled textarea', async function() {
+    it('should display a disabled textarea', async function () {
       // when
       await render(hbs`{{qrocm-dep-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
@@ -224,14 +225,13 @@ describe('Integration | Component | QROCm dep solution panel', function() {
       expect(find(PARAGRAPH).tagName).to.equal('TEXTAREA');
       expect(find(PARAGRAPH).hasAttribute('disabled')).to.be.true;
     });
-
   });
 
-  describe('When format is a sentence', function() {
-    beforeEach(function() {
+  describe('When format is a sentence', function () {
+    beforeEach(function () {
       const answer = EmberObject.create({
         id: 'answer_id',
-        value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
+        value: "key1: 'rightAnswer1' key2: 'rightAnswer2'",
         result: classByResultKey.ok,
         assessment,
         challenge,
@@ -242,7 +242,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
       this.challenge.set('format', 'phrase');
     });
 
-    it('should display a disabled input', async function() {
+    it('should display a disabled input', async function () {
       // when
       await render(hbs`{{qrocm-dep-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
@@ -252,7 +252,5 @@ describe('Integration | Component | QROCm dep solution panel', function() {
       expect(find(SENTENCE).tagName).to.equal('INPUT');
       expect(find(SENTENCE).hasAttribute('disabled')).to.be.true;
     });
-
   });
-
 });

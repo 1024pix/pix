@@ -7,23 +7,21 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | User account', function() {
-
+describe('Acceptance | User account', function () {
   setupApplicationTest();
   setupMirage();
 
   let user;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     //given
     server.create('campaign-participation-overview', { assessmentState: 'completed' });
     user = server.create('user', 'withEmail', 'campaignParticipations');
     await authenticateByEmail(user);
   });
 
-  describe('When in profile', function() {
-
-    it('should open tests page when click on menu', async function() {
+  describe('When in profile', function () {
+    it('should open tests page when click on menu', async function () {
       // when
       await click('.logged-user-name');
       await clickByLabel('Mes parcours');
@@ -32,7 +30,7 @@ describe('Acceptance | User account', function() {
       expect(currentURL()).to.equal('/mes-parcours');
     });
 
-    it('should open certifications page when click on menu', async function() {
+    it('should open certifications page when click on menu', async function () {
       // when
       await click('.logged-user-name');
       await clickByLabel('Mes certifications');
@@ -41,7 +39,7 @@ describe('Acceptance | User account', function() {
       expect(currentURL()).to.equal('/mes-certifications');
     });
 
-    it('should contain link to pix.fr/aide', async function() {
+    it('should contain link to pix.fr/aide', async function () {
       // when
       await click('.logged-user-name');
       const helplink = findByLabel('Aide').getAttribute('href');
@@ -50,7 +48,7 @@ describe('Acceptance | User account', function() {
       expect(helplink).to.equal('https://pix.fr/aide');
     });
 
-    it('should open My account page when click on menu', async function() {
+    it('should open My account page when click on menu', async function () {
       // given
       await click('.logged-user-name');
 

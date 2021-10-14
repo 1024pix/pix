@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 
-describe('Unit | Utility | value as array of boolean', function() {
+describe('Unit | Utility | value as array of boolean', function () {
   // Replace this with your real tests.
   const testData = [
     { when: 'Empty String', input: '', expected: [] },
@@ -10,19 +10,21 @@ describe('Unit | Utility | value as array of boolean', function() {
     { when: 'Undefined input', input: undefined, expected: [] },
     { when: 'Nominal case', input: '2,3', expected: [false, true, true] },
     { when: 'Only one value', input: '4', expected: [false, false, false, true] },
-    { when: 'Big value', input: '11', expected: [false, false, false, false, false, false, false, false, false, false, true] },
+    {
+      when: 'Big value',
+      input: '11',
+      expected: [false, false, false, false, false, false, false, false, false, false, true],
+    },
     { when: 'Negative value', input: '-6', expected: [] },
     {
       when: 'Resist to order, empty space and empty value',
       input: ',4, 2 , 2,1,  ,',
       expected: [true, true, false, true],
     },
-
   ];
 
   testData.forEach(({ when, input, expected }) => {
-
-    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function() {
+    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function () {
       expect(valueAsArrayOfBoolean(input)).to.deep.equal(expected);
     });
   });

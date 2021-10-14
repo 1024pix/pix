@@ -6,16 +6,16 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Error page', function() {
+describe('Acceptance | Error page', function () {
   setupApplicationTest();
   setupMirage();
   let user;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  it('should display the error page when the api returned an error which is not 401', async function() {
+  it('should display the error page when the api returned an error which is not 401', async function () {
     // given
     await authenticateByEmail(user);
     this.server.get('/certifications', { errors: [{ code: 500 }] }, 500);
@@ -27,6 +27,4 @@ describe('Acceptance | Error page', function() {
     expect(currentURL()).to.equal('/mes-certifications');
     expect(find('.error-page')).to.exist;
   });
-
 });
-

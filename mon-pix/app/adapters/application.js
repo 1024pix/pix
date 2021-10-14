@@ -31,9 +31,7 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
   get _locale() {
     const currentLocale = this.intl.get('locale')[0];
     if (currentLocale === 'fr') {
-      return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ?
-        FRENCH_LOCALE
-        : FRENCHSPOKEN_LOCALE;
+      return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ? FRENCH_LOCALE : FRENCHSPOKEN_LOCALE;
     }
     return currentLocale;
   }

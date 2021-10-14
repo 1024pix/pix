@@ -56,14 +56,13 @@ export default class JoinSup extends Component {
     this._validateInputMonth('monthOfBirth', this.monthOfBirth);
     this._validateInputYear('yearOfBirth', this.yearOfBirth);
 
-    const hasError = (
+    const hasError =
       this.errors.studentNumber ||
       this.errors.firstName ||
       this.errors.lastName ||
       this.errors.dayOfBirth ||
       this.errors.monthOfBirth ||
-      this.errors.yearOfBirth
-    );
+      this.errors.yearOfBirth;
 
     return !hasError;
   }
@@ -162,4 +161,3 @@ export default class JoinSup extends Component {
     }
   }
 }
-

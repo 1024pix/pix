@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class UpdateScoRecordController extends Controller {
-
   @service intl;
   @service session;
   @service store;
@@ -73,7 +72,8 @@ export default class UpdateScoRecordController extends Controller {
       },
     };
 
-    const { errorMessage, showRenewLink, showBackToHomeButton } = errorDetails[status] || errorDetails[code] || internalError;
+    const { errorMessage, showRenewLink, showBackToHomeButton } =
+      errorDetails[status] || errorDetails[code] || internalError;
     this.errorMessage = errorMessage;
     this.showRenewLink = showRenewLink;
     this.showBackToHomeButton = showBackToHomeButton;

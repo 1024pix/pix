@@ -30,13 +30,16 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(findAll('.proposal-text')[0].textContent.trim()).to.equal('1ere possibilite');
       expect(findAll('.proposal-text')[0].innerHTML.trim()).to.equal('<p>1ere <em>possibilite</em></p>');
       expect(findAll('.proposal-text')[1].textContent.trim()).to.equal('2eme possibilite');
-      expect(findAll('.proposal-text')[1].innerHTML.trim()).to.equal('<p>2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a></p>');
+      expect(findAll('.proposal-text')[1].innerHTML.trim()).to.equal(
+        '<p>2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a></p>'
+      );
       expect(findAll('.proposal-text')[2].textContent.trim()).to.equal('');
-      expect(findAll('.proposal-text')[2].innerHTML.trim()).to.equal('<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>');
+      expect(findAll('.proposal-text')[2].innerHTML.trim()).to.equal(
+        '<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>'
+      );
       expect(findAll('.proposal-text')[3].textContent.trim()).to.equal('4eme possibilite');
 
       expect(find('.alert')).to.not.exist;
-
     });
 
     it('should display the alert box if user validates without checking a radio button', async () => {
@@ -67,7 +70,6 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       // then
       expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
     });
-
   });
 
   describe('When challenge is already answered', () => {
@@ -97,7 +99,6 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;
       expect(find('.challenge-actions__action-skip-text')).to.not.exist;
-
     });
   });
 
@@ -159,8 +160,6 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
       expect(find('.feedback-panel')).to.exist;
-
     });
   });
 });
-

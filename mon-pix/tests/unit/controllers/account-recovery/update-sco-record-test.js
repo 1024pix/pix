@@ -4,15 +4,12 @@ import { setupTest } from 'ember-mocha';
 
 import Service from '@ember/service';
 
-describe('Unit | Controller | account-recovery | update-sco-record', function() {
-
+describe('Unit | Controller | account-recovery | update-sco-record', function () {
   setupTest();
 
   describe('#updateRecord', () => {
-
-    context('when user is already authenticated', function() {
-
-      it('should update account-recovery-demand, invalidate the session and authenticate user', async function() {
+    context('when user is already authenticated', function () {
+      it('should update account-recovery-demand, invalidate the session and authenticate user', async function () {
         // given
         const email = 'user@example.net';
         const password = 'Password123';
@@ -26,10 +23,7 @@ describe('Unit | Controller | account-recovery | update-sco-record', function() 
         const storeStub = {
           createRecord: sinon.stub(),
         };
-        storeStub.createRecord.withArgs(
-          'account-recovery-demand',
-          { temporaryKey, password },
-        ).returns(updateDemand);
+        storeStub.createRecord.withArgs('account-recovery-demand', { temporaryKey, password }).returns(updateDemand);
 
         const sessionStub = Service.create({
           authenticate: sinon.stub(),
@@ -56,9 +50,8 @@ describe('Unit | Controller | account-recovery | update-sco-record', function() 
       });
     });
 
-    context('when user is not already authenticated', function() {
-
-      it('should update account-recovery-demand and authenticate user', async function() {
+    context('when user is not already authenticated', function () {
+      it('should update account-recovery-demand and authenticate user', async function () {
         // given
         const email = 'user@example.net';
         const password = 'Password123';
@@ -72,10 +65,7 @@ describe('Unit | Controller | account-recovery | update-sco-record', function() 
         const storeStub = {
           createRecord: sinon.stub(),
         };
-        storeStub.createRecord.withArgs(
-          'account-recovery-demand',
-          { temporaryKey, password },
-        ).returns(updateDemand);
+        storeStub.createRecord.withArgs('account-recovery-demand', { temporaryKey, password }).returns(updateDemand);
 
         const sessionStub = Service.create({
           authenticate: sinon.stub(),

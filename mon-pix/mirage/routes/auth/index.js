@@ -14,13 +14,14 @@ export default function index(config) {
     }
 
     if (foundUser.shouldChangePassword) {
-      return new Response(401, {}, { errors: [ { title: 'PasswordShouldChange' } ] });
+      return new Response(401, {}, { errors: [{ title: 'PasswordShouldChange' }] });
     }
 
     const response = {
       data: {
         attributes: {
-          'access-token': 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          'access-token':
+            'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb',
         },
         type: 'external-user-authentication-requests',
       },
@@ -35,7 +36,10 @@ export default function index(config) {
     });
 
     return {
-      access_token: 'aaa.' + btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) + '.bbb',
+      access_token:
+        'aaa.' +
+        btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) +
+        '.bbb',
       id_token: 'id_token',
       user_id: createdUser.id,
     };
@@ -49,7 +53,8 @@ export default function index(config) {
     });
 
     return {
-      access_token: 'aaa.' + btoa(`{"user_id":${createdUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+      access_token:
+        'aaa.' + btoa(`{"user_id":${createdUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
       user_id: createdUser.id,
     };
   });

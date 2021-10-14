@@ -1,7 +1,6 @@
 import { Factory, trait } from 'ember-cli-mirage';
 
 export default Factory.extend({
-
   skipped: trait({
     value: '#ABAND#',
     result: 'aband',
@@ -16,5 +15,4 @@ export default Factory.extend({
       });
     }
   },
-
 });

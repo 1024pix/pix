@@ -1,12 +1,14 @@
 import showdown from 'showdown';
 
 export function initialize() {
-  showdown.extension('remove-paragraph-tags', function() {
-    return [{
-      type: 'html',
-      regex: /<\/?p[^>]*>/g,
-      replace: '',
-    }];
+  showdown.extension('remove-paragraph-tags', function () {
+    return [
+      {
+        type: 'html',
+        regex: /<\/?p[^>]*>/g,
+        replace: '',
+      },
+    ];
   });
 }
 

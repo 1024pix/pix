@@ -5,17 +5,17 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | tutorial panel', function() {
+describe('Integration | Component | tutorial panel', function () {
   setupIntlRenderingTest();
 
-  context('when the result is not ok', function() {
-    context('and a hint is present', function() {
-      beforeEach(function() {
+  context('when the result is not ok', function () {
+    context('and a hint is present', function () {
+      beforeEach(function () {
         this.set('hint', 'Ceci est un indice.');
         this.set('tutorials', []);
       });
 
-      it('should render the hint', async function() {
+      it('should render the hint', async function () {
         // when
         await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
@@ -30,8 +30,8 @@ describe('Integration | Component | tutorial panel', function() {
       });
     });
 
-    context('and a tutorial is present', function() {
-      beforeEach(function() {
+    context('and a tutorial is present', function () {
+      beforeEach(function () {
         this.set('hint', 'Ceci est un indice');
         this.set('tutorials', [
           {
@@ -41,20 +41,20 @@ describe('Integration | Component | tutorial panel', function() {
         ]);
       });
 
-      context('when the user is logged in', function() {
+      context('when the user is logged in', function () {
         class StoreStub extends Service {
           user = {
             firstName: 'Banana',
             email: 'banana.split@example.net',
             fullName: 'Banana Split',
-          }
+          };
         }
 
-        beforeEach(function() {
+        beforeEach(function () {
           this.owner.register('service:currentUser', StoreStub);
         });
 
-        it('should render the tutorial with actions', async function() {
+        it('should render the tutorial with actions', async function () {
           // when
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
@@ -68,8 +68,8 @@ describe('Integration | Component | tutorial panel', function() {
         });
       });
 
-      context('when the user is not logged in', function() {
-        it('should render the tutorial without actions', async function() {
+      context('when the user is not logged in', function () {
+        it('should render the tutorial without actions', async function () {
           // when
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 

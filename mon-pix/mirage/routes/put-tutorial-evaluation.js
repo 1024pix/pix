@@ -1,6 +1,6 @@
 import { Response } from 'ember-cli-mirage';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const userId = 1;
   const tutorialId = request.params.tutorialId;
   const tutorial = schema.tutorials.find(tutorialId);

@@ -4,8 +4,8 @@ import ChallengeResponseTemplate from 'mon-pix/utils/proposals-parser/challenge-
 import InputBlock from 'mon-pix/utils/proposals-parser/input-block';
 import TextBlock from 'mon-pix/utils/proposals-parser/text-block';
 
-describe('Unit | Utils | Proposals Parser | Challenge Response Template', function() {
-  describe('#updateBlockDetails', function() {
+describe('Unit | Utils | Proposals Parser | Challenge Response Template', function () {
+  describe('#updateBlockDetails', function () {
     [
       {
         inputBlocks: [
@@ -53,8 +53,8 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
           },
         ],
       },
-    ].forEach(function(data) {
-      it('should return properly updated blocks according to blocks order', function() {
+    ].forEach(function (data) {
+      it('should return properly updated blocks according to blocks order', function () {
         const challengeResponseTemplate = new ChallengeResponseTemplate();
 
         data.inputBlocks.forEach((block) => {
@@ -66,11 +66,10 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
         expect(challengeResponseTemplate.blocks).to.deep.equal(data.expectedBlocks);
       });
     });
-
   });
 
-  describe('#constructFinalTemplate', function() {
-    it('should return properly composed template', function() {
+  describe('#constructFinalTemplate', function () {
+    it('should return properly composed template', function () {
       const challengeResponseTemplate = new ChallengeResponseTemplate();
 
       challengeResponseTemplate.addBlock(new TextBlock({ text: 'apple' }));
@@ -86,7 +85,7 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
       ]);
     });
 
-    it('should return a template only composed of blocks with a type', function() {
+    it('should return a template only composed of blocks with a type', function () {
       const challengeResponseTemplate = new ChallengeResponseTemplate();
 
       const textBlockWithoutType = new TextBlock({ text: 'apple' });

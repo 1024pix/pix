@@ -31,9 +31,13 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       const proposalsText = findAll('.proposal-text');
       expect(proposalsText[0].innerHTML.trim()).to.equal('<p><em>possibilite</em> 1, et/ou</p>');
       expect(proposalsText[1].textContent.trim()).to.equal('possibilite 2, et/ou');
-      expect(proposalsText[1].innerHTML.trim()).to.equal('<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>');
+      expect(proposalsText[1].innerHTML.trim()).to.equal(
+        '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>'
+      );
       expect(proposalsText[2].textContent.trim()).to.equal(', et/ou');
-      expect(proposalsText[2].innerHTML.trim()).to.equal('<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>');
+      expect(proposalsText[2].innerHTML.trim()).to.equal(
+        '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>'
+      );
       expect(proposalsText[3].textContent.trim()).to.equal('possibilite 4');
 
       expect(find('.alert')).to.not.exist;
@@ -45,7 +49,9 @@ describe('Acceptance | Displaying a QCM challenge', () => {
 
       // then
       expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionnez au moins une réponse. Sinon, passez.');
+      expect(find('.alert').textContent.trim()).to.equal(
+        'Pour valider, sélectionnez au moins une réponse. Sinon, passez.'
+      );
     });
 
     it('should hide the alert error after the user interact with checkboxes', async () => {
@@ -69,7 +75,6 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       // then
       expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
     });
-
   });
 
   describe('When challenge is already answered', () => {
@@ -98,7 +103,6 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;
       expect(find('.challenge-actions__action-skip-text')).to.not.exist;
-
     });
   });
 
@@ -157,7 +161,6 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
       expect(find('.feedback-panel')).to.exist;
-
     });
   });
 });

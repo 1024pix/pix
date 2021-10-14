@@ -22,21 +22,17 @@ const answerWithNullResult = {
   name: 'answerWithNullResult',
 };
 
-describe('Unit | Component | result-item-component', function() {
-
+describe('Unit | Component | result-item-component', function () {
   setupTest();
   setupIntl();
 
   let component;
 
-  describe('#resultItem Computed property - undefined case', function() {
-    [
-      undefinedAnswer,
-      answerWithEmptyResult,
-      answerWithUndefinedResult,
-      answerWithNullResult,
-    ].forEach(function(answer) {
-      it(`should returns undefined when answer provided is: ${answer.name}`, function() {
+  describe('#resultItem Computed property - undefined case', function () {
+    [undefinedAnswer, answerWithEmptyResult, answerWithUndefinedResult, answerWithNullResult].forEach(function (
+      answer
+    ) {
+      it(`should returns undefined when answer provided is: ${answer.name}`, function () {
         // when
         component = createGlimmerComponent('component:result-item', { answer });
 
@@ -44,10 +40,9 @@ describe('Unit | Component | result-item-component', function() {
         expect(component.resultItem).to.be.undefined;
       });
     });
-
   });
 
-  describe('#resultItem Computed property - defined case', function() {
+  describe('#resultItem Computed property - defined case', function () {
     [
       { result: 'ok', expectedColor: 'green', expectedIcon: 'check-circle' },
       { result: 'ko', expectedColor: 'red', expectedIcon: 'times-circle' },
@@ -55,7 +50,7 @@ describe('Unit | Component | result-item-component', function() {
       { result: 'partially', expectedColor: 'orange', expectedIcon: 'check-circle' },
       { result: 'aband', expectedColor: 'grey', expectedIcon: 'times-circle' },
     ].forEach((data) => {
-      it(`should return a ${data.expectedColor} ${data.expectedIcon} icon when answer provided has a ${data.result} result`, function() {
+      it(`should return a ${data.expectedColor} ${data.expectedIcon} icon when answer provided has a ${data.result} result`, function () {
         // given
         const answerWithOkResult = { result: `${data.result}` };
 
@@ -69,7 +64,7 @@ describe('Unit | Component | result-item-component', function() {
     });
   });
 
-  describe('#resultTooltip', function() {
+  describe('#resultTooltip', function () {
     [
       { result: 'ok', expectedTooltip: 'Réponse correcte' },
       { result: 'ko', expectedTooltip: 'Réponse incorrecte' },
@@ -77,7 +72,7 @@ describe('Unit | Component | result-item-component', function() {
       { result: 'partially', expectedTooltip: 'Réponse partielle' },
       { result: 'aband', expectedTooltip: 'Sans réponse' },
     ].forEach((data) => {
-      it(`should return a tooltip text equal to ${data.expectedTooltip}`, function() {
+      it(`should return a tooltip text equal to ${data.expectedTooltip}`, function () {
         // given
         const answerWithOkResult = { result: `${data.result}` };
         component = createGlimmerComponent('component:result-item', { answer: answerWithOkResult });
@@ -91,9 +86,8 @@ describe('Unit | Component | result-item-component', function() {
     });
   });
 
-  describe('#textLength', function() {
-
-    it('should be 60 when it is a mobile', function() {
+  describe('#textLength', function () {
+    it('should be 60 when it is a mobile', function () {
       //when
       window.innerWidth = 600;
 
@@ -101,7 +95,7 @@ describe('Unit | Component | result-item-component', function() {
       expect(component.textLength).to.equal(60);
     });
 
-    it('should be 110 when it a tablet/desktop', function() {
+    it('should be 110 when it a tablet/desktop', function () {
       //when
       window.innerWidth = 1200;
 
@@ -110,8 +104,7 @@ describe('Unit | Component | result-item-component', function() {
     });
   });
 
-  describe('#validationImplementedForChallengeType', function() {
-
+  describe('#validationImplementedForChallengeType', function () {
     [
       { challengeType: 'QCM', expected: true },
       { challengeType: 'QROC', expected: true },
@@ -119,9 +112,8 @@ describe('Unit | Component | result-item-component', function() {
       { challengeType: 'QROCM-dep', expected: true },
       { challengeType: 'QCU', expected: true },
       { challengeType: 'OtherType', expected: false },
-    ].forEach(function(data) {
-
-      it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function() {
+    ].forEach(function (data) {
+      it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function () {
         // given
         const challenge = EmberObject.create({ type: data.challengeType });
         const answer = EmberObject.create({ challenge });

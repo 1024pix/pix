@@ -3,29 +3,22 @@ import { resolve, reject } from 'rsvp';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import {
-  find,
-  fillIn,
-  render,
-  triggerEvent,
-} from '@ember/test-helpers';
+import { find, fillIn, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByLabel } from '../../helpers/click-by-label';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
-describe('Integration | Component | reset password form', function() {
+describe('Integration | Component | reset password form', function () {
   setupIntlRenderingTest();
 
-  describe('Component rendering', function() {
-
-    it('should be rendered', async function() {
+  describe('Component rendering', function () {
+    it('should be rendered', async function () {
       await render(hbs`<ResetPasswordForm />`);
       expect(find('.sign-form__container')).to.exist;
     });
 
-    describe('When component is rendered,', function() {
-
+    describe('When component is rendered,', function () {
       [
         { item: '.pix-logo__link' },
         { item: '.sign-form-title' },
@@ -34,7 +27,7 @@ describe('Integration | Component | reset password form', function() {
         { item: '.form-textfield__label' },
         { item: '.form-textfield__input-field-container' },
       ].forEach(({ item }) => {
-        it(`should contains a item with class: ${item}`, async function() {
+        it(`should contains a item with class: ${item}`, async function () {
           // when
           await render(hbs`<ResetPasswordForm />`);
 
@@ -43,7 +36,7 @@ describe('Integration | Component | reset password form', function() {
         });
       });
 
-      it('should display user’s fullName', async function() {
+      it('should display user’s fullName', async function () {
         // given
         const user = { fullName: 'toto riri' };
         this.set('user', user);
@@ -54,11 +47,9 @@ describe('Integration | Component | reset password form', function() {
         // then
         expect(find('.sign-form-title').textContent.trim()).to.equal(user.fullName);
       });
-
     });
 
     describe('A submit button', () => {
-
       let isSaveMethodCalled, saveMethodOptions;
 
       const save = (options) => {
@@ -72,18 +63,18 @@ describe('Integration | Component | reset password form', function() {
         return reject({ errors: [{ status: '400' }] });
       };
 
-      beforeEach(function() {
+      beforeEach(function () {
         isSaveMethodCalled = false;
       });
 
-      it('should save the new password, when button is clicked', async function() {
+      it('should save the new password, when button is clicked', async function () {
         // given
         const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
         this.set('user', user);
         this.set('temporaryKey', 'temp-key');
         const validPassword = 'Pix 1 2 3!';
 
-        await render(hbs `<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
+        await render(hbs`<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
 
         // when
         await fillIn(PASSWORD_INPUT_CLASS, validPassword);
@@ -99,13 +90,13 @@ describe('Integration | Component | reset password form', function() {
         expect(find('.password-reset-demand-form__body')).to.exist;
       });
 
-      it('should get an error, when button is clicked and saving return error', async function() {
+      it('should get an error, when button is clicked and saving return error', async function () {
         // given
         const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
         this.set('user', user);
         const validPassword = 'Pix 1 2 3!';
 
-        await render(hbs `<ResetPasswordForm @user={{this.user}} />`);
+        await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
 
         // when
         await fillIn(PASSWORD_INPUT_CLASS, validPassword);
@@ -119,10 +110,6 @@ describe('Integration | Component | reset password form', function() {
         expect(find(PASSWORD_INPUT_CLASS).value).to.equal(validPassword);
         expect(find('.form-textfield__message--error')).to.exist;
       });
-
     });
-
   });
-
 });
-

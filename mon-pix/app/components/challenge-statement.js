@@ -68,12 +68,11 @@ export default class ChallengeStatement extends Component {
       return [];
     }
 
-    return sortBy(this.args.challenge.attachments,
-      (attachmentUrl) => {
-        const extension = attachmentUrl.split('.').pop();
-        const newFirstChar = PREFERRED_ATTACHMENT_FORMATS.indexOf(extension) >= 0 ? 'A' : 'Z';
-        return newFirstChar + extension;
-      });
+    return sortBy(this.args.challenge.attachments, (attachmentUrl) => {
+      const extension = attachmentUrl.split('.').pop();
+      const newFirstChar = PREFERRED_ATTACHMENT_FORMATS.indexOf(extension) >= 0 ? 'A' : 'Z';
+      return newFirstChar + extension;
+    });
   }
 
   _initialiseDefaultAttachment() {
@@ -81,8 +80,12 @@ export default class ChallengeStatement extends Component {
   }
 
   _formattedEmailForInstruction() {
-    return this.mailGenerator
-      .generateEmail(this.args.challenge.id, this.args.assessment.id, window.location.hostname, config.environment);
+    return this.mailGenerator.generateEmail(
+      this.args.challenge.id,
+      this.args.assessment.id,
+      window.location.hostname,
+      config.environment
+    );
   }
 
   _formatEmail(instruction) {

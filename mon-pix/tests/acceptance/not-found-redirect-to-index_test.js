@@ -14,5 +14,4 @@ describe('Acceptance | Page | Not Found Redirection', () => {
 
     expect(currentURL()).to.eq('/connexion');
   });
-
 });

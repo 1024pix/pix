@@ -3,23 +3,22 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | Challenge', function() {
+describe('Unit | Model | Challenge', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const model = store.createRecord('challenge');
     expect(model).to.be.ok;
   });
 
-  describe('Computed property #hasAttachment', function() {
-
-    it('Should be true when challenge has at least one attachment file', function() {
+  describe('Computed property #hasAttachment', function () {
+    it('Should be true when challenge has at least one attachment file', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -30,10 +29,9 @@ describe('Unit | Model | Challenge', function() {
         // then
         expect(hasAttachment).to.be.true;
       });
-
     });
 
-    it('Should be false when challenge has multiple attachment files', function() {
+    it('Should be false when challenge has multiple attachment files', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: [] });
@@ -45,12 +43,10 @@ describe('Unit | Model | Challenge', function() {
         expect(hasAttachment).to.be.false;
       });
     });
-
   });
 
-  describe('Computed property #hasSingleAttachment', function() {
-
-    it('Should be true when challenge has only one attachment file', function() {
+  describe('Computed property #hasSingleAttachment', function () {
+    it('Should be true when challenge has only one attachment file', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -61,10 +57,9 @@ describe('Unit | Model | Challenge', function() {
         // then
         expect(hasSingleAttachment).to.be.true;
       });
-
     });
 
-    it('Should be false when challenge has multiple attachment files', function() {
+    it('Should be false when challenge has multiple attachment files', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -76,12 +71,10 @@ describe('Unit | Model | Challenge', function() {
         expect(hasSingleAttachment).to.be.false;
       });
     });
-
   });
 
-  describe('Computed property #hasMultipleAttachments', function() {
-
-    it('Should be false when challenge has no attachment file', function() {
+  describe('Computed property #hasMultipleAttachments', function () {
+    it('Should be false when challenge has no attachment file', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: [] });
@@ -92,10 +85,9 @@ describe('Unit | Model | Challenge', function() {
         // then
         expect(hasMultipleAttachments).to.be.false;
       });
-
     });
 
-    it('Should be false when challenge has only one attachment file', function() {
+    it('Should be false when challenge has only one attachment file', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -106,10 +98,9 @@ describe('Unit | Model | Challenge', function() {
         // then
         expect(hasMultipleAttachments).to.be.false;
       });
-
     });
 
-    it('Should be true when challenge has multiple attachments files', function() {
+    it('Should be true when challenge has multiple attachments files', function () {
       run(() => {
         // given
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -121,11 +112,9 @@ describe('Unit | Model | Challenge', function() {
         expect(hasMultipleAttachments).to.be.true;
       });
     });
-
   });
 
-  describe('Computed property #hasValidEmbedDocument', function() {
-
+  describe('Computed property #hasValidEmbedDocument', function () {
     let embedOptions;
 
     beforeEach(() => {
@@ -136,7 +125,7 @@ describe('Unit | Model | Challenge', function() {
       };
     });
 
-    it('should be true when embed data (URL, title and height) are defined', function() {
+    it('should be true when embed data (URL, title and height) are defined', function () {
       // given
       const challenge = store.createRecord('challenge', embedOptions);
 
@@ -147,7 +136,7 @@ describe('Unit | Model | Challenge', function() {
       expect(hasValidEmbedDocument).to.be.true;
     });
 
-    it('should be false when embed URL is missing', function() {
+    it('should be false when embed URL is missing', function () {
       // given
       delete embedOptions.embedUrl;
       const challenge = store.createRecord('challenge', embedOptions);
@@ -159,7 +148,7 @@ describe('Unit | Model | Challenge', function() {
       expect(hasValidEmbedDocument).to.be.false;
     });
 
-    it('should be false when embed URL is not secured (HTTPS)', function() {
+    it('should be false when embed URL is not secured (HTTPS)', function () {
       // given
       embedOptions.embedUrl = 'http://unsecured.url';
       const challenge = store.createRecord('challenge', embedOptions);
@@ -171,7 +160,7 @@ describe('Unit | Model | Challenge', function() {
       expect(hasValidEmbedDocument).to.be.false;
     });
 
-    it('should be false when embed title is missing', function() {
+    it('should be false when embed title is missing', function () {
       // given
       delete embedOptions.embedTitle;
       const challenge = store.createRecord('challenge', embedOptions);
@@ -183,7 +172,7 @@ describe('Unit | Model | Challenge', function() {
       expect(hasValidEmbedDocument).to.be.false;
     });
 
-    it('should be false when embed height is missing', function() {
+    it('should be false when embed height is missing', function () {
       // given
       delete embedOptions.embedHeight;
       const challenge = store.createRecord('challenge', embedOptions);

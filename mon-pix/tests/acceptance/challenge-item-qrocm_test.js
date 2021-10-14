@@ -25,7 +25,9 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
 
       it('should render challenge information and question', () => {
         // then
-        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
+          qrocmDepChallenge.instruction
+        );
 
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(2);
         expect(findAll('.challenge-response__proposal')[0].disabled).to.be.false;
@@ -44,7 +46,9 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await click(find('.challenge-actions__action-validate'));
 
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.');
+        expect(find('.alert').textContent.trim()).to.equal(
+          'Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.'
+        );
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -122,7 +126,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         // given
         qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
         server.create('answer', {
-          value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
+          value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
           result: 'ko',
           assessment,
           challenge: qrocmDepChallenge,
@@ -144,7 +148,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         expect(find('.challenge-actions__action-continue')).to.exist;
         expect(find('.challenge-actions__action-validate')).to.not.exist;
         expect(find('.challenge-actions__action-skip-text')).to.not.exist;
-
       });
     });
 
@@ -153,7 +156,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         // given
         const qrocmWithSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         server.create('answer', {
-          value: 'banana: \'mango\'\n',
+          value: "banana: 'mango'\n",
           result: 'ko',
           assessment,
           challenge: qrocmWithSelectChallenge,
@@ -175,7 +178,13 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
   });
 
   describe('When challenge is already answered and user wants to see answers', () => {
-    let correctionDep, correctionInd, tutorial, learningMoreTutorial, qrocmIndChallenge, qrocmIndSelectChallenge, correctionIndSelect;
+    let correctionDep,
+      correctionInd,
+      tutorial,
+      learningMoreTutorial,
+      qrocmIndChallenge,
+      qrocmIndSelectChallenge,
+      correctionIndSelect;
 
     beforeEach(async () => {
       // given
@@ -192,7 +201,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
-        value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
+        value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
         result: 'ko',
         assessmentId: assessment.id,
         challengeId: qrocmDepChallenge.id,
@@ -205,7 +214,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
-        value: 'titre: \'Le rouge et le noir\'\nauteur: \'Stendhal\'\n',
+        value: "titre: 'Le rouge et le noir'\nauteur: 'Stendhal'\n",
         result: 'ko',
         assessmentId: assessment.id,
         challengeId: qrocmIndChallenge.id,
@@ -219,7 +228,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
-        value: 'banana: \'potato\'\n',
+        value: "banana: 'potato'\n",
         result: 'ko',
         assessmentId: assessment.id,
         challengeId: qrocmIndSelectChallenge.id,
@@ -272,7 +281,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
       expect(find('.feedback-panel')).to.exist;
-
     });
 
     it('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async () => {
@@ -300,7 +308,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
       expect(find('.feedback-panel')).to.exist;
-
     });
 
     it('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async () => {
@@ -309,7 +316,9 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
 
       // then
       expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmIndSelectChallenge.instruction);
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
+        qrocmIndSelectChallenge.instruction
+      );
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
@@ -326,9 +335,6 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
       expect(find('.feedback-panel')).to.exist;
-
     });
-
   });
-
 });

@@ -4,12 +4,11 @@ import EmberObject from '@ember/object';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | challenge statement', function() {
-
+describe('Unit | Component | challenge statement', function () {
   setupTest();
 
-  describe('[CP] #challengeEmbedDocument', function() {
-    it('should return a JSON object with the challenge embedded document when the challenge has a valid one', function() {
+  describe('[CP] #challengeEmbedDocument', function () {
+    it('should return a JSON object with the challenge embedded document when the challenge has a valid one', function () {
       // given
       const challenge = EmberObject.create({
         hasValidEmbedDocument: true,
@@ -32,7 +31,7 @@ describe('Unit | Component | challenge statement', function() {
       });
     });
 
-    it('should return "undefined" when the challenge does not have a (valid) embedded document', function() {
+    it('should return "undefined" when the challenge does not have a (valid) embedded document', function () {
       // given
       const challenge = EmberObject.create({
         hasValidEmbedDocument: false,
@@ -49,7 +48,6 @@ describe('Unit | Component | challenge statement', function() {
   });
 
   describe('#orderedAttachments', () => {
-
     it('should return empty array if no attachments', () => {
       // given
       const challenge = EmberObject.create({});
@@ -64,10 +62,7 @@ describe('Unit | Component | challenge statement', function() {
 
     it('should return files using the preferred formats first, then the others', () => {
       // given
-      const attachments = [
-        'https://dl.airtable.com/test.odp',
-        'https://dl.airtable.com/test.docx',
-      ];
+      const attachments = ['https://dl.airtable.com/test.odp', 'https://dl.airtable.com/test.docx'];
       const challenge = EmberObject.create({ attachments });
       const component = createGlimmerComponent('component:challenge-statement', { challenge });
 

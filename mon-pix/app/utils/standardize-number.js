@@ -8,7 +8,4 @@ function standardizeNumberInTwoDigitFormat(number) {
   return standardizeNumber(number, 2);
 }
 
-export {
-  standardizeNumber,
-  standardizeNumberInTwoDigitFormat,
-};
+export { standardizeNumber, standardizeNumberInTwoDigitFormat };

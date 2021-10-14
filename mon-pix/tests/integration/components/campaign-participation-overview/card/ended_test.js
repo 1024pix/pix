@@ -5,15 +5,15 @@ import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card | Ended', function() {
+describe('Integration | Component | CampaignParticipationOverview | Card | Ended', function () {
   setupIntlRenderingTest();
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
-  describe('when card has "ENDED" status', function() {
-    it('should render card info ', async function() {
+  describe('when card has "ENDED" status', function () {
+    it('should render card info ', async function () {
       // given
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: true,
@@ -33,11 +33,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
       expect(contains('My campaign')).to.exist;
       expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.finished'))).to.exist;
       expect(contains(this.intl.t('pages.campaign-participation-overview.card.see-more'))).to.exist;
-      expect(contains(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))).to.exist;
+      expect(contains(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))).to
+        .exist;
     });
 
-    context('when the campaign has no stages', function() {
-      it('should render the result with percentage', async function() {
+    context('when the campaign has no stages', function () {
+      it('should render the result with percentage', async function () {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           isShared: true,
@@ -58,8 +59,8 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
       });
     });
 
-    context('when the campaign has stages', function() {
-      it('should render the result with percentage', async function() {
+    context('when the campaign has stages', function () {
+      it('should render the result with percentage', async function () {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           isShared: true,

@@ -25,24 +25,23 @@ export default class QrocmIndSolutionPanel extends Component {
     const solutions = solutionsAsObject(this.args.solution);
     const resultDetails = resultDetailsAsObject(this.args.answer.resultDetails);
 
-    return proposalsAsBlocks(this.args.challenge.get('proposals'))
-      .map((block) => {
-        block.showText = block.text && !block.ariaLabel && !block.input;
-        const blockIsInputOrTextarea = !block.showText && !block.breakline;
+    return proposalsAsBlocks(this.args.challenge.get('proposals')).map((block) => {
+      block.showText = block.text && !block.ariaLabel && !block.input;
+      const blockIsInputOrTextarea = !block.showText && !block.breakline;
 
-        if (blockIsInputOrTextarea) {
-          const answerOutcome = _computeAnswerOutcome(answers[block.input], resultDetails[block.input]);
-          const inputClass = _computeInputClass(answerOutcome);
-          if (answers[block.input] === '') {
-            answers[block.input] = this.intl.t('pages.result-item.aband');
-          }
-          block.inputClass = inputClass;
-          block.answer = answers[block.input];
-          block.solution = solutions[block.input][0];
-          block.emptyOrWrongAnswer = (answerOutcome === 'empty' || answerOutcome === 'ko');
+      if (blockIsInputOrTextarea) {
+        const answerOutcome = _computeAnswerOutcome(answers[block.input], resultDetails[block.input]);
+        const inputClass = _computeInputClass(answerOutcome);
+        if (answers[block.input] === '') {
+          answers[block.input] = this.intl.t('pages.result-item.aband');
         }
-        return block;
-      });
+        block.inputClass = inputClass;
+        block.answer = answers[block.input];
+        block.solution = solutions[block.input][0];
+        block.emptyOrWrongAnswer = answerOutcome === 'empty' || answerOutcome === 'ko';
+      }
+      return block;
+    });
   }
 }
 

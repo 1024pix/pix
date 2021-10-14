@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | certifications list item', function() {
+describe('Integration | Component | certifications list item', function () {
   setupIntlRenderingTest();
 
   const PUBLISH_CLASS = '.certifications-list-item__published-item';
@@ -24,14 +24,13 @@ describe('Integration | Component | certifications list item', function() {
 
   const commentForCandidate = 'Commentaire pour le candidat';
 
-  it('renders', async function() {
+  it('renders', async function () {
     await render(hbs`<CertificationsListItem />`);
     expect(find('.certifications-list-item__row-presentation')).to.exist;
   });
 
-  context('when the certification is not published', function() {
-
-    beforeEach(async function() {
+  context('when the certification is not published', function () {
+    beforeEach(async function () {
       // given
       const certification = createCertification({
         status: 'validated',
@@ -45,25 +44,24 @@ describe('Integration | Component | certifications list item', function() {
     });
 
     // then
-    it('should render a certifications-list-item__unpublished-item div', function() {
+    it('should render a certifications-list-item__unpublished-item div', function () {
       expect(find(UNPUBLISH_CLASS)).to.exist;
     });
 
-    it('should show en attente de résultat', function() {
+    it('should show en attente de résultat', function () {
       expect(find(IMG_FOR_WAITING_STATUS_SELECTOR)).to.exist;
       expect(find(STATUS_SELECTOR).textContent).to.include('En attente du résultat');
     });
 
-    it('should not be clickable', function() {
+    it('should not be clickable', function () {
       expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
       expect(find(CLICKABLE_SELECTOR)).not.to.exist;
     });
   });
 
-  context('when the certification is published and rejected', function() {
-
-    context('without commentForCandidate', function() {
-      beforeEach(async function() {
+  context('when the certification is published and rejected', function () {
+    context('without commentForCandidate', function () {
+      beforeEach(async function () {
         // given
         const certification = createCertification({
           status: 'rejected',
@@ -78,20 +76,20 @@ describe('Integration | Component | certifications list item', function() {
       });
 
       // then
-      it('should render a certifications-list-item__published-item div', function() {
+      it('should render a certifications-list-item__published-item div', function () {
         expect(find(PUBLISH_CLASS)).to.exist;
       });
 
-      it('should show Certification non obtenue', function() {
+      it('should show Certification non obtenue', function () {
         expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
         expect(find(STATUS_SELECTOR).textContent).to.include('Certification non obtenue');
       });
 
-      it('should not show Détail in last column', function() {
+      it('should not show Détail in last column', function () {
         expect(find(REJECTED_DETAIL_SELECTOR)).to.not.exist;
       });
 
-      it('should not show comment for candidate panel when clicked on row', async function() {
+      it('should not show comment for candidate panel when clicked on row', async function () {
         // when
         await click(CERTIFICATION_CELL_SELECTOR);
 
@@ -99,16 +97,14 @@ describe('Integration | Component | certifications list item', function() {
         expect(find(COMMENT_CELL_SELECTOR)).to.not.exist;
       });
 
-      it('should not be clickable', function() {
+      it('should not be clickable', function () {
         expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
         expect(find(CLICKABLE_SELECTOR)).not.to.exist;
       });
-
     });
 
-    context('with a commentForCandidate', function() {
-
-      beforeEach(async function() {
+    context('with a commentForCandidate', function () {
+      beforeEach(async function () {
         // given
         const certification = createCertification({
           status: 'rejected',
@@ -122,37 +118,36 @@ describe('Integration | Component | certifications list item', function() {
       });
 
       // then
-      it('should render a certifications-list-item__published-item div', function() {
+      it('should render a certifications-list-item__published-item div', function () {
         expect(find(PUBLISH_CLASS)).to.exist;
       });
 
-      it('should show Certification non obtenue', function() {
+      it('should show Certification non obtenue', function () {
         expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
         expect(find(STATUS_SELECTOR).textContent).to.include('Certification non obtenue');
       });
 
-      it('should show Détail in last column', function() {
+      it('should show Détail in last column', function () {
         expect(find(REJECTED_DETAIL_SELECTOR)).to.exist;
         expect(find(REJECTED_DETAIL_SELECTOR).textContent).to.include('détail');
       });
 
-      it('should show comment for candidate panel when clicked on row', async function() {
+      it('should show comment for candidate panel when clicked on row', async function () {
         await click(CERTIFICATION_CELL_SELECTOR);
 
         expect(find(COMMENT_CELL_SELECTOR)).to.exist;
         expect(find(COMMENT_CELL_SELECTOR).textContent).to.include(commentForCandidate);
       });
 
-      it('should be clickable', function() {
+      it('should be clickable', function () {
         expect(find(CLICKABLE_SELECTOR)).to.exist;
         expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
       });
     });
   });
 
-  context('when the certification is published and validated', function() {
-
-    beforeEach(async function() {
+  context('when the certification is published and validated', function () {
+    beforeEach(async function () {
       // given
       const certification = createCertification({
         status: 'validated',
@@ -165,38 +160,35 @@ describe('Integration | Component | certifications list item', function() {
     });
 
     // then
-    it('should render certifications-list-item__published-item with a link inside', function() {
+    it('should render certifications-list-item__published-item with a link inside', function () {
       expect(find(`${PUBLISH_CLASS} a`)).to.exist;
     });
 
-    it('should show Certification obtenue', function() {
+    it('should show Certification obtenue', function () {
       expect(find('img[data-test-id="certifications-list-item__green-check-img"]')).to.exist;
       expect(find(STATUS_SELECTOR).textContent).to.include('Certification obtenue');
     });
 
-    it('should show the Pix Score', function() {
+    it('should show the Pix Score', function () {
       expect(find(PIX_SCORE_CELL_SELECTOR)).to.exist;
       expect(find(PIX_SCORE_CELL_SELECTOR).textContent).to.include('231');
     });
 
-    it('should show link to certification page in last column', function() {
+    it('should show link to certification page in last column', function () {
       expect(find(VALIDATED_DETAIL_SELECTOR)).to.exist;
       expect(find(VALIDATED_DETAIL_SELECTOR).textContent).to.include('résultats');
     });
 
-    it('should be clickable', function() {
+    it('should be clickable', function () {
       expect(find(CLICKABLE_SELECTOR)).to.exist;
       expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
     });
   });
 
-  context('when the certification is cancelled', function() {
-
-    context('and is published', function() {
-
-      context('and and has no comments', function() {
-
-        it('should show Certification annulée without comments', async function() {
+  context('when the certification is cancelled', function () {
+    context('and is published', function () {
+      context('and and has no comments', function () {
+        it('should show Certification annulée without comments', async function () {
           // given
           const certification = createCertification({
             status: 'cancelled',
@@ -214,7 +206,7 @@ describe('Integration | Component | certifications list item', function() {
           expect(find('button')).not.to.exist;
         });
 
-        it('should not be clickable', async function() {
+        it('should not be clickable', async function () {
           // given
           const certification = createCertification({
             status: 'cancelled',
@@ -230,9 +222,8 @@ describe('Integration | Component | certifications list item', function() {
         });
       });
 
-      context('and and has comments', function() {
-
-        it('should show Certification annulée with comments', async function() {
+      context('and and has comments', function () {
+        it('should show Certification annulée with comments', async function () {
           // given
           const certification = EmberObject.create({
             id: 1,
@@ -252,7 +243,7 @@ describe('Integration | Component | certifications list item', function() {
         });
       });
 
-      it('should be clickable', async function() {
+      it('should be clickable', async function () {
         // given
         const certification = createCertification({
           status: 'cancelled',
@@ -267,11 +258,10 @@ describe('Integration | Component | certifications list item', function() {
         expect(find(CLICKABLE_SELECTOR)).to.exist;
         expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
       });
-
     });
 
-    context('and is not published', function() {
-      beforeEach(async function() {
+    context('and is not published', function () {
+      beforeEach(async function () {
         // given
         const certification = createCertification({
           status: 'cancelled',
@@ -284,11 +274,11 @@ describe('Integration | Component | certifications list item', function() {
       });
 
       // then
-      it('should render a certifications-list-item__unpublished-item div', function() {
+      it('should render a certifications-list-item__unpublished-item div', function () {
         expect(find(UNPUBLISH_CLASS)).to.exist;
       });
 
-      it('should not show Certification annulée', function() {
+      it('should not show Certification annulée', function () {
         expect(find(IMG_FOR_STATUS_SELECTOR)).not.to.exist;
       });
     });

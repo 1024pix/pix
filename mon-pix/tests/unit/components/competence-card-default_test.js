@@ -6,17 +6,17 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | competence-card-default ', function() {
+describe('Unit | Component | competence-card-default ', function () {
   setupTest();
 
-  describe('#improveCompetenceEvaluation', function() {
+  describe('#improveCompetenceEvaluation', function () {
     const competenceId = 'recCompetenceId';
     const userId = 'userId';
     const scorecardId = 'scorecardId';
     const scorecard = EmberObject.create({ competenceId, id: scorecardId });
     let competenceEvaluation, component;
 
-    it('calls competenceEvaluation service for improving', async function() {
+    it('calls competenceEvaluation service for improving', async function () {
       // given
       component = createGlimmerComponent('component:competence-card-default', { scorecard });
       competenceEvaluation = Service.create({ improve: sinon.stub() });
@@ -31,7 +31,7 @@ describe('Unit | Component | competence-card-default ', function() {
     });
   });
 
-  describe('#shouldWaitBeforeImproving', function() {
+  describe('#shouldWaitBeforeImproving', function () {
     let component, scorecard;
 
     beforeEach(() => {
@@ -62,5 +62,4 @@ describe('Unit | Component | competence-card-default ', function() {
       expect(result).to.be.false;
     });
   });
-
 });

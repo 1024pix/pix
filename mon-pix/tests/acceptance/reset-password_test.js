@@ -8,12 +8,12 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Reset Password Form', function() {
+describe('Acceptance | Reset Password Form', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
-  it('can visit /changer-mot-de-passe when temporaryKey exists', async function() {
+  it('can visit /changer-mot-de-passe when temporaryKey exists', async function () {
     // given
     server.create('user', {
       id: 1000,
@@ -35,7 +35,7 @@ describe('Acceptance | Reset Password Form', function() {
     expect(currentURL()).to.equal('/changer-mot-de-passe/temporaryKey');
   });
 
-  it('should stay on changer-mot-de-passe, and show success message, when password is successfully reset', async function() {
+  it('should stay on changer-mot-de-passe, and show success message, when password is successfully reset', async function () {
     // given
     server.create('user', {
       id: 1000,

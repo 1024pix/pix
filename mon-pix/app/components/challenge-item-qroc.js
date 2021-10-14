@@ -25,18 +25,16 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getAnswerValue() {
-    return this.showProposal ? (document.querySelector('[data-uid="qroc-proposal-uid"]')).value : this.autoReplyAnswer;
+    return this.showProposal ? document.querySelector('[data-uid="qroc-proposal-uid"]').value : this.autoReplyAnswer;
   }
 
   _getErrorMessage() {
     let errorMessage;
     if (this.args.challenge.autoReply) {
       errorMessage = 'pages.challenge.skip-error-message.qroc-auto-reply';
-    }
-    else if (this.args.challenge.format === 'nombre') {
+    } else if (this.args.challenge.format === 'nombre') {
       errorMessage = 'pages.challenge.skip-error-message.qroc-number';
-    }
-    else {
+    } else {
       errorMessage = 'pages.challenge.skip-error-message.qroc';
     }
     return this.intl.t(errorMessage);
@@ -97,7 +95,9 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   get _blocks() {
     return proposalsAsBlocks(this.args.challenge.proposals).map((block) => {
       block.randomName = generateRandomString(block.input);
-      block.ariaLabel = block.autoAriaLabel ? this.intl.t('pages.challenge.answer-input.numbered-label', { number: block.ariaLabel }) : block.ariaLabel;
+      block.ariaLabel = block.autoAriaLabel
+        ? this.intl.t('pages.challenge.answer-input.numbered-label', { number: block.ariaLabel })
+        : block.ariaLabel;
       return block;
     });
   }
@@ -108,4 +108,3 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
     return answer.indexOf('#ABAND#') > -1 ? '' : answer;
   }
 }
-

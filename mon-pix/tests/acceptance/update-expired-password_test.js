@@ -11,18 +11,17 @@ import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 
-describe('Acceptance | Update Expired Password', function() {
-
+describe('Acceptance | Update Expired Password', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     await authenticateByUsername(userShouldChangePassword);
   });
 
-  it('should land on default page when password is successfully updated', async function() {
+  it('should land on default page when password is successfully updated', async function () {
     // given
     await fillIn('#password', 'newPass12345!');
 
@@ -33,14 +32,18 @@ describe('Acceptance | Update Expired Password', function() {
     expect(currentURL()).to.equal('/accueil');
   });
 
-  it('should display validation error message when update password fails with http 400 error', async function() {
+  it('should display validation error message when update password fails with http 400 error', async function () {
     // given
     const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
 
     this.server.post('/expired-password-updates', () => {
-      return new Response(400, {}, {
-        errors: [{ status: '400' }],
-      });
+      return new Response(
+        400,
+        {},
+        {
+          errors: [{ status: '400' }],
+        }
+      );
     });
 
     await fillIn('#password', 'newPass12345!');
@@ -53,14 +56,18 @@ describe('Acceptance | Update Expired Password', function() {
     expect(contains(expectedValidationErrorMessage)).to.exist;
   });
 
-  it('should display error message when update password fails with http 401 error', async function() {
+  it('should display error message when update password fails with http 401 error', async function () {
     // given
     const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
 
     this.server.post('/expired-password-updates', () => {
-      return new Response(401, {}, {
-        errors: [{ status: '401' }],
-      });
+      return new Response(
+        401,
+        {},
+        {
+          errors: [{ status: '401' }],
+        }
+      );
     });
 
     await fillIn('#password', 'newPass12345!');
@@ -73,7 +80,7 @@ describe('Acceptance | Update Expired Password', function() {
     expect(contains(expectedErrorMessage)).to.exist;
   });
 
-  it('should display error message when update password fails', async function() {
+  it('should display error message when update password fails', async function () {
     // given
     const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
 
@@ -87,5 +94,4 @@ describe('Acceptance | Update Expired Password', function() {
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
     expect(contains(expectedErrorMessage)).to.exist;
   });
-
 });

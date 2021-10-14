@@ -1,7 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
 export default class CampaignParticipationOverviews extends Model {
-
   // attributes
   @attr('date') createdAt;
   @attr('boolean') isShared;

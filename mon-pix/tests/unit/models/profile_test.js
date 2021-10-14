@@ -3,23 +3,22 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | Profile model', function() {
+describe('Unit | Model | Profile model', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const model = store.createRecord('profile');
     expect(model).to.be.ok;
   });
 
   describe('@areasCode', () => {
-
-    it('should return an array of unique areas code', function() {
+    it('should return an array of unique areas code', function () {
       return run(() => {
         // given
         const area1 = store.createRecord('area', { code: 1 });

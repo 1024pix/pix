@@ -3,20 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | user', function() {
-
+describe('Unit | Adapters | user', function () {
   setupTest();
 
   let adapter;
 
-  beforeEach(function() {
+  beforeEach(function () {
     adapter = this.owner.lookup('adapter:user');
     adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#queryRecord', () => {
-
-    it('should build /me url', async function() {
+    it('should build /me url', async function () {
       // when
       const url = await adapter.urlForQueryRecord({ me: true }, 'user');
 
@@ -24,19 +22,17 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/me')).to.be.true;
     });
 
-    it('should build classic url', async function() {
+    it('should build classic url', async function () {
       // when
       const url = await adapter.urlForQueryRecord({}, 'user');
 
       // then
       expect(url.endsWith('/users')).to.be.true;
     });
-
   });
 
   describe('#urlForUpdateRecord', () => {
-
-    it('should redirect to /api/users/{id}/pix-terms-of-service-acceptance', async function() {
+    it('should redirect to /api/users/{id}/pix-terms-of-service-acceptance', async function () {
       // when
       const snapshot = { adapterOptions: { acceptPixTermsOfService: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
@@ -45,16 +41,16 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/pix-terms-of-service-acceptance')).to.be.true;
     });
 
-    it('should build update url from user id', async function() {
+    it('should build update url from user id', async function () {
       // when
-      const snapshot = { adapterOptions: { } };
+      const snapshot = { adapterOptions: {} };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
       expect(url.endsWith('/users/123')).to.be.true;
     });
 
-    it('should redirect to remember-user-has-seen-assessment-instructions', async function() {
+    it('should redirect to remember-user-has-seen-assessment-instructions', async function () {
       // when
       const snapshot = { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
@@ -63,7 +59,7 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions')).to.be.true;
     });
 
-    it('should redirect to has-seen-challenge-tooltip', async function() {
+    it('should redirect to has-seen-challenge-tooltip', async function () {
       // when
       const snapshot = { adapterOptions: { tooltipChallengeType: 'focused' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
@@ -73,7 +69,7 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/has-seen-challenge-tooltip/focused')).to.be.true;
     });
 
-    it('should include temporaryKey if present in adapterOptions', async function() {
+    it('should include temporaryKey if present in adapterOptions', async function () {
       // when
       const snapshot = { adapterOptions: { updatePassword: true, temporaryKey: 'temp=&key' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
@@ -82,7 +78,7 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key')).to.be.true;
     });
 
-    it('should redirect to lang', async function() {
+    it('should redirect to lang', async function () {
       // when
       const options = { adapterOptions: { lang: 'en' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', options);
@@ -91,7 +87,7 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/lang/en')).to.be.true;
     });
 
-    it('should redirect to email when updateEmail adapter option is include', async function() {
+    it('should redirect to email when updateEmail adapter option is include', async function () {
       // when
       const options = { adapterOptions: { updateEmail: true, newPassword: 'NeWPa$$word' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', options);
@@ -102,9 +98,7 @@ describe('Unit | Adapters | user', function() {
   });
 
   describe('#createRecord', () => {
-
     context('when campaignCode adapterOption is defined', () => {
-
       it('should add campaign-code meta', async () => {
         // given
         const campaignCode = 'AZERTY123';
@@ -117,9 +111,11 @@ describe('Unit | Adapters | user', function() {
           },
         };
         const snapshot = {
-          record: { },
+          record: {},
           adapterOptions: { campaignCode },
-          serialize: function() { return { data: {} };},
+          serialize: function () {
+            return { data: {} };
+          },
         };
 
         // when

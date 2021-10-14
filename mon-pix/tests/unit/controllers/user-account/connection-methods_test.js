@@ -3,11 +3,11 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 
-describe('Unit | Controller | user-account | connection-methods', function() {
+describe('Unit | Controller | user-account | connection-methods', function () {
   setupTest();
 
-  context('#enableEmailEditionMode', function() {
-    it('should show email edition form', async function() {
+  context('#enableEmailEditionMode', function () {
+    it('should show email edition form', async function () {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       controller.set('isEmailEditionMode', false);
@@ -20,8 +20,8 @@ describe('Unit | Controller | user-account | connection-methods', function() {
     });
   });
 
-  context('#disableEmailEditionMode', function() {
-    it('should hide email edition form when cancelling process', async function() {
+  context('#disableEmailEditionMode', function () {
+    it('should hide email edition form when cancelling process', async function () {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       controller.set('isEmailEditionMode', true);
@@ -34,8 +34,8 @@ describe('Unit | Controller | user-account | connection-methods', function() {
     });
   });
 
-  context('#displayEmailUpdateMessage', function() {
-    it('should display email update message', function() {
+  context('#displayEmailUpdateMessage', function () {
+    it('should display email update message', function () {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       controller.set('showEmailUpdatedMessage', false);
@@ -48,14 +48,16 @@ describe('Unit | Controller | user-account | connection-methods', function() {
     });
   });
 
-  context('#shouldShowPixAuthenticationMethod', function() {
-    it('should display pix authentication method', function() {
-    // given & when
+  context('#shouldShowPixAuthenticationMethod', function () {
+    it('should display pix authentication method', function () {
+      // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [EmberObject.create({
-        identityProvider: 'PIX',
-        isPixIdentityProvider: true,
-      })];
+      const authenticationMethods = [
+        EmberObject.create({
+          identityProvider: 'PIX',
+          isPixIdentityProvider: true,
+        }),
+      ];
       const model = {
         user: {},
         authenticationMethods,
@@ -67,14 +69,16 @@ describe('Unit | Controller | user-account | connection-methods', function() {
     });
   });
 
-  context('#shouldShowGarAuthenticationMethod', function() {
-    it('should display gar authentication method', function() {
-    // given & when
+  context('#shouldShowGarAuthenticationMethod', function () {
+    it('should display gar authentication method', function () {
+      // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [EmberObject.create({
-        identityProvider: 'GAR',
-        isGarIdentityProvider: true,
-      })];
+      const authenticationMethods = [
+        EmberObject.create({
+          identityProvider: 'GAR',
+          isGarIdentityProvider: true,
+        }),
+      ];
       const model = {
         user: {},
         authenticationMethods,
@@ -86,14 +90,16 @@ describe('Unit | Controller | user-account | connection-methods', function() {
     });
   });
 
-  context('#shouldShowPoleEmploiAuthenticationMethod', function() {
-    it('should display pole emploi authentication method', function() {
-    // given & when
+  context('#shouldShowPoleEmploiAuthenticationMethod', function () {
+    it('should display pole emploi authentication method', function () {
+      // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
-      const authenticationMethods = [EmberObject.create({
-        identityProvider: 'POLE_EMPLOI',
-        isPoleEmploiIdentityProvider: true,
-      })];
+      const authenticationMethods = [
+        EmberObject.create({
+          identityProvider: 'POLE_EMPLOI',
+          isPoleEmploiIdentityProvider: true,
+        }),
+      ];
       const model = {
         user: {},
         authenticationMethods,

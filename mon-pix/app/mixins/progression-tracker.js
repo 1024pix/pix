@@ -19,13 +19,15 @@ export default Mixin.create({
 
   init() {
     this._super(...arguments);
-    set(this, 'stepsAhead', this.steps.map(
-      (step) => EmberObject.create({ name: step, status: STEPS.TO_COMPLETE }),
-    ));
+    set(
+      this,
+      'stepsAhead',
+      this.steps.map((step) => EmberObject.create({ name: step, status: STEPS.TO_COMPLETE }))
+    );
     this.stepsActivated = [];
     this.next();
   },
-  progression: computed('stepsAhead', 'stepActivated', function() {
+  progression: computed('stepsAhead', 'stepActivated', function () {
     return this.stepsActivated.concat(this.stepsAhead);
   }),
   next() {

@@ -2,16 +2,16 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | area', function() {
+describe('Unit | Model | area', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const model = store.createRecord('area');
     expect(model).to.be.ok;
   });

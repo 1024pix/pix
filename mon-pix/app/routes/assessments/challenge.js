@@ -39,7 +39,7 @@ export default class ChallengeRoute extends Route {
       answer: this.store.queryRecord('answer', { assessmentId: assessment.id, challengeId: challenge.id }),
       currentChallengeNumber,
     }).catch((err) => {
-      const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
+      const meta = 'errors' in err ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
         return this.transitionTo('index');
       }
@@ -48,7 +48,9 @@ export default class ChallengeRoute extends Route {
 
   async redirect(model) {
     if (!model.challenge) {
-      return this.replaceWith('assessments.resume', model.assessment.id, { queryParams: { assessmentHasNoMoreQuestions: true } });
+      return this.replaceWith('assessments.resume', model.assessment.id, {
+        queryParams: { assessmentHasNoMoreQuestions: true },
+      });
     }
   }
 
@@ -92,8 +94,7 @@ export default class ChallengeRoute extends Route {
       }
 
       this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
-    }
-    catch (error) {
+    } catch (error) {
       answer.rollbackAttributes();
       return this.intermediateTransitionTo('error', error);
     }

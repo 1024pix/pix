@@ -10,8 +10,7 @@ import { setupApplicationTest } from 'ember-mocha';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Campaigns | Campaigns Result', function() {
-
+describe('Acceptance | Campaigns | Campaigns Result', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
@@ -21,44 +20,44 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
   let campaignParticipation;
   let campaignParticipationResult;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { isArchived: false });
     campaignParticipation = server.create('campaign-participation', { campaign });
   });
 
-  describe('Display campaign results', function() {
-
-    describe('When user is not logged in', function() {
-
-      beforeEach(async function() {
+  describe('Display campaign results', function () {
+    describe('When user is not logged in', function () {
+      beforeEach(async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should be redirect to connexion page', async function() {
+      it('should be redirect to connexion page', async function () {
         // then
         expect(currentURL()).to.equal('/connexion');
       });
-
     });
 
-    describe('When user is logged in', async function() {
-
+    describe('When user is logged in', async function () {
       const competenceResultName = 'Competence Nom';
       const partnerCompetenceResultName = 'badge partner competence nom';
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         // given
         await authenticateByEmail(user);
         const competenceResult = server.create('competence-result', {
           name: competenceResultName,
           masteryPercentage: 85,
         });
-        campaignParticipationResult = server.create('campaign-participation-result', { id: campaignParticipation.id, competenceResults: [competenceResult], masteryPercentage: 85 });
+        campaignParticipationResult = server.create('campaign-participation-result', {
+          id: campaignParticipation.id,
+          competenceResults: [competenceResult],
+          masteryPercentage: 85,
+        });
       });
 
-      it('should access to the page', async function() {
+      it('should access to the page', async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -66,7 +65,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should display results', async function() {
+      it('should display results', async function () {
         // given
         const COMPETENCE_MASTERY_PERCENTAGE = '85%';
 
@@ -78,13 +77,13 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
-      context('When the campaign is restricted and schooling-registration is disabled', function() {
-        beforeEach(function() {
+      context('When the campaign is restricted and schooling-registration is disabled', function () {
+        beforeEach(function () {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, title: 'Parcours restreint' });
           campaignParticipation = server.create('campaign-participation', { campaign });
         });
 
-        it('should display results page', async function() {
+        it('should display results page', async function () {
           // when
           await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -94,7 +93,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         });
       });
 
-      it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function() {
+      it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function () {
         // given
         const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
 
@@ -126,7 +125,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
-      it('should display the Pix emploi badge when badge is acquired', async function() {
+      it('should display the Pix emploi badge when badge is acquired', async function () {
         // given
         const badge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Pix Emploi badge',
@@ -142,7 +141,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains('Congrats, you won a Pix Emploi badge')).to.exist;
       });
 
-      it('should not display the Pix emploi badge when badge is not acquired', async function() {
+      it('should not display the Pix emploi badge when badge is not acquired', async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -150,7 +149,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
       });
 
-      it('should display acquired badges + non acquired but isAlwaysDisplayed badges', async function() {
+      it('should display acquired badges + non acquired but isAlwaysDisplayed badges', async function () {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -172,7 +171,9 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           isAcquired: false,
           isAlwaysVisible: false,
         });
-        campaignParticipationResult.update({ campaignParticipationBadges: [acquiredBadge, unacquiredDisplayedBadge, unacquiredHiddenBadge] });
+        campaignParticipationResult.update({
+          campaignParticipationBadges: [acquiredBadge, unacquiredDisplayedBadge, unacquiredHiddenBadge],
+        });
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
@@ -181,9 +182,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(findAll('.badge-card').length).to.equal(2);
       });
 
-      describe('when campaign has stages', async function() {
-
-        it('should display reached stage', async function() {
+      describe('when campaign has stages', async function () {
+        it('should display reached stage', async function () {
           // given
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
@@ -201,7 +201,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           expect(contains('You reached Stage 1')).to.exist;
         });
 
-        it('should not display reached stage when CLEA badge acquired', async function() {
+        it('should not display reached stage when CLEA badge acquired', async function () {
           // given
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
@@ -214,7 +214,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
             altMessage: 'Vous avez validé le badge Pix Emploi.',
             imageUrl: 'url.svg',
             isAcquired: true,
-            message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
+            message:
+              'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
             title: 'Pix Emploi - Clea',
             id: '100',
             key: 'PIX_EMPLOI_CLEA',
@@ -232,7 +233,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         });
       });
 
-      it('should share the results', async function() {
+      it('should share the results', async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -246,7 +247,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
       });
 
-      it('should redirect to default page on click', async function() {
+      it('should redirect to default page on click', async function () {
         // given
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
@@ -260,16 +261,16 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
     });
   });
 
-  context('when campaign is for Novice and isSimplifiedAccess', async function() {
+  context('when campaign is for Novice and isSimplifiedAccess', async function () {
     let campaignForNovice;
 
-    beforeEach(function() {
+    beforeEach(function () {
       campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
       server.create('campaign-participation-result', { masteryRate: '1.0' });
       campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
     });
 
-    it('should redirect to default page on click when user is connected', async function() {
+    it('should redirect to default page on click when user is connected', async function () {
       // given
       await authenticateByEmail(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
@@ -280,7 +281,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       expect(currentURL()).to.equal('/accueil');
     });
 
-    it('should redirect to sign up page on click when user is anonymous', async function() {
+    it('should redirect to sign up page on click when user is anonymous', async function () {
       // given
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
 
@@ -293,6 +294,5 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       // then
       expect(currentURL()).to.equal('/inscription');
     });
-
   });
 });

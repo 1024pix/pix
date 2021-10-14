@@ -37,7 +37,6 @@ class PasswordValidation {
 }
 
 export default class UpdateEmail extends Component {
-
   @service intl;
   @tracked newEmail = '';
   @tracked newEmailConfirmation = '';

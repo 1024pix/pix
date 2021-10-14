@@ -1,10 +1,6 @@
-module.exports = function() {
+module.exports = function () {
   return {
-    'free-brands-svg-icons': [
-      'facebook-f',
-      'linkedin-in',
-      'twitter',
-    ],
+    'free-brands-svg-icons': ['facebook-f', 'linkedin-in', 'twitter'],
     'free-solid-svg-icons': [
       'arrow-left',
       'arrow-right',
@@ -34,10 +30,6 @@ module.exports = function() {
       'link',
       'globe',
     ],
-    'free-regular-svg-icons': [
-      'bookmark',
-      'copy',
-      'thumbs-up',
-    ],
+    'free-regular-svg-icons': ['bookmark', 'copy', 'thumbs-up'],
   };
 };

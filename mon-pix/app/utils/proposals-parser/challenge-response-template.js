@@ -1,7 +1,6 @@
 const MINIMUM_SIZE_FOR_LABEL = 6;
 
 export default class ChallengeResponseTemplate {
-
   constructor() {
     this._template = [];
     this._blocks = [];

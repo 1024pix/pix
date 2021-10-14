@@ -3,12 +3,11 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import { expect } from 'chai';
 
-describe('Unit | Route | fill-in-campaign-code', function() {
+describe('Unit | Route | fill-in-campaign-code', function () {
   setupTest();
 
   context('#beforeModel', () => {
-
-    it('should store externalUser queryParam in session', function() {
+    it('should store externalUser queryParam in session', function () {
       // given
       const externalUser = 'external-user-token';
       const route = this.owner.lookup('route:fill-in-campaign-code');

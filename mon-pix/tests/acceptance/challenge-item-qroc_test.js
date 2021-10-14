@@ -40,7 +40,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.');
+        expect(find('.alert').textContent.trim()).to.equal(
+          '“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.'
+        );
       });
 
       it('should go to the next challenge when user validates after finishing successfully the embed', async () => {
@@ -77,7 +79,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         await click('.challenge-actions__action-validate');
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir le champ texte. Sinon, passez.');
+        expect(find('.alert').textContent.trim()).to.equal(
+          'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
+        );
       });
     });
 
@@ -97,7 +101,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('Entrez le <em>prénom</em> de B. Gates :');
 
         expect(find('.alert')).to.not.exist;
-
       });
 
       it('should display the alert box if user validates without write an answer in input', async () => {
@@ -108,7 +111,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir le champ texte. Sinon, passez.');
+        expect(find('.alert').textContent.trim()).to.equal(
+          'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
+        );
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -131,7 +136,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         // then
         expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
       });
-
     });
 
     describe('When challenge is already answered', () => {
@@ -156,7 +160,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-actions__action-continue')).to.exist;
         expect(find('.challenge-actions__action-validate')).to.not.exist;
         expect(find('.challenge-actions__action-skip-text')).to.not.exist;
-
       });
     });
 
@@ -214,14 +217,13 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
         expect(find('.feedback-panel')).to.exist;
-
       });
     });
 
     describe('When there is two challenges with download file', () => {
       let qrocWithFile1Challenge, qrocWithFile2Challenge;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         qrocWithFile1Challenge = server.create('challenge', 'forDemo', 'QROCwithFile1');
         qrocWithFile2Challenge = server.create('challenge', 'forDemo', 'QROCwithFile2');
         assessment = server.create('assessment', 'ofDemoType');
@@ -229,26 +231,28 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should display the correct challenge for first one', async function() {
-        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocWithFile1Challenge.instruction);
+      it('should display the correct challenge for first one', async function () {
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
+          qrocWithFile1Challenge.instruction
+        );
         expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile1Challenge.attachments[0]);
 
         await click(find('#attachment1'));
         expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile1Challenge.attachments[1]);
       });
 
-      it('should display the error alert if the users tries to validate an empty answer', async function() {
+      it('should display the error alert if the users tries to validate an empty answer', async function () {
         await click(find('.challenge-actions__action-skip'));
 
         expect(currentURL()).to.equal(`/assessments/${assessment.id}/challenges/1`);
-        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocWithFile2Challenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
+          qrocWithFile2Challenge.instruction
+        );
         expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile2Challenge.attachments[0]);
 
         await click(find('#attachment1'));
         expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile2Challenge.attachments[1]);
-
       });
-
     });
   });
 
@@ -273,7 +277,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('Entrez le <em>prénom</em> de B. Gates :');
 
         expect(find('.alert')).to.not.exist;
-
       });
 
       it('should display the alert box if user validates without write an answer in input', async () => {
@@ -284,7 +287,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir le champ texte. Sinon, passez.');
+        expect(find('.alert').textContent.trim()).to.equal(
+          'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
+        );
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -307,7 +312,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         // then
         expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
       });
-
     });
 
     describe('When challenge is already answered and user wants to see answers', () => {
@@ -364,7 +368,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
         expect(find('.feedback-panel')).to.exist;
-
       });
     });
   });
@@ -389,7 +392,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('Select: ');
 
         expect(find('.alert')).to.not.exist;
-
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -417,7 +419,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         // then
         expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
       });
-
     });
 
     describe('When challenge is already answered and user wants to see answers', () => {
@@ -474,7 +475,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
 
         expect(find('.feedback-panel')).to.exist;
-
       });
     });
   });

@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class User extends ApplicationAdapter {
-
   shouldBackgroundReloadRecord() {
     return false;
   }

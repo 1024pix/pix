@@ -3,14 +3,7 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import {
-  blur,
-  click,
-  find,
-  findAll,
-  fillIn,
-  render,
-} from '@ember/test-helpers';
+import { blur, click, find, findAll, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
@@ -36,8 +29,7 @@ async function setContent(content) {
   await blur(TEXTAREA);
 }
 
-describe('Integration | Component | feedback-panel', function() {
-
+describe('Integration | Component | feedback-panel', function () {
   setupIntlRenderingTest();
 
   class StoreStub extends Service {
@@ -50,9 +42,8 @@ describe('Integration | Component | feedback-panel', function() {
     }
   }
 
-  describe('Default rendering', function() {
-
-    beforeEach(async function() {
+  describe('Default rendering', function () {
+    beforeEach(async function () {
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
 
@@ -67,7 +58,7 @@ describe('Integration | Component | feedback-panel', function() {
       await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display the "mercix" view when clicking on send button', async function() {
+    it('should display the "mercix" view when clicking on send button', async function () {
       // given
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
       await setContent(CONTENT_VALUE);
@@ -80,8 +71,8 @@ describe('Integration | Component | feedback-panel', function() {
       expect(find('.feedback-panel__view--mercix')).to.exist;
     });
 
-    context('when selecting a category', function() {
-      it('should display a second dropdown with the list of questions when category have a nested level', async function() {
+    context('when selecting a category', function () {
+      it('should display a second dropdown with the list of questions when category have a nested level', async function () {
         // when
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
 
@@ -91,7 +82,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(BUTTON_SEND)).to.not.exist;
       });
 
-      it('should directly display the message box and the submit button when category has a textarea', async function() {
+      it('should directly display the message box and the submit button when category has a textarea', async function () {
         // when
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
@@ -101,7 +92,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
       });
 
-      it('should directly display the tuto without the textbox or the send button when category has a tutorial', async function() {
+      it('should directly display the tuto without the textbox or the send button when category has a tutorial', async function () {
         // when
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
 
@@ -111,7 +102,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(TEXTAREA)).to.not.exist;
       });
 
-      it('should show the correct feedback action when selecting two different categories', async function() {
+      it('should show the correct feedback action when selecting two different categories', async function () {
         // when
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
@@ -123,7 +114,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(TEXTAREA)).to.exist;
       });
 
-      it('should hide the second dropdown when category has fewer levels after a deeper category', async function() {
+      it('should hide the second dropdown when category has fewer levels after a deeper category', async function () {
         // when
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
         await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
@@ -135,7 +126,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(TEXTAREA)).to.exist;
       });
 
-      it('should display tutorial with textarea with selecting related category and subcategory', async function() {
+      it('should display tutorial with textarea with selecting related category and subcategory', async function () {
         // when
         await fillIn(CATEGORY_DROPDOWN, PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL);
 
@@ -150,16 +141,16 @@ describe('Integration | Component | feedback-panel', function() {
     });
   });
 
-  context('When assessment is not of type certification', function() {
-    beforeEach(async function() {
+  context('When assessment is not of type certification', function () {
+    beforeEach(async function () {
       await render(hbs`<FeedbackPanel />`);
     });
 
-    it('should display the feedback panel', function() {
+    it('should display the feedback panel', function () {
       expect(find('.feedback-panel__view--link')).to.exist;
     });
 
-    it('should toggle the form view when clicking on the toggle link', async function() {
+    it('should toggle the form view when clicking on the toggle link', async function () {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
@@ -174,8 +165,8 @@ describe('Integration | Component | feedback-panel', function() {
     });
   });
 
-  context('When assessment is of type certification', function() {
-    beforeEach(async function() {
+  context('When assessment is of type certification', function () {
+    beforeEach(async function () {
       const assessment = {
         isCertification: true,
       };
@@ -184,7 +175,7 @@ describe('Integration | Component | feedback-panel', function() {
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @context={{this.context}} />`);
     });
 
-    it('should display the feedback certification section', async function() {
+    it('should display the feedback certification section', async function () {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
@@ -193,9 +184,8 @@ describe('Integration | Component | feedback-panel', function() {
     });
   });
 
-  context('When FeedbackPanel is rendered initially opened (e.g. in a comparison-window)', function() {
-
-    beforeEach(async function() {
+  context('When FeedbackPanel is rendered initially opened (e.g. in a comparison-window)', function () {
+    beforeEach(async function () {
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
 
@@ -203,15 +193,17 @@ describe('Integration | Component | feedback-panel', function() {
       this.set('challenge', challenge);
       this.set('alwaysOpenForm', true);
 
-      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`);
+      await render(
+        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`
+      );
     });
 
-    it('should display the "form" view', async function() {
+    it('should display the "form" view', async function () {
       expect(find('.feedback-panel__view--form')).to.exist;
       expect(findAll(DROPDOWN).length).to.equal(1);
     });
 
-    it('should not be able to hide the form view', async function() {
+    it('should not be able to hide the form view', async function () {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
@@ -220,9 +212,8 @@ describe('Integration | Component | feedback-panel', function() {
     });
   });
 
-  context('When FeedbackPanel is rendered initially closed (e.g. in a challenge)', function() {
-
-    beforeEach(async function() {
+  context('When FeedbackPanel is rendered initially closed (e.g. in a challenge)', function () {
+    beforeEach(async function () {
       const assessment = { id: 'assessment_id' };
       const challenge = { id: 'challenge_id' };
 
@@ -234,12 +225,12 @@ describe('Integration | Component | feedback-panel', function() {
       await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display the "form" view', async function() {
+    it('should display the "form" view', async function () {
       expect(find('.feedback-panel__view--form')).to.exist;
       expect(findAll(DROPDOWN).length).to.equal(1);
     });
 
-    it('should be able to hide the form view', async function() {
+    it('should be able to hide the form view', async function () {
       // when
       await click(OPEN_FEEDBACK_BUTTON);
 
@@ -248,14 +239,13 @@ describe('Integration | Component | feedback-panel', function() {
     });
   });
 
-  describe('Error management', function() {
-
-    beforeEach(async function() {
+  describe('Error management', function () {
+    beforeEach(async function () {
       await render(hbs`<FeedbackPanel />`);
       await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display error if "content" is empty', async function() {
+    it('should display error if "content" is empty', async function () {
       // given
       await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
@@ -266,7 +256,7 @@ describe('Integration | Component | feedback-panel', function() {
       expect(find('.alert')).to.exist;
     });
 
-    it('should display error if "content" is blank', async function() {
+    it('should display error if "content" is blank', async function () {
       // given
       await setContent('');
 
@@ -277,7 +267,7 @@ describe('Integration | Component | feedback-panel', function() {
       expect(find('.alert')).to.exist;
     });
 
-    it('should not display error if "form" view (with error) was closed and re-opened', async function() {
+    it('should not display error if "form" view (with error) was closed and re-opened', async function () {
       // given
       await setContent('   ');
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
@@ -290,5 +280,4 @@ describe('Integration | Component | feedback-panel', function() {
       expect(find('.alert')).to.not.exist;
     });
   });
-
 });

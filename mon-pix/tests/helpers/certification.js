@@ -1,7 +1,15 @@
 import { fillIn } from '@ember/test-helpers';
 import { clickByLabel } from './click-by-label';
 
-export async function fillCertificationJoiner({ sessionId, firstName, lastName, dayOfBirth, monthOfBirth, yearOfBirth, intl }) {
+export async function fillCertificationJoiner({
+  sessionId,
+  firstName,
+  lastName,
+  dayOfBirth,
+  monthOfBirth,
+  yearOfBirth,
+  intl,
+}) {
   await fillIn('#certificationJoinerSessionId', sessionId);
   await fillIn('#certificationJoinerFirstName', firstName);
   await fillIn('#certificationJoinerLastName', lastName);

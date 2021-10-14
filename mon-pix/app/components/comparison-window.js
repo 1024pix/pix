@@ -56,7 +56,7 @@ export default class ComparisonWindow extends Component {
     let resultItem = _getTextForResult('default');
     const answerStatus = `${this.args.answer.result}${this.answerSuffix}`;
 
-    if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
+    if (answerStatus && answerStatus in TEXT_FOR_RESULT) {
       resultItem = _getTextForResult(answerStatus);
     }
     return resultItem;
@@ -78,4 +78,3 @@ export default class ComparisonWindow extends Component {
     return this.args.answer.challenge.get('autoReply');
   }
 }
-

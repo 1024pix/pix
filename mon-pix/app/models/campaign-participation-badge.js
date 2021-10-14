@@ -5,7 +5,6 @@ import { mapBy, max } from '@ember/object/computed';
 import Badge from 'mon-pix/models/badge';
 
 export default class CampaignParticipationBadge extends Badge {
-
   // attributes
   @attr('boolean') isAcquired;
   @attr('boolean') isAlwaysVisible;

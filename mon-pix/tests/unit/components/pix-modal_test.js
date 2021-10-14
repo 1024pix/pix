@@ -2,12 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | pix-modal', function() {
-
+describe('Unit | Component | pix-modal', function () {
   setupTest();
 
   describe('#init', () => {
-    it('should set the overlay as translucent', function() {
+    it('should set the overlay as translucent', function () {
       // given
       const component = this.owner.lookup('component:pix-modal');
 

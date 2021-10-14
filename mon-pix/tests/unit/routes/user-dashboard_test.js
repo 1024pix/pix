@@ -5,24 +5,17 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | User-Dashboard', function() {
+describe('Unit | Route | User-Dashboard', function () {
   setupTest();
 
-  describe('#model', function() {
-
-    it('should returns the model that contains campaignParticipations, campaignParticipationOverviews and scorecards', async function() {
+  describe('#model', function () {
+    it('should returns the model that contains campaignParticipations, campaignParticipationOverviews and scorecards', async function () {
       // given
-      const campaignParticipations = [
-        EmberObject.create({ id: 123 }),
-        EmberObject.create({ id: 456 }),
-      ];
+      const campaignParticipations = [EmberObject.create({ id: 123 }), EmberObject.create({ id: 456 })];
       const hasManyReloadStub = sinon.stub().withArgs('campaignParticipations').resolves(campaignParticipations);
       const hasManyStub = sinon.stub().returns({ reload: hasManyReloadStub });
 
-      const scorecards = [
-        EmberObject.create({ id: 3 }),
-        EmberObject.create({ id: 8 }),
-      ];
+      const scorecards = [EmberObject.create({ id: 3 }), EmberObject.create({ id: 8 })];
       const profile = EmberObject.create({ scorecards });
       const belongsToReloadStub = sinon.stub().returns(profile);
       const belongsToStub = sinon.stub().returns({ reload: belongsToReloadStub });
@@ -50,5 +43,4 @@ describe('Unit | Route | User-Dashboard', function() {
       expect(model.scorecards).to.deep.equal(scorecards);
     });
   });
-
 });

@@ -2,22 +2,22 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | user model', function() {
+describe('Unit | Model | user model', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const model = store.createRecord('user');
     expect(model).to.be.ok;
   });
 
   describe('#fullName', () => {
-    it('should concatenate user first and last name', function() {
+    it('should concatenate user first and last name', function () {
       // given
       const model = store.createRecord('user');
       model.firstName = 'Manu';
@@ -32,7 +32,7 @@ describe('Unit | Model | user model', function() {
   });
 
   describe('#hasAssessmentParticipations', () => {
-    it('should return true if the user has at least one participation', function() {
+    it('should return true if the user has at least one participation', function () {
       // given
       const campaign = store.createRecord('campaign', { type: 'ASSESSMENT' });
       const participation = store.createRecord('campaign-participation');
@@ -47,7 +47,7 @@ describe('Unit | Model | user model', function() {
       expect(hasAssessmentParticipations).to.equal(true);
     });
 
-    it('should return false if the user has no assessment participation', function() {
+    it('should return false if the user has no assessment participation', function () {
       // given
       const campaign = store.createRecord('campaign', { type: 'PROFILE_COLLECTION' });
       const participation = store.createRecord('campaign-participation');
@@ -62,7 +62,7 @@ describe('Unit | Model | user model', function() {
       expect(hasAssessmentParticipations).to.equal(false);
     });
 
-    it('should return false if the user has no participation', function() {
+    it('should return false if the user has no participation', function () {
       // given
       const model = store.createRecord('user');
 

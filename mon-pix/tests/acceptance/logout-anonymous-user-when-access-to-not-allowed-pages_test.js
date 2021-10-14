@@ -10,23 +10,19 @@ const EXPECTED_ROUTE_CAMPAIGN = '/campagnes';
 const SIMPLIFIED_CODE_CAMPAIGN = 'SIMPLIFIE';
 const ID_ASSESSMENT = '10000029';
 
-describe('Acceptance | Campaigns | Simplified access | Anonymous user access to not allowed pages', function() {
-
+describe('Acceptance | Campaigns | Simplified access | Anonymous user access to not allowed pages', function () {
   setupApplicationTest();
   setupMirage();
   let campaign;
 
   context('When user logged as anonymous, and the access to campaign is simplified', () => {
-
     beforeEach(async () => {
       campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
     });
 
-    describe('When access to not allowed profil page', function() {
-
-      it('should logout anonymous user and redirect to campaign page', async function() {
-
+    describe('When access to not allowed profil page', function () {
+      it('should logout anonymous user and redirect to campaign page', async function () {
         // when
         await visit('/competences');
 
@@ -36,11 +32,9 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
       });
     });
 
-    describe('When access to allowed pages #', function() {
-
+    describe('When access to allowed pages #', function () {
       // to reduce acceptance time test, we test multiple routes in the same test
-      it('should access to the page', async function() {
-
+      it('should access to the page', async function () {
         // when
         const CAMPAIGN_RESULT_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/resultats`;
         await visit(CAMPAIGN_RESULT_ROUTE);
@@ -68,10 +62,7 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
         // then
         expect(currentURL()).to.equal(CAMPAIGN_ROUTE);
         expect(currentSession(this.application).get('isAuthenticated')).to.be.true;
-
       });
     });
-
   });
-
 });

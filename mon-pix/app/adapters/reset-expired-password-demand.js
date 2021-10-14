@@ -1,9 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default class ResetExpiredPasswordDemand extends ApplicationAdapter {
-
   createRecord(store, type, snapshot) {
-
     const url = this.buildURL('expired-password-update', null, snapshot, 'createRecord');
 
     const { username, oneTimePassword: expiredPassword, newPassword } = snapshot.record;
@@ -14,6 +12,5 @@ export default class ResetExpiredPasswordDemand extends ApplicationAdapter {
     };
 
     return this.ajax(url, 'POST', { data: payload });
-
   }
 }

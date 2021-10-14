@@ -9,11 +9,10 @@ import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../../helpers/click-by-label';
 
-describe('Integration | Component | routes/login-form', function() {
-
+describe('Integration | Component | routes/login-form', function () {
   setupIntlRenderingTest();
 
-  it('should ask for login and password', async function() {
+  it('should ask for login and password', async function () {
     // when
     await render(hbs`<Routes::LoginForm/>`);
 
@@ -22,7 +21,7 @@ describe('Integration | Component | routes/login-form', function() {
     expect(find('#password')).to.exist;
   });
 
-  it('should not display error message', async function() {
+  it('should not display error message', async function () {
     // when
     await render(hbs`<Routes::LoginForm/>`);
 
@@ -30,10 +29,10 @@ describe('Integration | Component | routes/login-form', function() {
     expect(find('#login-form-error-message')).to.not.exist;
   });
 
-  it('should display an error message when authentication fails', async function() {
+  it('should display an error message when authentication fails', async function () {
     // given
     class SessionStub extends Service {
-      authenticate = sinon.stub().rejects()
+      authenticate = sinon.stub().rejects();
     }
     this.owner.register('service:session', SessionStub);
 
@@ -45,10 +44,12 @@ describe('Integration | Component | routes/login-form', function() {
 
     // then
     expect(find('#login-form-error-message')).to.exist;
-    expect(find('#login-form-error-message').textContent).to.equal('L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisis sont incorrects');
+    expect(find('#login-form-error-message').textContent).to.equal(
+      "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
+    );
   });
 
-  it('should display password when user click', async function() {
+  it('should display password when user click', async function () {
     // when
     await render(hbs`<Routes::LoginForm/>`);
     await click('.form-textfield-icon__button');
@@ -57,7 +58,7 @@ describe('Integration | Component | routes/login-form', function() {
     expect(find('#password').getAttribute('type')).to.equal('text');
   });
 
-  it('should change icon when user click on it', async function() {
+  it('should change icon when user click on it', async function () {
     // when
     await render(hbs`<Routes::LoginForm/>`);
     await click('.form-textfield-icon__button');
@@ -66,7 +67,7 @@ describe('Integration | Component | routes/login-form', function() {
     expect(find('.fa-eye')).to.exist;
   });
 
-  it('should not change icon when user keeps typing his password', async function() {
+  it('should not change icon when user keeps typing his password', async function () {
     // when
     await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#password', 'début du mot de passe');
@@ -77,12 +78,11 @@ describe('Integration | Component | routes/login-form', function() {
     expect(find('.fa-eye')).to.exist;
   });
 
-  context('when there is no invitation', function() {
-
-    it('should call authentication service with appropriate parameters', async function() {
+  context('when there is no invitation', function () {
+    it('should call authentication service with appropriate parameters', async function () {
       // given
       class SessionStub extends Service {
-        authenticate = sinon.stub().resolves()
+        authenticate = sinon.stub().resolves();
       }
       this.owner.register('service:session', SessionStub);
       const sessionServiceObserver = this.owner.lookup('service:session');
@@ -103,12 +103,11 @@ describe('Integration | Component | routes/login-form', function() {
     });
   });
 
-  context('when there is an invitation', function() {
-
-    it('should be ok and call authentication service with appropriate parameters', async function() {
+  context('when there is an invitation', function () {
+    it('should be ok and call authentication service with appropriate parameters', async function () {
       // given
       class SessionStub extends Service {
-        authenticate = sinon.stub().resolves()
+        authenticate = sinon.stub().resolves();
       }
       this.owner.register('service:session', SessionStub);
 
@@ -130,17 +129,16 @@ describe('Integration | Component | routes/login-form', function() {
     });
   });
 
-  context('when password is a one time password', function() {
-
-    it('should redirect to "update-expired-password" route', async function() {
+  context('when password is a one time password', function () {
+    it('should redirect to "update-expired-password" route', async function () {
       // given
       class StoreStub extends Service {
-        createRecord = sinon.stub().resolves()
+        createRecord = sinon.stub().resolves();
       }
       this.owner.register('service:store', StoreStub);
 
       class RouterStub extends Service {
-        replaceWith = sinon.stub()
+        replaceWith = sinon.stub();
       }
       this.owner.register('service:router', RouterStub);
 
@@ -151,7 +149,7 @@ describe('Integration | Component | routes/login-form', function() {
       };
 
       class SessionStub extends Service {
-        authenticate = sinon.stub().rejects(response)
+        authenticate = sinon.stub().rejects(response);
       }
       this.owner.register('service:session', SessionStub);
 
@@ -168,15 +166,14 @@ describe('Integration | Component | routes/login-form', function() {
     });
   });
 
-  context('when external user IdToken exist', function() {
-
+  context('when external user IdToken exist', function () {
     const externalUserToken = 'ABCD';
 
     let addGarAuthenticationMethodToUserStub;
 
-    beforeEach(function() {
+    beforeEach(function () {
       class StoreStub extends Service {
-        createRecord = sinon.stub().resolves()
+        createRecord = sinon.stub().resolves();
       }
       this.owner.register('service:store', StoreStub);
 
@@ -191,74 +188,88 @@ describe('Integration | Component | routes/login-form', function() {
       addGarAuthenticationMethodToUserStub = sinon.stub();
     });
 
-    it('should display the specific error message if update fails with http error 4xx', async function() {
+    it('should display the specific error message if update fails with http error 4xx', async function () {
       // given
       const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
       const apiReturn = {
-        errors: [{
-          status: 400,
-          detail: expectedErrorMessage,
-        }],
-      };
-
-      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
-
-      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
-
-      await fillIn('#login', 'pix@example.net');
-      await fillIn('#password', 'JeMeLoggue1024');
-
-      // when
-      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
-
-      // then
-      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
-    });
-
-    it('should display the default error message if update fails with other http error', async function() {
-      // given
-      const expectedErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
-      const apiReturn = {
-        errors: [{
-          status: 500,
-          detail: expectedErrorMessage,
-        }],
-      };
-      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
-
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
-
-      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
-
-      await fillIn('#login', 'pix@example.net');
-      await fillIn('#password', 'JeMeLoggue1024');
-
-      // when
-      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
-
-      // then
-      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
-    });
-
-    it('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function() {
-      // given
-      const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@exmaple.net';
-      const apiReturn = {
-        errors: [{
-          status: 409,
-          detail: expectedErrorMessage,
-          code: 'UNEXPECTED_USER_ACCOUNT',
-          meta: {
-            value: 't***@exmaple.net',
+        errors: [
+          {
+            status: 400,
+            detail: expectedErrorMessage,
           },
-        }],
+        ],
       };
 
       addGarAuthenticationMethodToUserStub.rejects(apiReturn);
       this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
 
-      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
+      await render(
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`
+      );
+
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'JeMeLoggue1024');
+
+      // when
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
+
+      // then
+      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+    });
+
+    it('should display the default error message if update fails with other http error', async function () {
+      // given
+      const expectedErrorMessage =
+        'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
+      const apiReturn = {
+        errors: [
+          {
+            status: 500,
+            detail: expectedErrorMessage,
+          },
+        ],
+      };
+      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
+
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      await render(
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`
+      );
+
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'JeMeLoggue1024');
+
+      // when
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
+
+      // then
+      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+    });
+
+    it('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function () {
+      // given
+      const expectedErrorMessage =
+        "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@exmaple.net";
+      const apiReturn = {
+        errors: [
+          {
+            status: 409,
+            detail: expectedErrorMessage,
+            code: 'UNEXPECTED_USER_ACCOUNT',
+            meta: {
+              value: 't***@exmaple.net',
+            },
+          },
+        ],
+      };
+
+      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      await render(
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`
+      );
 
       await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'JeMeLoggue1024');
@@ -270,5 +281,4 @@ describe('Integration | Component | routes/login-form', function() {
       expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
     });
   });
-
 });

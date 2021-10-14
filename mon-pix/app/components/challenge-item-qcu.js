@@ -12,7 +12,7 @@ export default class ChallengeItemQcu extends ChallengeItemGeneric {
   _getAnswerValue() {
     const checkedInputValues = [];
     const radioInputElements = document.querySelectorAll('input[type="radio"]:checked');
-    Array.prototype.forEach.call(radioInputElements, function(element) {
+    Array.prototype.forEach.call(radioInputElements, function (element) {
       checkedInputValues.push(element.getAttribute('data-value'));
     });
     return checkedInputValues.join('');
@@ -27,4 +27,3 @@ export default class ChallengeItemQcu extends ChallengeItemGeneric {
     this.errorMessage = null;
   }
 }
-

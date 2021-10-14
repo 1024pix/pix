@@ -2,13 +2,11 @@ import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | reset-expired-password-demand', function() {
-
+describe('Unit | Adapters | reset-expired-password-demand', function () {
   setupTest();
 
-  describe('#createRecord', function() {
-
-    it('should call expired-password-updates ', async function() {
+  describe('#createRecord', function () {
+    it('should call expired-password-updates ', async function () {
       // given
       const username = 'username123';
       const expiredPassword = 'Password123';

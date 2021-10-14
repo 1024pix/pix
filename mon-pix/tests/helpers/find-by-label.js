@@ -13,7 +13,5 @@ function _getChildrenThatContainsText(element, text) {
       return null;
     }
   }
-  return children
-    .map((child) => _getChildrenThatContainsText(child, text))
-    .find(Boolean);
+  return children.map((child) => _getChildrenThatContainsText(child, text)).find(Boolean);
 }

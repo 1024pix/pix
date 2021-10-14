@@ -2,12 +2,11 @@ import { expect } from 'chai';
 import { context, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Controller | user-certifications/get', function() {
+describe('Unit | Controller | user-certifications/get', function () {
   setupTest();
 
-  context('#get shouldDisplayDetailsSection', function() {
-
-    it('should return true when certification has a commentForCandidate', function() {
+  context('#get shouldDisplayDetailsSection', function () {
+    it('should return true when certification has a commentForCandidate', function () {
       const controller = this.owner.lookup('controller:user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
@@ -25,7 +24,7 @@ describe('Unit | Controller | user-certifications/get', function() {
       expect(shouldDisplayDetailsSection).to.be.true;
     });
 
-    it('should return true when certification has an acquired clea certification', function() {
+    it('should return true when certification has an acquired clea certification', function () {
       const controller = this.owner.lookup('controller:user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
@@ -43,7 +42,7 @@ describe('Unit | Controller | user-certifications/get', function() {
       expect(shouldDisplayDetailsSection).to.be.true;
     });
 
-    it('should return true when certification has at least one certified badge image', function() {
+    it('should return true when certification has at least one certified badge image', function () {
       const controller = this.owner.lookup('controller:user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {
@@ -61,7 +60,7 @@ describe('Unit | Controller | user-certifications/get', function() {
       expect(shouldDisplayDetailsSection).to.be.true;
     });
 
-    it('should return false when none of the above is checked', function() {
+    it('should return false when none of the above is checked', function () {
       const controller = this.owner.lookup('controller:user-certifications/get');
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('certification', {

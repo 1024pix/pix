@@ -9,7 +9,6 @@ export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) 
 
   @action
   async authenticate(login, password) {
-
     await this._removeExternalUserContext();
 
     const scope = 'mon-pix';

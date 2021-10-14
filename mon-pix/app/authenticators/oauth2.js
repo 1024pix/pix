@@ -17,10 +17,10 @@ export default OAuth2PasswordGrant.extend({
         token_type,
         access_token: token,
         user_id,
-        source });
+        source,
+      });
     }
 
     return this._super(login, password, scope);
   },
-
 });

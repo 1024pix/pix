@@ -3,17 +3,19 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | markdown-to-html', function() {
-
+describe('Unit | Component | markdown-to-html', function () {
   let component;
   setupTest();
 
-  describe('When markdown are passed in parameters', function() {
+  describe('When markdown are passed in parameters', function () {
     [
       { markdown: '# Title 1', expectedValue: '<h1>Title 1</h1>' },
-      { markdown: '![Pix Logo](http://example.net/pix_logo.png)', expectedValue: '<p><img src="http://example.net/pix_logo.png" alt="Pix Logo" /></p>' },
+      {
+        markdown: '![Pix Logo](http://example.net/pix_logo.png)',
+        expectedValue: '<p><img src="http://example.net/pix_logo.png" alt="Pix Logo" /></p>',
+      },
     ].forEach(({ markdown, expectedValue }) => {
-      it(`${markdown} should return ${expectedValue}`, function() {
+      it(`${markdown} should return ${expectedValue}`, function () {
         // when
         component = createGlimmerComponent('component:markdown-to-html', { markdown });
 
@@ -23,13 +25,19 @@ describe('Unit | Component | markdown-to-html', function() {
     });
   });
 
-  describe('When unsafe html are passed in parameters', function() {
+  describe('When unsafe html are passed in parameters', function () {
     [
-      { markdown: '<script src=http://xss.rocks/xss.js></script>', expectedValue: '&lt;script src=http://xss.rocks/xss.js&gt;&lt;/script&gt;' },
+      {
+        markdown: '<script src=http://xss.rocks/xss.js></script>',
+        expectedValue: '&lt;script src=http://xss.rocks/xss.js&gt;&lt;/script&gt;',
+      },
       { markdown: '<img src="javascript:alert(\'XSS\');">', expectedValue: '<p><img src></p>' },
-      { markdown: '<img src=/ onerror="alert(String.fromCharCode(88,83,83))"></img>', expectedValue: '<p><img src="/"></img></p>' },
+      {
+        markdown: '<img src=/ onerror="alert(String.fromCharCode(88,83,83))"></img>',
+        expectedValue: '<p><img src="/"></img></p>',
+      },
     ].forEach(({ markdown, expectedValue }) => {
-      it(`${markdown} should be transform to ${expectedValue}`, function() {
+      it(`${markdown} should be transform to ${expectedValue}`, function () {
         // when
         component = createGlimmerComponent('component:markdown-to-html', { markdown });
 

@@ -59,7 +59,9 @@ export default class EmailVerificationCode extends Component {
         if (code === 'INVALID_VERIFICATION_CODE') {
           this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.incorrect-code');
         } else if (code === 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND') {
-          this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired');
+          this.errorMessage = this.intl.t(
+            'pages.user-account.email-verification.errors.email-modification-demand-expired'
+          );
         }
       } else if (status === '400') {
         this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist');

@@ -7,7 +7,6 @@ import { tracked } from '@glimmer/tracking';
 import ENV from 'mon-pix/config/environment';
 
 export default class SigninForm extends Component {
-
   @service url;
   @service intl;
   @service featureToggles;
@@ -45,11 +44,10 @@ export default class SigninForm extends Component {
 
   _findErrorMessage(statusCode) {
     const httpStatusCodeMessages = {
-      '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      '401': ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
-      'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
+      401: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
+      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }
-
 }

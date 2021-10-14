@@ -2,7 +2,6 @@ import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 
 export default class StudentInformation extends Model {
-
   // attributes
   @attr('string') ineIna;
   @attr('string') firstName;

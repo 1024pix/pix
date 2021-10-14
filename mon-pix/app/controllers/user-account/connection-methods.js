@@ -26,7 +26,9 @@ export default class ConnectionMethodsController extends Controller {
   }
 
   get shouldShowPoleEmploiAuthenticationMethod() {
-    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isPoleEmploiIdentityProvider);
+    return this.model.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.isPoleEmploiIdentityProvider
+    );
   }
 
   @action
