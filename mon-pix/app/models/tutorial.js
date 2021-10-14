@@ -4,7 +4,6 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 
 export default class Tutorial extends Model {
-
   // attributes
   @attr('string') duration;
   @attr('string') format;
@@ -29,5 +28,4 @@ export default class Tutorial extends Model {
   get isEvaluated() {
     return Boolean(this.tutorialEvaluation);
   }
-
 }

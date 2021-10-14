@@ -7,11 +7,10 @@ import hbs from 'htmlbars-inline-precompile';
 
 import { contains } from '../../helpers/contains';
 
-describe('Integration | Component | Footer', function() {
-
+describe('Integration | Component | Footer', function () {
   setupIntlRenderingTest();
 
-  it('should display the Pix logo', async function() {
+  it('should display the Pix logo', async function () {
     // when
     await render(hbs`<Footer />}`);
 
@@ -19,7 +18,7 @@ describe('Integration | Component | Footer', function() {
     expect(find('.pix-logo__image')).to.exist;
   });
 
-  it('should display the navigation menu with expected elements', async function() {
+  it('should display the navigation menu with expected elements', async function () {
     // when
     await render(hbs`<Footer />}`);
 
@@ -32,7 +31,7 @@ describe('Integration | Component | Footer', function() {
     expect(contains(this.intl.t('navigation.footer.sitemap'))).to.exist;
   });
 
-  it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
+  it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
     // given
     class UrlServiceStub extends Service {
       get isFrenchDomainExtension() {
@@ -48,7 +47,7 @@ describe('Integration | Component | Footer', function() {
     expect(find('.footer-logos__french-government')).to.not.exist;
   });
 
-  it('should display marianne logo when url does have frenchDomainExtension', async function() {
+  it('should display marianne logo when url does have frenchDomainExtension', async function () {
     // given
     class UrlServiceStub extends Service {
       get isFrenchDomainExtension() {
@@ -63,5 +62,4 @@ describe('Integration | Component | Footer', function() {
     // then
     expect(find('.footer-logos__french-government')).to.exist;
   });
-
 });

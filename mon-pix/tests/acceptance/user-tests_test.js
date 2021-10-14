@@ -7,21 +7,21 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | User tests', function() {
+describe('Acceptance | User tests', function () {
   setupApplicationTest();
   setupMirage();
   let user;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function() {
-    beforeEach(async function() {
+  describe('Authenticated cases as simple user', function () {
+    beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('can visit /mes-parcours', async function() {
+    it('can visit /mes-parcours', async function () {
       //given
       server.create('campaign-participation-overview', {
         assessmentState: 'started',
@@ -38,7 +38,7 @@ describe('Acceptance | User tests', function() {
       expect(currentURL()).to.equal('/mes-parcours');
     });
 
-    it('should display user participation cards', async function() {
+    it('should display user participation cards', async function () {
       // given
       server.create('campaign-participation-overview', {
         assessmentState: 'started',
@@ -64,8 +64,8 @@ describe('Acceptance | User tests', function() {
     });
   });
 
-  describe('Not authenticated cases', function() {
-    it('should redirect to home, when user is not authenticated', async function() {
+  describe('Not authenticated cases', function () {
+    it('should redirect to home, when user is not authenticated', async function () {
       // when
       await visit('/mes-parcours');
       expect(currentURL()).to.equal('/connexion');

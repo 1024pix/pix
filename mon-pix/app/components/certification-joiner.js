@@ -46,12 +46,8 @@ export default class CertificationJoiner extends Component {
     return this.store.createRecord('certification-candidate', {
       sessionId,
       birthdate,
-      firstName: firstName
-        ? firstName.trim()
-        : null,
-      lastName: lastName
-        ? lastName.trim()
-        : null,
+      firstName: firstName ? firstName.trim() : null,
+      lastName: lastName ? lastName.trim() : null,
     });
   }
 
@@ -63,7 +59,9 @@ export default class CertificationJoiner extends Component {
   checkSessionIdIsValid(event) {
     const { value } = event.target;
     if (value && !this._isANumber(value)) {
-      this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
+      this.sessionIdIsNotANumberError = this.intl.t(
+        'pages.certification-joiner.form.fields-validation.session-number-error'
+      );
     } else {
       this.sessionIdIsNotANumberError = null;
     }
@@ -74,7 +72,9 @@ export default class CertificationJoiner extends Component {
     e.preventDefault();
     let currentCertificationCandidate = null;
     if (this.sessionId && !this._isANumber(this.sessionId)) {
-      this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
+      this.sessionIdIsNotANumberError = this.intl.t(
+        'pages.certification-joiner.form.fields-validation.session-number-error'
+      );
       document.querySelector('#certificationJoinerSessionId').focus();
       return;
     }

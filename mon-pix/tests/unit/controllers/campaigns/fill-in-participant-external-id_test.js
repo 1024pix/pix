@@ -2,8 +2,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function() {
-
+describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function () {
   setupTest();
 
   const model = {
@@ -13,7 +12,7 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
 
   let controller;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns/fill-in-participant-external-id');
     controller.set('model', model);
     controller.router = { transitionTo: sinon.stub() };
@@ -35,7 +34,11 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
       controller.actions.onCancel.call(controller);
 
       // then
-      sinon.assert.calledWithExactly(controller.router.transitionTo, 'campaigns.campaign-landing-page', controller.get('model.code'));
+      sinon.assert.calledWithExactly(
+        controller.router.transitionTo,
+        'campaigns.campaign-landing-page',
+        controller.get('model.code')
+      );
     });
   });
 });

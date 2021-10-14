@@ -18,7 +18,7 @@ export default class FileSaver extends Service {
 
   _fetchData({ url, token }) {
     return fetch(url, {
-      headers: { 'Authorization': `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
   }
 

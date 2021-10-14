@@ -10,7 +10,6 @@ import get from 'lodash/get';
 const { host, clientId, authEndpoint } = config;
 
 export default class LoginPeRoute extends Route {
-
   @service session;
   @service router;
   @service location;
@@ -26,15 +25,10 @@ export default class LoginPeRoute extends Route {
       throw new Error('There is no authEndpoint configured.');
     }
 
-    const queryParams = transition.to
-      ? transition.to.queryParams
-      : transition.queryParams;
+    const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
 
     if (queryParams.code) {
-      return await this._handleCallbackRequest(
-        queryParams.code,
-        queryParams.state,
-      );
+      return await this._handleCallbackRequest(queryParams.code, queryParams.state);
     } else if (queryParams.error) {
       return this.replaceWith('login');
     }
@@ -104,4 +98,3 @@ export default class LoginPeRoute extends Route {
     this.location.replace(`${getAbsoluteUrl(host)}${updatedAuthEndpoint}&${search}`);
   }
 }
-

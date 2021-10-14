@@ -7,28 +7,28 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', function() {
-
+describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
   let campaign;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaign = server.create('campaign', { isRestricted: true });
   });
 
-  it('should contain the organization name', async function() {
+  it('should contain the organization name', async function () {
     // when
     await visit(`/campagnes/${campaign.code}/privee/identification`);
 
     // then
-    expect(find('.login-or-register-panel__invitation').textContent)
-      .to.equal(`${campaign.organizationName} vous invite à rejoindre Pix`);
+    expect(find('.login-or-register-panel__invitation').textContent).to.equal(
+      `${campaign.organizationName} vous invite à rejoindre Pix`
+    );
   });
 
-  it('should contain an open register form and closed login form', async function() {
+  it('should contain an open register form and closed login form', async function () {
     // when
     await visit(`/campagnes/${campaign.code}/privee/identification`);
 
@@ -37,7 +37,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
     expect(find('.login-form')).to.not.exist;
   });
 
-  it('should open the login panel and close the register panel when clicking on login button', async function() {
+  it('should open the login panel and close the register panel when clicking on login button', async function () {
     // when
     await visit(`/campagnes/${campaign.code}/privee/identification`);
     await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
@@ -47,7 +47,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
     expect(find('.login-form')).to.exist;
   });
 
-  it('should open the register panel and close the login panel when clicking on register button', async function() {
+  it('should open the register panel and close the login panel when clicking on register button', async function () {
     // when
     await visit(`/campagnes/${campaign.code}/privee/identification`);
 
@@ -58,5 +58,4 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
     expect(find('.register-form')).to.exist;
     expect(find('.login-form')).to.not.exist;
   });
-
 });

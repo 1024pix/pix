@@ -16,7 +16,7 @@ export default ApplicationSerializer.extend({
   include: ['area'],
   links(record) {
     return {
-      'tutorials': {
+      tutorials: {
         related: `/api/scorecards/${record.id}/tutorials`,
       },
     };

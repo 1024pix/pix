@@ -1,8 +1,7 @@
 /*jshint node:true*/
 
-module.exports = function(/* environment */) {
+module.exports = function (/* environment */) {
   return {
-
     /**
      * Merges the fallback locale's translations into all other locales as a
      * build-time fallback strategy.

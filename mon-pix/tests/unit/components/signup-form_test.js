@@ -8,13 +8,12 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | signup-form', function() {
-
+describe('Unit | Component | signup-form', function () {
   setupTest();
 
   let component;
 
-  beforeEach(function() {
+  beforeEach(function () {
     class SessionStub extends Service {
       attemptedTransition = {
         from: {
@@ -22,14 +21,13 @@ describe('Unit | Component | signup-form', function() {
             params: sinon.stub().resolves(),
           },
         },
-      }
+      };
     }
     this.owner.register('service:session', SessionStub);
     component = createGlimmerComponent('component:signup-form');
   });
 
   describe('#signup', () => {
-
     it('should save user without spaces', () => {
       // given
       const userWithSpaces = EmberObject.create({
@@ -76,5 +74,4 @@ describe('Unit | Component | signup-form', function() {
       sinon.assert.calledWith(userWithSpaces.save, { adapterOptions: { campaignCode } });
     });
   });
-
 });

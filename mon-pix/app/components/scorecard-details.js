@@ -71,7 +71,13 @@ export default class ScorecardDetails extends Component {
 
   @action
   reset() {
-    this.args.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.args.scorecard.competenceId } });
+    this.args.scorecard.save({
+      adapterOptions: {
+        resetCompetence: true,
+        userId: this.currentUser.user.id,
+        competenceId: this.args.scorecard.competenceId,
+      },
+    });
 
     this.showResetModal = false;
   }
@@ -83,5 +89,4 @@ export default class ScorecardDetails extends Component {
     const scorecardId = this.args.scorecard.id;
     return this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
-
 }

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import createComponent from '../../../../helpers/create-glimmer-component';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', function() {
+describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', function () {
   setupIntlRenderingTest();
 
   const campaign = {
@@ -19,7 +19,7 @@ describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', 
   let onCancelStub;
   let eventStub;
 
-  beforeEach(function() {
+  beforeEach(function () {
     onSubmitStub = sinon.stub();
     onCancelStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
@@ -56,13 +56,16 @@ describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', 
 
     it('should display error when participant external id exceed 255 characters', async () => {
       // given
-      component.participantExternalId = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
+      component.participantExternalId =
+        '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
 
       // when
       await component.actions.submit.call(component, eventStub);
 
       // then
-      expect(component.errorMessage).to.equal(`Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`);
+      expect(component.errorMessage).to.equal(
+        `Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`
+      );
     });
   });
 

@@ -1,7 +1,7 @@
 import Response from 'ember-cli-mirage/response';
 import every from 'lodash/every';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const params = JSON.parse(request.requestBody);
   const sessionId = request.params.id;
   const firstName = params.data.attributes['first-name'];

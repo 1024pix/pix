@@ -8,22 +8,21 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Challenge page banner', function() {
+describe('Acceptance | Challenge page banner', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
   let user;
   let campaign;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { title: 'SomeTitle' });
     await authenticateByEmail(user);
   });
 
-  context('When user is starting a campaign assessment', function() {
-
-    it('should display a campaign banner', async function() {
+  context('When user is starting a campaign assessment', function () {
+    it('should display a campaign banner', async function () {
       // when
       await visit(`campagnes/${campaign.code}`);
       await click('.campaign-landing-page__start-button');
@@ -33,10 +32,9 @@ describe('Acceptance | Challenge page banner', function() {
       find('.assessment-banner');
     });
 
-    it('should display accessibility information in the banner', async function() {
+    it('should display accessibility information in the banner', async function () {
       // given
-      server.create('campaign-participation',
-        { campaign, user, isShared: false, createdAt: Date.now() });
+      server.create('campaign-participation', { campaign, user, isShared: false, createdAt: Date.now() });
 
       // when
       await visit(`campagnes/${campaign.code}`);
@@ -45,13 +43,12 @@ describe('Acceptance | Challenge page banner', function() {
       const a11yText = title.firstChild.textContent;
 
       // then
-      expect(a11yText).to.equal('Épreuve pour l\'évaluation : ');
+      expect(a11yText).to.equal("Épreuve pour l'évaluation : ");
     });
 
-    it('should display the campaign name in the banner', async function() {
+    it('should display the campaign name in the banner', async function () {
       // given
-      server.create('campaign-participation',
-        { campaign, user, isShared: false, createdAt: Date.now() });
+      server.create('campaign-participation', { campaign, user, isShared: false, createdAt: Date.now() });
 
       // when
       await visit(`campagnes/${campaign.code}`);

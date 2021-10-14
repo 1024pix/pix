@@ -6,11 +6,9 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 import Route from '@ember/routing/route';
 
 export default Route.extend(UnauthenticatedRouteMixin, {
-
   session: service(),
 
   model() {
-
     // XXX: Model needs to be initialize with empty to handle validations on all fields from Api
     return this.store.createRecord('user', {
       lastName: '',

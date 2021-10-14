@@ -5,7 +5,6 @@ import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import isEmpty from 'lodash/isEmpty';
 
 export default class QcmSolutionPanel extends Component {
-
   get solutionArray() {
     const solution = this.args.solution;
     return !isEmpty(solution) ? valueAsArrayOfBoolean(solution) : [];

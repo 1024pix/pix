@@ -4,12 +4,11 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | user-account | email-verification-code', function() {
+describe('Unit | Component | user-account | email-verification-code', function () {
   setupTest();
 
-  context('#onSubmitCode', function() {
-
-    it('should send entered code for verification and redirect to account page with successful message', async function() {
+  context('#onSubmitCode', function () {
+    it('should send entered code for verification and redirect to account page with successful message', async function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const code = '918435';
@@ -29,7 +28,7 @@ describe('Unit | Component | user-account | email-verification-code', function()
       sinon.assert.calledOnce(component.args.displayEmailUpdateMessage);
     });
 
-    it('should update the user email when code verification is successful', async function() {
+    it('should update the user email when code verification is successful', async function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const code = '918435';
@@ -47,12 +46,10 @@ describe('Unit | Component | user-account | email-verification-code', function()
       // then
       expect(component.currentUser.user.email).to.equal(newEmail);
     });
-
   });
 
-  context('#resendVerificationCodeByEmail', function() {
-
-    it('should be loading while resending email', function() {
+  context('#resendVerificationCodeByEmail', function () {
+    it('should be loading while resending email', function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const newEmail = 'toto@example.net';
@@ -69,7 +66,7 @@ describe('Unit | Component | user-account | email-verification-code', function()
       expect(component.isResending).to.be.true;
     });
 
-    it('should show success message after resending', async function() {
+    it('should show success message after resending', async function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const newEmail = 'toto@example.net';
@@ -86,6 +83,5 @@ describe('Unit | Component | user-account | email-verification-code', function()
       expect(component.isEmailSent).to.be.true;
       expect(component.isResending).to.be.false;
     });
-
   });
 });

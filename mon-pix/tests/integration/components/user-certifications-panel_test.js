@@ -5,17 +5,16 @@ import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe('Integration | Component | user certifications panel', function() {
+describe('Integration | Component | user certifications panel', function () {
   setupIntlRenderingTest();
 
-  it('renders', async function() {
+  it('renders', async function () {
     await render(hbs`<UserCertificationsPanel />`);
     expect(find('.user-certifications-panel')).to.exist;
   });
 
-  context('when there is no certifications', function() {
-
-    it('should render a panel which indicate there is no certifications', async function() {
+  context('when there is no certifications', function () {
+    it('should render a panel which indicate there is no certifications', async function () {
       // when
       await render(hbs`<UserCertificationsPanel />`);
 
@@ -24,9 +23,8 @@ describe('Integration | Component | user certifications panel', function() {
     });
   });
 
-  context('when there is some certifications to show', function() {
-
-    it('should render a certifications list', async function() {
+  context('when there is some certifications to show', function () {
+    it('should render a certifications list', async function () {
       // given
       const certification1 = EmberObject.create({
         id: 1,
@@ -49,7 +47,5 @@ describe('Integration | Component | user certifications panel', function() {
       // then
       expect(find('.user-certifications-panel__certifications-list')).to.exist;
     });
-
   });
-
 });

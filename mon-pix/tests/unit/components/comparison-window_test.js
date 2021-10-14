@@ -5,8 +5,7 @@ import { setupTest } from 'ember-mocha';
 import setupIntl from '../../helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | comparison-window', function() {
-
+describe('Unit | Component | comparison-window', function () {
   setupTest();
   setupIntl();
 
@@ -22,14 +21,13 @@ describe('Unit | Component | comparison-window', function() {
   const challengeQrocmDep = EmberObject.create({ type: 'QROCM-dep' });
   const challengeQrocmDepWithAutoReply = EmberObject.create({ type: 'QROCM-dep', autoReply: true });
 
-  beforeEach(function() {
+  beforeEach(function () {
     answer = EmberObject.create();
     component = createGlimmerComponent('component:comparison-window', { answer });
   });
 
-  describe('#isAssessmentChallengeTypeQroc', function() {
-
-    it('should be true when the challenge is QROC', function() {
+  describe('#isAssessmentChallengeTypeQroc', function () {
+    it('should be true when the challenge is QROC', function () {
       // given
       answer.set('challenge', challengeQroc);
       // when
@@ -38,7 +36,7 @@ describe('Unit | Component | comparison-window', function() {
       expect(isAssessmentChallengeTypeQroc).to.be.true;
     });
 
-    it('should be false when the challenge is not QROCM-ind', function() {
+    it('should be false when the challenge is not QROCM-ind', function () {
       // given
       answer.set('challenge', challengeQrocmInd);
       // when
@@ -48,9 +46,8 @@ describe('Unit | Component | comparison-window', function() {
     });
   });
 
-  describe('#isAssessmentChallengeTypeQcm', function() {
-
-    it('should be true when the challenge is QCM', function() {
+  describe('#isAssessmentChallengeTypeQcm', function () {
+    it('should be true when the challenge is QCM', function () {
       // given
       answer.set('challenge', challengeQcm);
       // when
@@ -59,7 +56,7 @@ describe('Unit | Component | comparison-window', function() {
       expect(isAssessmentChallengeTypeQcm).to.be.true;
     });
 
-    it('should be false when the challenge is not QCM', function() {
+    it('should be false when the challenge is not QCM', function () {
       // given
       answer.set('challenge', challengeQroc);
       // when
@@ -69,9 +66,8 @@ describe('Unit | Component | comparison-window', function() {
     });
   });
 
-  describe('#isAssessmentChallengeTypeQrocmInd', function() {
-
-    it('should be true when the challenge is QROCM-ind', function() {
+  describe('#isAssessmentChallengeTypeQrocmInd', function () {
+    it('should be true when the challenge is QROCM-ind', function () {
       // given
       answer.set('challenge', challengeQrocmInd);
       // when
@@ -80,7 +76,7 @@ describe('Unit | Component | comparison-window', function() {
       expect(isAssessmentChallengeTypeQrocmInd).to.be.true;
     });
 
-    it('should be true when the challenge is not QROCM-ind', function() {
+    it('should be true when the challenge is not QROCM-ind', function () {
       // given
       answer.set('challenge', challengeQroc);
       // when
@@ -90,9 +86,8 @@ describe('Unit | Component | comparison-window', function() {
     });
   });
 
-  describe('#isAssessmentChallengeTypeQrocmDep', function() {
-
-    it('should be true when the challenge is QROCM-dep', function() {
+  describe('#isAssessmentChallengeTypeQrocmDep', function () {
+    it('should be true when the challenge is QROCM-dep', function () {
       // given
       answer.set('challenge', challengeQrocmDep);
       // when
@@ -101,7 +96,7 @@ describe('Unit | Component | comparison-window', function() {
       expect(isAssessmentChallengeTypeQrocmDep).to.be.true;
     });
 
-    it('should be true when the challenge is not QROCM-dep', function() {
+    it('should be true when the challenge is not QROCM-dep', function () {
       // given
       answer.set('challenge', challengeQroc);
       // when
@@ -109,25 +104,64 @@ describe('Unit | Component | comparison-window', function() {
       // then
       expect(isAssessmentChallengeTypeQrocmDep).to.be.false;
     });
-
   });
 
-  describe('#resultItem', function() {
-    beforeEach(function() {
+  describe('#resultItem', function () {
+    beforeEach(function () {
       answer.set('challenge', challengeQcm);
     });
 
     [
-      { validationStatus: 'unavailable (i.e. empty)', result: '', expectedTitle: 'Réponse', expectedTooltip: 'Correction automatique en cours de développement ;)' },
-      { validationStatus: 'unknown', result: 'xxx', expectedTitle: 'Réponse', expectedTooltip: 'Correction automatique en cours de développement ;)' },
-      { validationStatus: 'undefined', result: undefined, expectedTitle: 'Réponse', expectedTooltip: 'Correction automatique en cours de développement ;)' },
-      { validationStatus: 'ok', result: 'ok', expectedTitle: 'Vous avez la bonne réponse !', expectedTooltip: 'Réponse correcte' },
-      { validationStatus: 'ko', result: 'ko', expectedTitle: 'Vous n’avez pas la bonne réponse', expectedTooltip: 'Réponse incorrecte' },
-      { validationStatus: 'aband', result: 'aband', expectedTitle: 'Vous n’avez pas donné de réponse', expectedTooltip: 'Sans réponse' },
-      { validationStatus: 'partially', result: 'partially', expectedTitle: 'Vous avez donné une réponse partielle', expectedTooltip: 'Réponse partielle' },
-      { validationStatus: 'timedout', result: 'timedout', expectedTitle: 'Vous avez dépassé le temps imparti', expectedTooltip: 'Temps dépassé' },
+      {
+        validationStatus: 'unavailable (i.e. empty)',
+        result: '',
+        expectedTitle: 'Réponse',
+        expectedTooltip: 'Correction automatique en cours de développement ;)',
+      },
+      {
+        validationStatus: 'unknown',
+        result: 'xxx',
+        expectedTitle: 'Réponse',
+        expectedTooltip: 'Correction automatique en cours de développement ;)',
+      },
+      {
+        validationStatus: 'undefined',
+        result: undefined,
+        expectedTitle: 'Réponse',
+        expectedTooltip: 'Correction automatique en cours de développement ;)',
+      },
+      {
+        validationStatus: 'ok',
+        result: 'ok',
+        expectedTitle: 'Vous avez la bonne réponse !',
+        expectedTooltip: 'Réponse correcte',
+      },
+      {
+        validationStatus: 'ko',
+        result: 'ko',
+        expectedTitle: 'Vous n’avez pas la bonne réponse',
+        expectedTooltip: 'Réponse incorrecte',
+      },
+      {
+        validationStatus: 'aband',
+        result: 'aband',
+        expectedTitle: 'Vous n’avez pas donné de réponse',
+        expectedTooltip: 'Sans réponse',
+      },
+      {
+        validationStatus: 'partially',
+        result: 'partially',
+        expectedTitle: 'Vous avez donné une réponse partielle',
+        expectedTooltip: 'Réponse partielle',
+      },
+      {
+        validationStatus: 'timedout',
+        result: 'timedout',
+        expectedTitle: 'Vous avez dépassé le temps imparti',
+        expectedTooltip: 'Temps dépassé',
+      },
     ].forEach((data) => {
-      it(`should return adapted title and tooltip when validation is ${data.validationStatus}`, function() {
+      it(`should return adapted title and tooltip when validation is ${data.validationStatus}`, function () {
         // given
         answer.set('result', `${data.result}`);
 
@@ -145,7 +179,7 @@ describe('Unit | Component | comparison-window', function() {
       { result: 'ok', expectedTitle: 'Vous avez réussi l’épreuve', expectedTooltip: 'Épreuve réussie' },
       { result: 'aband', expectedTitle: 'Vous avez passé l’épreuve', expectedTooltip: 'Épreuve passée' },
     ].forEach((data) => {
-      it(`should return adapted title and tooltip when challenge is auto validated and validation is ${data.result}`, function() {
+      it(`should return adapted title and tooltip when challenge is auto validated and validation is ${data.result}`, function () {
         // given
         answer.set('result', `${data.result}`);
         answer.set('challenge', challengeQrocWithAutoReply);
@@ -160,8 +194,8 @@ describe('Unit | Component | comparison-window', function() {
     });
   });
 
-  describe('#solution', function() {
-    it('should return null when challenge has autoReply=true', function() {
+  describe('#solution', function () {
+    it('should return null when challenge has autoReply=true', function () {
       // given
       answer.set('challenge', challengeQrocmDepWithAutoReply);
       answer.set('correction', EmberObject.create());
@@ -173,7 +207,7 @@ describe('Unit | Component | comparison-window', function() {
       expect(solution).to.be.null;
     });
 
-    it('should return solution', function() {
+    it('should return solution', function () {
       // given
       answer.set('challenge', challengeQcu);
       answer.set('correction', EmberObject.create({ solution: 'solution' }));

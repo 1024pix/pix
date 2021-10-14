@@ -11,40 +11,39 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: [
-    'ember',
-    'mocha',
-  ],
+  plugins: ['ember', 'mocha'],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
     'plugin:i18n-json/recommended',
+    'plugin:prettier/recommended',
   ],
   env: {
     browser: true,
   },
   rules: {
-    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
+    'no-restricted-imports': ['error', { paths: ['lodash'] }],
     'ember/avoid-leaking-state-in-ember-objects': 'off',
     'ember/no-get': ['error'],
     'ember/no-empty-attrs': 'error',
     'ember/no-new-mixins': 'off',
     'ember/no-restricted-resolver-tests': 'off',
     'ember/use-ember-data-rfc-395-imports': 'error',
-    'ember/order-in-models': ['error', {
-      order: [
-        'attribute',
-        'relationship',
-        'single-line-function',
-        'multi-line-function',
-      ],
-    }],
+    'ember/order-in-models': [
+      'error',
+      {
+        order: ['attribute', 'relationship', 'single-line-function', 'multi-line-function'],
+      },
+    ],
     /* Recommended rules */
     'ember/no-mixins': 'off',
-    'i18n-json/sorted-keys': ['error', {
-      'order': 'asc',
-      'sortFunctionPath': path.resolve('./config/linter-translation-order.js'),
-    }],
+    'i18n-json/sorted-keys': [
+      'error',
+      {
+        order: 'asc',
+        sortFunctionPath: path.resolve('./config/linter-translation-order.js'),
+      },
+    ],
     'i18n-json/valid-message-syntax': 'warn',
     'no-irregular-whitespace': 'off',
   },
@@ -86,7 +85,7 @@ module.exports = {
         mocha: true,
       },
       globals: {
-        'server': false,
+        server: false,
       },
     },
   ],

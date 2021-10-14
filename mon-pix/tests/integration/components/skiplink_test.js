@@ -5,10 +5,10 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../helpers/contains';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Skip Link', function() {
+describe('Integration | Component | Skip Link', function () {
   setupIntlRenderingTest();
 
-  it('displays supplied label and links to the correct anchor', async function() {
+  it('displays supplied label and links to the correct anchor', async function () {
     await render(hbs`<Skiplink @href="#anchor-link" @label="go-to-link" />`);
 
     expect(contains('go-to-link')).to.exist;
@@ -17,4 +17,3 @@ describe('Integration | Component | Skip Link', function() {
     expect(skipLink.href).to.contain('#anchor-link');
   });
 });
-

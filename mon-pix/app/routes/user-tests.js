@@ -10,7 +10,7 @@ export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
     const user = this.currentUser.user;
     const maximumDisplayed = 100;
     const queryParams = {
-      'userId': user.id,
+      userId: user.id,
       'page[number]': 1,
       'page[size]': maximumDisplayed,
       'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED', 'ARCHIVED'],

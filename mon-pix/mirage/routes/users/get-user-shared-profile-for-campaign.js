@@ -1,4 +1,4 @@
-export default function(schema, request) {
+export default function (schema, request) {
   const { userId, campaignId } = request.params;
   const campaignParticipation = schema.campaignParticipations.findBy({ campaignId });
   const user = schema.users.findBy({ id: userId });

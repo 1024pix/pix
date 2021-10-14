@@ -9,15 +9,9 @@ import { decodeToken } from 'mon-pix/helpers/jwt';
 import config from 'ember-simple-auth-oidc/config';
 import ENV from 'mon-pix/config/environment';
 
-const {
-  host,
-  clientId,
-  afterLogoutUri,
-  endSessionEndpoint,
-} = config;
+const { host, clientId, afterLogoutUri, endSessionEndpoint } = config;
 
 export default OIDCAuthenticator.extend({
-
   session: service(),
 
   async authenticate({ code, redirectUri, state, authenticationKey }) {
@@ -110,5 +104,4 @@ export default OIDCAuthenticator.extend({
 
     location.replace(`${getAbsoluteUrl(endSessionEndpoint, host)}?${params.join('&')}`);
   },
-
 });

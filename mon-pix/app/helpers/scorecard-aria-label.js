@@ -11,8 +11,7 @@ export default class ScorecardAriaLabel extends Helper {
 
     if (isNotStarted) {
       return this.intl.t('pages.profile.competence-card.image-info.no-level');
-    }
-    else if (currentLevel == 0) {
+    } else if (currentLevel == 0) {
       return this.intl.t('pages.profile.competence-card.image-info.first-level', {
         percentageAheadOfNextLevel,
       });

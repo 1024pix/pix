@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Service | errors', function() {
+describe('Unit | Service | errors', function () {
   setupTest();
 
   describe('#push', () => {
-    it('should add error in errors array', function() {
+    it('should add error in errors array', function () {
       // given
       const service = this.owner.lookup('service:errors');
       const error = 'newError';
@@ -20,7 +20,7 @@ describe('Unit | Service | errors', function() {
   });
 
   describe('#shift', () => {
-    it('should return first error and remove it', function() {
+    it('should return first error and remove it', function () {
       // given
       const service = this.owner.lookup('service:errors');
       const error1 = 'newError1';
@@ -38,7 +38,7 @@ describe('Unit | Service | errors', function() {
   });
 
   describe('#hasErrors', () => {
-    it('should return true if there is errors', function() {
+    it('should return true if there is errors', function () {
       // given
       const service = this.owner.lookup('service:errors');
       const error = 'newError';
@@ -51,7 +51,7 @@ describe('Unit | Service | errors', function() {
       expect(result).to.equal(true);
     });
 
-    it('should return false if there is no error', function() {
+    it('should return false if there is no error', function () {
       // given
       const service = this.owner.lookup('service:errors');
 

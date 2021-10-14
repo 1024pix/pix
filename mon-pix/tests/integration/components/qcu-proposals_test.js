@@ -4,20 +4,18 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QCU proposals', function() {
-
+describe('Integration | Component | QCU proposals', function () {
   setupIntlRenderingTest();
 
   /* Rendering
    ----------------------------------------------------- */
 
-  describe('Rendering', function() {
-
+  describe('Rendering', function () {
     let proposals;
     let answers;
     let answerChangedHandler;
 
-    beforeEach(function() {
+    beforeEach(function () {
       proposals = '- prop 1\n- prop 2\n- prop 3';
       answers = [false, true, false];
       answerChangedHandler = () => true;
@@ -27,7 +25,7 @@ describe('Integration | Component | QCU proposals', function() {
     // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
     // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
     // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
-    it('should render as much radio buttons as proposals', async function() {
+    it('should render as much radio buttons as proposals', async function () {
       // given
       this.set('proposals', proposals);
       this.set('answers', answers);
@@ -39,7 +37,5 @@ describe('Integration | Component | QCU proposals', function() {
       // then
       expect(findAll('.proposal-text')).to.have.lengthOf(3);
     });
-
   });
-
 });

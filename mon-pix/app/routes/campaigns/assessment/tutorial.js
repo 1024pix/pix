@@ -6,7 +6,6 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
 
 export default Route.extend(SecuredRouteMixin, {
-
   currentUser: service(),
   intl: service(),
 

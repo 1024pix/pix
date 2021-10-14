@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 
-describe('Unit | Utility | proposals as array', function() {
+describe('Unit | Utility | proposals as array', function () {
   // Replace this with your real tests.
   const testData = [
     { data: '', expected: [] },
@@ -18,8 +18,7 @@ describe('Unit | Utility | proposals as array', function() {
   ];
 
   testData.forEach(({ data, expected }) => {
-
-    it(`"${data.toString()}" retourne [${expected}]`, function() {
+    it(`"${data.toString()}" retourne [${expected}]`, function () {
       expect(proposalsAsArray(data)).to.deep.equal(expected);
     });
   });

@@ -5,19 +5,18 @@ import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe('Integration | Component | user certifications detail result', function() {
+describe('Integration | Component | user certifications detail result', function () {
   setupIntlRenderingTest();
 
   let certification;
 
-  it('renders', async function() {
+  it('renders', async function () {
     await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     expect(find('.user-certifications-detail-result')).to.exist;
   });
 
-  context('when certification is complete', function() {
-
-    beforeEach(async function() {
+  context('when certification is complete', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -37,15 +36,14 @@ describe('Integration | Component | user certifications detail result', function
       await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     });
 
-    it('should show the comment for candidate', function() {
+    it('should show the comment for candidate', function () {
       expect(find('.user-certifications-detail-result__jury__comment')).to.exist;
       expect(find('.user-certifications-detail-result__jury__comment').textContent).to.include('Comment for candidate');
     });
   });
 
-  context('when certification has no comment for user', function() {
-
-    beforeEach(async function() {
+  context('when certification has no comment for user', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -65,14 +63,13 @@ describe('Integration | Component | user certifications detail result', function
       await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     });
 
-    it('should not show the comment for candidate', function() {
+    it('should not show the comment for candidate', function () {
       expect(find('.user-certifications-detail-result__jury__comment')).to.not.exist;
     });
   });
 
-  context('when certification has Cléa', function() {
-
-    beforeEach(async function() {
+  context('when certification has Cléa', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -94,14 +91,13 @@ describe('Integration | Component | user certifications detail result', function
     });
 
     // then
-    it('should show the CLEA badge', function() {
+    it('should show the CLEA badge', function () {
       expect(find('img[alt="Certification cléA numérique"]')).to.exist;
     });
   });
 
-  context('when certification does not have Cléa', function() {
-
-    beforeEach(async function() {
+  context('when certification does not have Cléa', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -123,14 +119,13 @@ describe('Integration | Component | user certifications detail result', function
     });
 
     // then
-    it('should not show the CLEA badge', function() {
+    it('should not show the CLEA badge', function () {
       expect(find('img[alt="Certification cléA numérique"]')).not.to.exist;
     });
   });
 
-  context('when certification has a certified badge image', function() {
-
-    beforeEach(async function() {
+  context('when certification has a certified badge image', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -151,14 +146,13 @@ describe('Integration | Component | user certifications detail result', function
     });
 
     // then
-    it('should show the complementary certification badge', function() {
+    it('should show the complementary certification badge', function () {
       expect(find('img[alt="Certification complémentaire"]')).to.exist;
     });
   });
 
-  context('when certification has no certifed badge image', function() {
-
-    beforeEach(async function() {
+  context('when certification has no certifed badge image', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -181,9 +175,8 @@ describe('Integration | Component | user certifications detail result', function
     });
 
     // then
-    it('should not show the complementary certification badge', function() {
+    it('should not show the complementary certification badge', function () {
       expect(find('img[alt="Certification complémentaire"]')).not.to.exist;
     });
   });
-
 });

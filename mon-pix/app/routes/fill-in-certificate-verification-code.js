@@ -2,7 +2,6 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
 export default class FillInCertificateVerificationCodeRoute extends Route {
-
   @service intl;
 
   message = null;

@@ -4,8 +4,7 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | routes/login-form', function() {
-
+describe('Unit | Component | routes/login-form', function () {
   setupTest();
 
   let sessionStub;
@@ -17,8 +16,7 @@ describe('Unit | Component | routes/login-form', function() {
 
   const eventStub = { preventDefault: sinon.stub() };
 
-  beforeEach(function() {
-
+  beforeEach(function () {
     sessionStub = {
       authenticate: sinon.stub().resolves(),
       isAuthenticated: sinon.stub().returns(true),
@@ -43,9 +41,7 @@ describe('Unit | Component | routes/login-form', function() {
   });
 
   describe('#authenticate', () => {
-
     context('when user is a Pix user', () => {
-
       it('should not notify error when authentication succeeds', async () => {
         // when
         await component.authenticate(eventStub);
@@ -86,7 +82,6 @@ describe('Unit | Component | routes/login-form', function() {
     });
 
     context('when user is external with an existing token id', () => {
-
       const externalUserToken = 'ABCD';
       const expectedUserId = 1;
 
@@ -108,5 +103,4 @@ describe('Unit | Component | routes/login-form', function() {
       });
     });
   });
-
 });

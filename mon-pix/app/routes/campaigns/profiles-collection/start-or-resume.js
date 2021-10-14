@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
-
   async model() {
     return this.modelFor('campaigns.profiles-collection');
   }

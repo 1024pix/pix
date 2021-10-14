@@ -4,7 +4,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Courses | Create Assessment', function() {
+describe('Unit | Route | Courses | Create Assessment', function () {
   setupTest();
 
   let route;
@@ -13,7 +13,7 @@ describe('Unit | Route | Courses | Create Assessment', function() {
   let course;
   let createdAssessment;
 
-  beforeEach(function() {
+  beforeEach(function () {
     course = EmberObject.create({ id: 1, type: 'DEMO' });
     createdAssessment = EmberObject.create({ id: 1234 });
     createRecordStub = sinon.stub().returns({
@@ -25,8 +25,8 @@ describe('Unit | Route | Courses | Create Assessment', function() {
     route.replaceWith = sinon.stub();
   });
 
-  describe('#afterModel', function() {
-    it('should call the creation of a new assessment', async function() {
+  describe('#afterModel', function () {
+    it('should call the creation of a new assessment', async function () {
       // when
       await route.afterModel(course);
 
@@ -34,7 +34,7 @@ describe('Unit | Route | Courses | Create Assessment', function() {
       sinon.assert.calledWith(createRecordStub, 'assessment', { course, type: course.type });
     });
 
-    it('should redirect to resume assessment route', async function() {
+    it('should redirect to resume assessment route', async function () {
       // when
       await route.afterModel(course);
 

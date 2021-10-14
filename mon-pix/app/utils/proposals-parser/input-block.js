@@ -1,16 +1,9 @@
 import ResponseBlock from './response-block';
 import splitters from './splitters';
 
-const {
-  ARIA_LABEL,
-  PLACEHOLDER_AND_ARIA_LABEL,
-  PLACEHOLDER,
-  RESPONSE_BLOCK_BEGIN,
-  RESPONSE_BLOCK_END,
-} = splitters;
+const { ARIA_LABEL, PLACEHOLDER_AND_ARIA_LABEL, PLACEHOLDER, RESPONSE_BLOCK_BEGIN, RESPONSE_BLOCK_END } = splitters;
 
 export default class InputBlock extends ResponseBlock {
-
   constructor({ input, inputIndex }) {
     super({ inputIndex });
     this._input = input.replace(RESPONSE_BLOCK_BEGIN, '').replace(RESPONSE_BLOCK_END, '');
@@ -28,5 +21,4 @@ export default class InputBlock extends ResponseBlock {
     }
     this.setInput(this.input.split(PLACEHOLDER_AND_ARIA_LABEL)[0]);
   }
-
 }

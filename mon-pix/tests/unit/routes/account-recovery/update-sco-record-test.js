@@ -6,27 +6,25 @@ import Service from '@ember/service';
 import { setupTest } from 'ember-mocha';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Route | account-recovery | update sco record', function() {
-
+describe('Unit | Route | account-recovery | update sco record', function () {
   setupTest();
   setupIntl();
 
-  describe('Route behavior', function() {
-
+  describe('Route behavior', function () {
     let storeStub;
     let queryRecordStub;
     const params = {
       temporary_key: 'temporary key',
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       queryRecordStub = sinon.stub();
       storeStub = Service.create({
         queryRecord: queryRecordStub,
       });
     });
 
-    it('should exist', function() {
+    it('should exist', function () {
       // when
       const route = this.owner.lookup('route:account-recovery/update-sco-record');
       route.set('store', storeStub);
@@ -35,7 +33,7 @@ describe('Unit | Route | account-recovery | update sco record', function() {
       expect(route).to.be.ok;
     });
 
-    it('should get valid account recovery', function() {
+    it('should get valid account recovery', function () {
       // given
       queryRecordStub.resolves({});
       const route = this.owner.lookup('route:account-recovery/update-sco-record');
@@ -53,9 +51,8 @@ describe('Unit | Route | account-recovery | update sco record', function() {
       });
     });
 
-    describe('when account recovery demand is valid', function() {
-
-      it('should create account recovery demand with fetched data', function() {
+    describe('when account recovery demand is valid', function () {
+      it('should create account recovery demand with fetched data', function () {
         // given
         const stubbedAccountRecoveryDetails = {
           email: 'philipe@example.net',
@@ -81,12 +78,11 @@ describe('Unit | Route | account-recovery | update sco record', function() {
       });
     });
 
-    describe('when account recovery demand is invalid ', function() {
-
+    describe('when account recovery demand is invalid ', function () {
       ['400', '404'].forEach((statusCode) => {
-        it(`should return error message when account recovery fails with ${statusCode}`, function() {
+        it(`should return error message when account recovery fails with ${statusCode}`, function () {
           // given
-          queryRecordStub.rejects({ errors: [ { status: statusCode }] });
+          queryRecordStub.rejects({ errors: [{ status: statusCode }] });
 
           const route = this.owner.lookup('route:account-recovery/update-sco-record');
           route.set('store', storeStub);
@@ -102,9 +98,9 @@ describe('Unit | Route | account-recovery | update sco record', function() {
         });
       });
 
-      it('should return error message when account recovery fails with 401', function() {
+      it('should return error message when account recovery fails with 401', function () {
         // given
-        queryRecordStub.rejects({ errors: [ { status: 401 }] });
+        queryRecordStub.rejects({ errors: [{ status: 401 }] });
 
         const route = this.owner.lookup('route:account-recovery/update-sco-record');
         route.set('store', storeStub);
@@ -119,9 +115,9 @@ describe('Unit | Route | account-recovery | update sco record', function() {
         });
       });
 
-      it('should return error message when account recovery fails with 400 and ACCOUNT_WITH_EMAIL_ALREADY_EXISTS', function() {
+      it('should return error message when account recovery fails with 400 and ACCOUNT_WITH_EMAIL_ALREADY_EXISTS', function () {
         // given
-        queryRecordStub.rejects({ errors: [ { status: 400, code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
+        queryRecordStub.rejects({ errors: [{ status: 400, code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
 
         const route = this.owner.lookup('route:account-recovery/update-sco-record');
         route.set('store', storeStub);
@@ -136,9 +132,9 @@ describe('Unit | Route | account-recovery | update sco record', function() {
         });
       });
 
-      it('should return error message when account recovery fails with 403', function() {
+      it('should return error message when account recovery fails with 403', function () {
         // given
-        queryRecordStub.rejects({ errors: [ { status: 403 }] });
+        queryRecordStub.rejects({ errors: [{ status: 403 }] });
 
         const route = this.owner.lookup('route:account-recovery/update-sco-record');
         route.set('store', storeStub);
@@ -154,9 +150,9 @@ describe('Unit | Route | account-recovery | update sco record', function() {
       });
 
       ['500', '502', '504'].forEach((statusCode) => {
-        it(`should return error message when account recovery fails with ${statusCode}`, function() {
+        it(`should return error message when account recovery fails with ${statusCode}`, function () {
           // given
-          queryRecordStub.rejects({ errors: [ { status: statusCode }] });
+          queryRecordStub.rejects({ errors: [{ status: statusCode }] });
 
           const route = this.owner.lookup('route:account-recovery/update-sco-record');
           route.set('store', storeStub);

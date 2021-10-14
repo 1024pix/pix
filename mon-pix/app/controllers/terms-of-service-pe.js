@@ -25,14 +25,11 @@ export default class TermsOfServicePeController extends Controller {
       this.showErrorTermsOfServiceNotSelected = false;
       try {
         await this.session.authenticate('authenticator:oidc', { authenticationKey: this.authenticationKey });
-      }
-      catch (error) {
+      } catch (error) {
         this.showErrorTermsOfServiceExpiredAuthenticatedKey = true;
       }
     } else {
       this.showErrorTermsOfServiceNotSelected = true;
     }
   }
-
 }
-

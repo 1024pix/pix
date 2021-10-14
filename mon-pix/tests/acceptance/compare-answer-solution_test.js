@@ -5,12 +5,12 @@ import { setupApplicationTest } from 'ember-mocha';
 import visit from '../helpers/visit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Compare answers and solutions for QCM questions', function() {
+describe('Compare answers and solutions for QCM questions', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
 
-  beforeEach(function() {
+  beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     let challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
     server.create('answer', {
@@ -49,9 +49,8 @@ describe('Compare answers and solutions for QCM questions', function() {
     });
   });
 
-  describe('From the results page', function() {
-
-    it('should display the REPONSE link from the results screen for all known types of question', async function() {
+  describe('From the results page', function () {
+    it('should display the REPONSE link from the results screen for all known types of question', async function () {
       await visit(`/assessments/${assessment.id}/results`);
       expect(findAll('.result-item')[0].textContent).to.contain('Réponses et tutos'); //QCU
       expect(findAll('.result-item')[1].textContent).to.contain('Réponses et tutos'); //QCM
@@ -61,9 +60,8 @@ describe('Compare answers and solutions for QCM questions', function() {
     });
   });
 
-  describe('Content of the correction modal', function() {
-
-    it('should be able to open the correction modal', async function() {
+  describe('Content of the correction modal', function () {
+    it('should be able to open the correction modal', async function () {
       await visit(`/assessments/${assessment.id}/results`);
       expect(find('.comparison-window')).to.not.exist;
 
@@ -72,9 +70,8 @@ describe('Compare answers and solutions for QCM questions', function() {
     });
   });
 
-  describe('Content of the correction modal: results and instructions', function() {
-
-    it('should check the presence of instruction, text and image', async function() {
+  describe('Content of the correction modal: results and instructions', function () {
+    it('should check the presence of instruction, text and image', async function () {
       await visit(`/assessments/${assessment.id}/results`);
       await click('.result-item__correction-button');
 

@@ -5,8 +5,7 @@ import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { contains } from '../../../helpers/contains';
 
-describe('Integration | Component | Content', function() {
-
+describe('Integration | Component | Content', function () {
   setupIntlRenderingTest();
 
   let model;
@@ -26,7 +25,7 @@ describe('Integration | Component | Content', function() {
     };
   });
 
-  it('should display the sitemap menu with expected elements', async function() {
+  it('should display the sitemap menu with expected elements', async function () {
     // when
     await render(hbs`<Sitemap::Content />`);
 
@@ -50,7 +49,7 @@ describe('Integration | Component | Content', function() {
     expect(contains(this.intl.t('pages.sitemap.cgu.subcontractors'))).to.exist;
   });
 
-  it('should display a sublist within skills containing a link to each skill', async function() {
+  it('should display a sublist within skills containing a link to each skill', async function () {
     // given
     this.set('model', model);
 

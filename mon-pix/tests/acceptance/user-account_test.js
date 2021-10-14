@@ -9,14 +9,13 @@ import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | User account page', function() {
+describe('Acceptance | User account page', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
-  context('When user is not connected', function() {
-
-    it('should be redirected to connection page', async function() {
+  context('When user is not connected', function () {
+    it('should be redirected to connection page', async function () {
       // given / when
       await visit('/mon-compte');
 
@@ -25,17 +24,16 @@ describe('Acceptance | User account page', function() {
     });
   });
 
-  context('When user is connected', function() {
-
+  context('When user is connected', function () {
     let user;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
     });
 
-    it('should display my account page', async function() {
+    it('should display my account page', async function () {
       // when
       await visit('/mon-compte');
 
@@ -43,9 +41,8 @@ describe('Acceptance | User account page', function() {
       expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
     });
 
-    describe('My account menu', function() {
-
-      it('should display my account menu', async function() {
+    describe('My account menu', function () {
+      it('should display my account menu', async function () {
         // when
         await visit('/mon-compte');
 
@@ -55,7 +52,7 @@ describe('Acceptance | User account page', function() {
         expect(contains(this.intl.t('pages.user-account.language.menu-link-title'))).to.exist;
       });
 
-      it('should display personal information on click on "Informations personnelles"', async function() {
+      it('should display personal information on click on "Informations personnelles"', async function () {
         // given
         await visit('/mon-compte');
 
@@ -66,7 +63,7 @@ describe('Acceptance | User account page', function() {
         expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
       });
 
-      it('should display connection methods on click on "Méthodes de connexion"', async function() {
+      it('should display connection methods on click on "Méthodes de connexion"', async function () {
         // given
         await visit('/mon-compte');
 
@@ -77,7 +74,7 @@ describe('Acceptance | User account page', function() {
         expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
       });
 
-      it('should display language on click on "Choisir ma langue"', async function() {
+      it('should display language on click on "Choisir ma langue"', async function () {
         // given
         await visit('/mon-compte');
 

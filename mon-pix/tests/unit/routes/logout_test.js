@@ -12,18 +12,21 @@ describe('Unit | Route | logout', () => {
   let sessionStub;
   let campaignStorageStub;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignStorageStub = { clearAll: sinon.stub() };
   });
 
-  it('should disconnect the user', function() {
+  it('should disconnect the user', function () {
     // Given
     const invalidateStub = sinon.stub();
-    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub, data: {
-      authenticated: {
-        source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE,
+    sessionStub = Service.create({
+      isAuthenticated: true,
+      invalidate: invalidateStub,
+      data: {
+        authenticated: {
+          source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE,
+        },
       },
-    },
     });
 
     const route = this.owner.lookup('route:logout');
@@ -37,7 +40,7 @@ describe('Unit | Route | logout', () => {
     sinon.assert.calledOnce(invalidateStub);
   });
 
-  it('should redirect to home when source of connexion is pix', function() {
+  it('should redirect to home when source of connexion is pix', function () {
     // Given
     const invalidateStub = sinon.stub();
 
@@ -56,7 +59,7 @@ describe('Unit | Route | logout', () => {
     sinon.assert.calledOnce(route._redirectToHome);
   });
 
-  it('should redirect to disconnected page when source of connexion is external', function() {
+  it('should redirect to disconnected page when source of connexion is external', function () {
     // Given
     const invalidateStub = sinon.stub();
 
@@ -75,12 +78,14 @@ describe('Unit | Route | logout', () => {
     sinon.assert.calledOnce(route._redirectToDisconnectedPage);
   });
 
-  it('should erase campaign storage', function() {
+  it('should erase campaign storage', function () {
     // Given
     const invalidateStub = sinon.stub();
-    sessionStub = Service.create({ invalidate: invalidateStub, data: {
-      authenticated: {},
-    },
+    sessionStub = Service.create({
+      invalidate: invalidateStub,
+      data: {
+        authenticated: {},
+      },
     });
 
     const route = this.owner.lookup('route:logout');

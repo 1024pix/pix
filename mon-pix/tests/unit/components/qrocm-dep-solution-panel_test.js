@@ -5,39 +5,40 @@ import EmberObject from '@ember/object';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Component | qrocm-dep-solution-panel', function() {
-
+describe('Unit | Component | qrocm-dep-solution-panel', function () {
   setupTest();
   setupIntl();
 
-  describe('#blocks', function() {
-
-    it('should return an array with data to display', function() {
+  describe('#blocks', function () {
+    it('should return an array with data to display', function () {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
-      const answer = { value: 'smiley1: \':)\' smiley2: \'\'', result: 'ko' };
+      const answer = { value: "smiley1: ':)' smiley2: ''", result: 'ko' };
 
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { challenge, answer });
 
-      const expectedBlocksData = [{
-        input: 'smiley1',
-        text: 'content : ',
-        ariaLabel: null,
-        autoAriaLabel: false,
-        inputClass: '',
-        answer: ':)',
-        placeholder: null,
-        type: 'input',
-      }, {
-        input: 'smiley2',
-        text: '<br/><br/>triste : ',
-        ariaLabel: null,
-        autoAriaLabel: false,
-        inputClass: 'correction-qroc-box-answer--aband',
-        answer: 'Pas de réponse',
-        placeholder: null,
-        type: 'input',
-      }];
+      const expectedBlocksData = [
+        {
+          input: 'smiley1',
+          text: 'content : ',
+          ariaLabel: null,
+          autoAriaLabel: false,
+          inputClass: '',
+          answer: ':)',
+          placeholder: null,
+          type: 'input',
+        },
+        {
+          input: 'smiley2',
+          text: '<br/><br/>triste : ',
+          ariaLabel: null,
+          autoAriaLabel: false,
+          inputClass: 'correction-qroc-box-answer--aband',
+          answer: 'Pas de réponse',
+          placeholder: null,
+          type: 'input',
+        },
+      ];
 
       //when
       const blocks = component.blocks;
@@ -45,12 +46,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       //Then
       expect(blocks).to.be.deep.equal(expectedBlocksData);
     });
-
   });
 
-  describe('#answerIsCorrect', function() {
-
-    it('should return true', function() {
+  describe('#answerIsCorrect', function () {
+    it('should return true', function () {
       //Given
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ok' } });
 
@@ -61,7 +60,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       expect(answerIsCorrect).to.be.true;
     });
 
-    it('should return false', function() {
+    it('should return false', function () {
       //Given
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ko' } });
 
@@ -73,9 +72,8 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
     });
   });
 
-  describe('#understandableSolution', function() {
-
-    it('should return the expected answers', function() {
+  describe('#understandableSolution', function () {
+    it('should return the expected answers', function () {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
@@ -91,7 +89,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       expect(understandableSolution).to.be.equal('horizontalité et cadre');
     });
 
-    it('should return examples of good answers', function() {
+    it('should return examples of good answers', function () {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
@@ -107,5 +105,4 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       expect(understandableSolution).to.be.equal('tag ou marche ou ...');
     });
   });
-
 });

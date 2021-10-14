@@ -13,7 +13,8 @@ const STATUS_MAP = {
 
 const ERROR_INPUT_MESSAGE_MAP = {
   emailAlreadyExist: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.email-already-exist',
-  newEmailAlreadyExist: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist',
+  newEmailAlreadyExist:
+    'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist',
   emptyEmail: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email',
   wrongEmailFormat: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format',
 };
@@ -24,16 +25,13 @@ class EmailValidation {
 }
 
 export default class BackupEmailConfirmationFormComponent extends Component {
-
   @service intl;
 
   @tracked email = '';
   @tracked emailValidation = new EmailValidation();
 
   get isSubmitButtonEnabled() {
-    return isEmailValid(this.email)
-      && !this._hasAPIRejectedCall()
-      && !this.args.isLoading;
+    return isEmailValid(this.email) && !this._hasAPIRejectedCall() && !this.args.isLoading;
   }
 
   @action validateEmail() {
@@ -67,5 +65,4 @@ export default class BackupEmailConfirmationFormComponent extends Component {
   _hasAPIRejectedCall() {
     return this.emailValidation.status === STATUS_MAP['errorStatus'];
   }
-
 }

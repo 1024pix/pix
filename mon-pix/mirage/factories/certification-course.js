@@ -2,7 +2,6 @@ import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
 export default Factory.extend({
-
   nbChallenges() {
     return faker.random.number();
   },
@@ -18,9 +17,12 @@ export default Factory.extend({
   afterCreate(certificationCourse, server) {
     if (!certificationCourse.assessment) {
       certificationCourse.update({
-        assessment: server.create('assessment', { type: 'CERTIFICATION', certificationNumber: certificationCourse.id, certificationCourse }),
+        assessment: server.create('assessment', {
+          type: 'CERTIFICATION',
+          certificationNumber: certificationCourse.id,
+          certificationCourse,
+        }),
       });
     }
   },
-
 });

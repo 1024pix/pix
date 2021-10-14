@@ -4,19 +4,18 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | Dashboard | Content', function() {
+describe('Unit | Component | Dashboard | Content', function () {
   let component;
 
   setupTest();
 
-  beforeEach(function() {
+  beforeEach(function () {
     // given
     component = createGlimmerComponent('component:dashboard/content');
   });
 
-  describe('#recommendedScorecards', function() {
-
-    it('should return non-started scorecards', function() {
+  describe('#recommendedScorecards', function () {
+    it('should return non-started scorecards', function () {
       // given
       const scorecards = [
         { id: 1, isNotStarted: true },
@@ -42,7 +41,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.deep.equal(expectedScorecards);
     });
 
-    it('should return scorecards ordered by index', function() {
+    it('should return scorecards ordered by index', function () {
       // given
       const scorecards = [
         { id: 3, index: '3.1', isNotStarted: true },
@@ -65,7 +64,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.deep.equal(expectedScorecards);
     });
 
-    it('should return a maximum of four cards', function() {
+    it('should return a maximum of four cards', function () {
       // given
       const scorecards = [
         { id: 1, isNotStarted: true },
@@ -90,12 +89,10 @@ describe('Unit | Component | Dashboard | Content', function() {
       // then
       expect(result).to.deep.equal(expectedScorecards);
     });
-
   });
 
-  describe('#startedCompetences', function() {
-
-    it('should return started competences', function() {
+  describe('#startedCompetences', function () {
+    it('should return started competences', function () {
       // given
       const scorecards = [
         { id: 1, isStarted: true },
@@ -121,7 +118,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.deep.equal(expectedScorecards);
     });
 
-    it('should return scorecards ordered by index', function() {
+    it('should return scorecards ordered by index', function () {
       // given
       const scorecards = [
         { id: 3, index: '3.1', isStarted: true },
@@ -144,7 +141,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.deep.equal(expectedScorecards);
     });
 
-    it('should return a maximum of four cards', function() {
+    it('should return a maximum of four cards', function () {
       // given
       const scorecards = [
         { id: 1, isStarted: true },
@@ -171,9 +168,8 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
   });
 
-  describe('#improvableScorecards', function() {
-
-    it('should return improvable scorecards', function() {
+  describe('#improvableScorecards', function () {
+    it('should return improvable scorecards', function () {
       // given
       const scorecards = [
         { id: 1, isImprovable: false },
@@ -182,9 +178,7 @@ describe('Unit | Component | Dashboard | Content', function() {
         { id: 3, isImprovable: false },
       ];
 
-      const expectedScorecards = [
-        { id: 5, isImprovable: true },
-      ];
+      const expectedScorecards = [{ id: 5, isImprovable: true }];
 
       component.args.model = { scorecards };
 
@@ -195,7 +189,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.deep.equal(expectedScorecards);
     });
 
-    it('should return scorecards ordered by index', function() {
+    it('should return scorecards ordered by index', function () {
       // given
       const scorecards = [
         { id: 3, index: '3.1', isImprovable: true },
@@ -218,7 +212,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.deep.equal(expectedScorecards);
     });
 
-    it('should return a maximum of four cards', function() {
+    it('should return a maximum of four cards', function () {
       // given
       const scorecards = [
         { id: 1, isImprovable: true },
@@ -245,8 +239,8 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
   });
 
-  describe('#userFirstname', function() {
-    it('should return userFirstname', function() {
+  describe('#userFirstname', function () {
+    it('should return userFirstname', function () {
       // given
       const userFirstName = 'user firstname';
       component.currentUser = EmberObject.create({ user: { firstName: userFirstName } });
@@ -259,8 +253,8 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
   });
 
-  describe('#hasNothingToShow', function() {
-    it('should return true when there is nothing to show', function() {
+  describe('#hasNothingToShow', function () {
+    it('should return true when there is nothing to show', function () {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: false },
@@ -279,7 +273,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.be.true;
     });
 
-    it('should return false when there is one competence started', function() {
+    it('should return false when there is one competence started', function () {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: true },
@@ -298,7 +292,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.be.false;
     });
 
-    it('should return false when there is one competence not started', function() {
+    it('should return false when there is one competence not started', function () {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: false },
@@ -317,7 +311,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.be.false;
     });
 
-    it('should return false when there is one campaign participation', function() {
+    it('should return false when there is one campaign participation', function () {
       // given
       const scorecards = [
         { id: 1, isNotStarted: false, isStarted: false },
@@ -326,9 +320,7 @@ describe('Unit | Component | Dashboard | Content', function() {
         { id: 5, isNotStarted: false, isStarted: false },
         { id: 3, isNotStarted: false, isStarted: false },
       ];
-      const campaignParticipationOverviews = [
-        { id: 1 },
-      ];
+      const campaignParticipationOverviews = [{ id: 1 }];
 
       component.args.model = { scorecards, campaignParticipationOverviews };
 
@@ -338,11 +330,10 @@ describe('Unit | Component | Dashboard | Content', function() {
       // then
       expect(result).to.be.false;
     });
-
   });
 
-  describe('#userScore', function() {
-    it('should return user score', function() {
+  describe('#userScore', function () {
+    it('should return user score', function () {
       // given
       const pixScore = '68';
       component.currentUser = EmberObject.create({ user: { profile: { pixScore } } });
@@ -355,8 +346,8 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
   });
 
-  describe('#profileCollectionCampaignParticipationCode', function() {
-    it('should return the most recent profile collection campaign participation code among the unfinished ones', function() {
+  describe('#profileCollectionCampaignParticipationCode', function () {
+    it('should return the most recent profile collection campaign participation code among the unfinished ones', function () {
       // given
       const campaignNotFinished = EmberObject.create({
         isShared: false,
@@ -386,7 +377,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(campaignParticipationCode).to.equal(expectedResult);
     });
 
-    it('should return null when all campaign are finished', function() {
+    it('should return null when all campaign are finished', function () {
       // given
       const campaignFinished = EmberObject.create({
         isShared: true,

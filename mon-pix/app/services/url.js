@@ -8,7 +8,7 @@ export default class Url extends Service {
   @service currentDomain;
   @service intl;
 
-  definedHomeUrl= ENV.rootURL;
+  definedHomeUrl = ENV.rootURL;
 
   get isFrenchDomainExtension() {
     return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;

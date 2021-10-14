@@ -2,16 +2,16 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | SharedProfileForCampaign model', function() {
+describe('Unit | Model | SharedProfileForCampaign model', function () {
   let store;
 
   setupTest();
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('should return an array of unique areas code', function() {
+  it('should return an array of unique areas code', function () {
     // given
     const area1 = store.createRecord('area', { code: 1 });
     const area2 = store.createRecord('area', { code: 2 });

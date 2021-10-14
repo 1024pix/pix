@@ -3,12 +3,12 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Entry Point', function() {
+describe('Unit | Route | Entry Point', function () {
   setupTest();
 
   let route, campaign;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaign = EmberObject.create({
       id: 3,
       code: 'NEW_CODE',
@@ -21,8 +21,8 @@ describe('Unit | Route | Entry Point', function() {
     route.campaignStorage = { set: sinon.stub(), clear: sinon.stub() };
   });
 
-  describe('#model', function() {
-    it('should load model', async function() {
+  describe('#model', function () {
+    it('should load model', async function () {
       //given/when
       await route.model();
 
@@ -31,8 +31,8 @@ describe('Unit | Route | Entry Point', function() {
     });
   });
 
-  describe('#afterModel', function() {
-    it('should erase campaign storage', async function() {
+  describe('#afterModel', function () {
+    it('should erase campaign storage', async function () {
       //given/when
       await route.afterModel({ code: 'CODE' });
 
@@ -41,19 +41,19 @@ describe('Unit | Route | Entry Point', function() {
     });
   });
 
-  describe('#redirect', function() {
+  describe('#redirect', function () {
     let transition;
-    beforeEach(function() {
+    beforeEach(function () {
       transition = { to: { queryParams: {} } };
     });
 
-    describe('user not connected', function() {
-      beforeEach(function() {
+    describe('user not connected', function () {
+      beforeEach(function () {
         route.session.isAuthenticated = false;
         route.currentUser = undefined;
       });
 
-      it('should not call queryRecord to retrieve campaignParticipation', async function() {
+      it('should not call queryRecord to retrieve campaignParticipation', async function () {
         //when
         await route.redirect(campaign, transition);
 
@@ -61,7 +61,7 @@ describe('Unit | Route | Entry Point', function() {
         sinon.assert.notCalled(route.store.queryRecord);
       });
 
-      it('should redirect to landing page', async function() {
+      it('should redirect to landing page', async function () {
         //when
         await route.redirect(campaign, transition);
 
@@ -69,12 +69,12 @@ describe('Unit | Route | Entry Point', function() {
         sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
       });
 
-      describe('archived campaign', function() {
-        beforeEach(function() {
+      describe('archived campaign', function () {
+        beforeEach(function () {
           campaign.isArchived = true;
         });
 
-        it('should redirect to not-found page', async function() {
+        it('should redirect to not-found page', async function () {
           //when
           await route.redirect(campaign, transition);
 
@@ -84,13 +84,13 @@ describe('Unit | Route | Entry Point', function() {
       });
     });
 
-    describe('user connected', function() {
-      beforeEach(function() {
+    describe('user connected', function () {
+      beforeEach(function () {
         route.currentUser = { user: { id: 12 } };
         route.session.isAuthenticated = true;
       });
 
-      it('should call queryRecord to retrieve campaignParticipation', async function() {
+      it('should call queryRecord to retrieve campaignParticipation', async function () {
         //when
         await route.redirect(campaign, transition);
 
@@ -101,12 +101,14 @@ describe('Unit | Route | Entry Point', function() {
         });
       });
 
-      it('should redirect to landing page when no ongoing campaign participation', async function() {
+      it('should redirect to landing page when no ongoing campaign participation', async function () {
         //given
-        route.store.queryRecord.withArgs('campaignParticipation', {
-          campaignId: 3,
-          userId: 12,
-        }).resolves(null);
+        route.store.queryRecord
+          .withArgs('campaignParticipation', {
+            campaignId: 3,
+            userId: 12,
+          })
+          .resolves(null);
 
         //when
         await route.redirect(campaign, transition);
@@ -115,12 +117,14 @@ describe('Unit | Route | Entry Point', function() {
         sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
       });
 
-      it('should redirect to start-or-resume when ongoing campaign participation is existing', async function() {
+      it('should redirect to start-or-resume when ongoing campaign participation is existing', async function () {
         //given
-        route.store.queryRecord.withArgs('campaignParticipation', {
-          campaignId: 3,
-          userId: 12,
-        }).resolves('Ma Participation');
+        route.store.queryRecord
+          .withArgs('campaignParticipation', {
+            campaignId: 3,
+            userId: 12,
+          })
+          .resolves('Ma Participation');
 
         //when
         await route.redirect(campaign, transition);
@@ -129,17 +133,19 @@ describe('Unit | Route | Entry Point', function() {
         sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume');
       });
 
-      describe('archived campaign', function() {
-        beforeEach(function() {
+      describe('archived campaign', function () {
+        beforeEach(function () {
           campaign.isArchived = true;
         });
 
-        it('should redirect to not-found page with no participation', async function() {
+        it('should redirect to not-found page with no participation', async function () {
           //given
-          route.store.queryRecord.withArgs('campaignParticipation', {
-            campaignId: 3,
-            userId: 12,
-          }).resolves(null);
+          route.store.queryRecord
+            .withArgs('campaignParticipation', {
+              campaignId: 3,
+              userId: 12,
+            })
+            .resolves(null);
 
           //when
           await route.redirect(campaign, transition);
@@ -148,12 +154,14 @@ describe('Unit | Route | Entry Point', function() {
           sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-not-found');
         });
 
-        it('should redirect to start or resume page with participation', async function() {
+        it('should redirect to start or resume page with participation', async function () {
           //given
-          route.store.queryRecord.withArgs('campaignParticipation', {
-            campaignId: 3,
-            userId: 12,
-          }).resolves('Ma Participation');
+          route.store.queryRecord
+            .withArgs('campaignParticipation', {
+              campaignId: 3,
+              userId: 12,
+            })
+            .resolves('Ma Participation');
 
           //when
           await route.redirect(campaign, transition);
@@ -164,14 +172,16 @@ describe('Unit | Route | Entry Point', function() {
       });
     });
 
-    describe('participantExternalId', function() {
-      describe('when there are participantExternalId', function() {
-        it('sets the current participantExternalId', async function() {
+    describe('participantExternalId', function () {
+      describe('when there are participantExternalId', function () {
+        it('sets the current participantExternalId', async function () {
           //given
           transition = { to: { queryParams: { participantExternalId: 'externalId' } } };
-          route.currentUser = { user: {
-            id: 12,
-          } };
+          route.currentUser = {
+            user: {
+              id: 12,
+            },
+          };
 
           //when
           await route.redirect(campaign, transition);
@@ -181,13 +191,15 @@ describe('Unit | Route | Entry Point', function() {
         });
       });
 
-      describe('when there is no participantExternalId', function() {
-        it('does not set the participantExternalId', async function() {
+      describe('when there is no participantExternalId', function () {
+        it('does not set the participantExternalId', async function () {
           //given
-          const transition = { to: { queryParams: { } } };
-          route.currentUser = { user: {
-            id: 12,
-          } };
+          const transition = { to: { queryParams: {} } };
+          route.currentUser = {
+            user: {
+              id: 12,
+            },
+          };
 
           //when
           await route.redirect(campaign, transition);
@@ -198,14 +210,16 @@ describe('Unit | Route | Entry Point', function() {
       });
     });
 
-    describe('retry', function() {
-      describe('when there are retry', function() {
-        it('sets the current retry', async function() {
+    describe('retry', function () {
+      describe('when there are retry', function () {
+        it('sets the current retry', async function () {
           //given
           const transition = { to: { queryParams: { retry: 'true' } } };
-          route.currentUser = { user: {
-            id: 12,
-          } };
+          route.currentUser = {
+            user: {
+              id: 12,
+            },
+          };
 
           //when
           await route.redirect(campaign, transition);
@@ -215,13 +229,15 @@ describe('Unit | Route | Entry Point', function() {
         });
       });
 
-      describe('when there is no retry', function() {
-        it('does not set the retry', async function() {
+      describe('when there is no retry', function () {
+        it('does not set the retry', async function () {
           //given
-          const transition = { to: { queryParams: { } } };
-          route.currentUser = { user: {
-            id: 12,
-          } };
+          const transition = { to: { queryParams: {} } };
+          route.currentUser = {
+            user: {
+              id: 12,
+            },
+          };
 
           //when
           await route.redirect(campaign, transition);

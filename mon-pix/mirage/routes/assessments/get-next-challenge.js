@@ -3,7 +3,7 @@ import first from 'lodash/first';
 import difference from 'lodash/difference';
 import Response from 'ember-cli-mirage/response';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const assessmentId = request.params.id;
   const assessment = schema.assessments.find(assessmentId);
   let challengeIdStartsWith;

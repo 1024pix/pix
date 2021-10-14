@@ -12,15 +12,11 @@ describe('Acceptance | Timed challenge', () => {
   let timedChallenge;
 
   context('Timed Challenge', () => {
-    context('when asking for confirmation', function() {
+    context('when asking for confirmation', function () {
       beforeEach(async () => {
         // given
         assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-        timedChallenge = server.create(
-          'challenge',
-          'forCompetenceEvaluation',
-          'timed',
-        );
+        timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -36,18 +32,11 @@ describe('Acceptance | Timed challenge', () => {
     });
 
     context('when the confirmation button is clicked', () => {
-      context('and the challenge has not been already answered', function() {
+      context('and the challenge has not been already answered', function () {
         beforeEach(async () => {
           // given
-          assessment = server.create(
-            'assessment',
-            'ofCompetenceEvaluationType',
-          );
-          timedChallenge = server.create(
-            'challenge',
-            'forCompetenceEvaluation',
-            'timed',
-          );
+          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+          timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -68,18 +57,11 @@ describe('Acceptance | Timed challenge', () => {
         });
       });
 
-      context('and the challenge has already been skipped before', function() {
+      context('and the challenge has already been skipped before', function () {
         beforeEach(async () => {
           // given
-          assessment = server.create(
-            'assessment',
-            'ofCompetenceEvaluationType',
-          );
-          timedChallenge = server.create(
-            'challenge',
-            'forCompetenceEvaluation',
-            'timed',
-          );
+          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+          timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
           server.create('answer', 'skipped', {
             assessment,
             challenge: timedChallenge,
@@ -107,16 +89,8 @@ describe('Acceptance | Timed challenge', () => {
     context('when the challenge is already timeout', () => {
       beforeEach(async () => {
         // given
-        assessment = server.create(
-          'assessment',
-          'ofCompetenceEvaluationType',
-          'withCurrentChallengeTimeout',
-        );
-        timedChallenge = server.create(
-          'challenge',
-          'forCompetenceEvaluation',
-          'timed',
-        );
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeTimeout');
+        timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -132,9 +106,7 @@ describe('Acceptance | Timed challenge', () => {
       });
 
       it('should display the timer without time remains', () => {
-        expect(
-          find('[data-test="timeout-gauge-remaining"]').textContent,
-        ).to.contains('0:00');
+        expect(find('[data-test="timeout-gauge-remaining"]').textContent).to.contains('0:00');
       });
 
       it('should only display continue button', () => {
@@ -144,15 +116,11 @@ describe('Acceptance | Timed challenge', () => {
       });
     });
   });
-  context('when user seen two timed challenge', function() {
+  context('when user seen two timed challenge', function () {
     beforeEach(async () => {
       // given
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      timedChallenge = server.create(
-        'challenge',
-        'forCompetenceEvaluation',
-        'timed',
-      );
+      timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
       server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
       // when

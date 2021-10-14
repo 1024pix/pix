@@ -4,8 +4,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import setupIntl from '../../helpers/setup-intl';
 
-describe('Unit | Controller | Fill in Campaign Code', function() {
-
+describe('Unit | Controller | Fill in Campaign Code', function () {
   setupIntlRenderingTest();
   setupIntl();
 
@@ -14,7 +13,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   let currentUserStub;
   let eventStub;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
     const routerStub = { transitionTo: sinon.stub() };
     sessionStub = { invalidate: sinon.stub() };
@@ -28,12 +27,16 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   });
 
   describe('#startCampaign', () => {
-
     it('should call start-or-resume', async () => {
       // given
       const campaignCode = 'azerty1';
       const campaign = Symbol('someCampaign');
-      const storeStub = { queryRecord: sinon.stub().withArgs('campaign', { filter: { code: campaignCode } }).resolves(campaign) };
+      const storeStub = {
+        queryRecord: sinon
+          .stub()
+          .withArgs('campaign', { filter: { code: campaignCode } })
+          .resolves(campaign),
+      };
       controller.set('store', storeStub);
       controller.set('campaignCode', campaignCode);
 
@@ -59,35 +62,47 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
-      const storeStub = { queryRecord: sinon.stub().withArgs('campaign', { filter: { code: campaignCode } }).rejects({ errors: [{ status: '404' }] }) };
+      const storeStub = {
+        queryRecord: sinon
+          .stub()
+          .withArgs('campaign', { filter: { code: campaignCode } })
+          .rejects({ errors: [{ status: '404' }] }),
+      };
       controller.set('store', storeStub);
 
       // when
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Votre code est erroné, veuillez vérifier ou contacter l’organisateur.');
+      expect(controller.get('errorMessage')).to.equal(
+        'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
+      );
     });
 
     it('should set error when student is not authorized in campaign', async () => {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
-      const storeStub = { queryRecord: sinon.stub().withArgs('campaign', { filter: { code: campaignCode } }).rejects({ errors: [{ status: '403' }] }) };
+      const storeStub = {
+        queryRecord: sinon
+          .stub()
+          .withArgs('campaign', { filter: { code: campaignCode } })
+          .rejects({ errors: [{ status: '403' }] }),
+      };
       controller.set('store', storeStub);
 
       // When
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');
+      expect(controller.get('errorMessage')).to.equal(
+        'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.'
+      );
     });
   });
 
   describe('get firstTitle', () => {
-
     context('When user is not authenticated', () => {
-
       it('should return the not connected first title', () => {
         // given
         sessionStub.isAuthenticated = false;
@@ -102,11 +117,12 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
     });
 
     context('When user is authenticated', () => {
-
       it('should return the connected first title with user firstName', () => {
         // given
         sessionStub.isAuthenticated = true;
-        const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: currentUserStub.user.firstName });
+        const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-connected', {
+          firstName: currentUserStub.user.firstName,
+        });
 
         // when
         const firstTitle = controller.firstTitle;
@@ -117,7 +133,6 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
     });
 
     context('When user is anonymous', () => {
-
       it('should return the not connected first title', () => {
         // given
         sessionStub.isAuthenticated = true;
@@ -134,7 +149,6 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   });
 
   describe('get isUserAuthenticated', () => {
-
     it('should return session.isAuthenticated', () => {
       // given
       sessionStub.isAuthenticated = true;
@@ -148,7 +162,6 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   });
 
   describe('get showWarningMessage', () => {
-
     it('should return true if user is authenticated and not anonymous', () => {
       // given
       sessionStub.isAuthenticated = true;
@@ -186,7 +199,6 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   });
 
   describe('#disconnect', () => {
-
     it('should invalidate the session', () => {
       // when
       controller.disconnect();

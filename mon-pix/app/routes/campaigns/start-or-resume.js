@@ -108,7 +108,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   _updateStateFrom({ campaign = {}, ongoingCampaignParticipation = null, session }) {
-    const hasUserCompletedRestrictedCampaignAssociation = this.campaignStorage.get(campaign.code, 'associationDone') || false;
+    const hasUserCompletedRestrictedCampaignAssociation =
+      this.campaignStorage.get(campaign.code, 'associationDone') || false;
     const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
     const participantExternalId = this.campaignStorage.get(campaign.code, 'participantExternalId');
     this.state = {
@@ -124,7 +125,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       participantExternalId,
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
-      isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
+      isUserLoggedInPoleEmploi:
+        get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
     };
   }
 
@@ -137,7 +139,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async _createCampaignParticipation(campaign) {
-    const campaignParticipation = this.store.createRecord('campaign-participation', { campaign, participantExternalId: this.state.participantExternalId });
+    const campaignParticipation = this.store.createRecord('campaign-participation', {
+      campaign,
+      participantExternalId: this.state.participantExternalId,
+    });
 
     try {
       await campaignParticipation.save();
@@ -170,14 +175,18 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _redirectToLoginBeforeAccessingToCampaign(transition, campaign, displayRegisterForm) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code, { queryParams: { displayRegisterForm } });
+    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code, {
+      queryParams: { displayRegisterForm },
+    });
   }
 
   get _shouldLoginToAccessRestrictedCampaign() {
-    return this.state.isCampaignRestricted
-      && this.state.isCampaignForSCOOrganization
-      && !this.state.isUserLogged
-      && (!this.state.externalUser || this.state.hasUserSeenJoinPage);
+    return (
+      this.state.isCampaignRestricted &&
+      this.state.isCampaignForSCOOrganization &&
+      !this.state.isUserLogged &&
+      (!this.state.externalUser || this.state.hasUserSeenJoinPage)
+    );
   }
 
   get _shouldVisitPoleEmploiLoginPage() {
@@ -185,26 +194,27 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldJoinRestrictedCampaign() {
-    return this.state.isCampaignRestricted
-      && (this.state.isUserLogged || this.state.externalUser)
-      && !this.state.hasUserCompletedRestrictedCampaignAssociation;
+    return (
+      this.state.isCampaignRestricted &&
+      (this.state.isUserLogged || this.state.externalUser) &&
+      !this.state.hasUserCompletedRestrictedCampaignAssociation
+    );
   }
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
-    return this.state.isCampaignSimplifiedAccess
-      && !this.state.isUserLogged;
+    return this.state.isCampaignSimplifiedAccess && !this.state.isUserLogged;
   }
 
   get _shouldDisconnectAnonymousUser() {
-    return this.state.isUserLogged
-      && this.currentUser.user.isAnonymous
-      && !this.state.participantExternalId;
+    return this.state.isUserLogged && this.currentUser.user.isAnonymous && !this.state.participantExternalId;
   }
 
   get _shouldProvideExternalIdToAccessCampaign() {
-    return this.state.doesCampaignAskForExternalId
-      && !this.state.participantExternalId
-      && !this.state.doesUserHaveOngoingParticipation;
+    return (
+      this.state.doesCampaignAskForExternalId &&
+      !this.state.participantExternalId &&
+      !this.state.doesUserHaveOngoingParticipation
+    );
   }
 
   _shouldStartCampaignParticipation(campaign) {

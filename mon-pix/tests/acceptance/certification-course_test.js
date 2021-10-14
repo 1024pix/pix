@@ -8,55 +8,50 @@ import visit from '../helpers/visit';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Certification | Start Certification Course', function() {
+describe('Acceptance | Certification | Start Certification Course', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
   let user;
 
-  describe('Start a certification course', function() {
-
-    context('When user is not logged in', function() {
-
-      beforeEach(async function() {
+  describe('Start a certification course', function () {
+    context('When user is not logged in', function () {
+      beforeEach(async function () {
         user = server.create('user', 'withEmail');
         await visit('/certifications');
       });
 
-      it('should redirect to login page', function() {
+      it('should redirect to login page', function () {
         // then
         expect(currentURL()).to.match(/connexion/);
       });
-
     });
 
-    context('When user is logged in', function() {
-
-      context('When user is not certifiable', function() {
-
-        beforeEach(async function() {
+    context('When user is logged in', function () {
+      context('When user is not certifiable', function () {
+        beforeEach(async function () {
           user = server.create('user', 'withEmail', 'notCertifiable');
           await authenticateByEmail(user);
           return visit('/certifications');
         });
 
-        it('should render the not certifiable template', function() {
-          expect(find('.certification-not-certifiable__title').textContent.trim()).to.equal('Votre profil n\'est pas encore certifiable.');
+        it('should render the not certifiable template', function () {
+          expect(find('.certification-not-certifiable__title').textContent.trim()).to.equal(
+            "Votre profil n'est pas encore certifiable."
+          );
         });
-
       });
 
-      context('When user is certifiable', function() {
-
-        beforeEach(async function() {
+      context('When user is certifiable', function () {
+        beforeEach(async function () {
           user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
           await authenticateByEmail(user);
           return visit('/certifications');
         });
 
-        context('when user forget to fill a field', function() {
-          beforeEach(async function() {
+        context('when user forget to fill a field', function () {
+          beforeEach(async function () {
             await visit('/certifications');
 
             // when
@@ -71,14 +66,16 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should display an error message', function() {
+          it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
+              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+            );
           });
         });
 
-        context('when no candidate with given info has been registered in the given session', function() {
-          beforeEach(async function() {
+        context('when no candidate with given info has been registered in the given session', function () {
+          beforeEach(async function () {
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -91,14 +88,16 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should display an error message', function() {
+          it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
+              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+            );
           });
         });
 
-        context('when several candidates with given info are found in the given session', function() {
-          beforeEach(async function() {
+        context('when several candidates with given info are found in the given session', function () {
+          beforeEach(async function () {
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -111,14 +110,16 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should display an error message', function() {
+          it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
+              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+            );
           });
         });
 
-        context('when user has already been linked to another candidate in the session', function() {
-          beforeEach(async function() {
+        context('when user has already been linked to another candidate in the session', function () {
+          beforeEach(async function () {
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -131,14 +132,16 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should display an error message', function() {
+          it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
+              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+            );
           });
         });
 
-        context('when candidate has already been linked to another user in the session', function() {
-          beforeEach(async function() {
+        context('when candidate has already been linked to another user in the session', function () {
+          beforeEach(async function () {
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -151,14 +154,16 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should display an error message', function() {
+          it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
+              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+            );
           });
         });
 
-        context('when user is already linked to this candidate', function() {
-          beforeEach(async function() {
+        context('when user is already linked to this candidate', function () {
+          beforeEach(async function () {
             // given
             this.server.schema.certificationCandidates.create({
               id: 1,
@@ -179,14 +184,14 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should render the component to provide the access code', function() {
+          it('should render the component to provide the access code', function () {
             // then
             expect(find('.certification-start-page__title')).to.exist;
           });
         });
 
-        context('when user is successfuly linked to the candidate', function() {
-          beforeEach(async function() {
+        context('when user is successfuly linked to the candidate', function () {
+          beforeEach(async function () {
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -199,18 +204,18 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          it('should render the component to provide the access code', function() {
+          it('should render the component to provide the access code', function () {
             // then
             expect(find('.certification-start-page__title')).to.exist;
           });
         });
 
-        context('when user takes the certification course', function() {
+        context('when user takes the certification course', function () {
           let certificationCourse;
           let assessment;
           const NB_CHALLENGES = 3;
 
-          beforeEach(function() {
+          beforeEach(function () {
             for (let i = 0; i < NB_CHALLENGES; ++i) {
               server.create('challenge', 'forCertification');
             }
@@ -224,8 +229,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             assessment = certificationCourse.assessment;
           });
 
-          context('when user enter a correct code session', function() {
-            beforeEach(async function() {
+          context('when user enter a correct code session', function () {
+            beforeEach(async function () {
               // when
               await fillCertificationJoiner({
                 sessionId: '1',
@@ -239,21 +244,20 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
             });
 
-            it('should be redirected on the first challenge of an assessment', async function() {
+            it('should be redirected on the first challenge of an assessment', async function () {
               // then
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges`)).to.be.true;
             });
 
-            it('should navigate to next challenge when we click pass', async function() {
+            it('should navigate to next challenge when we click pass', async function () {
               // when
               await click('.challenge-actions__action-skip-text');
               // then
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges`)).to.be.true;
             });
 
-            context('after skipping the all challenges of the certification course', function() {
-
-              it('should navigate to redirect to certification result page at the end of the assessment', async function() {
+            context('after skipping the all challenges of the certification course', function () {
+              it('should navigate to redirect to certification result page at the end of the assessment', async function () {
                 // when
                 for (let i = 0; i < NB_CHALLENGES; ++i) {
                   await click('.challenge-actions__action-skip');
@@ -265,9 +269,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             });
           });
 
-          context('When stop and relaunch the certification course', function() {
-
-            it('should be redirected directly on the certification course', async function() {
+          context('When stop and relaunch the certification course', function () {
+            it('should be redirected directly on the certification course', async function () {
               // given
               await fillCertificationJoiner({
                 sessionId: '1',

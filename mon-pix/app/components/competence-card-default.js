@@ -26,5 +26,4 @@ export default class CompetenceCardDefault extends Component {
     const scorecardId = this.args.scorecard.id;
     return this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
-
 }

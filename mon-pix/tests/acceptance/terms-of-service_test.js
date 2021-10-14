@@ -7,13 +7,13 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | terms-of-service', function() {
+describe('Acceptance | terms-of-service', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
   let user;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = server.create('user', {
       email: 'with-email',
       password: 'pix123',
@@ -22,9 +22,8 @@ describe('Acceptance | terms-of-service', function() {
     });
   });
 
-  describe('When user log in and must validate Pix latest terms of service', async function() {
-
-    it('should be redirected to terms-of-services page', async function() {
+  describe('When user log in and must validate Pix latest terms of service', async function () {
+    it('should be redirected to terms-of-services page', async function () {
       // when
       await authenticateByEmail(user);
 
@@ -33,8 +32,8 @@ describe('Acceptance | terms-of-service', function() {
     });
   });
 
-  describe('when the user has validated terms of service', async function() {
-    it('should redirect to default page when user validate the terms of service', async function() {
+  describe('when the user has validated terms of service', async function () {
+    it('should redirect to default page when user validate the terms of service', async function () {
       // given
       await authenticateByEmail(user);
 
@@ -47,4 +46,3 @@ describe('Acceptance | terms-of-service', function() {
     });
   });
 });
-

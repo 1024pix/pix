@@ -17,11 +17,18 @@ export default class JoinRoute extends Route {
 
   async afterModel(campaign) {
     if (!this.session.get('data.externalUser')) {
-      let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
+      let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', {
+        userId: this.currentUser.user.id,
+        campaignCode: campaign.code,
+      });
 
       if (isEmpty(schoolingRegistration) && campaign.organizationType === 'SCO') {
         try {
-          schoolingRegistration = await this.store.createRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code })
+          schoolingRegistration = await this.store
+            .createRecord('schooling-registration-user-association', {
+              userId: this.currentUser.user.id,
+              campaignCode: campaign.code,
+            })
             .save({ adapterOptions: { tryReconciliation: true } });
         } catch (error) {
           if (get(error, 'errors[0].status') !== '422') {

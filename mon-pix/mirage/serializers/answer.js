@@ -1,12 +1,10 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  include: [
-    'challenge',
-  ],
+  include: ['challenge'],
   links(answer) {
     return {
-      'correction': {
+      correction: {
         related: `/api/answers/${answer.id}/correction`,
       },
     };

@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 
 export default class ChallengeEmbedSimulator extends Component {
-
   @tracked
   isLoadingEmbed = true;
 

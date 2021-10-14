@@ -7,7 +7,6 @@ import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | password-reset-demand-form', () => {
-
   setupTest();
 
   let component;
@@ -15,8 +14,7 @@ describe('Unit | Component | password-reset-demand-form', () => {
   let createRecordStub, saveStub;
 
   describe('#savePasswordResetDemand', () => {
-
-    beforeEach(function() {
+    beforeEach(function () {
       saveStub = sinon.stub().resolves();
       createRecordStub = sinon.stub().resolves({
         save: saveStub,
@@ -77,5 +75,4 @@ describe('Unit | Component | password-reset-demand-form', () => {
       expect(component.hasFailed).to.be.false;
     });
   });
-
 });

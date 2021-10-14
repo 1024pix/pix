@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-describe('Unit | Utility | proposals as blocks', function() {
-
+describe('Unit | Utility | proposals as blocks', function () {
   const testData = [
     {
       data: '',
@@ -11,21 +10,15 @@ describe('Unit | Utility | proposals as blocks', function() {
     },
     {
       data: 'Text',
-      expected: [
-        { text: 'Text', type: 'text' },
-      ],
+      expected: [{ text: 'Text', type: 'text' }],
     },
     {
       data: '\nTexte avec des \n retours à la ligne \n',
-      expected: [
-        { text: '<br/>Texte avec des <br/> retours à la ligne <br/>', type: 'text' },
-      ],
+      expected: [{ text: '<br/>Texte avec des <br/> retours à la ligne <br/>', type: 'text' }],
     },
     {
       data: '${qroc}',
-      expected: [
-        { input: 'qroc', text: null, placeholder: null, ariaLabel: '1', type: 'input', autoAriaLabel: true },
-      ],
+      expected: [{ input: 'qroc', text: null, placeholder: null, ariaLabel: '1', type: 'input', autoAriaLabel: true }],
     },
     {
       data: '${annee#19XX}',
@@ -36,7 +29,14 @@ describe('Unit | Utility | proposals as blocks', function() {
     {
       data: '${a#PlaceHolder§AriaLabel}',
       expected: [
-        { input: 'a', text: null, placeholder: 'PlaceHolder', ariaLabel: 'AriaLabel', type: 'input', autoAriaLabel: false },
+        {
+          input: 'a',
+          text: null,
+          placeholder: 'PlaceHolder',
+          ariaLabel: 'AriaLabel',
+          type: 'input',
+          autoAriaLabel: false,
+        },
       ],
     },
     {
@@ -54,20 +54,41 @@ describe('Unit | Utility | proposals as blocks', function() {
     {
       data: '${annee#19XX§Année de construction}',
       expected: [
-        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input', autoAriaLabel: false },
+        {
+          input: 'annee',
+          text: null,
+          placeholder: '19XX',
+          ariaLabel: 'Année de construction',
+          type: 'input',
+          autoAriaLabel: false,
+        },
       ],
     },
     {
       data: 'Et ta réponse est : ${annee#19XX§Année de construction}',
       expected: [
         { text: 'Et ta réponse est : ', type: 'text' },
-        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input', autoAriaLabel: false },
+        {
+          input: 'annee',
+          text: null,
+          placeholder: '19XX',
+          ariaLabel: 'Année de construction',
+          type: 'input',
+          autoAriaLabel: false,
+        },
       ],
     },
     {
       data: 'Réponse : ${test#1 ou 2}',
       expected: [
-        { text: 'Réponse : ', input: 'test', placeholder: '1 ou 2', ariaLabel: null, type: 'input', autoAriaLabel: false },
+        {
+          text: 'Réponse : ',
+          input: 'test',
+          placeholder: '1 ou 2',
+          ariaLabel: null,
+          type: 'input',
+          autoAriaLabel: false,
+        },
       ],
     },
     {
@@ -89,15 +110,11 @@ describe('Unit | Utility | proposals as blocks', function() {
     },
     {
       data: 'line1\nline2',
-      expected: [
-        { text: 'line1<br/>line2', type: 'text' },
-      ],
+      expected: [{ text: 'line1<br/>line2', type: 'text' }],
     },
     {
       data: 'line1\r<br/>line2',
-      expected: [
-        { text: 'line1\r<br/>line2', type: 'text' },
-      ],
+      expected: [{ text: 'line1\r<br/>line2', type: 'text' }],
     },
     {
       data: '-${plop}',
@@ -116,16 +133,21 @@ describe('Unit | Utility | proposals as blocks', function() {
     {
       data: '- line ${plop}',
       expected: [
-        { text: '<br/>- line ', input: 'plop', placeholder: null, ariaLabel: null, type: 'input', autoAriaLabel: false },
+        {
+          text: '<br/>- line ',
+          input: 'plop',
+          placeholder: null,
+          ariaLabel: null,
+          type: 'input',
+          autoAriaLabel: false,
+        },
       ],
     },
   ];
 
   testData.forEach(({ data, expected }) => {
-
     it(`"${data}" retourne ${JSON.stringify(expected)}`, () => {
       expect(proposalsAsBlocks(data)).to.deep.equal(expected);
     });
   });
-
 });

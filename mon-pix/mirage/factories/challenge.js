@@ -2,7 +2,6 @@ import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 export default Factory.extend({
-
   id() {
     return `rec_${faker.random.alphaNumeric(5)}`;
   },
@@ -46,10 +45,11 @@ export default Factory.extend({
 
   QCM: trait({
     type: 'QCM',
-    instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs',
+    instruction: "Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs",
     attachments: ['http://example_of_url'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
-    proposals: '- *possibilite* 1, et/ou' +
+    proposals:
+      '- *possibilite* 1, et/ou' +
       '\n - [possibilite 2](/test), et/ou' +
       '\n - ![possibilite 3](/images/pix-logo-blanc.svg), et/ou' +
       '\n - possibilite 4',
@@ -57,10 +57,11 @@ export default Factory.extend({
 
   QCU: trait({
     type: 'QCU',
-    instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul',
+    instruction: "Un QCU propose plusieurs choix, l'utilisateur peut en choisir un seul",
     attachments: ['file.docx', 'file.odt'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-    proposals: '- 1ere *possibilite*\n ' +
+    proposals:
+      '- 1ere *possibilite*\n ' +
       '- 2eme [possibilite](/test)\n ' +
       '- ![3eme possibilite](/images/pix-logo-blanc.svg)\n' +
       '- 4eme possibilite',
@@ -94,19 +95,22 @@ export default Factory.extend({
 
   QROCMind: trait({
     type: 'QROCM-ind',
-    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
+    instruction:
+      "L'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.",
     proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}',
   }),
 
   QROCMDep: trait({
     type: 'QROCM-dep',
-    instruction: 'Aurélie est montée dans le métro après avoir pris cette photo sur le quai.\n A quelle station peut-elle descendre ?',
+    instruction:
+      'Aurélie est montée dans le métro après avoir pris cette photo sur le quai.\n A quelle station peut-elle descendre ?',
     proposals: 'Station **1** : ${station1}\n' + 'Station *2* : ${station2}',
   }),
 
   QROCMWithSelect: trait({
     type: 'QROCM-ind',
-    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
+    instruction:
+      "L'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.",
     proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["mango","potato"]}',
   }),
 

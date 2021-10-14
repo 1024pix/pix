@@ -4,11 +4,11 @@ import { setupTest } from 'ember-mocha';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Adapter | Email-Verification-Code', function() {
+describe('Unit | Adapter | Email-Verification-Code', function () {
   setupTest();
 
   describe('#buildURL', () => {
-    it('should call API to send email verification code', async function() {
+    it('should call API to send email verification code', async function () {
       // given
       const adapter = this.owner.lookup('adapter:email-verification-code');
       const getStub = sinon.stub();

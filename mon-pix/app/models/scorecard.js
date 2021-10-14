@@ -60,7 +60,7 @@ export default class Scorecard extends Model {
   }
 
   get percentageAheadOfNextLevel() {
-    const percentage = this.pixScoreAheadOfNextLevel / NUMBER_OF_PIX_BY_LEVEL * 100;
+    const percentage = (this.pixScoreAheadOfNextLevel / NUMBER_OF_PIX_BY_LEVEL) * 100;
 
     return percentage >= MAX_DISPLAYED_PERCENTAGE ? MAX_DISPLAYED_PERCENTAGE : percentage;
   }

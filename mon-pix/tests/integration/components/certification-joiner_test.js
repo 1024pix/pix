@@ -8,12 +8,11 @@ import { contains } from '../../helpers/contains';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-describe('Integration | Component | certification-joiner', function() {
+describe('Integration | Component | certification-joiner', function () {
   setupIntlRenderingTest();
 
-  describe('#submit', function() {
-
-    it('should create certificate candidate with trimmed first and last name', async function() {
+  describe('#submit', function () {
+    it('should create certificate candidate with trimmed first and last name', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -25,7 +24,7 @@ describe('Integration | Component | certification-joiner', function() {
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: function() {} });
+      createRecordMock.returns({ save: function () {} });
       store.createRecord = createRecordMock;
 
       // when
@@ -40,7 +39,7 @@ describe('Integration | Component | certification-joiner', function() {
       });
     });
 
-    it('should create certificate candidate with padded numbers in birthday', async function() {
+    it('should create certificate candidate with padded numbers in birthday', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -52,7 +51,7 @@ describe('Integration | Component | certification-joiner', function() {
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: function() {} });
+      createRecordMock.returns({ save: function () {} });
       store.createRecord = createRecordMock;
 
       // when
@@ -67,7 +66,7 @@ describe('Integration | Component | certification-joiner', function() {
       });
     });
 
-    it('should call the stepChange action when certification candidate creation is successful', async function() {
+    it('should call the stepChange action when certification candidate creation is successful', async function () {
       // given
       const stepChangeStub = sinon.stub();
       this.set('onStepChange', stepChangeStub);
@@ -80,7 +79,7 @@ describe('Integration | Component | certification-joiner', function() {
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: function() {} });
+      createRecordMock.returns({ save: function () {} });
       store.createRecord = createRecordMock;
 
       // when
@@ -90,7 +89,7 @@ describe('Integration | Component | certification-joiner', function() {
       sinon.assert.calledWith(stepChangeStub, '123456');
     });
 
-    it('should display an error message if session id contains letters', async function() {
+    it('should display an error message if session id contains letters', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -102,7 +101,7 @@ describe('Integration | Component | certification-joiner', function() {
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: function() {} });
+      createRecordMock.returns({ save: function () {} });
       store.createRecord = createRecordMock;
 
       // when
@@ -112,7 +111,7 @@ describe('Integration | Component | certification-joiner', function() {
       expect(contains('Le numéro de session est composé uniquement de chiffres.')).to.exist;
     });
 
-    it('should display an error message on student mismatch error', async function() {
+    it('should display an error message on student mismatch error', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -124,29 +123,30 @@ describe('Integration | Component | certification-joiner', function() {
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
-      saveStub
-        .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
-        .throws(
+      saveStub.withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } }).throws({
+        errors: [
           {
-            errors: [
-              {
-                detail: 'Some message',
-                code: 'MATCHING_RECONCILED_STUDENT_NOT_FOUND',
-              },
-            ],
-          });
+            detail: 'Some message',
+            code: 'MATCHING_RECONCILED_STUDENT_NOT_FOUND',
+          },
+        ],
+      });
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: saveStub, deleteRecord: function() {} });
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
       store.createRecord = createRecordMock;
 
       // when
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains('Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.')).to.exist;
+      expect(
+        contains(
+          'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.'
+        )
+      ).to.exist;
     });
 
-    it('should display an error message on candidate not found', async function() {
+    it('should display an error message on candidate not found', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -160,19 +160,23 @@ describe('Integration | Component | certification-joiner', function() {
       const saveStub = sinon.stub();
       saveStub
         .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
-        .throws({ errors: [ { detail: 'blublabli' }] });
+        .throws({ errors: [{ detail: 'blublabli' }] });
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: saveStub, deleteRecord: function() {} });
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
       store.createRecord = createRecordMock;
 
       // when
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.')).to.exist;
+      expect(
+        contains(
+          'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+        )
+      ).to.exist;
     });
 
-    it('should display an error message on session not accessible', async function() {
+    it('should display an error message on session not accessible', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -186,16 +190,17 @@ describe('Integration | Component | certification-joiner', function() {
       const saveStub = sinon.stub();
       saveStub
         .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
-        .throws({ errors: [ { status: '412' }] });
+        .throws({ errors: [{ status: '412' }] });
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: saveStub, deleteRecord: function() {} });
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
       store.createRecord = createRecordMock;
 
       // when
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains('Oups ! La session est en cours de traitement par les équipes Pix et n\'est plus accessible.')).to.exist;
+      expect(contains("Oups ! La session est en cours de traitement par les équipes Pix et n'est plus accessible.")).to
+        .exist;
     });
   });
 });

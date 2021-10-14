@@ -8,22 +8,22 @@ import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import visit from '../helpers/visit';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Footer', function() {
+describe('Acceptance | Footer', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
   let user;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', function() {
-    beforeEach(async function() {
+  describe('Authenticated cases as simple user', function () {
+    beforeEach(async function () {
       await authenticateByEmail(user);
     });
 
-    it('should not be displayed while in campaign', async function() {
+    it('should not be displayed while in campaign', async function () {
       // given
       const campaign = server.create('campaign', 'withOneChallenge');
 
@@ -34,20 +34,24 @@ describe('Acceptance | Footer', function() {
       expect(find('.footer')).to.not.exist;
     });
 
-    it('should contain link to support.pix.org', async function() {
+    it('should contain link to support.pix.org', async function () {
       // when
       await visit('/');
 
       // then
-      expect(find('.footer-container-content__navigation ul li:nth-child(1) a').getAttribute('href')).to.contains('support.pix.org');
+      expect(find('.footer-container-content__navigation ul li:nth-child(1) a').getAttribute('href')).to.contains(
+        'support.pix.org'
+      );
     });
 
-    it('should contain link to pix.fr/accessibilite', async function() {
+    it('should contain link to pix.fr/accessibilite', async function () {
       // when
       await visit('/');
 
       // then
-      expect(find('.footer-container-content__navigation ul li:nth-child(2) a').getAttribute('href')).to.contains('/accessibilite');
+      expect(find('.footer-container-content__navigation ul li:nth-child(2) a').getAttribute('href')).to.contains(
+        '/accessibilite'
+      );
     });
   });
 });

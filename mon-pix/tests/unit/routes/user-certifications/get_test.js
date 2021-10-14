@@ -5,8 +5,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | user certifications/get', function() {
-
+describe('Unit | Route | user certifications/get', function () {
   setupTest();
 
   let route;
@@ -14,7 +13,7 @@ describe('Unit | Route | user certifications/get', function() {
   let findRecordStub;
   const certificationId = 'certification_id';
 
-  beforeEach(function() {
+  beforeEach(function () {
     // define stubs
     findRecordStub = sinon.stub();
     storeStub = Service.create({
@@ -26,13 +25,12 @@ describe('Unit | Route | user certifications/get', function() {
     route.replaceWith = sinon.stub().resolves();
   });
 
-  it('exists', function() {
+  it('exists', function () {
     expect(route).to.be.ok;
   });
 
-  describe('#model', function() {
-
-    it('should get the certification', function() {
+  describe('#model', function () {
+    it('should get the certification', function () {
       // given
       const params = { id: certificationId };
       const retreivedCertification = [EmberObject.create({ id: certificationId })];
@@ -48,7 +46,7 @@ describe('Unit | Route | user certifications/get', function() {
       });
     });
 
-    it('should not return to /mes-certifications when the certification is published and validated', function() {
+    it('should not return to /mes-certifications when the certification is published and validated', function () {
       // given
       const params = { id: certificationId };
       const retrievedCertification = EmberObject.create({
@@ -70,7 +68,7 @@ describe('Unit | Route | user certifications/get', function() {
       });
     });
 
-    it('should return to /mes-certifications when the certification is not published', function() {
+    it('should return to /mes-certifications when the certification is not published', function () {
       // given
       const params = { id: certificationId };
       const retreivedCertification = EmberObject.create({
@@ -93,7 +91,7 @@ describe('Unit | Route | user certifications/get', function() {
       });
     });
 
-    it('should return to /mes-certifications when the certification is not validated', function() {
+    it('should return to /mes-certifications when the certification is not validated', function () {
       // given
       const params = { id: certificationId };
       const retreivedCertification = EmberObject.create({

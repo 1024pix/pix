@@ -4,7 +4,6 @@ import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { equal, or } from '@ember/object/computed';
 import ENV from 'mon-pix/config/environment';
 export default class Assessment extends Model {
-
   // attributes
   @attr('string') certificationNumber;
   @attr('string') codeCampaign;
@@ -43,14 +42,14 @@ export default class Assessment extends Model {
   get answersSinceLastCheckpoints() {
     const answers = this.answers.toArray();
     const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
-    const sliceAnswersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
-      ? -ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS
-      : -howManyAnswersSinceTheLastCheckpoint;
+    const sliceAnswersFrom =
+      howManyAnswersSinceTheLastCheckpoint === 0
+        ? -ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS
+        : -howManyAnswersSinceTheLastCheckpoint;
     return answers.slice(sliceAnswersFrom);
   }
 
   get currentChallengeNumber() {
     return this.answers.length;
   }
-
 }

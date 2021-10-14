@@ -5,4 +5,3 @@ export default class ResetExpiredPasswordDemand extends Model {
   @attr('string') newPassword;
   @attr('string') oneTimePassword;
 }
-

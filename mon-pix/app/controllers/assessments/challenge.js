@@ -26,7 +26,10 @@ export default class ChallengeController extends Controller {
   }
 
   get pageTitle() {
-    const stepNumber = progressInAssessment.getCurrentStepNumber(this.model.assessment, this.model.currentChallengeNumber);
+    const stepNumber = progressInAssessment.getCurrentStepNumber(
+      this.model.assessment,
+      this.model.currentChallengeNumber
+    );
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
 
     const title = this.model.challenge.focused ? this._focusedPageTitle() : this.challengeTitle;
@@ -46,7 +49,12 @@ export default class ChallengeController extends Controller {
   }
 
   get couldDisplayInfoAlert() {
-    return !this.hasFocusedOutOfWindow && !this.model.answer && this.model.challenge.focused && !this.model.assessment.hasFocusedOutChallenge;
+    return (
+      !this.hasFocusedOutOfWindow &&
+      !this.model.answer &&
+      this.model.challenge.focused &&
+      !this.model.assessment.hasFocusedOutChallenge
+    );
   }
 
   get displayInfoAlertForFocusOut() {
@@ -109,6 +117,8 @@ export default class ChallengeController extends Controller {
   }
 
   get displayTimedChallengeInstructions() {
-    return this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning && !this.model.assessment.hasTimeoutChallenge;
+    return (
+      this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning && !this.model.assessment.hasTimeoutChallenge
+    );
   }
 }

@@ -11,10 +11,13 @@ export default class Sitemap extends Route.extend(SecuredRouteMixin) {
 
     const profile = await user.belongsTo('profile').reload();
 
-    const scorecards = profile.scorecards.map((scorecard) => scorecard = {
-      competenceId: scorecard.competenceId,
-      name: scorecard.name,
-    });
+    const scorecards = profile.scorecards.map(
+      (scorecard) =>
+        (scorecard = {
+          competenceId: scorecard.competenceId,
+          name: scorecard.name,
+        })
+    );
 
     return {
       scorecards,
