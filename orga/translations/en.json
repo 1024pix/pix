@@ -782,6 +782,10 @@
     "team-new": {
       "title": "Invite a member",
       "email-requirement": "Enter here the email address of the member you want to invite.",
+      "success": {
+        "invitation": "An invitation has been sent to the email address {email}.",
+        "multiple-invitations": "An invitation has been sent to the listed email addresses."
+      },
       "errors": {
         "default": "The service is temporarily unavailable. Please try again later.",
         "status": {
