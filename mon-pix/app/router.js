@@ -78,6 +78,7 @@ Router.map(function () {
       this.route('login-or-register-to-access', { path: '/identification' });
       this.route('join', { path: '/rejoindre' });
     });
+    this.route('entrance', { path: '/entree' });
     this.route('profiles-collection', { path: '/collecte' }, function () {
       this.route('start-or-resume', { path: '/' });
       this.route('send-profile', { path: '/envoi-profil' });
