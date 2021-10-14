@@ -157,6 +157,7 @@ module.exports = (function () {
     featureToggles: {
       isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
+      isEndTestScreenRemovalEnabled: isFeatureEnabled(process.env.FT_END_TEST_SCREEN_REMOVAL_ENABLED),
     },
 
     infra: {

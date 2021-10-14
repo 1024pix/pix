@@ -23,6 +23,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           attributes: {
             'is-manage-uncompleted-certif-enabled': false,
             'is-email-validation-enabled': false,
+            'is-end-test-screen-removal-enabled': false,
           },
           type: 'feature-toggles',
         },
