@@ -230,12 +230,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
                 ],
               };
               await mockLearningContent(learningContent);
-              databaseBuilder.factory.buildBadgePartnerCompetence({
+              databaseBuilder.factory.buildSkillSet({
                 badgeId,
                 skillIds: ['recSkill1_1', 'recSkill2_2'],
                 name: 'badgePart1',
               });
-              databaseBuilder.factory.buildBadgePartnerCompetence({
+              databaseBuilder.factory.buildSkillSet({
                 badgeId,
                 skillIds: ['recSkill1_2', 'recSkill2_1', 'recSkill3_1'],
                 name: 'badgePart2',
@@ -270,7 +270,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
                 ],
               };
               await mockLearningContent(learningContent);
-              databaseBuilder.factory.buildBadgePartnerCompetence({
+              databaseBuilder.factory.buildSkillSet({
                 badgeId,
                 skillIds: ['recSkill1_1', 'recSkill2_1'],
                 name: 'badgePart1',
@@ -349,12 +349,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
               ],
             };
             await mockLearningContent(learningContent);
-            databaseBuilder.factory.buildBadgePartnerCompetence({
+            databaseBuilder.factory.buildSkillSet({
               badgeId,
               skillIds: ['recSkill1_1', 'recSkill2_1'],
               name: 'old_clea',
             });
-            databaseBuilder.factory.buildBadgePartnerCompetence({
+            databaseBuilder.factory.buildSkillSet({
               badgeId: anotherBadgeId,
               skillIds: ['recSkillA_B', 'recSkillC_D'],
               name: 'new_clea',

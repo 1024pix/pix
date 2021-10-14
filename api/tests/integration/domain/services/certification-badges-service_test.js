@@ -68,7 +68,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }).id;
-      const badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({
+      const badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({
         badgeId: badge.id,
         skillIds: ['web1', 'web2', 'web3', 'web4'],
       });

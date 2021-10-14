@@ -356,7 +356,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
       userWithoutBadge = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable.id, userId: user.id });
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeNonCertifiable.id, userId: user.id });
-      badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badgeCertifiable.id });
+      badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({ badgeId: badgeCertifiable.id });
       badgePartnerCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badgeCertifiable.id });
       await databaseBuilder.commit();
     });
@@ -381,7 +381,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
           id: badgePartnerCriterion.id,
           scope: badgePartnerCriterion.scope,
           threshold: badgePartnerCriterion.threshold,
-          partnerCompetenceIds: badgePartnerCriterion.partnerCompetenceIds,
+          skillSetIds: badgePartnerCriterion.skillSetIds,
         },
       ];
 

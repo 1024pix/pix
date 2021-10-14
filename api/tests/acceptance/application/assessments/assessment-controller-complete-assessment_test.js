@@ -306,7 +306,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
           limitDate: moment(limitDate).add(1, 'day').toDate(),
         }).id;
         const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
-        databaseBuilder.factory.buildBadgePartnerCompetence({
+        databaseBuilder.factory.buildSkillSet({
           badgeId,
           skillIds: ['recSkill0_0'],
         });

@@ -468,7 +468,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           });
 
           const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId });
-          const badgePartnerCompetence1 = databaseBuilder.factory.buildBadgePartnerCompetence({
+          const badgePartnerCompetence1 = databaseBuilder.factory.buildSkillSet({
             id: 1,
             badgeId: 1,
             name: 'BadgeCompt1',
@@ -476,7 +476,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
             color: 'BadgeCompt1Color',
             skillIds: ['skill1', 'skill2'],
           });
-          const badgePartnerCompetence2 = databaseBuilder.factory.buildBadgePartnerCompetence({
+          const badgePartnerCompetence2 = databaseBuilder.factory.buildSkillSet({
             id: 2,
             badgeId: 1,
             name: 'BadgeCompt2',
