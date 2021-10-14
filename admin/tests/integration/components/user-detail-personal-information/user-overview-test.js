@@ -230,13 +230,33 @@ module('Integration | Component | user-detail-personal-information/user-overview
         assert.dom('.user-edit-form__username').hasValue(this.user.username);
       });
 
-      test('should not display email', async function (assert) {
+      test('should display email', async function (assert) {
         // given
         const user = EmberObject.create({
           lastName: 'Harry',
           firstName: 'John',
           email: null,
           username: 'user.name1212',
+        });
+        this.set('user', user);
+
+        // when
+        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        await clickByLabel('Modifier');
+
+        // then
+        assert.contains('E-mail :');
+      });
+    });
+
+    module('when user has no username and no email', function () {
+      test('should not display email', async function (assert) {
+        // given
+        const user = EmberObject.create({
+          lastName: 'Harry',
+          firstName: 'John',
+          email: null,
+          username: undefined,
         });
         this.set('user', user);
 
