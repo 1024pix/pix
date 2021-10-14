@@ -11,6 +11,7 @@ export default class AuthenticatedController extends Controller {
   @tracked isBannerVisible = true;
   @service router;
   @service currentUser;
+  @service featureToggles;
 
   get showBanner() {
     const isOnFinalizationPage = this.router.currentRouteName === 'authenticated.sessions.finalize';
@@ -29,6 +30,10 @@ export default class AuthenticatedController extends Controller {
 
   get showLinkToSessions() {
     return !this.currentUser.currentAllowedCertificationCenterAccess.isAccessRestricted;
+  }
+
+  get isEndTestScreenRemovalEnabled() {
+    return this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled;
   }
 
   @action

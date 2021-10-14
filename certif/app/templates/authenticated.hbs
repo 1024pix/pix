@@ -16,6 +16,14 @@
               Sessions
             </LinkTo>
           </li>
+          {{#if this.isEndTestScreenRemovalEnabled}}
+            <li>
+              <LinkTo @route="login-session-supervisor" class="sidebar-menu__item" type="button" aria-label="Portail surveillant">
+                <FaIcon @icon='eye' @class="sidebar-menu__item-icon" />
+                Portail surveillant
+              </LinkTo>
+            </li>
+          {{/if}}
         {{/if}}
         <li>
           <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
