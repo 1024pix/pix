@@ -83,6 +83,14 @@
 
 .tooltip-tag-information {
 
+  &__title {
+    margin-bottom: 16px;
+    line-height: 1rem;
+    font-family: $font-roboto;
+    font-size: 1.125rem;
+    font-weight: $font-medium;
+  }
+
   &__text {
     font-family: $font-roboto;
     font-size: 0.875rem;
@@ -91,10 +99,6 @@
     text-align: left;
     font-weight: $font-normal;
     letter-spacing: 0;
-
-    @include device-is('tablet') {
-      font-size: 1rem;
-    }
   }
 
   &__button {
