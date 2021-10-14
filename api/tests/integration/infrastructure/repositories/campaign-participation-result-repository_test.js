@@ -1,6 +1,9 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participation Result', function () {
   describe('#getByParticipationId', function () {
@@ -96,7 +99,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -158,7 +160,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -239,7 +240,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: false,
+          status: STARTED,
           sharedAt: null,
         });
 
@@ -299,7 +300,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -394,7 +394,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -465,7 +464,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId,
-            isShared: true,
             sharedAt: new Date('2020-01-02'),
           });
 

@@ -2,6 +2,9 @@ const { catchErr, expect, databaseBuilder, mockLearningContent } = require('../.
 const participantResultRepository = require('../../../../lib/infrastructure/repositories/participant-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | ParticipantResultRepository', function () {
   describe('#getByUserIdAndCampaignId', function () {
@@ -269,7 +272,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -320,7 +322,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -363,7 +364,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -442,7 +442,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           masteryRate: 0.65,
           sharedAt: new Date('2020-01-02'),
         });
@@ -535,7 +534,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -604,13 +602,11 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
         const { id: otherCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: otherCampaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -690,7 +686,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId,
-            isShared: true,
             sharedAt: new Date('2020-01-02'),
           });
 
@@ -808,7 +803,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
           masteryRate: 0.6,
         });
@@ -832,7 +826,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: false,
+          status: STARTED,
           sharedAt: null,
         });
 

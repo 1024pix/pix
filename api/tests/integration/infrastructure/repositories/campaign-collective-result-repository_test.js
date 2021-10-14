@@ -1,14 +1,16 @@
+const _ = require('lodash');
 const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const campaignCollectiveResultRepository = require('../../../../lib/infrastructure/repositories/campaign-collective-result-repository');
 const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
-const _ = require('lodash');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt, isImproved) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    isShared: true,
     sharedAt,
     isImproved,
   });
@@ -21,7 +23,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    isShared: false,
+    status: STARTED,
     isImproved: false,
   });
 
@@ -228,7 +230,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId: goliathId,
-            isShared: false,
+            status: STARTED,
             isImproved: false,
           });
 
@@ -862,14 +864,12 @@ describe('Integration | Repository | Campaign collective result repository', fun
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId,
-            isShared: true,
             sharedAt: new Date('2020-01-01'),
             isImproved: true,
           });
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId,
-            isShared: true,
             sharedAt: new Date('2020-01-04'),
             isImproved: false,
           });

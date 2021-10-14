@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
+
 const {
   databaseBuilder,
   expect,
@@ -88,7 +92,6 @@ describe('Acceptance | API | Campaign Controller', function () {
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         userId,
-        isShared: true,
         createdAt: new Date(participationStartDate),
         sharedAt: new Date('2018-01-27'),
       });
@@ -377,7 +380,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
       });
-      databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
 
       await databaseBuilder.commit();
 
@@ -688,11 +691,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         });
 
         const participantId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({
-          isShared: true,
-          campaignId: campaign.id,
-          userId: participantId1,
-        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
         databaseBuilder.factory.buildSchoolingRegistration({
           firstName: 'Barry',
           lastName: 'Withe',
@@ -702,11 +701,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         });
 
         const participantId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({
-          isShared: true,
-          campaignId: campaign.id,
-          userId: participantId2,
-        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
         databaseBuilder.factory.buildSchoolingRegistration({
           firstName: 'Marvin',
           lastName: 'Gaye',
@@ -755,11 +750,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         });
 
         const participantId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({
-          isShared: true,
-          campaignId: campaign.id,
-          userId: participantId1,
-        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
         databaseBuilder.factory.buildSchoolingRegistration({
           firstName: 'Barry',
           lastName: 'Withe',
@@ -769,11 +760,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         });
 
         const participantId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({
-          isShared: true,
-          campaignId: campaign.id,
-          userId: participantId2,
-        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
         databaseBuilder.factory.buildSchoolingRegistration({
           firstName: 'Marvin',
           lastName: 'Gaye',
@@ -783,11 +770,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         });
 
         const participantId3 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({
-          isShared: true,
-          campaignId: campaign.id,
-          userId: participantId3,
-        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId3 });
         databaseBuilder.factory.buildSchoolingRegistration({
           firstName: 'Aretha',
           lastName: 'Franklin',
@@ -917,7 +900,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         userId: participant1.id,
       });
       databaseBuilder.factory.buildAssessmentFromParticipation(
-        { campaignId: campaign.id, isShared: false },
+        { campaignId: campaign.id, status: STARTED },
         participant2
       );
       databaseBuilder.factory.buildSchoolingRegistration({

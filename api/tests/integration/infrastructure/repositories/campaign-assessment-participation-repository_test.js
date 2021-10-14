@@ -3,6 +3,9 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const campaignAssessmentParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Assessment Participation', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {
@@ -20,7 +23,6 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
       const participation = {
         participantExternalId: '123AZ',
         createdAt: new Date('2020-10-10'),
-        isShared: true,
         sharedAt: new Date('2020-12-12'),
         masteryRate: 0.5,
       };
@@ -103,7 +105,6 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          isShared: true,
           sharedAt: new Date('2020-12-12'),
         }).id;
         databaseBuilder.factory.buildAssessment({
@@ -146,7 +147,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignId = databaseBuilder.factory.buildAssessmentCampaign({}, [skill1]).id;
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation(
           {
-            isShared: false,
+            status: STARTED,
             sharedAt: null,
             campaignId,
           },
@@ -182,7 +183,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId,
-            isShared: false,
+            status: STARTED,
             sharedAt: null,
           }).id;
 
@@ -249,7 +250,6 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          isShared: true,
           sharedAt: new Date('2020-12-12'),
         }).id;
 

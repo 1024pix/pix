@@ -55,7 +55,6 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       userId: user.id,
       participantExternalId,
       createdAt,
-      isShared: status === SHARED,
       status,
       sharedAt,
       isImproved,
@@ -136,7 +135,6 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       campaignId,
       userId,
       participantExternalId: userId,
-      isShared: status === SHARED,
       status,
       sharedAt,
     });
@@ -150,7 +148,6 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
         campaignId,
         userId,
         participantExternalId: userId,
-        isShared: status === SHARED,
         status: status,
         sharedAt: oldSharedAt,
         isImproved,

@@ -1,6 +1,9 @@
 const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const campaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function () {
   describe('#findPaginatedByCampaignId', function () {
@@ -35,7 +38,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
     it('should not return participant data summary for a not shared campaign participation', async function () {
       // given
-      const campaignParticipation = { campaignId, isShared: false, sharedAt: null };
+      const campaignParticipation = { campaignId, status: STARTED, sharedAt: null };
       databaseBuilder.factory.buildCampaignParticipationWithUser({}, campaignParticipation, false);
       await databaseBuilder.commit();
 
@@ -116,15 +119,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       beforeEach(async function () {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const userId = 999;
-        campaignParticipation = {
-          id: 888,
-          userId,
-          campaignId,
-          isShared: true,
-          sharedAt,
-          participantExternalId: 'JeBu',
-          pixScore: 46,
-        };
+        campaignParticipation = { id: 888, userId, campaignId, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
         databaseBuilder.factory.buildCampaignParticipationWithUser(
           { id: userId, firstName: 'Jérémy', lastName: 'bugietta' },
           campaignParticipation,
@@ -179,7 +174,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
       beforeEach(async function () {
         const userId = 999;
-        const oldCampaignParticipation = { userId, campaignId, isShared: true, sharedAt, isImproved: true };
+        const oldCampaignParticipation = { userId, campaignId, sharedAt, isImproved: true };
         databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, oldCampaignParticipation, false);
 
         recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -187,7 +182,6 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           isImproved: false,
           sharedAt,
           campaignId,
-          isShared: true,
         });
 
         await databaseBuilder.commit();

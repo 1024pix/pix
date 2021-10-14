@@ -4,6 +4,9 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 const buildTargetProfileSkill = require('./build-target-profile-skill');
 const buildTargetProfile = require('./build-target-profile');
 const Assessment = require('../../../lib/domain/models/Assessment');
+const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED, SHARED } = CampaignParticipation.statuses;
 
 module.exports = {
   build({ userId, createdAt, sharedAt, assessmentCreatedAt, assessmentState, campaignId, id } = {}) {
@@ -12,7 +15,7 @@ module.exports = {
       campaignId,
       createdAt: createdAt,
       sharedAt: sharedAt,
-      isShared: sharedAt ? true : false,
+      status: sharedAt ? SHARED : STARTED,
     });
 
     buildAssessment({
@@ -37,7 +40,7 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: null,
-      isShared: false,
+      status: STARTED,
       campaignId: campaign.id,
     });
 
@@ -62,7 +65,7 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: null,
-      isShared: false,
+      status: STARTED,
       campaignId: campaign.id,
     });
 
@@ -87,7 +90,6 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: sharedAt || createdAt,
-      isShared: true,
       campaignId: campaign.id,
     });
 
@@ -120,7 +122,7 @@ module.exports = {
       campaignId: campaign.id,
       createdAt: createdAt,
       sharedAt: sharedAt || createdAt,
-      isShared: false,
+      status: STARTED,
     });
 
     buildAssessment({

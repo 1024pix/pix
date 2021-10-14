@@ -83,7 +83,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         }).id;
 
@@ -151,7 +150,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
@@ -178,7 +176,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
@@ -204,7 +201,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });

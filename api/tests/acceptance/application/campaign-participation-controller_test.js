@@ -10,7 +10,7 @@ const {
   knex,
 } = require('../../test-helper');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 describe('Acceptance | API | Campaign Participations', function () {
   let server, options, user;
@@ -65,7 +65,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
         userId: user.id,
-        isShared: false,
+        status: STARTED,
         sharedAt: null,
         campaignId: campaign.id,
       });
@@ -186,7 +186,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         userId,
-        isShared: false,
+        status: STARTED,
       }).id;
       databaseBuilder.factory.buildAssessment({
         userId,
@@ -212,7 +212,7 @@ describe('Acceptance | API | Campaign Participations', function () {
     it('should return 412 HTTP status code when user has already shared his results', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: true }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId }).id;
       databaseBuilder.factory.buildAssessment({
         userId,
         campaignParticipationId,
@@ -240,7 +240,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         userId: anotherUserId,
-        isShared: false,
+        status: STARTED,
       }).id;
       databaseBuilder.factory.buildAssessment({
         userId,

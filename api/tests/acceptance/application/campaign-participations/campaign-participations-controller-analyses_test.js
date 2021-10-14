@@ -39,7 +39,6 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
       });
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        isShared: true,
       });
 
       await databaseBuilder.commit();

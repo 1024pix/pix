@@ -1,8 +1,11 @@
+const _ = require('lodash');
 const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const campaignReportRepository = require('../../../../lib/infrastructure/repositories/campaign-report-repository');
 const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign-Report', function () {
   describe('#get', function () {
@@ -66,14 +69,13 @@ describe('Integration | Repository | Campaign-Report', function () {
         userId,
         campaignId: campaign.id,
         sharedAt: new Date(),
-        isShared: true,
         isImproved: true,
       });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId: campaign.id,
         sharedAt: null,
-        isShared: false,
+        status: STARTED,
         isImproved: false,
       });
       await databaseBuilder.commit();
@@ -134,17 +136,12 @@ describe('Integration | Repository | Campaign-Report', function () {
 
     it('should only take into account shared participations', async function () {
       // given
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId,
-        masteryRate: 0.1,
-        sharedAt: new Date(),
-        isShared: true,
-      });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, sharedAt: new Date() });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         masteryRate: 0.3,
         sharedAt: null,
-        isShared: false,
+        status: STARTED,
       });
       await databaseBuilder.commit();
 
@@ -346,7 +343,6 @@ describe('Integration | Repository | Campaign-Report', function () {
           databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId: campaign.id,
-            isShared: true,
             sharedAt: new Date(),
             isImproved: true,
           });
@@ -354,7 +350,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             userId,
             campaignId: campaign.id,
             isImproved: false,
-            isShared: false,
+            status: STARTED,
             sharedAt: null,
           });
           await databaseBuilder.commit();
@@ -375,9 +371,9 @@ describe('Integration | Repository | Campaign-Report', function () {
           const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
           _.each(
             [
-              { campaignId: campaign.id, isShared: true },
-              { campaignId: campaign.id, isShared: false },
-              { campaignId: campaign.id, isShared: false },
+              { campaignId: campaign.id },
+              { campaignId: campaign.id, status: STARTED },
+              { campaignId: campaign.id, status: STARTED },
             ],
             (campaignParticipation) => {
               databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
