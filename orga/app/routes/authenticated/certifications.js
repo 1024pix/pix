@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 
 export default class AuthenticatedCertificationsRoute extends Route {
   @service currentUser;
-  @service featureToggles;
 
   beforeModel() {
     if (!(this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents)) {

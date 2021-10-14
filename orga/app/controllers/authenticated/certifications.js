@@ -9,7 +9,6 @@ export default class AuthenticatedCertificationsController extends Controller {
   @service currentUser;
   @service notifications;
   @service intl;
-  @service featureToggles;
 
   @tracked selectedDivision = '';
 
@@ -95,10 +94,6 @@ export default class AuthenticatedCertificationsController extends Controller {
     }
 
     return `${this.model.options[0].label}, ${this.model.options[1].label} …`;
-  }
-
-  get isCertificationAttestationDownloadEnabled() {
-    return this.featureToggles.featureToggles.isDownloadCertificationAttestationByDivisionEnabled;
   }
 }
 

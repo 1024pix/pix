@@ -49,26 +49,12 @@ module('Acceptance | Certifications page', function (hooks) {
       assert.dom('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]').exists();
     });
 
-    test('should display attestation download button if toggle is enabled', async function (assert) {
-      // given
-      server.create('feature-toggle', { id: 0, isDownloadCertificationAttestationByDivisionEnabled: true });
-
+    test('should display attestation download button', async function (assert) {
       // when
       await visit('/certifications');
 
       // then
       assert.dom('button[id="download_attestations"]').exists();
-    });
-
-    test('should not display attestation download button when toggle not enabled', async function (assert) {
-      // given
-      server.create('feature-toggle', { id: 0 });
-
-      // when
-      await visit('/certifications');
-
-      // then
-      assert.dom('button[id="download_attestations"]').doesNotExist();
     });
   });
 });
