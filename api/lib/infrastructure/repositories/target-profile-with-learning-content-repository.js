@@ -7,7 +7,7 @@ const TargetedCompetence = require('../../domain/models/TargetedCompetence');
 const TargetedArea = require('../../domain/models/TargetedArea');
 const Badge = require('../../domain/models/Badge');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion');
-const BadgePartnerCompetence = require('../../domain/models/BadgePartnerCompetence');
+const SkillSet = require('../../domain/models/SkillSet');
 const Stage = require('../../domain/models/Stage');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const tubeDatasource = require('../datasources/learning-content/tube-datasource');
@@ -198,7 +198,7 @@ async function _findBadges(targetProfileId) {
 
   const badges = badgeRows.map((row) => new Badge({ ...row, imageUrl: null }));
   await _fillBadgesWithCriteria(badges);
-  await _fillBadgesWithPartnerCompetences(badges);
+  await _fillBadgesWithSkillSets(badges);
 
   return badges;
 }
@@ -211,7 +211,7 @@ async function _fillBadgesWithCriteria(badges) {
       'badge-criteria.scope',
       'badge-criteria.threshold',
       'badge-criteria.badgeId',
-      'badge-criteria.partnerCompetenceIds'
+      'badge-criteria.skillSetIds'
     )
     .whereIn('badge-criteria.badgeId', badgeIds);
 
@@ -223,24 +223,16 @@ async function _fillBadgesWithCriteria(badges) {
   });
 }
 
-async function _fillBadgesWithPartnerCompetences(badges) {
+async function _fillBadgesWithSkillSets(badges) {
   const badgeIds = badges.map((badge) => badge.id);
-  const partnerCompetencesRows = await knex('badge-partner-competences')
-    .select(
-      'badge-partner-competences.id',
-      'badge-partner-competences.name',
-      'badge-partner-competences.skillIds',
-      'badge-partner-competences.badgeId'
-    )
-    .whereIn('badge-partner-competences.badgeId', badgeIds);
+  const skillSetRows = await knex('skill-sets')
+    .select('skill-sets.id', 'skill-sets.name', 'skill-sets.skillIds', 'skill-sets.badgeId')
+    .whereIn('skill-sets.badgeId', badgeIds);
 
-  const partnerCompetencesRowsByBadgeId = _.groupBy(partnerCompetencesRows, 'badgeId');
+  const skillSetRowsByBadgeId = _.groupBy(skillSetRows, 'badgeId');
 
   badges.forEach((badge) => {
-    const partnerCompetencesRowsForBadge = partnerCompetencesRowsByBadgeId[badge.id];
-    badge.badgePartnerCompetences = _.map(
-      partnerCompetencesRowsForBadge,
-      (partnerCompetenceRow) => new BadgePartnerCompetence(partnerCompetenceRow)
-    );
+    const skillSetRowsForBadge = skillSetRowsByBadgeId[badge.id];
+    badge.skillSets = _.map(skillSetRowsForBadge, (skillSetRow) => new SkillSet(skillSetRow));
   });
 }

@@ -90,7 +90,7 @@ module.exports = {
       qb.where('badge-acquisitions.userId', '=', userId);
       qb.where('badges.isCertifiable', '=', true);
     }).fetchAll({
-      withRelated: ['badge', 'badge.badgePartnerCompetences', 'badge.badgeCriteria'],
+      withRelated: ['badge', 'badge.skillSets', 'badge.badgeCriteria'],
       require: false,
       transacting: domainTransaction.knexTransaction,
     });

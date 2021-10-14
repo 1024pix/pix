@@ -1,7 +1,7 @@
 const Bookshelf = require('../bookshelf');
 
 require('./BadgeCriterion');
-require('./BadgePartnerCompetence');
+require('./SkillSet');
 require('./TargetProfile');
 
 const modelName = 'Badge';
@@ -19,8 +19,8 @@ module.exports = Bookshelf.model(
       return this.hasMany('BadgeCriterion', 'badgeId');
     },
 
-    badgePartnerCompetences() {
-      return this.hasMany('BadgePartnerCompetence', 'badgeId');
+    skillSets() {
+      return this.hasMany('SkillSet', 'badgeId');
     },
   },
   {
