@@ -2,13 +2,14 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const beginCampaignParticipationImprovement = require('../../../../lib/domain/usecases/begin-campaign-participation-improvement');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Integration | UseCase | begin-campaign-participation-improvement', function () {
   it('should change campaignParticipation status to STARTED', async function () {
     const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-      status: 'TO_SHARE',
-      isShared: false,
-      sharedAt: null,
+      status: TO_SHARE,
     });
     databaseBuilder.factory.buildAssessment({
       userId: campaignParticipation.userId,
@@ -26,6 +27,6 @@ describe('Integration | UseCase | begin-campaign-participation-improvement', fun
 
     const [campaignParticipationFound] = await knex('campaign-participations').where({ id: campaignParticipation.id });
 
-    expect(campaignParticipationFound.status).to.equal('STARTED');
+    expect(campaignParticipationFound.status).to.equal(STARTED);
   });
 });

@@ -1,6 +1,9 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | UseCase | get-campaign-participations-activity-by-day', function () {
   let organizationId;
@@ -33,7 +36,7 @@ describe('Integration | UseCase | get-campaign-participations-activity-by-day', 
 
   context('when requesting user is allowed to access campaign', function () {
     it('should return participations activity', async function () {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-06-01', isShared: false });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-06-01', status: STARTED });
       await databaseBuilder.commit();
 
       // when

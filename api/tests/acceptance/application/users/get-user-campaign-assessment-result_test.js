@@ -33,7 +33,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       campaignId: campaign.id,
       userId: user.id,
       sharedAt: recentDate,
-      isShared: true,
       masteryRate: 0.38,
     });
     assessment = databaseBuilder.factory.buildAssessment({

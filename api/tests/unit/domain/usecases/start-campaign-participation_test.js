@@ -68,7 +68,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let campaignParticipation;
 
     beforeEach(function () {
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false, status: STARTED, userId });
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ status: STARTED, userId });
       campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,
@@ -175,7 +175,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let campaignParticipation;
 
     beforeEach(function () {
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false, status: TO_SHARE, userId });
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ status: TO_SHARE, userId });
       campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,

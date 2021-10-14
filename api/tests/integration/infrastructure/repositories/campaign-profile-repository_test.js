@@ -75,7 +75,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
             campaignId,
             createdAt: new Date('2020-01-01'),
             sharedAt: new Date('2020-01-02'),
-            isShared: true,
             participantExternalId: 'Friday the 13th',
           },
           false
@@ -213,7 +212,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
           { firstName: 'John', lastName: 'Shaft' },
-          { campaignId, isShared: true },
+          { campaignId },
           false
         );
 
@@ -233,7 +232,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
           { firstName: 'John', lastName: 'Shaft' },
-          { campaignId, isShared: true },
+          { campaignId },
           false
         );
 
@@ -258,7 +257,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
           campaignId,
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
-          isShared: true,
         });
         databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,
@@ -287,7 +285,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
           campaignId,
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
-          isShared: true,
           pixScore: 80,
         });
         databaseBuilder.factory.buildKnowledgeElement({
@@ -325,7 +322,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
           campaignId,
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
-          isShared: true,
         });
         databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,

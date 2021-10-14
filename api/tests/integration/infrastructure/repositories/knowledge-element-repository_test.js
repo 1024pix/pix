@@ -5,6 +5,9 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | knowledgeElementRepository', function () {
   afterEach(function () {
@@ -269,7 +272,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
 
@@ -297,7 +299,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: false,
+        status: STARTED,
       });
 
       databaseBuilder.factory.buildKnowledgeElement({
@@ -326,13 +328,12 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         userId: otherUserId,
         campaignId,
-        isShared: false,
+        status: STARTED,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
@@ -373,7 +374,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -407,7 +407,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -441,7 +440,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -475,7 +473,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -511,7 +508,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
 
@@ -524,7 +520,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId: userId2,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -557,7 +552,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
 
@@ -571,7 +565,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId: userId2,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -618,13 +611,11 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         userId: otherUserId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -667,7 +658,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -703,7 +693,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -746,7 +735,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
