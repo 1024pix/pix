@@ -1,15 +1,11 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
-import {
-  authenticateSession,
-} from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { visit as visitScreen } from '../helpers/testing-library';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
 
@@ -133,8 +129,8 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           const aCandidate = candidates[0];
 
           // when
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          await clickByLabel(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`);
+          const screen = await visitScreen(`/sessions/${sessionWithCandidates.id}/candidats`);
+          await click(screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`));
 
           // then
           assert.contains('Détail du candidat');
@@ -242,8 +238,8 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         server.create('country', []);
 
         // when
-        await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
-        await clickByLabel('Ajouter un candidat');
+        const screen = await visitScreen(`/sessions/${sessionWithoutCandidates.id}/candidats`);
+        await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
 
         // then
         assert.contains('Ajouter le candidat');
@@ -264,10 +260,10 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           }), 422);
 
           // when
-          await visit(`/sessions/${session.id}/candidats`);
-          await clickByLabel('Ajouter un candidat');
-          await _fillFormWithCorrectData();
-          await clickByLabel('Ajouter le candidat');
+          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+          await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+          await _fillFormWithCorrectData(screen);
+          await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
 
           // then
           assert.dom('[data-test-notification-message="error"]').hasText('An error message');
@@ -278,36 +274,36 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           hooks.beforeEach(async function() {
             server.createList('country', 2, { code: '99100' });
             session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
-            await visit(`/sessions/${session.id}/candidats`);
           });
 
           test('it should display a success notification', async function(assert) {
             // when
-            await clickByLabel('Ajouter un candidat');
-            await _fillFormWithCorrectData();
-            await clickByLabel('Ajouter le candidat');
+            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+            await _fillFormWithCorrectData(screen);
+            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
 
             // then
             assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
           });
 
           test('it should add a new candidate', async function(assert) {
-            // given
             // when
-            await clickByLabel('Ajouter un candidat');
-            await _fillFormWithCorrectData();
-            await clickByLabel('Ajouter le candidat');
+            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+            await _fillFormWithCorrectData(screen);
+            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
 
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
           });
 
           test('it should display the attendance sheet download button', async function(assert) {
-            // given
             // when
-            await clickByLabel('Ajouter un candidat');
-            await _fillFormWithCorrectData();
-            await clickByLabel('Ajouter le candidat');
+            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+            await _fillFormWithCorrectData(screen);
+            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
 
             // then
             assert.contains('Feuille d\'émargement');
@@ -317,17 +313,17 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     });
   });
 
-  async function _fillFormWithCorrectData() {
-    await fillInByLabel('Prénom', 'Guybrush');
-    await fillInByLabel('Nom de famille', 'Threepwood');
-    await fillInByLabel('Date de naissance', '28/04/2019');
-    await clickByLabel('Homme');
-    await fillInByLabel('Pays de naissance', '99100');
-    await clickByLabel('Code INSEE');
-    await fillInByLabel('Identifiant externe', '44AA3355');
-    await fillInByLabel('Code INSEE de naissance', '75100');
-    await fillInByLabel('Temps majoré (%)', '20');
-    await fillInByLabel('E-mail du destinataire des résultats', 'guybrush.threepwood@example.net');
-    await fillInByLabel('E-mail de convocation', 'roooooar@example.net');
+  async function _fillFormWithCorrectData(screen) {
+    await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
+    await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+    await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
+    await click(screen.getByLabelText('Homme'));
+    await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');
+    await click(screen.getByLabelText('Code INSEE'));
+    await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+    await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+    await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+    await fillIn(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'), 'guybrush.threepwood@example.net');
+    await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
   }
 });

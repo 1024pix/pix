@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import getByLabel from '../../../helpers/extended-ember-test-helpers/get-by-label';
-import queryByLabel from '../../../helpers/extended-ember-test-helpers/query-by-label';
+import { render as renderScreen } from '../../../helpers/testing-library';
 
 module('Integration | Component | new-certification-candidate-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -27,7 +25,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     }]);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
       <NewCertificationCandidateModal
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
@@ -38,20 +36,20 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     `);
 
     // then
-    assert.dom(getByLabel('Nom de famille')).exists();
-    assert.dom(getByLabel('Nom de famille')).isFocused();
-    assert.dom(getByLabel('Prénom')).exists();
-    assert.dom(getByLabel('Homme')).exists();
-    assert.dom(getByLabel('Femme')).exists();
-    assert.dom(getByLabel('Date de naissance')).exists();
-    assert.dom(getByLabel('Pays de naissance')).exists();
-    assert.dom(getByLabel('Code INSEE')).exists();
-    assert.dom(getByLabel('Code postal')).exists();
-    assert.dom(getByLabel('Code INSEE de naissance')).exists();
-    assert.dom(getByLabel('Identifiant externe')).exists();
-    assert.dom(getByLabel('Temps majoré (%)')).exists();
-    assert.dom(getByLabel('E-mail du destinataire des résultats')).exists();
-    assert.dom(getByLabel('E-mail de convocation')).exists();
+    assert.dom(screen.getByLabelText('* Nom de famille')).exists();
+    assert.dom(screen.getByLabelText('* Nom de famille')).isFocused();
+    assert.dom(screen.getByLabelText('* Prénom')).exists();
+    assert.dom(screen.getByLabelText('Homme')).exists();
+    assert.dom(screen.getByLabelText('Femme')).exists();
+    assert.dom(screen.getByLabelText('* Date de naissance')).exists();
+    assert.dom(screen.getByLabelText('* Pays de naissance')).exists();
+    assert.dom(screen.getByLabelText('Code INSEE')).exists();
+    assert.dom(screen.getByLabelText('Code postal')).exists();
+    assert.dom(screen.getByLabelText('* Code INSEE de naissance')).exists();
+    assert.dom(screen.getByLabelText('Identifiant externe')).exists();
+    assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
+    assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
+    assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
   });
 
   test('it shows a countries list with France selected as default', async function(assert) {
@@ -74,7 +72,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     ]);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
       <NewCertificationCandidateModal
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
@@ -85,7 +83,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     `);
 
     // then
-    const birthCountryField = getByLabel('Pays de naissance');
+    const birthCountryField = screen.getByLabelText('* Pays de naissance');
     assert.dom(birthCountryField).includesText('Syldavie');
     assert.dom(birthCountryField).includesText('Botswana');
     assert.dom(birthCountryField).hasValue('99100');
@@ -175,7 +173,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       });
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -185,12 +183,12 @@ module('Integration | Component | new-certification-candidate-modal', function(h
         />
       `);
 
-      await fillInByLabel('Pays de naissance', '99123');
+      await fillIn(screen.getByLabelText('* Pays de naissance'), '99123');
 
       // then
-      assert.dom(queryByLabel('Code INSEE de naissance')).isNotVisible();
-      assert.dom(queryByLabel('Code postal de naissance')).isNotVisible();
-      assert.dom(queryByLabel('Commune de naissance')).isVisible();
+      assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
+      assert.dom(screen.queryByLabelText('* Code postal de naissance')).isNotVisible();
+      assert.dom(screen.getByLabelText('* Commune de naissance')).isVisible();
     });
   });
 
@@ -210,7 +208,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       });
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -223,9 +221,9 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       await clickByLabel('Code INSEE');
 
       // then
-      assert.dom(queryByLabel('Code INSEE de naissance')).isVisible();
-      assert.dom(queryByLabel('Code postal de naissance')).isNotVisible();
-      assert.dom(queryByLabel('Commune de naissance')).isNotVisible();
+      assert.dom(screen.getByLabelText('* Code INSEE de naissance')).isVisible();
+      assert.dom(screen.queryByLabelText('* Code postal de naissance')).isNotVisible();
+      assert.dom(screen.queryByLabelText('* Commune de naissance')).isNotVisible();
     });
   });
 
@@ -245,7 +243,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       });
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -258,9 +256,9 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       await clickByLabel('Code postal');
 
       // then
-      assert.dom(queryByLabel('Code INSEE de naissance')).isNotVisible();
-      assert.dom(queryByLabel('Code postal de naissance')).isVisible();
-      assert.dom(queryByLabel('Commune de naissance')).isVisible();
+      assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
+      assert.dom(screen.queryByLabelText('* Code postal de naissance')).isVisible();
+      assert.dom(screen.getByLabelText('* Commune de naissance')).isVisible();
     });
   });
 
@@ -284,7 +282,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('countries', [{ code: '99100', name: 'FRANCE' }]);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -295,17 +293,17 @@ module('Integration | Component | new-certification-candidate-modal', function(h
           />
       `);
 
-      await fillInByLabel('Prénom', 'Guybrush');
-      await fillInByLabel('Nom de famille', 'Threepwood');
-      await fillInByLabel('Date de naissance', '28/04/2019');
+      await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
+      await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+      await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
       await clickByLabel('Homme');
-      await fillInByLabel('Pays de naissance', 99100);
+      await fillIn(screen.getByLabelText('* Pays de naissance'), 99100);
       await clickByLabel('Code INSEE');
-      await fillInByLabel('Identifiant externe', '44AA3355');
-      await fillInByLabel('Code INSEE de naissance', '75100');
-      await fillInByLabel('Temps majoré (%)', '20');
-      await fillInByLabel('E-mail du destinataire des résultats', 'guybrush.threepwood@example.net');
-      await fillInByLabel('E-mail de convocation', 'roooooar@example.net');
+      await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+      await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+      await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+      await fillIn(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'), 'guybrush.threepwood@example.net');
+      await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
       await clickByLabel('Ajouter le candidat');
 

@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import fillInByLabel from 'pix-certif/tests/helpers/extended-ember-test-helpers/fill-in-by-label';
 import sinon from 'sinon';
 import Service from '@ember/service';
+import { render as renderScreen } from '../../helpers/testing-library';
 
 function getMetaForPage(pageNumber) {
   const rowCount = 50;
@@ -63,10 +63,10 @@ module('Integration | Component | pagination-control', function(hooks) {
     }
     this.owner.register('service:router', RouterStub);
     this.meta = getMetaForPage(2);
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    const screen = await renderScreen(hbs`<PaginationControl @pagination={{meta}}/>`);
 
     // when
-    await fillInByLabel('Nombre d\'éléments par page', '25');
+    await fillIn(screen.getByLabelText('Nombre d\'éléments par page'), '25');
 
     // then
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '25', pageNumber: 1 } }));

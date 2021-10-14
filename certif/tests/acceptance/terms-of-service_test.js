@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import {
@@ -7,7 +7,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { visit as visitScreen } from '../helpers/testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -37,10 +37,10 @@ module('Acceptance | terms-of-service', function(hooks) {
     test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function(assert) {
       // given
       const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
-      await visit('/cgu');
+      const screen = await visitScreen('/cgu');
 
       // when
-      await clickByLabel('J’accepte les conditions d’utilisation');
+      await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
 
       // then
       certificationPointOfContact.reload();
@@ -51,10 +51,10 @@ module('Acceptance | terms-of-service', function(hooks) {
 
     test('it should redirect to session list after saving terms of service acceptation', async function(assert) {
       // given
-      await visit('/cgu');
+      const screen = await visitScreen('/cgu');
 
       // when
-      await clickByLabel('J’accepte les conditions d’utilisation');
+      await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
