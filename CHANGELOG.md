@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.113.0 (14/10/2021)
+
+- [#3572](https://github.com/1024pix/pix/pull/3572) [FEATURE] Ajouter le nombre de résultats dans la pagination de tableau Pix Orga (PIX-3538)
+- [#3578](https://github.com/1024pix/pix/pull/3578) [FEATURE] Pouvoir ajouter une habilitation à un CDC lors de sa création (PIX-3524)
+- [#3596](https://github.com/1024pix/pix/pull/3596) [FEATURE] Retourner sur la liste des invitations après avoir invité un membre (PIX-3526)
+- [#3580](https://github.com/1024pix/pix/pull/3580) [FEATURE] Afficher les méthodes de connexion de l'utilisateur dans Mon Compte sur Pix App (PIX-3514).
+- [#3561](https://github.com/1024pix/pix/pull/3561) [FEATURE] Créer un badge depuis Pix Admin (PIX-3505).
+- [#3588](https://github.com/1024pix/pix/pull/3588) [FEATURE] Ajout d'un pied de page (footer) dans Pix Certif (PIX-3548)
+- [#3592](https://github.com/1024pix/pix/pull/3592) [BUGFIX] Suppression de l'activation de sortie de question sur les champs `select` dans Firefox (PIX-3598).
+- [#3579](https://github.com/1024pix/pix/pull/3579) [BUGFIX] Correction de l'affichage de l'épreuve focus à la reprise d'un parcours (PIX-3585).
+- [#3545](https://github.com/1024pix/pix/pull/3545) [TECH] Monter les BDD de développement en version majeure 13.3 depuis la 12.7.
+- [#3586](https://github.com/1024pix/pix/pull/3586) [TECH] Sortir la brique "page de présentation" du `start-or-resume` (PIX-3183).
+- [#3594](https://github.com/1024pix/pix/pull/3594) [TECH] Ajout du thème Halloween pour le template de pull request.
+- [#3562](https://github.com/1024pix/pix/pull/3562) [TECH] Utiliser DOM Testing library dans les tests Pix Orga
+- [#3587](https://github.com/1024pix/pix/pull/3587) [CLEAN] Nettoyer les fichiers helper de build des AuthenticationMethods (PIX-3606)
+- [#3581](https://github.com/1024pix/pix/pull/3581) [CLEANUP] Rendre un peu similaire les deux fonctions de choix d'épreuves de certif
+
 ## v3.112.0 (12/10/2021)
 
 - [#3560](https://github.com/1024pix/pix/pull/3560) [FEATURE] Afficher la classe des élèves sur la feuille d'émargement (PIX-3492)
