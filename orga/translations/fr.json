@@ -782,6 +782,10 @@
     "team-new": {
       "title": "Inviter un membre",
       "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
+      "success": {
+        "invitation": "Une invitation a bien été envoyée à l’adresse e-mail {email}.",
+        "multiple-invitations": "Une invitation a bien été envoyée aux adresses e-mails listées."
+      },
       "errors": {
         "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
         "status": {
