@@ -23,6 +23,7 @@ export const certificationStatuses = [
 
 export default class Certification extends Model {
   @attr() sessionId;
+  @attr() assessmentId;
   @attr() userId;
   @attr() firstName;
   @attr() lastName;

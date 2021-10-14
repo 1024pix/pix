@@ -15,6 +15,7 @@ module.exports = {
       },
       attributes: [
         'sessionId',
+        'assessmentId',
         'userId',
         'firstName',
         'lastName',

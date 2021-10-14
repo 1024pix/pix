@@ -22,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         certificationCourseId,
         sessionId: 11,
         userId: 867,
+        assessmentId: 44,
         firstName: 'James',
         lastName: 'Watt',
         birthdate: '1990-01-04',
@@ -57,6 +58,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
           attributes: {
             'session-id': 11,
             'user-id': 867,
+            'assessment-id': 44,
             'first-name': 'James',
             'last-name': 'Watt',
             birthdate: '1990-01-04',
