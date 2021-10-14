@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '../../../../helpers/testing-library';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { render } from '../../../helpers/testing-library';
 import { click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Filter::DivisionsFilter', function (hooks) {
+module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
   setupIntlRenderingTest(hooks);
   let store;
 
@@ -13,11 +13,29 @@ module('Integration | Component | Campaign::Filter::DivisionsFilter', function (
     store = this.owner.lookup('service:store');
   });
 
+  test('it should load campaign model', async function (assert) {
+    const division = store.createRecord('division', { id: 'd1', name: 'd1' });
+    this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
+
+    await render(hbs`<Ui::DivisionsFilter @model={{campaign}} @placeholder="Classes" />`);
+
+    assert.contains('d1');
+  });
+
+  test('it should load organization model', async function (assert) {
+    const division = store.createRecord('division', { id: 'd1', name: 'd1' });
+    this.organization = store.createRecord('organization', { id: 1, divisions: [division] });
+
+    await render(hbs`<Ui::DivisionsFilter @model={{organization}} @placeholder="Classes" />`);
+
+    assert.contains('d1');
+  });
+
   module('when there is no division', function () {
     test('it should not display the filter', async function (assert) {
       this.campaign = store.createRecord('campaign', { id: 1, divisions: [] });
 
-      await render(hbs`<Campaign::Filter::DivisionsFilter @campaign={{campaign}} />`);
+      await render(hbs`<Ui::DivisionsFilter @model={{campaign}} @placeholder="Classes" />`);
 
       assert.contains('Aucune classe');
     });
@@ -28,7 +46,9 @@ module('Integration | Component | Campaign::Filter::DivisionsFilter', function (
       const division = store.createRecord('division', { id: 'd1', name: 'd1' });
       this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
 
-      const { getByPlaceholderText } = await render(hbs`<Campaign::Filter::DivisionsFilter @campaign={{campaign}} />`);
+      const { getByPlaceholderText } = await render(
+        hbs`<Ui::DivisionsFilter @model={{campaign}} @placeholder="Classes" />`
+      );
 
       assert.ok(getByPlaceholderText('Classes'));
       assert.contains('d1');
@@ -39,7 +59,7 @@ module('Integration | Component | Campaign::Filter::DivisionsFilter', function (
       this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
       this.onSelect = sinon.stub();
 
-      await render(hbs`<Campaign::Filter::DivisionsFilter @campaign={{campaign}} @onSelect={{onSelect}} />`);
+      await render(hbs`<Ui::DivisionsFilter @model={{campaign}} @onSelect={{onSelect}} @placeholder="Classes" />`);
       await click('[for="division-d1"]');
 
       assert.ok(this.onSelect.calledWith(['d1']));
@@ -55,10 +75,10 @@ module('Integration | Component | Campaign::Filter::DivisionsFilter', function (
       this.selected = ['d1', 'd2'];
 
       const { getByPlaceholderText } = await render(
-        hbs`<Campaign::Filter::DivisionsFilter @campaign={{campaign}} @selected={{selected}} />`
+        hbs`<Ui::DivisionsFilter @model={{campaign}} @selected={{selected}} @placeholder="Classes" />`
       );
 
-      assert.ok(getByPlaceholderText('Classes : d1, d2'));
+      assert.ok(getByPlaceholderText('d1, d2'));
     });
   });
 });
