@@ -655,6 +655,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
           'filter[lastName]': 'Bob',
           'filter[firstName]': 'Tom',
           'filter[connexionType]': 'email',
+          'filter[divisions][]': 'D1',
           'filter[group]': 'L1',
         },
       };
@@ -666,7 +667,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
         organizationId,
-        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', group: 'L1' },
+        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', divisions: ['D1'], group: 'L1' },
         page: {},
       });
     });
