@@ -36,6 +36,10 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: process.env.API_HOST || '',
+      BANNER: {
+        CONTENT: process.env.BANNER_CONTENT || '',
+        TYPE: process.env.BANNER_TYPE || '',
+      },
       API_ERROR_MESSAGES: {
         BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
         INTERNAL_SERVER_ERROR: {
