@@ -89,7 +89,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
           id: badgeCriterion.id,
           scope: badgeCriterion.scope,
           threshold: badgeCriterion.threshold,
-          partnerCompetenceIds: badgeCriterion.partnerCompetenceIds,
+          skillSetIds: badgeCriterion.skillSetIds,
         },
       ];
 

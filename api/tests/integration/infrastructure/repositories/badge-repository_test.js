@@ -55,7 +55,7 @@ describe('Integration | Repository | Badge', function () {
       id: 123,
       scope: BadgeCriterion.SCOPES.SKILL_SET,
       threshold: 53,
-      partnerCompetenceIds: [1, 2],
+      skillSetIds: [1, 2],
     };
 
     databaseBuilder.factory.buildBadgeCriterion({
@@ -86,7 +86,7 @@ describe('Integration | Repository | Badge', function () {
       id: 456,
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 88,
-      partnerCompetenceIds: [],
+      skillSetIds: [],
     };
     databaseBuilder.factory.buildBadgeCriterion({
       ...badgeCriterionForBadgeWithSameTargetProfile_1,
@@ -104,7 +104,7 @@ describe('Integration | Repository | Badge', function () {
       id: 789,
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 35,
-      partnerCompetenceIds: [],
+      skillSetIds: [],
     };
     databaseBuilder.factory.buildBadgeCriterion({
       ...badgeCriterionForBadgeWithSameTargetProfile_2,

@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
-        badgeCriteria: [domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null })],
+        badgeCriteria: [domainBuilder.buildBadgeCriterion({ skillSetIds: null })],
         badgePartnerCompetences: [],
       });
       const badgeWithLearningContent = domainBuilder.buildBadgeWithLearningContent({ badge });
