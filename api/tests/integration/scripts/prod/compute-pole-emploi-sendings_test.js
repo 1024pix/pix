@@ -11,6 +11,9 @@ const {
 const computePoleEmploiSendings = require('../../../../scripts/prod/compute-pole-emploi-sendings');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 function setLearningContent(learningContent) {
   const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
@@ -86,7 +89,7 @@ describe('computePoleEmploiSendings', function () {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        status: 'STARTED',
+        status: STARTED,
         sharedAt: null,
       }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'started', type: 'CAMPAIGN' });
@@ -144,7 +147,7 @@ describe('computePoleEmploiSendings', function () {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        status: 'STARTED',
+        status: STARTED,
         sharedAt: null,
       }).id;
       databaseBuilder.factory.buildAssessment({
@@ -211,7 +214,7 @@ describe('computePoleEmploiSendings', function () {
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
         }).id;
         oldAssessment = databaseBuilder.factory.buildAssessment({

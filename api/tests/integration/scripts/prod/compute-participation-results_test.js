@@ -1,6 +1,9 @@
 const { expect, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
 const computeParticipationResults = require('../../../../scripts/prod/compute-participation-results');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('computeParticipationResults', function () {
   context('when there is one campaign participation on profile collection campaign', function () {
@@ -147,7 +150,7 @@ describe('computeParticipationResults', function () {
       it('does not compute results', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: 'STARTED' });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED });
 
         await databaseBuilder.commit();
 

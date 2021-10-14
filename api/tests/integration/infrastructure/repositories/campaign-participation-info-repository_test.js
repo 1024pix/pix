@@ -1,6 +1,9 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participation Info', function () {
   describe('#findByCampaignId', function () {
@@ -95,7 +98,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId: user2Id,
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
         });
 

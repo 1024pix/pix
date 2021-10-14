@@ -1,14 +1,17 @@
+const _ = require('lodash');
 const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const campaignAnalysisRepository = require('../../../../lib/infrastructure/repositories/campaign-analysis-repository');
 const CampaignAnalysis = require('../../../../lib/domain/read-models/CampaignAnalysis');
-const _ = require('lodash');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED, SHARED } = CampaignParticipation.statuses;
 
 function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt, isImproved) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    status: 'SHARED',
+    status: SHARED,
     sharedAt,
     isImproved,
   });
@@ -21,7 +24,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    status: 'STARTED',
+    status: STARTED,
     isImproved: false,
   });
 
@@ -148,7 +151,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId: goliathId,
-            status: 'STARTED',
+            status: STARTED,
             isImproved: false,
           });
 

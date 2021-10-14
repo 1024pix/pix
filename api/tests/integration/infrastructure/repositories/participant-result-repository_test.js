@@ -2,6 +2,9 @@ const { catchErr, expect, databaseBuilder, mockLearningContent } = require('../.
 const participantResultRepository = require('../../../../lib/infrastructure/repositories/participant-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | ParticipantResultRepository', function () {
   describe('#getByUserIdAndCampaignId', function () {
@@ -823,7 +826,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
         });
 

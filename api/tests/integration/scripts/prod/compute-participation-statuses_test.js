@@ -1,6 +1,9 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const computeParticipantStatuses = require('../../../../scripts/prod/compute-participation-statuses');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('compute-participation-statuses script', function () {
   context('For profile collection campaign', function () {
@@ -16,7 +19,7 @@ describe('compute-participation-statuses script', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         participantExternalId: 'to share participation',
-        status: 'STARTED',
+        status: STARTED,
       });
 
       await databaseBuilder.commit();
@@ -28,7 +31,7 @@ describe('compute-participation-statuses script', function () {
       const campaignParticipation = await knex('campaign-participations')
         .where({ participantExternalId: 'to share participation' })
         .first();
-      expect(campaignParticipation.status).to.equals('TO_SHARE');
+      expect(campaignParticipation.status).to.equals(TO_SHARE);
     });
 
     it('computes "SHARED" participations status', async function () {
@@ -37,7 +40,7 @@ describe('compute-participation-statuses script', function () {
       const campaignParticipation = await knex('campaign-participations')
         .where({ participantExternalId: 'shared participation' })
         .first();
-      expect(campaignParticipation.status).to.equals('SHARED');
+      expect(campaignParticipation.status).to.equals(SHARED);
     });
   });
 
@@ -76,7 +79,7 @@ describe('compute-participation-statuses script', function () {
       const campaignParticipation = await knex('campaign-participations')
         .where({ participantExternalId: 'started participation' })
         .first();
-      expect(campaignParticipation.status).to.equals('STARTED');
+      expect(campaignParticipation.status).to.equals(STARTED);
     });
 
     it('computes "TO_SHARE" participations status', async function () {
@@ -85,7 +88,7 @@ describe('compute-participation-statuses script', function () {
       const campaignParticipation = await knex('campaign-participations')
         .where({ participantExternalId: 'to share participation' })
         .first();
-      expect(campaignParticipation.status).to.equals('TO_SHARE');
+      expect(campaignParticipation.status).to.equals(TO_SHARE);
     });
 
     it('computes "SHARED" participations status', async function () {
@@ -94,7 +97,7 @@ describe('compute-participation-statuses script', function () {
       const campaignParticipation = await knex('campaign-participations')
         .where({ participantExternalId: 'shared participation' })
         .first();
-      expect(campaignParticipation.status).to.equals('SHARED');
+      expect(campaignParticipation.status).to.equals(SHARED);
     });
   });
 
@@ -124,12 +127,12 @@ describe('compute-participation-statuses script', function () {
       const campaignParticipation1 = await knex('campaign-participations')
         .where({ participantExternalId: 'shared participation' })
         .first();
-      expect(campaignParticipation1.status).to.equals('SHARED');
+      expect(campaignParticipation1.status).to.equals(SHARED);
 
       const campaignParticipation2 = await knex('campaign-participations')
         .where({ participantExternalId: 'to share participation' })
         .first();
-      expect(campaignParticipation2.status).to.equals('TO_SHARE');
+      expect(campaignParticipation2.status).to.equals(TO_SHARE);
     });
   });
 });
@@ -147,7 +150,7 @@ function _buildParticipationWithAssessment({
     campaignId,
     userId,
     participantExternalId,
-    status: isShared ? 'SHARED' : 'STARTED',
+    status: isShared ? SHARED : STARTED,
     sharedAt: isShared ? new Date('2020-01-02') : null,
   }).id;
 

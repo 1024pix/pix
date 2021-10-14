@@ -3,6 +3,9 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
 const scorecardService = require('../../../../lib/domain/services/scorecard-service');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Unit | Service | ScorecardService', function () {
   describe('#computeScorecard', function () {
@@ -246,13 +249,13 @@ describe('Unit | Service | ScorecardService', function () {
           id: 1,
           campaign,
           campaignId: campaign.id,
-          status: 'STARTED',
+          status: STARTED,
         });
         campaignParticipation2 = domainBuilder.buildCampaignParticipation({
           id: 2,
           campaign,
           campaignId: campaign.id,
-          status: 'STARTED',
+          status: STARTED,
         });
         oldAssessment1 = domainBuilder.buildAssessment.ofTypeCampaign({
           id: assessmentId1,

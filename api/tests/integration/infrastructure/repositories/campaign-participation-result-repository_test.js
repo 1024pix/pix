@@ -1,6 +1,9 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participation Result', function () {
   describe('#getByParticipationId', function () {
@@ -237,7 +240,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
         });
 
