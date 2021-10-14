@@ -102,6 +102,10 @@ export default class UserOverview extends Component {
     return this.args.user.email;
   }
 
+  get canModifyEmail() {
+    return !!(this.args.user.email || this.args.user.username);
+  }
+
   _initForm() {
     this.form.firstName = this.args.user.firstName;
     this.form.lastName = this.args.user.lastName;
