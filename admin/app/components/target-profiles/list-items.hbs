@@ -33,14 +33,13 @@
       {{#if @targetProfiles}}
         <tbody>
           {{#each @targetProfiles as |targetProfile|}}
-            <tr
-              aria-label="Profil cible"
-              role="button"
-              {{on "click" (fn @goToTargetProfilePage targetProfile.id)}}
-              class="tr--clickable"
-            >
+            <tr aria-label="Profil cible">
               <td>{{targetProfile.id}}</td>
-              <td>{{targetProfile.name}}</td>
+              <td>
+                <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile}}>
+                  {{targetProfile.name}}
+                </LinkTo>
+              </td>
               <td class="target-profile-table-column__status">
                 {{if targetProfile.outdated "Obsolète" "Actif"}}
               </td>
