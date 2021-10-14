@@ -1,6 +1,4 @@
 import get from 'lodash/get';
-import isBoolean from 'lodash/isBoolean';
-import isString from 'lodash/isString';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
@@ -25,9 +23,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     this._updateStateFrom({ campaign, session: this.session });
-    if (this.state.isUserLogged) {
-      await this._findOngoingCampaignParticipationAndUpdateState(campaign);
-    }
 
     if (this._shouldVisitPoleEmploiLoginPage) {
       return this._redirectToPoleEmploiLoginPage(transition);
@@ -42,9 +37,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
         return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
       }
 
-      if (!this.state.doesUserHaveOngoingParticipation) {
-        return this.replaceWith('campaigns.restricted.join', campaign);
-      }
+      return this.replaceWith('campaigns.restricted.join', campaign);
     }
 
     if (this._shouldDisconnectAnonymousUser) {
@@ -67,19 +60,20 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async afterModel(campaign) {
+    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+      campaignId: campaign.id,
+      userId: this.currentUser.user.id,
+    });
+    const hasParticipated = Boolean(ongoingCampaignParticipation);
+    this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
+  }
+
+  redirect(campaign) {
     if (this._shouldProvideExternalIdToAccessCampaign) {
       return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
     }
 
-    if (this._shouldStartCampaignParticipation(campaign)) {
-      await this._createCampaignParticipation(campaign);
-    }
-  }
-
-  redirect(campaign) {
-    if (this.state.doesUserHaveOngoingParticipation) {
-      return this.replaceWith('campaigns.entrance', campaign);
-    }
+    return this.replaceWith('campaigns.entrance', campaign);
   }
 
   _resetState() {
@@ -94,7 +88,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
       isUserLogged: false,
-      doesUserHaveOngoingParticipation: false,
       doesCampaignAskForExternalId: false,
       participantExternalId: null,
       externalUser: null,
@@ -103,7 +96,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     };
   }
 
-  _updateStateFrom({ campaign = {}, ongoingCampaignParticipation = null, session }) {
+  _updateStateFrom({ campaign = {}, session }) {
     const hasUserCompletedRestrictedCampaignAssociation =
       this.campaignStorage.get(campaign.code, 'associationDone') || false;
     const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
@@ -116,7 +109,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
       isUserLogged: this.session.isAuthenticated,
-      doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),
       doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
       participantExternalId,
       externalUser: get(session, 'data.externalUser'),
@@ -124,35 +116,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isUserLoggedInPoleEmploi:
         get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
     };
-  }
-
-  async _findOngoingCampaignParticipationAndUpdateState(campaign) {
-    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
-      campaignId: campaign.id,
-      userId: this.currentUser.user.id,
-    });
-    this._updateStateFrom({ campaign, ongoingCampaignParticipation });
-  }
-
-  async _createCampaignParticipation(campaign) {
-    const campaignParticipation = this.store.createRecord('campaign-participation', {
-      campaign,
-      participantExternalId: this.state.participantExternalId,
-    });
-
-    try {
-      await campaignParticipation.save();
-      this._updateStateFrom({ campaign, ongoingCampaignParticipation: campaignParticipation });
-    } catch (err) {
-      const error = get(err, 'errors[0]', {});
-      campaignParticipation.deleteRecord();
-
-      if (error.status == 400 && error.detail.includes('participant-external-id')) {
-        return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
-      }
-
-      throw err;
-    }
   }
 
   _shouldResetState(campaignCode) {
@@ -206,27 +169,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldProvideExternalIdToAccessCampaign() {
-    return (
-      this.state.doesCampaignAskForExternalId &&
-      !this.state.participantExternalId &&
-      !this.state.doesUserHaveOngoingParticipation
-    );
-  }
-
-  _shouldStartCampaignParticipation(campaign) {
-    const retry = this.campaignStorage.get(campaign.code, 'retry');
-    return !this.state.doesUserHaveOngoingParticipation || (campaign.multipleSendings && retry);
-  }
-
-  _handleQueryParamBoolean(value, defaultValue) {
-    if (isBoolean(value)) {
-      return value;
-    }
-
-    if (isString(value)) {
-      return value.toLowerCase() === 'true';
-    }
-
-    return defaultValue;
+    const hasParticipated = this.campaignStorage.get(this.state.campaignCode, 'hasParticipated');
+    return this.state.doesCampaignAskForExternalId && !this.state.participantExternalId && !hasParticipated;
   }
 }
