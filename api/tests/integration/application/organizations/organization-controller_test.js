@@ -26,6 +26,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
+    sandbox.stub(usecases, 'findGroupsByOrganization');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
@@ -358,6 +359,41 @@ describe('Integration | Application | Organizations | organization-controller', 
             `Aucune attestation de certification pour la classe ${division}.`
           );
         });
+      });
+    });
+  });
+
+  describe('#getGroups', function () {
+    context('when the user is an admin of the organizations', function () {
+      it('returns organizations groups', async function () {
+        const organizationId = 1234;
+        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
+        usecases.findGroupsByOrganization.withArgs({ organizationId }).resolves([{ name: 'G1' }]);
+
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/groups`);
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([{ id: 'G1', type: 'groups', attributes: { name: 'G1' } }]);
+      });
+    });
+
+    context('when the user is not an admin of the organizations', function () {
+      it('returns organizations groups', async function () {
+        const organizationId = 1234;
+        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/groups`);
+
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the organization id is invalid', function () {
+      it('returns organizations groups', async function () {
+        const response = await httpTestServer.request('GET', `/api/organizations/ABC/groups`);
+
+        expect(response.statusCode).to.equal(400);
       });
     });
   });

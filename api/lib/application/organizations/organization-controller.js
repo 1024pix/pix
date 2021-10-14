@@ -5,6 +5,7 @@ const usecases = require('../../domain/usecases');
 const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
+const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
@@ -168,6 +169,12 @@ module.exports = {
     const organizationId = request.params.id;
     const divisions = await usecases.findDivisionsByOrganization({ organizationId });
     return divisionSerializer.serialize(divisions);
+  },
+
+  async getGroups(request) {
+    const organizationId = request.params.id;
+    const groups = await usecases.findGroupsByOrganization({ organizationId });
+    return groupSerializer.serialize(groups);
   },
 
   async findPaginatedFilteredSchoolingRegistrations(request) {
