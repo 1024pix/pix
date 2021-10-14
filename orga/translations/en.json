@@ -142,7 +142,11 @@
       "close": "Close"
     },
     "filters": {
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "divisions": {
+        "title": "Classes",
+        "empty": "No class"
+      }
     },
     "help-form": "https://pix.org/en-gb/contact-form",
     "home-page": "Pix Orga home page",
@@ -332,9 +336,7 @@
         "type": {
           "badges": "Thematic results",
           "divisions": {
-            "title": "Classes",
-            "selected": "Classes: {divisions}",
-            "empty": "No class"
+            "placeholder": "Classes"
           },
           "status": {
             "title": "Status",
@@ -632,8 +634,7 @@
         "empty": "No students.",
         "filter": {
           "division": {
-            "aria-label": "Enter a class",
-            "label": "Search by class"
+            "placeholder": "Search by class"
           },
           "first-name": {
             "aria-label": "Enter a first name",
