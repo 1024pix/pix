@@ -184,6 +184,9 @@ module.exports = {
       filter.divisions = [filter.divisions];
     }
 
+    if (filter.groups && !Array.isArray(filter.groups)) {
+      filter.groups = [filter.groups];
+    }
     const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({
       organizationId,
       filter,
