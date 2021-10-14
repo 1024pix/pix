@@ -119,7 +119,75 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '10', pageNumber: 1 } }));
   });
 
+  module('Display start and end items index of the page', () => {
+    test('it should display start and end index of the first page (full)', async function (assert) {
+      // given
+      this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 50 }));
+
+      // when
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
+
+      // then
+      assert.contains('1-25 sur 50 éléments');
+    });
+
+    test('it should display only result counts when page count is 1', async function (assert) {
+      // given
+      this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 20 }));
+
+      // when
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
+
+      // then
+      assert.contains('20 éléments');
+    });
+
+    test('it should display start and end index of a middle page', async function (assert) {
+      // given
+      this.set('meta', getMetaForPage({ pageNumber: 2, rowCount: 70 }));
+
+      // when
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
+
+      // then
+      assert.contains('26-50 sur 70 éléments');
+    });
+
+    test('it should display start and end index of the last page (full)', async function (assert) {
+      // given
+      this.set('meta', getMetaForPage({ pageNumber: 2, rowCount: 50 }));
+
+      // when
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
+
+      // then
+      assert.contains('26-50 sur 50 éléments');
+    });
+
+    test('it should display start and end index of a full page (partial)', async function (assert) {
+      // given
+      this.set('meta', getMetaForPage({ pageNumber: 2, rowCount: 45 }));
+
+      // when
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
+
+      // then
+      assert.contains('26-45 sur 45 éléments');
+    });
+  });
+
   module('When no results', function () {
+    test('it should not display start and end index ', async function (assert) {
+      // given
+      this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));
+
+      // when
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
+
+      // then
+      assert.contains('0 élément');
+    });
+
     test('it should disable previous button and next button', async function (assert) {
       // given
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));
