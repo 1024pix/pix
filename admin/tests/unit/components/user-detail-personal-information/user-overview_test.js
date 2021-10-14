@@ -29,4 +29,42 @@ module('Unit | Component | user-detail-personal-information', function (hooks) {
       assert.equal(actualUrl, expectedUrl);
     });
   });
+
+  module('#canModifyEmail', function () {
+    module('when user has already an email', function () {
+      test('it should allow to modify email', async function (assert) {
+        // given
+        const component = createGlimmerComponent('component:user-detail-personal-information/user-overview');
+        const user = { email: 'lisa@example.net', firstName: 'Lisa', lastName: 'Dupont' };
+        component.args.user = user;
+
+        // when & then
+        assert.true(component.canModifyEmail);
+      });
+    });
+
+    module('when user has an username', function () {
+      test('it should allow to modify email too', async function (assert) {
+        // given
+        const component = createGlimmerComponent('component:user-detail-personal-information/user-overview');
+        const user = { username: 'lisa@example.net', firstName: 'Lisa', lastName: 'Dupont' };
+        component.args.user = user;
+
+        // when & then
+        assert.true(component.canModifyEmail);
+      });
+    });
+
+    module('when user has neither username or email', function () {
+      test('it should not allow to modify email', async function (assert) {
+        // given
+        const component = createGlimmerComponent('component:user-detail-personal-information/user-overview');
+        const user = { firstName: 'Lisa', lastName: 'Dupont' };
+        component.args.user = user;
+
+        // when & then
+        assert.false(component.canModifyEmail);
+      });
+    });
+  });
 });
