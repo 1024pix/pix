@@ -2,12 +2,12 @@ const Bookshelf = require('../bookshelf');
 
 require('./Badge');
 
-const modelName = 'BadgePartnerCompetence';
+const modelName = 'SkillSet';
 
 module.exports = Bookshelf.model(
   modelName,
   {
-    tableName: 'badge-partner-competences',
+    tableName: 'skill-sets',
 
     badge() {
       return this.belongsTo('Badge');

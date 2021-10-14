@@ -13,7 +13,7 @@ module.exports = {
     return BookshelfBadge.where({ targetProfileId })
       .fetchAll({
         require: false,
-        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+        withRelated: ['badgeCriteria', 'skillSets'],
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
@@ -26,7 +26,7 @@ module.exports = {
       .where('campaigns.id', campaignId)
       .fetchAll({
         require: false,
-        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+        withRelated: ['badgeCriteria', 'skillSets'],
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
@@ -40,21 +40,21 @@ module.exports = {
       .where('campaign-participations.id', campaignParticipationId)
       .fetchAll({
         require: false,
-        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+        withRelated: ['badgeCriteria', 'skillSets'],
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
   async get(id) {
     const bookshelfBadge = await BookshelfBadge.where('id', id).fetch({
-      withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+      withRelated: ['badgeCriteria', 'skillSets'],
     });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
 
   async getByKey(key) {
     const bookshelfBadge = await BookshelfBadge.where({ key }).fetch({
-      withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+      withRelated: ['badgeCriteria', 'skillSets'],
     });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
@@ -81,5 +81,5 @@ module.exports = {
 };
 
 function _adaptModelToDb(badge) {
-  return omit(badge, ['id', 'badgeCriteria', 'badgePartnerCompetences']);
+  return omit(badge, ['id', 'badgeCriteria', 'skillSets']);
 }

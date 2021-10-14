@@ -116,9 +116,9 @@ async function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBui
 }
 
 async function _getCleaSkills(cleaBadgeKey, skillRepository) {
-  const skillIdPacks = await knex('badge-partner-competences')
+  const skillIdPacks = await knex('skill-sets')
     .select('skillIds')
-    .join('badges', 'badges.id', 'badge-partner-competences.badgeId')
+    .join('badges', 'badges.id', 'skill-sets.badgeId')
     .where('badges.key', '=', cleaBadgeKey);
 
   const cleaSkillIds = _.flatMap(skillIdPacks, 'skillIds');
