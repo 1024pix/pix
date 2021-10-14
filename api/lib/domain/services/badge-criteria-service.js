@@ -50,7 +50,7 @@ function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults,
       return _verifyListOfPartnerCompetenceResultsMasteryPercentageCriterion({
         allPartnerCompetenceResults: partnerCompetenceResults,
         threshold: criterion.threshold,
-        partnerCompetenceIds: criterion.partnerCompetenceIds,
+        skillSetIds: criterion.skillSetIds,
       });
     } else {
       return false;
@@ -61,10 +61,10 @@ function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults,
 function _verifyListOfPartnerCompetenceResultsMasteryPercentageCriterion({
   allPartnerCompetenceResults,
   threshold,
-  partnerCompetenceIds,
+  skillSetIds,
 }) {
   const filteredPartnerCompetenceResults = _.filter(allPartnerCompetenceResults, (partnerCompetenceResult) =>
-    partnerCompetenceIds.includes(partnerCompetenceResult.id)
+    skillSetIds.includes(partnerCompetenceResult.id)
   );
 
   return _.every(

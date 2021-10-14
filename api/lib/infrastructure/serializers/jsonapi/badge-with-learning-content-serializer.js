@@ -51,7 +51,7 @@ module.exports = {
       transform(record) {
         const badge = record.badge;
         badge.badgeCriteria.forEach((badgeCriterion) => {
-          badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds?.map((partnerCompetenceId) => {
+          badgeCriterion.partnerCompetences = badgeCriterion.skillSetIds?.map((partnerCompetenceId) => {
             return { id: partnerCompetenceId };
           });
         });

@@ -52,7 +52,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
           threshold: CRITERION_THRESHOLD.SKILL_SET,
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
-          partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
+          skillSetIds: [COMPETENCE_RESULT_ID.SECOND],
         }),
       ];
       // TODO: Fix this the next time the file is edited.
@@ -183,7 +183,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
             threshold: CRITERION_THRESHOLD.SKILL_SET,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
+            skillSetIds: [COMPETENCE_RESULT_ID.SECOND],
           }),
         ];
         // TODO: Fix this the next time the file is edited.
@@ -242,7 +242,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
             threshold: CRITERION_THRESHOLD.SKILL_SET,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            partnerCompetenceIds: [COMPETENCE_RESULT_ID.FIRST, COMPETENCE_RESULT_ID.SECOND],
+            skillSetIds: [COMPETENCE_RESULT_ID.FIRST, COMPETENCE_RESULT_ID.SECOND],
           }),
         ];
         // TODO: Fix this the next time the file is edited.
@@ -392,7 +392,7 @@ describe('Unit | Domain | Services | badge-criteria', function () {
           domainBuilder.buildBadgeCriterion({
             id: 17,
             scope: BadgeCriterion.SCOPES.SKILL_SET,
-            partnerCompetenceIds: [18, 19],
+            skillSetIds: [18, 19],
             threshold: 50,
           }),
         ],
