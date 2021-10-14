@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { clickByLabel, fillInByLabel } from '../../../../helpers/testing-library';
 import Service from '@ember/service';
@@ -8,9 +8,23 @@ import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Student::Sco::List', function (hooks) {
   setupIntlRenderingTest(hooks);
+  let store;
 
   hooks.beforeEach(function () {
     this.set('noop', sinon.stub());
+
+    store = this.owner.lookup('service:store');
+
+    const division = store.createRecord('division', { id: '3A', name: '3A' });
+    class CurrentUserStub extends Service {
+      isSCOManagingStudents = true;
+      organization = store.createRecord('organization', {
+        id: 1,
+        divisions: [division],
+      });
+    }
+
+    this.owner.register('service:current-user', CurrentUserStub);
   });
 
   test('it should display the table headers', async function (assert) {
@@ -75,7 +89,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'lastName');
       assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, 'bob');
+      assert.equal(call.args[2], 'bob');
     });
 
     test('it should trigger filtering with firstname', async function (assert) {
@@ -93,7 +107,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'firstName');
       assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, 'bob');
+      assert.equal(call.args[2], 'bob');
     });
 
     test('it should trigger filtering with division', async function (assert) {
@@ -105,13 +119,13 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
-      await fillInByLabel('Entrer une classe', '3A');
+      await click('[for="division-3A"]');
 
       // then
       const call = triggerFiltering.getCall(0);
-      assert.equal(call.args[0], 'division');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, '3A');
+      assert.equal(call.args[0], 'divisions');
+      assert.false(call.args[1]);
+      assert.deepEqual(call.args[2], ['3A']);
     });
 
     test('it should trigger filtering with connexionType', async function (assert) {
@@ -132,13 +146,13 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'connexionType');
       assert.false(call.args[1]);
-      assert.equal(call.args[2].target.value, 'email');
+      assert.equal(call.args[2], 'email');
     });
   });
 
   module('when user is not reconciled', function ({ beforeEach }) {
     beforeEach(function () {
-      const store = this.owner.lookup('service:store');
+      store = this.owner.lookup('service:store');
       this.set('students', [
         store.createRecord('student', {
           lastName: 'La Terreur',
@@ -283,8 +297,11 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     module('when user is admin in organization', (hooks) => {
       hooks.beforeEach(function () {
         class CurrentUserStub extends Service {
+          isSCOManagingStudents = true;
           isAdminInOrganization = true;
+          organization = store.createRecord('organization', { id: 1 });
         }
+
         this.owner.register('service:current-user', CurrentUserStub);
         return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
       });
@@ -301,8 +318,11 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     module('when user is not admin in organization', (hooks) => {
       hooks.beforeEach(function () {
         class CurrentUserStub extends Service {
+          isSCOManagingStudents = true;
           isAdminInOrganization = false;
+          organization = store.createRecord('organization', { id: 1 });
         }
+
         this.owner.register('service:current-user', CurrentUserStub);
         return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
       });
