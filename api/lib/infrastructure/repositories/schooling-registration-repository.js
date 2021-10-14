@@ -31,7 +31,7 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
 function _setSchoolingRegistrationFilters(
   qb,
-  { lastName, firstName, studentNumber, divisions, group, connexionType } = {}
+  { lastName, firstName, studentNumber, divisions, groups, connexionType } = {}
 ) {
   if (lastName) {
     qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
@@ -45,8 +45,11 @@ function _setSchoolingRegistrationFilters(
   if (!_.isEmpty(divisions)) {
     qb.whereIn('division', divisions);
   }
-  if (group) {
-    qb.whereRaw('LOWER("schooling-registrations"."group") LIKE ?', `%${group.toLowerCase()}%`);
+  if (groups) {
+    qb.whereIn(
+      knex.raw('LOWER("schooling-registrations"."group")'),
+      groups.map((group) => group.toLowerCase())
+    );
   }
   if (connexionType === 'none') {
     qb.whereRaw('"users"."username" IS NULL');
