@@ -17,7 +17,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
         isCertifiable: false,
         isAlwaysVisible: true,
         badgeCriteria: [domainBuilder.buildBadgeCriterion({ skillSetIds: null })],
-        badgePartnerCompetences: [],
+        skillSets: [],
       });
 
       const expectedSerializedBadge = {

@@ -9,7 +9,7 @@ const {
 } = require('../../../test-helper');
 
 describe('Acceptance | API | Badges', function () {
-  let server, options, userId, badge, badgeCriterion, badgePartnerCompetence;
+  let server, options, userId, badge, badgeCriterion, skillSet;
 
   beforeEach(async function () {
     server = await createServer();
@@ -60,7 +60,7 @@ describe('Acceptance | API | Badges', function () {
         isCertifiable: false,
       });
       badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
+      skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
 
       await databaseBuilder.commit();
     });
@@ -93,11 +93,11 @@ describe('Acceptance | API | Badges', function () {
                 },
               ],
             },
-            'badge-partner-competences': {
+            'skill-sets': {
               data: [
                 {
-                  id: badgePartnerCompetence.id.toString(),
-                  type: 'badge-partner-competences',
+                  id: skillSet.id.toString(),
+                  type: 'skill-sets',
                 },
               ],
             },
@@ -112,7 +112,7 @@ describe('Acceptance | API | Badges', function () {
               threshold: 50,
             },
             relationships: {
-              'partner-competences': {
+              'skill-sets': {
                 data: [],
               },
             },
@@ -158,8 +158,8 @@ describe('Acceptance | API | Badges', function () {
             },
           },
           {
-            type: 'badge-partner-competences',
-            id: badgePartnerCompetence.id.toString(),
+            type: 'skill-sets',
+            id: skillSet.id.toString(),
             attributes: {
               name: 'name',
             },
