@@ -10,8 +10,8 @@ module.exports = function buildCampaignParticipationBadge({
   isAcquired = false,
   isCertifiable = false,
   badgeCriteria = [],
-  badgePartnerCompetences = [],
-  partnerCompetenceResults = [],
+  skillSets = [],
+  skillSetResults = [],
 } = {}) {
   return new CampaignParticipationBadge({
     id,
@@ -23,7 +23,7 @@ module.exports = function buildCampaignParticipationBadge({
     isAcquired,
     isCertifiable,
     badgeCriteria,
-    badgePartnerCompetences,
-    partnerCompetenceResults,
+    skillSets,
+    skillSetResults,
   });
 };

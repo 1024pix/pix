@@ -1,4 +1,4 @@
-class BadgePartnerCompetence {
+class SkillSet {
   constructor({ id, name, skillIds } = {}) {
     this.id = id;
     this.name = name;
@@ -6,4 +6,4 @@ class BadgePartnerCompetence {
   }
 }
 
-module.exports = BadgePartnerCompetence;
+module.exports = SkillSet;

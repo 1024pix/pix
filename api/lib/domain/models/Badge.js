@@ -8,7 +8,7 @@ class Badge {
     title,
     isCertifiable,
     badgeCriteria = [],
-    badgePartnerCompetences = [],
+    skillSets = [],
     targetProfileId,
     isAlwaysVisible = false,
   } = {}) {
@@ -20,7 +20,7 @@ class Badge {
     this.key = key;
     this.isCertifiable = isCertifiable;
     this.badgeCriteria = badgeCriteria;
-    this.badgePartnerCompetences = badgePartnerCompetences;
+    this.skillSets = skillSets;
     this.targetProfileId = targetProfileId;
     this.isAlwaysVisible = isAlwaysVisible;
   }
