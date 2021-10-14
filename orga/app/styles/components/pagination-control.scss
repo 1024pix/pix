@@ -2,7 +2,9 @@
   display: flex;
   justify-content: space-between;
   margin: 16px 0;
-  font-weight: 500;
+  color: $grey-60;
+  font-family: $roboto;
+  font-size: 0.875rem;
 }
 
 .page-size {
@@ -29,7 +31,7 @@ select.page-size__choice {
 
   &__arrow {
     &--previous {
-      margin-right: 8px;
+      margin: 0 8px;
     }
 
     &--next {
