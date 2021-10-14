@@ -62,11 +62,11 @@ describe('Integration | Repository | Badge', function () {
       ...badgeCriterionForBadgeWithPartnerCompetences,
       badgeId: badgeWithBadgePartnerCompetences.id,
     });
-    databaseBuilder.factory.buildBadgePartnerCompetence({
+    databaseBuilder.factory.buildSkillSet({
       ...badgePartnerCompetence_1,
       badgeId: badgeWithBadgePartnerCompetences.id,
     });
-    databaseBuilder.factory.buildBadgePartnerCompetence({
+    databaseBuilder.factory.buildSkillSet({
       ...badgePartnerCompetence_2,
       badgeId: badgeWithBadgePartnerCompetences.id,
     });
@@ -343,7 +343,7 @@ describe('Integration | Repository | Badge', function () {
         key: 'TOTO2',
       });
       databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
+      databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
       await databaseBuilder.commit();
     });
 
@@ -373,7 +373,7 @@ describe('Integration | Repository | Badge', function () {
         key: 'TOTO2',
       });
       databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
+      databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
       await databaseBuilder.commit();
     });
 

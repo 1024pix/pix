@@ -22,11 +22,11 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   badge.id = databaseBuilder.factory.buildBadge({ ...badge }).id;
   badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1, badgeId: badge.id }).id;
   badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2, badgeId: badge.id }).id;
-  badgePartnerCompetence1.id = databaseBuilder.factory.buildBadgePartnerCompetence({
+  badgePartnerCompetence1.id = databaseBuilder.factory.buildSkillSet({
     ...badgePartnerCompetence1,
     badgeId: badge.id,
   }).id;
-  badgePartnerCompetence2.id = databaseBuilder.factory.buildBadgePartnerCompetence({
+  badgePartnerCompetence2.id = databaseBuilder.factory.buildSkillSet({
     ...badgePartnerCompetence2,
     badgeId: badge.id,
   }).id;

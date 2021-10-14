@@ -60,7 +60,7 @@ describe('Acceptance | API | Badges', function () {
         isCertifiable: false,
       });
       badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
+      badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
 
       await databaseBuilder.commit();
     });

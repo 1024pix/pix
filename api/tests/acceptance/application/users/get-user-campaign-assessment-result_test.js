@@ -70,7 +70,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       targetProfileId: targetProfile.id,
     });
 
-    badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({
+    badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({
       id: 1,
       badgeId: 1,
       name: 'Pix Emploi',
