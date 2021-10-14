@@ -241,7 +241,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         // when
         await visit(`/certifications/${certification.id}`);
         await clickByLabel('Modifier les résultats du candidat');
-        await clickByLabel('Annuler la modification des résultats du candidat');
+        await clickByLabel('Enregistrer les résultats du candidat');
+        await clickByLabel('Confirmer');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();

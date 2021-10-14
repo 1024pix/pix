@@ -276,4 +276,8 @@ export default function () {
   this.get('/accreditations', (schema) => {
     return schema.accreditations.all();
   });
+
+  this.post('/admin/assessment-results/', () => {
+    return new Response(204);
+  });
 }

@@ -112,6 +112,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         certificationCourseId: 123,
         sessionId: 456,
         userId: 789,
+        assessmentId: 159,
         firstName: 'Buffy',
         lastName: 'Summers',
         birthplace: 'Torreilles',
@@ -147,6 +148,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         attributes: {
           'session-id': 456,
           'user-id': 789,
+          'assessment-id': 159,
           'first-name': 'Buffy',
           'last-name': 'Summers',
           birthdate: '2000-08-30',
