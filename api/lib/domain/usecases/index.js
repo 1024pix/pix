@@ -59,7 +59,6 @@ const dependencies = {
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   divisionRepository: require('../../infrastructure/repositories/division-repository'),
-  groupRepository: require('../../infrastructure/repositories/group-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
   getCompetenceLevel: require('../../domain/services/get-competence-level'),
   grantedAccreditationRepository: require('../../infrastructure/repositories/granted-accreditation-repository'),

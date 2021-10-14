@@ -18,10 +18,21 @@ async function findByCampaignId(campaignId) {
   return groups.map(({ group }) => _toDomain(group));
 }
 
+async function findByOrganizationId({ organizationId }) {
+  const groupRows = await knex('schooling-registrations')
+    .distinct('group')
+    .where({ organizationId, isDisabled: false })
+    .whereNotNull('group')
+    .orderBy('group', 'asc');
+
+  return groupRows.map(({ group }) => _toDomain(group));
+}
+
 function _toDomain(group) {
   return new Group({ name: group });
 }
 
 module.exports = {
   findByCampaignId,
+  findByOrganizationId,
 };
