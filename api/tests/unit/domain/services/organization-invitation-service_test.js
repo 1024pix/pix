@@ -1,8 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const mailService = require('../../../../lib/domain/services/mail-service');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
-
+const mailService = require('../../../../lib/domain/services/mail-service');
+const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
 const {
   createOrganizationInvitation,
   createScoOrganizationInvitation,
@@ -10,9 +9,6 @@ const {
 } = require('../../../../lib/domain/services/organization-invitation-service');
 
 describe('Unit | Service | Organization-Invitation Service', function () {
-  const organizationId = 1;
-  const organizationName = 'Organization Name';
-
   const organizationInvitationId = 10;
   const userEmailAddress = 'user@example.net';
   const code = 'ABCDEFGH01';
@@ -29,6 +25,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     organizationRepository = {
       get: sinon.stub(),
     };
+    sinon.stub(codeUtils, 'generateStringCodeForOrganizationInvitation');
     sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
     sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
   });
@@ -39,24 +36,26 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // given
         const tags = undefined;
         const locale = 'fr-fr';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail
-          .withArgs({ organizationId, email: userEmailAddress })
+          .withArgs({ organizationId: organization.id, email: userEmailAddress })
           .resolves(null);
+        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
-            organizationId,
+            organizationId: organization.id,
             email: userEmailAddress,
             code: sinon.match.string,
           })
           .resolves({ id: organizationInvitationId, code });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           email: userEmailAddress,
           locale,
         });
@@ -64,7 +63,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          organizationName,
+          organizationName: organization.name,
           organizationInvitationId,
           code,
           locale,
@@ -77,16 +76,17 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // given
         const tags = ['JOIN_ORGA'];
         const locale = 'fr-fr';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
         organizationInvitationRepository.create.resolves({ id: organizationInvitationId, code });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           email: userEmailAddress,
           locale,
           tags,
@@ -95,7 +95,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          organizationName,
+          organizationName: organization.name,
           organizationInvitationId,
           code,
           locale,
@@ -111,19 +111,20 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId,
           isPending,
           code,
         });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           email: userEmailAddress,
           locale,
         });
@@ -131,7 +132,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          organizationName,
+          organizationName: organization.name,
           organizationInvitationId,
           code,
           locale,
@@ -145,19 +146,20 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // given
         const isPending = true;
         const locale = 'fr-fr';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId,
           isPending,
           code,
         });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           email: userEmailAddress,
           locale,
         });
@@ -178,23 +180,25 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
-        const role = 'ADMIN';
+        const role = Membership.roles.ADMIN;
+        const organization = domainBuilder.buildOrganization();
 
+        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
-            organizationId,
+            organizationId: organization.id,
             email: userEmailAddress,
             code: sinon.match.string,
             role,
           })
           .resolves({ id: organizationInvitationId, code });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           firstName,
           lastName,
           email: userEmailAddress,
@@ -204,7 +208,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          organizationName,
+          organizationName: organization.name,
           organizationInvitationId,
           firstName,
           lastName,
@@ -221,23 +225,25 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
-        const role = 'ADMIN';
+        const role = Membership.roles.ADMIN;
+        const organization = domainBuilder.buildOrganization();
 
+        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
-            organizationId,
+            organizationId: organization.id,
             email: userEmailAddress,
             code: sinon.match.string,
             role,
           })
           .resolves({ id: organizationInvitationId, code });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           firstName,
           lastName,
           email: userEmailAddress,
@@ -248,7 +254,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          organizationName,
+          organizationName: organization.name,
           organizationInvitationId,
           firstName,
           lastName,
@@ -268,19 +274,20 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId,
           isPending,
           code,
         });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           firstName,
           lastName,
           email: userEmailAddress,
@@ -290,7 +297,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          organizationName,
+          organizationName: organization.name,
           organizationInvitationId,
           firstName,
           lastName,
@@ -308,19 +315,20 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId,
           isPending,
           code,
         });
-        organizationRepository.get.resolves({ name: organizationName });
+        organizationRepository.get.resolves(organization);
 
         // when
         await createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
+          organizationId: organization.id,
           firstName,
           lastName,
           email: userEmailAddress,
@@ -337,24 +345,27 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
   describe('#createProOrganizationInvitation', function () {
     context('when organization-invitation does not exist', function () {
-      it('should create a new organization-invitation and send an email with organizationId, name, email, code, locale and tags', async function () {
+      it('should create a new organization-invitation and send an email with organizationId: organization.i, name, email, code, locale and tags', async function () {
         // given
         const tags = ['JOIN_ORGA'];
         const locale = 'fr-fr';
+        const role = Membership.roles.MEMBER;
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
+        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
-            organizationId,
+            organizationId: organization.id,
             email: userEmailAddress,
-            role: Membership.roles.MEMBER,
+            role,
             code: sinon.match.string,
           })
           .resolves({ id: organizationInvitationId, code });
 
         const expectedParameters = {
           email: userEmailAddress,
-          name: organizationName,
+          name: organization.name,
           organizationInvitationId,
           code,
           locale,
@@ -365,8 +376,8 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         await createProOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
-          name: organizationName,
+          organizationId: organization.id,
+          name: organization.name,
           email: userEmailAddress,
           role,
           locale,
@@ -384,6 +395,8 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
+        const role = Membership.roles.MEMBER;
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId,
@@ -395,10 +408,10 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         await createProOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
-          name: organizationName,
+          organizationId: organization.id,
+          name: organization.name,
           email: userEmailAddress,
-          role: Membership.roles.ADMIN,
+          role,
           locale,
           tags,
         });
@@ -406,7 +419,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         const expectedParameters = {
           email: userEmailAddress,
-          name: organizationName,
+          name: organization.name,
           organizationInvitationId,
           code,
           locale,
@@ -421,6 +434,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
+        const organization = domainBuilder.buildOrganization();
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId,
@@ -432,8 +446,8 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         await createProOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
-          organizationId,
-          name: organizationName,
+          organizationId: organization.id,
+          name: organization.name,
           email: userEmailAddress,
           locale,
           tags,
