@@ -23,7 +23,7 @@ export default class ParticipationFilters extends Component {
   }
 
   get displayDivisionFilter() {
-    return this.isDivisionsLoaded && this.currentUser.isSCOManagingStudents;
+    return this.currentUser.isSCOManagingStudents;
   }
 
   get displayStatusFilter() {
@@ -36,14 +36,6 @@ export default class ParticipationFilters extends Component {
 
   get badgeOptions() {
     return this.args.campaign?.badges?.map(({ id, title }) => ({ value: id, label: title }));
-  }
-
-  get isDivisionsLoaded() {
-    return this.args.campaign?.divisions?.content?.length > 0;
-  }
-
-  get divisionOptions() {
-    return this.args.campaign?.divisions?.map(({ name }) => ({ value: name, label: name }));
   }
 
   get statusOptions() {
