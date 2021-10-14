@@ -39,7 +39,7 @@
         @value={{this.form.lastName}}
       />
     </div>
-    {{#if @user.email}}
+    {{#if this.canModifyEmail}}
       <div class="form-field col-md-4">
         <label for="email" class="form-field__label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
