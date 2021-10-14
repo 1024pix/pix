@@ -58,7 +58,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           it('should display an info alert with dashed border and overlay', async function() {
             // when
             const challengeItem = find('.challenge-item');
-            await triggerEvent(challengeItem, 'mouseleave');
+            await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
             // then
             expect(find('.challenge__info-alert--show')).to.exist;
@@ -100,7 +100,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             it('should display an info alert with dashed border and overlay', async function() {
               // when
               const challengeItem = find('.challenge-item');
-              await triggerEvent(challengeItem, 'mouseleave');
+              await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
               // then
               expect(find('.challenge__info-alert--could-show')).to.exist;
@@ -111,7 +111,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             it('should display only the warning alert when it has been triggered', async function() {
               // given
               const challengeItem = find('.challenge-item');
-              await triggerEvent(challengeItem, 'mouseleave');
+              await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
               expect(find('.challenge__info-alert--could-show')).to.exist;
               expect(find('.challenge-item--focused')).to.exist;
