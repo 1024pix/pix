@@ -60,33 +60,6 @@ describe('Integration | Component | user-account | email-with-validation-form', 
           ).to.exist;
         });
       });
-
-      context('in password input', function () {
-        it('should display an empty password error message when focus-out', async function () {
-          // given
-          const newEmail = 'newEmail@example.net';
-          const emptyPassword = '';
-
-          await render(hbs`<UserAccount::EmailWithValidationForm />`);
-
-          // when
-          await fillInByLabel(
-            this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
-            newEmail
-          );
-          await fillInByLabel(
-            this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
-            emptyPassword
-          );
-
-          // then
-          expect(
-            contains(
-              this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password')
-            )
-          ).to.exist;
-        });
-      });
     });
   });
 

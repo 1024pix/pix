@@ -20,7 +20,6 @@ export default class EmailWithValidationForm extends Component {
   @tracked newEmail = '';
   @tracked password = '';
   @tracked newEmailValidationMessage = null;
-  @tracked passwordValidationMessage = null;
   @tracked errorMessage = null;
   @tracked wasButtonClicked = false;
 
@@ -29,26 +28,13 @@ export default class EmailWithValidationForm extends Component {
   }
 
   @action
-  validateNewEmail(event) {
-    this.newEmail = event.target.value;
+  validateNewEmail() {
     const isInvalidInput = !isEmailValid(this.newEmail);
 
     this.newEmailValidationMessage = null;
 
     if (isInvalidInput) {
       this.newEmailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
-    }
-  }
-
-  @action
-  validatePassword(event) {
-    this.password = event.target.value;
-    const isInvalidInput = isEmpty(this.password);
-
-    this.passwordValidationMessage = null;
-
-    if (isInvalidInput) {
-      this.passwordValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
     }
   }
 
