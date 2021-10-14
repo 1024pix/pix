@@ -1,7 +1,10 @@
+const _ = require('lodash');
 const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const campaignCollectiveResultRepository = require('../../../../lib/infrastructure/repositories/campaign-collective-result-repository');
 const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
-const _ = require('lodash');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt, isImproved) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
@@ -20,7 +23,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    status: 'STARTED',
+    status: STARTED,
     isImproved: false,
   });
 
@@ -227,7 +230,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId: goliathId,
-            status: 'STARTED',
+            status: STARTED,
             isImproved: false,
           });
 

@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
+
 const {
   databaseBuilder,
   expect,
@@ -896,7 +900,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         userId: participant1.id,
       });
       databaseBuilder.factory.buildAssessmentFromParticipation(
-        { campaignId: campaign.id, status: 'STARTED' },
+        { campaignId: campaign.id, status: STARTED },
         participant2
       );
       databaseBuilder.factory.buildSchoolingRegistration({

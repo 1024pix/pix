@@ -50,7 +50,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The bad',
           campaignId: campaign.id,
-          status: 'STARTED',
+          status: STARTED,
           userId: user.id,
           isImproved: true,
         });
@@ -58,7 +58,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The good',
           campaignId: campaign.id,
-          status: 'STARTED',
+          status: STARTED,
           userId: user.id,
           isImproved: false,
         });
@@ -82,7 +82,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
           const user = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId: campaign.id,
-            status: 'STARTED',
+            status: STARTED,
             userId: user.id,
           });
 
@@ -221,13 +221,13 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The good', campaignId: campaign.id, status: 'STARTED' },
+          { participantExternalId: 'The good', campaignId: campaign.id, status: STARTED },
           { id: 1 }
         );
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 1 });
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'TO_SHARE' },
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: TO_SHARE },
           { id: 2 }
         );
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 2 });
@@ -238,7 +238,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const { campaignParticipantsActivities, pagination } =
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({
             campaignId: campaign.id,
-            filters: { status: 'STARTED' },
+            filters: { status: STARTED },
           });
 
         const participantExternalIds = campaignParticipantsActivities.map((result) => result.participantExternalId);

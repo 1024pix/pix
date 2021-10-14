@@ -7,6 +7,9 @@ const {
   AlreadyExistingCampaignParticipationError,
 } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#get', function () {
@@ -340,7 +343,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: campaignData.id,
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
         });
         const campaignToJoin = domainBuilder.buildCampaignToJoin({
@@ -373,7 +376,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: campaignData.id,
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
           isImproved: false,
           validatedSkillsCount: 2,

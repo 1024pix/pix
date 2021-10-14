@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const {
   knex,
   databaseBuilder,
@@ -6,9 +7,10 @@ const {
   sinon,
   mockLearningContent,
 } = require('../../../test-helper');
-const _ = require('lodash');
-
 const createServer = require('../../../../server');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Acceptance | Controller | users-controller-reset-scorecard', function () {
   let options;
@@ -172,7 +174,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
             },
             {
               assessment: { userId, type: 'CAMPAIGN' },
-              campaignParticipation: { campaignId: campaign.id, status: 'STARTED' },
+              campaignParticipation: { campaignId: campaign.id, status: STARTED },
               knowledgeElements: [
                 { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt },
               ],

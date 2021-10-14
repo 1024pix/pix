@@ -1,5 +1,8 @@
 const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const campaignAssessmentParticipationResultListRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Assessment Participation Result List', function () {
   describe('#findPaginatedByCampaignId', function () {
@@ -27,7 +30,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The bad',
           campaignId: campaign.id,
-          status: 'STARTED',
+          status: STARTED,
         });
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
@@ -689,7 +692,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
           userId: user2.id,
           participantExternalId: 'The bad',
-          status: 'STARTED',
+          status: STARTED,
         });
         databaseBuilder.factory.buildAssessment({
           userId: user2.id,

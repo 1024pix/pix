@@ -10,7 +10,7 @@ const {
   knex,
 } = require('../../test-helper');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 describe('Acceptance | API | Campaign Participations', function () {
   let server, options, user;
@@ -65,7 +65,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
         userId: user.id,
-        status: 'STARTED',
+        status: STARTED,
         sharedAt: null,
         campaignId: campaign.id,
       });
@@ -186,7 +186,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         userId,
-        status: 'STARTED',
+        status: STARTED,
       }).id;
       databaseBuilder.factory.buildAssessment({
         userId,
@@ -240,7 +240,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         userId: anotherUserId,
-        status: 'STARTED',
+        status: STARTED,
       }).id;
       databaseBuilder.factory.buildAssessment({
         userId,

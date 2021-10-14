@@ -6,6 +6,9 @@ const {
   AlreadySharedCampaignParticipationError,
   UserNotAuthorizedToAccessEntityError,
 } = require('../../../../lib/domain/errors');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', function () {
   let dependencies;
@@ -73,7 +76,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: 'STARTED',
+      status: STARTED,
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
     const ongoingAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
@@ -95,7 +98,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: 'STARTED',
+      status: STARTED,
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
     const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });

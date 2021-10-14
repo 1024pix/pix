@@ -1,5 +1,8 @@
 const campaignParticipationsStatsRepository = require('../../../../lib/infrastructure/repositories/campaign-participations-stats-repository');
 const { expect, databaseBuilder } = require('../../../test-helper');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participations Stats', function () {
   describe('#getParticipationsActivityByDate', function () {
@@ -46,7 +49,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           createdAt: '2021-01-02',
-          status: 'STARTED',
+          status: STARTED,
           sharedAt: null,
         });
         databaseBuilder.factory.buildCampaignParticipation({ createdAt: '2021-01-01', sharedAt: '2021-01-01' });
@@ -66,7 +69,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
     context('When there is no shared participation', function () {
       it('return an empty array', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: 'STARTED' });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED });
 
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({
           campaignId,
@@ -130,7 +133,7 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
     context('When there are participation not shared', function () {
       it('returns only shared participation', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: 'STARTED', masteryRate: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED, masteryRate: 0.1 });
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 1 });
 
         await databaseBuilder.commit();

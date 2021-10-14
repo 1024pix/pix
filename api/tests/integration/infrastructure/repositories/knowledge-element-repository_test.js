@@ -5,6 +5,9 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { STARTED } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | knowledgeElementRepository', function () {
   afterEach(function () {
@@ -296,7 +299,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        status: 'STARTED',
+        status: STARTED,
       });
 
       databaseBuilder.factory.buildKnowledgeElement({
@@ -330,7 +333,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId: otherUserId,
         campaignId,
-        status: 'STARTED',
+        status: STARTED,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
