@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class FillInCampaignCodeController extends Controller {
-
   @service store;
   @service intl;
   @service router;
@@ -42,9 +41,7 @@ export default class FillInCampaignCodeController extends Controller {
     this.clearErrorMessage();
 
     if (!this.campaignCode) {
-      this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.missing-code',
-      );
+      this.errorMessage = this.intl.t('pages.fill-in-campaign-code.errors.missing-code');
       return;
     }
 
@@ -62,13 +59,9 @@ export default class FillInCampaignCodeController extends Controller {
   onStartCampaignError(error) {
     const { status } = error.errors[0];
     if (status === '403') {
-      this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.forbidden',
-      );
+      this.errorMessage = this.intl.t('pages.fill-in-campaign-code.errors.forbidden');
     } else if (status === '404') {
-      this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.not-found',
-      );
+      this.errorMessage = this.intl.t('pages.fill-in-campaign-code.errors.not-found');
     } else {
       throw error;
     }

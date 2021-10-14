@@ -20,9 +20,10 @@ export default class Content extends Component {
   }
 
   get profileCollectionCampaignParticipationCode() {
-    const unsharedProfileCollectionCampaignParticipations = this.args.model.campaignParticipations.filter((campaignParticipation) =>
-      !campaignParticipation.isShared
-      && campaignParticipation.campaign.get('isProfilesCollection'));
+    const unsharedProfileCollectionCampaignParticipations = this.args.model.campaignParticipations.filter(
+      (campaignParticipation) =>
+        !campaignParticipation.isShared && campaignParticipation.campaign.get('isProfilesCollection')
+    );
 
     if (unsharedProfileCollectionCampaignParticipations && unsharedProfileCollectionCampaignParticipations.length > 0) {
       const latestParticipationToContinue = _maxBy(unsharedProfileCollectionCampaignParticipations, 'createdAt');

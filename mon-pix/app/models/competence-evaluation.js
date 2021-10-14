@@ -1,7 +1,6 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
 export default class CompetenceEvaluation extends Model {
-
   // attributes
   @attr('string') status;
   @attr('date') createdAt;

@@ -6,7 +6,6 @@ import isNil from 'lodash/isNil';
 import Component from '@glimmer/component';
 
 export default class SkillReview extends Component {
-
   @service intl;
   @service router;
   @service session;
@@ -45,10 +44,7 @@ export default class SkillReview extends Component {
   }
 
   get orderedBadges() {
-    return [
-      ...this.acquiredBadges,
-      ...this.notAcquiredButVisibleBadges,
-    ];
+    return [...this.acquiredBadges, ...this.notAcquiredButVisibleBadges];
   }
 
   get showStages() {

@@ -4,11 +4,10 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | campaign-start-block template', function() {
-
+describe('Integration | Component | campaign-start-block template', function () {
   setupIntlRenderingTest();
 
-  it('should display all text arguments correctly', async function() {
+  it('should display all text arguments correctly', async function () {
     // given
     this.set('campaign', {});
     this.set('startCampaignParticipation', () => {});
@@ -35,7 +34,7 @@ describe('Integration | Component | campaign-start-block template', function() {
     expect(find('.campaign-landing-page__start__text__legal').textContent.trim()).to.equal('legal');
   });
 
-  it('should display display organization logo and landing page text', async function() {
+  it('should display display organization logo and landing page text', async function () {
     // given
     this.set('campaign', {
       organizationName: 'My organisation',
@@ -60,8 +59,12 @@ describe('Integration | Component | campaign-start-block template', function() {
       />`);
 
     // then
-    expect(find('div[data-test-id="campaign-landing-page__logo"] .campaign-landing-page__image').getAttribute('src')).to.equal('http://orga.com/logo.png');
-    expect(find('div[data-test-id="campaign-landing-page__logo"] .campaign-landing-page__image').getAttribute('alt')).to.equal('My organisation');
+    expect(
+      find('div[data-test-id="campaign-landing-page__logo"] .campaign-landing-page__image').getAttribute('src')
+    ).to.equal('http://orga.com/logo.png');
+    expect(
+      find('div[data-test-id="campaign-landing-page__logo"] .campaign-landing-page__image').getAttribute('alt')
+    ).to.equal('My organisation');
     expect(find('.campaign-landing-page__start__custom-text').textContent).to.contain('My campaign text');
   });
 });

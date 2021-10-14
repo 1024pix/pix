@@ -6,19 +6,17 @@ import { setupTest } from 'ember-mocha';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | reset password form', function() {
-
+describe('Unit | Component | reset password form', function () {
   setupTest();
   setupIntl();
 
   describe('#validatePassword', () => {
-
-    it('should set validation status to default, when component is rendered', function() {
+    it('should set validation status to default, when component is rendered', function () {
       const component = createGlimmerComponent('component:reset-password-form');
       expect(component.validation.status).to.equal('default');
     });
 
-    it('should set validation status to error, when there is an validation error on password field', async function() {
+    it('should set validation status to error, when there is an validation error on password field', async function () {
       //given
       const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
       const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
@@ -30,7 +28,7 @@ describe('Unit | Component | reset password form', function() {
       expect(component.validation.status).to.eql('error');
     });
 
-    it('should set validation status to default, when password is valid', async function() {
+    it('should set validation status to default, when password is valid', async function () {
       //given
       const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
       const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
@@ -41,11 +39,9 @@ describe('Unit | Component | reset password form', function() {
       // then
       expect(component.validation.status).to.eql('default');
     });
-
   });
 
   describe('#handleResetPassword', () => {
-
     const userWithGoodPassword = EmberObject.create({
       firstName: 'toto',
       lastName: 'riri',
@@ -54,8 +50,7 @@ describe('Unit | Component | reset password form', function() {
     });
 
     describe('When user password is saved', () => {
-
-      it('should update validation with success data', async function() {
+      it('should update validation with success data', async function () {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
@@ -67,7 +62,7 @@ describe('Unit | Component | reset password form', function() {
         expect(component.validation.message).to.be.null;
       });
 
-      it('should update hasSucceeded', async function() {
+      it('should update hasSucceeded', async function () {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
@@ -78,7 +73,7 @@ describe('Unit | Component | reset password form', function() {
         expect(component.hasSucceeded).to.eql(true);
       });
 
-      it('should reset password input', async function() {
+      it('should reset password input', async function () {
         // given
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
@@ -88,11 +83,9 @@ describe('Unit | Component | reset password form', function() {
         // then
         expect(component.args.user.password).to.eql(null);
       });
-
     });
 
     describe('When user password saving fails', () => {
-
       [
         {
           status: '400',

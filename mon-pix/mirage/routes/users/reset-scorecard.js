@@ -1,6 +1,6 @@
 import find from 'lodash/find';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const competenceId = request.params.competenceId;
   const userId = request.params.id;
 

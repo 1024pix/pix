@@ -3,15 +3,15 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | inscription', function() {
+describe('Unit | Route | inscription', function () {
   setupTest();
 
-  it('exists', function() {
+  it('exists', function () {
     const route = this.owner.lookup('route:inscription');
     expect(route).to.be.ok;
   });
 
-  it('should automatically authenticated user', async function() {
+  it('should automatically authenticated user', async function () {
     // Given
     const expectedAuthenticator = 'authenticator:oauth2';
     const login = 'email@example.net';
@@ -31,8 +31,6 @@ describe('Unit | Route | inscription', function() {
     await route.actions.authenticateUser.call(route, { login, password });
 
     // Then
-    sinon.assert.calledWith(authenticateStub,
-      expectedAuthenticator, { login, password, scope },
-    );
+    sinon.assert.calledWith(authenticateStub, expectedAuthenticator, { login, password, scope });
   });
 });

@@ -3,7 +3,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Start-or-resume', function() {
+describe('Unit | Route | Start-or-resume', function () {
   setupTest();
 
   let route;
@@ -13,16 +13,16 @@ describe('Unit | Route | Start-or-resume', function() {
     isRestricted: true,
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     route = this.owner.lookup('route:campaigns.start-or-resume');
   });
 
-  describe('#beforeModel', function() {
-    it('should reset state', async function() {
+  describe('#beforeModel', function () {
+    it('should reset state', async function () {
       // given
       route.state.campaignCode = 'OLD_CODE';
       route.state.hasUserCompletedRestrictedCampaignAssociation = true;
-      const transition = { to: { queryParams: { } } };
+      const transition = { to: { queryParams: {} } };
       route.modelFor = sinon.stub().returns(campaign);
       route.session = { isAuthenticated: true };
       route.store = { queryRecord: sinon.stub() };

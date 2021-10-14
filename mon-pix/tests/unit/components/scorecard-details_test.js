@@ -6,11 +6,11 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | scorecard-details ', function() {
+describe('Unit | Component | scorecard-details ', function () {
   setupTest();
 
-  describe('#level', function() {
-    it('returns null if the scorecard isNotStarted', function() {
+  describe('#level', function () {
+    it('returns null if the scorecard isNotStarted', function () {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isNotStarted: true } });
 
@@ -18,18 +18,17 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(component.level).to.equal(null);
     });
 
-    it('returns the level if the scorecard is not isNotStarted', function() {
+    it('returns the level if the scorecard is not isNotStarted', function () {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { level: 1 } });
 
       // then
       expect(component.level).to.equal(1);
     });
-
   });
 
-  describe('#isProgressable', function() {
-    it('returns false if isMaxLevel', function() {
+  describe('#isProgressable', function () {
+    it('returns false if isMaxLevel', function () {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isMaxLevel: true } });
 
@@ -37,7 +36,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(component.isProgressable).to.equal(false);
     });
 
-    it('returns false if isNotStarted', function() {
+    it('returns false if isNotStarted', function () {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isNotStarted: true } });
 
@@ -45,7 +44,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(component.isProgressable).to.equal(false);
     });
 
-    it('returns false if isFinished', function() {
+    it('returns false if isFinished', function () {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinished: true } });
 
@@ -53,7 +52,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(component.isProgressable).to.equal(false);
     });
 
-    it('returns true otherwise', function() {
+    it('returns true otherwise', function () {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: {} });
 
@@ -62,26 +61,30 @@ describe('Unit | Component | scorecard-details ', function() {
     });
   });
 
-  describe('#canImprove', function() {
-    it('returns true if maxlevel not reached', function() {
+  describe('#canImprove', function () {
+    it('returns true if maxlevel not reached', function () {
       // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinishedWithMaxLevel: false } });
+      const component = createGlimmerComponent('component:scorecard-details', {
+        scorecard: { isFinishedWithMaxLevel: false },
+      });
 
       // then
       expect(component.canImprove).to.equal(true);
     });
 
-    it('returns false if maxlevel reached', function() {
-    // when
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinishedWithMaxLevel: true } });
+    it('returns false if maxlevel reached', function () {
+      // when
+      const component = createGlimmerComponent('component:scorecard-details', {
+        scorecard: { isFinishedWithMaxLevel: true },
+      });
 
       // then
       expect(component.canImprove).to.equal(false);
     });
   });
 
-  describe('#tutorialsGroupedByTubeName', function() {
-    it('returns an array of tubes with related tutorials', function() {
+  describe('#tutorialsGroupedByTubeName', function () {
+    it('returns an array of tubes with related tutorials', function () {
       // given
       const tutorial_1 = EmberObject.create({
         modelName: 'tutorial',
@@ -140,7 +143,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(result[1].tutorials[0].id).to.deep.equal(expectedResult[1].tutorials[0].id);
     });
 
-    it('returns an empty array when there is no tutorials', function() {
+    it('returns an empty array when there is no tutorials', function () {
       // given
       const tutorials = [];
       const scorecard = EmberObject.create({ tutorials });
@@ -157,14 +160,14 @@ describe('Unit | Component | scorecard-details ', function() {
     });
   });
 
-  describe('#improveCompetenceEvaluation', function() {
+  describe('#improveCompetenceEvaluation', function () {
     const competenceId = 'recCompetenceId';
     const userId = 'userId';
     const scorecardId = 'scorecardId';
     const scorecard = EmberObject.create({ competenceId, id: scorecardId });
     let competenceEvaluation, component;
 
-    it('calls competenceEvaluation service for improving', async function() {
+    it('calls competenceEvaluation service for improving', async function () {
       // given
       component = createGlimmerComponent('component:scorecard-details', { scorecard });
       competenceEvaluation = Service.create({ improve: sinon.stub() });
@@ -179,7 +182,7 @@ describe('Unit | Component | scorecard-details ', function() {
     });
   });
 
-  describe('#shouldWaitBeforeImproving', function() {
+  describe('#shouldWaitBeforeImproving', function () {
     let component, scorecard;
 
     beforeEach(() => {
@@ -210,5 +213,4 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(result).to.be.false;
     });
   });
-
 });

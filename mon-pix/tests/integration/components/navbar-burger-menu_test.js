@@ -6,19 +6,19 @@ import { find, findAll, render } from '@ember/test-helpers';
 import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | navbar-burger-menu', function() {
-
+describe('Integration | Component | navbar-burger-menu', function () {
   setupIntlRenderingTest();
 
-  beforeEach(async function() {
-    class currentUser extends Service { user = {
-      fullName: 'Bobby Carotte',
-    }}
+  beforeEach(async function () {
+    class currentUser extends Service {
+      user = {
+        fullName: 'Bobby Carotte',
+      };
+    }
     this.owner.register('service:currentUser', currentUser);
-
   });
 
-  it('should display the user\'s fullname', async function() {
+  it("should display the user's fullname", async function () {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
@@ -26,7 +26,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(contains('Bobby Carotte')).to.exist;
   });
 
-  it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function() {
+  it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function () {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
@@ -41,7 +41,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(contains(this.intl.t('navigation.main.code'))).to.exist;
   });
 
-  it('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function() {
+  it('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function () {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
@@ -54,18 +54,18 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(contains(this.intl.t('navigation.user.sign-out'))).to.exist;
   });
 
-  context('when user has participations', function() {
-    beforeEach(async function() {
+  context('when user has participations', function () {
+    beforeEach(async function () {
       class currentUser extends Service {
         user = {
           hasAssessmentParticipations: true,
-        }
+        };
       }
       this.owner.unregister('service:currentUser');
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should display "My tests" link', async function() {
+    it('should display "My tests" link', async function () {
       // when
       await render(hbs`<NavbarBurgerMenu />`);
 
@@ -74,18 +74,18 @@ describe('Integration | Component | navbar-burger-menu', function() {
     });
   });
 
-  context('when user has no participations', function() {
-    beforeEach(async function() {
+  context('when user has no participations', function () {
+    beforeEach(async function () {
       class currentUser extends Service {
         user = {
           hasAssessmentParticipations: false,
-        }
+        };
       }
       this.owner.unregister('service:currentUser');
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should not display "My tests" link', async function() {
+    it('should not display "My tests" link', async function () {
       // when
       await render(hbs`<NavbarBurgerMenu />`);
 

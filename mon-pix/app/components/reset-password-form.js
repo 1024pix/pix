@@ -22,7 +22,7 @@ export default class ResetPasswordForm extends Component {
   @action
   validatePassword() {
     const password = this.args.user.password;
-    if (isPasswordValid((password))) {
+    if (isPasswordValid(password)) {
       this._resetValidation();
     } else {
       this.validation.status = 'error';

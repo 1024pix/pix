@@ -4,18 +4,18 @@ import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 import setupIntl from '../../helpers/setup-intl';
 
-describe('Unit | Route | Assessments', function() {
+describe('Unit | Route | Assessments', function () {
   setupTest();
   setupIntl();
 
   let route;
 
-  beforeEach(function() {
+  beforeEach(function () {
     route = this.owner.lookup('route:assessments');
   });
 
-  describe('#afterModel', function() {
-    it('should return the title when the assessment is not a certification ', function() {
+  describe('#afterModel', function () {
+    it('should return the title when the assessment is not a certification ', function () {
       // given
       const assessment = EmberObject.create({ id: 1, title: 'Programmer', isCertification: false });
 
@@ -26,7 +26,7 @@ describe('Unit | Route | Assessments', function() {
       expect(model.title).to.equal('Programmer');
     });
 
-    it('should update the title when the assessment is a certification ', function() {
+    it('should update the title when the assessment is a certification ', function () {
       // given
       const assessment = EmberObject.create({ id: 1, title: 1223, isCertification: true });
 
@@ -36,6 +36,5 @@ describe('Unit | Route | Assessments', function() {
       // then
       expect(model.title).to.equal('Certification 1223');
     });
-
   });
 });

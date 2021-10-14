@@ -5,17 +5,17 @@ import { find, click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-describe('Integration | Component | certification results template', function() {
+describe('Integration | Component | certification results template', function () {
   setupIntlRenderingTest();
 
-  context('When component is rendered', function() {
+  context('When component is rendered', function () {
     const certificationNumber = 'certification-number';
 
-    beforeEach(function() {
+    beforeEach(function () {
       this.set('certificationNumber', certificationNumber);
     });
 
-    it('should not be able to click on validation button when the verification is unchecked ', async function() {
+    it('should not be able to click on validation button when the verification is unchecked ', async function () {
       // when
       await render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
 
@@ -24,17 +24,19 @@ describe('Integration | Component | certification results template', function() 
       expect(find('.result-content__button-blocked')).to.exist;
     });
 
-    it('should be able to click on validation when we check to show the last message', async function() {
+    it('should be able to click on validation when we check to show the last message', async function () {
       // when
       await render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       await click('#validSupervisor');
       await clickByLabel(this.intl.t('pages.certification-results.action.confirm'));
 
       // then
-      expect(find('.result-content__panel-description').textContent).to.contains('Vos résultats seront prochainement disponibles depuis votre compte.');
+      expect(find('.result-content__panel-description').textContent).to.contains(
+        'Vos résultats seront prochainement disponibles depuis votre compte.'
+      );
     });
 
-    it('should have a button to logout at the end of certification', async function() {
+    it('should have a button to logout at the end of certification', async function () {
       // when
       await render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       await click('#validSupervisor');
@@ -44,6 +46,5 @@ describe('Integration | Component | certification results template', function() 
       expect(find('.result-content__logout-button')).to.exist;
       expect(find('.result-content__logout-button').textContent).to.equal('Se déconnecter');
     });
-
   });
 });

@@ -3,7 +3,6 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Controller | campaigns/restricted/login-or-register-to-access', () => {
-
   setupTest();
 
   let controller;
@@ -12,7 +11,7 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
   const campaignCode = 'AZERTY999';
   const expectedUserId = 1;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.restricted.login-or-register-to-access');
 
     sessionStub = {
@@ -35,7 +34,6 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
   });
 
   describe('#addGarAuthenticationMethodToUser', () => {
-
     it('should redirect to campaigns.start-or-resume', async () => {
       // given
       const externallUserAuthenticationRequest = {
@@ -51,7 +49,6 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
 
       // then
       sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume');
-
     });
 
     it('should add GAR authentication method and clear IdToken', async () => {
@@ -71,7 +68,10 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       controller.set('store', storeStub);
 
       // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, expectedExternalUserAuthenticationRequest);
+      await controller.actions.addGarAuthenticationMethodToUser.call(
+        controller,
+        expectedExternalUserAuthenticationRequest
+      );
 
       // then
       sinon.assert.calledOnce(expectedExternalUserAuthenticationRequest.save);
@@ -87,7 +87,10 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
 
       const expectedCampaignCode = campaignCode;
 
-      const expectedStoreOptions = { arg1: 'schooling-registration-user-association', arg2: { userId: expectedUserId, campaignCode: expectedCampaignCode } };
+      const expectedStoreOptions = {
+        arg1: 'schooling-registration-user-association',
+        arg2: { userId: expectedUserId, campaignCode: expectedCampaignCode },
+      };
       const expectedSaveOptions = { adapterOptions: { tryReconciliation: true } };
 
       const saveStub = sinon.stub();
@@ -95,13 +98,14 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       controller.set('store', storeStub);
 
       // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, expectedExternalUserAuthenticationRequest);
+      await controller.actions.addGarAuthenticationMethodToUser.call(
+        controller,
+        expectedExternalUserAuthenticationRequest
+      );
 
       // then
       sinon.assert.calledWith(storeStub.createRecord, expectedStoreOptions.arg1, expectedStoreOptions.arg2);
       sinon.assert.calledWith(saveStub, expectedSaveOptions);
-
     });
   });
-
 });

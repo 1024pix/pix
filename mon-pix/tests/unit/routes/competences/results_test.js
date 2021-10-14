@@ -5,12 +5,10 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import { A } from '@ember/array';
 
-describe('Unit | Route | Competences | Results', function() {
-
+describe('Unit | Route | Competences | Results', function () {
   setupTest();
 
-  describe('model', function() {
-
+  describe('model', function () {
     const assessmentId = 'assessmentId';
 
     let route;
@@ -18,7 +16,7 @@ describe('Unit | Route | Competences | Results', function() {
     let sessionStub;
     let findAllStub;
 
-    beforeEach(function() {
+    beforeEach(function () {
       findAllStub = sinon.stub();
       storeStub = Service.create({
         findAll: findAllStub,
@@ -33,7 +31,7 @@ describe('Unit | Route | Competences | Results', function() {
       route.transitionTo = sinon.stub();
     });
 
-    it('should return the most recent competence-evaluation for a given assessment', async function() {
+    it('should return the most recent competence-evaluation for a given assessment', async function () {
       // Given
       const competenceEvaluationsInStore = A([
         { id: 1, createdAt: new Date('2020-01-01'), assessment: { get: () => assessmentId } },
@@ -53,5 +51,4 @@ describe('Unit | Route | Competences | Results', function() {
       expect(model.id).to.equal(2);
     });
   });
-
 });

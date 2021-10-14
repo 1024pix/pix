@@ -79,7 +79,4 @@ function getRegisterErrorsMessageByShortCode({ shortCode }) {
   return error.message;
 }
 
-export {
-  getJoinErrorsMessageByShortCode,
-  getRegisterErrorsMessageByShortCode,
-};
+export { getJoinErrorsMessageByShortCode, getRegisterErrorsMessageByShortCode };

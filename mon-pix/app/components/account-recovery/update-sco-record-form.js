@@ -22,7 +22,6 @@ class PasswordValidation {
 }
 
 export default class UpdateScoRecordFormComponent extends Component {
-
   @service intl;
   @service url;
 
@@ -39,10 +38,12 @@ export default class UpdateScoRecordFormComponent extends Component {
   }
 
   get isSubmitButtonEnabled() {
-    return isPasswordValid(this.password)
-      && !this._hasAPIRejectedCall()
-      && this.cguAndProtectionPoliciesAccepted
-      && !this.args.isLoading;
+    return (
+      isPasswordValid(this.password) &&
+      !this._hasAPIRejectedCall() &&
+      this.cguAndProtectionPoliciesAccepted &&
+      !this.args.isLoading
+    );
   }
 
   @action validatePassword() {
@@ -74,5 +75,4 @@ export default class UpdateScoRecordFormComponent extends Component {
   _hasAPIRejectedCall() {
     return this.passwordValidation.status === STATUS_MAP['errorStatus'];
   }
-
 }

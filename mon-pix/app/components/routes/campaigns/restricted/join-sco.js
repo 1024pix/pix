@@ -66,12 +66,17 @@ export default class JoinSco extends Component {
   }
 
   get isFormNotValid() {
-    return !isStringValid(this.firstName) || !isStringValid(this.lastName)
-      || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
+    return (
+      !isStringValid(this.firstName) ||
+      !isStringValid(this.lastName) ||
+      !isDayValid(this.dayOfBirth) ||
+      !isMonthValid(this.monthOfBirth) ||
+      !isYearValid(this.yearOfBirth)
+    );
   }
 
   get isDisabled() {
-    return (undefined !== get(this.session, 'data.externalUser'));
+    return undefined !== get(this.session, 'data.externalUser');
   }
 
   @action

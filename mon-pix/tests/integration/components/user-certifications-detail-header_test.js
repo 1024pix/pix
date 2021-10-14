@@ -5,16 +5,15 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | user certifications detail header', function() {
+describe('Integration | Component | user certifications detail header', function () {
   setupIntlRenderingTest();
 
   let certification;
   const PARENT_SELECTOR = '.user-certifications-detail-header';
   const CONTENT_SELECTOR = `${PARENT_SELECTOR}__info-certificate`;
 
-  context('when certification is complete', function() {
-
-    beforeEach(async function() {
+  context('when certification is complete', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -37,46 +36,42 @@ describe('Integration | Component | user certifications detail header', function
       await render(hbs`{{user-certifications-detail-header certification=certification}}`);
     });
 
-    it('renders', async function() {
+    it('renders', async function () {
       expect(find(PARENT_SELECTOR)).to.exist;
     });
 
-    it('should show the certification published date', function() {
+    it('should show the certification published date', function () {
       expect(find(CONTENT_SELECTOR)).to.exist;
-      expect(find(`${CONTENT_SELECTOR} :nth-child(2)`).innerText)
-        .to.include('Délivré le 17 février 2018');
+      expect(find(`${CONTENT_SELECTOR} :nth-child(2)`).innerText).to.include('Délivré le 17 février 2018');
     });
 
-    it('should show the certification exam date', function() {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(7)`).textContent)
-        .to.include('Date de passage : 15 février 2018');
+    it('should show the certification exam date', function () {
+      expect(find(`${CONTENT_SELECTOR} :nth-child(7)`).textContent).to.include('Date de passage : 15 février 2018');
     });
 
-    it('should show the certification user full name', function() {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(4)`).textContent)
-        .to.include('Jean Bon');
+    it('should show the certification user full name', function () {
+      expect(find(`${CONTENT_SELECTOR} :nth-child(4)`).textContent).to.include('Jean Bon');
     });
 
-    it('should show the certification user birthdate and birthplace', function() {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(5)`).textContent)
-        .to.include('Né(e) le 22 janvier 2000 à Paris');
+    it('should show the certification user birthdate and birthplace', function () {
+      expect(find(`${CONTENT_SELECTOR} :nth-child(5)`).textContent).to.include('Né(e) le 22 janvier 2000 à Paris');
     });
 
-    it('should show the certification center', function() {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(6)`).textContent)
-        .to.include('Centre de certification : Université de Lyon');
+    it('should show the certification center', function () {
+      expect(find(`${CONTENT_SELECTOR} :nth-child(6)`).textContent).to.include(
+        'Centre de certification : Université de Lyon'
+      );
     });
 
-    it('should show the pix score', function() {
+    it('should show the pix score', function () {
       const scoreHexagon = find(`${PARENT_SELECTOR} .user-certification-hexagon-score__content-pix-score`);
       expect(scoreHexagon).to.exist;
       expect(scoreHexagon.textContent).to.include('654');
     });
   });
 
-  context('when certification is not complete', function() {
-
-    beforeEach(async function() {
+  context('when certification is not complete', function () {
+    beforeEach(async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -98,7 +93,7 @@ describe('Integration | Component | user certifications detail header', function
     });
 
     // then
-    it('should not render the user-certifications-detail-header component', function() {
+    it('should not render the user-certifications-detail-header component', function () {
       expect(find(PARENT_SELECTOR)).to.not.exist;
     });
   });

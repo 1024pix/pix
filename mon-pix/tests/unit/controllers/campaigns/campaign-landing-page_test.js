@@ -2,20 +2,18 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | Landing Page', function() {
-
+describe('Unit | Controller | Campaigns | Landing Page', function () {
   setupTest();
 
   let controller;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns/campaign-landing-page');
     controller.router = { transitionTo: sinon.stub() };
   });
 
   describe('#startCampaignParticipation', () => {
-
-    it('should redirect to route campaigns.start-or-resume', function() {
+    it('should redirect to route campaigns.start-or-resume', function () {
       // given
       controller.set('model', { code: 'konami' });
 

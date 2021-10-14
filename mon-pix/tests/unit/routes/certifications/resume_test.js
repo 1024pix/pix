@@ -4,10 +4,10 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Certification | Resume', function() {
+describe('Unit | Route | Certification | Resume', function () {
   setupTest();
 
-  describe('#model', function() {
+  describe('#model', function () {
     const certificationCourseId = 'certification-course-id';
     let certificationCourse;
     let assessment;
@@ -18,7 +18,7 @@ describe('Unit | Route | Certification | Resume', function() {
     let route;
     const params = { certification_course_id: certificationCourseId };
 
-    beforeEach(function() {
+    beforeEach(function () {
       assessment = EmberObject.create({ id: 123 });
       getAssessmentStub = sinon.stub().returns(assessment);
       queryStub = sinon.stub().resolves({
@@ -32,7 +32,7 @@ describe('Unit | Route | Certification | Resume', function() {
       route.replaceWith = sinon.stub();
     });
 
-    it('should peekRecord the certification course', async function() {
+    it('should peekRecord the certification course', async function () {
       // when
       await route.model(params);
 
@@ -40,14 +40,12 @@ describe('Unit | Route | Certification | Resume', function() {
       sinon.assert.calledWith(peekRecordStub, 'certification-course', certificationCourseId);
     });
 
-    it('should resume the assessment linked to the certification course', async function() {
+    it('should resume the assessment linked to the certification course', async function () {
       // when
       await route.model(params);
 
       // then
       sinon.assert.calledWith(route.replaceWith, 'assessments.resume', assessment);
     });
-
   });
-
 });

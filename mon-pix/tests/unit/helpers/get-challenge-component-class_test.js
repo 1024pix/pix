@@ -3,8 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { getChallengeComponentClass } from 'mon-pix/helpers/get-challenge-component-class';
 
-describe('Unit | Helper | get challenge component class', function() {
-
+describe('Unit | Helper | get challenge component class', function () {
   [
     { challengeType: 'QCU', expectedClass: 'challenge-item-qcu' },
     { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' },
@@ -15,8 +14,7 @@ describe('Unit | Helper | get challenge component class', function() {
     { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' },
     { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' },
   ].forEach((useCase) => {
-
-    it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function() {
+    it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function () {
       // given
       const challenge = EmberObject.create({ type: useCase.challengeType });
       const params = [challenge];

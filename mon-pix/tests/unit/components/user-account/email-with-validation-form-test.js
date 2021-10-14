@@ -3,11 +3,11 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | user-account | email-with-validation-form', function() {
+describe('Unit | Component | user-account | email-with-validation-form', function () {
   setupTest();
 
-  context('#onSubmit', function() {
-    it('should send new email and password', async function() {
+  context('#onSubmit', function () {
+    it('should send new email and password', async function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-with-validation-form');
       const newEmail = 'toto@example.net';
@@ -26,7 +26,7 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
       sinon.assert.calledOnce(sendNewEmail);
     });
 
-    it('should not send new email and password when form is not valid', async function() {
+    it('should not send new email and password when form is not valid', async function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-with-validation-form');
       const sendNewEmail = sinon.stub();
@@ -41,7 +41,7 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
       sinon.assert.notCalled(sendNewEmail);
     });
 
-    it('should prevent double clicking on submit', async function() {
+    it('should prevent double clicking on submit', async function () {
       // given
       const component = createGlimmerComponent('component:user-account/email-with-validation-form');
       const newEmail = 'toto@example.net';

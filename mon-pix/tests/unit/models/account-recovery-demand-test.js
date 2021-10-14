@@ -4,25 +4,26 @@ import sinon from 'sinon';
 import { run } from '@ember/runloop';
 import ENV from 'mon-pix/config/environment';
 
-describe('Unit | Model | account recovery demand', function() {
+describe('Unit | Model | account recovery demand', function () {
   setupTest();
 
-  describe('#send', function() {
-
-    it('sends account recovery email', async function() {
+  describe('#send', function () {
+    it('sends account recovery email', async function () {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('account-recovery-demand');
       sinon.stub(adapter, 'ajax');
       adapter.ajax.resolves();
 
-      const accountRecoveryDemand = run(() => store.createRecord('account-recovery-demand', {
-        firstName: 'Jude',
-        lastName: 'Law',
-        ineIna: '123456789BB',
-        birthdate: '2012-07-01',
-        email: 'james.potter@example.net',
-      }));
+      const accountRecoveryDemand = run(() =>
+        store.createRecord('account-recovery-demand', {
+          firstName: 'Jude',
+          lastName: 'Law',
+          ineIna: '123456789BB',
+          birthdate: '2012-07-01',
+          email: 'james.potter@example.net',
+        })
+      );
 
       // when
       await accountRecoveryDemand.send();
@@ -36,8 +37,8 @@ describe('Unit | Model | account recovery demand', function() {
               'first-name': 'Jude',
               'last-name': 'Law',
               'ine-ina': '123456789BB',
-              'birthdate': '2012-07-01',
-              'email': 'james.potter@example.net',
+              birthdate: '2012-07-01',
+              email: 'james.potter@example.net',
             },
             type: 'account-recovery-demands',
           },
@@ -46,17 +47,19 @@ describe('Unit | Model | account recovery demand', function() {
       sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
     });
 
-    it('updates password', async function() {
+    it('updates password', async function () {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('account-recovery-demand');
       sinon.stub(adapter, 'ajax');
       adapter.ajax.resolves();
 
-      const accountRecoveryDemand = run(() => store.createRecord('account-recovery-demand', {
-        password: 'thisismypassword',
-        temporaryKey: 'temporarykey',
-      }));
+      const accountRecoveryDemand = run(() =>
+        store.createRecord('account-recovery-demand', {
+          password: 'thisismypassword',
+          temporaryKey: 'temporarykey',
+        })
+      );
 
       // when
       await accountRecoveryDemand.update();

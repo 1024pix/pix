@@ -5,7 +5,6 @@ import { computed } from '@ember/object';
 import { notEmpty, equal, gt } from '@ember/object/computed';
 
 export default class Challenge extends Model {
-
   // attributes
   @attr('array') attachments;
   @attr('string') embedUrl;
@@ -13,8 +12,11 @@ export default class Challenge extends Model {
   @attr('string') embedHeight;
   @attr('string') format;
   @attr('string', {
-    defaultValue() { return 'Illustration de l\'épreuve'; },
-  }) illustrationAlt;
+    defaultValue() {
+      return "Illustration de l'épreuve";
+    },
+  })
+  illustrationAlt;
   @attr('string') illustrationUrl;
   @attr('string') instruction;
   @attr('string') alternativeInstruction;
@@ -31,10 +33,7 @@ export default class Challenge extends Model {
   @computed('embedUrl', 'embedTitle', 'embedHeight')
   get hasValidEmbedDocument() {
     const embedUrl = this.embedUrl;
-    return !!embedUrl
-      && !!this.embedTitle
-      && !!this.embedHeight
-      && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
+    return !!embedUrl && !!this.embedTitle && !!this.embedHeight && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
   }
 
   @equal('attachments.length', 1) hasSingleAttachment;

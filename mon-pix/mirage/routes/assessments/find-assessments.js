@@ -1,6 +1,6 @@
 import { Response } from 'ember-cli-mirage';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const campaignCode = request.queryParams['filter[codeCampaign]'];
   if (!campaignCode) {
     return new Response(500);

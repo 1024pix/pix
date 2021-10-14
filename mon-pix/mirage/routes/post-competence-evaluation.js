@@ -1,11 +1,10 @@
 import { Response } from 'ember-cli-mirage';
 
-export default function(schema, request) {
+export default function (schema, request) {
   const params = JSON.parse(request.requestBody);
   const competenceId = params.competenceId;
-  if (competenceId === 'nonExistantCompetenceId')
-  {
-    return new Response(404, {}, { errors: [ { status: '404', detail: '' } ] });
+  if (competenceId === 'nonExistantCompetenceId') {
+    return new Response(404, {}, { errors: [{ status: '404', detail: '' }] });
   }
   const existingCompetenceEvaluation = schema.competenceEvaluations.findBy({ competenceId });
   if (existingCompetenceEvaluation) {

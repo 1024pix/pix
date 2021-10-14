@@ -8,13 +8,13 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 const TEXTAREA = 'textarea.feedback-panel__field--content';
 const DROPDOWN = '.feedback-panel__dropdown';
 
-describe('Acceptance | Giving feedback about a challenge', function() {
+describe('Acceptance | Giving feedback about a challenge', function () {
   setupApplicationTest();
   setupMirage();
   let assessment;
   let firstChallenge;
 
-  beforeEach(function() {
+  beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     firstChallenge = server.create('challenge', 'forCompetenceEvaluation');
     server.create('challenge', 'forCompetenceEvaluation');
@@ -32,9 +32,8 @@ describe('Acceptance | Giving feedback about a challenge', function() {
     expect(find('.feedback-panel__form')).to.exist;
   }
 
-  context('From a challenge', function() {
-
-    beforeEach(async function() {
+  context('From a challenge', function () {
+    beforeEach(async function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
@@ -42,46 +41,43 @@ describe('Acceptance | Giving feedback about a challenge', function() {
       assertThatFeedbackPanelExist();
     });
 
-    context('when the feedback-panel button is clicked', function() {
-      beforeEach(async function() {
+    context('when the feedback-panel button is clicked', function () {
+      beforeEach(async function () {
         assertThatFeedbackFormIsClosed();
         await click('.feedback-panel__open-button');
       });
 
-      it('should open the feedback form', function() {
+      it('should open the feedback form', function () {
         assertThatFeedbackFormIsOpen();
       });
 
-      context('and the form is filled but not sent', function() {
-        beforeEach(async function() {
+      context('and the form is filled but not sent', function () {
+        beforeEach(async function () {
           await fillIn(DROPDOWN, 'accessibility');
           await fillIn(TEXTAREA, 'TEST_CONTENT');
           await blur(TEXTAREA);
         });
 
-        context('and the challenge is skipped', function() {
-
-          beforeEach(async function() {
+        context('and the challenge is skipped', function () {
+          beforeEach(async function () {
             await click('.challenge-actions__action-skip');
           });
 
-          it('should not display the feedback form', function() {
+          it('should not display the feedback form', function () {
             assertThatFeedbackFormIsClosed();
           });
 
-          it('should always reset the feedback form between two consecutive challenges', async function() {
+          it('should always reset the feedback form between two consecutive challenges', async function () {
             await click('.feedback-panel__open-button');
             await fillIn(DROPDOWN, 'accessibility');
             expect(find(TEXTAREA).value).to.equal('');
           });
         });
-
       });
     });
   });
 
-  context('From the comparison modal at the end of the test', function() {
-
+  context('From the comparison modal at the end of the test', function () {
     it('should be able to give feedback', async () => {
       // given
       server.create('answer', 'skipped', { assessment, challenge: firstChallenge });

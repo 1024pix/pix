@@ -3,8 +3,7 @@ import { setupTest } from 'ember-mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns/profiles-collection/send-profile', function() {
-
+describe('Unit | Controller | campaigns/profiles-collection/send-profile', function () {
   setupTest();
 
   const campaignParticipation = {
@@ -25,15 +24,14 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
   };
   let controller;
 
-  beforeEach(function() {
+  beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.profiles-collection.send-profile');
     controller.model = model;
     campaignParticipation.save.resolves(campaignParticipationShared);
   });
 
-  describe('#sendProfile', function() {
-
-    it('should set isShared to true', function() {
+  describe('#sendProfile', function () {
+    it('should set isShared to true', function () {
       // when
       controller.actions.sendProfile.call(controller);
 
@@ -41,7 +39,7 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
       expect(controller.model.campaignParticipation.isShared).to.equal(true);
     });
 
-    it('should not be loading nor in error', async function() {
+    it('should not be loading nor in error', async function () {
       // when
       await controller.actions.sendProfile.call(controller);
 

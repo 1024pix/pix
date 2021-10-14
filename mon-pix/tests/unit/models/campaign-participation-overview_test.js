@@ -2,19 +2,19 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | Campaign-Participation-Overview', function() {
+describe('Unit | Model | Campaign-Participation-Overview', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
   describe('#status', () => {
-    context('when the campaign is not archived', function() {
+    context('when the campaign is not archived', function () {
       context('when the assessment state is "started"', () => {
-        it('should return the status "ONGOING"', function() {
+        it('should return the status "ONGOING"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             assessmentState: 'started',
@@ -25,7 +25,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
       });
 
       context('when the assessment state is "completed" and the participation is not shared"', () => {
-        it('should return the status "TO_SHARE"', function() {
+        it('should return the status "TO_SHARE"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             assessmentState: 'completed',
@@ -38,7 +38,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
       });
 
       context('when the assessment state is "completed" and the participation is shared"', () => {
-        it('should return the status "ENDED"', function() {
+        it('should return the status "ENDED"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             assessmentState: 'completed',
@@ -52,7 +52,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
     });
 
     context('when the campaign is archived"', () => {
-      it('should return the status "archived"', function() {
+      it('should return the status "archived"', function () {
         // given
         const model = store.createRecord('campaign-participation-overview', {
           assessmentState: 'completed',

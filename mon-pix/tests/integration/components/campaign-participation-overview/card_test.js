@@ -5,16 +5,15 @@ import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card', function() {
+describe('Integration | Component | CampaignParticipationOverview | Card', function () {
   setupIntlRenderingTest();
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
-  context('when the participation status is ONGOING', function() {
-    it('should display CardOngoing', async function() {
-
+  context('when the participation status is ONGOING', function () {
+    it('should display CardOngoing', async function () {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -30,9 +29,8 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     });
   });
 
-  context('when the participation status is TO_SHARE', function() {
-    it('should display CardToShare', async function() {
-
+  context('when the participation status is TO_SHARE', function () {
+    it('should display CardToShare', async function () {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -48,9 +46,8 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     });
   });
 
-  context('when the participation status is ENDED', function() {
-    it('should display CardEnded', async function() {
-
+  context('when the participation status is ENDED', function () {
+    it('should display CardEnded', async function () {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: true,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -67,9 +64,8 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     });
   });
 
-  context('when the participation status is ARCHIVED', function() {
-    it('should display CardArchived', async function() {
-
+  context('when the participation status is ARCHIVED', function () {
+    it('should display CardArchived', async function () {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-18T15:16:20.109Z',

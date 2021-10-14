@@ -4,7 +4,6 @@ import Model, { hasMany, attr } from '@ember-data/model';
 import { and, empty } from '@ember/object/computed';
 
 export default class Correction extends Model {
-
   // attributes
   @attr('string') solution;
   @attr('string') solutionToDisplay;

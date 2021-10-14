@@ -2,13 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | Certifications | Results', function() {
-
+describe('Unit | Route | Certifications | Results', function () {
   setupTest();
 
-  describe('model', function() {
-
-    it('should find logged user details', function() {
+  describe('model', function () {
+    it('should find logged user details', function () {
       // Given
       const route = this.owner.lookup('route:certifications.results');
 
@@ -20,6 +18,5 @@ describe('Unit | Route | Certifications | Results', function() {
       // Then
       expect(model).to.equal('certification_number');
     });
-
   });
 });

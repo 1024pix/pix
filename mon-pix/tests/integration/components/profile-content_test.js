@@ -9,20 +9,23 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
-describe('Integration | Component | Profile-content', function() {
+describe('Integration | Component | Profile-content', function () {
   setupIntlRenderingTest();
 
-  context('On component rendering', function() {
+  context('On component rendering', function () {
     let model;
 
-    beforeEach(function() {
-      this.owner.register('service:session', Service.extend({
-        data: {
-          authenticated: {
-            access_token: 'VALID-TOKEN',
+    beforeEach(function () {
+      this.owner.register(
+        'service:session',
+        Service.extend({
+          data: {
+            authenticated: {
+              access_token: 'VALID-TOKEN',
+            },
           },
-        },
-      }));
+        })
+      );
 
       model = {
         profile: {
@@ -54,11 +57,10 @@ describe('Integration | Component | Profile-content', function() {
           ],
         },
       };
-
     });
 
-    context('When user is on tablet/desktop ', function() {
-      it('should be rendered in tablet/desktop mode with big cards', async function() {
+    context('When user is on tablet/desktop ', function () {
+      it('should be rendered in tablet/desktop mode with big cards', async function () {
         // when
         setBreakpoint('tablet');
         this.set('model', model);
@@ -72,8 +74,8 @@ describe('Integration | Component | Profile-content', function() {
       });
     });
 
-    context('When user is on mobile', function() {
-      it('should be rendered in mobile mode with small cards', async function() {
+    context('When user is on mobile', function () {
+      it('should be rendered in mobile mode with small cards', async function () {
         // when
         setBreakpoint('mobile');
         this.set('model', model);

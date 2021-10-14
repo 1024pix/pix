@@ -5,7 +5,7 @@ export default class TutorialPanel extends Component {
     const tutorials = this.args.tutorials || [];
     const hint = this.args.hint || [];
 
-    return (hint.length > 0) || (tutorials.length > 0);
+    return hint.length > 0 || tutorials.length > 0;
   }
 
   get shouldDisplayHint() {

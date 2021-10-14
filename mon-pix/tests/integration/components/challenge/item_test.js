@@ -4,10 +4,10 @@ import hbs from 'htmlbars-inline-precompile';
 import { expect } from 'chai';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Challenge | Item', function() {
+describe('Integration | Component | Challenge | Item', function () {
   setupIntlRenderingTest();
 
-  it('should render', async function() {
+  it('should render', async function () {
     // given
     this.set('challenge', {
       type: 'QROC',

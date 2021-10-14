@@ -6,10 +6,11 @@ function _addDefaultProfile(user, server) {
   if (!user.profile) {
     const pixScoreValue = sumBy(user.scorecards.models, 'earnedPix');
 
-    user.update({ profile: server.create('profile', {
-      pixScore: pixScoreValue,
-      scorecards: user.scorecards,
-    }),
+    user.update({
+      profile: server.create('profile', {
+        pixScore: pixScoreValue,
+        scorecards: user.scorecards,
+      }),
     });
   }
 }
@@ -25,91 +26,103 @@ function _addDefaultScorecards(user, server) {
     const areas = _createAreas(server);
     const tutorial = _createTutorial(server);
     const scorecards = [];
-    scorecards.push(server.create('scorecard', {
-      id: `${user.id}_competence_1_1_id`,
-      name: 'Area_1_Competence_1_name',
-      description: 'Area_1_Competence_1_description',
-      earnedPix: 22,
-      level: 2,
-      pixScoreAheadOfNextLevel: 3.2,
-      area: areas[0],
-      competenceId: 'competence_1_1_id',
-      index: `${areas[0].code}.1`,
-      remainingDaysBeforeReset: 0,
-      remainingDaysBeforeImproving: 0,
-      status: 'STARTED',
-      tutorials: [tutorial],
-    }));
-    scorecards.push(server.create('scorecard', {
-      id: `${user.id}_competence_2_1_id`,
-      name: 'Area_2_Competence_1_name',
-      description: 'Area_2_Competence_1_description',
-      earnedPix: 35,
-      level: 3,
-      pixScoreAheadOfNextLevel: 7.2,
-      area: areas[1],
-      competenceId: 'competence_2_1_id',
-      index: `${areas[1].code}.1`,
-      remainingDaysBeforeReset: 5,
-      remainingDaysBeforeImproving: 0,
-      status: 'STARTED',
-    }));
-    scorecards.push(server.create('scorecard', {
-      id: `${user.id}_competence_2_2_id`,
-      name: 'Area_2_Competence_2_name',
-      description: 'Area_2_Competence_2_description',
-      earnedPix: 0,
-      level: 0,
-      pixScoreAheadOfNextLevel: 0,
-      area: areas[1],
-      competenceId: 'competence_2_2_id',
-      index: `${areas[1].code}.2`,
-      remainingDaysBeforeReset: null,
-      remainingDaysBeforeImproving: null,
-      status: 'NOT_STARTED',
-    }));
-    scorecards.push(server.create('scorecard', {
-      id: `${user.id}_competence_3_1_id`,
-      name: 'Area_3_Competence_1_name',
-      description: 'Area_3_Competence_1_description',
-      earnedPix: 99,
-      level: 6,
-      pixScoreAheadOfNextLevel: 0,
-      area: areas[2],
-      competenceId: 'competence_3_1_id',
-      index: `${areas[1].code}.1`,
-      remainingDaysBeforeReset: 0,
-      remainingDaysBeforeImproving: 0,
-      status: 'COMPLETED',
-    }));
-    scorecards.push(server.create('scorecard', {
-      id: `${user.id}_competence_4_1_id`,
-      name: 'Area_4_Competence_1_name',
-      description: 'Area_4_Competence_1_description',
-      earnedPix: 0,
-      level: 0,
-      pixScoreAheadOfNextLevel: 0,
-      area: areas[3],
-      competenceId: 'competence_4_1_id',
-      index: `${areas[3].code}.1`,
-      remainingDaysBeforeReset: 0,
-      remainingDaysBeforeImproving: 3,
-      status: 'COMPLETED',
-    }));
-    scorecards.push(server.create('scorecard', {
-      id: `${user.id}_competence_4_2_id`,
-      name: 'Area_4_Competence_2_name',
-      description: 'Area_4_Competence_2_description',
-      earnedPix: 0,
-      level: 0,
-      pixScoreAheadOfNextLevel: 0,
-      area: areas[3],
-      competenceId: 'competence_4_2_id',
-      index: `${areas[3].code}.2`,
-      remainingDaysBeforeReset: 0,
-      remainingDaysBeforeImproving: 0,
-      status: 'COMPLETED',
-    }));
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_1_1_id`,
+        name: 'Area_1_Competence_1_name',
+        description: 'Area_1_Competence_1_description',
+        earnedPix: 22,
+        level: 2,
+        pixScoreAheadOfNextLevel: 3.2,
+        area: areas[0],
+        competenceId: 'competence_1_1_id',
+        index: `${areas[0].code}.1`,
+        remainingDaysBeforeReset: 0,
+        remainingDaysBeforeImproving: 0,
+        status: 'STARTED',
+        tutorials: [tutorial],
+      })
+    );
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_2_1_id`,
+        name: 'Area_2_Competence_1_name',
+        description: 'Area_2_Competence_1_description',
+        earnedPix: 35,
+        level: 3,
+        pixScoreAheadOfNextLevel: 7.2,
+        area: areas[1],
+        competenceId: 'competence_2_1_id',
+        index: `${areas[1].code}.1`,
+        remainingDaysBeforeReset: 5,
+        remainingDaysBeforeImproving: 0,
+        status: 'STARTED',
+      })
+    );
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_2_2_id`,
+        name: 'Area_2_Competence_2_name',
+        description: 'Area_2_Competence_2_description',
+        earnedPix: 0,
+        level: 0,
+        pixScoreAheadOfNextLevel: 0,
+        area: areas[1],
+        competenceId: 'competence_2_2_id',
+        index: `${areas[1].code}.2`,
+        remainingDaysBeforeReset: null,
+        remainingDaysBeforeImproving: null,
+        status: 'NOT_STARTED',
+      })
+    );
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_3_1_id`,
+        name: 'Area_3_Competence_1_name',
+        description: 'Area_3_Competence_1_description',
+        earnedPix: 99,
+        level: 6,
+        pixScoreAheadOfNextLevel: 0,
+        area: areas[2],
+        competenceId: 'competence_3_1_id',
+        index: `${areas[1].code}.1`,
+        remainingDaysBeforeReset: 0,
+        remainingDaysBeforeImproving: 0,
+        status: 'COMPLETED',
+      })
+    );
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_4_1_id`,
+        name: 'Area_4_Competence_1_name',
+        description: 'Area_4_Competence_1_description',
+        earnedPix: 0,
+        level: 0,
+        pixScoreAheadOfNextLevel: 0,
+        area: areas[3],
+        competenceId: 'competence_4_1_id',
+        index: `${areas[3].code}.1`,
+        remainingDaysBeforeReset: 0,
+        remainingDaysBeforeImproving: 3,
+        status: 'COMPLETED',
+      })
+    );
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_4_2_id`,
+        name: 'Area_4_Competence_2_name',
+        description: 'Area_4_Competence_2_description',
+        earnedPix: 0,
+        level: 0,
+        pixScoreAheadOfNextLevel: 0,
+        area: areas[3],
+        competenceId: 'competence_4_2_id',
+        index: `${areas[3].code}.2`,
+        remainingDaysBeforeReset: 0,
+        remainingDaysBeforeImproving: 0,
+        status: 'COMPLETED',
+      })
+    );
     user.update({ scorecards });
   }
 }
@@ -188,9 +201,13 @@ export default Factory.extend({
   }),
   campaignParticipations: trait({
     afterCreate(user, server) {
-      user.update({ campaignParticipations: [server.create('campaign-participation', {
-        'campaign': server.create('campaign', { type: 'ASSESSMENT' }),
-      }) ] });
+      user.update({
+        campaignParticipations: [
+          server.create('campaign-participation', {
+            campaign: server.create('campaign', { type: 'ASSESSMENT' }),
+          }),
+        ],
+      });
     },
   }),
   withSomeCertificates: trait({

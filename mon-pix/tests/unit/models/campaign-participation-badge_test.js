@@ -2,24 +2,23 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | CampaignParticipationBadge', function() {
-
+describe('Unit | Model | CampaignParticipationBadge', function () {
   setupTest();
 
   let store;
 
-  beforeEach(function() {
+  beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
+  it('exists', function () {
     const badge = store.createRecord('campaign-participation-badge');
 
     expect(badge).to.be.ok;
   });
 
-  describe('#maxTotalSkillsCountInPartnerCompetences', function() {
-    it('should calculate max total skills', function() {
+  describe('#maxTotalSkillsCountInPartnerCompetences', function () {
+    it('should calculate max total skills', function () {
       const partnerCompetenceResult1 = store.createRecord('partner-competence-result', {
         totalSkillsCount: 2,
       });
@@ -37,5 +36,4 @@ describe('Unit | Model | CampaignParticipationBadge', function() {
       expect(maxTotalSkillsCountInPartnerCompetences).to.equal(10);
     });
   });
-
 });

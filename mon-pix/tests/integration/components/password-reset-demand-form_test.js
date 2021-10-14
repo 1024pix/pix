@@ -11,15 +11,15 @@ import Service from '@ember/service';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
 
-describe('Integration | Component | password reset demand form', function() {
+describe('Integration | Component | password reset demand form', function () {
   setupIntlRenderingTest();
 
-  it('renders', async function() {
+  it('renders', async function () {
     await render(hbs`<PasswordResetDemandForm />`);
     expect(find('.sign-form__container')).to.exist;
   });
 
-  it('renders all the necessary elements of the form ', async function() {
+  it('renders all the necessary elements of the form ', async function () {
     // when
     await render(hbs`<PasswordResetDemandForm />`);
 
@@ -33,7 +33,7 @@ describe('Integration | Component | password reset demand form', function() {
     expect(contains(this.intl.t('pages.password-reset-demand.actions.reset')));
   });
 
-  it('should display error message when there is an error on password reset demand', async function() {
+  it('should display error message when there is an error on password reset demand', async function () {
     // given
     const storeStub = Service.extend({
       createRecord() {
@@ -56,7 +56,7 @@ describe('Integration | Component | password reset demand form', function() {
     expect(find('.sign-form__notification-message--error')).to.exist;
   });
 
-  it('should display success message when there is no error on password reset demand', async function() {
+  it('should display success message when there is no error on password reset demand', async function () {
     // given
     const storeStub = Service.extend({
       createRecord() {
@@ -79,7 +79,7 @@ describe('Integration | Component | password reset demand form', function() {
     expect(find('.password-reset-demand-form__body')).to.exist;
   });
 
-  it('should show error coming from errors service', async function() {
+  it('should show error coming from errors service', async function () {
     // given
     const expectedError = 'expected error';
     const errorsServiceStub = Service.extend({

@@ -20,5 +20,4 @@ export default class AuthenticationMethod extends Model {
   get isPoleEmploiIdentityProvider() {
     return this.identityProvider === identityProviders.POLE_EMPLOI;
   }
-
 }

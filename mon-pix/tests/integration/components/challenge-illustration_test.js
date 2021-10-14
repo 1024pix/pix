@@ -4,11 +4,11 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import { find, render, triggerEvent } from '@ember/test-helpers';
 
-describe('Integration | Component | challenge-illustration', function() {
+describe('Integration | Component | challenge-illustration', function () {
   setupIntlRenderingTest();
 
   const IMG_SRC = 'http://www.example.com/this-is-an-example.png';
-  const IMG_ALT = 'texte alternatif à l\'image';
+  const IMG_ALT = "texte alternatif à l'image";
   const HIDDEN_CLASS_NAME = 'challenge-illustration__loaded-image--hidden';
 
   function findImageElement() {
@@ -19,7 +19,7 @@ describe('Integration | Component | challenge-illustration', function() {
     return find('.challenge-illustration__placeholder');
   }
 
-  it('renders', async function() {
+  it('renders', async function () {
     // when
     await render(hbs`<ChallengeIllustration/>`);
 
@@ -27,7 +27,7 @@ describe('Integration | Component | challenge-illustration', function() {
     expect(find('div[data-test-id="challenge-illustration"]')).to.exist;
   });
 
-  it('should display placeholder and hidden image, then only image when it has loaded', async function() {
+  it('should display placeholder and hidden image, then only image when it has loaded', async function () {
     // given
     this.set('src', IMG_SRC);
     this.set('alt', IMG_ALT);

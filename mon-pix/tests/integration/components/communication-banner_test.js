@@ -5,18 +5,18 @@ import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'mon-pix/config/environment';
 
-describe('Integration | Component | communication-banner', function() {
+describe('Integration | Component | communication-banner', function () {
   setupIntlRenderingTest();
 
   const originalBannerContent = ENV.APP.BANNER_CONTENT;
   const originalBannerType = ENV.APP.BANNER_TYPE;
 
-  afterEach(function() {
+  afterEach(function () {
     ENV.APP.BANNER_CONTENT = originalBannerContent;
     ENV.APP.BANNER_TYPE = originalBannerType;
   });
 
-  it('should not display the banner when no banner content', async function() {
+  it('should not display the banner when no banner content', async function () {
     // given
     ENV.APP.BANNER_CONTENT = '';
     ENV.APP.BANNER_TYPE = '';
@@ -33,7 +33,7 @@ describe('Integration | Component | communication-banner', function() {
     { bannerContent: 'warning banner text ...', bannerType: 'warning', bannerClass: '.communication-banner--warning' },
     { bannerContent: 'error banner text ...', bannerType: 'error', bannerClass: '.communication-banner--error' },
   ].forEach((testCase) => {
-    it(`should display the ${testCase.bannerType} banner`, async function() {
+    it(`should display the ${testCase.bannerType} banner`, async function () {
       // given
       ENV.APP.BANNER_CONTENT = testCase.bannerContent;
       ENV.APP.BANNER_TYPE = testCase.bannerType;
@@ -46,5 +46,4 @@ describe('Integration | Component | communication-banner', function() {
       expect(find(testCase.bannerClass).textContent).to.contain(testCase.bannerType);
     });
   });
-
 });

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Route | user certifications/index', function() {
+describe('Unit | Route | user certifications/index', function () {
   setupTest();
 
   let route;
@@ -13,8 +13,7 @@ describe('Unit | Route | user certifications/index', function() {
   const findAll = sinon.stub();
   const unloadAll = sinon.stub();
 
-  beforeEach(function() {
-
+  beforeEach(function () {
     storeStub = Service.create({
       findAll: findAll,
       unloadAll: unloadAll,
@@ -24,15 +23,13 @@ describe('Unit | Route | user certifications/index', function() {
     route.set('store', storeStub);
   });
 
-  it('exists', function() {
+  it('exists', function () {
     expect(route).to.be.ok;
   });
 
-  it('should return connected user certifications', function() {
+  it('should return connected user certifications', function () {
     // given
-    const certifications = [
-      EmberObject.create({ id: 1 }),
-    ];
+    const certifications = [EmberObject.create({ id: 1 })];
     findAll.resolves(certifications);
 
     // when

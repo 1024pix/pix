@@ -2,22 +2,22 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | error', function() {
+describe('Unit | Route | error', function () {
   setupTest();
 
-  it('exists', function() {
+  it('exists', function () {
     const route = this.owner.lookup('route:error');
     expect(route).to.be.ok;
   });
 
-  describe('#hasUnauthorizedError', function() {
+  describe('#hasUnauthorizedError', function () {
     let route;
 
-    beforeEach(function() {
+    beforeEach(function () {
       route = this.owner.lookup('route:error');
     });
 
-    it('finds an unauthorized code in the first error object', function() {
+    it('finds an unauthorized code in the first error object', function () {
       // Given
       const errorEvent = { errors: [{ status: '401' }] };
 
@@ -28,7 +28,7 @@ describe('Unit | Route | error', function() {
       expect(result).to.be.true;
     });
 
-    it('returns false if there is no "errors" key', function() {
+    it('returns false if there is no "errors" key', function () {
       // Given
       const errorEvent = {};
 
@@ -39,7 +39,7 @@ describe('Unit | Route | error', function() {
       expect(result).to.be.false;
     });
 
-    it('returns false if the "errors" key points to an empty array', function() {
+    it('returns false if the "errors" key points to an empty array', function () {
       // Given
       const errorEvent = { errors: [] };
 

@@ -31,7 +31,6 @@ const concatToEnd = concat.convert({ rearg: true });
  *     ['are clouds red ?' false]]
  */
 export default function labeledCheckboxes(proposals, userAnswers) {
-
   // accept that user didn't give any answer yet
   const definedUserAnswers = isNil(userAnswers) ? [] : userAnswers;
 
@@ -44,9 +43,10 @@ export default function labeledCheckboxes(proposals, userAnswers) {
   const sizeDifference = size(proposals) - size(definedUserAnswers); // 2
   const arrayOfFalse = times(sizeDifference, constant(false)); // [false, false]
 
-  const propsBuilder = flow( // [false, true]
+  const propsBuilder = flow(
+    // [false, true]
     concatToEnd(arrayOfFalse), // [false, true, false, false]
-    zip(proposals), // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+    zip(proposals) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
   );
 
   return propsBuilder(definedUserAnswers);

@@ -5,13 +5,11 @@ import sinon from 'sinon';
 import ENV from 'mon-pix/config/environment';
 import { run } from '@ember/runloop';
 
-describe('Unit | Model | Student-information', function() {
-
+describe('Unit | Model | Student-information', function () {
   setupTest();
 
-  describe('#submitStudentInformation', function() {
-
-    it('submit student information form', async function() {
+  describe('#submitStudentInformation', function () {
+    it('submit student information form', async function () {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('student-information');
@@ -21,19 +19,21 @@ describe('Unit | Model | Student-information', function() {
           attributes: {
             'first-name': 'James',
             'last-name': 'Potter',
-            'email': 'james.potter@example.net',
-            'username': 'james.potter0709',
+            email: 'james.potter@example.net',
+            username: 'james.potter0709',
             'latest-organization-name': 'Collège Louise Michelle',
           },
         },
       });
 
-      const studentInformation = run(() => store.createRecord('student-information', {
-        firstName: 'James',
-        lastName: 'Potter',
-        ineIna: '123456789CC',
-        birthdate: '2010-01-22',
-      }));
+      const studentInformation = run(() =>
+        store.createRecord('student-information', {
+          firstName: 'James',
+          lastName: 'Potter',
+          ineIna: '123456789CC',
+          birthdate: '2010-01-22',
+        })
+      );
 
       // when
       const result = await studentInformation.submitStudentInformation();
@@ -55,7 +55,7 @@ describe('Unit | Model | Student-information', function() {
               'ine-ina': '123456789CC',
               'first-name': 'James',
               'last-name': 'Potter',
-              'birthdate': '2010-01-22',
+              birthdate: '2010-01-22',
             },
             type: 'student-information',
           },

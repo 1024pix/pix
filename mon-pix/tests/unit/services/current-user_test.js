@@ -4,22 +4,22 @@ import { setupTest } from 'ember-mocha';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Service | current-user', function() {
+describe('Unit | Service | current-user', function () {
   setupTest();
 
   let storeStub;
   let sessionStub;
 
-  describe('user is authenticated', function() {
+  describe('user is authenticated', function () {
     const user = { id: 1 };
-    beforeEach(function() {
+    beforeEach(function () {
       sessionStub = Service.create({ isAuthenticated: true });
       storeStub = Service.create({
         queryRecord: sinon.stub().resolves(user),
       });
     });
 
-    it('should load the current user', async function() {
+    it('should load the current user', async function () {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -33,13 +33,12 @@ describe('Unit | Service | current-user', function() {
     });
   });
 
-  describe('user is not authenticated', function() {
-
-    beforeEach(function() {
+  describe('user is not authenticated', function () {
+    beforeEach(function () {
       sessionStub = Service.create({ isAuthenticated: false });
     });
 
-    it('should do nothing', async function() {
+    it('should do nothing', async function () {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -52,9 +51,8 @@ describe('Unit | Service | current-user', function() {
     });
   });
 
-  describe('user token is expired', function() {
-
-    beforeEach(function() {
+  describe('user token is expired', function () {
+    beforeEach(function () {
       sessionStub = Service.create({
         isAuthenticated: true,
         invalidate: sinon.stub().resolves('invalidate'),
@@ -64,7 +62,7 @@ describe('Unit | Service | current-user', function() {
       });
     });
 
-    it('should redirect to login', async function() {
+    it('should redirect to login', async function () {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);

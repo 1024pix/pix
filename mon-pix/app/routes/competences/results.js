@@ -5,7 +5,10 @@ import Route from '@ember/routing/route';
 export default class ResultsRoute extends Route.extend(SecuredRouteMixin) {
   async model(params) {
     const assessmentId = params.assessment_id;
-    const competenceEvaluations = await this.store.findAll('competenceEvaluation', { reload: true, adapterOptions: { assessmentId } });
+    const competenceEvaluations = await this.store.findAll('competenceEvaluation', {
+      reload: true,
+      adapterOptions: { assessmentId },
+    });
     return competenceEvaluations
       .sortBy('createdAt')
       .reverse()

@@ -9,7 +9,7 @@ export default class CompetenceEvaluationService extends Service {
       await this.store.queryRecord('competence-evaluation', { improve: true, userId, competenceId });
       this.router.transitionTo('competences.resume', competenceId);
     } catch (error) {
-      const title = ('errors' in error) ? error.errors.get('firstObject').title : null;
+      const title = 'errors' in error ? error.errors.get('firstObject').title : null;
       if (title === 'ImproveCompetenceEvaluationForbidden') {
         return this._reloadScorecard(scorecardId);
       } else {

@@ -51,5 +51,4 @@ export default class ResultItemComponent extends Component {
   get textLength() {
     return window.innerWidth <= 767 ? 60 : 110;
   }
-
 }

@@ -5,16 +5,15 @@ import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe('Integration | Component | certifications list', function() {
+describe('Integration | Component | certifications list', function () {
   setupIntlRenderingTest();
 
-  it('renders', async function() {
+  it('renders', async function () {
     await render(hbs`<CertificationsList />`);
     expect(find('.certifications-list__table')).to.exist;
   });
 
-  context('when there is some completed certifications', function() {
-
+  context('when there is some completed certifications', function () {
     const certification1 = EmberObject.create({
       id: 1,
       date: '2018-02-15T15:15:52.504Z',
@@ -32,7 +31,7 @@ describe('Integration | Component | certifications list', function() {
       pixScore: 231,
     });
 
-    it('should render two certification items when there is 2 completed certifications', async function() {
+    it('should render two certification items when there is 2 completed certifications', async function () {
       const completedCertifications = [certification1, certification2];
       this.set('certifications', completedCertifications);
 

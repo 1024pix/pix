@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
 export default class CampaignLandingPageController extends Controller {
-  @service campaignStorage
+  @service campaignStorage;
   @service router;
 
   @action

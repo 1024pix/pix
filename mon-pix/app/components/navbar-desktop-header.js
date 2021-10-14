@@ -11,7 +11,7 @@ export default class NavbarDesktopHeader extends Component {
   @tracked isUserLogged = this.session.isAuthenticated;
 
   get menu() {
-    return (this.isUserLogged || this._isExternalUser) ? [] : this._menuItems;
+    return this.isUserLogged || this._isExternalUser ? [] : this._menuItems;
   }
 
   get _menuItems() {

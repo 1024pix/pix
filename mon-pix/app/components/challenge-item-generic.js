@@ -5,7 +5,6 @@ import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
 
 export default class ChallengeItemGeneric extends Component {
-
   @service currentUser;
   @tracked hasChallengeTimedOut = this.args.assessment.hasTimeoutChallenge || false;
   @tracked errorMessage = null;
@@ -29,7 +28,7 @@ export default class ChallengeItemGeneric extends Component {
   _getTimeout() {
     if (this._isTimedChallenge) {
       if (this.hasChallengeTimedOut) {
-        return -1 ;
+        return -1;
       } else {
         return this.args.challenge.timer;
       }
@@ -55,7 +54,14 @@ export default class ChallengeItemGeneric extends Component {
 
     this.errorMessage = null;
 
-    return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this.args.hasFocusedOutOfWindow)
+    return this.args
+      .answerValidated(
+        this.args.challenge,
+        this.args.assessment,
+        this._getAnswerValue(),
+        this._getTimeout(),
+        this.args.hasFocusedOutOfWindow
+      )
       .finally(() => {
         this.args.resetChallengeInfo();
       });
@@ -70,7 +76,14 @@ export default class ChallengeItemGeneric extends Component {
   @action
   skipChallenge() {
     this.errorMessage = null;
-    return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this.args.hasFocusedOutOfWindow)
+    return this.args
+      .answerValidated(
+        this.args.challenge,
+        this.args.assessment,
+        '#ABAND#',
+        this._getTimeout(),
+        this.args.hasFocusedOutOfWindow
+      )
       .finally(() => {
         this.args.resetChallengeInfo();
       });

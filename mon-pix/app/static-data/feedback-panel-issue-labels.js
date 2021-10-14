@@ -41,7 +41,7 @@ const topLevelLabels = [
 ];
 
 const questions = {
-  'question': [
+  question: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood',
       type: 'textbox',
@@ -51,7 +51,7 @@ const questions = {
       type: 'textbox',
     },
   ],
-  'picture': [
+  picture: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed.label',
       type: 'tutorial',
@@ -62,7 +62,7 @@ const questions = {
       type: 'textbox',
     },
   ],
-  'link': [
+  link: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.link-unauthorized.label',
       type: 'tutorial',
@@ -73,7 +73,7 @@ const questions = {
       type: 'textbox',
     },
   ],
-  'embed': [
+  embed: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.label',
       type: 'tutorial',
@@ -86,15 +86,17 @@ const questions = {
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-desktop-with-problems.label',
       type: 'tutorialAndTextbox',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-desktop-with-problems.solution',
+      content:
+        'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-desktop-with-problems.solution',
     },
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label',
       type: 'tutorialAndTextbox',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.solution',
+      content:
+        'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.solution',
     },
   ],
-  'download': [
+  download: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.open-failure.label',
       type: 'tutorial',
@@ -115,13 +117,13 @@ const questions = {
       type: 'textbox',
     },
   ],
-  'accessibility': [
+  accessibility: [
     {
       name: 'link',
       type: 'textbox',
     },
   ],
-  'answer': [
+  answer: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.answer-not-accepted',
       type: 'textbox',
@@ -131,7 +133,7 @@ const questions = {
       type: 'textbox',
     },
   ],
-  'tutorial': [
+  tutorial: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.tutorial-not-accepted',
       type: 'textbox',
@@ -145,7 +147,7 @@ const questions = {
       type: 'textbox',
     },
   ],
-  'other': [
+  other: [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.other-challenge-proposal',
       type: 'textbox',

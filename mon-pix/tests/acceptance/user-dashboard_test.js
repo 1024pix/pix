@@ -11,20 +11,19 @@ import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
-describe('Acceptance | User dashboard page', function() {
+describe('Acceptance | User dashboard page', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
   let user;
 
-  describe('Visit the user dashboard page', function() {
-
-    beforeEach(async function() {
+  describe('Visit the user dashboard page', function () {
+    beforeEach(async function () {
       user = server.create('user', 'withEmail');
     });
 
-    it('is not possible when user is not connected', async function() {
+    it('is not possible when user is not connected', async function () {
       // when
       await visit('/accueil');
 
@@ -32,7 +31,7 @@ describe('Acceptance | User dashboard page', function() {
       expect(currentURL()).to.equal('/connexion');
     });
 
-    it('is possible when user is connected', async function() {
+    it('is possible when user is connected', async function () {
       // given
       await authenticateByEmail(user);
 
@@ -44,24 +43,25 @@ describe('Acceptance | User dashboard page', function() {
     });
   });
 
-  describe('campaign-participation-overviews', function() {
-
-    beforeEach(async function() {
+  describe('campaign-participation-overviews', function () {
+    beforeEach(async function () {
       user = server.create('user', 'withEmail');
     });
 
-    describe('when user is doing a campaign of type assessment', function() {
-
+    describe('when user is doing a campaign of type assessment', function () {
       context('when user has not completed the campaign', () => {
-
-        beforeEach(async function() {
-          const uncompletedCampaign = server.create('campaign', {
-            idPixLabel: 'email',
-            type: ASSESSMENT,
-            isArchived: false,
-            title: 'My Campaign',
-            code: '123',
-          }, 'withThreeChallenges');
+        beforeEach(async function () {
+          const uncompletedCampaign = server.create(
+            'campaign',
+            {
+              idPixLabel: 'email',
+              type: ASSESSMENT,
+              isArchived: false,
+              title: 'My Campaign',
+              code: '123',
+            },
+            'withThreeChallenges'
+          );
 
           server.create('campaign-participation-overview', {
             assessmentState: 'started',
@@ -73,12 +73,12 @@ describe('Acceptance | User dashboard page', function() {
           await authenticateByEmail(user);
         });
 
-        afterEach(async function() {
+        afterEach(async function () {
           await invalidateSession();
         });
 
-        it('should display a card with a resume button', async function() {
-        // when
+        it('should display a card with a resume button', async function () {
+          // when
           await visit('/accueil');
           // then
           const resumeButton = find('.campaign-participation-overview-card-content__action');
@@ -88,14 +88,17 @@ describe('Acceptance | User dashboard page', function() {
       });
 
       context('when user has completed the campaign but not shared his/her results', () => {
-
-        beforeEach(async function() {
-          const unsharedCampaign = server.create('campaign', {
-            idPixLabel: 'email',
-            type: ASSESSMENT,
-            isArchived: false,
-            code: '123',
-          }, 'withThreeChallenges');
+        beforeEach(async function () {
+          const unsharedCampaign = server.create(
+            'campaign',
+            {
+              idPixLabel: 'email',
+              type: ASSESSMENT,
+              isArchived: false,
+              code: '123',
+            },
+            'withThreeChallenges'
+          );
 
           server.create('campaign-participation-overview', {
             assessmentState: 'completed',
@@ -104,15 +107,14 @@ describe('Acceptance | User dashboard page', function() {
             isShared: false,
           });
           await authenticateByEmail(user);
-
         });
 
-        afterEach(async function() {
+        afterEach(async function () {
           await invalidateSession();
         });
 
-        it('should display a card with a share button', async function() {
-        // when
+        it('should display a card with a share button', async function () {
+          // when
           await visit('/accueil');
 
           // then
@@ -124,50 +126,46 @@ describe('Acceptance | User dashboard page', function() {
     });
   });
 
-  describe('recommended-competences', function() {
-
-    beforeEach(async function() {
+  describe('recommended-competences', function () {
+    beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       await visit('/accueil');
     });
 
-    it('should display recommended-competences section', function() {
+    it('should display recommended-competences section', function () {
       expect(find('section[data-test-recommended-competences]')).to.exist;
     });
 
-    it('should display the link to profile', function() {
+    it('should display the link to profile', function () {
       expect(find('.dashboard-content-main-section__button')).to.exist;
     });
-
   });
 
-  describe('retryable-competences', function() {
-
-    beforeEach(async function() {
+  describe('retryable-competences', function () {
+    beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       await visit('/accueil');
     });
 
-    it('should display the improvable-competences section', function() {
+    it('should display the improvable-competences section', function () {
       expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
     });
   });
 
-  describe('started-competences', function() {
-
-    beforeEach(async function() {
+  describe('started-competences', function () {
+    beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       await visit('/accueil');
     });
 
-    it('should display started-competences section', function() {
+    it('should display started-competences section', function () {
       expect(find('section[data-test-started-competences]')).to.exist;
     });
 
-    it('should link to competence-details page on click on level circle', async function() {
+    it('should link to competence-details page on click on level circle', async function () {
       // when
       await click('.competence-card__link');
 
@@ -177,20 +175,18 @@ describe('Acceptance | User dashboard page', function() {
     });
   });
 
-  describe('new-information', function() {
-
-    afterEach(async function() {
+  describe('new-information', function () {
+    afterEach(async function () {
       await invalidateSession();
     });
 
-    describe('when user has new information to see', function() {
-
-      beforeEach(async function() {
+    describe('when user has new information to see', function () {
+      beforeEach(async function () {
         user = server.create('user', 'withEmail');
       });
 
-      describe('when user has closable information', function() {
-        it('should close new dashboard information on user click', async function() {
+      describe('when user has closable information', function () {
+        it('should close new dashboard information on user click', async function () {
           // given
           await authenticateByEmail(user);
           await visit('/accueil');
@@ -204,11 +200,10 @@ describe('Acceptance | User dashboard page', function() {
         });
       });
 
-      describe('when user is doing a campaign of type collect profile', function() {
-
+      describe('when user is doing a campaign of type collect profile', function () {
         let campaign, campaignParticipation;
 
-        beforeEach(async function() {
+        beforeEach(async function () {
           campaign = server.create('campaign', {
             isArchived: false,
             title: 'SomeTitle',
@@ -229,8 +224,7 @@ describe('Acceptance | User dashboard page', function() {
         });
 
         describe('when user has not shared his results', () => {
-
-          it('should display a resume campaign banner for the campaign', async function() {
+          it('should display a resume campaign banner for the campaign', async function () {
             // when
             await visit('/accueil');
 
@@ -239,7 +233,7 @@ describe('Acceptance | User dashboard page', function() {
             expect(find('.new-information-content-text__button')).to.exist;
           });
 
-          it('should display accessibility information in the banner', async function() {
+          it('should display accessibility information in the banner', async function () {
             // when
             await visit('/accueil');
 
@@ -251,8 +245,8 @@ describe('Acceptance | User dashboard page', function() {
           });
         });
 
-        describe('when users wants to share his results by clicking the resume button', function() {
-          it('should redirect the user to the campaign results sharing page', async function() {
+        describe('when users wants to share his results by clicking the resume button', function () {
+          it('should redirect the user to the campaign results sharing page', async function () {
             // given
             await visit('/accueil');
 
@@ -266,9 +260,8 @@ describe('Acceptance | User dashboard page', function() {
       });
     });
 
-    describe('when user has no new information to see', function() {
-
-      it('should not render any new-information banner', async function() {
+    describe('when user has no new information to see', function () {
+      it('should not render any new-information banner', async function () {
         // given
         user = server.create('user', 'withEmail', 'hasSeenNewDashboardInfo');
 

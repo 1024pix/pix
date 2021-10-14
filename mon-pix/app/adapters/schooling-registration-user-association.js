@@ -44,4 +44,3 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
     return this.ajax(url, 'POST', { data });
   }
 }
-

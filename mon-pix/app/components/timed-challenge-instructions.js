@@ -12,7 +12,6 @@ export default class TimedChallengeInstructions extends Component {
 }
 
 function _formatTimeForText(time) {
-
   if (!isInteger(time)) {
     return '';
   }
@@ -22,13 +21,12 @@ function _formatTimeForText(time) {
 
   const formattedMinutes = _pluralize('minute', minutes);
   const formattedSeconds = _pluralize('seconde', seconds);
-  const joiningWord = (!minutes || !seconds) ? '' : ' et ';
+  const joiningWord = !minutes || !seconds ? '' : ' et ';
 
   return `${formattedMinutes}${joiningWord}${formattedSeconds}`;
 }
 
 function _formatTimeForButton(time) {
-
   if (!isInteger(time) || !time) {
     return 0;
   }
@@ -37,7 +35,7 @@ function _formatTimeForButton(time) {
   const seconds = _getSeconds(time);
 
   const formattedMinutes = minutes;
-  const formattedSeconds = (seconds < 9) ? `0${seconds}` : `${seconds}`;
+  const formattedSeconds = seconds < 9 ? `0${seconds}` : `${seconds}`;
 
   return `${formattedMinutes}:${formattedSeconds}`;
 }
@@ -54,5 +52,5 @@ function _pluralize(word, count) {
   if (!count) {
     return '';
   }
-  return (count > 1) ? `${count} ${word}s` : `${count} ${word}`;
+  return count > 1 ? `${count} ${word}s` : `${count} ${word}`;
 }

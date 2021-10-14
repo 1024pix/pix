@@ -7,9 +7,6 @@ export default class CompetencesRoute extends Route.extend(SecuredRouteMixin) {
 
   model(params) {
     const scorecardId = this.currentUser.user.id + '_' + params.competence_id;
-    return this.store.findRecord(
-      'scorecard',
-      scorecardId,
-    );
+    return this.store.findRecord('scorecard', scorecardId);
   }
 }

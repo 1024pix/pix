@@ -5,47 +5,47 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Download an attachment from a challenge', function() {
+describe('Acceptance | Download an attachment from a challenge', function () {
   setupApplicationTest();
   setupMirage();
   let challengeWithAttachment;
   let assessment;
 
-  beforeEach(function() {
+  beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     challengeWithAttachment = server.create('challenge', 'forCompetenceEvaluation', 'withAttachment');
     server.create('challenge', 'forCompetenceEvaluation');
   });
 
-  describe('When the challenge has an attachment', function() {
-
-    beforeEach(async function() {
+  describe('When the challenge has an attachment', function () {
+    beforeEach(async function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should have a way to download the attachment', function() {
+    it('should have a way to download the attachment', function () {
       expect(find('.challenge-statement__action-link')).to.exist;
     });
 
-    it('should expose the correct attachment link', function() {
+    it('should expose the correct attachment link', function () {
       expect(find('.challenge-statement__action-link').textContent).to.contain('Télécharger');
       expect(challengeWithAttachment.attachments.length).to.equal(1);
-      expect(find('.challenge-statement__action-link').getAttribute('href')).to.equal(challengeWithAttachment.attachments[0]);
+      expect(find('.challenge-statement__action-link').getAttribute('href')).to.equal(
+        challengeWithAttachment.attachments[0]
+      );
     });
 
-    it('should only have one file downloadable', function() {
+    it('should only have one file downloadable', function () {
       expect(find('.challenge-statement__action-link')).to.exist;
     });
   });
 
-  describe('When the challenge does not contain an attachment', function() {
-
-    beforeEach(async function() {
+  describe('When the challenge does not contain an attachment', function () {
+    beforeEach(async function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
       await click('.challenge-actions__action-skip-text');
     });
 
-    it('should hide the download section for the attachment', function() {
+    it('should hide the download section for the attachment', function () {
       // We are in a challenge...
       expect(find('.challenge-item')).to.exist;
 
@@ -53,5 +53,4 @@ describe('Acceptance | Download an attachment from a challenge', function() {
       expect(find('.challenge-statement__action-link')).not.to.exist;
     });
   });
-
 });

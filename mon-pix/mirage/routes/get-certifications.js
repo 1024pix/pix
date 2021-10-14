@@ -1,3 +1,3 @@
-export default function(schema) {
+export default function (schema) {
   return schema.certifications.all();
 }

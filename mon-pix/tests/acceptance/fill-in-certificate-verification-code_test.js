@@ -6,14 +6,13 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Certificate verification', function() {
+describe('Acceptance | Certificate verification', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
-  context('when certificate verification code is valid', function() {
-
-    it('redirects to certificate details page', async function() {
+  context('when certificate verification code is valid', function () {
+    it('redirects to certificate details page', async function () {
       // Given
       await visit('/verification-certificat');
       await fillIn('#certificate-verification-code', 'P-123VALID');
@@ -26,8 +25,8 @@ describe('Acceptance | Certificate verification', function() {
     });
   });
 
-  context('when certificate verification code is wrong', function() {
-    it('does not redirect to certificate details page', async function() {
+  context('when certificate verification code is wrong', function () {
+    it('does not redirect to certificate details page', async function () {
       // Given
       await visit('/verification-certificat');
       await fillIn('#certificate-verification-code', 'P-12345678');
@@ -39,7 +38,7 @@ describe('Acceptance | Certificate verification', function() {
       expect(currentURL()).to.equal('/verification-certificat');
     });
 
-    it('shows error message', async function() {
+    it('shows error message', async function () {
       // Given
       await visit('/verification-certificat');
       await fillIn('#certificate-verification-code', 'P-12345678');
@@ -52,8 +51,8 @@ describe('Acceptance | Certificate verification', function() {
     });
   });
 
-  context('when user visits /partage-certificat/200 directly', function() {
-    it('redirects to /verification-certificat', async function() {
+  context('when user visits /partage-certificat/200 directly', function () {
+    it('redirects to /verification-certificat', async function () {
       // When
       await visit('/partage-certificat/200');
 
@@ -61,5 +60,4 @@ describe('Acceptance | Certificate verification', function() {
       expect(currentURL()).to.equal('/verification-certificat');
     });
   });
-
 });

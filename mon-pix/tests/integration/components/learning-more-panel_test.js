@@ -4,10 +4,10 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | learning-more-panel', function() {
+describe('Integration | Component | learning-more-panel', function () {
   setupIntlRenderingTest();
 
-  it('renders a list item when there is at least one learningMore item', async function() {
+  it('renders a list item when there is at least one learningMore item', async function () {
     // given
     this.set('learningMoreTutorials', [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }]);
 
@@ -20,7 +20,7 @@ describe('Integration | Component | learning-more-panel', function() {
     expect(find('.learning-more-panel__container').textContent).to.contains(this.intl.t('pages.learning-more.title'));
   });
 
-  it('should not render a list when there is no LearningMore elements', async function() {
+  it('should not render a list when there is no LearningMore elements', async function () {
     // given
     this.set('learningMoreTutorials', null);
 

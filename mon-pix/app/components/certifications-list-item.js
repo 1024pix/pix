@@ -7,7 +7,6 @@ const status = {
 };
 
 export default class CertificationsListItem extends Component {
-
   get certification() {
     return this.args.certification;
   }
@@ -36,7 +35,7 @@ export default class CertificationsListItem extends Component {
   }
 
   get shouldDisplayComment() {
-    return (this.isPublished && (this.isRejected || this.isCancelled)) && this.certification?.commentForCandidate;
+    return this.isPublished && (this.isRejected || this.isCancelled) && this.certification?.commentForCandidate;
   }
 
   get isClickable() {

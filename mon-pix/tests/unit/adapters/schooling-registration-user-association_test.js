@@ -3,20 +3,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | schooling-registration-user-association', function() {
+describe('Unit | Adapters | schooling-registration-user-association', function () {
   setupTest();
 
   let adapter;
 
-  beforeEach(function() {
+  beforeEach(function () {
     adapter = this.owner.lookup('adapter:schooling-registration-user-association');
     adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#urlForCreateRecord', () => {
-
-    context('when is for searchMatchingStudent', function() {
-      it('should redirect to /schooling-registrations-user-associations/possibilities ', async function() {
+    context('when is for searchMatchingStudent', function () {
+      it('should redirect to /schooling-registrations-user-associations/possibilities ', async function () {
         // when
         const snapshot = { adapterOptions: { searchForMatchingStudent: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
@@ -25,8 +24,8 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
         expect(url.endsWith('/schooling-registration-user-associations/possibilities')).to.be.true;
       });
     });
-    context('when is for tryReconciliation', function() {
-      it('should redirect to /schooling-registrations-user-associations/auto ', async function() {
+    context('when is for tryReconciliation', function () {
+      it('should redirect to /schooling-registrations-user-associations/auto ', async function () {
         // when
         const snapshot = { adapterOptions: { tryReconciliation: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
@@ -35,8 +34,8 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
         expect(url.endsWith('/schooling-registration-user-associations/auto')).to.be.true;
       });
     });
-    context('when is for reconcileSup', function() {
-      it('should redirect to /schooling-registrations-user-associations/student ', async function() {
+    context('when is for reconcileSup', function () {
+      it('should redirect to /schooling-registrations-user-associations/student ', async function () {
         // when
         const snapshot = { adapterOptions: { reconcileSup: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
@@ -48,9 +47,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
   });
 
   describe('#createRecord', () => {
-
     context('when is for searchMatchingStudent', () => {
-
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
       beforeEach(() => {
@@ -74,7 +71,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
             firstName: 'James',
             lastName: 'Bond',
           },
-          serialize: function() {
+          serialize: function () {
             return {
               data: {
                 attributes: {
@@ -118,7 +115,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
             firstName: 'James',
             lastName: 'Bond',
           },
-          serialize: function() {
+          serialize: function () {
             return {
               data: {
                 attributes: {

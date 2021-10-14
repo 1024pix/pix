@@ -4,26 +4,24 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | changer mot de passe', function() {
-
+describe('Unit | Route | changer mot de passe', function () {
   setupTest();
 
-  describe('Route behavior', function() {
-
+  describe('Route behavior', function () {
     let storeStub;
     let queryRecordStub;
     const params = {
       temporary_key: 'pwd-reset-demand-token',
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       queryRecordStub = sinon.stub();
       storeStub = Service.create({
         queryRecord: queryRecordStub,
       });
     });
 
-    it('should exists', function() {
+    it('should exists', function () {
       // when
       const route = this.owner.lookup('route:reset-password');
       route.set('store', storeStub);
@@ -32,7 +30,7 @@ describe('Unit | Route | changer mot de passe', function() {
       expect(route).to.be.ok;
     });
 
-    it('should ask password reset demand validity', function() {
+    it('should ask password reset demand validity', function () {
       // given
       queryRecordStub.resolves();
       const route = this.owner.lookup('route:reset-password');
@@ -50,9 +48,8 @@ describe('Unit | Route | changer mot de passe', function() {
       });
     });
 
-    describe('when password reset demand is valid', function() {
-
-      it('should create a new ember user model with fetched data', function() {
+    describe('when password reset demand is valid', function () {
+      it('should create a new ember user model with fetched data', function () {
         // given
         const fetchedOwnerDetails = {
           data: {

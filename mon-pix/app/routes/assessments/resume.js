@@ -35,9 +35,7 @@ export default class ResumeRoute extends Route {
   }
 
   _resumeAssessmentWithoutCheckpoint(assessment) {
-    const {
-      assessmentIsCompleted,
-    } = this._parseState(assessment);
+    const { assessmentIsCompleted } = this._parseState(assessment);
 
     if (this.assessmentHasNoMoreQuestions || assessmentIsCompleted) {
       return this._rateAssessment(assessment);
@@ -46,11 +44,7 @@ export default class ResumeRoute extends Route {
   }
 
   _resumeAssessmentWithCheckpoint(assessment) {
-    const {
-      assessmentIsCompleted,
-      userHasSeenCheckpoint,
-      userHasReachedCheckpoint,
-    } = this._parseState(assessment);
+    const { assessmentIsCompleted, userHasSeenCheckpoint, userHasReachedCheckpoint } = this._parseState(assessment);
 
     if (assessmentIsCompleted) {
       return this._rateAssessment(assessment);
@@ -74,7 +68,9 @@ export default class ResumeRoute extends Route {
     const userHasSeenCheckpoint = this.hasSeenCheckpoint;
 
     const quantityOfAnswersInAssessment = assessment.get('answers.length');
-    const userHasReachedCheckpoint = quantityOfAnswersInAssessment > 0 && quantityOfAnswersInAssessment % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
+    const userHasReachedCheckpoint =
+      quantityOfAnswersInAssessment > 0 &&
+      quantityOfAnswersInAssessment % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
 
     const assessmentIsCompleted = assessment.isCompleted;
 
@@ -86,7 +82,9 @@ export default class ResumeRoute extends Route {
   }
 
   _routeToNextChallenge(assessment) {
-    this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, {
+      queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
+    });
   }
 
   async _rateAssessment(assessment) {
@@ -98,23 +96,24 @@ export default class ResumeRoute extends Route {
   _routeToResults(assessment) {
     if (assessment.isCertification) {
       this.replaceWith('certifications.results', assessment.certificationNumber);
-    }
-    else if (assessment.isForCampaign) {
+    } else if (assessment.isForCampaign) {
       this.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
-    }
-    else if (assessment.isCompetenceEvaluation) {
+    } else if (assessment.isCompetenceEvaluation) {
       this.replaceWith('competences.results', assessment.competenceId, assessment.id);
-    }
-    else {
+    } else {
       this.replaceWith('assessments.results', assessment.id);
     }
   }
 
   _routeToCheckpoint(assessment) {
-    this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.checkpoint', assessment.id, {
+      queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
+    });
   }
 
   _routeToFinalCheckpoint(assessment) {
-    this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.checkpoint', assessment.id, {
+      queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
+    });
   }
 }

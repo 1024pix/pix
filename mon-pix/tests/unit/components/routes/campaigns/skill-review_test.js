@@ -6,14 +6,12 @@ import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 
-describe('Unit | component | Campaigns | Evaluation | Skill Review', function() {
-
+describe('Unit | component | Campaigns | Evaluation | Skill Review', function () {
   setupTest();
 
   let component, adapter;
 
-  beforeEach(function() {
-
+  beforeEach(function () {
     const model = {
       campaign: EmberObject.create(),
       campaignParticipationResult: EmberObject.create({ id: 12345 }),
@@ -31,9 +29,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     component.router.transitionTo = sinon.stub();
   });
 
-  describe('#shareCampaignParticipation', function() {
-
-    it('should call adapter', async function() {
+  describe('#shareCampaignParticipation', function () {
+    it('should call adapter', async function () {
       // when
       await component.actions.shareCampaignParticipation.call(component);
 
@@ -41,9 +38,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       sinon.assert.calledWithExactly(adapter.share, 12345);
     });
 
-    context('when share is effective', function() {
-
-      it('should set isShared to true', async function() {
+    context('when share is effective', function () {
+      it('should set isShared to true', async function () {
         // given
         adapter.share.resolves();
 
@@ -55,8 +51,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       });
     });
 
-    context('when an error occured during share', function() {
-      it('should keep isShared to false', async function() {
+    context('when an error occured during share', function () {
+      it('should keep isShared to false', async function () {
         component.args.model.campaignParticipationResult.isShared = false;
         adapter.share.rejects();
 
@@ -65,7 +61,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
       });
 
-      it('should display error message', async function() {
+      it('should display error message', async function () {
         adapter.share.rejects();
 
         await component.actions.shareCampaignParticipation.call(component);
@@ -75,8 +71,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#improve', function() {
-    it('should save the campaignParticipation to start the improvement', async function() {
+  describe('#improve', function () {
+    it('should save the campaignParticipation to start the improvement', async function () {
       // when
       await component.actions.improve.call(component);
 
@@ -84,7 +80,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       sinon.assert.calledWithExactly(adapter.beginImprovement, 12345);
     });
 
-    it('should redirect to campaigns.entry-point', async function() {
+    it('should redirect to campaigns.entry-point', async function () {
       // when
       await component.actions.improve.call(component);
 
@@ -93,9 +89,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#showCleaCompetences', function() {
-
-    it('should showCleaCompetences when campaignParticipationResult has a clea badge', function() {
+  describe('#showCleaCompetences', function () {
+    it('should showCleaCompetences when campaignParticipationResult has a clea badge', function () {
       // given
       const cleaBadge = { id: 111 };
       component.args.model.campaignParticipationResult.cleaBadge = cleaBadge;
@@ -107,7 +102,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(shouldShowCleaCompetences).to.equal(true);
     });
 
-    it('should not show clea competence when there is no cleaBadge', function() {
+    it('should not show clea competence when there is no cleaBadge', function () {
       // given
       component.args.model.campaignParticipationResult.cleaBadge = undefined;
 
@@ -119,9 +114,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#showBadges', function() {
-
-    it('should show badges when acquired', function() {
+  describe('#showBadges', function () {
+    it('should show badges when acquired', function () {
       // given
       const badges = [{ id: 33, isAcquired: true }];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
@@ -133,7 +127,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(shouldShowBadges).to.equal(true);
     });
 
-    it('should not show badges when not acquired', function() {
+    it('should not show badges when not acquired', function () {
       // given
       const badges = [{ id: 33, isAcquired: false }];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
@@ -145,7 +139,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(shouldShowBadges).to.equal(false);
     });
 
-    it('should not show badges when none', function() {
+    it('should not show badges when none', function () {
       // given
       const badges = [];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
@@ -158,11 +152,13 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#acquiredBadges', function() {
-
-    it('should only return acquired badges', function() {
+  describe('#acquiredBadges', function () {
+    it('should only return acquired badges', function () {
       // given
-      const badges = [{ id: 33, isAcquired: true }, { id: 34, isAcquired: false }];
+      const badges = [
+        { id: 33, isAcquired: true },
+        { id: 34, isAcquired: false },
+      ];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
@@ -171,12 +167,10 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       // then
       expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true }]);
     });
-
   });
 
-  describe('#notAcquiredButVisibleBadges', function() {
-
-    it('should only return not acquired badges', function() {
+  describe('#notAcquiredButVisibleBadges', function () {
+    it('should only return not acquired badges', function () {
       // given
       const badges = [
         { id: 33, isAcquired: true },
@@ -191,12 +185,10 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       // then
       expect(notAcquiredBadges).to.deep.equal([{ id: 34, isAcquired: false, isAlwaysVisible: true }]);
     });
-
   });
 
-  describe('#orderedBadges', function() {
-
-    it('should return badges ordered by if it is acquired or not', function() {
+  describe('#orderedBadges', function () {
+    it('should return badges ordered by if it is acquired or not', function () {
       // given
       component.args.model.campaignParticipationResult.campaignParticipationBadges = [
         { id: 33, isAcquired: true, isAlwaysVisible: true },
@@ -214,14 +206,13 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         { id: 34, isAcquired: false, isAlwaysVisible: true },
       ]);
     });
-
   });
 
-  describe('#showOrganizationMessage', function() {
-
-    it('should return true when the campaign has a customResultPageText', function() {
+  describe('#showOrganizationMessage', function () {
+    it('should return true when the campaign has a customResultPageText', function () {
       // given
-      component.args.model.campaign.customResultPageText = 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
+      component.args.model.campaign.customResultPageText =
+        'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
 
       // when
       const result = component.showOrganizationMessage;
@@ -230,7 +221,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(result).to.be.true;
     });
 
-    it('should return false when the campaign has no customResultPageText ', function() {
+    it('should return false when the campaign has no customResultPageText ', function () {
       // given
       component.args.model.campaign.customResultPageText = null;
 
@@ -242,9 +233,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#showOrganizationButton', function() {
-
-    it('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function() {
+  describe('#showOrganizationButton', function () {
+    it('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function () {
       // given
       component.args.model.campaign.customResultPageButtonText = 'Go to the next step';
       component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
@@ -256,7 +246,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(result).to.be.true;
     });
 
-    it('should return false when the organization has no a customResultPageButtonText ', function() {
+    it('should return false when the organization has no a customResultPageButtonText ', function () {
       // given
       component.args.model.campaign.customResultPageButtonText = null;
       component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
@@ -268,7 +258,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(result).to.be.false;
     });
 
-    it('should return false when the organization has noa customResultPageButtonUrl', function() {
+    it('should return false when the organization has noa customResultPageButtonUrl', function () {
       // given
       component.args.model.campaign.customResultPageButtonText = 'Next step';
       component.args.model.campaign.customResultPageButtonUrl = null;
@@ -281,10 +271,10 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#customButtonUrl', function() {
-    context('when there is a customResultPageButtonUrl', function() {
-      context('when the participant has finished a campaign with stages', function() {
-        it('should add the stage to the url ', function() {
+  describe('#customButtonUrl', function () {
+    context('when there is a customResultPageButtonUrl', function () {
+      context('when the participant has finished a campaign with stages', function () {
+        it('should add the stage to the url ', function () {
           // given
           const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
           reachedStage.get.withArgs('threshold').returns(6);
@@ -299,8 +289,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         });
       });
 
-      context('when the participant has a mastery percentage', function() {
-        it('should add the masteryPercentage to the url', function() {
+      context('when the participant has a mastery percentage', function () {
+        it('should add the masteryPercentage to the url', function () {
           // given
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
           component.args.model.campaignParticipationResult.masteryRate = '0.56';
@@ -313,8 +303,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         });
       });
 
-      context('when the participant has a mastery percentage equals to 0', function() {
-        it('should add the masteryPercentage to the url', function() {
+      context('when the participant has a mastery percentage equals to 0', function () {
+        it('should add the masteryPercentage to the url', function () {
           // given
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
           component.args.model.campaignParticipationResult.masteryRate = '0.0';
@@ -327,8 +317,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         });
       });
 
-      context('when the participant has a participantExternalId', function() {
-        it('should add the externalId to the url', function() {
+      context('when the participant has a participantExternalId', function () {
+        it('should add the externalId to the url', function () {
           // given
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
           component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
@@ -341,8 +331,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         });
       });
 
-      context('when the participant has a participantExternalId, a mastery percentage and stages ', function() {
-        it('should add all params to the url', function() {
+      context('when the participant has a participantExternalId, a mastery percentage and stages ', function () {
+        it('should add all params to the url', function () {
           // given
           const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
           reachedStage.get.withArgs('threshold').returns(6);
@@ -359,8 +349,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         });
       });
 
-      context('when the url already has query params', function() {
-        it('should add the new parameters to the other query params', function() {
+      context('when the url already has query params', function () {
+        it('should add the new parameters to the other query params', function () {
           // given
           const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
           reachedStage.get.withArgs('threshold').returns(6);
@@ -373,12 +363,14 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
           const url = component.customButtonUrl;
 
           // then
-          expect(url).to.equal('http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6');
+          expect(url).to.equal(
+            'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6'
+          );
         });
       });
 
-      context('when the url has an ancor', function() {
-        it('should add the new parameters before the ancor', function() {
+      context('when the url has an ancor', function () {
+        it('should add the new parameters before the ancor', function () {
           // given
           const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
           reachedStage.get.withArgs('threshold').returns(6);
@@ -395,8 +387,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         });
       });
 
-      context('when there is no params', function() {
-        it('should return the url of the custom button', function() {
+      context('when there is no params', function () {
+        it('should return the url of the custom button', function () {
           // given
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
           component.args.model.campaignParticipationResult.reachedStage = null;
@@ -410,8 +402,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       });
     });
 
-    context('when there is no customResultPageButtonUrl', function() {
-      it('should return nothing', function() {
+    context('when there is no customResultPageButtonUrl', function () {
+      it('should return nothing', function () {
         // given
         component.args.model.campaign.customResultPageButtonUrl = null;
         component.args.model.campaignParticipationResult.reachedStage = 80;
@@ -425,9 +417,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#customButtonText', function() {
-
-    it('should return the text of the custom button', function() {
+  describe('#customButtonText', function () {
+    it('should return the text of the custom button', function () {
       // given
       component.args.model.campaign.customResultPageButtonText = 'Next step';
 
@@ -439,9 +430,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#isShared', function() {
-
-    it('should return the value of isShared', function() {
+  describe('#isShared', function () {
+    it('should return the value of isShared', function () {
       // given
       component.args.model.campaignParticipationResult.isShared = true;
 
@@ -453,9 +443,8 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#displayPixLink', function() {
-
-    it('should return false when there are customResultPageButtonText and customResultPageButtonUrl', function() {
+  describe('#displayPixLink', function () {
+    it('should return false when there are customResultPageButtonText and customResultPageButtonUrl', function () {
       // given
       component.args.model.campaign.customResultPageButtonText = 'Next step';
       component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
@@ -466,7 +455,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(result).to.be.false;
     });
 
-    it('should return true when customResultPageButtonText or customResultPageButtonUrl is empty', function() {
+    it('should return true when customResultPageButtonText or customResultPageButtonUrl is empty', function () {
       // given
       component.args.model.campaign.customResultPageButtonText = null;
       component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
@@ -477,7 +466,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       expect(result).to.be.true;
     });
 
-    it('should return true when customResultPageButtonText and customResultPageButtonUrl are empty', function() {
+    it('should return true when customResultPageButtonText and customResultPageButtonUrl are empty', function () {
       // given
       component.args.model.campaign.customResultPageButtonText = null;
       component.args.model.campaign.customResultPageButtonUrl = null;
@@ -489,13 +478,14 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#redirectToSignupIfUserIsAnonymous', function() {
-
-    it('should redirect to sign up page on click when user is anonymous', async function() {
+  describe('#redirectToSignupIfUserIsAnonymous', function () {
+    it('should redirect to sign up page on click when user is anonymous', async function () {
       // given
       const event = { preventDefault: () => {} };
       const session = this.owner.lookup('service:session');
-      class currentUser extends Service { user = { isAnonymous: true }}
+      class currentUser extends Service {
+        user = { isAnonymous: true };
+      }
       this.owner.register('service:currentUser', currentUser);
 
       session.invalidate = sinon.stub();
@@ -508,10 +498,12 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       sinon.assert.calledWith(component.router.transitionTo, 'inscription');
     });
 
-    it('should redirect to home page when user is not anonymous', async function() {
+    it('should redirect to home page when user is not anonymous', async function () {
       // given
       const event = { preventDefault: () => {} };
-      class currentUser extends Service { user = { isAnonymous: false }}
+      class currentUser extends Service {
+        user = { isAnonymous: false };
+      }
       this.owner.register('service:currentUser', currentUser);
 
       // when
@@ -521,10 +513,12 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       sinon.assert.calledWith(component.router.transitionTo, 'index');
     });
 
-    it('prevents default behaviour', async function() {
+    it('prevents default behaviour', async function () {
       // given
       const event = { preventDefault: sinon.stub() };
-      class currentUser extends Service { user = { isAnonymous: false }}
+      class currentUser extends Service {
+        user = { isAnonymous: false };
+      }
       this.owner.register('service:currentUser', currentUser);
 
       // when

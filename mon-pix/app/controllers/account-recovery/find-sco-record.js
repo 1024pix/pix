@@ -14,7 +14,6 @@ class StudentInformationForAccountRecovery {
 }
 
 export default class FindScoRecordController extends Controller {
-
   @service intl;
 
   @tracked accountRecoveryError = {
@@ -43,13 +42,8 @@ export default class FindScoRecordController extends Controller {
     this.studentInformationForAccountRecovery.firstName = studentInformation.firstName;
     const studentInformationToSave = this.store.createRecord('student-information', studentInformation);
     try {
-      const {
-        firstName,
-        lastName,
-        username,
-        email,
-        latestOrganizationName,
-      } = await studentInformationToSave.submitStudentInformation();
+      const { firstName, lastName, username, email, latestOrganizationName } =
+        await studentInformationToSave.submitStudentInformation();
       this.studentInformationForAccountRecovery.firstName = firstName;
       this.studentInformationForAccountRecovery.lastName = lastName;
       this.studentInformationForAccountRecovery.username = username;
@@ -111,8 +105,10 @@ export default class FindScoRecordController extends Controller {
     const { status: stringStatus, code } = err.errors?.[0] || {};
     const status = parseInt(stringStatus);
     const isApiUnreachable = isNaN(status);
-    const hasInternalErrorOrConflictOrAlreadyLeftSco = status === 403 || status === 409 || status >= 500 || isApiUnreachable;
-    const isEmailAlreadyRegistered = this.showBackupEmailConfirmationForm && status === 400 && code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS';
+    const hasInternalErrorOrConflictOrAlreadyLeftSco =
+      status === 403 || status === 409 || status >= 500 || isApiUnreachable;
+    const isEmailAlreadyRegistered =
+      this.showBackupEmailConfirmationForm && status === 400 && code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS';
 
     if (!hasInternalErrorOrConflictOrAlreadyLeftSco || isEmailAlreadyRegistered) {
       this._showErrorOnComponent(isEmailAlreadyRegistered);
@@ -135,7 +131,9 @@ export default class FindScoRecordController extends Controller {
       },
       409: {
         message: this.intl.t('pages.account-recovery.find-sco-record.conflict.warning'),
-        title: this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName: this.studentInformationForAccountRecovery.firstName }),
+        title: this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', {
+          firstName: this.studentInformationForAccountRecovery.firstName,
+        }),
         showBackToHomeButton: false,
       },
     };
@@ -151,6 +149,6 @@ export default class FindScoRecordController extends Controller {
     this.showBackupEmailConfirmationForm = false;
     this.showAlreadyRegisteredEmailError = false;
     this.showErrors = true;
-    this.accountRecoveryError = errorDetails[status] || errorDetails [code] || internalError;
+    this.accountRecoveryError = errorDetails[status] || errorDetails[code] || internalError;
   }
 }

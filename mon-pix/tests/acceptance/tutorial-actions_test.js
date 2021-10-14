@@ -6,7 +6,7 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Tutorial | Actions', function() {
+describe('Acceptance | Tutorial | Actions', function () {
   setupApplicationTest();
   setupMirage();
   let user;
@@ -14,7 +14,7 @@ describe('Acceptance | Tutorial | Actions', function() {
   let competenceNumber;
   let competenceId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
 
@@ -28,12 +28,13 @@ describe('Acceptance | Tutorial | Actions', function() {
     server.create('competence-evaluation', { user, competenceId, assessment });
   });
 
-  describe('Authenticated cases as simple user', function() {
-
-    it('should display tutorial item in competence page with actions', async function() {
+  describe('Authenticated cases as simple user', function () {
+    it('should display tutorial item in competence page with actions', async function () {
       // when
       await visit('/competences');
-      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__title`);
+      await click(
+        `.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__title`
+      );
 
       // then
       expect(find('.tutorial__content')).to.exist;
@@ -41,15 +42,16 @@ describe('Acceptance | Tutorial | Actions', function() {
       expect(find('.tutorial-content-actions__evaluate')).to.exist;
     });
 
-    it('should disable evaluate action on click', async function() {
+    it('should disable evaluate action on click', async function () {
       // when
       await visit('/competences');
-      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__title`);
+      await click(
+        `.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__title`
+      );
       await click('.tutorial-content-actions__evaluate');
 
       // then
       expect(find('.tutorial-content-actions__evaluate').disabled).to.be.true;
     });
-
   });
 });
