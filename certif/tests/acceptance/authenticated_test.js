@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, click } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
@@ -41,10 +42,65 @@ module('Acceptance | authenticated', function(hooks) {
 
       // when
       await visit(`/sessions/${session.id}`);
-      await click('.sidebar-menu ul li a:first-child');
+      await clickByLabel('Sessions de certification');
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
+    });
+
+    module('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function() {
+
+      test('it should show a "Portail surveillant" button', async function(assert) {
+        // given
+        server.create('feature-toggle', {
+          id: 0,
+          isEndTestScreenRemovalEnabled: true,
+        });
+        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visit('/sessions/liste');
+
+        // then
+        assert.contains('Portail surveillant');
+      });
+
+      test('it should redirect to the login session supervisor', async function(assert) {
+        // given
+        server.create('feature-toggle', {
+          id: 0,
+          isEndTestScreenRemovalEnabled: true,
+        });
+        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visit('/sessions/liste');
+        await clickByLabel('Portail surveillant');
+
+        // then
+        assert.equal(currentURL(), '/connexion-portail-surveillant');
+      });
+    });
+
+    module('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function() {
+
+      test('it should not show a "Portail surveillant" button', async function(assert) {
+        // given
+        server.create('feature-toggle', {
+          id: 0,
+          isEndTestScreenRemovalEnabled: false,
+        });
+        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visit('/sessions/liste');
+
+        // then
+        assert.notContains('Portail surveillant');
+      });
     });
   });
 

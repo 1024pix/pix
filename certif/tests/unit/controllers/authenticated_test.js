@@ -226,4 +226,44 @@ module('Unit | Controller | authenticated', function(hooks) {
       assert.true(showLinkToSessions);
     });
   });
+
+  module('#get isEndTestScreenRemovalEnabled', function() {
+    test('should return true when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function(assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isEndTestScreenRemovalEnabled: true,
+        };
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      const controller = this.owner.lookup('controller:authenticated');
+
+      // when
+      const isEndTestScreenRemovalEnabled = controller.isEndTestScreenRemovalEnabled;
+
+      // then
+      assert.true(isEndTestScreenRemovalEnabled);
+    });
+
+    test('should return false when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enbaled', function(assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isEndTestScreenRemovalEnabled: false,
+        };
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      const controller = this.owner.lookup('controller:authenticated');
+
+      // when
+      const isEndTestScreenRemovalEnabled = controller.isEndTestScreenRemovalEnabled;
+
+      // then
+      assert.false(isEndTestScreenRemovalEnabled);
+    });
+  });
 });
