@@ -68,7 +68,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }).id;
-      const badgePartnerCompetence = databaseBuilder.factory.buildSkillSet({
+      const skillSet = databaseBuilder.factory.buildSkillSet({
         badgeId: badge.id,
         skillIds: ['web1', 'web2', 'web3', 'web4'],
       });
@@ -93,17 +93,17 @@ describe('Integration | Service | Certification-Badges Service', function () {
         },
       ];
 
-      const expectedBadgePartnerCompetences = [
+      const expectedSkillSets = [
         {
-          id: badgePartnerCompetence.id,
-          name: badgePartnerCompetence.name,
-          skillIds: badgePartnerCompetence.skillIds,
+          id: skillSet.id,
+          name: skillSet.name,
+          skillIds: skillSet.skillIds,
         },
       ];
 
       expect(badgeAcquisitions.length).to.equal(1);
       expect(badgeAcquisitions[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
-      expect(badgeAcquisitions[0].badge.badgePartnerCompetences).to.deep.equal(expectedBadgePartnerCompetences);
+      expect(badgeAcquisitions[0].badge.skillSets).to.deep.equal(expectedSkillSets);
     });
   });
 });
