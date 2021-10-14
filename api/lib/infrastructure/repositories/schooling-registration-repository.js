@@ -63,7 +63,10 @@ function _setSchoolingRegistrationFilters(
   }
 }
 
-function _canReconcile(existingRegistrationForUserId, student) {
+function _canReconcile(existingSchoolingRegistrations, student) {
+  const existingRegistrationForUserId = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
+    return currentSchoolingRegistration.userId === student.account.userId;
+  });
   return (
     existingRegistrationForUserId == null ||
     existingRegistrationForUserId.nationalStudentId === student.nationalStudentId
@@ -193,13 +196,16 @@ module.exports = {
     );
 
     _.each(students, (student) => {
-      const schoolingRegistration = _.find(schoolingRegistrationsToImport, {
-        nationalStudentId: student.nationalStudentId,
+      const alreadyReconciledSchoolingRegistration = _.find(schoolingRegistrationsToImport, {
+        userId: student.account.userId,
       });
-      const existingRegistrationForUserId = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.userId === student.account.userId;
-      });
-      if (_canReconcile(existingRegistrationForUserId, student)) {
+
+      if (alreadyReconciledSchoolingRegistration) {
+        alreadyReconciledSchoolingRegistration.userId = null;
+      } else if (_canReconcile(existingSchoolingRegistrations, student)) {
+        const schoolingRegistration = _.find(schoolingRegistrationsToImport, {
+          nationalStudentId: student.nationalStudentId,
+        });
         schoolingRegistration.userId = student.account.userId;
       }
     });
