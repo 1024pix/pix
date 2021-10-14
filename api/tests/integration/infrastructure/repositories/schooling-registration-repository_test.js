@@ -2001,7 +2001,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // when
         const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
           organizationId: organization.id,
-          filter: { division: '3' },
+          filter: { divisions: ['3A', '3B'] },
         });
 
         // then

@@ -173,6 +173,9 @@ module.exports = {
   async findPaginatedFilteredSchoolingRegistrations(request) {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    if (filter.divisions && !Array.isArray(filter.divisions)) {
+      filter.divisions = [filter.divisions];
+    }
 
     const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({
       organizationId,
