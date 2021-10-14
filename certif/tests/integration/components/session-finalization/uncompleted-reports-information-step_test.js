@@ -195,7 +195,7 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
         />
       `);
 
-    await clickByLabel('Ajouter');
+    await clickByLabel('Ajouter ?');
 
     // then
     assert.contains('Retard, absence ou départ');
