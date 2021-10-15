@@ -1,31 +1,15 @@
-const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleCleaCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-clea-certification-rescoring', function () {
-  const partnerCertificationScoringRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    buildCleaCertificationScoring: _.noop(),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    save: _.noop(),
-  };
-  const cleaCertificationResultRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    get: _.noop(),
-  };
-
-  const dependencies = {
-    partnerCertificationScoringRepository,
-    cleaCertificationResultRepository,
-  };
+  let partnerCertificationScoringRepository;
+  let cleaCertificationResultRepository;
+  let certificationCenterRepository;
 
   beforeEach(function () {
-    partnerCertificationScoringRepository.buildCleaCertificationScoring = sinon.stub();
-    partnerCertificationScoringRepository.save = sinon.stub();
-    cleaCertificationResultRepository.get = sinon.stub();
+    partnerCertificationScoringRepository = { buildCleaCertificationScoring: sinon.stub(), save: sinon.stub() };
+    cleaCertificationResultRepository = { get: sinon.stub() };
+    certificationCenterRepository = { getByCertificationCourseId: sinon.stub() };
   });
 
   it('fails when event is not of correct type', async function () {
@@ -33,7 +17,11 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
     const event = 'not an event of the correct type';
 
     // when / then
-    const error = await catchErr(handleCleaCertificationRescoring)({ event, ...dependencies });
+    const error = await catchErr(handleCleaCertificationRescoring)({
+      event,
+      partnerCertificationScoringRepository,
+      cleaCertificationResultRepository,
+    });
 
     // then
     expect(error.message).to.equal('event must be one of types CertificationRescoringCompleted');
@@ -48,14 +36,26 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           userId: 456,
           reproducibilityRate: 80,
         });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'CléA Numérique',
+        });
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
+
         cleaCertificationResultRepository.get
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildCleaCertificationResult.notTaken());
 
         // when
         await handleCleaCertificationRescoring({
-          ...dependencies,
           event: certificationRescoringCompletedEvent,
+          partnerCertificationScoringRepository,
+          cleaCertificationResultRepository,
+          certificationCenterRepository,
         });
 
         // then
@@ -72,6 +72,16 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           userId: 456,
           reproducibilityRate: 80,
         });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'CléA Numérique',
+        });
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
+
         cleaCertificationResultRepository.get
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildCleaCertificationResult.acquired());
@@ -81,8 +91,10 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
 
         // when
         await handleCleaCertificationRescoring({
-          ...dependencies,
           event: certificationRescoringCompletedEvent,
+          partnerCertificationScoringRepository,
+          cleaCertificationResultRepository,
+          certificationCenterRepository,
         });
 
         // then
@@ -94,6 +106,37 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
         expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
           partnerCertificationScoring: cleaCertificationRescoring,
         });
+      });
+    });
+
+    context('when certification center is not accredited', function () {
+      it('should not save the re-scored cleA certification', async function () {
+        // given
+        const certificationRescoringCompletedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
+          certificationCourseId: 123,
+          userId: 456,
+          reproducibilityRate: 80,
+        });
+
+        const accreditation = domainBuilder.buildAccreditation({
+          name: 'Tarte au fromage',
+        });
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          accreditations: [accreditation],
+        });
+
+        certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
+
+        // when
+        await handleCleaCertificationRescoring({
+          event: certificationRescoringCompletedEvent,
+          cleaCertificationResultRepository,
+          partnerCertificationScoringRepository,
+          certificationCenterRepository,
+        });
+
+        // then
+        expect(partnerCertificationScoringRepository.save).not.to.have.been.called;
       });
     });
   });
