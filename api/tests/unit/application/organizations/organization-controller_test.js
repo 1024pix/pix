@@ -29,22 +29,14 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Application | Organizations | organization-controller', function () {
-  let request;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const i18n = getI18n();
-
   describe('#getOrganizationDetails', function () {
-    beforeEach(function () {
-      sinon.stub(usecases, 'getOrganizationDetails');
-      sinon.stub(organizationSerializer, 'serialize');
-    });
-
     it('should call the usecase and serialize the response', async function () {
       // given
       const organizationId = 1234;
-      request = { params: { id: organizationId } };
+      const request = { params: { id: organizationId } };
 
+      sinon.stub(usecases, 'getOrganizationDetails');
+      sinon.stub(organizationSerializer, 'serialize');
       usecases.getOrganizationDetails.resolves();
       organizationSerializer.serialize.returns();
 
@@ -228,7 +220,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         credit: 50,
       };
       const tagAttributes = { id: '4', type: 'tags' };
-      request = {
+      const request = {
         payload: {
           data: {
             id: organizationAttributes.id,
@@ -530,53 +522,42 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#findTargetProfiles', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-    let foundTargetProfiles;
+    it('should reply 200 with serialized target profiles', async function () {
+      // given
+      const connectedUserId = 1;
+      const organizationId = 145;
 
-    beforeEach(function () {
-      request = {
+      const request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
       };
 
-      foundTargetProfiles = [domainBuilder.buildTargetProfile()];
+      const foundTargetProfiles = [domainBuilder.buildTargetProfile()];
 
       sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
       sinon.stub(targetProfileSerializer, 'serialize');
-    });
 
-    context('success cases', function () {
-      it('should reply 200 with serialized target profiles', async function () {
-        // given
-        organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(145).resolves(foundTargetProfiles);
-        targetProfileSerializer.serialize.withArgs(foundTargetProfiles).returns({});
+      organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(145).resolves(foundTargetProfiles);
+      targetProfileSerializer.serialize.withArgs(foundTargetProfiles).returns({});
 
-        // when
-        const response = await organizationController.findTargetProfiles(request, hFake);
+      // when
+      const response = await organizationController.findTargetProfiles(request, hFake);
 
-        // then
-        expect(response).to.deep.equal({});
-      });
+      // then
+      expect(response).to.deep.equal({});
     });
   });
 
   describe('#attachTargetProfiles', function () {
-    const userId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const targetProfile = domainBuilder.buildTargetProfile();
+    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function () {
+      // given
+      const userId = 1;
+      const targetProfile = domainBuilder.buildTargetProfile();
+      const organizationId = targetProfile.organizationId;
+      const targetProfileId = targetProfile.id.toString();
+      const targetProfilesToAttachAsArray = [targetProfileId];
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const organizationId = targetProfile.organizationId;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const targetProfileId = targetProfile.id.toString();
-    const targetProfilesToAttachAsArray = [targetProfileId];
-
-    beforeEach(function () {
-      request = {
+      const request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
         payload: {
@@ -590,10 +571,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       };
 
       sinon.stub(usecases, 'attachTargetProfilesToOrganization');
-    });
 
-    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function () {
-      // given
       usecases.attachTargetProfilesToOrganization
         .withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray })
         .resolves();
@@ -612,6 +590,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     let studentWithUserInfo;
     let serializedStudentsWithUsersInfos;
+    let request;
 
     beforeEach(function () {
       request = {
@@ -703,13 +682,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#importSchoolingRegistrationsFromSIECLE', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-    const payload = { path: 'path-to-file' };
-    const format = 'xml';
+    it('should call the usecase to import schoolingRegistrations', async function () {
+      // given
+      const connectedUserId = 1;
+      const organizationId = 145;
+      const payload = { path: 'path-to-file' };
+      const format = 'xml';
+      const i18n = getI18n();
 
-    beforeEach(function () {
-      request = {
+      const request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
         query: { format },
@@ -718,10 +699,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       };
 
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
-    });
 
-    it('should call the usecase to import schoolingRegistrations', async function () {
-      // given
       usecases.importSchoolingRegistrationsFromSIECLEFormat.resolves();
 
       // when
@@ -738,21 +716,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#sendInvitations', function () {
-    const userId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const invitation = domainBuilder.buildOrganizationInvitation();
+    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
+      // given
+      const userId = 1;
+      const invitation = domainBuilder.buildOrganizationInvitation();
+      const organizationId = invitation.organizationId;
+      const emails = [invitation.email];
+      const locale = 'fr-fr';
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const organizationId = invitation.organizationId;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const emails = [invitation.email];
-    const locale = 'fr-fr';
-
-    beforeEach(function () {
-      request = {
+      const request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
         payload: {
@@ -766,9 +738,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       };
 
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
-    });
 
-    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
       // when
       await organizationController.sendInvitations(request, hFake);
 
@@ -821,16 +791,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#findPendingInvitations', function () {
-    const userId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const organization = domainBuilder.buildOrganization();
+    it('should call the usecase to find pending invitations with organizationId', async function () {
+      // given
+      const userId = 1;
+      const organization = domainBuilder.buildOrganization();
 
-    const resolvedOrganizationInvitations = 'organization invitations';
-    const serializedOrganizationInvitations = 'serialized organization invitations';
+      const resolvedOrganizationInvitations = 'organization invitations';
+      const serializedOrganizationInvitations = 'serialized organization invitations';
 
-    beforeEach(function () {
-      request = {
+      const request = {
         auth: { credentials: { userId } },
         params: { id: organization.id },
       };
@@ -840,9 +809,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       usecases.findPendingOrganizationInvitations.resolves(resolvedOrganizationInvitations);
       organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
-    });
 
-    it('should call the usecase to find pending invitations with organizationId', async function () {
       // when
       const response = await organizationController.findPendingInvitations(request, hFake);
 
@@ -872,7 +839,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return a response with correct headers', async function () {
       // when
-      request.i18n = i18n;
+      request.i18n = getI18n();
       const response = await organizationController.getSchoolingRegistrationsCsvTemplate(request, hFake);
 
       // then
@@ -884,7 +851,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
   describe('#downloadCertificationResults', function () {
     it('should return a response with CSV results', async function () {
       // given
-
       const request = {
         params: {
           id: 1,
