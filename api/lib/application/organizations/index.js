@@ -502,6 +502,7 @@ exports.register = async (server) => {
               attributes: {
                 email: Joi.string().email().required(),
                 lang: Joi.string().valid('fr-fr', 'fr', 'en'),
+                role: Joi.valid('ADMIN', 'MEMBER', null),
               },
             },
           }),
