@@ -21,6 +21,11 @@ module.exports = async function updateUserDetailsForAdministration({
     usersWithUsername: foundUsersWithUsernameAlreadyUsed,
   });
 
+  const userMustValidateTermsOfService = await _isAddingEmailForFirstTime({ userId, email, userRepository });
+  if (userMustValidateTermsOfService) {
+    userDetailsForAdministration.mustValidateTermsOfService = true;
+  }
+
   await userRepository.updateUserDetailsForAdministration(userId, userDetailsForAdministration);
 
   return userRepository.getUserDetailsForAdmin(userId);
@@ -37,4 +42,12 @@ async function _checkEmailAndUsernameAreAvailable({ usersWithEmail, usersWithUse
   } else if (isUsernameAlreadyUsed) {
     throw new AlreadyRegisteredUsernameError();
   }
+}
+
+async function _isAddingEmailForFirstTime({ userId, email, userRepository }) {
+  const user = await userRepository.get(userId);
+  const userHasNotYetEmail = !user.email;
+  const userHasUsername = !!user.username;
+  const shouldChangeEmail = !!email;
+  return userHasNotYetEmail && userHasUsername && shouldChangeEmail;
 }

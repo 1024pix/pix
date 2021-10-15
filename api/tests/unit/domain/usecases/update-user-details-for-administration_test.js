@@ -19,6 +19,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       findAnotherUserByUsername: sinon.stub(),
       getUserDetailsForAdmin: sinon.stub(),
       updateUserDetailsForAdministration: sinon.stub(),
+      get: sinon.stub(),
     };
   });
 
@@ -27,6 +28,9 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       // given
       const email = 'user@example.net';
       const userDetailsForAdministration = { email };
+      const user = domainBuilder.buildUser({ email: 'another@email.net' });
+
+      userRepository.get.resolves(user);
 
       // when
       await updateUserDetailsForAdministration({ userId, userDetailsForAdministration, userRepository });
@@ -38,6 +42,9 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
     it('should not search existing users if email is empty', async function () {
       // given
       const userDetailsForAdministration = { email: null };
+      const user = domainBuilder.buildUser({ email: 'another@email.net' });
+
+      userRepository.get.resolves(user);
 
       // when
       await updateUserDetailsForAdministration({ userId, userDetailsForAdministration, userRepository });
@@ -52,6 +59,9 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       // given
       const username = 'user.name';
       const userDetailsForAdministration = { username };
+      const user = domainBuilder.buildUser({ username });
+
+      userRepository.get.resolves(user);
 
       // when
       await updateUserDetailsForAdministration({ userId, userDetailsForAdministration, userRepository });
@@ -63,6 +73,9 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
     it('should not search existing user if username is empty', async function () {
       // given
       const userDetailsForAdministration = { username: null };
+      const user = domainBuilder.buildUser();
+
+      userRepository.get.resolves(user);
 
       // when
       await updateUserDetailsForAdministration({ userId, userDetailsForAdministration, userRepository });
@@ -82,9 +95,11 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       lastName: 'lastName',
       username,
     };
+    const user = domainBuilder.buildUser({ username, email: 'another@email.net' });
 
     userRepository.findAnotherUserByEmail.withArgs(userId, email).resolves([]);
     userRepository.findAnotherUserByUsername.withArgs(userId, username).resolves([]);
+    userRepository.get.resolves(user);
 
     // when
     await updateUserDetailsForAdministration({
@@ -95,6 +110,54 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
 
     // then
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, attributesToUpdate);
+  });
+
+  context('when adding a new email for user', function () {
+    it('should update mustValidateTermsOfService if user has username', async function () {
+      // given
+      const email = 'user@example.net';
+      const username = 'user.name';
+      const attributesToUpdate = { email };
+      const user = domainBuilder.buildUser({ username, email: null });
+
+      userRepository.findAnotherUserByEmail.withArgs(userId, email).resolves([]);
+      userRepository.findAnotherUserByUsername.withArgs(userId, username).resolves([]);
+      userRepository.get.withArgs(userId).resolves(user);
+
+      // when
+      await updateUserDetailsForAdministration({
+        userId,
+        userDetailsForAdministration: attributesToUpdate,
+        userRepository,
+      });
+
+      // then
+      const expectedAttributes = { email, mustValidateTermsOfService: true };
+      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, expectedAttributes);
+    });
+
+    it('should not update mustValidateTermsOfService if user has email', async function () {
+      // given
+      const email = 'user@example.net';
+      const username = 'user.name';
+      const attributesToUpdate = { email };
+      const user = domainBuilder.buildUser({ email, username });
+
+      userRepository.findAnotherUserByEmail.withArgs(userId, email).resolves([]);
+      userRepository.findAnotherUserByUsername.withArgs(userId, username).resolves([]);
+      userRepository.get.withArgs(userId).resolves(user);
+
+      // when
+      await updateUserDetailsForAdministration({
+        userId,
+        userDetailsForAdministration: attributesToUpdate,
+        userRepository,
+      });
+
+      // then
+      const expectedAttributes = { email };
+      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, expectedAttributes);
+    });
   });
 
   it('should return the updated user details for admin', async function () {
@@ -111,9 +174,11 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       ...attributesToUpdate,
       schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
     });
+    const user = domainBuilder.buildUser({ username, email: 'another@email.net' });
 
     userRepository.findAnotherUserByEmail.withArgs(userId, email).resolves([]);
     userRepository.findAnotherUserByUsername.withArgs(userId, username).resolves([]);
+    userRepository.get.resolves(user);
     userRepository.getUserDetailsForAdmin.resolves(expectedUserDetailsForAdmin);
 
     // when
