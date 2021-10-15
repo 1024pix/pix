@@ -25,4 +25,4 @@ Fonctionnalité: Titre des pages
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Lorsque je vais sur la compétence "recH9MjIzN54zXlwr"
     Lorsque je clique sur "Commencer"
-    Alors je vois le titre de la page "Question 1 sur 5 | Mathématiques | Pix"
+    Alors je vois le titre de la page "Mode libre - Question 1 sur 5 | Mathématiques | Pix"

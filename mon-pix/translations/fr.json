@@ -315,7 +315,7 @@
     },
     "challenge": {
       "title": {
-        "default": "Question {stepNumber} sur {totalChallengeNumber}",
+        "default": "Mode libre - Question {stepNumber} sur {totalChallengeNumber}",
         "timed-out": "Temps écoulé - Question {stepNumber} sur {totalChallengeNumber}",
         "focused": "Mode focus - Question {stepNumber} sur {totalChallengeNumber}",
         "focused-out": "Échoué - Mode focus - Question {stepNumber} sur {totalChallengeNumber}"
