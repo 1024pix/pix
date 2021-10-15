@@ -1,6 +1,5 @@
 const { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } = require('../constants');
 
-const Skill = require('./Skill');
 const _ = require('lodash');
 
 class UserCompetence {
@@ -26,10 +25,6 @@ class UserCompetence {
 
   isCertifiable() {
     return this.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
-  }
-
-  sortSkillsByDecreasingDifficulty() {
-    this.skills = Skill.sortByDecreasingDifficulty(this.skills);
   }
 }
 
