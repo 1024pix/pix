@@ -8,6 +8,12 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
   @service store;
   @service currentUser;
 
+  beforeModel(transition) {
+    if (!transition.from) {
+      this.replaceWith('campaigns.entry-point');
+    }
+  }
+
   model() {
     return this.modelFor('campaigns');
   }
