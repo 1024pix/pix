@@ -34,6 +34,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     context('when organization-invitation does not exist', function () {
       it('should create a new organization-invitation and send an email with organizationId, email, code and locale', async function () {
         // given
+        const role = null;
         const tags = undefined;
         const locale = 'fr-fr';
         const organization = domainBuilder.buildOrganization();
@@ -47,6 +48,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
             organizationId: organization.id,
             email: userEmailAddress,
             code: sinon.match.string,
+            role,
           })
           .resolves({ id: organizationInvitationId, code });
         organizationRepository.get.resolves(organization);
@@ -58,6 +60,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           organizationId: organization.id,
           email: userEmailAddress,
           locale,
+          role,
         });
 
         // then

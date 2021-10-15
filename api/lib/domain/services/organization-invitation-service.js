@@ -13,6 +13,7 @@ const createOrganizationInvitation = async ({
   email,
   locale,
   tags,
+  role,
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
     organizationId,
@@ -21,7 +22,12 @@ const createOrganizationInvitation = async ({
 
   if (!organizationInvitation) {
     const code = _generateCode();
-    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, code });
+    organizationInvitation = await organizationInvitationRepository.create({
+      organizationId,
+      email,
+      code,
+      role: role ? role : null,
+    });
   }
 
   const organization = await organizationRepository.get(organizationId);
