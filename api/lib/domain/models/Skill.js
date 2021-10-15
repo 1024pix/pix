@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 class Skill {
   constructor({ id, name, pixValue, competenceId, tutorialIds = [], tubeId } = {}) {
     this.id = id;
@@ -36,10 +34,6 @@ class Skill {
     }
 
     return oneSkill.id === otherSkill.id;
-  }
-
-  static sortByDecreasingDifficulty(skills) {
-    return _(skills).sortBy('difficulty').reverse().value();
   }
 }
 
