@@ -141,6 +141,9 @@
       "cancel": "Cancel",
       "close": "Close"
     },
+    "filters": {
+      "loading": "Loading..."
+    },
     "help-form": "https://pix.org/en-gb/contact-form",
     "home-page": "Pix Orga home page",
     "loading": "Loading",
@@ -329,7 +332,8 @@
         "type": {
           "badges": "Thematic results",
           "divisions": {
-            "title": "Class",
+            "title": "Classes",
+            "selected": "Classes: {divisions}",
             "empty": "No class"
           },
           "status": {
