@@ -16,6 +16,7 @@ const dependencies = {
   campaignParticipationRepository: require('../../infrastructure/repositories/campaign-participation-repository'),
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
+  certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
   cleaCertificationResultRepository: require('../../infrastructure/repositories/clea-certification-result-repository'),
   certificationIssueReportRepository: require('../../infrastructure/repositories/certification-issue-report-repository'),

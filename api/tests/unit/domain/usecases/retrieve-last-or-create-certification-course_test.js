@@ -11,80 +11,51 @@ const _ = require('lodash');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
   let clock;
-  const now = new Date('2019-01-01T05:06:07Z');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const domainTransaction = Symbol('someDomainTransaction');
-  const userId = 'userId';
-  const sessionId = 'sessionId';
-  const accessCode = 'accessCode';
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const verificationCode = Symbol('verificationCode');
-  let foundSession;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessmentRepository = { save: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationChallengeRepository = { save: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationChallengesService = {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    pickCertificationChallengesForPixPlus: sinon.stub(),
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    pickCertificationChallenges: sinon.stub(),
-  };
-  const certificationCourseRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    save: sinon.stub(),
-  };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const sessionRepository = { get: sinon.stub() };
-  const placementProfileService = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getPlacementProfile: sinon.stub(),
-  };
-  const verifyCertificateCodeService = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
-  };
-  const locale = 'fr';
+  let now;
+  let domainTransaction;
+  let verificationCode;
 
-  const parameters = {
-    locale,
-    domainTransaction,
-    assessmentRepository,
-    competenceRepository,
-    certificationCandidateRepository,
-    certificationChallengeRepository,
-    certificationCourseRepository,
-    sessionRepository,
-    certificationBadgesService,
-    certificationChallengesService,
-    placementProfileService,
-    verifyCertificateCodeService,
-  };
+  let sessionRepository;
+  let assessmentRepository;
+  let competenceRepository;
+  let certificationCandidateRepository;
+  let certificationChallengeRepository;
+  let certificationChallengesService;
+  let certificationCourseRepository;
+  let certificationCenterRepository;
+  let certificationBadgesService;
+  let placementProfileService;
+  let verifyCertificateCodeService;
 
   beforeEach(function () {
+    now = new Date('2019-01-01T05:06:07Z');
     clock = sinon.useFakeTimers(now);
+    domainTransaction = Symbol('someDomainTransaction');
+    verificationCode = Symbol('verificationCode');
+
+    assessmentRepository = { save: sinon.stub() };
+    competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+    certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
+    certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
+    certificationChallengeRepository = { save: sinon.stub() };
+    certificationChallengesService = {
+      pickCertificationChallengesForPixPlus: sinon.stub(),
+      pickCertificationChallenges: sinon.stub(),
+    };
+    certificationCourseRepository = {
+      findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
+      save: sinon.stub(),
+    };
+    sessionRepository = { get: sinon.stub() };
+    placementProfileService = {
+      getPlacementProfile: sinon.stub(),
+    };
+    verifyCertificateCodeService = {
+      generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
+    };
+    certificationCenterRepository = {
+      getBySessionId: sinon.stub(),
+    };
   });
 
   afterEach(function () {
@@ -93,18 +64,32 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   });
 
   context('when session access code is different from provided access code', function () {
-    beforeEach(function () {
-      foundSession = { accessCode: 'differentAccessCode' };
-      sessionRepository.get.withArgs(sessionId).resolves(foundSession);
-    });
-
     it('should throw a not found error', async function () {
+      // given
+      const sessionId = 1;
+      const accessCode = 'accessCode';
+      const userId = 2;
+      const foundSession = domainBuilder.buildSession({ accessCode: 'differentAccessCode' });
+      sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
       // when
       const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        domainTransaction,
         sessionId,
         accessCode,
         userId,
-        ...parameters,
+        locale: 'fr',
+        assessmentRepository,
+        competenceRepository,
+        certificationCandidateRepository,
+        certificationChallengeRepository,
+        certificationCourseRepository,
+        sessionRepository,
+        certificationCenterRepository,
+        certificationBadgesService,
+        certificationChallengesService,
+        placementProfileService,
+        verifyCertificateCodeService,
       });
 
       // then
@@ -118,15 +103,30 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     context('when session is not accessible', function () {
       it('should throw a SessionNotAccessible error', async function () {
         // given
-        const foundSession = domainBuilder.buildSession.finalized({ accessCode });
+        const sessionId = 1;
+        const accessCode = 'accessCode';
+        const userId = 2;
+        const foundSession = domainBuilder.buildSession.finalized({ id: sessionId, accessCode });
         sessionRepository.get.withArgs(sessionId).resolves(foundSession);
 
         // when
         const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+          domainTransaction,
           sessionId,
           accessCode,
           userId,
-          ...parameters,
+          locale: 'fr',
+          assessmentRepository,
+          competenceRepository,
+          certificationCandidateRepository,
+          certificationChallengeRepository,
+          certificationCourseRepository,
+          sessionRepository,
+          certificationCenterRepository,
+          certificationBadgesService,
+          certificationChallengesService,
+          placementProfileService,
+          verifyCertificateCodeService,
         });
 
         // then
@@ -137,27 +137,40 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     });
 
     context('when session is accessible', function () {
-      beforeEach(function () {
-        const foundSession = domainBuilder.buildSession.created({ accessCode });
-        sessionRepository.get.withArgs(sessionId).resolves(foundSession);
-      });
-
       context('when a certification course with provided userId and sessionId already exists', function () {
-        let existingCertificationCourse;
-        beforeEach(function () {
-          existingCertificationCourse = Symbol('existingCertificationCourse');
+        it('should return it with flag created marked as false', async function () {
+          // given
+          const sessionId = 1;
+          const accessCode = 'accessCode';
+          const userId = 2;
+          const domainTransaction = Symbol('someDomainTransaction');
+
+          const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+          sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+          const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId, sessionId });
           certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
             .withArgs({ userId, sessionId, domainTransaction })
             .resolves(existingCertificationCourse);
-        });
 
-        it('should return it with flag created marked as false', async function () {
           // when
           const result = await retrieveLastOrCreateCertificationCourse({
+            domainTransaction,
             sessionId,
             accessCode,
             userId,
-            ...parameters,
+            locale: 'fr',
+            assessmentRepository,
+            competenceRepository,
+            certificationCandidateRepository,
+            certificationChallengeRepository,
+            certificationCourseRepository,
+            sessionRepository,
+            certificationCenterRepository,
+            certificationBadgesService,
+            certificationChallengesService,
+            placementProfileService,
+            verifyCertificateCodeService,
           });
 
           // then
@@ -172,31 +185,44 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
       });
 
       context('when no certification course exists for this userId and sessionId', function () {
-        let placementProfile;
-        let competences;
-
-        beforeEach(function () {
-          competences = [{ id: 'rec123' }, { id: 'rec456' }];
-          competenceRepository.listPixCompetencesOnly.resolves(competences);
-          certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-            .withArgs({ userId, sessionId, domainTransaction })
-            .onCall(0)
-            .resolves(null);
-        });
-
         context('when the user is not certifiable', function () {
-          beforeEach(function () {
-            placementProfile = { isCertifiable: sinon.stub().returns(false) };
-            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
-          });
-
           it('should throw a UserNotAuthorizedToCertifyError', async function () {
+            // given
+            const sessionId = 1;
+            const accessCode = 'accessCode';
+            const userId = 2;
+            const domainTransaction = Symbol('someDomainTransaction');
+
+            const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+            sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+              .withArgs({ userId, sessionId, domainTransaction })
+              .resolves(null);
+
+            const competences = [{ id: 'rec123' }, { id: 'rec456' }];
+            competenceRepository.listPixCompetencesOnly.resolves(competences);
+
+            const placementProfile = { isCertifiable: sinon.stub().returns(false) };
+            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
             // when
             const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+              domainTransaction,
               sessionId,
               accessCode,
               userId,
-              ...parameters,
+              locale: 'fr',
+              assessmentRepository,
+              competenceRepository,
+              certificationCandidateRepository,
+              certificationChallengeRepository,
+              certificationCourseRepository,
+              sessionRepository,
+              certificationCenterRepository,
+              certificationBadgesService,
+              certificationChallengesService,
+              placementProfileService,
+              verifyCertificateCodeService,
             });
 
             // then
@@ -204,12 +230,42 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           });
 
           it('should not create any new resource', async function () {
+            // given
+            const sessionId = 1;
+            const accessCode = 'accessCode';
+            const userId = 2;
+            const domainTransaction = Symbol('someDomainTransaction');
+
+            const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+            sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+              .withArgs({ userId, sessionId, domainTransaction })
+              .resolves(null);
+
+            const competences = [{ id: 'rec123' }, { id: 'rec456' }];
+            competenceRepository.listPixCompetencesOnly.resolves(competences);
+
+            const placementProfile = { isCertifiable: sinon.stub().returns(false) };
+            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
             // when
             await catchErr(retrieveLastOrCreateCertificationCourse)({
+              domainTransaction,
               sessionId,
               accessCode,
               userId,
-              ...parameters,
+              locale: 'fr',
+              assessmentRepository,
+              competenceRepository,
+              certificationCandidateRepository,
+              certificationChallengeRepository,
+              certificationCourseRepository,
+              sessionRepository,
+              certificationCenterRepository,
+              certificationBadgesService,
+              certificationChallengesService,
+              placementProfileService,
+              verifyCertificateCodeService,
             });
 
             // then
@@ -221,51 +277,66 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         });
 
         context('when user is certifiable', function () {
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          const skill1 = domainBuilder.buildSkill();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          const skill2 = domainBuilder.buildSkill();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-
-          beforeEach(function () {
-            // TODO : use the domainBuilder to instanciate userCompetences
-            placementProfile = {
-              isCertifiable: sinon.stub().returns(true),
-              userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-            };
-            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
-            const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-            userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-            userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
-            certificationChallengesService.pickCertificationChallenges
-              .withArgs(placementProfile)
-              .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
-          });
-
           context('when a certification course has been created meanwhile', function () {
-            let existingCertificationCourse;
-            beforeEach(function () {
-              existingCertificationCourse = Symbol('existingCertificationCourse');
+            it('should return it with flag created marked as false', async function () {
+              // given
+              const sessionId = 1;
+              const accessCode = 'accessCode';
+              const userId = 2;
+              const domainTransaction = Symbol('someDomainTransaction');
+
+              const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+              sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+              const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId, sessionId });
+              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                .withArgs({ userId, sessionId, domainTransaction })
+                .onCall(0)
+                .resolves(null);
+
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                 .withArgs({ userId, sessionId, domainTransaction })
                 .onCall(1)
                 .resolves(existingCertificationCourse);
-            });
 
-            it('should return it with flag created marked as false', async function () {
+              const skill1 = domainBuilder.buildSkill();
+              const skill2 = domainBuilder.buildSkill();
+              const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+              const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+              // TODO : use the domainBuilder to instanciate userCompetences
+              const placementProfile = {
+                isCertifiable: sinon.stub().returns(true),
+                userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+              };
+              placementProfileService.getPlacementProfile
+                .withArgs({ userId, limitDate: now })
+                .resolves(placementProfile);
+
+              const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+              userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
+              userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+              certificationChallengesService.pickCertificationChallenges
+                .withArgs(placementProfile)
+                .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
               // when
               const result = await retrieveLastOrCreateCertificationCourse({
+                domainTransaction,
                 sessionId,
                 accessCode,
                 userId,
-                ...parameters,
+                locale: 'fr',
+                assessmentRepository,
+                competenceRepository,
+                certificationCandidateRepository,
+                certificationChallengeRepository,
+                certificationCourseRepository,
+                sessionRepository,
+                certificationCenterRepository,
+                certificationBadgesService,
+                certificationChallengesService,
+                placementProfileService,
+                verifyCertificateCodeService,
               });
 
               // then
@@ -276,119 +347,99 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               expect(certificationCourseRepository.save).not.to.have.been.called;
               expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
             });
-
-            it('should have filled the certification profile with challenges anyway', async function () {
-              // when
-              await retrieveLastOrCreateCertificationCourse({
-                sessionId,
-                accessCode,
-                userId,
-                ...parameters,
-              });
-
-              // then
-              expect(certificationChallengesService.pickCertificationChallenges).to.have.been.calledWith(
-                placementProfile
-              );
-            });
           });
 
           context('when a certification still has not been created meanwhile', function () {
-            const foundCertificationCandidate = {
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              firstName: Symbol('firstName'),
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              lastName: Symbol('lastName'),
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              birthdate: Symbol('birthdate'),
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              birthCity: Symbol('birthCity'),
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              birthCountry: Symbol('birthCountry'),
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              externalId: Symbol('externalId'),
-              userId,
-              sessionId,
-            };
-            const mockCertificationCourse = {
-              _userId: userId,
-              _sessionId: sessionId,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              _firstName: foundCertificationCandidate.firstName,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              _lastName: foundCertificationCandidate.lastName,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              _birthdate: foundCertificationCandidate.birthdate,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              _birthplace: foundCertificationCandidate.birthCity,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              _birthCountry: foundCertificationCandidate.birthCountry,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              _externalId: foundCertificationCandidate.externalId,
-              _isV2Certification: true,
-            };
+            it('should return it with flag created marked as true with related resources', async function () {
+              // given
+              const sessionId = 1;
+              const accessCode = 'accessCode';
+              const userId = 2;
+              const domainTransaction = Symbol('someDomainTransaction');
 
-            const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1' };
-            const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2' };
+              const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+              sessionRepository.get.withArgs(sessionId).resolves(foundSession);
 
-            const savedCertificationCourse = new CertificationCourse({
-              id: 'savedCertificationCourse',
-              challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
-            });
-
-            const mockAssessment = {
-              userId,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              certificationCourseId: savedCertificationCourse.getId(),
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              state: Assessment.states.STARTED,
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              type: Assessment.types.CERTIFICATION,
-            };
-            const savedAssessment = {
-              id: 'savedAssessment',
-            };
-
-            beforeEach(function () {
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                 .withArgs({ userId, sessionId, domainTransaction })
-                .onCall(1)
                 .resolves(null);
+
+              const skill1 = domainBuilder.buildSkill();
+              const skill2 = domainBuilder.buildSkill();
+              const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+              const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+              // TODO : use the domainBuilder to instanciate userCompetences
+              const placementProfile = {
+                isCertifiable: sinon.stub().returns(true),
+                userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+              };
               placementProfileService.getPlacementProfile
                 .withArgs({ userId, limitDate: now })
                 .resolves(placementProfile);
+
+              const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+              userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
+              userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+              certificationChallengesService.pickCertificationChallenges
+                .withArgs(placementProfile)
+                .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+              const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({ userId, sessionId });
               certificationCandidateRepository.getBySessionIdAndUserId
                 .withArgs({ sessionId, userId })
                 .resolves(foundCertificationCandidate);
-              certificationCourseRepository.save.resolves(savedCertificationCourse);
-              assessmentRepository.save.resolves(savedAssessment);
+
+              const certificationCourseToSave = CertificationCourse.from({
+                certificationCandidate: foundCertificationCandidate,
+                challenges: [challenge1, challenge2],
+                verificationCode,
+                maxReachableLevelOnCertificationDate: 5,
+              });
+              const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                certificationCourseToSave.toDTO()
+              );
+              certificationCourseRepository.save
+                .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                .resolves(savedCertificationCourse);
+
+              const assessmentToSave = new Assessment({
+                userId,
+                certificationCourseId: savedCertificationCourse.getId(),
+                state: Assessment.states.STARTED,
+                type: Assessment.types.CERTIFICATION,
+                isImproving: false,
+                method: Assessment.methods.CERTIFICATION_DETERMINED,
+              });
+              const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+              assessmentRepository.save
+                .withArgs({ assessment: assessmentToSave, domainTransaction })
+                .resolves(savedAssessment);
+
               certificationBadgesService.findStillValidBadgeAcquisitions
                 .withArgs({ userId, domainTransaction })
                 .resolves([]);
-            });
 
-            it('should return it with flag created marked as true with related ressources', async function () {
+              const session = domainBuilder.buildSession({ accreditations: [] });
+              certificationCenterRepository.getBySessionId.resolves(session);
+
               // when
               const result = await retrieveLastOrCreateCertificationCourse({
+                domainTransaction,
                 sessionId,
                 accessCode,
                 userId,
-                ...parameters,
+                locale: 'fr',
+                assessmentRepository,
+                competenceRepository,
+                certificationCandidateRepository,
+                certificationChallengeRepository,
+                certificationCourseRepository,
+                sessionRepository,
+                certificationCenterRepository,
+                certificationBadgesService,
+                certificationChallengesService,
+                placementProfileService,
+                verifyCertificateCodeService,
               });
 
               // then
@@ -397,47 +448,51 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 certificationCourse: new CertificationCourse({
                   ...savedCertificationCourse.toDTO(),
                   assessment: savedAssessment,
-                  challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
+                  challenges: [challenge1, challenge2],
                 }),
-              });
-            });
-
-            it('should have save the certification course based on an appropriate argument', async function () {
-              // when
-              await retrieveLastOrCreateCertificationCourse({
-                sessionId,
-                accessCode,
-                userId,
-                ...parameters,
-              });
-
-              // then
-              expect(certificationCourseRepository.save).to.have.been.calledWith({
-                certificationCourse: sinon.match(mockCertificationCourse),
-                domainTransaction,
-              });
-            });
-
-            it('should have save the assessment based on an appropriate argument', async function () {
-              // when
-              await retrieveLastOrCreateCertificationCourse({
-                sessionId,
-                accessCode,
-                userId,
-                ...parameters,
-              });
-
-              // then
-              expect(assessmentRepository.save).to.have.been.calledWith({
-                assessment: sinon.match(mockAssessment),
-                domainTransaction,
               });
             });
 
             context('when user has certifiable badges with pix plus', function () {
               it('should save all the challenges from pix and pix plus', async function () {
                 // given
-                sinon.spy(CertificationCourse, 'from');
+                const sessionId = 1;
+                const accessCode = 'accessCode';
+                const userId = 2;
+                const domainTransaction = Symbol('someDomainTransaction');
+
+                const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+                sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId, sessionId, domainTransaction })
+                  .resolves(null);
+
+                const skill1 = domainBuilder.buildSkill();
+                const skill2 = domainBuilder.buildSkill();
+                const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+                const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+                // TODO : use the domainBuilder to instanciate userCompetences
+                const placementProfile = {
+                  isCertifiable: sinon.stub().returns(true),
+                  userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+                };
+                placementProfileService.getPlacementProfile
+                  .withArgs({ userId, limitDate: now })
+                  .resolves(placementProfile);
+
+                const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+                userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
+                userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                certificationChallengesService.pickCertificationChallenges
+                  .withArgs(placementProfile)
+                  .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+                const certificationCenter = domainBuilder.buildCertificationCenter({
+                  accreditations: [domainBuilder.buildAccreditation({ name: 'Pix+ Droit' })],
+                });
+                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
                 const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                 const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
                 const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
@@ -445,36 +500,120 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
                 const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge1 });
                 const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge2 });
+
                 certificationBadgesService.findStillValidBadgeAcquisitions
                   .withArgs({ userId, domainTransaction })
                   .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+
                 certificationChallengesService.pickCertificationChallengesForPixPlus
                   .withArgs(certifiableBadge1, userId)
                   .resolves([challengePlus1, challengePlus2])
                   .withArgs(certifiableBadge2, userId)
                   .resolves([challengePlus3]);
-                const expectedChallenges = [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3];
+
+                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({ userId, sessionId });
+                certificationCandidateRepository.getBySessionIdAndUserId
+                  .withArgs({ sessionId, userId })
+                  .resolves(foundCertificationCandidate);
+
+                const certificationCourseToSave = CertificationCourse.from({
+                  certificationCandidate: foundCertificationCandidate,
+                  challenges: [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3],
+                  verificationCode,
+                  maxReachableLevelOnCertificationDate: 5,
+                });
+
+                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                  certificationCourseToSave.toDTO()
+                );
+                certificationCourseRepository.save
+                  .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                  .resolves(savedCertificationCourse);
+
+                const assessmentToSave = new Assessment({
+                  userId,
+                  certificationCourseId: savedCertificationCourse.getId(),
+                  state: Assessment.states.STARTED,
+                  type: Assessment.types.CERTIFICATION,
+                  isImproving: false,
+                  method: Assessment.methods.CERTIFICATION_DETERMINED,
+                });
+                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                assessmentRepository.save
+                  .withArgs({ assessment: assessmentToSave, domainTransaction })
+                  .resolves(savedAssessment);
+
                 // when
-                await retrieveLastOrCreateCertificationCourse({
+                const result = await retrieveLastOrCreateCertificationCourse({
+                  domainTransaction,
                   sessionId,
                   accessCode,
                   userId,
-                  ...parameters,
+                  locale: 'fr',
+                  assessmentRepository,
+                  competenceRepository,
+                  certificationCandidateRepository,
+                  certificationChallengeRepository,
+                  certificationCourseRepository,
+                  sessionRepository,
+                  certificationCenterRepository,
+                  certificationBadgesService,
+                  certificationChallengesService,
+                  placementProfileService,
+                  verifyCertificateCodeService,
                 });
 
                 // then
-                expect(CertificationCourse.from).to.have.been.calledWith({
-                  certificationCandidate: foundCertificationCandidate,
-                  challenges: expectedChallenges,
-                  maxReachableLevelOnCertificationDate: 5,
-                  verificationCode,
+                expect(result).to.deep.equal({
+                  created: true,
+                  certificationCourse: new CertificationCourse({
+                    ...savedCertificationCourse.toDTO(),
+                    assessment: savedAssessment,
+                    challenges: [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3],
+                  }),
                 });
               });
 
               context('pix+ droit', function () {
                 it('should generate challenges for expert badge only if both maitre and expert badges are acquired', async function () {
                   // given
-                  sinon.spy(CertificationCourse, 'from');
+                  const sessionId = 1;
+                  const accessCode = 'accessCode';
+                  const userId = 2;
+                  const domainTransaction = Symbol('someDomainTransaction');
+
+                  const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+                  sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+                  certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                    .withArgs({ userId, sessionId, domainTransaction })
+                    .resolves(null);
+
+                  const skill1 = domainBuilder.buildSkill();
+                  const skill2 = domainBuilder.buildSkill();
+                  const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+                  const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+                  // TODO : use the domainBuilder to instanciate userCompetences
+                  const placementProfile = {
+                    isCertifiable: sinon.stub().returns(true),
+                    userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+                  };
+                  placementProfileService.getPlacementProfile
+                    .withArgs({ userId, limitDate: now })
+                    .resolves(placementProfile);
+
+                  const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+                  userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
+                  userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                  certificationChallengesService.pickCertificationChallenges
+                    .withArgs(placementProfile)
+                    .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+                  const certificationCenter = domainBuilder.buildCertificationCenter({
+                    accreditations: [domainBuilder.buildAccreditation({ name: 'Pix+ Droit' })],
+                  });
+                  certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
                   const challengesForMaitre = [
                     domainBuilder.buildChallenge({ id: 'challenge-pixmaitre1' }),
                     domainBuilder.buildChallenge({ id: 'challenge-pixmaitre2' }),
@@ -490,58 +629,166 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationBadgesService.findStillValidBadgeAcquisitions
                     .withArgs({ userId, domainTransaction })
                     .resolves([certifiableBadgeAcquisition2]);
+
                   certificationChallengesService.pickCertificationChallengesForPixPlus
                     .withArgs(maitreBadge, userId)
                     .resolves(challengesForMaitre)
                     .withArgs(expertBadge, userId)
                     .resolves(challengesForExpert);
-                  const expectedChallenges = [challenge1, challenge2, ...challengesForExpert];
+
+                  const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({ userId, sessionId });
+                  certificationCandidateRepository.getBySessionIdAndUserId
+                    .withArgs({ sessionId, userId })
+                    .resolves(foundCertificationCandidate);
+                  const savedCertificationCourse = domainBuilder.buildCertificationCourse({
+                    ...foundCertificationCandidate,
+                    isV2Certification: true,
+                    challenges: [challenge1, challenge2, ...challengesForExpert],
+                  });
+                  certificationCourseRepository.save.resolves(savedCertificationCourse);
+                  const savedAssessment = domainBuilder.buildAssessment({
+                    userId,
+                    certificationCourseId: savedCertificationCourse.id,
+                    state: Assessment.states.STARTED,
+                    type: Assessment.types.CERTIFICATION,
+                    isImproving: false,
+                    method: Assessment.methods.CERTIFICATION_DETERMINED,
+                  });
+                  assessmentRepository.save.resolves(savedAssessment);
 
                   // when
-                  await retrieveLastOrCreateCertificationCourse({
+                  const result = await retrieveLastOrCreateCertificationCourse({
+                    domainTransaction,
                     sessionId,
                     accessCode,
                     userId,
-                    ...parameters,
+                    locale: 'fr',
+                    assessmentRepository,
+                    competenceRepository,
+                    certificationCandidateRepository,
+                    certificationChallengeRepository,
+                    certificationCourseRepository,
+                    sessionRepository,
+                    certificationCenterRepository,
+                    certificationBadgesService,
+                    certificationChallengesService,
+                    placementProfileService,
+                    verifyCertificateCodeService,
                   });
 
                   // then
-                  expect(CertificationCourse.from).to.have.been.calledWith({
-                    certificationCandidate: foundCertificationCandidate,
-                    challenges: expectedChallenges,
-                    maxReachableLevelOnCertificationDate: 5,
-                    verificationCode,
+                  expect(result).to.deep.equal({
+                    created: true,
+                    certificationCourse: new CertificationCourse({
+                      ...savedCertificationCourse.toDTO(),
+                      assessment: savedAssessment,
+                      challenges: [challenge1, challenge2, ...challengesForExpert],
+                    }),
                   });
                 });
               });
             });
 
-            context('when user has no certifiable badges with pix plus', function () {
-              beforeEach(function () {
-                sinon.spy(CertificationCourse, 'from');
-                certificationBadgesService.findStillValidBadgeAcquisitions
-                  .withArgs({ userId, domainTransaction })
-                  .resolves([]);
-                certificationChallengesService.pickCertificationChallengesForPixPlus.throws();
-              });
-
+            context('when certification center has no accreditation for pix plus', function () {
               it('should save only the challenges from pix', async function () {
                 // given
-                const expectedChallenges = [challenge1, challenge2];
+                const sessionId = 1;
+                const accessCode = 'accessCode';
+                const userId = 2;
+                const domainTransaction = Symbol('someDomainTransaction');
+
+                const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+                sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId, sessionId, domainTransaction })
+                  .resolves(null);
+
+                const skill1 = domainBuilder.buildSkill();
+                const skill2 = domainBuilder.buildSkill();
+                const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+                const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+                // TODO : use the domainBuilder to instanciate userCompetences
+                const placementProfile = {
+                  isCertifiable: sinon.stub().returns(true),
+                  userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+                };
+                placementProfileService.getPlacementProfile
+                  .withArgs({ userId, limitDate: now })
+                  .resolves(placementProfile);
+
+                const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+                userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
+                userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                certificationChallengesService.pickCertificationChallenges
+                  .withArgs(placementProfile)
+                  .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+                const certificationCenter = domainBuilder.buildCertificationCenter({
+                  accreditations: [],
+                });
+                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
+                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({ userId, sessionId });
+                certificationCandidateRepository.getBySessionIdAndUserId
+                  .withArgs({ sessionId, userId })
+                  .resolves(foundCertificationCandidate);
+
+                const certificationCourseToSave = CertificationCourse.from({
+                  certificationCandidate: foundCertificationCandidate,
+                  challenges: [challenge1, challenge2],
+                  verificationCode,
+                  maxReachableLevelOnCertificationDate: 5,
+                });
+
+                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                  certificationCourseToSave.toDTO()
+                );
+                certificationCourseRepository.save
+                  .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                  .resolves(savedCertificationCourse);
+
+                const assessmentToSave = new Assessment({
+                  userId,
+                  certificationCourseId: savedCertificationCourse.getId(),
+                  state: Assessment.states.STARTED,
+                  type: Assessment.types.CERTIFICATION,
+                  isImproving: false,
+                  method: Assessment.methods.CERTIFICATION_DETERMINED,
+                });
+                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                assessmentRepository.save
+                  .withArgs({ assessment: assessmentToSave, domainTransaction })
+                  .resolves(savedAssessment);
+
                 // when
-                await retrieveLastOrCreateCertificationCourse({
+                const result = await retrieveLastOrCreateCertificationCourse({
+                  domainTransaction,
                   sessionId,
                   accessCode,
                   userId,
-                  ...parameters,
+                  locale: 'fr',
+                  assessmentRepository,
+                  competenceRepository,
+                  certificationCandidateRepository,
+                  certificationChallengeRepository,
+                  certificationCourseRepository,
+                  sessionRepository,
+                  certificationCenterRepository,
+                  certificationBadgesService,
+                  certificationChallengesService,
+                  placementProfileService,
+                  verifyCertificateCodeService,
                 });
 
                 // then
-                expect(CertificationCourse.from).to.have.been.calledWith({
-                  certificationCandidate: foundCertificationCandidate,
-                  challenges: expectedChallenges,
-                  maxReachableLevelOnCertificationDate: 5,
-                  verificationCode,
+                expect(result).to.deep.equal({
+                  created: true,
+                  certificationCourse: new CertificationCourse({
+                    ...savedCertificationCourse.toDTO(),
+                    assessment: savedAssessment,
+                    challenges: [challenge1, challenge2],
+                  }),
                 });
               });
             });

@@ -16,6 +16,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   certificationCandidateRepository,
   certificationCourseRepository,
   sessionRepository,
+  certificationCenterRepository,
   certificationChallengesService,
   placementProfileService,
   certificationBadgesService,
@@ -51,6 +52,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     competenceRepository,
     certificationCandidateRepository,
     certificationCourseRepository,
+    certificationCenterRepository,
     certificationChallengesService,
     certificationBadgesService,
     placementProfileService,
@@ -66,17 +68,21 @@ async function _startNewCertification({
   assessmentRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
+  certificationCenterRepository,
   certificationChallengesService,
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
 }) {
+  const challengesForCertification = [];
+
   const challengesForPixCertification = await _createPixCertification(
     placementProfileService,
     certificationChallengesService,
     userId,
     locale
   );
+  challengesForCertification.push(...challengesForPixCertification);
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -93,14 +99,17 @@ async function _startNewCertification({
     };
   }
 
-  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
-    userId,
-    certificationBadgesService,
-    certificationChallengesService,
-    domainTransaction,
-    locale,
-  });
-  const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
+  const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  if (certificationCenter.isAccreditedPixPlusDroit) {
+    const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
+      userId,
+      certificationBadgesService,
+      certificationChallengesService,
+      domainTransaction,
+      locale,
+    });
+    challengesForCertification.push(...challengesForPixPlusCertification);
+  }
 
   return _createCertificationCourse({
     certificationCandidateRepository,
