@@ -52,6 +52,11 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
             [serializedField]: organization[field],
           },
           relationships: {
+            divisions: {
+              links: {
+                related: `/api/organizations/${organization.id}/divisions`,
+              },
+            },
             memberships: {
               links: {
                 related: `/api/organizations/${organization.id}/memberships`,
@@ -148,6 +153,11 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
             credit: organization.credit,
           },
           relationships: {
+            divisions: {
+              links: {
+                related: `/api/organizations/${organization.id}/divisions`,
+              },
+            },
             memberships: {
               links: {
                 related: `/api/organizations/${organization.id}/memberships`,
