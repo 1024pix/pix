@@ -25,11 +25,10 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
     });
     const campaignParticipationOverview = new CampaignParticipationOverview({
       id: 5,
-      status: SHARED,
       sharedAt: new Date('2018-02-06T14:12:44Z'),
       createdAt: new Date('2018-02-05T14:12:44Z'),
       organizationName: 'My organization',
-      assessmentState: 'started',
+      status: SHARED,
       campaignCode: '1234',
       campaignTitle: 'My campaign',
       campaignArchivedAt: new Date('2021-01-01'),
@@ -49,7 +48,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'shared-at': new Date('2018-02-06T14:12:44Z'),
             'created-at': new Date('2018-02-05T14:12:44Z'),
             'organization-name': 'My organization',
-            'assessment-state': 'started',
+            status: SHARED,
             'campaign-code': '1234',
             'campaign-title': 'My campaign',
             'campaign-archived-at': new Date('2021-01-01'),
@@ -81,7 +80,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           sharedAt: new Date('2018-02-07T17:15:44Z'),
           createdAt: new Date('2018-02-06T17:15:44Z'),
           organizationName: 'My organization 1',
-          assessmentState: 'started',
           campaignCode: '4567',
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
@@ -94,7 +92,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           sharedAt: new Date('2018-02-10T17:30:44Z'),
           createdAt: new Date('2018-02-09T13:15:44Z'),
           organizationName: 'My organization 2',
-          assessmentState: 'started',
           campaignCode: '4567',
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
@@ -118,7 +115,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
         data: [
           {
             attributes: {
-              'assessment-state': 'started',
+              status: STARTED,
               'campaign-code': '4567',
               'campaign-title': 'My campaign 1',
               'created-at': new Date('2018-02-06T17:15:44Z'),
@@ -135,7 +132,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           },
           {
             attributes: {
-              'assessment-state': 'started',
+              status: STARTED,
               'campaign-code': '4567',
               'campaign-title': 'My campaign 2',
               'created-at': new Date('2018-02-09T13:15:44Z'),
