@@ -40,7 +40,7 @@
     <PixButton
       class="update-email-with-validation-actions__confirm-button"
       @type="submit"
-      @isDisabled={{this.wasButtonClicked}}
+      @isDisabled={{this.hasRequestedUpdate}}
     >
       {{t "pages.user-account.account-update-email-with-validation.save-button"}}
     </PixButton>
