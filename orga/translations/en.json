@@ -680,7 +680,7 @@
         "column": {
           "date-of-birth": "Date of birth",
           "first-name": "First name",
-          "group": "Group",
+          "group": "Groups",
           "last-name": "Last name",
           "student-number": "Student number"
         },
@@ -692,7 +692,8 @@
           },
           "group": {
             "aria-label": "Enter a group",
-            "label": "Search by group"
+            "label": "Search by group",
+            "selected": "Groups: {groups}"
           },
           "last-name": {
             "aria-label": "Enter a last name",
