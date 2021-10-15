@@ -18,7 +18,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | ToSha
     const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
       createdAt: '2020-12-10T15:16:20.109Z',
-      assessmentState: 'completed',
+      status: 'TO_SHARE',
       campaignTitle: 'My campaign',
       organizationName: 'My organization',
     });
