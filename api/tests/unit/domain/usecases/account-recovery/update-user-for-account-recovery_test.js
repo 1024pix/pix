@@ -12,9 +12,6 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     encryptionService,
     accountRecoveryDemandRepository,
     scoAccountRecoveryService;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const domainTransaction = Symbol();
 
   beforeEach(function () {
     userRepository = {
@@ -37,9 +34,6 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       findByTemporaryKey: sinon.stub(),
       findByUserId: sinon.stub(),
     };
-    DomainTransaction.execute = (lambda) => {
-      return lambda(domainTransaction);
-    };
   });
 
   context('when user has only GAR authentication method', function () {
@@ -47,6 +41,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
+      const domainTransaction = Symbol();
 
       const user = domainBuilder.buildUser({ id: 1234, email: null });
       const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
@@ -56,6 +51,9 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
 
       // when
       await updateUserForAccountRecovery({
@@ -91,6 +89,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
+      const domainTransaction = Symbol();
 
       const user = domainBuilder.buildUser({
         id: 1234,
@@ -103,6 +102,9 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
 
       // when
       await updateUserForAccountRecovery({
@@ -133,6 +135,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     const hashedPassword = 'hashedpassword';
     const newEmail = 'newemail@example.net';
     const emailConfirmedAt = new Date();
+    const domainTransaction = Symbol();
 
     const user = domainBuilder.buildUser({
       id: 1234,
@@ -162,6 +165,10 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     userRepository.updateWithEmailConfirmed
       .withArgs({ id: user.id, userAttributes, domainTransaction })
       .resolves(userUpdate);
+
+    DomainTransaction.execute = (lambda) => {
+      return lambda(domainTransaction);
+    };
 
     // when
     await updateUserForAccountRecovery({
