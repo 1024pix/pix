@@ -204,7 +204,9 @@ describe('Unit | Router | organization-router', function () {
     it('should return HTTP code 201', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
-      sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
+      sinon
+        .stub(organizationController, 'sendInvitationByLangAndRole')
+        .callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -294,7 +296,9 @@ describe('Unit | Router | organization-router', function () {
     it('should check if user is Pix Master', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').resolves(false);
-      sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
+      sinon
+        .stub(organizationController, 'sendInvitationByLangAndRole')
+        .callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

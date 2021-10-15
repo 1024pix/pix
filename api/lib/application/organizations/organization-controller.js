@@ -246,14 +246,15 @@ module.exports = {
     return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
   },
 
-  async sendInvitationsByLang(request, h) {
+  async sendInvitationByLangAndRole(request, h) {
     const organizationId = request.params.id;
-    const { email, lang } = request.payload.data.attributes;
+    const invitationInformation = await organizationInvitationSerializer.deserialize(request.payload);
 
     const organizationInvitation = await usecases.createOrganizationInvitations({
       organizationId,
-      emails: [email],
-      locale: lang,
+      emails: [invitationInformation.email],
+      locale: invitationInformation.lang,
+      role: invitationInformation.role,
     });
     return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
   },

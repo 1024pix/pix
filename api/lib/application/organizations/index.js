@@ -489,7 +489,7 @@ exports.register = async (server) => {
             assign: 'hasRolePixMaster',
           },
         ],
-        handler: organizationController.sendInvitationsByLang,
+        handler: organizationController.sendInvitationByLangAndRole,
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
