@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.114.0 (15/10/2021)
+
+- [#3607](https://github.com/1024pix/pix/pull/3607) [FEATURE] Ajouter la bannière d'information dans Pix Certif (PIX-3559).
+- [#3608](https://github.com/1024pix/pix/pull/3608) [FEATURE] Mise en place du feature toggle pour le RIP FDT (PIX-3554)
+- [#3598](https://github.com/1024pix/pix/pull/3598) [FEATURE] Afficher un message de confirmation quand une invitation est envoyée sur Pix Orga (PIX-731).
+- [#3605](https://github.com/1024pix/pix/pull/3605) [FEATURE] Supprimer le Feature toggle FT_IS_DOWNLOAD_CERTIFICATION_ATTESTATION_BY_DIVISION_ENABLED (PIX-3602)
+- [#3602](https://github.com/1024pix/pix/pull/3602) [BUGFIX] Le commentaire global de session affiché est celui de la session vue précédemment (PIX-3644)
+- [#3611](https://github.com/1024pix/pix/pull/3611) [BUGFIX] Corriger l'édition d'une certification dans Pix Admin (PIX-3638)
+- [#3593](https://github.com/1024pix/pix/pull/3593) [BUGFIX] Corriger le fichier de test mail-service dans l'API (PIX-3630).
+- [#3446](https://github.com/1024pix/pix/pull/3446) [TECH] Utiliser le token de github pour sécuriser l'auto merge.
+- [#3609](https://github.com/1024pix/pix/pull/3609) [TECH] Ajouter Eslint Prettier dans Mon Pix (PIX-3645).
+- [#3585](https://github.com/1024pix/pix/pull/3585) [TECH] Utiliser DOM Testing library dans les tests Pix Certif
+- [#3589](https://github.com/1024pix/pix/pull/3589) [TECH] Supprimer le isShared du buildCampaignParticipation. (PIX-3498)
+
 ## v3.113.0 (14/10/2021)
 
 - [#3572](https://github.com/1024pix/pix/pull/3572) [FEATURE] Ajouter le nombre de résultats dans la pagination de tableau Pix Orga (PIX-3538)
