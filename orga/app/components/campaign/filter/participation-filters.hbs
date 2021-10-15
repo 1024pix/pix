@@ -18,20 +18,11 @@
       />
     {{/if}}
     {{#if this.displayDivisionFilter}}
-      <PixMultiSelect
-        @id="division"
-        @title={{t "pages.campaign-results.filters.type.divisions.title"}}
-        @placeholder={{t "pages.campaign-results.filters.type.divisions.title"}}
-        @isSearchable={{true}}
-        @showOptionsOnInput={{true}}
-        @emptyMessage={{t "pages.campaign-results.filters.type.divisions.empty"}}
-        @onSelect={{this.onSelectDivision}}
+      <Campaign::Filter::DivisionsFilter
+        @campaign={{@campaign}}
         @selected={{@selectedDivisions}}
-        @options={{this.divisionOptions}}
-        as |option|
-      >
-        {{option.label}}
-      </PixMultiSelect>
+        @onSelect={{this.onSelectDivision}}
+      />
     {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect

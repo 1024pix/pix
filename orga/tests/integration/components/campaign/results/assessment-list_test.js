@@ -18,9 +18,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   test('it should display a link to access to result page', async function (assert) {
     // given
     this.owner.setupRouter();
-    const campaign = store.createRecord('campaign', {
-      id: 1,
-    });
+    const campaign = store.createRecord('campaign', { id: 1 });
 
     const participations = [
       {
