@@ -17,9 +17,6 @@ const certifiableProfileForLearningContentRepository = require('../../infrastruc
 module.exports = {
   async pickCertificationChallenges(placementProfile, locale) {
     const certifiableUserCompetencesWithOrderedSkills = placementProfile.getCertifiableUserCompetences();
-    for (const uc of certifiableUserCompetencesWithOrderedSkills) {
-      uc.sortSkillsByDecreasingDifficulty();
-    }
 
     const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds(
       knowledgeElementRepository,
@@ -29,6 +26,7 @@ module.exports = {
     );
 
     const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
+
     return _pickCertificationChallengesForAllCompetences(
       certifiableUserCompetencesWithOrderedSkills,
       alreadyAnsweredChallengeIds,
@@ -96,6 +94,7 @@ function _pick3CertificationChallengesForCompetence(
   const result = [];
   const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
 
+  competence.sortSkillsByDecreasingDifficulty();
   for (const skill of competence.skills) {
     if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION)) {
       break;
