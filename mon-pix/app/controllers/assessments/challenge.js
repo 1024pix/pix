@@ -78,13 +78,24 @@ export default class ChallengeController extends Controller {
     await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } });
   }
 
-  @action
-  resetChallengeInfo() {
+  _resetNonContextualChallengeInfo() {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
     this.hasFocusedOutOfChallenge = false;
+  }
+
+  @action
+  resetAllChallengeInfo() {
+    this._resetNonContextualChallengeInfo();
     this.hasFocusedOutOfWindow = false;
     this.model.assessment.lastQuestionState = 'asked';
+  }
+
+  @action
+  resetChallengeInfoOnResume() {
+    this._resetNonContextualChallengeInfo();
+    // Keep focused out of window state
+    this.hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   }
 
   get displayHomeLink() {

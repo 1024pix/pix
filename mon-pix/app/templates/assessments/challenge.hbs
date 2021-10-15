@@ -49,7 +49,8 @@
         @assessment={{@model.assessment}}
         @answer={{@model.answer}}
         @timeoutChallenge={{this.timeoutChallenge}}
-        @resetChallengeInfo={{this.resetChallengeInfo}}
+        @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
+        @resetChallengeInfoOnResume={{this.resetChallengeInfoOnResume}}
         @answerValidated={{route-action "saveAnswerAndNavigate"}}
         @resumeAssessment={{route-action "resumeAssessment"}}
         @onFocusIntoChallenge={{fn this.setFocusedOutOfChallenge false}}

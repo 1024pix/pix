@@ -63,13 +63,13 @@ export default class ChallengeItemGeneric extends Component {
         this.args.hasFocusedOutOfWindow
       )
       .finally(() => {
-        this.args.resetChallengeInfo();
+        this.args.resetAllChallengeInfo();
       });
   }
 
   @action
   resumeAssessment() {
-    this.args.resetChallengeInfo();
+    this.args.resetChallengeInfoOnResume();
     return this.args.resumeAssessment(this.args.assessment);
   }
 
@@ -85,7 +85,7 @@ export default class ChallengeItemGeneric extends Component {
         this.args.hasFocusedOutOfWindow
       )
       .finally(() => {
-        this.args.resetChallengeInfo();
+        this.args.resetAllChallengeInfo();
       });
   }
 }
