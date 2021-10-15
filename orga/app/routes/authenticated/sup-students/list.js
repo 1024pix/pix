@@ -8,21 +8,23 @@ export default class ListRoute extends Route {
     lastName: { refreshModel: true },
     firstName: { refreshModel: true },
     studentNumber: { refreshModel: true },
-    group: { refreshModel: true },
+    groups: { refreshModel: true },
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
   };
 
   @service currentUser;
+  @service store;
 
-  model(params) {
+  async model(params) {
+    const organizationId = this.currentUser.organization.id;
     return this.store.query('student', {
       filter: {
-        organizationId: this.currentUser.organization.id,
+        organizationId,
         lastName: params.lastName,
         firstName: params.firstName,
         studentNumber: params.studentNumber,
-        group: params.group,
+        groups: params.groups,
       },
       page: {
         number: params.pageNumber,
@@ -36,7 +38,7 @@ export default class ListRoute extends Route {
       controller.lastName = null;
       controller.firstName = null;
       controller.studentNumber = null;
-      controller.group = null;
+      controller.groups = null;
       controller.pageNumber = null;
       controller.pageSize = null;
     }
