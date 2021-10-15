@@ -12,6 +12,8 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     encryptionService,
     accountRecoveryDemandRepository,
     scoAccountRecoveryService;
+  let clock;
+  let now;
 
   beforeEach(function () {
     userRepository = {
@@ -34,6 +36,12 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       findByTemporaryKey: sinon.stub(),
       findByUserId: sinon.stub(),
     };
+    now = new Date();
+    clock = sinon.useFakeTimers(now);
+  });
+
+  afterEach(function () {
+    clock.restore();
   });
 
   context('when user has only GAR authentication method', function () {
@@ -128,7 +136,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     });
   });
 
-  it('should accept terms of service, update email and set date for confirmed email', async function () {
+  it('should mark account recovery demand as being used when user id updated', async function () {
     // given
     const temporaryKey = 'temporarykey';
     const password = 'pix123';
@@ -184,5 +192,63 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
 
     // then
     expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWith(temporaryKey);
+  });
+
+  it('should save last terms of service validated at date', async function () {
+    // given
+    const temporaryKey = 'temporarykey';
+    const password = 'pix123';
+    const hashedPassword = 'hashedpassword';
+    const newEmail = 'newemail@example.net';
+    const emailConfirmedAt = now;
+    const domainTransaction = Symbol();
+
+    const user = domainBuilder.buildUser({
+      id: 1234,
+      email: null,
+      username: 'manuella.philippe0702',
+    });
+    const userUpdate = new User({
+      ...user,
+      cgu: true,
+      email: newEmail,
+      emailConfirmedAt,
+    });
+    const authenticationMethodFromGAR =
+      domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: user.id });
+
+    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id, newEmail });
+    encryptionService.hashPassword.resolves(hashedPassword);
+    authenticationMethodRepository.findByUserId.resolves([authenticationMethodFromGAR]);
+    userRepository.updateWithEmailConfirmed.resolves(userUpdate);
+
+    DomainTransaction.execute = (lambda) => {
+      return lambda(domainTransaction);
+    };
+
+    // when
+    await updateUserForAccountRecovery({
+      password,
+      temporaryKey,
+      userRepository,
+      authenticationMethodRepository,
+      scoAccountRecoveryService,
+      encryptionService,
+      accountRecoveryDemandRepository,
+      domainTransaction,
+    });
+
+    // then
+    const expectedParams = {
+      id: 1234,
+      userAttributes: {
+        cgu: true,
+        email: 'newemail@example.net',
+        emailConfirmedAt: now,
+        lastTermsOfServiceValidatedAt: now,
+      },
+      domainTransaction,
+    };
+    expect(userRepository.updateWithEmailConfirmed).to.have.been.calledWith(expectedParams);
   });
 });

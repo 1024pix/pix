@@ -48,7 +48,13 @@ module.exports = async function updateUserForAccountRecovery({
     );
   }
 
-  const userValuesToUpdate = { cgu: true, email: newEmail, emailConfirmedAt: new Date() };
+  const now = new Date();
+  const userValuesToUpdate = {
+    cgu: true,
+    email: newEmail,
+    emailConfirmedAt: now,
+    lastTermsOfServiceValidatedAt: now,
+  };
 
   await userRepository.updateWithEmailConfirmed({
     id: userId,
