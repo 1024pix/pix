@@ -5,14 +5,15 @@ import noop from 'lodash/noop';
 
 export default class JuryComment extends Component {
   @tracked editingMode = false;
-  @tracked comment;
   @tracked commentBeingEdited;
   @tracked shouldDisplayDeletionConfirmationModal = false;
 
   constructor() {
     super(...arguments);
-    this.comment = this.args.comment;
-    this.commentBeingEdited = this.args.comment;
+  }
+
+  get comment() {
+    return this.args.comment;
   }
 
   @action
@@ -20,7 +21,6 @@ export default class JuryComment extends Component {
     event.preventDefault();
     try {
       await this.args.onFormSubmit(this.commentBeingEdited);
-      this.comment = this.commentBeingEdited;
       this.exitEditingMode();
     } catch {
       noop();
@@ -53,7 +53,6 @@ export default class JuryComment extends Component {
   async confirmDeletion() {
     try {
       await this.args.onDeleteButtonClicked();
-      this.comment = null;
       this.closeDeletionConfirmationModal();
     } catch {
       noop();

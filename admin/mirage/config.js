@@ -254,8 +254,17 @@ export default function () {
     return schema.accreditations.all();
   });
 
-  this.put('/admin/sessions/:id/comment', () => new Response(204));
-  this.delete('/admin/sessions/:id/comment', () => new Response(204));
+  this.put('/admin/sessions/:id/comment', (schema, request) => {
+    const sessionToUpdate = schema.sessions.find(request.params.id);
+    const params = JSON.parse(request.requestBody);
+    sessionToUpdate.update({ juryComment: params['jury-comment'] });
+    return new Response(204);
+  });
+  this.delete('/admin/sessions/:id/comment', async (schema, request) => {
+    const sessionToUpdate = schema.sessions.find(request.params.id);
+    sessionToUpdate.update({ juryComment: 'null' });
+    return new Response(204);
+  });
 
   this.post('/admin/certification-courses/:id/cancel', (schema, request) => {
     const certificationId = request.params.id;

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import moment from 'moment';
 import sinon from 'sinon';
@@ -42,7 +42,10 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           this.author = null;
           this.date = null;
           this.comment = null;
-          this.onFormSubmit = sinon.stub().resolves();
+          this.onFormSubmit = sinon.stub().callsFake((comment) => {
+            this.set('comment', comment);
+            return new Promise((resolve) => resolve());
+          });
 
           // when
           await render(hbs`
@@ -97,7 +100,6 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       this.date = new Date('2021-06-21T14:30:21Z');
       this.comment =
         "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
-      const expectedDate = moment(this.date).format('DD/MM/YYYY à HH:mm');
 
       // when
       await render(hbs`
@@ -111,7 +113,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       // then
       assert.contains("Commentaire de l'équipe Certification");
       assert.contains('Vernon Sanders Law');
-      assert.contains(expectedDate);
+      assert.contains(_formatDate('2021-06-21T14:30:21Z'));
       assert.contains(
         "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon."
       );
@@ -225,7 +227,10 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             this.date = new Date('2006-11-21T15:32:12Z');
             this.comment =
               'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
-            this.onDeleteButtonClicked = sinon.stub().resolves();
+            this.onDeleteButtonClicked = sinon.stub().callsFake(() => {
+              this.set('comment', null);
+              return new Promise((resolve) => resolve());
+            });
 
             // when
             await render(hbs`
@@ -312,6 +317,36 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         });
       });
     });
+
+    module("when the component's arguments change", function () {
+      test('it renders the updated comment', async function (assert) {
+        // given
+        const yesterday = '2021-06-21T14:30:21Z';
+        const today = '2021-07-21T14:30:21Z';
+        this.author = 'Vernon Sanders Law';
+        this.date = new Date(yesterday);
+        this.comment =
+          "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
+
+        // when
+        await render(hbs`
+        <Sessions::JuryComment
+          @author={{this.author}}
+          @date={{this.date}}
+          @comment={{this.comment}}
+        />
+        `);
+        this.set('author', 'XXXX');
+        this.set('date', new Date(today));
+        this.set('comment', 'Saperlipopette, quelle experience!');
+        await settled();
+
+        // then
+        assert.contains('XXXX');
+        assert.contains(_formatDate(today));
+        assert.contains('Saperlipopette, quelle experience!');
+      });
+    });
   });
 });
 
@@ -331,4 +366,8 @@ async function _isNotInEditMode() {
   } catch (_error) {
     throw new Error('Component should not be in edit mode, but it is.');
   }
+}
+
+function _formatDate(dateString) {
+  return moment(dateString).format('DD/MM/YYYY à HH:mm');
 }
