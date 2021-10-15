@@ -50,14 +50,14 @@ describe('Unit | Domain | Models | UserCompetence', function () {
 
   describe('#sortSkillsByDecreasingDifficulty', function () {
     it('sorts skills, most difficult first', function () {
-      const skill1 = domainBuilder.buildSkill({ difficulty: 2 });
-      const skill2 = domainBuilder.buildSkill({ difficulty: 8 });
-      const skill3 = domainBuilder.buildSkill({ difficulty: 4 });
+      const skill1 = domainBuilder.buildSkill({ name: 'url2' });
+      const skill2 = domainBuilder.buildSkill({ name: 'url8' });
+      const skill3 = domainBuilder.buildSkill({ name: 'url4' });
       const uc = domainBuilder.buildUserCompetence({ skills: [skill1, skill2, skill3] });
 
       uc.sortSkillsByDecreasingDifficulty();
 
-      expect(uc.skills).to.deep.equal([skill2, skill3, skill1]);
+      expect(uc.skills).to.have.ordered.members([skill2, skill3, skill1]);
     });
   });
 });
