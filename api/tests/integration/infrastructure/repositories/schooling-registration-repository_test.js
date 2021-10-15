@@ -940,6 +940,44 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
     });
 
+    context('when several imported schooling registrations are reconciliated with the same userId', function () {
+      it('should save both schooling registrations with userId as null', async function () {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE1',
+          userId,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE2',
+          userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const schoolingRegistration1 = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE1' });
+        const schoolingRegistration2 = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE2' });
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(
+            [schoolingRegistration1, schoolingRegistration2],
+            organizationId,
+            domainTransaction
+          );
+        });
+
+        // then
+        const expected1 = await knex('schooling-registrations')
+          .where({ nationalStudentId: 'INE1', organizationId })
+          .first();
+        const expected2 = await knex('schooling-registrations')
+          .where({ nationalStudentId: 'INE2', organizationId })
+          .first();
+
+        expect(expected1.userId).to.be.null;
+        expect(expected2.userId).to.be.null;
+      });
+    });
+
     context('when there are schoolingRegistrations in another organization', function () {
       let schoolingRegistrationInOtherOrganization, schoolingRegistrations;
       let organizationId;
