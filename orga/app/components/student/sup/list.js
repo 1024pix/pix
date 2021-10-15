@@ -5,9 +5,18 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ListItems extends Component {
   @service currentUser;
-
   @tracked selectedStudent = null;
   @tracked isShowingEditStudentNumberModal = false;
+
+  loadGroups = async () => {
+    const groups = await this.currentUser.organization.groups;
+    return groups.map(({ name }) => {
+      return {
+        label: name,
+        value: name,
+      };
+    });
+  };
 
   @action
   async onSaveStudentNumber(newStudentNumber) {
@@ -24,6 +33,11 @@ export default class ListItems extends Component {
   @action
   onFilter(fieldName, debounced, e) {
     this.args.onFilter(fieldName, debounced, e.target.value);
+  }
+
+  @action
+  onFilterGroup(fieldName, debounced, value) {
+    this.args.onFilter(fieldName, debounced, value);
   }
 
   @action

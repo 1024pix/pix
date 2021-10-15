@@ -1,30 +1,38 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
-import { fillInByLabel } from '../../../../helpers/testing-library';
+import { click } from '@ember/test-helpers';
+import { fillInByLabel, clickByLabel, render } from '../../../../helpers/testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
+import Service from '@ember/service';
 
 module('Integration | Component | Student::Sup::List', function (hooks) {
   setupIntlRenderingTest(hooks);
-
   hooks.beforeEach(function () {
+    const store = this.owner.lookup('service:store');
+    const group = store.createRecord('group', { name: 'L1' });
+    const organization = store.createRecord('organization', { groups: [group] });
     this.set('noop', sinon.stub());
+    class CurrentUserStub extends Service {
+      organization = organization;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
   });
 
   test('it should display the header labels', async function (assert) {
     // given
     this.set('students', []);
+    this.set('groups', []);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
 
     // then
     assert.contains('Numéro étudiant');
     assert.contains('Nom');
     assert.contains('Prénom');
     assert.contains('Date de naissance');
-    assert.contains('Groupe');
+    assert.contains('Groupes');
   });
 
   test('it should display a list of students', async function (assert) {
@@ -33,11 +41,11 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       { lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') },
       { lastName: "L'asticot", firstName: 'Gogo', birthdate: new Date('2010-05-10') },
     ];
-
     this.set('students', students);
+    this.set('groups', []);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
 
     // then
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
@@ -56,9 +64,10 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     ];
 
     this.set('students', students);
+    this.set('groups', []);
 
     // when
-    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} @groups={{groups}}/>`);
 
     // then
     assert.contains('LATERREURGIGI123');
@@ -73,9 +82,10 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
+      this.set('groups', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
 
       await fillInByLabel('Entrer un nom', 'bob');
 
@@ -88,9 +98,10 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
+      this.set('groups', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
 
       await fillInByLabel('Entrer un prénom', 'bob');
 
@@ -103,9 +114,10 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
+      this.set('groups', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
 
       await fillInByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
 
@@ -120,12 +132,17 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       this.set('students', []);
 
       // when
-      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
-
-      await fillInByLabel('Entrer un groupe', 'L1');
+      const { getByPlaceholderText } = await render(hbs`<Student::Sup::List
+        @students={{students}}
+        @onFilter={{triggerFiltering}}
+        @groups={{groups}}
+      />`);
+      const select = await getByPlaceholderText('Rechercher par groupe');
+      await click(select);
+      await clickByLabel('L1');
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'group', true, 'L1');
+      sinon.assert.calledWithExactly(triggerFiltering, 'groups', false, ['L1']);
       assert.ok(true);
     });
   });
