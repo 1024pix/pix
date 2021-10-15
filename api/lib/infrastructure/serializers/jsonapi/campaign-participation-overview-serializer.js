@@ -13,7 +13,7 @@ module.exports = {
         'sharedAt',
         'createdAt',
         'organizationName',
-        'assessmentState',
+        'status',
         'campaignCode',
         'campaignTitle',
         'campaignArchivedAt',

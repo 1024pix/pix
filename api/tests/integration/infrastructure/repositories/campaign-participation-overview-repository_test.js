@@ -3,6 +3,8 @@ const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
 const _ = require('lodash');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 
 let userId;
 
@@ -56,11 +58,12 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           createdAt: new Date('2020-01-01'),
           sharedAt: new Date('2020-01-02'),
           validatedSkillsCount: 1,
+          status: CampaignParticipation.statuses.SHARED,
           masteryRate: 0.1,
         });
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: participationId,
-          state: Assessment.states.STARTED,
+          state: Assessment.states.COMPLETED,
         });
         await databaseBuilder.commit();
 
@@ -77,11 +80,11 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           campaignTitle: 'Campaign ABCD',
           campaignArchivedAt: new Date('2020-01-03'),
           organizationName: 'Organization ABCD',
-          assessmentState: Assessment.states.STARTED,
           targetProfileId: targetProfile.id,
           masteryRate: 0.1,
           totalStagesCount: 1,
           validatedStagesCount: 1,
+          status: 'SHARED',
         });
       });
 
@@ -106,9 +109,10 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
       });
 
-      it('should retrieve only campaign participation that have an assessment', async function () {
+      it('should retrieve only campaign participation linked to ASSESSMENT', async function () {
         const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
         const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaign3Id } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
         const { id: participation1Id } = campaignParticipationOverviewFactory.build({
           userId,
           campaignId: campaign1Id,
@@ -117,7 +121,8 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           userId,
           campaignId: campaign2Id,
         });
-        databaseBuilder.factory.buildCampaignParticipation({ userId });
+        databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign3Id });
+
         await databaseBuilder.commit();
 
         const { campaignParticipationOverviews } =
@@ -159,7 +164,11 @@ describe('Integration | Repository | Campaign Participation Overview', function 
 
       it('retrieves information about the most recent assessment of campaign participation', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          status: CampaignParticipation.statuses.TO_SHARE,
+        });
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: participationId,
           state: Assessment.states.ABORTED,
@@ -181,7 +190,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           campaignParticipationOverviews: [campaignParticipation],
         } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
-        expect(campaignParticipation.assessmentState).to.equal(Assessment.states.COMPLETED);
+        expect(campaignParticipation.status).to.equal(CampaignParticipation.statuses.TO_SHARE);
       });
 
       it('retrieves pagination information', async function () {
