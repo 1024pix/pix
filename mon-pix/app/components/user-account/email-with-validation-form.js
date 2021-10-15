@@ -21,7 +21,7 @@ export default class EmailWithValidationForm extends Component {
   @tracked password = '';
   @tracked newEmailValidationMessage = null;
   @tracked errorMessage = null;
-  @tracked wasButtonClicked = false;
+  @tracked hasRequestedUpdate = false;
 
   get isFormValid() {
     return isEmailValid(this.newEmail) && !isEmpty(this.password);
@@ -46,8 +46,8 @@ export default class EmailWithValidationForm extends Component {
 
     if (this.isFormValid) {
       try {
-        if (!this.wasButtonClicked) {
-          this.wasButtonClicked = true;
+        if (!this.hasRequestedUpdate) {
+          this.hasRequestedUpdate = true;
 
           const emailVerificationCode = this.store.createRecord('email-verification-code', {
             password: this.password,
@@ -60,7 +60,7 @@ export default class EmailWithValidationForm extends Component {
       } catch (response) {
         this.handleSubmitError(response);
       } finally {
-        this.wasButtonClicked = false;
+        this.hasRequestedUpdate = false;
       }
     }
   }
