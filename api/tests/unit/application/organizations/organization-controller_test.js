@@ -8,6 +8,7 @@ const {
 } = require('../../../test-helper');
 
 const Organization = require('../../../../lib/domain/models/Organization');
+const Membership = require('../../../../lib/domain/models/Membership');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 
@@ -776,8 +777,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#sendInvitationsByLang', function () {
-    it('should call the usecase to create invitation with organizationId, email and lang', async function () {
+  describe('#sendInvitationByLangAndRole', function () {
+    it('should call the usecase to create invitation with organizationId, email, role and lang', async function () {
       //given
       const userId = 1;
       const invitation = domainBuilder.buildOrganizationInvitation();
@@ -785,8 +786,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const organizationId = invitation.organizationId;
       const email = invitation.email;
       const lang = 'en';
-
-      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
+      const role = Membership.roles.ADMIN;
 
       const request = {
         auth: { credentials: { userId } },
@@ -797,19 +797,25 @@ describe('Unit | Application | Organizations | organization-controller', functio
             attributes: {
               email: invitation.email,
               lang,
+              role,
             },
           },
         },
       };
 
+      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
+      sinon.stub(organizationInvitationSerializer, 'deserialize');
+      organizationInvitationSerializer.deserialize.withArgs(request.payload).returns({ lang, role, email });
+
       // when
-      await organizationController.sendInvitationsByLang(request, hFake);
+      await organizationController.sendInvitationByLangAndRole(request, hFake);
 
       // then
       expect(usecases.createOrganizationInvitations).to.have.been.calledWith({
         organizationId,
         emails: [email],
         locale: lang,
+        role,
       });
     });
   });
