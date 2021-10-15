@@ -20,7 +20,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
           campaignArchivedAt: '2020-01-03',
-          assessmentState: 'started',
+          status: 'STARTED',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
           masteryRate: null,
@@ -48,7 +48,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
           campaignArchivedAt: '2020-01-03',
-          assessmentState: 'completed',
+          status: 'TO_SHARE',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
           masteryRate: 0.56,
@@ -72,7 +72,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
           campaignArchivedAt: '2020-01-03',
-          assessmentState: 'completed',
+          status: 'TO_SHARE',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
           masteryRate: '0.56',

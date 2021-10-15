@@ -18,7 +18,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ongoi
     const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
       createdAt: '2020-12-10T15:16:20.109Z',
-      assessmentState: 'started',
+      status: 'STARTED',
       campaignTitle: 'My campaign',
       organizationName: 'My organization',
     });

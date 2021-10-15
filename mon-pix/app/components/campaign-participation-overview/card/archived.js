@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 
 export default class Archived extends Component {
   get isCompleted() {
-    return this.args.model.assessmentState === 'completed';
+    return ['TO_SHARE', 'SHARED'].includes(this.args.model.status);
   }
 
   get hasStages() {
