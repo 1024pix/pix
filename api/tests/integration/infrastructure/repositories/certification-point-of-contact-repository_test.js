@@ -6,10 +6,6 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 describe('Integration | Repository | CertificationPointOfContact', function () {
   describe('#get', function () {
     it('should throw NotFoundError when point of contact does not exist', async function () {
-      // given
-      databaseBuilder.factory.buildUser({ userId: 123 });
-      await databaseBuilder.commit();
-
       // when
       const error = await catchErr(certificationPointOfContactRepository.get)(123);
 
