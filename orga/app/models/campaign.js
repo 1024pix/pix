@@ -33,6 +33,7 @@ export default class Campaign extends Model {
   @hasMany('badge') badges;
   @hasMany('stage') stages;
   @hasMany('divisions') divisions;
+  @hasMany('groups') groups;
 
   get hasBadges() {
     return Boolean(this.badges) && this.badges.length > 0;
