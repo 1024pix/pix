@@ -512,6 +512,38 @@ describe('Unit | Application | Router | campaign-router ', function () {
       expect(result.statusCode).to.equal(200);
     });
 
+    it('should return 200 with a string array of one element as group filter', async function () {
+      // given
+      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request(
+        'GET',
+        '/api/campaigns/1/profiles-collection-participations?filter[groups][]="AB1"'
+      );
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with a string array of several elements as group filter', async function () {
+      // given
+      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request(
+        'GET',
+        '/api/campaigns/1/profiles-collection-participations?filter[groups][]="AB1"&filter[groups][]="AB2"'
+      );
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
     it('should return 400 with unexpected filters', async function () {
       // given
       const httpTestServer = new HttpTestServer();
@@ -536,6 +568,21 @@ describe('Unit | Application | Router | campaign-router ', function () {
       const result = await httpTestServer.request(
         'GET',
         '/api/campaigns/1/profiles-collection-participations?filter[divisions]="3EMEA"'
+      );
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a group filter which is not an array', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request(
+        'GET',
+        '/api/campaigns/1/profiles-collection-participations?filter[groups]="AB3"'
       );
 
       // then

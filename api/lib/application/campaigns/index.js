@@ -230,6 +230,7 @@ exports.register = async function (server) {
           }),
           query: Joi.object({
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
           }),
