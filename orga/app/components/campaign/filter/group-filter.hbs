@@ -1,0 +1,26 @@
+{{#if this.isLoading}}
+  <PixMultiSelect
+    @id="group"
+    @title={{t "pages.campaign-results.filters.type.groups.title"}}
+    @placeholder={{t "pages.campaign-results.filters.type.groups.title"}}
+    @isSearchable={{true}}
+    @showOptionsOnInput={{true}}
+    @emptyMessage={{t "common.loading"}}
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{else}}
+  <PixMultiSelect
+    @id="group"
+    @title={{t "pages.campaign-results.filters.type.groups.title"}}
+    @placeholder={{t "pages.campaign-results.filters.type.groups.title"}}
+    @isSearchable={{true}}
+    @showOptionsOnInput={{true}}
+    @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
+    @options={{this.campaignGroups}}
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}
