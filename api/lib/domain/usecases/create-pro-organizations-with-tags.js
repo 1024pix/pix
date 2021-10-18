@@ -52,13 +52,14 @@ module.exports = async function createProOrganizationsWithTags({
   const createdOrganizationsWithEmail = createdOrganizations.filter((organization) => !!organization.email);
 
   await bluebird.mapSeries(createdOrganizationsWithEmail, (organization) => {
-    const locale = organizationsData.get(organization.externalId).locale;
+    const { locale, organizationInvitationRole } = organizationsData.get(organization.externalId);
     return organizationInvitationService.createProOrganizationInvitation({
       organizationRepository,
       organizationInvitationRepository,
       organizationId: organization.id,
       name: organization.name,
       email: organization.email,
+      role: organizationInvitationRole?.toUpperCase(),
       locale,
     });
   });
@@ -102,6 +103,7 @@ function _validateAndMapOrganizationsData(organizations) {
         type: Organization.types.PRO,
       }),
       tags: organization.tags.split(ORGANIZATION_TAG_SEPARATOR),
+      organizationInvitationRole: organization.organizationInvitationRole,
       locale: organization.locale,
     });
   }

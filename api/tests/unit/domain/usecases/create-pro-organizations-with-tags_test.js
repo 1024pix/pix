@@ -1,4 +1,5 @@
 const { expect, catchErr, sinon, domainBuilder } = require('../../../test-helper');
+const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
 const domainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -195,35 +196,37 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
     expect(error.message).to.be.equal('Le tag de l’organization n’existe pas.');
   });
 
-  it('should create invitation for organizations with email', async function () {
+  it('should create invitation for organizations with email and role', async function () {
     // given
-    const firstOrganization = {
+    const firstOrganizationWithAdminRole = {
       id: 1,
       name: 'organization A',
       externalId: 'externalId A',
       tags: 'Tag1',
       email: 'organizationA@exmaple.net',
+      organizationInvitationRole: Membership.roles.ADMIN,
       locale: 'en',
     };
-    const secondOrganization = {
+    const secondOrganizationWithMemberRole = {
       id: 2,
       name: 'organization B',
       externalId: 'externalId B',
       tags: 'Tag2',
       email: 'organizationB@exmaple.net',
+      organizationInvitationRole: Membership.roles.MEMBER,
     };
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateProOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
+      domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
     ]);
 
     // when
     await createProOrganizations({
       domainTransaction,
-      organizations: [firstOrganization, secondOrganization],
+      organizations: [firstOrganizationWithAdminRole, secondOrganizationWithMemberRole],
       organizationRepository: organizationRepositoryStub,
       tagRepository: tagRepositoryStub,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -234,18 +237,20 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
     expect(organizationInvitationService.createProOrganizationInvitation).to.have.been.calledWith({
       organizationRepository: organizationRepositoryStub,
       organizationInvitationRepository: organizationInvitationRepositoryStub,
-      organizationId: firstOrganization.id,
-      name: firstOrganization.name,
-      email: firstOrganization.email,
-      locale: firstOrganization.locale,
+      organizationId: firstOrganizationWithAdminRole.id,
+      name: firstOrganizationWithAdminRole.name,
+      email: firstOrganizationWithAdminRole.email,
+      role: firstOrganizationWithAdminRole.organizationInvitationRole,
+      locale: firstOrganizationWithAdminRole.locale,
     });
     expect(organizationInvitationService.createProOrganizationInvitation).to.have.been.calledWith({
       organizationRepository: organizationRepositoryStub,
       organizationInvitationRepository: organizationInvitationRepositoryStub,
-      organizationId: secondOrganization.id,
-      name: secondOrganization.name,
-      email: secondOrganization.email,
-      locale: secondOrganization.locale,
+      organizationId: secondOrganizationWithMemberRole.id,
+      name: secondOrganizationWithMemberRole.name,
+      email: secondOrganizationWithMemberRole.email,
+      role: secondOrganizationWithMemberRole.organizationInvitationRole,
+      locale: secondOrganizationWithMemberRole.locale,
     });
   });
 

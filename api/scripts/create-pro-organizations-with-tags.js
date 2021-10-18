@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 // Usage: node create-pro-organizations-with-tags.js path/file.csv
-// To use on file with columns |externalId, name, provinceCode, canCollectProfiles, credit, email, locale, tags, createdBy|
+// To use on file with columns |externalId, name, provinceCode, canCollectProfiles, credit, email, organizationInvitationRole, locale, tags, createdBy|
 
 'use strict';
 require('dotenv').config();
