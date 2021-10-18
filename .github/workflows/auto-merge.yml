@@ -1,5 +1,4 @@
 name: automerge check
-
 on:
   pull_request:
     types:
@@ -7,20 +6,14 @@ on:
   check_suite:
     types:
       - completed
-
-permissions:
-  checks: read
-  contents: write
-  actions: write
-
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
       - name: automerge
-        uses: "pascalgn/automerge-action@v0.14.3"
+        uses: "pascalgn/automerge-action@v0.8.3"
         env:
-          GITHUB_TOKEN: "${{ github.token }}"
+          GITHUB_TOKEN: "${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}"
           MERGE_LABELS: ":rocket: Ready to Merge"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           UPDATE_LABELS: ":rocket: Ready to Merge"
