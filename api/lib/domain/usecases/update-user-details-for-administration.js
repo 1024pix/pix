@@ -46,8 +46,8 @@ async function _checkEmailAndUsernameAreAvailable({ usersWithEmail, usersWithUse
 
 async function _isAddingEmailForFirstTime({ userId, email, userRepository }) {
   const user = await userRepository.get(userId);
-  const userHasNotYetEmail = !user.email;
+  const userWithoutEmail = !user.email;
   const userHasUsername = !!user.username;
   const shouldChangeEmail = !!email;
-  return userHasNotYetEmail && userHasUsername && shouldChangeEmail;
+  return userWithoutEmail && userHasUsername && shouldChangeEmail;
 }
