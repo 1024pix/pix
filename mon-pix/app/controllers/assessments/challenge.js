@@ -69,13 +69,15 @@ export default class ChallengeController extends Controller {
   @action
   async focusedOutOfWindow() {
     this.hasFocusedOutOfWindow = true;
-    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
+    this.model.assessment.lastQuestionState = 'focusedout';
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionState: true } });
   }
 
   @action
   async timeoutChallenge() {
     this.challengeTitle = timedOutPageTitle;
-    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } });
+    this.model.assessment.lastQuestionState = 'timeout';
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionState: true } });
   }
 
   _resetNonContextualChallengeInfo() {
