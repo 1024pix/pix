@@ -69,8 +69,12 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   }
 
   @action
-  async submitForm(event) {
-    event.preventDefault();
+  async updateCertificationCenter(certificationCenterData) {
+    this.model.certificationCenter.name = certificationCenterData.name;
+    this.model.certificationCenter.externalId = certificationCenterData.externalId;
+    this.model.certificationCenter.type = certificationCenterData.type;
+    this.model.certificationCenter.accreditations = certificationCenterData.availableAccreditations;
+
     try {
       await this.model.certificationCenter.save();
       this.notifications.success('Centre de certification mis à jour avec succès.');
