@@ -38,7 +38,6 @@ describe('Integration | UseCases | create-pro-organization', function () {
         canCollectProfiles: false,
         credit: 0,
         email: 'youness@example.net',
-        organizationInvitationRole: Membership.roles.ADMIN,
         locale: 'fr-fr',
         tags: 'Tag1_Tag2',
       },
@@ -49,7 +48,6 @@ describe('Integration | UseCases | create-pro-organization', function () {
         canCollectProfiles: true,
         credit: 10,
         email: 'andreia@example.net',
-        organizationInvitationRole: Membership.roles.MEMBER,
         locale: 'fr-fr',
         tags: 'Tag2_Tag3',
       },
@@ -60,7 +58,6 @@ describe('Integration | UseCases | create-pro-organization', function () {
         canCollectProfiles: false,
         credit: 20,
         email: 'mathieu@example.net',
-        organizationInvitationRole: Membership.roles.ADMIN,
         locale: 'fr-fr',
         tags: 'Tag1_Tag3',
       },
@@ -86,9 +83,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
       const organizationInDB = await knex('organizations')
         .first('id', 'externalId', 'name', 'provinceCode', 'canCollectProfiles', 'credit', 'email')
         .where({ externalId: organization.externalId });
-      expect(omit(organizationInDB, 'id')).to.be.deep.equal(
-        omit(organization, 'organizationInvitationRole', 'locale', 'tags')
-      );
+      expect(omit(organizationInDB, 'id')).to.be.deep.equal(omit(organization, 'locale', 'tags'));
 
       const organizationTagInDB = await knex('organization-tags')
         .select()
@@ -101,7 +96,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
     }
   });
 
-  it('should create organization invitation with role when email is specified', async function () {
+  it('should create organization invitation with role when role is specified', async function () {
     // given
     const organizationsWithInvitationRole = [
       {
