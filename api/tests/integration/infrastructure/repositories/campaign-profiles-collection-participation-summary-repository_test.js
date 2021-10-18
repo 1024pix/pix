@@ -124,12 +124,6 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           participationData,
           false
         );
-        const participationData = { campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
-          { firstName: 'Jérémy', lastName: 'bugietta', organizationId },
-          participationData,
-          false
-        );
 
         databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',
@@ -240,6 +234,53 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           campaignId,
           undefined,
           { divisions }
+        );
+        const participantExternalIds = results.data.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain([
+          "Can't get Enough Of Your Love, Baby",
+          "You're The First, The last, My Everything",
+        ]);
+      });
+    });
+
+    describe('when there is a filter on group', function () {
+      beforeEach(async function () {
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 1, group: 'Barry' });
+
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 2, group: 'White' });
+
+        const participation3 = {
+          participantExternalId: "Ain't No Mountain High Enough",
+          campaignId,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 3, group: 'Marvin Gaye' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns participations which have the correct group', async function () {
+        // when
+        const groups = ['Barry', 'White'];
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { groups }
         );
         const participantExternalIds = results.data.map((result) => result.participantExternalId);
 
