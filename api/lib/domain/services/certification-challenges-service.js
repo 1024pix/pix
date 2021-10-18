@@ -1,7 +1,9 @@
 const _ = require('lodash');
+
 const CertificationChallenge = require('../models/CertificationChallenge');
+
 const {
-  MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
+  MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
   PIX_ORIGIN,
 } = require('../constants');
@@ -16,10 +18,7 @@ const certifiableProfileForLearningContentRepository = require('../../infrastruc
 
 module.exports = {
   async pickCertificationChallenges(placementProfile, locale) {
-    const certifiableUserCompetencesWithOrderedSkills = placementProfile.getCertifiableUserCompetences();
-    for (const uc of certifiableUserCompetencesWithOrderedSkills) {
-      uc.sortSkillsByDecreasingDifficulty();
-    }
+    const certifiableUserCompetences = placementProfile.getCertifiableUserCompetences();
 
     const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds(
       knowledgeElementRepository,
@@ -29,8 +28,9 @@ module.exports = {
     );
 
     const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
-    return _pickCertificationChallengesForAllCompetences(
-      certifiableUserCompetencesWithOrderedSkills,
+
+    return _pickCertificationChallengesForCertifiableCompetences(
+      certifiableUserCompetences,
       alreadyAnsweredChallengeIds,
       allOperativeChallengesForLocale
     );
@@ -73,22 +73,26 @@ async function _getAlreadyAnsweredChallengeIds(knowledgeElementRepository, answe
   return answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 }
 
-function _pickCertificationChallengesForAllCompetences(competences, alreadyAnsweredChallengeIds, allChallenges) {
-  let certificationChallenges = [];
-  for (const competence of competences) {
+function _pickCertificationChallengesForCertifiableCompetences(
+  certifiableUserCompetences,
+  alreadyAnsweredChallengeIds,
+  allChallenges
+) {
+  let pickedCertificationChallenges = [];
+  for (const userCompetence of certifiableUserCompetences) {
     const certificationChallengesForCompetence = _pick3CertificationChallengesForCompetence(
-      competence,
+      userCompetence,
       alreadyAnsweredChallengeIds,
       allChallenges,
-      certificationChallenges
+      pickedCertificationChallenges
     );
-    certificationChallenges = certificationChallenges.concat(certificationChallengesForCompetence);
+    pickedCertificationChallenges = pickedCertificationChallenges.concat(certificationChallengesForCompetence);
   }
-  return certificationChallenges;
+  return pickedCertificationChallenges;
 }
 
 function _pick3CertificationChallengesForCompetence(
-  competence,
+  userCompetence,
   alreadyAnsweredChallengeIds,
   allChallenges,
   certificationChallengesPickedForOtherCompetences
@@ -96,8 +100,9 @@ function _pick3CertificationChallengesForCompetence(
   const result = [];
   const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
 
-  for (const skill of competence.skills) {
-    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION)) {
+  const orderedSkills = _.orderBy(userCompetence.skills, 'difficulty', 'desc');
+  for (const skill of orderedSkills) {
+    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION)) {
       break;
     }
 
@@ -111,7 +116,7 @@ function _pick3CertificationChallengesForCompetence(
     if (challenge) {
       const certificationChallenge = CertificationChallenge.createForPixCertification({
         challengeId: challenge.id,
-        competenceId: competence.id,
+        competenceId: userCompetence.id,
         associatedSkillName: skill.name,
         associatedSkillId: skill.id,
       });
@@ -131,7 +136,7 @@ function _pickCertificationChallengesForAllAreas(
   targetProfileWithLearningContent,
   certifiableBadgeKey
 ) {
-  let certificationChallenges = [];
+  let pickedCertificationChallenges = [];
   for (const skillIds of Object.values(skillIdsByArea)) {
     const certificationChallengesForArea = _pick4CertificationChallengesForArea(
       skillIds,
@@ -139,12 +144,12 @@ function _pickCertificationChallengesForAllAreas(
       allChallenges,
       targetProfileWithLearningContent,
       certifiableBadgeKey,
-      certificationChallenges
+      pickedCertificationChallenges
     );
-    certificationChallenges = certificationChallenges.concat(certificationChallengesForArea);
+    pickedCertificationChallenges = pickedCertificationChallenges.concat(certificationChallengesForArea);
   }
 
-  return certificationChallenges;
+  return pickedCertificationChallenges;
 }
 
 function _pick4CertificationChallengesForArea(
