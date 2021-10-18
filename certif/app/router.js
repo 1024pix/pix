@@ -17,6 +17,7 @@ Router.map(function() {
   this.route('login', { path: 'connexion' });
 
   this.route('terms-of-service', { path: '/cgu' });
+  this.route('login-session-supervisor', { path: '/connexion-portail-surveillant' });
   this.route('authenticated', { path: '' }, function() {
     this.route('restricted-access', { path: '/espace-ferme' });
     this.route('sessions', function() {
