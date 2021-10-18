@@ -1,6 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
+const Membership = require('../../../../lib/domain/models/Membership');
+
 const {
   createOrganizationInvitation,
   createScoOrganizationInvitation,
@@ -284,12 +286,13 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           .withArgs({
             organizationId,
             email: userEmailAddress,
+            role: Membership.roles.MEMBER,
             code: sinon.match.string,
           })
           .resolves({ id: organizationInvitationId, code });
       });
 
-      it('should create a new organization-invitation and send an email with organizationId, name, email, code, locale and tags', async function () {
+      it('should create a new organization-invitation and send an email with organizationId, name, email, role, code, locale and tags', async function () {
         // given
         const tags = ['JOIN_ORGA'];
         const locale = 'fr-fr';
@@ -310,6 +313,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           organizationId,
           name: organizationName,
           email: userEmailAddress,
+          role: Membership.roles.MEMBER,
           locale,
           tags,
         });
@@ -339,6 +343,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           organizationId,
           name: organizationName,
           email: userEmailAddress,
+          role: Membership.roles.ADMIN,
           locale,
           tags,
         });
