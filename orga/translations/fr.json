@@ -342,7 +342,11 @@
             "title": "Statut",
             "empty": "Tous les statuts"
           },
-          "stages": "Paliers"
+          "stages": "Paliers",
+          "groups":  {
+            "title": "Groupes",
+            "empty": "Aucun groupe"
+          }
         }
       },
       "table": {

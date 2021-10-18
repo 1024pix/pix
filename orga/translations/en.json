@@ -342,7 +342,11 @@
             "title": "Status",
             "empty": "All statuses"
           },
-          "stages": "Success rate"
+          "stages": "Success rate",
+          "groups":  {
+            "title": "Groups",
+            "empty": "No group"
+          }
         }
       },
       "result": "Result",
