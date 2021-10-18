@@ -17,10 +17,6 @@ function _checkUserAccessScope(scope, user) {
   if (scope === apps.PIX_ADMIN.SCOPE && !user.hasRolePixMaster) {
     throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_PIXMASTER_MSG);
   }
-
-  if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
-    throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
-  }
 }
 
 module.exports = async function authenticateUser({ password, scope, source, username, tokenService, userRepository }) {
