@@ -26,9 +26,15 @@
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
           <PixTooltip
+            @id="tooltip-clipboard-button"
             @text={{this.tooltipText}}
           >
-            <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
+            <CopyButton
+              @clipboardText={{this.session.accessCode}}
+              @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}}
+              @classNames="icon-button session-details-content__clipboard-button"
+              aria-labelledby="tooltip-clipboard-button"
+            >
               <FaIcon @icon='copy' prefix='far' />
             </CopyButton>
           </PixTooltip>
