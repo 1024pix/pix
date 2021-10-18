@@ -62,10 +62,8 @@
             @onChange={{fn @onChangeAbortReason report}}
             @emptyOptionNotSelectable={{true}}
             @selectedOption={{report.abortReason}}
-            required='required'
-            @options={{this.abortOptions}} as |option|>
-            {{option.label}}
-          </PixSelect>
+            required="required"
+            @options={{this.abortOptions}}/>
         </td>
       </tr>
     {{/each}}
