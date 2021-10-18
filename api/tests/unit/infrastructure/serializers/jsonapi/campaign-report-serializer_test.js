@@ -66,6 +66,11 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
                 related: '/api/campaigns/campaign_report_id/divisions',
               },
             },
+            groups: {
+              links: {
+                related: '/api/campaigns/campaign_report_id/groups',
+              },
+            },
           },
           attributes: {
             code: report.code,
