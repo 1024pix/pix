@@ -90,6 +90,10 @@ export default function () {
     return json;
   });
 
+  this.get('/organizations/:id/groups', (schema) => {
+    return schema.groups.all();
+  });
+
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
 
   this.get('/organizations/:id/invitations', (schema, request) => {

@@ -27,6 +27,9 @@ module('Acceptance | Sup Student List', function (hooks) {
       await authenticateSession(user.id);
 
       const { organizationId } = user.memberships.models.firstObject;
+      server.create('group', {
+        name: 'L1',
+      });
       server.create('student', {
         studentNumber: '123',
         firstName: 'toto',
@@ -34,6 +37,7 @@ module('Acceptance | Sup Student List', function (hooks) {
         group: 'L2',
         organizationId,
       });
+
       server.create('student', {
         studentNumber: '321',
         firstName: 'tata',
@@ -46,10 +50,13 @@ module('Acceptance | Sup Student List', function (hooks) {
     module('filters', function () {
       test('it should filter students by group', async function (assert) {
         // given
-        await visit('/etudiants');
+        const { getByPlaceholderText } = await visit('/etudiants');
 
         // when
-        await fillInByLabel('Entrer un groupe', 'L1');
+
+        const select = await getByPlaceholderText('Rechercher par groupe');
+        await click(select);
+        await clickByLabel('L1');
 
         // then
         assert.notContains('toto');
