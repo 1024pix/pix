@@ -190,12 +190,14 @@ module.exports = {
     });
   },
 
-  count(filters = {}) {
-    return BookshelfCampaignParticipation.where(filters).count();
-  },
+  async countSharedParticipationOfCampaign(campaignId) {
+    const { count } = await knex('campaign-participations')
+      .count('id as count')
+      .where('campaignId', campaignId)
+      .where('status', SHARED)
+      .first();
 
-  countSharedParticipationOfCampaign(campaignId) {
-    return this.count({ campaignId, status: SHARED });
+    return count;
   },
 
   async isAssessmentCompleted(campaignParticipationId) {

@@ -29,6 +29,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
         userId,
         campaignId: campaign1.id,
         createdAt: oldDate,
+        status: 'STARTED',
       });
 
       campaign2 = databaseBuilder.factory.buildCampaign();
@@ -37,6 +38,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
         userId,
         campaignId: campaign2.id,
         createdAt: recentDate,
+        status: 'SHARED',
       });
 
       campaign3 = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION' });
@@ -45,6 +47,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
         userId,
         campaignId: campaign3.id,
         createdAt: middleDate,
+        status: 'SHARED',
       });
 
       assessment1 = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation1.id });
@@ -97,7 +100,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
               type: 'campaign-participations',
               id: campaignParticipation2.id.toString(),
               attributes: {
-                'is-shared': campaignParticipation2.isShared,
+                'is-shared': true,
                 'participant-external-id': campaignParticipation2.participantExternalId,
                 'shared-at': campaignParticipation2.sharedAt,
                 'created-at': campaignParticipation2.createdAt,
@@ -117,7 +120,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
               type: 'campaign-participations',
               id: campaignParticipation3.id.toString(),
               attributes: {
-                'is-shared': campaignParticipation3.isShared,
+                'is-shared': true,
                 'participant-external-id': campaignParticipation3.participantExternalId,
                 'shared-at': campaignParticipation3.sharedAt,
                 'created-at': campaignParticipation3.createdAt,
@@ -132,7 +135,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
               type: 'campaign-participations',
               id: campaignParticipation1.id.toString(),
               attributes: {
-                'is-shared': campaignParticipation1.isShared,
+                'is-shared': false,
                 'participant-external-id': campaignParticipation1.participantExternalId,
                 'shared-at': campaignParticipation1.sharedAt,
                 'created-at': campaignParticipation1.createdAt,

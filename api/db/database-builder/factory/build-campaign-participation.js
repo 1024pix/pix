@@ -28,7 +28,6 @@ module.exports = function buildCampaignParticipation({
     id,
     campaignId,
     userId,
-    isShared,
     createdAt,
     sharedAt,
     participantExternalId,
