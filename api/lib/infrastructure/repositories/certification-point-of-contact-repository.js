@@ -16,7 +16,7 @@ module.exports = {
         certificationCenterIds: knex.raw('array_agg(??)', 'certification-center-memberships.certificationCenterId'),
       })
       .from('users')
-      .join('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
+      .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
       .where('users.id', userId)
       .groupByRaw('1, 2, 3, 4, 5')
       .first();
