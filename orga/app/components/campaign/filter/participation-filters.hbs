@@ -25,6 +25,9 @@
         @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
       />
     {{/if}}
+    {{#if this.displayGroupsFilter}}
+      <Campaign::Filter::GroupFilter @campaign={{@campaign}} />
+    {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
         @id="stage"

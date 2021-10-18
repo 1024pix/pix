@@ -15,363 +15,19 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     store = this.owner.lookup('service:store');
   });
 
-  module('when campaign does not need filters', function () {
-    test('it should not display anything', async function (assert) {
-      const campaign = store.createRecord('campaign', { id: campaignId });
-      this.set('campaign', campaign);
-
-      // when
-      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStatus={{true}} />`);
-
-      // then
-      assert.notContains('Filtres');
-    });
-  });
-
-  module('when user works for a SCO organization which manages students', function () {
-    class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false };
-      isSCOManagingStudents = true;
-    }
-
-    module('when there are some divisions', function (hooks) {
-      hooks.beforeEach(function () {
-        this.owner.register('service:current-user', CurrentUserStub);
-        const division = store.createRecord('division', { id: 'd1', name: 'd1' });
-        this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
-      });
-
-      test('it displays the division filter', async function (assert) {
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-        // then
-        assert.contains('Classes');
-        assert.contains('d1');
-      });
-
-      test('it triggers the filter when a division is selected', async function (assert) {
-        const triggerFiltering = sinon.stub();
-        this.set('triggerFiltering', triggerFiltering);
-
-        // when
-        await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
-        );
-        await click('[for="division-d1"]');
-
-        // then
-        assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
-      });
-    });
-  });
-
-  module('status', function () {
-    test('it triggers the filter when a status is selected', async function (assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        id: campaignId,
-        name: 'campagne 1',
-        type: 'ASSESSMENT',
-        stages: [],
-      });
-
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
-      );
-      await fillIn('[aria-label="Statut"]', 'STARTED');
-
-      // then
-      assert.ok(triggerFiltering.calledWith({ status: 'STARTED' }));
-    });
-
-    test('it select the option passed as selectedStatus args', async function (assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        id: campaignId,
-        name: 'campagne 1',
-        type: 'ASSESSMENT',
-        stages: [],
-      });
-
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} @selectedStatus="STARTED" />`
-      );
-
-      // then
-      assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
-    });
-
-    test('it should display 3 statuses for assessment campaign', async function (assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        id: campaignId,
-        name: 'campagne 1',
-        type: 'ASSESSMENT',
-        stages: [],
-      });
-
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
-      );
-
-      // then
-      const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
-      assert.deepEqual(values, ['', 'STARTED', 'TO_SHARE', 'SHARED']);
-    });
-
-    test('it should display 2 statuses for profiles collection campaign', async function (assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        id: campaignId,
-        name: 'campagne 1',
-        type: 'PROFILES_COLLECTION',
-        stages: [],
-      });
-
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
-      );
-
-      // then
-      const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
-      assert.deepEqual(values, ['', 'TO_SHARE', 'SHARED']);
-    });
-  });
-
-  module('when user does not work for a SCO organization which manages students', function () {
-    class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false };
-      isSCOManagingStudents = false;
-    }
-
-    test('it does not display the division filter', async function (assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', { id: 'd2', name: 'd2' });
-      this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
-
-      // when
-      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-      // then
-      assert.notContains('Classes');
-      assert.notContains('d2');
-    });
-
-    module('when campaign has badges and has type ASSESSMENT', function () {
-      test('it displays the badge filter', async function (assert) {
-        // given
-        const badge = store.createRecord('badge', { title: 'Les bases' });
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          badges: [badge],
-        });
-
+  module('commun cases', function () {
+    module('when campaign does not need filters', function () {
+      test('it should not display anything', async function (assert) {
+        const campaign = store.createRecord('campaign', { id: campaignId });
         this.set('campaign', campaign);
 
         // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStatus={{true}} />`);
 
         // then
-        assert.contains('Thématiques');
-        assert.contains('Les bases');
-      });
-
-      test('it should not displays the badge filter when it specified', async function (assert) {
-        // given
-        const badge = store.createRecord('badge', { title: 'Les bases' });
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          badges: [badge],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenBadges={{true}}/>`);
-
-        // then
-        assert.notContains('Thématiques');
-        assert.notContains('Les bases');
-      });
-
-      test('it triggers the filter when a badge is selected', async function (assert) {
-        // given
-        const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          badges: [badge],
-        });
-
-        const triggerFiltering = sinon.stub();
-        this.set('campaign', campaign);
-        this.set('triggerFiltering', triggerFiltering);
-
-        // when
-        await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
-        );
-        await click('[for="badge-badge1"]');
-
-        // then
-        assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
+        assert.notContains('Filtres');
       });
     });
-
-    module('when the campaign has no badge', function () {
-      test('should not displays the badge filter', async function (assert) {
-        // given
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          badges: [],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-        // then
-        assert.notContains('Thématiques');
-      });
-    });
-
-    module('when the campaign has badge but is not assessment type', function () {
-      test('it should not displays the badge filter', async function (assert) {
-        // given
-        const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
-        const campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-          badges: [badge],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-        // then
-        assert.notContains('Thématiques');
-      });
-    });
-
-    module('when campaign has no stages', function () {
-      test('should not displays the stage filter', async function (assert) {
-        // given
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          stages: [],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-        // then
-        assert.notContains('Paliers');
-      });
-    });
-
-    module('when the campaign has stage but is not assessment type', function () {
-      test('it should not displays the stage filter', async function (assert) {
-        // given
-        const stage = store.createRecord('stage', { id: 'stage1' });
-        const campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-          stages: [stage],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
-
-        // then
-        assert.notContains('Paliers');
-      });
-    });
-
-    module('when campaign has stages and has type ASSESSMENT', function () {
-      test('it displays the stage filter', async function (assert) {
-        // given
-        const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          stages: [stage],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}}/>`);
-
-        // then
-        assert.contains('Paliers');
-      });
-
-      test('it should not display the stage filter when it specified', async function (assert) {
-        // given
-        const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          stages: [stage],
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStages={{true}}/>`);
-
-        // then
-        assert.notContains('Paliers');
-      });
-
-      test('it triggers the filter when a stage is selected', async function (assert) {
-        // given
-        const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          stages: [stage],
-        });
-
-        const triggerFiltering = sinon.stub();
-        this.set('campaign', campaign);
-        this.set('triggerFiltering', triggerFiltering);
-
-        // when
-        await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
-        );
-        await click('[for="stage-stage1"]');
-
-        // then
-        assert.ok(triggerFiltering.calledWith({ stages: ['stage1'] }));
-      });
-    });
-
     module('display number of filtered participants as Pix filter banner details', function () {
       test('it should display one filtered participant', async function (assert) {
         // given
@@ -441,6 +97,390 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           assert.ok(resetFiltering.called);
         });
       });
+    });
+
+    module('stages', function () {
+      module('when campaign has no stages', function () {
+        test('should not displays the stage filter', async function (assert) {
+          // given
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            stages: [],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+
+          // then
+          assert.notContains('Paliers');
+        });
+      });
+
+      module('when the campaign has stage but is not assessment type', function () {
+        test('it should not displays the stage filter', async function (assert) {
+          // given
+          const stage = store.createRecord('stage', { id: 'stage1' });
+          const campaign = store.createRecord('campaign', {
+            type: 'PROFILES_COLLECTION',
+            stages: [stage],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+
+          // then
+          assert.notContains('Paliers');
+        });
+      });
+
+      module('when campaign has stages and has type ASSESSMENT', function () {
+        test('it displays the stage filter', async function (assert) {
+          // given
+          const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            stages: [stage],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}}/>`);
+
+          // then
+          assert.contains('Paliers');
+        });
+
+        test('it should not display the stage filter when it specified', async function (assert) {
+          // given
+          const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            stages: [stage],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStages={{true}}/>`);
+
+          // then
+          assert.notContains('Paliers');
+        });
+
+        test('it triggers the filter when a stage is selected', async function (assert) {
+          // given
+          const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            stages: [stage],
+          });
+
+          const triggerFiltering = sinon.stub();
+          this.set('campaign', campaign);
+          this.set('triggerFiltering', triggerFiltering);
+
+          // when
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
+          );
+          await click('[for="stage-stage1"]');
+
+          // then
+          assert.ok(triggerFiltering.calledWith({ stages: ['stage1'] }));
+        });
+      });
+    });
+
+    module('badges', function () {
+      module('when campaign has badges and has type ASSESSMENT', function () {
+        test('it displays the badge filter', async function (assert) {
+          // given
+          const badge = store.createRecord('badge', { title: 'Les bases' });
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            badges: [badge],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}}/>`);
+
+          // then
+          assert.contains('Thématiques');
+          assert.contains('Les bases');
+        });
+
+        test('it should not displays the badge filter when it specified', async function (assert) {
+          // given
+          const badge = store.createRecord('badge', { title: 'Les bases' });
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            badges: [badge],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenBadges={{true}}/>`);
+
+          // then
+          assert.notContains('Thématiques');
+          assert.notContains('Les bases');
+        });
+
+        test('it triggers the filter when a badge is selected', async function (assert) {
+          // given
+          const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            badges: [badge],
+          });
+
+          const triggerFiltering = sinon.stub();
+          this.set('campaign', campaign);
+          this.set('triggerFiltering', triggerFiltering);
+
+          // when
+          await render(
+            hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
+          );
+          await click('[for="badge-badge1"]');
+
+          // then
+          assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
+        });
+      });
+
+      module('when the campaign has no badge', function () {
+        test('should not displays the badge filter', async function (assert) {
+          // given
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            badges: [],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+
+          // then
+          assert.notContains('Thématiques');
+        });
+      });
+
+      module('when the campaign has badge but is not assessment type', function () {
+        test('it should not displays the badge filter', async function (assert) {
+          // given
+          const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
+          const campaign = store.createRecord('campaign', {
+            type: 'PROFILES_COLLECTION',
+            badges: [badge],
+          });
+
+          this.set('campaign', campaign);
+
+          // when
+          await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+
+          // then
+          assert.notContains('Thématiques');
+        });
+      });
+    });
+    module('status', function () {
+      test('it triggers the filter when a status is selected', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: campaignId,
+          name: 'campagne 1',
+          type: 'ASSESSMENT',
+          stages: [],
+        });
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+        );
+        await fillIn('[aria-label="Statut"]', 'STARTED');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ status: 'STARTED' }));
+      });
+
+      test('it select the option passed as selectedStatus args', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: campaignId,
+          name: 'campagne 1',
+          type: 'ASSESSMENT',
+          stages: [],
+        });
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} @selectedStatus="STARTED" />`
+        );
+
+        // then
+        assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
+      });
+
+      test('it should display 3 statuses for assessment campaign', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: campaignId,
+          name: 'campagne 1',
+          type: 'ASSESSMENT',
+          stages: [],
+        });
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+        );
+
+        // then
+        const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
+        assert.deepEqual(values, ['', 'STARTED', 'TO_SHARE', 'SHARED']);
+      });
+
+      test('it should display 2 statuses for profiles collection campaign', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: 1,
+          name: 'campagne 1',
+          type: 'PROFILES_COLLECTION',
+          stages: [],
+        });
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+        );
+
+        // then
+        const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
+        assert.deepEqual(values, ['', 'TO_SHARE', 'SHARED']);
+      });
+    });
+  });
+
+  module('when user works for a SCO organization which manages students', function () {
+    class CurrentUserStub extends Service {
+      prescriber = { areNewYearSchoolingRegistrationsImported: false };
+      isSCOManagingStudents = true;
+    }
+
+    module('when there are some divisions', function (hooks) {
+      hooks.beforeEach(function () {
+        this.owner.register('service:current-user', CurrentUserStub);
+        const division = store.createRecord('division', { id: 'd1', name: 'd1' });
+        this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
+      });
+
+      test('it displays the division filter', async function (assert) {
+        // when
+        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+        // then
+        assert.contains('Classes');
+        assert.contains('d1');
+      });
+
+      test('it triggers the filter when a division is selected', async function (assert) {
+        const triggerFiltering = sinon.stub();
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+        );
+        await click('[for="division-d1"]');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
+      });
+    });
+
+    test('it should not display group filter', async function (assert) {
+      this.campaign = store.createRecord('campaign', { id: 1, type: 'ASSESSMENT' });
+      // when
+      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}}/>`);
+
+      // then
+      assert.notContains('Groupes');
+    });
+  });
+  module('when user works for a SUP organization which manages students', function () {
+    class CurrentUserStub extends Service {
+      prescriber = { areNewYearSchoolingRegistrationsImported: false };
+      isSUPManagingStudents = true;
+    }
+
+    module('when there are some groups', function () {
+      test('it displays the group filter', async function (assert) {
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // given
+        const group = store.createRecord('group', {
+          id: 'd1',
+          name: 'd1',
+        });
+
+        const campaign = store.createRecord('campaign', { id: 1 });
+        campaign.set('groups', [group]);
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+        // then
+        assert.contains('Groupes');
+        assert.contains('d1');
+      });
+    });
+
+    test('it does not display the division filter', async function (assert) {
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      // given
+      const division = store.createRecord('division', {
+        id: 'd2',
+        name: 'd2',
+      });
+      this.campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        divisions: [division],
+      });
+
+      // when
+      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+
+      // then
+      assert.notContains('Classes');
+      assert.notContains('d2');
     });
   });
 });

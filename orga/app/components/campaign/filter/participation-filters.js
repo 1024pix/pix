@@ -8,7 +8,11 @@ export default class ParticipationFilters extends Component {
 
   get displayFilters() {
     return (
-      this.displayStagesFilter || this.displayBadgesFilter || this.displayDivisionFilter || this.displayStatusFilter
+      this.displayStagesFilter ||
+      this.displayBadgesFilter ||
+      this.displayDivisionFilter ||
+      this.displayStatusFilter ||
+      this.displayGroupsFilter
     );
   }
 
@@ -24,6 +28,10 @@ export default class ParticipationFilters extends Component {
 
   get displayDivisionFilter() {
     return this.currentUser.isSCOManagingStudents;
+  }
+
+  get displayGroupsFilter() {
+    return this.currentUser.isSUPManagingStudents && !this.args.isHiddenGroup;
   }
 
   get displayStatusFilter() {
