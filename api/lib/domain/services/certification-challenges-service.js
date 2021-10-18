@@ -3,7 +3,7 @@ const _ = require('lodash');
 const CertificationChallenge = require('../models/CertificationChallenge');
 
 const {
-  MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
+  MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
   PIX_ORIGIN,
 } = require('../constants');
@@ -98,7 +98,7 @@ function _pick3CertificationChallengesForCompetence(
 
   const orderedSkills = _.orderBy(competence.skills, 'difficulty', 'desc');
   for (const skill of orderedSkills) {
-    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION)) {
+    if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION)) {
       break;
     }
 
