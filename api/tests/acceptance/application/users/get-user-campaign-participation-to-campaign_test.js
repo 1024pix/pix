@@ -16,7 +16,11 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
     beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
       campaign = databaseBuilder.factory.buildCampaign();
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId: campaign.id,
+        status: 'SHARED',
+      });
 
       options = {
         method: 'GET',
@@ -38,7 +42,7 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
           type: 'campaign-participations',
           id: campaignParticipation.id.toString(),
           attributes: {
-            'is-shared': campaignParticipation.isShared,
+            'is-shared': true,
             'participant-external-id': campaignParticipation.participantExternalId,
             'shared-at': campaignParticipation.sharedAt,
             'created-at': campaignParticipation.createdAt,

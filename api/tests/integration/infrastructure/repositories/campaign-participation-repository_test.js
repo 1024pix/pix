@@ -322,58 +322,6 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
-  describe('#count', function () {
-    let campaignId;
-
-    beforeEach(async function () {
-      campaignId = databaseBuilder.factory.buildCampaign({}).id;
-
-      _.times(2, () => {
-        databaseBuilder.factory.buildCampaignParticipation({});
-      });
-      _.times(5, () => {
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-        });
-      });
-      _.times(3, () => {
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-          status: STARTED,
-        });
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should count all campaignParticipations', async function () {
-      // when
-      const count = await campaignParticipationRepository.count();
-
-      // then
-      expect(count).to.equal(10);
-    });
-
-    it('should count all campaignParticipations by campaign', async function () {
-      // when
-      const count = await campaignParticipationRepository.count({ campaignId });
-
-      // then
-      expect(count).to.equal(8);
-    });
-
-    it('should count all shared campaignParticipations by campaign', async function () {
-      // when
-      const count = await campaignParticipationRepository.count({
-        campaignId,
-        isShared: true,
-      });
-
-      // then
-      expect(count).to.equal(5);
-    });
-  });
-
   describe('#findProfilesCollectionResultDataByCampaignId', function () {
     let campaign1;
     let campaign2;
