@@ -14,6 +14,7 @@
 @import "globals/texts";
 @import "globals/titles";
 @import "pages/login";
+@import "pages/login-session-supervisor";
 @import "pages/authenticated";
 @import "pages/authenticated/restricted-access";
 @import "pages/authenticated/sessions";
@@ -32,6 +33,7 @@
 @import "components/certification-candidate-details-modal";
 @import "components/layout/footer";
 @import "components/login-form";
+@import "components/login-session-supervisor-form.scss";
 @import "components/finalize";
 @import "components/new-certification-candidate-modal";
 @import "components/session-finalization-step-container";
