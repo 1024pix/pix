@@ -26,7 +26,7 @@
       />
     {{/if}}
     {{#if this.displayGroupsFilter}}
-      <Campaign::Filter::GroupFilter @campaign={{@campaign}} />
+      <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
     {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
