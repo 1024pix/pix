@@ -134,13 +134,7 @@ describe('Integration | Repository | Group', function () {
 
       // then
       expect(groups).to.have.lengthOf(5);
-      expect(groups).to.deep.equal([
-        { name: '3A' },
-        { name: '5A' },
-        { name: 'T2' },
-        { name: '_3A' },
-        { name: 't1' },
-      ]);
+      expect(groups).to.deep.equal([{ name: '3A' }, { name: '5A' }, { name: 'T2' }, { name: '_3A' }, { name: 't1' }]);
     });
 
     it('should return list of groups from the given organization', async function () {
