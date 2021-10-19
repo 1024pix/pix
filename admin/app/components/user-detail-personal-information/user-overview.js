@@ -42,18 +42,18 @@ const Validations = buildValidations({
       validator('presence', {
         presence: true,
         ignoreBlank: true,
-        message: "L'e-mail ne peut pas être vide.",
+        message: "L'adresse e-mail ne peut pas être vide.",
         disabled: computed.none('model.email'),
       }),
       validator('length', {
         max: 255,
-        message: "La longueur de l'email ne doit pas excéder 255 caractères.",
+        message: "La longueur de l'adresse e-mail ne doit pas excéder 255 caractères.",
         disabled: computed.none('model.email'),
       }),
       validator('format', {
         ignoreBlank: true,
         type: 'email',
-        message: "L'e-mail n'a pas le bon format.",
+        message: "L'adresee e-mail n'a pas le bon format.",
         disabled: computed.none('model.email'),
       }),
     ],
