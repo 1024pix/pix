@@ -168,6 +168,9 @@ module.exports = {
     if (filters.divisions && !Array.isArray(filters.divisions)) {
       filters.divisions = [filters.divisions];
     }
+    if (filters.groups && !Array.isArray(filters.groups)) {
+      filters.groups = [filters.groups];
+    }
     const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({
       userId,
       campaignId,
