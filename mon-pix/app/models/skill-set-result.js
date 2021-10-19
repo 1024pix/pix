@@ -1,6 +1,6 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-export default class PartnerCompetenceResult extends Model {
+export default class SkillSetResult extends Model {
   // attributes
   @attr('string') name;
   @attr('number') masteryPercentage;

@@ -8,17 +8,14 @@
 
   <tbody>
     {{#if @showCleaCompetences}}
-      {{#each @partnerCompetenceResults as |partnerCompetence|}}
+      {{#each @skillSetResults as |skillSet|}}
         <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
           <th scope="row">
             <span class="skill-review-competence__border" aria-hidden="true"></span>
-            <span>{{partnerCompetence.name}}</span>
+            <span>{{skillSet.name}}</span>
           </th>
           <td>
-            <PixProgressGauge
-              @value={{partnerCompetence.masteryPercentage}}
-              @tooltipText="{{partnerCompetence.masteryPercentage}}%"
-            />
+            <PixProgressGauge @value={{skillSet.masteryPercentage}} @tooltipText="{{skillSet.masteryPercentage}}%" />
           </td>
         </tr>
       {{/each}}

@@ -41,7 +41,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
 
     describe('When user is logged in', async function () {
       const competenceResultName = 'Competence Nom';
-      const partnerCompetenceResultName = 'badge partner competence nom';
+      const skillSetResultName = 'badge skill set nom';
 
       beforeEach(async function () {
         // given
@@ -95,10 +95,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
 
       it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function () {
         // given
-        const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
+        const BADGE_SKILL_SET_MASTERY_PERCENTAGE = '80%';
 
-        const partnerCompetenceResult = server.create('partner-competence-result', {
-          name: partnerCompetenceResultName,
+        const skillSetResult = server.create('skill-set-result', {
+          name: skillSetResultName,
           totalSkillsCount: 5,
           validatedSkillsCount: 4,
           masteryPercentage: 80,
@@ -110,7 +110,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           message: 'Congrats, you won a Pix Emploi badge',
           key: 'PIX_EMPLOI_CLEA',
           isAcquired: false,
-          partnerCompetenceResults: [partnerCompetenceResult],
+          skillSetResults: [skillSetResult],
         });
 
         campaignParticipationResult.update({
@@ -121,8 +121,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(partnerCompetenceResultName)).to.exist;
-        expect(contains(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
+        expect(contains(skillSetResultName)).to.exist;
+        expect(contains(BADGE_SKILL_SET_MASTERY_PERCENTAGE)).to.exist;
       });
 
       it('should display the Pix emploi badge when badge is acquired', async function () {
