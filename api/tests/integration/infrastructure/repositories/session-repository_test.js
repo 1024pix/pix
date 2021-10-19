@@ -18,8 +18,14 @@ describe('Integration | Repository | Session', function () {
         room: '28D',
         examiner: 'Michel Essentiel',
         date: '2017-12-08',
-        time: '14:30',
+        time: '14:30:00',
         description: 'Première certification EVER !!!',
+        examinerGlobalComment: 'No comment',
+        finalizedAt: new Date('2017-12-07'),
+        publishedAt: new Date('2017-12-07'),
+        resultsSentToPrescriberAt: new Date('2017-12-07'),
+        assignedCertificationOfficerId: null,
+        accessCode: 'XXXX',
       });
 
       await databaseBuilder.commit();
@@ -45,7 +51,7 @@ describe('Integration | Repository | Session', function () {
       // then
       expect(savedSession).to.be.an.instanceOf(Session);
       expect(savedSession).to.have.property('id').and.not.null;
-      expect(savedSession.certificationCenter).to.equal(certificationCenter.name);
+      expect(savedSession).to.deepEqualInstance(new Session({ ...session, id: savedSession.id }));
     });
   });
 
