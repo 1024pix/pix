@@ -58,6 +58,7 @@ module.exports = {
             'targetProfiles',
             'memberships',
             'students',
+            'divisions',
             'organizationInvitations',
           ],
           memberships: {
@@ -97,6 +98,16 @@ module.exports = {
             relationshipLinks: {
               related: function (record, current, parent) {
                 return `/api/organizations/${parent.id}/target-profiles`;
+              },
+            },
+          },
+          divisions: {
+            ref: 'id',
+            ignoreRelationshipData: true,
+            nullIfMissing: true,
+            relationshipLinks: {
+              related(record, current, parent) {
+                return `/api/organizations/${parent.id}/divisions`;
               },
             },
           },

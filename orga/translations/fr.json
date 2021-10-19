@@ -142,7 +142,11 @@
       "close": "Fermer"
     },
     "filters": {
-      "loading": "Chargement..."
+      "loading": "Chargement...",
+      "divisions": {
+        "title": "Classes",
+        "empty": "Aucune classe"
+      }
     },
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Page d'accueil de Pix Orga",
@@ -332,9 +336,7 @@
         "type": {
           "badges": "Thématiques",
           "divisions": {
-            "title": "Classes",
-            "selected": "Classes : {divisions}",
-            "empty": "Aucune classe"
+            "placeholder": "Classes"
           },
           "status": {
             "title": "Statut",
@@ -632,8 +634,7 @@
         "empty": "Aucun élève.",
         "filter": {
           "division": {
-            "aria-label": "Entrer une classe",
-            "label": "Rechercher par classe"
+            "placeholder": "Rechercher par classe"
           },
           "first-name": {
             "aria-label": "Entrer un prénom",
