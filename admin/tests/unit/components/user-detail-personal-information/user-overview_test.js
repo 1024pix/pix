@@ -47,7 +47,7 @@ module('Unit | Component | user-detail-personal-information', function (hooks) {
       test('it should also allow email modification', async function (assert) {
         // given
         const component = createGlimmerComponent('component:user-detail-personal-information/user-overview');
-        const user = { username: 'lisa@example.net', firstName: 'Lisa', lastName: 'Dupont' };
+        const user = { username: 'lisa.dupont', firstName: 'Lisa', lastName: 'Dupont' };
         component.args.user = user;
 
         // when & then
