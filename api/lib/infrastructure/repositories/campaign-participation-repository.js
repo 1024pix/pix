@@ -12,7 +12,7 @@ const DomainTransaction = require('../DomainTransaction');
 
 const _ = require('lodash');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
 
 const ATTRIBUTES_TO_SAVE = [
   'createdAt',
@@ -253,76 +253,22 @@ module.exports = {
   },
 
   async countParticipationsByStatus(campaignId, campaignType) {
-    const shared = await _countSharedParticipations(campaignId);
+    const row = await knex('campaign-participations')
+      .select([
+        // eslint-disable-next-line knex/avoid-injections
+        knex.raw(`sum(case when status = '${SHARED}' then 1 else 0 end) as shared`),
+        // eslint-disable-next-line knex/avoid-injections
+        knex.raw(`sum(case when status = '${TO_SHARE}' then 1 else 0 end) as completed`),
+        // eslint-disable-next-line knex/avoid-injections
+        knex.raw(`sum(case when status = '${STARTED}' then 1 else 0 end) as started`),
+      ])
+      .where({ campaignId, isImproved: false })
+      .groupBy('campaignId')
+      .first();
 
-    if (campaignType === Campaign.types.ASSESSMENT) {
-      const { started, completed } = await _countAssessmentParticipationsByStatus(campaignId);
-      return { started, completed, shared };
-    }
-
-    if (campaignType === Campaign.types.PROFILES_COLLECTION) {
-      const completed = await _countNotSharedParticipations(campaignId);
-      return { completed, shared };
-    }
+    return mapToParticipationByStatus(row, campaignType);
   },
 };
-
-async function _countSharedParticipations(campaignId) {
-  const { count } = await knex('campaign-participations')
-    .count('id as count')
-    .where('campaignId', campaignId)
-    .where('isImproved', false)
-    .whereNotNull('sharedAt')
-    .first();
-  return count;
-}
-
-async function _countNotSharedParticipations(campaignId) {
-  const { count } = await knex('campaign-participations')
-    .count('id as count')
-    .where('campaignId', campaignId)
-    .where('isImproved', false)
-    .whereNull('sharedAt')
-    .first();
-  return count;
-}
-
-async function _countAssessmentParticipationsByStatus(campaignId) {
-  const countCompleted = knex.raw(
-    'COUNT("campaign-participations"."id") FILTER (WHERE "assessments"."state" = ?) OVER (PARTITION BY "campaignId") AS ??',
-    [Assessment.states.COMPLETED, 'completed']
-  );
-
-  const countStarted = knex.raw(
-    'COUNT("campaign-participations"."id") FILTER (WHERE "assessments"."state" = ?) OVER (PARTITION BY "campaignId") AS ??',
-    [Assessment.states.STARTED, 'started']
-  );
-
-  const result = await knex
-    .select([countCompleted, countStarted])
-    .from('campaign-participations')
-    .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
-    .where('campaign-participations.campaignId', campaignId)
-    .where('campaign-participations.isImproved', false)
-    .whereNull('campaign-participations.sharedAt')
-    .modify(_filterMostRecentAssessments)
-    .first();
-
-  return {
-    started: result ? result.started : 0,
-    completed: result ? result.completed : 0,
-  };
-}
-
-function _filterMostRecentAssessments(qb) {
-  qb.leftJoin({ newerAssessments: 'assessments' }, function () {
-    this.on('newerAssessments.campaignParticipationId', 'campaign-participations.id').andOn(
-      'assessments.createdAt',
-      '<',
-      knex.ref('newerAssessments.createdAt')
-    );
-  }).whereNull('newerAssessments.id');
-}
 
 function _adaptModelToDb(campaignParticipation) {
   return {
@@ -382,4 +328,15 @@ function _rowToResult(row) {
 
 function _getAttributes(campaignParticipation) {
   return _.pick(campaignParticipation, ATTRIBUTES_TO_SAVE);
+}
+
+function mapToParticipationByStatus(row = {}, campaignType) {
+  const participationByStatus = {
+    shared: row.shared || 0,
+    completed: row.completed || 0,
+  };
+  if (campaignType === Campaign.types.ASSESSMENT) {
+    participationByStatus.started = row.started || 0;
+  }
+  return participationByStatus;
 }
