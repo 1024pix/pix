@@ -11,5 +11,5 @@ export default class Badge extends Model {
 
   @belongsTo('target-profile') targetProfile;
   @hasMany('badge-criterion') badgeCriteria;
-  @hasMany('badge-partner-competence') badgePartnerCompetences;
+  @hasMany('skill-set') skillSets;
 }
