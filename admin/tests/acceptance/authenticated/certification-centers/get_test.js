@@ -5,6 +5,7 @@ import { click, currentURL, fillIn, findAll, triggerEvent, visit } from '@ember/
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
+import { visit as visitScreen } from '../../../helpers/testing-library';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
@@ -52,11 +53,10 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   test('should display Certification center detail', async function (assert) {
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
-
     // then
-    assert.contains(certificationCenter.name);
-    assert.contains(certificationCenter.externalId);
-    assert.contains(certificationCenter.type);
+    assert.contains('Center 1');
+    assert.contains('ABCDEF');
+    assert.contains('Établissement scolaire');
   });
 
   test('should display Certification center accreditations', async function (assert) {
@@ -77,15 +77,17 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     // given
     const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
     const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
-    server.create('accreditation', { name: 'Pix+Autre' });
     certificationCenter.update({ accreditations: [accreditation1, accreditation2] });
 
+    server.create('accreditation', { name: 'Pix+Autre' });
+
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    const grantedAccreditations = findAll('.accreditations-list > ul > li > svg[data-icon="check-circle"]');
-    assert.equal(grantedAccreditations.length, 2);
+    assert.dom(screen.getByLabelText('Accrédité pour Pix+Edu')).exists();
+    assert.dom(screen.getByLabelText('Accrédité pour Pix+Surf')).exists();
+    assert.dom(screen.getByLabelText('Non-accrédité pour Pix+Autre')).exists();
   });
 
   test('should display Certification center memberships', async function (assert) {
@@ -190,9 +192,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       // given
       await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByLabel('Editer');
+      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
-      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
       await fillInByLabel('Nom du centre', 'nouveau nom');
       await fillInByLabel('Type', 'SUP');
       await fillInByLabel('Identifiant externe', 'nouvel identifiant externe');
@@ -201,8 +203,44 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       // then
       assert.contains('Habilitations aux certifications complémentaires');
       assert.contains('nouveau nom');
-      assert.contains('SUP');
+      assert.contains('Établissement supérieur');
       assert.contains('nouvel identifiant externe');
+    });
+
+    test('should display a success notification when the certification has been successfully updated', async function (assert) {
+      // given
+      server.create('accreditation', { name: 'Pix+Surf' });
+      server.create('accreditation', { name: 'Pix+Autre' });
+
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      await clickByLabel('Editer');
+      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
+
+      // when
+      await fillInByLabel('Nom du centre', 'Centre des réussites');
+      await clickByLabel('Pix+Surf');
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.dom(screen.getByLabelText('Accrédité pour Pix+Surf')).exists();
+      assert.dom(screen.getByLabelText('Non-accrédité pour Pix+Autre')).exists();
+      assert.contains('Habilitations aux certifications complémentaires');
+      assert.contains('Centre des réussites');
+      assert.contains('Centre de certification mis à jour avec succès.');
+    });
+
+    test('should display an error notification when the certification has not been updated in API', async function (assert) {
+      // given
+      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
+      await visit(`/certification-centers/${certificationCenter.id}`);
+      await clickByLabel('Editer');
+
+      // when
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.contains('Habilitations aux certifications complémentaires');
+      assert.contains("Une erreur est survenue, le centre de certification n'a pas été mis à jour.");
     });
   });
 });

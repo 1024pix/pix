@@ -1,0 +1,79 @@
+.certification-center-information {
+
+  &__display {
+
+    &__name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    &__accreditations-list {
+      background-color: #F4F5F7;
+      border-radius: 16px;
+      padding: 8px;
+
+      li {
+        width: 200px;
+      }
+
+      .granted-accreditation-icon {
+        color: $green;
+      }
+
+      .not-granted-accreditation-icon {
+        color: $grey-35;
+      }
+    }
+
+    .property {
+      padding: 0.5rem 1rem;
+      display: block;
+      border-bottom: 0.05rem solid $grey-20;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    button {
+      margin: 16px 0;
+    }
+  }
+
+  &__edit-form {
+    width: 500px;
+
+    .accreditations-list-ul {
+      flex-direction: column;
+    }
+
+    &__accreditations-checkboxes {
+      display: flex;
+    }
+
+    .accreditation-entry {
+      display: block;
+      padding-bottom: 8px;
+    }
+  }
+
+  .field__label {
+    color: $grey-70;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+
+  .error {
+    padding-top: 5px;
+    color: $error;
+    font-size: 0.85rem;
+  }
+
+  .accreditations-list-ul {
+    list-style-type: none;
+    display: flex;
+    margin: 8px 0;
+    padding: 0;
+  }
+}
