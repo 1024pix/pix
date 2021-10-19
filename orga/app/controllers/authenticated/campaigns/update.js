@@ -10,11 +10,11 @@ export default class UpdateController extends Controller {
     event.preventDefault();
     return this.model
       .save()
-      .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign', campaign.id));
+      .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign.settings', campaign.id));
   }
 
   @action
   cancel(campaignId) {
-    this.transitionToRoute('authenticated.campaigns.campaign', campaignId);
+    this.transitionToRoute('authenticated.campaigns.campaign.settings', campaignId);
   }
 }
