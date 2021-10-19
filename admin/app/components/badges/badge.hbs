@@ -41,13 +41,13 @@
           sur
           {{call (fn this.scopeExplanation criterion.scope)}}</p>
 
-        {{#if criterion.partnerCompetences}}
+        {{#if criterion.skillSets}}
           <ul class="badge-criteria-competences">
-            {{#each criterion.partnerCompetences as |badgePartnerCompetence|}}
+            {{#each criterion.skillSets as |skillSet|}}
               <li>
                 <details>
-                  <summary>{{badgePartnerCompetence.name}}</summary>
-                  <table class="table-admin badge-partner-competences-table">
+                  <summary>{{skillSet.name}}</summary>
+                  <table class="table-admin skill-sets-table">
                     <thead>
                       <tr>
                         <th class="table__column table__column--wide">Sujet</th>
@@ -57,7 +57,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {{#each badgePartnerCompetence.tubes as |tube|}}
+                      {{#each skillSet.tubes as |tube|}}
                         <tr>
                           <td>{{tube.practicalTitle}}</td>
                           {{#each tube.skillsWithAllLevels as |skill|}}

@@ -1,9 +1,9 @@
 function getBadge(schema, request) {
   const id = request.params.id;
   request.queryParams.include = [
-    'badgeCriteria.partnerCompetences',
-    'badgeCriteria.partnerCompetences.skills',
-    'badgeCriteria.partnerCompetences.skills.tube',
+    'badgeCriteria.skillSets',
+    'badgeCriteria.skillSets.skills',
+    'badgeCriteria.skillSets.skills.tube',
   ].join(',');
   return schema.badges.find(id);
 }

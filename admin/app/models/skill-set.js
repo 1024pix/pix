@@ -1,6 +1,6 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default class BadgePartnerCompetence extends Model {
+export default class SkillSet extends Model {
   @attr('string') name;
 
   @belongsTo('badge') badge;

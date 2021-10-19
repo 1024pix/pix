@@ -15,9 +15,9 @@ export default class Badge extends Component {
 
   get badgeCriteria() {
     this.args.badge.badgeCriteria.forEach((badgeCriterion) => {
-      badgeCriterion.partnerCompetences.forEach((badgePartnerCompetence) => {
+      badgeCriterion.skillSets.forEach((skillSet) => {
         const tubes = uniqBy(
-          badgePartnerCompetence.skills.map((skill) => skill.tube),
+          skillSet.skills.map((skill) => skill.tube),
           (tube) => tube.get('id')
         );
         tubes.forEach((tube) => {
@@ -25,7 +25,7 @@ export default class Badge extends Component {
             .fill(undefined)
             .map((_, index) => tube.get('skills').find((skill) => skill.difficulty === index + 1));
         });
-        badgePartnerCompetence.tubes = tubes;
+        skillSet.tubes = tubes;
       });
     });
     return this.args.badge.badgeCriteria;
