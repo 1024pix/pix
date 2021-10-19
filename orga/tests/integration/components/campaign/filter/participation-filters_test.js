@@ -15,7 +15,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     store = this.owner.lookup('service:store');
   });
 
-  module('commun cases', function () {
+  module('filters for all organizations', function () {
     module('when campaign does not need filters', function () {
       test('it should not display anything', async function (assert) {
         const campaign = store.createRecord('campaign', { id: campaignId });
@@ -425,7 +425,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     });
 
     test('it should not display group filter', async function (assert) {
-      this.campaign = store.createRecord('campaign', { id: 1, type: 'ASSESSMENT' });
+      this.campaign = store.createRecord('campaign', { id: 1 });
       // when
       await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}}/>`);
 
@@ -433,31 +433,41 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       assert.notContains('Groupes');
     });
   });
+
   module('when user works for a SUP organization which manages students', function () {
     class CurrentUserStub extends Service {
       prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSUPManagingStudents = true;
     }
 
-    module('when there are some groups', function () {
-      test('it displays the group filter', async function (assert) {
+    module('when there are some groups', function (hooks) {
+      hooks.beforeEach(function () {
         this.owner.register('service:current-user', CurrentUserStub);
+        const group = store.createRecord('group', { id: 'd1', name: 'd1' });
+        this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
+      });
 
-        // given
-        const group = store.createRecord('group', {
-          id: 'd1',
-          name: 'd1',
-        });
-
-        const campaign = store.createRecord('campaign', { id: 1 });
-        campaign.set('groups', [group]);
-        this.set('campaign', campaign);
-
+      test('it displays the group filter', async function (assert) {
         // when
         await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
         // then
         assert.contains('Groupes');
         assert.contains('d1');
+      });
+
+      test('it triggers the filter when a group is selected', async function (assert) {
+        const triggerFiltering = sinon.stub();
+
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+        );
+        await click('[for="group-d1"]');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ groups: ['d1'] }));
       });
     });
 

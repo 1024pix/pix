@@ -64,6 +64,11 @@ export default class ParticipationFilters extends Component {
   }
 
   @action
+  onSelectGroup(groups) {
+    this.args.onFilter({ groups });
+  }
+
+  @action
   onSelectStatus(e) {
     this.args.onFilter({ status: e.target.value });
   }
