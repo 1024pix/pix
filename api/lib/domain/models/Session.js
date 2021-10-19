@@ -35,6 +35,7 @@ class Session {
     certificationCandidates,
     certificationCenterId,
     assignedCertificationOfficerId,
+    supervisorPassword,
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
@@ -52,6 +53,7 @@ class Session {
     this.certificationCandidates = certificationCandidates;
     this.certificationCenterId = certificationCenterId;
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
+    this.supervisorPassword = supervisorPassword;
   }
 
   areResultsFlaggedAsSent() {
