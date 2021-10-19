@@ -64,6 +64,10 @@ class RedisCache extends Cache {
 
     return this._client.flushall();
   }
+
+  quit() {
+    this._client.quit();
+  }
 }
 
 module.exports = RedisCache;

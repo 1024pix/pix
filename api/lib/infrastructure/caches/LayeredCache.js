@@ -23,6 +23,11 @@ class LayeredCache extends Cache {
     await this._firstLevelCache.flushAll();
     return this._secondLevelCache.flushAll();
   }
+
+  quit() {
+    this._firstLevelCache.quit();
+    this._secondLevelCache.quit();
+  }
 }
 
 module.exports = LayeredCache;
