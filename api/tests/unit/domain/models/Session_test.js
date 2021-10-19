@@ -20,6 +20,7 @@ const SESSION_PROPS = [
   'certificationCandidates',
   'certificationCenterId',
   'assignedCertificationOfficerId',
+  'supervisorPassword',
 ];
 
 describe('Unit | Domain | Models | Session', function () {

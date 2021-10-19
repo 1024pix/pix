@@ -26,6 +26,7 @@ describe('Integration | Repository | Session', function () {
         resultsSentToPrescriberAt: new Date('2017-12-07'),
         assignedCertificationOfficerId: null,
         accessCode: 'XXXX',
+        supervisorPassword: 'AB2C7',
       });
 
       await databaseBuilder.commit();
