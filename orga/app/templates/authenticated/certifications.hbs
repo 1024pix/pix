@@ -19,10 +19,10 @@
       required={{true}}
       autocomplete="off"
     />
-    <PixButton @type="submit" id="download_results">
+    <PixButton @type="submit" id="download_results" @size="small">
       {{t "pages.certifications.download-button"}}
     </PixButton>
-    <PixButton @triggerAction={{this.downloadAttestation}} id="download_attestations">
+    <PixButton @triggerAction={{this.downloadAttestation}} id="download_attestations" @size="small">
       {{t "pages.certifications.download-attestations-button"}}
     </PixButton>
   </form>
