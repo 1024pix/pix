@@ -15,8 +15,10 @@ describe('Unit | Adapters | assessment', function () {
 
   describe('#urlForUpdateRecord', () => {
     it('should build update url from assessment id', async function () {
-      // when
+      // given
       const options = { adapterOptions: {} };
+
+      // when
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
@@ -24,8 +26,10 @@ describe('Unit | Adapters | assessment', function () {
     });
 
     it('should redirect to complete-assessment', async function () {
-      // when
+      // given
       const options = { adapterOptions: { completeAssessment: true } };
+
+      // when
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then
@@ -33,9 +37,15 @@ describe('Unit | Adapters | assessment', function () {
     });
 
     it('should redirect to update last-question-state', async function () {
+      // given
+      const attrStub = (name) => (name === 'lastQuestionState' ? 'timeout' : null);
+      const snapshot = {
+        adapterOptions: { updateLastQuestionState: true },
+        attr: attrStub,
+      };
+
       // when
-      const options = { adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } };
-      const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
+      const url = await adapter.urlForUpdateRecord(123, 'assessment', snapshot);
 
       // then
       expect(url.endsWith('/assessments/123/last-challenge-state/timeout')).to.be.true;
