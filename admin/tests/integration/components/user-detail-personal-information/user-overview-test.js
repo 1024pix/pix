@@ -245,7 +245,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         await clickByLabel('Modifier');
 
         // then
-        assert.contains('E-mail :');
+        assert.contains('Adresse e-mail :');
       });
     });
 
@@ -265,7 +265,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         await clickByLabel('Modifier');
 
         // then
-        assert.notContains('E-mail :');
+        assert.notContains('Adresse e-mail :');
       });
     });
 
