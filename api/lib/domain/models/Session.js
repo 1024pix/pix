@@ -5,6 +5,9 @@ const FINALIZED = 'finalized';
 const IN_PROCESS = 'in_process';
 const PROCESSED = 'processed';
 
+const availableCharactersForPasswordGeneration = '2346789BCDFGHJKMPQRTVWXY'.split('');
+const NB_CHAR = 5;
+
 const statuses = {
   CREATED,
   FINALIZED,
@@ -75,8 +78,16 @@ class Session {
   isAccessible() {
     return this.status === statuses.CREATED;
   }
+
+  generateSupervisorPassword() {
+    this.supervisorPassword = _.times(NB_CHAR, _randomCharacter).join('');
+  }
 }
 
 module.exports = Session;
 module.exports.statuses = statuses;
 module.exports.NO_EXAMINER_GLOBAL_COMMENT = NO_EXAMINER_GLOBAL_COMMENT;
+
+function _randomCharacter() {
+  return _.sample(availableCharactersForPasswordGeneration);
+}
