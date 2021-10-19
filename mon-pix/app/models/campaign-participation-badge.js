@@ -10,10 +10,10 @@ export default class CampaignParticipationBadge extends Badge {
   @attr('boolean') isAlwaysVisible;
 
   // includes
-  @hasMany('partnerCompetenceResult') partnerCompetenceResults;
+  @hasMany('skillSetResult') skillSetResults;
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
 
   // methods
-  @mapBy('partnerCompetenceResults', 'totalSkillsCount') totalPartnerCompetenceResultSkillsCounts;
-  @max('totalPartnerCompetenceResultSkillsCounts') maxTotalSkillsCountInPartnerCompetences;
+  @mapBy('skillSetResults', 'totalSkillsCount') totalSkillSetResultSkillsCounts;
+  @max('totalSkillSetResultSkillsCounts') maxTotalSkillsCountInSkillSets;
 }
