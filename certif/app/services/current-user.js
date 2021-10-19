@@ -23,7 +23,8 @@ export default class CurrentUserService extends Service {
   }
 
   checkRestrictedAccess() {
-    if (this.currentAllowedCertificationCenterAccess.isAccessRestricted) {
+    if (this.certificationPointOfContact.isMemberOfACertificationCenter
+      && this.currentAllowedCertificationCenterAccess.isAccessRestricted) {
       return this.router.replaceWith('authenticated.restricted-access');
     }
   }
