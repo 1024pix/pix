@@ -93,12 +93,16 @@ module('Unit | Service | current-user', function(hooks) {
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: true,
       });
+      const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
+      });
       const replaceWithStub = sinon.stub();
       class RouterStub extends Service {
         replaceWith = replaceWithStub;
       }
       this.owner.register('service:router', RouterStub);
       const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.certificationPointOfContact = certificationPointOfContact;
       currentUser.currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
 
       // when
@@ -118,12 +122,16 @@ module('Unit | Service | current-user', function(hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+      const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
+      });
       const replaceWithStub = sinon.stub();
       class RouterStub extends Service {
         replaceWith = replaceWithStub;
       }
       this.owner.register('service:router', RouterStub);
       const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.certificationPointOfContact = certificationPointOfContact;
       currentUser.currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
 
       // when
