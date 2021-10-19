@@ -206,3 +206,14 @@ describe('Unit | Domain | Models | Session', function () {
     });
   });
 });
+
+context('#generateSupervisorPassword', function () {
+  it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
+    // when
+    const session = domainBuilder.buildSession();
+    session.generateSupervisorPassword();
+
+    // then
+    expect(session.supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+  });
+});

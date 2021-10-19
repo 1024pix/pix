@@ -1,6 +1,7 @@
 const { ForbiddenAccess } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
 const sessionCodeService = require('../services/session-code-service');
+const Session = require('../models/Session');
 
 module.exports = async function createSession({
   userId,
@@ -21,10 +22,13 @@ module.exports = async function createSession({
 
   const accessCode = await sessionCodeService.getNewSessionCode();
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
-  const sessionWithCode = {
+  const domainSession = new Session({
     ...session,
     accessCode,
     certificationCenter,
-  };
-  return sessionRepository.save(sessionWithCode);
+  });
+
+  domainSession.generateSupervisorPassword();
+
+  return sessionRepository.save(domainSession);
 };
