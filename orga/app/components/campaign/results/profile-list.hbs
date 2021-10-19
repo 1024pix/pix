@@ -4,6 +4,7 @@
   <Campaign::Filter::ParticipationFilters
     @campaign={{@campaign}}
     @selectedDivisions={{@selectedDivisions}}
+    @selectedGroups={{@selectedGroups}}
     @rowCount={{@profiles.meta.rowCount}}
     @onFilter={{@onFilter}}
     @onResetFilter={{@onReset}}
@@ -87,5 +88,4 @@
   {{#if (gt @profiles.length 0)}}
     <Table::PaginationControl @pagination={{@profiles.meta}} />
   {{/if}}
-
 </section>
