@@ -117,7 +117,7 @@ describe('Unit | Route | Entry Point', function () {
         sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
       });
 
-      it('should redirect to start-or-resume when ongoing campaign participation is existing', async function () {
+      it('should redirect to entrance when ongoing campaign participation is existing', async function () {
         //given
         route.store.queryRecord
           .withArgs('campaignParticipation', {
@@ -130,7 +130,7 @@ describe('Unit | Route | Entry Point', function () {
         await route.redirect(campaign, transition);
 
         //then
-        sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume');
+        sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance');
       });
 
       describe('archived campaign', function () {
@@ -154,7 +154,7 @@ describe('Unit | Route | Entry Point', function () {
           sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-not-found');
         });
 
-        it('should redirect to start or resume page with participation', async function () {
+        it('should redirect to entrance with participation', async function () {
           //given
           route.store.queryRecord
             .withArgs('campaignParticipation', {
@@ -167,7 +167,7 @@ describe('Unit | Route | Entry Point', function () {
           await route.redirect(campaign, transition);
 
           //then
-          sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume');
+          sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance');
         });
       });
     });

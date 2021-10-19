@@ -24,21 +24,23 @@ export default class EntryPoint extends Route {
       this.campaignStorage.set(campaign.code, 'retry', transition.to.queryParams.retry);
     }
 
-    let ongoingCampaignParticipation = null;
+    let hasParticipated = false;
     if (this.session.isAuthenticated) {
       const currentUserId = get(this.currentUser, 'user.id', null);
-      ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+      const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
         campaignId: campaign.id,
         userId: currentUserId,
       });
+      hasParticipated = Boolean(ongoingCampaignParticipation);
+      this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
     }
 
-    if (campaign.isArchived && !ongoingCampaignParticipation) {
+    if (campaign.isArchived && !hasParticipated) {
       return this.replaceWith('campaigns.campaign-not-found', campaign);
     }
 
-    if (ongoingCampaignParticipation) {
-      return this.replaceWith('campaigns.start-or-resume', campaign);
+    if (hasParticipated) {
+      return this.replaceWith('campaigns.entrance', campaign);
     }
 
     return this.replaceWith('campaigns.campaign-landing-page', campaign);
