@@ -13,8 +13,17 @@ function _toDomain(skillData) {
 }
 
 module.exports = {
+  async get(id) {
+    return _toDomain(await skillDatasource.get(id));
+  },
+
   async list() {
     const skillDatas = await skillDatasource.list();
+    return skillDatas.map(_toDomain);
+  },
+
+  async findActiveByTubeId(tubeId) {
+    const skillDatas = await skillDatasource.findActiveByTubeId(tubeId);
     return skillDatas.map(_toDomain);
   },
 
