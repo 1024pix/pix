@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.115.0 (19/10/2021)
+
+- [#3582](https://github.com/1024pix/pix/pull/3582) [FEATURE] Inviter un membre à une organisation PRO avec un rôle défini dans le fichier de création des organisations PRO (PIX-3493).
+- [#3610](https://github.com/1024pix/pix/pull/3610) [FEATURE] Modification des tooltips sur les différents types de questions (PIX-3639).
+- [#3617](https://github.com/1024pix/pix/pull/3617) [FEATURE] Accéder au Portail surveillant en étant connecté à pix-certif (PIX-3624)
+- [#3595](https://github.com/1024pix/pix/pull/3595) [FEATURE] Bloquer l'obtention d'une certification complémentaire lorsque la session a été passée dans un centre de certification non habilité (PIX-3525).
+- [#3601](https://github.com/1024pix/pix/pull/3601) [BUGFIX] à l'import, ne pas réconcilier les nouveaux élèves qui sont liés par ailleurs au même compte utilisateur (PIX-3643).
+- [#3597](https://github.com/1024pix/pix/pull/3597) [TECH] Améliorer l'accessibilité des tooltips dans Pix Certif (PIX-3170)
+- [#3584](https://github.com/1024pix/pix/pull/3584) [TECH] Supprimer la colonne isShared (PIX-3146).
+- [#3599](https://github.com/1024pix/pix/pull/3599) [TECH] Refacto du filtre des classes dans l'onglet activité et résultats de Pix Orga (PIX-3618)
+- [#3624](https://github.com/1024pix/pix/pull/3624) Revert "[TECH] Utiliser le token de github pour sécuriser l'auto merge."
+- [#3616](https://github.com/1024pix/pix/pull/3616) [CLEANUP] Rendre le tri des skills par difficulté plus clair dans le choix des épreuves de certif
+
 ## v3.114.0 (15/10/2021)
 
 - [#3607](https://github.com/1024pix/pix/pull/3607) [FEATURE] Ajouter la bannière d'information dans Pix Certif (PIX-3559).
