@@ -315,7 +315,7 @@
     },
     "challenge": {
       "title": {
-        "default": "Question {stepNumber} sur {totalChallengeNumber}",
+        "default": "Mode libre - Question {stepNumber} sur {totalChallengeNumber}",
         "timed-out": "Temps écoulé - Question {stepNumber} sur {totalChallengeNumber}",
         "focused": "Mode focus - Question {stepNumber} sur {totalChallengeNumber}",
         "focused-out": "Échoué - Mode focus - Question {stepNumber} sur {totalChallengeNumber}"
@@ -494,8 +494,14 @@
         "tooltip": {
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
-          "focused": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser de logiciels pour répondre à cette question.",
-          "other": "Essayez de répondre à cette question en recherchant sur internet ou avec l'aide d'une application externe."
+          "focused": {
+            "content": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser de logiciels pour répondre à cette question.",
+            "title": "Mode Focus"
+          },
+          "other": {
+            "content": "Vous êtes libre d’utiliser internet ou des applications pour répondre à cette question.",
+            "title": "Mode Libre"
+          }
         }
       },
       "timed": {

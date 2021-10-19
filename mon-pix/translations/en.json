@@ -315,7 +315,7 @@
     },
     "challenge": {
       "title": {
-        "default": "Question {stepNumber} of {totalChallengeNumber}",
+        "default": "Free Mode - Question {stepNumber} of {totalChallengeNumber}",
         "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}",
         "focused": "Focus Mode - Question {stepNumber} of {totalChallengeNumber}",
         "focused-out": "Failed - Focus Mode - Question {stepNumber} of {totalChallengeNumber}"
@@ -494,8 +494,14 @@
         "tooltip": {
           "aria-label": "Show question's warning",
           "close": "Ok, got it",
-          "focused": "Stay on this page! To answer this question, you should neither search the internet, nor use any piece of software.",
-          "other": "To answer this question, feel free to search the internet or use an external application."
+          "focused": {
+            "content": "Stay on this page! To answer this question, you should neither search the internet, nor use any piece of software.",
+            "title": "Focus Mode"
+          },
+          "other": {
+            "content": "To answer this question, feel free to search the internet or use an external application.",
+            "title": "Free Mode"
+          }
         }
       },
       "timed": {
