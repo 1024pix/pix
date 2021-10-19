@@ -93,21 +93,21 @@ module('Unit | Route | authenticated/certifications', function (hooks) {
   module('#model', function () {
     test('it should return a list of options based on organization divisions', async function (assert) {
       // given
+      const divisions = [EmberObject.create({ name: '3èmeA' }), EmberObject.create({ name: '2ndE' })];
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
         isSCOManagingStudents = true;
-        organization = {
+        organization = EmberObject.create({
           id: 12345,
-        };
+          divisions,
+        });
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
 
       const route = this.owner.lookup('route:authenticated/certifications');
-      const divisions = [EmberObject.create({ name: '3èmeA' }), EmberObject.create({ name: '2ndE' })];
       const findRecordStub = sinon.stub();
       route.store.findRecord = findRecordStub;
-      route.store.query = sinon.stub().resolves(divisions);
 
       // when
       const actualOptions = await route.model();
