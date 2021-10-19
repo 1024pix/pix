@@ -306,6 +306,7 @@ exports.register = async (server) => {
           query: Joi.object({
             'page[size]': Joi.number().integer().empty(''),
             'page[number]': Joi.number().integer().empty(''),
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
           }).options({ allowUnknown: true }),
         },
         handler: organizationController.findPaginatedFilteredSchoolingRegistrations,

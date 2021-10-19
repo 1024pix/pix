@@ -18,10 +18,11 @@
       />
     {{/if}}
     {{#if this.displayDivisionFilter}}
-      <Campaign::Filter::DivisionsFilter
-        @campaign={{@campaign}}
+      <Ui::DivisionsFilter
+        @model={{@campaign}}
         @selected={{@selectedDivisions}}
         @onSelect={{this.onSelectDivision}}
+        @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
       />
     {{/if}}
     {{#if this.displayStagesFilter}}

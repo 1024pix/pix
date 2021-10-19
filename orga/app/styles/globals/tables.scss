@@ -9,6 +9,7 @@ table {
     border: 1px solid $grey-20;
     font-size: 0.8rem;
     height: 36px;
+    width: 100%;
 
     &:focus-within {
       border: 1px solid $blue;

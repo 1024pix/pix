@@ -33,4 +33,14 @@ export default class ScoList extends Component {
   closeDissociateModal() {
     this.isShowingDissociateModal = false;
   }
+
+  @action
+  onSearchInputText(field, debounced, event) {
+    this.args.onFilter(field, debounced, event.target.value);
+  }
+
+  @action
+  onSearchDivisions(divisions) {
+    this.args.onFilter('divisions', false, divisions);
+  }
 }
