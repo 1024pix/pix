@@ -12,14 +12,14 @@ class LearningContentCache extends Cache {
   constructor() {
     super();
     if (settings.caching.redisUrl) {
-      const distributedCache = new DistributedCache(
+      this.distributedCache = new DistributedCache(
         new InMemoryCache(),
         settings.caching.redisUrl,
         LEARNING_CONTENT_CHANNEL
       );
-      const redisCache = new RedisCache(settings.caching.redisUrl);
+      this.redisCache = new RedisCache(settings.caching.redisUrl);
 
-      this._underlyingCache = new LayeredCache(distributedCache, redisCache);
+      this._underlyingCache = new LayeredCache(this.distributedCache, this.redisCache);
     } else {
       this._underlyingCache = new InMemoryCache();
     }
@@ -35,6 +35,12 @@ class LearningContentCache extends Cache {
 
   flushAll() {
     return this._underlyingCache.flushAll();
+  }
+
+  quit() {
+    this._underlyingCache.quit();
+    this.redisCache.quit();
+    this.distributedCache.quit();
   }
 }
 

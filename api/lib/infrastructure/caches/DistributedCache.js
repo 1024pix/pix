@@ -30,6 +30,12 @@ class DistributedCache extends Cache {
   flushAll() {
     return this._redisClientPublisher.publish(this._channel, 'Flush all');
   }
+
+  quit() {
+    this._underlyingCache.quit();
+    this._redisClientPublisher.quit();
+    this._redisClientSubscriber.quit();
+  }
 }
 
 module.exports = DistributedCache;
