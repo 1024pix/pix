@@ -1,7 +1,12 @@
 {{page-title this.pageTitle}}
 
-{{#if @model.challenge.focused}}
-  <div class="challenge__info-alert challenge__info-alert--hide" tabindex="0" role="alert" aria-live="assertive">
+{{#if this.couldDisplayInfoAlert}}
+  <div
+    class="challenge__info-alert challenge__info-alert--hide challenge__info-alert--could-show"
+    tabindex="0"
+    role="alert"
+    aria-live="assertive"
+  >
     <div class="challenge-info-alert__icon"></div>
     <p class="challenge-info-alert__title">
       {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
