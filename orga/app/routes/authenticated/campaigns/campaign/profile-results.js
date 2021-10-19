@@ -13,6 +13,9 @@ export default class ProfilesRoute extends Route {
     divisions: {
       refreshModel: true,
     },
+    groups: {
+      refreshModel: true,
+    },
   };
 
   @action
@@ -35,6 +38,7 @@ export default class ProfilesRoute extends Route {
       filter: {
         campaignId: params.campaignId,
         divisions: params.divisions,
+        groups: params.groups,
       },
       page: {
         number: params.pageNumber,
@@ -48,6 +52,7 @@ export default class ProfilesRoute extends Route {
       controller.pageNumber = 1;
       controller.pageSize = 25;
       controller.divisions = [];
+      controller.groups = [];
     }
   }
 }

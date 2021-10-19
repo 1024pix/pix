@@ -48,6 +48,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
           },
           filter: {
             divisions: params.divisions,
+            groups: params.groups,
             campaignId: params.campaignId,
           },
         })
