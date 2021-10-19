@@ -26,7 +26,6 @@ describe('Unit | UseCase | update-session', function () {
       updateSessionInfo: sinon.stub(),
     };
     sinon.stub(sessionValidator, 'validate');
-
     sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
     sessionRepository.updateSessionInfo.callsFake((updatedSession) => updatedSession);
     sessionValidator.validate.withArgs(originalSession).returns();
