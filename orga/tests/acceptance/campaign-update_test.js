@@ -34,6 +34,6 @@ module('Acceptance | Campaign Update', function (hooks) {
     // then
     assert.equal(server.db.campaigns.find(1).name, newName);
     assert.equal(server.db.campaigns.find(1).customLandingPageText, newText);
-    assert.equal(currentURL(), '/campagnes/1');
+    assert.equal(currentURL(), '/campagnes/1/parametres');
   });
 });
