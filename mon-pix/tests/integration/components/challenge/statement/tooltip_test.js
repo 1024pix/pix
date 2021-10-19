@@ -9,6 +9,7 @@ describe('Integration | Component | Tooltip', function () {
   setupIntlRenderingTest();
 
   const tooltip = '.tooltip-tag__information';
+  const tooltipTitle = '.tooltip-tag-information__title';
   const confirmationButton = '.tooltip-tag-information__button';
 
   describe('when challenge is focused', function () {
@@ -35,6 +36,7 @@ describe('Integration | Component | Tooltip', function () {
       it('should render the tooltip with a confirmation button', async function () {
         // then
         expect(find(tooltip)).to.be.displayed;
+        expect(find(tooltipTitle)).to.exist;
         expect(find('.tooltip__tag--focused')).to.be.displayed;
         expect(find(confirmationButton)).to.exist;
       });
@@ -82,6 +84,7 @@ describe('Integration | Component | Tooltip', function () {
 
             // then
             expect(find(tooltip)).to.be.displayed;
+            expect(find(tooltipTitle)).to.exist;
             expect(find(confirmationButton)).to.not.exist;
           });
 
@@ -118,6 +121,7 @@ describe('Integration | Component | Tooltip', function () {
 
           // then
           expect(find(tooltip)).to.be.displayed;
+          expect(find(tooltipTitle)).to.exist;
           expect(find(confirmationButton)).to.not.exist;
         });
       });
