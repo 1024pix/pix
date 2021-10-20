@@ -24,7 +24,7 @@
           @value={{@userEmailToInvite}}
           class="form-control organization-members-section__input
             {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
-          placeholder="Adresse email de l'utilisateur à inviter"
+          placeholder="Adresse e-mail de l'utilisateur à inviter"
         />
 
         <PixSelect
@@ -35,9 +35,21 @@
           class="organization-members-section__select"
         />
 
+        <PixSelect
+          @options={{this.rolesOptions}}
+          @selectedOption={{this.organizationInvitationRole}}
+          @onChange={{this.changeOrganizationInvitationRole}}
+          aria-label="Choisir le rôle du membre"
+          class="organization-members-section__select"
+        />
+
         <PixButton
           @size="small"
-          @triggerAction={{fn @createOrganizationInvitation this.organizationInvitationLang}}
+          @triggerAction={{fn
+            @createOrganizationInvitation
+            this.organizationInvitationLang
+            this.organizationInvitationRoleValue
+          }}
           class="organization-members-section__button"
           data-test-id-invitation-button
         >

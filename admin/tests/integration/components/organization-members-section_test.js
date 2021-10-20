@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Integration | Component | organization-members-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -39,6 +40,26 @@ module('Integration | Component | organization-members-section', function (hooks
 
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });
+  });
+
+  test('it should call addMembership method', async function (assert) {
+    // given
+    const addMembershipStub = sinon.stub();
+    this.set('addMembership', addMembershipStub);
+    this.set('noop', () => {});
+
+    // when
+    await render(hbs`<OrganizationMembersSection
+      @addMembership={{addMembership}}
+      @createOrganizationInvitation={{noop}}
+      @triggerFiltering={{noop}}/>`);
+
+    await fillInByLabel('Ajouter un membre', 'user@example.net');
+    await clickByLabel('Valider');
+
+    // then
+    sinon.assert.called(addMembershipStub);
+    assert.ok(true);
   });
 
   test('it should create organization invitation with choosen language', async function (assert) {
