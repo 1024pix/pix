@@ -5,6 +5,7 @@
       @id="newEmail"
       @label={{t "pages.user-account.account-update-email-with-validation.fields.new-email.label"}}
       @errorMessage={{this.newEmailValidationMessage}}
+      @value={{this.newEmail}}
       type="email"
       {{on "focusout" this.validateNewEmail}}
       autocomplete="off"
@@ -16,10 +17,9 @@
   </div>
   <div class="update-email-with-validation__password-input">
     <PixInputPassword
-      @id="password"
+      @id="update-email-with-validation__password"
       @label={{t "pages.user-account.account-update-email-with-validation.fields.password.label"}}
-      @errorMessage={{this.passwordValidationMessage}}
-      {{on "input" this.validatePassword}}
+      @value={{this.password}}
       autocomplete="off"
       required
     />
@@ -40,7 +40,7 @@
     <PixButton
       class="update-email-with-validation-actions__confirm-button"
       @type="submit"
-      @isDisabled={{this.wasButtonClicked}}
+      @isDisabled={{this.hasRequestedUpdate}}
     >
       {{t "pages.user-account.account-update-email-with-validation.save-button"}}
     </PixButton>

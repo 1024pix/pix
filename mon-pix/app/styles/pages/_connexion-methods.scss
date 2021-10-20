@@ -1,9 +1,7 @@
 .user-account-panel__item {
-  margin: 20px 0 0 0;
   display: flex;
   align-content: flex-start;
   border-bottom: $grey-15 1px solid;
-  padding-bottom: 20px;
 
   &.with-success-message {
     border-bottom: none;
@@ -12,13 +10,11 @@
 
   &:last-child {
     border-bottom: none;
-    padding-bottom: 0;
-    margin: 20px 0;
   }
 }
 
 .success-message {
-  padding-bottom: 20px;
+  padding: 20px 0;
   border-bottom: $grey-15 1px solid;
 }
 
@@ -52,5 +48,4 @@
 .user-account-panel-item__button,
 .user-account-panel-item__edit-button {
   margin-left: auto;
-  padding: 0 20px;
 }
