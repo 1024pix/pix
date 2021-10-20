@@ -101,6 +101,14 @@ describe('Acceptance | API | Badges', function () {
                 },
               ],
             },
+            'badge-partner-competences': {
+              data: [
+                {
+                  id: skillSet.id.toString(),
+                  type: 'badge-partner-competences',
+                },
+              ],
+            },
           },
         },
         included: [
@@ -113,6 +121,9 @@ describe('Acceptance | API | Badges', function () {
             },
             relationships: {
               'skill-sets': {
+                data: [],
+              },
+              'partner-competences': {
                 data: [],
               },
             },
@@ -159,6 +170,27 @@ describe('Acceptance | API | Badges', function () {
           },
           {
             type: 'skill-sets',
+            id: skillSet.id.toString(),
+            attributes: {
+              name: 'name',
+            },
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC123',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF456',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'badge-partner-competences',
             id: skillSet.id.toString(),
             attributes: {
               name: 'name',
