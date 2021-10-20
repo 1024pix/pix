@@ -50,7 +50,7 @@ module('Acceptance | authenticated', function(hooks) {
 
     module('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function() {
 
-      test('it should show a "Portail surveillant" button', async function(assert) {
+      test('it should show a "Espace surveillant" button', async function(assert) {
         // given
         server.create('feature-toggle', {
           id: 0,
@@ -63,7 +63,7 @@ module('Acceptance | authenticated', function(hooks) {
         await visit('/sessions/liste');
 
         // then
-        assert.contains('Portail surveillant');
+        assert.contains('Espace surveillant');
       });
 
       test('it should redirect to the login session supervisor', async function(assert) {
@@ -77,16 +77,16 @@ module('Acceptance | authenticated', function(hooks) {
 
         // when
         await visit('/sessions/liste');
-        await clickByLabel('Portail surveillant');
+        await clickByLabel('Espace surveillant');
 
         // then
-        assert.equal(currentURL(), '/connexion-portail-surveillant');
+        assert.equal(currentURL(), '/connexion-espace-surveillant');
       });
     });
 
     module('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function() {
 
-      test('it should not show a "Portail surveillant" button', async function(assert) {
+      test('it should not show a "Espace surveillant" button', async function(assert) {
         // given
         server.create('feature-toggle', {
           id: 0,
@@ -99,7 +99,7 @@ module('Acceptance | authenticated', function(hooks) {
         await visit('/sessions/liste');
 
         // then
-        assert.notContains('Portail surveillant');
+        assert.notContains('Espace surveillant');
       });
     });
   });
