@@ -89,7 +89,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "p-queue": "^6.3.0",
-    "pix-ui": "https://github.com/1024pix/pix-ui/tarball/v9.0.1",
+    "pix-ui": "https://github.com/1024pix/pix-ui/tarball/v9.2.0",
     "qunit-dom": "^1.6.0",
     "sass": "^1.32.8",
     "stylelint": "^13.12.0",
