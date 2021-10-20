@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { expect, sinon, hFake, catchErr } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -201,15 +200,11 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#getAttendanceSheet', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const tokenService = { extractUserId: _.noop };
-    let request;
     const sessionId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const odsBuffer = Buffer.alloc(5);
     const accessToken = 'ABC123';
+
+    let request;
+    let odsBuffer;
 
     beforeEach(function () {
       request = {
@@ -220,6 +215,7 @@ describe('Unit | Controller | sessionController', function () {
         },
       };
 
+      odsBuffer = Buffer.alloc(5);
       sinon.stub(usecases, 'getAttendanceSheet');
       sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(userId);
     });

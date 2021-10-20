@@ -7,10 +7,6 @@ const organizationInvitationRepository = require('../../../../lib/infrastructure
 const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/orm-models/OrganizationInvitation');
 
 describe('Integration | Repository | OrganizationInvitationRepository', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const role = Membership.roles.ADMIN;
-
   describe('#create', function () {
     let organizationId;
 
@@ -28,6 +24,8 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       const email = 'member@organization.org';
       const status = OrganizationInvitation.StatusType.PENDING;
       const code = 'ABCDEFGH01';
+      const role = Membership.roles.ADMIN;
+
       // when
       const savedInvitation = await organizationInvitationRepository.create({ organizationId, email, code, role });
 

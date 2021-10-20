@@ -21,14 +21,12 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     let campaignParticipation;
     let writableStream;
     let csvPromise;
+    let i18n;
 
     const createdAt = new Date('2019-02-25T10:00:00Z');
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const i18n = getI18n();
-
     beforeEach(async function () {
+      i18n = getI18n();
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'] };
