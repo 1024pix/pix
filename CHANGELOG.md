@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.116.0 (20/10/2021)
+
+
+### :rocket: Enhancement
+- [#3591](undefined) [FEATURE] Mettre à jour le PixInputCode et corrections de style de Mon Compte sur Pix App (PIX-3605).
+- [#3619](undefined) [FEATURE] Sauvegarde de la date d'acceptation des CGU lors de la récupération de compte (PIX-3648)
+- [#3625](undefined) [FEATURE] Indiquer le dernier élément avant de perdre le focus (PIX-3597).
+- [#3612](undefined) [FEATURE] Filtrer les classes par un multi-select dans la liste des élèves (PIX-3612)
+- [#3568](undefined) [FEATURE] Assister la modification d'un centre de certification (PIX-3577)
+
+### :building_construction: Tech
+- [#3631](undefined) [TECH] Utiliser PixButtonLink sur la page de checkpoint
+- [#3621](undefined) [TECH] Utiliser le status de la table campaign-participations au lieu de la jointure assessment pour la page d'accueil de Pix App (PIX-3664).
+- [#3603](undefined) [TECH] Refactorer des tests pour corriger la règle de lint "no-setup-in-describe"
+- [#3606](undefined) [TECH] Sortir la brique entrée de la campagne pour décommissionner `start-or-resume` (PIX-3182).
+
 ## v3.115.0 (19/10/2021)
 
 - [#3582](https://github.com/1024pix/pix/pull/3582) [FEATURE] Inviter un membre à une organisation PRO avec un rôle défini dans le fichier de création des organisations PRO (PIX-3493).
