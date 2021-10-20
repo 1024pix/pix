@@ -1,9 +1,10 @@
 const { knex } = require('../bookshelf');
-const Assessment = require('../../domain/models/Assessment');
+const Campaign = require('../../domain/models/Campaign');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
 const { fetchPage } = require('../utils/knex-utils');
 const targetProfileWithLearningContentRepository = require('../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository.js');
 const bluebird = require('bluebird');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 
 module.exports = {
   async findByUserIdWithFilters({ userId, states, page }) {
@@ -38,17 +39,14 @@ function _findByUserId({ userId }) {
         targetProfileId: 'campaigns.targetProfileId',
         campaignArchivedAt: 'campaigns.archivedAt',
         organizationName: 'organizations.name',
-        assessmentState: 'assessments.state',
-        assessmentCreatedAt: 'assessments.createdAt',
         participationState: _computeCampaignParticipationState(),
       })
         .from('campaign-participations')
         .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
         .innerJoin('organizations', 'organizations.id', 'campaigns.organizationId')
-        .innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
-        .modify(_filterMostRecentAssessments)
         .where('campaign-participations.userId', userId)
         .where('campaign-participations.isImproved', false)
+        .where('campaigns.type', Campaign.types.ASSESSMENT)
         .whereNot('campaigns.isForAbsoluteNovice', true);
     })
     .from('campaign-participation-overviews')
@@ -63,24 +61,12 @@ function _computeCampaignParticipationState() {
     `
   CASE
     WHEN campaigns."archivedAt" IS NOT NULL THEN 'ARCHIVED'
-    WHEN assessments.state = ? THEN 'ONGOING'
-    WHEN "campaign-participations"."status" = 'SHARED' THEN 'ENDED'
+    WHEN "campaign-participations"."status" = ? THEN 'ONGOING'
+    WHEN "campaign-participations"."status" = ? THEN 'ENDED'
     ELSE 'TO_SHARE'
   END`,
-    Assessment.states.STARTED
+    [CampaignParticipation.statuses.STARTED, CampaignParticipation.statuses.SHARED]
   );
-}
-
-function _filterMostRecentAssessments(queryBuilder) {
-  queryBuilder
-    .leftJoin({ newerAssessments: 'assessments' }, function () {
-      this.on('newerAssessments.campaignParticipationId', 'campaign-participations.id').andOn(
-        'assessments.createdAt',
-        '<',
-        knex.ref('newerAssessments.createdAt')
-      );
-    })
-    .whereNull('newerAssessments.id');
 }
 
 function _computeCampaignParticipationOrder() {

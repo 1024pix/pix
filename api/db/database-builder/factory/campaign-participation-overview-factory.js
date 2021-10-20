@@ -6,16 +6,18 @@ const buildTargetProfile = require('./build-target-profile');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
 
-const { STARTED, SHARED } = CampaignParticipation.statuses;
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 module.exports = {
   build({ userId, createdAt, sharedAt, assessmentCreatedAt, assessmentState, campaignId, id } = {}) {
+    const status = assessmentState === Assessment.states.COMPLETED ? TO_SHARE : STARTED;
+
     const campaignParticipation = buildCampaignParticipation({
       userId,
       campaignId,
       createdAt: createdAt,
       sharedAt: sharedAt,
-      status: sharedAt ? SHARED : STARTED,
+      status: sharedAt ? SHARED : status,
     });
 
     buildAssessment({
@@ -65,7 +67,7 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: null,
-      status: STARTED,
+      status: TO_SHARE,
       campaignId: campaign.id,
     });
 

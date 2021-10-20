@@ -21,7 +21,6 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         sharedAt: new Date('2020-03-15T15:00:34Z'),
         targetProfile: targetProfile,
         organizationName: 'Pix',
-        assessmentState: 'completed',
         campaignCode: 'campaignCode',
         campaignTitle: 'campaignTitle',
         masteryRate: 0.5,
@@ -34,7 +33,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(campaignParticipationOverview.isShared).to.be.true;
       expect(campaignParticipationOverview.targetProfileId).to.equal(2);
       expect(campaignParticipationOverview.organizationName).to.equal('Pix');
-      expect(campaignParticipationOverview.assessmentState).to.equal('completed');
+      expect(campaignParticipationOverview.status).to.equal(SHARED);
       expect(campaignParticipationOverview.campaignCode).to.equal('campaignCode');
       expect(campaignParticipationOverview.campaignTitle).to.equal('campaignTitle');
       expect(campaignParticipationOverview.masteryRate).to.equal(0.5);

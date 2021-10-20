@@ -101,7 +101,7 @@ describe('Acceptance | User dashboard page', function () {
           );
 
           server.create('campaign-participation-overview', {
-            assessmentState: 'completed',
+            status: 'TO_SHARE',
             campaignCode: unsharedCampaign.code,
             createdAt: new Date('2020-04-20T04:05:06Z'),
             isShared: false,

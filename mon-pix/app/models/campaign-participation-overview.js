@@ -6,7 +6,7 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('boolean') isShared;
   @attr('date') sharedAt;
   @attr('string') organizationName;
-  @attr('string') assessmentState;
+  @attr('string') status;
   @attr('string') campaignCode;
   @attr('string') campaignTitle;
   @attr('date') campaignArchivedAt;
@@ -14,10 +14,10 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('number') totalStagesCount;
   @attr('number') validatedStagesCount;
 
-  get status() {
+  get cardStatus() {
     if (this.campaignArchivedAt) return 'ARCHIVED';
     else if (this.isShared) return 'ENDED';
-    else if (this.assessmentState === 'completed') return 'TO_SHARE';
+    else if (this.status === 'TO_SHARE') return 'TO_SHARE';
     else return 'ONGOING';
   }
 }
