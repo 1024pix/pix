@@ -1,6 +1,6 @@
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
 
-module.exports = async function updateUserAccount({
+module.exports = async function updateUserForAccountRecovery({
   password,
   temporaryKey,
   userRepository,
@@ -48,7 +48,13 @@ module.exports = async function updateUserAccount({
     );
   }
 
-  const userValuesToUpdate = { cgu: true, email: newEmail, emailConfirmedAt: new Date() };
+  const now = new Date();
+  const userValuesToUpdate = {
+    cgu: true,
+    email: newEmail,
+    emailConfirmedAt: now,
+    lastTermsOfServiceValidatedAt: now,
+  };
 
   await userRepository.updateWithEmailConfirmed({
     id: userId,
