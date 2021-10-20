@@ -109,7 +109,7 @@ export default class GetMembersController extends Controller {
   }
 
   @action
-  async createOrganizationInvitation(lang) {
+  async createOrganizationInvitation(lang, role) {
     this.isLoading = true;
     const email = this.userEmailToInvite ? this.userEmailToInvite.trim() : null;
     if (!this._isEmailToInviteValid(email)) {
@@ -119,7 +119,7 @@ export default class GetMembersController extends Controller {
 
     try {
       const organizationInvitation = await this.store
-        .createRecord('organization-invitation', { email, lang })
+        .createRecord('organization-invitation', { email, lang, role })
         .save({ adapterOptions: { organizationId: this.model.id } });
 
       this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
@@ -137,7 +137,7 @@ export default class GetMembersController extends Controller {
     }
 
     if (!isEmailValid(email)) {
-      this.userEmailToInviteError = "L'adresse email saisie n'est pas valide.";
+      this.userEmailToInviteError = "L'adresse e-mail saisie n'est pas valide.";
       return false;
     }
 

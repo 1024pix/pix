@@ -7,6 +7,8 @@ import { tracked } from '@glimmer/tracking';
 
 export default class OrganizationMembersSection extends Component {
   @tracked organizationInvitationLang = this.languagesOptions[0].value;
+  @tracked organizationInvitationRole = this.rolesOptions[0].value;
+
   options = [
     { value: 'ADMIN', label: 'Administrateur' },
     { value: 'MEMBER', label: 'Membre' },
@@ -29,9 +31,35 @@ export default class OrganizationMembersSection extends Component {
     ];
   }
 
+  get rolesOptions() {
+    return [
+      {
+        label: 'Sans rôle',
+        value: 'NULL',
+      },
+      {
+        label: 'Rôle Membre',
+        value: 'MEMBER',
+      },
+      {
+        label: 'Rôle Administrateur',
+        value: 'ADMIN',
+      },
+    ];
+  }
+
+  get organizationInvitationRoleValue() {
+    return this.organizationInvitationRole === 'NULL' ? null : this.organizationInvitationRole;
+  }
+
   @action
   selectRole(event) {
     return this.selectRoleForSearch(event.target.value || null);
+  }
+
+  @action
+  changeOrganizationInvitationRole(event) {
+    this.organizationInvitationRole = event.target.value ? event.target.value : null;
   }
 
   @action
