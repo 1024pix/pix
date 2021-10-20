@@ -5,7 +5,7 @@ import { click, currentURL, fillIn, findAll, triggerEvent, visit } from '@ember/
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-import { visit as visitScreen } from '../../../helpers/testing-library';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
