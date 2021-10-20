@@ -7,10 +7,9 @@ class CampaignParticipationOverview {
   constructor({
     id,
     createdAt,
-    status,
     sharedAt,
     organizationName,
-    assessmentState,
+    status,
     campaignCode,
     campaignTitle,
     campaignArchivedAt,
@@ -23,7 +22,7 @@ class CampaignParticipationOverview {
     this.sharedAt = sharedAt;
     this.targetProfileId = targetProfile.id;
     this.organizationName = organizationName;
-    this.assessmentState = assessmentState;
+    this.status = status;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
     this.campaignArchivedAt = campaignArchivedAt;

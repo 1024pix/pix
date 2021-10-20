@@ -17,7 +17,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
-        assessmentState: 'started',
+        status: 'STARTED',
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
       });
@@ -34,7 +34,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
-        assessmentState: 'completed',
+        status: 'TO_SHARE',
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
       });
@@ -51,7 +51,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: true,
         createdAt: '2020-12-10T15:16:20.109Z',
-        assessmentState: 'completed',
+        status: 'SHARED',
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
         masteryPercentage: 20,
@@ -70,7 +70,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
         isShared: false,
         createdAt: '2020-12-18T15:16:20.109Z',
         campaignArchivedAt: '2020-12-10T15:16:20.109Z',
-        assessmentState: 'started',
+        status: 'STARTED',
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
       });

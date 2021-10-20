@@ -13,40 +13,40 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
 
   describe('#status', () => {
     context('when the campaign is not archived', function () {
-      context('when the assessment state is "started"', () => {
+      context('when the participation status is "started"', () => {
         it('should return the status "ONGOING"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
-            assessmentState: 'started',
+            status: 'STARTED',
           });
           // when / then
-          expect(model.status).to.equal('ONGOING');
+          expect(model.cardStatus).to.equal('ONGOING');
         });
       });
 
-      context('when the assessment state is "completed" and the participation is not shared"', () => {
+      context('when the particiaption status is "TO_SHARE" and the participation is not shared"', () => {
         it('should return the status "TO_SHARE"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
-            assessmentState: 'completed',
+            status: 'TO_SHARE',
             isShared: false,
             campaignArchivedAt: null,
           });
           // when / then
-          expect(model.status).to.equal('TO_SHARE');
+          expect(model.cardStatus).to.equal('TO_SHARE');
         });
       });
 
-      context('when the assessment state is "completed" and the participation is shared"', () => {
+      context('when the participation status is "SHARED" and the participation is shared"', () => {
         it('should return the status "ENDED"', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
-            assessmentState: 'completed',
+            status: 'SHARED',
             campaignArchivedAt: null,
             isShared: true,
           });
           // when / then
-          expect(model.status).to.equal('ENDED');
+          expect(model.cardStatus).to.equal('ENDED');
         });
       });
     });
@@ -55,12 +55,12 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
       it('should return the status "archived"', function () {
         // given
         const model = store.createRecord('campaign-participation-overview', {
-          assessmentState: 'completed',
+          status: 'SHARED',
           isShared: true,
           campaignArchivedAt: new Date('2021-01-01'),
         });
         // when / then
-        expect(model.status).to.equal('ARCHIVED');
+        expect(model.cardStatus).to.equal('ARCHIVED');
       });
     });
   });
