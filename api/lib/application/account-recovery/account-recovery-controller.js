@@ -22,7 +22,7 @@ module.exports = {
     const password = request.payload.data.attributes.password;
 
     await DomainTransaction.execute(async (domainTransaction) => {
-      await usecases.updateUserAccount({
+      await usecases.updateUserForAccountRecovery({
         password,
         temporaryKey,
         domainTransaction,
