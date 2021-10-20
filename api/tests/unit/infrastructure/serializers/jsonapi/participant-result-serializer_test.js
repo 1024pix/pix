@@ -128,6 +128,18 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           },
           {
             attributes: {
+              'area-color': undefined,
+              'mastery-percentage': 100,
+              name: 'BadgeC1',
+              'tested-skills-count': 1,
+              'total-skills-count': 1,
+              'validated-skills-count': 1,
+            },
+            id: '31',
+            type: 'partnerCompetenceResults',
+          },
+          {
+            attributes: {
               'alt-message': 'Badge2 AltMessage',
               message: 'Badge2 Message',
               title: 'Badge2 Title',
@@ -144,6 +156,14 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
                   {
                     id: '31',
                     type: 'skillSetResults',
+                  },
+                ],
+              },
+              'partner-competence-results': {
+                data: [
+                  {
+                    id: '31',
+                    type: 'partnerCompetenceResults',
                   },
                 ],
               },

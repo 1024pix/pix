@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         isCertifiable: false,
         badgeCriteria: [domainBuilder.buildBadgeCriterion({ skillSetIds: null })],
         skillSets: [],
+        badgePartnerCompetences: [],
       });
       const badgeWithLearningContent = domainBuilder.buildBadgeWithLearningContent({ badge });
 
@@ -41,6 +42,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               ],
             },
             'skill-sets': {
+              data: [],
+            },
+            'badge-partner-competences': {
               data: [],
             },
           },
@@ -123,6 +127,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                 },
               ],
             },
+            'badge-partner-competences': {
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-partner-competences',
+                },
+                {
+                  id: '2',
+                  type: 'badge-partner-competences',
+                },
+              ],
+            },
           },
         },
         included: [
@@ -133,6 +149,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             },
             relationships: {
               'skill-sets': {
+                data: [],
+              },
+              'partner-competences': {
                 data: [],
               },
             },
@@ -154,6 +173,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                   {
                     id: '2',
                     type: 'skill-sets',
+                  },
+                ],
+              },
+              'partner-competences': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'badge-partner-competences',
+                  },
+                  {
+                    id: '2',
+                    type: 'badge-partner-competences',
                   },
                 ],
               },
@@ -243,6 +274,48 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               },
             },
           },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '1',
+            type: 'badge-partner-competences',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '2',
+            type: 'badge-partner-competences',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
         ],
       };
 
@@ -309,6 +382,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                 },
               ],
             },
+            'badge-partner-competences': {
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-partner-competences',
+                },
+                {
+                  id: '2',
+                  type: 'badge-partner-competences',
+                },
+              ],
+            },
           },
         },
         included: [
@@ -319,6 +404,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             },
             relationships: {
               'skill-sets': {
+                data: [],
+              },
+              'partner-competences': {
                 data: [],
               },
             },
@@ -340,6 +428,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                   {
                     id: '2',
                     type: 'skill-sets',
+                  },
+                ],
+              },
+              'partner-competences': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'badge-partner-competences',
+                  },
+                  {
+                    id: '2',
+                    type: 'badge-partner-competences',
                   },
                 ],
               },
@@ -394,6 +494,40 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             },
             id: '2',
             type: 'skill-sets',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '1',
+            type: 'badge-partner-competences',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '2',
+            type: 'badge-partner-competences',
             relationships: {
               skills: {
                 data: [

@@ -247,6 +247,18 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           },
           {
             attributes: {
+              'area-color': undefined,
+              'mastery-percentage': 38,
+              name: 'Pix Emploi',
+              'tested-skills-count': 5,
+              'total-skills-count': 8,
+              'validated-skills-count': 3,
+            },
+            id: skillSet.id.toString(),
+            type: 'partnerCompetenceResults',
+          },
+          {
+            attributes: {
               'alt-message': 'Banana',
               'image-url': '/img/banana.svg',
               'is-acquired': false,
@@ -263,6 +275,14 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
                   {
                     id: '1',
                     type: 'skillSetResults',
+                  },
+                ],
+              },
+              'partner-competence-results': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'partnerCompetenceResults',
                   },
                 ],
               },
