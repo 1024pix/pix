@@ -70,8 +70,8 @@ describe('Unit | Controller | account-recovery-controller', function () {
     });
   });
 
-  describe('#updateUserAccount', function () {
-    it('should call updateUserAccount usecase and return 204', async function () {
+  describe('#updateUserForAccountRecovery', function () {
+    it('should call updateUserForAccountRecovery usecase and return 204', async function () {
       // given
       const user = domainBuilder.buildUser({ id: 1 });
       const temporaryKey = 'validTemporaryKey';
@@ -91,7 +91,7 @@ describe('Unit | Controller | account-recovery-controller', function () {
         },
       };
 
-      sinon.stub(usecases, 'updateUserAccount').resolves();
+      sinon.stub(usecases, 'updateUserForAccountRecovery').resolves();
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
       };
@@ -100,7 +100,7 @@ describe('Unit | Controller | account-recovery-controller', function () {
       const response = await accountRecoveryController.updateUserAccountFromRecoveryDemand(request, hFake);
 
       // then
-      expect(usecases.updateUserAccount).calledWithMatch({
+      expect(usecases.updateUserForAccountRecovery).calledWithMatch({
         password: user.password,
         temporaryKey,
         domainTransaction,

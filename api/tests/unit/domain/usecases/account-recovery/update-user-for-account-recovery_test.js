@@ -1,12 +1,12 @@
 const sinon = require('sinon');
 const { expect, domainBuilder } = require('../../../../test-helper');
-const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
+const updateUserForAccountRecovery = require('../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 
 const User = require('../../../../../lib/domain/models/User');
 
-describe('Unit | Usecases | update-user-account', function () {
+describe('Unit | Usecases | update-user-for-account-recovery', function () {
   let userRepository,
     authenticationMethodRepository,
     encryptionService,
@@ -58,7 +58,7 @@ describe('Unit | Usecases | update-user-account', function () {
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
 
       // when
-      await updateUserAccount({
+      await updateUserForAccountRecovery({
         password,
         userRepository,
         authenticationMethodRepository,
@@ -105,7 +105,7 @@ describe('Unit | Usecases | update-user-account', function () {
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
 
       // when
-      await updateUserAccount({
+      await updateUserForAccountRecovery({
         password,
         userRepository,
         authenticationMethodRepository,
@@ -164,7 +164,7 @@ describe('Unit | Usecases | update-user-account', function () {
       .resolves(userUpdate);
 
     // when
-    await updateUserAccount({
+    await updateUserForAccountRecovery({
       password,
       temporaryKey,
       userRepository,

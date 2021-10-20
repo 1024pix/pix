@@ -1,9 +1,9 @@
 const { sinon, expect, catchErr } = require('../../../../test-helper');
-const sendEmailForAccountRecovery = require('../../../../../lib/domain/usecases/send-email-for-account-recovery.js');
+const sendEmailForAccountRecovery = require('../../../../../lib/domain/usecases/account-recovery/send-email-for-account-recovery.js');
 const { AlreadyRegisteredEmailError } = require('../../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountRecoveryDemand');
 
-describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', function () {
+describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-account-recovery', function () {
   let userRepository;
   let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
