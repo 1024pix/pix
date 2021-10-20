@@ -5,6 +5,8 @@
   <div class="email-verification-code__input-code">
     <PixInputCode
       @ariaLabel={{t "pages.user-account.email-verification.code-label"}}
+      @legend={{t "pages.user-account.email-verification.code-legend"}}
+      @explanationOfUse={{t "pages.user-account.email-verification.code-explanation-of-use"}}
       @numInputs={{6}}
       @onAllInputsFilled={{this.onSubmitCode}}
     />

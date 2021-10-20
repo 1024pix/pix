@@ -20,35 +20,21 @@ export default class EmailWithValidationForm extends Component {
   @tracked newEmail = '';
   @tracked password = '';
   @tracked newEmailValidationMessage = null;
-  @tracked passwordValidationMessage = null;
   @tracked errorMessage = null;
-  @tracked wasButtonClicked = false;
+  @tracked hasRequestedUpdate = false;
 
   get isFormValid() {
     return isEmailValid(this.newEmail) && !isEmpty(this.password);
   }
 
   @action
-  validateNewEmail(event) {
-    this.newEmail = event.target.value;
+  validateNewEmail() {
     const isInvalidInput = !isEmailValid(this.newEmail);
 
     this.newEmailValidationMessage = null;
 
     if (isInvalidInput) {
       this.newEmailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
-    }
-  }
-
-  @action
-  validatePassword(event) {
-    this.password = event.target.value;
-    const isInvalidInput = isEmpty(this.password);
-
-    this.passwordValidationMessage = null;
-
-    if (isInvalidInput) {
-      this.passwordValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
     }
   }
 
@@ -60,8 +46,8 @@ export default class EmailWithValidationForm extends Component {
 
     if (this.isFormValid) {
       try {
-        if (!this.wasButtonClicked) {
-          this.wasButtonClicked = true;
+        if (!this.hasRequestedUpdate) {
+          this.hasRequestedUpdate = true;
 
           const emailVerificationCode = this.store.createRecord('email-verification-code', {
             password: this.password,
@@ -74,7 +60,7 @@ export default class EmailWithValidationForm extends Component {
       } catch (response) {
         this.handleSubmitError(response);
       } finally {
-        this.wasButtonClicked = false;
+        this.hasRequestedUpdate = false;
       }
     }
   }

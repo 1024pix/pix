@@ -1365,7 +1365,9 @@
         "did-not-receive": "You haven’t received anything?",
         "send-back-the-code": "Send the code again",
         "confirmation-message": "Email sent!",
-        "code-label": "Field to enter your verification code",
+        "code-label": "Field",
+        "code-legend": "Input the verification code you received by email",
+        "code-explanation-of-use": "To move from one field to another, use either the tabulation, or the left and right arrows of the keyboard. To fill in a field, type a number between 1 and 9, or use the up and down arrows of the keyboard.",
         "update-successful": "Your email address has been changed!",
         "errors": {
           "incorrect-code": "The code entered is incorrect.",

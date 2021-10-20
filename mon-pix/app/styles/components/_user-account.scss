@@ -106,16 +106,7 @@
   }
 
   &__connection-methods {
-    margin: 0 auto;
     max-width: 980px;
-    padding: 0 20px;
-
-    @include device-is('desktop') {
-      padding: 0;
-    }
-
-    @include device-is('mobile') {
-      padding: 0;
-    }
+    padding: 10px 0;
   }
 }
