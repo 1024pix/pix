@@ -1,6 +1,6 @@
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
 
-module.exports = async function updateUserAccount({
+module.exports = async function updateUserForAccountRecovery({
   password,
   temporaryKey,
   userRepository,

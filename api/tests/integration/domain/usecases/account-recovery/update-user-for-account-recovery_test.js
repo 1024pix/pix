@@ -6,9 +6,9 @@ const accountRecoveryDemandRepository = require('../../../../../lib/infrastructu
 const userRepository = require('../../../../../lib/infrastructure/repositories/user-repository');
 const encryptionService = require('../../../../../lib/domain/services/encryption-service');
 
-const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
+const updateUserForAccountRecovery = require('../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery');
 
-describe('Integration | UseCases | Account-recovery | updateUserAccount', function () {
+describe('Integration | UseCases | Account-recovery | updateUserForAccountRecovery', function () {
   it('should rollback update user account when domain transaction throw an error', async function () {
     // given
     const password = 'pix123';
@@ -25,7 +25,7 @@ describe('Integration | UseCases | Account-recovery | updateUserAccount', functi
     // when
     await catchErr(async () => {
       await DomainTransaction.execute(async (domainTransaction) => {
-        await updateUserAccount({
+        await updateUserForAccountRecovery({
           password,
           temporaryKey: accountRecovery.temporaryKey,
           userRepository,
