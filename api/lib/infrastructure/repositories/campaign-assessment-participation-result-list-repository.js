@@ -52,6 +52,7 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)
+    .modify(_filterByGroups, filters)
     .modify(_addAcquiredBadgeids, filters)
     .modify(_filterByStage, targetProfile, filters);
 }
@@ -60,6 +61,13 @@ function _filterByDivisions(qb, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+  }
+}
+
+function _filterByGroups(qb, filters) {
+  if (filters.groups) {
+    const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
+    qb.whereIn(knex.raw('LOWER("schooling-registrations"."group")'), groupsLowerCase);
   }
 }
 
