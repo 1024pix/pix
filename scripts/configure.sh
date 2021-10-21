@@ -3,8 +3,8 @@
 set -e
 set -o pipefail
 
-EXPECTED_NODE_VERSION="v14.17.0"
-EXPECTED_NPM_VERSION="6.14.13"
+EXPECTED_NODE_VERSION="v16.12.0"
+EXPECTED_NPM_VERSION="8.1.0"
 
 function timeout() { perl -e 'alarm shift; exec @ARGV' "$@"; }
 
