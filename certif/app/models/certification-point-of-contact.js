@@ -10,4 +10,8 @@ export default class CertificationPointOfContact extends Model {
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
+
+  get isMemberOfACertificationCenter() {
+    return this.allowedCertificationCenterAccesses.length > 0;
+  }
 }

@@ -15,6 +15,10 @@ export default class AuthenticatedRoute extends Route {
       return;
     }
 
+    if (!this.currentUser.certificationPointOfContact.isMemberOfACertificationCenter) {
+      this.router.replaceWith('login-session-supervisor');
+    }
+
     const pixCertifTermsOfServiceAccepted = get(this.currentUser, 'certificationPointOfContact.pixCertifTermsOfServiceAccepted');
     if (!pixCertifTermsOfServiceAccepted) {
       this.router.replaceWith('terms-of-service');

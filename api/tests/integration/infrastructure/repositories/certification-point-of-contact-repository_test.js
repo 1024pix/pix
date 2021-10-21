@@ -6,14 +6,6 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 describe('Integration | Repository | CertificationPointOfContact', function () {
   describe('#get', function () {
     it('should throw NotFoundError when point of contact does not exist', async function () {
-      // given
-      databaseBuilder.factory.buildUser({ userId: 123 });
-      databaseBuilder.factory.buildCertificationCenter({ id: 456 });
-      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
-        certificationCenterId: 456,
-      });
-      await databaseBuilder.commit();
-
       // when
       const error = await catchErr(certificationPointOfContactRepository.get)(123);
 
@@ -24,12 +16,6 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
 
     it('should return a CertificationPointOfContact', async function () {
       // given
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 123,
-        name: 'Centre des papys gâteux',
-        type: CertificationCenter.types.PRO,
-        externalId: 'ABC123',
-      });
       databaseBuilder.factory.buildUser({
         id: 456,
         firstName: 'Jean',
@@ -38,31 +24,19 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         pixCertifTermsOfServiceAccepted: true,
       });
       databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 123,
-        userId: 456,
-      });
       await databaseBuilder.commit();
 
       // when
       const certificationPointOfContact = await certificationPointOfContactRepository.get(456);
 
       // then
-      const expectedAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 123,
-        name: 'Centre des papys gâteux',
-        externalId: 'ABC123',
-        type: CertificationCenter.types.PRO,
-        isRelatedToManagingStudentsOrganization: false,
-        relatedOrganizationTags: [],
-      });
       const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 456,
         firstName: 'Jean',
         lastName: 'Acajou',
         email: 'jean.acajou@example.net',
         pixCertifTermsOfServiceAccepted: true,
-        allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
+        allowedCertificationCenterAccesses: [],
       });
       expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
