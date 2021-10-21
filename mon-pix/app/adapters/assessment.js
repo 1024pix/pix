@@ -1,19 +1,18 @@
 import ApplicationAdapter from './application';
 
 export default class Assessment extends ApplicationAdapter {
-  urlForUpdateRecord(id, modelName, { adapterOptions }) {
-    const url = super.urlForUpdateRecord(...arguments);
+  urlForUpdateRecord(...args) {
+    const [, , snapshot] = args;
+    const url = super.urlForUpdateRecord(...args);
 
-    if (adapterOptions && adapterOptions.completeAssessment) {
-      delete adapterOptions.completeAssessment;
+    if (snapshot.adapterOptions?.completeAssessment) {
+      delete snapshot.adapterOptions.completeAssessment;
       return url + '/complete-assessment';
     }
 
-    if (adapterOptions && adapterOptions.updateLastQuestionsState) {
-      const state = adapterOptions.state;
-      delete adapterOptions.updateLastQuestionsState;
-      delete adapterOptions.state;
-      return url + '/last-challenge-state/' + state;
+    if (snapshot.adapterOptions?.updateLastQuestionState) {
+      delete snapshot.adapterOptions.updateLastQuestionState;
+      return url + '/last-challenge-state/' + snapshot.attr('lastQuestionState');
     }
 
     return url;
