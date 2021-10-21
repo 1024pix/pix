@@ -495,7 +495,7 @@
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
           "focused": {
-            "content": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser de logiciels pour répondre à cette question.",
+            "content": "<p class=\"tooltip-tag-information__title--focused\">Restez sur cette page pour répondre !</p> N'utilisez pas internet ou une application pour répondre. Toute activité en dehors de la zone est détectée.",
             "title": "Mode Focus"
           },
           "other": {

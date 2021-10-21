@@ -90,6 +90,10 @@
     font-family: $font-roboto;
     font-size: 1.125rem;
     font-weight: $font-medium;
+
+    &--focused {
+      font-weight: $font-bold;
+    }
   }
 
   &__text {
