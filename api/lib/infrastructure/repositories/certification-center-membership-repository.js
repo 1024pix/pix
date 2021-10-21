@@ -64,12 +64,4 @@ module.exports = {
     }).fetch({ require: false, columns: 'id' });
     return Boolean(certificationCenterMembership);
   },
-
-  async doesUserHaveMembershipToAnyCertificationCenter(userId) {
-    const certificationCenterMembership = await BookshelfCertificationCenterMembership.where({ userId }).fetch({
-      require: false,
-      columns: 'id',
-    });
-    return Boolean(certificationCenterMembership);
-  },
 };
