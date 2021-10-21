@@ -24,10 +24,10 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
     const assessment = await campaignAssessment.get('firstObject');
 
     if (this._shouldShowTutorial(assessment, campaign.isForAbsoluteNovice)) {
-      return this.replaceWith('campaigns.assessment.tutorial', campaign.code);
+      this.replaceWith('campaigns.assessment.tutorial', campaign.code);
+    } else {
+      this.replaceWith('assessments.resume', assessment.id);
     }
-
-    this.replaceWith('assessments.resume', assessment.id);
   }
 
   _shouldShowTutorial(assessment, isCampaignForAbsoluteNovice) {
