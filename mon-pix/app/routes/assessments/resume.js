@@ -14,13 +14,16 @@ export default class ResumeRoute extends Route {
     this.campaignCode = transition.to.queryParams.campaignCode;
     this.newLevel = transition.to.queryParams.newLevel || null;
     this.competenceLeveled = transition.to.queryParams.competenceLeveled || null;
-    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions || false;
+    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions == 'true' || false;
   }
 
   async redirect(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }
+
+    await assessment.answers.reload();
+
     if (assessment.hasCheckpoints) {
       return this._resumeAssessmentWithCheckpoint(assessment);
     }
