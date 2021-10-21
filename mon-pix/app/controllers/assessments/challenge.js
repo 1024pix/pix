@@ -69,22 +69,35 @@ export default class ChallengeController extends Controller {
   @action
   async focusedOutOfWindow() {
     this.hasFocusedOutOfWindow = true;
-    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
+    this.model.assessment.lastQuestionState = 'focusedout';
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionState: true } });
   }
 
   @action
   async timeoutChallenge() {
     this.challengeTitle = timedOutPageTitle;
-    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } });
+    this.model.assessment.lastQuestionState = 'timeout';
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionState: true } });
   }
 
-  @action
-  resetChallengeInfo() {
+  _resetNonContextualChallengeInfo() {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
     this.hasFocusedOutOfChallenge = false;
+  }
+
+  @action
+  resetAllChallengeInfo() {
+    this._resetNonContextualChallengeInfo();
     this.hasFocusedOutOfWindow = false;
     this.model.assessment.lastQuestionState = 'asked';
+  }
+
+  @action
+  resetChallengeInfoOnResume() {
+    this._resetNonContextualChallengeInfo();
+    // Keep focused out of window state
+    this.hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   }
 
   get displayHomeLink() {
