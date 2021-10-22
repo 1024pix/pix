@@ -33,6 +33,7 @@ describe('Unit | Application | Controller | Campaign', function () {
               title: 'title',
               'id-pix-label': 'idPixLabel',
               'custom-landing-page-text': 'customLandingPageText',
+              'multiple-sendings': true,
             },
             relationships: {
               'target-profile': { data: { id: '123' } },
@@ -53,6 +54,7 @@ describe('Unit | Application | Controller | Campaign', function () {
         organizationId: 456,
         targetProfileId: 123,
         creatorId: 1,
+        multipleSendings: true,
       };
 
       const expectedResult = Symbol('result');
