@@ -8,7 +8,7 @@ export default class Item extends Component {
 
   constructor() {
     super(...arguments);
-    if (this.isFocusedChallenge) {
+    if (this.isFocusedChallenge && !this.args.answer) {
       this._setOnBlurEventToWindow();
     }
   }
