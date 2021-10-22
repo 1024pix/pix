@@ -1087,7 +1087,6 @@
       "first-title": "Submitting your Pix profile",
       "form": {
         "continue": "Continue my Pix experience",
-        "info": "You can only submit it once",
         "recipient": "Recipient: {recipient}",
         "send": "Submit my profile",
         "shared": "Thank you, your profile has been submitted!"
