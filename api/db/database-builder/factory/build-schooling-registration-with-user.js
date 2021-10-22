@@ -23,6 +23,7 @@ module.exports = function buildSchoolingRegistrationWithUser({
   organizationId,
   user,
   updatedAt = new Date('2021-01-01'), // for BEGINNING_OF_THE_2020_SCHOOL_YEAR, can outdate very fast! ;)
+  group = 'LB1',
 } = {}) {
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   const { id: userId } = buildUser(user);
@@ -47,6 +48,7 @@ module.exports = function buildSchoolingRegistrationWithUser({
     organizationId,
     userId,
     updatedAt,
+    group,
   };
 
   return databaseBuffer.pushInsertable({

@@ -669,132 +669,265 @@ describe('Acceptance | API | Campaign Controller', function () {
       mockLearningContent(learningContentObjects);
     });
 
-    context('when there is one divisions', function () {
-      it('should returns profiles collection campaign participations', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organization = databaseBuilder.factory.buildOrganization();
+    context('Division filter', function () {
+      context('when there is one divisions', function () {
+        it('should returns profiles collection campaign participations', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.MEMBER,
+          databaseBuilder.factory.buildMembership({
+            userId,
+            organizationId: organization.id,
+            organizationRole: Membership.roles.MEMBER,
+          });
+          const targetProfile = databaseBuilder.factory.buildTargetProfile({
+            ownerOrganizationId: organization.id,
+            name: 'Profile 3',
+          });
+          const campaign = databaseBuilder.factory.buildCampaign({
+            name: 'Campagne de Test N°3',
+            organizationId: organization.id,
+            targetProfileId: targetProfile.id,
+          });
+
+          const participantId1 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Barry',
+            lastName: 'White',
+            organizationId: organization.id,
+            userId: participantId1,
+            division: 'Division Barry',
+          });
+
+          const participantId2 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Marvin',
+            lastName: 'Gaye',
+            organizationId: organization.id,
+            userId: participantId2,
+            division: 'Division Marvin',
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions][]=Division+Barry`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data).to.have.lengthOf(1);
+          expect(response.result.data[0].attributes['last-name']).to.equal('White');
         });
-        const targetProfile = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organization.id,
-          name: 'Profile 3',
+      });
+
+      context('when there are several divisions', function () {
+        it('should returns profiles collection campaign participations', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organization = databaseBuilder.factory.buildOrganization();
+
+          databaseBuilder.factory.buildMembership({
+            userId,
+            organizationId: organization.id,
+            organizationRole: Membership.roles.MEMBER,
+          });
+          const targetProfile = databaseBuilder.factory.buildTargetProfile({
+            ownerOrganizationId: organization.id,
+            name: 'Profile 3',
+          });
+          const campaign = databaseBuilder.factory.buildCampaign({
+            name: 'Campagne de Test N°3',
+            organizationId: organization.id,
+            targetProfileId: targetProfile.id,
+          });
+
+          const participantId1 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Barry',
+            lastName: 'White',
+            organizationId: organization.id,
+            userId: participantId1,
+            division: 'Division Barry',
+          });
+
+          const participantId2 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Marvin',
+            lastName: 'Gaye',
+            organizationId: organization.id,
+            userId: participantId2,
+            division: 'Division Marvin',
+          });
+
+          const participantId3 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId3 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Aretha',
+            lastName: 'Franklin',
+            organizationId: organization.id,
+            userId: participantId3,
+            division: 'Division Aretha',
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions][]=Division+Marvin&filter[divisions][]=Division+Aretha`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data).to.have.lengthOf(2);
+          expect(response.result.data[1].attributes['last-name']).to.equal('Gaye');
+          expect(response.result.data[0].attributes['last-name']).to.equal('Franklin');
         });
-        const campaign = databaseBuilder.factory.buildCampaign({
-          name: 'Campagne de Test N°3',
-          organizationId: organization.id,
-          targetProfileId: targetProfile.id,
-        });
-
-        const participantId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
-        databaseBuilder.factory.buildSchoolingRegistration({
-          firstName: 'Barry',
-          lastName: 'Withe',
-          organizationId: organization.id,
-          userId: participantId1,
-          division: 'Division Barry',
-        });
-
-        const participantId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
-        databaseBuilder.factory.buildSchoolingRegistration({
-          firstName: 'Marvin',
-          lastName: 'Gaye',
-          organizationId: organization.id,
-          userId: participantId2,
-          division: 'Division Marvin',
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions][]=Division+Barry`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        };
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.have.lengthOf(1);
-        expect(response.result.data[0].attributes['last-name']).to.equal('Withe');
       });
     });
 
-    context('when there are several divisions', function () {
-      it('should returns profiles collection campaign participations', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organization = databaseBuilder.factory.buildOrganization();
+    context('Group filter', function () {
+      context('when there is one groups', function () {
+        it('should returns profiles collection campaign participations', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.MEMBER,
+          databaseBuilder.factory.buildMembership({
+            userId,
+            organizationId: organization.id,
+            organizationRole: Membership.roles.MEMBER,
+          });
+          const targetProfile = databaseBuilder.factory.buildTargetProfile({
+            ownerOrganizationId: organization.id,
+            name: 'Profile 3',
+          });
+          const campaign = databaseBuilder.factory.buildCampaign({
+            name: 'Campagne de Test N°3',
+            organizationId: organization.id,
+            targetProfileId: targetProfile.id,
+          });
+
+          const participantId1 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Barry',
+            lastName: 'White',
+            organizationId: organization.id,
+            userId: participantId1,
+            group: 'L1',
+          });
+
+          const participantId2 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Marvin',
+            lastName: 'Gaye',
+            organizationId: organization.id,
+            userId: participantId2,
+            group: 'L2',
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[groups][]=L1`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data).to.have.lengthOf(1);
+          expect(response.result.data[0].attributes['last-name']).to.equal('White');
         });
-        const targetProfile = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organization.id,
-          name: 'Profile 3',
+      });
+
+      context('when there are several groups', function () {
+        it('should returns profiles collection campaign participations', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organization = databaseBuilder.factory.buildOrganization();
+
+          databaseBuilder.factory.buildMembership({
+            userId,
+            organizationId: organization.id,
+            organizationRole: Membership.roles.MEMBER,
+          });
+          const targetProfile = databaseBuilder.factory.buildTargetProfile({
+            ownerOrganizationId: organization.id,
+            name: 'Profile 3',
+          });
+          const campaign = databaseBuilder.factory.buildCampaign({
+            name: 'Campagne de Test N°3',
+            organizationId: organization.id,
+            targetProfileId: targetProfile.id,
+          });
+
+          const participantId1 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Barry',
+            lastName: 'White',
+            organizationId: organization.id,
+            userId: participantId1,
+            group: 'L1',
+          });
+
+          const participantId2 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Marvin',
+            lastName: 'Gaye',
+            organizationId: organization.id,
+            userId: participantId2,
+            group: 'L2',
+          });
+
+          const participantId3 = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId3 });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Aretha',
+            lastName: 'Franklin',
+            organizationId: organization.id,
+            userId: participantId3,
+            group: 'L3',
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[groups][]=L3&filter[groups][]=L2`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data).to.have.lengthOf(2);
+          expect(response.result.data[1].attributes['last-name']).to.equal('Gaye');
+          expect(response.result.data[0].attributes['last-name']).to.equal('Franklin');
         });
-        const campaign = databaseBuilder.factory.buildCampaign({
-          name: 'Campagne de Test N°3',
-          organizationId: organization.id,
-          targetProfileId: targetProfile.id,
-        });
-
-        const participantId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
-        databaseBuilder.factory.buildSchoolingRegistration({
-          firstName: 'Barry',
-          lastName: 'Withe',
-          organizationId: organization.id,
-          userId: participantId1,
-          division: 'Division Barry',
-        });
-
-        const participantId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
-        databaseBuilder.factory.buildSchoolingRegistration({
-          firstName: 'Marvin',
-          lastName: 'Gaye',
-          organizationId: organization.id,
-          userId: participantId2,
-          division: 'Division Marvin',
-        });
-
-        const participantId3 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId3 });
-        databaseBuilder.factory.buildSchoolingRegistration({
-          firstName: 'Aretha',
-          lastName: 'Franklin',
-          organizationId: organization.id,
-          userId: participantId3,
-          division: 'Division Aretha',
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions][]=Division+Marvin&filter[divisions][]=Division+Aretha`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        };
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.have.lengthOf(2);
-        expect(response.result.data[1].attributes['last-name']).to.equal('Gaye');
-        expect(response.result.data[0].attributes['last-name']).to.equal('Franklin');
       });
     });
   });
@@ -820,6 +953,30 @@ describe('Acceptance | API | Campaign Controller', function () {
 
       expect(response.statusCode).to.equal(200);
       expect(response.result.data[0].attributes.name).to.equal(division);
+    });
+  });
+
+  describe('GET /api/campaigns/{id}/groups', function () {
+    it('should return the campaign participants group', async function () {
+      const group = 'LB3';
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        { organizationId: campaign.organizationId, group: group },
+        { campaignId: campaign.id }
+      );
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/groups`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].attributes.name).to.equal(group);
     });
   });
 

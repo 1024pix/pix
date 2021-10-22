@@ -90,6 +90,10 @@ function _filterQuery(qb, filters) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
+  if (filters.groups) {
+    const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
+    qb.whereIn(knex.raw('LOWER("schooling-registrations"."group")'), groupsLowerCase);
+  }
 }
 
 module.exports = CampaignProfilesCollectionParticipationSummaryRepository;
