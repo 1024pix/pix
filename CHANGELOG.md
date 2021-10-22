@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.117.0 (22/10/2021)
+
+
+### :rocket: Enhancement
+- [#3630](https://github.com/1024pix/pix/pull/3630) [FEATURE] Retirer le délai pour envoyer sa collecte de profil lorsqu'une campagne autorise le renvoi (PIX-3672)
+- [#3629](https://github.com/1024pix/pix/pull/3629) [FEATURE] Redirige vers la page des paramètres de la campagne quand elle est modifiée. (PIX-3516)
+- [#3614](https://github.com/1024pix/pix/pull/3614) [FEATURE] Permettre d'ajouter une adresse e-mail à un utilisateur possédant un username sur Pix Admin (PIX-2558).
+- [#3626](https://github.com/1024pix/pix/pull/3626) [FEATURE] Rediriger les utilisateurs non-membres d'un centre de certification vers le portail surveillant depuis la page de connexion de Pix Certif (PIX-3625).
+- [#3623](https://github.com/1024pix/pix/pull/3623) [FEATURE] Pouvoir accéder à la page de connexion de l'espace surveillant (PIX-3555)
+
+### :building_construction: Tech
+- [#3627](https://github.com/1024pix/pix/pull/3627) [TECH] Utiliser le status de la table campaign-participations au lieu de la jointure assessment pour la page Activité sur Pix Orga (PIX-3666)
+
+### :bug: Bug fix
+- [#3615](https://github.com/1024pix/pix/pull/3615) [BUGFIX] Conservation statut focusedOutOfWindow si retour en arrière (PIX-3640).
+
 ## v3.116.0 (20/10/2021)
 
 
