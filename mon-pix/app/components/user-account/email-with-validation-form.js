@@ -29,6 +29,7 @@ export default class EmailWithValidationForm extends Component {
 
   @action
   validateNewEmail() {
+    this.newEmail = this.newEmail.trim();
     const isInvalidInput = !isEmailValid(this.newEmail);
 
     this.newEmailValidationMessage = null;
@@ -51,7 +52,7 @@ export default class EmailWithValidationForm extends Component {
 
           const emailVerificationCode = this.store.createRecord('email-verification-code', {
             password: this.password,
-            newEmail: this.newEmail.trim().toLowerCase(),
+            newEmail: this.newEmail,
           });
           await emailVerificationCode.sendNewEmail();
 
