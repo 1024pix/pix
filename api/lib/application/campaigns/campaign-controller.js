@@ -25,6 +25,7 @@ module.exports = {
       name,
       type,
       title,
+      'multiple-sendings': multipleSendings,
       'id-pix-label': idPixLabel,
       'custom-landing-page-text': customLandingPageText,
     } = request.payload.data.attributes;
@@ -42,6 +43,7 @@ module.exports = {
       creatorId: userId,
       organizationId,
       targetProfileId,
+      multipleSendings,
     };
     const createdCampaign = await usecases.createCampaign({ campaign });
     return h.response(campaignReportSerializer.serialize(createdCampaign)).created();
