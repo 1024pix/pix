@@ -14,7 +14,7 @@ export default class ResumeRoute extends Route {
     this.campaignCode = transition.to.queryParams.campaignCode;
     this.newLevel = transition.to.queryParams.newLevel || null;
     this.competenceLeveled = transition.to.queryParams.competenceLeveled || null;
-    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions == 'true' || false;
+    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions == 'true';
   }
 
   async redirect(assessment) {
