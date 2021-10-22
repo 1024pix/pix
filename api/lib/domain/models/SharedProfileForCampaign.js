@@ -1,6 +1,3 @@
-const moment = require('moment');
-const constants = require('../constants');
-
 class SharedProfileForCampaign {
   constructor({ id, sharedAt, pixScore, campaignAllowsRetry, isRegistrationActive, scorecards = [] }) {
     this.id = id;
@@ -11,12 +8,7 @@ class SharedProfileForCampaign {
   }
 
   _computeCanRetry(campaignAllowsRetry, sharedAt, isRegistrationActive) {
-    return campaignAllowsRetry && this._timeBeforeRetryingPassed(sharedAt) && isRegistrationActive;
-  }
-
-  _timeBeforeRetryingPassed(sharedAt) {
-    if (!sharedAt) return false;
-    return sharedAt && moment().diff(sharedAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+    return campaignAllowsRetry && Boolean(sharedAt) && isRegistrationActive;
   }
 }
 
