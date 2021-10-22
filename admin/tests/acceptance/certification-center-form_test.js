@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { visit as visitScreen } from '../helpers/testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -20,7 +19,7 @@ module('Acceptance | Certification-center Form', function (hooks) {
   test('it should create a certification center', async function (assert) {
     // given
     this.server.create('accreditation', { name: 'Pix+ Droit' });
-    this.server.create('accreditation', { name: 'Cléa Numérique' });
+    this.server.create('accreditation', { name: 'CléA Numérique' });
 
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
@@ -31,17 +30,22 @@ module('Acceptance | Certification-center Form', function (hooks) {
     });
 
     // when
-    await visit('/certification-centers/new');
-    await fillInByLabel('Nom du centre', name);
-    await fillIn('#certificationCenterTypeSelector', type.value);
-    await fillInByLabel('Identifiant externe', externalId);
-    await clickByLabel('Pix+ Droit');
-    await clickByLabel('Ajouter');
+    const screen = await visitScreen('/certification-centers/new');
+
+    await fillIn(screen.getByRole('textbox', { name: 'Nom du centre' }), name);
+    await fillIn(screen.getByRole('combobox', { name: "Type d'établissement" }), type.value);
+    await fillIn(screen.getByRole('textbox', { name: 'Identifiant externe' }), externalId);
+
+    await click(screen.getByRole('checkbox', { name: 'Pix+ Droit' }));
+    await click(screen.getByRole('button', { name: 'Ajouter' }));
 
     // then
-    assert.equal(currentURL(), `/certification-centers/99`);
+    assert.equal(currentURL(), '/certification-centers/99');
     assert.contains(name);
     assert.contains(type.label);
     assert.contains(externalId);
+
+    assert.dom(screen.getByRole('listitem', { name: 'Non-accrédité pour CléA Numérique' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Accrédité pour Pix+ Droit' })).exists();
   });
 });
