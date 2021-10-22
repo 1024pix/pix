@@ -18,7 +18,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
   test('it should display the expected number of inputs', async function (assert) {
     // given
-    const expectedNumberOfInputsInForm = 7;
+    const expectedNumberOfInputsInForm = 8;
     const expectedNumberOfTextareasInForm = 1;
     const expectedNumberOfCheckboxesInForm = 2;
 
