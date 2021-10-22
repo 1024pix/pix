@@ -230,6 +230,7 @@ exports.register = async function (server) {
           }),
           query: Joi.object({
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
           }),
@@ -282,6 +283,23 @@ exports.register = async function (server) {
             '- Récupération des classes des participants à la campagne',
         ],
         tags: ['api', 'division'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/groups',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignController.getGroups,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des groupes des participants à la campagne',
+        ],
+        tags: ['api', 'group'],
       },
     },
     {

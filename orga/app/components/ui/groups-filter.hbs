@@ -1,0 +1,16 @@
+<PixMultiSelect
+  @id="group"
+  @title={{t "pages.campaign-results.filters.type.groups.title"}}
+  @placeholder={{t "pages.campaign-results.filters.type.groups.title"}}
+  @loadingMessage={{t "common.filters.loading"}}
+  @isSearchable={{true}}
+  @onSelect={{@onSelect}}
+  @selected={{@selectedGroups}}
+  @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
+  @onLoadOptions={{this.onLoadGroups}}
+  @showOptionsOnInput={{true}}
+  ...attributes
+  as |option|
+>
+  {{option.label}}
+</PixMultiSelect>

@@ -22,19 +22,31 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       assert.deepEqual(controller.divisions, ['6eme']);
       assert.deepEqual(controller.pageNumber, null);
     });
+
+    test('update the groups', function (assert) {
+      const fetchCampaign = sinon.stub();
+      controller.set('fetchCampaign', fetchCampaign);
+      controller.set('model', { id: 12 });
+
+      controller.triggerFiltering({ groups: ['M2'] });
+
+      assert.deepEqual(controller.groups, ['M2']);
+    });
   });
 
   module('resetFiltering', function () {
-    test('reset the divisions', function (assert) {
+    test('reset params', function (assert) {
       //given
       controller.set('pageNumber', 1);
       controller.set('divisions', ['3eme']);
+      controller.set('groups', ['M2']);
 
       //when
       controller.resetFiltering();
 
       //then
       assert.deepEqual(controller.divisions, []);
+      assert.deepEqual(controller.groups, []);
       assert.deepEqual(controller.pageNumber, null);
     });
   });

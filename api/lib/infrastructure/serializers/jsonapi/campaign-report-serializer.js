@@ -33,6 +33,7 @@ module.exports = {
         'divisions',
         'stages',
         'badges',
+        'groups',
       ],
       stages: {
         ref: 'id',
@@ -71,6 +72,16 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/divisions`;
+          },
+        },
+      },
+      groups: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/campaigns/${parent.id}/groups`;
           },
         },
       },
