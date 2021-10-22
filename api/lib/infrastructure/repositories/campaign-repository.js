@@ -48,6 +48,7 @@ module.exports = {
       'creatorId',
       'organizationId',
       'targetProfileId',
+      'multipleSendings',
     ]);
     const createdCampaign = await new BookshelfCampaign(campaignAttributes).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, createdCampaign);
