@@ -34,6 +34,7 @@ Router.map(function () {
         this.route('target-profiles');
         this.route('campaigns');
         this.route('all-tags');
+        this.route('invitations');
       });
     });
 
