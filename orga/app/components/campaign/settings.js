@@ -12,6 +12,12 @@ export default class CampaignSettings extends Component {
     return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
   }
 
+  get campaignType() {
+    return this.args.campaign.isTypeAssessment
+      ? this.intl.t('pages.campaign-settings.campaign-type.assessment')
+      : this.intl.t('pages.campaign-settings.campaign-type.profiles-collection');
+  }
+
   @action
   async archiveCampaign(campaignId) {
     try {
