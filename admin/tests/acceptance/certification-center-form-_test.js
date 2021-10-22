@@ -25,6 +25,10 @@ module('Acceptance | Certification-center Form', function (hooks) {
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
     const externalId = 'externalId';
+    this.server.post('/certification-centers', (schema, request) => {
+      const { name, type, externalId } = JSON.parse(request.requestBody).data.attributes;
+      return schema.certificationCenters.create({ id: 99, name, type, externalId });
+    });
 
     // when
     await visit('/certification-centers/new');
@@ -35,9 +39,9 @@ module('Acceptance | Certification-center Form', function (hooks) {
     await clickByLabel('Ajouter');
 
     // then
-    assert.equal(currentURL(), '/certification-centers/list');
+    assert.equal(currentURL(), `/certification-centers/99`);
     assert.contains(name);
-    assert.contains(type.value);
+    assert.contains(type.label);
     assert.contains(externalId);
   });
 });
