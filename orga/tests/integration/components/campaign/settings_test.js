@@ -17,6 +17,37 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
     this.owner.register('service:url', UrlStub);
   });
 
+  module('display the type of campaign', function () {
+    module('when type is ASSESSMENT', function () {
+      test('it should display assessment type', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains(`Campagne d'évaluation`);
+      });
+    });
+
+    module('when type is PROFILES_COLLECTION', function () {
+      test('it should display profile collection campaign', async function (assert) {
+        this.campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Campagne de collecte de profils');
+      });
+    });
+  });
+
   module('on TargetProfile display', function () {
     module('when type is ASSESSMENT', function () {
       test('it should display target profile related to campaign', async function (assert) {

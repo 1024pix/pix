@@ -302,6 +302,11 @@
         "archive": "Archive",
         "edit": "Edit"
       },
+      "campaign-type": {
+        "title": "Type of campaign",
+        "assessment": "Assessment campaign",
+        "profiles-collection": "Profiles collection campaign"
+      },
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
       "landing-page-text": "Text to display on the starting page",

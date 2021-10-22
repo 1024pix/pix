@@ -1,6 +1,12 @@
 <div class="panel campaign-settings">
   <dl>
     <div class="campaign-settings-row">
+      <div class="campaign-settings-content">
+        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.campaign-type.title"}}</dt>
+        <dd class="content-text campaign-settings-content__text">{{this.campaignType}}</dd>
+      </div>
+    </div>
+    <div class="campaign-settings-row">
       {{#if @campaign.isTypeAssessment}}
         <div class="campaign-settings-content">
           <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.target-profile"}}</dt>
