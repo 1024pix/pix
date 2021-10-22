@@ -3,11 +3,12 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
 export default class AssessmentResultsController extends Controller {
-  queryParams = ['pageNumber', 'pageSize', 'divisions', 'badges', 'stages'];
+  queryParams = ['pageNumber', 'pageSize', 'divisions', 'groups', 'badges', 'stages'];
 
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
   @tracked divisions = [];
+  @tracked groups = [];
   @tracked badges = [];
   @tracked stages = [];
 
@@ -27,6 +28,7 @@ export default class AssessmentResultsController extends Controller {
   triggerFiltering(filters) {
     this.pageNumber = null;
     this.divisions = filters.divisions || this.divisions;
+    this.groups = filters.groups || this.groups;
     this.badges = filters.badges || this.badges;
     this.stages = filters.stages || this.stages;
   }
@@ -35,6 +37,7 @@ export default class AssessmentResultsController extends Controller {
   resetFiltering() {
     this.pageNumber = null;
     this.divisions = [];
+    this.groups = [];
     this.badges = [];
     this.stages = [];
   }

@@ -112,6 +112,9 @@ module.exports = {
     if (filters.divisions && !Array.isArray(filters.divisions)) {
       filters.divisions = [filters.divisions];
     }
+    if (filters.groups && !Array.isArray(filters.groups)) {
+      filters.groups = [filters.groups];
+    }
     if (filters.badges && !Array.isArray(filters.badges)) {
       filters.badges = [filters.badges];
     }

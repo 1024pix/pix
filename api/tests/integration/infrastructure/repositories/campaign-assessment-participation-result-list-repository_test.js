@@ -827,5 +827,79 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participantExternalIds).to.exactlyContain(['The good', 'The bad']);
       });
     });
+
+    context('when there is a filter on groups', function () {
+      it('returns participants which have the correct groups', async function () {
+        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
+
+        const participation1 = {
+          participantExternalId: 'Sans',
+          campaignId: campaign.id,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId: 1,
+          group: 'Bad Puns Team',
+        });
+
+        const participation2 = {
+          participantExternalId: 'Papyrus',
+          campaignId: campaign.id,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId: 2,
+          group: 'Royal Guard',
+        });
+
+        const participation3 = {
+          participantExternalId: 'Asriel',
+          campaignId: campaign.id,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId: 3,
+          group: 'Adoptive Brother',
+        });
+
+        await databaseBuilder.commit();
+
+        const learningContent = [
+          {
+            id: 'recArea1',
+            competences: [
+              {
+                id: 'recCompetence1',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [{ id: 'Skill1', name: '@Acquis1', challenges: [] }],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { groups: ['Royal Guard', 'Bad Puns Team'] },
+        });
+
+        const participantExternalIds = participations.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['Sans', 'Papyrus']);
+      });
+    });
   });
 });
