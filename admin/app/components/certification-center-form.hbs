@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-field form-group">
-      <label class="form-field__label" for="certificationCenterType">Type d'établissement</label>
+      <label class="form-field__label" for="certificationCenterTypeSelector">Type d'établissement</label>
       <div
         class="form-field__select
           {{if @certificationCenter.errors.type "is-invalid" ""}}
@@ -65,14 +65,15 @@
     </div>
 
     <section>
-      <h1 class="accreditations-title">Habilitation certifications complémentaires</h1>
+      <h1 class="accreditations-title">Habilitations aux certifications complémentaires</h1>
       <div class="form-field accreditations-checkbox-list">
         <ul>
-          {{#each @accreditations as |accreditation|}}
+          {{#each @accreditations as |accreditation index|}}
             <li>
-              <label class="form-field__label">
+              <label class="form-field__label" for={{concat "accreditation_" index}}>
                 <Input
                   @type="checkbox"
+                  id={{concat "accreditation_" index}}
                   @checked={{contains accreditation @certificationCenter.accreditations}}
                   {{on "input" (fn this.updateGrantedAccreditation accreditation)}}
                 />
