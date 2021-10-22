@@ -8,6 +8,7 @@ export default class ActivityController extends Controller {
   @tracked pageSize = 25;
   @tracked divisions = [];
   @tracked status = null;
+  @tracked groups = [];
 
   @action
   goToParticipantPage(campaignId, participationId) {
@@ -22,6 +23,7 @@ export default class ActivityController extends Controller {
   triggerFiltering(filters) {
     this.pageNumber = null;
     this.divisions = filters.divisions || this.divisions;
+    this.groups = filters.groups || this.groups;
     if (filters.status !== undefined) {
       this.status = filters.status;
     }
@@ -32,5 +34,6 @@ export default class ActivityController extends Controller {
     this.pageNumber = null;
     this.divisions = [];
     this.status = null;
+    this.groups = [];
   }
 }

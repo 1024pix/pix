@@ -46,14 +46,16 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.pageNumber = 5;
       controller.divisions = ['A2'];
       controller.status = 'SHARED';
+      controller.groups = ['L3'];
 
       // when
-      controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED' });
+      controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED', groups: ['L3'] });
 
       // then
       assert.equal(controller.pageNumber, null);
       assert.deepEqual(controller.divisions, ['A1']);
       assert.equal(controller.status, 'STARTED');
+      assert.deepEqual(controller.groups, ['L3']);
     });
 
     module('when division filter does not change', function () {
@@ -69,6 +71,23 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         // then
         assert.equal(controller.pageNumber, null);
         assert.deepEqual(controller.divisions, ['A2']);
+        assert.equal(controller.status, 'COMPLETED');
+      });
+    });
+
+    module('when groups filter does not change', function () {
+      test('it does not update groups', function (assert) {
+        // given
+        controller.pageNumber = 5;
+        controller.groups = ['A2'];
+        controller.status = 'SHARED';
+
+        // when
+        controller.send('triggerFiltering', { status: 'COMPLETED' });
+
+        // then
+        assert.equal(controller.pageNumber, null);
+        assert.deepEqual(controller.groups, ['A2']);
         assert.equal(controller.status, 'COMPLETED');
       });
     });
