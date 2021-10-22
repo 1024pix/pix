@@ -69,12 +69,6 @@
     font-family: $font-open-sans;
     font-size: 1.25rem;
     font-weight: $font-medium;
-  }
-
-  &__warning {
-    color: $grey-90;
-    font-size: 0.75rem;
-    letter-spacing: 0.36px;
-    padding-top: 10px;
+    margin-top: 0;
   }
 }
