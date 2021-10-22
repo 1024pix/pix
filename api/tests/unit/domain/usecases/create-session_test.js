@@ -1,9 +1,10 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-
+const { noop } = require('lodash/noop');
 const createSession = require('../../../../lib/domain/usecases/create-session');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+const Session = require('../../../../lib/domain/models/Session');
 
 describe('Unit | UseCase | create-session', function () {
   describe('#save', function () {
@@ -12,28 +13,14 @@ describe('Unit | UseCase | create-session', function () {
     const certificationCenterName = 'certificationCenterName';
     const certificationCenter = { id: certificationCenterId, name: certificationCenterName };
     const sessionToSave = { certificationCenterId };
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const certificationCenterRepository = { get: sinon.stub() };
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const sessionRepository = { save: sinon.stub() };
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const accessCode = Symbol('accessCode');
+    const certificationCenterRepository = { get: noop };
+    const sessionRepository = { save: noop };
+    const userRepository = { getWithCertificationCenterMemberships: noop };
+    const userWithMemberships = { hasAccessToCertificationCenter: noop };
 
     context('when session is not valid', function () {
-      beforeEach(function () {
-        sinon.stub(sessionValidator, 'validate').throws();
-      });
-
       it('should throw an error', function () {
+        sinon.stub(sessionValidator, 'validate').throws();
         const promise = createSession({
           userId,
           session: sessionToSave,
@@ -44,22 +31,21 @@ describe('Unit | UseCase | create-session', function () {
 
         // then
         expect(promise).to.be.rejected;
-        expect(sessionValidator.validate.calledWithExactly(sessionToSave));
+        expect(sessionValidator.validate).to.have.been.calledWithExactly(sessionToSave);
       });
     });
 
     context('when session is valid', function () {
-      beforeEach(function () {
-        sinon.stub(sessionValidator, 'validate').returns();
-      });
-
       context('when user has no certification center membership', function () {
-        beforeEach(function () {
-          userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
-          userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-        });
-
         it('should throw a Forbidden error', async function () {
+          // given
+          userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
+          userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
+          userRepository.getWithCertificationCenterMemberships = sinon.stub();
+          userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
+          sinon.stub(sessionValidator, 'validate').throws();
+          sessionValidator.validate.returns();
+
           // when
           const error = await catchErr(createSession)({
             userId,
@@ -75,15 +61,23 @@ describe('Unit | UseCase | create-session', function () {
       });
 
       context('when user has certification center membership', function () {
-        beforeEach(function () {
+        it('should save the session with appropriate arguments', async function () {
+          // given
+          const accessCode = Symbol('accessCode');
+          sinon.stub(sessionValidator, 'validate').throws();
+          sinon.stub(sessionCodeService, 'getNewSessionCode').throws();
+          userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
+          userRepository.getWithCertificationCenterMemberships = sinon.stub();
+          certificationCenterRepository.get = sinon.stub();
+
+          sessionRepository.save = sinon.stub();
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-          sinon.stub(sessionCodeService, 'getNewSessionCode').resolves(accessCode);
+          sessionCodeService.getNewSessionCode.resolves(accessCode);
           certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
           sessionRepository.save.resolves();
-        });
+          sessionValidator.validate.returns();
 
-        it('should save the session with appropriate arguments', async function () {
           // when
           await createSession({
             userId,
@@ -94,13 +88,14 @@ describe('Unit | UseCase | create-session', function () {
           });
 
           // then
-          expect(
-            sessionRepository.save.calledWithExactly({
-              certificationCenterId,
-              certificationCenter: certificationCenterName,
-              accessCode,
-            })
-          ).to.be.true;
+          const expectedSession = new Session({
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+          });
+
+          expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);
         });
       });
     });
