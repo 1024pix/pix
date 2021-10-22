@@ -27,6 +27,7 @@ const schema = Joi.object({
   SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
   CACHE_RELOAD_TIME: Joi.string().optional(),
   FT_VALIDATE_EMAIL: Joi.string().optional().valid('true', 'false'),
+  FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED: Joi.string().optional().valid('true', 'false'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
   POLE_EMPLOI_CLIENT_ID: Joi.string().optional(),
   POLE_EMPLOI_CLIENT_SECRET: Joi.string().optional(),
