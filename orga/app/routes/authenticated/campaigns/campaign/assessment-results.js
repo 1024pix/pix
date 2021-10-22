@@ -13,6 +13,9 @@ export default class AssessmentResultsRoute extends Route {
     divisions: {
       refreshModel: true,
     },
+    groups: {
+      refreshModel: true,
+    },
     badges: {
       refreshModel: true,
     },
@@ -44,6 +47,7 @@ export default class AssessmentResultsRoute extends Route {
       },
       filter: {
         divisions: params.divisions,
+        groups: params.groups,
         badges: params.badges,
         stages: params.stages,
       },
@@ -56,6 +60,7 @@ export default class AssessmentResultsRoute extends Route {
       controller.pageNumber = 1;
       controller.pageSize = 25;
       controller.divisions = [];
+      controller.groups = [];
       controller.badges = [];
       controller.stages = [];
     }
