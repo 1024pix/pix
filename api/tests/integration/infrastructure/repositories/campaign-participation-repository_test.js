@@ -8,7 +8,7 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-const { STARTED, SHARED } = CampaignParticipation.statuses;
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participation', function () {
   describe('#get', function () {
@@ -1122,7 +1122,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       describe('Count shared Participation', function () {
-        it('returns an object with 1 participation shared', async function () {
+        it('counts participations shared', async function () {
           databaseBuilder.factory.buildCampaignParticipation();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId });
           await databaseBuilder.commit();
@@ -1132,7 +1132,7 @@ describe('Integration | Repository | Campaign Participation', function () {
           expect(result).to.deep.equal({ started: 0, completed: 0, shared: 1 });
         });
 
-        it('returns an object with 1 participation shared and isImproved=false', async function () {
+        it('counts the last participation shared by user', async function () {
           databaseBuilder.factory.buildCampaignParticipation({ campaignId, isImproved: true });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId });
           await databaseBuilder.commit();
@@ -1144,18 +1144,11 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       describe('Count completed Participation', function () {
-        it('returns an object with 1 participation completed', async function () {
-          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ status: STARTED }).id;
-          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        it('counts participations completed', async function () {
+          databaseBuilder.factory.buildCampaignParticipation({ status: TO_SHARE });
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
-            status: STARTED,
-          }).id;
-
-          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idSomeParticipation });
-          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation });
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: idParticipation,
-            createdAt: new Date('2010-01-01'),
+            status: TO_SHARE,
           });
 
           await databaseBuilder.commit();
@@ -1165,19 +1158,16 @@ describe('Integration | Repository | Campaign Participation', function () {
           expect(result).to.deep.equal({ started: 0, completed: 1, shared: 0 });
         });
 
-        it('returns an object with 1 participation completed and isImproved=false', async function () {
-          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        it('counts the last participations completed by user', async function () {
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
-            status: STARTED,
+            status: TO_SHARE,
             isImproved: true,
-          }).id;
-          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
-            status: STARTED,
-          }).id;
-
-          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idSomeParticipation });
-          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation });
+            status: TO_SHARE,
+          });
 
           await databaseBuilder.commit();
 
@@ -1188,25 +1178,11 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       describe('Count started Participation', function () {
-        it('returns an object with 1 participation started', async function () {
-          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ status: STARTED }).id;
-          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        it('counts participations started', async function () {
+          databaseBuilder.factory.buildCampaignParticipation({ status: STARTED });
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             status: STARTED,
-          }).id;
-
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: idSomeParticipation,
-            state: Assessment.states.STARTED,
-          });
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: idParticipation,
-            state: Assessment.states.STARTED,
-            createdAt: new Date('2010-01-01'),
-          });
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: idParticipation,
-            state: Assessment.states.STARTED,
           });
 
           await databaseBuilder.commit();
@@ -1216,24 +1192,15 @@ describe('Integration | Repository | Campaign Participation', function () {
           expect(result).to.deep.equal({ started: 1, completed: 0, shared: 0 });
         });
 
-        it('returns an object with 1 participation started and isImproved=false', async function () {
-          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        it('counts the last participation started by user', async function () {
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             status: STARTED,
             isImproved: true,
-          }).id;
-          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             status: STARTED,
-          }).id;
-
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: idSomeParticipation,
-            state: Assessment.states.STARTED,
-          });
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: idParticipation,
-            state: Assessment.states.STARTED,
           });
 
           await databaseBuilder.commit();
@@ -1265,7 +1232,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       describe('Count shared Participation', function () {
-        it('returns an object with 1 participation shared', async function () {
+        it('counts participations shared', async function () {
           databaseBuilder.factory.buildCampaignParticipation();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId });
           await databaseBuilder.commit();
@@ -1275,7 +1242,7 @@ describe('Integration | Repository | Campaign Participation', function () {
           expect(result).to.deep.equal({ completed: 0, shared: 1 });
         });
 
-        it('returns an object with 1 participation shared and isImproved=false', async function () {
+        it('counts the last participation shared by user', async function () {
           databaseBuilder.factory.buildCampaignParticipation({ campaignId, isImproved: true });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId });
           await databaseBuilder.commit();
@@ -1287,9 +1254,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       describe('Count completed Participation', function () {
-        it('returns an object with 1 participation completed', async function () {
-          databaseBuilder.factory.buildCampaignParticipation({ status: STARTED });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED });
+        it('counts participations completed', async function () {
+          databaseBuilder.factory.buildCampaignParticipation({ status: TO_SHARE });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: TO_SHARE });
           await databaseBuilder.commit();
 
           const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
@@ -1297,9 +1264,9 @@ describe('Integration | Repository | Campaign Participation', function () {
           expect(result).to.deep.equal({ completed: 1, shared: 0 });
         });
 
-        it('returns an object with 1 participation completed and isImproved=false', async function () {
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED, isImproved: true });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED });
+        it('counts the last participation completed by user', async function () {
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: TO_SHARE, isImproved: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: TO_SHARE });
           await databaseBuilder.commit();
 
           const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);

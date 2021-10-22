@@ -1,10 +1,9 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-status', function () {
   let organizationId;
@@ -37,17 +36,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
 
   it('should return participations counts by status', async function () {
     databaseBuilder.factory.buildCampaignParticipation({ campaignId });
-    const participation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED }).id;
-    const participation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED }).id;
-
-    databaseBuilder.factory.buildAssessment({
-      campaignParticipationId: participation1,
-      state: Assessment.states.COMPLETED,
-    });
-    databaseBuilder.factory.buildAssessment({
-      campaignParticipationId: participation2,
-      state: Assessment.states.STARTED,
-    });
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: TO_SHARE });
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED });
 
     await databaseBuilder.commit();
 
