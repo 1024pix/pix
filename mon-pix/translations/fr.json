@@ -1087,7 +1087,6 @@
       "first-title": "Envoi de votre profil Pix",
       "form": {
         "continue": "Continuez votre expérience Pix",
-        "info": "Cet envoi n’est possible qu’une seule fois",
         "recipient": "Destinataire : {recipient}",
         "send": "J'envoie mon profil",
         "shared": "Merci, votre profil a bien été envoyé !"
