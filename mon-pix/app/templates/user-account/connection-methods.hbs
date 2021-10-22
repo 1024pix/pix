@@ -31,11 +31,9 @@
         </div>
 
         {{#if this.showEmailUpdatedMessage}}
-          <div class="success-message">
-            <PixMessage @type="success" @withIcon={{true}}>
-              {{t "pages.user-account.email-verification.update-successful"}}
-            </PixMessage>
-          </div>
+          <PixMessage @type="success" @withIcon={{true}} class="user-account-panel__success-message">
+            {{t "pages.user-account.email-verification.update-successful"}}
+          </PixMessage>
         {{/if}}
       {{/if}}
 
