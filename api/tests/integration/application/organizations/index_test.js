@@ -9,9 +9,6 @@ describe('Integration | Application | Organizations | Routes', function () {
 
   beforeEach(async function () {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon
-      .stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster')
-      .callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
     sinon
       .stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents')
@@ -141,6 +138,21 @@ describe('Integration | Application | Organizations | Routes', function () {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/invitations';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
+    });
+  });
+
+  describe('GET /api/admin/organizations/:id/invitations', function () {
+    it('should exist', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/admin/organizations/1/invitations';
 
       // when
       const response = await httpTestServer.request(method, url);

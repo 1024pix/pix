@@ -539,6 +539,29 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/admin/organizations/{id}/invitations',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.findPendingInvitations,
+        tags: ['api', 'invitations', 'admin'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que Pix Master**\n' +
+            "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/schooling-registrations/csv-template',
       config: {
         auth: false,
