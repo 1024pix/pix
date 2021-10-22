@@ -258,6 +258,7 @@ exports.register = async function (server) {
             'filter[status]': Joi.string()
               .valid(...campaignParticipationStatuses)
               .empty(''),
+            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
           }),
         },
         handler: campaignController.findParticipantsActivity,

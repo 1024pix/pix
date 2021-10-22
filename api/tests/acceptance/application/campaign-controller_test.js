@@ -1031,6 +1031,7 @@ describe('Acceptance | API | Campaign Controller', function () {
   describe('GET /api/campaigns/{id}/participants-activity', function () {
     const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
     const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
+    const participant3 = { firstName: 'Mary', lastName: 'McClane', id: 14, email: 'mary.mclane@die.hard' };
 
     let campaign;
     let userId;
@@ -1067,6 +1068,14 @@ describe('Acceptance | API | Campaign Controller', function () {
         lastName: 'McClane',
         userId: participant2.id,
       });
+      databaseBuilder.factory.buildAssessmentFromParticipation({ campaignId: campaign.id }, participant3);
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: 'L1',
+        firstName: 'Mary',
+        lastName: 'McClane',
+        userId: participant3.id,
+      });
 
       return databaseBuilder.commit();
     });
@@ -1081,7 +1090,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.have.lengthOf(2);
+      expect(response.result.data).to.have.lengthOf(3);
     });
 
     it('should return two pages as JSONAPI', async function () {
@@ -1095,7 +1104,7 @@ describe('Acceptance | API | Campaign Controller', function () {
 
       expect(response.statusCode).to.equal(200);
       const meta = response.result.meta;
-      expect(meta.pageCount).to.equal(2);
+      expect(meta.pageCount).to.equal(3);
     });
 
     it('should return the campaign participant activity from division 5eme as JSONAPI', async function () {
@@ -1126,6 +1135,21 @@ describe('Acceptance | API | Campaign Controller', function () {
       const participation = response.result.data[0].attributes;
       expect(response.result.data).to.have.lengthOf(1);
       expect(participation['first-name']).to.equal(participant2.firstName);
+    });
+
+    it('should return the campaign participant activity with group L1 as JSONAPI', async function () {
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/participants-activity?filter[groups][]=L1`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const participation = response.result.data[0].attributes;
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(participation['first-name']).to.equal(participant3.firstName);
     });
 
     it('should return 400 when status is not valid', async function () {

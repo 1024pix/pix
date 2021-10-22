@@ -39,7 +39,8 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)
-    .modify(_filterByStatus, filters);
+    .modify(_filterByStatus, filters)
+    .modify(_filterByGroup, filters);
 }
 
 function _buildPaginationQuery(queryBuilder, campaignId, filters) {
@@ -55,7 +56,8 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)
-    .modify(_filterByStatus, filters);
+    .modify(_filterByStatus, filters)
+    .modify(_filterByGroup, filters);
 }
 
 function _filterByDivisions(qb, filters) {
@@ -68,6 +70,12 @@ function _filterByDivisions(qb, filters) {
 function _filterByStatus(qb, filters) {
   if (filters.status) {
     qb.where('campaign-participations.status', filters.status);
+  }
+}
+function _filterByGroup(qb, filters) {
+  if (filters.groups) {
+    const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
+    qb.whereIn(knex.raw('LOWER("schooling-registrations"."group")'), groupsLowerCase);
   }
 }
 
