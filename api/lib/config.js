@@ -158,6 +158,9 @@ module.exports = (function () {
       isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
       isEndTestScreenRemovalEnabled: isFeatureEnabled(process.env.FT_END_TEST_SCREEN_REMOVAL_ENABLED),
+      isComplementaryCertificationSubscriptionEnabled: isFeatureEnabled(
+        process.env.FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED
+      ),
     },
 
     infra: {
