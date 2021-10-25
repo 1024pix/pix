@@ -55,6 +55,12 @@ module.exports = {
     const operativeSkills = await skillDatasource.findOperative();
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
+
+  async findFlashCompatible() {
+    const challengeDataObjects = await challengeDatasource.findFlashCompatible();
+    const activeSkills = await skillDatasource.findActive();
+    return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
+  },
 };
 
 function _toDomainCollection({ challengeDataObjects, skills }) {
@@ -103,5 +109,7 @@ function _toDomain({ challengeDataObject, skillDataObjects }) {
     locales: challengeDataObject.locales,
     autoReply: challengeDataObject.autoReply,
     focused: challengeDataObject.focusable,
+    discriminant: challengeDataObject.alpha,
+    difficulty: challengeDataObject.delta,
   });
 }
