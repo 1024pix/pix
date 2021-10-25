@@ -44,4 +44,8 @@ module.exports = class RedisClient {
   on(event, callback) {
     this._client.on(event, callback);
   }
+
+  quit() {
+    this._client.quit();
+  }
 };

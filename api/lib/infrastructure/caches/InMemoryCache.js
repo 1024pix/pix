@@ -8,6 +8,10 @@ class InMemoryCache extends Cache {
     this._queue = Promise.resolve();
   }
 
+  quit() {
+    this._cache.close();
+  }
+
   async get(key, generator) {
     return this._syncGet(key, () =>
       this._chainPromise(() => {
