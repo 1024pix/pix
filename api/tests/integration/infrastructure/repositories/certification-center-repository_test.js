@@ -45,30 +45,30 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 12345,
-          name: 'Accreditation test 1',
+          name: 'Complementary certification test 1',
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 6789,
-          name: 'Accreditation test 2',
+          name: 'Complementary certification test 2',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 12345,
+          complementaryCertificationId: 12345,
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 6789,
+          complementaryCertificationId: 6789,
         });
 
         const expectedAccreditation1 = domainBuilder.buildAccreditation({
           id: 12345,
-          name: 'Accreditation test 1',
+          name: 'Complementary certification test 1',
         });
         const expectedAccreditation2 = domainBuilder.buildAccreditation({
           id: 6789,
-          name: 'Accreditation test 2',
+          name: 'Complementary certification test 2',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -139,18 +139,18 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
         }).id;
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 1234,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 1234,
+          complementaryCertificationId: 1234,
         });
 
         const expectedAccreditation = domainBuilder.buildAccreditation({
           id: 1234,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -234,18 +234,18 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
         }).id;
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 1234,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 1234,
+          complementaryCertificationId: 1234,
         });
 
         const expectedAccreditation = domainBuilder.buildAccreditation({
           id: 1234,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -386,17 +386,17 @@ describe('Integration | Repository | Certification Center', function () {
           type: 'SUP',
           createdAt: new Date('2018-01-01T05:43:10Z'),
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 11,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 11,
+          complementaryCertificationId: 11,
         });
         const expectedAccreditation1 = domainBuilder.buildAccreditation({
           id: 11,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
         const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -413,17 +413,17 @@ describe('Integration | Repository | Certification Center', function () {
           type: 'SCO',
           createdAt: new Date('2018-01-01T05:43:10Z'),
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 22,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 2,
-          accreditationId: 22,
+          complementaryCertificationId: 22,
         });
         const expectedAccreditation2 = domainBuilder.buildAccreditation({
           id: 22,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
         const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
           id: 2,
@@ -440,17 +440,17 @@ describe('Integration | Repository | Certification Center', function () {
           type: 'PRO',
           createdAt: new Date('2018-04-01T05:43:10Z'),
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 33,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 3,
-          accreditationId: 33,
+          complementaryCertificationId: 33,
         });
         const expectedAccreditation3 = domainBuilder.buildAccreditation({
           id: 33,
-          name: 'Accreditation name',
+          name: 'Complementary certification name',
         });
         const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
           id: 3,
@@ -658,17 +658,17 @@ describe('Integration | Repository | Certification Center', function () {
           type: 'SUP',
           createdAt: new Date('2018-01-01T05:43:10Z'),
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 123,
-          name: 'Accreditation test',
+          name: 'Complementary certification test',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 123,
+          complementaryCertificationId: 123,
         });
         const expectedAccreditation = domainBuilder.buildAccreditation({
           id: 123,
-          name: 'Accreditation test',
+          name: 'Complementary certification test',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,

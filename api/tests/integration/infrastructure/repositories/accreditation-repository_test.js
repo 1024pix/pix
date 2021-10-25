@@ -6,15 +6,15 @@ describe('Integration | Repository | accreditation-repository', function () {
     describe('when there are accreditations', function () {
       it('should return all accreditations ordered by id', async function () {
         // given
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
           name: 'Pix+Edu',
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
           name: 'Pix+Droit',
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 3,
           name: 'CléA Numérique',
         });

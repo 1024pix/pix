@@ -24,11 +24,11 @@ describe('Acceptance | API | accreditations-controller', function () {
           authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
         },
       };
-      databaseBuilder.factory.buildAccreditation({
+      databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
         name: 'Pix+Edu',
       });
-      databaseBuilder.factory.buildAccreditation({
+      databaseBuilder.factory.buildComplementaryCertification({
         id: 2,
         name: 'Cléa Numérique',
       });

@@ -3,13 +3,16 @@ const { knex } = require('../bookshelf');
 module.exports = {
   async save(grantedAccreditation) {
     const columnsToSave = {
-      accreditationId: grantedAccreditation.accreditationId,
+      complementaryCertificationId: grantedAccreditation.accreditationId,
       certificationCenterId: grantedAccreditation.certificationCenterId,
     };
-    return await knex('granted-accreditations').insert(columnsToSave).returning('id');
+    return await knex('complementary-certification-habilitations').insert(columnsToSave).returning('id');
   },
 
   async deleteByCertificationCenterId(certificationCenterId) {
-    return await knex('granted-accreditations').delete().where({ certificationCenterId }).returning('id');
+    return await knex('complementary-certification-habilitations')
+      .delete()
+      .where({ certificationCenterId })
+      .returning('id');
   },
 };

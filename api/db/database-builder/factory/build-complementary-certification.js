@@ -1,6 +1,6 @@
 const databaseBuffer = require('../database-buffer');
 
-module.exports = function buildAccreditation({
+module.exports = function buildComplementaryCertification({
   id = databaseBuffer.getNextId(),
   name = 'UneSuperCertifComplémentaire',
   createdAt = new Date('2020-01-01'),
@@ -11,7 +11,7 @@ module.exports = function buildAccreditation({
     createdAt,
   };
   return databaseBuffer.pushInsertable({
-    tableName: 'accreditations',
+    tableName: 'complementary-certifications',
     values,
   });
 };

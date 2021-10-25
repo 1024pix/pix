@@ -5,7 +5,7 @@ const modelName = 'Accreditation';
 module.exports = Bookshelf.model(
   modelName,
   {
-    tableName: 'accreditations',
+    tableName: 'complementary-certifications',
     hasTimestamps: ['createdAt', null],
   },
   {

@@ -5,26 +5,26 @@ const { knex } = require('../../../../lib/infrastructure/bookshelf');
 describe('Integration | Infrastructure | Repository | granted-accreditation-repository', function () {
   context('#save', function () {
     afterEach(function () {
-      return knex('granted-accreditations').delete();
+      return knex('complementary-certification-habilitations').delete();
     });
 
     it('should create the granted accreditation', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const accreditationId = databaseBuilder.factory.buildAccreditation().id;
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
       await databaseBuilder.commit();
 
       // when
       await grantedAccreditationRepository.save({
         certificationCenterId,
-        accreditationId,
+        accreditationId: complementaryCertificationId,
       });
 
       // then
       const grantedAccreditation = await knex
         .select('*')
-        .from('granted-accreditations')
-        .where({ certificationCenterId, accreditationId })
+        .from('complementary-certification-habilitations')
+        .where({ certificationCenterId, complementaryCertificationId })
         .first();
       expect(grantedAccreditation).to.not.be.null;
     });
@@ -35,20 +35,20 @@ describe('Integration | Infrastructure | Repository | granted-accreditation-repo
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const accreditation1Id = databaseBuilder.factory.buildAccreditation().id;
-      const accreditation2Id = databaseBuilder.factory.buildAccreditation().id;
-      const otherAccreditationId = databaseBuilder.factory.buildAccreditation().id;
-      databaseBuilder.factory.buildGrantedAccreditation({
+      const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification().id;
+      const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification().id;
+      const otherComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        accreditationId: accreditation1Id,
+        complementaryCertificationId: complementaryCertification1Id,
       });
-      databaseBuilder.factory.buildGrantedAccreditation({
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        accreditationId: accreditation2Id,
+        complementaryCertificationId: complementaryCertification2Id,
       });
-      databaseBuilder.factory.buildGrantedAccreditation({
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: otherCertificationCenterId,
-        accreditationId: otherAccreditationId,
+        complementaryCertificationId: otherComplementaryCertificationId,
       });
       await databaseBuilder.commit();
 
@@ -58,12 +58,12 @@ describe('Integration | Infrastructure | Repository | granted-accreditation-repo
       // then
       const grantedAccreditationsForCertificationCenterId = await knex
         .select('*')
-        .from('granted-accreditations')
+        .from('complementary-certification-habilitations')
         .where({ certificationCenterId });
       expect(grantedAccreditationsForCertificationCenterId.length).to.equal(0);
       const grantedAccreditationThatShouldHaveBeenDeleted = await knex
         .select('*')
-        .from('granted-accreditations')
+        .from('complementary-certification-habilitations')
         .where({ certificationCenterId: otherCertificationCenterId });
       expect(grantedAccreditationThatShouldHaveBeenDeleted.length).to.equal(1);
     });
