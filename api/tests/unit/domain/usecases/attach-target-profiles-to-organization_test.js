@@ -10,11 +10,10 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
   let targetProfileRepository;
   let targetProfileIdsToAttach;
   const organizationId = 1;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const expectedResult = Symbol('success');
+  let expectedResult;
 
   beforeEach(function () {
+    expectedResult = Symbol('success');
     organizationRepository = {
       get: sinon.stub(),
     };
