@@ -5,87 +5,97 @@ const challengeDatasource = require('../../../../../lib/infrastructure/datasourc
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function () {
-  const competence1 = { id: 'competence1' },
-    competence2 = { id: 'competence2' },
-    web1 = { id: 'skill-web1' },
-    web2 = { id: 'skill-web2' },
-    web3 = { id: 'skill-web3' },
+  let competence1,
+    competence2,
+    web1,
+    web2,
+    web3,
+    challenge_competence1,
+    challenge_competence1_noSkills,
+    challenge_competence1_notValidated,
+    challenge_competence2,
+    challenge_web1,
+    challenge_web1_notValidated,
+    challenge_web2,
+    challenge_web3,
+    challenge_web3_archived;
+
+  beforeEach(function () {
+    competence1 = { id: 'competence1' };
+    competence2 = { id: 'competence2' };
+    web1 = { id: 'skill-web1' };
+    web2 = { id: 'skill-web2' };
+    web3 = { id: 'skill-web3' };
     challenge_competence1 = {
       id: 'challenge-competence1',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       competenceId: competence1.id,
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web1.id],
       status: 'validé',
-    },
+      alpha: 2.11,
+      delta: -3.56,
+    };
     challenge_competence1_noSkills = {
       id: 'challenge-competence1-noSkills',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       competenceId: competence1.id,
       skillIds: undefined,
       status: 'validé',
-    },
+      alpha: 8.11,
+      delta: 0.95,
+    };
     challenge_competence1_notValidated = {
       id: 'challenge-competence1-notValidated',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       competenceId: competence1.id,
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web1.id],
       status: 'proposé',
-    },
+      alpha: -0,
+      delta: 0,
+    };
     challenge_competence2 = {
       id: 'challenge-competence2',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       competenceId: competence2.id,
+      skillIds: [web1.id],
       status: 'validé',
-    },
+      alpha: 8.21,
+      delta: -4.23,
+    };
     challenge_web1 = {
       id: 'challenge-web1',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web1.id],
       locales: ['fr', 'fr-fr'],
       status: 'validé',
-    },
+    };
     challenge_web1_notValidated = {
       id: 'challenge-web1-notValidated',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web1.id],
       status: 'proposé',
       locales: ['fr', 'fr-fr'],
-    },
+      alpha: -1.9,
+      delta: 2.34,
+    };
     challenge_web2 = {
       id: 'challenge-web2',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web2.id],
       locales: ['en'],
       status: 'validé',
-    },
+      alpha: 1,
+      delta: -2,
+    };
     challenge_web3 = {
       id: 'challenge-web3',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web3.id],
       status: 'validé',
-    },
+      alpha: 1.83,
+      delta: 0.27,
+    };
     challenge_web3_archived = {
       id: 'challenge-web3-archived',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
       skillIds: [web3.id],
       status: 'archivé',
       locales: ['fr-fr'],
+      alpha: -8.1,
+      delta: 0,
     };
 
-  beforeEach(function () {
     sinon.stub(cache, 'get').callsFake((generator) => generator());
   });
 
@@ -181,6 +191,37 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
+    });
+  });
+
+  describe('#findFlashCompatible', function () {
+    beforeEach(function () {
+      sinon.stub(lcms, 'getLatestRelease').resolves({
+        challenges: [
+          challenge_competence1,
+          challenge_competence1_noSkills,
+          challenge_competence2,
+          challenge_web1,
+          challenge_web1_notValidated,
+          challenge_web2,
+          challenge_web3,
+          challenge_web3_archived,
+        ],
+      });
+    });
+
+    it('should resolve an array of matching Challenges from learning content', async function () {
+      // when
+      const result = await challengeDatasource.findFlashCompatible();
+
+      // then
+      expect(lcms.getLatestRelease).to.have.been.called;
+      expect(_.map(result, 'id')).to.deep.equal([
+        'challenge-competence1',
+        'challenge-competence2',
+        'challenge-web2',
+        'challenge-web3',
+      ]);
     });
   });
 });

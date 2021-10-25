@@ -34,4 +34,15 @@ module.exports = datasource.extend({
     const challenges = await this.list();
     return challenges.filter((challengeData) => _.includes(VALIDATED_CHALLENGES, challengeData.status));
   },
+
+  async findFlashCompatible() {
+    const challenges = await this.list();
+    return challenges.filter(
+      (challengeData) =>
+        _.includes(VALIDATED_CHALLENGES, challengeData.status) &&
+        !_.isEmpty(challengeData.skillIds) &&
+        challengeData.alpha != null &&
+        challengeData.delta != null
+    );
+  },
 });
