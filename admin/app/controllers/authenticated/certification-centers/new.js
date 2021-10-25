@@ -22,7 +22,7 @@ export default class NewController extends Controller {
     try {
       await certificationCenter.save();
       this.notifications.success('Le centre de certification a été créé avec succès.');
-      this.transitionToRoute('authenticated.certification-centers.list');
+      this.transitionToRoute('authenticated.certification-centers.get', certificationCenter.id);
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
     }
