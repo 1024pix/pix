@@ -62,6 +62,11 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
                 related: `/api/organizations/${organization.id}/memberships`,
               },
             },
+            groups: {
+              links: {
+                related: '/api/organizations/123/groups',
+              },
+            },
             'organization-invitations': {
               links: {
                 related: `/api/organizations/${organization.id}/invitations`,
@@ -161,6 +166,11 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
             memberships: {
               links: {
                 related: `/api/organizations/${organization.id}/memberships`,
+              },
+            },
+            groups: {
+              links: {
+                related: '/api/organizations/123/groups',
               },
             },
             'organization-invitations': {

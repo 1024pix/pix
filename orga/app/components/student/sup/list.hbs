@@ -32,12 +32,14 @@
           @triggerFiltering={{this.onFilter}}
         />
         <Table::Header />
-        <Table::HeaderFilterInput
-          @field="group"
-          @value={{@groupFilter}}
+        <Table::HeaderFilterMultiSelect
+          @field="groups"
+          @title={{t "pages.students-sup.table.column.group"}}
+          @onSelect={{this.onFilterGroup}}
+          @selectedOption={{@groupsFilter}}
+          @onLoadOptions={{this.loadGroups}}
           @placeholder={{t "pages.students-sup.table.filter.group.label"}}
           @ariaLabel={{t "pages.students-sup.table.filter.group.aria-label"}}
-          @triggerFiltering={{this.onFilter}}
         />
         <Table::Header />
       </tr>

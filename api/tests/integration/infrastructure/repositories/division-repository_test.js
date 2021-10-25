@@ -141,35 +141,65 @@ describe('Integration | Repository | Division', function () {
       ]);
     });
 
-    it('should omit old divisions', async function () {
-      // given
+    it('should return list of divisions from the given organization', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: '5A',
-        updatedAt: new Date('2021-01-01'),
       });
       databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '5A',
-        updatedAt: new Date('2019-01-01'),
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: 'very-old-division',
-        updatedAt: new Date('2019-01-01'),
+        division: '5B',
       });
 
       await databaseBuilder.commit();
 
-      // when
       const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
         organizationId: organization.id,
       });
 
-      // then
       expect(divisions).to.deep.equal([{ name: '5A' }]);
+    });
+
+    it('should omit divisions for schooling registration disabled', async function () {
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '5A',
+        isDisabled: false,
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '5B',
+        isDisabled: true,
+      });
+
+      await databaseBuilder.commit();
+
+      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
+        organizationId: organization.id,
+      });
+
+      expect(divisions).to.deep.equal([{ name: '5A' }]);
+    });
+
+    it('returns nothing if the schooling registration has no division', async function () {
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: null,
+        isDisabled: false,
+      });
+
+      await databaseBuilder.commit();
+
+      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
+        organizationId: organization.id,
+      });
+
+      expect(divisions).to.be.empty;
     });
   });
 });

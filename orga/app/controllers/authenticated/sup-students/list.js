@@ -5,10 +5,12 @@ import ENV from 'pix-orga/config/environment';
 import debounce from 'lodash/debounce';
 
 export default class ListController extends Controller {
+  queryParams = ['lastName', 'fistName', 'studentNumber', 'groups', 'pageNumber', 'pageSize'];
+
   @tracked lastName = null;
   @tracked firstName = null;
   @tracked studentNumber = null;
-  @tracked group = null;
+  @tracked groups = [];
   @tracked pageNumber = null;
   @tracked pageSize = null;
 

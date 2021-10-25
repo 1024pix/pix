@@ -66,6 +66,11 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
                 related: `/api/organizations/${organization.id}/memberships`,
               },
             },
+            groups: {
+              links: {
+                related: `/api/organizations/${organization.id}/groups`,
+              },
+            },
             'organization-invitations': {
               links: {
                 related: `/api/organizations/${organization.id}/invitations`,

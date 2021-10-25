@@ -94,4 +94,108 @@ describe('Integration | Repository | Group', function () {
       });
     });
   });
+
+  describe('#findByOrganizationId', function () {
+    it('should return list of groups from an organization ordered by name', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: '5A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: '_3A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: '3A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: 'T2',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: 't1',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: 't1',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const groups = await groupRepository.findByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(groups).to.have.lengthOf(5);
+      expect(groups).to.deep.equal([{ name: '3A' }, { name: '5A' }, { name: 'T2' }, { name: '_3A' }, { name: 't1' }]);
+    });
+
+    it('should return list of groups from the given organization', async function () {
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: '5A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        group: '5B',
+      });
+
+      await databaseBuilder.commit();
+
+      const groups = await groupRepository.findByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      expect(groups).to.deep.equal([{ name: '5A' }]);
+    });
+
+    it('should omit groups for schooling registration disabled', async function () {
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: '5A',
+        isDisabled: false,
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: '5B',
+        isDisabled: true,
+      });
+
+      await databaseBuilder.commit();
+
+      const groups = await groupRepository.findByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      expect(groups).to.deep.equal([{ name: '5A' }]);
+    });
+
+    it('returns nothing if the schooling registration has no group', async function () {
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        group: null,
+        isDisabled: false,
+      });
+
+      await databaseBuilder.commit();
+
+      const groups = await groupRepository.findByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      expect(groups).to.be.empty;
+    });
+  });
 });
