@@ -5,44 +5,16 @@ const organizationController = require('../../../../lib/application/organization
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | Routes', function () {
-  let httpTestServer;
-
-  beforeEach(async function () {
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
-    sinon
-      .stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents')
-      .callsFake((request, h) => h.response(true));
-    sinon
-      .stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents')
-      .callsFake((request, h) => h.response(true));
-    sinon
-      .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
-      .callsFake((request, h) => h.response(true));
-    sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
-
-    sinon.stub(organizationController, 'create').returns('ok');
-    sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
-    sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
-    sinon
-      .stub(organizationController, 'importSchoolingRegistrationsFromSIECLE')
-      .callsFake((request, h) => h.response('ok').code(201));
-    sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
-    sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-    sinon
-      .stub(organizationController, 'findPaginatedFilteredSchoolingRegistrations')
-      .callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('POST /api/organizations', function () {
     it('should exist', async function () {
       // given
       const method = 'POST';
       const url = '/api/organizations';
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'create').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -58,6 +30,11 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/organizations';
 
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -71,6 +48,11 @@ describe('Integration | Application | Organizations | Routes', function () {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/campaigns';
+
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -88,6 +70,15 @@ describe('Integration | Application | Organizations | Routes', function () {
       const url = '/api/organizations/1/schooling-registrations/import-siecle';
       const payload = {};
 
+      sinon
+        .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
+        .callsFake((request, h) => h.response(true));
+      sinon
+        .stub(organizationController, 'importSchoolingRegistrationsFromSIECLE')
+        .callsFake((request, h) => h.response('ok').code(201));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request(method, url, payload);
 
@@ -101,6 +92,9 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'POST';
       const url = '/api/organizations/wrongId/schooling-registrations/import-siecle';
       const payload = {};
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url, payload);
@@ -124,6 +118,11 @@ describe('Integration | Application | Organizations | Routes', function () {
         },
       };
 
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request(method, url, payload);
 
@@ -138,6 +137,11 @@ describe('Integration | Application | Organizations | Routes', function () {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/invitations';
+
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -154,6 +158,11 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/admin/organizations/1/invitations';
 
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -169,6 +178,15 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/organizations/1/students';
 
+      sinon
+        .stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents')
+        .callsFake((request, h) => h.response(true));
+      sinon
+        .stub(organizationController, 'findPaginatedFilteredSchoolingRegistrations')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -183,6 +201,9 @@ describe('Integration | Application | Organizations | Routes', function () {
         const method = 'GET';
         const url = '/api/organizations/1/students?page[size]=blabla';
 
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
         // when
         const response = await httpTestServer.request(method, url);
 
@@ -195,6 +216,9 @@ describe('Integration | Application | Organizations | Routes', function () {
         const method = 'GET';
         const url = '/api/organizations/1/students?page[number]=blabla';
 
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
         // when
         const response = await httpTestServer.request(method, url);
 
@@ -206,6 +230,9 @@ describe('Integration | Application | Organizations | Routes', function () {
         // given
         const method = 'GET';
         const url = '/api/organizations/wrongId/students';
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -229,6 +256,11 @@ describe('Integration | Application | Organizations | Routes', function () {
           },
         },
       };
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url, payload);
