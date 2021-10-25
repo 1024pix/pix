@@ -1,13 +1,16 @@
 {{page-title "Orga " @model.id " Membres"}}
-<OrganizationMembersSection
-  @memberships={{@model.memberships}}
+<OrganizationMembersActionsSection
+  @addMembership={{this.addMembership}}
   @userEmailToAdd={{this.userEmailToAdd}}
   @userEmailToInvite={{this.userEmailToInvite}}
-  @addMembership={{this.addMembership}}
+  @userEmailToInviteError={{this.userEmailToInviteError}}
+  @createOrganizationInvitation={{this.createOrganizationInvitation}}
+/>
+
+<OrganizationMembersSection
+  @memberships={{@model.memberships}}
   @updateMembership={{this.updateMembership}}
   @disableMembership={{this.disableMembership}}
-  @createOrganizationInvitation={{this.createOrganizationInvitation}}
-  @userEmailToInviteError={{this.userEmailToInviteError}}
   @isLoading={{this.isLoading}}
   @firstName={{this.firstName}}
   @lastName={{this.lastName}}
