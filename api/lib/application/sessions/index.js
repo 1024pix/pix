@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
+const sessionForMonitoringController = require('./session-for-supervising-controller');
 const finalizedSessionController = require('./finalized-session-controller');
 const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
@@ -340,6 +341,23 @@ exports.register = async (server) => {
         notes: [
           "Cette route est accessible via un token envoyé par email lors de l'envoi automatique des résultats de certification",
           "Elle retourne les résultats de certifications d'une session agrégés par email de destinataire des résultats, sous format CSV",
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/supervising',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        handler: sessionForMonitoringController.get,
+        tags: ['api', 'sessions', 'supervising'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle retourne les informations d'une session à surveiller",
         ],
       },
     },
