@@ -743,7 +743,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           });
 
           it('should show the identifiant page after clicking on start button in landing page', function () {
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/identifiant`);
           });
         });
 
