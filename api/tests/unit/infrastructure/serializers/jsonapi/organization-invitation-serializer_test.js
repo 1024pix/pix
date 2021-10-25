@@ -21,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
             email: invitationObject.email,
             status: invitationObject.status,
             'updated-at': invitationObject.updatedAt,
+            role: invitationObject.role,
           },
         },
       };
