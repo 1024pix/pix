@@ -16,6 +16,7 @@ export default class Organization extends Model {
   @hasMany('target-profile') targetProfiles;
   @hasMany('organization-invitation') organizationInvitations;
   @hasMany('student') students;
+  @hasMany('group') groups;
   @hasMany('division') divisions;
 
   get isSco() {

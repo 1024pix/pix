@@ -5,6 +5,7 @@ const usecases = require('../../domain/usecases');
 const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
+const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
@@ -170,6 +171,12 @@ module.exports = {
     return divisionSerializer.serialize(divisions);
   },
 
+  async getGroups(request) {
+    const organizationId = request.params.id;
+    const groups = await usecases.findGroupsByOrganization({ organizationId });
+    return groupSerializer.serialize(groups);
+  },
+
   async findPaginatedFilteredSchoolingRegistrations(request) {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
@@ -177,6 +184,9 @@ module.exports = {
       filter.divisions = [filter.divisions];
     }
 
+    if (filter.groups && !Array.isArray(filter.groups)) {
+      filter.groups = [filter.groups];
+    }
     const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({
       organizationId,
       filter,

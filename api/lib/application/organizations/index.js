@@ -193,6 +193,24 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/groups',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserIsAdminInOrganization }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.getGroups,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les groupes rattachés à l’organisation.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/certification-results',
       config: {
         pre: [
