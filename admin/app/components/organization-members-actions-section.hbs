@@ -1,0 +1,64 @@
+<section class="page-section mb_10 organization-members-section">
+  <div class="organization__forms-section">
+    <form aria-label="Ajouter un membre">
+      <label for="userEmailToAdd">Ajouter un membre</label>
+      <div class="organization__sub-form">
+        <Input
+          id="userEmailToAdd"
+          @value={{@userEmailToAdd}}
+          class="form-field__text form-control organization-members-section__input"
+          placeholder="Adresse email de l'utilisateur à ajouter"
+        />
+        <PixButton @size="small" @triggerAction={{@addMembership}} class="organization-members-section__button">
+          Valider
+        </PixButton>
+      </div>
+    </form>
+
+    <form aria-label="Inviter un membre">
+      <label for="userEmailToInvite">Inviter un membre</label>
+      <div class="organization__sub-form">
+        <Input
+          id="userEmailToInvite"
+          @value={{@userEmailToInvite}}
+          class="form-control organization-members-section__input
+            {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
+          placeholder="Adresse e-mail de l'utilisateur à inviter"
+        />
+
+        <PixSelect
+          @options={{this.languagesOptions}}
+          @selectedOption={{this.organizationInvitationLang}}
+          @onChange={{this.changeOrganizationInvitationLang}}
+          aria-label="Choisir la langue de l’email d’invitation"
+          class="organization-members-section__select"
+        />
+
+        <PixSelect
+          @options={{this.rolesOptions}}
+          @selectedOption={{this.organizationInvitationRole}}
+          @onChange={{this.changeOrganizationInvitationRole}}
+          aria-label="Choisir le rôle du membre"
+          class="organization-members-section__select"
+        />
+
+        <PixButton
+          @size="small"
+          @triggerAction={{fn
+            @createOrganizationInvitation
+            this.organizationInvitationLang
+            this.organizationInvitationRoleValue
+          }}
+          class="organization-members-section__button"
+          data-test-id-invitation-button
+        >
+          Inviter
+        </PixButton>
+      </div>
+      {{#if @userEmailToInviteError}}
+        <div class="organization-sub-form__error-message">{{@userEmailToInviteError}}</div>
+      {{/if}}
+    </form>
+  </div>
+</section>
+{{yield}}
