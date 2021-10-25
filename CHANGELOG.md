@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v3.118.0 (25/10/2021)
+
+
+### :rocket: Enhancement
+- [#3647](https://github.com/1024pix/pix/pull/3647) [FEATURE] Rediriger vers la page de détails après la création d'un centre de certif dans Pix Admin (PIX-3696)
+- [#3645](https://github.com/1024pix/pix/pull/3645) [FEATURE] Ajouter le type de la campagne dans l'onglet paramètres (PIX-3676)
+- [#3628](https://github.com/1024pix/pix/pull/3628) [FEATURE] Ajout d'un script de comparaison du nombre de pix avec la dernière release (PIX-3547).
+- [#3620](https://github.com/1024pix/pix/pull/3620) [FEATURE] Permettre de sélectionner plusieurs groupes pour filtrer les étudiant (PIX-3610).
+- [#3637](https://github.com/1024pix/pix/pull/3637) [FEATURE] Ajout du filtre "Groupe" dans la page d'activité d'une campagne (PIX-3542)
+- [#3634](https://github.com/1024pix/pix/pull/3634) [FEATURE] Générer le mot de passe surveillant lors de la création de la session (PIX-3650).
+- [#3636](https://github.com/1024pix/pix/pull/3636) [FEATURE] Ajouter un filtrer sur les groupes pour les résultats de campagnes d'évaluation (Pix-3544).
+- [#3571](https://github.com/1024pix/pix/pull/3571) [FEATURE] Filtrer par le "Groupe" dans la page résultat d'une campagne de collecte (PIX-3543).
+
+### :building_construction: Tech
+- [#3646](https://github.com/1024pix/pix/pull/3646) [TECH] Suppression du formattage d'email dans les questions. 
+- [#3643](https://github.com/1024pix/pix/pull/3643) [TECH] Permettre l'activation de la souscription de la certification complémentaire à chaud (PIX-3678).
+- [#3640](https://github.com/1024pix/pix/pull/3640) [TECH] Mettre à jour la version de la GitHub Action "Notify team on config file change"
+
+### :bug: Bug fix
+- [#3635](https://github.com/1024pix/pix/pull/3635) [BUGFIX] Correction de l'affichage des dropdown dans les épreuves avec champs select (PIX-3705).
+- [#3644](https://github.com/1024pix/pix/pull/3644) [BUGFIX] Suppression de l'event de focusOut quand une question a déjà été répondue. 
+- [#3639](https://github.com/1024pix/pix/pull/3639) [BUGFIX] Harmoniser les footers d'accessibilité dans Pix Certif (PIX-3692)
+
+### :coffee: Various
+- [#3642](https://github.com/1024pix/pix/pull/3642) [FIX] Supprimer la phrase "un seul envoi possible" lors de l'envoi de profil (PIX-3675)
+
 ## v3.117.0 (22/10/2021)
 
 
