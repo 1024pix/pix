@@ -110,23 +110,6 @@ describe('Integration | Component | ChallengeStatement', function () {
       expect(find('.challenge-statement-instruction__text')).to.not.exist;
     });
 
-    it('should replace ${EMAIL} by a generated email', async function () {
-      // given
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        id: 'recigAYl5bl96WGXj',
-        instruction: "Veuillez envoyer un email à l'adresse ${EMAIL} pour valider cette épreuve",
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(
-        "Veuillez envoyer un email à l'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve"
-      );
-    });
-
     it('should add title "Nouvelle fenêtre" to external links', async function () {
       // given
       addAssessmentToContext(this, { id: '267845' });
