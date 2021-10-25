@@ -15,7 +15,12 @@ module.exports = Bookshelf.model(
     },
 
     accreditations() {
-      return this.belongsToMany('Accreditation', 'granted-accreditations', 'certificationCenterId', 'accreditationId');
+      return this.belongsToMany(
+        'Accreditation',
+        'complementary-certification-habilitations',
+        'certificationCenterId',
+        'complementaryCertificationId'
+      );
     },
   },
   {

@@ -9,7 +9,7 @@ function _toDomain(row) {
 
 module.exports = {
   async findAll() {
-    const result = await knex.from('accreditations').select('id', 'name').orderBy('id', 'asc');
+    const result = await knex.from('complementary-certifications').select('id', 'name').orderBy('id', 'asc');
 
     return result.map(_toDomain);
   },
