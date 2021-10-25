@@ -2,7 +2,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function () {
+describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId', function () {
   setupTest();
 
   const model = {
@@ -13,7 +13,7 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
   let controller;
 
   beforeEach(function () {
-    controller = this.owner.lookup('controller:campaigns/fill-in-participant-external-id');
+    controller = this.owner.lookup('controller:campaigns/invited/fill-in-participant-external-id');
     controller.set('model', model);
     controller.router = { transitionTo: sinon.stub() };
   });

@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
-import createComponent from '../../../../helpers/create-glimmer-component';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import createComponent from '../../../../../helpers/create-glimmer-component';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', function () {
+describe('Unit | Component | routes/campaigns/invited/fill-in-participant-external-id', function () {
   setupIntlRenderingTest();
 
   const campaign = {
@@ -23,7 +23,7 @@ describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', 
     onSubmitStub = sinon.stub();
     onCancelStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/fill-in-participant-external-id', {
+    component = createComponent('component:routes/campaigns/invited/fill-in-participant-external-id', {
       campaign,
       onSubmit: onSubmitStub,
       onCancel: onCancelStub,

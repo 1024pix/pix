@@ -68,11 +68,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   redirect(campaign) {
-    if (this._shouldProvideExternalIdToAccessCampaign) {
-      return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
+    const hasParticipated = this.campaignStorage.get(campaign.code, 'hasParticipated');
+    if (hasParticipated) {
+      return this.replaceWith('campaigns.entrance', campaign);
     }
-
-    return this.replaceWith('campaigns.entrance', campaign);
+    return this.replaceWith('campaigns.invited', campaign);
   }
 
   _resetState() {
@@ -87,7 +87,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
       isUserLogged: false,
-      doesCampaignAskForExternalId: false,
       participantExternalId: null,
       externalUser: null,
       isCampaignPoleEmploi: false,
@@ -108,7 +107,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
       isUserLogged: this.session.isAuthenticated,
-      doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
       participantExternalId,
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
@@ -165,10 +163,5 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldDisconnectAnonymousUser() {
     return this.state.isUserLogged && this.currentUser.user.isAnonymous && !this.state.participantExternalId;
-  }
-
-  get _shouldProvideExternalIdToAccessCampaign() {
-    const hasParticipated = this.campaignStorage.get(this.state.campaignCode, 'hasParticipated');
-    return this.state.doesCampaignAskForExternalId && !this.state.participantExternalId && !hasParticipated;
   }
 }
