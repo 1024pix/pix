@@ -10,10 +10,8 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
   let targetProfileRepository;
   let targetProfileIdsToAttach;
   const organizationId = 1;
-  let expectedResult;
 
   beforeEach(function () {
-    expectedResult = Symbol('success');
     organizationRepository = {
       get: sinon.stub(),
     };
@@ -31,6 +29,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
     targetProfileRepository.findByIds.withArgs(targetProfileIdsToAttach).resolves([{ id: 1 }]);
     organizationRepository.get.withArgs(organizationId).resolves({ targetProfileShares: [] });
 
+    const expectedResult = { attachedIds: targetProfileIdsToAttach };
     targetProfileShareRepository.addTargetProfilesToOrganization
       .withArgs({ organizationId, targetProfileIdList: targetProfileIdsToAttach })
       .resolves(expectedResult);
@@ -55,6 +54,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
 
     organizationRepository.get.withArgs(organizationId).resolves({ targetProfileShares: [{ targetProfileId: 1 }] });
 
+    const expectedResult = { attachedIds: targetProfileIdsToAttach };
     targetProfileShareRepository.addTargetProfilesToOrganization
       .withArgs({ organizationId, targetProfileIdList: [2] })
       .resolves(expectedResult);
@@ -79,6 +79,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
     targetProfileRepository.findByIds.withArgs(cleanedTargetProfileIdsToAttach).resolves([{ id: 1 }, { id: 2 }]);
     organizationRepository.get.withArgs(organizationId).resolves({ targetProfileShares: [] });
 
+    const expectedResult = { attachedIds: cleanedTargetProfileIdsToAttach };
     targetProfileShareRepository.addTargetProfilesToOrganization
       .withArgs({ organizationId, targetProfileIdList: cleanedTargetProfileIdsToAttach })
       .resolves(expectedResult);
