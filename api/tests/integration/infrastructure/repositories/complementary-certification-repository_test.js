@@ -1,10 +1,10 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const accreditationRepository = require('../../../../lib/infrastructure/repositories/accreditation-repository');
+const complementaryCertificationRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-repository');
 
-describe('Integration | Repository | accreditation-repository', function () {
+describe('Integration | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {
-    describe('when there are accreditations', function () {
-      it('should return all accreditations ordered by id', async function () {
+    describe('when there are complementary certifications', function () {
+      it('should return all complementary certifications ordered by id', async function () {
         // given
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
@@ -22,10 +22,10 @@ describe('Integration | Repository | accreditation-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const accreditations = await accreditationRepository.findAll();
+        const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
         // then
-        const expectedAccreditations = [
+        const expectedComplementaryCertifications = [
           domainBuilder.buildAccreditation({
             id: 1,
             name: 'Pix+Edu',
@@ -40,17 +40,17 @@ describe('Integration | Repository | accreditation-repository', function () {
           }),
         ];
 
-        expect(accreditations).to.deepEqualArray(expectedAccreditations);
+        expect(complementaryCertifications).to.deepEqualArray(expectedComplementaryCertifications);
       });
     });
 
-    describe('when there are no accreditations', function () {
+    describe('when there are no complementary certifications', function () {
       it('should return an empty array', async function () {
         // given when
-        const accreditations = await accreditationRepository.findAll();
+        const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
         // then
-        expect(accreditations).to.be.empty;
+        expect(complementaryCertifications).to.be.empty;
       });
     });
   });

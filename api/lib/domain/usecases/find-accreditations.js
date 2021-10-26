@@ -1,3 +1,3 @@
-module.exports = function findAccreditations({ accreditationRepository }) {
-  return accreditationRepository.findAll();
+module.exports = function findAccreditations({ complementaryCertificationRepository }) {
+  return complementaryCertificationRepository.findAll();
 };
