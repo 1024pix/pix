@@ -6,12 +6,15 @@ const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
-  const accreditations = _.map(dbCertificationCenter.accreditations, (dbAccreditation) => {
-    return new ComplementaryCertification({ id: dbAccreditation.id, name: dbAccreditation.name });
+  const habilitations = _.map(dbCertificationCenter.habilitations, (dbComplementaryCertification) => {
+    return new ComplementaryCertification({
+      id: dbComplementaryCertification.id,
+      name: dbComplementaryCertification.name,
+    });
   });
   return new CertificationCenter({
     ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt']),
-    accreditations,
+    habilitations,
   });
 }
 
@@ -38,7 +41,7 @@ module.exports = {
       require: false,
       withRelated: [
         {
-          accreditations: function (query) {
+          habilitations: function (query) {
             query.orderBy('id');
           },
         },
@@ -60,7 +63,7 @@ module.exports = {
         require: false,
         withRelated: [
           {
-            accreditations: function (query) {
+            habilitations: function (query) {
               query.orderBy('id');
             },
           },
@@ -85,7 +88,7 @@ module.exports = {
         require: false,
         withRelated: [
           {
-            accreditations: function (query) {
+            habilitations: function (query) {
               query.orderBy('id');
             },
           },
@@ -99,9 +102,9 @@ module.exports = {
   },
 
   async save(certificationCenter) {
-    const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'accreditations']);
+    const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
     const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
-    await certificationCenterBookshelf.related('accreditations').fetch();
+    await certificationCenterBookshelf.related('habilitations').fetch();
     return _toDomain(certificationCenterBookshelf);
   },
 
@@ -113,7 +116,7 @@ module.exports = {
       pageSize: page.size,
       withRelated: [
         {
-          accreditations: function (query) {
+          habilitations: function (query) {
             query.orderBy('id');
           },
         },
@@ -128,7 +131,7 @@ module.exports = {
       require: false,
       withRelated: [
         {
-          accreditations: function (query) {
+          habilitations: function (query) {
             query.orderBy('id');
           },
         },

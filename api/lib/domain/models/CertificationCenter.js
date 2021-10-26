@@ -12,13 +12,13 @@ const types = {
 };
 
 class CertificationCenter {
-  constructor({ id, name, externalId, type, createdAt, accreditations = [] } = {}) {
+  constructor({ id, name, externalId, type, createdAt, habilitations = [] } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
     this.type = type;
     this.createdAt = createdAt;
-    this.accreditations = accreditations;
+    this.habilitations = habilitations;
   }
 
   get isSco() {
@@ -26,11 +26,11 @@ class CertificationCenter {
   }
 
   get isAccreditedPixPlusDroit() {
-    return this.accreditations.some((accreditation) => accreditation.name === PIX_PLUS_DROIT);
+    return this.habilitations.some((habilitation) => habilitation.name === PIX_PLUS_DROIT);
   }
 
   get isAccreditedClea() {
-    return this.accreditations.some((accreditation) => accreditation.name === CLEA);
+    return this.habilitations.some((habilitation) => habilitation.name === CLEA);
   }
 }
 

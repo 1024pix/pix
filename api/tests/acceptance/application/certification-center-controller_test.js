@@ -46,7 +46,6 @@ describe('Acceptance | API | Certification Center', function () {
           type: 'SCO',
           externalId: '222',
           createdAt: new Date('2020-01-05'),
-          accreditations: [],
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 12,

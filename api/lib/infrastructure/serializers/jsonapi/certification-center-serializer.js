@@ -5,6 +5,11 @@ const CertificationCenter = require('../../../domain/models/CertificationCenter'
 module.exports = {
   serialize(certificationCenters, meta) {
     return new Serializer('certification-center', {
+      transform: (certificationCenter) => {
+        certificationCenter.accreditations = certificationCenter.habilitations;
+        delete certificationCenter.habilitations;
+        return certificationCenter;
+      },
       attributes: ['name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'accreditations'],
       certificationCenterMemberships: {
         ref: 'id',
@@ -32,7 +37,7 @@ module.exports = {
       type: jsonAPI.data.attributes.type,
       externalId: jsonAPI.data.attributes['external-id'],
       createdAt: null,
-      accreditations: [],
+      habilitations: [],
     });
   },
 };

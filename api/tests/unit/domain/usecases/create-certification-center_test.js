@@ -22,7 +22,7 @@ describe('Unit | UseCase | create-certification-center', function () {
       expect(createdCertificationCenter).to.deepEqualInstance(certificationCenter);
     });
 
-    it('should save the granted accreditations', async function () {
+    it('should save the complementary certification habilitations', async function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
       const accreditationIds = ['1234', '4567'];
