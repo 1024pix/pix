@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionAuthorizationService = require('../../../../lib/domain/services/session-authorization-service');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Service | SessionAuthorizationService', function () {

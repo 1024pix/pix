@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const sessionSummaryRepository = require('../../../../lib/infrastructure/repositories/session-summary-repository');
+const { expect, databaseBuilder, domainBuilder } = require('../../../../test-helper');
+const sessionSummaryRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-summary-repository');
 const _ = require('lodash');
 
 describe('Integration | Repository | Session Summary', function () {

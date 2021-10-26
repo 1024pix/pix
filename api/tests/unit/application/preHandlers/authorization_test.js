@@ -5,7 +5,7 @@ const {
   verifySessionAuthorization,
 } = require('../../../../lib/application/preHandlers/authorization');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
 
 describe('Unit | Pre-handler | Authorization', function () {
   const userId = 1;

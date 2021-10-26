@@ -1,9 +1,9 @@
-const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../test-helper');
+const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../../test-helper');
 const _ = require('lodash');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const Session = require('../../../../lib/domain/models/Session');
-const { statuses } = require('../../../../lib/domain/models/Session');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
+const Session = require('../../../../../lib/domain/models/Session');
+const { statuses } = require('../../../../../lib/domain/models/Session');
+const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
