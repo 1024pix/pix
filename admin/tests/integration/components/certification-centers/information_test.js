@@ -1,11 +1,9 @@
 import { module, test } from 'qunit';
-import { render as renderScreen, fillInByLabel } from '../../../helpers/testing-library';
+import { render as renderScreen, fillInByLabel, clickByLabel } from '../../../helpers/testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import repeat from 'lodash/repeat';
 import sinon from 'sinon';
 
@@ -59,7 +57,7 @@ module('Integration | Component | certification-centers/information', function (
     this.set('isEditMode', false);
 
     // when
-    await render(
+    await renderScreen(
       hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} @isEditMode={{this.isEditMode}} />`
     );
     await clickByLabel('Editer');
@@ -80,14 +78,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
 
-    // when
-    await render(
+    await renderScreen(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
  />`
     );
     await clickByLabel('Editer');
+
+    // when
     await clickByLabel('Enregistrer');
 
     // then
@@ -106,10 +105,10 @@ module('Integration | Component | certification-centers/information', function (
     });
     this.set('certificationCenter', certificationCenter);
 
-    // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    await renderScreen(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
     await clickByLabel('Editer');
 
+    // when
     await clickByLabel('Annuler');
 
     // then
@@ -156,11 +155,11 @@ module('Integration | Component | certification-centers/information', function (
     });
     this.set('certificationCenter', certificationCenter);
 
-    // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
-
+    await renderScreen(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
     await clickByLabel('Editer');
-    await fillIn('#name', repeat('a', 256));
+
+    // when
+    await fillInByLabel('Nom du centre', repeat('a', 256));
 
     // then
     assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
@@ -175,11 +174,11 @@ module('Integration | Component | certification-centers/information', function (
     });
     this.set('certificationCenter', certificationCenter);
 
-    // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
-
+    await renderScreen(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
     await clickByLabel('Editer');
-    await fillIn('#name', '');
+
+    // when
+    await fillInByLabel('Nom du centre', '');
 
     // then
     assert.contains('Le nom ne peut pas être vide');
@@ -194,11 +193,11 @@ module('Integration | Component | certification-centers/information', function (
     });
     this.set('certificationCenter', certificationCenter);
 
-    // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
-
+    await renderScreen(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
     await clickByLabel('Editer');
-    await fillIn('#external-id', repeat('a', 256));
+
+    // when
+    await fillInByLabel('Identifiant externe', repeat('a', 256));
 
     // then
     assert.contains("La longueur de l'identifiant externe ne doit pas excéder 255 caractères");
@@ -214,16 +213,15 @@ module('Integration | Component | certification-centers/information', function (
       externalId: 'AX129',
       accreditations: [],
     });
-
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
+
     await renderScreen(
       hbs`<CertificationCenters::Information
         @availableAccreditations={{this.availableAccreditations}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
         @certificationCenter={{this.certificationCenter}} />`
     );
-
     await clickByLabel('Editer');
     await fillInByLabel('Nom du centre', 'Centre SUP');
     await fillInByLabel('Type', 'SUP');
@@ -256,19 +254,19 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
 
-    // when
     const screen = await renderScreen(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
         @availableAccreditations={{this.availableAccreditations}}
         @updateCertificationCenter={{this.updateCertificationCenter}} />`
     );
-
     await clickByLabel('Editer');
-    await fillIn('#name', 'Centre SUP');
-    await fillIn('#certification-center-type', 'SUP');
-    await fillIn('#external-id', 'externalId');
+    await fillInByLabel('Nom du centre', 'Centre SUP');
+    await fillInByLabel('Type', 'SUP');
+    await fillInByLabel('Identifiant externe', 'externalId');
     await clickByLabel('Cléa');
+
+    // when
     await clickByLabel('Annuler');
 
     // then
