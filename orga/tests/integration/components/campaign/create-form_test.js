@@ -89,6 +89,20 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       assert.contains(t('pages.campaign-creation.test-title.label'));
       assert.contains(t('pages.campaign-creation.purpose.label'));
     });
+
+    test('it should not display multiple sendings field', async function (assert) {
+      //given
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
+
+      // then
+      assert.notContains(t('pages.campaign-creation.multiple-sendings.question-label'));
+      assert.notContains(t('pages.campaign-creation.multiple-sendings.info'));
+    });
   });
 
   module('when user choose to create a campaign of type PROFILES_COLLECTION', () => {
@@ -109,6 +123,25 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // then
       assert.notContains(t('pages.campaign-creation.test-title.label'));
       assert.notContains(t('pages.campaign-creation.target-profiles-list.label'));
+    });
+
+    test('it should display fields for enabling multiple sendings', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
+      await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
+
+      // then
+      assert.contains(t('pages.campaign-creation.multiple-sendings.question-label'));
+      assert.contains(t('pages.campaign-creation.multiple-sendings.info'));
     });
   });
 

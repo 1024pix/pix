@@ -77,6 +77,43 @@
     </div>
   {{/if}}
 
+  {{#if this.isCampaignGoalProfileCollection}}
+    <div class="form__field-with-info">
+      <div class="form__field">
+        <p class="label">{{t "pages.campaign-creation.multiple-sendings.question-label"}}</p>
+        <div class="form__radio-button">
+          <input
+            type="radio"
+            checked={{this.multipleSendingsEnabled}}
+            id="multiple-sendings-enabled"
+            name="multiple-sendings-label"
+            value="true"
+            {{on "change" this.selectMultipleSendingsStatus}}
+          />
+          <label for="multiple-sendings-enabled">{{t "pages.campaign-creation.yes"}}</label>
+        </div>
+        <div class="form__radio-button">
+          <input
+            type="radio"
+            checked={{not this.multipleSendingsEnabled}}
+            id="multiple-sendings-disabled"
+            name="multiple-sendings-label"
+            value=""
+            {{on "change" this.selectMultipleSendingsStatus}}
+          />
+          <label for="multiple-sendings-disabled">{{t "pages.campaign-creation.no"}}</label>
+        </div>
+      </div>
+      <div class="form__field-info">
+        <span class="form__field-info-title">
+          <FaIcon @icon="info-circle" class="form__field-info-icon" />
+          <span>{{t "pages.campaign-creation.multiple-sendings.info-title"}}</span>
+        </span>
+        <span class="form__field-info-message">{{t "pages.campaign-creation.multiple-sendings.info"}}</span>
+      </div>
+    </div>
+  {{/if}}
+
   <div class="form__field">
     <p class="label">{{t "pages.campaign-creation.external-id-label.question-label"}}</p>
     <div class="form__radio-button">

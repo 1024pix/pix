@@ -56,3 +56,17 @@ export function fillInByLabel(label, value) {
   const element = getByLabelText(label);
   return fillIn(element, value);
 }
+
+/**
+ * Select a choice for a given label.
+ *
+ * @param {*} label Label of field to fill.
+ * @param {*} answerText Label of choice to select.
+ * @returns Promise of the filling.
+ */
+export function selectChoiceForLabel(label, answerText) {
+  const { getByText } = getScreen();
+  const parent = getByText(label).parentNode;
+  const answer = within(parent).getByText(answerText);
+  return click(answer);
+}
