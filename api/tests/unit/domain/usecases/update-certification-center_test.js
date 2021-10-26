@@ -29,7 +29,7 @@ describe('Unit | UseCase | update-certification-center', function () {
       });
     });
 
-    context('when there are associated accreditations', function () {
+    context('when there are associated habilitations', function () {
       it('should reset existing complementary certitification habilitation and create new ones', async function () {
         // given
         const certificationCenter = domainBuilder.buildCertificationCenter();

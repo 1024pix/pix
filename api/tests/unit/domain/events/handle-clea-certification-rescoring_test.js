@@ -41,7 +41,7 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           name: 'CléA Numérique',
         });
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          complementaryCertifications: [complementaryCertification],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
@@ -77,7 +77,7 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           name: 'CléA Numérique',
         });
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [complementaryCertification],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
@@ -122,7 +122,7 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           name: 'Tarte au fromage',
         });
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          complementaryCertifications: [complementaryCertification],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);

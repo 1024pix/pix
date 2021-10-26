@@ -84,7 +84,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
       });
 
       const certificationCenter = domainBuilder.buildCertificationCenter({
-        accreditations: [complementaryCertification],
+        habilitations: [complementaryCertification],
       });
 
       certificationCenterRepository.getByCertificationCourseId
@@ -145,7 +145,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [complementaryCertification],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId
@@ -221,7 +221,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [complementaryCertification],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId
@@ -285,7 +285,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [complementaryCertification],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId

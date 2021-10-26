@@ -20,9 +20,9 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
   });
 
   describe('#isAccreditedPixPlusDroit', function () {
-    it('should return false when the certification center does not have Pix+ Droit accreditation', function () {
+    it('should return false when the certification center does not have Pix+ Droit habilitation', function () {
       // given
-      const certificationCenter = domainBuilder.buildCertificationCenter({ accreditations: [] });
+      const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
 
       // then
       expect(certificationCenter.isAccreditedPixPlusDroit).to.be.false;
@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
         name: 'Pix+ Droit',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
-        accreditations: [pixPlusDroitComplementaryCertification],
+        habilitations: [pixPlusDroitComplementaryCertification],
       });
 
       // then
@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
   describe('#isAccreditedClea', function () {
     it('should return false when the certification center does not have Cléa numérique complementary certification', function () {
       // given
-      const certificationCenter = domainBuilder.buildCertificationCenter({ accreditations: [] });
+      const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
 
       // then
       expect(certificationCenter.isAccreditedClea).to.be.false;
@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
         name: 'CléA Numérique',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
-        accreditations: [pixPlusDroitComplementaryCertification],
+        habilitations: [pixPlusDroitComplementaryCertification],
       });
 
       // then

@@ -24,7 +24,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [],
+          complementaryCertifications: [],
         });
 
         await databaseBuilder.commit();
@@ -36,7 +36,7 @@ describe('Integration | Repository | Certification Center', function () {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return accreditations along with certification centers if there is any', async function () {
+      it('should return habilitations along with certification centers if there is any', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -76,7 +76,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification2, expectedComplementaryCertification1],
+          habilitations: [expectedComplementaryCertification2, expectedComplementaryCertification1],
         });
 
         await databaseBuilder.commit();
@@ -118,7 +118,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: 'SCO',
           externalId: '123456',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [],
+          habilitations: [],
         });
 
         await databaseBuilder.commit();
@@ -130,7 +130,7 @@ describe('Integration | Repository | Certification Center', function () {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return the certification center and accreditations of the given sessionId', async function () {
+      it('should return the certification center and habilitations of the given sessionId', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -158,7 +158,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification],
+          habilitations: [expectedComplementaryCertification],
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
@@ -211,7 +211,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: 'SCO',
           externalId: '123456',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [],
+          habilitations: [],
         });
 
         await databaseBuilder.commit();
@@ -225,7 +225,7 @@ describe('Integration | Repository | Certification Center', function () {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return the certification center and accreditations of the given certificationCourseId', async function () {
+      it('should return the certification center and habilitations of the given certificationCourseId', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -253,7 +253,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification],
+          habilitations: [expectedComplementaryCertification],
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
@@ -326,7 +326,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: '1',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [],
+          habilitations: [],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 2,
@@ -341,7 +341,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SCO,
           externalId: '2',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [],
+          habilitations: [],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -356,7 +356,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.PRO,
           externalId: '3',
           createdAt: new Date('2018-04-01T05:43:10Z'),
-          accreditations: [],
+          habilitations: [],
         });
         await databaseBuilder.commit();
 
@@ -377,7 +377,7 @@ describe('Integration | Repository | Certification Center', function () {
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
-      it('should return an Array of CertificationCenters and their accreditations', async function () {
+      it('should return an Array of CertificationCenters and their habilitations', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -404,7 +404,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: '1',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification1],
+          habilitations: [expectedComplementaryCertification1],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 2,
@@ -431,7 +431,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SCO,
           externalId: '2',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification2],
+          habilitations: [expectedComplementaryCertification2],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -458,7 +458,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.PRO,
           externalId: '3',
           createdAt: new Date('2018-04-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification3],
+          habilitations: [expectedComplementaryCertification3],
         });
         await databaseBuilder.commit();
 
@@ -648,7 +648,7 @@ describe('Integration | Repository | Certification Center', function () {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return the certification center and accreditation', async function () {
+      it('should return the certification center and habilitations', async function () {
         // given
         const externalId = 'EXTERNAL_ID';
         databaseBuilder.factory.buildCertificationCenter({
@@ -676,7 +676,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'EXTERNAL_ID',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedComplementaryCertification],
+          habilitations: [expectedComplementaryCertification],
         });
 
         await databaseBuilder.commit();
