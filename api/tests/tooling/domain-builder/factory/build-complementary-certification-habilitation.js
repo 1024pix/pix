@@ -1,6 +1,6 @@
 const GrantedAccreditation = require('../../../../lib/domain/models/GrantedAccreditation');
 
-module.exports = function buildGrantedAccreditation({
+module.exports = function buildComplementaryCertificationHabilitation({
   id = 123,
   accreditationId = 456,
   certificationCenterId = 789,
