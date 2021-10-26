@@ -23,6 +23,7 @@ class CampaignReport {
     averageResult,
     badges = [],
     stages = [],
+    multipleSendings,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -44,6 +45,7 @@ class CampaignReport {
     this.averageResult = averageResult;
     this.badges = badges;
     this.stages = stages;
+    this.multipleSendings = multipleSendings;
   }
 
   get isAssessment() {
