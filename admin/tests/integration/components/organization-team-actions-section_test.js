@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
-module('Integration | Component | organization-members-actions-section', function (hooks) {
+module('Integration | Component | organization-team-actions-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should call addMembership method', async function (assert) {
@@ -16,7 +16,7 @@ module('Integration | Component | organization-members-actions-section', functio
     this.set('noop', () => {});
 
     // when
-    await render(hbs`<OrganizationMembersActionsSection
+    await render(hbs`<OrganizationTeamActionsSection
       @addMembership={{addMembership}}
       @createOrganizationInvitation={{noop}}
       @triggerFiltering={{noop}}/>`);
@@ -37,7 +37,7 @@ module('Integration | Component | organization-members-actions-section', functio
     this.set('noop', () => {});
 
     // when
-    await render(hbs`<OrganizationMembersActionsSection
+    await render(hbs`<OrganizationTeamActionsSection
       @memberships={{memberships}}
       @addMembership={{noop}}
       @createOrganizationInvitation={{createOrganizationInvitation}}

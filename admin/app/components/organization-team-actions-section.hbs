@@ -1,4 +1,4 @@
-<section class="page-section mb_10 organization-members-section">
+<section class="page-section mb_10 organization-team-section">
   <div class="organization__forms-section">
     <form>
       <h2>Ajouter un membre</h2>
@@ -7,12 +7,12 @@
           @id="userEmailToAdd"
           @value={{@userEmailToAdd}}
           @label="Adresse e-mail de l'utilisateur à ajouter"
-          class="form-field__text form-control organization-members-section__input"
+          class="form-field__text form-control organization-team-section__input"
         />
         <PixButton
           @size="small"
           @triggerAction={{@addMembership}}
-          class="organization-members-section__button"
+          class="organization-team-section__button"
           aria-label="Ajouter un membre"
         >
           Valider
@@ -27,7 +27,7 @@
           @id="userEmailToInvite"
           @value={{@userEmailToInvite}}
           @label="Adresse e-mail du membre à inviter"
-          class="form-control organization-members-section__input
+          class="form-control organization-team-section__input
             {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
         />
 
@@ -36,7 +36,7 @@
           @selectedOption={{this.organizationInvitationLang}}
           @onChange={{this.changeOrganizationInvitationLang}}
           aria-label="Choisir la langue de l’email d’invitation"
-          class="organization-members-section__select"
+          class="organization-team-section__select"
         />
 
         <PixSelect
@@ -44,7 +44,7 @@
           @selectedOption={{this.organizationInvitationRole}}
           @onChange={{this.changeOrganizationInvitationRole}}
           aria-label="Choisir le rôle du membre"
-          class="organization-members-section__select"
+          class="organization-team-section__select"
         />
 
         <PixButton
@@ -55,7 +55,7 @@
             this.organizationInvitationRoleValue
           }}
           aria-label="Inviter un membre"
-          class="organization-members-section__button"
+          class="organization-team-section__button"
           data-test-id-invitation-button
         >
           Inviter

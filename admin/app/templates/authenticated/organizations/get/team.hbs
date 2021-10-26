@@ -1,5 +1,5 @@
-{{page-title "Orga " @model.id " Membres"}}
-<OrganizationMembersActionsSection
+{{page-title "Orga " @model.id " | Équipe"}}
+<OrganizationTeamActionsSection
   @addMembership={{this.addMembership}}
   @userEmailToAdd={{this.userEmailToAdd}}
   @userEmailToInvite={{this.userEmailToInvite}}
@@ -7,7 +7,7 @@
   @createOrganizationInvitation={{this.createOrganizationInvitation}}
 />
 
-<OrganizationMembersSection
+<OrganizationTeamSection
   @memberships={{@model.memberships}}
   @updateMembership={{this.updateMembership}}
   @disableMembership={{this.disableMembership}}

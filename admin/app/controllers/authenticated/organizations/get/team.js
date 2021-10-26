@@ -10,7 +10,7 @@ import config from 'pix-admin/config/environment';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
-export default class GetMembersController extends Controller {
+export default class GetTeamController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email', 'organizationRole'];
   DEBOUNCE_MS = config.pagination.debounce;
 

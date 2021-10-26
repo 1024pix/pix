@@ -96,7 +96,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       await click('a[href="/organizations/456"]');
 
       // then
-      assert.equal(currentURL(), '/organizations/456/members');
+      assert.equal(currentURL(), '/organizations/456/team');
     });
 
     test('it should display target profile organizations', async function (assert) {
