@@ -1,6 +1,5 @@
 module.exports = [
   require('./application/account-recovery'),
-  require('./application/accreditations'),
   require('./application/answers'),
   require('./application/assessment-results'),
   require('./application/assessments'),
@@ -12,7 +11,6 @@ module.exports = [
   require('./application/certification-center-memberships'),
   require('./application/certification-centers'),
   require('./application/certification-courses'),
-  require('./application/countries'),
   require('./application/certification-point-of-contacts'),
   require('./application/certification-livret-scolaire'),
   require('./application/certification-reports'),
@@ -20,6 +18,8 @@ module.exports = [
   require('./application/certifications'),
   require('./application/challenges'),
   require('./application/competence-evaluations'),
+  require('./application/complementary-certifications'),
+  require('./application/countries'),
   require('./application/courses'),
   require('./application/feature-toggles'),
   require('./application/feedbacks'),

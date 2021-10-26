@@ -1,4 +1,4 @@
-const accreditationController = require('./accreditation-controller');
+const complementaryCertificationController = require('./complementary-certification-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function (server) {
@@ -13,15 +13,15 @@ exports.register = async function (server) {
             assign: 'hasRolePixMaster',
           },
         ],
-        handler: accreditationController.findAccreditations,
+        handler: complementaryCertificationController.findComplementaryCertifications,
         tags: ['api'],
         notes: [
           'Cette route est utilisée par Pix Admin',
-          'Elle renvoie la liste des accreditations à des certifications complémentaires existantes.',
+          'Elle renvoie la liste des certifications complémentaires existantes.',
         ],
       },
     },
   ]);
 };
 
-exports.name = 'accreditations';
+exports.name = 'complementary-certifications-api';
