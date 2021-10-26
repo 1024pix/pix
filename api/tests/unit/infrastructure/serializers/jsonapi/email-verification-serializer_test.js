@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | email-verification-serializer', function
         data: {
           type: 'email-verification-code',
           attributes: {
-            'new-email': 'EMAIL@example.net',
+            'new-email': '   EMAIL@example.net   ',
             password: 'myPassword',
           },
         },

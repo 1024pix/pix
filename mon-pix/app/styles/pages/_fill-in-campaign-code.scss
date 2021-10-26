@@ -5,6 +5,9 @@
 
   &__container {
     padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 
     @include device-is('tablet') {
       padding: 40px;
@@ -41,7 +44,6 @@
     justify-content: space-between;
     align-items: center;
     height: 118px;
-    margin-bottom: 30px;
   }
 
   &__actions {
@@ -61,6 +63,6 @@
     color: $grey-90;
     font-size: 0.875rem;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 40px;
   }
 }
