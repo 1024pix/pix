@@ -1,21 +1,21 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const grantedAccreditationRepository = require('../../../../lib/infrastructure/repositories/granted-accreditation-repository');
+const complementaryCertificationHabilitationRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository');
 const { knex } = require('../../../../lib/infrastructure/bookshelf');
 
-describe('Integration | Infrastructure | Repository | granted-accreditation-repository', function () {
+describe('Integration | Infrastructure | Repository | complementary-certification-habilitation-repository', function () {
   context('#save', function () {
     afterEach(function () {
       return knex('complementary-certification-habilitations').delete();
     });
 
-    it('should create the granted accreditation', async function () {
+    it('should create the complementary certitification habilitation', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
       await databaseBuilder.commit();
 
       // when
-      await grantedAccreditationRepository.save({
+      await complementaryCertificationHabilitationRepository.save({
         certificationCenterId,
         accreditationId: complementaryCertificationId,
       });
@@ -31,7 +31,7 @@ describe('Integration | Infrastructure | Repository | granted-accreditation-repo
   });
 
   context('#deleteByCertificationCenterId', function () {
-    it('should delete all granted accreditations for a given certification center id', async function () {
+    it('should delete all complementary certitification habilitations for a given certification center id', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -53,7 +53,7 @@ describe('Integration | Infrastructure | Repository | granted-accreditation-repo
       await databaseBuilder.commit();
 
       // when
-      await grantedAccreditationRepository.deleteByCertificationCenterId(certificationCenterId);
+      await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenterId);
 
       // then
       const grantedAccreditationsForCertificationCenterId = await knex

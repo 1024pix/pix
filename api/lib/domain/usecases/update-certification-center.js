@@ -5,11 +5,11 @@ module.exports = async function updateCertificationCenter({
   certificationCenter,
   accreditationIds,
   certificationCenterRepository,
-  grantedAccreditationRepository,
+  complementaryCertificationHabilitationRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenter);
   if (certificationCenter.id) {
-    await grantedAccreditationRepository.deleteByCertificationCenterId(certificationCenter.id);
+    await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenter.id);
   }
   if (accreditationIds) {
     await Promise.all(
@@ -18,7 +18,7 @@ module.exports = async function updateCertificationCenter({
           accreditationId: parseInt(accreditationId),
           certificationCenterId: certificationCenter.id,
         });
-        return grantedAccreditationRepository.save(grantedAccreditationModel);
+        return complementaryCertificationHabilitationRepository.save(grantedAccreditationModel);
       })
     );
   }
