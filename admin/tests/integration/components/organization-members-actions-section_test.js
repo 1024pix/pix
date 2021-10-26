@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
@@ -30,7 +29,7 @@ module('Integration | Component | organization-members-actions-section', functio
     assert.ok(true);
   });
 
-  test('it should create organization invitation with choosen language', async function (assert) {
+  test('it should create organization invitation with default language and default role value', async function (assert) {
     // given
     const createOrganizationInvitationStub = sinon.stub();
     this.set('createOrganizationInvitation', createOrganizationInvitationStub);
@@ -47,7 +46,7 @@ module('Integration | Component | organization-members-actions-section', functio
     await clickByLabel('Inviter');
 
     // then
-    sinon.assert.neverCalledWith(createOrganizationInvitationStub, 'fr');
+    sinon.assert.calledWith(createOrganizationInvitationStub, 'fr-fr', null);
     assert.ok(true);
   });
 });
