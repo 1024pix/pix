@@ -30,7 +30,9 @@ describe('Unit | Route | Assessments | Resume', function () {
     let assessment;
 
     beforeEach(function () {
-      assessment = EmberObject.create({ id: 123, isDemo: true, competenceId: 'recCompetenceId' });
+      const answers = EmberObject.create();
+      answers.reload = sinon.stub().resolves();
+      assessment = EmberObject.create({ id: 123, isDemo: true, competenceId: 'recCompetenceId', answers });
       assessment.save = sinon.stub().resolves();
     });
 
@@ -53,6 +55,7 @@ describe('Unit | Route | Assessments | Resume', function () {
         context('when checkpoint is reached', function () {
           beforeEach(function () {
             assessment.answers = [{}, {}, {}, {}, {}];
+            assessment.answers.reload = sinon.stub().resolves();
           });
 
           context('when user has seen checkpoint', function () {
