@@ -3,17 +3,60 @@
   flex-direction: column;
   margin-bottom: 30px;
 
-  @include device-is('desktop') {
-    max-width: 500px;
-  }
-
   &__field {
     display: flex;
     flex-direction: column;
     margin-bottom: 16px;
 
+    @include device-is('desktop') {
+      max-width: 500px;
+    }
+
     &--wide > input,select,textarea {
       width: 100%;
+    }
+  }
+
+  &__field-with-info {
+    display: flex;
+    align-content: center;
+    width: 100%;
+    flex-direction: column;
+
+
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+  }
+
+  &__field-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border-radius: 8px;
+    background: $grey-15;
+    height: max-content;
+
+    @include device-is('desktop') {
+      max-width: 500px;
+    }
+
+    &-icon {
+      color: $blue;
+      margin-right: 8px;
+    }
+
+    &-title {
+      font-weight: 500;
+      font-size: 14px;
+      margin: 16px 0 8px 16px;
+      color: $grey-90;
+    }
+
+    &-message {
+      color: $grey-60;
+      font-size: 13px;
+      margin: 0 16px 16px 16px;
     }
   }
 

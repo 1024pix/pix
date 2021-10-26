@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel, fillInByLabel, selectChoiceForLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import {
@@ -55,7 +55,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await clickByLabel('Oui');
+      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Oui');
       await fillInByLabel('Libellé de l’identifiant', 'Mail Pro');
       await fillInByLabel('Titre du parcours', 'Savoir rechercher');
       await fillInByLabel("Texte de la page d'accueil", 'Texte personnalisé');
@@ -101,8 +101,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByLabel('Évaluer les participants');
       await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await clickByLabel('Non');
-
+      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Non');
       // when
       await clickByLabel('Créer la campagne');
 
@@ -117,8 +116,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       // given
       await clickByLabel('Collecter les profils Pix des participants');
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await clickByLabel('Non');
-
+      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Non');
       // when
       await clickByLabel('Créer la campagne');
 
@@ -134,8 +132,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
       await fillInByLabel('Titre du parcours', 'Savoir rechercher');
-      await clickByLabel('Non');
-      await clickByLabel('Collecter les profils Pix des participants');
+      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Non');
 
       // when
       await clickByLabel('Créer la campagne');

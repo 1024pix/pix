@@ -10,6 +10,7 @@ export default class Campaign extends Model {
   @attr('string') type;
   @attr('string') title;
   @attr('boolean') isArchived;
+  @attr('boolean') multipleSendings;
   @attr('string') idPixLabel;
   @attr('string') customLandingPageText;
   @attr('string') tokenForCampaignResults;
