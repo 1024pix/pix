@@ -34,6 +34,7 @@ module.exports = {
         'stages',
         'badges',
         'groups',
+        'multipleSendings',
       ],
       stages: {
         ref: 'id',
