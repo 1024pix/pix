@@ -1,7 +1,7 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const findAccreditations = require('../../../../lib/domain/usecases/find-accreditations');
+const findComplementaryCertifications = require('../../../../lib/domain/usecases/find-complementary-certifications');
 
-describe('Unit | UseCase | find-accreditations', function () {
+describe('Unit | UseCase | find-complementary-certifications', function () {
   let complementaryCertificationRepository;
 
   beforeEach(function () {
@@ -10,7 +10,7 @@ describe('Unit | UseCase | find-accreditations', function () {
     };
   });
 
-  it('should find the accreditations', async function () {
+  it('should find the complementary certifications', async function () {
     // given
     const complementaryCertifications = [
       domainBuilder.buildAccreditation({
@@ -25,7 +25,7 @@ describe('Unit | UseCase | find-accreditations', function () {
     complementaryCertificationRepository.findAll.resolves(complementaryCertifications);
 
     // when
-    const result = await findAccreditations({
+    const result = await findComplementaryCertifications({
       complementaryCertificationRepository,
     });
 
