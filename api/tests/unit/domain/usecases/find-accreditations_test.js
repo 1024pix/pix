@@ -2,17 +2,17 @@ const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const findAccreditations = require('../../../../lib/domain/usecases/find-accreditations');
 
 describe('Unit | UseCase | find-accreditations', function () {
-  let accreditationRepository;
+  let complementaryCertificationRepository;
 
   beforeEach(function () {
-    accreditationRepository = {
+    complementaryCertificationRepository = {
       findAll: sinon.stub(),
     };
   });
 
   it('should find the accreditations', async function () {
     // given
-    const accreditations = [
+    const complementaryCertifications = [
       domainBuilder.buildAccreditation({
         id: 11,
         name: 'Pix+Edu',
@@ -22,14 +22,14 @@ describe('Unit | UseCase | find-accreditations', function () {
         name: 'Cléa Numérique',
       }),
     ];
-    accreditationRepository.findAll.resolves(accreditations);
+    complementaryCertificationRepository.findAll.resolves(complementaryCertifications);
 
     // when
     const result = await findAccreditations({
-      accreditationRepository,
+      complementaryCertificationRepository,
     });
 
     // then
-    expect(result).to.deep.equal(accreditations);
+    expect(result).to.deep.equal(complementaryCertifications);
   });
 });
