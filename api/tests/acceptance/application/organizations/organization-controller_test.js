@@ -1299,7 +1299,7 @@ describe('Acceptance | Application | organization-controller', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(200);
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(2);
       expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileId1, targetProfileId2]);

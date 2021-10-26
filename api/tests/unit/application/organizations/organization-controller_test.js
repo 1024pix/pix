@@ -22,6 +22,7 @@ const organizationInvitationSerializer = require('../../../../lib/infrastructure
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
+const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
@@ -573,20 +574,25 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         },
       };
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+      sinon.stub(organizationAttachTargetProfilesSerializer, 'serialize');
     });
 
     it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function () {
-      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
-
+      // given
+      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
+      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
       usecases.attachTargetProfilesToOrganization
         .withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray })
         .resolves();
 
       // when
-      const result = await organizationController.attachTargetProfiles(request, hFake);
+      const response = await organizationController.attachTargetProfiles(request, hFake);
 
       // then
-      expect(result.statusCode).to.equal(204);
+      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
+      expect(response.source).to.equal(serializer);
+      expect(response.statusCode).to.equal(200);
     });
   });
 
