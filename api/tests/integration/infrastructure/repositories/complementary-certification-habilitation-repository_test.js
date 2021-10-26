@@ -17,16 +17,16 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
       // when
       await complementaryCertificationHabilitationRepository.save({
         certificationCenterId,
-        accreditationId: complementaryCertificationId,
+        complementaryCertificationId,
       });
 
       // then
-      const grantedAccreditation = await knex
+      const complementaryCertificationHabilitation = await knex
         .select('*')
         .from('complementary-certification-habilitations')
         .where({ certificationCenterId, complementaryCertificationId })
         .first();
-      expect(grantedAccreditation).to.not.be.null;
+      expect(complementaryCertificationHabilitation).to.not.be.null;
     });
   });
 
@@ -56,16 +56,16 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
       await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenterId);
 
       // then
-      const grantedAccreditationsForCertificationCenterId = await knex
+      const complementaryCertificationHabilitationsForCertificationCenterId = await knex
         .select('*')
         .from('complementary-certification-habilitations')
         .where({ certificationCenterId });
-      expect(grantedAccreditationsForCertificationCenterId.length).to.equal(0);
-      const grantedAccreditationThatShouldHaveBeenDeleted = await knex
+      expect(complementaryCertificationHabilitationsForCertificationCenterId.length).to.equal(0);
+      const complementaryCertificationHabilitationThatShouldHaveBeenDeleted = await knex
         .select('*')
         .from('complementary-certification-habilitations')
         .where({ certificationCenterId: otherCertificationCenterId });
-      expect(grantedAccreditationThatShouldHaveBeenDeleted.length).to.equal(1);
+      expect(complementaryCertificationHabilitationThatShouldHaveBeenDeleted.length).to.equal(1);
     });
   });
 });

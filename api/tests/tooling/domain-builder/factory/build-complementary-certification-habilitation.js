@@ -1,13 +1,13 @@
-const GrantedAccreditation = require('../../../../lib/domain/models/GrantedAccreditation');
+const ComplementaryCertificationHabilitation = require('../../../../lib/domain/models/ComplementaryCertificationHabilitation');
 
 module.exports = function buildComplementaryCertificationHabilitation({
   id = 123,
-  accreditationId = 456,
+  complementaryCertificationId = 456,
   certificationCenterId = 789,
 } = {}) {
-  return new GrantedAccreditation({
+  return new ComplementaryCertificationHabilitation({
     id,
-    accreditationId,
+    complementaryCertificationId,
     certificationCenterId,
   });
 };

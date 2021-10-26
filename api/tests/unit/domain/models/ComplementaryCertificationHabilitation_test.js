@@ -1,38 +1,40 @@
-const GrantedAccreditation = require('../../../../lib/domain/models/GrantedAccreditation');
+const ComplementaryCertificationHabilitation = require('../../../../lib/domain/models/ComplementaryCertificationHabilitation');
 const { expect, domainBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 
-const GRANTED_ACCREDITATION_PROPS = ['id', 'accreditationId', 'certificationCenterId'];
+const COMPLEMENTARY_CERTIFICATION_HABILITATION_PROPS = ['id', 'complementaryCertificationId', 'certificationCenterId'];
 
-describe('Unit | Domain | Models | GrantedAccreditation', function () {
+describe('Unit | Domain | Models | ComplementaryCertificationHabilitation', function () {
   let complementaryCertificationHabilitation;
 
   beforeEach(function () {
     complementaryCertificationHabilitation = domainBuilder.buildComplementaryCertificationHabilitation({
-      accreditationId: 456,
+      complementaryCertificationId: 456,
       certificationCenterId: 789,
     });
   });
 
-  it('should create an object of the GrantedAccreditation type', function () {
-    expect(complementaryCertificationHabilitation).to.be.instanceOf(GrantedAccreditation);
+  it('should create an object of the ComplementaryCertificationHabilitation type', function () {
+    expect(complementaryCertificationHabilitation).to.be.instanceOf(ComplementaryCertificationHabilitation);
   });
 
   it('should create an object with all the requires properties', function () {
-    expect(_.keys(complementaryCertificationHabilitation)).to.have.deep.members(GRANTED_ACCREDITATION_PROPS);
+    expect(_.keys(complementaryCertificationHabilitation)).to.have.deep.members(
+      COMPLEMENTARY_CERTIFICATION_HABILITATION_PROPS
+    );
   });
 
   it('should create an object with correct properties using a domain builder', function () {
     // when
     const complementaryCertificationHabilitation = domainBuilder.buildComplementaryCertificationHabilitation({
       id: 123,
-      accreditationId: 456,
+      complementaryCertificationId: 456,
       certificationCenterId: 789,
     });
 
     // then
     expect(complementaryCertificationHabilitation.id).to.equal(123);
-    expect(complementaryCertificationHabilitation.accreditationId).to.equal(456);
+    expect(complementaryCertificationHabilitation.complementaryCertificationId).to.equal(456);
     expect(complementaryCertificationHabilitation.certificationCenterId).to.equal(789);
   });
 });
