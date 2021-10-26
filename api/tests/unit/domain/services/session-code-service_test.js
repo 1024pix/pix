@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
 const _ = require('lodash');
 
 describe('Unit | Service | CodeSession', function () {

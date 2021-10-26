@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const sessionRepository = require('../../infrastructure/repositories/session-repository');
+const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
 
 function _randomLetter() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');

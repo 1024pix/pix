@@ -2,7 +2,7 @@ const { databaseBuilder, expect, catchErr } = require('../../../../test-helper')
 const _ = require('lodash');
 const { NotFoundError } = require('../../../../../lib/domain/errors');
 const SessionForSupervising = require('../../../../../lib/domain/read-models/SessionForSupervising');
-const sessionForSupervisingRepository = require('../../../../../lib/infrastructure/repositories/session-for-supervising-repository');
+const sessionForSupervisingRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository');
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {

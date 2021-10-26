@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const finalizedSessionRepository = require('../../../../lib/infrastructure/repositories/finalized-session-repository');
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../../test-helper');
+const finalizedSessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/finalized-session-repository');
+const FinalizedSession = require('../../../../../lib/domain/models/FinalizedSession');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
 
 describe('Integration | Repository | Finalized-session', function () {
   describe('#save', function () {

@@ -1,11 +1,11 @@
 const _ = require('lodash');
 
-const { knex } = require('../../../db/knex-database-connection');
-const BookshelfSession = require('../orm-models/Session');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { NotFoundError } = require('../../domain/errors');
-const Session = require('../../domain/models/Session');
-const CertificationCandidate = require('../../domain/models/CertificationCandidate');
+const { knex } = require('../../../../db/knex-database-connection');
+const BookshelfSession = require('../../orm-models/Session');
+const bookshelfToDomainConverter = require('../../utils/bookshelf-to-domain-converter');
+const { NotFoundError } = require('../../../domain/errors');
+const Session = require('../../../domain/models/Session');
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 
 module.exports = {
   async save(sessionData) {
