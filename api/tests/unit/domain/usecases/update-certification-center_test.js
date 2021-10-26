@@ -35,11 +35,11 @@ describe('Unit | UseCase | update-certification-center', function () {
         const certificationCenter = domainBuilder.buildCertificationCenter();
         const accreditationIds = ['1234', '5678'];
         const complementaryCertificationHabilitation1 = domainBuilder.buildComplementaryCertificationHabilitation({
-          accreditationId: 1234,
+          complementaryCertificationId: 1234,
           certificationCenterId: certificationCenter.id,
         });
         const complementaryCertificationHabilitation2 = domainBuilder.buildComplementaryCertificationHabilitation({
-          accreditationId: 5678,
+          complementaryCertificationId: 5678,
           certificationCenterId: certificationCenter.id,
         });
         complementaryCertificationHabilitation1.id = undefined;
