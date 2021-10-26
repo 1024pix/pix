@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | accreditations-controller', function () {
+describe('Acceptance | API | complementary-certification-controller', function () {
   let server;
 
   beforeEach(async function () {
