@@ -1,9 +1,9 @@
 const usecases = require('../../domain/usecases');
-const accreditationSerializer = require('../../infrastructure/serializers/jsonapi/accreditation-serializer');
+const complementaryCertificationSerializer = require('../../infrastructure/serializers/jsonapi/complementary-certification-serializer');
 
 module.exports = {
   async findComplementaryCertifications() {
     const complementaryCertifications = await usecases.findComplementaryCertifications();
-    return accreditationSerializer.serialize(complementaryCertifications);
+    return complementaryCertificationSerializer.serialize(complementaryCertifications);
   },
 };

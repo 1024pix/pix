@@ -1,7 +1,7 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/accreditation-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/complementary-certification-serializer');
 
-describe('Unit | Serializer | JSONAPI | accreditation-serializer', function () {
+describe('Unit | Serializer | JSONAPI | complementary-certification-serializer', function () {
   describe('#serialize', function () {
     it('should convert a ComplementaryCertification model object into JSON API data', function () {
       // given
