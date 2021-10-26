@@ -62,11 +62,11 @@ describe('Integration | Repository | Certification Center', function () {
           complementaryCertificationId: 6789,
         });
 
-        const expectedAccreditation1 = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification1 = domainBuilder.buildComplementaryCertification({
           id: 12345,
           name: 'Complementary certification test 1',
         });
-        const expectedAccreditation2 = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification2 = domainBuilder.buildComplementaryCertification({
           id: 6789,
           name: 'Complementary certification test 2',
         });
@@ -76,7 +76,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedAccreditation2, expectedAccreditation1],
+          accreditations: [expectedComplementaryCertification2, expectedComplementaryCertification1],
         });
 
         await databaseBuilder.commit();
@@ -148,7 +148,7 @@ describe('Integration | Repository | Certification Center', function () {
           complementaryCertificationId: 1234,
         });
 
-        const expectedAccreditation = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
           id: 1234,
           name: 'Complementary certification name',
         });
@@ -158,7 +158,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedAccreditation],
+          accreditations: [expectedComplementaryCertification],
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
@@ -243,7 +243,7 @@ describe('Integration | Repository | Certification Center', function () {
           complementaryCertificationId: 1234,
         });
 
-        const expectedAccreditation = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
           id: 1234,
           name: 'Complementary certification name',
         });
@@ -253,7 +253,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedAccreditation],
+          accreditations: [expectedComplementaryCertification],
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
@@ -394,7 +394,7 @@ describe('Integration | Repository | Certification Center', function () {
           certificationCenterId: 1,
           complementaryCertificationId: 11,
         });
-        const expectedAccreditation1 = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification1 = domainBuilder.buildComplementaryCertification({
           id: 11,
           name: 'Complementary certification name',
         });
@@ -404,7 +404,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: '1',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedAccreditation1],
+          accreditations: [expectedComplementaryCertification1],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 2,
@@ -421,7 +421,7 @@ describe('Integration | Repository | Certification Center', function () {
           certificationCenterId: 2,
           complementaryCertificationId: 22,
         });
-        const expectedAccreditation2 = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification2 = domainBuilder.buildComplementaryCertification({
           id: 22,
           name: 'Complementary certification name',
         });
@@ -431,7 +431,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SCO,
           externalId: '2',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedAccreditation2],
+          accreditations: [expectedComplementaryCertification2],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -448,7 +448,7 @@ describe('Integration | Repository | Certification Center', function () {
           certificationCenterId: 3,
           complementaryCertificationId: 33,
         });
-        const expectedAccreditation3 = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification3 = domainBuilder.buildComplementaryCertification({
           id: 33,
           name: 'Complementary certification name',
         });
@@ -458,7 +458,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.PRO,
           externalId: '3',
           createdAt: new Date('2018-04-01T05:43:10Z'),
-          accreditations: [expectedAccreditation3],
+          accreditations: [expectedComplementaryCertification3],
         });
         await databaseBuilder.commit();
 
@@ -666,7 +666,7 @@ describe('Integration | Repository | Certification Center', function () {
           certificationCenterId: 1,
           complementaryCertificationId: 123,
         });
-        const expectedAccreditation = domainBuilder.buildAccreditation({
+        const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
           id: 123,
           name: 'Complementary certification test',
         });
@@ -676,7 +676,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'EXTERNAL_ID',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [expectedAccreditation],
+          accreditations: [expectedComplementaryCertification],
         });
 
         await databaseBuilder.commit();
