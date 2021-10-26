@@ -4,7 +4,7 @@ const certificationCenterCreationValidator = require('../validators/certificatio
 module.exports = async function createCertificationCenter({
   certificationCenter,
   accreditationIds,
-  grantedAccreditationRepository,
+  complementaryCertificationHabilitationRepository,
   certificationCenterRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenter);
@@ -16,7 +16,7 @@ module.exports = async function createCertificationCenter({
       certificationCenterId: createdCertificationCenter.id,
     });
 
-    await grantedAccreditationRepository.save(grantedAccreditation);
+    await complementaryCertificationHabilitationRepository.save(grantedAccreditation);
   }
 
   return createdCertificationCenter;

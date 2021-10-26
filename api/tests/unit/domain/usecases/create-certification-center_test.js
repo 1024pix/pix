@@ -7,14 +7,14 @@ describe('Unit | UseCase | create-certification-center', function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
       const certificationCenterRepository = { save: sinon.stub().returns(certificationCenter) };
-      const grantedAccreditationRepository = {};
+      const complementaryCertificationHabilitationRepository = {};
 
       // when
       const createdCertificationCenter = await createCertificationCenter({
         certificationCenter,
         accreditationIds: [],
         certificationCenterRepository,
-        grantedAccreditationRepository,
+        complementaryCertificationHabilitationRepository,
       });
 
       // then
@@ -27,7 +27,7 @@ describe('Unit | UseCase | create-certification-center', function () {
       const certificationCenter = domainBuilder.buildCertificationCenter();
       const accreditationIds = ['1234', '4567'];
       const certificationCenterRepository = { save: sinon.stub().returns(certificationCenter) };
-      const grantedAccreditationRepository = {
+      const complementaryCertificationHabilitationRepository = {
         save: sinon.stub(),
       };
 
@@ -36,11 +36,11 @@ describe('Unit | UseCase | create-certification-center', function () {
         certificationCenter,
         accreditationIds,
         certificationCenterRepository,
-        grantedAccreditationRepository,
+        complementaryCertificationHabilitationRepository,
       });
 
       // then
-      expect(grantedAccreditationRepository.save).to.be.calledTwice;
+      expect(complementaryCertificationHabilitationRepository.save).to.be.calledTwice;
     });
   });
 });
