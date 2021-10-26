@@ -1,7 +1,15 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class InvitationsRoute extends Route {
-  model() {
-    return this.modelFor('authenticated.organizations.get');
+  @service store;
+
+  async model() {
+    const organization = this.modelFor('authenticated.organizations.get');
+    const organizationInvitations = await this.store.findAll('organization-invitation', {
+      adapterOptions: { organizationId: organization.id },
+    });
+
+    return { organization, organizationInvitations };
   }
 }

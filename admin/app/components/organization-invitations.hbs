@@ -1,0 +1,32 @@
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <p class="page-section__title">Invitations</p>
+  </header>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      {{#if @invitations}}
+        <table>
+          <thead>
+            <tr>
+              <th>Adresse e-mail</th>
+              <th>Rôle</th>
+              <th>Date de dernier envoi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each @invitations as |invitation|}}
+              <tr aria-label="Invitation en attente">
+                <td>{{invitation.email}}</td>
+                <td>{{if invitation.role invitation.role "-"}}</td>
+                <td>{{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+      {{#unless @invitations}}
+        <p>Pas d'invitation en attente</p>
+      {{/unless}}
+    </div>
+  </div>
+</section>
