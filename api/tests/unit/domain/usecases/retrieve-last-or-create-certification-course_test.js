@@ -489,7 +489,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                 const certificationCenter = domainBuilder.buildCertificationCenter({
-                  accreditations: [domainBuilder.buildAccreditation({ name: 'Pix+ Droit' })],
+                  accreditations: [domainBuilder.buildComplementaryCertification({ name: 'Pix+ Droit' })],
                 });
                 certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
@@ -610,7 +610,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                   const certificationCenter = domainBuilder.buildCertificationCenter({
-                    accreditations: [domainBuilder.buildAccreditation({ name: 'Pix+ Droit' })],
+                    accreditations: [domainBuilder.buildComplementaryCertification({ name: 'Pix+ Droit' })],
                   });
                   certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 

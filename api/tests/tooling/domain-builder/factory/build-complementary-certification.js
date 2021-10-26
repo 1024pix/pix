@@ -1,6 +1,6 @@
 const Accreditation = require('../../../../lib/domain/models/Accreditation');
 
-module.exports = function buildAccreditation({ id = 1, name = 'Accreditation name' } = {}) {
+module.exports = function buildComplementaryCertification({ id = 1, name = 'Complementary certification name' } = {}) {
   return new Accreditation({
     id,
     name,

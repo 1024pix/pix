@@ -26,15 +26,15 @@ describe('Integration | Repository | complementary-certification-repository', fu
 
         // then
         const expectedComplementaryCertifications = [
-          domainBuilder.buildAccreditation({
+          domainBuilder.buildComplementaryCertification({
             id: 1,
             name: 'Pix+Edu',
           }),
-          domainBuilder.buildAccreditation({
+          domainBuilder.buildComplementaryCertification({
             id: 2,
             name: 'Pix+Droit',
           }),
-          domainBuilder.buildAccreditation({
+          domainBuilder.buildComplementaryCertification({
             id: 3,
             name: 'CléA Numérique',
           }),
