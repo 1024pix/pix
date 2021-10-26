@@ -2,9 +2,25 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { expect } from 'chai';
 
 describe('Unit | Component | user-account | email-with-validation-form', function () {
   setupTest();
+
+  context('#validateNewEmail', function () {
+    it('should trim on email validation', function () {
+      // given
+      const emailWithSpaces = '   lea@example.net   ';
+      const component = createGlimmerComponent('component:user-account/email-with-validation-form');
+      component.newEmail = emailWithSpaces;
+
+      // when
+      component.validateNewEmail();
+
+      // then
+      expect(component.newEmail).to.equal(emailWithSpaces.trim());
+    });
+  });
 
   context('#onSubmit', function () {
     it('should send new email and password', async function () {
