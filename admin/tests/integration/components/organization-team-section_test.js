@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | organization-members-section', function (hooks) {
+module('Integration | Component | organization-team-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display a list of members', async function (assert) {
@@ -28,7 +28,7 @@ module('Integration | Component | organization-members-section', function (hooks
     memberships.meta = { rowCount: 2 };
 
     // when
-    await render(hbs`<OrganizationMembersSection
+    await render(hbs`<OrganizationTeamSection
       @memberships={{memberships}}
       @addMembership={{noop}}
       @createOrganizationInvitation={{noop}}

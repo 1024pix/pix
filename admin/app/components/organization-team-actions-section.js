@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class OrganizationMembersActionSection extends Component {
+export default class OrganizationTeamActionSection extends Component {
   @tracked organizationInvitationLang = this.languagesOptions[0].value;
   @tracked organizationInvitationRole = this.rolesOptions[0].value;
 

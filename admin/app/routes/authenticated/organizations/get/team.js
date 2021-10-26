@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default class OrganizationMembersRoute extends Route {
+export default class OrganizationTeamRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },

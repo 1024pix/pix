@@ -19,12 +19,12 @@ module('Acceptance | organization memberships management', function (hooks) {
     await createAuthenticateSession({ userId: user.id });
   });
 
-  test('should redirect to organization members page', async function (assert) {
+  test('should redirect to organization team page', async function (assert) {
     // when
     await visit(`/organizations/${organization.id}`);
 
     // then
-    assert.equal(currentURL(), `/organizations/${organization.id}/members`);
+    assert.equal(currentURL(), `/organizations/${organization.id}/team`);
   });
 
   module('listing members', function (hooks) {
@@ -34,7 +34,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when memberships are filtered by firstName', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?firstName=sav`);
+      await visit(`/organizations/${organization.id}/team?firstName=sav`);
 
       // then
       assert.dom('#firstName').hasValue('sav');
@@ -42,7 +42,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when organizations are filtered by lastName', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?lastName=tro`);
+      await visit(`/organizations/${organization.id}/team?lastName=tro`);
 
       // then
       assert.dom('#lastName').hasValue('tro');
@@ -50,7 +50,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when organizations are filtered by email', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?email=fri`);
+      await visit(`/organizations/${organization.id}/team?email=fri`);
 
       // then
       assert.dom('#email').hasValue('fri');
@@ -58,7 +58,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when organizations are filtered by role', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?organizationRole=ADMIN`);
+      await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
 
       // then
       assert.dom('#organizationRole').hasValue('ADMIN');
@@ -170,7 +170,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test("should update member's role", async function (assert) {
       // given / when
-      await visit(`/organizations/${organization.id}/members`);
+      await visit(`/organizations/${organization.id}/team`);
       await clickByLabel('Modifier le rôle');
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByLabel('Enregistrer');
@@ -189,7 +189,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('should deactivate a member', async function (assert) {
       // given / when
-      await visit(`/organizations/${organization.id}/members`);
+      await visit(`/organizations/${organization.id}/team`);
       await clickByLabel('Désactiver');
       await click('.modal-footer > button.btn-primary');
 
