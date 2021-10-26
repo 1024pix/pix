@@ -24,7 +24,11 @@
 
         </div>
         <div class="checkpoint__continue-wrapper">
-          <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{this.nextPageButtonText}} />
+          <CheckpointContinue
+            @assessmentId={{@model.id}}
+            @nextPageButtonText={{this.nextPageButtonText}}
+            @finalCheckpoint={{this.finalCheckpoint}}
+          />
         </div>
       {{/if}}
     </div>
@@ -42,7 +46,11 @@
             <ResultItem @answer={{answer}} @openAnswerDetails={{this.openComparisonWindow}} />
           {{/each}}
         </div>
-        <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{this.nextPageButtonText}} />
+        <CheckpointContinue
+          @assessmentId={{@model.id}}
+          @nextPageButtonText={{this.nextPageButtonText}}
+          @finalCheckpoint={{this.finalCheckpoint}}
+        />
       {{else}}
         <div class="checkpoint-no-answer">
           <div class="checkpoint-no-answer__header">
@@ -51,7 +59,11 @@
           <div class="checkpoint-no-answer__info">
             {{t "pages.checkpoint.answers.already-finished.explanation"}}
           </div>
-          <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{this.nextPageButtonText}} />
+          <CheckpointContinue
+            @assessmentId={{@model.id}}
+            @nextPageButtonText={{this.nextPageButtonText}}
+            @finalCheckpoint={{this.finalCheckpoint}}
+          />
         </div>
       {{/if}}
     </main>
