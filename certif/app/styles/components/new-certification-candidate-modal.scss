@@ -17,7 +17,6 @@
   }
 
   &__content {
-    font-size: 0.875rem;
     color: $grey-70;
     border-top: 1px solid $grey-20;
     border-bottom: 1px solid $grey-20;
@@ -46,7 +45,6 @@
 
       label {
         display: block;
-        font-size: 0.875rem;
 
         &.radio-button-label {
           display: inline-block;
