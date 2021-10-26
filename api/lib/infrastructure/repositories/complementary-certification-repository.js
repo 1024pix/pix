@@ -1,8 +1,8 @@
-const Accreditation = require('../../domain/models/Accreditation');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 const { knex } = require('../bookshelf');
 
 function _toDomain(row) {
-  return new Accreditation({
+  return new ComplementaryCertification({
     ...row,
   });
 }

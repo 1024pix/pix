@@ -1,13 +1,13 @@
 const _ = require('lodash');
 const BookshelfCertificationCenter = require('../orm-models/CertificationCenter');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
-const Accreditation = require('../../domain/models/Accreditation');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
   const accreditations = _.map(dbCertificationCenter.accreditations, (dbAccreditation) => {
-    return new Accreditation({ id: dbAccreditation.id, name: dbAccreditation.name });
+    return new ComplementaryCertification({ id: dbAccreditation.id, name: dbAccreditation.name });
   });
   return new CertificationCenter({
     ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt']),
