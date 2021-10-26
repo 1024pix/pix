@@ -101,7 +101,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "p-queue": "^6.6.1",
-    "pix-ui": "git://github.com/1024pix/pix-ui.git#v8.0.1",
+    "pix-ui": "git://github.com/1024pix/pix-ui.git#v8.4.0",
     "popper.js": "^1.16.1",
     "prettier": "^2.4.1",
     "query-string": "^7.0.0",

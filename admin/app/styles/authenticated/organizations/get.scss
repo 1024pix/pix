@@ -81,10 +81,13 @@
     display: flex;
     justify-content: space-around;
 
+    h2 {
+      font-size: 1.125rem;
+    }
+
     .organization__sub-form {
       display: flex;
-      align-items: center;
-      height: 38px;
+      align-items: flex-end;
 
       .organization-sub-form__input {
         width: 280px;

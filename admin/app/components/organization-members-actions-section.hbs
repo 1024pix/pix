@@ -1,29 +1,34 @@
 <section class="page-section mb_10 organization-members-section">
   <div class="organization__forms-section">
-    <form aria-label="Ajouter un membre">
-      <label for="userEmailToAdd">Ajouter un membre</label>
+    <form>
+      <h2>Ajouter un membre</h2>
       <div class="organization__sub-form">
-        <Input
-          id="userEmailToAdd"
+        <PixInput
+          @id="userEmailToAdd"
           @value={{@userEmailToAdd}}
+          @label="Adresse e-mail de l'utilisateur à ajouter"
           class="form-field__text form-control organization-members-section__input"
-          placeholder="Adresse email de l'utilisateur à ajouter"
         />
-        <PixButton @size="small" @triggerAction={{@addMembership}} class="organization-members-section__button">
+        <PixButton
+          @size="small"
+          @triggerAction={{@addMembership}}
+          class="organization-members-section__button"
+          aria-label="Ajouter un membre"
+        >
           Valider
         </PixButton>
       </div>
     </form>
 
-    <form aria-label="Inviter un membre">
-      <label for="userEmailToInvite">Inviter un membre</label>
+    <form>
+      <h2>Inviter un membre</h2>
       <div class="organization__sub-form">
-        <Input
-          id="userEmailToInvite"
+        <PixInput
+          @id="userEmailToInvite"
           @value={{@userEmailToInvite}}
+          @label="Adresse e-mail du membre à inviter"
           class="form-control organization-members-section__input
             {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
-          placeholder="Adresse e-mail de l'utilisateur à inviter"
         />
 
         <PixSelect
@@ -49,6 +54,7 @@
             this.organizationInvitationLang
             this.organizationInvitationRoleValue
           }}
+          aria-label="Inviter un membre"
           class="organization-members-section__button"
           data-test-id-invitation-button
         >
