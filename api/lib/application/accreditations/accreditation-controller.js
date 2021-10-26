@@ -3,7 +3,7 @@ const accreditationSerializer = require('../../infrastructure/serializers/jsonap
 
 module.exports = {
   async findAccreditations() {
-    const accreditations = await usecases.findComplementaryCertifications();
-    return accreditationSerializer.serialize(accreditations);
+    const complementaryCertifications = await usecases.findComplementaryCertifications();
+    return accreditationSerializer.serialize(complementaryCertifications);
   },
 };
