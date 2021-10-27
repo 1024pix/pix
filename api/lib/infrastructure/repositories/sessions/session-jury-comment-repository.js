@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
-const SessionJuryComment = require('../../domain/models/SessionJuryComment');
+const { knex } = require('../../../../db/knex-database-connection');
+const { NotFoundError } = require('../../../domain/errors');
+const SessionJuryComment = require('../../../domain/models/SessionJuryComment');
 
 module.exports = {
   async get(sessionId) {

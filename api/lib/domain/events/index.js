@@ -33,7 +33,7 @@ const dependencies = {
   participantResultsSharedRepository: require('../../infrastructure/repositories/participant-results-shared-repository'),
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
-  finalizedSessionRepository: require('../../infrastructure/repositories/finalized-session-repository'),
+  finalizedSessionRepository: require('../../infrastructure/repositories/sessions/finalized-session-repository'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
   logger: require('../../infrastructure/logger'),
 };

@@ -2,8 +2,8 @@ const { unlink, writeFile } = require('fs').promises;
 const _ = require('lodash');
 const { expect, databaseBuilder } = require('../../../../test-helper');
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
-const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/session-for-attendance-sheet-repository');
+const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
+const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
 
 describe('Integration | UseCases | getAttendanceSheet', function () {

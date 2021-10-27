@@ -1,6 +1,6 @@
-const { knex } = require('../bookshelf');
-const { fetchPage } = require('../utils/knex-utils');
-const SessionSummary = require('../../domain/read-models/SessionSummary');
+const { knex } = require('../../bookshelf');
+const { fetchPage } = require('../../utils/knex-utils');
+const SessionSummary = require('../../../domain/read-models/SessionSummary');
 
 module.exports = {
   async findPaginatedByCertificationCenterId({ certificationCenterId, page }) {

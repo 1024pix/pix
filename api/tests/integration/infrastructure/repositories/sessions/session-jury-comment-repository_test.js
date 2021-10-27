@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const sessionJuryCommentRepository = require('../../../../lib/infrastructure/repositories/session-jury-comment-repository');
+const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../../test-helper');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
+const sessionJuryCommentRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-jury-comment-repository');
 
 describe('Integration | Infrastructure | Repository | session-jury-comment-repository', function () {
   context('#get', function () {
