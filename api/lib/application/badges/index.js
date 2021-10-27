@@ -28,6 +28,38 @@ exports.register = async function (server) {
         ],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/badges/{id}/badge-criteria',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.badgeId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                scope: Joi.string().required(),
+                threshold: Joi.number().min(0).max(100).required(),
+              }).required(),
+              type: Joi.string().required(),
+            }).required(),
+          }).required(),
+        },
+        handler: badgesController.createBadgeCriterion,
+        tags: ['api', 'badges'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            "- Elle permet de créer un critère et de l'ajouter au badge référencé par {id}.",
+        ],
+      },
+    },
   ]);
 };
 

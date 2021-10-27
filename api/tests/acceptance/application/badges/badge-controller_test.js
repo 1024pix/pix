@@ -221,4 +221,48 @@ describe('Acceptance | API | Badges', function () {
       expect(response.result).to.deep.equal(expectedBadge);
     });
   });
+
+  describe('POST /api/admin/badges/{id}/badge-criteria', function () {
+    beforeEach(async function () {
+      userId = (await insertUserWithRolePixMaster()).id;
+
+      badge = databaseBuilder.factory.buildBadge({
+        id: 1,
+        altMessage: 'Message alternatif',
+        imageUrl: 'url_image',
+        message: 'Bravo',
+        title: 'titre du badge',
+        key: 'clef du badge',
+        isCertifiable: false,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should create a criterion and add it to an existing badge', async function () {
+      // given
+      const badgeCriterion = {
+        scope: 'CampaignParticipation',
+        threshold: 65,
+      };
+
+      options = {
+        method: 'POST',
+        url: `/api/admin/badges/${badge.id}/badge-criteria`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload: {
+          data: {
+            type: 'badge-criteria',
+            attributes: badgeCriterion,
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

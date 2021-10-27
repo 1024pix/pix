@@ -164,6 +164,7 @@ module.exports = injectDependencies(
     correctCandidateIdentityInCertificationCourse: require('./correct-candidate-identity-in-certification-course'),
     createAndReconcileUserToSchoolingRegistration: require('./create-and-reconcile-user-to-schooling-registration'),
     createBadge: require('./create-badge'),
+    createBadgeCriteria: require('./create-badge-criteria'),
     createCampaign: require('./create-campaign'),
     createCertificationCenter: require('./create-certification-center'),
     createCertificationCenterMembership: require('./create-certification-center-membership'),
