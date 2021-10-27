@@ -20,8 +20,4 @@ export default class LoginSessionSupervisorRoute extends Route {
       this.router.replaceWith('terms-of-service');
     }
   }
-
-  model() {
-    return this.currentUser.currentAllowedCertificationCenterAccess;
-  }
 }
