@@ -8,11 +8,4 @@ module.exports = {
       readable: true,
     });
   },
-
-  generateStringCodeForOrganizationInvitation() {
-    return randomString.generate({
-      length: 10,
-      capitalization: 'uppercase',
-    });
-  },
 };

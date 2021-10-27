@@ -1,9 +1,9 @@
+const randomString = require('randomstring');
 const Membership = require('../models/Membership');
 const mailService = require('../../domain/services/mail-service');
-const codeUtils = require('../../infrastructure/utils/code-utils');
 
 const _generateCode = () => {
-  return codeUtils.generateStringCodeForOrganizationInvitation();
+  return randomString.generate({ length: 10, capitalization: 'uppercase' });
 };
 
 const createOrganizationInvitation = async ({
