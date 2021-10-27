@@ -10,6 +10,14 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/token',
       config: {
+        plugins: {
+          rateLimit: {
+            enabled: true,
+            key: (request) => {
+              return request.payload.username;
+            },
+          },
+        },
         auth: false,
         payload: {
           allow: 'application/x-www-form-urlencoded',

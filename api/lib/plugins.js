@@ -1,8 +1,12 @@
 const Pack = require('../package');
 const settings = require('./config');
+const logger = require('./infrastructure/logger');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const monitoringTools = require('./infrastructure/monitoring-tools');
+const RedisClient = require('./infrastructure/utils/RedisClient');
+const { TooManyRequestsError } = require('./application/http-errors');
+const { redisUrl } = settings.caching;
 
 function logObjectSerializer(req) {
   const enhancedReq = {
@@ -20,6 +24,13 @@ function logObjectSerializer(req) {
     route: context?.request?.route?.path,
   };
 }
+
+const redisClient = redisUrl ? new RedisClient(redisUrl, 'api-rate-limiter') : null;
+
+const defaultRate = {
+  limit: 10,
+  window: 60,
+};
 
 const plugins = [
   Inert,
@@ -46,6 +57,21 @@ const plugins = [
       getChildBindings: () => ({}),
       instance: require('./infrastructure/logger'),
       logQueryParams: true,
+    },
+  },
+  {
+    plugin: require('hapi-rate-limiter'),
+    options: {
+      defaultRate: () => defaultRate,
+      key: (request) => {
+        return request.auth.credentials.userId;
+      },
+      redisClient,
+      overLimitError: (rate) => {
+        logger.error('Rate limit exceeded');
+        return new TooManyRequestsError(`Rate Limit Exceeded - try again in ${rate.window} seconds`);
+      },
+      onRedisError: (err) => logger.error(err),
     },
   },
   ...(settings.sentry.enabled

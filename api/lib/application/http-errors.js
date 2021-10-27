@@ -135,6 +135,14 @@ class InternalServerError extends BaseHttpError {
   }
 }
 
+class TooManyRequestsError extends BaseHttpError {
+  constructor(message) {
+    super(message);
+    this.title = 'Too many requests';
+    this.status = 429;
+  }
+}
+
 function sendJsonApiError(httpError, h) {
   const jsonApiError = new JSONAPIError({
     status: httpError.status.toString(),
@@ -163,4 +171,5 @@ module.exports = {
   SessionPublicationBatchError,
   UnauthorizedError,
   UnprocessableEntityError,
+  TooManyRequestsError,
 };
