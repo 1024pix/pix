@@ -185,4 +185,13 @@ export default function() {
   this.get('/countries', (schema, _) => {
     return schema.countries.all();
   });
+
+  this.get('/sessions/:id/supervising', (schema, request) => {
+    const sessionId = request.params.id;
+    return schema.sessionForSupervisings.find(sessionId);
+  });
+
+  this.post('/sessions/supervise', () => {
+    return new Response(204);
+  });
 }
