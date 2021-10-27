@@ -5,7 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import { render as renderScreen } from '../../../helpers/testing-library';
+import { render as renderScreen } from '@pix/ember-testing-library';
 
 module('Integration | Component | certification-candidate-details-modal', function(hooks) {
   setupRenderingTest(hooks);
