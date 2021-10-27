@@ -248,7 +248,8 @@ module.exports = {
 
   async sendInvitationByLangAndRole(request, h) {
     const organizationId = request.params.id;
-    const invitationInformation = await organizationInvitationSerializer.deserialize(request.payload);
+    const invitationInformation =
+      await organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(request.payload);
 
     const organizationInvitation = await usecases.createOrganizationInvitations({
       organizationId,

@@ -7,7 +7,7 @@ module.exports = {
     }).serialize(invitations);
   },
 
-  deserialize(payload) {
+  deserializeForCreateOrganizationInvitationAndSendEmail(payload) {
     return new Deserializer().deserialize(payload).then((record) => {
       return {
         role: record.role,

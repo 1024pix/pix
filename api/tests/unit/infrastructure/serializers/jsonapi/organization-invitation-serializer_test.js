@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
       expect(json).to.deep.equal(jsonInvitationExpected);
     });
   });
-  describe('#deserialize()', function () {
+  describe('#deserializeForCreateOrganizationInvitationAndSendEmail()', function () {
     it('should convert the payload json to organization invitation information', async function () {
       //given
       const payload = {
@@ -43,7 +43,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
       };
 
       // when
-      const json = await serializer.deserialize(payload);
+      const json = await serializer.deserializeForCreateOrganizationInvitationAndSendEmail(payload);
 
       // then
       const expectedJsonApi = {
