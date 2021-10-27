@@ -14,7 +14,8 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
-        badgeCriteria: [domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null })],
+        badgeCriteria: [domainBuilder.buildBadgeCriterion({ skillSetIds: null })],
+        skillSets: [],
         badgePartnerCompetences: [],
       });
       const badgeWithLearningContent = domainBuilder.buildBadgeWithLearningContent({ badge });
@@ -40,6 +41,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                 },
               ],
             },
+            'skill-sets': {
+              data: [],
+            },
             'badge-partner-competences': {
               data: [],
             },
@@ -64,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
 
-    it('should convert a Badge model with badge partner competence object into JSON API data', function () {
+    it('should convert a Badge model with skillSets into JSON API data', function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -111,6 +115,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                 },
               ],
             },
+            'skill-sets': {
+              data: [
+                {
+                  id: '1',
+                  type: 'skill-sets',
+                },
+                {
+                  id: '2',
+                  type: 'skill-sets',
+                },
+              ],
+            },
             'badge-partner-competences': {
               data: [
                 {
@@ -132,6 +148,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               threshold: 40,
             },
             relationships: {
+              'skill-sets': {
+                data: [],
+              },
               'partner-competences': {
                 data: [],
               },
@@ -145,6 +164,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               threshold: 40,
             },
             relationships: {
+              'skill-sets': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'skill-sets',
+                  },
+                  {
+                    id: '2',
+                    type: 'skill-sets',
+                  },
+                ],
+              },
               'partner-competences': {
                 data: [
                   {
@@ -200,6 +231,48 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               },
             },
             type: 'skills',
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '1',
+            type: 'skill-sets',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '2',
+            type: 'skill-sets',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
           },
           {
             attributes: {
@@ -297,6 +370,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
                 },
               ],
             },
+            'skill-sets': {
+              data: [
+                {
+                  id: '1',
+                  type: 'skill-sets',
+                },
+                {
+                  id: '2',
+                  type: 'skill-sets',
+                },
+              ],
+            },
             'badge-partner-competences': {
               data: [
                 {
@@ -318,6 +403,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               threshold: 40,
             },
             relationships: {
+              'skill-sets': {
+                data: [],
+              },
               'partner-competences': {
                 data: [],
               },
@@ -331,6 +419,18 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               threshold: 40,
             },
             relationships: {
+              'skill-sets': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'skill-sets',
+                  },
+                  {
+                    id: '2',
+                    type: 'skill-sets',
+                  },
+                ],
+              },
               'partner-competences': {
                 data: [
                   {
@@ -370,6 +470,40 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
               },
             },
             type: 'skills',
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '1',
+            type: 'skill-sets',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '2',
+            type: 'skill-sets',
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
           },
           {
             attributes: {

@@ -33,12 +33,12 @@ describe('Unit | chai-custom-helpers | deepEqualArray', function () {
 
   it('should succeed assertion when compared arrays have the same values in order', function () {
     // given
-    const badgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const skillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
     });
-    const sameBadgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
+    const sameSkillSet = domainBuilder.buildSkillSet({
       id: 123,
       name: 'someName',
       skillIds: ['recABC', 'recDEF'],
@@ -46,6 +46,6 @@ describe('Unit | chai-custom-helpers | deepEqualArray', function () {
     const campaign = domainBuilder.buildCampaign();
 
     // then
-    expect([badgePartnerCompetence, campaign]).to.deepEqualArray([sameBadgePartnerCompetence, campaign]);
+    expect([skillSet, campaign]).to.deepEqualArray([sameSkillSet, campaign]);
   });
 });

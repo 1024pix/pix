@@ -36,7 +36,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
           id: 1,
           scope: 'CampaignParticipation',
           threshold: 85,
-          partnerCompetences: [EmberObject.create({ id: 1, name: 'Competence', color: 'red', skills: [skill] })],
+          skillSets: [EmberObject.create({ id: 1, name: 'Competence', color: 'red', skills: [skill] })],
         }),
       ],
     });

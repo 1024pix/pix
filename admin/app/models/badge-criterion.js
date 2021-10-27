@@ -5,5 +5,5 @@ export default class BadgeCriterion extends Model {
   @attr('number') threshold;
 
   @belongsTo('badge') badge;
-  @hasMany('badgePartnerCompetence') partnerCompetences;
+  @hasMany('skillSet') skillSets;
 }

@@ -241,8 +241,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               threshold: 54,
             }),
           ],
-          badgePartnerCompetences: [
-            domainBuilder.buildBadgePartnerCompetence({
+          skillSets: [
+            domainBuilder.buildSkillSet({
               id: 18,
               name: 'Yellow',
               color: 'emerald',
@@ -268,7 +268,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
         expect(result.campaignParticipationBadges.length).to.equal(1);
-        expect(result.campaignParticipationBadges[0].partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
+        expect(result.campaignParticipationBadges[0].skillSetResults[0]).to.be.an.instanceOf(CompetenceResult);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -291,10 +291,10 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 17,
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
-                  partnerCompetenceIds: [],
+                  skillSetIds: [],
                 },
               ],
-              badgePartnerCompetences: [
+              skillSets: [
                 {
                   id: 18,
                   name: 'Yellow',
@@ -302,7 +302,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                 },
               ],
               targetProfileId: targetProfile.id,
-              partnerCompetenceResults: [
+              skillSetResults: [
                 {
                   id: 18,
                   areaColor: null,
@@ -346,7 +346,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     });
 
     context('when multiple badges', function () {
-      it('should create campaign participation results with partnerCompetenceResults from one badge', function () {
+      it('should create campaign participation results with skillSetResults from one badge', function () {
         // given
         const greenBadge = domainBuilder.buildBadge({
           id: 1,
@@ -361,11 +361,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               id: 15,
               scope: BadgeCriterion.SCOPES.SKILL_SET,
               threshold: 54,
-              partnerCompetenceIds: [42],
+              skillSetIds: [42],
             }),
           ],
-          badgePartnerCompetences: [
-            domainBuilder.buildBadgePartnerCompetence({
+          skillSets: [
+            domainBuilder.buildSkillSet({
               id: 42,
               name: 'Green',
               color: 'jaffa',
@@ -389,7 +389,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               threshold: 54,
             }),
           ],
-          badgePartnerCompetences: [],
+          skillSets: [],
           targetProfileId: targetProfile.id,
         });
         const campaignBadges = [greenBadge, yellowBadge];
@@ -409,8 +409,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
         expect(result.campaignParticipationBadges.length).to.equal(2);
-        expect(result.campaignParticipationBadges[0].partnerCompetenceResults.length).to.equal(1);
-        expect(result.campaignParticipationBadges[1].partnerCompetenceResults.length).to.equal(0);
+        expect(result.campaignParticipationBadges[0].skillSetResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[1].skillSetResults.length).to.equal(0);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -433,17 +433,17 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 15,
                   scope: BadgeCriterion.SCOPES.SKILL_SET,
                   threshold: 54,
-                  partnerCompetenceIds: [42],
+                  skillSetIds: [42],
                 },
               ],
-              badgePartnerCompetences: [
+              skillSets: [
                 {
                   id: 42,
                   name: 'Green',
                   skillIds: [1, 2, 4],
                 },
               ],
-              partnerCompetenceResults: [
+              skillSetResults: [
                 {
                   id: 42,
                   name: 'Green',
@@ -472,11 +472,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 15,
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
-                  partnerCompetenceIds: [],
+                  skillSetIds: [],
                 },
               ],
-              badgePartnerCompetences: [],
-              partnerCompetenceResults: [],
+              skillSets: [],
+              skillSetResults: [],
               targetProfileId: 1,
               isAlwaysVisible: false,
             },
@@ -508,7 +508,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
         });
       });
 
-      it('should create campaign participation results with partnerCompetenceResults from two badge', function () {
+      it('should create campaign participation results with skillSetResults from two badge', function () {
         // given
         const greenBadge = domainBuilder.buildBadge({
           id: 1,
@@ -525,8 +525,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               threshold: 54,
             }),
           ],
-          badgePartnerCompetences: [
-            domainBuilder.buildBadgePartnerCompetence({
+          skillSets: [
+            domainBuilder.buildSkillSet({
               id: 42,
               name: 'Green',
               color: 'jaffa',
@@ -550,8 +550,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               threshold: 54,
             }),
           ],
-          badgePartnerCompetences: [
-            domainBuilder.buildBadgePartnerCompetence({
+          skillSets: [
+            domainBuilder.buildSkillSet({
               id: 48,
               name: 'Yellow',
               color: 'emerald',
@@ -577,8 +577,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
         expect(result.campaignParticipationBadges.length).to.equal(2);
-        expect(result.campaignParticipationBadges[0].partnerCompetenceResults.length).to.equal(1);
-        expect(result.campaignParticipationBadges[1].partnerCompetenceResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[0].skillSetResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[1].skillSetResults.length).to.equal(1);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -603,17 +603,17 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 15,
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
-                  partnerCompetenceIds: [],
+                  skillSetIds: [],
                 },
               ],
-              badgePartnerCompetences: [
+              skillSets: [
                 {
                   id: 42,
                   name: 'Green',
                   skillIds: [1, 2, 4],
                 },
               ],
-              partnerCompetenceResults: [
+              skillSetResults: [
                 {
                   id: 42,
                   index: undefined,
@@ -642,17 +642,17 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 15,
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
-                  partnerCompetenceIds: [],
+                  skillSetIds: [],
                 }),
               ],
-              badgePartnerCompetences: [
-                domainBuilder.buildBadgePartnerCompetence({
+              skillSets: [
+                domainBuilder.buildSkillSet({
                   id: 48,
                   name: 'Yellow',
                   skillIds: [2],
                 }),
               ],
-              partnerCompetenceResults: [
+              skillSetResults: [
                 {
                   id: 48,
                   index: undefined,
@@ -693,7 +693,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
         });
       });
 
-      it('should not add partnerCompetenceResults to the campaign participation results', function () {
+      it('should not add skillSetResults to the campaign participation results', function () {
         // given
         const greenBadge = domainBuilder.buildBadge({
           id: 1,
@@ -710,7 +710,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               threshold: 54,
             }),
           ],
-          badgePartnerCompetences: [],
+          skillSets: [],
           targetProfileId: targetProfile.id,
         });
         const yellowBadge = domainBuilder.buildBadge({
@@ -728,7 +728,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               threshold: 54,
             }),
           ],
-          badgePartnerCompetences: [],
+          skillSets: [],
           targetProfileId: targetProfile.id,
         });
         const campaignBadges = [greenBadge, yellowBadge];
@@ -772,11 +772,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 15,
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
-                  partnerCompetenceIds: [],
+                  skillSetIds: [],
                 },
               ],
-              badgePartnerCompetences: [],
-              partnerCompetenceResults: [],
+              skillSets: [],
+              skillSetResults: [],
               targetProfileId: 1,
               isAlwaysVisible: false,
             },
@@ -794,11 +794,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   id: 15,
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
-                  partnerCompetenceIds: [],
+                  skillSetIds: [],
                 },
               ],
-              badgePartnerCompetences: [],
-              partnerCompetenceResults: [],
+              skillSets: [],
+              skillSetResults: [],
               targetProfileId: 1,
               isAlwaysVisible: false,
             },

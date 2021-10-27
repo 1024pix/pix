@@ -9,7 +9,7 @@ const {
 } = require('../../../test-helper');
 
 describe('Acceptance | API | Badges', function () {
-  let server, options, userId, badge, badgeCriterion, badgePartnerCompetence;
+  let server, options, userId, badge, badgeCriterion, skillSet;
 
   beforeEach(async function () {
     server = await createServer();
@@ -60,7 +60,7 @@ describe('Acceptance | API | Badges', function () {
         isCertifiable: false,
       });
       badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
+      skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
 
       await databaseBuilder.commit();
     });
@@ -93,10 +93,18 @@ describe('Acceptance | API | Badges', function () {
                 },
               ],
             },
+            'skill-sets': {
+              data: [
+                {
+                  id: skillSet.id.toString(),
+                  type: 'skill-sets',
+                },
+              ],
+            },
             'badge-partner-competences': {
               data: [
                 {
-                  id: badgePartnerCompetence.id.toString(),
+                  id: skillSet.id.toString(),
                   type: 'badge-partner-competences',
                 },
               ],
@@ -112,6 +120,9 @@ describe('Acceptance | API | Badges', function () {
               threshold: 50,
             },
             relationships: {
+              'skill-sets': {
+                data: [],
+              },
               'partner-competences': {
                 data: [],
               },
@@ -158,8 +169,29 @@ describe('Acceptance | API | Badges', function () {
             },
           },
           {
+            type: 'skill-sets',
+            id: skillSet.id.toString(),
+            attributes: {
+              name: 'name',
+            },
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC123',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF456',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+          {
             type: 'badge-partner-competences',
-            id: badgePartnerCompetence.id.toString(),
+            id: skillSet.id.toString(),
             attributes: {
               name: 'name',
             },

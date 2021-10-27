@@ -6,14 +6,14 @@ module.exports = function buildBadgeCriterion({
   scope = BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
   threshold = 50,
   badgeId,
-  partnerCompetenceIds = [],
+  skillSetIds = [],
 } = {}) {
   const values = {
     id,
     scope,
     threshold,
     badgeId,
-    partnerCompetenceIds,
+    skillSetIds,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'badge-criteria',

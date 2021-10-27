@@ -73,7 +73,6 @@ describe('Integration | Event | Handle Badge Acquisition Service', function () {
 
       badgeCompleted = databaseBuilder.factory.buildBadge({
         targetProfileId,
-        badgePartnerCompetences: [],
         key: 'Badge1',
       });
       databaseBuilder.factory.buildBadgeCriterion({
@@ -84,7 +83,6 @@ describe('Integration | Event | Handle Badge Acquisition Service', function () {
 
       const badgeNotCompletedId = databaseBuilder.factory.buildBadge({
         targetProfileId,
-        badgePartnerCompetences: [],
         key: 'Badge2',
       }).id;
       databaseBuilder.factory.buildBadgeCriterion({
@@ -96,7 +94,6 @@ describe('Integration | Event | Handle Badge Acquisition Service', function () {
       databaseBuilder.factory.buildBadge({
         targetProfileId,
         badgeCriteria: [],
-        badgePartnerCompetences: [],
         key: 'Badge3',
       }).id;
 

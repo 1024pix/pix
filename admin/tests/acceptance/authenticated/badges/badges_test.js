@@ -17,7 +17,7 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
 
     const tube = this.server.create('tube', { practicalTitle: 'Practical title of tube' });
     const skill = this.server.create('skill', { name: '@skill2', difficulty: 2, tube });
-    const badgePartnerCompetence = this.server.create('badge-partner-competence', {
+    const skillSet = this.server.create('skill-set', {
       id: 1,
       name: 'Internet for dummies',
       color: 'red',
@@ -29,18 +29,18 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
       scope: 'CampaignParticipation',
       threshold: 20,
     });
-    const criterionEveryPartnerCompetence = this.server.create('badge-criterion', {
+    const criterionEverySkillSet = this.server.create('badge-criterion', {
       id: 2,
-      scope: 'EveryPartnerCompetence',
+      scope: 'SkillSet',
       threshold: 40,
-      partnerCompetences: [badgePartnerCompetence],
+      skillSets: [skillSet],
     });
 
     badge = this.server.create('badge', {
       id: 1,
       title: 'My badge',
-      badgeCriteria: [criterionCampaignParticipation, criterionEveryPartnerCompetence],
-      badgePartnerCompetences: [badgePartnerCompetence],
+      badgeCriteria: [criterionCampaignParticipation, criterionEverySkillSet],
+      skillSets: [skillSet],
     });
   });
 

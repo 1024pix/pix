@@ -6,7 +6,7 @@ describe('Unit | UseCase | get-badge-details', function () {
   it('should get badge details', async function () {
     // given
     const badge = {
-      badgePartnerCompetences: [
+      skillSets: [
         {
           skillIds: [1, 2],
         },

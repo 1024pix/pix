@@ -28,9 +28,23 @@ module.exports = {
           'imageUrl',
           'key',
           'isAcquired',
+          'skillSetResults',
           'partnerCompetenceResults',
           'isAlwaysVisible',
         ],
+        skillSetResults: {
+          ref: 'id',
+          included: true,
+          attributes: [
+            'name',
+            'index',
+            'areaColor',
+            'masteryPercentage',
+            'totalSkillsCount',
+            'testedSkillsCount',
+            'validatedSkillsCount',
+          ],
+        },
         partnerCompetenceResults: {
           ref: 'id',
           included: true,
@@ -76,10 +90,12 @@ function transform(record) {
 }
 
 function mapBadgeResult(badgeResult) {
+  const skillSetResults = badgeResult.skillSetResults.map((skillSetResult) => {
+    return { ...skillSetResult, areaColor: skillSetResult.color };
+  });
   return {
     ...badgeResult,
-    partnerCompetenceResults: badgeResult.partnerCompetenceResults.map((partnerCompetenceResult) => {
-      return { ...partnerCompetenceResult, areaColor: partnerCompetenceResult.color };
-    }),
+    skillSetResults,
+    partnerCompetenceResults: skillSetResults,
   };
 }
