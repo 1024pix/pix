@@ -94,7 +94,6 @@
     "mocha-junit-reporter": "^2.0.0",
     "nock": "^13.0.11",
     "nodemon": "^2.0.7",
-    "nyc": "^15.1.0",
     "prettier": "^2.4.1",
     "sinon": "^11.1.1",
     "sinon-chai": "^3.7.0",
@@ -103,9 +102,6 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "cache:refresh": "node scripts/refresh-cache",
-    "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test nyc --silent _mocha --recursive --exit --reporter dot tests && nyc report --reporter=lcovonly --report-dir=../coverage",
-    "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
-    "coverage": "npm run coverage:check && npm run coverage:rename",
     "db:new-migration": "npx knex --knexfile db/knexfile.js migrate:make $migrationname",
     "db:create": "node scripts/database/create-database",
     "db:delete": "node scripts/database/drop-database",
