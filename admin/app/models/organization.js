@@ -36,8 +36,9 @@ export default class Organization extends Model {
       payload.data.attributes = Object.assign(payload.data.attributes, attributes);
       return payload;
     },
-    after() {
+    after(response) {
       this.targetProfiles.reload();
+      return response;
     },
   });
 }
