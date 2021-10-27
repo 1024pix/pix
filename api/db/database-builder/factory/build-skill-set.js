@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-module.exports = function buildBadgePartnerCompetence({
+module.exports = function buildSkillSet({
   id = databaseBuffer.getNextId(),
   name = 'name',
   skillIds = [],
@@ -19,7 +19,7 @@ module.exports = function buildBadgePartnerCompetence({
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: 'badge-partner-competences',
+    tableName: 'skill-sets',
     values,
   });
 };

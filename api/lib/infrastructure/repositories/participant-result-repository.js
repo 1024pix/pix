@@ -103,7 +103,7 @@ function _getStages(targetProfileId) {
 
 async function _getBadges(targetProfileId) {
   const badges = await knex('badges').where({ targetProfileId });
-  const competences = await _findBadgePartnerCompetence(badges);
+  const competences = await _findSkillSet(badges);
   return badges.map((badge) => {
     const badgeCompetences = competences.filter(({ badgeId }) => badgeId === badge.id);
 
@@ -114,8 +114,8 @@ async function _getBadges(targetProfileId) {
   });
 }
 
-function _findBadgePartnerCompetence(badges) {
-  return knex('badge-partner-competences').whereIn(
+function _findSkillSet(badges) {
+  return knex('skill-sets').whereIn(
     'badgeId',
     badges.map(({ id }) => id)
   );

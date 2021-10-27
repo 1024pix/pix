@@ -1,7 +1,7 @@
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
 
-const skillIdsForBadgePartnerCompetence1 = [
+const skillIdsForSkillSet1 = [
   'recMOy4S8XnaWblYI', 'recPG9ftlGZLiF0O6', 'recH1pcEWLBUCqXTm', 'recIDXphXbneOrbux',
   'recclxUSbi0fvIWpd', 'recLCYATl7TGrkZLh', 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp',
   'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR', 'recGd7oJ2wVEyKmPS', 'recDZTKszXX02aXD1',
@@ -17,7 +17,7 @@ const skillIdsForBadgePartnerCompetence1 = [
   'reckyBHOf8yIl2UGq',
 ];
 
-const skillIdsForBadgePartnerCompetence2 = [
+const skillIdsForSkillSet2 = [
   'recybd8jWDNiFpbgq', 'recL4pRDGJZhgxsEL', 'recMOxOdfesur8E7L', 'rectLj7NPg5JcSIqN',
   'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5', 'recyblYaLq5YHTSRk', 'rec9qal2FLjWysrfu',
   'rechRPFlSryfY3UnG', 'reciVXqruKqnV4haA', 'recbwejYcw1T1zA06', 'recJLroTYxcfbczfW',
@@ -25,7 +25,7 @@ const skillIdsForBadgePartnerCompetence2 = [
   'recPgkHUdzk0HPGt1', 'reclX9KELFBQeVKoC', 'recBsT8BoStvZP6av',
 ];
 
-const skillIdsForBadgePartnerCompetence3 = [
+const skillIdsForSkillSet3 = [
   'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO', 'recXDYAkqqIDCDePc',
   'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ',
   'recmoanUlDOyXexPF', 'recKbNbM8G7mKaloD', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH',
@@ -33,10 +33,10 @@ const skillIdsForBadgePartnerCompetence3 = [
   'recI4zS51by3N7Ryi', 'recrV8JAEsieJOAch', 'recHBMRraNImyqmDF', 'recaTPKUCD6uAS0li',
   'recicaqEeoJUtXT6j', 'recDotNI5r7ApHfwa',
 ];
-const skillIdsForBadgePartnerCompetence3_V1_only = ['rec6IWrDOSaoX4aLn', 'recZnnTU4WUP6KwwX'];
-const skillIdsForBadgePartnerCompetence3_V2_only = ['recqSPZiRJYzfCDaS', 'recRAXPXVL2cMh5b5'];
+const skillIdsForSkillSet3_V1_only = ['rec6IWrDOSaoX4aLn', 'recZnnTU4WUP6KwwX'];
+const skillIdsForSkillSet3_V2_only = ['recqSPZiRJYzfCDaS', 'recRAXPXVL2cMh5b5'];
 
-const skillIdsForBadgePartnerCompetence4 = [
+const skillIdsForSkillSet4 = [
   'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV', 'recixKw4lXIiHue01', 'recLYUZrWeizc4G5d',
   'recgOc2OreHCosoRp', 'recb0ZHKckwrnZeb8', 'recF9oTiR8fMSnQoo', 'recm2r3CA4crfigAk',
   'recWjPO6uH6NqaiD4', 'rec0o0fVvpExTlZGp', 'rec8Ot7GXqSJLn99A', 'recOYQhD9e6c3YkPu',
@@ -47,25 +47,25 @@ const skillIdsForBadgePartnerCompetence4 = [
   'rec2Kg1bqEZVI8fBh', 'rec9IR04aOpn5aSCP', 'recJGN6S3MmTZVa5O', 'recUCuU7EMEHAysmp',
   'rec2DvazCDkBnqOmK',
 ];
-const skillIdsForBadgePartnerCompetence4_V1_only = ['recAzV1ljhCdjrasn', 'recx7WnZJCXVgCvN4'];
-const skillIdsForBadgePartnerCompetence4_V2_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
+const skillIdsForSkillSet4_V1_only = ['recAzV1ljhCdjrasn', 'recx7WnZJCXVgCvN4'];
+const skillIdsForSkillSet4_V2_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
 
-const skillIdsForBadgePartnerCompetencesV1 = [
-  skillIdsForBadgePartnerCompetence1,
-  skillIdsForBadgePartnerCompetence2,
-  skillIdsForBadgePartnerCompetence3,
-  skillIdsForBadgePartnerCompetence3_V1_only,
-  skillIdsForBadgePartnerCompetence4,
-  skillIdsForBadgePartnerCompetence4_V1_only,
+const skillIdsForSkillSetsV1 = [
+  skillIdsForSkillSet1,
+  skillIdsForSkillSet2,
+  skillIdsForSkillSet3,
+  skillIdsForSkillSet3_V1_only,
+  skillIdsForSkillSet4,
+  skillIdsForSkillSet4_V1_only,
 ];
 
-const skillIdsForBadgePartnerCompetencesV2 = [
-  skillIdsForBadgePartnerCompetence1,
-  skillIdsForBadgePartnerCompetence2,
-  skillIdsForBadgePartnerCompetence3,
-  skillIdsForBadgePartnerCompetence3_V2_only,
-  skillIdsForBadgePartnerCompetence4,
-  skillIdsForBadgePartnerCompetence4_V2_only,
+const skillIdsForSkillSetsV2 = [
+  skillIdsForSkillSet1,
+  skillIdsForSkillSet2,
+  skillIdsForSkillSet3,
+  skillIdsForSkillSet3_V2_only,
+  skillIdsForSkillSet4,
+  skillIdsForSkillSet4_V2_only,
 ];
 
 const TARGET_PROFILE_PIC_DIAG_INITIAL_ID = 1;
@@ -179,12 +179,12 @@ function _buildTargetProfilePixEmploiClea(databaseBuilder) {
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
-  [...skillIdsForBadgePartnerCompetence1,
-    ...skillIdsForBadgePartnerCompetence2,
-    ...skillIdsForBadgePartnerCompetence3,
-    ...skillIdsForBadgePartnerCompetence3_V1_only,
-    ...skillIdsForBadgePartnerCompetence4,
-    ...skillIdsForBadgePartnerCompetence4_V1_only,
+  [...skillIdsForSkillSet1,
+    ...skillIdsForSkillSet2,
+    ...skillIdsForSkillSet3,
+    ...skillIdsForSkillSet3_V1_only,
+    ...skillIdsForSkillSet4,
+    ...skillIdsForSkillSet4_V1_only,
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID, skillId });
   });
@@ -198,12 +198,12 @@ function _buildTargetProfilePixEmploiCleaV2(databaseBuilder) {
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
-  [...skillIdsForBadgePartnerCompetence1,
-    ...skillIdsForBadgePartnerCompetence2,
-    ...skillIdsForBadgePartnerCompetence3,
-    ...skillIdsForBadgePartnerCompetence3_V2_only,
-    ...skillIdsForBadgePartnerCompetence4,
-    ...skillIdsForBadgePartnerCompetence4_V2_only,
+  [...skillIdsForSkillSet1,
+    ...skillIdsForSkillSet2,
+    ...skillIdsForSkillSet3,
+    ...skillIdsForSkillSet3_V2_only,
+    ...skillIdsForSkillSet4,
+    ...skillIdsForSkillSet4_V2_only,
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2, skillId });
   });
@@ -277,6 +277,6 @@ module.exports = {
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_DROIT_ID,
-  skillIdsForBadgePartnerCompetencesV1,
-  skillIdsForBadgePartnerCompetencesV2,
+  skillIdsForSkillSetsV1,
+  skillIdsForSkillSetsV2,
 };

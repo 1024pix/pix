@@ -1,6 +1,6 @@
 import ApplicationSerializer from './application';
 
-const include = ['badgeCriteria', 'badgePartnerCompetences'];
+const include = ['badgeCriteria', 'skillSets'];
 
 export default ApplicationSerializer.extend({
   include,

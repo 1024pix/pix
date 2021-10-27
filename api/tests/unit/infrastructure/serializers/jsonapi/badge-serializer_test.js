@@ -16,8 +16,8 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
         targetProfileId: '1',
         isCertifiable: false,
         isAlwaysVisible: true,
-        badgeCriteria: [domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null })],
-        badgePartnerCompetences: [],
+        badgeCriteria: [domainBuilder.buildBadgeCriterion({ skillSetIds: null })],
+        skillSets: [],
       });
 
       const expectedSerializedBadge = {
@@ -96,7 +96,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
           domainBuilder.buildBadgeCriterion({
             scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
             threshold: 40,
-            partnerCompetenceIds: [],
+            skillSetIds: [],
           }),
         ],
       });

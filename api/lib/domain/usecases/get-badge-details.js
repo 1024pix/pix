@@ -3,7 +3,7 @@ const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 
 module.exports = async function getBadgeDetails({ badgeId, badgeRepository, skillRepository, tubeRepository }) {
   const badge = await badgeRepository.get(badgeId);
-  const skillIds = badge.badgePartnerCompetences.flatMap(({ skillIds }) => skillIds);
+  const skillIds = badge.skillSets.flatMap(({ skillIds }) => skillIds);
 
   const skills = await skillRepository.findOperativeByIds(skillIds);
 

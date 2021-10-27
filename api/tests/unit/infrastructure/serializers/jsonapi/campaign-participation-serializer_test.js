@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         validatedSkillsCount: 2,
       },
     ];
-    const partnerCompetenceResults = [
+    const skillSetResults = [
       {
         id: '1',
         isCompleted: true,
@@ -44,7 +44,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
     ];
     const campaignParticipationBadge = {
       id: 5,
-      partnerCompetenceResults: partnerCompetenceResults,
+      skillSetResults: skillSetResults,
     };
     const campaignParticipationResult = {
       id: 1,

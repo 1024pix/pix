@@ -1,6 +1,6 @@
 const Badge = require('../../../../lib/domain/models/Badge');
 const buildBadgeCriterion = require('./build-badge-criterion');
-const buildBadgePartnerCompetence = require('./build-badge-partner-competence');
+const buildSkillSet = require('./build-skill-set');
 
 module.exports = function buildBadge({
   id = 1,
@@ -11,8 +11,8 @@ module.exports = function buildBadge({
   key = 'key',
   isCertifiable = false,
   targetProfileId = 456,
-  badgeCriteria = [buildBadgeCriterion(), buildBadgeCriterion({ id: 2, partnerCompetenceIds: [1, 2] })],
-  badgePartnerCompetences = [buildBadgePartnerCompetence(), buildBadgePartnerCompetence({ id: 2 })],
+  badgeCriteria = [buildBadgeCriterion(), buildBadgeCriterion({ id: 2, skillSetIds: [1, 2] })],
+  skillSets = [buildSkillSet(), buildSkillSet({ id: 2 })],
   isAlwaysVisible = false,
 } = {}) {
   return new Badge({
@@ -25,7 +25,7 @@ module.exports = function buildBadge({
     isCertifiable,
     targetProfileId,
     badgeCriteria,
-    badgePartnerCompetences,
+    skillSets,
     isAlwaysVisible,
   });
 };

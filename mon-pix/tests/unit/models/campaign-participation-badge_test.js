@@ -17,23 +17,23 @@ describe('Unit | Model | CampaignParticipationBadge', function () {
     expect(badge).to.be.ok;
   });
 
-  describe('#maxTotalSkillsCountInPartnerCompetences', function () {
+  describe('#maxTotalSkillsCountInSkillSets', function () {
     it('should calculate max total skills', function () {
-      const partnerCompetenceResult1 = store.createRecord('partner-competence-result', {
+      const skillSetResult1 = store.createRecord('skill-set-result', {
         totalSkillsCount: 2,
       });
-      const partnerCompetenceResult2 = store.createRecord('partner-competence-result', {
+      const skillSetResult2 = store.createRecord('skill-set-result', {
         totalSkillsCount: 10,
       });
 
       const model = store.createRecord('campaign-participation-badge');
-      model.partnerCompetenceResults = [partnerCompetenceResult1, partnerCompetenceResult2];
+      model.skillSetResults = [skillSetResult1, skillSetResult2];
 
       // when
-      const maxTotalSkillsCountInPartnerCompetences = model.maxTotalSkillsCountInPartnerCompetences;
+      const maxTotalSkillsCountInSkillSets = model.maxTotalSkillsCountInSkillSets;
 
       // then
-      expect(maxTotalSkillsCountInPartnerCompetences).to.equal(10);
+      expect(maxTotalSkillsCountInSkillSets).to.equal(10);
     });
   });
 });

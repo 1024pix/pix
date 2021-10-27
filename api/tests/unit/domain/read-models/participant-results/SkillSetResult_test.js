@@ -1,8 +1,8 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
-const PartnerCompetenceResults = require('../../../../../lib/domain/read-models/participant-results/PartnerCompetenceResult');
+const SkillSetResult = require('../../../../../lib/domain/read-models/participant-results/SkillSetResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Read-Models | ParticipantResults | PartnerCompetenceResult', function () {
+describe('Unit | Domain | Read-Models | ParticipantResults | SkillSetResult', function () {
   it('computes the result for the given competence', function () {
     const badgeCompetence = {
       id: 'rec1',
@@ -16,9 +16,9 @@ describe('Unit | Domain | Read-Models | ParticipantResults | PartnerCompetenceRe
       domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED }),
     ];
 
-    const partnerCompetenceResult = new PartnerCompetenceResults(badgeCompetence, knowledgeElements);
+    const skillSetResults = new SkillSetResult(badgeCompetence, knowledgeElements);
 
-    expect(partnerCompetenceResult).to.deep.equal({
+    expect(skillSetResults).to.deep.equal({
       id: 'rec1',
       name: 'C1',
       testedSkillsCount: 2,

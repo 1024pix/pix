@@ -1,4 +1,4 @@
-const PartnerCompetenceResult = require('./PartnerCompetenceResult');
+const SkillSetResult = require('./SkillSetResult');
 
 class BadgeResult {
   constructor(badge, participationResults) {
@@ -12,7 +12,7 @@ class BadgeResult {
     this.isAcquired = acquiredBadgeIds.includes(badge.id);
     this.isAlwaysVisible = badge.isAlwaysVisible;
 
-    this.partnerCompetenceResults = badge.badgeCompetences.map((competence) =>
+    this.skillSetResults = badge.badgeCompetences.map((competence) =>
       _buildCompetenceResults(competence, knowledgeElements)
     );
   }
@@ -22,7 +22,7 @@ function _buildCompetenceResults(badgeCompetence, knowledgeElements) {
   const skillIds = badgeCompetence.skillIds;
   const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => skillIds.includes(skillId));
 
-  return new PartnerCompetenceResult(badgeCompetence, competenceKnowledgeElements);
+  return new SkillSetResult(badgeCompetence, competenceKnowledgeElements);
 }
 
 module.exports = BadgeResult;

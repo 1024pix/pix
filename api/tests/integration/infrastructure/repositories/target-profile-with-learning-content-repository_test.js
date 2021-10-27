@@ -10,24 +10,24 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   badgeCriterion1.id = undefined;
   const badgeCriterion2 = domainBuilder.buildBadgeCriterion();
   badgeCriterion2.id = undefined;
-  const badgePartnerCompetence1 = domainBuilder.buildBadgePartnerCompetence();
-  badgePartnerCompetence1.id = undefined;
-  const badgePartnerCompetence2 = domainBuilder.buildBadgePartnerCompetence();
-  badgePartnerCompetence2.id = undefined;
+  const skillSet1 = domainBuilder.buildSkillSet();
+  skillSet1.id = undefined;
+  const skillSet2 = domainBuilder.buildSkillSet();
+  skillSet2.id = undefined;
   const badge = domainBuilder.buildBadge({ key, targetProfileId });
   badge.id = undefined;
   badge.badgeCriteria = [badgeCriterion1, badgeCriterion2];
-  badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
+  badge.skillSets = [skillSet1, skillSet2];
 
   badge.id = databaseBuilder.factory.buildBadge({ ...badge }).id;
   badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1, badgeId: badge.id }).id;
   badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2, badgeId: badge.id }).id;
-  badgePartnerCompetence1.id = databaseBuilder.factory.buildBadgePartnerCompetence({
-    ...badgePartnerCompetence1,
+  skillSet1.id = databaseBuilder.factory.buildSkillSet({
+    ...skillSet1,
     badgeId: badge.id,
   }).id;
-  badgePartnerCompetence2.id = databaseBuilder.factory.buildBadgePartnerCompetence({
-    ...badgePartnerCompetence2,
+  skillSet2.id = databaseBuilder.factory.buildSkillSet({
+    ...skillSet2,
     badgeId: badge.id,
   }).id;
   await databaseBuilder.commit();
@@ -46,11 +46,9 @@ async function buildDomainAndDatabaseStage(targetProfileId) {
 }
 
 const checkBadge = (actual, expected) => {
-  expect(omit(actual, ['badgeCriteria', 'badgePartnerCompetences'])).to.deep.include(
-    omit(expected, ['badgeCriteria', 'badgePartnerCompetences'])
-  );
+  expect(omit(actual, ['badgeCriteria', 'skillSets'])).to.deep.include(omit(expected, ['badgeCriteria', 'skillSets']));
   expect(actual.badgeCriteria).to.have.deep.members(expected.badgeCriteria);
-  expect(actual.badgePartnerCompetences).to.have.deep.members(expected.badgePartnerCompetences);
+  expect(actual.skillSets).to.have.deep.members(expected.skillSets);
 };
 
 describe('Integration | Repository | Target-profile-with-learning-content', function () {

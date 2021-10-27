@@ -679,8 +679,8 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         });
       });
 
-      context('when the target profile has badge partner competences (CleaNumerique)', function () {
-        it('computes the buildBadgePartnerCompetence for each competence of badge', async function () {
+      context('when the target profile has skillsets (CleaNumerique)', function () {
+        it('computes the buildSkillSet for each competence of badge', async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
           const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -690,7 +690,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           });
 
           const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId });
-          const badgePartnerCompetence1 = databaseBuilder.factory.buildBadgePartnerCompetence({
+          const skillSet1 = databaseBuilder.factory.buildSkillSet({
             id: 1,
             badgeId: 1,
             name: 'BadgeCompt1',
@@ -698,7 +698,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             color: 'BadgeCompt1Color',
             skillIds: ['skill1', 'skill2'],
           });
-          const badgePartnerCompetence2 = databaseBuilder.factory.buildBadgePartnerCompetence({
+          const skillSet2 = databaseBuilder.factory.buildSkillSet({
             id: 2,
             badgeId: 1,
             name: 'BadgeCompt2',
@@ -706,7 +706,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             color: 'BadgeCompt2Color',
             skillIds: ['skill3', 'skill4'],
           });
-          databaseBuilder.factory.buildBadgePartnerCompetence();
+          databaseBuilder.factory.buildSkillSet();
 
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
@@ -746,20 +746,16 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           );
 
           await databaseBuilder.commit();
-          badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
+          badge.skillSets = [skillSet1, skillSet2];
           const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
             userId,
             campaignId,
             locale: 'FR',
           });
-          const partnerCompetenceResult1 = participantResult.badgeResults[0].partnerCompetenceResults.find(
-            ({ id }) => id === 1
-          );
-          const partnerCompetenceResult2 = participantResult.badgeResults[0].partnerCompetenceResults.find(
-            ({ id }) => id === 2
-          );
+          const skillSetResult1 = participantResult.badgeResults[0].skillSetResults.find(({ id }) => id === 1);
+          const skillSetResult2 = participantResult.badgeResults[0].skillSetResults.find(({ id }) => id === 2);
           expect(participantResult.competenceResults).to.have.lengthOf(2);
-          expect(partnerCompetenceResult1).to.deep.equal({
+          expect(skillSetResult1).to.deep.equal({
             id: 1,
             name: 'BadgeCompt1',
             testedSkillsCount: 2,
@@ -768,7 +764,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             masteryPercentage: 100,
           });
 
-          expect(partnerCompetenceResult2).to.deep.equal({
+          expect(skillSetResult2).to.deep.equal({
             id: 2,
             name: 'BadgeCompt2',
             testedSkillsCount: 2,

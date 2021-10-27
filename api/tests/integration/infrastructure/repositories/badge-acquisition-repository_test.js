@@ -338,7 +338,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
   });
 
   describe('#findCertifiable', function () {
-    let badgeCertifiable, badgeNonCertifiable, badgePartnerCompetence, badgePartnerCriterion, user, userWithoutBadge;
+    let badgeCertifiable, badgeNonCertifiable, skillSet, badgePartnerCriterion, user, userWithoutBadge;
     beforeEach(async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       badgeCertifiable = databaseBuilder.factory.buildBadge({
@@ -356,7 +356,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
       userWithoutBadge = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable.id, userId: user.id });
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeNonCertifiable.id, userId: user.id });
-      badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badgeCertifiable.id });
+      skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badgeCertifiable.id });
       badgePartnerCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badgeCertifiable.id });
       await databaseBuilder.commit();
     });
@@ -368,11 +368,11 @@ describe('Integration | Repository | Badge Acquisition', function () {
       });
 
       // then
-      const expectedBadgePartnerCompetences = [
+      const expectedSkillSets = [
         {
-          id: badgePartnerCompetence.id,
-          name: badgePartnerCompetence.name,
-          skillIds: badgePartnerCompetence.skillIds,
+          id: skillSet.id,
+          name: skillSet.name,
+          skillIds: skillSet.skillIds,
         },
       ];
 
@@ -381,15 +381,13 @@ describe('Integration | Repository | Badge Acquisition', function () {
           id: badgePartnerCriterion.id,
           scope: badgePartnerCriterion.scope,
           threshold: badgePartnerCriterion.threshold,
-          partnerCompetenceIds: badgePartnerCriterion.partnerCompetenceIds,
+          skillSetIds: badgePartnerCriterion.skillSetIds,
         },
       ];
 
       expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
       expect(certifiableBadgesAcquiredByUser[0].badge).to.includes(badgeCertifiable);
-      expect(certifiableBadgesAcquiredByUser[0].badge.badgePartnerCompetences).to.deep.equal(
-        expectedBadgePartnerCompetences
-      );
+      expect(certifiableBadgesAcquiredByUser[0].badge.skillSets).to.deep.equal(expectedSkillSets);
       expect(certifiableBadgesAcquiredByUser[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
     });
 

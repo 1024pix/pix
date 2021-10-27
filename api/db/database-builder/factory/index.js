@@ -11,7 +11,7 @@ module.exports = {
   buildBadge: require('./build-badge'),
   buildBadgeAcquisition: require('./build-badge-acquisition'),
   buildBadgeCriterion: require('./build-badge-criterion'),
-  buildBadgePartnerCompetence: require('./build-badge-partner-competence'),
+  buildSkillSet: require('./build-skill-set'),
   buildCampaign: require('./build-campaign'),
   buildAssessmentCampaign: require('./build-assessment-campaign'),
   buildAssessmentCampaignForSkills: require('./build-assessment-campaign-for-skills'),

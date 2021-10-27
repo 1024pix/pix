@@ -124,6 +124,18 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               'validated-skills-count': 1,
             },
             id: '31',
+            type: 'skillSetResults',
+          },
+          {
+            attributes: {
+              'area-color': undefined,
+              'mastery-percentage': 100,
+              name: 'BadgeC1',
+              'tested-skills-count': 1,
+              'total-skills-count': 1,
+              'validated-skills-count': 1,
+            },
+            id: '31',
             type: 'partnerCompetenceResults',
           },
           {
@@ -139,6 +151,14 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             id: '3',
             type: 'campaignParticipationBadges',
             relationships: {
+              'skill-set-results': {
+                data: [
+                  {
+                    id: '31',
+                    type: 'skillSetResults',
+                  },
+                ],
+              },
               'partner-competence-results': {
                 data: [
                   {

@@ -1,4 +1,4 @@
-class PartnerCompetenceResult {
+class SkillSetResult {
   constructor(competence, knowledgeElements) {
     const totalSkillsCount = competence.skillIds.length;
     const validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
@@ -12,4 +12,4 @@ class PartnerCompetenceResult {
   }
 }
 
-module.exports = PartnerCompetenceResult;
+module.exports = SkillSetResult;

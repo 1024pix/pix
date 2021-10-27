@@ -7,13 +7,13 @@ function areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }) 
   const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
   const masteryPercentage = getMasteryPercentageForTargetProfile({ targetProfileSkillsIds, targetedKnowledgeElements });
-  const partnerCompetenceResults = getMasteryPercentageForAllPartnerCompetences({
+  const skillSetResults = getMasteryPercentageForAllSkillSets({
     badge,
     targetProfileSkillsIds,
     targetedKnowledgeElements,
   });
 
-  return verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+  return verifyCriteriaFulfilment({ masteryPercentage, skillSetResults, badge });
 }
 
 function getMasteryPercentageForTargetProfile({ targetProfileSkillsIds, targetedKnowledgeElements }) {
@@ -24,21 +24,16 @@ function getMasteryPercentageForTargetProfile({ targetProfileSkillsIds, targeted
   return _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount });
 }
 
-function getMasteryPercentageForAllPartnerCompetences({ targetedKnowledgeElements, targetProfileSkillsIds, badge }) {
-  if (_.isEmpty(badge.badgePartnerCompetences)) {
+function getMasteryPercentageForAllSkillSets({ targetedKnowledgeElements, targetProfileSkillsIds, badge }) {
+  if (_.isEmpty(badge.skillSets)) {
     return [];
   }
 
-  const validTargetedPartnerCompetences = _keepValidTargetedPartnerCompetences(
-    badge.badgePartnerCompetences,
-    targetProfileSkillsIds
-  );
-  return _.map(validTargetedPartnerCompetences, (badgePartnerCompetence) =>
-    _getTestedCompetenceResults(badgePartnerCompetence, targetedKnowledgeElements)
-  );
+  const validTargetedSkillSets = _keepValidTargetedSkillSets(badge.skillSets, targetProfileSkillsIds);
+  return _.map(validTargetedSkillSets, (skillSet) => _getTestedCompetenceResults(skillSet, targetedKnowledgeElements));
 }
 
-function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge }) {
+function verifyCriteriaFulfilment({ masteryPercentage, skillSetResults, badge }) {
   if (!badge.badgeCriteria.length) {
     logger.warn(`No criteria for badge ${badge.id}`);
     return false;
@@ -47,10 +42,10 @@ function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults,
     if (criterion.scope === BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION) {
       return masteryPercentage >= criterion.threshold;
     } else if (criterion.scope === BadgeCriterion.SCOPES.SKILL_SET) {
-      return _verifyListOfPartnerCompetenceResultsMasteryPercentageCriterion({
-        allPartnerCompetenceResults: partnerCompetenceResults,
+      return _verifyListOfSkillSetResultsMasteryPercentageCriterion({
+        allSkillSetResults: skillSetResults,
         threshold: criterion.threshold,
-        partnerCompetenceIds: criterion.partnerCompetenceIds,
+        skillSetIds: criterion.skillSetIds,
       });
     } else {
       return false;
@@ -58,42 +53,32 @@ function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults,
   });
 }
 
-function _verifyListOfPartnerCompetenceResultsMasteryPercentageCriterion({
-  allPartnerCompetenceResults,
-  threshold,
-  partnerCompetenceIds,
-}) {
-  const filteredPartnerCompetenceResults = _.filter(allPartnerCompetenceResults, (partnerCompetenceResult) =>
-    partnerCompetenceIds.includes(partnerCompetenceResult.id)
+function _verifyListOfSkillSetResultsMasteryPercentageCriterion({ allSkillSetResults, threshold, skillSetIds }) {
+  const filteredSkillSetResults = _.filter(allSkillSetResults, (skillSetResult) =>
+    skillSetIds.includes(skillSetResult.id)
   );
 
-  return _.every(
-    filteredPartnerCompetenceResults,
-    (partnerCompetenceResult) => partnerCompetenceResult.masteryPercentage >= threshold
-  );
+  return _.every(filteredSkillSetResults, (skillSetResult) => skillSetResult.masteryPercentage >= threshold);
 }
 
 function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {
   return _.filter(knowledgeElements, (ke) => targetProfileSkillsIds.some((skillId) => skillId === ke.skillId));
 }
 
-function _keepValidTargetedPartnerCompetences(badgePartnerCompetences, targetProfileSkillsIds) {
-  const targetedCompetences = _removeUntargetedSkillIdsFromPartnerCompetences(
-    badgePartnerCompetences,
-    targetProfileSkillsIds
-  );
-  return _removePartnerCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
+function _keepValidTargetedSkillSets(skillSets, targetProfileSkillsIds) {
+  const targetedCompetences = _removeUntargetedSkillIdsFromSkillSets(skillSets, targetProfileSkillsIds);
+  return _removeSkillSetsWithoutAnyTargetedSkillsLeft(targetedCompetences);
 }
 
-function _removeUntargetedSkillIdsFromPartnerCompetences(badgePartnerCompetences, targetProfileSkillsIds) {
-  return _.map(badgePartnerCompetences, (badgePartnerCompetence) => {
-    badgePartnerCompetence.skillIds = _.intersection(badgePartnerCompetence.skillIds, targetProfileSkillsIds);
-    return badgePartnerCompetence;
+function _removeUntargetedSkillIdsFromSkillSets(skillSets, targetProfileSkillsIds) {
+  return _.map(skillSets, (skillSet) => {
+    skillSet.skillIds = _.intersection(skillSet.skillIds, targetProfileSkillsIds);
+    return skillSet;
   });
 }
 
-function _removePartnerCompetencesWithoutAnyTargetedSkillsLeft(badgePartnerCompetences) {
-  return _.filter(badgePartnerCompetences, (badgePartnerCompetence) => !_.isEmpty(badgePartnerCompetence.skillIds));
+function _removeSkillSetsWithoutAnyTargetedSkillsLeft(skillSets) {
+  return _.filter(skillSets, (skillSet) => !_.isEmpty(skillSet.skillIds));
 }
 
 function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
@@ -104,19 +89,19 @@ function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
   }
 }
 
-function _getTestedCompetenceResults(badgePartnerCompetence, targetedKnowledgeElements) {
+function _getTestedCompetenceResults(skillSet, targetedKnowledgeElements) {
   const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) =>
-    _.includes(badgePartnerCompetence.skillIds, ke.skillId)
+    _.includes(skillSet.skillIds, ke.skillId)
   );
   const validatedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElementsForCompetence, 'isValidated');
 
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
-  const totalSkillsCount = badgePartnerCompetence.skillIds.length;
+  const totalSkillsCount = skillSet.skillIds.length;
 
   const masteryPercentage = _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount });
 
   return {
-    id: badgePartnerCompetence.id,
+    id: skillSet.id,
     masteryPercentage,
   };
 }
@@ -125,5 +110,5 @@ module.exports = {
   areBadgeCriteriaFulfilled,
   verifyCriteriaFulfilment,
   getMasteryPercentageForTargetProfile,
-  getMasteryPercentageForAllPartnerCompetences,
+  getMasteryPercentageForAllSkillSets,
 };
