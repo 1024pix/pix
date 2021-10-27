@@ -1,1 +1,8 @@
-<h1>Surveiller la session</h1>
+{{page-title "Surveiller la session n° " @model.id}}
+
+<div class="session-supervising-page">
+  <SessionSupervising::Header @session={{@model}}/>
+  {{#if @model.certificationCandidates}}
+    <SessionSupervising::CandidateList @candidates={{@model.certificationCandidates}}/>
+  {{/if}}
+</div>
