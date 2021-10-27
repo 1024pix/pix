@@ -500,7 +500,8 @@
       "only-for-admin": "réservé aux personnels de direction des établissements scolaires publics et privés sous contrat.",
       "password": "Mot de passe",
       "show-password": "rendre le mot de passe lisible",
-      "hide-password": "masquer le mot de passe"
+      "hide-password": "masquer le mot de passe",
+      "mandatory-all-fields": "Tous les champs sont obligatoires."
     },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}",
