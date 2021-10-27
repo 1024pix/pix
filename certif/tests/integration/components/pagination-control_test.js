@@ -4,7 +4,7 @@ import { render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import { render as renderScreen } from '../../helpers/testing-library';
+import { render as renderScreen } from '@pix/ember-testing-library';
 
 function getMetaForPage(pageNumber) {
   const rowCount = 50;
