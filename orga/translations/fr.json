@@ -499,7 +499,8 @@
       "login": "Je me connecte",
       "only-for-admin": "réservé aux personnels de direction des établissements scolaires publics et privés sous contrat.",
       "password": "Mot de passe",
-      "show-password": "rendre le mot de passe lisible"
+      "show-password": "rendre le mot de passe lisible",
+      "hide-password": "masquer le mot de passe"
     },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}",
