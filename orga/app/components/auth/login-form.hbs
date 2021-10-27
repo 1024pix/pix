@@ -43,7 +43,11 @@
         />
         <PixIconButton
           @icon="{{if this.isPasswordVisible "eye" "eye-slash"}}"
-          aria-label="{{t "pages.login-form.show-password"}}"
+          aria-label={{if
+            this.isPasswordVisible
+            (t "pages.login-form.hide-password")
+            (t "pages.login-form.show-password")
+          }}
           @triggerAction={{this.togglePasswordVisibility}}
           @withBackground={{false}}
           @color="dark-grey"
