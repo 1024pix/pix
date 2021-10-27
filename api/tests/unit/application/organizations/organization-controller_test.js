@@ -774,8 +774,10 @@ describe('Unit | Application | Organizations | organization-controller', functio
       };
 
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
-      sinon.stub(organizationInvitationSerializer, 'deserialize');
-      organizationInvitationSerializer.deserialize.withArgs(request.payload).returns({ lang, role, email });
+      sinon.stub(organizationInvitationSerializer, 'deserializeForCreateOrganizationInvitationAndSendEmail');
+      organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail
+        .withArgs(request.payload)
+        .returns({ lang, role, email });
 
       // when
       await organizationController.sendInvitationByLangAndRole(request, hFake);
