@@ -198,4 +198,63 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
       });
     });
   });
+
+  module('display wether if a campaign is multiple sendings or not', function () {
+    module('when type is PROFILES_COLLECTION', function () {
+      test('it should display multiple sendings label', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Envoi multiple');
+      });
+
+      test("it should display 'oui' when campaign is multiple sendings", async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+          multipleSendings: true,
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Oui');
+      });
+
+      test("it should display 'Non' when campaign is not multiple sendings", async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+          multipleSendings: false,
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Non');
+      });
+    });
+    module('when type is ASSESSMENT', function () {
+      test('it should not display multiple sendings label', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.notContains('Envoi multiple');
+      });
+    });
+  });
 });

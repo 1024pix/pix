@@ -18,6 +18,12 @@ export default class CampaignSettings extends Component {
       : this.intl.t('pages.campaign-settings.campaign-type.profiles-collection');
   }
 
+  get multipleSendingsText() {
+    return this.args.campaign.multipleSendings
+      ? this.intl.t('pages.campaign-settings.multiple-sendings.status.enabled')
+      : this.intl.t('pages.campaign-settings.multiple-sendings.status.disabled');
+  }
+
   @action
   async archiveCampaign(campaignId) {
     try {
