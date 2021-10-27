@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.119.0 (27/10/2021)
+
+
+### :rocket: Enhancement
+- [#3650](https://github.com/1024pix/pix/pull/3650) [FEATURE] Renvoyer depuis l'API les infos de la session et la liste des candidats à afficher dans l'espace surveillant (PIX-3653).
+- [#3641](https://github.com/1024pix/pix/pull/3641) [FEATURE] Ignorer les espaces lors d'un changement d'email et amélioration de design (PIX-3691)
+
+### :building_construction: Tech
+- [#3665](https://github.com/1024pix/pix/pull/3665) [TECH] Rendre les tests E2E plus résilients.
+- [#3613](https://github.com/1024pix/pix/pull/3613) [TECH] Renommer badge-partner-competence en skillset (PIX-2708).
+- [#3648](https://github.com/1024pix/pix/pull/3648) [TECH] Arbitrer de la couverture de test.
+
+### :bug: Bug fix
+- [#3632](https://github.com/1024pix/pix/pull/3632) [BUGFIX] La barre de progression n'était pas à jour lors de la reprise d'une campagne (PIX-3518).
+
 ## v3.118.0 (25/10/2021)
 
 
