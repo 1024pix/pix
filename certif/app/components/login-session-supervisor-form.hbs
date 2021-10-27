@@ -8,13 +8,13 @@
 
   <p class="login-session-supervisor-form__required-fields-notice">Tous les champs sont obligatoires.</p>
 
-  {{#if this.isErrorMessagePresent}}
+  {{#if this.errorMessage}}
     <p id="login-session-supervisor-form-error-message" class="login-session-supervisor-form__error-message error-message">
       {{this.errorMessage}}
     </p>
   {{/if}}
 
-  <form class="login-session-supervisor-form__form" {{on 'submit' this.authenticate}}>
+  <form class="login-session-supervisor-form__form" {{on 'submit' this.superviseSession}}>
     <PixInput
       @id="session-id"
       @label="Numéro de la session"
@@ -28,7 +28,7 @@
       @information="Exemple : C-12345"
       @prefix="C-"
       placeholder="XXXXXX"
-      @value={{this.sessionSupervisorPassword}}
+      @value={{this.supervisorPassword}}
     />
 
     <PixButton
