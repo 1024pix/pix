@@ -28,6 +28,7 @@ jobs:
     - name: Transition issue
       uses: atlassian/gajira-transition@master
       if: ${{ steps.find.outputs.issue }}
+      continue-on-error: true
       with:
         issue: ${{ steps.find.outputs.issue }}
         transition: "Move to 'Deployed in Integration'"
