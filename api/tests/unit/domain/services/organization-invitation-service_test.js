@@ -1,5 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
+const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
 const {
@@ -9,7 +10,6 @@ const {
 } = require('../../../../lib/domain/services/organization-invitation-service');
 
 describe('Unit | Service | Organization-Invitation Service', function () {
-  const organizationInvitationId = 10;
   const userEmailAddress = 'user@example.net';
   const code = 'ABCDEFGH01';
 
@@ -38,19 +38,17 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const tags = undefined;
         const locale = 'fr-fr';
         const organization = domainBuilder.buildOrganization();
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
+          code,
+        });
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail
           .withArgs({ organizationId: organization.id, email: userEmailAddress })
           .resolves(null);
         codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
-        organizationInvitationRepository.create
-          .withArgs({
-            organizationId: organization.id,
-            email: userEmailAddress,
-            code: sinon.match.string,
-            role,
-          })
-          .resolves({ id: organizationInvitationId, code });
+        organizationInvitationRepository.create.resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -64,63 +62,36 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         // then
-        const expectedParameters = {
-          email: userEmailAddress,
-          organizationName: organization.name,
-          organizationInvitationId,
-          code,
-          locale,
-          tags,
-        };
-        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
-      });
-
-      it('should send an email with organizationId, email, code and tags', async function () {
-        // given
-        const tags = ['JOIN_ORGA'];
-        const locale = 'fr-fr';
-        const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
-        organizationInvitationRepository.create.resolves({ id: organizationInvitationId, code });
-        organizationRepository.get.resolves(organization);
-
-        // when
-        await createOrganizationInvitation({
-          organizationRepository,
-          organizationInvitationRepository,
+        expect(organizationInvitationRepository.create).to.has.been.calledWith({
           organizationId: organization.id,
           email: userEmailAddress,
+          code: sinon.match.string,
+          role,
+        });
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith({
+          email: userEmailAddress,
+          organizationName: organization.name,
+          organizationInvitationId: organizationInvitation.id,
+          code,
           locale,
           tags,
         });
-
-        // then
-        const expectedParameters = {
-          email: userEmailAddress,
-          organizationName: organization.name,
-          organizationInvitationId,
-          code,
-          locale,
-          tags,
-        };
-        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
       });
     });
 
     context('when an organization-invitation with pending status already exists', function () {
       it('should re-send an email with same code', async function () {
         // given
-        const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
         const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId,
-          isPending,
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
           code,
         });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -136,7 +107,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const expectedParameters = {
           email: userEmailAddress,
           organizationName: organization.name,
-          organizationInvitationId,
+          organizationInvitationId: organizationInvitation.id,
           code,
           locale,
           tags,
@@ -147,15 +118,15 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
       it('should update organization-invitation modification date', async function () {
         // given
-        const isPending = true;
         const locale = 'fr-fr';
         const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId,
-          isPending,
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
           code,
         });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -169,7 +140,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
         // then
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitationId
+          organizationInvitation.id
         );
       });
     });
@@ -183,8 +154,12 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
-        const role = Membership.roles.ADMIN;
         const organization = domainBuilder.buildOrganization();
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.ADMIN,
+          status: 'pending',
+          code,
+        });
 
         codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
@@ -192,9 +167,9 @@ describe('Unit | Service | Organization-Invitation Service', function () {
             organizationId: organization.id,
             email: userEmailAddress,
             code: sinon.match.string,
-            role,
+            role: organizationInvitation.role,
           })
-          .resolves({ id: organizationInvitationId, code });
+          .resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -212,7 +187,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const expectedParameters = {
           email: userEmailAddress,
           organizationName: organization.name,
-          organizationInvitationId,
+          organizationInvitationId: organizationInvitation.id,
           firstName,
           lastName,
           code,
@@ -228,8 +203,12 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
-        const role = Membership.roles.ADMIN;
         const organization = domainBuilder.buildOrganization();
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.ADMIN,
+          status: 'pending',
+          code,
+        });
 
         codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
@@ -237,9 +216,9 @@ describe('Unit | Service | Organization-Invitation Service', function () {
             organizationId: organization.id,
             email: userEmailAddress,
             code: sinon.match.string,
-            role,
+            role: organizationInvitation.role,
           })
-          .resolves({ id: organizationInvitationId, code });
+          .resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -258,7 +237,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const expectedParameters = {
           email: userEmailAddress,
           organizationName: organization.name,
-          organizationInvitationId,
+          organizationInvitationId: organizationInvitation.id,
           firstName,
           lastName,
           code,
@@ -272,18 +251,18 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     context('when an organization-invitation with pending status already exists', function () {
       it('should re-send an email with same code', async function () {
         // given
-        const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
         const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId,
-          isPending,
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.ADMIN,
+          status: 'pending',
           code,
         });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -301,7 +280,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const expectedParameters = {
           email: userEmailAddress,
           organizationName: organization.name,
-          organizationInvitationId,
+          organizationInvitationId: organizationInvitation.id,
           firstName,
           lastName,
           code,
@@ -314,17 +293,17 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
       it('should update organization-invitation modification date', async function () {
         // given
-        const isPending = true;
         const locale = 'fr-fr';
         const firstName = 'john';
         const lastName = 'harry';
         const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId,
-          isPending,
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.ADMIN,
+          status: 'pending',
           code,
         });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
         // when
@@ -340,7 +319,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
         // then
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitationId
+          organizationInvitation.id
         );
       });
     });
@@ -348,12 +327,17 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
   describe('#createProOrganizationInvitation', function () {
     context('when organization-invitation does not exist', function () {
-      it('should create a new organization-invitation and send an email with organizationId: organization.i, name, email, code, locale and tags', async function () {
+      it('should create a new organization-invitation and send an email with organization id, name, email, code, locale and tags', async function () {
         // given
         const tags = ['JOIN_ORGA'];
         const locale = 'fr-fr';
         const role = Membership.roles.MEMBER;
         const organization = domainBuilder.buildOrganization();
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
+          code,
+        });
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
         codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
@@ -364,12 +348,12 @@ describe('Unit | Service | Organization-Invitation Service', function () {
             role,
             code: sinon.match.string,
           })
-          .resolves({ id: organizationInvitationId, code });
+          .resolves(organizationInvitation);
 
         const expectedParameters = {
           email: userEmailAddress,
           name: organization.name,
-          organizationInvitationId,
+          organizationInvitationId: organizationInvitation.id,
           code,
           locale,
           tags,
@@ -395,17 +379,17 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     context('when an organization-invitation with pending status already exists', function () {
       it('should re-send an email with same code', async function () {
         // given
-        const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
         const role = Membership.roles.MEMBER;
         const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId,
-          isPending,
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
           code,
         });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
 
         // when
         await createProOrganizationInvitation({
@@ -423,7 +407,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         const expectedParameters = {
           email: userEmailAddress,
           name: organization.name,
-          organizationInvitationId,
+          organizationInvitationId: organizationInvitation.id,
           code,
           locale,
           tags,
@@ -434,16 +418,16 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
       it('should update organization-invitation modification date', async function () {
         // given
-        const isPending = true;
         const tags = undefined;
         const locale = 'fr-fr';
         const organization = domainBuilder.buildOrganization();
-
-        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId,
-          isPending,
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
           code,
         });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
 
         // when
         await createProOrganizationInvitation({
@@ -458,7 +442,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
         // then
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitationId
+          organizationInvitation.id
         );
       });
     });
