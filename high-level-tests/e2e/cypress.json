@@ -12,5 +12,8 @@
   "projectId": "g2rfqp",
   "numTestsKeptInMemory": 0,
   "viewportWidth": 1500,
-  "nodeVersion": "system"
+  "nodeVersion": "system",
+  "retries": {
+    "runMode": 2
+  }
 }
