@@ -2,7 +2,6 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
 const {
   createOrganizationInvitation,
   createScoOrganizationInvitation,
@@ -25,7 +24,6 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     organizationRepository = {
       get: sinon.stub(),
     };
-    sinon.stub(codeUtils, 'generateStringCodeForOrganizationInvitation');
     sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
     sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
   });
@@ -47,7 +45,6 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail
           .withArgs({ organizationId: organization.id, email: userEmailAddress })
           .resolves(null);
-        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create.resolves(organizationInvitation);
         organizationRepository.get.resolves(organization);
 
@@ -160,8 +157,6 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           status: 'pending',
           code,
         });
-
-        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
             organizationId: organization.id,
@@ -209,8 +204,6 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           status: 'pending',
           code,
         });
-
-        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
             organizationId: organization.id,
@@ -340,7 +333,6 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
-        codeUtils.generateStringCodeForOrganizationInvitation.returns(code);
         organizationInvitationRepository.create
           .withArgs({
             organizationId: organization.id,
