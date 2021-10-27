@@ -1,6 +1,6 @@
 const { NotFoundError } = require('../http-errors');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../infrastructure/repositories/session-repository');
+const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
 
 module.exports.verifySessionAuthorization = async (request) => {
   const userId = request.auth.credentials.userId;

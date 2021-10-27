@@ -1,8 +1,8 @@
-const { databaseBuilder, expect, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const sessionForAttendanceSheetRepository = require('../../../../lib/infrastructure/repositories/session-for-attendance-sheet-repository');
-const SessionForAttendanceSheet = require('../../../../lib/domain/read-models/SessionForAttendanceSheet');
-const CertificationCandidateForAttendanceSheet = require('../../../../lib/domain/read-models/CertificationCandidateForAttendanceSheet');
+const { databaseBuilder, expect, catchErr } = require('../../../../test-helper');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
+const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
+const SessionForAttendanceSheet = require('../../../../../lib/domain/read-models/SessionForAttendanceSheet');
+const CertificationCandidateForAttendanceSheet = require('../../../../../lib/domain/read-models/CertificationCandidateForAttendanceSheet');
 
 describe('Integration | Repository | Session-for-attendance-sheet', function () {
   describe('#getWithCertificationCandidates', function () {
