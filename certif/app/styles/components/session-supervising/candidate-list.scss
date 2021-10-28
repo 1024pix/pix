@@ -1,45 +1,57 @@
-$yellow-30: #FFBE00;
+$yellow-30: #ffbe00;
 $grey-85: rgb(37, 56, 88);
-
-.session-supervising-candidate-list {
+.session-supervising-candidate-background {
   background: $grey-100;
   border-radius: 18px 18px 0px 0px;
   padding: 24px 8px;
 
-  &__title {
-    font-weight: 600;
-    margin-top: 0;
-    font-family: $open-sans;
-    color: $grey-15;
-    font-size: 1.125rem;
-    padding: 0 8px  
-  }
+  .session-supervising-candidate-list {
 
-  &__candidates {
-    list-style: none;
-    padding: 0;
+    @include device-is("tablet") {
+      padding: 0 48px;
+      margin: auto;
+    }
 
-    li:nth-child(odd) {
-      background: $grey-70;
-  }
+    @include device-is("desktop") {
+      max-width: 672px;
+      margin: auto;
+    }
 
-    li:nth-child(even) {
-      background:$grey-90;
-  }
-  }
-  
-  &__candidate {
-    padding: 12px 42px;
-    margin-bottom: 8px;
-    border-radius: 4px;
-  }
+    &__title {
+      font-weight: 600;
+      margin-top: 0;
+      font-family: $open-sans;
+      color: $grey-15;
+      font-size: 1.125rem;
+      padding: 0 8px;
+    }
 
-  &__candidate-details {
-    color: $grey-22;
-    font-size: 0.75rem;
-  }
+    &__candidates {
+      list-style: none;
+      padding: 0;
 
-  &__candidate-full-name {
-    color: $yellow-30;
+      li:nth-child(odd) {
+        background: $grey-70;
+      }
+
+      li:nth-child(even) {
+        background: $grey-90;
+      }
+    }
+
+    &__candidate {
+      padding: 12px 42px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+    }
+
+    &__candidate-details {
+      color: $grey-22;
+      font-size: 0.75rem;
+    }
+
+    &__candidate-full-name {
+      color: $yellow-30;
+    }
   }
 }

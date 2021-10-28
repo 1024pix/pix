@@ -1,18 +1,20 @@
-<div class="session-supervising-candidate-list">
-  <h1 class="session-supervising-candidate-list__title">Candidats</h1>
-  <ul class="session-supervising-candidate-list__candidates">
-    {{#each @candidates as |candidate|}}
-      <li class="session-supervising-candidate-list__candidate">
-        <div class="session-supervising-candidate-list__candidate-full-name">
-          {{candidate.firstName}} {{candidate.lastName}}
-        </div>
-        <div class="session-supervising-candidate-list__candidate-details">
-          {{moment-format candidate.birthdate "DD/MM/YYYY"}}
-          {{#if candidate.extraTimePercentage}}
-            · Temps majoré : {{candidate.extraTimePercentage}}%
-          {{/if}}
-        </div>
-      </li>
-    {{/each}}
-  </ul>
+<div class="session-supervising-candidate-background">
+  <div class="session-supervising-candidate-list">
+    <h1 class="session-supervising-candidate-list__title">Candidats</h1>
+    <ul class="session-supervising-candidate-list__candidates">
+      {{#each @candidates as |candidate|}}
+        <li class="session-supervising-candidate-list__candidate">
+          <div class="session-supervising-candidate-list__candidate-full-name">
+            {{candidate.firstName}} {{candidate.lastName}}
+          </div>
+          <div class="session-supervising-candidate-list__candidate-details">
+            {{moment-format candidate.birthdate "DD/MM/YYYY"}}
+            {{#if candidate.extraTimePercentage}}
+              · Temps majoré : {{candidate.extraTimePercentage}}%
+            {{/if}}
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
