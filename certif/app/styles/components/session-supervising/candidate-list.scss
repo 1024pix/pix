@@ -1,12 +1,13 @@
-$yellow-30: #ffbe00;
+$yellow-30: #FFBE00;
 $grey-85: rgb(37, 56, 88);
-.session-supervising-candidate-background {
+
+.session-supervising-candidate-list-background {
   background: $grey-100;
-  border-radius: 18px 18px 0px 0px;
+  border-radius: 18px 18px 0 0;
+  flex-grow: 1;
   padding: 24px 8px;
 
   .session-supervising-candidate-list {
-
     @include device-is("tablet") {
       padding: 0 48px;
       margin: auto;
@@ -52,6 +53,21 @@ $grey-85: rgb(37, 56, 88);
 
     &__candidate-full-name {
       color: $yellow-30;
+    }
+
+    &__empty-image {
+      display: block;
+      margin: 20px auto;
+    }
+
+    &__empty-message {
+      color: $grey-15;
+      font-family: $open-sans;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: auto;
+      max-width: 225px;
+      text-align: center;
     }
   }
 }
