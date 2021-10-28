@@ -69,8 +69,8 @@ export default class Tooltip extends Component {
 
   @action
   async confirmInformationIsRead() {
-    await this._rememberUserHasSeenChallengeTooltip();
     this.shouldDisplayTooltip = false;
+    await this._rememberUserHasSeenChallengeTooltip();
   }
 
   async _rememberUserHasSeenChallengeTooltip() {
