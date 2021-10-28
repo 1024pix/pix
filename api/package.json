@@ -35,7 +35,7 @@
     "fast-levenshtein": "^3.0.0",
     "file-type": "^16.5.0",
     "hapi-i18n": "^3.0.1",
-    "hapi-pino": "^8.3.0",
+    "hapi-pino": "^8.5.0",
     "hapi-sentry": "^3.2.0",
     "hapi-swagger": "^14.1.3",
     "hash-int": "^1.0.0",
