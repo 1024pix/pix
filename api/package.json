@@ -33,7 +33,7 @@
     "boom": "^7.3.0",
     "dotenv": "^10.0.0",
     "fast-levenshtein": "^3.0.0",
-    "file-type": "^16.5.0",
+    "file-type": "^16.5.3",
     "hapi-i18n": "^3.0.1",
     "hapi-pino": "^8.5.0",
     "hapi-sentry": "^3.2.0",
