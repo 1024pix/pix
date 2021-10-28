@@ -128,38 +128,6 @@ module('Acceptance | organization memberships management', function (hooks) {
     });
   });
 
-  module('inviting a member', function () {
-    test('should create an organization-invitation', async function (assert) {
-      // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
-      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' }), 'user@example.com');
-      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-      await clickByLabel('Inviter un membre');
-
-      // then
-      assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
-      assert.dom('#userEmailToInvite').hasNoValue();
-    });
-
-    test('should display an error if the creation has failed', async function (assert) {
-      // given
-      this.server.post(
-        '/admin/organizations/:id/invitations',
-        () => new Response(500, {}, { errors: [{ status: '500' }] })
-      );
-
-      // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
-      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' }), 'user@example.com');
-      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-
-      await clickByLabel('Inviter un membre');
-
-      // then
-      assert.contains('Une erreur s’est produite, veuillez réessayer.');
-    });
-  });
-
   module("editing a member's role", function (hooks) {
     let membership;
 

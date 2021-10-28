@@ -4,7 +4,7 @@
   </header>
   <div class="content-text content-text--small">
     <div class="table-admin">
-      {{#if @invitations}}
+      {{#if this.sortedInvitations}}
         <table>
           <thead>
             <tr>
@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @invitations as |invitation|}}
+            {{#each this.sortedInvitations as |invitation|}}
               <tr aria-label="Invitation en attente">
                 <td>{{invitation.email}}</td>
                 <td>{{if invitation.role invitation.role "-"}}</td>
@@ -24,8 +24,8 @@
           </tbody>
         </table>
       {{/if}}
-      {{#unless @invitations}}
-        <p>Pas d'invitation en attente</p>
+      {{#unless this.sortedInvitations}}
+        <p class="organization-invitations__message">Aucune invitation en attente</p>
       {{/unless}}
     </div>
   </div>

@@ -2,14 +2,14 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/organizations/get/team', function (hooks) {
+module('Unit | Controller | authenticated/organizations/get/invitations', function (hooks) {
   setupTest(hooks);
 
   let controller;
   let store;
 
   hooks.beforeEach(function () {
-    controller = this.owner.lookup('controller:authenticated/organizations/get/team');
+    controller = this.owner.lookup('controller:authenticated/organizations/get/invitations');
     store = this.owner.lookup('service:store');
   });
 

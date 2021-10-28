@@ -28,25 +28,4 @@ module('Integration | Component | organization-team-actions-section', function (
     sinon.assert.called(addMembershipStub);
     assert.ok(true);
   });
-
-  test('it should create organization invitation with default language and default role value', async function (assert) {
-    // given
-    const createOrganizationInvitationStub = sinon.stub();
-    this.set('createOrganizationInvitation', createOrganizationInvitationStub);
-    this.set('memberships', []);
-    this.set('noop', () => {});
-
-    // when
-    await render(hbs`<OrganizationTeamActionsSection
-      @memberships={{memberships}}
-      @addMembership={{noop}}
-      @createOrganizationInvitation={{createOrganizationInvitation}}
-      @triggerFiltering={{noop}}
-      @selectRoleForSearch={{noop}}/>`);
-    await clickByLabel('Inviter un membre');
-
-    // then
-    sinon.assert.calledWith(createOrganizationInvitationStub, 'fr-fr', null);
-    assert.ok(true);
-  });
 });
