@@ -33,27 +33,38 @@ module('Acceptance | User List', function (hooks) {
       assert.equal(currentURL(), '/users/list');
     });
 
-    test('it should list the users', async function (assert) {
-      // given
-      const nbUser = 12;
-      server.createList('user', nbUser);
-
+    test('it should not list the users at loading page', async function (assert) {
       // when
       await visit('/users/list');
 
       // then
-      assert.dom('.table-admin tbody tr').exists({ count: nbUser + 1 });
+      assert.dom('.table-admin tbody tr').doesNotExist();
     });
 
     test('it should display the current filter when users are filtered', async function (assert) {
       // given
-      server.createList('user', 12);
+      const expectedUsersCount = 1;
+      const result = {
+        data: [
+          {
+            type: 'users',
+            id: '1',
+            attributes: {
+              'first-name': 'Pix',
+              'last-name': 'Aile',
+              email: 'userpix1@example.net',
+            },
+          },
+        ],
+      };
+
+      this.server.get('/users', () => result);
 
       // when
-      await visit('/users/list?email=sav');
+      await visit('/users/list?email=example.net');
 
       // then
-      assert.dom('#email').hasValue('sav');
+      assert.dom('.table-admin tbody tr').exists({ count: expectedUsersCount });
     });
   });
 });

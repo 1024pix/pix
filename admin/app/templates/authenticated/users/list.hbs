@@ -1,7 +1,14 @@
 {{page-title "Utilisateurs"}}
+
 <header class="page-header">
-  <div class="page-title">Tous les utilisateurs</div>
+  <h1 class="page-title">Rechercher un(des) utilisateur(s)</h1>
   <div class="page-actions">
+    <form class="form-inline" {{on "submit" this.refreshModel}}>
+      <PixInput @id="firstName" @value={{this.firstNameForm}} placeholder="Prénom" />
+      <PixInput @id="lastName" @value={{this.lastNameForm}} placeholder="Nom" />
+      <PixInput @id="email" @value={{this.emailForm}} placeholder="Email" />
+      <PixButton @size="small" @type="submit">Charger</PixButton>
+    </form>
   </div>
 </header>
 
@@ -12,7 +19,6 @@
       @firstName={{this.firstName}}
       @lastName={{this.lastName}}
       @email={{this.email}}
-      @triggerFiltering={{this.triggerFiltering}}
     />
   </section>
 </main>

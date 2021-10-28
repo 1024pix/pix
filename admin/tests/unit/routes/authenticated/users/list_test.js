@@ -25,7 +25,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
     });
 
     module('when queryParams filters are falsy', function () {
-      test('it should call store.query with no filters on name, type and externalId', async function (assert) {
+      test('it should not call store.query', async function (assert) {
         // when
         await route.model(params);
         expectedQueryArgs.filter = {
@@ -35,7 +35,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         };
 
         // then
-        sinon.assert.calledWith(route.store.query, 'user', expectedQueryArgs);
+        sinon.assert.notCalled(route.store.query);
         assert.ok(true);
       });
     });

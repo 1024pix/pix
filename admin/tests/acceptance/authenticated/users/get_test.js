@@ -21,7 +21,24 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   test('User detail page can be accessed from user list page', async function (assert) {
-    await visit('/users');
+    const usersListAfterFilteredSearch = {
+      data: [
+        {
+          type: 'users',
+          id: '1',
+          attributes: {
+            'first-name': 'Pix',
+            'last-name': 'Aile',
+            email: 'userpix1@example.net',
+          },
+        },
+      ],
+    };
+
+    this.server.get('/users', () => usersListAfterFilteredSearch);
+
+    // when
+    await visit('/users/list?email=userpix1example.net');
     await click('tbody > tr:nth-child(1) > td:nth-child(1) > a');
     assert.equal(currentURL(), `/users/${currentUser.id}`);
   });
