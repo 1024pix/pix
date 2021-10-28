@@ -38,6 +38,7 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
+    "@1024pix/ember-testing-library": "^0.4.1",
     "@ember/optional-features": "^2.0.0",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
     "@formatjs/intl-locale": "^2.4.14",
@@ -47,7 +48,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "@testing-library/dom": "^8.7.2",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "chart.js": "^3.3.2",

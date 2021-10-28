@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
-import { fillInByLabel, clickByLabel, render } from '../../../../helpers/testing-library';
+import { fillInByLabel, clickByLabel } from '../../../../helpers/testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
