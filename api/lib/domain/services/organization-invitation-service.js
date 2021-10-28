@@ -26,7 +26,7 @@ const createOrganizationInvitation = async ({
       organizationId,
       email,
       code,
-      role: role ? role : null,
+      role,
     });
   }
 
