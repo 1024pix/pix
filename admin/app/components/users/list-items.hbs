@@ -7,36 +7,6 @@
         <th>Nom</th>
         <th>Adresse électronique</th>
       </tr>
-      <tr>
-        <th></th>
-        <th>
-          <input
-            id="firstName"
-            type="text"
-            value={{@firstName}}
-            oninput={{perform @triggerFiltering "firstName"}}
-            class="table-admin-input"
-          />
-        </th>
-        <th>
-          <input
-            id="lastName"
-            type="text"
-            value={{@lastName}}
-            oninput={{perform @triggerFiltering "lastName"}}
-            class="table-admin-input"
-          />
-        </th>
-        <th>
-          <input
-            id="email"
-            type="text"
-            value={{@email}}
-            oninput={{perform @triggerFiltering "email"}}
-            class="table-admin-input"
-          />
-        </th>
-      </tr>
     </thead>
 
     {{#if @users}}

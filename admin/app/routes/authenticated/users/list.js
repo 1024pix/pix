@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+
 export default class ListRoute extends Route {
   @service store;
 
@@ -11,7 +12,9 @@ export default class ListRoute extends Route {
     email: { refreshModel: true },
   };
 
-  model(params) {
+  async model(params) {
+    if (!params.firstName && !params.lastName && !params.email) return [];
+
     return this.store.query('user', {
       filter: {
         firstName: params.firstName ? params.firstName.trim() : '',
