@@ -6,6 +6,7 @@ const {
   insertUserWithRolePixMaster,
   learningContentBuilder,
   mockLearningContent,
+  knex,
 } = require('../../../test-helper');
 
 describe('Acceptance | API | Badges', function () {
@@ -237,6 +238,11 @@ describe('Acceptance | API | Badges', function () {
       });
 
       await databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('badge-criteria').delete();
+      await knex('badges').delete();
     });
 
     it('should create a criterion and add it to an existing badge', async function () {

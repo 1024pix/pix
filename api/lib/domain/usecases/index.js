@@ -7,6 +7,7 @@ const dependencies = {
   authenticationService: require('../../domain/services/authentication-service'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
+  badgeCriteriaRepository: require('../../infrastructure/repositories/badge-criteria-repository'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignAnalysisRepository: require('../../infrastructure/repositories/campaign-analysis-repository'),
   campaignAssessmentParticipationRepository: require('../../infrastructure/repositories/campaign-assessment-participation-repository'),
