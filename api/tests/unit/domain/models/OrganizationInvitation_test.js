@@ -1,5 +1,6 @@
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const { expect } = require('../../../test-helper');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | OrganizationInvitation', function () {
   describe('constructor', function () {
@@ -24,6 +25,28 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
 
       // then
       expect(invitation).to.deep.equal(rawData);
+    });
+
+    it('should not build an OrganizationInvitation if JSON is not valid', async function () {
+      // given
+      const today = new Date();
+
+      const rawData = {
+        id: 1,
+        organizationId: 10,
+        organizationName: 'The Organization',
+        email: 'member@team.org',
+        status: 'pending',
+        code: 'ABCDEFGH01',
+        role: 'SUPER-ADMIN',
+        createdAt: today,
+        updatedAt: today,
+      };
+
+      // when / then
+      expect(() => {
+        new OrganizationInvitation(rawData);
+      }).not.to.throw(EntityValidationError);
     });
   });
 
