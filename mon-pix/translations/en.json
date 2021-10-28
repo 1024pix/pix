@@ -495,7 +495,7 @@
           "aria-label": "Show question's warning",
           "close": "Ok, got it",
           "focused": {
-            "content": "Stay on this page! To answer this question, you should neither search the internet, nor use any piece of software.",
+            "content": "<p class=\"tooltip-tag-information__title--focused\">Stay on this page to answer!</p> Do not use the internet or any application to answer. Any activity outside this zone will be detected.",
             "title": "Focus Mode"
           },
           "other": {
