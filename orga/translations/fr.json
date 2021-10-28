@@ -497,10 +497,10 @@
       "invitation-already-accepted": "Cette invitation a déjà été acceptée. Connectez-vous ou contactez l'administrateur de votre espace Pix Orga.",
       "is-only-accessible": "L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.",
       "login": "Je me connecte",
-      "only-for-admin": "réservé aux personnels de direction des établissements scolaires publics et privés sous contrat.",
+      "only-for-admin": "Réservé aux personnels de direction des établissements scolaires publics et privés sous contrat.",
       "password": "Mot de passe",
-      "show-password": "rendre le mot de passe lisible",
-      "hide-password": "masquer le mot de passe",
+      "show-password": "Afficher le mot de passe",
+      "hide-password": "Masquer le mot de passe",
       "mandatory-all-fields": "Tous les champs sont obligatoires."
     },
     "login-or-register": {
