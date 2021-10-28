@@ -4,5 +4,7 @@
   <SessionSupervising::Header @session={{@model}}/>
   {{#if @model.certificationCandidates}}
     <SessionSupervising::CandidateList @candidates={{@model.certificationCandidates}}/>
+  {{else}}
+    Aucun candidat inscrit pour cette session.
   {{/if}}
 </div>
