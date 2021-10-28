@@ -489,7 +489,7 @@ exports.register = async (server) => {
             assign: 'hasRolePixMaster',
           },
         ],
-        handler: organizationController.sendInvitationsByLang,
+        handler: organizationController.sendInvitationByLangAndRole,
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -502,6 +502,7 @@ exports.register = async (server) => {
               attributes: {
                 email: Joi.string().email().required(),
                 lang: Joi.string().valid('fr-fr', 'fr', 'en'),
+                role: Joi.string().valid('ADMIN', 'MEMBER').allow(null),
               },
             },
           }),

@@ -8,6 +8,7 @@ module.exports = async function createOrganizationInvitations({
   organizationId,
   emails,
   locale,
+  role,
 }) {
   const trimmedEmails = emails.map((email) => email.trim());
   const uniqueEmails = [...new Set(trimmedEmails)];
@@ -19,6 +20,7 @@ module.exports = async function createOrganizationInvitations({
       organizationId,
       email,
       locale,
+      role,
     });
   });
 };

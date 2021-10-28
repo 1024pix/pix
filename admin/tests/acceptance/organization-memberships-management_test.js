@@ -72,7 +72,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Ajouter un membre', 'user@example.com');
+      await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'user@example.com');
       await clickByLabel('Valider');
 
       // then
@@ -93,7 +93,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Ajouter un membre', 'denise@example.com');
+      await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'denise@example.com');
       await clickByLabel('Ajouter un membre');
 
       // then
@@ -109,7 +109,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Ajouter un membre', 'unexisting@example.com');
+      await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'unexisting@example.com');
       await clickByLabel('Ajouter un membre');
 
       // then
@@ -123,10 +123,9 @@ module('Acceptance | organization memberships management', function (hooks) {
     test('should create an organization-invitation', async function (assert) {
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Inviter un membre', 'user@example.com');
+      await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-
-      await click('button[data-test-id-invitation-button]');
+      await clickByLabel('Inviter');
 
       // then
       assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
@@ -142,10 +141,10 @@ module('Acceptance | organization memberships management', function (hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Inviter un membre', 'user@example.com');
+      await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
-      await click('button[data-test-id-invitation-button]');
+      await clickByLabel('Inviter');
 
       // then
       assert.contains('Une erreur s’est produite, veuillez réessayer.');

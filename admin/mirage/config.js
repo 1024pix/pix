@@ -144,8 +144,9 @@ export default function () {
     const params = JSON.parse(request.requestBody);
     const email = params.data.attributes.email;
     const lang = params.data.attributes.lang;
+    const role = params.data.attributes.role;
 
-    schema.organizationInvitations.create({ email, lang });
+    schema.organizationInvitations.create({ email, lang, role });
 
     return schema.organizationInvitations.where({ email });
   });
