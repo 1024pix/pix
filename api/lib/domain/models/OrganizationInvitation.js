@@ -1,7 +1,30 @@
+const Joi = require('joi').extend(require('@joi/date'));
+const { validateEntity } = require('../validators/entity-validator');
+
 const statuses = {
   PENDING: 'pending',
   ACCEPTED: 'accepted',
 };
+
+const roles = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
+  AUTO: null,
+};
+
+const validationScheme = Joi.object({
+  id: Joi.number().optional(),
+  email: Joi.string().optional(),
+  status: Joi.string().optional(),
+  code: Joi.string().optional(),
+  organizationName: Joi.string().allow(null).optional(),
+  role: Joi.string()
+    .valid(...Object.values(roles))
+    .optional(),
+  createdAt: Joi.date().optional(),
+  updatedAt: Joi.date().optional(),
+  organizationId: Joi.number().optional(),
+});
 
 class OrganizationInvitation {
   constructor({
@@ -23,10 +46,11 @@ class OrganizationInvitation {
     this.organizationName = organizationName;
     this.role = role;
     this.createdAt = createdAt;
-    this.role = role;
     this.updatedAt = updatedAt;
     //references
     this.organizationId = organizationId;
+
+    validateEntity(validationScheme, this);
   }
 
   get isPending() {

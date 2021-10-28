@@ -5,6 +5,7 @@ const organizationInvitationRepository = require('../../../../lib/infrastructure
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+const Membership = require('../../../../lib/domain/models/Membership');
 
 const { createOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
 
@@ -21,13 +22,15 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       await knex('organization-invitations').delete();
     });
 
-    it('should create a new organization-invitation with organizationId, email and status', async function () {
+    it('should create a new organization-invitation with organizationId, email, role and status', async function () {
       // given
       const email = 'member@organization.org';
+      const role = Membership.roles.ADMIN;
       const expectedOrganizationInvitation = {
         organizationId,
         email,
         status: OrganizationInvitation.StatusType.PENDING,
+        role,
       };
 
       // when
@@ -36,11 +39,12 @@ describe('Integration | Service | Organization-Invitation Service', function () 
         organizationInvitationRepository,
         organizationId,
         email,
+        role,
       });
 
       // then
       expect(result).to.be.instanceOf(OrganizationInvitation);
-      expect(_.omit(result, ['id', 'code', 'organizationName', 'role', 'createdAt', 'updatedAt'])).to.deep.equal(
+      expect(_.omit(result, ['id', 'code', 'organizationName', 'createdAt', 'updatedAt'])).to.deep.equal(
         expectedOrganizationInvitation
       );
     });

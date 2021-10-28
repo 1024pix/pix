@@ -25,12 +25,13 @@ module('Unit | Controller | authenticated/organizations/get/members', function (
 
       controller.userEmailToInvite = 'test@example.net';
       const lang = 'en';
+      const role = 'MEMBER';
 
       // when
-      controller.createOrganizationInvitation(lang);
+      controller.createOrganizationInvitation(lang, role);
 
       // then
-      assert.ok(createRecordStub.calledWith('organization-invitation', { email: 'test@example.net', lang }));
+      assert.ok(createRecordStub.calledWith('organization-invitation', { email: 'test@example.net', lang, role }));
       assert.equal(saveStub.callCount, 1);
     });
 
@@ -64,7 +65,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function (
       controller.createOrganizationInvitation();
 
       // then
-      assert.equal(controller.userEmailToInviteError, "L'adresse email saisie n'est pas valide.");
+      assert.equal(controller.userEmailToInviteError, "L'adresse e-mail saisie n'est pas valide.");
     });
   });
 });

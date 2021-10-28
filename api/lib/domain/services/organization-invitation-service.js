@@ -2,7 +2,6 @@ const randomString = require('randomstring');
 const Membership = require('../models/Membership');
 const mailService = require('../../domain/services/mail-service');
 
-// TODO Export all functions generating random codes to an appropriate service
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
 };
@@ -14,6 +13,7 @@ const createOrganizationInvitation = async ({
   email,
   locale,
   tags,
+  role,
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
     organizationId,
@@ -22,14 +22,19 @@ const createOrganizationInvitation = async ({
 
   if (!organizationInvitation) {
     const code = _generateCode();
-    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, code });
+    organizationInvitation = await organizationInvitationRepository.create({
+      organizationId,
+      email,
+      code,
+      role,
+    });
   }
 
-  const { name: organizationName } = await organizationRepository.get(organizationId);
+  const organization = await organizationRepository.get(organizationId);
 
   await mailService.sendOrganizationInvitationEmail({
     email,
-    organizationName,
+    organizationName: organization.name,
     organizationInvitationId: organizationInvitation.id,
     code: organizationInvitation.code,
     locale,
@@ -95,11 +100,11 @@ const createScoOrganizationInvitation = async ({
     organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, code, role });
   }
 
-  const { name: organizationName } = await organizationRepository.get(organizationId);
+  const organization = await organizationRepository.get(organizationId);
 
   await mailService.sendScoOrganizationInvitationEmail({
     email,
-    organizationName,
+    organizationName: organization.name,
     firstName,
     lastName,
     organizationInvitationId: organizationInvitation.id,

@@ -3,8 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import sinon from 'sinon';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | organization-members-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -39,26 +37,5 @@ module('Integration | Component | organization-members-section', function (hooks
 
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });
-  });
-
-  test('it should create organization invitation with choosen language', async function (assert) {
-    // given
-    const createOrganizationInvitationStub = sinon.stub();
-    this.set('createOrganizationInvitation', createOrganizationInvitationStub);
-    this.set('memberships', []);
-    this.set('noop', () => {});
-
-    // when
-    await render(hbs`<OrganizationMembersSection
-      @memberships={{memberships}}
-      @addMembership={{noop}}
-      @createOrganizationInvitation={{createOrganizationInvitation}}
-      @triggerFiltering={{noop}}
-      @selectRoleForSearch={{noop}}/>`);
-    await clickByLabel('Inviter');
-
-    // then
-    sinon.assert.neverCalledWith(createOrganizationInvitationStub, 'fr');
-    assert.ok(true);
   });
 });
