@@ -1,19 +1,20 @@
 .session-supervising-header {
+  background: #F4F5F7;
   padding: 16px;
 
   @include device-is("tablet") {
     padding: 40px 48px;
-    margin: auto;
   }
 
   @include device-is('desktop') {
-    max-width: 672px;
-    margin: auto;
+    align-self: center;
+    width: 672px;
   }
 
   &__title {
     font-family: $open-sans;
     font-size: 1.75rem;
+    font-weight: normal;
     margin-bottom: 4px;
   }
 

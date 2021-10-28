@@ -43,4 +43,18 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
     assert.contains('· Temps majoré : 12%');
     assert.contains('28/06/1983');
   });
+
+  module('when there is no candidate', function() {
+    test('it renders a message', async function(assert) {
+      // given
+      this.sessionForSupervising = store.createRecord('session-for-supervising', {
+        certificationCandidates: [] });
+
+      // when
+      await render(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}} />`);
+
+      // then
+      assert.contains('Aucun candidat inscrit à cette session');
+    });
+  });
 });
