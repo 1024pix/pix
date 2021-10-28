@@ -1,11 +1,5 @@
 {{page-title "Orga " @model.id " | Équipe"}}
-<OrganizationTeamActionsSection
-  @addMembership={{this.addMembership}}
-  @userEmailToAdd={{this.userEmailToAdd}}
-  @userEmailToInvite={{this.userEmailToInvite}}
-  @userEmailToInviteError={{this.userEmailToInviteError}}
-  @createOrganizationInvitation={{this.createOrganizationInvitation}}
-/>
+<OrganizationTeamActionsSection @addMembership={{this.addMembership}} @userEmailToAdd={{this.userEmailToAdd}} />
 
 <OrganizationTeamSection
   @memberships={{@model.memberships}}

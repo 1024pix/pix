@@ -20,7 +20,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
     // then
     assert.contains('MEMBER');
     assert.contains('ADMIN');
-    assert.notContains("Pas d'invitation en attente");
+    assert.notContains('Aucune invitation en attente');
   });
 
   test('it should display a message when there is no invitations', async function (assert) {
@@ -31,6 +31,6 @@ module('Integration | Component | organization-invitations', function (hooks) {
     await render(hbs`<OrganizationInvitations @invitations={{invitations}}/>`);
 
     // then
-    assert.contains("Pas d'invitation en attente");
+    assert.contains('Aucune invitation en attente');
   });
 });

@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class OrganizationTeamActionSection extends Component {
+export default class OrganizationInvitationsAction extends Component {
   @tracked organizationInvitationLang = this.languagesOptions[0].value;
   @tracked organizationInvitationRole = this.rolesOptions[0].value;
 
@@ -42,11 +42,6 @@ export default class OrganizationTeamActionSection extends Component {
 
   get organizationInvitationRoleValue() {
     return this.organizationInvitationRole === 'NULL' ? null : this.organizationInvitationRole;
-  }
-
-  @action
-  selectRole(event) {
-    return this.selectRoleForSearch(event.target.value || null);
   }
 
   @action

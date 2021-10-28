@@ -10,7 +10,7 @@ export default class OrganizationInvitation extends ApplicationAdapter {
   }
 
   urlForFindAll(modelName, { adapterOptions }) {
-    const organizationId = adapterOptions.organizationId;
+    const { organizationId } = adapterOptions;
     return `${this.host}/${this.namespace}/organizations/${organizationId}/invitations`;
   }
 
