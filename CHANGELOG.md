@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.120.0 (28/10/2021)
+
+
+### :rocket: Enhancement
+- [#3633](https://github.com/1024pix/pix/pull/3633) [FEATURE] Amélioration de la tooltip des questions focus (PIX-3670).
+
+### :building_construction: Tech
+- [#3663](https://github.com/1024pix/pix/pull/3663) [TECH] Utiliser ember-testing-library dans les tests de Pix Certif
+
+### :coffee: Various
+- [#3662](https://github.com/1024pix/pix/pull/3662) [DESIGN] Corriger la hauteur du contenu dans Pix App
+- [#3652](https://github.com/1024pix/pix/pull/3652) [DOC] Ajouter la connexion à certification en tant que surveillant.
+
 ## v3.119.0 (27/10/2021)
 
 
