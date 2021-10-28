@@ -322,6 +322,7 @@ module.exports = injectDependencies(
     startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
     startWritingCampaignAssessmentResultsToStream: require('./start-writing-campaign-assessment-results-to-stream'),
     startWritingCampaignProfilesCollectionResultsToStream: require('./start-writing-campaign-profiles-collection-results-to-stream'),
+    superviseSession: require('./supervise-session'),
     unarchiveCampaign: require('./unarchive-campaign'),
     unpublishSession: require('./unpublish-session'),
     updateCampaign: require('./update-campaign'),

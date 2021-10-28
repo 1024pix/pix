@@ -910,6 +910,12 @@ class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
   }
 }
 
+class InvalidSessionSupervisorPasswordError extends DomainError {
+  constructor(message = 'Le mot de passe de la session ne correspond pas au numéro de la session.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -974,6 +980,7 @@ module.exports = {
   InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
+  InvalidSessionSupervisorPasswordError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
