@@ -63,7 +63,6 @@ workflows:
           requires:
             - checkout
 
-
 jobs:
   checkout:
     docker:

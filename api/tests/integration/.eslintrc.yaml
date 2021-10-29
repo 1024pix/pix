@@ -1,6 +1,6 @@
-extends: '../.eslintrc.yaml'
+extends: ../.eslintrc.yaml
 
 rules:
   no-restricted-modules:
-    -  error
-    -  paths: ['@hapi/hapi']
+    - error
+    - paths: ['@hapi/hapi']
