@@ -31,7 +31,8 @@
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npm start",
     "start:orga": "cd ../../orga && npm start",
-    "start:certif": "cd ../../certif && npm start"
+    "start:certif": "cd ../../certif && npm start",
+    "test:ci": "npx wait-on http://localhost:3000/api http://localhost:4200 http://localhost:4201 http://localhost:4203 && npm run cy:run:ci"
   },
   "devDependencies": {
     "axe-core": "^4.1.3",
