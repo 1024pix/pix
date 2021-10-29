@@ -39,7 +39,7 @@ module.exports = {
 
       if (!tokenResponse.isSuccessful) {
         const errorMessage = _getErrorMessage(tokenResponse.data);
-        monitoringTools.logErrorWithCorrelationIds(errorMessage);
+        monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
         return {
           isSuccessful: tokenResponse.isSuccessful,
           code: tokenResponse.code || '500',
@@ -70,7 +70,7 @@ module.exports = {
 
     if (!httpResponse.isSuccessful) {
       const errorMessage = _getErrorMessage(httpResponse.data);
-      monitoringTools.logErrorWithCorrelationIds(errorMessage);
+      monitoringTools.logErrorWithCorrelationIds({ message: errorMessage });
     }
 
     return {
