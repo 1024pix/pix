@@ -14,10 +14,12 @@
     </p>
   {{/if}}
 
-  <form class="login-session-supervisor-form__form">
+  <form class="login-session-supervisor-form__form" {{on 'submit' this.authenticate}}>
     <PixInput
       @id="session-id"
       @label="Numéro de la session"
+      type="number"
+      @value={{this.sessionId}}
     />
 
     <PixInputPassword
@@ -26,9 +28,14 @@
       @information="Exemple : C-12345"
       @prefix="C-"
       placeholder="XXXXXX"
+      @value={{this.sessionSupervisorPassword}}
     />
 
-    <PixButton>Surveiller la session</PixButton>
+    <PixButton
+      @type="submit"
+    >
+      Surveiller la session
+    </PixButton>
   </form>
 
   <p class="login-session-supervisor-form__description">
