@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
+const { featureToggles } = require('../../../../lib/config');
 
 const {
   UserNotFoundError,
@@ -158,26 +159,59 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       expect(error.message).to.be.equal(expectedErrorMessage);
     });
 
-    it('should rejects an error when scope is pix-certif and user is not linked to any certification centers', async function () {
-      // given
-      const scope = appMessages.PIX_CERTIF.SCOPE;
-      const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
-      authenticationService.getUserByUsernameAndPassword.resolves(user);
+    context('when scope is pix-certif and user is not linked to any certification centers', function () {
+      it('should rejects an error when feature toggle is disabled', async function () {
+        // given
+        const scope = appMessages.PIX_CERTIF.SCOPE;
+        const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
+        authenticationService.getUserByUsernameAndPassword.resolves(user);
+        featureToggles.isEndTestScreenRemovalEnabled = false;
 
-      const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
+        const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
 
-      // when
-      const error = await catchErr(authenticateUser)({
-        username: userEmail,
-        password,
-        scope,
-        tokenService,
-        userRepository,
+        // when
+        const error = await catchErr(authenticateUser)({
+          username: userEmail,
+          password,
+          scope,
+          tokenService,
+          userRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.be.equal(expectedErrorMessage);
       });
 
-      // then
-      expect(error).to.be.an.instanceOf(ForbiddenAccess);
-      expect(error.message).to.be.equal(expectedErrorMessage);
+      it('should resolves a valid JWT access token when feature toggle is enabled', async function () {
+        // given
+        const scope = appMessages.PIX_CERTIF.SCOPE;
+        const accessToken = 'jwt.access.token';
+        const source = 'pix';
+        const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
+
+        authenticationService.getUserByUsernameAndPassword.resolves(user);
+        tokenService.createAccessTokenFromUser.returns(accessToken);
+        featureToggles.isEndTestScreenRemovalEnabled = true;
+
+        // when
+        await authenticateUser({
+          username: userEmail,
+          password,
+          scope,
+          source,
+          tokenService,
+          userRepository,
+        });
+
+        // then
+        expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
+          username: userEmail,
+          password,
+          userRepository,
+        });
+        expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user.id, source);
+      });
     });
   });
 

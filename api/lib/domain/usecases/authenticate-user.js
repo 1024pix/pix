@@ -1,4 +1,5 @@
 const get = require('lodash/get');
+const { featureToggles } = require('../../config');
 
 const {
   ForbiddenAccess,
@@ -19,7 +20,9 @@ function _checkUserAccessScope(scope, user) {
   }
 
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
-    throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
+    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+      throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
+    }
   }
 }
 
