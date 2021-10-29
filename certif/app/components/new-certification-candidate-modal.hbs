@@ -56,7 +56,10 @@
           </div>
 
           <div class="new-certification-candidate-details-modal__form__field">
-            <span class="required-field-indicator">*</span> Sexe
+            <fieldset>
+            <legend class="label">
+              <span class="required-field-indicator">*</span> Sexe
+            </legend>
             <div class="radio-button-container">
               <input
                 type="radio"
@@ -76,6 +79,7 @@
                 >
               <label class="radio-button-label" for="male">Homme</label>
             </div>
+            </fieldset>
           </div>
 
           <div class="new-certification-candidate-details-modal__form__field">
@@ -111,8 +115,10 @@
 
           {{#if this.isBirthGeoCodeRequired}}
             <div class="new-certification-candidate-details-modal__form__field">
-              <span class="required-field-indicator">*</span>
-              Code géographique de naissance
+              <fieldset>
+              <legend class="label">
+                <span class="required-field-indicator">*</span> Code géographique de naissance
+              </legend>
               <div class="radio-button-container">
                 <input
                   type="radio"
@@ -133,6 +139,7 @@
                 >
                 <label class="radio-button-label" for="postal-code-choice">Code postal</label>
               </div>
+              </fieldset>
             </div>
           {{/if}}
 
