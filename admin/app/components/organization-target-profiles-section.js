@@ -5,13 +5,20 @@ import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 
 export default class OrganizationTargetProfilesSectionComponent extends Component {
-  @tracked targetProfilesToAttach = [];
+  @tracked targetProfilesToAttach = '';
 
   @service notifications;
   @service router;
 
+  get isDisabled() {
+    return this.targetProfilesToAttach === '';
+  }
+
   @action
-  async attachTargetProfiles() {
+  async attachTargetProfiles(e) {
+    e.preventDefault();
+    if (this.isDisabled) return;
+
     const organization = this.args.organization;
 
     try {
@@ -40,7 +47,7 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
         );
       }
 
-      this.targetProfilesToAttach = null;
+      this.targetProfilesToAttach = '';
       return this.notifications.success(message.join(''), { htmlContent: true });
     } catch (responseError) {
       this._handleResponseError(responseError);
