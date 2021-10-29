@@ -56,8 +56,9 @@
     "lint:mon-pix:json": "cd mon-pix && npm run lint:json",
     "lint:orga": "cd orga && npm run lint",
     "lint:orga:json": "cd orga && npm run lint:json",
-    "lint:scripts": "cd scripts && eslint .",
+    "lint:scripts": "cd scripts && eslint --ext .js .",
     "lint:json": "run-p --print-label lint:api:json lint:mon-pix:json lint:orga:json",
+    "lint:yaml": "eslint --ext .yml .circleci && eslint --ext .yml .github",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "preinstall": "npx check-engine",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:certif start:admin",
@@ -93,6 +94,7 @@
     "ember-template-lint": "^3.7.0",
     "eslint": "^7.20.0",
     "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-yml": "^0.10.1",
     "mocha": "^8.3.0"
   },
   "peerDependencies": {
