@@ -66,6 +66,7 @@
     "start:certif": "cd certif && npm start",
     "start:mon-pix": "cd mon-pix && npm start",
     "start:orga": "cd orga && npm start",
+    "test:ci" : "npm run test:scripts",
     "test": "run-p --print-label test:api test:mon-pix test:orga test:certif test:admin test:scripts",
     "test:admin": "cd admin && npm test",
     "test:api": "cd api && npm run lint && npm test",
