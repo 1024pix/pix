@@ -349,7 +349,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(currentURL()).to.equal('/inscription');
           });
 
-          it('should redirect to join page after login', async function () {
+          it('should redirect to invited sup student page after login', async function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
@@ -362,7 +362,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je me connecte');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/etudiant`);
           });
         });
 
@@ -705,7 +705,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
         });
 
-        it('should redirect to join page when landing page has been seen', async function () {
+        it('should redirect to invited sup student page when landing page has been seen', async function () {
           // given
           await visit(`/campagnes/${campaign.code}`);
 
@@ -713,7 +713,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await clickByLabel('Je commence');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/etudiant`);
         });
 
         it('should begin campaign participation when association is done', async function () {

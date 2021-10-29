@@ -1,3 +1,4 @@
+import EmberObject from '@ember/object';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -11,6 +12,7 @@ describe('Unit | Route | Invited', function () {
     route = this.owner.lookup('route:campaigns.invited');
     route.modelFor = sinon.stub();
     route.replaceWith = sinon.stub();
+    route.campaignStorage = { get: sinon.stub() };
   });
 
   describe('#beforeModel', function () {
@@ -42,7 +44,28 @@ describe('Unit | Route | Invited', function () {
   });
 
   describe('#redirect', function () {
-    it('should redirect to fill in participant external id page', async function () {
+    it('should redirect to student sup invited page when association is needed', async function () {
+      //given
+      campaign = EmberObject.create({
+        isRestricted: true,
+        isOrganizationSUP: true,
+      });
+      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
+
+      //when
+      await route.redirect(campaign);
+
+      //then
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sup', campaign);
+    });
+
+    it('should redirect to fill in participant external otherwise', async function () {
+      //given
+      campaign = EmberObject.create({
+        isRestricted: false,
+      });
+      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
+
       //when
       await route.redirect(campaign);
 

@@ -30,4 +30,8 @@ export default class Campaign extends Model {
   get isProfilesCollection() {
     return this.type === 'PROFILES_COLLECTION';
   }
+
+  get isOrganizationSUP() {
+    return this.organizationType === 'SUP';
+  }
 }

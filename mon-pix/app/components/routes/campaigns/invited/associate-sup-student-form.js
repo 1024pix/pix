@@ -28,7 +28,7 @@ class Errors {
   @tracked global = null;
 }
 
-export default class JoinSup extends Component {
+export default class AssociateSupStudentForm extends Component {
   @service store;
   @service intl;
 
@@ -109,7 +109,7 @@ export default class JoinSup extends Component {
     });
 
     try {
-      await this.args.onSubmitToReconcile(schoolingRegistration, { reconcileSup: true });
+      await this.args.onSubmit(schoolingRegistration);
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
       this._setErrorMessage(errorResponse);

@@ -9,12 +9,12 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-describe('Integration | Component | routes/campaigns/restricted/join-sup', function () {
+describe('Integration | Component | routes/campaigns/invited/associate-sup-student-form', function () {
   setupIntlRenderingTest();
 
   let sessionStub;
   let storeStub;
-  let onSubmitToReconcileStub;
+  let onSubmitStub;
 
   beforeEach(function () {
     sessionStub = class StoreStub extends Service {};
@@ -30,12 +30,12 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   context('when user fill the form correctly', () => {
     it('should call the submit callback', async function () {
       // given
-      onSubmitToReconcileStub = sinon.stub();
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+      onSubmitStub = sinon.stub();
+      this.set('onSubmitStub', onSubmitStub);
 
       // when
       await render(
-        hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`
+        hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`
       );
 
       await fillInByLabel('Numéro étudiant', 'F100');
@@ -47,19 +47,19 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
       await clickByLabel("C'est parti !");
 
       // then
-      sinon.assert.called(onSubmitToReconcileStub);
+      sinon.assert.called(onSubmitStub);
     });
   });
 
   context('when the server responds an error', () => {
     it('should display server error', async function () {
       // given
-      onSubmitToReconcileStub = sinon.stub().rejects();
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+      onSubmitStub = sinon.stub().rejects();
+      this.set('onSubmitStub', onSubmitStub);
 
       // when
       await render(
-        hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`
+        hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`
       );
 
       await fillInByLabel('Numéro étudiant', 'F100');
