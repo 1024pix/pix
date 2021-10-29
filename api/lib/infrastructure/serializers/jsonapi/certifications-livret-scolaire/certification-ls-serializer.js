@@ -20,7 +20,7 @@ module.exports = {
   serialize(certificate) {
     return new Serializer('certificationsResults', {
       attributes: ['certifications', 'competences'],
-      certificate: {
+      certifications: {
         attributes: [...attributes],
         competenceResults: {
           attributes: ['competence-id', 'level'],
