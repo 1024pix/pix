@@ -104,6 +104,44 @@ describe('Unit | UseCase | create-campaign', function () {
     });
   });
 
+  context('When the target profile cannot be used by the organization', function () {
+    it('should save an assessment campaign', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const targetProfileId = 12;
+      const creatorId = 13;
+      const organizationId = 14;
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.ASSESSMENT,
+        creatorId,
+        targetProfileId,
+        organizationId,
+      };
+
+      const organization = domainBuilder.buildOrganization({ id: organizationId });
+      const organizationMember = _createOrganizationMember(creatorId, organization);
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
+      organizationService.findAllTargetProfilesAvailableForOrganization.resolves([]);
+
+      campaignCodeGenerator.generate.resolves(code);
+      campaignRepository.create.resolves();
+
+      // when
+      const error = await catchErr(createCampaign)({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
+      expect(error.message).to.equal(`Organization does not have an access to the profile ${campaignData.targetProfileId}`);
+    });
+  });
+
   context('When the campaign is valid', function () {
     it('should save an assessment campaign', async function () {
       // given
