@@ -171,7 +171,7 @@ jobs:
           command: npm run lint:ci
       - run:
           name: Test
-          command: npm test
+          command: npm run test:ci
 
   certif_build_and_test:
     docker:
