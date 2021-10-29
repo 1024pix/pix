@@ -1,7 +1,9 @@
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
+import { inject as service } from '@ember/service';
 
 export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
+  @service campaignStorage;
 
   beforeModel(transition) {
     if (!transition.from) {
@@ -14,6 +16,15 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   redirect(campaign) {
+    if (this.shouldAssociateWithSupInformation(campaign)) {
+      return this.replaceWith('campaigns.invited.student-sup', campaign);
+    }
+
     return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign);
+  }
+
+  shouldAssociateWithSupInformation(campaign) {
+    const associationDone = this.campaignStorage.get(campaign.code, 'associationDone');
+    return campaign.isOrganizationSUP && campaign.isRestricted && !associationDone;
   }
 }
