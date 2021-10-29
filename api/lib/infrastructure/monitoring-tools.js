@@ -28,7 +28,7 @@ function logInfoWithCorrelationIds(data) {
   }
 }
 
-function logErrorWithCorrelationIds(error) {
+function logErrorWithCorrelationIds(data) {
   if (settings.hapi.enableRequestMonitoring) {
     const context = asyncLocalStorage.getStore();
     const request = get(context, 'request');
@@ -36,11 +36,12 @@ function logErrorWithCorrelationIds(error) {
       {
         user_id: extractUserIdFromRequest(request),
         request_id: `${get(request, 'info.id', '-')}`,
+        ...get(data, 'metrics', {}),
       },
-      error
+      get(data, 'message', '-')
     );
   } else {
-    logger.error(error);
+    logger.error(get(data, 'message', '-'));
   }
 }
 
