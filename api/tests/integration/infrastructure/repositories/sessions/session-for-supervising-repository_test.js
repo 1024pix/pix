@@ -53,6 +53,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         lastName: 'Jackson',
         firstName: 'Michael',
         sessionId: session.id,
+        authorizedToStart: true,
       });
       databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Stardust',
@@ -72,12 +73,12 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['sessionId', 'lastName', 'firstName'])
+        _.pick(item, ['sessionId', 'lastName', 'firstName', 'authorizedToStart'])
       );
       expect(actualCandidates).to.have.deep.ordered.members([
-        { lastName: 'Jackson', firstName: 'Janet' },
-        { lastName: 'Jackson', firstName: 'Michael' },
-        { lastName: 'Stardust', firstName: 'Ziggy' },
+        { lastName: 'Jackson', firstName: 'Janet', authorizedToStart: false },
+        { lastName: 'Jackson', firstName: 'Michael', authorizedToStart: true },
+        { lastName: 'Stardust', firstName: 'Ziggy', authorizedToStart: false },
       ]);
     });
 
