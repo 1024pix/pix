@@ -127,7 +127,7 @@ describe('Unit | UseCase | create-campaign', function () {
     });
 
     // then
-    expect(campaignCodeGenerator.generate).to.have.been.called;
+    expect(campaignRepository.create).to.have.been.calledWithMatch({ code: availableCampaignCode });
   });
 
   it('should save the campaign with name, type, userId, organizationId and generated code', async function () {
