@@ -77,7 +77,7 @@ jobs:
           command: |
             npm ci
             npm run lint:scripts
-            npm run test:scripts
+            npm run test:ci
             rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
