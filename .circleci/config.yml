@@ -77,7 +77,7 @@ jobs:
           command: |
             npm ci
             npm run lint:scripts
-            npm run test:scripts
+            npm run test:ci
             rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
@@ -109,7 +109,7 @@ jobs:
           name: Lint and test
           command: |
             npm run lint
-            npm test
+            npm run test:ci
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
@@ -144,9 +144,8 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
-         name: Test
-         command: |
-          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
+          name: Test
+          command: npm run test:ci
 
   orga_build_and_test:
     docker:
@@ -172,7 +171,7 @@ jobs:
           command: npm run lint:ci
       - run:
           name: Test
-          command: npm test
+          command: npm run test:ci
 
   certif_build_and_test:
     docker:
@@ -198,7 +197,7 @@ jobs:
           command: npm run lint:ci
       - run:
           name: Test
-          command: npm test
+          command: npm run test:ci
 
   admin_build_and_test:
     docker:
@@ -224,7 +223,7 @@ jobs:
           command: npm run lint
       - run:
           name: Test
-          command: npm test
+          command: npm run test:ci
 
   e2e_test:
     docker:
@@ -343,7 +342,7 @@ jobs:
           name: Test
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npx wait-on http://localhost:3000/api http://localhost:4200 http://localhost:4201 http://localhost:4203 && npm run cy:run:ci
+          command: npm run test:ci
       - store_test_results:
           path: /home/circleci/test-results
 
@@ -388,5 +387,5 @@ jobs:
 
       - run:
           name: Test
-          command: npm test
+          command: npm run test:ci
 
