@@ -80,7 +80,7 @@ Router.map(function () {
     });
     this.route('restricted', { path: '/privee' }, function () {
       this.route('login-or-register-to-access', { path: '/identification' });
-      this.route('join', { path: '/rejoindre' });
+      this.route('join-from-mediacentre', { path: '/rejoindre-depuis-mediacentre' });
     });
     this.route('entrance', { path: '/entree' });
     this.route('profiles-collection', { path: '/collecte' }, function () {

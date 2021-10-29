@@ -32,12 +32,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign, !this.state.hasUserSeenJoinPage);
     }
 
-    if (this._shouldJoinRestrictedCampaign) {
-      if (!this.state.externalUser && this.currentUser.user.mustValidateTermsOfService) {
-        return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
-      }
+    if (this._shouldValidateTermsOfService) {
+      return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
+    }
 
-      return this.replaceWith('campaigns.restricted.join', campaign);
+    if (this._shouldJoinFromMediacentre) {
+      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign);
     }
 
     if (this._shouldDisconnectAnonymousUser) {
@@ -149,10 +149,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.state.isCampaignPoleEmploi && !this.state.isUserLoggedInPoleEmploi;
   }
 
-  get _shouldJoinRestrictedCampaign() {
+  get _shouldJoinFromMediacentre() {
     return (
       this.state.isCampaignRestricted &&
-      (this.state.isUserLogged || this.state.externalUser) &&
+      this.state.externalUser &&
       !this.state.hasUserCompletedRestrictedCampaignAssociation
     );
   }
@@ -163,5 +163,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldDisconnectAnonymousUser() {
     return this.state.isUserLogged && this.currentUser.user.isAnonymous && !this.state.participantExternalId;
+  }
+
+  get _shouldValidateTermsOfService() {
+    return this.state.isUserLogged && !this.state.externalUser && this.currentUser.user.mustValidateTermsOfService;
   }
 }
