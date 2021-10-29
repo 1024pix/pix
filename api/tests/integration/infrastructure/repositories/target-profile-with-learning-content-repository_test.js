@@ -20,8 +20,10 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   badge.skillSets = [skillSet1, skillSet2];
 
   badge.id = databaseBuilder.factory.buildBadge({ ...badge }).id;
-  badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1, badgeId: badge.id }).id;
-  badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2, badgeId: badge.id }).id;
+  badgeCriterion1.badgeId = badge.id;
+  badgeCriterion2.badgeId = badge.id;
+  badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1 }).id;
+  badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2 }).id;
   skillSet1.id = databaseBuilder.factory.buildSkillSet({
     ...skillSet1,
     badgeId: badge.id,
