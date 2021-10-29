@@ -163,7 +163,9 @@ module.exports = {
       organizationId,
       targetProfileIdsToAttach,
     });
-    return h.response(organizationAttachTargetProfilesSerializer.serialize({ ...results, organizationId })).code(200);
+    return h
+      .response(organizationAttachTargetProfilesSerializer.serialize({ ...results, organizationId }))
+      .code(results.attachedIds.length > 0 ? 201 : 200);
   },
 
   async getDivisions(request) {

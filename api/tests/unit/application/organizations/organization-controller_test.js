@@ -556,12 +556,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
     let targetProfile;
     let organizationId;
     let targetProfileId;
-    const targetProfilesToAttachAsArray = [targetProfileId];
+    let targetProfilesToAttachAsArray;
 
     beforeEach(function () {
       targetProfile = domainBuilder.buildTargetProfile();
-      organizationId = targetProfile.organizationId;
-      targetProfileId = targetProfile.id.toString();
+      organizationId = targetProfile.ownerOrganizationId;
+      targetProfileId = parseInt(targetProfile.id);
+      targetProfilesToAttachAsArray = [targetProfileId];
       request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
@@ -578,13 +579,30 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(organizationAttachTargetProfilesSerializer, 'serialize');
     });
 
-    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function () {
+    it('should return 201 when some target profiles are attached', async function () {
       // given
       const serializer = Symbol('organizationAttachTargetProfilesSerializer');
       organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
       usecases.attachTargetProfilesToOrganization
-        .withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray })
-        .resolves();
+        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
+        .resolves({ attachedIds: targetProfilesToAttachAsArray });
+
+      // when
+      const response = await organizationController.attachTargetProfiles(request, hFake);
+
+      // then
+      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
+      expect(response.source).to.equal(serializer);
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should return 200 when no target profiles was attached', async function () {
+      // given
+      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
+      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
+      usecases.attachTargetProfilesToOrganization
+        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
+        .resolves({ attachedIds: [], duplicatedIds: targetProfilesToAttachAsArray });
 
       // when
       const response = await organizationController.attachTargetProfiles(request, hFake);
