@@ -16,11 +16,20 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   redirect(campaign) {
+    if (this.shouldAssociateWithScoInformation(campaign)) {
+      return this.replaceWith('campaigns.invited.student-sco', campaign);
+    }
+
     if (this.shouldAssociateWithSupInformation(campaign)) {
       return this.replaceWith('campaigns.invited.student-sup', campaign);
     }
 
     return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign);
+  }
+
+  shouldAssociateWithScoInformation(campaign) {
+    const associationDone = this.campaignStorage.get(campaign.code, 'associationDone');
+    return campaign.isOrganizationSCO && campaign.isRestricted && !associationDone;
   }
 
   shouldAssociateWithSupInformation(campaign) {

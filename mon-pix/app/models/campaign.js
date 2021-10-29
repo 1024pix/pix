@@ -31,6 +31,10 @@ export default class Campaign extends Model {
     return this.type === 'PROFILES_COLLECTION';
   }
 
+  get isOrganizationSCO() {
+    return this.organizationType === 'SCO';
+  }
+
   get isOrganizationSUP() {
     return this.organizationType === 'SUP';
   }

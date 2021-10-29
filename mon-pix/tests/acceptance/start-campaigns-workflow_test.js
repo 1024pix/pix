@@ -130,7 +130,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           });
 
           context('When the student has an account but is not reconciled', function () {
-            it('should redirect to reconciliation page', async function () {
+            it('should redirect to invited sco student page', async function () {
               // given
               await visit('/campagnes');
 
@@ -144,7 +144,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await click('#submit-connexion');
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
             });
 
             context('When student is reconciled in another organization', function () {
@@ -174,7 +174,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           });
 
           context('When user must accept Pix last terms of service', async function () {
-            it('should redirect to reconciliation page after accept terms of service', async function () {
+            it('should redirect to invited sco student page after accept terms of service', async function () {
               // given
               await visit('/campagnes');
               prescritUser.mustValidateTermsOfService = true;
@@ -191,7 +191,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await clickByLabel(this.intl.t('pages.terms-of-service-pe.form.button'));
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
             });
           });
 
@@ -277,7 +277,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(find('#password').value).to.equal('pix123');
           });
 
-          it('should redirect to join restricted campaign page when connection is done', async function () {
+          it('should redirect to student sco invited page when connection is done', async function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
@@ -290,7 +290,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
           });
 
           it('should begin campaign participation when fields are filled in and associate button is clicked', async function () {
@@ -304,7 +304,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await fillIn('#password', prescritUser.password);
             await click('#submit-connexion');
 
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
 
             // when
             await fillIn('#firstName', 'Jane');
@@ -603,7 +603,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should try to reconcile automatically before redirect to join restricted campaign page', async function () {
+          it('should try to reconcile automatically before redirect to invited sco student page', async function () {
             // given
             server.get('schooling-registration-user-associations', () => {
               return { data: null };
@@ -620,7 +620,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
-          it('should redirect to join restricted campaign page when landing page has been seen', async function () {
+          it('should redirect to invited sco student page when landing page has been seen', async function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -628,7 +628,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
           });
 
           it('should not set any field by default', async function () {
