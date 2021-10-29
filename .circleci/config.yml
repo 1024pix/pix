@@ -387,5 +387,5 @@ jobs:
 
       - run:
           name: Test
-          command: npm test
+          command: npm run test:ci
 
