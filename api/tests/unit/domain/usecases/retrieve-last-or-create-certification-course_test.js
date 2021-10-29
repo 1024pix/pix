@@ -419,8 +419,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 .withArgs({ userId, domainTransaction })
                 .resolves([]);
 
-              const session = domainBuilder.buildSession({ accreditations: [] });
-              certificationCenterRepository.getBySessionId.resolves(session);
+              const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
+              certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
               // when
               const result = await retrieveLastOrCreateCertificationCourse({
@@ -489,7 +489,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                 const certificationCenter = domainBuilder.buildCertificationCenter({
-                  accreditations: [domainBuilder.buildAccreditation({ name: 'Pix+ Droit' })],
+                  habilitations: [domainBuilder.buildComplementaryCertification({ name: 'Pix+ Droit' })],
                 });
                 certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
@@ -610,7 +610,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                   const certificationCenter = domainBuilder.buildCertificationCenter({
-                    accreditations: [domainBuilder.buildAccreditation({ name: 'Pix+ Droit' })],
+                    habilitations: [domainBuilder.buildComplementaryCertification({ name: 'Pix+ Droit' })],
                   });
                   certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
@@ -689,7 +689,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
             });
 
-            context('when certification center has no accreditation for pix plus', function () {
+            context('when certification center has no habilitation for pix plus', function () {
               it('should save only the challenges from pix', async function () {
                 // given
                 const sessionId = 1;
@@ -725,7 +725,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                 const certificationCenter = domainBuilder.buildCertificationCenter({
-                  accreditations: [],
+                  habilitations: [],
                 });
                 certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 

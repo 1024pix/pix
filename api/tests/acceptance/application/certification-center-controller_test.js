@@ -46,15 +46,14 @@ describe('Acceptance | API | Certification Center', function () {
           type: 'SCO',
           externalId: '222',
           createdAt: new Date('2020-01-05'),
-          accreditations: [],
         });
-        databaseBuilder.factory.buildAccreditation({
+        databaseBuilder.factory.buildComplementaryCertification({
           id: 12,
           name: 'Pix+Edu',
         });
-        databaseBuilder.factory.buildGrantedAccreditation({
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
-          accreditationId: 12,
+          complementaryCertificationId: 12,
         });
         await databaseBuilder.commit();
 
@@ -157,7 +156,7 @@ describe('Acceptance | API | Certification Center', function () {
 
   describe('POST /api/certification-centers', function () {
     beforeEach(async function () {
-      const accreditation = databaseBuilder.factory.buildAccreditation();
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
       request = {
         method: 'POST',
         url: '/api/certification-centers',
@@ -173,7 +172,7 @@ describe('Acceptance | API | Certification Center', function () {
                 data: [
                   {
                     type: 'accreditations',
-                    id: `${accreditation.id}`,
+                    id: `${complementaryCertification.id}`,
                   },
                 ],
               },
@@ -186,7 +185,7 @@ describe('Acceptance | API | Certification Center', function () {
     });
 
     afterEach(async function () {
-      await knex('granted-accreditations').delete();
+      await knex('complementary-certification-habilitations').delete();
       await knex('certification-centers').delete();
     });
 

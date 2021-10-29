@@ -1,6 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-
-const Accreditation = require('../../../domain/models/Accreditation');
+const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
 
 module.exports = {
   serialize(accreditation) {
@@ -10,7 +9,7 @@ module.exports = {
   },
 
   deserialize(jsonAPI) {
-    return new Accreditation({
+    return new ComplementaryCertification({
       id: jsonAPI.data.id,
       name: jsonAPI.data.attributes.name,
     });

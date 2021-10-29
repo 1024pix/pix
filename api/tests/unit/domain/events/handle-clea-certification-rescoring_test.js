@@ -37,11 +37,11 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           reproducibilityRate: 80,
         });
 
-        const accreditation = domainBuilder.buildAccreditation({
+        const complementaryCertification = domainBuilder.buildComplementaryCertification({
           name: 'CléA Numérique',
         });
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [accreditation],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
@@ -73,11 +73,11 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           reproducibilityRate: 80,
         });
 
-        const accreditation = domainBuilder.buildAccreditation({
+        const complementaryCertification = domainBuilder.buildComplementaryCertification({
           name: 'CléA Numérique',
         });
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [accreditation],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);
@@ -118,11 +118,11 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
           reproducibilityRate: 80,
         });
 
-        const accreditation = domainBuilder.buildAccreditation({
+        const complementaryCertification = domainBuilder.buildComplementaryCertification({
           name: 'Tarte au fromage',
         });
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [accreditation],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId.withArgs(123).resolves(certificationCenter);

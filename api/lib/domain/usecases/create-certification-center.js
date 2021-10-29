@@ -1,22 +1,22 @@
-const GrantedAccreditation = require('../models/GrantedAccreditation');
+const ComplementaryCertificationHabilitation = require('../models/ComplementaryCertificationHabilitation');
 const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator');
 
 module.exports = async function createCertificationCenter({
   certificationCenter,
   accreditationIds,
-  grantedAccreditationRepository,
+  complementaryCertificationHabilitationRepository,
   certificationCenterRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenter);
   const createdCertificationCenter = await certificationCenterRepository.save(certificationCenter);
 
   for (const accreditationId of accreditationIds) {
-    const grantedAccreditation = new GrantedAccreditation({
-      accreditationId: parseInt(accreditationId),
+    const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
+      complementaryCertificationId: parseInt(accreditationId),
       certificationCenterId: createdCertificationCenter.id,
     });
 
-    await grantedAccreditationRepository.save(grantedAccreditation);
+    await complementaryCertificationHabilitationRepository.save(complementaryCertificationHabilitation);
   }
 
   return createdCertificationCenter;
