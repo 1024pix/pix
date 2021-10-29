@@ -4,7 +4,6 @@ const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
 const Campaign = require('../../../../lib/domain/models/Campaign');
-const _ = require('lodash');
 
 describe('Unit | UseCase | create-campaign', function () {
   const availableCampaignCode = 'ABCDEF123';
@@ -160,10 +159,10 @@ describe('Unit | UseCase | create-campaign', function () {
     });
 
     // then
-    const [campaignToCreateWithCode] = campaignRepository.create.firstCall.args;
-
-    expect(campaignToCreateWithCode).to.deep.include({
-      ..._.pick(campaignToCreate, ['name', 'userId', 'type', 'organizationId']),
+    expect(campaignRepository.create).to.have.been.calledWith({
+      creatorId,
+      targetProfileId,
+      organizationId,
       code: availableCampaignCode,
     });
   });
