@@ -74,6 +74,7 @@ Router.map(function () {
     this.route('start-or-resume', { path: '/startOrResume' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('invited', { path: '/prescrit' }, function () {
+      this.route('student-sco', { path: '/eleve' });
       this.route('student-sup', { path: '/etudiant' });
       this.route('fill-in-participant-external-id', { path: '/identifiant' });
     });

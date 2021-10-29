@@ -38,7 +38,7 @@ Fonctionnalité: Campagne de collecte de profils
     Et je clique sur "Commencer"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "C'est parti !"
-    Alors je vois la page de "rejoindre" de la campagne
+    Alors je vois la page d'"eleve" de la campagne
     Lorsque je saisis "Daenerys" dans le champ "Prénom"
     Et je saisis "Targaryen" dans le champ "Nom"
     Et je saisis la date de naissance 23-10-1986

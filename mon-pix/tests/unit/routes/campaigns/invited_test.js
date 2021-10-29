@@ -44,6 +44,21 @@ describe('Unit | Route | Invited', function () {
   });
 
   describe('#redirect', function () {
+    it('should redirect to student sco invited page when association is needed', async function () {
+      //given
+      campaign = EmberObject.create({
+        isRestricted: true,
+        isOrganizationSCO: true,
+      });
+      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
+
+      //when
+      await route.redirect(campaign);
+
+      //then
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sco', campaign);
+    });
+
     it('should redirect to student sup invited page when association is needed', async function () {
       //given
       campaign = EmberObject.create({
