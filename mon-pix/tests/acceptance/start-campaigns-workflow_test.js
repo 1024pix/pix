@@ -900,7 +900,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre-depuis-mediacentre`);
           });
 
           it('should set by default firstName and lastName', async function () {
