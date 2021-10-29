@@ -90,6 +90,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
           scope: badgeCriterion.scope,
           threshold: badgeCriterion.threshold,
           skillSetIds: badgeCriterion.skillSetIds,
+          badgeId: badge.id,
         },
       ];
 
