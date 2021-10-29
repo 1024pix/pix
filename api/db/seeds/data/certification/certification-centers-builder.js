@@ -24,24 +24,24 @@ const { PIX_EMPLOI_CLEA_BADGE_ID, PIX_DROIT_MAITRE_BADGE_ID, PIX_DROIT_EXPERT_BA
 
 function certificationCentersBuilder({ databaseBuilder }) {
 
-  const cleaAccreditationId = databaseBuilder.factory.buildAccreditation({
+  const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
     name: 'CléA Numérique',
   }).id;
-  databaseBuilder.factory.buildAccreditedBadge({
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID,
-    accreditationId: cleaAccreditationId,
+    complementaryCertificationId: cleaComplementaryCertificationId,
   });
 
-  const pixDroitAccreditationId = databaseBuilder.factory.buildAccreditation({
+  const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
     name: 'Pix+ Droit',
   }).id;
-  databaseBuilder.factory.buildAccreditedBadge({
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_DROIT_MAITRE_BADGE_ID,
-    accreditationId: pixDroitAccreditationId,
+    complementaryCertificationId: pixDroitComplementaryCertificationId,
   });
-  databaseBuilder.factory.buildAccreditedBadge({
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_DROIT_EXPERT_BADGE_ID,
-    accreditationId: pixDroitAccreditationId,
+    complementaryCertificationId: pixDroitComplementaryCertificationId,
   });
 
   databaseBuilder.factory.buildCertificationCenter({
@@ -77,9 +77,9 @@ function certificationCentersBuilder({ databaseBuilder }) {
     name: PRO_CERTIF_CENTER_NAME,
     type: 'PRO',
   });
-  databaseBuilder.factory.buildGrantedAccreditation({
+  databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: PRO_CERTIF_CENTER_ID,
-    accreditationId: cleaAccreditationId,
+    complementaryCertificationId: cleaComplementaryCertificationId,
   });
 
   databaseBuilder.factory.buildCertificationCenter({
@@ -87,13 +87,13 @@ function certificationCentersBuilder({ databaseBuilder }) {
     name: SUP_CERTIF_CENTER_NAME,
     type: 'SUP',
   });
-  databaseBuilder.factory.buildGrantedAccreditation({
+  databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: SUP_CERTIF_CENTER_ID,
-    accreditationId: cleaAccreditationId,
+    complementaryCertificationId: cleaComplementaryCertificationId,
   });
-  databaseBuilder.factory.buildGrantedAccreditation({
+  databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: SUP_CERTIF_CENTER_ID,
-    accreditationId: pixDroitAccreditationId,
+    complementaryCertificationId: pixDroitComplementaryCertificationId,
   });
 
   databaseBuilder.factory.buildCertificationCenter({

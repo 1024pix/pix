@@ -5,7 +5,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
   describe('#serialize', function () {
     it('should convert a Certification Center model object into JSON API data', function () {
       // given
-      const accreditation = domainBuilder.buildAccreditation({
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
         id: 1,
         name: 'Pix+surf',
       });
@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
         type: 'SCO',
         createdAt: new Date('2018-01-01T05:43:10Z'),
         externalId: '12345',
-        accreditations: [accreditation],
+        habilitations: [complementaryCertification],
       });
 
       const expectedSerializedCertificationCenter = {
@@ -85,7 +85,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
         type: 'SCO',
         externalId: '12345',
         createdAt: null,
-        accreditations: [],
+        habilitations: [],
       });
 
       // when

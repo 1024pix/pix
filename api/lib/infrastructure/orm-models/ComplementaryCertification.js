@@ -1,11 +1,11 @@
 const Bookshelf = require('../bookshelf');
 
-const modelName = 'Accreditation';
+const modelName = 'ComplementaryCertification';
 
 module.exports = Bookshelf.model(
   modelName,
   {
-    tableName: 'accreditations',
+    tableName: 'complementary-certifications',
     hasTimestamps: ['createdAt', null],
   },
   {

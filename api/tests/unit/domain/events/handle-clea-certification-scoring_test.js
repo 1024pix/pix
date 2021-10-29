@@ -79,12 +79,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         reproducibilityRate: 85,
       });
 
-      const accreditation = domainBuilder.buildAccreditation({
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
         name: 'CléA Numérique',
       });
 
       const certificationCenter = domainBuilder.buildCertificationCenter({
-        accreditations: [accreditation],
+        habilitations: [complementaryCertification],
       });
 
       certificationCenterRepository.getByCertificationCourseId
@@ -140,12 +140,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
         const date = '2021-01-01';
 
-        const accreditation = domainBuilder.buildAccreditation({
+        const complementaryCertification = domainBuilder.buildComplementaryCertification({
           name: 'CléA Numérique',
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [accreditation],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId
@@ -216,12 +216,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
         });
         const date = '2021-01-01';
 
-        const accreditation = domainBuilder.buildAccreditation({
+        const complementaryCertification = domainBuilder.buildComplementaryCertification({
           name: 'CléA Numérique',
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [accreditation],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId
@@ -280,12 +280,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           reproducibilityRate: 85,
         });
 
-        const accreditation = domainBuilder.buildAccreditation({
+        const complementaryCertification = domainBuilder.buildComplementaryCertification({
           name: 'Tarte au fromage',
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          accreditations: [accreditation],
+          habilitations: [complementaryCertification],
         });
 
         certificationCenterRepository.getByCertificationCourseId

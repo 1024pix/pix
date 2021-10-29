@@ -1,23 +1,23 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/accreditation-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/complementary-certification-serializer');
 
-describe('Unit | Serializer | JSONAPI | accreditation-serializer', function () {
+describe('Unit | Serializer | JSONAPI | complementary-certification-serializer', function () {
   describe('#serialize', function () {
-    it('should convert an accreditation model object into JSON API data', function () {
+    it('should convert a ComplementaryCertification model object into JSON API data', function () {
       // given
-      const accreditations = [
-        domainBuilder.buildAccreditation({
+      const complementaryCertifications = [
+        domainBuilder.buildComplementaryCertification({
           id: 11,
           name: 'Pix+Edu',
         }),
-        domainBuilder.buildAccreditation({
+        domainBuilder.buildComplementaryCertification({
           id: 22,
           name: 'Cléa Numérique',
         }),
       ];
 
       // when
-      const json = serializer.serialize(accreditations);
+      const json = serializer.serialize(complementaryCertifications);
 
       // then
       expect(json).to.deep.equal({

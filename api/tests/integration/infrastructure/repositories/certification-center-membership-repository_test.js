@@ -145,7 +145,7 @@ describe('Integration | Repository | Certification Center Membership', function 
         foundCertificationCenterMembership;
 
       expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
-      expect(omit(associatedCertificationCenter, ['accreditations'])).to.deep.equal(certificationCenter);
+      expect(omit(associatedCertificationCenter, ['habilitations'])).to.deep.equal(certificationCenter);
 
       expect(associatedUser).to.be.an.instanceOf(User);
       expect(pick(associatedUser, ['id', 'firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);

@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | accreditations-controller', function () {
+describe('Acceptance | API | complementary-certification-controller', function () {
   let server;
 
   beforeEach(async function () {
@@ -24,11 +24,11 @@ describe('Acceptance | API | accreditations-controller', function () {
           authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
         },
       };
-      databaseBuilder.factory.buildAccreditation({
+      databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
         name: 'Pix+Edu',
       });
-      databaseBuilder.factory.buildAccreditation({
+      databaseBuilder.factory.buildComplementaryCertification({
         id: 2,
         name: 'Cléa Numérique',
       });

@@ -1,6 +1,6 @@
 const Bookshelf = require('../bookshelf');
 
-require('./Accreditation');
+require('./ComplementaryCertification');
 
 const modelName = 'CertificationCenter';
 
@@ -14,8 +14,13 @@ module.exports = Bookshelf.model(
       return this.hasMany('CertificationCenterMembership', 'certificationCenterId');
     },
 
-    accreditations() {
-      return this.belongsToMany('Accreditation', 'granted-accreditations', 'certificationCenterId', 'accreditationId');
+    habilitations() {
+      return this.belongsToMany(
+        'ComplementaryCertification',
+        'complementary-certification-habilitations',
+        'certificationCenterId',
+        'complementaryCertificationId'
+      );
     },
   },
   {
