@@ -1,195 +1,260 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
-const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
 describe('Unit | UseCase | create-campaign', function () {
-  const availableCampaignCode = 'ABCDEF123';
-  const targetProfileId = 12;
-  const creatorId = 13;
-  const organizationId = 14;
-  let campaignToCreate;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const savedCampaign = domainBuilder.buildCampaign({ code: availableCampaignCode });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
-
   let campaignRepository;
   let userRepository;
   let organizationRepository;
   let organizationService;
 
   beforeEach(function () {
-    campaignToCreate = { creatorId, targetProfileId, organizationId };
-
-    sinon.stub(campaignCodeGenerator, 'generate');
-    sinon.stub(campaignValidator, 'validate');
-
     campaignRepository = { create: sinon.stub() };
     userRepository = { getWithMemberships: sinon.stub() };
     organizationRepository = { get: sinon.stub() };
     organizationService = { findAllTargetProfilesAvailableForOrganization: sinon.stub() };
+    sinon.stub(campaignCodeGenerator, 'generate');
   });
 
-  it('should throw an EntityValidationError if campaign is not valid', async function () {
-    // given
-    campaignValidator.validate.throws(new EntityValidationError({ invalidAttributes: [] }));
+  context('When the campaign is not valid', function () {
+    it('should throw an EntityValidationError', async function () {
+      // given
+      const invalidCampaign = {};
 
-    // when
-    const error = await catchErr(createCampaign)({
-      campaign: campaignToCreate,
-      campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
-    });
+      // when
+      const error = await catchErr(createCampaign)({
+        campaign: invalidCampaign,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
 
-    // then
-    expect(error).to.be.instanceOf(EntityValidationError);
-  });
-
-  it('should throw an error if user do not have an access to the campaign organization', async function () {
-    // given
-    campaignValidator.validate.returns();
-
-    const otherOrganization = domainBuilder.buildOrganization({ id: 98437 });
-    const userWithMembership = _createOrganizationMember(creatorId, otherOrganization);
-
-    userRepository.getWithMemberships.withArgs(creatorId).resolves(userWithMembership);
-    organizationService.findAllTargetProfilesAvailableForOrganization
-      .withArgs(organizationId)
-      .resolves([targetProfile]);
-
-    // when
-    const error = await catchErr(createCampaign)({
-      campaign: campaignToCreate,
-      campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
-    expect(error.message).to.equal(
-      `User does not have an access to the organization ${campaignToCreate.organizationId}`
-    );
-  });
-
-  it('should throw an error if organization cannot collect profiles', async function () {
-    // given
-    campaignValidator.validate.returns();
-    const organization = domainBuilder.buildOrganization({ canCollectProfiles: false });
-    organizationRepository.get.withArgs(organization.id).resolves(organization);
-
-    const userWithMembership = _createOrganizationMember(creatorId, organization);
-
-    userRepository.getWithMemberships.withArgs(creatorId).resolves(userWithMembership);
-
-    campaignToCreate = {
-      name: 'Nom',
-      type: Campaign.types.PROFILES_COLLECTION,
-      organizationId: organization.id,
-      creatorId,
-      targetProfileId,
-    };
-
-    // when
-    const error = await catchErr(createCampaign)({
-      campaign: campaignToCreate,
-      campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
-    expect(error.message).to.equal('Organization can not create campaign with type PROFILES_COLLECTION');
-  });
-
-  it('should generate a new code to the campaign', async function () {
-    // given
-    campaignValidator.validate.returns();
-
-    const organization = domainBuilder.buildOrganization({ id: campaignToCreate.organizationId });
-    const organizationMember = _createOrganizationMember(creatorId, organization);
-    userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
-    organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
-
-    campaignCodeGenerator.generate.resolves(availableCampaignCode);
-    campaignRepository.create.resolves(savedCampaign);
-
-    // when
-    await createCampaign({
-      campaign: campaignToCreate,
-      campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
-    });
-
-    // then
-    expect(campaignRepository.create).to.have.been.calledWithMatch({ code: availableCampaignCode });
-  });
-
-  it('should save the campaign with name, type, userId, organizationId and generated code', async function () {
-    // given
-    campaignValidator.validate.returns();
-
-    const organization = domainBuilder.buildOrganization({ id: campaignToCreate.organizationId });
-    const organizationMember = _createOrganizationMember(creatorId, organization);
-    userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
-    organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
-
-    campaignCodeGenerator.generate.resolves(availableCampaignCode);
-    campaignRepository.create.resolves(savedCampaign);
-
-    // when
-    await createCampaign({
-      campaign: campaignToCreate,
-      campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
-    });
-
-    // then
-    expect(campaignRepository.create).to.have.been.calledWith({
-      creatorId,
-      targetProfileId,
-      organizationId,
-      code: availableCampaignCode,
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
     });
   });
 
-  it('should return the newly created campaign', async function () {
-    // given
-    campaignValidator.validate.returns();
+  context('When user do not have an access to the campaign organization', function () {
+    it('should throw an error', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const creatorId = 13;
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.PROFILES_COLLECTION,
+        creatorId,
+        organizationId: 12,
+      };
 
-    const organization = domainBuilder.buildOrganization({ id: campaignToCreate.organizationId });
-    const organizationMember = _createOrganizationMember(creatorId, organization);
-    userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
-    organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
+      const user = domainBuilder.buildUser({ id: creatorId });
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(user);
 
-    campaignCodeGenerator.generate.resolves(availableCampaignCode);
-    campaignRepository.create.resolves(savedCampaign);
+      campaignCodeGenerator.generate.resolves(code);
+      campaignRepository.create.resolves();
+      // when
+      const error = await catchErr(createCampaign)({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
 
-    // when
-    const campaign = await createCampaign({
-      campaign: campaignToCreate,
-      campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
+      // then
+      expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
+      expect(error.message).to.equal(
+        `User does not have an access to the organization ${campaignData.organizationId}`
+      );
+    });
+  });
+
+  context('When this is a profiles collection campaign and the organization cannot collect profiles', function () {
+    it('should throw an error', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const creatorId = 13;
+      const organizationId = 12;
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.PROFILES_COLLECTION,
+        creatorId,
+        organizationId,
+      };
+      const organization = domainBuilder.buildOrganization({ id: organizationId, canCollectProfiles: false });
+      organizationRepository.get.withArgs(organization.id).resolves(organization);
+
+      const organizationMember = _createOrganizationMember(creatorId, organization);
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
+
+      // when
+      const error = await catchErr(createCampaign)({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
+      expect(error.message).to.equal('Organization can not create campaign with type PROFILES_COLLECTION');
+    });
+  });
+
+  context('When the campaign is valid', function () {
+    it('should save an assessment campaign', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const targetProfileId = 12;
+      const creatorId = 13;
+      const organizationId = 14;
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.ASSESSMENT,
+        creatorId,
+        targetProfileId,
+        organizationId,
+      };
+
+      const organization = domainBuilder.buildOrganization({ id: organizationId });
+      const organizationMember = _createOrganizationMember(creatorId, organization);
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
+      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
+      organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
+
+      campaignCodeGenerator.generate.resolves(code);
+      campaignRepository.create.resolves();
+
+      // when
+      await createCampaign({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
+
+      // then
+      expect(campaignRepository.create).to.have.been.calledWith({
+        ...campaignData,
+        code,
+      });
     });
 
-    // then
-    expect(campaign).to.deep.equal(savedCampaign);
+    it('should save a profile collection campaign', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const creatorId = 13;
+      const organizationId = 14;
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.PROFILES_COLLECTION,
+        creatorId,
+        organizationId,
+      };
+
+      const organization = domainBuilder.buildOrganization({ id: organizationId, canCollectProfiles: true });
+      const organizationMember = _createOrganizationMember(creatorId, organization);
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
+      organizationRepository.get.resolves(organization);
+
+      campaignCodeGenerator.generate.resolves(code);
+      campaignRepository.create.resolves();
+
+      // when
+      await createCampaign({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
+
+      // then
+      expect(campaignRepository.create).to.have.been.calledWith({
+        ...campaignData,
+        code,
+      });
+    });
+
+    it('should generate a new code to the campaign', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const creatorId = 13;
+      const organizationId = 14;
+      const targetProfileId = 11;
+
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.ASSESSMENT,
+        creatorId,
+        targetProfileId,
+        organizationId,
+      };
+
+      const organization = domainBuilder.buildOrganization({ id: campaignData.organizationId });
+      const organizationMember = _createOrganizationMember(creatorId, organization);
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
+
+      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+      organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
+
+      campaignCodeGenerator.generate.resolves(code);
+      campaignRepository.create.resolves();
+
+      // when
+      await createCampaign({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
+
+      // then
+      expect(campaignRepository.create).to.have.been.calledWithMatch({ code });
+    });
+
+    it('should return the newly created campaign', async function () {
+      // given
+      const code = 'ABCDEF123';
+      const targetProfileId = 12;
+      const creatorId = 13;
+      const organizationId = 14;
+      const campaignData = {
+        name: 'campagne utilisateur',
+        type: Campaign.types.ASSESSMENT,
+        creatorId,
+        targetProfileId,
+        organizationId,
+      };
+
+      const organization = domainBuilder.buildOrganization({ id: campaignData.organizationId });
+      const organizationMember = _createOrganizationMember(creatorId, organization);
+      userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
+      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
+      organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
+
+      campaignCodeGenerator.generate.resolves(code);
+      const savedCampaign = Symbol('a saved campaign');
+
+      campaignRepository.create.resolves(savedCampaign);
+
+      // when
+      const campaign = await createCampaign({
+        campaign: campaignData,
+        campaignRepository,
+        userRepository,
+        organizationRepository,
+        organizationService,
+      });
+
+      // then
+      expect(campaign).to.deep.equal(savedCampaign);
+    });
   });
 });
 
