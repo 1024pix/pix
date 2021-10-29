@@ -1,4 +1,4 @@
-<form {{on "submit" this.createBadge}} class="badge-form">
+<form {{on "submit" this.createBadgeAndCriteria}} class="badge-form">
   <div class="badge-form__text-field">
     <label for="title">Nom du badge : </label>
     <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
@@ -43,7 +43,7 @@
     <p>Laissez ce champ vide si la participation de campagne est non souhaitée</p>
     <div>
       <label for="campaignParticipationThreshold">Taux de réussite souhaité :</label>
-      <Input id="campaignParticipationThreshold" @type="text" />
+      <Input id="campaignParticipationThreshold" @type="number" @value={{this.threshold}} />
     </div>
   </div>
 
