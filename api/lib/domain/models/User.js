@@ -72,6 +72,10 @@ class User {
     return this.memberships.length > 0;
   }
 
+  isLinkedToCertificationCenters() {
+    return this.certificationCenterMemberships.length > 0;
+  }
+
   hasAccessToOrganization(organizationId) {
     return this.memberships.some((membership) => membership.organization.id === organizationId);
   }

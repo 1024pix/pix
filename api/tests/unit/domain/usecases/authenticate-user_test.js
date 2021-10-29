@@ -157,6 +157,28 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
       expect(error.message).to.be.equal(expectedErrorMessage);
     });
+
+    it('should rejects an error when scope is pix-certif and user is not linked to any certification centers', async function () {
+      // given
+      const scope = appMessages.PIX_CERTIF.SCOPE;
+      const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
+      authenticationService.getUserByUsernameAndPassword.resolves(user);
+
+      const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
+
+      // when
+      const error = await catchErr(authenticateUser)({
+        username: userEmail,
+        password,
+        scope,
+        tokenService,
+        userRepository,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(ForbiddenAccess);
+      expect(error.message).to.be.equal(expectedErrorMessage);
+    });
   });
 
   context('when user should change password', function () {
