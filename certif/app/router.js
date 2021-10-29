@@ -18,6 +18,7 @@ Router.map(function() {
 
   this.route('terms-of-service', { path: '/cgu' });
   this.route('login-session-supervisor', { path: '/connexion-espace-surveillant' });
+  this.route('session-supervising', { path: '/sessions/:session_id/surveiller' });
   this.route('authenticated', { path: '' }, function() {
     this.route('restricted-access', { path: '/espace-ferme' });
     this.route('sessions', function() {

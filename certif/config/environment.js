@@ -59,7 +59,7 @@ module.exports = function(environment) {
 
     googleFonts: [
       'Roboto:300,400,500,700,900', // main font
-      'Open+Sans:300',
+      'Open+Sans:300,600',
     ],
 
     moment: {

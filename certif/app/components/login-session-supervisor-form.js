@@ -6,11 +6,14 @@ export default class LoginSessionSupervisorForm extends Component {
 
   @tracked isErrorMessagePresent = false;
   @tracked errorMessage = null;
+  sessionId = null;
+  sessionSupervisorPassword = null;
 
   @action
-  async authenticate(sessionSupervisorPassword) {
+  authenticate(event) {
+    event.preventDefault();
 
-    this.isErrorMessagePresent = true;
-    this.errorMessage = `${sessionSupervisorPassword} n'est pas un mot de passe de session valide`;
+    this.args.authorize(this.sessionId);
+
   }
 }
