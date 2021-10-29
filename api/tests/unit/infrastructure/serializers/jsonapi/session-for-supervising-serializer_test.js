@@ -7,25 +7,39 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
       // given
       const expectedPayload = {
         data: {
-          type: 'sessionForSupervisings',
-          id: '12',
           attributes: {
-            room: '28D',
-            date: '2017-01-20',
-            time: '14:30',
             'certification-center-name': 'Toto',
+            date: '2017-01-20',
             examiner: 'Antoine Toutvenant',
-            'certification-candidates': [
-              {
-                id: 1234,
-                'first-name': 'toto',
-                'last-name': 'tata',
-                birthdate: '28/05/1984',
-                'extra-time-percentage': null,
-              },
-            ],
+            room: '28D',
+            time: '14:30',
           },
+          id: '12',
+          relationships: {
+            'certification-candidates': {
+              data: [
+                {
+                  id: '1234',
+                  type: 'certification-candidate-for-supervising',
+                },
+              ],
+            },
+          },
+          type: 'sessionForSupervising',
         },
+        included: [
+          {
+            attributes: {
+              birthdate: '28/05/1984',
+              'extra-time-percentage': 33,
+              'first-name': 'toto',
+              id: 1234,
+              'last-name': 'tata',
+            },
+            id: '1234',
+            type: 'certification-candidate-for-supervising',
+          },
+        ],
       };
 
       const modelSession = domainBuilder.buildSessionForSupervising({
@@ -51,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             resultRecipientEmail: null,
             externalId: 'EXT1234',
             birthdate: '28/05/1984',
-            extraTimePercentage: null,
+            extraTimePercentage: 33,
             createdAt: '2021-02-01',
             sessionId: '456',
             userId: '747',
