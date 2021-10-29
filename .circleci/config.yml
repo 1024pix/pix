@@ -109,7 +109,7 @@ jobs:
           name: Lint and test
           command: |
             npm run lint
-            npm test
+            npm run test:ci
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
