@@ -118,7 +118,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "p-queue": "^6.6.2",
-    "pix-ui": "git://github.com/1024pix/pix-ui.git#v10.0.0",
+    "pix-ui": "https://github.com/1024pix/pix-ui/tarball/v10.0.0",
     "prettier": "^2.4.1",
     "sass": "^1.38.0",
     "showdown": "^1.9.1",
