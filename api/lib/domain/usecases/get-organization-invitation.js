@@ -1,4 +1,7 @@
-const { AlreadyExistingOrganizationInvitationError } = require('../../domain/errors');
+const {
+  AlreadyExistingOrganizationInvitationError,
+  CancelledOrganizationInvitationError,
+} = require('../../domain/errors');
 
 module.exports = async function getOrganizationInvitation({
   organizationInvitationId,
@@ -10,6 +13,10 @@ module.exports = async function getOrganizationInvitation({
     id: organizationInvitationId,
     code: organizationInvitationCode,
   });
+
+  if (foundOrganizationInvitation.isCancelled) {
+    throw new CancelledOrganizationInvitationError(`Invitation was cancelled`);
+  }
 
   if (foundOrganizationInvitation.isAccepted) {
     throw new AlreadyExistingOrganizationInvitationError(

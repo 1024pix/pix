@@ -133,6 +133,12 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
+class CancelledOrganizationInvitationError extends DomainError {
+  constructor(message = "L'invitation à cette organisation a été annulée.") {
+    super(message);
+  }
+}
+
 class CantImproveCampaignParticipationError extends DomainError {
   constructor(message = 'Une campagne de collecte de profils ne peut pas être retentée.') {
     super(message);
@@ -938,6 +944,7 @@ module.exports = {
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
   AuthenticationKeyForPoleEmploiTokenExpired,
+  CancelledOrganizationInvitationError,
   CampaignCodeError,
   CertificateVerificationCodeGenerationTooManyTrials,
   NoCertificationAttestationForDivisionError,
