@@ -218,7 +218,7 @@
             />
           </div>
 
-          <div id="recipient-email-container" class="new-certification-candidate-details-modal__form__field">
+          <div id="recipient-email-container" class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
             <label for="result-recipient-email" class="label">E-mail du destinataire des résultats (formateur, enseignant...)</label>
             <Input
               @id="result-recipient-email"
@@ -229,7 +229,7 @@
             />
           </div>
 
-          <div id="email-container" class="new-certification-candidate-details-modal__form__field">
+          <div id="email-container" class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
             <label for="email" class="label">E-mail de convocation</label>
             <Input
               @id="email"
@@ -239,6 +239,28 @@
               {{on 'input' (fn @updateCandidateData @candidateData 'email')}}
             />
           </div>
+
+          {{#if this.complementaryCertifications.length}}
+            <div class="new-certification-candidate-details-modal__form__field">
+              <span class="label">Certifications complémentaires</span>
+              <div class="complementary-certifications-checkbox-list">
+                <ul>
+                  {{#each this.complementaryCertifications as |complementaryCertification index|}}
+                    <li>
+                      <label for={{concat "complementaryCertification_" index}}>
+                        <Input
+                          @type="checkbox"
+                          id={{concat "complementaryCertification_" index}}
+                          {{on "input" (fn this.addComplementaryCertification complementaryCertification)}}
+                        />
+                        {{complementaryCertification.name}}
+                      </label>
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+            </div>
+          {{/if}}
 
           <div class="new-certification-candidate-details-modal__actions">
             <PixButton @triggerAction={{fn @closeModal}} @backgroundColor="transparent-light">
