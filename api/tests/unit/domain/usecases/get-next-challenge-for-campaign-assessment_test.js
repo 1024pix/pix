@@ -50,26 +50,33 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
       expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.called;
     });
 
-    it('should use flash algorithm', async function () {
-      // given
-      assessment.method = 'FLASH';
-      sinon
-        .stub(flash, 'getPossibleSkillsForNextChallenge')
-        .resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true });
-      sinon.stub(dataFetcher, 'fetchForCampaigns').resolves({});
+    describe('when assessment method is flash', function () {
+      it('should use flash algorithm', async function () {
+        // given
+        assessment.method = 'FLASH';
+        sinon
+          .stub(flash, 'getPossibleSkillsForNextChallenge')
+          .resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true });
+        sinon.stub(dataFetcher, 'fetchForFlashCampaigns').resolves({});
 
-      // when
-      await getNextChallengeForCampaignAssessment({
-        knowledgeElementRepository,
-        targetProfileRepository,
-        challengeRepository,
-        answerRepository,
-        pickChallengeService,
-        assessment,
+        // when
+        await getNextChallengeForCampaignAssessment({
+          knowledgeElementRepository,
+          targetProfileRepository,
+          challengeRepository,
+          answerRepository,
+          pickChallengeService,
+          assessment,
+        });
+
+        // then
+        expect(flash.getPossibleSkillsForNextChallenge).to.have.been.called;
+        expect(dataFetcher.fetchForFlashCampaigns).to.have.been.calledWith({
+          assessment,
+          answerRepository,
+          challengeRepository,
+        });
       });
-
-      // then
-      expect(flash.getPossibleSkillsForNextChallenge).to.have.been.called;
     });
   });
 });
