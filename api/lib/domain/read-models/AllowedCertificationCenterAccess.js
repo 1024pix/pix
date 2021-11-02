@@ -1,13 +1,22 @@
 const { features } = require('../../config');
 
 class AllowedCertificationCenterAccess {
-  constructor({ id, name, externalId, type, isRelatedToManagingStudentsOrganization, relatedOrganizationTags }) {
+  constructor({
+    id,
+    name,
+    externalId,
+    type,
+    isRelatedToManagingStudentsOrganization,
+    relatedOrganizationTags,
+    habilitations,
+  }) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
     this.type = type;
     this.isRelatedToManagingStudentsOrganization = isRelatedToManagingStudentsOrganization;
     this.relatedOrganizationTags = relatedOrganizationTags;
+    this.habilitations = habilitations;
   }
 
   isAccessBlockedCollege() {
