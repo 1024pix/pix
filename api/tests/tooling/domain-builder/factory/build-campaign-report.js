@@ -22,6 +22,7 @@ module.exports = function buildCampaignReport({
   averageResult = 0.4,
   badges = [],
   stages = [],
+  multiplesendings = false,
 } = {}) {
   return new CampaignReport({
     id,
@@ -44,5 +45,6 @@ module.exports = function buildCampaignReport({
     averageResult,
     badges,
     stages,
+    multiplesendings,
   });
 };

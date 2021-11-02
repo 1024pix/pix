@@ -23,6 +23,7 @@ export default class Campaign extends Model {
   @attr('number') participationsCount;
   @attr('number') sharedParticipationsCount;
   @attr('number') averageResult;
+  @attr('boolean') multipleSendings;
 
   @belongsTo('user') creator;
   @belongsTo('organization') organization;
