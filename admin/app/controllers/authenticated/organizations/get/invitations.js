@@ -21,14 +21,15 @@ export default class InvitationsController extends Controller {
       return;
     }
 
+    const organizationInvitation = this.store.createRecord('organization-invitation', { email, lang, role });
+
     try {
-      const organizationInvitation = await this.store
-        .createRecord('organization-invitation', { email, lang, role })
-        .save({ adapterOptions: { organizationId: this.model.organization.id } });
+      await organizationInvitation.save({ adapterOptions: { organizationId: this.model.organization.id } });
 
       this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
       this.userEmailToInvite = null;
     } catch (e) {
+      await organizationInvitation.destroyRecord();
       this.notifications.error('Une erreur s’est produite, veuillez réessayer.');
     }
     this.isLoading = false;
