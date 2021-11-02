@@ -17,7 +17,7 @@
             {{#each this.sortedInvitations as |invitation|}}
               <tr aria-label="Invitation en attente">
                 <td>{{invitation.email}}</td>
-                <td>{{if invitation.role invitation.role "-"}}</td>
+                <td>{{invitation.roleInFrench}}</td>
                 <td>{{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
               </tr>
             {{/each}}
