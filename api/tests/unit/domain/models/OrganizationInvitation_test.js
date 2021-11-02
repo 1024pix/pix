@@ -97,4 +97,28 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
       expect(result).to.be.false;
     });
   });
+
+  describe('isCancelled', function () {
+    it('should return true if status is cancelled', function () {
+      // given
+      const invitation = new OrganizationInvitation({ status: 'cancelled' });
+
+      // when
+      const result = invitation.isCancelled;
+
+      // /then
+      expect(result).to.be.true;
+    });
+
+    it('should return false if status is different than cancelled', function () {
+      // given
+      const invitation = new OrganizationInvitation({ status: 'pending' });
+
+      // when
+      const result = invitation.isCancelled;
+
+      // /then
+      expect(result).to.be.false;
+    });
+  });
 });
