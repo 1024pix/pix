@@ -1,7 +1,5 @@
 extends: 'eslint:recommended'
 root: true
-plugins:
-  - mocha
 parserOptions:
   ecmaVersion: 2018
   sourceType: script
@@ -29,12 +27,6 @@ rules:
   linebreak-style:
     - error
     - unix
-  "mocha/no-exclusive-tests":
-    - error
-  "mocha/no-identical-title":
-    - error
-  "mocha/no-skipped-tests":
-    - warn
   no-multiple-empty-lines:
     - error
     - { max: 1, maxEOF: 1 }
@@ -81,4 +73,3 @@ rules:
     - error
   no-multi-spaces:
     - error
-    
