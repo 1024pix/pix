@@ -297,7 +297,7 @@ describe('Integration | Repository | Certification Center', function () {
 
     it('should save the given certification center', async function () {
       // given
-      const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName' });
+      const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName', type: 'SCO' });
 
       // when
       const savedCertificationCenter = await certificationCenterRepository.save(certificationCenter);
