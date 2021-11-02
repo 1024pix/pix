@@ -1,18 +1,25 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
 const POSTAL_CODE_OPTION = 'postal';
 
 export default class NewCertificationCandidateModal extends Component {
+  @service currentUser;
+
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
   @tracked maskedBirthdate;
 
   focus(element) {
     element.focus();
+  }
+
+  get complementaryCertifications() {
+    return this.currentUser.currentAllowedCertificationCenterAccess.habilitations;
   }
 
   @action
@@ -47,6 +54,9 @@ export default class NewCertificationCandidateModal extends Component {
       this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '99');
     }
   }
+
+  @action
+  addComplementaryCertification(_complementaryCertification) {}
 
   @action
   async onFormSubmit(event) {
