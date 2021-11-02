@@ -310,6 +310,13 @@
       "direct-link": "Lien direct",
       "external-user-id-label": "Libellé de l'identifiant",
       "landing-page-text": "Texte de la page d'accueil",
+      "multiple-sendings": {
+        "title": "Envoi multiple",
+        "status": {
+          "enabled": "Oui",
+          "disabled": "Non"
+        }
+      },
       "personalised-test-title": "Titre du parcours",
       "target-profile": "Profil cible"
     },

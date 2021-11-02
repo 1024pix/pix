@@ -310,6 +310,13 @@
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
       "landing-page-text": "Text to display on the starting page",
+      "multiple-sendings": {
+        "title": "Multiple Sendings",
+        "status": {
+          "enabled": "Yes",
+          "disabled": "No"
+        }
+      },
       "personalised-test-title": "Title of the customised test",
       "target-profile": "Target profile"
     },
