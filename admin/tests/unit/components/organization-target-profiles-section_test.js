@@ -68,7 +68,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
 
         assert.ok(
           component.notifications.success.calledWith(
-            'Profil(s) cible(s) rattaché(s) avec succès.<br/>Le(s) profil(s) cible(s) suivants étai(en)t déjà rattaché(s) à cette organisation : 3, 4.',
+            'Profil(s) cible(s) rattaché(s) avec succès.<br/>Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : 3, 4.',
             {
               htmlContent: true,
             }
@@ -98,7 +98,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
 
         assert.ok(
           component.notifications.success.calledWith(
-            'Le(s) profil(s) cible(s) suivants étai(en)t déjà rattaché(s) à cette organisation : 1, 2.',
+            'Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : 1, 2.',
             {
               htmlContent: true,
             }
