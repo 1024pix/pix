@@ -14,12 +14,13 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   pickChallengeService,
   locale,
 }) {
-  const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
   let algoResult;
 
   if (assessment.isFlash()) {
+    const inputValues = await dataFetcher.fetchForFlashCampaigns({ assessment, answerRepository, challengeRepository });
     algoResult = flash.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
   } else {
+    const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
   }
 
