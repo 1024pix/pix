@@ -47,6 +47,8 @@ const buildLearningContent = function (learningContent) {
                     instruction: challenge.instruction,
                     proposals: challenge.proposals,
                     autoReply: challenge.autoReply,
+                    alpha: challenge.alpha,
+                    delta: challenge.delta,
                   };
                 } else {
                   sameChallengeForAnotherSkill.skillIds.push(skill.id);
