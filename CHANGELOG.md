@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.121.0 (02/11/2021)
+
+
+### :rocket: Enhancement
+- [#3676](https://github.com/1024pix/pix/pull/3676) [FEATURE] Empêcher la connexion à Pix Certif en tant que surveilant si le FT n'est pas activé (PIX-3769).
+- [#3658](https://github.com/1024pix/pix/pull/3658) [FEATURE] Afficher les infos de session et les candidats dans l'espace surveillant (PIX-3726)
+- [#3618](https://github.com/1024pix/pix/pull/3618) [FEATURE] Permettre de choisir le rôle du membre lors de l'envoi de l'invitation sur Pix Admin (PIX-3494).
+
+### :building_construction: Tech
+- [#3667](https://github.com/1024pix/pix/pull/3667) [TECH] Mettre à jour les paquets de l'API.
+- [#3657](https://github.com/1024pix/pix/pull/3657) [TECH] Renommer les tables et modèles liés aux habilitations (PIX-3673).
+- [#3661](https://github.com/1024pix/pix/pull/3661) [TECH] Echouer le check de l'automerge si la PR a les labels "i18n needed" ou "blocked".
+- [#3672](https://github.com/1024pix/pix/pull/3672) [TECH] Mettre en avant la configuration de la CI.
+
+### :bug: Bug fix
+- [#3678](https://github.com/1024pix/pix/pull/3678) [BUGFIX] Mettre à jour la version d'hapi utilisée
+- [#3673](https://github.com/1024pix/pix/pull/3673) [BUGFIX]: Ajouter un loader pour le chargement du dashboard utilisateur
+- [#3670](https://github.com/1024pix/pix/pull/3670) [BUGFIX] Ne plus voir les pointillés quand on revient en arrière après une focus (PIX-3720).
+- [#3654](https://github.com/1024pix/pix/pull/3654) [BUGFIX] Harmoniser les champs des formulaires dans Pix Certif (PIX-3724)
+
 ## v3.120.0 (28/10/2021)
 
 
