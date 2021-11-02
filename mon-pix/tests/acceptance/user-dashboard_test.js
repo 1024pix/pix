@@ -8,6 +8,7 @@ import visit from '../helpers/visit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
+import { clickByLabel } from '../helpers/click-by-label';
 
 const ASSESSMENT = 'ASSESSMENT';
 
@@ -46,6 +47,21 @@ describe('Acceptance | User dashboard page', function () {
   describe('campaign-participation-overviews', function () {
     beforeEach(async function () {
       user = server.create('user', 'withEmail');
+    });
+
+    describe('when user is on campaign start page', function () {
+      it('it should change menu on click on disconnect link', async function () {
+        // given
+        await authenticateByEmail(user);
+        await visit('/campagnes');
+
+        // when
+        await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
+
+        // then
+        expect(contains(user.firstName)).to.be.null;
+        expect(contains(this.intl.t('navigation.not-logged.sign-in')));
+      });
     });
 
     describe('when user is doing a campaign of type assessment', function () {

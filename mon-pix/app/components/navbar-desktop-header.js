@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 
 export default class NavbarDesktopHeader extends Component {
   @service router;
@@ -8,7 +7,9 @@ export default class NavbarDesktopHeader extends Component {
   @service intl;
   @service currentUser;
 
-  @tracked isUserLogged = this.session.isAuthenticated;
+  get isUserLogged() {
+    return this.session.isAuthenticated;
+  }
 
   get menu() {
     return this.isUserLogged || this._isExternalUser ? [] : this._menuItems;
