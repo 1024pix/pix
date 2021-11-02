@@ -73,7 +73,7 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     this.model.certificationCenter.name = certificationCenterData.name;
     this.model.certificationCenter.externalId = certificationCenterData.externalId;
     this.model.certificationCenter.type = certificationCenterData.type;
-    this.model.certificationCenter.accreditations = certificationCenterData.availableAccreditations;
+    this.model.certificationCenter.accreditations = certificationCenterData.accreditations;
 
     try {
       await this.model.certificationCenter.save();
