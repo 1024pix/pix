@@ -5,4 +5,5 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('string') lastName;
   @attr('date-only') birthdate;
   @attr('number') extraTimePercentage;
+  @attr('boolean') authorizedToStart;
 }

@@ -1,5 +1,3 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
 import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class SessionForSupervising extends Model {
