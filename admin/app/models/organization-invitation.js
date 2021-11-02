@@ -16,4 +16,15 @@ export default class OrganizationInvitation extends Model {
 
   @equal('status', 'pending') isPending;
   @equal('status', 'accepted') isAccepted;
+
+  get roleInFrench() {
+    switch (this.role) {
+      case 'ADMIN':
+        return 'Administrateur';
+      case 'MEMBER':
+        return 'Membre';
+      default:
+        return '-';
+    }
+  }
 }
