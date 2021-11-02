@@ -22,7 +22,7 @@ module.exports = function buildSession({
   juryComment = null,
   juryCommentAuthorId = null,
   juryCommentedAt = null,
-  supervisorPassword = null,
+  supervisorPassword = 'PIX12',
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
     const builtCertificationCenter = buildCertificationCenter();
