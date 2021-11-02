@@ -270,7 +270,6 @@ module('Integration | Component | user-detail-personal-information', function (h
       assert.contains('Confirmer la suppression');
     });
 
-    // eslint-disable-next-line mocha/no-identical-title
     test('should close the modal on click on cancel button', async function (assert) {
       // given
       const user = EmberObject.create({
