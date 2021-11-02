@@ -18,18 +18,20 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
 
     this.sessionForSupervising = store.createRecord('session-for-supervising', {
       certificationCandidates: [
-        {
+        store.createRecord('certification-candidate-for-supervising', {
           firstName: 'Toto',
           lastName: 'Tutu',
           birthdate: '1984-05-28',
           extraTimePercentage: '8',
-        },
-        {
+          authorizedToStart: true,
+        }),
+        store.createRecord('certification-candidate-for-supervising', {
           firstName: 'Star',
           lastName: 'Lord',
           birthdate: '1983-06-28',
           extraTimePercentage: '12',
-        },
+          authorizedToStart: false,
+        }),
       ] });
 
     // when
