@@ -86,7 +86,7 @@ export default class Information extends Component {
       name: this.form.name.trim(),
       externalId: !this.form.externalId ? null : this.form.externalId.trim(),
       type: this.form.type.trim(),
-      availableAccreditations: this.form.accreditations,
+      accreditations: this.form.accreditations,
     };
 
     await this.args.updateCertificationCenter(certificationCenterData);
