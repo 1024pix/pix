@@ -13,7 +13,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...challenge, skillIds: ['recSkill1'] }],
+        challenges: [{ ...challenge, skillIds: ['recSkill1'], alpha: 0, delta: 0 }],
       };
 
       mockLearningContent(learningContent);
