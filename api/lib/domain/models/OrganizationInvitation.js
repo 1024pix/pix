@@ -4,6 +4,7 @@ const { validateEntity } = require('../validators/entity-validator');
 const statuses = {
   PENDING: 'pending',
   ACCEPTED: 'accepted',
+  CANCELLED: 'cancelled',
 };
 
 const roles = {
@@ -59,6 +60,10 @@ class OrganizationInvitation {
 
   get isAccepted() {
     return this.status === statuses.ACCEPTED;
+  }
+
+  get isCancelled() {
+    return this.status === statuses.CANCELLED;
   }
 }
 
