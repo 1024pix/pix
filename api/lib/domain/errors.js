@@ -134,8 +134,11 @@ class AlreadySharedCampaignParticipationError extends DomainError {
 }
 
 class CancelledOrganizationInvitationError extends DomainError {
-  constructor(message = "L'invitation à cette organisation a été annulée.") {
-    super(message);
+  constructor(
+    message = "L'invitation à cette organisation a été annulée.",
+    code = 'CANCELLED_ORGANIZATION_INVITATION_CODE'
+  ) {
+    super(message, code);
   }
 }
 
