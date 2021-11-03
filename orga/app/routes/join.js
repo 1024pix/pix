@@ -19,6 +19,9 @@ export default class JoinRoute extends Route {
       })
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {
+          if (error.status === '403') {
+            this.router.replaceWith('login', { queryParams: { isInvitationCancelled: true } });
+          }
           if (error.status === '412') {
             this.router.replaceWith('login', { queryParams: { hasInvitationError: true } });
           }
