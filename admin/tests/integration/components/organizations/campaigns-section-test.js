@@ -11,7 +11,7 @@ module('Integration | Component | organization-campaigns-section', function (hoo
       this.set('campaigns', []);
 
       // when
-      await render(hbs`<OrganizationCampaignsSection @campaigns={{ campaigns }}/>`);
+      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
       // then
       assert.contains('Aucune campagne');
     });
@@ -43,7 +43,7 @@ module('Integration | Component | organization-campaigns-section', function (hoo
       campaigns.meta = { rowCount: 2 };
       this.set('campaigns', campaigns);
       // when
-      await render(hbs`<OrganizationCampaignsSection @campaigns={{ campaigns }}/>`);
+      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom('[aria-label="campagne"]').exists({ count: 2 });
@@ -74,7 +74,7 @@ module('Integration | Component | organization-campaigns-section', function (hoo
       campaigns.meta = { rowCount: 2 };
       this.set('campaigns', campaigns);
       // when
-      await render(hbs`<OrganizationCampaignsSection @campaigns={{ campaigns }}/>`);
+      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
       // then
       assert.contains('C1');
       assert.contains('Évaluation');
@@ -106,7 +106,7 @@ module('Integration | Component | organization-campaigns-section', function (hoo
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<OrganizationCampaignsSection @campaigns={{ campaigns }}/>`);
+      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
       // then
       assert.contains('-');
     });

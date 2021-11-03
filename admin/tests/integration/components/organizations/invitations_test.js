@@ -31,7 +31,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
     ]);
 
     // when
-    await render(hbs`<OrganizationInvitations @invitations={{invitations}}/>`);
+    await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
 
     // then
     assert.contains('Membre');
@@ -45,7 +45,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
     this.set('invitations', []);
 
     // when
-    await render(hbs`<OrganizationInvitations @invitations={{invitations}}/>`);
+    await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
 
     // then
     assert.contains('Aucune invitation en attente');

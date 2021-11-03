@@ -17,7 +17,7 @@ module('Integration | Component | organization-form', function (hooks) {
   test('it renders', async function (assert) {
     // when
     await render(
-      hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
+      hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
     );
 
     // then
@@ -28,7 +28,7 @@ module('Integration | Component | organization-form', function (hooks) {
     test('should update attribute organization.type', async function (assert) {
       // given
       await render(
-        hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
+        hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
       );
 
       // when

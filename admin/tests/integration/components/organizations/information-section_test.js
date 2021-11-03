@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | organization-information-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -13,7 +13,7 @@ module('Integration | Component | organization-information-section', function (h
     this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false });
 
     // when
-    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
     assert.dom('.organization__information').exists();
@@ -25,7 +25,7 @@ module('Integration | Component | organization-information-section', function (h
     this.set('organization', organization);
 
     // when
-    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
     assert.contains('350');
@@ -37,7 +37,7 @@ module('Integration | Component | organization-information-section', function (h
     this.set('organization', organization);
 
     // when
-    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
@@ -55,7 +55,7 @@ module('Integration | Component | organization-information-section', function (h
     this.set('organization', organization);
 
     // when
-    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // expect
     assert.contains('CFA');
@@ -83,7 +83,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test('it should display edit organization button', async function (assert) {
       // when
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
       assert.dom("button[aria-label='Editer']").exists();
@@ -91,7 +91,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test('it should toggle edition mode on click to edit button', async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -102,7 +102,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test('it should display organization edit form on click to edit button', async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -119,7 +119,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's name is empty", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -131,7 +131,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's name is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -145,7 +145,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's external id is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -159,7 +159,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's province code is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -173,7 +173,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's email is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -187,7 +187,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's email is not valid", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -201,7 +201,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test("it should show error message if organization's credit is not valid", async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await click("button[aria-label='Editer']");
@@ -213,7 +213,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
       await clickByLabel('Editer');
 
       // when
@@ -225,7 +225,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test('it should revert changes on click to cancel button', async function (assert) {
       // given
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       await clickByLabel('Editer');
       await fillIn('input#name', 'new name');
@@ -249,7 +249,7 @@ module('Integration | Component | organization-information-section', function (h
       // given
       this.set('onSubmit', () => {});
       await render(
-        hbs`<OrganizationInformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
+        hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
       );
       await clickByLabel('Editer');
 
@@ -280,7 +280,7 @@ module('Integration | Component | organization-information-section', function (h
 
     test('it should display if it is managing students', async function (assert) {
       // when
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
       assert.dom('.organization__isManagingStudents').exists();
@@ -291,7 +291,7 @@ module('Integration | Component | organization-information-section', function (h
       this.organization.isManagingStudents = true;
 
       // when
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       assert.dom('.organization__isManagingStudents').hasText('Oui');
     });
@@ -301,7 +301,7 @@ module('Integration | Component | organization-information-section', function (h
       this.organization.isManagingStudents = false;
 
       // when
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
       assert.dom('.organization__isManagingStudents').hasText('Non');
@@ -318,7 +318,7 @@ module('Integration | Component | organization-information-section', function (h
       this.organization.isManagingStudents = false;
 
       // when
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
       assert.dom('.organization__isManagingStudents').doesNotExist();
