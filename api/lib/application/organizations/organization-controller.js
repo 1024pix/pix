@@ -12,6 +12,7 @@ const organizationInvitationSerializer = require('../../infrastructure/serialize
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const higherSchoolingRegistrationWarningSerializer = require('../../infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
+const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const {
@@ -154,15 +155,17 @@ module.exports = {
   },
 
   async attachTargetProfiles(request, h) {
-    const requestedOrganizationId = request.params.id;
+    const organizationId = request.params.id;
     const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
       // eslint-disable-next-line no-restricted-syntax
       .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
-    await usecases.attachTargetProfilesToOrganization({
-      organizationId: requestedOrganizationId,
+    const results = await usecases.attachTargetProfilesToOrganization({
+      organizationId,
       targetProfileIdsToAttach,
     });
-    return h.response().code(204);
+    return h
+      .response(organizationAttachTargetProfilesSerializer.serialize({ ...results, organizationId }))
+      .code(results.attachedIds.length > 0 ? 201 : 200);
   },
 
   async getDivisions(request) {

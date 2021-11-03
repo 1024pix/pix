@@ -22,6 +22,7 @@ const organizationInvitationSerializer = require('../../../../lib/infrastructure
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
+const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
@@ -29,6 +30,8 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Application | Organizations | organization-controller', function () {
+  let request;
+
   describe('#getOrganizationDetails', function () {
     it('should call the usecase and serialize the response', async function () {
       // given
@@ -549,15 +552,18 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#attachTargetProfiles', function () {
-    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function () {
-      // given
-      const userId = 1;
-      const targetProfile = domainBuilder.buildTargetProfile();
-      const organizationId = targetProfile.organizationId;
-      const targetProfileId = targetProfile.id.toString();
-      const targetProfilesToAttachAsArray = [targetProfileId];
+    const userId = 1;
+    let targetProfile;
+    let organizationId;
+    let targetProfileId;
+    let targetProfilesToAttachAsArray;
 
-      const request = {
+    beforeEach(function () {
+      targetProfile = domainBuilder.buildTargetProfile();
+      organizationId = targetProfile.ownerOrganizationId;
+      targetProfileId = parseInt(targetProfile.id);
+      targetProfilesToAttachAsArray = [targetProfileId];
+      request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
         payload: {
@@ -569,18 +575,42 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         },
       };
-
       sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+      sinon.stub(organizationAttachTargetProfilesSerializer, 'serialize');
+    });
 
+    it('should return 201 when some target profiles are attached', async function () {
+      // given
+      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
+      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
       usecases.attachTargetProfilesToOrganization
-        .withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray })
-        .resolves();
+        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
+        .resolves({ attachedIds: targetProfilesToAttachAsArray });
 
       // when
-      const result = await organizationController.attachTargetProfiles(request, hFake);
+      const response = await organizationController.attachTargetProfiles(request, hFake);
 
       // then
-      expect(result.statusCode).to.equal(204);
+      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
+      expect(response.source).to.equal(serializer);
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should return 200 when no target profiles was attached', async function () {
+      // given
+      const serializer = Symbol('organizationAttachTargetProfilesSerializer');
+      organizationAttachTargetProfilesSerializer.serialize.returns(serializer);
+      usecases.attachTargetProfilesToOrganization
+        .withArgs({ organizationId, targetProfileIdsToAttach: targetProfilesToAttachAsArray })
+        .resolves({ attachedIds: [], duplicatedIds: targetProfilesToAttachAsArray });
+
+      // when
+      const response = await organizationController.attachTargetProfiles(request, hFake);
+
+      // then
+      expect(organizationAttachTargetProfilesSerializer.serialize).to.have.been.called;
+      expect(response.source).to.equal(serializer);
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -716,15 +746,17 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#sendInvitations', function () {
-    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
-      // given
-      const userId = 1;
-      const invitation = domainBuilder.buildOrganizationInvitation();
-      const organizationId = invitation.organizationId;
-      const emails = [invitation.email];
-      const locale = 'fr-fr';
+    const userId = 1;
+    let invitation;
+    let organizationId;
+    let emails;
+    const locale = 'fr-fr';
 
-      const request = {
+    beforeEach(function () {
+      invitation = domainBuilder.buildOrganizationInvitation();
+      organizationId = invitation.organizationId;
+      emails = [invitation.email];
+      request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
         payload: {
@@ -736,7 +768,9 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         },
       };
+    });
 
+    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
 
       // when
@@ -793,22 +827,24 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#findPendingInvitations', function () {
-    it('should call the usecase to find pending invitations with organizationId', async function () {
-      // given
-      const userId = 1;
-      const organization = domainBuilder.buildOrganization();
+    const userId = 1;
+    let organization;
+    const resolvedOrganizationInvitations = 'organization invitations';
+    const serializedOrganizationInvitations = 'serialized organization invitations';
 
-      const resolvedOrganizationInvitations = 'organization invitations';
-      const serializedOrganizationInvitations = 'serialized organization invitations';
-
-      const request = {
+    let request;
+    beforeEach(function () {
+      organization = domainBuilder.buildOrganization();
+      request = {
         auth: { credentials: { userId } },
         params: { id: organization.id },
       };
 
       sinon.stub(usecases, 'findPendingOrganizationInvitations');
       sinon.stub(organizationInvitationSerializer, 'serialize');
+    });
 
+    it('should call the usecase to find pending invitations with organizationId', async function () {
       usecases.findPendingOrganizationInvitations.resolves(resolvedOrganizationInvitations);
       organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
 
