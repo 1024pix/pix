@@ -58,7 +58,7 @@
           <div class="form-field certification-center-information__edit-form__accreditations-checkbox-list">
             <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
             <ul class="accreditations-list-ul">
-              {{#each @availableAccreditations as |accreditation|}}
+              {{#each this.availableAccreditations as |accreditation|}}
                 <li>
                   <div class="accreditation-entry">
                     <Input
@@ -102,7 +102,7 @@
           <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
           <div class="certification-center-information__display__accreditations-list">
             <ul class="accreditations-list-ul">
-              {{#each @availableAccreditations as |accreditation|}}
+              {{#each this.availableAccreditations as |accreditation|}}
                 {{#if (contains accreditation @certificationCenter.accreditations)}}
                   <li aria-label={{concat "Accrédité pour " accreditation.name}}>
                     <FaIcon class="granted-accreditation-icon" @icon="check-circle" />

@@ -235,7 +235,7 @@ module('Integration | Component | certification-centers/information', function (
 
     // then
     sinon.assert.calledWithExactly(this.updateCertificationCenter, {
-      availableAccreditations: [availableAccreditations.firstObject],
+      accreditations: [availableAccreditations.firstObject],
       externalId: 'externalId',
       name: 'Centre SUP',
       type: 'SUP',

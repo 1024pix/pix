@@ -1,5 +1,6 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes */
 import Component from '@glimmer/component';
-import Object, { action } from '@ember/object';
+import Object, { action, computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
@@ -52,6 +53,11 @@ export default class Information extends Component {
 
   certificationCenterTypes = types;
 
+  @computed('args.availableAccreditations.@each.id')
+  get availableAccreditations() {
+    return this.args.availableAccreditations?.sortBy('id');
+  }
+
   constructor() {
     super(...arguments);
     this.form = Form.create(getOwner(this).ownerInjection());
@@ -86,7 +92,7 @@ export default class Information extends Component {
       name: this.form.name.trim(),
       externalId: !this.form.externalId ? null : this.form.externalId.trim(),
       type: this.form.type.trim(),
-      availableAccreditations: this.form.accreditations,
+      accreditations: this.form.accreditations,
     };
 
     await this.args.updateCertificationCenter(certificationCenterData);

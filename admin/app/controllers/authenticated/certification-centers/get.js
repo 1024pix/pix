@@ -59,21 +59,11 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   }
 
   @action
-  updateGrantedAccreditation(accreditation) {
-    const accreditations = this.model.certificationCenter.accreditations;
-    if (accreditations.includes(accreditation)) {
-      accreditations.removeObject(accreditation);
-    } else {
-      accreditations.addObject(accreditation);
-    }
-  }
-
-  @action
   async updateCertificationCenter(certificationCenterData) {
     this.model.certificationCenter.name = certificationCenterData.name;
     this.model.certificationCenter.externalId = certificationCenterData.externalId;
     this.model.certificationCenter.type = certificationCenterData.type;
-    this.model.certificationCenter.accreditations = certificationCenterData.availableAccreditations;
+    this.model.certificationCenter.accreditations = certificationCenterData.accreditations;
 
     try {
       await this.model.certificationCenter.save();
