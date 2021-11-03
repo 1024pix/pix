@@ -73,7 +73,7 @@ describe('Integration | Repository | Campaign', function () {
     });
   });
 
-  describe('#save', function () {
+  describe('#create', function () {
     let creatorId, organizationId, targetProfileId;
     let savedCampaign, campaignToSave, campaignAttributes;
 
@@ -92,6 +92,7 @@ describe('Integration | Repository | Campaign', function () {
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
         creatorId,
         organizationId,
+        multipleSendings: true,
       };
     });
 
@@ -125,6 +126,7 @@ describe('Integration | Repository | Campaign', function () {
           'creator',
           'organization',
           'targetProfile',
+          'multipleSendings',
         ])
       );
     });
@@ -141,7 +143,16 @@ describe('Integration | Repository | Campaign', function () {
       expect(savedCampaign.id).to.exist;
 
       expect(savedCampaign).to.deep.include(
-        _.pick(campaignToSave, ['name', 'code', 'title', 'type', 'customLandingPageText', 'creator', 'organization'])
+        _.pick(campaignToSave, [
+          'name',
+          'code',
+          'title',
+          'type',
+          'customLandingPageText',
+          'creator',
+          'organization',
+          'multipleSendings',
+        ])
       );
     });
   });
