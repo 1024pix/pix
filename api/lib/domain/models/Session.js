@@ -84,6 +84,10 @@ class Session {
   generateSupervisorPassword() {
     this.supervisorPassword = _.times(NB_CHAR, _randomCharacter).join('');
   }
+
+  isSupervisable(supervisorPassword) {
+    return this.supervisorPassword === supervisorPassword;
+  }
 }
 
 module.exports = Session;

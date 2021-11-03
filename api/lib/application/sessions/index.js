@@ -5,6 +5,7 @@ const sessionForMonitoringController = require('./session-for-supervising-contro
 const finalizedSessionController = require('./finalized-session-controller');
 const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
+const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
 
 exports.register = async (server) => {
   server.route([
@@ -358,6 +359,33 @@ exports.register = async (server) => {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           "Elle retourne les informations d'une session à surveiller",
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sessions/supervise',
+      config: {
+        validate: {
+          payload: Joi.object({
+            data: {
+              id: Joi.string().required(),
+              type: 'supervisor-authentications',
+              attributes: {
+                'supervisor-password': Joi.string().required(),
+                'session-id': Joi.number().required(),
+              },
+            },
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
+          },
+        },
+        handler: sessionForMonitoringController.supervise,
+        tags: ['api', 'sessions', 'supervising'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle valide l'accès du'un surveillant à l'espace surveillant",
         ],
       },
     },

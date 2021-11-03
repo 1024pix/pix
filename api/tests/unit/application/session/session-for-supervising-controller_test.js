@@ -57,4 +57,66 @@ describe('Unit | Controller | session-for-supervising', function () {
       });
     });
   });
+
+  describe('#supervise', function () {
+    context('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+      it('should return a HTTP 204 No Content', async function () {
+        // given
+        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        const request = {
+          auth: {
+            credentials: {
+              userId: 274939274,
+            },
+          },
+          payload: {
+            data: {
+              attributes: {
+                'session-id': '123',
+                'supervisor-password': '567',
+              },
+            },
+          },
+        };
+        sinon.stub(usecases, 'superviseSession');
+        usecases.superviseSession
+          .withArgs({ sessionId: '123', userId: 274939274, supervisorPassword: '567' })
+          .resolves();
+
+        // when
+        const response = await sessionForSupervisingController.supervise(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+        const request = {
+          auth: {
+            credentials: {
+              userId: 274939274,
+            },
+          },
+          payload: {
+            data: {
+              attributes: {
+                'session-id': '123',
+                'supervisor-password': '567',
+              },
+            },
+          },
+        };
+
+        // when
+        const error = await catchErr(sessionForSupervisingController.supervise)(request);
+
+        // then
+        expect(error).to.be.instanceof(NotFoundError);
+      });
+    });
+  });
 });

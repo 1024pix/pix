@@ -206,6 +206,31 @@ describe('Unit | Domain | Models | Session', function () {
       expect(isAccessible).to.be.false;
     });
   });
+
+  context('#isSupervisable', function () {
+    it('should return true when the supervisor password match', function () {
+      // given
+      const session = domainBuilder.buildSession.created();
+      session.generateSupervisorPassword();
+
+      // when
+      const isSupervisable = session.isSupervisable(session.supervisorPassword);
+
+      // then
+      expect(isSupervisable).to.be.true;
+    });
+
+    it('should return false when the supervisor password does not match', function () {
+      // given
+      const session = domainBuilder.buildSession.created();
+
+      // when
+      const isSupervisable = session.isSupervisable('NOT_MATCHING-SUPERVISOR_PASSWORD');
+
+      // then
+      expect(isSupervisable).to.be.false;
+    });
+  });
 });
 
 context('#generateSupervisorPassword', function () {
