@@ -28,7 +28,7 @@ module('Integration | Component | certification-center-memberships-section', fun
 
     // when
     await render(
-      hbs`<CertificationCenterMembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
+      hbs`<CertificationCenters::MembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
     );
 
     // then
@@ -60,7 +60,7 @@ module('Integration | Component | certification-center-memberships-section', fun
 
     // when
     await render(
-      hbs`<CertificationCenterMembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
+      hbs`<CertificationCenters::MembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
     );
 
     // then
@@ -69,7 +69,7 @@ module('Integration | Component | certification-center-memberships-section', fun
 
   test('it should display a message when there is no membership', async function (assert) {
     // when
-    await render(hbs`<CertificationCenterMembershipsSection />`);
+    await render(hbs`<CertificationCenters::MembershipsSection />`);
 
     // then
     assert.dom('[data-test-empty-message]').hasText('Aucun résultat');

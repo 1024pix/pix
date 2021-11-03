@@ -4,7 +4,7 @@ import { render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | certification-center-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -18,7 +18,7 @@ module('Integration | Component | certification-center-form', function (hooks) {
   test('it renders the new certification center form component', async function (assert) {
     // when
     await render(
-      hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+      hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
     );
 
     // then
@@ -33,7 +33,7 @@ module('Integration | Component | certification-center-form', function (hooks) {
     test('should update attribute certificationCenter.type', async function (assert) {
       // given
       await render(
-        hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
       );
 
       // when
@@ -55,7 +55,7 @@ module('Integration | Component | certification-center-form', function (hooks) {
       this.stub = () => {};
 
       await render(
-        hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
       );
 
       // when
@@ -77,7 +77,7 @@ module('Integration | Component | certification-center-form', function (hooks) {
       this.stub = () => {};
 
       await render(
-        hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
       );
 
       // when
