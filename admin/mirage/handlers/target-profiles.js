@@ -9,7 +9,7 @@ function attachTargetProfiles(schema, request) {
   targetProfilesToAttach.forEach((targetProfileId) =>
     schema.targetProfiles.create({ ownerOrganizationId, name: `Profil ${targetProfileId}` })
   );
-  return new Response(204);
+  return { data: { attributes: { 'duplicated-ids': [], 'attached-ids': targetProfilesToAttach } } };
 }
 
 function attachTargetProfileToOrganizations(schema, request) {

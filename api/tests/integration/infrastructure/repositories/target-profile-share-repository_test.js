@@ -74,5 +74,35 @@ describe('Integration | Repository | Target-profile-share', function () {
         targetProfileIdC,
       ]);
     });
+
+    it('should return attached target profile ids', async function () {
+      // given
+      const targetProfileIdList = [targetProfileIdA, targetProfileIdB, targetProfileIdC];
+
+      // when
+      const { attachedIds } = await targetProfileShareRepository.addTargetProfilesToOrganization({
+        organizationId,
+        targetProfileIdList,
+      });
+
+      // then
+      expect(attachedIds).exactlyContain([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
+    });
+
+    it('should return duplicated target profile ids', async function () {
+      // given
+      databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId: targetProfileIdA });
+      await databaseBuilder.commit();
+      const targetProfileIdList = [targetProfileIdA, targetProfileIdB, targetProfileIdC];
+
+      // when
+      const { duplicatedIds } = await targetProfileShareRepository.addTargetProfilesToOrganization({
+        organizationId,
+        targetProfileIdList,
+      });
+
+      // then
+      expect(duplicatedIds).exactlyContain([targetProfileIdA]);
+    });
   });
 });
