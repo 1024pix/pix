@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { types } from '../models/certification-center';
+import { types } from '../../models/certification-center';
 
 export default class CertificationCenterForm extends Component {
   certificationCenterTypes = types;
