@@ -9,10 +9,12 @@
   {{/if}}
 
   {{#if this.isErrorMessagePresent}}
-    <div id="login-form-error-message" class="login-form__error-message error-message">
+    <div id="login-form-error-message" class="login-form__error-message error-message" role="alert">
       {{this.errorMessage}}
     </div>
   {{/if}}
+
+  <p class="login-form__information">{{t "pages.login-form.mandatory-all-fields"}}</p>
 
   <form {{on "submit" this.authenticate}}>
 
@@ -43,7 +45,11 @@
         />
         <PixIconButton
           @icon="{{if this.isPasswordVisible "eye" "eye-slash"}}"
-          aria-label="{{t "pages.login-form.show-password"}}"
+          aria-label={{if
+            this.isPasswordVisible
+            (t "pages.login-form.hide-password")
+            (t "pages.login-form.show-password")
+          }}
           @triggerAction={{this.togglePasswordVisibility}}
           @withBackground={{false}}
           @color="dark-grey"
