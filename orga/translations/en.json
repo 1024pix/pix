@@ -499,7 +499,9 @@
       "login": "Log in",
       "only-for-admin": "only for school administrations",
       "password": "Password",
-      "show-password": "Show password"
+      "show-password": "Show password",
+      "hide-password": "Hide password",
+      "mandatory-all-fields": "All fields are required."
     },
     "login-or-register": {
       "title": "You have been invited to join the organisation {organizationName}",
