@@ -24,7 +24,7 @@ module('Integration | Component | certification-status', function (hooks) {
         this.set('record', record);
 
         // when
-        await render(hbs`<CertificationStatus @record={{record}} />`);
+        await render(hbs`<Certifications::Status @record={{record}} />`);
 
         // then
         assert.dom('span.certification-list-page__cell--important').exists();
@@ -38,7 +38,7 @@ module('Integration | Component | certification-status', function (hooks) {
       this.set('record', record);
 
       // when
-      await render(hbs`<CertificationStatus @record={{record}} />`);
+      await render(hbs`<Certifications::Status @record={{record}} />`);
 
       // then
       assert.dom('span.certification-list-page__cell--important').exists();
@@ -58,7 +58,7 @@ module('Integration | Component | certification-status', function (hooks) {
         this.set('record', record);
 
         // when
-        await render(hbs`<CertificationStatus @record={{record}} />`);
+        await render(hbs`<Certifications::Status @record={{record}} />`);
 
         // then
         assert.dom('span.certification-list-page__cell--important').doesNotExist();

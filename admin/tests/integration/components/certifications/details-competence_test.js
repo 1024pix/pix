@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
-module('Integration | Component | <Certification::CertificationDetailsCompetence/>', function (hooks) {
+module('Integration | Component | <Certifications::DetailsCompetence/>', function (hooks) {
   setupRenderingTest(hooks);
 
   const answer = (result) => {
@@ -35,7 +35,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
 
     // when
     await render(
-      hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
+      hbs`<Certifications::DetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
     );
 
     // then
@@ -49,7 +49,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
 
     // when
     await render(
-      hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
+      hbs`<Certifications::DetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
     );
 
     // then
@@ -63,7 +63,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
 
     // when
     await render(
-      hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`
+      hbs`<Certifications::DetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`
     );
 
     // then

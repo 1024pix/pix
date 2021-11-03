@@ -4,7 +4,7 @@ import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | <Certification::CertificationStatusSelect/>', function (hooks) {
+module('Integration | Component | <Certifications::StatusSelect/>', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when in edition mode', function () {
@@ -15,9 +15,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         this.set('certification', certification);
 
         // when
-        await render(
-          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
-        );
+        await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
         assert.contains('Statut :');
@@ -29,9 +27,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         this.set('certification', certification);
 
         // when
-        await render(
-          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
-        );
+        await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
         assert.dom('#certification-status-selector').exists();
@@ -49,9 +45,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         ];
 
         // when
-        await render(
-          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
-        );
+        await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
         const elementOptions = this.element.querySelectorAll('#certification-status-selector > option');
@@ -69,9 +63,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
-        await render(
-          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
-        );
+        await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // when
         await fillIn('#certification-status-selector', 'validated');
@@ -89,7 +81,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
       this.set('certification', certification);
 
       // when
-      await render(hbs`<Certification::CertificationStatusSelect @certification={{this.certification}} />`);
+      await render(hbs`<Certifications::StatusSelect @certification={{this.certification}} />`);
 
       // then
       assert.dom('#certification-status-selector').doesNotExist();

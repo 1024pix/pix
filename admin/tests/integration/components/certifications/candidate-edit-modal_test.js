@@ -10,7 +10,7 @@ import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | <Certification::CandidateEditModal/>', function (hooks) {
+module('Integration | Component | <Certifications::CandidateEditModal/>', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;
@@ -27,7 +27,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
       // when
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`
       );
 
       // then
@@ -41,7 +41,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
       // when
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{false}} @candidate={{candidate}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{false}} @candidate={{candidate}} @countries={{countries}} />`
       );
 
       // then
@@ -71,7 +71,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
       // when
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
       );
 
       // then
@@ -102,7 +102,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
         // when
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -130,7 +130,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
         // when
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -160,7 +160,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
         // when
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -193,7 +193,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
         // when
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -226,7 +226,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
         // when
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
@@ -258,7 +258,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
       await fillInByLabel('* Nom de famille', 'Belmans');
       await fillInByLabel('* Prénom', 'Gideona');
@@ -303,7 +303,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
       await fillInByLabel('* Nom de famille', 'Belmans');
       await fillInByLabel('* Prénom', 'Gideona');
@@ -328,7 +328,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       this.countries = [];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
 
       // when
@@ -346,7 +346,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       this.countries = [];
       this.onFormSubmitStub = sinon.stub();
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
       );
 
       // when
@@ -375,7 +375,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       ];
       this.onFormSubmitStub = sinon.stub();
       await render(
-        hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
       );
       await fillInByLabel('* Nom de famille', 'Belmans');
       await fillInByLabel('* Prénom', 'Gideon');
@@ -415,7 +415,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
         );
 
         // when
@@ -459,7 +459,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
         );
 
         // when
@@ -504,7 +504,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}} @onFormSubmit={{this.onFormSubmitStub}}/>`
         );
 
         // when
@@ -549,7 +549,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
           run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
         ];
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
         // when
@@ -578,7 +578,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         );
         this.countries = [];
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
         // when
@@ -607,7 +607,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         );
         this.countries = [];
         await render(
-          hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
         // when

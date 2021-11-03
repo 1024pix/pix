@@ -4,13 +4,13 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
-module('Integration | Component | <Certification::CertificationInfoField/>', function (hooks) {
+module('Integration | Component | <Certifications::InfoField/>', function (hooks) {
   setupRenderingTest(hooks);
 
   module('[Consultation mode]', function () {
     test('it should be in "consultation (read only) mode" by default when @edition (optional) argument is not provided', async function (assert) {
       // When
-      await render(hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' />`);
+      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' />`);
 
       // Then
       assert.dom('.certification-info-field').doesNotHaveClass('edited');
@@ -18,7 +18,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
 
     test('it should render label and field value', async function (assert) {
       // When
-      await render(hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' />`);
+      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' />`);
 
       // Then
       assert.dom('.certification-info-field .certification-info-field__label').hasText('Field label:');
@@ -27,9 +27,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
 
     test('it should render field value with suffix when @suffix (optional) argument is provided', async function (assert) {
       // When
-      await render(
-        hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' @suffix='unit(s)' />`
-      );
+      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' />`);
 
       // Then
       assert.dom('.certification-info-field .certification-info-value').hasText('field_value unit(s)');
@@ -40,9 +38,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
       this.set('value', new Date('1961-08-04'));
 
       // When
-      await render(
-        hbs`<Certification::CertificationInfoField @label='Birth date:' @value={{this.value}} @isDate=true />`
-      );
+      await render(hbs`<Certifications::InfoField @label='Birth date:' @value={{this.value}} @isDate=true />`);
 
       // Then
       assert.dom('.certification-info-field .certification-info-value').hasText('04/08/1961');
@@ -57,7 +53,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
 
       // When
       await render(
-        hbs`<Certification::CertificationInfoField @label='Session:' @value=1234 @linkRoute="authenticated.sessions.session" />`
+        hbs`<Certifications::InfoField @label='Session:' @value=1234 @linkRoute="authenticated.sessions.session" />`
       );
 
       // Then
@@ -68,9 +64,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
   module('[Edition mode]', function () {
     test('it should be in "edition (writable) mode" when @edition (optional) argument is set to "true"', async function (assert) {
       // When
-      await render(
-        hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' @edition=true />`
-      );
+      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @edition=true />`);
 
       // Then
       assert.dom('.certification-info-field').hasClass('edited');
@@ -79,7 +73,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
     test('it should display field value with suffix when @suffix (optional) argument is provided', async function (assert) {
       // When
       await render(
-        hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition=true />`
+        hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition=true />`
       );
 
       // Then
@@ -94,7 +88,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
       });
 
       // When
-      await render(hbs`<Certification::CertificationInfoField
+      await render(hbs`<Certifications::InfoField
             @label='Birth date:'
             @value={{this.value}}
             @edition=true

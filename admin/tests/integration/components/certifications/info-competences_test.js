@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | <Certification::CertificationCompetenceList/>', function (hooks) {
+module('Integration | Component | <Certifications::CompetenceList/>', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display an entry per competence', async function (assert) {
@@ -15,7 +15,7 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     ]);
 
     // when
-    await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} />`);
+    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
 
     // then
     assert.dom('.certification-info-competence-index').exists({ count: 3 });
@@ -28,7 +28,7 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     this.set('competences', [{ index: '1.1', score: '30', level: '3' }]);
 
     // when
-    await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} />`);
+    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
 
     // then
     assert.dom('.certification-info-competence-index').hasText('1.1');
@@ -45,7 +45,7 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     ]);
 
     // when
-    await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} @edition=true />`);
+    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition=true />`);
 
     // then
     assert.dom('.certification-info-field').exists({ count: 16 });
@@ -60,7 +60,7 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     ]);
 
     // when
-    await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} @edition=true />`);
+    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition=true />`);
 
     // then
     assert.dom('#certification-info-score_0').hasValue('30');

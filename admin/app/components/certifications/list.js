@@ -18,7 +18,7 @@ export default class CertificationList extends Component {
     },
     {
       propertyName: 'Statut',
-      component: 'certification-status',
+      component: 'certifications/status',
     },
 
     {
@@ -48,7 +48,7 @@ export default class CertificationList extends Component {
       title: 'Fin',
     },
     {
-      component: 'certification/certification-info-published',
+      component: 'certifications/info-published',
       useFilter: false,
       mayBeHidden: false,
       title: 'Publiée',

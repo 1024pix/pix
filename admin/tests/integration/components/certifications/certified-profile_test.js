@@ -4,7 +4,7 @@ import { render, find } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | <Certification::CertifiedProfile/>', function (hooks) {
+module('Integration | Component | <Certifications::CertifiedProfile/>', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display Profil certifié vide if the certified profile is empty', async function (assert) {
@@ -19,7 +19,7 @@ module('Integration | Component | <Certification::CertifiedProfile/>', function 
     this.set('certifiedProfile', certifiedProfile);
 
     // when
-    await render(hbs`<Certification::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+    await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
 
     // then
     assert.contains('Profil certifié vide.');
@@ -50,7 +50,7 @@ module('Integration | Component | <Certification::CertifiedProfile/>', function 
       this.set('certifiedProfile', certifiedProfile);
 
       // when
-      await render(hbs`<Certification::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+      await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
 
       // then
       assert.contains('Niveau 1');
@@ -87,7 +87,7 @@ module('Integration | Component | <Certification::CertifiedProfile/>', function 
       this.set('certifiedProfile', certifiedProfile);
 
       // when
-      await render(hbs`<Certification::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+      await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
 
       // then
       assert.contains('area1');
@@ -146,7 +146,7 @@ module('Integration | Component | <Certification::CertifiedProfile/>', function 
       this.set('certifiedProfile', certifiedProfile);
 
       // when
-      await render(hbs`<Certification::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+      await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
 
       // then
       const iconSkill1 = find('[aria-label="skill1"]').getAttribute('data-icon');
