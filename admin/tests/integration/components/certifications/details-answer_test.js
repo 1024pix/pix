@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | Certification | CertificationDetailsAnswer', function (hooks) {
+module('Integration | Component | Certifications | DetailsAnswer', function (hooks) {
   setupRenderingTest(hooks);
 
   const answerData = {
@@ -25,7 +25,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     });
 
     // when
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
     assert.contains('Succès partiel');
@@ -39,7 +39,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     });
 
     // when
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
     assert.contains('Neutralisée');
@@ -53,7 +53,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     });
 
     // when
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
     assert.contains('5');
@@ -76,9 +76,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
       });
 
       // when
-      await render(
-        hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
-      );
+      await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
       // then
       assert.contains('5');
@@ -95,7 +93,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
       answer: answerData,
       onUpdateRate: () => {},
     });
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
     await selectChoose('.answer-result', 'Succès');
@@ -115,7 +113,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
         return resolve();
       },
     });
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
     await selectChoose('.answer-result', 'Succès');
@@ -127,7 +125,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
       answer: answerData,
       onUpdateRate: () => resolve(),
     });
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
     await selectChoose('.answer-result', 'Succès');
@@ -144,7 +142,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     });
 
     // when
-    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} />`);
+    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} />`);
 
     // Then
     assert.dom('[data-test-link-preview]').hasText('Preview');

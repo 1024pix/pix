@@ -5,7 +5,7 @@ import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | CertificationList', function (hooks) {
+module('Integration | Component | <Certifications::List/>', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;
@@ -19,7 +19,7 @@ module('Integration | Component | CertificationList', function (hooks) {
     this.certifications = [EmberObject.create({ id: 1 }), EmberObject.create({ id: 2 }), EmberObject.create({ id: 3 })];
 
     // when
-    await render(hbs`<Certification::CertificationList @certifications={{certifications}} />`);
+    await render(hbs`<Certifications::List @certifications={{certifications}} />`);
 
     const $tableRows = this.element.querySelectorAll('tbody > tr');
     assert.equal($tableRows.length, 3);
@@ -30,7 +30,7 @@ module('Integration | Component | CertificationList', function (hooks) {
     this.certifications = [EmberObject.create({ id: 1, numberOfCertificationIssueReportsWithRequiredActionLabel: 2 })];
 
     // when
-    await render(hbs`<Certification::CertificationList @certifications={{certifications}} />`);
+    await render(hbs`<Certifications::List @certifications={{certifications}} />`);
 
     const numberOfCertificationIssueReportsWithRequiredAction =
       this.element.querySelector('tbody > tr td:nth-child(5)');
@@ -49,7 +49,7 @@ module('Integration | Component | CertificationList', function (hooks) {
     this.certifications = [juryCertificationSummaryProcessed];
 
     // when
-    await render(hbs`<Certification::CertificationList @certifications={{certifications}} />`);
+    await render(hbs`<Certifications::List @certifications={{certifications}} />`);
 
     // then
     assert.contains('CléA Numérique Pix+ Droit Maître');

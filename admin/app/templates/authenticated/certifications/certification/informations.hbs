@@ -29,47 +29,47 @@
       <div class="card {{if this.editingCandidateResults "border-primary"}}">
         <div class="card-body">
           <h5 class="card-title">
-            <Certification::CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
+            <Certifications::InfoPublished @record={{this.certification}} @float={{true}} />État
           </h5>
           <div class="card-text">
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.sessionId}}
               @edition={{false}}
               @label="Session :"
               @linkRoute="authenticated.sessions.session"
             />
-            <Certification::CertificationStatusSelect
+            <Certifications::StatusSelect
               @certification={{this.certification}}
               @edition={{this.editingCandidateResults}}
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.creationDate}}
               @edition={{false}}
               @label="Créée le :"
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.completionDate}}
               @edition={{false}}
               @label="Terminée le :"
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.publishedText}}
               @edition={{false}}
               @label="Publiée :"
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.cleaCertificationStatusLabel}}
               @edition={{false}}
               @label="Certification CléA numérique :"
               @class="certification-informations__complementary-certification--{{this.certification.cleaCertificationStatus}}"
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.pixPlusDroitMaitreCertificationStatusLabel}}
               @edition={{false}}
               @label="Certification Pix+ Droit Maître :"
               @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitMaitreCertificationStatus}}"
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.pixPlusDroitExpertCertificationStatusLabel}}
               @edition={{false}}
               @label="Certification Pix+ Droit Expert :"
@@ -140,7 +140,7 @@
     <section class="card certification-informations__certification-issue-reports">
       <div class="card-body">
         <h1 class="card-title certification-informations__certification-issue-reports__title">Signalements</h1>
-        <Certification::CertificationIssueReports
+        <Certifications::IssueReports
           @hasImpactfulIssueReports={{this.hasImpactfulIssueReports}}
           @hasUnimpactfulIssueReports={{this.hasUnimpactfulIssueReports}}
           @impactfulCertificationIssueReports={{this.impactfulCertificationIssueReports}}
@@ -156,28 +156,28 @@
         <div class="card-body">
           <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.commentForCandidate}}
               @edition={{this.editingCandidateResults}}
               @label="Pour le candidat :"
               @fieldId="certification-commentForCandidate"
               @isTextarea={{true}}
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.commentForOrganization}}
               @edition={{this.editingCandidateResults}}
               @label="Pour l'organisation :"
               @fieldId="certification-commentForOrganization"
               @isTextarea={{true}}
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.commentForJury}}
               @edition={{this.editingCandidateResults}}
               @label="Pour le jury :"
               @fieldId="certification-commentForJury"
               @isTextarea={{true}}
             />
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.juryId}}
               @edition={{false}}
               @label="Identifiant jury :"
@@ -194,7 +194,7 @@
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
-            <Certification::CertificationInfoField
+            <Certifications::InfoField
               @value={{this.certification.pixScore}}
               @edition={{this.editingCandidateResults}}
               @label="Score :"
@@ -202,7 +202,7 @@
               @suffix=" Pix"
             />
             <p></p>
-            <Certification::CertificationCompetenceList
+            <Certifications::CompetenceList
               @competences={{this.certification.competences}}
               @edition={{this.editingCandidateResults}}
               @onUpdateScore={{this.onUpdateScore}}
@@ -255,7 +255,7 @@
     @show={{this.displayConfirm}}
   />
 </div>
-<Certification::CandidateEditModal
+<Certifications::CandidateEditModal
   @isDisplayed={{this.isCandidateEditModalOpen}}
   @onCancelButtonsClicked={{this.closeCandidateEditModal}}
   @onFormSubmit={{this.onCandidateInformationSave}}

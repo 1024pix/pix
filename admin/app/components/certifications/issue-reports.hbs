@@ -5,7 +5,7 @@
   </h2>
   <ul class="certification-issue-reports__list">
     {{#each @impactfulCertificationIssueReports as |issueReport|}}
-      <Certification::CertificationIssueReport @issueReport={{issueReport}} />
+      <Certifications::IssueReport @issueReport={{issueReport}} />
     {{/each}}
   </ul>
 {{/if}}
@@ -16,7 +16,7 @@
   </h2>
   <ul class="certification-issue-reports__list certification-issue-reports__list--last">
     {{#each @unimpactfulCertificationIssueReports as |issueReport|}}
-      <Certification::CertificationIssueReport @issueReport={{issueReport}} />
+      <Certifications::IssueReport @issueReport={{issueReport}} />
     {{/each}}
   </ul>
 {{/if}}

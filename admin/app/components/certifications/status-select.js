@@ -1,4 +1,4 @@
-import CertificationInfoField from './certification-info-field';
+import CertificationInfoField from './info-field';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import find from 'lodash/find';
