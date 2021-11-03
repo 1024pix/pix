@@ -73,7 +73,7 @@ module('Acceptance | organization memberships management', function (hooks) {
       // when
       await visit(`/organizations/${organization.id}`);
       await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'user@example.com');
-      await clickByLabel('Valider');
+      await clickByLabel('Ajouter un membre');
 
       // then
       assert.contains('John');
@@ -125,7 +125,7 @@ module('Acceptance | organization memberships management', function (hooks) {
       await visit(`/organizations/${organization.id}`);
       await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-      await clickByLabel('Inviter');
+      await clickByLabel('Inviter un membre');
 
       // then
       assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
@@ -144,7 +144,7 @@ module('Acceptance | organization memberships management', function (hooks) {
       await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
-      await clickByLabel('Inviter');
+      await clickByLabel('Inviter un membre');
 
       // then
       assert.contains('Une erreur s’est produite, veuillez réessayer.');
