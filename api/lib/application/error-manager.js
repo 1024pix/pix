@@ -168,6 +168,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.CancelledOrganizationInvitationError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.SendingEmailToResultRecipientError) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }
