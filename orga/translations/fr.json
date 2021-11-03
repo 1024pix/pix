@@ -278,6 +278,11 @@
         "label": "Texte de la page d'accueil"
       },
       "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
+      "multiple-sendings": {
+        "question-label": "Souhaitez-vous permettre aux participants d'envoyer plusieurs fois leur profil ?",
+        "info": "Si vous choisissez l’envoi multiple, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.",
+        "info-title": "Envoi multiple"
+      },
       "name": {
         "label": "Nom de la campagne"
       },
