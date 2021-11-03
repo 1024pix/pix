@@ -8,6 +8,10 @@
     <div class="login-form__invitation-error">{{t "pages.login-form.invitation-already-accepted"}}</div>
   {{/if}}
 
+  {{#if @isInvitationCancelled}}
+    <p class="login-form__invitation-error">{{t "pages.login-form.invitation-was-cancelled"}}</p>
+  {{/if}}
+
   {{#if this.isErrorMessagePresent}}
     <div id="login-form-error-message" class="login-form__error-message error-message" role="alert">
       {{this.errorMessage}}

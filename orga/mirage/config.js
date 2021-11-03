@@ -134,6 +134,9 @@ export default function () {
     if (organizationInvitation.status === 'accepted') {
       return new Response(412, {}, { errors: [{ status: '412', detail: '' }] });
     }
+    if (organizationInvitation.status === 'cancelled') {
+      return new Response(403, {}, { errors: [{ status: '403', detail: '' }] });
+    }
 
     return organizationInvitation;
   });

@@ -74,6 +74,26 @@ module('Acceptance | join', function (hooks) {
       assert.dom('.login-form__invitation-error').exists();
       assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
     });
+
+    test('it should redirect user to login page when organization-invitation has been cancelled', async function (assert) {
+      // given
+      const code = 'ABCDEFGH01';
+      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+      const organizationInvitationId = server.create('organizationInvitation', {
+        organizationId,
+        email: 'random@email.com',
+        status: 'cancelled',
+        code,
+      }).id;
+
+      // when
+      await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+
+      // then
+      assert.equal(currentURL(), '/connexion?isInvitationCancelled=true');
+      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+      assert.contains(this.intl.t('pages.login-form.invitation-was-cancelled'));
+    });
   });
 
   module('Login', function (hooks) {
