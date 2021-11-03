@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | organization-invitations', function (hooks) {
   setupTest(hooks);
 
   test('it should return the invitations sorted by updated date', async function (assert) {
     // given
-    const component = createGlimmerComponent('component:organization-invitations');
+    const component = createGlimmerComponent('component:organizations/invitations');
 
     component.args.invitations = [
       { email: 'riri@example.net', role: 'ADMIN', updatedAt: new Date('2020-10-08T10:50:00Z') },

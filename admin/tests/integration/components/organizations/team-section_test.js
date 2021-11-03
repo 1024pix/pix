@@ -28,7 +28,7 @@ module('Integration | Component | organization-team-section', function (hooks) {
     memberships.meta = { rowCount: 2 };
 
     // when
-    await render(hbs`<OrganizationTeamSection
+    await render(hbs`<Organizations::TeamSection
       @memberships={{memberships}}
       @addMembership={{noop}}
       @createOrganizationInvitation={{noop}}

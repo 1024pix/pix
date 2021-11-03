@@ -3,8 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Integration | Component | organization-team-actions-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -16,7 +16,7 @@ module('Integration | Component | organization-team-actions-section', function (
     this.set('noop', () => {});
 
     // when
-    await render(hbs`<OrganizationTeamActionsSection
+    await render(hbs`<Organizations::TeamActionsSection
       @addMembership={{addMembership}}
       @createOrganizationInvitation={{noop}}
       @triggerFiltering={{noop}}/>`);

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-import createComponent from '../../helpers/create-glimmer-component';
+import createComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) {
   setupTest(hooks);
@@ -16,7 +16,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
 
     module('when attaching target profiles works correctly', () => {
       test('it displays a success message notifications without duplicated ids', async function (assert) {
-        const component = createComponent('component:organization-target-profiles-section');
+        const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
         component.args = {
           organization: {
@@ -47,7 +47,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
       });
 
       test('it displays a success message notifications with duplicated ids', async function (assert) {
-        const component = createComponent('component:organization-target-profiles-section');
+        const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
         component.args = {
           organization: {
@@ -77,7 +77,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
       });
 
       test('it displays a message with duplicated ids', async function (assert) {
-        const component = createComponent('component:organization-target-profiles-section');
+        const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
         component.args = {
           organization: {
@@ -110,7 +110,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
     module('when there is an error', () => {
       module('when the error is correctly formed', () => {
         test('it displays a notification for each 404 error found', async function (assert) {
-          const component = createComponent('component:organization-target-profiles-section');
+          const component = createComponent('component:organizations/target-profiles-section');
           const errors = {
             errors: [
               { status: '404', detail: 'I am displayed 1' },
@@ -129,7 +129,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
         });
 
         test('it displays a notification for each 412 error found', async function (assert) {
-          const component = createComponent('component:organization-target-profiles-section');
+          const component = createComponent('component:organizations/target-profiles-section');
           const errors = {
             errors: [
               { status: '412', detail: 'I am displayed too 1' },
@@ -148,7 +148,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
         });
 
         test('it display default notification for all other error found', async function (assert) {
-          const component = createComponent('component:organization-target-profiles-section');
+          const component = createComponent('component:organizations/target-profiles-section');
           const errors = {
             errors: [
               { status: '400', detail: 'message' },
@@ -168,7 +168,7 @@ module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) 
 
       module('when the error is not correctly formed', () => {
         test('it displays a default notification', async function (assert) {
-          const component = createComponent('component:organization-target-profiles-section');
+          const component = createComponent('component:organizations/target-profiles-section');
           const errors = {};
           component.notifications = { error: sinon.stub() };
           component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };

@@ -4,7 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | organization memberships management', function (hooks) {

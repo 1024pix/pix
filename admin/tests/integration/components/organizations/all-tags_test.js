@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 
 module('Integration | Component | organization-all-tags', function (hooks) {
@@ -19,7 +19,7 @@ module('Integration | Component | organization-all-tags', function (hooks) {
     this.set('model', { organization, allTags: [tag1, tag2] });
 
     // when
-    await render(hbs`<OrganizationAllTags @model={{this.model}} />`);
+    await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
 
     // then
     assert.contains('MEDNUM');
@@ -37,7 +37,7 @@ module('Integration | Component | organization-all-tags', function (hooks) {
     this.set('model', { organization, allTags: [tag1, tag2, tag3, tag4] });
 
     // when
-    await render(hbs`<OrganizationAllTags @model={{this.model}} />`);
+    await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
 
     // then
     assert.dom('.organization-all-tags-list__tag:first-child .pix-tag').containsText('AEFE');
@@ -53,7 +53,7 @@ module('Integration | Component | organization-all-tags', function (hooks) {
     this.set('model', { organization, allTags: [tag1] });
 
     // when
-    await render(hbs`<OrganizationAllTags @model={{this.model}} />`);
+    await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
 
     // then
     assert.dom('.pix-tag--purple-light').exists();
@@ -67,7 +67,7 @@ module('Integration | Component | organization-all-tags', function (hooks) {
     this.set('model', { organization, allTags: [tag1] });
 
     // when
-    await render(hbs`<OrganizationAllTags @model={{this.model}} />`);
+    await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
 
     // then
     assert.dom('.pix-tag--grey-light').exists();
@@ -84,7 +84,7 @@ module('Integration | Component | organization-all-tags', function (hooks) {
         this.set('model', { organization, allTags: [tag1, tag2] });
 
         // when
-        await render(hbs`<OrganizationAllTags @model={{this.model}} />`);
+        await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
         await clickByLabel('AGRICULTURE');
 
         // then
@@ -103,7 +103,7 @@ module('Integration | Component | organization-all-tags', function (hooks) {
         this.set('model', { organization, allTags: [tag1, tag2] });
 
         // when
-        await render(hbs`<OrganizationAllTags @model={{this.model}} />`);
+        await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
         await clickByLabel('MEDNUM');
 
         // then

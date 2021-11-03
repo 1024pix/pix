@@ -14,7 +14,9 @@ module('Integration | Component | organization-invitations-action', function (ho
     this.set('createOrganizationInvitation', createOrganizationInvitationStub);
 
     // when
-    await render(hbs`<OrganizationInvitationsAction @createOrganizationInvitation={{createOrganizationInvitation}}/>`);
+    await render(
+      hbs`<Organizations::InvitationsAction @createOrganizationInvitation={{createOrganizationInvitation}}/>`
+    );
     await clickByText('Inviter');
 
     // then

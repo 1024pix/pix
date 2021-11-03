@@ -4,7 +4,7 @@ import { render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | organization-target-profiles-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -19,7 +19,7 @@ module('Integration | Component | organization-target-profiles-section', functio
     this.set('organization', organization);
 
     // when
-    await render(hbs`<OrganizationTargetProfilesSection @organization={{organization}} />`);
+    await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
 
     // then
     assert.dom('button').isDisabled();
@@ -35,7 +35,7 @@ module('Integration | Component | organization-target-profiles-section', functio
     this.set('organization', organization);
 
     // when
-    await render(hbs`<OrganizationTargetProfilesSection @organization={{organization}} />`);
+    await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
     await fillIn('[aria-label="ID du ou des profil(s) cible(s)"]', '1');
     await clickByLabel('Valider');
 
