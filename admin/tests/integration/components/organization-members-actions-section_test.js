@@ -22,7 +22,7 @@ module('Integration | Component | organization-members-actions-section', functio
       @triggerFiltering={{noop}}/>`);
 
     await fillInByLabel('Ajouter un membre', 'user@example.net');
-    await clickByLabel('Valider');
+    await clickByLabel('Ajouter un membre');
 
     // then
     sinon.assert.called(addMembershipStub);
@@ -43,7 +43,7 @@ module('Integration | Component | organization-members-actions-section', functio
       @createOrganizationInvitation={{createOrganizationInvitation}}
       @triggerFiltering={{noop}}
       @selectRoleForSearch={{noop}}/>`);
-    await clickByLabel('Inviter');
+    await clickByLabel('Inviter un membre');
 
     // then
     sinon.assert.calledWith(createOrganizationInvitationStub, 'fr-fr', null);
