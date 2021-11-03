@@ -8,7 +8,7 @@ on:
     types:
       - completed
 jobs:
-  automerge:
+  verify-labels:
     runs-on: ubuntu-latest
     steps:
       - name: verify labels
@@ -16,6 +16,9 @@ jobs:
           contains(github.event.pull_request.labels.*.name, ':earth_africa: i18n needed')
           || contains(github.event.pull_request.labels.*.name, ':warning: Blocked')
         run: exit 1
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
       - name: automerge
         uses: pascalgn/automerge-action@v0.8.3
         env:
