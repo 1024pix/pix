@@ -149,4 +149,44 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       expect(data.knowledgeElements).to.deep.equal(filteredKnowledgeElements);
     });
   });
+
+  describe('#fetchForFlashCampaigns', function () {
+    let answerRepository;
+    let challengeRepository;
+
+    beforeEach(function () {
+      answerRepository = {
+        findByAssessment: sinon.stub(),
+      };
+      challengeRepository = {
+        findFlashCompatible: sinon.stub(),
+      };
+    });
+
+    it('fetches answers and challenges', async function () {
+      // given
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
+        state: 'started',
+        method: 'FLASH',
+        campaignParticipationId: 1,
+        userId: 5678899,
+      });
+      const answer = Symbol('answer');
+      const challenges = Symbol('challenge');
+
+      answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
+      challengeRepository.findFlashCompatible.withArgs().resolves(challenges);
+
+      // when
+      const data = await dataFetcher.fetchForFlashCampaigns({
+        assessment,
+        answerRepository,
+        challengeRepository,
+      });
+
+      // then
+      expect(data.allAnswers).to.deep.equal([answer]);
+      expect(data.challenges).to.deep.equal(challenges);
+    });
+  });
 });

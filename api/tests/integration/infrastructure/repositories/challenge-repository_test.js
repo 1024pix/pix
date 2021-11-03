@@ -13,7 +13,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...challenge, skillIds: ['recSkill1'] }],
+        challenges: [{ ...challenge, skillIds: ['recSkill1'], alpha: 0, delta: 0 }],
       };
 
       mockLearningContent(learningContent);
@@ -333,6 +333,34 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(operativeChallenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(operativeChallenge.solution);
+    });
+  });
+
+  describe('#findFlashCompatible', function () {
+    it('should return only flash compatible challenges with skills', async function () {
+      // given
+      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const flashCompatibleChallenge = domainBuilder.buildChallenge({
+        skills: [skill],
+        status: 'validé',
+      });
+      const nonFlashCompatibleChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'PAS validé' });
+      const learningContent = {
+        skills: [{ ...skill, status: 'actif' }],
+        challenges: [
+          { ...flashCompatibleChallenge, skillIds: ['recSkill1'], alpha: 3.57, delta: -8.99 },
+          { ...nonFlashCompatibleChallenge, skillIds: ['recSkill1'] },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const actualChallenges = await challengeRepository.findFlashCompatible();
+
+      // then
+      expect(actualChallenges).to.have.lengthOf(1);
+      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
   });
 });
