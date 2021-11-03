@@ -7,4 +7,10 @@ export default class LoginRoute extends Route {
   beforeModel() {
     this.session.prohibitAuthentication('authenticated');
   }
+
+  setupController(controller, model, transition) {
+    if (transition?.data?.isInvitationCancelled) {
+      controller.set('isInvitationCancelled', true);
+    }
+  }
 }

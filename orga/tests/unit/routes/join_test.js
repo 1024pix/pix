@@ -15,6 +15,8 @@ module('Unit | Route | join', function (hooks) {
       sinon.stub(store, 'queryRecord');
       const forbiddenError = { status: '403' };
       store.queryRecord.rejects({ errors: [forbiddenError] });
+      const transition = { data: { isInvitationCancelled: false } };
+      route.router.replaceWith.returns(transition);
 
       const params = {
         invitationId: 2,
@@ -25,7 +27,8 @@ module('Unit | Route | join', function (hooks) {
       await route.model(params);
 
       // then
-      assert.ok(route.router.replaceWith.calledWith('login', { queryParams: { isInvitationCancelled: true } }));
+      assert.ok(route.router.replaceWith.calledWith('login'));
+      assert.true(transition.data['isInvitationCancelled']);
     });
   });
 });

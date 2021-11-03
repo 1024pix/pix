@@ -90,7 +90,7 @@ module('Acceptance | join', function (hooks) {
       await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
       // then
-      assert.equal(currentURL(), '/connexion?isInvitationCancelled=true');
+      assert.equal(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
       assert.contains(this.intl.t('pages.login-form.invitation-was-cancelled'));
     });
