@@ -5,7 +5,7 @@ const smartRandom = require('../../../../lib/domain/services/algorithm-methods/s
 const flash = require('../../../../lib/domain/services/algorithm-methods/flash');
 const dataFetcher = require('../../../../lib/domain/services/algorithm-methods/data-fetcher');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {
     let knowledgeElementRepository;
     let targetProfileRepository;
@@ -50,26 +50,31 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
       expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.called;
     });
 
-    it('should use flash algorithm', async function () {
-      // given
-      assessment.method = 'FLASH';
-      sinon
-        .stub(flash, 'getPossibleSkillsForNextChallenge')
-        .resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true });
-      sinon.stub(dataFetcher, 'fetchForCampaigns').resolves({});
+    describe('when assessment method is flash', function () {
+      it('should use flash algorithm', async function () {
+        // given
+        assessment.method = 'FLASH';
+        sinon.stub(flash, 'getPossibleNextChallenges').returns({ possibleChallenges: [], hasAssessmentEnded: false });
+        sinon.stub(dataFetcher, 'fetchForFlashCampaigns').resolves({});
 
-      // when
-      await getNextChallengeForCampaignAssessment({
-        knowledgeElementRepository,
-        targetProfileRepository,
-        challengeRepository,
-        answerRepository,
-        pickChallengeService,
-        assessment,
+        // when
+        await getNextChallengeForCampaignAssessment({
+          knowledgeElementRepository,
+          targetProfileRepository,
+          challengeRepository,
+          answerRepository,
+          pickChallengeService,
+          assessment,
+        });
+
+        // then
+        expect(flash.getPossibleNextChallenges).to.have.been.called;
+        expect(dataFetcher.fetchForFlashCampaigns).to.have.been.calledWith({
+          assessment,
+          answerRepository,
+          challengeRepository,
+        });
       });
-
-      // then
-      expect(flash.getPossibleSkillsForNextChallenge).to.have.been.called;
     });
   });
 });

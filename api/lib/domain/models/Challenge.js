@@ -41,6 +41,8 @@ class Challenge {
    * @param locales
    * @param autoReply
    * @param focused
+   * @param discriminant
+   * @param difficulty
    */
   constructor({
     id,
@@ -64,6 +66,8 @@ class Challenge {
     validator,
     competenceId,
     focused,
+    discriminant,
+    difficulty,
   } = {}) {
     this.id = id;
     this.answer = answer;
@@ -86,6 +90,8 @@ class Challenge {
     this.validator = validator;
     this.competenceId = competenceId;
     this.focused = focused;
+    this.discriminant = discriminant;
+    this.difficulty = difficulty;
   }
 
   addSkill(skill) {

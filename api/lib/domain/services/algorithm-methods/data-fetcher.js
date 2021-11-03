@@ -74,7 +74,20 @@ async function fetchForCompetenceEvaluations({
   };
 }
 
+async function fetchForFlashCampaigns({ assessment, answerRepository, challengeRepository }) {
+  const [allAnswers, challenges] = await Promise.all([
+    answerRepository.findByAssessment(assessment.id),
+    challengeRepository.findFlashCompatible(),
+  ]);
+
+  return {
+    allAnswers,
+    challenges,
+  };
+}
+
 module.exports = {
   fetchForCampaigns,
   fetchForCompetenceEvaluations,
+  fetchForFlashCampaigns,
 };
