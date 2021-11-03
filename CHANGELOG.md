@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.122.0 (03/11/2021)
+
+
+### :rocket: Enhancement
+- [#3677](https://github.com/1024pix/pix/pull/3677) [FEATURE] Autoriser l'accès à l'espace surveillant après entrée d'un numéro de session et mot de passe valide (PIX-3729).
+- [#3653](https://github.com/1024pix/pix/pull/3653) [FEATURE] Permettre la création de campagne de collecte à envoi multiple (PIX-3674).
+- [#3666](https://github.com/1024pix/pix/pull/3666) [FEATURE] Compléter le wording pour les établissements qui se connecte sur Pix Orga (PIX-3695).
+- [#3659](https://github.com/1024pix/pix/pull/3659) [FEATURE] Affiche les ids des profils cibles dupliqués lors du rattachement à une organisation (PIX-3468).
+- [#3679](https://github.com/1024pix/pix/pull/3679) [FEATURE] Assurer le type d'un centre de certification (PIX-3777).
+
+### :bug: Bug fix
+- [#3680](https://github.com/1024pix/pix/pull/3680) [BUGFIX] Mettre à jour le menu après la déconnexion via la page de lancement d'une campagne (PIX-3722)
+- [#3681](https://github.com/1024pix/pix/pull/3681) [BUGFIX] Use https instead of git protocol for pix-ui dependency
+- [#3669](https://github.com/1024pix/pix/pull/3669) [BUGFIX] Fermer la tooltip dès que l'utilisateur clique dessus (PIX-3708).
+
+### :coffee: Various
+- [#3660](https://github.com/1024pix/pix/pull/3660)  [FEATURE] Afficher dans l'onglet paramètre si l'envoi multiple pour une campagne de collecte de profils est activé ( PIX-3677).
+
 ## v3.121.0 (02/11/2021)
 
 
