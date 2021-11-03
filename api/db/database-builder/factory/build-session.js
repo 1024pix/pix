@@ -22,6 +22,7 @@ module.exports = function buildSession({
   juryComment = null,
   juryCommentAuthorId = null,
   juryCommentedAt = null,
+  supervisorPassword = null,
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
     const builtCertificationCenter = buildCertificationCenter();
@@ -48,6 +49,7 @@ module.exports = function buildSession({
     juryComment,
     juryCommentAuthorId,
     juryCommentedAt,
+    supervisorPassword,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',

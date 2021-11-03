@@ -13,4 +13,15 @@ module.exports = {
     const session = await usecases.getSessionForSupervising({ sessionId });
     return sessionForSupervisingSerializer.serialize(session);
   },
+
+  async supervise(request, h) {
+    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+      throw new NotFoundError();
+    }
+
+    const { userId } = request.auth.credentials;
+    const { 'supervisor-password': supervisorPassword, 'session-id': sessionId } = request.payload.data.attributes;
+    await usecases.superviseSession({ sessionId, userId, supervisorPassword });
+    return h.response().code(204);
+  },
 };
