@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.123.0 (04/11/2021)
+
+
+### :rocket: Enhancement
+- [#3651](https://github.com/1024pix/pix/pull/3651) [FEATURE] Afficher les invitations de membre en attente d'une organisation sur Pix Admin (PIX-397).
+- [#3649](https://github.com/1024pix/pix/pull/3649) [FEATURE] Pouvoir avoir la première question lors d'une campagne FLASH (PIX-2780).
+
+### :building_construction: Tech
+- [#3664](https://github.com/1024pix/pix/pull/3664) [TECH] Utiliser ember-testing-library dans les tests de Pix Orga
+- [#3622](https://github.com/1024pix/pix/pull/3622) [TECH] Utiliser la librairie 1024pix/ember-testing-library dans les tests Pix Admin.
+
+### :bug: Bug fix
+- [#3687](https://github.com/1024pix/pix/pull/3687) [BUGFIX] Corriger l'affichage de la liste déroulante des sous-catégories de signalements (PIX-3735)
+- [#3682](https://github.com/1024pix/pix/pull/3682) [BUGFIX] Afficher les habilitations disponibles dans un ordre constant (PIX-3778).
+
 ## v3.122.0 (03/11/2021)
 
 
