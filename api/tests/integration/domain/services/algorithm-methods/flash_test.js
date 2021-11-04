@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const flash = require('../../../../../lib/domain/services/algorithm-methods/flash');
+const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
   beforeEach(function () {});
@@ -79,4 +80,59 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       });
     });
   });
+
+  describe('#getEstimatedLevel', function() {
+    it('should return 0 when there is no answers', function () {
+      // given
+      const allAnswers = [];
+
+      // when
+      const result = flash.getEstimatedLevel({ allAnswers });
+
+      // then
+      expect(result).to.equal(0);
+    });
+
+    it('should return the correct estimatedLevel when there is one answer', function () {
+      // given
+      const challenges = [ domainBuilder.buildChallenge({
+        discriminant: 0.866854359282828,
+        difficulty:-1.01892585510622
+      })]
+      const allAnswers = [ domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+      const correctEstimatedLevel = 0.2784401326788072;
+
+      // when
+      const result = flash.getEstimatedLevel({ allAnswers });
+
+      // then
+      expect(result).to.equal(correctEstimatedLevel);
+    });
+
+    it('should return the correct estimatedLevel when there is two answers', function () {
+      // given
+      const challenges = [
+        domainBuilder.buildChallenge({
+          discriminant: 0.866854359282828,
+          difficulty:-1.01892585510622}),
+        domainBuilder.buildChallenge({
+          discriminant: 1.06544675568836,
+          difficulty:2.36933312149944}),
+
+      ]
+      const allAnswers = [
+        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id })
+      ];
+      const correctEstimatedLevel = 1.2135374256552827;
+
+      // when
+      const result = flash.getEstimatedLevel({ allAnswers });
+
+      // then
+      expect(result).to.equal(correctEstimatedLevel);
+    });
+
+  });
+
 });
