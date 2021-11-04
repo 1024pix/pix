@@ -32,21 +32,25 @@ export default class BadgeForm extends Component {
         await this._createThresholdBadgeCriterion(badge.id);
       }
 
-      this.notifications.success('Le badge est créé.');
       this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
     } catch (error) {
       console.error(error);
-      this.notifications.error('Erreur lors de la création du résultat thématique.');
     }
   }
 
   async _createBadge() {
-    const badge = this.store.createRecord('badge', this.badge);
-    await badge.save({
-      adapterOptions: { targetProfileId: this.args.targetProfileId },
-    });
+    try {
+      const badge = this.store.createRecord('badge', this.badge);
+      await badge.save({
+        adapterOptions: { targetProfileId: this.args.targetProfileId },
+      });
 
-    return badge;
+      this.notifications.success('Le résultat thématique a été créé.');
+      return badge;
+    } catch (error) {
+      console.error(error);
+      this.notifications.error('Erreur lors de la création du résultat thématique.');
+    }
   }
 
   async _createThresholdBadgeCriterion(badgeId) {
@@ -60,6 +64,7 @@ export default class BadgeForm extends Component {
         threshold: this.threshold,
       });
       await badgeCriterion.save({ adapterOptions: { badgeId } });
+      this.notifications.success('Le critère du résultat thématique a été créé.');
     } catch (error) {
       console.error(error);
       this.notifications.error('Erreur lors de la création du critère du résultat thématique.');
