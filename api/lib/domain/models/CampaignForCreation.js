@@ -1,16 +1,17 @@
+const validate = require('../validators/campaign-creation-validator');
 class CampaignForCreation {
   constructor({
-                name,
-                title,
-                idPixLabel,
-                customLandingPageText,
-                type,
-                targetProfileId,
-                creatorId,
-                organizationId,
-                multipleSendings,
-                code,
-              } = {}) {
+    name,
+    title,
+    idPixLabel,
+    customLandingPageText,
+    type,
+    targetProfileId,
+    creatorId,
+    organizationId,
+    multipleSendings,
+    code,
+  } = {}) {
     this.name = name;
     this.title = title;
     this.idPixLabel = idPixLabel;
@@ -21,6 +22,7 @@ class CampaignForCreation {
     this.organizationId = organizationId;
     this.multipleSendings = multipleSendings;
     this.code = code;
+    validate(this);
   }
 }
 
