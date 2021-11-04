@@ -72,6 +72,7 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
               'is-access-blocked-agri': false,
               'is-related-to-managing-students-organization': false,
               'related-organization-tags': [],
+              habilitations: [],
             },
           },
         ],

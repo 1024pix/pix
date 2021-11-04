@@ -7,6 +7,7 @@ function buildAllowedCertificationCenterAccess({
   type = 'PRO',
   isRelatedToManagingStudentsOrganization = false,
   relatedOrganizationTags = [],
+  habilitations = [],
 } = {}) {
   return new AllowedCertificationCenterAccess({
     id,
@@ -15,6 +16,7 @@ function buildAllowedCertificationCenterAccess({
     type,
     isRelatedToManagingStudentsOrganization,
     relatedOrganizationTags,
+    habilitations,
   });
 }
 

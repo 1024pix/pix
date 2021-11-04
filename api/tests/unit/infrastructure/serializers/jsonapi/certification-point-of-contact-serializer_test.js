@@ -12,6 +12,10 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         type: 'PRO',
         isRelatedToManagingStudentsOrganization: false,
         relatedOrganizationTags: [],
+        habilitations: [
+          { id: 1, name: 'Certif comp 1' },
+          { id: 2, name: 'Certif comp 2' },
+        ],
       });
       const allowedCertificationCenterAccess2 = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 456,
@@ -20,6 +24,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
         relatedOrganizationTags: ['tag1'],
+        habilitations: [],
       });
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 789,
@@ -73,6 +78,10 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
               'related-organization-tags': [],
+              habilitations: [
+                { id: 1, name: 'Certif comp 1' },
+                { id: 2, name: 'Certif comp 2' },
+              ],
             },
           },
           {
@@ -88,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
               'related-organization-tags': ['tag1'],
+              habilitations: [],
             },
           },
         ],
