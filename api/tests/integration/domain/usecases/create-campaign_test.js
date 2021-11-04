@@ -2,9 +2,7 @@ const { expect, databaseBuilder, mockLearningContent, knex } = require('../../..
 const _ = require('lodash');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const organizationService = require('../../../../lib/domain/services/organization-service');
+const campaignCreatorRepository = require('../../../../lib/infrastructure/repositories/campaign-creator-repository');
 
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 
@@ -58,9 +56,7 @@ describe('Integration | UseCases | create-campaign', function () {
     const result = await createCampaign({
       campaign,
       campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
+      campaignCreatorRepository,
     });
 
     // then
@@ -89,9 +85,7 @@ describe('Integration | UseCases | create-campaign', function () {
     const result = await createCampaign({
       campaign,
       campaignRepository,
-      userRepository,
-      organizationRepository,
-      organizationService,
+      campaignCreatorRepository,
     });
 
     // then
