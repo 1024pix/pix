@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
-const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
 
@@ -17,25 +17,6 @@ describe('Unit | UseCase | create-campaign', function () {
     organizationRepository = { get: sinon.stub() };
     organizationService = { findAllTargetProfilesAvailableForOrganization: sinon.stub() };
     sinon.stub(campaignCodeGenerator, 'generate');
-  });
-
-  context('When the campaign is not valid', function () {
-    it('should throw an EntityValidationError', async function () {
-      // given
-      const invalidCampaign = {};
-
-      // when
-      const error = await catchErr(createCampaign)({
-        campaign: invalidCampaign,
-        campaignRepository,
-        userRepository,
-        organizationRepository,
-        organizationService,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(EntityValidationError);
-    });
   });
 
   context('When user do not have an access to the campaign organization', function () {

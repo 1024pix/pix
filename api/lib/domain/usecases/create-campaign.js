@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator');
 const CampaignForCreation = require('../models/CampaignForCreation');
-const campaignValidator = require('../validators/campaign-validator');
-
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
@@ -15,7 +13,6 @@ module.exports = async function createCampaign({
 }) {
   const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
   const campaignForCreation = new CampaignForCreation({ ...campaign, code: generatedCampaignCode });
-  campaignValidator.validate(campaignForCreation);
 
   await _checkIfUserCanCreateCampaign(campaignForCreation, userRepository, organizationRepository, organizationService);
 
