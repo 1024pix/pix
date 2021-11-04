@@ -7,9 +7,22 @@
       </div>
       {{#if @campaign.isTypeProfilesCollection}}
         <div class="campaign-settings-content">
-          <dt class="label-text campaign-settings-content__label">{{t
-              "pages.campaign-settings.multiple-sendings.title"
-            }}</dt>
+          <dt class="label-text campaign-settings-content__label campaign-settings-content__label--tooltip">
+            <span>{{t "pages.campaign-settings.multiple-sendings.title"}}</span>
+            <PixTooltip
+              @id="credit-info-tooltip"
+              @text={{this.multipleSendingsTooltipText}}
+              @position="top"
+              @isWide={{true}}
+            >
+              <FaIcon
+                @icon="info-circle"
+                class="campaign-settings-content__tooltip-icon"
+                tabindex="0"
+                aria-describedby={{t "pages.campaign-settings.multiple-sendings.tooltip.aria-label" htmlSafe=true}}
+              />
+            </PixTooltip>
+          </dt>
           <dd class="content-text campaign-settings-content__text">{{this.multipleSendingsText}}</dd>
         </div>
       {{/if}}
