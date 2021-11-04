@@ -6,7 +6,7 @@ import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | certification-center-form', function (hooks) {
+module('Integration | Component | certification-centers/form', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {

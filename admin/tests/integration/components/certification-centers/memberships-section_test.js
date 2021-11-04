@@ -6,7 +6,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | certification-center-memberships-section', function (hooks) {
+module('Integration | Component | certification-centers/memberships-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display certification center membership details', async function (assert) {

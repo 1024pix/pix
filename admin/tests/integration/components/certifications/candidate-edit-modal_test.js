@@ -10,7 +10,7 @@ import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | <Certifications::CandidateEditModal/>', function (hooks) {
+module('Integration | Component | certifications/candidate-edit-modal', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;

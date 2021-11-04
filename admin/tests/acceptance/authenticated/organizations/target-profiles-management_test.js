@@ -4,7 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | organization target profiles management', function (hooks) {
+module('Acceptance | Organizations | Target profiles management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

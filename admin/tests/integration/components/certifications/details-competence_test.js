@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
-module('Integration | Component | <Certifications::DetailsCompetence/>', function (hooks) {
+module('Integration | Component | certifications/details-competence', function (hooks) {
   setupRenderingTest(hooks);
 
   const answer = (result) => {

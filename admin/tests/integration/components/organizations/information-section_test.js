@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | organization-information-section', function (hooks) {
+module('Integration | Component | organizations/information-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {

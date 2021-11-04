@@ -7,7 +7,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
-module('Acceptance | organization memberships management', function (hooks) {
+module('Acceptance | Organizations | Memberships management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

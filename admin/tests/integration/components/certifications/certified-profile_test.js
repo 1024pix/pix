@@ -4,7 +4,7 @@ import { render, find } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | <Certifications::CertifiedProfile/>', function (hooks) {
+module('Integration | Component | certifications/certified-profile', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display Profil certifié vide if the certified profile is empty', async function (assert) {

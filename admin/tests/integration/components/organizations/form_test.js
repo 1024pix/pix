@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | organization-form', function (hooks) {
+module('Integration | Component | organizations/form', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {

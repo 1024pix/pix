@@ -6,7 +6,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
-module('Acceptance | organization information management', function (hooks) {
+module('Acceptance | Organizations | Information management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

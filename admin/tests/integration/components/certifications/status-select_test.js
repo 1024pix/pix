@@ -4,7 +4,7 @@ import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | <Certifications::StatusSelect/>', function (hooks) {
+module('Integration | Component | certifications/status-select', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when in edition mode', function () {
