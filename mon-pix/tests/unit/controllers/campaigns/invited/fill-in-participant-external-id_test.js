@@ -19,12 +19,12 @@ describe('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId'
   });
 
   describe('#onSubmitParticipantExternalId', () => {
-    it('should transition to route campaigns.start-or-resume when participant external id is fulfilled', () => {
+    it('should transition to route campaigns.entrance when participant external id is fulfilled', () => {
       // when
       controller.actions.onSubmitParticipantExternalId.call(controller, participantExternalId);
 
       // then
-      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume', controller.model);
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entrance', controller.model);
     });
   });
 
