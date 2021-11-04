@@ -27,11 +27,11 @@ module('Acceptance | Supervisor Portal', function(hooks) {
     test('it should redirect to ', async function(assert) {
       // given
       const screen = await visitScreen('/connexion-espace-surveillant');
-      await fillIn(screen.getByLabelText('Numéro de la session'), '12345');
+      await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
       await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
 
       // when
-      await click(screen.getByText('Surveiller la session'));
+      await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // then
       assert.equal(currentURL(), '/sessions/12345/surveiller');
@@ -43,9 +43,9 @@ module('Acceptance | Supervisor Portal', function(hooks) {
       test('it should redirect to the supervisor authentication page', async function(assert) {
         // given
         const screen = await visitScreen('/connexion-espace-surveillant');
-        await fillIn(screen.getByLabelText('Numéro de la session'), '12345');
+        await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
         await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
-        await click(screen.getByText('Surveiller la session'));
+        await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
         // when
         await click(screen.getByText('Quitter'));
