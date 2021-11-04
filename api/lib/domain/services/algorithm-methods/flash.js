@@ -1,6 +1,6 @@
 const DEFAULT_ESTIMATED_LEVEL = 0;
 
-module.exports = { getPossibleNextChallenges };
+module.exports = { getPossibleNextChallenges, getEstimatedLevel };
 
 function getPossibleNextChallenges({ challenges } = {}) {
   if (challenges?.length === 0) {
@@ -44,3 +44,10 @@ function _getReward({ estimatedLevel, discriminant, difficulty }) {
   const probability = _getProbability({ estimatedLevel, discriminant, difficulty });
   return probability * (1 - probability) * Math.pow(discriminant, 2);
 }
+
+function getEstimatedLevel({ allAnswers, challenges }) {
+  return DEFAULT_ESTIMATED_LEVEL;
+}
+
+
+
