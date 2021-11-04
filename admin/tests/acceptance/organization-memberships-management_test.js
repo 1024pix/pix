@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | organization memberships management', function (hooks) {
   setupApplicationTest(hooks);
@@ -71,9 +71,12 @@ module('Acceptance | organization memberships management', function (hooks) {
       this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
 
       // when
-      await visit(`/organizations/${organization.id}`);
-      await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'user@example.com');
-      await clickByLabel('Valider');
+      const screen = await visitScreen(`/organizations/${organization.id}`);
+      await fillIn(
+        screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
+        'user@example.com'
+      );
+      await clickByLabel('Ajouter un membre');
 
       // then
       assert.contains('John');
@@ -92,8 +95,11 @@ module('Acceptance | organization memberships management', function (hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      await visit(`/organizations/${organization.id}`);
-      await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'denise@example.com');
+      const screen = await visitScreen(`/organizations/${organization.id}`);
+      await fillIn(
+        screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
+        'denise@example.com'
+      );
       await clickByLabel('Ajouter un membre');
 
       // then
@@ -108,8 +114,11 @@ module('Acceptance | organization memberships management', function (hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      await visit(`/organizations/${organization.id}`);
-      await fillInByLabel("Adresse e-mail de l'utilisateur à ajouter", 'unexisting@example.com');
+      const screen = await visitScreen(`/organizations/${organization.id}`);
+      await fillIn(
+        screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
+        'unexisting@example.com'
+      );
       await clickByLabel('Ajouter un membre');
 
       // then
@@ -122,10 +131,10 @@ module('Acceptance | organization memberships management', function (hooks) {
   module('inviting a member', function () {
     test('should create an organization-invitation', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
+      const screen = await visitScreen(`/organizations/${organization.id}`);
+      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' }), 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-      await clickByLabel('Inviter');
+      await clickByLabel('Inviter un membre');
 
       // then
       assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
@@ -140,11 +149,11 @@ module('Acceptance | organization memberships management', function (hooks) {
       );
 
       // when
-      await visit(`/organizations/${organization.id}`);
-      await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
+      const screen = await visitScreen(`/organizations/${organization.id}`);
+      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' }), 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
-      await clickByLabel('Inviter');
+      await clickByLabel('Inviter un membre');
 
       // then
       assert.contains('Une erreur s’est produite, veuillez réessayer.');
