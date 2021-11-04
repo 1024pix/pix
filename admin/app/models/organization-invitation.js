@@ -10,9 +10,21 @@ export default class OrganizationInvitation extends Model {
   @attr organizationName;
   @attr lang;
   @attr role;
+  @attr('date') updatedAt;
 
   @belongsTo('organization') organization;
 
   @equal('status', 'pending') isPending;
   @equal('status', 'accepted') isAccepted;
+
+  get roleInFrench() {
+    switch (this.role) {
+      case 'ADMIN':
+        return 'Administrateur';
+      case 'MEMBER':
+        return 'Membre';
+      default:
+        return '-';
+    }
+  }
 }

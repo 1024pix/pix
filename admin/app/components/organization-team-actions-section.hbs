@@ -1,0 +1,23 @@
+<section class="page-section mb_10 organization-team-section">
+  <div class="organization__forms-section">
+    <form>
+      <h2>Ajouter un membre</h2>
+      <div class="organization__sub-form">
+        <PixInput
+          @id="userEmailToAdd"
+          @value={{@userEmailToAdd}}
+          @label="Adresse e-mail de l'utilisateur à ajouter"
+          class="organization-team-section__input"
+        />
+        <PixButton
+          @size="small"
+          @triggerAction={{@addMembership}}
+          class="organization-team-section__button"
+          aria-label="Ajouter un membre"
+        >
+          Valider
+        </PixButton>
+      </div>
+    </form>
+  </div>
+</section>

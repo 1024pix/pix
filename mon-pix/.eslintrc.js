@@ -35,6 +35,9 @@ module.exports = {
         order: ['attribute', 'relationship', 'single-line-function', 'multi-line-function'],
       },
     ],
+    'mocha/no-exclusive-tests': 'error',
+    'mocha/no-identical-title': 'error',
+    'mocha/no-skipped-tests': 'warn',
     /* Recommended rules */
     'ember/no-mixins': 'off',
     'i18n-json/sorted-keys': [

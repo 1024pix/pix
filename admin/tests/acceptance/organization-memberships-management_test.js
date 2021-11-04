@@ -19,12 +19,12 @@ module('Acceptance | organization memberships management', function (hooks) {
     await createAuthenticateSession({ userId: user.id });
   });
 
-  test('should redirect to organization members page', async function (assert) {
+  test('should redirect to organization team page', async function (assert) {
     // when
     await visit(`/organizations/${organization.id}`);
 
     // then
-    assert.equal(currentURL(), `/organizations/${organization.id}/members`);
+    assert.equal(currentURL(), `/organizations/${organization.id}/team`);
   });
 
   module('listing members', function (hooks) {
@@ -34,7 +34,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when memberships are filtered by firstName', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?firstName=sav`);
+      await visit(`/organizations/${organization.id}/team?firstName=sav`);
 
       // then
       assert.dom('#firstName').hasValue('sav');
@@ -42,7 +42,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when organizations are filtered by lastName', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?lastName=tro`);
+      await visit(`/organizations/${organization.id}/team?lastName=tro`);
 
       // then
       assert.dom('#lastName').hasValue('tro');
@@ -50,7 +50,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when organizations are filtered by email', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?email=fri`);
+      await visit(`/organizations/${organization.id}/team?email=fri`);
 
       // then
       assert.dom('#email').hasValue('fri');
@@ -58,7 +58,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('it should display the current filter when organizations are filtered by role', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?organizationRole=ADMIN`);
+      await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
 
       // then
       assert.dom('#organizationRole').hasValue('ADMIN');
@@ -128,38 +128,6 @@ module('Acceptance | organization memberships management', function (hooks) {
     });
   });
 
-  module('inviting a member', function () {
-    test('should create an organization-invitation', async function (assert) {
-      // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
-      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' }), 'user@example.com');
-      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-      await clickByLabel('Inviter un membre');
-
-      // then
-      assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
-      assert.dom('#userEmailToInvite').hasNoValue();
-    });
-
-    test('should display an error if the creation has failed', async function (assert) {
-      // given
-      this.server.post(
-        '/admin/organizations/:id/invitations',
-        () => new Response(500, {}, { errors: [{ status: '500' }] })
-      );
-
-      // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
-      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' }), 'user@example.com');
-      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-
-      await clickByLabel('Inviter un membre');
-
-      // then
-      assert.contains('Une erreur s’est produite, veuillez réessayer.');
-    });
-  });
-
   module("editing a member's role", function (hooks) {
     let membership;
 
@@ -170,7 +138,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test("should update member's role", async function (assert) {
       // given / when
-      await visit(`/organizations/${organization.id}/members`);
+      await visit(`/organizations/${organization.id}/team`);
       await clickByLabel('Modifier le rôle');
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByLabel('Enregistrer');
@@ -189,7 +157,7 @@ module('Acceptance | organization memberships management', function (hooks) {
 
     test('should deactivate a member', async function (assert) {
       // given / when
-      await visit(`/organizations/${organization.id}/members`);
+      await visit(`/organizations/${organization.id}/team`);
       await clickByLabel('Désactiver');
       await click('.modal-footer > button.btn-primary');
 

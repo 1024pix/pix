@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
-module('Integration | Component | organization-members-actions-section', function (hooks) {
+module('Integration | Component | organization-team-actions-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should call addMembership method', async function (assert) {
@@ -16,7 +16,7 @@ module('Integration | Component | organization-members-actions-section', functio
     this.set('noop', () => {});
 
     // when
-    await render(hbs`<OrganizationMembersActionsSection
+    await render(hbs`<OrganizationTeamActionsSection
       @addMembership={{addMembership}}
       @createOrganizationInvitation={{noop}}
       @triggerFiltering={{noop}}/>`);
@@ -26,27 +26,6 @@ module('Integration | Component | organization-members-actions-section', functio
 
     // then
     sinon.assert.called(addMembershipStub);
-    assert.ok(true);
-  });
-
-  test('it should create organization invitation with default language and default role value', async function (assert) {
-    // given
-    const createOrganizationInvitationStub = sinon.stub();
-    this.set('createOrganizationInvitation', createOrganizationInvitationStub);
-    this.set('memberships', []);
-    this.set('noop', () => {});
-
-    // when
-    await render(hbs`<OrganizationMembersActionsSection
-      @memberships={{memberships}}
-      @addMembership={{noop}}
-      @createOrganizationInvitation={{createOrganizationInvitation}}
-      @triggerFiltering={{noop}}
-      @selectRoleForSearch={{noop}}/>`);
-    await clickByLabel('Inviter un membre');
-
-    // then
-    sinon.assert.calledWith(createOrganizationInvitationStub, 'fr-fr', null);
     assert.ok(true);
   });
 });
