@@ -199,22 +199,20 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
     });
   });
 
-  module('display wether if a campaign is multiple sendings or not', function () {
-    module('when type is PROFILES_COLLECTION', function () {
-      test('it should display multiple sendings label', async function (assert) {
-        // given
-        this.campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-        });
-
-        // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
-
-        // then
-        assert.contains('Envoi multiple');
+  module('when type is PROFILES_COLLECTION', function () {
+    test('it should display multiple sendings label', async function (assert) {
+      // given
+      this.campaign = store.createRecord('campaign', {
+        type: 'PROFILES_COLLECTION',
       });
+      // when
+      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+      // then
+      assert.contains('Envoi multiple');
+    });
 
-      test("it should display 'oui' when campaign is multiple sendings", async function (assert) {
+    module('when multiple sendings is true', function () {
+      test("it should display 'oui'", async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
@@ -228,7 +226,25 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         assert.contains('Oui');
       });
 
-      test("it should display 'Non' when campaign is not multiple sendings", async function (assert) {
+      test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+          multipleSendings: true,
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains(
+          'Le participant peut envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.'
+        );
+      });
+    });
+
+    module('when multiple sendings is false', function () {
+      test("it should display 'Non'", async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
@@ -241,20 +257,38 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         // then
         assert.contains('Non');
       });
-    });
-    module('when type is ASSESSMENT', function () {
-      test('it should not display multiple sendings label', async function (assert) {
+
+      test('it should display tooltip with a different multiple sendings explanatory text when camaign is not multiple sendings', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
+          type: 'PROFILES_COLLECTION',
+          multipleSendings: false,
         });
 
         // when
         await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
-        assert.notContains('Envoi multiple');
+        assert.contains(
+          'Si l’envoi multiple a été activé, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, seul le dernier profil envoyé sera affiché.'
+        );
       });
+    });
+  });
+
+  module('when type is ASSESSMENT', function () {
+    test('it should not display multiple sendings label or tooltip', async function (assert) {
+      // given
+      this.campaign = store.createRecord('campaign', {
+        type: 'ASSESSMENT',
+      });
+
+      // when
+      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+
+      // then
+      assert.notContains('Envoi multiple');
+      assert.dom('[aria-describedby=" Description de la campagne d\'envoi multiple"]').doesNotExist();
     });
   });
 });
