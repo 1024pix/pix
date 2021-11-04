@@ -1,10 +1,10 @@
 <form {{on "submit" @onSubmit}} class="form">
 
   <div class="form__field">
-    <label for="campaign-name" class="label">{{t "pages.campaign-creation.name.label"}}</label>
-    <Input
-      id="campaign-name"
-      name="campaign-name"
+    <PixInput
+      @id="campaign-name"
+      @label={{t "pages.campaign-creation.name.label"}}
+      @name="campaign-name"
       @type="text"
       class="input"
       maxlength="255"
@@ -54,11 +54,9 @@
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field form__field--wide">
-      <label for="campaign-target-profile" class="label">{{t
-          "pages.campaign-creation.target-profiles-list.label"
-        }}</label>
       <PixSelect
-        id="campaign-target-profile"
+        @id="campaign-target-profile"
+        @label={{t "pages.campaign-creation.target-profiles-list.label"}}
         @onChange={{this.setSelectedTargetProfile}}
         @options={{this.targetProfilesOptions}}
         @emptyOptionLabel=""
@@ -140,14 +138,10 @@
 
   {{#if this.wantIdPix}}
     <div class="form__field">
-      <label for="external-id-label" class="label sr-only">{{t
-          "pages.campaign-creation.external-id-label.label"
-        }}</label>
-      <Input
-        id="external-id-label"
-        name="external-id-label"
-        @type="text"
-        class="input"
+      <PixInput
+        @id="external-id-label"
+        @name="external-id-label"
+        @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
         aria-required="true"
         @value={{@campaign.idPixLabel}}
@@ -165,12 +159,10 @@
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
-      <label for="campaign-title" class="label">{{t "pages.campaign-creation.test-title.label"}}</label>
-      <Input
-        id="campaign-title"
-        name="campaign-title"
-        @type="text"
-        class="input"
+      <PixInput
+        @label={{t "pages.campaign-creation.test-title.label"}}
+        @id="campaign-title"
+        @name="campaign-title"
         maxlength="50"
         @value={{@campaign.title}}
       />
@@ -178,12 +170,12 @@
   {{/if}}
 
   <div class="form__field">
-    <label for="custom-landing-page-text" class="label">{{t "pages.campaign-creation.landing-page-text.label"}}</label>
     <PixTextarea
-      id="custom-landing-page-text"
-      maxlength={{350}}
+      @label={{t "pages.campaign-creation.landing-page-text.label"}}
+      @id="custom-landing-page-text"
+      @maxlength="5000"
       @value={{@campaign.customLandingPageText}}
-      rows={{8}}
+      rows="8"
     />
   </div>
 
@@ -191,6 +183,7 @@
     <PixButton @triggerAction={{@onCancel}} @backgroundColor="transparent-light">
       {{t "common.actions.cancel"}}
     </PixButton>
+
     <PixButton @type="submit">
       {{t "pages.campaign-creation.actions.create"}}
     </PixButton>

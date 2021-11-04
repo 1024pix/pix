@@ -137,19 +137,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
   });
 
   describe('PATCH /api/campaigns/{id}', function () {
-    it('should return 201', async function () {
-      // given
-      sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/campaigns/1');
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
-
     it('should return 400 with an invalid campaign id', async function () {
       // given
       const httpTestServer = new HttpTestServer();
