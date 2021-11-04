@@ -22,6 +22,12 @@ module('Integration | Component | organization-invitations', function (hooks) {
         roleInFrench: 'Membre',
         updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2),
       },
+      {
+        email: 'loulou@example.net',
+        role: null,
+        roleInFrench: '-',
+        updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2),
+      },
     ]);
 
     // when
@@ -30,6 +36,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
     // then
     assert.contains('Membre');
     assert.contains('Administrateur');
+    assert.contains('-');
     assert.notContains('Aucune invitation en attente');
   });
 

@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
+import { clickByText } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import moment from 'moment';
 
@@ -36,7 +36,8 @@ module('Acceptance | organization invitations management', function (hooks) {
       await visit(`/organizations/${organization.id}/invitations`);
       await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
-      await clickByLabel('Inviter');
+
+      await clickByText('Inviter');
 
       // then
       assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
@@ -61,7 +62,7 @@ module('Acceptance | organization invitations management', function (hooks) {
       await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
-      await clickByLabel('Inviter');
+      await clickByText('Inviter');
 
       // then
       assert.notContains(moment(now).format('DD/MM/YYYY [-] HH:mm'));

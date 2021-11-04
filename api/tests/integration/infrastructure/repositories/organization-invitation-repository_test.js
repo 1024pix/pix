@@ -199,7 +199,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
   });
 
   describe('#findPendingByOrganizationId', function () {
-    it('should find two of the three organization-invitations from db by organizationId', async function () {
+    it('should find only pending organization-invitations from db by organizationId', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -226,7 +226,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(foundOrganizationInvitations.length).to.equal(2);
     });
 
-    it('should find return organization-invitations from most recent to oldest', async function () {
+    it('should return organization-invitations from most recent to oldest', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const oldestOrganizationInvitationUpdatedAt = new Date('2019-02-01T00:00:00Z');
