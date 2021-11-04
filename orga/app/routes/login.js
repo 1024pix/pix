@@ -12,5 +12,8 @@ export default class LoginRoute extends Route {
     if (transition?.data?.isInvitationCancelled) {
       controller.set('isInvitationCancelled', true);
     }
+    if (transition?.data?.hasInvitationAlreadyBeenAccepted) {
+      controller.set('hasInvitationAlreadyBeenAccepted', true);
+    }
   }
 }

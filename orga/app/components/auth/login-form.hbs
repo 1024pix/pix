@@ -4,7 +4,7 @@
     <div class="login-form__information">{{t "pages.login-form.is-only-accessible"}}</div>
   {{/unless}}
 
-  {{#if @hasInvitationError}}
+  {{#if @hasInvitationAlreadyBeenAccepted}}
     <div class="login-form__invitation-error">{{t "pages.login-form.invitation-already-accepted"}}</div>
   {{/if}}
 
