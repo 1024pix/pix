@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByText } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | organization-invitations-action', function (hooks) {
   setupRenderingTest(hooks);
@@ -15,7 +15,7 @@ module('Integration | Component | organization-invitations-action', function (ho
 
     // when
     await render(hbs`<OrganizationInvitationsAction @createOrganizationInvitation={{createOrganizationInvitation}}/>`);
-    await clickByLabel('Inviter');
+    await clickByText('Inviter');
 
     // then
     sinon.assert.calledWith(createOrganizationInvitationStub, 'fr-fr', null);

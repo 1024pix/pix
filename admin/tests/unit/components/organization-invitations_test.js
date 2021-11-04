@@ -12,7 +12,7 @@ module('Unit | Component | organization-invitations', function (hooks) {
     component.args.invitations = [
       { email: 'riri@example.net', role: 'ADMIN', updatedAt: new Date('2020-10-08T10:50:00Z') },
       { email: 'loulou@example.net', role: 'MEMBER', updatedAt: new Date('2018-10-08T10:50:00Z') },
-      { email: 'fifi@example.net', role: 'MEMBER', updatedAt: new Date('2019-10-08T10:50:00Z') },
+      { email: 'fifi@example.net', role: null, updatedAt: new Date('2019-10-08T10:50:00Z') },
       { email: 'lili@example.net', role: 'MEMBER', updatedAt: new Date('2021-10-08T10:50:00Z') },
     ];
 
@@ -23,7 +23,7 @@ module('Unit | Component | organization-invitations', function (hooks) {
     const expectedSortedInvitations = [
       { email: 'lili@example.net', role: 'MEMBER', updatedAt: new Date('2021-10-08T10:50:00Z') },
       { email: 'riri@example.net', role: 'ADMIN', updatedAt: new Date('2020-10-08T10:50:00Z') },
-      { email: 'fifi@example.net', role: 'MEMBER', updatedAt: new Date('2019-10-08T10:50:00Z') },
+      { email: 'fifi@example.net', role: null, updatedAt: new Date('2019-10-08T10:50:00Z') },
       { email: 'loulou@example.net', role: 'MEMBER', updatedAt: new Date('2018-10-08T10:50:00Z') },
     ];
     assert.deepEqual(sortedInvitations, expectedSortedInvitations);
