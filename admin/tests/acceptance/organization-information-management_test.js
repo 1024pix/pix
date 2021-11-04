@@ -23,7 +23,7 @@ module('Acceptance | organization information management', function (hooks) {
       await clickByLabel('Editer');
 
       // when
-      await fillInByLabel('Nom', 'newOrganizationName');
+      await fillInByLabel('* Nom', 'newOrganizationName');
       await clickByLabel('Enregistrer', { exact: true });
 
       // then

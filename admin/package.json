@@ -34,6 +34,7 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
+    "@1024pix/ember-testing-library": "^0.4.0",
     "@ember/jquery": "^1.1.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.0",
@@ -42,7 +43,6 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@glimmer/component": "^1.0.3",
-    "@testing-library/dom": "^8.7.2",
     "babel-eslint": "^10.1.0",
     "bootstrap": "^4.6.0",
     "broccoli-asset-rev": "^3.0.0",

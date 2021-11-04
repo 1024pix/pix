@@ -97,7 +97,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('Commune de naissance', 'Sunnydale');
+          await fillInByLabel('* Commune de naissance', 'Sunnydale');
           await clickByLabel('Enregistrer');
 
           // then
@@ -118,7 +118,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('Commune de naissance', 'Sunnydale');
+          await fillInByLabel('* Commune de naissance', 'Sunnydale');
           await clickByLabel('Enregistrer');
 
           // then
@@ -132,7 +132,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('Commune de naissance', 'Sunnydale');
+          await fillInByLabel('* Commune de naissance', 'Sunnydale');
           await clickByLabel('Enregistrer');
 
           // then
