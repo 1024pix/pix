@@ -88,7 +88,16 @@ describe('Integration | Application | Route | campaignRouter', function () {
   describe('PATCH /api/campaigns/{id}', function () {
     it('should exist', async function () {
       // when
-      const response = await httpTestServer.request('PATCH', '/api/campaigns/1');
+      const response = await httpTestServer.request('PATCH', '/api/campaigns/1', {
+        data: {
+          type: 'campaigns',
+          attributes: {
+            name: 'toto',
+            title: null,
+            'custom-landing-page-text': 'toto',
+          },
+        },
+      });
 
       // then
       expect(response.statusCode).to.equal(201);

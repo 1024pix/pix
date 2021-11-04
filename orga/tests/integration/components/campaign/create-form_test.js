@@ -37,7 +37,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.contains(t('pages.campaign-creation.name.label'));
     assert.dom('button[type="submit"]').exists();
     assert.dom('input[type=text]').hasAttribute('maxLength', '255');
-    assert.dom('textarea').hasAttribute('maxLength', '350');
+    assert.dom('textarea').hasAttribute('maxLength', '5000');
   });
 
   module('when user cannot create campaign of type PROFILES_COLLECTION', function () {

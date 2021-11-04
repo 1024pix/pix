@@ -33,6 +33,8 @@ const Validations = buildValidations({
     validators: [
       validator('length', {
         min: 0,
+        max: 5000,
+        message: "La longueur du texte de la page d'accueil ne doit pas excéder 5000 caractères",
       }),
     ],
   },
