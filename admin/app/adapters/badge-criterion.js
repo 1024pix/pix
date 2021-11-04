@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class BadgeAdapter extends ApplicationAdapter {
+export default class BadgeCriterionAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
   urlForCreateRecord(modelName, { adapterOptions: { badgeId } }) {

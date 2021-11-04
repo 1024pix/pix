@@ -12,7 +12,7 @@ module.exports = {
   async createBadgeCriterion(request, h) {
     const badgeId = request.params.id;
     const badgeCriterion = badgeCriteriaSerializer.deserialize(request.payload);
-    const savedBadgeCriterion = await usecases.createBadgeCriteria({ badgeId, badgeCriterion });
+    const savedBadgeCriterion = await usecases.createBadgeCriterion({ badgeId, badgeCriterion });
     return h.response(badgeCriteriaSerializer.serialize(savedBadgeCriterion));
   },
 };
