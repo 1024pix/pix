@@ -1,7 +1,12 @@
 import get from 'lodash/get';
 import slice from 'lodash/slice';
 
-export function findPaginatedOrganizationMemberships(schema, request) {
+function getOrganizationInvitations(schema, request) {
+  const ownerOrganizationId = request.params.id;
+  return schema.organizationInvitations.where({ ownerOrganizationId });
+}
+
+function findPaginatedOrganizationMemberships(schema, request) {
   const organizationId = request.params.id;
   const queryParams = request.queryParams;
   const memberships = schema.memberships.where({ organizationId, disabledAt: undefined }).models;
@@ -33,3 +38,5 @@ function _applyPagination(memberships, { page, pageSize }) {
 
   return slice(memberships, start, end);
 }
+
+export { getOrganizationInvitations, findPaginatedOrganizationMemberships };

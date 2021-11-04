@@ -83,7 +83,7 @@ module('Acceptance | Organization List', function (hooks) {
       await click('[data-test-orga="1"]');
 
       // then
-      assert.equal(currentURL(), '/organizations/1/members');
+      assert.equal(currentURL(), '/organizations/1/team');
     });
   });
 });

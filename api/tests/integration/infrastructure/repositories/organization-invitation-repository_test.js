@@ -199,35 +199,66 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
   });
 
   describe('#findPendingByOrganizationId', function () {
-    const organizationId = 6789;
+    it('should find only pending organization-invitations from db by organizationId', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
 
-    beforeEach(async function () {
-      databaseBuilder.factory.buildOrganization({
-        id: organizationId,
-      });
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
+        organizationId: organization.id,
         status: OrganizationInvitation.StatusType.PENDING,
       });
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
+        organizationId: organization.id,
         status: OrganizationInvitation.StatusType.PENDING,
       });
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
+        organizationId: organization.id,
         status: OrganizationInvitation.StatusType.ACCEPTED,
       });
       await databaseBuilder.commit();
-    });
 
-    it('should find two of the three organization-invitations from db by organizationId', async function () {
       // when
       const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({
-        organizationId,
+        organizationId: organization.id,
       });
 
       // then
       expect(foundOrganizationInvitations.length).to.equal(2);
+    });
+
+    it('should return organization-invitations from most recent to oldest', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const oldestOrganizationInvitationUpdatedAt = new Date('2019-02-01T00:00:00Z');
+      const organizationInvitationUpdatedAt = new Date('2020-02-01T00:00:00Z');
+      const latestOrganizationInvitationUpdatedAt = new Date('2021-02-01T00:00:00Z');
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId: organization.id,
+        status: OrganizationInvitation.StatusType.PENDING,
+        updatedAt: latestOrganizationInvitationUpdatedAt,
+      });
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId: organization.id,
+        status: OrganizationInvitation.StatusType.PENDING,
+        updatedAt: organizationInvitationUpdatedAt,
+      });
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId: organization.id,
+        status: OrganizationInvitation.StatusType.PENDING,
+        updatedAt: oldestOrganizationInvitationUpdatedAt,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(foundOrganizationInvitations[0].updatedAt).to.deep.equal(latestOrganizationInvitationUpdatedAt);
+      expect(foundOrganizationInvitations[1].updatedAt).to.deep.equal(organizationInvitationUpdatedAt);
+      expect(foundOrganizationInvitations[2].updatedAt).to.deep.equal(oldestOrganizationInvitationUpdatedAt);
     });
 
     it('should return an empty array on no result', async function () {

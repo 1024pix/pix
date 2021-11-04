@@ -56,6 +56,7 @@ module.exports = {
 
   findPendingByOrganizationId({ organizationId }) {
     return BookshelfOrganizationInvitation.where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
+      .orderBy('updatedAt', 'desc')
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
   },

@@ -3,7 +3,7 @@ const { Serializer, Deserializer } = require('jsonapi-serializer');
 module.exports = {
   serialize(invitations) {
     return new Serializer('organization-invitations', {
-      attributes: ['organizationId', 'organizationName', 'email', 'status', 'updatedAt'],
+      attributes: ['organizationId', 'organizationName', 'email', 'status', 'updatedAt', 'role'],
     }).serialize(invitations);
   },
 

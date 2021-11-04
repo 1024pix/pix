@@ -1013,6 +1013,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'organization-id': organization.id,
               email: user1.email,
               status,
+              role: null,
             },
           },
           {
@@ -1021,6 +1022,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'organization-id': organization.id,
               email: user2.email,
               status,
+              role: null,
             },
           },
         ];
@@ -1132,6 +1134,7 @@ describe('Acceptance | Application | organization-controller', function () {
                 email: firstOrganizationInvitation.email,
                 status: OrganizationInvitation.StatusType.PENDING,
                 'updated-at': firstOrganizationInvitation.updatedAt,
+                role: firstOrganizationInvitation.role,
               },
             },
             {
@@ -1141,6 +1144,7 @@ describe('Acceptance | Application | organization-controller', function () {
                 email: secondOrganizationInvitation.email,
                 status: OrganizationInvitation.StatusType.PENDING,
                 'updated-at': secondOrganizationInvitation.updatedAt,
+                role: secondOrganizationInvitation.role,
               },
             },
           ],

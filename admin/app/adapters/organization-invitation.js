@@ -9,6 +9,11 @@ export default class OrganizationInvitation extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/organizations/${organizationId}/invitations`;
   }
 
+  urlForFindAll(modelName, { adapterOptions }) {
+    const { organizationId } = adapterOptions;
+    return `${this.host}/${this.namespace}/organizations/${organizationId}/invitations`;
+  }
+
   createRecord() {
     return super.createRecord(...arguments).then((response) => {
       response.data = response.data[0];

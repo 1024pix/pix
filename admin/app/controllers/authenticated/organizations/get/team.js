@@ -5,20 +5,17 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 import { debounce } from '@ember/runloop';
-import isEmailValid from '../../../../utils/email-validator';
 import config from 'pix-admin/config/environment';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
-export default class GetMembersController extends Controller {
+export default class GetTeamController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email', 'organizationRole'];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
   @tracked userEmailToAdd = null;
-  @tracked userEmailToInvite = null;
-  @tracked userEmailToInviteError;
   @tracked isLoading = false;
   @tracked firstName = null;
   @tracked lastName = null;
@@ -106,42 +103,5 @@ export default class GetMembersController extends Controller {
     } catch (e) {
       this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
     }
-  }
-
-  @action
-  async createOrganizationInvitation(lang, role) {
-    this.isLoading = true;
-    const email = this.userEmailToInvite ? this.userEmailToInvite.trim() : null;
-    if (!this._isEmailToInviteValid(email)) {
-      this.isLoading = false;
-      return;
-    }
-
-    try {
-      const organizationInvitation = await this.store
-        .createRecord('organization-invitation', { email, lang, role })
-        .save({ adapterOptions: { organizationId: this.model.id } });
-
-      this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
-      this.userEmailToInvite = null;
-    } catch (e) {
-      this.notifications.error('Une erreur s’est produite, veuillez réessayer.');
-    }
-    this.isLoading = false;
-  }
-
-  _isEmailToInviteValid(email) {
-    if (!email) {
-      this.userEmailToInviteError = 'Ce champ est requis.';
-      return false;
-    }
-
-    if (!isEmailValid(email)) {
-      this.userEmailToInviteError = "L'adresse e-mail saisie n'est pas valide.";
-      return false;
-    }
-
-    this.userEmailToInviteError = null;
-    return true;
   }
 }
