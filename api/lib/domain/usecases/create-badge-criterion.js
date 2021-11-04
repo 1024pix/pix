@@ -1,4 +1,4 @@
-module.exports = async function createBadgeCriteria({ badgeId, badgeCriterion, badgeCriteriaRepository }) {
+module.exports = async function createBadgeCriterion({ badgeId, badgeCriterion, badgeCriteriaRepository }) {
   await badgeCriteriaRepository.save({
     badgeCriterion: {
       ...badgeCriterion,
