@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { htmlSafe } from '@ember/string';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | <Certifications::DetailsCompetence/>', function (hooks) {
+module('Unit | Component | certifications/details-competence', function (hooks) {
   setupTest(hooks);
 
   const answer = (result) => {

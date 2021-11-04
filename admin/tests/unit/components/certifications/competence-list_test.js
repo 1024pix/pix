@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | <Certifications::CompetenceList/>', function (hooks) {
+module('Unit | Component | certifications/competence-list', function (hooks) {
   setupTest(hooks);
 
   let component;

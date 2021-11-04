@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import ENV from 'pix-admin/config/environment';
 
-module('Unit | Component | organization-information-section', function (hooks) {
+module('Unit | Component | organizations/information-section', function (hooks) {
   setupTest(hooks);
 
   let component;

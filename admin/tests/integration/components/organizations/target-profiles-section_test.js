@@ -6,7 +6,7 @@ import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | organization-target-profiles-section', function (hooks) {
+module('Integration | Component | organizations/target-profiles-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it disable the button when the input is empty', async function (assert) {

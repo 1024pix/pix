@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ERROR, STARTED } from 'pix-admin/models/certification';
 
-module('Integration | Component | certification-status', function (hooks) {
+module('Integration | Component | certifications/status', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;

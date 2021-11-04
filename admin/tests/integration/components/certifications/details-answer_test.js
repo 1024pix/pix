@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | Certifications | DetailsAnswer', function (hooks) {
+module('Integration | Component | certifications/details-answer', function (hooks) {
   setupRenderingTest(hooks);
 
   const answerData = {

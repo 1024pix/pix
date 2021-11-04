@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | organization-campaigns-section', function (hooks) {
+module('Integration | Component | organizations/campaigns-section', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when there is no campaigns', function () {

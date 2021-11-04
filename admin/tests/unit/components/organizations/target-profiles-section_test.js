@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import createComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | OrganizationTargetProfilesSection', function (hooks) {
+module('Unit | Component | organizations/target-profiles-section', function (hooks) {
   setupTest(hooks);
 
   module('#attachTargetProfiles', function (hooks) {

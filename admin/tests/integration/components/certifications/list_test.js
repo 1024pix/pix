@@ -5,7 +5,7 @@ import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | <Certifications::List/>', function (hooks) {
+module('Integration | Component | certifications/list', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;

@@ -6,7 +6,7 @@ import EmberObject from '@ember/object';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 
-module('Integration | Component | organization-all-tags', function (hooks) {
+module('Integration | Component | organizations/all-tags', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display a list of tags', async function (assert) {
