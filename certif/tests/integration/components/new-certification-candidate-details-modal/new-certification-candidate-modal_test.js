@@ -5,9 +5,18 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render as renderScreen } from '@pix/ember-testing-library';
+import Service from '@ember/service';
 
 module('Integration | Component | new-certification-candidate-modal', function(hooks) {
   setupRenderingTest(hooks);
+
+  hooks.beforeEach(async function() {
+    const store = this.owner.lookup('service:store');
+    class CurrentUserStub extends Service {
+      currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', { habilitations: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }] });
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+  });
 
   test('it shows candidate form', async function(assert) {
     // given
@@ -50,6 +59,8 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
     assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
     assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
+    assert.dom(screen.getByLabelText('Certif complémentaire 1')).exists();
+    assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
   });
 
   test('it shows a countries list with France selected as default', async function(assert) {

@@ -24,6 +24,7 @@ module.exports = {
           'isAccessBlockedAEFE',
           'isAccessBlockedAgri',
           'relatedOrganizationTags',
+          'habilitations',
         ],
       },
       typeForAttribute: function (attribute) {

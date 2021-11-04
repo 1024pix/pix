@@ -44,23 +44,44 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       type: 'certification-centers.type',
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
       tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
+      habilitations: knex.raw(
+        `array_agg(json_build_object('id', "complementary-certifications".id, 'name', "complementary-certifications".name))`
+      ),
     })
     .from('certification-centers')
     .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
     .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
     .leftJoin('tags', 'tags.id', 'organization-tags.tagId')
+    .leftJoin(
+      'complementary-certification-habilitations',
+      'complementary-certification-habilitations.certificationCenterId',
+      'certification-centers.id'
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-habilitations.complementaryCertificationId'
+    )
     .whereIn('certification-centers.id', certificationCenterIds)
     .orderBy('certification-centers.id')
     .groupByRaw('1, 2, 3, 4, 5');
 
   return _.map(allowedCertificationCenterAccessDTOs, (allowedCertificationCenterAccessDTO) => {
-    const tags = _.compact(allowedCertificationCenterAccessDTO.tags);
     return new AllowedCertificationCenterAccess({
       ...allowedCertificationCenterAccessDTO,
       isRelatedToManagingStudentsOrganization: Boolean(
         allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization
       ),
-      relatedOrganizationTags: tags,
+      relatedOrganizationTags: _cleanEmptyTags(allowedCertificationCenterAccessDTO),
+      habilitations: _cleanEmptyHabilitations(allowedCertificationCenterAccessDTO),
     });
   });
+
+  function _cleanEmptyTags(allowedCertificationCenterAccessDTO) {
+    return _.compact(allowedCertificationCenterAccessDTO.tags);
+  }
+
+  function _cleanEmptyHabilitations(allowedCertificationCenterAccessDTO) {
+    return allowedCertificationCenterAccessDTO.habilitations.filter((habilitation) => Boolean(habilitation.id));
+  }
 }

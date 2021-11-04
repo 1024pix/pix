@@ -83,7 +83,32 @@
       &-double {
         width: 248px;
       }
+
+      .complementary-certifications-checkbox-list {
+        display: flex;
+
+        ul {
+          list-style-type: none;
+          margin: 8px;
+          padding: 0;
+        }
+
+        label {
+          align-items: center;
+          display: flex;
+          height: 30px;
+        }
+
+        input {
+          width: 20px;
+          margin-right: 10px;
+        }
+      }
     }
+  }
+
+  #email-container {
+    padding-top: 18px;
   }
 
   &__actions {
