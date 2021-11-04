@@ -1,3 +1,9 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Rule added because of linter and DOM checking limitations */
+
+/* See https://stylelint.io/user-guide/rules/list/no-descending-specificity/#dom-limitations for further detail */
+
 .qcu-solution-panel {
 
   a {
@@ -8,9 +14,7 @@
       display: inline-block;
     }
 
-    &:active,
-    &:focus,
-    &:hover {
+    &:focus {
       color: $blue-hover;
     }
 
@@ -41,6 +45,10 @@
   &__proposition {
     display: inline-block;
 
+    & a {
+      color: inherit;
+    }
+
     &[data-goodness='good'] {
       color: $green;
       font-weight: $font-heavy;
@@ -48,6 +56,10 @@
 
     &[data-goodness='bad'][data-checked='yes'] {
       text-decoration: line-through;
+
+      & a {
+        text-decoration: line-through;
+      }
     }
 
     p {
