@@ -97,25 +97,8 @@
         margin-bottom: 4px;
       }
 
-      .pix-select {
-        background: $white;
-        border: 1.2px solid $grey-45;
-        border-radius: 4px;
-
-        select[id^="subcategory-for-category"] {
-          height: 35px;
-          font-size: 14px;
-          color: $grey-90;
-        }
-
-        svg {
-          width: 14px;
-          height: 16px;
-          color: $blue-zodiac;
-          font-size: 16px;
-          font-weight: normal;
-          letter-spacing: 0;
-        }
+      .pix-select select {
+        width: 100%;
       }
 
       label[for^="text-area-for-category"] {
