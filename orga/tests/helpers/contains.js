@@ -1,4 +1,4 @@
-import { getScreen } from './testing-library';
+import { getScreen } from '@1024pix/ember-testing-library';
 
 export function contains(text, options = { exact: false }) {
   const elements = getScreen().queryAllByText(text, options);
