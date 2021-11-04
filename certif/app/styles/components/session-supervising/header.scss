@@ -11,6 +11,14 @@
     width: 672px;
   }
 
+  &__quit {
+    float: right;
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+
   &__title {
     font-family: $open-sans;
     font-size: 1.75rem;
