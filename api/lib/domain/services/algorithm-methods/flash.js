@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const DEFAULT_ESTIMATED_LEVEL = 0;
 
 module.exports = { getPossibleNextChallenges, getEstimatedLevel };
@@ -45,9 +47,36 @@ function _getReward({ estimatedLevel, discriminant, difficulty }) {
   return probability * (1 - probability) * Math.pow(discriminant, 2);
 }
 
-function getEstimatedLevel({ allAnswers, challenges }) {
-  return DEFAULT_ESTIMATED_LEVEL;
+function _getGaussianValue({ gaussianMean, value }){
+  const variance = 1.5;
+  return Math.exp((Math.pow(value - gaussianMean, 2)/(-2*variance)))/(Math.sqrt(variance) * Math.sqrt(2*Math.PI));
 }
 
+function getEstimatedLevel({ allAnswers, challenges }) {
+  if (allAnswers.length === 0) {
+    return DEFAULT_ESTIMATED_LEVEL;
+  }
 
+  const firstLevel = -9;
+  const lastLevel = 9 + 18/80;
+  const step = 18/80;
+  const allColumns = _.range(firstLevel, lastLevel, step);
+  // allColumns = nodes
 
+  // levelProbabilitiesForActuelEstimatedLevel = weight
+  let levelProbabilitiesForActualEstimatedLevel = allColumns.map(column =>_getGaussianValue({ gaussianMean: 0, value:column }));
+  const sumOfLevelProbabilities = _.sum(levelProbabilitiesForActualEstimatedLevel);
+
+  const currentAnswer = allAnswers[0];
+  const answeredChallenge = _.find(challenges, ['id',  currentAnswer.challengeId]);
+  let probabilitiesToAnswersThisChallenge = allColumns.map((column, index) => {
+    const probability = _getProbability({ estimatedLevel: column, discriminant: answeredChallenge.discriminant, difficulty: answeredChallenge.difficulty });
+    const levelProbability = levelProbabilitiesForActualEstimatedLevel[index]/sumOfLevelProbabilities;
+    return currentAnswer.isOk() ? probability*levelProbability : (1-probability)*levelProbability;
+  });
+  const sumOfProbabilitiesToAnswersThisChallenge = _.sum(probabilitiesToAnswersThisChallenge);
+  // probabilitiesToAnswersThisChallenge : posterior
+
+  const estimatedLevel = allColumns.reduce((estimatedLevel, column, index) => estimatedLevel + column * probabilitiesToAnswersThisChallenge[index]/sumOfProbabilitiesToAnswersThisChallenge, 0);
+  return estimatedLevel;
+}
