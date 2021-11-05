@@ -1,4 +1,5 @@
 const types = require('pg').types;
+const logger = require('../lib/infrastructure/logger');
 const monitoringTools = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
 const { performance } = require('perf_hooks');
@@ -35,7 +36,7 @@ try {
   });
 } catch (e) {
   if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
-    console.error(e);
+    logger.error(e);
   }
 }
 /* -------------------- */
