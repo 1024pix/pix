@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.124.1 (05/11/2021)
+
+
+### :bug: Bug fix
+- [#3696](https://github.com/1024pix/pix/pull/3696) [BUGFIX]  Cacher les certifications complémentaires dans la modale d'inscription d'un candidat si le FT n'est pas activé (PIX-3803).
+
 ## v3.124.0 (05/11/2021)
 
 
