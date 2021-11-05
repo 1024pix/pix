@@ -1,7 +1,8 @@
 const knexDatabaseConnection = require('../../db/knex-database-connection');
+const logger = require('../../lib/infrastructure/logger');
 
-console.log('Emptying all tables...');
+logger.info('Emptying all tables...');
 knexDatabaseConnection.emptyAllTables().then(() => {
-  console.log('Done!');
+  logger.info('Done!');
   process.exit(0);
 });
