@@ -41,9 +41,7 @@ const createOrganizationInvitation = async ({
     tags,
   });
 
-  await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
-
-  return organizationInvitation;
+  return await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
 };
 
 const createProOrganizationInvitation = async ({

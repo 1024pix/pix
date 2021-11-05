@@ -43,7 +43,6 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       });
 
       // then
-      expect(result).to.be.instanceOf(OrganizationInvitation);
       expect(_.omit(result, ['id', 'code', 'organizationName', 'createdAt', 'updatedAt'])).to.deep.equal(
         expectedOrganizationInvitation
       );
@@ -55,6 +54,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
         status: OrganizationInvitation.StatusType.PENDING,
       });
       const { organizationId, email } = expectedOrganizationInvitation;
+      delete expectedOrganizationInvitation.updatedAt;
 
       await databaseBuilder.commit();
 
@@ -67,7 +67,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       });
 
       // then
-      expect(_.omit(result, 'organizationName')).to.deep.equal(expectedOrganizationInvitation);
+      expect(_.omit(result, 'organizationName', 'updatedAt')).to.deep.equal(expectedOrganizationInvitation);
     });
   });
 });
