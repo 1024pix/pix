@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { Serializer } = require('jsonapi-serializer');
+const { featureToggles } = require('../../../config');
 
 module.exports = {
   serialize(certificationPointOfContact) {
@@ -38,8 +39,13 @@ module.exports = {
         transformedCertificationPointOfContact.allowedCertificationCenterAccesses = _.map(
           certificationPointOfContact.allowedCertificationCenterAccesses,
           (access) => {
+            let habilitations = access.habilitations;
+            if (!featureToggles.isComplementaryCertificationSubscriptionEnabled) {
+              habilitations = [];
+            }
             return {
               ...access,
+              habilitations,
               isAccessBlockedCollege: access.isAccessBlockedCollege(),
               isAccessBlockedLycee: access.isAccessBlockedLycee(),
               isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
