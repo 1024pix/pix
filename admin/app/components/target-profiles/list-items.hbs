@@ -36,7 +36,7 @@
             <tr aria-label="Profil cible">
               <td>{{targetProfile.id}}</td>
               <td>
-                <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile}}>
+                <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile.id}}>
                   {{targetProfile.name}}
                 </LinkTo>
               </td>
