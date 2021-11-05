@@ -22,7 +22,7 @@ const setupServer = async () => {
 
   const server = await createServer();
 
-  if (settings.isProduction) await enableOpsMetrics(server);
+  if (settings.logOpsMetrics) await enableOpsMetrics(server);
 
   setupErrorHandling(server);
 
