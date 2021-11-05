@@ -109,7 +109,6 @@ async function _readFirstLine(path) {
     await file.read(buffer, 0, 128, 0);
     file.close();
   } catch (err) {
-    console.log(err);
     logger.error(err);
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }

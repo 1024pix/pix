@@ -1,4 +1,5 @@
 const BATCH_SIZE = 10;
+const logger = require('../lib/infrastructure/logger');
 
 function batch(knex, elementsToUpdate, treatment) {
   function _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone) {
@@ -9,7 +10,7 @@ function batch(knex, elementsToUpdate, treatment) {
     const assessments = remainingElementsToUpdate.splice(0, BATCH_SIZE);
     const promises = assessments.map((assessment) => {
       return treatment(assessment).catch((err) => {
-        console.error('Treatment failed for :', assessment);
+        logger.error('Treatment failed for :', assessment);
 
         throw err;
       });
@@ -17,7 +18,7 @@ function batch(knex, elementsToUpdate, treatment) {
 
     return Promise.all(promises)
       .then((results) => {
-        console.log(
+        logger.info(
           `---- Lot ${batchesDone} : ${results.length} processed - (total: ${countOfBatches} lots, ${
             (batchesDone / countOfBatches) * 100
           }%)`
