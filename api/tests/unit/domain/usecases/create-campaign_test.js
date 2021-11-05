@@ -3,6 +3,7 @@ const createCampaign = require('../../../../lib/domain/usecases/create-campaign'
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
 const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
 
 describe('Unit | UseCase | create-campaign', function () {
   let campaignRepository;
@@ -156,6 +157,8 @@ describe('Unit | UseCase | create-campaign', function () {
         targetProfileId,
         organizationId,
       };
+      const campaignForCreation = new CampaignForCreation({ ...campaignData, code})
+
 
       const organization = domainBuilder.buildOrganization({ id: organizationId });
       const organizationMember = _createOrganizationMember(creatorId, organization);
@@ -176,10 +179,7 @@ describe('Unit | UseCase | create-campaign', function () {
       });
 
       // then
-      expect(campaignRepository.create).to.have.been.calledWith({
-        ...campaignData,
-        code,
-      });
+      expect(campaignRepository.create).to.have.been.calledWith(campaignForCreation);
     });
 
     it('should save a profile collection campaign', async function () {
@@ -194,6 +194,7 @@ describe('Unit | UseCase | create-campaign', function () {
         organizationId,
       };
 
+      const campaignForCreation = new CampaignForCreation({ ...campaignData, code})
       const organization = domainBuilder.buildOrganization({ id: organizationId, canCollectProfiles: true });
       const organizationMember = _createOrganizationMember(creatorId, organization);
       userRepository.getWithMemberships.withArgs(creatorId).resolves(organizationMember);
@@ -212,10 +213,7 @@ describe('Unit | UseCase | create-campaign', function () {
       });
 
       // then
-      expect(campaignRepository.create).to.have.been.calledWith({
-        ...campaignData,
-        code,
-      });
+      expect(campaignRepository.create).to.have.been.calledWith(campaignForCreation);
     });
 
     it('should generate a new code to the campaign', async function () {
@@ -253,7 +251,7 @@ describe('Unit | UseCase | create-campaign', function () {
       });
 
       // then
-      expect(campaignRepository.create).to.have.been.calledWithMatch({ code });
+      expect(campaignRepository.create).to.have.been.deep.calledWithMatch({ code });
     });
 
     it('should return the newly created campaign', async function () {
