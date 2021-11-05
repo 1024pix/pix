@@ -186,7 +186,7 @@ export default function() {
     return schema.countries.all();
   });
 
-  this.get('/sessions/:id/supervising', (schema, request) => {
+  this.get('/sessions/:id/supervising', async (schema, request) => {
     const sessionId = request.params.id;
     return schema.sessionForSupervisings.find(sessionId);
   });
