@@ -73,10 +73,14 @@ Router.map(function () {
     this.route('campaign-not-found', { path: '/oups' });
     this.route('start-or-resume', { path: '/startOrResume' });
     this.route('campaign-landing-page', { path: '/presentation' });
-    this.route('fill-in-participant-external-id', { path: '/identifiant' });
+    this.route('invited', { path: '/prescrit' }, function () {
+      this.route('student-sco', { path: '/eleve' });
+      this.route('student-sup', { path: '/etudiant' });
+      this.route('fill-in-participant-external-id', { path: '/identifiant' });
+    });
     this.route('restricted', { path: '/privee' }, function () {
       this.route('login-or-register-to-access', { path: '/identification' });
-      this.route('join', { path: '/rejoindre' });
+      this.route('join-from-mediacentre', { path: '/rejoindre-depuis-mediacentre' });
     });
     this.route('entrance', { path: '/entree' });
     this.route('profiles-collection', { path: '/collecte' }, function () {

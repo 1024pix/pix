@@ -32,12 +32,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign, !this.state.hasUserSeenJoinPage);
     }
 
-    if (this._shouldJoinRestrictedCampaign) {
-      if (!this.state.externalUser && this.currentUser.user.mustValidateTermsOfService) {
-        return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
-      }
+    if (this._shouldValidateTermsOfService) {
+      return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
+    }
 
-      return this.replaceWith('campaigns.restricted.join', campaign);
+    if (this._shouldJoinFromMediacentre) {
+      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign);
     }
 
     if (this._shouldDisconnectAnonymousUser) {
@@ -68,11 +68,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   redirect(campaign) {
-    if (this._shouldProvideExternalIdToAccessCampaign) {
-      return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
+    const hasParticipated = this.campaignStorage.get(campaign.code, 'hasParticipated');
+    if (hasParticipated) {
+      return this.replaceWith('campaigns.entrance', campaign);
     }
-
-    return this.replaceWith('campaigns.entrance', campaign);
+    return this.replaceWith('campaigns.invited', campaign);
   }
 
   _resetState() {
@@ -87,7 +87,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
       isUserLogged: false,
-      doesCampaignAskForExternalId: false,
       participantExternalId: null,
       externalUser: null,
       isCampaignPoleEmploi: false,
@@ -108,7 +107,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
       isUserLogged: this.session.isAuthenticated,
-      doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
       participantExternalId,
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
@@ -151,10 +149,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.state.isCampaignPoleEmploi && !this.state.isUserLoggedInPoleEmploi;
   }
 
-  get _shouldJoinRestrictedCampaign() {
+  get _shouldJoinFromMediacentre() {
     return (
       this.state.isCampaignRestricted &&
-      (this.state.isUserLogged || this.state.externalUser) &&
+      this.state.externalUser &&
       !this.state.hasUserCompletedRestrictedCampaignAssociation
     );
   }
@@ -167,8 +165,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.state.isUserLogged && this.currentUser.user.isAnonymous && !this.state.participantExternalId;
   }
 
-  get _shouldProvideExternalIdToAccessCampaign() {
-    const hasParticipated = this.campaignStorage.get(this.state.campaignCode, 'hasParticipated');
-    return this.state.doesCampaignAskForExternalId && !this.state.participantExternalId && !hasParticipated;
+  get _shouldValidateTermsOfService() {
+    return this.state.isUserLogged && !this.state.externalUser && this.currentUser.user.mustValidateTermsOfService;
   }
 }

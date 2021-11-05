@@ -5,29 +5,23 @@ import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/restricted/join-sup', function () {
+describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form', function () {
   setupTest();
   setupIntl();
 
   let component;
   let storeStub;
-  let onSubmitToReconcileStub;
-  let sessionStub;
   let eventStub;
 
   beforeEach(function () {
     const createSchoolingRegistrationUserAssociationStub = sinon.stub();
 
     storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
-    sessionStub = { data: { authenticated: { source: 'pix' } } };
-    onSubmitToReconcileStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/restricted/join-sup', {
-      onSubmitToReconcile: onSubmitToReconcileStub,
+    component = createComponent('component:routes/campaigns/invited/associate-sup-student-form', {
       campaignCode: 123,
     });
     component.store = storeStub;
-    component.session = sessionStub;
   });
 
   describe('#submit', function () {
@@ -43,7 +37,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
 
       it('call reconciliation for the schooling registration', async function () {
         // given
-        const schoolingRegistration = Symbol('registration');
+        const schoolingRegistration = { save: sinon.stub() };
         storeStub.createRecord
           .withArgs('schooling-registration-user-association', {
             id: `${component.args.campaignCode}_${component.lastName}`,
@@ -59,7 +53,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, { reconcileSup: true });
+        sinon.assert.calledOnce(schoolingRegistration.save);
       });
     });
 
@@ -72,7 +66,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitToReconcileStub);
         expect(component.errors.studentNumber).to.equal('Votre numéro étudiant n’est pas renseigné.');
       });
 
@@ -84,7 +77,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitToReconcileStub);
         expect(component.errors.firstName).to.equal('Votre prénom n’est pas renseigné.');
       });
 
@@ -96,7 +88,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitToReconcileStub);
         expect(component.errors.lastName).to.equal('Votre nom n’est pas renseigné.');
       });
 
@@ -108,7 +99,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitToReconcileStub);
         expect(component.errors.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
       });
 
@@ -120,7 +110,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitToReconcileStub);
         expect(component.errors.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
       });
 
@@ -132,7 +121,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function () 
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitToReconcileStub);
         expect(component.errors.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
       });
     });

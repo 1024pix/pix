@@ -53,7 +53,7 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
 
       if (error.status == 400 && error.detail.includes('participant-external-id')) {
         this.campaignStorage.set(campaign.code, 'participantExternalId', null);
-        return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
+        return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign);
       }
 
       throw err;

@@ -1,0 +1,18 @@
+<Routes::Campaigns::ScoForm
+  @campaignCode={{@campaignCode}}
+  @organizationName={{@organizationName}}
+  @areNamesDisabled={{true}}
+  @firstName={{this.firstName}}
+  @lastName={{this.lastName}}
+  @onSubmit={{this.submit}}
+  @errorMessage={{this.errorMessage}}
+/>
+
+{{#if this.displayInformationModal}}
+  <Routes::Campaigns::JoinScoInformationModal
+    @campaignCode={{@campaignCode}}
+    @reconciliationError={{this.reconciliationError}}
+    @reconciliationWarning={{this.reconciliationWarning}}
+    @closeModal={{this.closeModal}}
+  />
+{{/if}}

@@ -4,7 +4,7 @@
     organizationName=@organizationName
   }}</h1>
 <div class="join-restricted-campaign__subtitle">{{t "pages.join.sco.subtitle"}}</div>
-<form onSubmit={{this.submit}}>
+<form onSubmit={{this.validateForm}}>
   <div class="join-restricted-campaign__row">
     <label for="firstName" class="join-restricted-campaign__label">{{t "pages.join.fields.firstname.label"}}</label>
     <Input
@@ -12,8 +12,8 @@
       @type="text"
       @value={{this.firstName}}
       placeholder={{t "pages.join.fields.firstname.label"}}
-      readonly={{this.isDisabled}}
-      disabled={{this.isDisabled}}
+      readonly={{@areNamesDisabled}}
+      disabled={{@areNamesDisabled}}
       class={{if this.validation.firstName "input--error"}}
       {{on "focusout" (fn this.triggerInputStringValidation "firstName" this.firstName)}}
     />
@@ -29,8 +29,8 @@
       @type="text"
       @value={{this.lastName}}
       placeholder={{t "pages.join.fields.lastname.label"}}
-      readonly={{this.isDisabled}}
-      disabled={{this.isDisabled}}
+      readonly={{@areNamesDisabled}}
+      disabled={{@areNamesDisabled}}
       class={{if this.validation.lastName "input--error"}}
       {{on "focusout" (fn this.triggerInputStringValidation "lastName" this.lastName)}}
     />
@@ -81,19 +81,10 @@
     </div>
   </div>
 
-  {{#if this.errorMessage}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{this.errorMessage}}</div>
+  {{#if @errorMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{@errorMessage}}</div>
   {{/if}}
   <div class="join-restricted-campaign__actions">
     <PixButton @type="submit">{{t "pages.join.button"}}</PixButton>
   </div>
 </form>
-{{#if this.displayInformationModal}}
-  <Routes::Campaigns::Restricted::JoinScoInformationModal
-    @campaignCode={{@campaignCode}}
-    @reconciliationError={{this.reconciliationError}}
-    @reconciliationWarning={{this.reconciliationWarning}}
-    @closeModal={{this.closeModal}}
-    @associate={{this.associate}}
-  />
-{{/if}}
