@@ -9,16 +9,14 @@ module('Unit | Controller | authenticated/users/list', function (hooks) {
     controller = this.owner.lookup('controller:authenticated.users.list');
   });
 
-  module('#triggerFiltering task', function () {
+  module('#updateFilters', function () {
     module('updating firstName', function () {
       test('it should update controller firstName field', async function (assert) {
         // given
         controller.firstName = 'someFirstName';
         const expectedValue = 'someOtherFirstName';
-
         // when
-        await controller.triggerFiltering.perform('firstName', { target: { value: expectedValue } });
-
+        await controller.updateFilters({ firstName: expectedValue });
         // then
         assert.equal(controller.firstName, expectedValue);
       });
@@ -29,10 +27,8 @@ module('Unit | Controller | authenticated/users/list', function (hooks) {
         // given
         controller.lastName = 'someLastName';
         const expectedValue = 'someOtherLastName';
-
         // when
-        await controller.triggerFiltering.perform('lastName', { target: { value: expectedValue } });
-
+        await controller.updateFilters({ lastName: expectedValue });
         // then
         assert.equal(controller.lastName, expectedValue);
       });
@@ -43,10 +39,8 @@ module('Unit | Controller | authenticated/users/list', function (hooks) {
         // given
         controller.email = 'someEmail';
         const expectedValue = 'someOtherEmail';
-
         // when
-        await controller.triggerFiltering.perform('email', { target: { value: expectedValue } });
-
+        await controller.updateFilters({ email: expectedValue });
         // then
         assert.equal(controller.email, expectedValue);
       });
