@@ -1,4 +1,6 @@
-extends: 'eslint:recommended'
+extends:
+  - 'eslint:recommended'
+  - 'plugin:yml/standard'
 root: true
 parserOptions:
   ecmaVersion: 2018
@@ -73,3 +75,7 @@ rules:
     - error
   no-multi-spaces:
     - error
+  yml/quotes:
+    - error
+    - prefer: single
+      avoidEscape: true
