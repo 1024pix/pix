@@ -62,6 +62,7 @@ export default class AssociateScoStudentWithMediacentreForm extends Component {
   }
 
   _setErrorMessageForAttemptNextAction(errorResponse) {
+    if (!errorResponse.errors) throw errorResponse;
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
         if ('USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION' === error.code) {
