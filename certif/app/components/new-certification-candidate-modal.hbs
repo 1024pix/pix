@@ -251,7 +251,7 @@
                         <Input
                           @type="checkbox"
                           id={{concat "complementaryCertification_" index}}
-                          {{on "input" (fn this.addComplementaryCertification complementaryCertification)}}
+                          {{on "input" (fn this.updateComplementaryCertifications complementaryCertification)}}
                         />
                         {{complementaryCertification.name}}
                       </label>

@@ -56,7 +56,17 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   @action
-  addComplementaryCertification(_complementaryCertification) {}
+  updateComplementaryCertifications(complementaryCertification) {
+    if (!this.args.candidateData.complementaryCertifications) {
+      this.args.candidateData.complementaryCertifications = [];
+    }
+    const complementaryCertifications = this.args.candidateData.complementaryCertifications;
+    if (complementaryCertifications.includes(complementaryCertification)) {
+      complementaryCertifications.removeObject(complementaryCertification);
+    } else {
+      complementaryCertifications.addObject(complementaryCertification);
+    }
+  }
 
   @action
   async onFormSubmit(event) {
