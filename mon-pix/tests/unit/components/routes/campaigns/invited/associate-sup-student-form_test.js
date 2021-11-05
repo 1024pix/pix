@@ -11,17 +11,14 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
 
   let component;
   let storeStub;
-  let onSubmitStub;
   let eventStub;
 
   beforeEach(function () {
     const createSchoolingRegistrationUserAssociationStub = sinon.stub();
 
     storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
-    onSubmitStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
     component = createComponent('component:routes/campaigns/invited/associate-sup-student-form', {
-      onSubmit: onSubmitStub,
       campaignCode: 123,
     });
     component.store = storeStub;
@@ -40,7 +37,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
 
       it('call reconciliation for the schooling registration', async function () {
         // given
-        const schoolingRegistration = Symbol('registration');
+        const schoolingRegistration = { save: sinon.stub() };
         storeStub.createRecord
           .withArgs('schooling-registration-user-association', {
             id: `${component.args.campaignCode}_${component.lastName}`,
@@ -56,7 +53,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledWith(onSubmitStub, schoolingRegistration);
+        sinon.assert.calledOnce(schoolingRegistration.save);
       });
     });
 
@@ -69,7 +66,6 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitStub);
         expect(component.errors.studentNumber).to.equal('Votre numéro étudiant n’est pas renseigné.');
       });
 
@@ -81,7 +77,6 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitStub);
         expect(component.errors.firstName).to.equal('Votre prénom n’est pas renseigné.');
       });
 
@@ -93,7 +88,6 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitStub);
         expect(component.errors.lastName).to.equal('Votre nom n’est pas renseigné.');
       });
 
@@ -105,7 +99,6 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitStub);
         expect(component.errors.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
       });
 
@@ -117,7 +110,6 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitStub);
         expect(component.errors.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
       });
 
@@ -129,7 +121,6 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.notCalled(onSubmitStub);
         expect(component.errors.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
       });
     });

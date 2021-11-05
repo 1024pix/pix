@@ -14,29 +14,32 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
 
   let sessionStub;
   let storeStub;
-  let onSubmitStub;
+  let routerStub;
+  let saveStub;
+  let transitionToStub;
 
   beforeEach(function () {
+    saveStub = sinon.stub();
+    transitionToStub = sinon.stub();
     sessionStub = class StoreStub extends Service {};
     storeStub = class StoreStub extends Service {
       createRecord = () => ({
+        save: saveStub,
         unloadRecord: () => sinon.stub(),
       });
     };
+    routerStub = class RouterStub extends Service {
+      transitionTo = transitionToStub;
+    };
+    this.owner.register('service:router', routerStub);
     this.owner.register('service:session', sessionStub);
     this.owner.register('service:store', storeStub);
   });
 
   context('when user fill the form correctly', () => {
-    it('should call the submit callback', async function () {
-      // given
-      onSubmitStub = sinon.stub();
-      this.set('onSubmitStub', onSubmitStub);
-
+    it('should save form', async function () {
       // when
-      await render(
-        hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`
-      );
+      await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
       await fillInByLabel('Numéro étudiant', 'F100');
       await fillInByLabel('Prénom', 'Jean');
@@ -47,20 +50,33 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
       await clickByLabel("C'est parti !");
 
       // then
-      sinon.assert.called(onSubmitStub);
+      sinon.assert.calledWithExactly(saveStub, { adapterOptions: { reconcileSup: true } });
+    });
+
+    it('should transition to fill-in-participant-external-id', async function () {
+      // when
+      await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
+
+      await fillInByLabel('Numéro étudiant', 'F100');
+      await fillInByLabel('Prénom', 'Jean');
+      await fillInByLabel('Nom', 'Bon');
+      await fillInByLabel('jour de naissance', '01');
+      await fillInByLabel('mois de naissance', '01');
+      await fillInByLabel('année de naissance', '2000');
+      await clickByLabel("C'est parti !");
+
+      // then
+      sinon.assert.calledWithExactly(transitionToStub, 'campaigns.invited.fill-in-participant-external-id', 123);
     });
   });
 
   context('when the server responds an error', () => {
     it('should display server error', async function () {
       // given
-      onSubmitStub = sinon.stub().rejects();
-      this.set('onSubmitStub', onSubmitStub);
+      saveStub.rejects();
 
       // when
-      await render(
-        hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`
-      );
+      await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
       await fillInByLabel('Numéro étudiant', 'F100');
       await fillInByLabel('Prénom', 'Jean');
