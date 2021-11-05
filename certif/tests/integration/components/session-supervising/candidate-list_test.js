@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
 import { render as renderScreen } from '@pix/ember-testing-library';
 
 import hbs from 'htmlbars-inline-precompile';
@@ -41,11 +40,12 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
     const screen = await renderScreen(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}}  />`);
 
     // then
-    assert.dom(screen.getByRole('checkbox', { name: 'Tuto Toto' })).exists();
-    assert.contains('Tuto Toto');
+    assert.dom(screen.getByRole('checkbox', { name: 'Tutu Toto' })).isChecked();
+    assert.contains('Tutu Toto');
     assert.contains('· Temps majoré : 8%');
     assert.contains('28/05/1984');
-    assert.contains('Lord Star');
+
+    assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isNotChecked();
     assert.contains('· Temps majoré : 12%');
     assert.contains('28/06/1983');
   });
@@ -57,7 +57,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
         certificationCandidates: [] });
 
       // when
-      await render(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}} />`);
+      await renderScreen(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}} />`);
 
       // then
       assert.contains('Aucun candidat inscrit à cette session');
