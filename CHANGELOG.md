@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.124.0 (05/11/2021)
+
+
+### :rocket: Enhancement
+- [#3685](https://github.com/1024pix/pix/pull/3685) [FEATURE] Afficher un message d'erreur pour les invitations d'organisation annulées (PIX-1316)
+- [#3668](https://github.com/1024pix/pix/pull/3668) [FEATURE] Optimiser la page des utilisateurs dans Pix Admin qui déclenche des requêtes couteuses à chaque chargement et à chaque recherche (PIX-3667).
+- [#3683](https://github.com/1024pix/pix/pull/3683) [FEATURE] Afficher les certifications complémentaires dans la modale d'inscription d'un candidat à une session de certification (PIX-3685)
+- [#3691](https://github.com/1024pix/pix/pull/3691) [FEATURE] Permettre à un surveillant de quitter la session qu'il surveille (PIX-3752).
+
+### :building_construction: Tech
+- [#3686](https://github.com/1024pix/pix/pull/3686) [TECH] Réorganisation des composants dans l'application Admin.
+
 ## v3.123.0 (04/11/2021)
 
 
