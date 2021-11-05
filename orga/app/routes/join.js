@@ -19,8 +19,13 @@ export default class JoinRoute extends Route {
       })
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {
+          if (error.status === '403') {
+            const transition = this.router.replaceWith('login');
+            transition.data['isInvitationCancelled'] = true;
+          }
           if (error.status === '412') {
-            this.router.replaceWith('login', { queryParams: { hasInvitationError: true } });
+            const transition = this.router.replaceWith('login');
+            transition.data['hasInvitationAlreadyBeenAccepted'] = true;
           }
         });
         this.router.replaceWith('login');

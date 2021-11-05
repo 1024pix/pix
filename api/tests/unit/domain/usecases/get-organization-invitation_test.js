@@ -1,7 +1,11 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getOrganizationInvitation = require('../../../../lib/domain/usecases/get-organization-invitation');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const { NotFoundError, AlreadyExistingOrganizationInvitationError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  AlreadyExistingOrganizationInvitationError,
+  CancelledOrganizationInvitationError,
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-organization-invitation', function () {
   let organizationInvitationRepository;
@@ -98,6 +102,31 @@ describe('Unit | UseCase | get-organization-invitation', function () {
 
       // then
       expect(result).to.deep.equal(expectedOrganizationInvitation);
+    });
+
+    context('when invitation is cancelled', function () {
+      it('should throw an CancelledOrganizationInvitationError', async function () {
+        // given
+        const status = OrganizationInvitation.StatusType.CANCELLED;
+        const organization = domainBuilder.buildOrganization();
+        const organizationInvitation = domainBuilder.buildOrganizationInvitation({
+          organizationId: organization.id,
+          organizationName: organization.name,
+          status,
+        });
+        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitation);
+        organizationRepository.get.resolves(organization);
+
+        // when
+        const error = await catchErr(getOrganizationInvitation)({
+          organizationInvitationId: organizationInvitation.id,
+          organizationRepository,
+          organizationInvitationRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(CancelledOrganizationInvitationError);
+      });
     });
   });
 });

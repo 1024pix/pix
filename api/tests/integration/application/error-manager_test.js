@@ -433,6 +433,15 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('The scope is not allowed.');
       expect(responseTitle(response)).to.equal('Forbidden');
     });
+
+    it('responds Forbidden when a CancelledOrganizationInvitationError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.CancelledOrganizationInvitationError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal("L'invitation à cette organisation a été annulée.");
+      expect(responseTitle(response)).to.equal('Forbidden');
+    });
   });
 
   context('400 Bad Request', function () {
