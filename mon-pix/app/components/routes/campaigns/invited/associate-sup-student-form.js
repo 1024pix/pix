@@ -28,9 +28,11 @@ class Errors {
   @tracked global = null;
 }
 
-export default class JoinSup extends Component {
+export default class AssociateSupStudentForm extends Component {
   @service store;
   @service intl;
+  @service campaignStorage;
+  @service router;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -109,7 +111,9 @@ export default class JoinSup extends Component {
     });
 
     try {
-      await this.args.onSubmitToReconcile(schoolingRegistration, { reconcileSup: true });
+      await schoolingRegistration.save({ adapterOptions: { reconcileSup: true } });
+      this.campaignStorage.set(this.args.campaignCode, 'associationDone', true);
+      return this.router.transitionTo('campaigns.invited.fill-in-participant-external-id', this.args.campaignCode);
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
       this._setErrorMessage(errorResponse);

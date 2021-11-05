@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
-import { getJoinErrorsMessageByShortCode } from '../../../../utils/errors-messages';
+import { getJoinErrorsMessageByShortCode } from '../../../utils/errors-messages';
 
 const ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS = ['R13', 'R33'];
 

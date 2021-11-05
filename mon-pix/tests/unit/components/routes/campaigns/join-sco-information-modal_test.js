@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-import createComponent from '../../../../../helpers/create-glimmer-component';
-import setupIntl from '../../../../../helpers/setup-intl';
+import createComponent from '../../../../helpers/create-glimmer-component';
+import setupIntl from '../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/restricted/join-sco-information-modal', function () {
+describe('Unit | Component | routes/campaigns/join-sco-information-modal', function () {
   setupTest();
   setupIntl();
 
@@ -17,7 +17,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco-information-mo
 
     it('should set is isInformationMode to false', function () {
       // when
-      const component = createComponent('component:routes/campaigns/restricted/join-sco-information-modal', {
+      const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
         reconciliationError,
       });
 
@@ -33,7 +33,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco-information-mo
       });
 
       // when
-      const component = createComponent('component:routes/campaigns/restricted/join-sco-information-modal', {
+      const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
         reconciliationError,
       });
 
@@ -47,7 +47,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco-information-mo
         reconciliationError.meta.shortCode = 'R12';
 
         // when
-        const component = createComponent('component:routes/campaigns/restricted/join-sco-information-modal', {
+        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
           reconciliationError,
         });
 
@@ -62,7 +62,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco-information-mo
         reconciliationError.meta.shortCode = 'R13';
 
         // when
-        const component = createComponent('component:routes/campaigns/restricted/join-sco-information-modal', {
+        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
           reconciliationError,
         });
 
@@ -81,7 +81,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco-information-mo
 
     it('should set is isInformationMode to true', function () {
       // when
-      const component = createComponent('component:routes/campaigns/restricted/join-sco-information-modal', {
+      const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
         reconciliationWarning,
       });
 
@@ -97,7 +97,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco-information-mo
       });
 
       // when
-      const component = createComponent('component:routes/campaigns/restricted/join-sco-information-modal', {
+      const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
         reconciliationWarning,
       });
 

@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | routes/campaigns/restricted/fill-in-participant-external-id', function () {
+describe('Integration | Component | routes/campaigns/invited/fill-in-participant-external-id', function () {
   setupIntlRenderingTest();
 
   let onSubmitStub;
@@ -26,7 +26,7 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
 
       // given
       await render(
-        hbs`<Routes::Campaigns::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
+        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
       );
 
       // then
@@ -45,7 +45,7 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
 
       // given
       await render(
-        hbs`<Routes::Campaigns::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
+        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`
       );
 
       // then
