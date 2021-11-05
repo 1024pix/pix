@@ -10,7 +10,7 @@ describe('Unit | UseCase | create-campaign', function () {
   let campaignCreatorRepository;
 
   beforeEach(function () {
-    campaignRepository = { create: sinon.stub() };
+    campaignRepository = { save: sinon.stub() };
     campaignCreatorRepository = { get: sinon.stub() };
     sinon.stub(campaignCodeGenerator, 'generate');
   });
@@ -34,7 +34,7 @@ describe('Unit | UseCase | create-campaign', function () {
     campaignCreatorRepository.get.withArgs(creatorId, organizationId).resolves(campaignCreator);
 
     campaignCodeGenerator.generate.resolves(code);
-    campaignRepository.create.resolves();
+    campaignRepository.save.resolves();
 
     // when
     await createCampaign({
@@ -44,7 +44,7 @@ describe('Unit | UseCase | create-campaign', function () {
     });
 
     // then
-    expect(campaignRepository.create).to.have.been.calledWith(campaignForCreation);
+    expect(campaignRepository.save).to.have.been.calledWith(campaignForCreation);
   });
 
   it('should return the newly created campaign', async function () {
@@ -66,7 +66,7 @@ describe('Unit | UseCase | create-campaign', function () {
     campaignCodeGenerator.generate.resolves(code);
     const savedCampaign = Symbol('a saved campaign');
 
-    campaignRepository.create.resolves(savedCampaign);
+    campaignRepository.save.resolves(savedCampaign);
 
     // when
     const campaign = await createCampaign({

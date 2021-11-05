@@ -6,5 +6,5 @@ module.exports = async function createCampaign({ campaign, campaignRepository, c
 
   const campaignForCreation = campaignCreator.createCampaign({ ...campaign, code: generatedCampaignCode });
 
-  return campaignRepository.create(campaignForCreation);
+  return campaignRepository.save(campaignForCreation);
 };
