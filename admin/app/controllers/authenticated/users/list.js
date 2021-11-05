@@ -2,8 +2,9 @@
 
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import debounce from 'lodash/debounce';
 import config from 'pix-admin/config/environment';
+import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -16,15 +17,28 @@ export default class ListController extends Controller {
   @tracked firstName = null;
   @tracked lastName = null;
   @tracked email = null;
+
+  @tracked firstNameForm = null;
+  @tracked lastNameForm = null;
+  @tracked emailForm = null;
+
   pendingFilters = {};
 
-  @(task(function* (fieldName, event) {
-    const value = event.target.value;
-    this.pendingFilters[fieldName] = value;
-    yield timeout(this.DEBOUNCE_MS);
-    this.setProperties(this.pendingFilters);
-    this.pendingFilters = {};
+  debouncedUpdateFilters = debounce(this.updateFilters, this.DEBOUNCE_MS);
+
+  updateFilters(filters) {
+    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = DEFAULT_PAGE_NUMBER;
-  }).restartable())
-  triggerFiltering;
+  }
+
+  @action
+  async refreshModel(event) {
+    await this.debouncedUpdateFilters({
+      firstName: this.firstNameForm,
+      lastName: this.lastNameForm,
+      email: this.emailForm,
+    });
+
+    event.preventDefault();
+  }
 }
