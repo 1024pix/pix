@@ -26,6 +26,7 @@
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
     "lint": "npm run lint:js && npm run lint:hbs",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:hbs -- --fix",
     "lint:ci": "npm run lint",
     "lint:js": "eslint .",
     "lint:hbs": "ember-template-lint .",
