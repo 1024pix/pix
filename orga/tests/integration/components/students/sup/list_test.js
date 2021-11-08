@@ -91,7 +91,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un nom', 'bob');
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'lastName', 'bob');
+      sinon.assert.calledWithExactly(triggerFiltering, 'lastName', true, 'bob');
       assert.ok(true);
     });
 
@@ -107,7 +107,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un prénom', 'bob');
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'firstName', 'bob');
+      sinon.assert.calledWithExactly(triggerFiltering, 'firstName', true, 'bob');
       assert.ok(true);
     });
 
@@ -123,7 +123,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'studentNumber', 'LATERREURGIGI123');
+      sinon.assert.calledWithExactly(triggerFiltering, 'studentNumber', true, 'LATERREURGIGI123');
       assert.ok(true);
     });
 
@@ -143,7 +143,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await clickByLabel('L1');
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'groups', ['L1']);
+      sinon.assert.calledWithExactly(triggerFiltering, 'groups', false, ['L1']);
       assert.ok(true);
     });
   });
