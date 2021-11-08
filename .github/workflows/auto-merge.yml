@@ -10,6 +10,8 @@ on:
 jobs:
   block-autosquash-commits:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - name: Block Autosquash Commits
         uses: xt0rted/block-autosquash-commits-action@v2
