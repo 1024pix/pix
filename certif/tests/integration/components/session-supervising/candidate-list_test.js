@@ -36,10 +36,10 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
     await render(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}}  />`);
 
     // then
-    assert.contains('Toto Tutu');
+    assert.contains('Tutu Toto');
     assert.contains('· Temps majoré : 8%');
     assert.contains('28/05/1984');
-    assert.contains('Star Lord');
+    assert.contains('Lord Star');
     assert.contains('· Temps majoré : 12%');
     assert.contains('28/06/1983');
   });
