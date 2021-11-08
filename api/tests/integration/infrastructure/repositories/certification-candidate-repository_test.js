@@ -218,7 +218,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
     });
   });
 
-  describe('#findBySessionIdWithCertificationCourse', function () {
+  describe('#findBySessionId', function () {
     let sessionId;
 
     beforeEach(async function () {
