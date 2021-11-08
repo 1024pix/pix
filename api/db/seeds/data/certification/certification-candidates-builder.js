@@ -44,8 +44,10 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
 
   // A LOT of candidates for the BIG started session
   for (let i = 0; i < A_LOT_OF_CANDIDATES_COUNT; ++i) {
-    databaseBuilder.factory.buildCertificationCandidate({ sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null });
+    databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Jean-Paul', lastName: _convertToRoman(i + 1), sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null });
   }
+
+  databaseBuilder.factory.buildCertificationCandidate({ sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null, authorizedToStart: true });
 
   let sessionId;
   const candidateDataSuccessWithUser = { ...CANDIDATE_DATA_SUCCESS, userId: CERTIF_SUCCESS_USER_ID };
@@ -106,3 +108,31 @@ module.exports = {
   CANDIDATE_DATA_STARTED,
   CANDIDATE_SCO_DATA_SUCCESS,
 };
+
+const romanMatrix = [
+  [1000, 'M'],
+  [900, 'CM'],
+  [500, 'D'],
+  [400, 'CD'],
+  [100, 'C'],
+  [90, 'XC'],
+  [50, 'L'],
+  [40, 'XL'],
+  [10, 'X'],
+  [9, 'IX'],
+  [5, 'V'],
+  [4, 'IV'],
+  [1, 'I'],
+];
+
+function _convertToRoman(num) {
+  if (num === 0) {
+    return '';
+  }
+  for (let i = 0; i < romanMatrix.length; i++) {
+    const [pivot, roman] = romanMatrix[i];
+    if (num >= pivot) {
+      return roman + _convertToRoman(num - pivot);
+    }
+  }
+}
