@@ -6,7 +6,7 @@
         {{#each @candidates as |candidate|}}
           <li class="session-supervising-candidate-list__candidate">
             <div class="session-supervising-candidate-list__candidate-full-name">
-              {{candidate.firstName}} {{candidate.lastName}}
+              {{candidate.lastName}} {{candidate.firstName}}
             </div>
             <div class="session-supervising-candidate-list__candidate-details">
               {{moment-format candidate.birthdate "DD/MM/YYYY"}}
