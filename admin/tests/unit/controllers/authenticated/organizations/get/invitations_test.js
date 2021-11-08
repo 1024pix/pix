@@ -16,11 +16,8 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
   module('#createOrganizationInvitation', function () {
     test('it should create an organization-invitation if the email is valid', function (assert) {
       // given
-      const saveStub = sinon.stub().resolves();
-      const createRecordStub = sinon.stub().returns({
-        save: saveStub,
-      });
-      store.createRecord = createRecordStub;
+      const queryRecordStub = sinon.stub();
+      store.queryRecord = queryRecordStub;
       controller.model = { organization: { id: 1 } };
 
       controller.userEmailToInvite = 'test@example.net';
@@ -31,8 +28,14 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation(lang, role);
 
       // then
-      assert.ok(createRecordStub.calledWith('organization-invitation', { email: 'test@example.net', lang, role }));
-      assert.equal(saveStub.callCount, 1);
+      assert.ok(
+        queryRecordStub.calledWith('organization-invitation', {
+          email: 'test@example.net',
+          lang,
+          role,
+          organizationId: 1,
+        })
+      );
     });
 
     test('it should fail if userEmailToInvite is undefined', function (assert) {
