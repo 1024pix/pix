@@ -301,11 +301,20 @@ describe('Unit | Controller | sessionController', function () {
     const certificationCandidate = 'candidate';
     const addedCertificationCandidate = 'addedCandidate';
     const certificationCandidateJsonApi = 'addedCandidateJSONApi';
+    let complementaryCertifications;
 
     beforeEach(function () {
       // given
+      complementaryCertifications = Symbol('complementaryCertifications');
       request = {
         params: { id: sessionId },
+        payload: {
+          data: {
+            attributes: {
+              'complementary-certifications': complementaryCertifications,
+            },
+          },
+        },
       };
       sinon.stub(certificationCandidateSerializer, 'deserialize').resolves(certificationCandidate);
       sinon
@@ -313,6 +322,7 @@ describe('Unit | Controller | sessionController', function () {
         .withArgs({
           sessionId,
           certificationCandidate,
+          complementaryCertifications,
         })
         .resolves(addedCertificationCandidate);
       sinon
