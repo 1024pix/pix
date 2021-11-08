@@ -15,14 +15,14 @@
           @value={{@lastNameFilter}}
           @placeholder={{t "pages.students-sco.table.filter.last-name.label"}}
           @ariaLabel={{t "pages.students-sco.table.filter.last-name.aria-label"}}
-          @triggerFiltering={{this.onSearchInputText}}
+          @triggerFiltering={{@onFilter}}
         />
         <Table::HeaderFilterInput
           @field="firstName"
           @value={{@firstNameFilter}}
           @placeholder={{t "pages.students-sco.table.filter.first-name.label"}}
           @ariaLabel={{t "pages.students-sco.table.filter.first-name.aria-label"}}
-          @triggerFiltering={{this.onSearchInputText}}
+          @triggerFiltering={{@onFilter}}
         />
         <Table::Header />
         <Table::Header>
@@ -38,7 +38,7 @@
           @field="connexionType"
           @options={{@connectionTypesOptions}}
           @selectedOption={{@connexionTypeFilter}}
-          @triggerFiltering={{this.onSearchInputText}}
+          @triggerFiltering={{@onFilter}}
           @ariaLabel={{t "pages.students-sco.table.filter.login-method.aria-label"}}
           @emptyOptionLabel={{t "pages.students-sco.table.filter.login-method.empty-option"}}
         />

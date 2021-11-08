@@ -88,8 +88,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'lastName');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2], 'bob');
+      assert.equal(call.args[1], 'bob');
     });
 
     test('it should trigger filtering with firstname', async function (assert) {
@@ -106,8 +105,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'firstName');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2], 'bob');
+      assert.equal(call.args[1], 'bob');
     });
 
     test('it should trigger filtering with division', async function (assert) {
@@ -124,8 +122,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'divisions');
-      assert.false(call.args[1]);
-      assert.deepEqual(call.args[2], ['3A']);
+      assert.deepEqual(call.args[1], ['3A']);
     });
 
     test('it should trigger filtering with connexionType', async function (assert) {
@@ -145,8 +142,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'connexionType');
-      assert.false(call.args[1]);
-      assert.equal(call.args[2], 'email');
+      assert.equal(call.args[1], 'email');
     });
   });
 
