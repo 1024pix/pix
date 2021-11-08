@@ -6,10 +6,12 @@ const {
 module.exports = async function addCertificationCandidateToSession({
   sessionId,
   certificationCandidate,
+  complementaryCertifications,
   certificationCandidateRepository,
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
+  complementaryCertificationSubscriptionRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
 
@@ -44,8 +46,17 @@ module.exports = async function addCertificationCandidateToSession({
     certificationCandidate.updateBirthInformation(cpfBirthInformation);
   }
 
-  return certificationCandidateRepository.saveInSession({
+  const savedCertificationCandidate = await certificationCandidateRepository.saveInSession({
     certificationCandidate,
     sessionId: certificationCandidate.sessionId,
   });
+
+  for (const complementaryCertification of complementaryCertifications) {
+    await complementaryCertificationSubscriptionRepository.save({
+      complementaryCertificationId: complementaryCertification.id,
+      certificationCandidateId: savedCertificationCandidate.id,
+    });
+  }
+
+  return savedCertificationCandidate;
 };
