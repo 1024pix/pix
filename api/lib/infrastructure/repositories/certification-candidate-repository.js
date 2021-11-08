@@ -162,5 +162,5 @@ module.exports = {
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse']);
+  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse', 'complementaryCertifications']);
 }

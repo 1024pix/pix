@@ -51,7 +51,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         const [firstCertificationCandidatesInSession] = await certificationCandidateRepository.findBySessionId(
           sessionId
         );
-        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id'];
+        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id', 'complementaryCertifications'];
         expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deep.equal(
           _.omit(certificationCandidate, attributesToOmit)
         );
@@ -298,6 +298,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           extraTimePercentage: null,
           userId: null,
           schoolingRegistrationId: null,
+          complementaryCertifications: [],
         });
         databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
         await databaseBuilder.commit();
@@ -339,6 +340,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           extraTimePercentage: null,
           userId: null,
           schoolingRegistrationId: null,
+          complementaryCertifications: [],
         });
         databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
         await databaseBuilder.commit();
