@@ -7,7 +7,7 @@
     aria-label={{@ariaLabel}}
     @showOptionsOnInput={{true}}
     @isSearchable={{true}}
-    @onSelect={{this.onSelect}}
+    @onSelect={{fn @onSelect @field false}}
     @selected={{@selectedOption}}
     @options={{@options}}
     @onLoadOptions={{@onLoadOptions}}
