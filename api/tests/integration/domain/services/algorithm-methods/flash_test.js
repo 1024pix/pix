@@ -81,7 +81,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
-  describe('#getEstimatedLevel', function() {
+  describe('#getEstimatedLevel', function () {
     it('should return 0 when there is no answers', function () {
       // given
       const allAnswers = [];
@@ -95,35 +95,41 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
     it('should return the correct estimatedLevel when there is one answer', function () {
       // given
-      const challenges = [ domainBuilder.buildChallenge({
-        discriminant: 1.86350005965093,
-        difficulty: 0.194712138508747
-      })]
+      const challenges = [
+        domainBuilder.buildChallenge({
+          discriminant: 1.86350005965093,
+          difficulty: 0.194712138508747,
+        }),
+      ];
 
-      const allAnswers = [ domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+      const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
       const correctEstimatedLevel = 0.859419960298745;
 
       // when
       const result = flash.getEstimatedLevel({ allAnswers, challenges });
 
       // then
-      expect(result).to.equal(correctEstimatedLevel);
+      expect(result).to.be.closeTo(correctEstimatedLevel, 0.00000000001);
     });
 
     it('should return the correct estimatedLevel when there is two answers', function () {
       // given
       const challenges = [
         domainBuilder.buildChallenge({
+          id: 'ChallengeFirstAnswers',
           discriminant: 1.86350005965093,
-          difficulty: 0.194712138508747}),
+          difficulty: 0.194712138508747,
+        }),
         domainBuilder.buildChallenge({
+          id: 'ChallengeSecondAnswers',
           discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319}),
-      ]
+          difficulty: 0.823376599163319,
+        }),
+      ];
 
       const allAnswers = [
         domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id })
+        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
       ];
       const correctEstimatedLevel = 1.802340122865396;
 
@@ -131,9 +137,40 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       const result = flash.getEstimatedLevel({ allAnswers, challenges });
 
       // then
-      expect(result).to.equal(correctEstimatedLevel);
+      expect(result).to.be.closeTo(correctEstimatedLevel, 0.00000000001);
     });
 
-  });
+    it('should return the correct estimatedLevel when there is three answers', function () {
+      // given
+      const challenges = [
+        domainBuilder.buildChallenge({
+          id: 'ChallengeFirstAnswers',
+          discriminant: 1.06665273005823,
+          difficulty: -0.030736508016524,
+        }),
+        domainBuilder.buildChallenge({
+          id: 'ChallengeSecondAnswers',
+          discriminant: 1.50948587856458,
+          difficulty: 1.62670103354638,
+        }),
+        domainBuilder.buildChallenge({
+          id: 'ChallengeThirdAnswers',
+          discriminant: 0.950709518595358,
+          difficulty: 1.90647729810166,
+        }),
+      ];
 
+      const allAnswers = [
+        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[2].id }),
+      ];
+      const correctEstimatedLevel = 2.851063556136754;
+      // when
+      const result = flash.getEstimatedLevel({ allAnswers, challenges });
+
+      // then
+      expect(result).to.be.closeTo(correctEstimatedLevel, 0.00000000001);
+    });
+  });
 });
