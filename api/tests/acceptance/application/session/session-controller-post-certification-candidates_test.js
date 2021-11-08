@@ -45,6 +45,12 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         name: 'PARIS 15',
         INSEECode: '75115',
       });
+      const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Certif complémentaire 1',
+      }).id;
+      const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Certif complémentaire 2',
+      }).id;
 
       payload = {
         data: {
@@ -63,6 +69,10 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             'birth-insee-code': certificationCandidate.birthINSEECode,
             'birth-postal-code': null,
             sex: certificationCandidate.sex,
+            'complementary-certifications': [
+              { id: complementaryCertification1Id, name: 'Certif complémentaire 1' },
+              { id: complementaryCertification2Id, name: 'Certif complémentaire 2' },
+            ],
           },
         },
       };
@@ -78,7 +88,8 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
+    afterEach(async function () {
+      await knex('complementary-certification-subscriptions').delete();
       return knex('certification-candidates').delete();
     });
 
@@ -118,6 +129,15 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
 
       expect(_.omit(response.result.data, 'id')).to.deep.equal(expectedData);
       expect(response.result.data.id).to.exist;
+    });
+
+    it('should save the complementary certification subscriptions', async function () {
+      // when
+      await server.inject(options);
+
+      // then
+      const complementaryCertificationRegistrationsInDB = await knex('complementary-certification-subscriptions');
+      expect(complementaryCertificationRegistrationsInDB.length).to.equal(2);
     });
   });
 });
