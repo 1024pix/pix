@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'pix-orga/config/environment';
+import debounce from 'lodash/debounce';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -32,10 +34,15 @@ export default class ListController extends Controller {
     this.pageNumber = null;
   }
 
+  debouncedUpdateFilters = debounce(this.updateFilters, ENV.pagination.debounce);
+
   @action
-  triggerFiltering(fieldName, value) {
-    this[fieldName] = value;
-    this.pageNumber = null;
+  triggerFiltering(fieldName, debounced, event) {
+    if (debounced) {
+      this.debouncedUpdateFilters({ [fieldName]: event.target.value });
+    } else {
+      this.updateFilters({ [fieldName]: event.target.value });
+    }
   }
 
   @action
