@@ -15,27 +15,27 @@
           @value={{@studentNumberFilter}}
           @placeholder={{t "pages.students-sup.table.filter.student-number.label"}}
           @ariaLabel={{t "pages.students-sup.table.filter.student-number.aria-label"}}
-          @triggerFiltering={{@onFilter}}
+          @triggerFiltering={{this.onFilter}}
         />
         <Table::HeaderFilterInput
           @field="lastName"
           @value={{@lastNameFilter}}
           @placeholder={{t "pages.students-sup.table.filter.last-name.label"}}
           @ariaLabel={{t "pages.students-sup.table.filter.last-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
+          @triggerFiltering={{this.onFilter}}
         />
         <Table::HeaderFilterInput
           @field="firstName"
           @value={{@firstNameFilter}}
           @placeholder={{t "pages.students-sup.table.filter.first-name.label"}}
           @ariaLabel={{t "pages.students-sup.table.filter.first-name.aria-label"}}
-          @triggerFiltering={{@onFilter}}
+          @triggerFiltering={{this.onFilter}}
         />
         <Table::Header />
         <Table::HeaderFilterMultiSelect
           @field="groups"
           @title={{t "pages.students-sup.table.column.group"}}
-          @onSelect={{@onFilter}}
+          @onSelect={{this.onFilterGroup}}
           @selectedOption={{@groupsFilter}}
           @onLoadOptions={{this.loadGroups}}
           @placeholder={{t "pages.students-sup.table.filter.group.label"}}
