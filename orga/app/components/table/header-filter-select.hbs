@@ -3,7 +3,7 @@
     id="select-{{@field}}"
     class="table__input"
     aria-label={{@ariaLabel}}
-    @onChange={{fn @triggerFiltering @field false}}
+    @onChange={{this.onChange}}
     @options={{@options}}
     @selectedOption={{@selectedOption}}
     @emptyOptionLabel={{@emptyOptionLabel}}
