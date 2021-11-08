@@ -227,7 +227,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(expectedLoggerMessage);
+          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+            message: expectedLoggerMessage,
+          });
           expect(result).to.deep.equal(expectedResult);
         });
 
@@ -274,7 +276,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(expectedLoggerMessage);
+          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+            message: expectedLoggerMessage,
+          });
           expect(result).to.deep.equal(expectedResult);
         });
       });
