@@ -10,6 +10,8 @@ const {
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../domain/errors');
+const { knex } = require('../../../db/knex-database-connection');
+const CertificationCandidate = require('../../domain/models/CertificationCandidate');
 
 module.exports = {
   async linkToUser({ id, userId }) {
@@ -92,14 +94,14 @@ module.exports = {
       });
   },
 
-  findBySessionId(sessionId) {
-    return CertificationCandidateBookshelf.where({ sessionId })
-      .query((qb) => {
-        qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
-        qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
-      })
-      .fetchAll()
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
+  async findBySessionId(sessionId) {
+    const results = await knex
+      .select('certification-candidates.*')
+      .from('certification-candidates')
+      .where({ 'certification-candidates.sessionId': sessionId })
+      .orderByRaw('LOWER("certification-candidates"."lastName") asc')
+      .orderByRaw('LOWER("certification-candidates"."firstName") asc');
+    return results.map((candidateData) => new CertificationCandidate(candidateData));
   },
 
   async findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
