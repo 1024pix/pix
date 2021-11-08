@@ -15,21 +15,23 @@ export default class InvitationsController extends Controller {
   @action
   async createOrganizationInvitation(lang, role) {
     this.isLoading = true;
-    const email = this.userEmailToInvite ? this.userEmailToInvite.trim() : null;
+    const email = this.userEmailToInvite?.trim();
     if (!this._isEmailToInviteValid(email)) {
       this.isLoading = false;
       return;
     }
 
-    const organizationInvitation = this.store.createRecord('organization-invitation', { email, lang, role });
-
     try {
-      await organizationInvitation.save({ adapterOptions: { organizationId: this.model.organization.id } });
+      const organizationInvitation = await this.store.queryRecord('organization-invitation', {
+        email,
+        lang,
+        role,
+        organizationId: this.model.organization.id,
+      });
 
       this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
       this.userEmailToInvite = null;
     } catch (e) {
-      await organizationInvitation.destroyRecord();
       this.notifications.error('Une erreur s’est produite, veuillez réessayer.');
     }
     this.isLoading = false;

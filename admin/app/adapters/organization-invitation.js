@@ -20,4 +20,15 @@ export default class OrganizationInvitation extends ApplicationAdapter {
       return response;
     });
   }
+
+  queryRecord(store, type, query) {
+    if (query.organizationId) {
+      const url = `${this.host}/${this.namespace}/organizations/${query.organizationId}/invitations`;
+      return this.ajax(url, 'POST', {
+        data: { data: { attributes: { email: query.email, lang: query.lang, role: query.role } } },
+      });
+    }
+
+    return super.queryRecord(...arguments);
+  }
 }
