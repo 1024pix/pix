@@ -8,7 +8,16 @@ on:
     types:
       - completed
 jobs:
-  automerge:
+  block-autosquash-commits:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Block Autosquash Commits
+        uses: xt0rted/block-autosquash-commits-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+  verify-labels:
     runs-on: ubuntu-latest
     steps:
       - name: verify labels
@@ -16,6 +25,9 @@ jobs:
           contains(github.event.pull_request.labels.*.name, ':earth_africa: i18n needed')
           || contains(github.event.pull_request.labels.*.name, ':warning: Blocked')
         run: exit 1
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
       - name: automerge
         uses: pascalgn/automerge-action@v0.8.3
         env:
