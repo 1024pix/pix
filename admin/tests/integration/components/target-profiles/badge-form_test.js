@@ -18,7 +18,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
   test('it should display the expected number of inputs', async function (assert) {
     // given
-    const expectedNumberOfInputsInForm = 7;
+    const expectedNumberOfInputsInForm = 8;
     const expectedNumberOfTextareasInForm = 1;
     const expectedNumberOfCheckboxesInForm = 2;
 
@@ -40,23 +40,26 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     assert.dom('button[data-test="badge-form-submit-button"]').exists();
   });
 
-  test('should send badge creation request to api', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const createRecordMock = sinon.mock();
-    createRecordMock.returns({ save: function () {} });
-    store.createRecord = createRecordMock;
+  module('#createBadge', function () {
+    test('should send badge creation request to api', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const createRecordStub = sinon.stub();
+      const saveStub = sinon.stub().resolves();
+      createRecordStub.returns({ save: saveStub });
+      store.createRecord = createRecordStub;
+      this.targetProfileId = 123;
 
-    await render(hbs`<TargetProfiles::BadgeForm />`);
+      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
 
-    // when
-    await fillIn('input#badge-key', 'clé_du_badge');
-    await fillIn('input#image-url', 'https://image-url.pix.fr');
-    await fillIn('input#alt-message', 'texte alternatif à l‘image');
-    await click('button[data-test="badge-form-submit-button"]');
+      // when
+      await fillIn('input#badge-key', 'clé_du_badge');
+      await fillIn('input#image-url', 'https://image-url.pix.fr');
+      await fillIn('input#alt-message', 'texte alternatif à l‘image');
+      await click('button[data-test="badge-form-submit-button"]');
 
-    assert.ok(
-      createRecordMock.calledWith('badge', {
+      // then
+      sinon.assert.calledWith(createRecordStub, 'badge', {
         key: 'clé_du_badge',
         altMessage: 'texte alternatif à l‘image',
         imageUrl: 'https://image-url.pix.fr',
@@ -64,7 +67,43 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
         title: '',
         isCertifiable: false,
         isAlwaysVisible: false,
-      })
-    );
+      });
+      sinon.assert.calledWith(saveStub, {
+        adapterOptions: {
+          targetProfileId: this.targetProfileId,
+        },
+      });
+      assert.ok(true);
+    });
+
+    test('should send badgeCriteria creation request to api', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const createRecordStub = sinon.stub();
+      const saveStub = sinon.stub();
+      createRecordStub.returns({ save: saveStub, id: 123 });
+      store.createRecord = createRecordStub;
+
+      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
+
+      // when
+      await fillIn('input#badge-key', 'clé_du_badge');
+      await fillIn('input#image-url', 'https://image-url.pix.fr');
+      await fillIn('input#alt-message', 'texte alternatif à l‘image');
+      await fillIn('input#campaignParticipationThreshold', '65');
+      await click('button[data-test="badge-form-submit-button"]');
+
+      // then
+      sinon.assert.calledWith(createRecordStub.secondCall, 'badge-criterion', {
+        threshold: '65',
+        scope: 'CampaignParticipation',
+      });
+      sinon.assert.calledWith(saveStub.secondCall, {
+        adapterOptions: {
+          badgeId: 123,
+        },
+      });
+      assert.ok(true);
+    });
   });
 });

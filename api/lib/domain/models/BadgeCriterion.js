@@ -1,9 +1,10 @@
 class BadgeCriterion {
-  constructor({ id, scope, threshold, skillSetIds } = {}) {
+  constructor({ id, scope, threshold, skillSetIds, badgeId } = {}) {
     this.id = id;
     this.scope = scope;
     this.threshold = threshold;
     this.skillSetIds = skillSetIds;
+    this.badgeId = badgeId;
   }
 }
 

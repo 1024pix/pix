@@ -56,11 +56,11 @@ describe('Integration | Repository | Badge', function () {
       scope: BadgeCriterion.SCOPES.SKILL_SET,
       threshold: 53,
       skillSetIds: [1, 2],
+      badgeId: badgeWithSkillSets.id,
     };
 
     databaseBuilder.factory.buildBadgeCriterion({
       ...badgeCriterionForBadgeWithSkillSets,
-      badgeId: badgeWithSkillSets.id,
     });
     databaseBuilder.factory.buildSkillSet({
       ...skillSet_1,
@@ -87,10 +87,10 @@ describe('Integration | Repository | Badge', function () {
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 88,
       skillSetIds: [],
+      badgeId: badgeWithSameTargetProfile_1.id,
     };
     databaseBuilder.factory.buildBadgeCriterion({
       ...badgeCriterionForBadgeWithSameTargetProfile_1,
-      badgeId: badgeWithSameTargetProfile_1.id,
     });
 
     badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
@@ -105,10 +105,10 @@ describe('Integration | Repository | Badge', function () {
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 35,
       skillSetIds: [],
+      badgeId: badgeWithSameTargetProfile_2.id,
     };
     databaseBuilder.factory.buildBadgeCriterion({
       ...badgeCriterionForBadgeWithSameTargetProfile_2,
-      badgeId: badgeWithSameTargetProfile_2.id,
     });
   }
 

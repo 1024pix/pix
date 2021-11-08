@@ -69,6 +69,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await fillIn('input#badge-key', 'clé_du_badge');
       await fillIn('input#image-url', 'https://image-url.pix.fr');
       await fillIn('input#alt-message', 'texte alternatif à l‘image');
+      await fillIn('input#campaignParticipationThreshold', '65');
       await click('[data-test="badge-form-submit-button"]');
 
       // then
