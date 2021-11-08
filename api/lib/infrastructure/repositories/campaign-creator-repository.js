@@ -1,6 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
 const CampaignCreator = require('../../../lib/domain/models/CampaignCreator');
-const organizationService = require('../../domain/services/organization-service');
 const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors');
 
 async function get(userId, organizationId) {
@@ -9,11 +8,18 @@ async function get(userId, organizationId) {
     .where({ id: organizationId })
     .select('canCollectProfiles')
     .first();
-  const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
-    organizationId
-  );
-  const availableTargetProfilesIds = availableTargetProfiles.map(({ id }) => id);
-  return new CampaignCreator(availableTargetProfilesIds, canCollectProfiles);
+
+  const availableTargetProfiles = await knex('target-profiles')
+    .leftJoin('target-profile-shares', 'targetProfileId', 'target-profiles.id')
+    .where({ outdated: false })
+    .andWhere((queryBuilder) => {
+      queryBuilder
+        .where({ isPublic: true })
+        .orWhere({ ownerOrganizationId: organizationId })
+        .orWhere({ organizationId });
+    })
+    .pluck('target-profiles.id');
+  return new CampaignCreator(availableTargetProfiles, canCollectProfiles);
 }
 
 module.exports = {
