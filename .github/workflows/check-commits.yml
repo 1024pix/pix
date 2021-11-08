@@ -1,5 +1,6 @@
 name: commits check
 on:
+  # eslint-disable-next-line yml/no-empty-mapping-value
   pull_request:
   check_suite:
     types:
