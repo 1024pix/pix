@@ -96,11 +96,16 @@ function createBadge(schema) {
   return schema.create('badge', {});
 }
 
+function createBadgeCriterion(schema) {
+  return schema.create('badge-criterion', {});
+}
+
 export {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
   createBadge,
+  createBadgeCriterion,
   getOrganizationTargetProfiles,
   findPaginatedTargetProfileOrganizations,
   findTargetProfileBadges,

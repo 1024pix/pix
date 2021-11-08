@@ -9,6 +9,7 @@ import {
   outdate,
   updateTargetProfileName,
   createBadge,
+  createBadgeCriterion,
 } from './handlers/target-profiles';
 
 import { Response } from 'ember-cli-mirage';
@@ -106,6 +107,7 @@ export default function () {
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/badges/:id', getBadge);
+  this.post('/admin/badges/:id/badge-criteria', createBadgeCriterion);
   this.post('/admin/target-profiles');
   this.get('/admin/target-profiles');
   this.get('/admin/target-profiles/:id');

@@ -382,6 +382,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
           scope: badgePartnerCriterion.scope,
           threshold: badgePartnerCriterion.threshold,
           skillSetIds: badgePartnerCriterion.skillSetIds,
+          badgeId: badgeCertifiable.id,
         },
       ];
 

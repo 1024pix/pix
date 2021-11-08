@@ -292,6 +292,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
                   skillSetIds: [],
+                  badgeId: undefined,
                 },
               ],
               skillSets: [
@@ -434,6 +435,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.SKILL_SET,
                   threshold: 54,
                   skillSetIds: [42],
+                  badgeId: undefined,
                 },
               ],
               skillSets: [
@@ -473,6 +475,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
                   skillSetIds: [],
+                  badgeId: undefined,
                 },
               ],
               skillSets: [],
@@ -604,6 +607,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
                   skillSetIds: [],
+                  badgeId: undefined,
                 },
               ],
               skillSets: [
@@ -643,6 +647,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
                   skillSetIds: [],
+                  badgeId: undefined,
                 }),
               ],
               skillSets: [
@@ -773,6 +778,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
                   skillSetIds: [],
+                  badgeId: undefined,
                 },
               ],
               skillSets: [],
@@ -795,6 +801,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                   scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
                   threshold: 54,
                   skillSetIds: [],
+                  badgeId: undefined,
                 },
               ],
               skillSets: [],
