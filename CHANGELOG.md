@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.125.0 (08/11/2021)
+
+
+### :rocket: Enhancement
+- [#3689](https://github.com/1024pix/pix/pull/3689) [FEATURE] Ajout du taux de réussite d'un résultat thématique sur Pix-Admin (PIX-3507).
+
+### :building_construction: Tech
+- [#3675](https://github.com/1024pix/pix/pull/3675) [TECH] Sortir la brique prescrit pour décommissionner `start-or-resume` (PIX-3184).
+- [#3671](https://github.com/1024pix/pix/pull/3671) [TECH] Linter les fichiers YAML.
+- [#3690](https://github.com/1024pix/pix/pull/3690) [TECH] Faciliter la lecture des logs API par des humains.
+- [#3694](https://github.com/1024pix/pix/pull/3694) [TECH] Prévenir l'utilisation de `console` dans l'API.
+
+### :bug: Bug fix
+- [#3702](https://github.com/1024pix/pix/pull/3702) [BUGFIX] Empêcher le débordement de l'en-tête de colonne "Temps majoré" (PIX-3804). 
+- [#3697](https://github.com/1024pix/pix/pull/3697) [BUGFIX] Afficher le détail d'un profil cible sur Pix Admin (PIX-3807).
+
 ## v3.124.1 (05/11/2021)
 
 
