@@ -23,7 +23,9 @@ module.exports = {
         return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
       }
     );
-    events.eventDispatcher.dispatch(event).catch((error) => monitoringTools.logErrorWithCorrelationIds(error));
+    events.eventDispatcher
+      .dispatch(event)
+      .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
 
     return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
   },
@@ -40,7 +42,9 @@ module.exports = {
       });
     });
 
-    events.eventDispatcher.dispatch(event).catch((error) => monitoringTools.logErrorWithCorrelationIds(error));
+    events.eventDispatcher
+      .dispatch(event)
+      .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
     return null;
   },
 

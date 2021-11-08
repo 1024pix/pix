@@ -14,11 +14,12 @@ class HttpResponse {
 module.exports = {
   async post({ url, payload, headers }) {
     const startTime = performance.now();
+    let duration = null;
     try {
       const httpResponse = await axios.post(url, payload, {
         headers,
       });
-      const duration = performance.now() - startTime;
+      duration = performance.now() - startTime;
       logInfoWithCorrelationIds({
         metrics: { duration },
         message: `End POST request to ${url} success: ${httpResponse.status}`,
@@ -30,6 +31,7 @@ module.exports = {
         isSuccessful: true,
       });
     } catch (httpErr) {
+      duration = performance.now() - startTime;
       let code = null;
       let data;
 
@@ -40,7 +42,10 @@ module.exports = {
         data = httpErr.message;
       }
 
-      logErrorWithCorrelationIds({ message: `End POST request to ${url} error: ${code} ${data.toString()}` });
+      logErrorWithCorrelationIds({
+        metrics: { duration },
+        message: `End POST request to ${url} error: ${code || ''} ${data.toString()}`,
+      });
 
       return new HttpResponse({
         code,
@@ -51,10 +56,11 @@ module.exports = {
   },
   async get({ url, payload, headers }) {
     const startTime = performance.now();
+    let duration = null;
     try {
       const config = { data: payload, headers };
       const httpResponse = await axios.get(url, config);
-      const duration = performance.now() - startTime;
+      duration = performance.now() - startTime;
       logInfoWithCorrelationIds({
         metrics: { duration },
         message: `End GET request to ${url} success: ${httpResponse.status}`,
@@ -66,6 +72,7 @@ module.exports = {
         isSuccessful: true,
       });
     } catch (httpErr) {
+      duration = performance.now() - startTime;
       const isSuccessful = false;
 
       let code;
@@ -79,7 +86,10 @@ module.exports = {
         data = null;
       }
 
-      logErrorWithCorrelationIds(`End GET request to ${url} error: ${code}`);
+      logErrorWithCorrelationIds({
+        metrics: { duration },
+        message: `End GET request to ${url} error: ${code}`,
+      });
 
       return new HttpResponse({
         code,

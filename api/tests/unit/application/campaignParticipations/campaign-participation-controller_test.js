@@ -82,7 +82,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
-      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(errorInHandler);
+      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({ message: errorInHandler });
     });
 
     context('when the request comes from a different user', function () {
@@ -218,7 +218,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const response = await campaignParticipationController.save(request, hFake);
 
       // then
-      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(errorInHandler);
+      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({ message: errorInHandler });
       expect(campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
