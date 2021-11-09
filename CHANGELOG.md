@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v3.126.0 (09/11/2021)
+
+
+### :rocket: Enhancement
+- [#3713](https://github.com/1024pix/pix/pull/3713) [FEATURE] Sauvegarder les certifications complémentaires auxquelles un candidat est inscrit (PIX-3681).
+- [#3703](https://github.com/1024pix/pix/pull/3703) [FEATURE] Afficher la présence des candidats en session de certification (PIX-3654)
+- [#3704](https://github.com/1024pix/pix/pull/3704) [FEATURE] Mises à jour d'affiche mineur sur certif (PIX-3780)
+- [#3692](https://github.com/1024pix/pix/pull/3692) [FEATURE] Limiter la taille de saisie d'un texte de présentation pour une campagne d'évaluation (PIX-3736)
+- [#3693](https://github.com/1024pix/pix/pull/3693) [FEATURE] Ajout de tooltip et traduction pour expliquer une campagne de collect de profiles envoi multiple dans l'onglet paramètres (Pix 3676). 
+- [#3695](https://github.com/1024pix/pix/pull/3695) [FEATURE] Amélioration du design des liens dans les champs réponses des écrans intermédiaires (PIX-3779).
+
+### :building_construction: Tech
+- [#3707](https://github.com/1024pix/pix/pull/3707) [TECH] Supprimer la gestion du nom de champ et debounced des templates des filtres des tableaux (PIX-3710).
+- [#3698](https://github.com/1024pix/pix/pull/3698) [TECH] Encapsuler la logique de create-campaign dans un model (PIX-3741).
+- [#3714](https://github.com/1024pix/pix/pull/3714) [TECH] Forcer l'ordre de la requête pour éviter les flaky tests (PIX-3822).
+- [#3700](https://github.com/1024pix/pix/pull/3700) [TECH] Harmoniser l'auto-correction des sources.
+- [#3705](https://github.com/1024pix/pix/pull/3705) [TECH] Ajout du thème Noël pour le template de pull request.
+- [#3684](https://github.com/1024pix/pix/pull/3684) [TECH] Bloquer le merge pour les commits de fixup
+- [#3674](https://github.com/1024pix/pix/pull/3674) [TECH] Ajouter le métrique duration dans le monitoring des appels externe en error.
+
+### :bug: Bug fix
+- [#3711](https://github.com/1024pix/pix/pull/3711) [BUGFIX] Upgrade pix-ui to fix select element on firefox
+
 ## v3.125.0 (08/11/2021)
 
 
