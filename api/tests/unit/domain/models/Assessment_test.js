@@ -240,12 +240,26 @@ describe('Unit | Domain | Models | Assessment', function () {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return true when the assessment is a Campaign assessment', function () {
+    it('should return true when the assessment is a Campaign assessment with Smart Random Method', function () {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.CAMPAIGN,
+        method: Assessment.methods.SMART_RANDOM,
+      });
 
       // when/then
       expect(assessment.hasKnowledgeElements()).to.be.true;
+    });
+
+    it('should return false when the assessment is a Campaign assessment with Flash Method', function () {
+      // given
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.CAMPAIGN,
+        method: Assessment.methods.FLASH,
+      });
+
+      // when/then
+      expect(assessment.hasKnowledgeElements()).to.be.false;
     });
 
     it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', function () {
