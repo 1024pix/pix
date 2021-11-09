@@ -96,9 +96,8 @@ module.exports = {
   async getCertificationCandidates(request) {
     const sessionId = request.params.id;
 
-    return usecases
-      .getSessionCertificationCandidates({ sessionId })
-      .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
+    const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+    return certificationCandidateSerializer.serialize(certificationCandidates);
   },
 
   async addCertificationCandidate(request, h) {
