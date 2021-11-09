@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
 
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -11,19 +11,23 @@ const { createOrganizationInvitation } = require('../../../../lib/domain/service
 
 describe('Integration | Service | Organization-Invitation Service', function () {
   describe('#createOrganizationInvitation', function () {
-    let organizationId;
+    let clock;
+    const now = new Date('2021-01-02');
 
     beforeEach(async function () {
-      organizationId = databaseBuilder.factory.buildOrganization().id;
-      await databaseBuilder.commit();
+      clock = sinon.useFakeTimers(now);
     });
 
     afterEach(async function () {
       await knex('organization-invitations').delete();
+      clock.restore();
     });
 
     it('should create a new organization-invitation with organizationId, email, role and status', async function () {
       // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+
       const email = 'member@organization.org';
       const role = Membership.roles.ADMIN;
       const expectedOrganizationInvitation = {
@@ -35,14 +39,15 @@ describe('Integration | Service | Organization-Invitation Service', function () 
 
       // when
       const result = await createOrganizationInvitation({
-        organizationRepository,
-        organizationInvitationRepository,
         organizationId,
         email,
         role,
+        organizationRepository,
+        organizationInvitationRepository,
       });
 
       // then
+      expect(result).to.be.instanceOf(OrganizationInvitation);
       expect(_.omit(result, ['id', 'code', 'organizationName', 'createdAt', 'updatedAt'])).to.deep.equal(
         expectedOrganizationInvitation
       );
@@ -50,24 +55,25 @@ describe('Integration | Service | Organization-Invitation Service', function () 
 
     it('should re-send an email with same code when organization-invitation already exist with status pending', async function () {
       // given
-      const expectedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.PENDING,
       });
-      const { organizationId, email } = expectedOrganizationInvitation;
-      delete expectedOrganizationInvitation.updatedAt;
-
       await databaseBuilder.commit();
 
       // when
       const result = await createOrganizationInvitation({
+        organizationId: organizationInvitation.organizationId,
+        email: organizationInvitation.email,
         organizationRepository,
         organizationInvitationRepository,
-        organizationId,
-        email,
       });
 
       // then
-      expect(_.omit(result, 'organizationName', 'updatedAt')).to.deep.equal(expectedOrganizationInvitation);
+      const expectedOrganizationInvitation = {
+        ...organizationInvitation,
+        updatedAt: now,
+      };
+      expect(_.omit(result, 'organizationName')).to.deep.equal(expectedOrganizationInvitation);
     });
   });
 });
