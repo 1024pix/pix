@@ -343,6 +343,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const flashCompatibleChallenge = domainBuilder.buildChallenge({
         skills: [skill],
         status: 'validé',
+        locales: ['fr-fr'],
       });
       const nonFlashCompatibleChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'PAS validé' });
       const learningContent = {
@@ -353,9 +354,10 @@ describe('Integration | Repository | challenge-repository', function () {
         ],
       };
       mockLearningContent(learningContent);
+      const locale = 'fr-fr';
 
       // when
-      const actualChallenges = await challengeRepository.findFlashCompatible();
+      const actualChallenges = await challengeRepository.findFlashCompatible(locale);
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
