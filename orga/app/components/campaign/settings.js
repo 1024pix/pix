@@ -24,6 +24,12 @@ export default class CampaignSettings extends Component {
       : this.intl.t('pages.campaign-settings.multiple-sendings.status.disabled');
   }
 
+  get multipleSendingsTooltipText() {
+    return this.args.campaign.multipleSendings
+      ? this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text-multiple-sendings-enabled')
+      : this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text-multiple-sendings-disabled');
+  }
+
   @action
   async archiveCampaign(campaignId) {
     try {

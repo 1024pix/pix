@@ -320,6 +320,11 @@
         "status": {
           "enabled": "Oui",
           "disabled": "Non"
+        },
+        "tooltip": {
+          "aria-label": "Description de la campagne d'envoi multiple",
+          "text-multiple-sendings-enabled": "Le participant peut envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.",
+          "text-multiple-sendings-disabled": "Si l’envoi multiple a été activé, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, seul le dernier profil envoyé sera affiché."
         }
       },
       "personalised-test-title": "Titre du parcours",
