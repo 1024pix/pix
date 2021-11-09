@@ -92,6 +92,12 @@
               {{if @candidate.extraTimePercentage (format-percentage @candidate.extraTimePercentage) "-"}}
             </span>
           </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Certifications complémentaires</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="complementary-certifications-row">
+              {{if @candidate.complementaryCertifications @candidate.complementaryCertificationsList "-"}}
+            </span>
+          </li>
         </ul>
 
         <div class="certification-candidate-details-modal__actions">
