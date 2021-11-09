@@ -11,7 +11,6 @@ const {
 describe('Unit | Service | Organization-Invitation Service', function () {
   const userEmailAddress = 'user@example.net';
   const code = 'ABCDEFGH01';
-
   let organizationInvitationRepository;
   let organizationRepository;
 

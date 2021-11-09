@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
@@ -273,32 +273,61 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
   });
 
   describe('#updateModificationDate', function () {
-    let organizationInvitation;
+    let clock;
+    const now = new Date('2021-01-02');
 
-    beforeEach(async function () {
-      const organizationId = 2323;
-      databaseBuilder.factory.buildOrganization({
-        id: organizationId,
-      });
-      organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
-        status: OrganizationInvitation.StatusType.PENDING,
-        updatedAt: new Date('2020-01-01T00:00:00Z'),
-      });
-      await databaseBuilder.commit();
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(function () {
+      clock.restore();
     });
 
     it('should update the modification date', async function () {
       // given
-      const oldModificationDate = organizationInvitation.updatedAt;
+      const organizationId = 2323;
+      databaseBuilder.factory.buildOrganization({
+        id: organizationId,
+      });
+      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+        organizationName: 'super orga',
+        updatedAt: new Date('2020-01-01T00:00:00Z'),
+      });
+      await databaseBuilder.commit();
 
       // when
-      await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
+      const result = await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
 
       // then
-      const updatedOrganizationInvitation = await organizationInvitationRepository.get(organizationInvitation.id);
+      const expectedUpdatedOrganizationInvitation = {
+        ...organizationInvitation,
+        updatedAt: now,
+      };
+      expect(result).to.be.instanceOf(OrganizationInvitation);
+      expect(_.omit(result, 'organizationName')).to.be.deep.equal(expectedUpdatedOrganizationInvitation);
+    });
 
-      expect(updatedOrganizationInvitation.updatedAt).to.be.above(oldModificationDate);
+    it('should throw a not found error', async function () {
+      // given
+      const wrongOrganizationInvitationId = 1;
+      databaseBuilder.factory.buildOrganization({ id: 23 });
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId: 23,
+        status: OrganizationInvitation.StatusType.PENDING,
+        updatedAt: new Date('2020-01-01T00:00:00Z'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(organizationInvitationRepository.updateModificationDate)(
+        wrongOrganizationInvitationId
+      );
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 });
