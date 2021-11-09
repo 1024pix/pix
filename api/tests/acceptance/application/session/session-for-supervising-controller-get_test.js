@@ -33,7 +33,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-get', fun
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.type).to.equal('sessionForSupervisings');
+      expect(response.result.data.type).to.equal('sessionForSupervising');
     });
   });
 

@@ -1,6 +1,4 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class SessionForSupervising extends Model {
 
@@ -9,5 +7,5 @@ export default class SessionForSupervising extends Model {
   @attr('string') examiner;
   @attr('string') room;
   @attr('string') certificationCenterName;
-  @attr() certificationCandidates;
+  @hasMany('certification-candidate-for-supervising') certificationCandidates;
 }

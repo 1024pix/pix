@@ -22,6 +22,7 @@ module.exports = function buildCertificationCandidate({
   extraTimePercentage = 0.3,
   userId,
   schoolingRegistrationId,
+  authorizedToStart = false,
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -45,6 +46,7 @@ module.exports = function buildCertificationCandidate({
     createdAt,
     userId,
     schoolingRegistrationId,
+    authorizedToStart,
   };
 
   return databaseBuffer.pushInsertable({
