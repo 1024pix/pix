@@ -23,7 +23,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     // then
     assert.dom('#campaign-custom-landing-page-text').exists();
     assert.dom('button[type="submit"]').exists();
-    assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', '350');
+    assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', '5000');
   });
 
   test('it should send campaign update action when submitted', async function (assert) {

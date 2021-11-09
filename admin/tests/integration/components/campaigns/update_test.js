@@ -26,6 +26,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     // then
     assert.dom('label[for="name"]').hasText('Nom de la campagne');
     assert.dom('label[for="customLandingPageText"]').hasText("Texte de la page d'accueil");
+    assert.dom('textarea#customLandingPageText').hasAttribute('maxLength', '5000');
     assert.dom('input#name').hasValue('Ceci est un nom');
     assert.contains('Annuler');
     assert.contains('Enregistrer');
