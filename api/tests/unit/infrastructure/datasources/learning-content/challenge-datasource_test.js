@@ -16,7 +16,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     challenge_competence2,
     challenge_web1,
     challenge_web1_notValidated,
-    challenge_web2,
+    challenge_web2_en,
     challenge_web3,
     challenge_web3_archived;
 
@@ -31,6 +31,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       competenceId: competence1.id,
       skillIds: [web1.id],
       status: 'validé',
+      locales: ['fr', 'fr-fr'],
       alpha: 2.11,
       delta: -3.56,
     };
@@ -39,6 +40,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       competenceId: competence1.id,
       skillIds: undefined,
       status: 'validé',
+      locales: ['fr', 'fr-fr'],
       alpha: 8.11,
       delta: 0.95,
     };
@@ -46,6 +48,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       id: 'challenge-competence1-notValidated',
       competenceId: competence1.id,
       skillIds: [web1.id],
+      locales: ['fr', 'fr-fr'],
       status: 'proposé',
       alpha: -0,
       delta: 0,
@@ -55,6 +58,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       competenceId: competence2.id,
       skillIds: [web1.id],
       status: 'validé',
+      locales: ['fr', 'fr-fr'],
       alpha: 8.21,
       delta: -4.23,
     };
@@ -72,7 +76,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       alpha: -1.9,
       delta: 2.34,
     };
-    challenge_web2 = {
+    challenge_web2_en = {
       id: 'challenge-web2',
       skillIds: [web2.id],
       locales: ['en'],
@@ -84,6 +88,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       id: 'challenge-web3',
       skillIds: [web3.id],
       status: 'validé',
+      locales: ['fr', 'fr-fr'],
       alpha: 1.83,
       delta: 0.27,
     };
@@ -103,7 +108,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     beforeEach(function () {
       sinon
         .stub(lcms, 'getLatestRelease')
-        .resolves({ challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2, challenge_web3] });
+        .resolves({ challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3] });
     });
 
     it('should resolve an array of matching Challenges from learning content', async function () {
@@ -147,7 +152,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   describe('#findOperative', function () {
     beforeEach(function () {
       sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2, challenge_web3_archived],
+        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3_archived],
       });
     });
 
@@ -166,7 +171,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       // given
       const locale = 'fr-fr';
       sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2, challenge_web3_archived],
+        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3_archived],
       });
 
       // when
@@ -180,7 +185,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   describe('#findValidated', function () {
     beforeEach(function () {
       sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2, challenge_web3_archived],
+        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3_archived],
       });
     });
 
@@ -203,7 +208,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
           challenge_competence2,
           challenge_web1,
           challenge_web1_notValidated,
-          challenge_web2,
+          challenge_web2_en,
           challenge_web3,
           challenge_web3_archived,
         ],
@@ -212,14 +217,14 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     it('should resolve an array of matching Challenges from learning content', async function () {
       // when
-      const result = await challengeDatasource.findFlashCompatible();
+      const locale = 'fr-fr';
+      const result = await challengeDatasource.findFlashCompatible(locale);
 
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-competence1',
         'challenge-competence2',
-        'challenge-web2',
         'challenge-web3',
       ]);
     });
