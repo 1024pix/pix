@@ -104,9 +104,11 @@ module.exports = {
   async addCertificationCandidate(request, h) {
     const sessionId = request.params.id;
     const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
+    const complementaryCertifications = request.payload.data.attributes['complementary-certifications'] ?? [];
     const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
       sessionId,
       certificationCandidate,
+      complementaryCertifications,
     });
 
     return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();

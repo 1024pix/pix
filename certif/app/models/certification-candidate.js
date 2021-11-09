@@ -16,6 +16,7 @@ export default class CertificationCandidate extends Model {
   @attr('boolean') isLinked;
   @attr('string') schoolingRegistrationId;
   @attr('string') sex;
+  @attr complementaryCertifications;
 
   get sexLabel() {
     if (this.sex === 'M') {

@@ -263,4 +263,33 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       ]);
     });
   });
+
+  module('#updateComplementaryCertifications', function() {
+    test('it should add the complementary certification to the candidate data', function(assert) {
+      // given
+      modal.args.candidateData = {};
+      const complementaryCertification = Symbol('complementaryCertification');
+
+      // when
+      modal.updateComplementaryCertifications(complementaryCertification);
+
+      // then
+      assert.deepEqual(modal.args.candidateData.complementaryCertifications, [complementaryCertification]);
+    });
+
+    test('it should remove the complementary certification if it is already present', function(assert) {
+      // given
+      const complementaryCertificationToRemove = Symbol('complementaryCertification');
+      const anotherComplementaryCertification = Symbol('complementaryCertification');
+      modal.args.candidateData = {
+        complementaryCertifications: [complementaryCertificationToRemove, anotherComplementaryCertification],
+      };
+
+      // when
+      modal.updateComplementaryCertifications(complementaryCertificationToRemove);
+
+      // then
+      assert.deepEqual(modal.args.candidateData.complementaryCertifications, [anotherComplementaryCertification]);
+    });
+  });
 });
