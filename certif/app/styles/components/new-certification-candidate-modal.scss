@@ -4,6 +4,12 @@
   min-width: 576px;
   max-width: 576px;
 
+  fieldset {
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+
   &__title {
     font-family: $open-sans;
     padding: 12px 32px;
