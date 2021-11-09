@@ -58,6 +58,7 @@ const dependencies = {
   competenceTreeRepository: require('../../infrastructure/repositories/competence-tree-repository'),
   complementaryCertificationHabilitationRepository: require('../../infrastructure/repositories/complementary-certification-habilitation-repository'),
   complementaryCertificationRepository: require('../../infrastructure/repositories/complementary-certification-repository'),
+  complementaryCertificationSubscriptionRepository: require('../../infrastructure/repositories/complementary-certification-subscription-repository'),
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
   countryRepository: require('../../infrastructure/repositories/country-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),

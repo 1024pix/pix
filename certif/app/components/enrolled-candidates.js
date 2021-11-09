@@ -140,6 +140,7 @@ export default class EnrolledCandidates extends Component {
       email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
       resultRecipientEmail: this._trimOrUndefinedIfFalsy(certificationCandidateData.resultRecipientEmail),
       extraTimePercentage: certificationCandidateData.extraTimePercentage,
+      complementaryCertifications: certificationCandidateData.complementaryCertifications,
     });
   }
 
