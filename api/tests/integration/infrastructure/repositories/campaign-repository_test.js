@@ -110,7 +110,7 @@ describe('Integration | Repository | Campaign', function () {
       };
 
       // when
-      savedCampaign = await campaignRepository.create(campaignToSave);
+      savedCampaign = await campaignRepository.save(campaignToSave);
 
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);
@@ -136,7 +136,7 @@ describe('Integration | Repository | Campaign', function () {
       campaignToSave = { ...campaignAttributes, type: Campaign.types.PROFILES_COLLECTION };
 
       // when
-      savedCampaign = await campaignRepository.create(campaignToSave);
+      savedCampaign = await campaignRepository.save(campaignToSave);
 
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);

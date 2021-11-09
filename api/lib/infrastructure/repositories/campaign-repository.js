@@ -37,7 +37,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
   },
 
-  async create(campaign) {
+  async save(campaign) {
     const campaignAttributes = _.pick(campaign, [
       'name',
       'code',
