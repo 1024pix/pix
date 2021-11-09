@@ -27,6 +27,11 @@ input.qcm-panel__proposal-checkbox {
 
 .qcm-proposal-label {
 
+  & a,
+  a:visited {
+    color: inherit;
+  }
+
   &__answer-details[data-goodness='good'] {
     display: inline;
     color: $green;
