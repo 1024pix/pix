@@ -4,7 +4,7 @@ const DEFAULT_ESTIMATED_LEVEL = 0;
 
 module.exports = { getPossibleNextChallenges, getEstimatedLevel };
 
-function getPossibleNextChallenges({ challenges } = {}) {
+function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   if (challenges?.length === 0) {
     return {
       hasAssessmentEnded: true,
@@ -12,7 +12,7 @@ function getPossibleNextChallenges({ challenges } = {}) {
     };
   }
 
-  const estimatedLevel = DEFAULT_ESTIMATED_LEVEL;
+  const estimatedLevel = getEstimatedLevel({ allAnswers, challenges });
 
   const challengesWithReward = challenges.map((challenge) => {
     return {
@@ -56,6 +56,7 @@ function _getNormaliseData({ array }) {
   const sum = _.sum(array);
   return _.map(array, (value) => value / sum);
 }
+
 function getEstimatedLevel({ allAnswers, challenges }) {
   if (allAnswers.length === 0) {
     return DEFAULT_ESTIMATED_LEVEL;

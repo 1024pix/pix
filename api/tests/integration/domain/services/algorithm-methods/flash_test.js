@@ -10,9 +10,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       it('should return hasAssessmentEnded as true and possibleChallenges is empty', function () {
         // given
         const challenges = [];
+        const allAnswers = [];
 
         // when
-        const result = flash.getPossibleNextChallenges({ challenges });
+        const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
 
         // then
         expect(result).to.deep.equal({ hasAssessmentEnded: true, possibleChallenges: [] });
@@ -24,9 +25,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         // given
         const challenge = domainBuilder.buildChallenge();
         const challenges = [challenge];
+        const allAnswers = [];
 
         // when
-        const result = flash.getPossibleNextChallenges({ challenges });
+        const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
 
         // then
         expect(result).to.deep.equal({ hasAssessmentEnded: false, possibleChallenges: [challenge] });
@@ -44,9 +46,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             discriminant: 5,
           });
           const challenges = [worstNextChallenge, bestNextChallenge];
+          const allAnswers = [];
 
           // when
-          const result = flash.getPossibleNextChallenges({ challenges });
+          const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
 
           // then
           expect(result).to.deep.equal({ hasAssessmentEnded: false, possibleChallenges: [bestNextChallenge] });
@@ -67,9 +70,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             discriminant: 5,
           });
           const challenges = [worstNextChallenge, bestNextChallenge, anotherBestNextChallenge];
+          const allAnswers = [];
 
           // when
-          const result = flash.getPossibleNextChallenges({ challenges });
+          const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
 
           // then
           expect(result).to.deep.equal({
