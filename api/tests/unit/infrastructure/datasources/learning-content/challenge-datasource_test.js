@@ -222,11 +222,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
-      expect(_.map(result, 'id')).to.deep.equal([
-        'challenge-competence1',
-        'challenge-competence2',
-        'challenge-web3',
-      ]);
+      expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1', 'challenge-competence2', 'challenge-web3']);
     });
   });
 });
