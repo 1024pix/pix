@@ -791,6 +791,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const email = invitation.email;
       const lang = 'en';
       const role = Membership.roles.ADMIN;
+      const serializedInvitation = Symbol();
 
       const request = {
         auth: { credentials: { userId } },
@@ -807,22 +808,27 @@ describe('Unit | Application | Organizations | organization-controller', functio
         },
       };
 
-      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
-      sinon.stub(organizationInvitationSerializer, 'deserializeForCreateOrganizationInvitationAndSendEmail');
-      organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail
+      sinon
+        .stub(organizationInvitationSerializer, 'deserializeForCreateOrganizationInvitationAndSendEmail')
         .withArgs(request.payload)
         .returns({ lang, role, email });
+      sinon
+        .stub(usecases, 'createOrganizationInvitationByAdmin')
+        .withArgs({
+          organizationId,
+          email: email,
+          locale: lang,
+          role,
+        })
+        .resolves(invitation);
+      sinon.stub(organizationInvitationSerializer, 'serialize').withArgs(invitation).returns(serializedInvitation);
 
       // when
-      await organizationController.sendInvitationByLangAndRole(request, hFake);
+      const response = await organizationController.sendInvitationByLangAndRole(request, hFake);
 
       // then
-      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({
-        organizationId,
-        emails: [email],
-        locale: lang,
-        role,
-      });
+      expect(response.statusCode).to.be.equal(201);
+      expect(response.source).to.be.equal(serializedInvitation);
     });
   });
 
