@@ -37,6 +37,14 @@
 
   &__label {
     margin: 0 0 4px;
+
+    &--tooltip {
+      display: flex;
+
+      & span {
+        padding-right: 8px;
+      }
+    }
   }
 
   &__text {
@@ -52,6 +60,11 @@
     display: flex;
     flex-direction: row;
   }
+}
+
+.campaign-settings-content__tooltip-icon {
+  color: $grey-30;
+  margin: 0 0 4px 0;
 }
 
 .campaign-settings-buttons {
