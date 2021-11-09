@@ -194,4 +194,13 @@ export default function() {
   this.post('/sessions/supervise', () => {
     return new Response(204);
   });
+
+  this.patch('/certification-candidates/:id', async (schema, request)=>{
+    const candidateId = request.params.id;
+    const payload = JSON.parse(request.requestBody);
+    const authorizedToStart = payload['authorized-to-start'];
+    const candidate = schema.certificationCandidateForSupervisings.find(candidateId);
+    await candidate.update({ authorizedToStart });
+    return new Response(204);
+  });
 }
