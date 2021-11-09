@@ -157,6 +157,7 @@ module.exports = injectDependencies(
     authenticateExternalUser: require('./authenticate-external-user'),
     authenticateApplication: require('./authenticate-application'),
     beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
+    cancelOrganizationInvitation: require('./cancel-organization-invitation'),
     cancelCertificationCourse: require('./cancel-certification-course'),
     changeUserLang: require('./change-user-lang'),
     checkScoAccountRecovery: require('./check-sco-account-recovery'),
