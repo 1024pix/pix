@@ -13,7 +13,10 @@ module.exports = {
         lastName: 'users.lastName',
         email: 'users.email',
         pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-        certificationCenterIds: knex.raw('array_agg(??)', 'certification-center-memberships.certificationCenterId'),
+        certificationCenterIds: knex.raw('array_agg(?? order by ?? asc)', [
+          'certificationCenterId',
+          'certificationCenterId',
+        ]),
       })
       .from('users')
       .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
@@ -45,7 +48,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
       tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
       habilitations: knex.raw(
-        `array_agg(json_build_object('id', "complementary-certifications".id, 'name', "complementary-certifications".name))`
+        `array_agg(json_build_object('id', "complementary-certifications".id, 'name', "complementary-certifications".name) order by "complementary-certifications".id)`
       ),
     })
     .from('certification-centers')
