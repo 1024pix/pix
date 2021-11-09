@@ -24,7 +24,7 @@ module('Acceptance | Supervisor Portal', function(hooks) {
   });
 
   module('When supervisor authentication is successful', function() {
-    test('it should redirect to ', async function(assert) {
+    test('it should redirect to supervising page', async function(assert) {
       // given
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');

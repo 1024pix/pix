@@ -5,14 +5,24 @@
       <ul class="session-supervising-candidate-list__candidates">
         {{#each @candidates as |candidate|}}
           <li class="session-supervising-candidate-list__candidate">
-            <div class="session-supervising-candidate-list__candidate-full-name">
-              {{candidate.lastName}} {{candidate.firstName}}
-            </div>
-            <div class="session-supervising-candidate-list__candidate-details">
-              {{moment-format candidate.birthdate "DD/MM/YYYY"}}
-              {{#if candidate.extraTimePercentage}}
-                · Temps majoré : {{candidate.extraTimePercentage}}%
-              {{/if}}
+            <PixInput
+              @id={{concat "candidate-checkbox-" candidate.id}}
+              class="session-supervising-candidate-list__candidate-checkbox"
+              type="checkbox"
+              checked={{candidate.authorizedToStart}}
+            />
+            <div>
+              <div class="session-supervising-candidate-list__candidate-full-name">
+                <label for={{concat "candidate-checkbox-" candidate.id}}>
+                  {{candidate.lastName}} {{candidate.firstName}}
+                </label>
+              </div>
+              <div class="session-supervising-candidate-list__candidate-details">
+                {{moment-format candidate.birthdate "DD/MM/YYYY"}}
+                {{#if candidate.extraTimePercentage}}
+                  · Temps majoré : {{candidate.extraTimePercentage}}%
+                {{/if}}
+              </div>
             </div>
           </li>
         {{/each}}

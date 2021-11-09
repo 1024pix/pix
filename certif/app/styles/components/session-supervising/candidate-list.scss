@@ -41,9 +41,11 @@ $grey-85: rgb(37, 56, 88);
     }
 
     &__candidate {
-      padding: 12px 42px;
+      padding: 12px 16px;
       margin-bottom: 8px;
       border-radius: 4px;
+      display: flex;
+      align-items: center;
     }
 
     &__candidate-details {
@@ -69,6 +71,12 @@ $grey-85: rgb(37, 56, 88);
       margin: auto;
       max-width: 225px;
       text-align: center;
+    }
+
+    &__candidate-checkbox {
+      width: 32px;
+      height: 32px;
+      margin-right: 16px;
     }
   }
 }
