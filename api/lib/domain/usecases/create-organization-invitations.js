@@ -3,12 +3,11 @@ const bluebird = require('bluebird');
 const organizationInvitationService = require('../../domain/services/organization-invitation-service');
 
 module.exports = async function createOrganizationInvitations({
-  organizationRepository,
-  organizationInvitationRepository,
   organizationId,
   emails,
   locale,
-  role,
+  organizationRepository,
+  organizationInvitationRepository,
 }) {
   const trimmedEmails = emails.map((email) => email.trim());
   const uniqueEmails = [...new Set(trimmedEmails)];
@@ -20,7 +19,6 @@ module.exports = async function createOrganizationInvitations({
       organizationId,
       email,
       locale,
-      role,
     });
   });
 };
