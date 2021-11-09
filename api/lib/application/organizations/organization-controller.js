@@ -254,9 +254,9 @@ module.exports = {
     const invitationInformation =
       await organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(request.payload);
 
-    const [organizationInvitation] = await usecases.createOrganizationInvitations({
+    const organizationInvitation = await usecases.createOrganizationInvitationByAdmin({
       organizationId,
-      emails: [invitationInformation.email],
+      email: invitationInformation.email,
       locale: invitationInformation.lang,
       role: invitationInformation.role,
     });
