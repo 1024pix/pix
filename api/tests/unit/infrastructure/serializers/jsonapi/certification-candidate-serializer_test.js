@@ -9,6 +9,12 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
   beforeEach(function () {
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       schoolingRegistrationId: 1,
+      complementaryCertifications: [
+        domainBuilder.buildComplementaryCertification({
+          id: 2,
+          name: 'Pix+Patisserie',
+        }),
+      ],
     });
   });
 
@@ -35,6 +41,12 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'is-linked': !_.isNil(certificationCandidate.userId),
             'schooling-registration-id': 1,
             sex: certificationCandidate.sex,
+            'complementary-certifications': [
+              {
+                id: 2,
+                name: 'Pix+Patisserie',
+              },
+            ],
           },
         },
       };
