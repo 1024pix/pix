@@ -300,7 +300,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           expectedSecondAllowedCertificationCenterAccess,
         ],
       });
-      expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
+      expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
     });
   });
 });
