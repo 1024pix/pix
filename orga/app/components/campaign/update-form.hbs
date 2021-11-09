@@ -1,11 +1,9 @@
 <form class="form" {{on "submit" @onSubmit}}>
   <div class="form__field">
-    <label for="campaign-name" class="label">{{t "pages.campaign-modification.campaign-name"}}</label>
-    <Input
-      id="campaign-name"
-      name="campaign-name"
-      @type="text"
-      class="input"
+    <PixInput
+      @id="campaign-name"
+      @name="campaign-name"
+      @label={{t "pages.campaign-modification.campaign-name"}}
       maxlength="255"
       @value={{@campaign.name}}
     />
@@ -13,12 +11,10 @@
 
   {{#if @campaign.isTypeAssessment}}
     <div class="form__field">
-      <label for="campaign-title" class="label">{{t "pages.campaign-modification.personalised-test-title"}}</label>
-      <Input
-        id="campaign-title"
-        name="campaign-title"
-        @type="text"
-        class="input"
+      <PixInput
+        @id="campaign-title"
+        @name="campaign-title"
+        @label={{t "pages.campaign-modification.personalised-test-title"}}
         maxlength="50"
         @value={{@campaign.title}}
       />
@@ -26,12 +22,10 @@
   {{/if}}
 
   <div class="form__field">
-    <label for="campaign-custom-landing-page-text" class="label">{{t
-        "pages.campaign-modification.landing-page-text"
-      }}</label>
     <PixTextarea
-      id="campaign-custom-landing-page-text"
-      maxlength={{350}}
+      @id="campaign-custom-landing-page-text"
+      @label={{t "pages.campaign-modification.landing-page-text"}}
+      @maxlength={{5000}}
       @value={{@campaign.customLandingPageText}}
       rows={{8}}
     />
