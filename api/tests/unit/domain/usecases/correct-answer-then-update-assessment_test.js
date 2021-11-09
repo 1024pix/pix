@@ -288,7 +288,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       });
     });
 
-    context('and assessment is a CAMPAIGN', function () {
+    context('and assessment is a CAMPAIGN with SMART_RANDOM method', function () {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
       let scorecard,
@@ -302,6 +302,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       beforeEach(function () {
         // given
         assessment.type = Assessment.types.CAMPAIGN;
+        assessment.method = Assessment.methods.SMART_RANDOM;
         assessment.campaignParticipationId = 123;
         assessmentRepository.get.resolves(assessment);
         skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
@@ -481,6 +482,199 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           // given
           scorecardService.computeScorecard.onFirstCall().resolves(scorecard).onSecondCall().resolves(scorecard);
 
+          // when
+          const result = await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            targetProfileRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(result.levelup).to.deep.equal({});
+        });
+      });
+
+      context('when the user responds badly', function () {
+        it('should not compute the level up', async function () {
+          // given
+          answer = domainBuilder.buildAnswer({ value: '' });
+          answer.id = undefined;
+          answer.result = undefined;
+          answer.resultDetails = undefined;
+
+          // when
+          await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            targetProfileRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(scorecardService.computeScorecard).to.not.have.been.called;
+        });
+      });
+    });
+
+    context('and assessment is a CAMPAIGN with FLASH method', function () {
+      let firstKnowledgeElement;
+      let secondKnowledgeElement;
+      let scorecard,
+        knowledgeElement,
+        targetProfile,
+        skills,
+        challenge,
+        skillAlreadyValidated,
+        skillNotAlreadyValidated;
+
+      beforeEach(function () {
+        // given
+        assessment.type = Assessment.types.CAMPAIGN;
+        assessment.method = Assessment.methods.FLASH;
+        assessment.campaignParticipationId = 123;
+        assessmentRepository.get.resolves(assessment);
+        skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
+        skillAlreadyValidated = skills[0];
+        skillNotAlreadyValidated = skills[2];
+        challenge = domainBuilder.buildChallenge({
+          skills: [skillNotAlreadyValidated],
+          id: answer.challengeId,
+          validator,
+        });
+
+        knowledgeElement = domainBuilder.buildKnowledgeElement({
+          status: 'validated',
+          skillId: skillAlreadyValidated.id,
+        });
+        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
+        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
+        targetProfile = domainBuilder.buildTargetProfile({ skills });
+        challengeRepository.get.resolves(challenge);
+
+        knowledgeElementRepository.findUniqByUserIdAndAssessmentId
+          .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
+          .resolves([knowledgeElement]);
+
+        targetProfileRepository.getByCampaignParticipationId.resolves(targetProfile);
+        KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
+        scorecardService.computeScorecard.resolves(scorecard);
+      });
+
+      it('should call the answer repository to save the answer', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          competenceEvaluationRepository,
+          skillRepository,
+          targetProfileRepository,
+          knowledgeElementRepository,
+          scorecardService,
+        });
+        // then
+        const expectedArgs = [[completedAnswer, []]];
+        expect(answerRepository.saveWithKnowledgeElements.args).to.deep.equal(expectedArgs);
+      });
+
+      it('should not call the target profile repository to find target skills', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          competenceEvaluationRepository,
+          skillRepository,
+          targetProfileRepository,
+          knowledgeElementRepository,
+          scorecardService,
+        });
+
+        // then
+        expect(targetProfileRepository.getByCampaignParticipationId).to.not.have.been.called;
+      });
+
+      it('should call the challenge repository to get the answer challenge', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          competenceEvaluationRepository,
+          skillRepository,
+          targetProfileRepository,
+          knowledgeElementRepository,
+          scorecardService,
+        });
+
+        // then
+        const expectedArgument = answer.challengeId;
+        expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
+      });
+
+      it('should not create the knowledge elements for the answer', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          competenceEvaluationRepository,
+          skillRepository,
+          targetProfileRepository,
+          knowledgeElementRepository,
+          scorecardService,
+        });
+
+        // then
+        const answerCreated = domainBuilder.buildAnswer(savedAnswer);
+        answerCreated.id = undefined;
+        expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.not.have.been.called;
+      });
+
+      it('should return the saved answer - with the id', async function () {
+        // when
+        const result = await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          competenceEvaluationRepository,
+          skillRepository,
+          targetProfileRepository,
+          knowledgeElementRepository,
+          scorecardService,
+        });
+
+        // then
+        const expectedArgument = savedAnswer;
+        expect(result).to.deep.equal(expectedArgument);
+      });
+
+      context('when the user responds correctly', function () {
+        it('should not add the level up to the answer when the user gain one level', async function () {
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
