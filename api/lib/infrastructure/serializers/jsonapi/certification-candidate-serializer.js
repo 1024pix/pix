@@ -29,6 +29,7 @@ module.exports = {
         'sex',
         'birthINSEECode',
         'birthPostalCode',
+        'complementaryCertifications',
       ],
     }).serialize(certificationCandidates);
   },

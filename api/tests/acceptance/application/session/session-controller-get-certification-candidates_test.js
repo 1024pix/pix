@@ -70,6 +70,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           sex: certificationCandidateA.sex,
           'birth-insee-code': certificationCandidateA.birthINSEECode,
           'birth-postal-code': certificationCandidateA.birthPostalCode,
+          'complementary-certifications': [],
         };
         expectedCertificationCandidateBAttributes = {
           'first-name': certificationCandidateB.firstName,
@@ -87,6 +88,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           sex: certificationCandidateB.sex,
           'birth-insee-code': certificationCandidateB.birthINSEECode,
           'birth-postal-code': certificationCandidateB.birthPostalCode,
+          'complementary-certifications': [],
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
