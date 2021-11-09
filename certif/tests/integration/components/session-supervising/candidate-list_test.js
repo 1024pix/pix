@@ -69,12 +69,12 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
           this.sessionForSupervising = store.createRecord('session-for-supervising', {
             certificationCandidates: [candidate],
           });
-          const checkCandidate = sinon.spy();
-          this.set('checkCandidate', checkCandidate);
+          const toggleCandidate = sinon.spy();
+          this.set('toggleCandidate', toggleCandidate);
 
           const screen = await renderScreen(hbs`<SessionSupervising::CandidateList
             @candidates={{this.sessionForSupervising.certificationCandidates}}
-            @checkCandidate={{this.checkCandidate}}
+            @toggleCandidate={{this.toggleCandidate}}
         />`);
           const checkbox = screen.getByRole('checkbox');
 
@@ -83,13 +83,13 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
           await checkbox.click();
 
           // then
-          sinon.assert.calledOnceWithExactly(checkCandidate, candidate, false);
+          sinon.assert.calledOnceWithExactly(toggleCandidate, candidate);
           assert.ok(true);
         });
       });
 
       module('when the candidate is not authorized', function() {
-        test('it calls the argument callback with candidate and true', async function(assert) {
+        test('it calls the argument callback with candidate', async function(assert) {
           // given
           const candidate = store.createRecord('certification-candidate-for-supervising', {
             id: 123,
@@ -102,12 +102,12 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
           this.sessionForSupervising = store.createRecord('session-for-supervising', {
             certificationCandidates: [candidate],
           });
-          const checkCandidate = sinon.spy();
-          this.set('checkCandidate', checkCandidate);
+          const toggleCandidate = sinon.spy();
+          this.set('toggleCandidate', toggleCandidate);
 
           const screen = await renderScreen(hbs`<SessionSupervising::CandidateList
             @candidates={{this.sessionForSupervising.certificationCandidates}}
-            @checkCandidate={{this.checkCandidate}}
+            @toggleCandidate={{this.toggleCandidate}}
         />`);
           const checkbox = screen.getByRole('checkbox');
 
@@ -116,7 +116,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
           await checkbox.click();
 
           // then
-          sinon.assert.calledOnceWithExactly(checkCandidate, candidate, true);
+          sinon.assert.calledOnceWithExactly(toggleCandidate, candidate);
           assert.ok(true);
         });
       });

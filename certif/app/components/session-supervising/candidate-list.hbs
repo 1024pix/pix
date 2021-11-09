@@ -10,7 +10,7 @@
               class="session-supervising-candidate-list__candidate-checkbox"
               type="checkbox"
               checked={{candidate.authorizedToStart}}
-              {{on 'click' (fn this.checkCandidate candidate)}}
+              {{on 'click' (fn this.toggleCandidate candidate)}}
             />
             <div>
               <div class="session-supervising-candidate-list__candidate-full-name">
