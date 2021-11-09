@@ -13,6 +13,7 @@ const dependencies = {
   campaignAssessmentParticipationRepository: require('../../infrastructure/repositories/campaign-assessment-participation-repository'),
   campaignAssessmentParticipationResultListRepository: require('../../infrastructure/repositories/campaign-assessment-participation-result-list-repository'),
   campaignAssessmentParticipationResultRepository: require('../../infrastructure/repositories/campaign-assessment-participation-result-repository'),
+  campaignCreatorRepository: require('../../infrastructure/repositories/campaign-creator-repository'),
   campaignParticipantActivityRepository: require('../../infrastructure/repositories/campaign-participant-activity-repository'),
   campaignCollectiveResultRepository: require('../../infrastructure/repositories/campaign-collective-result-repository'),
   campaignManagementRepository: require('../../infrastructure/repositories/campaign-management-repository'),
