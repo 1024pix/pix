@@ -2,6 +2,8 @@ const BookshelfOrganizationInvitation = require('../orm-models/OrganizationInvit
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { NotFoundError } = require('../../domain/errors');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
+const { knex } = require('../../../db/knex-database-connection');
+const _ = require('lodash');
 
 function _toDomain(bookshelfInvitation) {
   if (bookshelfInvitation) {
@@ -71,9 +73,16 @@ module.exports = {
       .then(_toDomain);
   },
 
-  updateModificationDate(id) {
-    return new BookshelfOrganizationInvitation({ id })
-      .save({}, { method: 'update', patch: true, require: true })
-      .catch((err) => _checkNotFoundError(err, id));
+  async updateModificationDate(id) {
+    const organizationInvitation = await knex('organization-invitations')
+      .where({ id })
+      .update({ updatedAt: new Date() })
+      .returning('*')
+      .then(_.first);
+
+    if (!organizationInvitation) {
+      throw new NotFoundError(`Organization invitation of id ${id} is not found.`);
+    }
+    return new OrganizationInvitation(organizationInvitation);
   },
 };
