@@ -66,17 +66,15 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
         });
 
         context('and user has reached maximum level of given competence', function () {
-          beforeEach(async function () {
+          it('should return 403 error', async function () {
+            // given
             databaseBuilder.factory.buildKnowledgeElement({
               earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE,
               competenceId,
               userId,
             });
             await databaseBuilder.commit();
-          });
 
-          it('should return 403 error', async function () {
-            // given
             const options = {
               method: 'POST',
               url: '/api/competence-evaluations/improve',
