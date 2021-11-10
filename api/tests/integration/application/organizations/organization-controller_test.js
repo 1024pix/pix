@@ -32,7 +32,6 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
-    sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
