@@ -149,9 +149,7 @@ export default function () {
     const lang = params.data.attributes.lang;
     const role = params.data.attributes.role;
 
-    schema.organizationInvitations.create({ email, lang, role });
-
-    return schema.organizationInvitations.where({ email });
+    return schema.organizationInvitations.create({ email, lang, role });
   });
 
   this.patch('/admin/memberships/:id', (schema, request) => {
