@@ -9,10 +9,6 @@ const moduleUnderTest = require('../../../../lib/application/organizations');
 const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Organizations | organization-controller', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const organization = domainBuilder.buildOrganization();
-
   let sandbox;
   let httpTestServer;
 
@@ -69,6 +65,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should resolve a 200 HTTP response', async function () {
         // given
+        const organization = domainBuilder.buildOrganization();
         usecases.updateOrganizationInformation.resolves(organization);
 
         // when
@@ -80,6 +77,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return a JSON API organization', async function () {
         // given
+        const organization = domainBuilder.buildOrganization();
         usecases.updateOrganizationInformation.resolves(organization);
 
         // when
@@ -115,12 +113,9 @@ describe('Integration | Application | Organizations | organization-controller', 
         securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster.returns(true);
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const membership = domainBuilder.buildMembership();
-
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const membership = domainBuilder.buildMembership();
         usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
@@ -132,6 +127,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async function () {
         // given
+        const membership = domainBuilder.buildMembership();
         usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
@@ -144,6 +140,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return a JSON:API response including organization, organization role & user information', async function () {
         // given
+        const membership = domainBuilder.buildMembership();
         usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
@@ -164,12 +161,9 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
 
     context('Success cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
-
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
         usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
 
         // when
@@ -181,6 +175,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async function () {
         // given
+        const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
         usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
 
         // when
@@ -212,21 +207,16 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   describe('#findPendingInvitations', function () {
     context('Success cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const invitation = domainBuilder.buildOrganizationInvitation({
-        organizationId: 1,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
-
       beforeEach(function () {
         securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
       });
 
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const invitation = domainBuilder.buildOrganizationInvitation({
+          organizationId: 1,
+          status: OrganizationInvitation.StatusType.PENDING,
+        });
         usecases.findPendingOrganizationInvitations.resolves([invitation]);
 
         // when
