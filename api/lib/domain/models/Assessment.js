@@ -124,11 +124,15 @@ class Assessment {
   }
 
   hasKnowledgeElements() {
-    return this.isCompetenceEvaluation() || this.isForCampaign();
+    return this.isCompetenceEvaluation() || (this.isForCampaign() && this.isSmartRandom());
   }
 
   isFlash() {
     return this.method === methods.FLASH;
+  }
+
+  isSmartRandom() {
+    return this.method === methods.SMART_RANDOM;
   }
 
   static computeMethodFromType(type) {
