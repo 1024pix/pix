@@ -541,6 +541,30 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'PUT',
+      path: '/api/organizations/{id}/invitations/{invitationId}/cancel',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+            invitationId: identifiersType.organizationInvitationId,
+          }),
+        },
+        handler: organizationController.cancelOrganizationInvitation,
+        tags: ['api', 'invitations', 'cancel'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +
+            "- Elle permet à l'administrateur de l'organisation d'annuler une invitation envoyée mais non acceptée encore.",
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/organizations/{id}/invitations',
       config: {
