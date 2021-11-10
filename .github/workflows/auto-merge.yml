@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: automerge
-        uses: pascalgn/automerge-action@v0.8.3
+        uses: pascalgn/automerge-action@v0.14.3
         env:
           GITHUB_TOKEN: '${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}'
           MERGE_LABELS: ':rocket: Ready to Merge'
