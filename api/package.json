@@ -117,7 +117,7 @@
     "lint:dependencies": "depcheck",
     "lint:file-and-directory-names": "ls-lint",
     "lint:code": "eslint .",
-    "broken-lint:json": "eslint --fix --ext .json translations/",
+    "manual-lint:json": "eslint --fix --ext .json translations/",
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
