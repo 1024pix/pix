@@ -168,7 +168,7 @@ jobs:
             - ~/.npm
       - run:
           name: Lint
-          command: npm run lint:ci
+          command: npm run lint
       - run:
           name: Test
           command: npm run test:ci
