@@ -37,7 +37,7 @@ const learningContent = [
               {
                 id: skillWeb2Id,
                 nom: '@web2',
-                challenges: [{ id: firstChallengeId, alpha: 2.8, delta: 1.1 }],
+                challenges: [{ id: firstChallengeId, alpha: 2.8, delta: 1.1, langues: ['Franco Français'] }],
               },
               {
                 id: skillWeb3Id,
@@ -48,8 +48,8 @@ const learningContent = [
                 id: skillWeb1Id,
                 nom: '@web1',
                 challenges: [
-                  { id: thirdChallengeId, alpha: -0.2, delta: 2.7 },
-                  { id: otherChallengeId, alpha: -0.2, delta: -0.4 },
+                  { id: thirdChallengeId, alpha: -0.2, delta: 2.7, langues: ['Franco Français'] },
+                  { id: otherChallengeId, alpha: -0.2, delta: -0.4, langues: ['Franco Français'] },
                 ],
               },
             ],

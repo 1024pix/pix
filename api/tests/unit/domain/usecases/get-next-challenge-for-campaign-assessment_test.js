@@ -56,7 +56,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         assessment.method = 'FLASH';
         sinon.stub(flash, 'getPossibleNextChallenges').returns({ possibleChallenges: [], hasAssessmentEnded: false });
         sinon.stub(dataFetcher, 'fetchForFlashCampaigns').resolves({});
-
+        const locale = 'fr-fr';
         // when
         await getNextChallengeForCampaignAssessment({
           knowledgeElementRepository,
@@ -65,6 +65,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           answerRepository,
           pickChallengeService,
           assessment,
+          locale,
         });
 
         // then
@@ -73,6 +74,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           assessment,
           answerRepository,
           challengeRepository,
+          locale,
         });
       });
     });
