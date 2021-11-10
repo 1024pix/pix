@@ -493,4 +493,27 @@ describe('Unit | Router | organization-router', function () {
       });
     });
   });
+
+  describe('PUT', function () {
+    it('should call the cancel organization invitation controller', async function () {
+      // given
+      sinon
+        .stub(organizationController, 'cancelOrganizationInvitation')
+        .callsFake((request, h) => h.response('ok').code(200));
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'PUT';
+      const url = '/api/organizations/1/invitations/1/cancel';
+
+      // when
+      await httpTestServer.request(method, url);
+
+      // then
+      expect(securityPreHandlers.checkUserIsAdminInOrganization).to.have.be.called;
+      expect(organizationController.cancelOrganizationInvitation).to.have.been.calledOnce;
+    });
+  });
 });
