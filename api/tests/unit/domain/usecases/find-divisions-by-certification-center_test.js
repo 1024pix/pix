@@ -3,7 +3,6 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findDivisionsByCertificationCenter = require('../../../../lib/domain/usecases/find-divisions-by-certification-center');
 
 describe('Unit | UseCase | find-divisions-by-certification-center', function () {
-  const certificationCenterId = 1;
   let organization;
   let organizationRepository;
   let divisionRepository;
@@ -21,7 +20,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function () 
     it('should return all divisions', async function () {
       // given
       const externalId = 'AAA111';
-      const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
+      const certificationCenter = domainBuilder.buildCertificationCenter({ externalId });
       organization = domainBuilder.buildOrganization({ externalId });
 
       organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenter.id).resolves(organization.id);
@@ -31,7 +30,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function () 
 
       // when
       const divisions = await findDivisionsByCertificationCenter({
-        certificationCenterId,
+        certificationCenterId: certificationCenter.id,
         organizationRepository,
         divisionRepository,
       });
