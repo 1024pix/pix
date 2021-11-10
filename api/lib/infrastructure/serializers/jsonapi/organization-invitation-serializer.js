@@ -12,7 +12,7 @@ module.exports = {
       return {
         role: record.role,
         lang: record.lang,
-        email: record.email.toLowerCase(),
+        email: record.email?.trim().toLowerCase(),
       };
     });
   },
