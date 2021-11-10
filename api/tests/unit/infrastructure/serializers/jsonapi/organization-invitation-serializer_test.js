@@ -37,7 +37,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
           type: 'organization-invitations',
           attributes: {
             lang: 'fr-fr',
-            email: 'EMAIL@example.net',
+            email: 'email@example.net',
             role: null,
           },
         },
@@ -53,6 +53,26 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
         role: null,
       };
       expect(json).to.deep.equal(expectedJsonApi);
+    });
+
+    it('should trim and lower case email from payload', async function () {
+      //given
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            lang: 'fr-fr',
+            email: '    EMAIL@example.net    ',
+            role: null,
+          },
+        },
+      };
+
+      // when
+      const json = await serializer.deserializeForCreateOrganizationInvitationAndSendEmail(payload);
+
+      // then
+      expect(json.email).to.deep.equal('email@example.net');
     });
   });
 });
