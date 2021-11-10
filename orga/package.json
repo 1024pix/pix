@@ -27,7 +27,6 @@
     "dev": "ember serve",
     "lint": "npm-run-all --parallel lint:*",
     "lint-fix": "npm-run-all --parallel 'lint:* -- --fix'",
-    "lint:ci": "npm run lint",
     "lint:js": "eslint .",
     "lint:hbs": "ember-template-lint .",
     "broken-lint:json": "eslint --fix --ext .json translations/",
