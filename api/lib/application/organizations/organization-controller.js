@@ -249,6 +249,14 @@ module.exports = {
     return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
   },
 
+  async cancelOrganizationInvitation(request, h) {
+    const organizationInvitationId = request.params.id;
+    const cancelledOrganizationInvitation = await usecases.cancelOrganizationInvitation({
+      id: organizationInvitationId,
+    });
+    return h.response(organizationInvitationSerializer.serialize(cancelledOrganizationInvitation));
+  },
+
   async sendInvitationByLangAndRole(request, h) {
     const organizationId = request.params.id;
     const invitationInformation =
