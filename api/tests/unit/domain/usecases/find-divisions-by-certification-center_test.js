@@ -5,29 +5,26 @@ const findDivisionsByCertificationCenter = require('../../../../lib/domain/useca
 describe('Unit | UseCase | find-divisions-by-certification-center', function () {
   const certificationCenterId = 1;
   let organization;
-
-  const organizationRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getIdByCertificationCenterId: sinon.stub(),
-  };
-  const divisionRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
-  };
+  let organizationRepository;
+  let divisionRepository;
 
   beforeEach(async function () {
-    const externalId = 'AAA111';
-    const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
-    organization = domainBuilder.buildOrganization({ externalId });
-
-    organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenter.id).resolves(organization.id);
+    organizationRepository = {
+      getIdByCertificationCenterId: sinon.stub(),
+    };
+    divisionRepository = {
+      findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
+    };
   });
 
   describe('when user has access to certification center', function () {
     it('should return all divisions', async function () {
       // given
+      const externalId = 'AAA111';
+      const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
+      organization = domainBuilder.buildOrganization({ externalId });
+
+      organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenter.id).resolves(organization.id);
       divisionRepository.findByOrganizationIdForCurrentSchoolYear
         .withArgs({ organizationId: organization.id })
         .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);

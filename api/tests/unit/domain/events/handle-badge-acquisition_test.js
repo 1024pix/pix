@@ -5,45 +5,41 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 
 describe('Unit | Domain | Events | handle-badge-acquisition', function () {
   describe('#handleBadgeAcquisition', function () {
-    const badgeRepository = {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      findByCampaignParticipationId: _.noop,
-    };
-    const targetProfileRepository = {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      getByCampaignParticipationId: _.noop,
-    };
-    const knowledgeElementRepository = {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      findUniqByUserId: _.noop,
-    };
-    const badgeAcquisitionRepository = {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      createOrUpdate: _.noop,
-    };
+    let badgeRepository, targetProfileRepository, knowledgeElementRepository, badgeAcquisitionRepository;
+    let badgeCriteriaService;
+    let dependencies;
 
-    const badgeCriteriaService = {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      areBadgeCriteriaFulfilled: _.noop,
-    };
+    beforeEach(function () {
+      badgeRepository = {
+        findByCampaignParticipationId: _.noop,
+      };
+      targetProfileRepository = {
+        getByCampaignParticipationId: _.noop,
+      };
+      knowledgeElementRepository = {
+        findUniqByUserId: _.noop,
+      };
+      badgeAcquisitionRepository = {
+        createOrUpdate: _.noop,
+      };
+      badgeCriteriaService = {
+        areBadgeCriteriaFulfilled: _.noop,
+      };
 
-    const dependencies = {
-      badgeAcquisitionRepository,
-      badgeCriteriaService,
-      badgeRepository,
-      knowledgeElementRepository,
-      targetProfileRepository,
-    };
+      dependencies = {
+        badgeAcquisitionRepository,
+        badgeCriteriaService,
+        badgeRepository,
+        knowledgeElementRepository,
+        targetProfileRepository,
+      };
+    });
 
     it('fails when event is not of correct type', async function () {
       // given
       const event = 'not an event of the correct type';
-      // when / then
+
+      // when
       const error = await catchErr(handleBadgeAcquisition)({ event, ...dependencies });
 
       // then
@@ -57,17 +53,15 @@ describe('Unit | Domain | Events | handle-badge-acquisition', function () {
 
       context('when the campaign is associated to one badge', function () {
         let badge;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const badgeId = Symbol('badgeId');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const targetProfile = Symbol('targetProfile');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const knowledgeElements = Symbol('knowledgeElements');
+        let targetProfile;
+        let knowledgeElements;
+        let badgeId;
 
         beforeEach(function () {
+          badgeId = Symbol('badgeId');
+          targetProfile = Symbol('targetProfile');
+          knowledgeElements = Symbol('knowledgeElements');
+
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge = {
             id: badgeId,
@@ -110,6 +104,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', function () {
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge })
             .returns(false);
+
           // when
           await handleBadgeAcquisition({ event, ...dependencies });
 
@@ -120,20 +115,16 @@ describe('Unit | Domain | Events | handle-badge-acquisition', function () {
 
       context('when the campaign is associated to two badges', function () {
         let badge1, badge2;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const badgeId_1 = Symbol('badgeId_1');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const badgeId_2 = Symbol('badgeId_2');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const targetProfile = Symbol('targetProfile');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const knowledgeElements = Symbol('knowledgeElements');
+        let badgeId_1, badgeId_2;
+        let targetProfile;
+        let knowledgeElements;
 
         beforeEach(function () {
+          badgeId_1 = Symbol('badgeId_1');
+          badgeId_2 = Symbol('badgeId_2');
+          targetProfile = Symbol('targetProfile');
+          knowledgeElements = Symbol('knowledgeElements');
+
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge1 = {
             id: badgeId_1,

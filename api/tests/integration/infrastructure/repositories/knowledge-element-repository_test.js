@@ -47,20 +47,15 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
   describe('#findUniqByUserId', function () {
     const today = new Date('2018-08-01T12:34:56Z');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const yesterday = moment(today).subtract(1, 'days').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const tomorrow = moment(today).add(1, 'days').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dayBeforeYesterday = moment(today).subtract(2, 'days').toDate();
     let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
     let userId;
 
     beforeEach(async function () {
       // given
+      const yesterday = moment(today).subtract(1, 'days').toDate();
+      const tomorrow = moment(today).add(1, 'days').toDate();
+      const dayBeforeYesterday = moment(today).subtract(2, 'days').toDate();
+
       userId = databaseBuilder.factory.buildUser().id;
 
       knowledgeElementsWantedWithLimitDate = _.map(
@@ -120,6 +115,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         // when
         const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId });
 
+        // then
         expect(knowledgeElementsFound).have.lengthOf(3);
         expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
       });
@@ -130,6 +126,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         // when
         const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
+        // then
         expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
         expect(knowledgeElementsFound).have.lengthOf(2);
       });
@@ -253,6 +250,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         competenceId,
       });
 
+      // then
       expect(actualKnowledgeElements).to.have.deep.members(wantedKnowledgeElements);
     });
   });
