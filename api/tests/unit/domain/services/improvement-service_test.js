@@ -10,6 +10,7 @@ describe('Unit | Service | ImprovementService', function () {
         // given
         const assessment = domainBuilder.buildAssessment({ state: 'started', isImproving: false });
         const knowledgeElements = [domainBuilder.buildKnowledgeElement()];
+
         // when
         const listOfKnowledgeElements = improvementService.filterKnowledgeElementsIfImproving({
           assessment,
@@ -24,11 +25,10 @@ describe('Unit | Service | ImprovementService', function () {
 
     context('when the campaign participation is retrying', function () {
       let assessment, knowledgeElements;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+      let originalConstantValue;
 
       beforeEach(function () {
+        originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
         constants['MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING'] = 3;
         const assessmentDate = '2020-07-30';
 
@@ -102,6 +102,7 @@ describe('Unit | Service | ImprovementService', function () {
           oldKnowledgeElementsInvalidated,
           recentKnowledgeElements
         );
+
         // when
         const listOfKnowledgeElements = improvementService.filterKnowledgeElementsIfImproving({
           assessment,

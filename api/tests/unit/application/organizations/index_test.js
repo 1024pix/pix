@@ -44,38 +44,36 @@ describe('Unit | Router | organization-router', function () {
       });
 
       context('when id is outside number limits', function () {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const minNumberLimit = identifiersType.positiveInteger32bits.min;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const maxNumberLimit = identifiersType.positiveInteger32bits.max;
-        const numbersOutsideLimits = [
-          {
-            expectedBehavior: 'should return HTTP statusCode 400 if id number is less than the minimum value',
-            wrongNumber: minNumberLimit - 1,
-          },
-          {
-            expectedBehavior: 'should return HTTP statusCode 400 if id number is greater than the maximum value',
-            wrongNumber: maxNumberLimit + 1,
-          },
-        ];
+        it('should return HTTP statusCode 400 if id number is less than the minimum value', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
 
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        numbersOutsideLimits.forEach(({ expectedBehavior, wrongNumber }) => {
-          it(expectedBehavior, async function () {
-            // given
-            const httpTestServer = new HttpTestServer();
-            await httpTestServer.register(moduleUnderTest);
+          const minNumberLimit = identifiersType.positiveInteger32bits.min;
+          const wrongNumber = minNumberLimit - 1;
+          const url = `/api/organizations?filter[id]=${wrongNumber}`;
 
-            const url = `/api/organizations?filter[id]=${wrongNumber}`;
+          // when
+          const response = await httpTestServer.request(method, url);
 
-            // when
-            const response = await httpTestServer.request(method, url);
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
 
-            // then
-            expect(response.statusCode).to.equal(400);
-          });
+        it('should return HTTP statusCode 400 if id number is greater than the maximum value', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const maxNumberLimit = identifiersType.positiveInteger32bits.max;
+          const wrongNumber = maxNumberLimit + 1;
+          const url = `/api/organizations?filter[id]=${wrongNumber}`;
+
+          // when
+          const response = await httpTestServer.request(method, url);
+
+          // then
+          expect(response.statusCode).to.equal(400);
         });
       });
     });
