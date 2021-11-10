@@ -23,6 +23,7 @@ nock.disableNetConnect();
 const learningContentBuilder = require('./tooling/learning-content-builder');
 
 const tokenService = require('../lib/domain/services/token-service');
+const Membership = require('../lib/domain/models/Membership');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 afterEach(function () {
@@ -70,6 +71,20 @@ async function insertUserWithRolePixMaster() {
   await databaseBuilder.commit();
 
   return user;
+}
+
+async function insertOrganizationUserWithRoleAdmin() {
+  const adminUser = databaseBuilder.factory.buildUser();
+  const organization = databaseBuilder.factory.buildOrganization();
+  databaseBuilder.factory.buildMembership({
+    userId: adminUser.id,
+    organizationId: organization.id,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  await databaseBuilder.commit();
+
+  return { adminUser, organization };
 }
 
 // Hapi
@@ -209,6 +224,7 @@ module.exports = {
   generateIdTokenForExternalUser,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
+  insertOrganizationUserWithRoleAdmin,
   insertUserWithRolePixMaster,
   knex,
   nock,
