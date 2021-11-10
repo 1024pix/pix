@@ -2,6 +2,7 @@
   {{#if @candidates}}
     <div class="session-supervising-candidate-list">
       <h1 class="session-supervising-candidate-list__title">Candidats</h1>
+      <span class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.</span>
       <ul class="session-supervising-candidate-list__candidates">
         {{#each @candidates as |candidate|}}
           <li class="session-supervising-candidate-list__candidate">
@@ -10,6 +11,7 @@
               class="session-supervising-candidate-list__candidate-checkbox"
               type="checkbox"
               checked={{candidate.authorizedToStart}}
+              {{on 'click' (fn this.toggleCandidate candidate)}}
             />
             <div>
               <div class="session-supervising-candidate-list__candidate-full-name">

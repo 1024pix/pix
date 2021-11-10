@@ -18,6 +18,18 @@ $grey-85: rgb(37, 56, 88);
       margin: auto;
     }
 
+    &__description {
+      display: flex;
+      justify-content: flex-start;
+      color: $grey-15;
+      font-size: 12px;
+      font-weight: normal;
+      height: 14px;
+      letter-spacing: 0px;
+      padding: 0 8px;
+      margin-bottom: 2rem;
+    }
+
     &__title {
       font-weight: 600;
       margin-top: 0;

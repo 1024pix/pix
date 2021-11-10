@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn } from '@ember/test-helpers';
+import { click, fillIn, findAll } from '@ember/test-helpers';
 import { visit as visitScreen } from '@pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
 
@@ -58,5 +58,38 @@ module('Acceptance | Session supervising', function(hooks) {
       assert.dom(screen.getByRole('checkbox', { name: 'Tutu Toto' })).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).exists();
     });
+  });
+
+  test('when supervisor checks the candidate, it should update authorizedToStart', async function(assert) {
+    // given
+    const sessionId = 12345;
+    this.sessionForSupervising = server.create('session-for-supervising', {
+      id: sessionId,
+      certificationCandidates: [
+        server.create('certification-candidate-for-supervising', {
+          id: 123,
+          firstName: 'Toto',
+          lastName: 'Tutu',
+          birthdate: '1984-05-28',
+          extraTimePercentage: '8',
+          authorizedToStart: false,
+        }),
+      ],
+    });
+
+    const firstVisit = await visitScreen('/connexion-espace-surveillant');
+    await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+    await fillIn(firstVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+
+    // when
+    await click(firstVisit.getByRole('checkbox', { name: 'Tutu Toto' }));
+
+    // then
+    const secondVisit = await visitScreen('/connexion-espace-surveillant');
+    await fillIn(secondVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+    await fillIn(secondVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await click(secondVisit.getByRole('button', { name: 'Surveiller la session' }));
+    assert.true(findAll('input[type="checkbox"]')[0].checked);
   });
 });
