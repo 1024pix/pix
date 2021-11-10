@@ -27,7 +27,6 @@
     "dev": "ember serve",
     "lint": "npm-run-all --parallel lint:*",
     "lint-fix": "npm-run-all --parallel 'lint:* -- --fix'",
-    "lint:ci": "npm run lint:js && npm run lint:hbs && npm run lint:scss",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "lint:scss": "stylelint app/styles/**/*.scss",
