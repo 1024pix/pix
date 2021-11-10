@@ -7,7 +7,14 @@
     <label for="image-url">Nom de l'image (svg) :
       <a href="https://images.pix.fr/index.html" target="_blank" rel="noopener noreferrer"> Voir la liste des badges</a>
     </label>
-    <Input id="image-url" required="true" class="form-control" @type="text" @value={{this.badge.imageUrl}} />
+    <Input
+      id="image-name"
+      required="true"
+      class="form-control"
+      @type="text"
+      @value={{this.imageName}}
+      placeholder="exemple: clea_num.svg"
+    />
   </div>
   <div class="badge-form__text-field">
     <label for="alt-message">Texte alternatif pour l'image : </label>
