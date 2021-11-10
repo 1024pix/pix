@@ -56,8 +56,8 @@ module.exports = {
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 
-  async findFlashCompatible() {
-    const challengeDataObjects = await challengeDatasource.findFlashCompatible();
+  async findFlashCompatible(locale) {
+    const challengeDataObjects = await challengeDatasource.findFlashCompatible(locale);
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
   },

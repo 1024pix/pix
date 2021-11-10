@@ -18,7 +18,12 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   let algoResult;
 
   if (assessment.isFlash()) {
-    const inputValues = await dataFetcher.fetchForFlashCampaigns({ assessment, answerRepository, challengeRepository });
+    const inputValues = await dataFetcher.fetchForFlashCampaigns({
+      assessment,
+      answerRepository,
+      challengeRepository,
+      locale,
+    });
     algoResult = flash.getPossibleNextChallenges({ ...inputValues, locale });
 
     if (algoResult.hasAssessmentEnded) {
