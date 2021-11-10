@@ -54,7 +54,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
       // when
       await fillIn('input#badge-key', 'clé_du_badge');
-      await fillIn('input#image-url', 'https://image-url.pix.fr');
+      await fillIn('input#image-name', 'nom_de_limage.svg');
       await fillIn('input#alt-message', 'texte alternatif à l‘image');
       await click('button[data-test="badge-form-submit-button"]');
 
@@ -62,7 +62,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       sinon.assert.calledWith(createRecordStub, 'badge', {
         key: 'clé_du_badge',
         altMessage: 'texte alternatif à l‘image',
-        imageUrl: 'https://image-url.pix.fr',
+        imageUrl: 'https://images.pix.fr/badges/nom_de_limage.svg',
         message: '',
         title: '',
         isCertifiable: false,
@@ -88,7 +88,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
       // when
       await fillIn('input#badge-key', 'clé_du_badge');
-      await fillIn('input#image-url', 'https://image-url.pix.fr');
+      await fillIn('input#image-name', 'nom_de_limage.svg');
       await fillIn('input#alt-message', 'texte alternatif à l‘image');
       await fillIn('input#campaignParticipationThreshold', '65');
       await click('button[data-test="badge-form-submit-button"]');
