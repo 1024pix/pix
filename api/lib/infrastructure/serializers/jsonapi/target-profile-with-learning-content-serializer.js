@@ -9,6 +9,7 @@ module.exports = {
         'isPublic',
         'createdAt',
         'ownerOrganizationId',
+        'description',
         'badges',
         'stages',
         'skills',
