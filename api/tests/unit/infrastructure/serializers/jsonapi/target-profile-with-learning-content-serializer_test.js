@@ -14,6 +14,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         isPublic: false,
         createdAt: new Date('2021-03-02'),
         ownerOrganizationId: 12,
+        description: 'Un super profil cible',
         skills: [buildTargetedSkill({ id: 'rec1', name: '@url4', tubeId: 'rec2' })],
         tubes: [{ id: 'rec2', practicalTitle: 'Url', competenceId: 'rec3' }],
         competences: [{ id: 'rec3', name: 'Comprendre', areaId: 'rec4', index: '1.1' }],
@@ -28,6 +29,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
           attributes: {
             name: targetProfileWithLearningContent.name,
             outdated: targetProfileWithLearningContent.outdated,
+            description: targetProfileWithLearningContent.description,
             'is-public': targetProfileWithLearningContent.isPublic,
             'owner-organization-id': targetProfileWithLearningContent.ownerOrganizationId,
             'image-url': targetProfileWithLearningContent.imageUrl,
