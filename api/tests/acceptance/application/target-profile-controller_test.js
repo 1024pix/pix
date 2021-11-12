@@ -271,6 +271,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
           data: {
             attributes: {
               name: 'CoolPixer',
+              description: 'Amazing description',
             },
           },
         },
