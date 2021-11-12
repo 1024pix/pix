@@ -22,13 +22,23 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const BIRTH_COUNTRY_SELECTOR = 'panel-candidate__birthCountry__';
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
+  const COMPLEMENTARY_CERTIFICATIONS_SELECTOR = 'panel-candidate__complementaryCertifications__';
+
+  let store;
+
+  hooks.beforeEach(async function() {
+    store = this.owner.lookup('service:store');
+  });
 
   test('it displays candidates information', async function(assert) {
     // given
     const candidate = _buildCertificationCandidate({
       birthdate: new Date('2019-04-28'),
     });
-    const certificationCandidates = [candidate];
+
+    const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+    const certificationCandidates = [certificationCandidate];
 
     this.set('certificationCandidates', certificationCandidates);
 
@@ -48,10 +58,36 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
     assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
     assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
+    assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('Pix+Edu, Pix+Droit');
     assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
     assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
     assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
     assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
+  });
+
+  test('it displays a dash where there is no certification', async function(assert) {
+    // given
+    const candidate = _buildCertificationCandidate({
+      complementaryCertifications: null,
+    });
+
+    const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+    const certificationCandidates = [certificationCandidate];
+
+    this.set('certificationCandidates', certificationCandidates);
+
+    // when
+    await render(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
+          @certificationCandidates={{certificationCandidates}}
+          >
+        </EnrolledCandidates>
+      `);
+
+    // then
+    assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('-');
   });
 
   test('it should display details button', async function(assert) {
@@ -194,6 +230,16 @@ function _buildCertificationCandidate({
   externalId = 'an external id',
   extraTimePercentage = 30,
   isLinked = false,
+  complementaryCertifications = [
+    {
+      id: 1,
+      name: 'Pix+Edu',
+    },
+    {
+      id: 2,
+      name: 'Pix+Droit',
+    },
+  ],
 }) {
   return {
     id,
@@ -208,5 +254,6 @@ function _buildCertificationCandidate({
     externalId,
     extraTimePercentage,
     isLinked,
+    complementaryCertifications,
   };
 }

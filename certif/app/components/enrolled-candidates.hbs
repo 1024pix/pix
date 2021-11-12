@@ -51,6 +51,7 @@
               <th class="certification-candidates-table__external-id">Identifiant externe</th>
             {{/unless}}
             <th class="certification-candidates-table__column-time">Temps majoré</th>
+            <th>Certifications complémentaires</th>
           </tr>
           </thead>
           <tbody>
@@ -70,6 +71,9 @@
                 <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
               {{/unless}}
               <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
+              <td data-test-id='panel-candidate__complementaryCertifications__{{candidate.id}}'>
+                {{if candidate.complementaryCertifications candidate.complementaryCertificationsList "-"}}
+              </td>
               <td>
                 <div class="certification-candidates-actions">
                   {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}

@@ -10,6 +10,9 @@ const {
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../domain/errors');
+const { knex } = require('../../../db/knex-database-connection');
+const CertificationCandidate = require('../../domain/models/CertificationCandidate');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 
 module.exports = {
   async linkToUser({ id, userId }) {
@@ -92,14 +95,26 @@ module.exports = {
       });
   },
 
-  findBySessionId(sessionId) {
-    return CertificationCandidateBookshelf.where({ sessionId })
-      .query((qb) => {
-        qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
-        qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
-      })
-      .fetchAll()
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
+  async findBySessionId(sessionId) {
+    const results = await knex
+      .select('certification-candidates.*')
+      .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
+      .from('certification-candidates')
+      .where({ 'certification-candidates.sessionId': sessionId })
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'certification-candidates.id',
+        'complementary-certification-subscriptions.certificationCandidateId'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certification-subscriptions.complementaryCertificationId',
+        'complementary-certifications.id'
+      )
+      .groupBy('certification-candidates.id')
+      .orderByRaw('LOWER("certification-candidates"."lastName") asc')
+      .orderByRaw('LOWER("certification-candidates"."firstName") asc');
+    return results.map(_toDomain);
   },
 
   async findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
@@ -160,5 +175,13 @@ module.exports = {
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse']);
+  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse', 'complementaryCertifications']);
+}
+
+function _toDomain(candidateData) {
+  const complementaryCertifications = candidateData.complementaryCertifications
+    .filter((certificationData) => certificationData !== null)
+    .map((certification) => new ComplementaryCertification(certification));
+
+  return new CertificationCandidate({ ...candidateData, complementaryCertifications });
 }

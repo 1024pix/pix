@@ -7,6 +7,7 @@ const {
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../../../lib/domain/errors');
+const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
 const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function () {
@@ -51,7 +52,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         const [firstCertificationCandidatesInSession] = await certificationCandidateRepository.findBySessionId(
           sessionId
         );
-        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id'];
+        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id', 'complementaryCertifications'];
         expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deep.equal(
           _.omit(certificationCandidate, attributesToOmit)
         );
@@ -218,7 +219,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
     });
   });
 
-  describe('#findBySessionIdWithCertificationCourse', function () {
+  describe('#findBySessionId', function () {
     let sessionId;
 
     beforeEach(async function () {
@@ -253,6 +254,76 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(actualCandidates[2].firstName).to.equal('Michael');
         expect(actualCandidates[3].firstName).to.equal('Freddy');
         expect(actualCandidates).to.have.lengthOf(4);
+      });
+    });
+
+    context('when some returned candidates have complementary certification subscriptions', function () {
+      it('return ordered candidates with associated subscriptions', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const rockCertification = databaseBuilder.factory.buildComplementaryCertification({
+          name: 'Pix+Rock',
+        });
+        const jazzCertification = databaseBuilder.factory.buildComplementaryCertification({
+          name: 'Pix+Jazz',
+        });
+        const matthieuChedid = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Chedid',
+          firstName: 'Matthieu',
+          sessionId,
+        });
+        const louisChedid = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Chedid',
+          firstName: 'Louis',
+          sessionId,
+        });
+        databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Herbie',
+          firstName: 'Hancock',
+          sessionId,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId: rockCertification.id,
+          certificationCandidateId: matthieuChedid.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId: rockCertification.id,
+          certificationCandidateId: louisChedid.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId: jazzCertification.id,
+          certificationCandidateId: louisChedid.id,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const candidates = await certificationCandidateRepository.findBySessionId(sessionId);
+
+        // then
+        const firstCandidate = candidates[0];
+        const secondCandidate = candidates[1];
+        const thirdCandidate = candidates[2];
+
+        //        expect(firstCandidate);
+        expect(firstCandidate.firstName).to.equal('Louis');
+        expect(firstCandidate.lastName).to.equal('Chedid');
+        expect(firstCandidate.complementaryCertifications[0]).to.deepEqualInstance(
+          new ComplementaryCertification({ id: rockCertification.id, name: 'Pix+Rock' })
+        );
+        expect(firstCandidate.complementaryCertifications[1]).to.deepEqualInstance(
+          new ComplementaryCertification({ id: jazzCertification.id, name: 'Pix+Jazz' })
+        );
+        expect(secondCandidate.firstName).to.equal('Matthieu');
+        expect(secondCandidate.lastName).to.equal('Chedid');
+        expect(secondCandidate.complementaryCertifications[0]).to.deepEqualInstance(
+          new ComplementaryCertification({ id: rockCertification.id, name: 'Pix+Rock' })
+        );
+
+        expect(thirdCandidate.firstName).to.equal('Hancock');
+        expect(thirdCandidate.lastName).to.equal('Herbie');
+        expect(thirdCandidate.complementaryCertifications).to.deep.equal([]);
       });
     });
 
@@ -298,6 +369,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           extraTimePercentage: null,
           userId: null,
           schoolingRegistrationId: null,
+          complementaryCertifications: [],
         });
         databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
         await databaseBuilder.commit();
@@ -339,6 +411,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           extraTimePercentage: null,
           userId: null,
           schoolingRegistrationId: null,
+          complementaryCertifications: [],
         });
         databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
         await databaseBuilder.commit();

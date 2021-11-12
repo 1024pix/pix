@@ -55,6 +55,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
   schoolingRegistrationId: Joi.any().allow(null).optional(),
+  complementaryCertifications: Joi.array(),
 });
 
 class CertificationCandidate {
@@ -77,6 +78,7 @@ class CertificationCandidate {
     sessionId,
     userId,
     schoolingRegistrationId = null,
+    complementaryCertifications = [],
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -96,6 +98,7 @@ class CertificationCandidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.schoolingRegistrationId = schoolingRegistrationId;
+    this.complementaryCertifications = complementaryCertifications;
   }
 
   validate(version = '1.4') {
