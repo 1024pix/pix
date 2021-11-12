@@ -30,6 +30,12 @@
         <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
           {{@model.ownerOrganizationId}}
         </LinkTo><br />
+
+        {{#if @model.description}}
+          Description :
+          <MarkdownToHtml @markdown={{@model.description}} />
+          <br />
+        {{/if}}
       </div>
       <br />
       <div class="form-actions">
