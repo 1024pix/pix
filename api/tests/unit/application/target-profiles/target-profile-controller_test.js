@@ -18,6 +18,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           data: {
             attributes: {
               name: 'Pixer123',
+              description: 'description changée',
             },
           },
         },
@@ -31,15 +32,12 @@ describe('Unit | Controller | target-profile-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(204);
-      });
-
-      it('should update target profile name', async function () {
-        // when
-        await targetProfileController.updateTargetProfile(request, hFake);
-
-        // then
         expect(usecases.updateTargetProfile).to.have.been.calledOnce;
-        expect(usecases.updateTargetProfile).to.have.been.calledWithMatch({ id: 123, name: 'Pixer123' });
+        expect(usecases.updateTargetProfile).to.have.been.calledWithMatch({
+          id: 123,
+          name: 'Pixer123',
+          description: 'description changée',
+        });
       });
     });
   });
