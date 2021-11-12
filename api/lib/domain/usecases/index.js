@@ -343,7 +343,7 @@ module.exports = injectDependencies(
     updateSession: require('./update-session'),
     updateStage: require('./update-stage'),
     updateStudentNumber: require('./update-student-number'),
-    updateTargetProfileName: require('./update-target-profile-name'),
+    updateTargetProfile: require('./update-target-profile'),
     updateUserForAccountRecovery: require('./account-recovery/update-user-for-account-recovery'),
     updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
     updateUserEmail: require('./update-user-email'),
