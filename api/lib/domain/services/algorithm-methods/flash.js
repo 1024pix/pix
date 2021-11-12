@@ -42,25 +42,6 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   };
 }
 
-function _getProbability({ estimatedLevel, discriminant, difficulty }) {
-  return 1 / (1 + Math.exp(discriminant * (difficulty - estimatedLevel)));
-}
-
-function _getReward({ estimatedLevel, discriminant, difficulty }) {
-  const probability = _getProbability({ estimatedLevel, discriminant, difficulty });
-  return probability * (1 - probability) * Math.pow(discriminant, 2);
-}
-
-function _getGaussianValue({ gaussianMean, value }) {
-  const variance = 1.5;
-  return Math.exp(Math.pow(value - gaussianMean, 2) / (-2 * variance)) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI));
-}
-
-function _normalizeDistribution(data) {
-  const sum = _.sum(data);
-  return _.map(data, (value) => value / sum);
-}
-
 function getEstimatedLevel({ allAnswers, challenges }) {
   if (allAnswers.length === 0) {
     return DEFAULT_ESTIMATED_LEVEL;
@@ -101,4 +82,23 @@ function getEstimatedLevel({ allAnswers, challenges }) {
   }
 
   return latestEstimatedLevel;
+}
+
+function _getReward({ estimatedLevel, discriminant, difficulty }) {
+  const probability = _getProbability({ estimatedLevel, discriminant, difficulty });
+  return probability * (1 - probability) * Math.pow(discriminant, 2);
+}
+
+function _getProbability({ estimatedLevel, discriminant, difficulty }) {
+  return 1 / (1 + Math.exp(discriminant * (difficulty - estimatedLevel)));
+}
+
+function _getGaussianValue({ gaussianMean, value }) {
+  const variance = 1.5;
+  return Math.exp(Math.pow(value - gaussianMean, 2) / (-2 * variance)) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI));
+}
+
+function _normalizeDistribution(data) {
+  const sum = _.sum(data);
+  return _.map(data, (value) => value / sum);
 }
