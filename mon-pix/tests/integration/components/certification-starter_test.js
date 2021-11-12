@@ -125,6 +125,38 @@ describe('Integration | Component | certification-starter', function () {
           expect(contains("La session de certification n'est plus accessible."));
         });
 
+        it('should display the appropriate error message when error status is 403', async function () {
+          // given
+          const replaceWithStub = sinon.stub();
+          class RouterStubService extends Service {
+            replaceWith = replaceWithStub;
+          }
+          this.owner.register('service:router', RouterStubService);
+          const createRecordStub = sinon.stub();
+          class StoreStubService extends Service {
+            createRecord = createRecordStub;
+          }
+          this.owner.register('service:store', StoreStubService);
+          const certificationCourse = {
+            id: 123,
+            save: sinon.stub(),
+            deleteRecord: sinon.stub(),
+          };
+          createRecordStub.returns(certificationCourse);
+          this.set('sessionId', '123');
+          await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+          await fillIn('#certificationStarterSessionCode', 'ABC123');
+          certificationCourse.save.rejects({
+            errors: [{ status: '403', detail: "Message d'erreur envoyé par l 'API" }],
+          });
+
+          // when
+          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+
+          // then
+          expect(contains("'Message d'erreur envoyé par l'API'"));
+        });
+
         it('should display a generic error message when error status unknown', async function () {
           // given
           const replaceWithStub = sinon.stub();
