@@ -74,7 +74,7 @@ function _applyPagination(organizations, { page, pageSize }) {
   return _slice(organizations, start, end);
 }
 
-function updateTargetProfileName(schema, request) {
+function updateTargetProfile(schema, request) {
   const payload = JSON.parse(request.requestBody);
   const newName = payload.data.attributes.name;
   const id = request.params.id;
@@ -110,6 +110,6 @@ export {
   findPaginatedTargetProfileOrganizations,
   findTargetProfileBadges,
   findTargetProfileStages,
-  updateTargetProfileName,
+  updateTargetProfile,
   outdate,
 };

@@ -3,13 +3,13 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | update-target-profile-name', function (hooks) {
+module('Unit | Component | update-target-profile', function (hooks) {
   setupTest(hooks);
 
-  module('#updateProfileName', function () {
+  module('#updateProfile', function () {
     test('it should update controller name field', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:target-profiles/update-target-profile-name', {
+      const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
           save: sinon.stub(),
@@ -36,7 +36,7 @@ module('Unit | Component | update-target-profile-name', function (hooks) {
 
     test('it should do nothing when form is not valid', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:target-profiles/update-target-profile-name', {
+      const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
           save: sinon.stub(),
@@ -58,7 +58,7 @@ module('Unit | Component | update-target-profile-name', function (hooks) {
 
     test('it should display a success notification when model has been saved', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:target-profiles/update-target-profile-name', {
+      const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
           save: sinon.stub(),

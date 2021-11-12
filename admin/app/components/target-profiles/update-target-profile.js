@@ -26,7 +26,7 @@ class Form extends Object.extend(Validations) {
   @tracked name;
 }
 
-export default class UpdateTargetProfileName extends Component {
+export default class UpdateTargetProfile extends Component {
   @service notifications;
 
   constructor() {
