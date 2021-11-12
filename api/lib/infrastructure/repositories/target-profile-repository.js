@@ -146,7 +146,7 @@ module.exports = {
   },
 
   async update(targetProfile) {
-    const editedAttributes = _.pick(targetProfile, ['name', 'outdated']);
+    const editedAttributes = _.pick(targetProfile, ['name', 'outdated', 'description']);
 
     try {
       const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id: targetProfile.id }).save(
