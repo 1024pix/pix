@@ -20,10 +20,19 @@ const Validations = buildValidations({
       }),
     ],
   },
+  description: {
+    validators: [
+      validator('length', {
+        max: 500,
+        message: 'La longueur de la description ne doit pas excéder 500 caractères',
+      }),
+    ],
+  },
 });
 
 class Form extends Object.extend(Validations) {
   @tracked name;
+  @tracked description;
 }
 
 export default class UpdateTargetProfile extends Component {
@@ -33,6 +42,7 @@ export default class UpdateTargetProfile extends Component {
     super(...arguments);
     this.form = Form.create(getOwner(this).ownerInjection());
     this.form.name = this.args.model.name;
+    this.form.description = this.args.model.description || null;
   }
 
   async _checkFormValidation() {
@@ -43,9 +53,10 @@ export default class UpdateTargetProfile extends Component {
   async _updateTargetProfile() {
     const model = this.args.model;
     model.name = this.form.name.trim();
+    model.description = this.form.description ? this.form.description.trim() : null;
     try {
       await model.save();
-      await this.notifications.success('Le nom a bien été modifée.');
+      await this.notifications.success('Le profil cible a bien été mis à jour.');
       this.args.toggleEditMode();
     } catch (error) {
       model.rollbackAttributes();
@@ -54,7 +65,7 @@ export default class UpdateTargetProfile extends Component {
   }
 
   @action
-  async updateProfileName(event) {
+  async updateProfile(event) {
     event.preventDefault();
     if (await this._checkFormValidation()) {
       await this._updateTargetProfile();
