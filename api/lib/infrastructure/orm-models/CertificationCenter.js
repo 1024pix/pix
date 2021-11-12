@@ -8,7 +8,7 @@ module.exports = Bookshelf.model(
   modelName,
   {
     tableName: 'certification-centers',
-    hasTimestamps: ['createdAt', null],
+    hasTimestamps: ['createdAt', 'updatedAt'],
 
     certificationCenterMemberships() {
       return this.hasMany('CertificationCenterMembership', 'certificationCenterId');
