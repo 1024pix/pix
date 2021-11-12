@@ -7,7 +7,35 @@ module('Unit | Component | update-target-profile', function (hooks) {
   setupTest(hooks);
 
   module('#updateProfile', function () {
-    test('it should update controller name field', async function (assert) {
+    test('it should call preventDefault', async function (assert) {
+      // given
+      const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
+        model: {
+          name: 'Karam',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+
+      component.form.name = 'Edited name';
+      component.args.model = {
+        name: 'Karam',
+        save: sinon.stub(),
+        rollbackAttributes: sinon.stub(),
+      };
+      component.notifications = { success: sinon.stub(), error: sinon.stub() };
+
+      // when
+      await component.updateProfile(event);
+
+      // then
+      assert.ok(event.preventDefault.called);
+    });
+
+    test('it should update the name of the target profile', async function (assert) {
       // given
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
@@ -28,10 +56,39 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.notifications = { success: sinon.stub(), error: sinon.stub() };
 
       // when
-      await component.updateProfileName(event);
+      await component.updateProfile(event);
 
       // then
       assert.ok(event.preventDefault.called);
+      assert.equal(component.args.model.name, 'Edited name');
+    });
+
+    test('it should update the description of the target profile', async function (assert) {
+      // given
+      const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
+        model: {
+          name: 'Karam',
+          description: null,
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+      component.form.description = 'Edited description';
+      component.args.model = {
+        name: 'Karam',
+        description: null,
+        save: sinon.stub(),
+        rollbackAttributes: sinon.stub(),
+      };
+      component.notifications = { success: sinon.stub(), error: sinon.stub() };
+
+      // when
+      await component.updateProfile(event);
+      // then
+      assert.equal(component.args.model.description, 'Edited description');
     });
 
     test('it should do nothing when form is not valid', async function (assert) {
@@ -50,7 +107,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.form.name = '';
 
       // when
-      await component.updateProfileName(event);
+      await component.updateProfile(event);
 
       // then
       assert.notOk(component.args.model.save.called);
@@ -73,7 +130,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.notifications = { success: sinon.stub(), error: sinon.stub() };
 
       // when
-      await component.updateProfileName(event);
+      await component.updateProfile(event);
 
       // then
       assert.ok(component.notifications.success.called);
