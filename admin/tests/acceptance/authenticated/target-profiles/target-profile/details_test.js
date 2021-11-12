@@ -48,6 +48,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         isPublic: true,
         outdated: false,
         ownerOrganizationId: 456,
+        description: 'Top profil cible.',
       });
 
       // when
@@ -59,6 +60,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       assert.dom('section').containsText('Public : Oui');
       assert.dom('section').containsText('Obsolète : Non');
       assert.dom('section').containsText('Organisation de référence : 456');
+      assert.dom('section').containsText('Description : Top profil cible.');
     });
 
     test('it should display target profile skills', async function (assert) {
