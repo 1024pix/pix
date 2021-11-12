@@ -178,69 +178,6 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserIsAdminInOrganizationOrHasRolePixMaster', function () {
-    let userId;
-    let organizationId;
-    let options;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      organizationId = databaseBuilder.factory.buildOrganization().id;
-      options = {
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        method: 'POST',
-        url: `/api/organizations/${organizationId}/invitations`,
-        payload: {
-          data: {
-            type: 'organization-invitations',
-            attributes: {
-              email: 'member@example.net',
-            },
-          },
-        },
-      };
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return a well formed JSON API error when user is neither admin nor pix_master', async function () {
-      // given
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId,
-        organizationRole: Membership.roles.MEMBER,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError403);
-    });
-
-    it('should return a well formed JSON API error when user is admin, but membership is disabled', async function () {
-      // given
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId,
-        organizationRole: Membership.roles.ADMIN,
-        disabledAt: new Date(),
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError403);
-    });
-  });
-
   describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', function () {
     beforeEach(async function () {
       server.route({

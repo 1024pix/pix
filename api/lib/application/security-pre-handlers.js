@@ -96,31 +96,6 @@ async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
   return _replyForbiddenError(h);
 }
 
-async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
-  const organizationId =
-    request.path && request.path.includes('memberships')
-      ? request.payload.data.relationships.organization.data.id
-      : parseInt(request.params.id);
-
-  const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
-  if (isAdminInOrganization) {
-    return h.response(true);
-  }
-
-  const hasRolePixMaster = await checkUserHasRolePixMasterUseCase.execute(userId);
-  if (hasRolePixMaster) {
-    return h.response(true);
-  }
-
-  return _replyForbiddenError(h);
-}
-
 async function checkUserBelongsToOrganizationManagingStudents(request, h) {
   if (!_.has(request, 'auth.credentials.userId')) {
     return _replyForbiddenError(h);
@@ -209,7 +184,6 @@ module.exports = {
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkUserIsAdminInOrganization,
-  checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserBelongsToOrganization,
