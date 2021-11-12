@@ -224,6 +224,7 @@ exports.register = async (server) => {
             data: {
               attributes: {
                 name: Joi.string().required().min(1),
+                description: Joi.string().required().allow(null).max(500),
               },
             },
           }).options({ allowUnknown: true }),
