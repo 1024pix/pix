@@ -16,6 +16,7 @@ const {
   SchoolingRegistrationAlreadyLinkedToInvalidUserError,
   InvalidVerificationCodeError,
   EmailModificationDemandNotFoundOrExpiredError,
+  CandidateNotAuthorizedToJoinSessionError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -321,6 +322,19 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ForbiddenError when CandidateNotAuthorizedToJoinSessionError', async function () {
+      // given
+      const error = new CandidateNotAuthorizedToJoinSessionError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
     });
   });
 });
