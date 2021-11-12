@@ -203,7 +203,6 @@ describe('Unit | UseCase | update-membership', function () {
         const externalId = 'externalId';
         const organization = domainBuilder.buildOrganization({ type: 'SUP', externalId });
         const userWhoseOrganizationRoleIsToUpdate = domainBuilder.buildUser();
-        const existingCertificationCenter = domainBuilder.buildCertificationCenter({ externalId });
         const existingMembership = domainBuilder.buildMembership({
           id: membershipId,
           organizationRole: Membership.roles.MEMBER,
@@ -212,7 +211,6 @@ describe('Unit | UseCase | update-membership', function () {
         });
 
         membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
-        certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(existingCertificationCenter);
 
         // when
         await updateMembership({
@@ -223,6 +221,39 @@ describe('Unit | UseCase | update-membership', function () {
         });
 
         // then
+        expect(certificationCenterRepository.findByExternalId).to.not.have.been.called;
+        expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).to.not.have.been.called;
+        expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+      });
+    });
+
+    context('when the organization has no external id', function () {
+      it('should not create a certification center membership', async function () {
+        // given
+        const membershipId = 1;
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId: null });
+        const userWhoseOrganizationRoleIsToUpdate = domainBuilder.buildUser();
+        const existingMembership = domainBuilder.buildMembership({
+          id: membershipId,
+          organizationRole: Membership.roles.MEMBER,
+          organization,
+          user: userWhoseOrganizationRoleIsToUpdate,
+        });
+        const givenMembership = new Membership({ id: membershipId, organizationRole: Membership.roles.ADMIN });
+
+        membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
+
+        // when
+        await updateMembership({
+          membership: givenMembership,
+          membershipRepository,
+          certificationCenterRepository,
+          certificationCenterMembershipRepository,
+        });
+
+        // then
+        expect(certificationCenterRepository.findByExternalId).to.not.have.been.called;
+        expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).to.not.have.been.called;
         expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
       });
     });

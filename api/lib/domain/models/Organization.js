@@ -81,6 +81,10 @@ class Organization {
   get isScoAndManagingStudents() {
     return this.isSco && this.isManagingStudents;
   }
+
+  get isScoAndHasExternalId() {
+    return this.isSco && Boolean(this.externalId);
+  }
 }
 
 Organization.types = types;
