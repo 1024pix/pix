@@ -9,10 +9,6 @@ const moduleUnderTest = require('../../../../lib/application/organizations');
 const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Organizations | organization-controller', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const organization = domainBuilder.buildOrganization();
-
   let sandbox;
   let httpTestServer;
 
@@ -32,7 +28,6 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
-    sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
@@ -64,13 +59,11 @@ describe('Integration | Application | Organizations | organization-controller', 
     };
 
     context('Success cases', function () {
-      beforeEach(function () {
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      });
-
       it('should resolve a 200 HTTP response', async function () {
         // given
+        const organization = domainBuilder.buildOrganization();
         usecases.updateOrganizationInformation.resolves(organization);
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
         const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
@@ -81,7 +74,9 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return a JSON API organization', async function () {
         // given
+        const organization = domainBuilder.buildOrganization();
         usecases.updateOrganizationInformation.resolves(organization);
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
         const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
@@ -93,13 +88,12 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Error cases', function () {
       context('when user is not allowed to access resource', function () {
-        beforeEach(function () {
+        it('should resolve a 403 HTTP response', async function () {
+          // given
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should resolve a 403 HTTP response', async function () {
           // when
           const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
 
@@ -116,12 +110,9 @@ describe('Integration | Application | Organizations | organization-controller', 
         securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster.returns(true);
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const membership = domainBuilder.buildMembership();
-
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const membership = domainBuilder.buildMembership();
         usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
@@ -133,6 +124,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async function () {
         // given
+        const membership = domainBuilder.buildMembership();
         usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
@@ -145,6 +137,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return a JSON:API response including organization, organization role & user information', async function () {
         // given
+        const membership = domainBuilder.buildMembership();
         usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
@@ -160,18 +153,12 @@ describe('Integration | Application | Organizations | organization-controller', 
   });
 
   describe('#findOrganizationsStudentsWithUserInfo', function () {
-    beforeEach(function () {
-      securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
-    });
-
     context('Success cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
-
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
         usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
+        securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -182,7 +169,9 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async function () {
         // given
+        const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
         usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
+        securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -194,13 +183,12 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Error cases', function () {
       context('when user is not allowed to access resource', function () {
-        beforeEach(function () {
+        it('should resolve a 403 HTTP response', async function () {
+          // given
           securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should resolve a 403 HTTP response', async function () {
           // when
           const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
 
@@ -213,22 +201,14 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   describe('#findPendingInvitations', function () {
     context('Success cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const invitation = domainBuilder.buildOrganizationInvitation({
-        organizationId: 1,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
-
-      beforeEach(function () {
-        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
-      });
-
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const invitation = domainBuilder.buildOrganizationInvitation({
+          organizationId: 1,
+          status: OrganizationInvitation.StatusType.PENDING,
+        });
         usecases.findPendingOrganizationInvitations.resolves([invitation]);
+        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
@@ -251,26 +231,25 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Error cases', function () {
       context('when user is not Pix Master', function () {
-        beforeEach(function () {
+        it('should return a 403 HTTP response', async function () {
+          // given
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should return a 403 HTTP response', async function () {
           // when
           const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
+
           // then
           expect(response.statusCode).to.equal(403);
         });
       });
 
       context('when target-profile-id does not contain only numbers', function () {
-        beforeEach(function () {
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-        });
-
         it('should return a 404 HTTP response', async function () {
+          // given
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+
           // when
           payload.data.attributes['target-profiles-to-attach'] = ['sdqdqsd', 'qsqsdqd'];
           const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
@@ -309,13 +288,12 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Error cases', function () {
       context('when user is not allowed to access resource', function () {
-        beforeEach(function () {
+        it('should resolve a 403 HTTP response', async function () {
+          // given
           securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should resolve a 403 HTTP response', async function () {
           // when
           const response = await httpTestServer.request(
             'GET',
