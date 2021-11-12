@@ -298,4 +298,30 @@ describe('Unit | Domain | Models | Organization', function () {
       expect(organization.isScoAndManagingStudents).is.false;
     });
   });
+
+  describe('get#isScoAndHasExternalId', function () {
+    it('should return true when organization is of type SCO and has an externalId', function () {
+      // given
+      const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId: '1237457A' });
+
+      // when / then
+      expect(organization.isScoAndHasExternalId).is.true;
+    });
+
+    it('should return false when organization is not of type SCO', function () {
+      // given
+      const organization = domainBuilder.buildOrganization({ type: 'SUP', externalId: '1237457A' });
+
+      // when / then
+      expect(organization.isScoAndHasExternalId).is.false;
+    });
+
+    it('should return false when organization has no external id', function () {
+      // given
+      const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId: null });
+
+      // when / then
+      expect(organization.isScoAndHasExternalId).is.false;
+    });
+  });
 });
