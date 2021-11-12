@@ -1,6 +1,10 @@
 const _ = require('lodash');
 
 const DEFAULT_ESTIMATED_LEVEL = 0;
+const START_OF_SAMPLES = -9;
+const STEP_OF_SAMPLES = 18 / 80;
+const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
+const samples = _.range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
 
 module.exports = { getPossibleNextChallenges, getEstimatedLevel };
 
@@ -52,9 +56,9 @@ function _getGaussianValue({ gaussianMean, value }) {
   return Math.exp(Math.pow(value - gaussianMean, 2) / (-2 * variance)) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI));
 }
 
-function _getNormaliseData({ array }) {
-  const sum = _.sum(array);
-  return _.map(array, (value) => value / sum);
+function _normalizeDistribution(data) {
+  const sum = _.sum(data);
+  return _.map(data, (value) => value / sum);
 }
 
 function getEstimatedLevel({ allAnswers, challenges }) {
@@ -62,39 +66,33 @@ function getEstimatedLevel({ allAnswers, challenges }) {
     return DEFAULT_ESTIMATED_LEVEL;
   }
 
-  const firstLevel = -9;
-  const lastLevel = 9 + 18 / 80;
-  const step = 18 / 80;
-  const samples = _.range(firstLevel, lastLevel, step);
   let latestEstimatedLevel = DEFAULT_ESTIMATED_LEVEL;
-  let probabilitiesToAnswersThisChallenge = samples.map(() => {
-    return 1;
-  });
+  let samplesProbabilities = Array(samples.length).fill(1);
 
   for (const answer of allAnswers) {
-    let gaussianValuesForLevel = samples.map((sample) =>
+    let gaussianValuesForSamples = samples.map((sample) =>
       _getGaussianValue({ gaussianMean: latestEstimatedLevel, value: sample })
     );
-    gaussianValuesForLevel = _getNormaliseData({ array: gaussianValuesForLevel });
+    gaussianValuesForSamples = _normalizeDistribution(gaussianValuesForSamples);
 
     const answeredChallenge = _.find(challenges, ['id', answer.challengeId]);
 
-    probabilitiesToAnswersThisChallenge = samples.map((sample, index) => {
-      const probability = _getProbability({
+    samplesProbabilities = samples.map((sample, index) => {
+      let probability = _getProbability({
         estimatedLevel: sample,
         discriminant: answeredChallenge.discriminant,
         difficulty: answeredChallenge.difficulty,
       });
-      const probabilityToAdd = answer.isOk() ? probability : 1 - probability;
-      return probabilityToAdd * probabilitiesToAnswersThisChallenge[index];
+      probability = answer.isOk() ? probability : 1 - probability;
+      return probability * samplesProbabilities[index];
     });
 
-    let probabilitiesToAnswersThisChallengeBis = probabilitiesToAnswersThisChallenge.map((value, index) => {
-      const levelProbability = gaussianValuesForLevel[index];
+    let probabilitiesToAnswersThisChallengeBis = samplesProbabilities.map((value, index) => {
+      const levelProbability = gaussianValuesForSamples[index];
       return value * levelProbability;
     });
 
-    probabilitiesToAnswersThisChallengeBis = _getNormaliseData({ array: probabilitiesToAnswersThisChallengeBis });
+    probabilitiesToAnswersThisChallengeBis = _normalizeDistribution(probabilitiesToAnswersThisChallengeBis);
 
     latestEstimatedLevel = samples.reduce(
       (estimatedLevel, sample, index) => estimatedLevel + sample * probabilitiesToAnswersThisChallengeBis[index],
