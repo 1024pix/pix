@@ -58,10 +58,10 @@ module.exports = {
     return h.response({}).code(204);
   },
 
-  async updateTargetProfileName(request, h) {
+  async updateTargetProfile(request, h) {
     const id = request.params.id;
     const { name } = request.payload.data.attributes;
-    await usecases.updateTargetProfileName({ id, name });
+    await usecases.updateTargetProfile({ id, name });
     return h.response({}).code(204);
   },
 
