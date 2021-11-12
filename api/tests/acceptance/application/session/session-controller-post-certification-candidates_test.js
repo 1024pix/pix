@@ -124,6 +124,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'birth-insee-code': certificationCpfCity.INSEECode,
           'birth-postal-code': null,
           sex: certificationCandidate.sex,
+          'complementary-certifications': [],
         },
       };
 

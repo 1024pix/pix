@@ -1,3 +1,4 @@
+const buildComplementaryCertification = require('./build-complementary-certification');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 
 module.exports = function buildCertificationCandidate({
@@ -20,6 +21,7 @@ module.exports = function buildCertificationCandidate({
   sessionId = 456,
   userId = 789,
   schoolingRegistrationId,
+  complementaryCertifications = [buildComplementaryCertification()],
 } = {}) {
   return new CertificationCandidate({
     id,
@@ -41,5 +43,6 @@ module.exports = function buildCertificationCandidate({
     createdAt,
     userId,
     schoolingRegistrationId,
+    complementaryCertifications,
   });
 };

@@ -140,6 +140,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
                 'result-recipient-email': null,
                 'schooling-registration-id': student.id,
                 sex: 'M',
+                'complementary-certifications': [],
               },
               id: sinon.match.string,
               type: 'certification-candidates',

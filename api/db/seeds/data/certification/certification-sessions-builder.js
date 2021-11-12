@@ -1,4 +1,4 @@
-const { SCO_COLLEGE_CERTIF_CENTER_ID, SCO_COLLEGE_CERTIF_CENTER_NAME, DROIT_CERTIF_CENTER_ID, DROIT_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
+const { SCO_COLLEGE_CERTIF_CENTER_ID, SCO_COLLEGE_CERTIF_CENTER_NAME, DROIT_CERTIF_CENTER_ID, DROIT_CERTIF_CENTER_NAME, SUP_CERTIF_CENTER_NAME, SUP_CERTIF_CENTER_ID } = require('./certification-centers-builder');
 const { PIX_MASTER_ID } = require('./../users-builder');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
@@ -10,6 +10,7 @@ const NO_CERTIF_CENTER_SESSION_ID = 7;
 const PUBLISHED_SESSION_ID = 8;
 const PIX_DROIT_SESSION_ID = 9;
 const PUBLISHED_SCO_SESSION_ID = 10;
+const COMPLEMENTARY_CERTIFICATIONS_SESSION_ID = 11;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
   const certificationCenter = SCO_COLLEGE_CERTIF_CENTER_NAME;
@@ -138,6 +139,14 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });
 
+  databaseBuilder.factory.buildSession({
+    id: COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
+    certificationCenterName: SUP_CERTIF_CENTER_NAME,
+    certificationCenterId: SUP_CERTIF_CENTER_ID,
+    date, time,
+    description: 'Candidats avec des certifications complémentaires',
+  });
+
   // Some sessions to illustrate paginated sessions list order in PixAdmin
   databaseBuilder.factory.buildSession({
     certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-1`, date, time,
@@ -183,4 +192,5 @@ module.exports = {
   PUBLISHED_SESSION_ID,
   PUBLISHED_SCO_SESSION_ID,
   PIX_DROIT_SESSION_ID,
+  COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 };

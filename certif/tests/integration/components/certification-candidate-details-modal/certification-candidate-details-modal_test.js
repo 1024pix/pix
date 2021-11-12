@@ -26,6 +26,16 @@ module('Integration | Component | certification-candidate-details-modal', functi
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 'F',
+      complementaryCertifications: [
+        {
+          id: 1,
+          name: 'Pix+Edu',
+        },
+        {
+          id: 2,
+          name: 'Pix+Droit',
+        },
+      ],
     });
 
     const closeModalStub = sinon.stub();
@@ -54,6 +64,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     assert.contains('12345');
     assert.contains('25/12/2000');
     assert.contains('10 %');
+    assert.contains('Pix+Edu, Pix+Droit');
   });
 
   module('when candidate has missing data', () => {
@@ -70,6 +81,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         resultRecipientEmail: undefined,
         externalId: undefined,
         extraTimePercentage: undefined,
+        complementaryCertifications: [],
       });
 
       const closeModalStub = sinon.stub();
@@ -97,6 +109,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       assert.dom('[data-test-id="first-name-row"]').hasText('-');
       assert.dom('[data-test-id="last-name-row"]').hasText('-');
       assert.dom('[data-test-id="birth-country-row"]').hasText('-');
+      assert.dom('[data-test-id="complementary-certifications-row"]').hasText('-');
     });
   });
 

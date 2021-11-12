@@ -33,6 +33,7 @@ module.exports = {
   buildComplementaryCertification: require('./build-complementary-certification'),
   buildComplementaryCertificationBadge: require('./build-complementary-certification-badge'),
   buildComplementaryCertificationHabilitation: require('./build-complementary-certification-habilitation'),
+  buildComplementaryCertificationSubscription: require('./build-complementary-certification-subscription'),
   buildCorrectAnswersAndKnowledgeElementsForLearningContent: require('./build-correct-answers-and-knowledge-elements-for-learning-content'),
   buildCorrectAnswerAndKnowledgeElement: require('./build-correct-answer-and-knowledge-element'),
   buildFinalizedSession: require('./build-finalized-session'),

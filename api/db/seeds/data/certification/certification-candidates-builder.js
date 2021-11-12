@@ -8,6 +8,7 @@ const {
   PUBLISHED_SESSION_ID,
   PUBLISHED_SCO_SESSION_ID,
   PIX_DROIT_SESSION_ID,
+  COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 } = require('./certification-sessions-builder');
 const {
   CERTIF_SUCCESS_USER_ID,
@@ -89,6 +90,18 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildCertificationCandidate({ ...CANDIDATE_DROIT_1, sessionId, userId: null });
   databaseBuilder.factory.buildCertificationCandidate({ ...CANDIDATE_DROIT_2, sessionId, userId: null });
 
+  // Candidates for a session with complementary certification subscriptions
+  sessionId = COMPLEMENTARY_CERTIFICATIONS_SESSION_ID;
+  const pixPlusRock = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Rock' });
+  const pixPlusJazz = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Jazz' });
+  const john = databaseBuilder.factory.buildCertificationCandidate({ firstName: 'John', lastName: 'Lennon', sessionId, userId: null });
+  databaseBuilder.factory.buildComplementaryCertificationSubscription({ certificationCandidateId: john.id, complementaryCertificationId: pixPlusRock.id });
+  const herbie = databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Herbie', lastName: 'Hancock', sessionId, userId: null });
+  databaseBuilder.factory.buildComplementaryCertificationSubscription({ certificationCandidateId: herbie.id, complementaryCertificationId: pixPlusJazz.id });
+  const frank = databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Frank', lastName: 'Zappa', sessionId, userId: null });
+  databaseBuilder.factory.buildComplementaryCertificationSubscription({ certificationCandidateId: frank.id, complementaryCertificationId: pixPlusRock.id });
+  databaseBuilder.factory.buildComplementaryCertificationSubscription({ certificationCandidateId: frank.id, complementaryCertificationId: pixPlusJazz.id });
+  databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Britney', lastName: 'Spears', sessionId, userId: null });
 }
 
 module.exports = {
