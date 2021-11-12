@@ -121,6 +121,7 @@ function _buildTargetProfileOnCompetence(databaseBuilder) {
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_classe2.svg',
     isPublic: false,
     ownerOrganizationId: PRO_COMPANY_ID,
+    description: 'Ce profil cible permet d\'**évaluer** sur la compétence 5.1. Le résultat est exprimé en ***pourcentage***',
   });
 
   [
