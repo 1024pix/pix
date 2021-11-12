@@ -51,6 +51,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   externalId: Joi.any().allow(null).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
+  authorizedToStart: Joi.boolean().optional(),
   extraTimePercentage: Joi.any().allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
@@ -75,6 +76,7 @@ class CertificationCandidate {
     birthdate,
     extraTimePercentage,
     createdAt,
+    authorizedToStart,
     sessionId,
     userId,
     schoolingRegistrationId = null,
@@ -95,6 +97,7 @@ class CertificationCandidate {
     this.birthdate = birthdate;
     this.extraTimePercentage = !isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
     this.createdAt = createdAt;
+    this.authorizedToStart = authorizedToStart;
     this.sessionId = sessionId;
     this.userId = userId;
     this.schoolingRegistrationId = schoolingRegistrationId;
@@ -131,6 +134,10 @@ class CertificationCandidate {
       }
       throw new CertificationCandidatePersonalInfoWrongFormat();
     }
+  }
+
+  isAuthorizedToStart() {
+    return this.authorizedToStart;
   }
 
   isLinkedToAUser() {

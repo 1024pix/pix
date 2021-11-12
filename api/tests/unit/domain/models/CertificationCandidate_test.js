@@ -518,4 +518,22 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(certificationCandidate.birthCity).to.equal(birthCity);
     });
   });
+
+  describe('isAuthorizedToStart', function () {
+    it('should return false when authorizedToStart is false', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ authorizedToStart: false });
+
+      // then
+      expect(certificationCandidate.isAuthorizedToStart()).to.be.false;
+    });
+
+    it('should return true when authorizedToStart is true', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ authorizedToStart: true });
+
+      // then
+      expect(certificationCandidate.isAuthorizedToStart()).to.be.true;
+    });
+  });
 });
