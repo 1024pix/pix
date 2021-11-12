@@ -46,6 +46,7 @@ async function _get(whereClauseFnc, locale) {
       'target-profiles.isPublic',
       'target-profiles.imageUrl',
       'target-profiles.createdAt',
+      'target-profiles.description',
       'target-profiles.ownerOrganizationId',
       'target-profiles_skills.skillId'
     )
@@ -74,6 +75,7 @@ async function _toDomain(results, badges, stages, locale) {
     createdAt: results[0].createdAt,
     ownerOrganizationId: results[0].ownerOrganizationId,
     imageUrl: results[0].imageUrl,
+    description: results[0].description,
     skills,
     tubes,
     competences,
