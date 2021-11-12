@@ -382,6 +382,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.ConflictError(error.message);
   }
 
+  if (error instanceof DomainErrors.CandidateNotAuthorizedToJoinSessionError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
