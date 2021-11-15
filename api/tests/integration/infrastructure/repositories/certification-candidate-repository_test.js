@@ -694,4 +694,74 @@ describe('Integration | Repository | CertificationCandidate', function () {
       });
     });
   });
+
+  describe('#update', function () {
+    describe('when certification candidate exists', function () {
+      it('should update authorizedToStart certification candidate attribute', async function () {
+        // given
+        const session = databaseBuilder.factory.buildSession();
+        databaseBuilder.factory.buildUser({ id: 1234 });
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: session.id,
+          userId: 1234,
+          authorizedToStart: true,
+          birthdate: '2000-01-04',
+          extraTimePercentage: '0.30',
+          firstName: 'first-name',
+          id: 456,
+          lastName: 'last-name',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await certificationCandidateRepository.update(
+          domainBuilder.buildCertificationCandidate({
+            id: certificationCandidate.id,
+            authorizedToStart: false,
+          })
+        );
+
+        // then
+        const updatedCertificationCandidate = await knex
+          .select('authorizedToStart')
+          .from('certification-candidates')
+          .where({ id: certificationCandidate.id })
+          .first();
+
+        expect(updatedCertificationCandidate.authorizedToStart).to.be.false;
+      });
+    });
+
+    describe('when certification candidate is not found', function () {
+      it('should throw', async function () {
+        // given
+        const session = databaseBuilder.factory.buildSession({ id: 23049 });
+        databaseBuilder.factory.buildUser({ id: 1234 });
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: session.id,
+          userId: 1234,
+          authorizedToStart: false,
+          birthdate: '2000-01-04',
+          extraTimePercentage: '0.30',
+          firstName: 'first-name',
+          id: 456,
+          lastName: 'last-name',
+        });
+
+        await databaseBuilder.commit();
+        const wrongCandidateId = 1298;
+
+        // when
+        const error = await catchErr(certificationCandidateRepository.update)(
+          domainBuilder.buildCertificationCandidate({
+            id: wrongCandidateId,
+            authorizedToStart: false,
+          })
+        );
+
+        // then
+        expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+  });
 });
