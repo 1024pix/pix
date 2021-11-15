@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const fp = require('lodash/fp');
 
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
@@ -51,10 +52,9 @@ function getEstimatedLevel({ allAnswers, challenges }) {
   let samplesProbabilities = Array(samples.length).fill(1);
 
   for (const answer of allAnswers) {
-    let gaussianValuesForSamples = samples.map((sample) =>
+    const gaussianValuesForSamples = mapAndNormalizeDistribution(samples, (sample) =>
       _getGaussianValue({ gaussianMean: latestEstimatedLevel, value: sample })
     );
-    gaussianValuesForSamples = _normalizeDistribution(gaussianValuesForSamples);
 
     const answeredChallenge = _.find(challenges, ['id', answer.challengeId]);
 
@@ -68,12 +68,10 @@ function getEstimatedLevel({ allAnswers, challenges }) {
       return probability * samplesProbabilities[index];
     });
 
-    let probabilitiesToAnswersThisChallengeBis = samplesProbabilities.map((value, index) => {
+    const probabilitiesToAnswersThisChallengeBis = mapAndNormalizeDistribution(samplesProbabilities, (value, index) => {
       const levelProbability = gaussianValuesForSamples[index];
       return value * levelProbability;
     });
-
-    probabilitiesToAnswersThisChallengeBis = _normalizeDistribution(probabilitiesToAnswersThisChallengeBis);
 
     latestEstimatedLevel = samples.reduce(
       (estimatedLevel, sample, index) => estimatedLevel + sample * probabilitiesToAnswersThisChallengeBis[index],
@@ -102,3 +100,10 @@ function _normalizeDistribution(data) {
   const sum = _.sum(data);
   return _.map(data, (value) => value / sum);
 }
+
+const mapAndNormalizeDistribution = (data, mapper) =>
+  fp.flow(
+    // On utilise pas fp.map car certains mappers ont besoin de l'index
+    (arr) => arr.map(mapper),
+    _normalizeDistribution
+  )(data);
