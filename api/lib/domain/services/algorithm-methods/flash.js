@@ -9,8 +9,9 @@ const samples = _.range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
 module.exports = { getPossibleNextChallenges, getEstimatedLevel, getNonAnsweredChallenges };
 
 function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
+  const nonAnsweredChallenges = getNonAnsweredChallenges({ allAnswers, challenges });
 
-  if (challenges?.length === 0) {
+  if (nonAnsweredChallenges?.length === 0) {
     return {
       hasAssessmentEnded: true,
       possibleChallenges: [],
@@ -19,7 +20,7 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
 
   const estimatedLevel = getEstimatedLevel({ allAnswers, challenges });
 
-  const challengesWithReward = challenges.map((challenge) => {
+  const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
       challenge,
       reward: _getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
@@ -85,12 +86,17 @@ function getEstimatedLevel({ allAnswers, challenges }) {
   return latestEstimatedLevel;
 }
 
-function getNonAnsweredChallenges({ allAnswers, challenges }){
-  const getAnswerSkills = (answer) => challenges.find(challenge => challenge.id === answer.challengeId).skills;
-  const alreadyAnsweredSkillsIds = allAnswers.map(getAnswerSkills).flat().map(skill => skill.id);
+function getNonAnsweredChallenges({ allAnswers, challenges }) {
+  const getAnswerSkills = (answer) => challenges.find((challenge) => challenge.id === answer.challengeId).skills;
+  const alreadyAnsweredSkillsIds = allAnswers
+    .map(getAnswerSkills)
+    .flat()
+    .map((skill) => skill.id);
+
   const isSkillAlreadyAnswered = (skill) => alreadyAnsweredSkillsIds.includes(skill.id);
   const filterNonAnsweredChallenges = (challenge) => !challenge.skills.some(isSkillAlreadyAnswered);
   const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenges);
+
   return nonAnsweredChallenges;
 }
 
