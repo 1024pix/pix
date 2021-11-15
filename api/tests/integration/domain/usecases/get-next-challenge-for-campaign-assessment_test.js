@@ -232,7 +232,6 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       expect(flash.getPossibleNextChallenges).to.have.been.calledWithExactly({
         allAnswers,
         challenges,
-        locale,
       });
     });
 

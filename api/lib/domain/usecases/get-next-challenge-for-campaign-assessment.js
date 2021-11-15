@@ -24,7 +24,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       challengeRepository,
       locale,
     });
-    algoResult = flash.getPossibleNextChallenges({ ...inputValues, locale });
+    algoResult = flash.getPossibleNextChallenges({ ...inputValues });
 
     if (algoResult.hasAssessmentEnded) {
       throw new AssessmentEndedError();
