@@ -1,5 +1,7 @@
 $yellow-30: #FFBE00;
 $grey-85: rgb(37, 56, 88);
+$green-0: #EFFFD8;
+$green-70: #006134;
 
 .session-supervising-candidate-list-background {
   background: $grey-100;
@@ -25,7 +27,7 @@ $grey-85: rgb(37, 56, 88);
       font-size: 12px;
       font-weight: normal;
       height: 14px;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       padding: 0 8px;
       margin-bottom: 2rem;
     }
@@ -89,6 +91,20 @@ $grey-85: rgb(37, 56, 88);
       width: 32px;
       height: 32px;
       margin-right: 16px;
+    }
+
+    &__candidate-status {
+      border-radius: 12px;
+      display: inline-block;
+      font-size: 0.625rem;
+      font-weight: 500;
+      margin-top: 8px;
+      padding: 4px 16px;
+
+      &--started {
+        background-color: $green-0;
+        color: $green-70;
+      }
     }
   }
 }
