@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.127.0 (15/11/2021)
+
+
+### :rocket: Enhancement
+- [#3709](https://github.com/1024pix/pix/pull/3709) [FEATURE] Afficher les certifications complémentaires auxquelles sont inscrits les candidats dans Pix Certif (PIX-3686)
+- [#3717](https://github.com/1024pix/pix/pull/3717) [FEATURE] Ne pas sauvegarder les KE lors de campagnes Flash (PIX-2781).
+- [#3716](https://github.com/1024pix/pix/pull/3716) [FEATURE] Avoir uniquement les épreuves dans la locale de l'utilisateur pour l'algo Flash (PIX-3782).
+- [#3706](https://github.com/1024pix/pix/pull/3706) [FEATURE]  Modifier la présence des candidats en session de certif (PIX-3811)
+
+### :building_construction: Tech
+- [#3719](https://github.com/1024pix/pix/pull/3719) [TECH] Supprimer le pre handler checkUserIsAdminInOrganizationOrHasRolePixMaster plus utilisé (PIX-3820).
+- [#3712](https://github.com/1024pix/pix/pull/3712) [TECH] Séparer les usecases d'invitation à une orga pour un admin Pix et un admin Orga
+- [#3699](https://github.com/1024pix/pix/pull/3699) [TECH] Expliciter la journalisation des métriques OPS.
+- [#3708](https://github.com/1024pix/pix/pull/3708) [TECH] Exécuter le lint des fichiers YAML dans les applications.
+
+### :bug: Bug fix
+- [#3710](https://github.com/1024pix/pix/pull/3710) [BUGFIX][ORGA] Correctly display create or modify campaign button (pix-3792)
+- [#3701](https://github.com/1024pix/pix/pull/3701) [BUGFIX] Eviter les doublons quand on re-invite un membre sur Pix Admin (PIX-3802).
+
+### :coffee: Various
+- [#3725](https://github.com/1024pix/pix/pull/3725) [BUFGIX] Ne pas donner l'accès à Pix Certif à un administrateur dont l'organisation n'a pas d'UAI (PIX-3793).
+
 ## v3.126.0 (09/11/2021)
 
 
