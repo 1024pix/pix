@@ -8,31 +8,14 @@ on:
     types:
       - completed
 jobs:
-  block-autosquash-commits:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
-    steps:
-      - name: Block Autosquash Commits
-        uses: xt0rted/block-autosquash-commits-action@v2
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-  verify-labels:
-    runs-on: ubuntu-latest
-    steps:
-      - name: verify labels
-        if: >
-          contains(github.event.pull_request.labels.*.name, ':earth_africa: i18n needed')
-          || contains(github.event.pull_request.labels.*.name, ':warning: Blocked')
-        run: exit 1
   automerge:
     runs-on: ubuntu-latest
     steps:
       - name: automerge
-        uses: pascalgn/automerge-action@v0.8.3
+        uses: pascalgn/automerge-action@v0.14.3
         env:
           GITHUB_TOKEN: '${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}'
-          MERGE_LABELS: ':rocket: Ready to Merge'
+          MERGE_LABELS: ':rocket: Ready to Merge,!:warning: Blocked,!:earth_africa: i18n needed,!:busts_in_silhouette: Panel Review Needed,!Development in progress,!:eyes: Design Review Needed,!:eyes: Func Review Needed,!:eyes: Tech Review Needed'
           MERGE_COMMIT_MESSAGE: pull-request-title
           UPDATE_LABELS: ':rocket: Ready to Merge'
           UPDATE_METHOD: rebase
