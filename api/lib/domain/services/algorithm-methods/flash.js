@@ -6,9 +6,10 @@ const STEP_OF_SAMPLES = 18 / 80;
 const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
 const samples = _.range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
 
-module.exports = { getPossibleNextChallenges, getEstimatedLevel };
+module.exports = { getPossibleNextChallenges, getEstimatedLevel, getFilteredChallenges };
 
 function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
+
   if (challenges?.length === 0) {
     return {
       hasAssessmentEnded: true,
@@ -82,6 +83,13 @@ function getEstimatedLevel({ allAnswers, challenges }) {
   }
 
   return latestEstimatedLevel;
+}
+
+function getFilteredChallenges({ allAnswers, challenges }){
+  const getAnswerSkills = (answer) => challenges.find(challenge => challenge.id === answer.challengeId).skills;
+  const alreadyAnsweredSkillsIds = allAnswers.map(getAnswerSkills).flat().map(skill => skill.id);
+  const filteredChallenges = _.filter(challenges, (challenge) => !challenge.skills.some((skill) => alreadyAnsweredSkillsIds.includes(skill.id)));
+  return filteredChallenges;
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {

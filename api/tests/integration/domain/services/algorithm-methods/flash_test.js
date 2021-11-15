@@ -177,4 +177,145 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       expect(result).to.be.closeTo(correctEstimatedLevel, 0.00000000001);
     });
   });
+
+  describe('#getFilteredChallenges', function() {
+    it('should return the same list of challenges if there is no answers', function () {
+      // given
+      const challenges = [
+        domainBuilder.buildChallenge({
+          id: 'ChallengeFirstAnswers',
+          discriminant: 1.86350005965093,
+          difficulty: 0.194712138508747,
+        }),
+        domainBuilder.buildChallenge({
+          id: 'ChallengeSecondAnswers',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+        }),
+      ];
+
+      const allAnswers = [];
+
+      // when
+      const result = flash.getFilteredChallenges({ allAnswers, challenges });
+
+      // then
+      expect(result).to.be.deep.equal(challenges);
+    });
+
+    it('should return the list of challenges without already answered skills', function () {
+      // given
+      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill'}), domainBuilder.buildSkill({ id: 'SecondSkill'})];
+
+      const challenges = [
+        domainBuilder.buildChallenge({
+          id: 'First',
+          discriminant: 1.86350005965093,
+          difficulty: 0.194712138508747,
+          skills: [skills[0]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Second',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[0]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Third',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[1]],
+        }),
+      ];
+
+      const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+
+      // when
+      const result = flash.getFilteredChallenges({ allAnswers, challenges });
+
+      // then
+      expect(result).to.be.deep.equal([challenges[2]]);
+    });
+
+    it('should return the list of challenges without already answered skills with challenge containing two skills', function () {
+      // given
+      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill'}), domainBuilder.buildSkill({ id: 'SecondSkill'}), domainBuilder.buildSkill({ id: 'ThirdSkill'})];
+
+      const challenges = [
+        domainBuilder.buildChallenge({
+          id: 'First',
+          discriminant: 1.86350005965093,
+          difficulty: 0.194712138508747,
+          skills: [skills[0], skills[1]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Second',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[0]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Third',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[1]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Fourth',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[2]],
+        }),
+      ];
+
+      const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+
+      // when
+      const result = flash.getFilteredChallenges({ allAnswers, challenges });
+
+      // then
+      expect(result).to.be.deep.equal([challenges[3]]);
+    });
+
+    it('should return the list of challenges without already answered skills with another challenge containing two skills', function () {
+      // given
+      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill'}), domainBuilder.buildSkill({ id: 'SecondSkill'}), domainBuilder.buildSkill({ id: 'ThirdSkill'})];
+
+      const challenges = [
+        domainBuilder.buildChallenge({
+          id: 'First',
+          discriminant: 1.86350005965093,
+          difficulty: 0.194712138508747,
+          skills: [skills[0]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Second',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[1], skills[0]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Third',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[1]],
+        }),
+        domainBuilder.buildChallenge({
+          id: 'Fourth',
+          discriminant: 2.25422414740233,
+          difficulty: 0.823376599163319,
+          skills: [skills[2]],
+        }),
+      ];
+
+      const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+
+      // when
+      const result = flash.getFilteredChallenges({ allAnswers, challenges });
+
+      // then
+      expect(result).to.be.deep.equal([challenges[2], challenges[3]]);
+    });
+
+  });
 });
