@@ -165,7 +165,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
         authenticationService.getUserByUsernameAndPassword.resolves(user);
-        featureToggles.isEndTestScreenRemovalEnabled = false;
+        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
 
         const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
 
@@ -192,7 +192,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
 
         authenticationService.getUserByUsernameAndPassword.resolves(user);
         tokenService.createAccessTokenFromUser.returns(accessToken);
-        featureToggles.isEndTestScreenRemovalEnabled = true;
+        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
 
         // when
         await authenticateUser({
