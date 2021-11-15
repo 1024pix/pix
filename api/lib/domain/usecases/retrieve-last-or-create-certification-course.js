@@ -35,6 +35,16 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new SessionNotAccessible();
   }
 
+  if (featureToggles.isEndTestScreenRemovalEnabled) {
+    const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
+      userId,
+      sessionId,
+    });
+    if (!certificationCandidate.isAuthorizedToStart()) {
+      throw new CandidateNotAuthorizedToJoinSessionError();
+    }
+  }
+
   const existingCertificationCourse =
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
       userId,
@@ -46,16 +56,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
       created: false,
       certificationCourse: existingCertificationCourse,
     };
-  }
-
-  if (featureToggles.isEndTestScreenRemovalEnabled) {
-    const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
-      userId,
-      sessionId,
-    });
-    if (!certificationCandidate.isAuthorizedToStart()) {
-      throw new CandidateNotAuthorizedToJoinSessionError();
-    }
   }
 
   return _startNewCertification({
