@@ -21,11 +21,12 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
         certificationCandidates: [
           store.createRecord('certification-candidate-for-supervising', {
             id: 123,
-            firstName: 'Toto',
-            lastName: 'Tutu',
+            firstName: 'Gamora',
+            lastName: 'Zen Whoberi Ben Titan',
             birthdate: '1984-05-28',
             extraTimePercentage: '8',
             authorizedToStart: true,
+            assessmentStatus: null,
           }),
           store.createRecord('certification-candidate-for-supervising', {
             id: 456,
@@ -34,6 +35,16 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
             birthdate: '1983-06-28',
             extraTimePercentage: '12',
             authorizedToStart: false,
+            assessmentStatus: null,
+          }),
+          store.createRecord('certification-candidate-for-supervising', {
+            id: 789,
+            firstName: 'Rocket',
+            lastName: 'Racoon',
+            birthdate: '1982-07-28',
+            extraTimePercentage: null,
+            authorizedToStart: true,
+            assessmentStatus: 'started',
           }),
         ],
       });
@@ -42,15 +53,14 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
       const screen = await renderScreen(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}}  />`);
 
       // then
-      assert.dom(screen.getByRole('checkbox', { name: 'Tutu Toto' })).isChecked();
+      assert.dom('[data-test-id="candidate-123"]').hasText('Zen Whoberi Ben Titan Gamora 28/05/1984 · Temps majoré : 8%');
+      assert.dom(screen.getByRole('checkbox', { name: 'Zen Whoberi Ben Titan Gamora' })).isChecked();
 
-      assert.contains('· Temps majoré : 8%');
-      assert.contains('28/05/1984');
-
+      assert.dom('[data-test-id="candidate-456"]').hasText('Lord Star 28/06/1983 · Temps majoré : 12%');
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isNotChecked();
 
-      assert.contains('· Temps majoré : 12%');
-      assert.contains('28/06/1983');
+      assert.dom('[data-test-id="candidate-789"]').hasText('Racoon Rocket 28/07/1982 En cours');
+      assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
     });
 
     module('when the checkbox value change', function() {
