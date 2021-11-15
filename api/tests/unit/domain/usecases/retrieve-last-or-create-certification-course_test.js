@@ -38,7 +38,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     assessmentRepository = { save: sinon.stub() };
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
-    certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
+    certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub(), update: sinon.stub() };
     certificationChallengeRepository = { save: sinon.stub() };
     certificationChallengesService = {
       pickCertificationChallengesForPixPlus: sinon.stub(),
@@ -253,7 +253,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         });
 
         context('when a certification course with provided userId and sessionId already exists', function () {
-          it('should return it with flag created marked as false', async function () {
+          it('should allow access and block future access', async function () {
             // given
             const sessionId = 1;
             const accessCode = 'accessCode';
@@ -276,6 +276,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             certificationCandidateRepository.getBySessionIdAndUserId
               .withArgs({ sessionId, userId })
               .resolves(foundCertificationCandidate);
+            certificationCandidateRepository.update.withArgs({
+              ...foundCertificationCandidate,
+              authorizedToStart: false,
+            });
 
             // when
             const result = await retrieveLastOrCreateCertificationCourse({
@@ -305,6 +309,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             expect(certificationCourseRepository.save).not.to.have.been.called;
             expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
+            expect(certificationCandidateRepository.update).to.have.been.calledOnce;
           });
         });
 

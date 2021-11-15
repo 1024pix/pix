@@ -43,6 +43,8 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     if (!certificationCandidate.isAuthorizedToStart()) {
       throw new CandidateNotAuthorizedToJoinSessionError();
     }
+    certificationCandidate.authorizedToStart = false;
+    certificationCandidateRepository.update(certificationCandidate);
   }
 
   const existingCertificationCourse =
