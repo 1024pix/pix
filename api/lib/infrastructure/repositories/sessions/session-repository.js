@@ -119,9 +119,9 @@ module.exports = {
 };
 
 function _toDomain(results) {
-  const toDomainCertificationCandidates = results.certificationCandidates.map((candidate) => {
-    return new CertificationCandidate({ ...candidate });
-  });
+  const toDomainCertificationCandidates = results.certificationCandidates
+    .filter((candidateData) => candidateData != null)
+    .map((candidateData) => new CertificationCandidate(candidateData));
 
   return new Session({
     ...results,
