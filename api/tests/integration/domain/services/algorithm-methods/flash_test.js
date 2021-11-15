@@ -57,17 +57,22 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
         it('should return every best next challenge', function () {
           // given
+          const FirstSkill = domainBuilder.buildSkill({ id: 'First' });
+          const SecondSkill = domainBuilder.buildSkill({ id: 'Second' });
           const worstNextChallenge = domainBuilder.buildChallenge({
             difficulty: -5,
             discriminant: -5,
+            skills: [FirstSkill],
           });
           const bestNextChallenge = domainBuilder.buildChallenge({
             difficulty: 1,
             discriminant: 5,
+            skills: [SecondSkill],
           });
           const anotherBestNextChallenge = domainBuilder.buildChallenge({
             difficulty: 1,
             discriminant: 5,
+            skills: [FirstSkill],
           });
           const challenges = [worstNextChallenge, bestNextChallenge, anotherBestNextChallenge];
           const allAnswers = [];
@@ -79,6 +84,45 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           expect(result).to.deep.equal({
             hasAssessmentEnded: false,
             possibleChallenges: [bestNextChallenge, anotherBestNextChallenge],
+          });
+        });
+      });
+
+      context('when there is a previous answer', function () {
+        it('should only return the best next challenge that has no previous answer', function () {
+          // given
+          const FirstSkill = domainBuilder.buildSkill({ id: 'First' });
+          const SecondSkill = domainBuilder.buildSkill({ id: 'Second' });
+          const worstNextChallenge = domainBuilder.buildChallenge({
+            id: 'recCHAL1',
+            difficulty: -5,
+            discriminant: -5,
+            skills: [FirstSkill],
+          });
+          const answeredBestNextChallenge = domainBuilder.buildChallenge({
+            id: 'recCHAL2',
+            difficulty: 1,
+            discriminant: 5,
+            skills: [SecondSkill],
+          });
+          const nonAnsweredBestNextChallenge = domainBuilder.buildChallenge({
+            id: 'recCHAL3',
+            difficulty: 1,
+            discriminant: 5,
+            skills: [FirstSkill],
+          });
+          const challenges = [worstNextChallenge, answeredBestNextChallenge, nonAnsweredBestNextChallenge];
+          const allAnswers = [
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: answeredBestNextChallenge.id }),
+          ];
+
+          // when
+          const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
+
+          // then
+          expect(result).to.deep.equal({
+            hasAssessmentEnded: false,
+            possibleChallenges: [nonAnsweredBestNextChallenge],
           });
         });
       });
@@ -178,7 +222,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
-  describe('#getNonAnsweredChallenges', function() {
+  describe('#getNonAnsweredChallenges', function () {
     it('should return the same list of challenges if there is no answers', function () {
       // given
       const challenges = [
@@ -205,7 +249,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
     it('should return the list of challenges without already answered skills', function () {
       // given
-      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill'}), domainBuilder.buildSkill({ id: 'SecondSkill'})];
+      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill' }), domainBuilder.buildSkill({ id: 'SecondSkill' })];
 
       const challenges = [
         domainBuilder.buildChallenge({
@@ -239,7 +283,11 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
     it('should return the list of challenges without already answered skills with challenge containing two skills', function () {
       // given
-      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill'}), domainBuilder.buildSkill({ id: 'SecondSkill'}), domainBuilder.buildSkill({ id: 'ThirdSkill'})];
+      const skills = [
+        domainBuilder.buildSkill({ id: 'FirstSkill' }),
+        domainBuilder.buildSkill({ id: 'SecondSkill' }),
+        domainBuilder.buildSkill({ id: 'ThirdSkill' }),
+      ];
 
       const challenges = [
         domainBuilder.buildChallenge({
@@ -279,7 +327,11 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
     it('should return the list of challenges without already answered skills with another challenge containing two skills', function () {
       // given
-      const skills = [domainBuilder.buildSkill({ id: 'FirstSkill'}), domainBuilder.buildSkill({ id: 'SecondSkill'}), domainBuilder.buildSkill({ id: 'ThirdSkill'})];
+      const skills = [
+        domainBuilder.buildSkill({ id: 'FirstSkill' }),
+        domainBuilder.buildSkill({ id: 'SecondSkill' }),
+        domainBuilder.buildSkill({ id: 'ThirdSkill' }),
+      ];
 
       const challenges = [
         domainBuilder.buildChallenge({
@@ -316,6 +368,5 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       // then
       expect(result).to.be.deep.equal([challenges[2], challenges[3]]);
     });
-
   });
 });
