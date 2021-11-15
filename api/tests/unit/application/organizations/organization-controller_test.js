@@ -789,7 +789,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       const request = {
         auth: { credentials: { userId: 1 } },
-        params: { id: organizationInvitationId },
+        params: { invitationId: organizationInvitationId },
       };
       const cancelledOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
         id: organizationInvitationId,
@@ -799,7 +799,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon
         .stub(usecases, 'cancelOrganizationInvitation')
         .withArgs({
-          id: cancelledOrganizationInvitation.id,
+          organizationInvitationId: cancelledOrganizationInvitation.id,
         })
         .resolves(cancelledOrganizationInvitation);
       const serializedResponse = Symbol('serializedCancelledOrganizationInvitation');
