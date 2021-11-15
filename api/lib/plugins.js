@@ -42,6 +42,8 @@ const plugins = [
       serializers: {
         req: logObjectSerializer,
       },
+      // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
+      getChildBindings: () => ({}),
       instance: require('./infrastructure/logger'),
       logQueryParams: true,
     },
