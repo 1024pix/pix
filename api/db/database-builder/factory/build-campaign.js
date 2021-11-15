@@ -28,7 +28,7 @@ module.exports = function buildCampaign({
   multipleSendings = false,
   assessmentMethod,
 } = {}) {
-  if (type === Campaign.types.ASSESSMENT) {
+  if (type === Campaign.types.ASSESSMENT && !assessmentMethod) {
     targetProfileId = _.isUndefined(targetProfileId)
       ? buildTargetProfile({ ownerOrganizationId: organizationId }).id
       : targetProfileId;

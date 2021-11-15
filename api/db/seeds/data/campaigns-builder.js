@@ -324,4 +324,20 @@ __Plus d'infos :)__
     multipleSendings: true,
     createdAt: new Date('2020-01-18'),
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 19,
+    name: 'Pro - Campagne d’évaluation - Campagne FLASH',
+    code: 'FLASH1234',
+    type: 'ASSESSMENT',
+    organizationId: PRO_COMPANY_ID,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    creatorId: 2,
+    idPixLabel: null,
+    title: null,
+    customLandingPageText: null,
+    createdAt: new Date('2021-11-09'),
+    assessmentMethod: 'FLASH',
+  });
+
 }
