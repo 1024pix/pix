@@ -172,12 +172,9 @@ describe('Integration | Repository | Session', function () {
   });
 
   describe('#getWithCertificationCandidates', function () {
-    let session;
-    let expectedSessionValues;
-
-    beforeEach(async function () {
+    it('should return session information in a session Object', async function () {
       // given
-      session = databaseBuilder.factory.buildSession({
+      const session = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
         room: 'Salle A',
@@ -187,17 +184,19 @@ describe('Integration | Repository | Session', function () {
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10',
       });
-      expectedSessionValues = {
-        id: session.id,
-        certificationCenter: session.certificationCenter,
-        address: session.address,
-        room: session.room,
-        examiner: session.examiner,
-        date: session.date,
-        time: session.time,
-        description: session.description,
-        accessCode: session.accessCode,
-      };
+      await databaseBuilder.commit();
+
+      // when
+      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+
+      // then
+      const expectedSession = domainBuilder.buildSession(session);
+      expect(actualSession).to.deepEqualInstance(expectedSession);
+    });
+
+    it('should return associated certification candidates ordered by lastname and firstname', async function () {
+      // given
+      const session = databaseBuilder.factory.buildSession();
       databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Michael',
@@ -215,18 +214,7 @@ describe('Integration | Repository | Session', function () {
       });
       _.times(5, () => databaseBuilder.factory.buildCertificationCandidate());
       await databaseBuilder.commit();
-    });
 
-    it('should return session information in a session Object', async function () {
-      // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
-
-      // then
-      expect(actualSession).to.be.instanceOf(Session);
-      expect(actualSession).to.deep.includes(expectedSessionValues);
-    });
-
-    it('should return associated certification candidates ordered by lastname and firstname', async function () {
       // when
       const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
 
@@ -254,6 +242,10 @@ describe('Integration | Repository | Session', function () {
     });
 
     it('should return a Not found error when no session was found', async function () {
+      // given
+      const session = databaseBuilder.factory.buildSession();
+      await databaseBuilder.commit();
+
       // when
       const error = await catchErr(sessionRepository.get)(session.id + 1);
 

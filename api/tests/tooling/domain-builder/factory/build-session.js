@@ -15,7 +15,8 @@ const buildSession = function ({
   finalizedAt = null,
   resultsSentToPrescriberAt = null,
   publishedAt = null,
-  assignedCertificationOfficerId,
+  assignedCertificationOfficerId = null,
+  supervisorPassword = 'PIX12',
   certificationCandidates = [],
 } = {}) {
   return new Session({
@@ -34,6 +35,7 @@ const buildSession = function ({
     resultsSentToPrescriberAt,
     publishedAt,
     assignedCertificationOfficerId,
+    supervisorPassword,
     certificationCandidates,
   });
 };
