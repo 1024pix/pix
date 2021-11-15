@@ -104,6 +104,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         outdated: false,
         isPublic: true,
         imageUrl: 'data:,',
+        description: 'Super profil cible.',
       });
       databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfileDB.id,
@@ -120,6 +121,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
+        description: targetProfileDB.description,
         imageUrl: targetProfileDB.imageUrl,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
@@ -516,6 +518,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
         createdAt: targetProfileDB.createdAt,
+        description: targetProfileDB.description,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         imageUrl: targetProfileDB.imageUrl,
         skills: [skill1_1_1_2, skill1_2_1_1],

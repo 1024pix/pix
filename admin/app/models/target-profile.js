@@ -7,6 +7,7 @@ export default class TargetProfile extends Model {
   @attr('date') createdAt;
   @attr('string') imageUrl;
   @attr('boolean') outdated;
+  @attr('string') description;
   @attr('string') ownerOrganizationId;
 
   @attr('array') skillsId;
