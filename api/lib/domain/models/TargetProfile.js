@@ -10,6 +10,7 @@ class TargetProfile {
     stages,
     badges,
     ownerOrganizationId,
+    description,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -21,6 +22,7 @@ class TargetProfile {
     this.stages = stages;
     this.badges = badges;
     this.ownerOrganizationId = ownerOrganizationId;
+    this.description = description;
     this.organizationsAttached = [];
   }
 

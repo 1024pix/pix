@@ -11,6 +11,7 @@ module.exports = function buildTargetProfile({
   ownerOrganizationId,
   createdAt = new Date('2020-01-01'),
   outdated = false,
+  description = null,
 } = {}) {
   ownerOrganizationId = _.isUndefined(ownerOrganizationId) ? buildOrganization().id : ownerOrganizationId;
 
@@ -23,6 +24,7 @@ module.exports = function buildTargetProfile({
     ownerOrganizationId,
     createdAt,
     outdated,
+    description,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'target-profiles',
