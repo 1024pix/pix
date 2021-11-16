@@ -14,9 +14,9 @@ const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
 const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
 const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
-const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr/support/tickets/new';
-const HELPDESK_ENGLISH_SPOKEN = 'https://pix.org/en-gb/contact-form';
-const HELPDESK_FRENCH_SPOKEN = 'https://pix.org/fr/formulaire-aide';
+const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
+const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
+const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
 
 const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
