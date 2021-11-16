@@ -3,5 +3,5 @@ module.exports = function createCertificationCenterMembership({
   certificationCenterId,
   certificationCenterMembershipRepository,
 }) {
-  return certificationCenterMembershipRepository.save(userId, certificationCenterId);
+  return certificationCenterMembershipRepository.save({ userId, certificationCenterId });
 };

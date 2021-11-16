@@ -44,7 +44,7 @@ function createCertificationCenterMembershipAndUpdateMembership({
   membershipRepository,
 }) {
   return DomainTransaction.execute(async (domainTransaction) => {
-    await certificationCenterMembershipRepository.save(userId, certificationCenterId, domainTransaction);
+    await certificationCenterMembershipRepository.save({ userId, certificationCenterId, domainTransaction });
     return membershipRepository.updateById({ id: membership.id, membership }, domainTransaction);
   });
 }

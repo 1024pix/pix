@@ -124,11 +124,11 @@ describe('Unit | UseCase | update-membership', function () {
 
             // then
             expect(result).to.deep.equal(membershipUpdated);
-            expect(certificationCenterMembershipRepository.save).to.have.been.calledWith(
-              userWhoseOrganizationRoleIsToUpdate.id,
-              existingCertificationCenter.id,
-              domainTransaction
-            );
+            expect(certificationCenterMembershipRepository.save).to.have.been.calledWith({
+              userId: userWhoseOrganizationRoleIsToUpdate.id,
+              certificationCenterId: existingCertificationCenter.id,
+              domainTransaction,
+            });
           });
         });
       });
