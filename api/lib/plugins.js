@@ -3,20 +3,21 @@ const settings = require('./config');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const { get } = require('lodash');
 const monitoringTools = require('./infrastructure/monitoring-tools');
 
-function logObjectSerializer(obj) {
-  if (settings.hapi.enableRequestMonitoring) {
-    const context = monitoringTools.getContext();
-    return {
-      ...obj,
-      user_id: get(context, 'request') ? monitoringTools.extractUserIdFromRequest(context.request) : '-',
-      metrics: get(context, 'metrics'),
-    };
-  } else {
-    return { ...obj };
-  }
+function logObjectSerializer(req) {
+  const enhancedReq = {
+    ...req,
+    version: settings.version,
+  };
+  if (!settings.hapi.enableRequestMonitoring) return enhancedReq;
+
+  const context = monitoringTools.getContext();
+  return {
+    ...enhancedReq,
+    user_id: monitoringTools.extractUserIdFromRequest(req),
+    metrics: context?.metrics,
+  };
 }
 
 const plugins = [

@@ -48,6 +48,8 @@ module.exports = (function () {
 
     logOpsMetrics: isFeatureEnabled(process.env.LOG_OPS_METRICS),
 
+    version: process.env.CONTAINER_VERSION || 'development',
+
     hapi: {
       options: {},
       enableRequestMonitoring: isFeatureEnabled(process.env.ENABLE_REQUEST_MONITORING),
