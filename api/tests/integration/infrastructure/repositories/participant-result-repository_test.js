@@ -837,5 +837,45 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         expect(participantResult.masteryRate).to.equal(0);
       });
     });
+
+    context('when there are several participations', function () {
+      it('use the participation not improved yet', async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: true });
+        const { id: oldCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          status: 'SHARED',
+          isImproved: true,
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: oldCampaignParticipationId,
+          userId,
+          state: 'completed',
+          isImproving: false,
+        });
+
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          status: 'TO_SHARE',
+          isImproved: false,
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId,
+          userId,
+          state: 'completed',
+          isImproving: true,
+        });
+
+        await databaseBuilder.commit();
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          locale: 'FR',
+        });
+        expect(participantResult.id).to.equal(campaignParticipationId);
+      });
+    });
   });
 });

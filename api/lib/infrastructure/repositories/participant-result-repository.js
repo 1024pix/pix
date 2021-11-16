@@ -53,6 +53,7 @@ async function _getParticipationAttributes(userId, campaignId) {
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
     .andWhere({ 'campaign-participations.userId': userId })
+    .andWhere('campaign-participations.isImproved', '=', false)
     .orderBy('assessments.createdAt', 'DESC')
     .first();
 
