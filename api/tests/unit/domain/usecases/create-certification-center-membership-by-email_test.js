@@ -41,7 +41,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
       userId,
       certificationCenterId
     );
-    expect(certificationCenterMembershipRepository.save).has.been.calledWith(userId, certificationCenterId);
+    expect(certificationCenterMembershipRepository.save).has.been.calledWith({ userId, certificationCenterId });
   });
 
   it('should throw UserNotFoundError if no user matches this email', async function () {

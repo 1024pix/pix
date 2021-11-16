@@ -29,7 +29,7 @@ module.exports = {
     );
   },
 
-  async save(userId, certificationCenterId, domainTransaction = DomainTransaction.emptyTransaction()) {
+  async save({ userId, certificationCenterId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     try {
       const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({
         userId,

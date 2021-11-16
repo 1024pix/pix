@@ -19,5 +19,5 @@ module.exports = async function createCertificationCenterMembershipByEmail({
     );
   }
 
-  return certificationCenterMembershipRepository.save(userId, certificationCenterId);
+  return certificationCenterMembershipRepository.save({ userId, certificationCenterId });
 };
