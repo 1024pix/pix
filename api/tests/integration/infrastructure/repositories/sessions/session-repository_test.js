@@ -241,6 +241,50 @@ describe('Integration | Repository | Session', function () {
       expect(actualSession.certificationCandidates).to.deep.equal([]);
     });
 
+    it('should return candidates complementary certifications', async function () {
+      // given
+      const session = databaseBuilder.factory.buildSession();
+      const pixPlusFoot = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Foot' });
+      const pixPlusRugby = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Rugby' });
+      const pixPlusTennis = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Tennis' });
+      const firstCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Jackson',
+        firstName: 'Michael',
+        sessionId: session.id,
+      });
+      const secondCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Stardust',
+        firstName: 'Ziggy',
+        sessionId: session.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: firstCandidate.id,
+        complementaryCertificationId: pixPlusRugby.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: secondCandidate.id,
+        complementaryCertificationId: pixPlusFoot.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: secondCandidate.id,
+        complementaryCertificationId: pixPlusTennis.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+
+      // then
+      const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
+      expect(firstCandidateFromSession.complementaryCertifications).to.deep.equal([
+        domainBuilder.buildComplementaryCertification(pixPlusRugby),
+      ]);
+      expect(secondCandidateFromSession.complementaryCertifications).to.deep.equal([
+        domainBuilder.buildComplementaryCertification(pixPlusFoot),
+        domainBuilder.buildComplementaryCertification(pixPlusTennis),
+      ]);
+    });
+
     it('should return a Not found error when no session was found', async function () {
       // given
       const session = databaseBuilder.factory.buildSession();

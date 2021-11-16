@@ -42,22 +42,35 @@ module.exports = {
   },
 
   async getWithCertificationCandidates(idSession) {
-    const results = await knex
-      .select('sessions.*')
-      .select({
-        certificationCandidates: knex.raw(`
-        json_agg("certification-candidates".* order by lower("lastName"), lower("firstName"))
-        `),
-      })
-      .from('sessions')
-      .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-      .groupBy('sessions.id')
-      .where({ 'sessions.id': idSession })
-      .first();
-    if (!results) {
+    const session = await knex.from('sessions').where({ 'sessions.id': idSession }).first();
+
+    if (!session) {
       throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
-    return _toDomain(results);
+
+    const certificationCandidates = await knex
+      .select('certification-candidates.*')
+      .select({
+        complementaryCertifications: knex.raw(`
+        json_agg(json_build_object('id', "complementary-certifications"."id", 'name', "complementary-certifications"."name"))
+        `),
+      })
+      .from('certification-candidates')
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'complementary-certification-subscriptions.certificationCandidateId',
+        'certification-candidates.id'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certifications.id',
+        'complementary-certification-subscriptions.complementaryCertificationId'
+      )
+      .groupBy('certification-candidates.id')
+      .where({ sessionId: idSession })
+      .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+
+    return _toDomain({ ...session, certificationCandidates });
   },
 
   async updateSessionInfo(session) {
