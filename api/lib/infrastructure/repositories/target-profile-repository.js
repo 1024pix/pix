@@ -146,21 +146,19 @@ module.exports = {
   },
 
   async update(targetProfile) {
+    let targetProfileUpdatedRowCount;
     const editedAttributes = _.pick(targetProfile, ['name', 'outdated', 'description']);
 
     try {
-      const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id: targetProfile.id }).save(
-        editedAttributes,
-        { patch: true }
-      );
-
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfTargetProfile, bookshelfTargetProfile);
+      targetProfileUpdatedRowCount = await knex('target-profiles')
+        .where({ id: targetProfile.id })
+        .update(editedAttributes);
     } catch (error) {
-      if (error instanceof BookshelfTargetProfile.NoRowsUpdatedError) {
-        throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
-      }
-
       throw new ObjectValidationError();
+    }
+
+    if (targetProfileUpdatedRowCount !== 1) {
+      throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
     }
   },
 
