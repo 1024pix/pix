@@ -42,4 +42,8 @@ export default class CertificationCandidatesController extends Controller {
   async reloadCertificationCandidateInController() {
     await this.reloadCertificationCandidate();
   }
+
+  get displayComplementaryCertification() {
+    return this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled;
+  }
 }
