@@ -134,7 +134,15 @@ module.exports = {
 function _toDomain(results) {
   const toDomainCertificationCandidates = results.certificationCandidates
     .filter((candidateData) => candidateData != null)
-    .map((candidateData) => new CertificationCandidate(candidateData));
+    .map(
+      (candidateData) =>
+        new CertificationCandidate({
+          ...candidateData,
+          complementaryCertifications: candidateData.complementaryCertifications.filter(
+            (complementaryCertification) => complementaryCertification.id != null
+          ),
+        })
+    );
 
   return new Session({
     ...results,
