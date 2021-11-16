@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.128.0 (16/11/2021)
+
+
+### :rocket: Enhancement
+- [#3718](https://github.com/1024pix/pix/pull/3718) [FEATURE] Modification de l'enregistrement de l'image d'un RT dans Pix-Admin (PIX-3481).
+- [#3727](https://github.com/1024pix/pix/pull/3727) [FEATURE] Restreindre l'accès à une session aux candidats autorisés (PIX-3655)
+- [#3726](https://github.com/1024pix/pix/pull/3726) [FEATURE] Ajouter une description aux profils cible et l'afficher dans pix admin(PIX-3758) 
+- [#3715](https://github.com/1024pix/pix/pull/3715) [FEATURE] Proposer plusieurs épreuves à la suite pour une campagne Flash (PIX-3783).
+
+### :building_construction: Tech
+- [#3735](https://github.com/1024pix/pix/pull/3735) [TECH] Journaliser  la version de l'application.
+- [#3720](https://github.com/1024pix/pix/pull/3720) [TECH] Simplifier le workflow d'automerge (PIX-3825)
+
+### :bug: Bug fix
+- [#3738](https://github.com/1024pix/pix/pull/3738) [BUGFIX] Permettre l'envoi des résultats malgré une double participation non voulue à une campagne (PIX-3850).
+- [#3745](https://github.com/1024pix/pix/pull/3745) [BUGFIX] Cacher les certifications complémentaires si le FT est désactivé (PIX-3854).
+- [#3734](https://github.com/1024pix/pix/pull/3734) [BUGFIX] La clé requête est dupliquée dans les logs.
+
 ## v3.127.0 (15/11/2021)
 
 
