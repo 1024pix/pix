@@ -4,7 +4,7 @@ const serializer = require('../../infrastructure/serializers/jsonapi/feedback-se
 
 module.exports = {
   async save(request, h) {
-    const newFeedback = await serializer.deserialize(request.payload);
+    const newFeedback = await serializer.deserialize(request.payload, request.headers['user-agent']);
 
     if (_.isBlank(newFeedback.get('content'))) {
       throw new BadRequestError('Feedback content must not be blank');
