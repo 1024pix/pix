@@ -25,6 +25,7 @@ module.exports = {
     membership.updatedByUserId = userId;
 
     const updatedMembership = await usecases.updateMembership({ membership });
+    await usecases.createCertificationCenterMembershipForScoOrganization({ membership });
 
     return h.response(membershipSerializer.serialize(updatedMembership));
   },
