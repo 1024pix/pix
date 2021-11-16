@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
 
   it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
     // when
-    const session = await usecases.getCandidateImportSheetData({ sessionId, userId });
+    const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
     const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);
     await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
     const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
