@@ -4,8 +4,17 @@
     <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
   </div>
   <div class="badge-form__text-field">
-    <label for="image-url">Url de l'image : </label>
-    <Input id="image-url" required="true" class="form-control" @type="text" @value={{this.badge.imageUrl}} />
+    <label for="image-url">Nom de l'image (svg) :
+      <a href="https://images.pix.fr/index.html" target="_blank" rel="noopener noreferrer"> Voir la liste des badges</a>
+    </label>
+    <Input
+      id="image-name"
+      required="true"
+      class="form-control"
+      @type="text"
+      @value={{this.imageName}}
+      placeholder="exemple: clea_num.svg"
+    />
   </div>
   <div class="badge-form__text-field">
     <label for="alt-message">Texte alternatif pour l'image : </label>
@@ -16,7 +25,7 @@
     <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
   </div>
   <div class="badge-form__text-field">
-    <label for="badge-key">Clé : </label>
+    <label for="badge-key">Clé (texte unique , vérifier qu'il n'existe pas) : </label>
     <Input id="badge-key" class="form-control" maxlength="255" @type="text" required="true" @value={{this.badge.key}} />
   </div>
   <div class="badge-form__check-field">
