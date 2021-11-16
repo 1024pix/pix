@@ -285,6 +285,30 @@ describe('Integration | Repository | Session', function () {
       ]);
     });
 
+    it('should return an empty candidates complementary certifications if there is no complementary certifications', async function () {
+      // given
+      const session = databaseBuilder.factory.buildSession();
+      databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Jackson',
+        firstName: 'Michael',
+        sessionId: session.id,
+      });
+      databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Stardust',
+        firstName: 'Ziggy',
+        sessionId: session.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+
+      // then
+      const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
+      expect(firstCandidateFromSession.complementaryCertifications).to.deep.equal([]);
+      expect(secondCandidateFromSession.complementaryCertifications).to.deep.equal([]);
+    });
+
     it('should return a Not found error when no session was found', async function () {
       // given
       const session = databaseBuilder.factory.buildSession();
