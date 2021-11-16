@@ -84,7 +84,7 @@ module.exports = {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
 
-    const session = await usecases.getSessionWithCandidates({ sessionId, userId });
+    const session = await usecases.getCandidateImportSheetData({ sessionId, userId });
     const candidateImportSheet = await fillCandidatesImportSheet(session);
 
     return h
