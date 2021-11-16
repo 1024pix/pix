@@ -33,7 +33,7 @@ const CANDIDATE_DATA_FAILURE = { firstName: 'anne', lastName: 'failure', birthda
 const CANDIDATE_DATA_MISSING = { firstName: 'anne', lastName: 'missing', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 const CANDIDATE_DATA_STARTED = { firstName: 'AnneNormale5', lastName: 'Certif5', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 const CANDIDATE_SCO_DATA_SUCCESS = { firstName: 'Student', lastName: 'Certif', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
-const CANDIDATE_DROIT_1 = { firstName: 'Nicky', lastName: 'Larson', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
+const CANDIDATE_DROIT_1 = { firstName: 'Nicky', lastName: 'Larson', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null, authorizedToStart: true };
 const CANDIDATE_DROIT_2 = { firstName: 'Saul', lastName: 'Goodman', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 
 function certificationCandidatesBuilder({ databaseBuilder }) {
