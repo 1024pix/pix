@@ -60,7 +60,6 @@ knex.on('query-response', function (response, obj) {
       monitoringTools.pushInContext('metrics.knexQueries', {
         id: obj.__knexQueryUid,
         sql: obj.sql,
-        params: [obj.bindings ? obj.bindings.join(',') : ''],
         duration,
       });
     }
