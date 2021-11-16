@@ -115,7 +115,6 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
         // then
         assert.dom('table tbody tr').exists({ count: 3 });
-        assert.dom('table thead tr th').exists({ count: 7 });
         assert.contains(`${aCandidate.lastName}`);
         assert.contains(`${aCandidate.firstName}`);
         assert.contains(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
