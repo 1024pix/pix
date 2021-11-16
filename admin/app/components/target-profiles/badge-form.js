@@ -7,15 +7,18 @@ export default class BadgeForm extends Component {
   @service store;
   @service router;
 
+  BASE_URL = 'https://images.pix.fr/badges/';
+
   badge = {
     key: '',
     altMessage: '',
-    imageUrl: '',
     message: '',
     title: '',
     isCertifiable: false,
     isAlwaysVisible: false,
   };
+
+  imageName = '';
   threshold = null;
 
   constructor(...args) {
@@ -40,7 +43,11 @@ export default class BadgeForm extends Component {
 
   async _createBadge() {
     try {
-      const badge = this.store.createRecord('badge', this.badge);
+      const badgeWithFormattedImageUrl = {
+        ...this.badge,
+        imageUrl: this.BASE_URL + this.imageName,
+      };
+      const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
       await badge.save({
         adapterOptions: { targetProfileId: this.args.targetProfileId },
       });
