@@ -36,6 +36,7 @@ const schema = Joi.object({
   POLE_EMPLOI_CLIENT_SECRET: Joi.string().optional(),
   POLE_EMPLOI_TOKEN_URL: Joi.string().uri().optional(),
   POLE_EMPLOI_SENDING_URL: Joi.string().uri().optional(),
+  CONTAINER_VERSION: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
