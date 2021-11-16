@@ -10,13 +10,15 @@ function logObjectSerializer(req) {
     ...req,
     version: settings.version,
   };
-  if (!settings.hapi.enableRequestMonitoring) return enhancedReq;
 
+  if (!settings.hapi.enableRequestMonitoring) return enhancedReq;
   const context = monitoringTools.getContext();
+
   return {
     ...enhancedReq,
     user_id: monitoringTools.extractUserIdFromRequest(req),
-    metrics: context?.metrics,
+    metrics: context.metrics,
+    route: context.request.route.path,
   };
 }
 
