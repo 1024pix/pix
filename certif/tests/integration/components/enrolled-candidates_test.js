@@ -30,64 +30,100 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  test('it displays candidates information', async function(assert) {
-    // given
-    const candidate = _buildCertificationCandidate({
-      birthdate: new Date('2019-04-28'),
-    });
+  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is enabled', ()=> {
+    test('it displays candidate information', async function(assert) {
+      // given
+      this.set('displayComplementaryCertification', true);
+      const candidate = _buildCertificationCandidate({
+        birthdate: new Date('2019-04-28'),
+      });
 
-    const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-    const certificationCandidates = [certificationCandidate];
+      const certificationCandidates = [certificationCandidate];
 
-    this.set('certificationCandidates', certificationCandidates);
+      this.set('certificationCandidates', certificationCandidates);
 
-    // when
-    await render(hbs`
+      // when
+      await render(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
+          @displayComplementaryCertification={{displayComplementaryCertification}}
           >
         </EnrolledCandidates>
       `);
 
-    // then
-    assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
-    assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
-    assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
-    assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
-    assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
-    assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
-    assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('Pix+Edu, Pix+Droit');
-    assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-    assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-    assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
-    assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
+      // then
+      assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
+      assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
+      assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
+      assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
+      assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
+      assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
+      assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('Pix+Edu, Pix+Droit');
+      assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
+    });
+    test('it displays a dash where there is no certification', async function(assert) {
+      // given
+      this.set('displayComplementaryCertification', true);
+      const candidate = _buildCertificationCandidate({
+        complementaryCertifications: null,
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+      const certificationCandidates = [certificationCandidate];
+
+      this.set('certificationCandidates', certificationCandidates);
+
+      // when
+      await render(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
+          @certificationCandidates={{certificationCandidates}}
+          @displayComplementaryCertification={{displayComplementaryCertification}}
+          >
+        </EnrolledCandidates>
+      `);
+
+      // then
+      assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('-');
+    });
   });
 
-  test('it displays a dash where there is no certification', async function(assert) {
-    // given
-    const candidate = _buildCertificationCandidate({
-      complementaryCertifications: null,
-    });
+  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is disabled', ()=> {
+    test('it display candidate information without complementary certification', async function(assert) {
+      // given
+      this.set('displayComplementaryCertification', false);
 
-    const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const candidate = _buildCertificationCandidate({
+        birthdate: new Date('2019-04-28'),
+      });
 
-    const certificationCandidates = [certificationCandidate];
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-    this.set('certificationCandidates', certificationCandidates);
+      const certificationCandidates = [certificationCandidate];
 
-    // when
-    await render(hbs`
+      this.set('certificationCandidates', certificationCandidates);
+
+      // when
+      await render(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
+          @displayComplementaryCertification={{displayComplementaryCertification}}
           >
         </EnrolledCandidates>
       `);
 
-    // then
-    assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('-');
+      // then
+      assert.notContains('Certifications complémentaires');
+      assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).doesNotExist();
+    });
   });
 
   test('it should display details button', async function(assert) {
