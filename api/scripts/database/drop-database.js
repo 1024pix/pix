@@ -11,6 +11,11 @@ const DB_TO_DELETE_NAME = url.pathname.slice(1);
 
 url.pathname = '/postgres';
 
+if (!process.env.ALLOW_DATABASE_DROP || process.env.ALLOW_DATABASE_DROP !== 'true') {
+  logger.error(`Database has not been dropped as 'ALLOW_DATABASE_DROP' is disabled`);
+  process.exit(1);
+}
+
 PgClient.getClient(url.href).then(async (client) => {
   try {
     await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME} WITH (FORCE);`);

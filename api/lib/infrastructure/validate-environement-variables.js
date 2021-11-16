@@ -4,6 +4,7 @@ const schema = Joi.object({
   REDIS_URL: Joi.string().uri().optional(),
   DATABASE_URL: Joi.string().uri().optional(),
   TEST_DATABASE_URL: Joi.string().optional(),
+  ALLOW_DATABASE_DROP: Joi.string().valid('true', 'false').optional(),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   DATABASE_CONNECTION_POOL_MAX_SIZE: Joi.number().integer().min(0).optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
