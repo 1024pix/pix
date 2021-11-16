@@ -23,6 +23,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
     sandbox.stub(usecases, 'findGroupsByOrganization');
+    sandbox.stub(usecases, 'findDivisionsByOrganization');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
@@ -30,6 +31,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer();
@@ -342,10 +344,10 @@ describe('Integration | Application | Organizations | organization-controller', 
   });
 
   describe('#getGroups', function () {
-    context('when the user is an admin of the organizations', function () {
+    context('when the user is a member of the organization', function () {
       it('returns organizations groups', async function () {
         const organizationId = 1234;
-        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
+        securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.returns(true);
         usecases.findGroupsByOrganization.withArgs({ organizationId }).resolves([{ name: 'G1' }]);
 
         const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/groups`);
@@ -355,13 +357,48 @@ describe('Integration | Application | Organizations | organization-controller', 
       });
     });
 
-    context('when the user is not an admin of the organizations', function () {
+    context('when the user is not a member of the organization', function () {
       it('returns organizations groups', async function () {
         const organizationId = 1234;
-        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
+        securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.callsFake((request, h) => {
           return Promise.resolve(h.response().code(403).takeover());
         });
         const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/groups`);
+
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the organization id is invalid', function () {
+      it('returns organizations groups', async function () {
+        const response = await httpTestServer.request('GET', `/api/organizations/ABC/groups`);
+
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('#getDivisions', function () {
+    context('when the user is a member of the organization', function () {
+      it('returns organizations divisions', async function () {
+        const organizationId = 1234;
+        securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
+        usecases.findDivisionsByOrganization.withArgs({ organizationId }).resolves([{ name: 'G1' }]);
+
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/divisions`);
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([{ id: 'G1', type: 'divisions', attributes: { name: 'G1' } }]);
+      });
+    });
+
+    context('when the user is not a member of the organization', function () {
+      it('returns organizations divisions', async function () {
+        const organizationId = 1234;
+        securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/divisions`);
 
         expect(response.statusCode).to.equal(403);
       });
