@@ -40,6 +40,8 @@ export default class CertificationJoiner extends Component {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.access-code-error');
       } else if (err.errors?.[0]?.status === '412') {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.session-not-accessible');
+      } else if (err.errors?.[0]?.status === '403') {
+        this.errorMessage = err.errors[0].detail;
       } else {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.generic');
       }

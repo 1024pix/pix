@@ -1,7 +1,12 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
-const { UserNotAuthorizedToCertifyError, NotFoundError, SessionNotAccessible } = require('../errors');
-const { features } = require('../../config');
+const {
+  UserNotAuthorizedToCertifyError,
+  NotFoundError,
+  SessionNotAccessible,
+  CandidateNotAuthorizedToJoinSessionError,
+} = require('../errors');
+const { features, featureToggles } = require('../../config');
 const _ = require('lodash');
 const bluebird = require('bluebird');
 
@@ -41,6 +46,16 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
       created: false,
       certificationCourse: existingCertificationCourse,
     };
+  }
+
+  if (featureToggles.isEndTestScreenRemovalEnabled) {
+    const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
+      userId,
+      sessionId,
+    });
+    if (!certificationCandidate.isAuthorizedToStart()) {
+      throw new CandidateNotAuthorizedToJoinSessionError();
+    }
   }
 
   return _startNewCertification({

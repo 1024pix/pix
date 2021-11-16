@@ -925,6 +925,14 @@ class InvalidSessionSupervisorPasswordError extends DomainError {
   }
 }
 
+class CandidateNotAuthorizedToJoinSessionError extends DomainError {
+  constructor(
+    message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.'
+  ) {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -947,8 +955,9 @@ module.exports = {
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
   AuthenticationKeyForPoleEmploiTokenExpired,
-  CancelledOrganizationInvitationError,
   CampaignCodeError,
+  CancelledOrganizationInvitationError,
+  CandidateNotAuthorizedToJoinSessionError,
   CertificateVerificationCodeGenerationTooManyTrials,
   NoCertificationAttestationForDivisionError,
   CertificationCandidateForbiddenDeletionError,
