@@ -7,6 +7,11 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('date-only') birthdate;
   @attr('number') extraTimePercentage;
   @attr('boolean') authorizedToStart;
+  @attr('string') assessmentStatus;
+
+  get hasStarted() {
+    return this.assessmentStatus === 'started';
+  }
 
   updateAuthorizedToStart = memberAction({
     type: 'patch',

@@ -16,6 +16,7 @@ const {
   CERTIF_REGULAR_USER5_ID,
   CERTIF_SCO_STUDENT_ID,
 } = require('./users');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const A_LOT_OF_CANDIDATES_COUNT = 150;
 const SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID = 1;
@@ -48,7 +49,34 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
     databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Jean-Paul', lastName: _convertToRoman(i + 1), sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null });
   }
 
-  databaseBuilder.factory.buildCertificationCandidate({ sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null, authorizedToStart: true });
+  // A candidate that is authorized to start
+  databaseBuilder.factory.buildCertificationCandidate({
+    firstName: 'Jean-François',
+    lastName: 'Ananas',
+    sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
+    userId: null,
+    authorizedToStart: true,
+  });
+
+  // A candidate that has started the session
+  const userId = databaseBuilder.factory.buildUser().id;
+  const candidateWithStartedTest = {
+    firstName: 'Jean-Pierre',
+    lastName: 'Arbuste',
+    userId,
+    sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
+  };
+  databaseBuilder.factory.buildCertificationCandidate({
+    ...candidateWithStartedTest,
+    authorizedToStart: true,
+  });
+  const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+    ...candidateWithStartedTest,
+  });
+  databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationCourse.id,
+    state: Assessment.states.STARTED,
+  });
 
   let sessionId;
   const candidateDataSuccessWithUser = { ...CANDIDATE_DATA_SUCCESS, userId: CERTIF_SUCCESS_USER_ID };
