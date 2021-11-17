@@ -31,18 +31,43 @@ describe('Integration | Application | Memberships | membership-controller', func
     };
 
     context('Success cases', function () {
-      it('should resolve a 201 HTTP response', async function () {
-        // given
-        const membership = domainBuilder.buildMembership();
-        usecases.createMembership.resolves(membership);
+      context('when a certification center membership is created', function () {
+        it('should resolve a 201 HTTP response', async function () {
+          // given
+          const membership = domainBuilder.buildMembership();
+          const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
 
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+          usecases.createMembership.resolves(membership);
+          usecases.createCertificationCenterMembershipForScoOrganization
+            .withArgs({ membership })
+            .resolves(certificationCenterMembership);
 
-        // when
-        const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
-        // then
-        expect(response.statusCode).to.equal(201);
+          // when
+          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
+
+          // then
+          expect(response.statusCode).to.equal(201);
+        });
+      });
+
+      context('when no certification center membership is created', function () {
+        it('should resolve a 201 HTTP response', async function () {
+          // given
+          const membership = domainBuilder.buildMembership();
+
+          usecases.createMembership.resolves(membership);
+          usecases.createCertificationCenterMembershipForScoOrganization.withArgs({ membership }).resolves(undefined);
+
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
+
+          // then
+          expect(response.statusCode).to.equal(201);
+        });
       });
 
       it('should return a JSON API membership', async function () {
@@ -122,7 +147,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         });
       });
 
-      context('when no certification center membership created', function () {
+      context('when no certification center membership is created', function () {
         it('should return a 200 HTTP response', async function () {
           // given
           const membership = new Membership({
