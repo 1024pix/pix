@@ -48,6 +48,11 @@ exports.register = async function (server) {
                 scope: Joi.string().required(),
                 threshold: Joi.number().min(0).max(100).required(),
               }).required(),
+              relationships: Joi.object({
+                'skill-sets': Joi.object({
+                  data: Joi.array(), // FIXME valider le contenu du tableau ?
+                }),
+              }),
               type: Joi.string().required(),
             }).required(),
           }).required(),
