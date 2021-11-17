@@ -1,6 +1,14 @@
 const { Serializer } = require('jsonapi-serializer');
 
-const attributes = ['id', 'firstName', 'lastName', 'birthdate', 'extraTimePercentage', 'authorizedToStart'];
+const attributes = [
+  'id',
+  'firstName',
+  'lastName',
+  'birthdate',
+  'extraTimePercentage',
+  'authorizedToStart',
+  'assessmentStatus',
+];
 
 module.exports = {
   serialize(sessions) {
