@@ -52,7 +52,7 @@ exports.register = async function (server) {
                 'skill-sets': Joi.object({
                   data: Joi.array().items(
                     Joi.object({
-                      id: Joi.string().required(),
+                      id: identifiersType.badgeCriterionId,
                       type: Joi.string().required(),
                     })
                   ),
