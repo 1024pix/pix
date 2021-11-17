@@ -50,7 +50,12 @@ exports.register = async function (server) {
               }).required(),
               relationships: Joi.object({
                 'skill-sets': Joi.object({
-                  data: Joi.array(), // FIXME valider le contenu du tableau ?
+                  data: Joi.array().items(
+                    Joi.object({
+                      id: Joi.string().required(),
+                      type: Joi.string().required(),
+                    })
+                  ),
                 }),
               }),
               type: Joi.string().required(),
