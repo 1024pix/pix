@@ -63,10 +63,10 @@ module.exports = {
   },
 
   async delete(certificationCandidateId) {
-    const nbRowsAffected = await knex('certification-candidates').where({ id: certificationCandidateId }).del();
-    if (nbRowsAffected === 0) {
-      throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
-    }
+    await knex.transaction(async (trx) => {
+      await trx('complementary-certification-subscriptions').where({ certificationCandidateId }).del();
+      return trx('certification-candidates').where({ id: certificationCandidateId }).del();
+    });
 
     return true;
   },
