@@ -276,20 +276,6 @@ describe('Acceptance | API | Badges', function () {
 
     it('should create a SkillSet criterion and add it to an existing badge', async function () {
       // given
-      const badgeCriterion = {
-        scope: 'SkillSet',
-        threshold: 86,
-      };
-
-      const skillSets = [
-        {
-          data: {
-            id: skillSet.id,
-            type: 'skill-sets',
-          },
-        },
-      ];
-
       options = {
         method: 'POST',
         url: `/api/admin/badges/${badge.id}/badge-criteria`,
@@ -297,10 +283,18 @@ describe('Acceptance | API | Badges', function () {
         payload: {
           data: {
             type: 'badge-criteria',
-            attributes: badgeCriterion,
+            attributes: {
+              scope: 'SkillSet',
+              threshold: 86,
+            },
             relationships: {
               'skill-sets': {
-                data: skillSets,
+                data: [
+                  {
+                    id: skillSet.id,
+                    type: 'skill-sets',
+                  },
+                ],
               },
             },
           },
