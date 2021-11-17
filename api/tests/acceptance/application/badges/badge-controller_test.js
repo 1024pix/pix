@@ -223,7 +223,7 @@ describe('Acceptance | API | Badges', function () {
     });
   });
 
-  describe.only('POST /api/admin/badges/{id}/badge-criteria', function () {
+  describe('POST /api/admin/badges/{id}/badge-criteria', function () {
     beforeEach(async function () {
       userId = (await insertUserWithRolePixMaster()).id;
 
