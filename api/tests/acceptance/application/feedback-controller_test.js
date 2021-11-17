@@ -40,7 +40,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
             },
           },
         },
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
+        headers: { 'user-agent': 'Firefox rocks', authorization: generateValidRequestAuthorizationHeader() },
       };
     });
 
@@ -104,6 +104,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
         return new Feedback().fetch().then((model) => {
           expect(model.id).to.be.a('number');
           expect(model.get('content')).to.equal(options.payload.data.attributes.content);
+          expect(model.get('userAgent')).to.equal('Firefox rocks');
           expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
           expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
