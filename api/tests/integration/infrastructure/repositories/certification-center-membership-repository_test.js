@@ -1,7 +1,7 @@
 const pick = require('lodash/pick');
 const omit = require('lodash/omit');
 
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
 
 const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/orm-models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
@@ -105,18 +105,15 @@ describe('Integration | Repository | Certification Center Membership', function 
   });
 
   describe('#findByCertificationCenterId', function () {
-    let certificationCenter;
     let certificationCenterMembership;
-    let user;
-
-    beforeEach(async function () {
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      user = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-    });
 
     it('should return certification center membership associated to the certification center', async function () {
       // given
+      const now = new Date('2021-01-02');
+      const clock = sinon.useFakeTimers(now);
+
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ updatedAt: now });
+      const user = databaseBuilder.factory.buildUser();
       certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
         certificationCenterId: certificationCenter.id,
         userId: user.id,
@@ -149,10 +146,13 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       expect(associatedUser).to.be.an.instanceOf(User);
       expect(pick(associatedUser, ['id', 'firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
+      clock.restore();
     });
 
     it('should return certification center membership sorted by id', async function () {
       // given
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+
       [30, 20, 10].forEach((id) => {
         databaseBuilder.factory.buildCertificationCenterMembership({
           id,

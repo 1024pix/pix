@@ -23,6 +23,10 @@ exports.register = async (server) => {
         ],
         handler: organizationController.create,
         tags: ['api', 'organizations'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            '- Elle permet de créer une nouvelle organisation',
+        ],
       },
     },
     {

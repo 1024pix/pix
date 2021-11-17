@@ -1,10 +1,21 @@
-const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } = require('../../../test-helper');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | Certification Center', function () {
+  let clock, now;
+
+  beforeEach(function () {
+    now = new Date('2021-11-16');
+    clock = sinon.useFakeTimers(now);
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
   describe('#get', function () {
     context('when the certification center is found', function () {
       it('should return the certification center of the given id with the right properties', async function () {
@@ -15,6 +26,7 @@ describe('Integration | Repository | Certification Center', function () {
           createdAt: new Date('2018-01-01T05:43:10Z'),
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
+          updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
 
@@ -25,6 +37,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           complementaryCertifications: [],
+          updatedAt: now,
         });
 
         await databaseBuilder.commit();
@@ -44,6 +57,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 12345,
@@ -77,6 +91,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification2, expectedComplementaryCertification1],
+          updatedAt: now,
         });
 
         await databaseBuilder.commit();
@@ -110,6 +125,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '123456',
           type: 'SCO',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         }).id;
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
@@ -119,6 +135,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '123456',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [],
+          updatedAt: now,
         });
 
         await databaseBuilder.commit();
@@ -138,6 +155,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         }).id;
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1234,
@@ -159,6 +177,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification],
+          updatedAt: now,
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
@@ -202,6 +221,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '123456',
           type: 'SCO',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         }).id;
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
@@ -212,6 +232,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '123456',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [],
+          updatedAt: now,
         });
 
         await databaseBuilder.commit();
@@ -233,6 +254,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         }).id;
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1234,
@@ -254,6 +276,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification],
+          updatedAt: now,
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
@@ -307,6 +330,21 @@ describe('Integration | Repository | Certification Center', function () {
       expect(savedCertificationCenter.id).to.exist;
       expect(savedCertificationCenter.name).to.equal(certificationCenter.name);
     });
+
+    it('should update the given certification center with the proper updated date', async function () {
+      // given
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+        name: 'CertificationCenterName',
+        type: 'SCO',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const savedCertificationCenter = await certificationCenterRepository.save(certificationCenter);
+
+      // then
+      expect(savedCertificationCenter.updatedAt).to.deep.equal(now);
+    });
   });
 
   describe('#findPaginatedFiltered', function () {
@@ -319,6 +357,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '1',
           type: 'SUP',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -327,6 +366,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '1',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [],
+          updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 2,
@@ -334,6 +374,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '2',
           type: 'SCO',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
           id: 2,
@@ -342,6 +383,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '2',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [],
+          updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -349,6 +391,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '3',
           type: 'PRO',
           createdAt: new Date('2018-04-01T05:43:10Z'),
+          updatedAt: now,
         });
         const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
           id: 3,
@@ -357,6 +400,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '3',
           createdAt: new Date('2018-04-01T05:43:10Z'),
           habilitations: [],
+          updatedAt: now,
         });
         await databaseBuilder.commit();
 
@@ -385,6 +429,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '1',
           type: 'SUP',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 11,
@@ -405,6 +450,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '1',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification1],
+          updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 2,
@@ -412,6 +458,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '2',
           type: 'SCO',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 22,
@@ -432,6 +479,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '2',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification2],
+          updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -439,6 +487,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '3',
           type: 'PRO',
           createdAt: new Date('2018-04-01T05:43:10Z'),
+          updatedAt: now,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 33,
@@ -459,6 +508,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: '3',
           createdAt: new Date('2018-04-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification3],
+          updatedAt: now,
         });
         await databaseBuilder.commit();
 
@@ -631,6 +681,7 @@ describe('Integration | Repository | Certification Center', function () {
           name: 'Certif center to return by external Id',
           type: 'SUP',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -638,6 +689,7 @@ describe('Integration | Repository | Certification Center', function () {
           type: CertificationCenter.types.SUP,
           externalId: 'EXTERNAL_ID',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         await databaseBuilder.commit();
 
@@ -657,6 +709,7 @@ describe('Integration | Repository | Certification Center', function () {
           name: 'Certif center to return by external Id',
           type: 'SUP',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          updatedAt: now,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 123,
@@ -677,6 +730,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'EXTERNAL_ID',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           habilitations: [expectedComplementaryCertification],
+          updatedAt: now,
         });
 
         await databaseBuilder.commit();

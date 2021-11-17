@@ -13,7 +13,7 @@ function _toDomain(bookshelfCertificationCenter) {
     });
   });
   return new CertificationCenter({
-    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt']),
+    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt', 'updatedAt']),
     habilitations,
   });
 }
