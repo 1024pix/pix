@@ -86,6 +86,14 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     placeholder: '999 %',
     propertyName: 'extraTimePercentage',
   },
+  {
+    placeholder: 'CléA Numérique',
+    propertyName: 'cleaNumerique',
+  },
+  {
+    placeholder: 'Pix+ Droit',
+    propertyName: 'pixPlusDroit',
+  },
 ];
 
 const EXTRA_EMPTY_CANDIDATE_ROWS = 20;

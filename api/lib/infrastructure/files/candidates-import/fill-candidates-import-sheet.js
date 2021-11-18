@@ -1,6 +1,7 @@
 const writeOdsUtils = require('../../utils/ods/write-ods-utils');
 const readOdsUtils = require('../../utils/ods/read-ods-utils');
 const sessionXmlService = require('../../../domain/services/session-xml-service');
+const { featureToggles } = require('../../../../lib/config');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
@@ -11,13 +12,18 @@ const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
 
-module.exports = async function fillCandidatesImportSheet(session) {
+module.exports = async function fillCandidatesImportSheet(session, certificationCenterHabilitations) {
   const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath() });
 
   const sessionData = SessionData.fromSession(session);
   const candidatesData = _getCandidatesData(session.certificationCandidates);
 
-  const updatedStringifiedXml = _updateXml(stringifiedXml, sessionData, candidatesData);
+  const updatedStringifiedXml = _updateXml(
+    stringifiedXml,
+    sessionData,
+    candidatesData,
+    certificationCenterHabilitations
+  );
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({
     stringifiedXml: updatedStringifiedXml,
@@ -25,13 +31,21 @@ module.exports = async function fillCandidatesImportSheet(session) {
   });
 };
 
-function _updateXml(stringifiedXml, sessionData, candidatesData) {
-  const updatedStringifiedXml = sessionXmlService.getUpdatedXmlWithSessionData({
+function _updateXml(stringifiedXml, sessionData, candidatesData, certificationCenterHabilitations) {
+  let updatedStringifiedXml = sessionXmlService.getUpdatedXmlWithSessionData({
     stringifiedXml,
     sessionData,
     sessionTemplateValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
   });
 
+  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
+    if (!_.isEmpty(certificationCenterHabilitations)) {
+      updatedStringifiedXml = sessionXmlService.addAdditionalTableHeaders({
+        stringifiedXml: updatedStringifiedXml,
+        certificationCenterHabilitations,
+      });
+    }
+  }
   return sessionXmlService.getUpdatedXmlWithCertificationCandidatesData({
     stringifiedXml: updatedStringifiedXml,
     candidatesData,
@@ -89,6 +103,7 @@ class CandidateData {
     userId = null,
     schoolingRegistrationId = null,
     number = null,
+    complementaryCertifications = null,
   }) {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
@@ -112,6 +127,14 @@ class CandidateData {
     this.sessionId = this._emptyStringIfNull(sessionId);
     this.userId = this._emptyStringIfNull(userId);
     this.schoolingRegistrationId = this._emptyStringIfNull(schoolingRegistrationId);
+    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
+      complementaryCertifications,
+      'CléA Numérique'
+    );
+    this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
+      complementaryCertifications,
+      'Pix+ Droit'
+    );
     this.count = number;
     this._clearBirthInformationDataForExport();
   }
@@ -133,6 +156,16 @@ class CandidateData {
     if (this.birthINSEECode && this.birthINSEECode !== FRANCE_COUNTRY_CODE) {
       this.birthINSEECode = '99';
     }
+  }
+
+  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationLabel) {
+    if (!complementaryCertifications) {
+      return '';
+    }
+    const hasComplementaryCertification = complementaryCertifications.some(
+      (complementaryCertification) => complementaryCertification.name === certificationLabel
+    );
+    return hasComplementaryCertification ? 'oui' : '';
   }
 
   static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number) {
