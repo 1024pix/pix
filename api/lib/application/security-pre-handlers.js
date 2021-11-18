@@ -3,6 +3,7 @@ const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePix
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const Organization = require('../../lib/domain/models/Organization');
@@ -137,6 +138,29 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   return _replyForbiddenError(h);
 }
 
+async function checkUserBelongsToSupOrganizationAndManagesStudents(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+
+  let belongsToSupOrganizationAndManageStudents;
+  try {
+    belongsToSupOrganizationAndManageStudents =
+      await checkUserBelongsToSupOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
+  } catch (err) {
+    return _replyForbiddenError(h);
+  }
+
+  if (belongsToSupOrganizationAndManageStudents) {
+    return h.response(true);
+  }
+
+  return _replyForbiddenError(h);
+}
+
 async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
@@ -182,6 +206,7 @@ module.exports = {
   checkUserBelongsToOrganizationOrHasRolePixMaster,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
+  checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInSCOOrganizationManagingStudents,
