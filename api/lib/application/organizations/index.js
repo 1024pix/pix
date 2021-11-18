@@ -178,8 +178,7 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-            assign: 'isAdminInOrganizationManagingStudents',
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
           },
         ],
         validate: {
@@ -199,7 +198,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/groups',
       config: {
-        pre: [{ method: securityPreHandlers.checkUserIsAdminInOrganization }],
+        pre: [{ method: securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents }],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,

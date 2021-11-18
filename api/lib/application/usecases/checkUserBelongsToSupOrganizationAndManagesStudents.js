@@ -9,7 +9,7 @@ module.exports = {
     });
 
     return memberships.some(
-      (membership) => membership.organization.isManagingStudents && membership.organization.isSco
+      (membership) => membership.organization.isManagingStudents && membership.organization.isSup
     );
   },
 };
