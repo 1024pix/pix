@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.129.0 (18/11/2021)
+
+
+### :rocket: Enhancement
+- [#3729](https://github.com/1024pix/pix/pull/3729) [FEATURE] Modifier la description d'un profil cible depuis Pix Admin (PIX-3763)
+- [#3736](https://github.com/1024pix/pix/pull/3736) [FEATURE] Bloquer l'accès à une session pour un candidat qui a déjà accédé à la session (PIX-3846)
+- [#3737](https://github.com/1024pix/pix/pull/3737) [FEATURE]  Ajoute le user agent a la table feedbacks (PIX-3831)
+- [#3732](https://github.com/1024pix/pix/pull/3732) [FEATURE] Afficher les candidats ayant démarré leur test dans l'espace surveillant (PIX-3657)
+
+### :building_construction: Tech
+- [#3723](https://github.com/1024pix/pix/pull/3723) [TECH] Synchroniser le workflow Jira avec celui des PR Github (PIX-3828).
+- [#3728](https://github.com/1024pix/pix/pull/3728) [TECH] Ajouter updatedAt dans la table certification-centers (PIX-3680).
+- [#3743](https://github.com/1024pix/pix/pull/3743) [TECH] Supprimer le logging des query params lors des logs de requêtes Knex.
+- [#3742](https://github.com/1024pix/pix/pull/3742) [TECH] Enrichir la documentation des variables d'environnement du monitoring.
+
+### :bug: Bug fix
+- [#3749](https://github.com/1024pix/pix/pull/3749) [BUGFIX] Supprimer les souscriptions aux certifications complémentaires (PIX-3856).
+- [#3740](https://github.com/1024pix/pix/pull/3740) [BUGFIX] Vérifier que l'utilisateur est membre de l'organisation afin de pouvoir filtrer sur les groupes (PIX-3832)
+- [#3748](https://github.com/1024pix/pix/pull/3748) [BUGFIX] Réparer la page pour rejoindre une organisation (PIX-3860)
+- [#3739](https://github.com/1024pix/pix/pull/3739) [BUGFIX] Corriger les URL vers le support dans les emails transactionnels (PIX-3851).
+- [#3741](https://github.com/1024pix/pix/pull/3741) [BUGFIX] Le path de la route n'est plus journalisé.
+
 ## v3.128.0 (16/11/2021)
 
 
