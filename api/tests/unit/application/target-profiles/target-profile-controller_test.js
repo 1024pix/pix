@@ -4,11 +4,11 @@ const usecases = require('../../../../lib/domain/usecases');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
 describe('Unit | Controller | target-profile-controller', function () {
-  describe('#updateTargetProfileName', function () {
+  describe('#updateTargetProfile', function () {
     let request;
 
     beforeEach(function () {
-      sinon.stub(usecases, 'updateTargetProfileName');
+      sinon.stub(usecases, 'updateTargetProfile');
 
       request = {
         params: {
@@ -18,6 +18,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           data: {
             attributes: {
               name: 'Pixer123',
+              description: 'description changée',
             },
           },
         },
@@ -27,19 +28,16 @@ describe('Unit | Controller | target-profile-controller', function () {
     context('successful case', function () {
       it('should succeed', async function () {
         // when
-        const response = await targetProfileController.updateTargetProfileName(request, hFake);
+        const response = await targetProfileController.updateTargetProfile(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(204);
-      });
-
-      it('should update target profile name', async function () {
-        // when
-        await targetProfileController.updateTargetProfileName(request, hFake);
-
-        // then
-        expect(usecases.updateTargetProfileName).to.have.been.calledOnce;
-        expect(usecases.updateTargetProfileName).to.have.been.calledWithMatch({ id: 123, name: 'Pixer123' });
+        expect(usecases.updateTargetProfile).to.have.been.calledOnce;
+        expect(usecases.updateTargetProfile).to.have.been.calledWithMatch({
+          id: 123,
+          name: 'Pixer123',
+          description: 'description changée',
+        });
       });
     });
   });
