@@ -695,6 +695,20 @@ describe('Integration | Repository | Target-profile', function () {
       expect(name).to.equal(targetProfile.name);
     });
 
+    it('should update the target profile description', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.description = 'Je change la description';
+      await targetProfileRepository.update(targetProfile);
+
+      // then
+      const { description } = await knex('target-profiles').select('description').where('id', targetProfile.id).first();
+      expect(description).to.equal(targetProfile.description);
+    });
+
     it('should outdate the target profile', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ outdated: true });

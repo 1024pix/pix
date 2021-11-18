@@ -1,6 +1,6 @@
 <section class="page-section mb_10">
   <div class="organization__edit-form">
-    <form class="form" {{on "submit" this.updateProfileName}}>
+    <form class="form" {{on "submit" this.updateProfile}}>
 
       <span class="form__instructions">
         Les champs marqués de
@@ -24,6 +24,22 @@
           class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.name}}
           required={{true}}
+        />
+
+        <label for="targetProfileDescription" class="form-field__label">
+          Description
+        </label>
+        {{#if (v-get this.form "description" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "description" "message"}}
+          </div>
+        {{/if}}
+        <PixTextarea
+          id="targetProfileDescription"
+          rows="4"
+          @maxlength="500"
+          class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
+          @value={{this.form.description}}
         />
       </div>
       <div class="form-actions">

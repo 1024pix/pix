@@ -458,9 +458,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(targetProfileController, 'updateTargetProfileName')
-        .callsFake((request, h) => h.response('ok').code(204));
+      sinon.stub(targetProfileController, 'updateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -469,6 +467,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
         data: {
           attributes: {
             name: 'test',
+            description: 'description changée.',
           },
         },
       };
@@ -481,7 +480,31 @@ describe('Integration | Application | Target Profiles | Routes', function () {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a 400 error when payload does not exist', async function () {
+    it('should return a 400 error when description is over than 500 characters', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      const description = 'description changée.';
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'PATCH';
+      const payload = {
+        data: {
+          attributes: {
+            name: 'test',
+            description: description.repeat(26),
+          },
+        },
+      };
+      const url = '/api/admin/target-profiles/123';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return a 400 error when the name is not defined', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -509,6 +532,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
         data: {
           attributes: {
             name: 'Not Pix Admin',
+            description: null,
           },
         },
       };

@@ -224,15 +224,16 @@ exports.register = async (server) => {
             data: {
               attributes: {
                 name: Joi.string().required().min(1),
+                description: Joi.string().required().allow(null).max(500),
               },
             },
           }).options({ allowUnknown: true }),
         },
-        handler: targetProfileController.updateTargetProfileName,
+        handler: targetProfileController.updateTargetProfile,
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-            "- Elle permet de mettre à jour le nom d'un profil cible",
+            "- Elle permet de mettre à jour les attributs d'un profil cible",
         ],
       },
     },
