@@ -9,6 +9,7 @@ class TargetProfileWithLearningContent {
     createdAt,
     ownerOrganizationId,
     description,
+    comment,
     skills = [],
     tubes = [],
     competences = [],
@@ -24,6 +25,7 @@ class TargetProfileWithLearningContent {
     this.createdAt = createdAt;
     this.ownerOrganizationId = ownerOrganizationId;
     this.description = description;
+    this.comment = comment;
     this.skills = skills;
     this.tubes = tubes;
     this.competences = competences;
