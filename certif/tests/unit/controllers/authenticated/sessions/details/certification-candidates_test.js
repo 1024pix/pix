@@ -33,17 +33,17 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     });
   });
 
-  module('#get displayComplementaryCertification', function() {
+  module('#get shouldDisplayComplementaryCertifications', function() {
     test('should return false if feature toggle is false', function(assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', false);
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
-      const displayComplementaryCertification = controller.displayComplementaryCertification;
+      const shouldDisplayComplementaryCertifications = controller.shouldDisplayComplementaryCertifications;
 
       // then
-      assert.false(displayComplementaryCertification);
+      assert.false(shouldDisplayComplementaryCertifications);
     });
 
     test('should return true if feature toggle is true', function(assert) {
@@ -52,10 +52,10 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
-      const displayComplementaryCertification = controller.displayComplementaryCertification;
+      const shouldDisplayComplementaryCertifications = controller.shouldDisplayComplementaryCertifications;
 
       // then
-      assert.true(displayComplementaryCertification);
+      assert.true(shouldDisplayComplementaryCertifications);
     });
   });
 });
