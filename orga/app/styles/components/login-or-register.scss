@@ -1,24 +1,20 @@
 .login-or-register {
   margin: 20px 0;
-  vertical-align: top;
 
   &__panel {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 97vw;
-    max-width: 880px;
     border-radius: 10px;
-    padding: 20px 10px;
-
-    @include device-is('large-screen') {
-      width: 100vw;
-      padding: 40px 100px;
+    align-items: center;
+    padding: 20px 2px;
+    
+    @include device-is('tablet') {
+      padding: 20px;
     }
 
-    @include device-is('mobile') {
-      align-items: center;
-      padding: 20px 2px;
+    @include device-is('large-screen') {
+      padding: 40px 100px;
     }
   }
 }
@@ -61,13 +57,22 @@
     flex-direction: column;
 
     @include device-is('tablet') {
-      width: 360px;
+      min-width: 360px;
     }
   }
 
   &__divider {
     margin-top: 30px;
     border-left: 1px solid $grey-30;
+
+    @include device-is('tablet') {
+      margin: 30px;
+      margin-bottom: 0;
+    }
+
+    @include device-is('large-screen') {
+      margin: 30px 60px 0 60px;
+    }
   }
 }
 
