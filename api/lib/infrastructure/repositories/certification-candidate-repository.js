@@ -172,6 +172,16 @@ module.exports = {
 
     return anyLinkedCandidateInSession !== null;
   },
+
+  async update(certificationCandidate) {
+    const result = await knex('certification-candidates')
+      .where({ id: certificationCandidate.id })
+      .update({ authorizedToStart: certificationCandidate.authorizedToStart });
+
+    if (result === 0) {
+      throw new NotFoundError('Aucun candidat trouvé');
+    }
+  },
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
