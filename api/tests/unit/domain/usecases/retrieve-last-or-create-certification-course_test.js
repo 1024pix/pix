@@ -38,7 +38,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     assessmentRepository = { save: sinon.stub() };
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
-    certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
+    certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub(), update: sinon.stub() };
     certificationChallengeRepository = { save: sinon.stub() };
     certificationChallengesService = {
       pickCertificationChallengesForPixPlus: sinon.stub(),
@@ -142,52 +142,108 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
       context(
         'when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is active and the candidate IS NOT authorized',
         function () {
-          it('should throw a CandidateNotAuthorizedToJoinSessionError', async function () {
-            // given
-            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
-            const sessionId = 1;
-            const accessCode = 'accessCode';
-            const userId = 2;
-            const domainTransaction = Symbol('someDomainTransaction');
+          context('when the user joins the session', function () {
+            it('should throw a CandidateNotAuthorizedToJoinSessionError', async function () {
+              // given
+              sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+              const sessionId = 1;
+              const accessCode = 'accessCode';
+              const userId = 2;
+              const domainTransaction = Symbol('someDomainTransaction');
 
-            const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
-            sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+              const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+              sessionRepository.get.withArgs(sessionId).resolves(foundSession);
 
-            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId, sessionId, domainTransaction })
-              .resolves(null);
+              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                .withArgs({ userId, sessionId, domainTransaction })
+                .resolves(null);
 
-            const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-              userId,
-              sessionId,
-              authorizedToStart: false,
+              const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                userId,
+                sessionId,
+                authorizedToStart: false,
+              });
+              certificationCandidateRepository.getBySessionIdAndUserId
+                .withArgs({ sessionId, userId })
+                .resolves(foundCertificationCandidate);
+
+              // when
+              const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                domainTransaction,
+                sessionId,
+                accessCode,
+                userId,
+                locale: 'fr',
+                assessmentRepository,
+                competenceRepository,
+                certificationCandidateRepository,
+                certificationChallengeRepository,
+                certificationCourseRepository,
+                sessionRepository,
+                certificationCenterRepository,
+                certificationBadgesService,
+                certificationChallengesService,
+                placementProfileService,
+                verifyCertificateCodeService,
+              });
+
+              // then
+              expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToJoinSessionError);
             });
-            certificationCandidateRepository.getBySessionIdAndUserId
-              .withArgs({ sessionId, userId })
-              .resolves(foundCertificationCandidate);
+          });
 
-            // when
-            const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              domainTransaction,
-              sessionId,
-              accessCode,
-              userId,
-              locale: 'fr',
-              assessmentRepository,
-              competenceRepository,
-              certificationCandidateRepository,
-              certificationChallengeRepository,
-              certificationCourseRepository,
-              sessionRepository,
-              certificationCenterRepository,
-              certificationBadgesService,
-              certificationChallengesService,
-              placementProfileService,
-              verifyCertificateCodeService,
+          context('when the user joins the session again', function () {
+            it('should throw a CandidateNotAuthorizedToJoinSessionError', async function () {
+              // given
+              sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+              const sessionId = 1;
+              const accessCode = 'accessCode';
+              const userId = 2;
+              const domainTransaction = Symbol('someDomainTransaction');
+
+              const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+              sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+              const foundCertificationCourse = domainBuilder.buildCertificationCourse({
+                userId,
+                sessionId,
+              });
+              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                .withArgs({ userId, sessionId, domainTransaction })
+                .resolves(foundCertificationCourse);
+
+              const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                userId,
+                sessionId,
+                authorizedToStart: false,
+              });
+              certificationCandidateRepository.getBySessionIdAndUserId
+                .withArgs({ sessionId, userId })
+                .resolves(foundCertificationCandidate);
+
+              // when
+              const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                domainTransaction,
+                sessionId,
+                accessCode,
+                userId,
+                locale: 'fr',
+                assessmentRepository,
+                competenceRepository,
+                certificationCandidateRepository,
+                certificationChallengeRepository,
+                certificationCourseRepository,
+                sessionRepository,
+                certificationCenterRepository,
+                certificationBadgesService,
+                certificationChallengesService,
+                placementProfileService,
+                verifyCertificateCodeService,
+              });
+
+              // then
+              expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToJoinSessionError);
             });
-
-            // then
-            expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToJoinSessionError);
           });
         }
       );
@@ -197,7 +253,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         });
 
         context('when a certification course with provided userId and sessionId already exists', function () {
-          it('should return it with flag created marked as false', async function () {
+          it('should allow access and block future access', async function () {
             // given
             const sessionId = 1;
             const accessCode = 'accessCode';
@@ -211,6 +267,19 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId, sessionId, domainTransaction })
               .resolves(existingCertificationCourse);
+
+            const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+              userId,
+              sessionId,
+              authorizedToStart: true,
+            });
+            certificationCandidateRepository.getBySessionIdAndUserId
+              .withArgs({ sessionId, userId })
+              .resolves(foundCertificationCandidate);
+            certificationCandidateRepository.update.withArgs({
+              ...foundCertificationCandidate,
+              authorizedToStart: false,
+            });
 
             // when
             const result = await retrieveLastOrCreateCertificationCourse({
@@ -240,6 +309,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             expect(certificationCourseRepository.save).not.to.have.been.called;
             expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
+            expect(certificationCandidateRepository.update).to.have.been.calledOnce;
           });
         });
 
