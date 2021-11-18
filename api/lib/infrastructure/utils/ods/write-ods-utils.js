@@ -37,6 +37,46 @@ function updateXmlRows({ stringifiedXml, rowMarkerPlaceholder, rowTemplateValues
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
 
+function addCellToEndOfLineWithStyleOfCellLabelled({ stringifiedXml, lineNumber, cellToCopyLabel, addedCellOption }) {
+  const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
+  const cellToCopy = _getXmlDomElementByText(parsedXmlDom, cellToCopyLabel).parentNode;
+  const clonedCell = _deepCloneDomElement(cellToCopy);
+
+  _updateCellTextContent({ clonedCell, textContent: addedCellOption.labels });
+
+  if (addedCellOption.rowspan) {
+    clonedCell.setAttribute('table:number-rows-spanned', addedCellOption.rowspan);
+  }
+  if (addedCellOption.colspan) {
+    clonedCell.setAttribute('table:number-columns-spanned', addedCellOption.colspan);
+  }
+
+  _addCellToEndOfLine({
+    parsedXmlDom,
+    lineNumber,
+    cell: clonedCell,
+    positionOffset: addedCellOption.positionOffset ? addedCellOption.positionOffset : 1,
+  });
+
+  return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
+}
+
+function _updateCellTextContent({ clonedCell, textContent }) {
+  const textNode = clonedCell.getElementsByTagName('text:p').item(0);
+  _updateStringXmlElement(textNode.childNodes.item(0), textContent[0]);
+  for (let i = 1; i < textContent.length; i++) {
+    const clonedTextNode = _deepCloneDomElement(textNode);
+    _updateStringXmlElement(clonedTextNode.childNodes.item(0), textContent[i]);
+    clonedCell.appendChild(clonedTextNode);
+  }
+}
+
+function _addCellToEndOfLine({ parsedXmlDom, lineNumber, cell, positionOffset }) {
+  const line = Array.from(parsedXmlDom.getElementsByTagName('table:table-row'))[lineNumber];
+  const lineChildNodes = Array.from(line.childNodes);
+  line.insertBefore(cell, lineChildNodes[lineChildNodes.length - positionOffset]);
+}
+
 function _getRefRowAndContainerDomElements(parsedXmlDom, rowMarkerPlaceholder) {
   const referenceRowElement = _getXmlDomElementByText(parsedXmlDom, rowMarkerPlaceholder).parentNode.parentNode;
   return {
@@ -133,4 +173,5 @@ module.exports = {
   makeUpdatedOdsByContentXml,
   updateXmlSparseValues,
   updateXmlRows,
+  addCellToEndOfLineWithStyleOfCellLabelled,
 };
