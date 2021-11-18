@@ -44,6 +44,6 @@ export default class CertificationCandidatesController extends Controller {
   }
 
   get shouldDisplayComplementaryCertifications() {
-    return this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled;
+    return this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled && this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations;
   }
 }

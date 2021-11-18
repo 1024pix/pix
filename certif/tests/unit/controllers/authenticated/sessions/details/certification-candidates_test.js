@@ -4,6 +4,11 @@ import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/sessions/details/certification-candidates', function(hooks) {
   setupTest(hooks);
+  let store;
+
+  hooks.beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
 
   module('#computed hasOneOrMoreCandidates()', function() {
     test('It should return true when has one or more candidates', function(assert) {
@@ -34,9 +39,10 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
   });
 
   module('#get shouldDisplayComplementaryCertifications', function() {
-    test('should return false if feature toggle is false', function(assert) {
+    test('should return false if feature toggle is false and center has complementary certifications', function(assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', false);
+      _stubCurrentCenterHabilitations(this, store, ['Pix+Droit']);
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
@@ -46,9 +52,23 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       assert.false(shouldDisplayComplementaryCertifications);
     });
 
-    test('should return true if feature toggle is true', function(assert) {
+    test('should return false if feature toggle is true and center has no complementary certifications', function(assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', true);
+      _stubCurrentCenterHabilitations(this, store, []);
+      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
+
+      // when
+      const shouldDisplayComplementaryCertifications = controller.shouldDisplayComplementaryCertifications;
+
+      // then
+      assert.false(shouldDisplayComplementaryCertifications);
+    });
+
+    test('should return true if feature toggle is true and center has complementary certifications', function(assert) {
+      // given
+      _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', true);
+      _stubCurrentCenterHabilitations(this, store, ['Pix+Edu']);
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
@@ -67,4 +87,14 @@ function _stubFeatureToggle(controller, featureToggleName, featureToggleValue) {
     featureToggles = featureToggles;
   }
   controller.owner.register('service:feature-toggles', FeatureTogglesStub);
+}
+
+function _stubCurrentCenterHabilitations(controller, store, habilitations) {
+  const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+    habilitations,
+  });
+  class CurrentUserStub extends Service {
+    currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+  }
+  controller.owner.register('service:current-user', CurrentUserStub);
 }
