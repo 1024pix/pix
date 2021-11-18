@@ -4,7 +4,6 @@ const certificationCandidateRepository = require('../../../../lib/infrastructure
 const {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
-  CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../../../lib/domain/errors');
 const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
@@ -170,13 +169,27 @@ describe('Integration | Repository | CertificationCandidate', function () {
       });
     });
 
-    context('when the record to delete is not in the table', function () {
-      it('should throw a CertificationCandidateDeletionError', async function () {
+    context('when the candidate has complementary certification subscriptions', function () {
+      it('should delete both candidate and subscription', async function () {
+        // given
+        const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate().id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId,
+          certificationCandidateId,
+        });
+        await databaseBuilder.commit();
+
         // when
-        const result = await catchErr(certificationCandidateRepository.delete)(-1);
+        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateId);
 
         // then
-        expect(result).to.be.instanceOf(CertificationCandidateDeletionError);
+        const complementaryCertificationSubscriptions = await knex
+          .select()
+          .from('complementary-certification-subscriptions')
+          .first();
+        expect(complementaryCertificationSubscriptions).to.be.undefined;
+        expect(isDeleted).to.be.true;
       });
     });
   });
