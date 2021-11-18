@@ -10,6 +10,7 @@ const {
   updateXmlRows,
   updateXmlSparseValues,
   addCellToEndOfLineWithStyleOfCellLabelled,
+  incrementRowsColumnSpan,
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 const AddedCellOption = require('../../../../../lib/infrastructure/utils/ods/added-cell-option');
 
@@ -468,6 +469,81 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
           '</xml>';
         expect(result).to.deep.equal(updatedStringifiedXml);
       });
+    });
+  });
+
+  describe('#incrementRowsColumnSpan', function () {
+    it('should increment column span of last cell of rows from a line number to another', function () {
+      // given
+      const stringifiedXml =
+        '<xml xmlns:table="" xmlns:text="">' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="5">' +
+        '<text:p>Title</text:p>' +
+        '</table:table-cell>' +
+        '</table:table-row>' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="3">' +
+        '<text:p>Cell 1</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-spanned="2">' +
+        '<text:p>Cell 2</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-repeated="10"/>' +
+        '</table:table-row>' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="5">' +
+        '<text:p>Cell 3</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-repeated="10"/>' +
+        '</table:table-row>' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="5">' +
+        '<text:p>Cell 4</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-repeated="10"/>' +
+        '</table:table-row>' +
+        '</xml>';
+
+      // when
+      const result = incrementRowsColumnSpan({
+        stringifiedXml,
+        startLine: 1,
+        endLine: 2,
+        increment: 2,
+      });
+
+      // then
+      const updatedStringifiedXml =
+        '<xml xmlns:table="" xmlns:text="">' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="5">' +
+        '<text:p>Title</text:p>' +
+        '</table:table-cell>' +
+        '</table:table-row>' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="3">' +
+        '<text:p>Cell 1</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-spanned="4">' +
+        '<text:p>Cell 2</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-repeated="10"/>' +
+        '</table:table-row>' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="7">' +
+        '<text:p>Cell 3</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-repeated="10"/>' +
+        '</table:table-row>' +
+        '<table:table-row>' +
+        '<table:table-cell table:number-columns-spanned="5">' +
+        '<text:p>Cell 4</text:p>' +
+        '</table:table-cell>' +
+        '<table:table-cell table:number-columns-repeated="10"/>' +
+        '</table:table-row>' +
+        '</xml>';
+      expect(result).to.deep.equal(updatedStringifiedXml);
     });
   });
 });

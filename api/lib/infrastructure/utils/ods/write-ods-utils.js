@@ -37,6 +37,25 @@ function updateXmlRows({ stringifiedXml, rowMarkerPlaceholder, rowTemplateValues
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
 
+function incrementRowsColumnSpan({ stringifiedXml, startLine, endLine, increment }) {
+  const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
+  const rows = Array.from(parsedXmlDom.getElementsByTagName('table:table-row'));
+
+  for (let i = startLine; i <= endLine; i++) {
+    const element = Array.from(rows[i].getElementsByTagName('table:table-cell'))
+      .reverse()
+      .find((element) => element.hasAttribute('table:number-columns-spanned'));
+    if (element) {
+      element.setAttribute(
+        'table:number-columns-spanned',
+        parseInt(element.getAttribute('table:number-columns-spanned')) + increment
+      );
+    }
+  }
+
+  return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
+}
+
 function addCellToEndOfLineWithStyleOfCellLabelled({ stringifiedXml, lineNumber, cellToCopyLabel, addedCellOption }) {
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   const cellToCopy = _getXmlDomElementByText(parsedXmlDom, cellToCopyLabel).parentNode;
@@ -174,4 +193,5 @@ module.exports = {
   updateXmlSparseValues,
   updateXmlRows,
   addCellToEndOfLineWithStyleOfCellLabelled,
+  incrementRowsColumnSpan,
 };
