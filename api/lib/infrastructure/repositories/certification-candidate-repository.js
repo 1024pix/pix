@@ -63,12 +63,12 @@ module.exports = {
   },
 
   async delete(certificationCandidateId) {
-    try {
-      await CertificationCandidateBookshelf.where({ id: certificationCandidateId }).destroy({ require: true });
-      return true;
-    } catch (err) {
-      throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
-    }
+    await knex.transaction(async (trx) => {
+      await trx('complementary-certification-subscriptions').where({ certificationCandidateId }).del();
+      return trx('certification-candidates').where({ id: certificationCandidateId }).del();
+    });
+
+    return true;
   },
 
   async isNotLinked(certificationCandidateId) {
