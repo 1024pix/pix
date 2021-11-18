@@ -12,7 +12,12 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
   let expectedOdsFilePath;
   let actualOdsFilePath;
 
-  beforeEach(async function () {
+  afterEach(async function () {
+    await unlink(actualOdsFilePath);
+  });
+
+  it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+    // given
     expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template.ods`;
     actualOdsFilePath = `${__dirname}/1.5/candidates_import_template.tmp.ods`;
 
@@ -106,13 +111,6 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     );
 
     await databaseBuilder.commit();
-  });
-
-  afterEach(async function () {
-    await unlink(actualOdsFilePath);
-  });
-
-  it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
     // when
     const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
     const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);
