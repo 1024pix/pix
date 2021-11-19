@@ -2,7 +2,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const { expect } = require('../../../../test-helper');
 const SkillSet = require('../../../../../lib/domain/models/SkillSet');
 
-describe.only('Unit | Serializer | JSONAPI | skill-set-serializer', function () {
+describe('Unit | Serializer | JSONAPI | skill-set-serializer', function () {
   describe('#serialize', function () {
     it('should convert a SkillSet model object into JSON API data', function () {
       // given
