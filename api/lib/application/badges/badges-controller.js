@@ -15,4 +15,8 @@ module.exports = {
     const savedBadgeCriterion = await usecases.createBadgeCriterion({ badgeId, badgeCriterion });
     return h.response(badgeCriteriaSerializer.serialize(savedBadgeCriterion));
   },
+
+  async createSkillSet(request, h) {
+    return h.response('ok');
+  },
 };
