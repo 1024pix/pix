@@ -23,4 +23,14 @@ export default class OrganizationInvitationAdapter extends ApplicationAdapter {
       return response;
     });
   }
+
+  queryRecord(store, type, queryParams) {
+    if (queryParams.organizationId) {
+      return this.ajax(
+        `${this.host}/${this.namespace}/organizations/${queryParams.organizationId}/invitations/${queryParams.organizationInvitationId}/cancel`,
+        'PUT'
+      );
+    }
+    return super.queryRecord(...arguments);
+  }
 }
