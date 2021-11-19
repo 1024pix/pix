@@ -33,6 +33,7 @@ module('Acceptance | Invitations list', function (hooks) {
 
     // then
     assert.notContains('gigi@example.net');
+    assert.contains('Invitations (-)');
     assert.ok(true);
   });
 });
