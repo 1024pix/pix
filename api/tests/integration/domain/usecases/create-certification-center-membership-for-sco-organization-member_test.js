@@ -6,9 +6,9 @@ const certificationCenterMembershipRepository = require('../../../../lib/infrast
 
 const Membership = require('../../../../lib/domain/models/Membership');
 
-const createCertificationCenterMembershipForScoOrganization = require('../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization');
+const createCertificationCenterMembershipForScoOrganizationMember = require('../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-member');
 
-describe('Integration | UseCases | create-certification-center-membership-for-sco-organization', function () {
+describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
   afterEach(function () {
     return knex('certification-center-memberships').delete();
   });
@@ -36,7 +36,7 @@ describe('Integration | UseCases | create-certification-center-membership-for-sc
         });
 
         // when
-        await createCertificationCenterMembershipForScoOrganization({
+        await createCertificationCenterMembershipForScoOrganizationMember({
           membership: givenMembership,
           membershipRepository,
           certificationCenterRepository,
@@ -80,7 +80,7 @@ describe('Integration | UseCases | create-certification-center-membership-for-sc
       });
 
       // when
-      await createCertificationCenterMembershipForScoOrganization({
+      await createCertificationCenterMembershipForScoOrganizationMember({
         membership: givenMembership,
         membershipRepository,
         certificationCenterRepository,

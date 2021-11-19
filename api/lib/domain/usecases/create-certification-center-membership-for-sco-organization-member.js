@@ -1,4 +1,4 @@
-module.exports = async function createCertificationCenterMembershipForScoOrganization({
+module.exports = async function createCertificationCenterMembershipForScoOrganizationMember({
   membership,
   membershipRepository,
   certificationCenterRepository,
