@@ -1,8 +1,8 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { createCertificationCenterMembershipForScoOrganization } = require('../../../../lib/domain/usecases');
+const { createCertificationCenterMembershipForScoOrganizationMember } = require('../../../../lib/domain/usecases');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | UseCase | create-certification-center-membership-for-sco-organization', function () {
+describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   let membershipRepository;
   let certificationCenterRepository;
   let certificationCenterMembershipRepository;
@@ -47,7 +47,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
               .resolves(true);
 
             // when
-            await createCertificationCenterMembershipForScoOrganization({
+            await createCertificationCenterMembershipForScoOrganizationMember({
               membership: givenMembership,
               membershipRepository,
               certificationCenterRepository,
@@ -83,7 +83,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
               .resolves(false);
 
             // when
-            await createCertificationCenterMembershipForScoOrganization({
+            await createCertificationCenterMembershipForScoOrganizationMember({
               membership: givenMembership,
               membershipRepository,
               certificationCenterRepository,
@@ -117,7 +117,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
           certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(null);
 
           // when
-          await createCertificationCenterMembershipForScoOrganization({
+          await createCertificationCenterMembershipForScoOrganizationMember({
             membership: givenMembership,
             membershipRepository,
             certificationCenterRepository,
@@ -148,7 +148,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
         membershipRepository.get.withArgs(givenMembership.id).resolves(existingMembership);
 
         // when
-        await createCertificationCenterMembershipForScoOrganization({
+        await createCertificationCenterMembershipForScoOrganizationMember({
           membership: givenMembership,
           membershipRepository,
           certificationCenterRepository,
@@ -178,7 +178,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
         membershipRepository.get.withArgs(givenMembership.id).resolves(existingMembership);
 
         // when
-        await createCertificationCenterMembershipForScoOrganization({
+        await createCertificationCenterMembershipForScoOrganizationMember({
           membership: givenMembership,
           membershipRepository,
           certificationCenterRepository,
@@ -210,7 +210,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
       membershipRepository.get.withArgs(givenMembership.id).resolves(existingMembership);
 
       // when
-      await createCertificationCenterMembershipForScoOrganization({
+      await createCertificationCenterMembershipForScoOrganizationMember({
         membership: givenMembership,
         membershipRepository,
         certificationCenterRepository,

@@ -9,7 +9,7 @@ module.exports = {
     const organizationId = request.payload.data.relationships.organization.data.id;
 
     const membership = await usecases.createMembership({ userId, organizationId });
-    await usecases.createCertificationCenterMembershipForScoOrganization({ membership });
+    await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
     return h.response(membershipSerializer.serialize(membership)).created();
   },
@@ -26,7 +26,7 @@ module.exports = {
     membership.updatedByUserId = userId;
 
     const updatedMembership = await usecases.updateMembership({ membership });
-    await usecases.createCertificationCenterMembershipForScoOrganization({ membership });
+    await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
     return h.response(membershipSerializer.serialize(updatedMembership));
   },

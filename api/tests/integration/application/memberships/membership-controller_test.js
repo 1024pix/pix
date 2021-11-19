@@ -11,7 +11,7 @@ describe('Integration | Application | Memberships | membership-controller', func
   beforeEach(async function () {
     sinon.stub(usecases, 'createMembership');
     sinon.stub(usecases, 'updateMembership');
-    sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganization');
+    sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember');
     sinon.stub(usecases, 'disableMembership');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
@@ -38,7 +38,7 @@ describe('Integration | Application | Memberships | membership-controller', func
           const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
 
           usecases.createMembership.resolves(membership);
-          usecases.createCertificationCenterMembershipForScoOrganization
+          usecases.createCertificationCenterMembershipForScoOrganizationMember
             .withArgs({ membership })
             .resolves(certificationCenterMembership);
 
@@ -58,7 +58,9 @@ describe('Integration | Application | Memberships | membership-controller', func
           const membership = domainBuilder.buildMembership();
 
           usecases.createMembership.resolves(membership);
-          usecases.createCertificationCenterMembershipForScoOrganization.withArgs({ membership }).resolves(undefined);
+          usecases.createCertificationCenterMembershipForScoOrganizationMember
+            .withArgs({ membership })
+            .resolves(undefined);
 
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
@@ -117,7 +119,7 @@ describe('Integration | Application | Memberships | membership-controller', func
           const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
 
           usecases.updateMembership.withArgs({ membership }).resolves(updatedMembership);
-          usecases.createCertificationCenterMembershipForScoOrganization
+          usecases.createCertificationCenterMembershipForScoOrganizationMember
             .withArgs({ membership })
             .resolves(certificationCenterMembership);
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
@@ -159,7 +161,9 @@ describe('Integration | Application | Memberships | membership-controller', func
             organizationRole: Membership.roles.MEMBER,
           });
           usecases.updateMembership.withArgs({ membership }).resolves(updatedMembership);
-          usecases.createCertificationCenterMembershipForScoOrganization.withArgs({ membership }).resolves(undefined);
+          usecases.createCertificationCenterMembershipForScoOrganizationMember
+            .withArgs({ membership })
+            .resolves(undefined);
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
           // when
