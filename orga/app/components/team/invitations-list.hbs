@@ -8,21 +8,23 @@
     </thead>
     <tbody>
       {{#each @invitations as |invitation|}}
-        <tr aria-label="{{t "pages.team-invitations.table.row.aria-label"}}">
-          <td>{{invitation.email}}</td>
-          <td class="hide-on-mobile" colspan="3">
-            {{t "pages.team-invitations.table.row.message"}}
-            {{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
-          </td>
-          <td>
-            <PixIconButton
-              @ariaLabel="Supprimer l’invitation"
-              @icon="trash-alt"
-              @triggerAction={{fn this.cancelInvitation invitation}}
-              @withBackground={{true}}
-            />
-          </td>
-        </tr>
+        {{#if invitation.isPending}}
+          <tr aria-label="{{t "pages.team-invitations.table.row.aria-label"}}">
+            <td>{{invitation.email}}</td>
+            <td class="hide-on-mobile" colspan="3">
+              {{t "pages.team-invitations.table.row.message"}}
+              {{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
+            </td>
+            <td>
+              <PixIconButton
+                @ariaLabel="Supprimer l’invitation"
+                @icon="trash-alt"
+                @triggerAction={{fn this.cancelInvitation invitation}}
+                @withBackground={{true}}
+              />
+            </td>
+          </tr>
+        {{/if}}
       {{/each}}
     </tbody>
   </table>

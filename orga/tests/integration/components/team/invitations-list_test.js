@@ -17,8 +17,8 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
   test('it should list the pending team invitations', async function (assert) {
     // given
     this.set('invitations', [
-      { email: 'gigi@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
-      { email: 'gogo@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
+      { email: 'gigi@example.net', isPending: true, updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
+      { email: 'gogo@example.net', isPending: true, updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
     ]);
 
     // when
@@ -32,7 +32,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     // given
     const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
 
-    this.set('invitations', [{ email: 'gigi@example.net', updatedAt: pendingInvitationDate }]);
+    this.set('invitations', [{ email: 'gigi@example.net', isPending: true, updatedAt: pendingInvitationDate }]);
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
@@ -52,6 +52,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     const invitation = {
       id: 777,
       email: 'gigi@example.net',
+      isPending: true,
       updatedAt: pendingInvitationDate,
     };
 
@@ -81,7 +82,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
       id: 777,
       email: 'gigi@example.net',
       updatedAt: pendingInvitationDate,
-      organizationId: 1,
+      isPending: true,
     };
 
     const notifications = this.owner.lookup('service:notifications');

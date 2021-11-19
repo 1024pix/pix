@@ -96,9 +96,8 @@ export default function () {
 
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
 
-  this.get('/organizations/:id/invitations', (schema, request) => {
-    const organizationId = request.params.id;
-    return schema.organizationInvitations.where({ organizationId });
+  this.get('/organizations/:id/invitations', (schema) => {
+    return schema.organizationInvitations.all();
   });
 
   this.post('/organizations/:id/invitations', (schema, request) => {
@@ -208,6 +207,15 @@ export default function () {
     }
 
     return schema.scoOrganizationInvitations.create({ uai, firstName, lastName });
+  });
+
+  this.put('/organizations/:id/invitations/:invitation-id/cancel', (schema, request) => {
+    const organizationInvitationId = request.params['invitation-id'];
+
+    const invitation = schema.organizationInvitations.find(organizationInvitationId);
+    invitation.status = 'cancelled';
+
+    return invitation;
   });
 
   this.get('/organizations/:id/students', findFilteredPaginatedStudents);
