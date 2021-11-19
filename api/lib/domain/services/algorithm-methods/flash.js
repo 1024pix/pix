@@ -17,6 +17,7 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
     return {
       hasAssessmentEnded: true,
       possibleChallenges: [],
+      estimatedLevel: 0,
     };
   }
 
@@ -43,6 +44,7 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   return {
     hasAssessmentEnded: false,
     possibleChallenges,
+    estimatedLevel,
   };
 }
 
