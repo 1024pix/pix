@@ -27,7 +27,8 @@ module.exports = function () {
       'share-square',
       'times',
       'users',
+      'trash-alt',
     ],
-    'free-regular-svg-icons': ['check-circle', 'copy', 'trash-alt'],
+    'free-regular-svg-icons': ['check-circle', 'copy'],
   };
 };

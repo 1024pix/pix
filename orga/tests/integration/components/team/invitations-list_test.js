@@ -3,6 +3,13 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { clickByLabel } from '../../../helpers/testing-library';
+import sinon from 'sinon';
+import Service from '@ember/service';
+
+class CurrentUserStub extends Service {
+  organization = { id: 1 };
+}
 
 module('Integration | Component | Team::InvitationsList', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -37,5 +44,62 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
         'DD/MM/YYYY - HH:mm'
       )}`
     );
+  });
+
+  test('it should show success notification when cancel an invitation succeed', async function (assert) {
+    // given
+    const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
+    const invitation = {
+      id: 777,
+      email: 'gigi@example.net',
+      updatedAt: pendingInvitationDate,
+    };
+
+    const notifications = this.owner.lookup('service:notifications');
+    const store = this.owner.lookup('service:store');
+    this.owner.register('service:current-user', CurrentUserStub);
+    const queryRecordStub = sinon.stub();
+    store.queryRecord = queryRecordStub.resolves();
+    sinon.stub(notifications, 'sendSuccess');
+
+    this.set('invitations', [invitation]);
+    this.set('store', store);
+
+    // when
+    await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
+    await clickByLabel('Supprimer l’invitation');
+
+    // then
+    sinon.assert.calledWith(notifications.sendSuccess, "L'invitation a bien été annulée");
+    assert.ok(true);
+  });
+
+  test('it should show error notification when cancel an invitation failed', async function (assert) {
+    // given
+    const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
+    const invitation = {
+      id: 777,
+      email: 'gigi@example.net',
+      updatedAt: pendingInvitationDate,
+      organizationId: 1,
+    };
+
+    const notifications = this.owner.lookup('service:notifications');
+    const store = this.owner.lookup('service:store');
+    this.owner.register('service:current-user', CurrentUserStub);
+    const queryRecordStub = sinon.stub();
+    store.queryRecord = queryRecordStub.rejects();
+    sinon.stub(notifications, 'error');
+
+    this.set('invitations', [invitation]);
+    this.set('store', store);
+
+    // when
+    await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
+    await clickByLabel('Supprimer l’invitation');
+
+    // then
+    sinon.assert.calledWith(notifications.error, 'Une erreur est survenue. Veuillez recommencer.');
+    assert.ok(true);
   });
 });
