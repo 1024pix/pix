@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
+const { sinon, expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -132,6 +133,36 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(savedCampaignParticipation.id).to.exist;
       expect(savedCampaignParticipation.campaignId).to.equal(campaignParticipationToSave.campaignId);
       expect(savedCampaignParticipation.userId).to.equal(campaignParticipationToSave.userId);
+    });
+
+    it('should throw an error if a campaign participation exists for the user', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+      await databaseBuilder.commit();
+      const campaignParticipationToSave = new CampaignParticipation({
+        campaignId,
+        userId,
+      });
+
+      // when
+      const error = await catchErr(campaignParticipationRepository.save)(campaignParticipationToSave);
+
+      // then
+      expect(error).to.be.instanceof(AlreadyExistingEntityError);
+    });
+
+    it('should throw an error if something went wrong', async function () {
+      // given
+      const campaignParticipationToSave = new CampaignParticipation({
+        campaignId,
+        userId: 'BOOM',
+      });
+
+      // when
+      const error = await catchErr(campaignParticipationRepository.save)(campaignParticipationToSave);
+
+      // then
+      expect(error).to.be.instanceof(Error);
     });
 
     it('should save the given campaign participation', async function () {
