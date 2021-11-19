@@ -148,4 +148,26 @@ module('Unit | Model | allowed-certification-center-access', function(hooks) {
       assert.true(model.isAccessRestricted);
     });
   });
+
+  module('#get hasHabilitations', function() {
+    test('should return true when the certification center has habilitations', function(assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        habilitations: ['Pix+Droit'],
+      });
+
+      // then
+      assert.true(model.hasHabilitations);
+    });
+
+    test('should return false when the certification center has no habilitations', function(assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        habilitations: [],
+      });
+
+      // then
+      assert.false(model.hasHabilitations);
+    });
+  });
 });

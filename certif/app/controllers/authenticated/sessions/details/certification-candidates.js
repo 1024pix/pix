@@ -43,7 +43,7 @@ export default class CertificationCandidatesController extends Controller {
     await this.reloadCertificationCandidate();
   }
 
-  get displayComplementaryCertification() {
-    return this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled;
+  get shouldDisplayComplementaryCertifications() {
+    return this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled && this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations;
   }
 }
