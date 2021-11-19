@@ -31,7 +31,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
 
       // when
-      await certificationCenterMembershipRepository.save(userId, certificationCenterId);
+      await certificationCenterMembershipRepository.save({ userId, certificationCenterId });
 
       // then
       const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
@@ -42,10 +42,10 @@ describe('Integration | Repository | Certification Center Membership', function 
 
     it('should return the certification center membership', async function () {
       // when
-      const createdCertificationCenterMembership = await certificationCenterMembershipRepository.save(
+      const createdCertificationCenterMembership = await certificationCenterMembershipRepository.save({
         userId,
-        certificationCenterId
-      );
+        certificationCenterId,
+      });
 
       // then
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
@@ -59,7 +59,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       it('should throw an error when a membership already exist for user + certificationCenter', async function () {
         // when
-        const error = await catchErr(certificationCenterMembershipRepository.save)(userId, certificationCenterId);
+        const error = await catchErr(certificationCenterMembershipRepository.save)({ userId, certificationCenterId });
 
         // then
         expect(error).to.be.instanceOf(AlreadyExistingMembershipError);

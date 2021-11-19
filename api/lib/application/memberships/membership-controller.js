@@ -4,13 +4,14 @@ const usecases = require('../../domain/usecases');
 const { BadRequestError } = require('../http-errors');
 
 module.exports = {
-  create(request, h) {
+  async create(request, h) {
     const userId = request.payload.data.relationships.user.data.id;
     const organizationId = request.payload.data.relationships.organization.data.id;
 
-    return usecases.createMembership({ userId, organizationId }).then((membership) => {
-      return h.response(membershipSerializer.serialize(membership)).created();
-    });
+    const membership = await usecases.createMembership({ userId, organizationId });
+    await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
+
+    return h.response(membershipSerializer.serialize(membership)).created();
   },
 
   async update(request, h) {
@@ -25,6 +26,7 @@ module.exports = {
     membership.updatedByUserId = userId;
 
     const updatedMembership = await usecases.updateMembership({ membership });
+    await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
     return h.response(membershipSerializer.serialize(updatedMembership));
   },
