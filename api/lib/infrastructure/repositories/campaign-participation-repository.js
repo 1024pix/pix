@@ -6,6 +6,8 @@ const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
+const { AlreadyExistingEntityError } = require('../../domain/errors');
+const knexUtils = require('../utils/knex-utils');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../DomainTransaction');
@@ -63,12 +65,22 @@ module.exports = {
   },
 
   async save(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-    const [newCampaignParticipation] = await knexConn('campaign-participations')
-      .insert(_adaptModelToDb(campaignParticipation))
-      .returning('*');
+    try {
+      const knexConn = domainTransaction.knexTransaction || knex;
+      const [newCampaignParticipation] = await knexConn('campaign-participations')
+        .insert(_adaptModelToDb(campaignParticipation))
+        .returning('*');
 
-    return new CampaignParticipation(newCampaignParticipation);
+      return new CampaignParticipation(newCampaignParticipation);
+    } catch (error) {
+      if (knexUtils.isUniqConstraintViolated(error)) {
+        const { userId, campaignId } = campaignParticipation;
+        throw new AlreadyExistingEntityError(
+          `A campaignParticipation already exists for the user ${userId} and campaign ${campaignId}.`
+        );
+      }
+      throw error;
+    }
   },
 
   async update(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
