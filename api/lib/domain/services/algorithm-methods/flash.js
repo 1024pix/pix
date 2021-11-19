@@ -1,5 +1,7 @@
 const _ = require('lodash');
 
+const config = require('../../../config');
+
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
 const STEP_OF_SAMPLES = 18 / 80;
@@ -11,7 +13,7 @@ module.exports = { getPossibleNextChallenges, getEstimatedLevel, getNonAnsweredC
 function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   const nonAnsweredChallenges = getNonAnsweredChallenges({ allAnswers, challenges });
 
-  if (nonAnsweredChallenges?.length === 0) {
+  if (nonAnsweredChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
     return {
       hasAssessmentEnded: true,
       possibleChallenges: [],

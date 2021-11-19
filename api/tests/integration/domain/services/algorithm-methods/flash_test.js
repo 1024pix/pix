@@ -1,9 +1,19 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const flash = require('../../../../../lib/domain/services/algorithm-methods/flash');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
+const config = require('../../../../../lib/config');
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
-  beforeEach(function () {});
+  let numberOfChallengesForFlashMethod;
+
+  beforeEach(function () {
+    numberOfChallengesForFlashMethod = config.features.numberOfChallengesForFlashMethod;
+    config.features.numberOfChallengesForFlashMethod = 2;
+  });
+
+  afterEach(function () {
+    config.features.numberOfChallengesForFlashMethod = numberOfChallengesForFlashMethod;
+  });
 
   describe('#getPossibleNextChallenge', function () {
     context('when there is no challenge', function () {
@@ -124,6 +134,37 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             hasAssessmentEnded: false,
             possibleChallenges: [nonAnsweredBestNextChallenge],
           });
+        });
+      });
+    });
+
+    context('when we reach the maximum number of asked challenges', function () {
+      it('should not propose another challenge to the user', function () {
+        // given
+        const challenge1 = domainBuilder.buildChallenge({
+          difficulty: -5,
+          discriminant: -5,
+        });
+        const challenge2 = domainBuilder.buildChallenge({
+          difficulty: 1,
+          discriminant: 5,
+        });
+        const challenge3 = domainBuilder.buildChallenge({
+          difficulty: 1,
+          discriminant: 5,
+        });
+        const challenges = [challenge1, challenge2, challenge3];
+        const answer1 = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id });
+        const answer2 = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id });
+        const allAnswers = [answer1, answer2];
+
+        // when
+        const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
+
+        // then
+        expect(result).to.deep.equal({
+          hasAssessmentEnded: true,
+          possibleChallenges: [],
         });
       });
     });
