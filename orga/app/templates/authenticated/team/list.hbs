@@ -16,7 +16,7 @@
     </LinkTo>
 
     <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
-      {{t "pages.team-list.tabs.invitation" count=@model.organization.organizationInvitations.length}}
+      {{t "pages.team-list.tabs.invitation" count=@model.organization.pendingOrganizationInvitationsCount}}
     </LinkTo>
   </nav>
 

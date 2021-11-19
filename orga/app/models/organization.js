@@ -30,4 +30,8 @@ export default class Organization extends Model {
   get isPro() {
     return this.type === 'PRO';
   }
+
+  get pendingOrganizationInvitationsCount() {
+    return this.organizationInvitations.filterBy('isPending').length;
+  }
 }
