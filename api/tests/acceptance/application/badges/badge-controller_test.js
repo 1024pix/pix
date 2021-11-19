@@ -308,4 +308,53 @@ describe('Acceptance | API | Badges', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe.only('POST /api/admin/badges/{id}/skill-sets', function () {
+    beforeEach(async function () {
+      userId = (await insertUserWithRolePixMaster()).id;
+
+      badge = databaseBuilder.factory.buildBadge({
+        id: 1,
+        altMessage: 'Message alternatif',
+        imageUrl: 'url_image',
+        message: 'Bravo',
+        title: 'titre du badge',
+        key: 'clef du badge',
+        isCertifiable: false,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('skill-sets').delete();
+      await knex('badges').delete();
+    });
+
+    it('should create a skillSet and add it to an existing badge', async function () {
+      // given
+      const skillSet = {
+        name: 'Mon skillSet',
+        skillIds: ['recSkill1', 'recSkill2'],
+      };
+
+      options = {
+        method: 'POST',
+        url: `/api/admin/badges/${badge.id}/skill-sets`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload: {
+          data: {
+            type: 'skill-sets',
+            attributes: skillSet,
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
