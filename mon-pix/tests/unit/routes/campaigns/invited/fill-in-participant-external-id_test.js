@@ -25,7 +25,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
     });
   });
 
-  describe('#redirect', function () {
+  describe('#afterModel', function () {
     it('should redirect to entrance page if an external id is already set', async function () {
       //given
       campaign = EmberObject.create({
@@ -34,7 +34,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       route.campaignStorage.get.withArgs(campaign.code, 'participantExternalId').returns('someID');
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
       sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance', campaign);
@@ -48,7 +48,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       route.campaignStorage.get.withArgs(campaign.code, 'participantExternalId').returns(null);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
       sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance', campaign);
@@ -62,7 +62,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       route.campaignStorage.get.withArgs(campaign.code, 'participantExternalId').returns(null);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
       sinon.assert.notCalled(route.replaceWith);

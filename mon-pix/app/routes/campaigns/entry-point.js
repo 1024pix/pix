@@ -11,11 +11,9 @@ export default class EntryPoint extends Route {
     return this.modelFor('campaigns');
   }
 
-  afterModel(campaign) {
+  async afterModel(campaign, transition) {
     this.campaignStorage.clear(campaign.code);
-  }
 
-  async redirect(campaign, transition) {
     const queryParams = transition.to.queryParams;
     if (queryParams.participantExternalId) {
       this.campaignStorage.set(campaign.code, 'participantExternalId', transition.to.queryParams.participantExternalId);

@@ -15,7 +15,7 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
     return this.modelFor('campaigns');
   }
 
-  redirect(campaign) {
+  afterModel(campaign) {
     if (this.shouldAssociateWithScoInformation(campaign)) {
       return this.replaceWith('campaigns.invited.student-sco', campaign);
     }
