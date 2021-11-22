@@ -709,6 +709,20 @@ describe('Integration | Repository | Target-profile', function () {
       expect(description).to.equal(targetProfile.description);
     });
 
+    it('should update the target profile comment', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.comment = 'Je change le commentaire';
+      await targetProfileRepository.update(targetProfile);
+
+      // then
+      const { comment } = await knex('target-profiles').select('comment').where('id', targetProfile.id).first();
+      expect(comment).to.equal(targetProfile.comment);
+    });
+
     it('should outdate the target profile', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ outdated: true });
