@@ -97,6 +97,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
       const expectedSkillSets = [
         {
           id: skillSet.id,
+          badgeId: badge.id,
           name: skillSet.name,
           skillIds: skillSet.skillIds,
         },

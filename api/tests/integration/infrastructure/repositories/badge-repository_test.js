@@ -41,12 +41,14 @@ describe('Integration | Repository | Badge', function () {
 
     skillSet_1 = {
       id: 1,
+      badgeId: badgeWithSkillSets.id,
       name: 'Idenfier des éléments',
       skillIds: ['recA1B2', 'recC3D4'],
     };
 
     skillSet_2 = {
       id: 2,
+      badgeId: badgeWithSkillSets.id,
       name: 'Rechercher des éléments',
       skillIds: ['recABC1', 'recDEF2'],
     };
