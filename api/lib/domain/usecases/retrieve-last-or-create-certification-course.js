@@ -118,14 +118,21 @@ async function _startNewCertification({
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
   if (certificationCenter.isAccreditedPixPlusDroit) {
-    const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
+    const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId,
-      certificationBadgesService,
-      certificationChallengesService,
       domainTransaction,
-      locale,
     });
-    challengesForCertification.push(...challengesForPixPlusCertification);
+
+    if (highestCertifiableBadgeAcquisitions.length > 0) {
+      const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
+        userId,
+        highestCertifiableBadgeAcquisitions,
+        certificationBadgesService,
+        certificationChallengesService,
+        locale,
+      });
+      challengesForCertification.push(...challengesForPixPlusCertification);
+    }
   }
 
   return _createCertificationCourse({
@@ -142,15 +149,10 @@ async function _startNewCertification({
 
 async function _findChallengesFromPixPlus({
   userId,
-  domainTransaction,
-  certificationBadgesService,
+  highestCertifiableBadgeAcquisitions,
   certificationChallengesService,
   locale,
 }) {
-  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-    userId,
-    domainTransaction,
-  });
   const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(
     highestCertifiableBadgeAcquisitions,
     ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale)
