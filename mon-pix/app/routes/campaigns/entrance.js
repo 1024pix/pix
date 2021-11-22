@@ -22,9 +22,7 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
     if (this.shouldBeginCampaignParticipation(campaign)) {
       await this._beginCampaignParticipation(campaign);
     }
-  }
 
-  redirect(campaign) {
     const hasParticipated = this.campaignStorage.get(campaign.code, 'hasParticipated');
     if (!hasParticipated) {
       return;

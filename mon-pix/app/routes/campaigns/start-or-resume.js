@@ -54,7 +54,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     super.beforeModel(...arguments);
   }
 
-  async model() {
+  model() {
     return this.modelFor('campaigns');
   }
 
@@ -65,10 +65,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     });
     const hasParticipated = Boolean(ongoingCampaignParticipation);
     this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
-  }
 
-  redirect(campaign) {
-    const hasParticipated = this.campaignStorage.get(campaign.code, 'hasParticipated');
     if (hasParticipated) {
       return this.replaceWith('campaigns.entrance', campaign);
     }
