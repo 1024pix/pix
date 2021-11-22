@@ -7,8 +7,9 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
 
   beforeModel(transition) {
     if (!transition.from) {
-      this.replaceWith('campaigns.entry-point');
+      return this.replaceWith('campaigns.entry-point');
     }
+    super.beforeModel(...arguments);
   }
 
   model() {
