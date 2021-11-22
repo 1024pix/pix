@@ -6,6 +6,7 @@ export default class TeamInvitationsListComponent extends Component {
   @service store;
   @service notifications;
   @service currentUser;
+  @service intl;
 
   @action
   async cancelInvitation(organizationInvitation) {
@@ -16,9 +17,9 @@ export default class TeamInvitationsListComponent extends Component {
         organizationId,
       });
 
-      this.notifications.sendSuccess("L'invitation a bien été annulée");
+      this.notifications.sendSuccess(this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'));
     } catch (e) {
-      this.notifications.error('Une erreur est survenue. Veuillez recommencer.');
+      this.notifications.error(this.intl.t('api-errors-messages.global'));
     }
   }
 }

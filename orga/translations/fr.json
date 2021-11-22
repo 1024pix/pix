@@ -759,6 +759,8 @@
     },
     "team-invitations": {
       "title": "Invitations",
+      "cancel-invitation": "Supprimer l’invitation",
+      "invitation-cancelled-succeed-message": "L’invitation a bien été supprimée.",
       "table": {
         "column": {
           "email-address": "Adresse e-mail",

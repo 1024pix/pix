@@ -4,12 +4,14 @@ import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberForOrganization } from '../helpers/test-init';
+import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Invitations list', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   test('it should be possible to cancel an invitation', async function (assert) {
     // given
@@ -29,7 +31,7 @@ module('Acceptance | Invitations list', function (hooks) {
 
     // when
     await visit('/equipe/invitations');
-    await clickByLabel('Supprimer l’invitation');
+    await clickByLabel(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
     assert.notContains('gigi@example.net');

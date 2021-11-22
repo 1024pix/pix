@@ -68,10 +68,13 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
-    await clickByLabel('Supprimer l’invitation');
+    await clickByLabel(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
-    sinon.assert.calledWith(notifications.sendSuccess, "L'invitation a bien été annulée");
+    sinon.assert.calledWith(
+      notifications.sendSuccess,
+      this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message')
+    );
     assert.ok(true);
   });
 
@@ -97,10 +100,10 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
-    await clickByLabel('Supprimer l’invitation');
+    await clickByLabel(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
-    sinon.assert.calledWith(notifications.error, 'Une erreur est survenue. Veuillez recommencer.');
+    sinon.assert.calledWith(notifications.error, this.intl.t('api-errors-messages.global'));
     assert.ok(true);
   });
 });
