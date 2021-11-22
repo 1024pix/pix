@@ -11,7 +11,7 @@ export default class FillInParticipantExternalIdRoute extends Route.extend(Secur
 
   afterModel(campaign) {
     if (!this.shouldProvideExternalId(campaign)) {
-      return this.replaceWith('campaigns.entrance', campaign.code);
+      this.replaceWith('campaigns.entrance', campaign.code);
     }
   }
 

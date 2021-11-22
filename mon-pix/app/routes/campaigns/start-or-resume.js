@@ -67,9 +67,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
 
     if (hasParticipated) {
-      return this.replaceWith('campaigns.entrance', campaign.code);
+      this.replaceWith('campaigns.entrance', campaign.code);
+    } else {
+      this.replaceWith('campaigns.invited', campaign.code);
     }
-    return this.replaceWith('campaigns.invited', campaign.code);
   }
 
   _resetState() {
