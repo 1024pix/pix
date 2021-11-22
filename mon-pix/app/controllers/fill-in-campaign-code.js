@@ -50,7 +50,7 @@ export default class FillInCampaignCodeController extends Controller {
       const campaign = await this.store.queryRecord('campaign', {
         filter: { code: campaignCode },
       });
-      this.router.transitionTo('campaigns.entry-point', campaign);
+      this.router.transitionTo('campaigns.entry-point', campaign.code);
     } catch (error) {
       this.onStartCampaignError(error);
     }

@@ -37,7 +37,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance', campaign.code);
     });
 
     it('should redirect to entrance page if an external id is not required', async function () {
@@ -51,7 +51,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance', campaign.code);
     });
 
     it('should not redirect if an external id is required and not already set', async function () {

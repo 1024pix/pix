@@ -129,7 +129,7 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', null);
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
     });
 
     it('should redirect to profiles-collection when campaign is of type PROFILES COLLECTION', async function () {
