@@ -60,8 +60,8 @@ module.exports = {
 
   async updateTargetProfile(request, h) {
     const id = request.params.id;
-    const { name, description } = request.payload.data.attributes;
-    await usecases.updateTargetProfile({ id, name, description });
+    const { name, description, comment } = request.payload.data.attributes;
+    await usecases.updateTargetProfile({ id, name, description, comment });
     return h.response({}).code(204);
   },
 
