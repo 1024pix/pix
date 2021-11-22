@@ -18,14 +18,12 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
 
   afterModel(campaign) {
     if (this.shouldAssociateWithScoInformation(campaign)) {
-      return this.replaceWith('campaigns.invited.student-sco', campaign.code);
+      this.replaceWith('campaigns.invited.student-sco', campaign.code);
+    } else if (this.shouldAssociateWithSupInformation(campaign)) {
+      this.replaceWith('campaigns.invited.student-sup', campaign.code);
+    } else {
+      this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
     }
-
-    if (this.shouldAssociateWithSupInformation(campaign)) {
-      return this.replaceWith('campaigns.invited.student-sup', campaign.code);
-    }
-
-    return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
   }
 
   shouldAssociateWithScoInformation(campaign) {
