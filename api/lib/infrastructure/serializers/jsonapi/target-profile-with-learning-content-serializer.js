@@ -10,6 +10,7 @@ module.exports = {
         'createdAt',
         'ownerOrganizationId',
         'description',
+        'comment',
         'badges',
         'stages',
         'skills',
