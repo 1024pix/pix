@@ -47,7 +47,8 @@ describe('Unit | Route | Entrance', function () {
     let campaignParticipationStub;
     beforeEach(function () {
       campaignParticipationStub = { save: sinon.stub(), deleteRecord: sinon.stub() };
-      route.store = { createRecord: sinon.stub().returns(campaignParticipationStub) };
+      route.store = { createRecord: sinon.stub().returns(campaignParticipationStub), queryRecord: sinon.stub() };
+      route.currentUser = { user: {} };
     });
 
     it('should save new campaign participation', async function () {
@@ -85,7 +86,7 @@ describe('Unit | Route | Entrance', function () {
       campaign = EmberObject.create({
         code: 'SOMECODE',
       });
-      route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(true);
+      route.store.queryRecord.resolves({});
 
       //when
       await route.afterModel(campaign);
