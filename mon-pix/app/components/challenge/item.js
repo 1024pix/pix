@@ -9,7 +9,7 @@ export default class Item extends Component {
   constructor() {
     super(...arguments);
     if (this.isFocusedChallenge && !this.args.answer) {
-      this._setOnBlurEventToWindow();
+      this._setFocusOutEventListener();
     }
   }
 
@@ -37,16 +37,18 @@ export default class Item extends Component {
     return event.relatedTarget === null;
   }
 
-  _setOnBlurEventToWindow() {
-    window.onblur = () => {
-      this.args.onFocusOutOfWindow();
-      this.clearOnBlurMethod();
-    };
+  _setFocusOutEventListener() {
+    document.addEventListener('hasFocusOut', this._hasFocusOutListener);
   }
 
-  clearOnBlurMethod() {
-    window.onblur = null;
-  }
+  _hasFocusOutListener = () => {
+    this.args.onFocusOutOfWindow();
+    this.clearFocusOutEventListener();
+  };
+
+  clearFocusOutEventListener = () => {
+    document.removeEventListener('hasFocusOut', this._hasFocusOutListener);
+  };
 
   get isFocusedChallenge() {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
