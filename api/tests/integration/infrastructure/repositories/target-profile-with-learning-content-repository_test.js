@@ -105,6 +105,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         isPublic: true,
         imageUrl: 'data:,',
         description: 'Super profil cible.',
+        comment: 'Red Notice',
       });
       databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfileDB.id,
@@ -122,6 +123,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         isPublic: targetProfileDB.isPublic,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         description: targetProfileDB.description,
+        comment: targetProfileDB.comment,
         imageUrl: targetProfileDB.imageUrl,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
@@ -519,6 +521,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         isPublic: targetProfileDB.isPublic,
         createdAt: targetProfileDB.createdAt,
         description: targetProfileDB.description,
+        comment: targetProfileDB.comment,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         imageUrl: targetProfileDB.imageUrl,
         skills: [skill1_1_1_2, skill1_2_1_1],

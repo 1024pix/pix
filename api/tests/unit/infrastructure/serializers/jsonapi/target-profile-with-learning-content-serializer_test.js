@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         createdAt: new Date('2021-03-02'),
         ownerOrganizationId: 12,
         description: 'Un super profil cible',
+        comment: 'commentaire',
         skills: [buildTargetedSkill({ id: 'rec1', name: '@url4', tubeId: 'rec2' })],
         tubes: [{ id: 'rec2', practicalTitle: 'Url', competenceId: 'rec3' }],
         competences: [{ id: 'rec3', name: 'Comprendre', areaId: 'rec4', index: '1.1' }],
@@ -30,6 +31,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             name: targetProfileWithLearningContent.name,
             outdated: targetProfileWithLearningContent.outdated,
             description: targetProfileWithLearningContent.description,
+            comment: targetProfileWithLearningContent.comment,
             'is-public': targetProfileWithLearningContent.isPublic,
             'owner-organization-id': targetProfileWithLearningContent.ownerOrganizationId,
             'image-url': targetProfileWithLearningContent.imageUrl,
@@ -122,7 +124,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
       const serializedTargetProfile = serializer.serialize(targetProfileWithLearningContent);
 
       // then
-      return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
+      expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });
   });
 });

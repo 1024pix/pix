@@ -13,31 +13,33 @@
     <TargetProfiles::UpdateTargetProfile @model={{@model}} @toggleEditMode={{this.toggleEditMode}} />
 
   {{else}}
-    <section class="page-section mb_10">
+    <section class="page-section">
       <div class="page-section__header">
         <h1 class="page-section__title">{{@model.name}}</h1>
       </div>
-      <div>
-        ID :
-        {{@model.id}}<br />
-        Date de création :
-        {{format-date @model.createdAt}}<br />
-        Public :
-        {{this.isPublic}}<br />
-        Obsolète :
-        {{this.isOutdated}}<br />
-        Organisation de référence :
-        <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
-          {{@model.ownerOrganizationId}}
-        </LinkTo><br />
-
+      <div class="page-section__content">
+        <div>ID : {{@model.id}}</div>
+        <div>Date de création : {{format-date @model.createdAt}}</div>
+        <div>Public : {{this.isPublic}}</div>
+        <div>Obsolète : {{this.isOutdated}}</div>
+        <div>Organisation de référence :
+          <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
+            {{@model.ownerOrganizationId}}
+          </LinkTo>
+        </div>
         {{#if @model.description}}
-          Description :
-          <MarkdownToHtml @markdown={{@model.description}} />
-          <br />
+          <div>
+            Description :
+            <MarkdownToHtml @markdown={{@model.description}} />
+          </div>
+        {{/if}}
+        {{#if @model.comment}}
+          <div>
+            Commentaire (usage interne) :
+            <MarkdownToHtml @markdown={{@model.comment}} />
+          </div>
         {{/if}}
       </div>
-      <br />
       <div class="form-actions">
         <PixButton
           @size="small"

@@ -49,6 +49,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         outdated: false,
         ownerOrganizationId: 456,
         description: 'Top profil cible.',
+        comment: 'Commentaire Privé.',
       });
 
       // when
@@ -61,6 +62,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       assert.dom('section').containsText('Obsolète : Non');
       assert.dom('section').containsText('Organisation de référence : 456');
       assert.dom('section').containsText('Description : Top profil cible.');
+      assert.dom('section').containsText('Commentaire (usage interne) : Commentaire Privé.');
     });
 
     test('it should display target profile skills', async function (assert) {

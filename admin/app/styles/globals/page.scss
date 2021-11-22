@@ -40,15 +40,19 @@
       border-radius: 5px;
       padding: 32px;
 
-      .page-section__header {
+      &__header {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
 
-        .page-section__title {
+        &__title {
           font-size: 1.2rem;
           font-weight: 600;
         }
+      }
+
+      &__content {
+        margin-bottom: 10px;
       }
     }
   }

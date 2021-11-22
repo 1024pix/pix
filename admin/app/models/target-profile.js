@@ -8,6 +8,7 @@ export default class TargetProfile extends Model {
   @attr('string') imageUrl;
   @attr('boolean') outdated;
   @attr('string') description;
+  @attr('string') comment;
   @attr('string') ownerOrganizationId;
 
   @attr('array') skillsId;
