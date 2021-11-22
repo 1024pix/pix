@@ -9,13 +9,20 @@ describe('Unit | UseCase | update-target-profile', function () {
     };
 
     //when
-    await updateTargetProfile({ id: 123, name: 'Tom', description: 'description changée', targetProfileRepository });
+    await updateTargetProfile({
+      id: 123,
+      name: 'Tom',
+      description: 'description changée',
+      comment: 'commentaire changé',
+      targetProfileRepository,
+    });
 
     //then
     expect(targetProfileRepository.update).to.have.been.calledOnceWithExactly({
       id: 123,
       name: 'Tom',
       description: 'description changée',
+      comment: 'commentaire changé',
     });
   });
 });
