@@ -1,8 +1,9 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const usecases = require('../../../../lib/domain/usecases');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
+const { AlreadyExistingCampaignParticipationError } = require('../../../../lib/domain/errors');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
 const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
@@ -136,6 +137,14 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
     context('when the campaign allows retry', function () {
       it('should create an improving assessment', async function () {
+        campaignToJoin = domainBuilder.buildCampaignToJoin({
+          id: campaignParticipation.campaignId,
+          multipleSendings: true,
+        });
+        campaignToJoinRepository.get
+          .withArgs(campaignParticipation.campaignId, domainTransaction)
+          .resolves(campaignToJoin);
+
         // given
         assessmentRepository.save.resolves();
         campaignParticipationRepository.save.resolves({ id: 1 });
@@ -215,6 +224,32 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         domainTransaction
       );
       expect(actualSavedCampaignParticipation).to.deep.equal(savedCampaignParticipation);
+    });
+
+    it('should throw an error if user try to participate again to a campaign which is not multiple sendings', async function () {
+      // given
+      campaignToJoin = domainBuilder.buildCampaignToJoin({
+        id: campaignParticipation.campaignId,
+        multipleSendings: false,
+      });
+      campaignToJoinRepository.get
+        .withArgs(campaignParticipation.campaignId, domainTransaction)
+        .resolves(campaignToJoin);
+      campaignParticipation.campaign = campaignToJoin;
+      campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId).resolves(true);
+
+      // when
+      const error = await catchErr(usecases.startCampaignParticipation)({
+        campaignParticipation,
+        userId,
+        campaignParticipationRepository,
+        assessmentRepository,
+        campaignToJoinRepository,
+        domainTransaction,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(AlreadyExistingCampaignParticipationError);
     });
 
     context('when the campaign does not allow retry', function () {
