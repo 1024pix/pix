@@ -371,6 +371,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
       const expectedSkillSets = [
         {
           id: skillSet.id,
+          badgeId: badgeCertifiable.id,
           name: skillSet.name,
           skillIds: skillSet.skillIds,
         },
