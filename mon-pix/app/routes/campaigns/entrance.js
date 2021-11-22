@@ -20,7 +20,7 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
   }
 
   async afterModel(campaign) {
-    if (this.shouldBeginCampaignParticipation(campaign)) {
+    if (await this.shouldBeginCampaignParticipation(campaign)) {
       await this._beginCampaignParticipation(campaign);
     }
 
@@ -59,9 +59,14 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
     }
   }
 
-  shouldBeginCampaignParticipation(campaign) {
+  async shouldBeginCampaignParticipation(campaign) {
+    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+      campaignId: campaign.id,
+      userId: this.currentUser.user.id,
+    });
+    const hasParticipated = Boolean(ongoingCampaignParticipation);
+    this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
     const retry = this.campaignStorage.get(campaign.code, 'retry');
-    const hasParticipated = this.campaignStorage.get(campaign.code, 'hasParticipated');
     return !hasParticipated || (campaign.multipleSendings && retry);
   }
 }
