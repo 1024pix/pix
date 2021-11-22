@@ -39,7 +39,19 @@ export default class Item extends Component {
 
   _setFocusOutEventListener() {
     document.addEventListener('hasFocusOut', this._hasFocusOutListener);
+
+    this._previousFocus = document.hasFocus();
+    this._pollHasFocusInterval = setInterval(this._pollHasFocus, 1000);
   }
+
+  _pollHasFocus = () => {
+    const hasFocus = document.hasFocus();
+    if (!hasFocus && this._previousFocus) {
+      const hasFocusOutEvent = new CustomEvent('hasFocusOut');
+      document.dispatchEvent(hasFocusOutEvent);
+    }
+    this._previousFocus = hasFocus;
+  };
 
   _hasFocusOutListener = () => {
     this.args.onFocusOutOfWindow();
@@ -47,6 +59,7 @@ export default class Item extends Component {
   };
 
   clearFocusOutEventListener = () => {
+    clearInterval(this._pollHasFocusInterval);
     document.removeEventListener('hasFocusOut', this._hasFocusOutListener);
   };
 
