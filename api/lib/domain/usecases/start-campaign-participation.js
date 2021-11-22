@@ -1,7 +1,7 @@
 const Assessment = require('../models/Assessment');
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 const CampaignParticipation = require('../models/CampaignParticipation');
-const { EntityValidationError } = require('../../domain/errors');
+const { EntityValidationError, AlreadyExistingCampaignParticipationError } = require('../../domain/errors');
 
 module.exports = async function startCampaignParticipation({
   campaignParticipation,
@@ -37,6 +37,12 @@ module.exports = async function startCampaignParticipation({
         ],
       });
     }
+  }
+
+  if (hasAlreadyParticipated && !campaignToJoin.multipleSendings) {
+    throw new AlreadyExistingCampaignParticipationError(
+      `User ${userId} has already a campaign participation with campaign ${campaignToJoin.id}`
+    );
   }
 
   let createdCampaignParticipation;
