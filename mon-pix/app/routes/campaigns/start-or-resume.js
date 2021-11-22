@@ -37,7 +37,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (this._shouldJoinFromMediacentre) {
-      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign);
+      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign.code);
     }
 
     if (this._shouldDisconnectAnonymousUser) {
@@ -67,9 +67,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
 
     if (hasParticipated) {
-      return this.replaceWith('campaigns.entrance', campaign);
+      return this.replaceWith('campaigns.entrance', campaign.code);
     }
-    return this.replaceWith('campaigns.invited', campaign);
+    return this.replaceWith('campaigns.invited', campaign.code);
   }
 
   _resetState() {

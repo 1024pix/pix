@@ -27,7 +27,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
   });
 
   describe('#startCampaign', () => {
-    it('should call start-or-resume', async () => {
+    it('should call entry-point', async () => {
       // given
       const campaignCode = 'azerty1';
       const campaign = Symbol('someCampaign');
@@ -44,7 +44,7 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign);
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
     });
 
     it('should set error when campaign code is empty', async () => {

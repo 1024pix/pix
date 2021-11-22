@@ -34,11 +34,11 @@ export default class EntryPoint extends Route {
     }
 
     if (campaign.isArchived && !hasParticipated) {
-      this.replaceWith('campaigns.campaign-not-found', campaign);
+      this.replaceWith('campaigns.campaign-not-found', campaign.code);
     } else if (hasParticipated) {
-      this.replaceWith('campaigns.entrance', campaign);
+      this.replaceWith('campaigns.entrance', campaign.code);
     } else {
-      this.replaceWith('campaigns.campaign-landing-page', campaign);
+      this.replaceWith('campaigns.campaign-landing-page', campaign.code);
     }
   }
 }

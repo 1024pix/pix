@@ -56,7 +56,7 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sco', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sco', campaign.code);
     });
 
     it('should redirect to student sup invited page when association is needed', async function () {
@@ -71,7 +71,7 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sup', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sup', campaign.code);
     });
 
     it('should redirect to fill in participant external otherwise', async function () {
@@ -85,7 +85,7 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
     });
   });
 });

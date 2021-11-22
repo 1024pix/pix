@@ -30,9 +30,9 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
     }
 
     if (campaign.isProfilesCollection) {
-      this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
+      this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign.code);
     } else {
-      this.replaceWith('campaigns.assessment.start-or-resume', campaign);
+      this.replaceWith('campaigns.assessment.start-or-resume', campaign.code);
     }
   }
 
@@ -52,7 +52,7 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
 
       if (error.status == 400 && error.detail.includes('participant-external-id')) {
         this.campaignStorage.set(campaign.code, 'participantExternalId', null);
-        return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign);
+        return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
       }
 
       throw err;
