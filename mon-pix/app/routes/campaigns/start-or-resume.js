@@ -121,17 +121,17 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _redirectToPoleEmploiLoginPage(transition) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('login-pe');
+    return this.replaceWith('login-pe');
   }
 
   _redirectToTermsOfServicesBeforeAccessingToCampaign(transition) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('terms-of-service');
+    return this.replaceWith('terms-of-service');
   }
 
   _redirectToLoginBeforeAccessingToCampaign(transition, campaign, displayRegisterForm) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code, {
+    return this.replaceWith('campaigns.restricted.login-or-register-to-access', campaign.code, {
       queryParams: { displayRegisterForm },
     });
   }
