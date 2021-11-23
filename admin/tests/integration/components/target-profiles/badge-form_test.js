@@ -50,7 +50,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       store.createRecord = createRecordStub;
       this.targetProfileId = 123;
 
-      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
+      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{"targetProfileId"}} />`);
 
       // when
       await fillIn('input#badge-key', 'clé_du_badge');
@@ -76,7 +76,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       assert.ok(true);
     });
 
-    test('should send badgeCriteria creation request to api', async function (assert) {
+    test('should send campaign participation badgeCriteria creation request to api', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const createRecordStub = sinon.stub();
@@ -104,5 +104,53 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       sinon.assert.calledWith(saveStub.secondCall);
       assert.ok(true);
     });
+  });
+
+  test('should send skillSet and badgeCriteria creation requests to api', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const findStub = sinon.stub();
+    const targetProfile = {
+      hasMany() {
+        return [{ id: 'skillId1' }, { id: 'skillId2' }, { id: 'skillId3' }, { id: 'skillId4' }];
+      },
+    };
+    findStub.onFirstCall().returns(targetProfile);
+    const createRecordStub = sinon.stub();
+    const saveStub = sinon.stub();
+    const badge = { id: 'badgeId', save: saveStub };
+    createRecordStub.onFirstCall().returns(badge);
+    const skillSet = { id: 'skillSetId', save: saveStub };
+    createRecordStub.onSecondCall().returns(skillSet);
+    createRecordStub.onThirdCall().returns({ save: saveStub });
+    store.createRecord = createRecordStub;
+    store.find = findStub;
+
+    await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{"targetProfileId"}} />`);
+
+    // when
+    await fillIn('input#badge-key', 'clé_du_badge');
+    await fillIn('input#image-name', 'nom_de_limage.svg');
+    await fillIn('input#alt-message', 'texte alternatif à l‘image');
+    await fillIn('input#skillSetThreshold', '75');
+    await fillIn('input#skillSetName', 'nom du skill set');
+    await fillIn('input#skillSetSkills', 'skillId1,skillId2,skillId3,skillId4');
+    await click('button[data-test="badge-form-submit-button"]');
+
+    // then
+    sinon.assert.calledWith(createRecordStub.secondcall, 'skill-set', {
+      name: 'nom du skill set',
+      badge,
+      skills: [{ id: 'skillId1' }, { id: 'skillId2' }, { id: 'skillId3' }, { id: 'skillId4' }],
+    });
+    sinon.assert.calledWith(saveStub.secondcall);
+    sinon.assert.calledWith(createRecordStub.thirdCall, 'badge-criterion', {
+      threshold: '75',
+      scope: 'SkillSet',
+      badge,
+      skillSets: [skillSet],
+    });
+    sinon.assert.calledWith(saveStub.thirdCall);
+    assert.ok(true);
   });
 });
