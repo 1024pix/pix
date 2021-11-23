@@ -69,7 +69,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
   });
 
   module('when the candidate has started the test', function() {
-    test('it renders the "en cours" label', async function(assert) {
+    test('it renders the "en cours" label and the options menu button', async function(assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 789,
@@ -93,6 +93,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       // then
       assert.dom('.session-supervising-candidate-in-list').hasText('Racoon Rocket 28/07/1982 En cours');
       assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
     });
   });
 

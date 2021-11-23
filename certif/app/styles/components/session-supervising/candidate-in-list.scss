@@ -9,6 +9,10 @@ $green-70: #006134;
   display: flex;
   align-items: center;
 
+  &__candidate-data {
+    width: calc(100% - 32px);
+  }
+
   &__details {
     color: $grey-22;
     font-size: 0.75rem;
