@@ -32,7 +32,7 @@ export default class BadgeForm extends Component {
       const badge = await this._createBadge();
 
       if (this.threshold) {
-        await this._createThresholdBadgeCriterion(badge.id);
+        await this._createThresholdBadgeCriterion(badge);
       }
 
       this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
@@ -60,7 +60,7 @@ export default class BadgeForm extends Component {
     }
   }
 
-  async _createThresholdBadgeCriterion(badgeId) {
+  async _createThresholdBadgeCriterion(badge) {
     try {
       if (this.threshold < 0 || this.threshold > 100) {
         this.notifications.error('Le taux de réussite doit être compris entre 0 et 100.');
@@ -69,8 +69,9 @@ export default class BadgeForm extends Component {
       const badgeCriterion = this.store.createRecord('badge-criterion', {
         scope: 'CampaignParticipation',
         threshold: this.threshold,
+        badge,
       });
-      await badgeCriterion.save({ adapterOptions: { badgeId } });
+      await badgeCriterion.save();
       this.notifications.success('Le critère du résultat thématique a été créé.');
     } catch (error) {
       console.error(error);
