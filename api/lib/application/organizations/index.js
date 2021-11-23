@@ -542,7 +542,7 @@ exports.register = async (server) => {
     },
     {
       method: 'DELETE',
-      path: '/api/organizations/{id}/invitations/{invitationId}',
+      path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
       config: {
         pre: [
           {
@@ -553,7 +553,7 @@ exports.register = async (server) => {
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
-            invitationId: identifiersType.organizationInvitationId,
+            organizationInvitationId: identifiersType.organizationInvitationId,
           }),
         },
         handler: organizationController.cancelOrganizationInvitation,
