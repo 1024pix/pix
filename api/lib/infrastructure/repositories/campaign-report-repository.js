@@ -33,6 +33,7 @@ module.exports = {
         creatorLastName: 'users.lastName',
         creatorFirstName: 'users.firstName',
         targetProfileId: 'target-profiles.id',
+        targetProfileDescription: 'target-profiles.description',
         targetProfileName: 'target-profiles.name',
         targetProfileImageUrl: 'target-profiles.imageUrl',
       })

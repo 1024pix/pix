@@ -85,6 +85,7 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             'id-pix-label': report.idPixLabel,
             'is-archived': report.isArchived,
             'multiple-sendings': report.multipleSendings,
+            'target-profile-description': report.targetProfileDescription,
             'target-profile-id': report.targetProfileId,
             'target-profile-name': report.targetProfileName,
             'target-profile-image-url': report.targetProfileImageUrl,
