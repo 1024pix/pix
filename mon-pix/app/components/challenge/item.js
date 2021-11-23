@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
 
 const FOCUSEDOUT_EVENT_NAME = 'focusedout';
+const FOCUSEDOUT_INTERVAL = 1000;
 
 export default class Item extends Component {
   @service currentUser;
@@ -43,7 +44,7 @@ export default class Item extends Component {
     document.addEventListener(FOCUSEDOUT_EVENT_NAME, this._focusedoutListener);
 
     this._hadFocus = document.hasFocus();
-    this._pollHasFocusInterval = setInterval(this._pollHasFocus, 1000);
+    this._pollHasFocusInterval = setInterval(this._pollHasFocus, FOCUSEDOUT_INTERVAL);
   }
 
   _pollHasFocus = () => {
