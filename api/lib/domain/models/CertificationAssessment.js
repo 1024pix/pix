@@ -86,7 +86,7 @@ class CertificationAssessment {
     }
   }
 
-  listCertifiableBadgeKeysTaken() {
+  listCertifiableBadgePixPlusKeysTaken() {
     return _(this.certificationChallenges)
       .filter((certificationChallenge) => certificationChallenge.isPixPlus())
       .uniqBy('certifiableBadgeKey')

@@ -18,7 +18,7 @@ async function handlePixPlusCertificationsScoring({
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
   });
-  const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgeKeysTaken();
+  const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
   for (const certifiableBadgeKey of certifiableBadgeKeys) {
     const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
       certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey);
