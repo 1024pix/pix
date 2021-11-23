@@ -12,9 +12,10 @@ export default class TeamInvitationsListComponent extends Component {
   async cancelInvitation(organizationInvitation) {
     try {
       const organizationId = this.currentUser.organization.id;
-      await this.store.queryRecord('organization-invitation', {
-        organizationInvitationId: organizationInvitation.id,
-        organizationId,
+
+      organizationInvitation.deleteRecord();
+      await organizationInvitation.save({
+        adapterOptions: { organizationInvitationId: organizationInvitation.id, organizationId },
       });
 
       this.notifications.success(this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'));

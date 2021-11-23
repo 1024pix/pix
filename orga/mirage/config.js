@@ -209,7 +209,7 @@ export default function () {
     return schema.scoOrganizationInvitations.create({ uai, firstName, lastName });
   });
 
-  this.put('/organizations/:id/invitations/:invitation-id/cancel', (schema, request) => {
+  this.delete('/organizations/:id/invitations/:invitation-id', (schema, request) => {
     const organizationInvitationId = request.params['invitation-id'];
 
     const invitation = schema.organizationInvitations.find(organizationInvitationId);

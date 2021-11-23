@@ -541,8 +541,8 @@ exports.register = async (server) => {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/organizations/{id}/invitations/{invitationId}/cancel',
+      method: 'DELETE',
+      path: '/api/organizations/{id}/invitations/{invitationId}',
       config: {
         pre: [
           {
