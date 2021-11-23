@@ -789,7 +789,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       const request = {
         auth: { credentials: { userId: 1 } },
-        params: { invitationId: organizationInvitationId },
+        params: { organizationInvitationId },
       };
       const cancelledOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
         id: organizationInvitationId,

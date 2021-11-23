@@ -250,7 +250,7 @@ module.exports = {
   },
 
   async cancelOrganizationInvitation(request, h) {
-    const organizationInvitationId = request.params.invitationId;
+    const organizationInvitationId = request.params.organizationInvitationId;
     const cancelledOrganizationInvitation = await usecases.cancelOrganizationInvitation({ organizationInvitationId });
     return h.response(organizationInvitationSerializer.serialize(cancelledOrganizationInvitation));
   },
