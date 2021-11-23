@@ -37,7 +37,7 @@ describe('Unit | Serializer | JSONAPI | skill-set-serializer', function () {
           type: 'skill-sets',
           attributes: {
             name: 'Mon SkillSet',
-            skillIds: ['recSkill1', 'recSkill2'],
+            'skill-ids': ['recSkill1', 'recSkill2'],
           },
         },
       };

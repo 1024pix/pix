@@ -18,8 +18,8 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
   test('it should display the expected number of inputs', async function (assert) {
     // given
-    const expectedNumberOfInputsInForm = 8;
-    const expectedNumberOfTextareasInForm = 1;
+    const expectedNumberOfInputsInForm = 11;
+    const expectedNumberOfTextareasInForm = 2;
     const expectedNumberOfCheckboxesInForm = 2;
 
     // when
@@ -50,7 +50,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       store.createRecord = createRecordStub;
       this.targetProfileId = 123;
 
-      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{"targetProfileId"}} />`);
+      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
 
       // when
       await fillIn('input#badge-key', 'clé_du_badge');
@@ -110,11 +110,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const findStub = sinon.stub();
-    const targetProfile = {
-      hasMany() {
-        return [{ id: 'skillId1' }, { id: 'skillId2' }, { id: 'skillId3' }, { id: 'skillId4' }];
-      },
-    };
+    const targetProfile = {};
     findStub.onFirstCall().returns(targetProfile);
     const createRecordStub = sinon.stub();
     const saveStub = sinon.stub();
@@ -126,7 +122,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     store.createRecord = createRecordStub;
     store.find = findStub;
 
-    await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{"targetProfileId"}} />`);
+    await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
 
     // when
     await fillIn('input#badge-key', 'clé_du_badge');
@@ -134,16 +130,16 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     await fillIn('input#alt-message', 'texte alternatif à l‘image');
     await fillIn('input#skillSetThreshold', '75');
     await fillIn('input#skillSetName', 'nom du skill set');
-    await fillIn('input#skillSetSkills', 'skillId1,skillId2,skillId3,skillId4');
+    await fillIn('textarea#skillSetSkills', 'skillId1,skillId3,skillId4');
     await click('button[data-test="badge-form-submit-button"]');
 
     // then
-    sinon.assert.calledWith(createRecordStub.secondcall, 'skill-set', {
+    sinon.assert.calledWith(createRecordStub.secondCall, 'skill-set', {
       name: 'nom du skill set',
       badge,
-      skills: [{ id: 'skillId1' }, { id: 'skillId2' }, { id: 'skillId3' }, { id: 'skillId4' }],
+      skillIds: ['skillId1', 'skillId3', 'skillId4'],
     });
-    sinon.assert.calledWith(saveStub.secondcall);
+    sinon.assert.calledWith(saveStub.secondCall);
     sinon.assert.calledWith(createRecordStub.thirdCall, 'badge-criterion', {
       threshold: '75',
       scope: 'SkillSet',

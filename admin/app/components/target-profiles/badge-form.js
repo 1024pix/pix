@@ -19,7 +19,13 @@ export default class BadgeForm extends Component {
   };
 
   imageName = '';
-  threshold = null;
+  campaignParticipationThreshold = null;
+
+  skillSet = {
+    threshold: null,
+    name: '',
+    skills: '',
+  };
 
   constructor(...args) {
     super(...args);
@@ -31,8 +37,12 @@ export default class BadgeForm extends Component {
     try {
       const badge = await this._createBadge();
 
-      if (this.threshold) {
+      if (this.campaignParticipationThreshold) {
         await this._createThresholdBadgeCriterion(badge);
+      }
+
+      if (this.skillSet.threshold) {
+        await this._createSkillSetAndBadgeCriterion(badge);
       }
 
       this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
@@ -68,7 +78,7 @@ export default class BadgeForm extends Component {
       }
       const badgeCriterion = this.store.createRecord('badge-criterion', {
         scope: 'CampaignParticipation',
-        threshold: this.threshold,
+        threshold: this.campaignParticipationThreshold,
         badge,
       });
       await badgeCriterion.save();
@@ -76,6 +86,33 @@ export default class BadgeForm extends Component {
     } catch (error) {
       console.error(error);
       this.notifications.error('Erreur lors de la création du critère du résultat thématique.');
+    }
+  }
+
+  async _createSkillSetAndBadgeCriterion(badge) {
+    try {
+      if (this.skillSet.threshold < 0 || this.skillSet.threshold > 100) {
+        this.notifications.error('Le taux de réussite doit être compris entre 0 et 100.');
+        return;
+      }
+      const skillIds = this.skillSet.skills.split(',');
+      const skillSet = this.store.createRecord('skill-set', {
+        badge,
+        name: this.skillSet.name,
+        skillIds,
+      });
+      await skillSet.save();
+      const badgeCriterion = this.store.createRecord('badge-criterion', {
+        scope: 'SkillSet',
+        threshold: this.skillSet.threshold,
+        skillSets: [skillSet],
+        badge,
+      });
+      await badgeCriterion.save();
+      this.notifications.success('Le critère du résultat thématique a été créé.');
+    } catch (error) {
+      console.error(error);
+      this.notifications.error('Erreur lors de la création du critère du résultat thématique');
     }
   }
 }
