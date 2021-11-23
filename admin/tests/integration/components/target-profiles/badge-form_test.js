@@ -81,7 +81,9 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       const store = this.owner.lookup('service:store');
       const createRecordStub = sinon.stub();
       const saveStub = sinon.stub();
-      createRecordStub.returns({ save: saveStub, id: 123 });
+      const badge = { id: 'badgeId', save: saveStub };
+      createRecordStub.onFirstCall().returns(badge);
+      createRecordStub.onSecondCall().returns({ save: saveStub });
       store.createRecord = createRecordStub;
 
       await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
@@ -97,12 +99,9 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       sinon.assert.calledWith(createRecordStub.secondCall, 'badge-criterion', {
         threshold: '65',
         scope: 'CampaignParticipation',
+        badge,
       });
-      sinon.assert.calledWith(saveStub.secondCall, {
-        adapterOptions: {
-          badgeId: 123,
-        },
-      });
+      sinon.assert.calledWith(saveStub.secondCall);
       assert.ok(true);
     });
   });
