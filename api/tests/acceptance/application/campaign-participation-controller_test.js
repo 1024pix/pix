@@ -137,6 +137,21 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.result.data.id).to.exist;
     });
 
+    it('should return a 412 if the user already participated to the campaign', async function () {
+      // given
+      options.payload.data.relationships.campaign.data.id = campaignId;
+
+      // when
+      await server.inject(options);
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(412);
+      expect(response.result.errors[0].detail).to.equal(
+        `User ${user.id} has already a campaign participation with campaign ${campaignId}`
+      );
+    });
+
     it('should return 404 error if the campaign related to the participation does not exist', async function () {
       // given
       options.payload.data.relationships.campaign.data.id = null;
