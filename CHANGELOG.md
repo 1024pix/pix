@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.130.0 (23/11/2021)
+
+
+### :rocket: Enhancement
+- [#3753](https://github.com/1024pix/pix/pull/3753) [FEATURE] Afficher les certifications complémentaires des candidats inscrits lors du téléchargement de l'ods (PIX-3687).
+- [#3757](https://github.com/1024pix/pix/pull/3757) [FEATURE] Afficher le commentaire interne pour le profil cible dans Pix Admin (PIX-3868)
+- [#3744](https://github.com/1024pix/pix/pull/3744) [FEATURE] Rattacher le premier membre d'une organisation SCO au centre de certification correspondant sur Pix Admin (PIX-3795).
+- [#3750](https://github.com/1024pix/pix/pull/3750) [FEATURE] Ne pas poser des épreuves déjà passées dans l'algo Flash (PIX-3784).
+
+### :building_construction: Tech
+- [#3754](https://github.com/1024pix/pix/pull/3754) [TECH] S'assurer que l'algo flash reproduit bien les choix attendus (PIX-3874).
+- [#3756](https://github.com/1024pix/pix/pull/3756) [TECH] Retourner une erreur du domaine quand une participation à la campagne existe déjà.
+- [#3721](https://github.com/1024pix/pix/pull/3721) [TECH] Paralléliser le lint.
+- [#3758](https://github.com/1024pix/pix/pull/3758) [TECH] Empêcher la double participation quand la campagne n'est pas multiple (PIX-3883).
+
+### :bug: Bug fix
+- [#3752](https://github.com/1024pix/pix/pull/3752) [BUGFIX] Ne PAS afficher le champ "Certifications complémentaires" pour un centre non habilité (PIX-3855)
+
+### :coffee: Various
+- [#3751](https://github.com/1024pix/pix/pull/3751) [FEAT] Limiter le nombre de questions dans un assessment flash (PIX-3785).
+
 ## v3.129.0 (18/11/2021)
 
 
