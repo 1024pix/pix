@@ -8,7 +8,7 @@
       {{on 'click' (fn this.toggleCandidate @candidate)}}
     />
   {{/unless}}
-  <div>
+  <div class="session-supervising-candidate-in-list__candidate-data">
     <div class="session-supervising-candidate-in-list__full-name">
       {{#if @candidate.hasStarted}}
         {{@candidate.lastName}} {{@candidate.firstName}}
@@ -30,4 +30,10 @@
       </span>
     {{/if}}
   </div>
+  {{#if @candidate.hasStarted}}
+    <PixIconButton
+      @icon="ellipsis-v"
+      aria-label="Afficher les options du candidat"
+    />
+  {{/if}}
 </li>
