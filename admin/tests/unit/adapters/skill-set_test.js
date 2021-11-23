@@ -13,8 +13,13 @@ module('Unit | Adapters | skill-set', function (hooks) {
   module('#urlForCreateRecord', function () {
     test('should build create url from badgeId', async function (assert) {
       // when
-      const options = { adapterOptions: { badgeId: 66 } };
-      const url = await adapter.urlForCreateRecord('skill-set', options);
+      const skillSet = {
+        belongsTo(relationship) {
+          if (relationship !== 'badge') return null;
+          return { id: 66 };
+        },
+      };
+      const url = await adapter.urlForCreateRecord('skill-set', skillSet);
 
       // then
       assert.true(url.endsWith('/api/admin/badges/66/skill-sets'));
