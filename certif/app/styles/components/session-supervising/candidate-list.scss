@@ -54,24 +54,6 @@ $green-70: #006134;
       }
     }
 
-    &__candidate {
-      padding: 12px 16px;
-      margin-bottom: 8px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-    }
-
-    &__candidate-details {
-      color: $grey-22;
-      font-size: 0.75rem;
-    }
-
-    &__candidate-full-name {
-      color: $yellow-30;
-      margin-bottom: 4px;
-    }
-
     &__empty-image {
       display: block;
       margin: 20px auto;
@@ -85,26 +67,6 @@ $green-70: #006134;
       margin: auto;
       max-width: 225px;
       text-align: center;
-    }
-
-    &__candidate-checkbox {
-      width: 32px;
-      height: 32px;
-      margin-right: 16px;
-    }
-
-    &__candidate-status {
-      border-radius: 12px;
-      display: inline-block;
-      font-size: 0.625rem;
-      font-weight: 500;
-      margin-top: 8px;
-      padding: 4px 16px;
-
-      &--started {
-        background-color: $green-0;
-        color: $green-70;
-      }
     }
   }
 }
