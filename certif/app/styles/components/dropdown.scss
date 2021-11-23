@@ -21,7 +21,11 @@
     display: flex;
     font-size: 0.875rem;
     transition: background-color 0.1s linear;
-    padding: 12px 16px;
+
+    &__button {
+      padding: 12px 16px;
+      display: flex;
+    }
 
     &--link {
       padding: 0;
