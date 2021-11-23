@@ -17,8 +17,8 @@ function logObjectSerializer(req) {
   return {
     ...enhancedReq,
     user_id: monitoringTools.extractUserIdFromRequest(req),
-    metrics: context.metrics,
-    route: context.request.route.path,
+    metrics: context?.metrics,
+    route: context?.request?.route?.path,
   };
 }
 
