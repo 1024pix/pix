@@ -31,9 +31,17 @@
     {{/if}}
   </div>
   {{#if @candidate.hasStarted}}
-    <PixIconButton
-      @icon="ellipsis-v"
-      aria-label="Afficher les options du candidat"
-    />
+    <div class="session-supervising-candidate-in-list__menu">
+      <PixIconButton
+        @icon="ellipsis-v"
+        aria-label="Afficher les options du candidat"
+        @triggerAction={{this.toggleMenu}}
+      />
+      <Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} aria-label="Options du candidat">
+        <Dropdown::Item @onClick={{this.allowTestResume}}>
+          Autoriser la reprise du test
+        </Dropdown::Item>
+      </Dropdown::Content>
+    </div>
   {{/if}}
 </li>
