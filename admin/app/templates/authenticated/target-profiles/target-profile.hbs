@@ -17,28 +17,32 @@
       <div class="page-section__header">
         <h1 class="page-section__title">{{@model.name}}</h1>
       </div>
-      <div class="page-section__content">
-        <div>ID : {{@model.id}}</div>
-        <div>Date de création : {{format-date @model.createdAt}}</div>
-        <div>Public : {{this.isPublic}}</div>
-        <div>Obsolète : {{this.isOutdated}}</div>
-        <div>Organisation de référence :
-          <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
-            {{@model.ownerOrganizationId}}
-          </LinkTo>
+      <div class="page-section__container">
+        <div class="page-section__content">
+          <div>ID : {{@model.id}}</div>
+          <div>Date de création : {{format-date @model.createdAt}}</div>
+          <div>Public : {{this.isPublic}}</div>
+          <div>Obsolète : {{this.isOutdated}}</div>
+          <div>Organisation de référence :
+            <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
+              {{@model.ownerOrganizationId}}
+            </LinkTo>
+          </div>
         </div>
-        {{#if @model.description}}
-          <div>
-            Description :
-            <MarkdownToHtml @markdown={{@model.description}} />
-          </div>
-        {{/if}}
-        {{#if @model.comment}}
-          <div>
-            Commentaire (usage interne) :
-            <MarkdownToHtml @markdown={{@model.comment}} />
-          </div>
-        {{/if}}
+        <div class="page-section__content">
+          {{#if @model.description}}
+            <div>
+              Description :
+              <MarkdownToHtml @markdown={{@model.description}} />
+            </div>
+          {{/if}}
+          {{#if @model.comment}}
+            <div>
+              Commentaire (usage interne) :
+              <MarkdownToHtml @markdown={{@model.comment}} />
+            </div>
+          {{/if}}
+        </div>
       </div>
       <div class="form-actions">
         <PixButton
