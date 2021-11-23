@@ -88,7 +88,7 @@ exports.register = async function (server) {
             data: Joi.object({
               attributes: Joi.object({
                 name: Joi.string().required(),
-                skillIds: Joi.array().items(Joi.string()).required(),
+                'skill-ids': Joi.array().items(Joi.string()).required(),
               }).required(),
               type: Joi.string().required(),
             }).required(),

@@ -52,7 +52,24 @@
     <p>Laissez ce champ vide si la participation de campagne est non souhaitée</p>
     <div>
       <label for="campaignParticipationThreshold">Taux de réussite souhaité :</label>
-      <Input id="campaignParticipationThreshold" @type="number" @value={{this.threshold}} />
+      <Input id="campaignParticipationThreshold" @type="number" @value={{this.campaignParticipationThreshold}} />
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <label for="skillSetThreshold">Taux de réussite souhaité :</label>
+      <Input id="skillSetThreshold" @type="number" @value={{this.skillSet.threshold}} />
+    </div>
+
+    <div>
+      <label for="skillSetName">Nom de la liste</label>
+      <Input id="skillSetName" @type="text" @value={{this.skillSet.name}} />
+    </div>
+
+    <div class="badge-form__text-field">
+      <label for="skillSetSkills">Message : </label>
+      <Textarea id="skillSetSkills" class="form-control" @value={{this.skillSet.skills}} rows="4" />
     </div>
   </div>
 
