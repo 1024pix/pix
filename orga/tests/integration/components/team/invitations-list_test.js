@@ -78,7 +78,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     assert.ok(true);
   });
 
-  test('it should show error notification when cancel an invitation failed', async function (assert) {
+  test('it should show error notification when cancelling an invitation fails', async function (assert) {
     // given
     const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
     const invitation = {
