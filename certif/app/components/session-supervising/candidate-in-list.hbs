@@ -1,0 +1,33 @@
+<li class="session-supervising-candidate-in-list">
+  {{#unless @candidate.hasStarted}}
+    <PixInput
+      @id={{concat "candidate-checkbox-" @candidate.id}}
+      class="session-supervising-candidate-in-list__checkbox"
+      type="checkbox"
+      checked={{@candidate.authorizedToStart}}
+      {{on 'click' (fn this.toggleCandidate @candidate)}}
+    />
+  {{/unless}}
+  <div>
+    <div class="session-supervising-candidate-in-list__full-name">
+      {{#if @candidate.hasStarted}}
+        {{@candidate.lastName}} {{@candidate.firstName}}
+      {{else}}
+        <label for={{concat "candidate-checkbox-" @candidate.id}}>
+          {{@candidate.lastName}} {{@candidate.firstName}}
+        </label>
+      {{/if}}
+    </div>
+    <div class="session-supervising-candidate-in-list__details">
+      {{moment-format @candidate.birthdate "DD/MM/YYYY"}}
+      {{#if @candidate.extraTimePercentage}}
+        · Temps majoré : {{@candidate.extraTimePercentage}}%
+      {{/if}}
+    </div>
+    {{#if @candidate.hasStarted}}
+      <span class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started">
+        En cours
+      </span>
+    {{/if}}
+  </div>
+</li>
