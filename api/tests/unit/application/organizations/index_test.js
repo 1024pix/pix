@@ -494,7 +494,7 @@ describe('Unit | Router | organization-router', function () {
     });
   });
 
-  describe('PUT', function () {
+  describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {
     it('should call the cancel organization invitation controller', async function () {
       // given
       sinon
@@ -505,8 +505,8 @@ describe('Unit | Router | organization-router', function () {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const method = 'PUT';
-      const url = '/api/organizations/1/invitations/1/cancel';
+      const method = 'DELETE';
+      const url = '/api/organizations/1/invitations/1';
 
       // when
       await httpTestServer.request(method, url);

@@ -54,17 +54,15 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
       email: 'gigi@example.net',
       isPending: true,
       updatedAt: pendingInvitationDate,
+      deleteRecord: sinon.stub(),
+      save: sinon.stub(),
     };
 
     const notifications = this.owner.lookup('service:notifications');
-    const store = this.owner.lookup('service:store');
     this.owner.register('service:current-user', CurrentUserStub);
-    const queryRecordStub = sinon.stub();
-    store.queryRecord = queryRecordStub.resolves();
     sinon.stub(notifications, 'success');
 
     this.set('invitations', [invitation]);
-    this.set('store', store);
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
@@ -86,17 +84,16 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
       email: 'gigi@example.net',
       updatedAt: pendingInvitationDate,
       isPending: true,
+      deleteRecord: sinon.stub(),
+      save: sinon.stub(),
     };
 
     const notifications = this.owner.lookup('service:notifications');
-    const store = this.owner.lookup('service:store');
     this.owner.register('service:current-user', CurrentUserStub);
-    const queryRecordStub = sinon.stub();
-    store.queryRecord = queryRecordStub.rejects();
+    invitation.save.rejects();
     sinon.stub(notifications, 'error');
 
     this.set('invitations', [invitation]);
-    this.set('store', store);
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);

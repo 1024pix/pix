@@ -1,6 +1,10 @@
 import ApplicationAdapter from './application';
 
 export default class OrganizationInvitationAdapter extends ApplicationAdapter {
+  urlForDeleteRecord(id, modelName, { adapterOptions }) {
+    return `${this.host}/${this.namespace}/organizations/${adapterOptions.organizationId}/invitations/${adapterOptions.organizationInvitationId}`;
+  }
+
   urlForCreateRecord(modelName, { adapterOptions }) {
     const { organizationId } = adapterOptions;
 
@@ -22,15 +26,5 @@ export default class OrganizationInvitationAdapter extends ApplicationAdapter {
       response.data = response.data[0];
       return response;
     });
-  }
-
-  queryRecord(store, type, queryParams) {
-    if (queryParams.organizationId) {
-      return this.ajax(
-        `${this.host}/${this.namespace}/organizations/${queryParams.organizationId}/invitations/${queryParams.organizationInvitationId}/cancel`,
-        'PUT'
-      );
-    }
-    return super.queryRecord(...arguments);
   }
 }
