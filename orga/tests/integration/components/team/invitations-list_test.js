@@ -61,7 +61,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
     const queryRecordStub = sinon.stub();
     store.queryRecord = queryRecordStub.resolves();
-    sinon.stub(notifications, 'sendSuccess');
+    sinon.stub(notifications, 'success');
 
     this.set('invitations', [invitation]);
     this.set('store', store);
@@ -72,7 +72,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // then
     sinon.assert.calledWith(
-      notifications.sendSuccess,
+      notifications.success,
       this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message')
     );
     assert.ok(true);
