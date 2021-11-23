@@ -8,6 +8,7 @@ $green-70: #006134;
   border-radius: 4px;
   display: flex;
   align-items: center;
+  position: relative;
 
   &__candidate-data {
     width: calc(100% - 32px);
@@ -41,5 +42,15 @@ $green-70: #006134;
       background-color: $green-0;
       color: $green-70;
     }
+  }
+
+  &__menu {
+    position: relative;
+  }
+
+  .dropdown__content {
+    right: 0;
+    top: 32px;
+    width: 216px;
   }
 }

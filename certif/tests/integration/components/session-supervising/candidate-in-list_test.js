@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render as renderScreen } from '@pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -94,6 +95,34 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom('.session-supervising-candidate-in-list').hasText('Racoon Rocket 28/07/1982 En cours');
       assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
+    });
+
+    module('when the candidate options button is clicked', function() {
+      test('it displays the "autoriser la reprise" option', async function(assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 1123,
+          firstName: 'Drax',
+          lastName: 'The Destroyer',
+          birthdate: '1928-08-27',
+          extraTimePercentage: null,
+          authorizedToStart: true,
+          assessmentStatus: 'started',
+        });
+        this.toggleCandidate = sinon.spy();
+        const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />
+        `);
+
+        // when
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Autoriser la reprise du test' })).exists();
+      });
     });
   });
 
