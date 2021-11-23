@@ -86,7 +86,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
               it('should display a warning alert', async function () {
                 // when
-                await triggerEvent(document, 'hasFocusOut');
+                await triggerEvent(document, 'focusedout');
 
                 // then
                 expect(find('[data-test="alert-message-focused-out-of-window"]')).to.exist;
@@ -113,7 +113,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                 expect(find('.challenge__focused-out-overlay')).to.exist;
 
                 // when
-                await triggerEvent(document, 'hasFocusOut');
+                await triggerEvent(document, 'focusedout');
 
                 // then
                 expect(find('.challenge__info-alert--could-show')).to.not.exist;
@@ -202,7 +202,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // when
-              await triggerEvent(document, 'hasFocusOut');
+              await triggerEvent(document, 'focusedout');
             });
 
             it('should display the certification warning alert', async function () {
@@ -226,7 +226,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // when
-              await triggerEvent(document, 'hasFocusOut');
+              await triggerEvent(document, 'focusedout');
             });
 
             it('should display the default warning alert', async function () {
@@ -414,7 +414,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             it('should not display a warning alert', async function () {
               // when
-              await triggerEvent(document, 'hasFocusOut');
+              await triggerEvent(document, 'focusedout');
               // then
               expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
             });
