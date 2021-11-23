@@ -20,6 +20,7 @@ module.exports = {
         'tokenForCampaignResults',
         'idPixLabel',
         'targetProfileId',
+        'targetProfileDescription',
         'targetProfileName',
         'targetProfileImageUrl',
         'creatorId',

@@ -16,6 +16,7 @@ class CampaignReport {
     creatorLastName,
     creatorFirstName,
     targetProfileId,
+    targetProfileDescription,
     targetProfileName,
     targetProfileImageUrl,
     participationsCount,
@@ -38,6 +39,7 @@ class CampaignReport {
     this.creatorLastName = creatorLastName;
     this.creatorFirstName = creatorFirstName;
     this.targetProfileId = targetProfileId;
+    this.targetProfileDescription = targetProfileDescription;
     this.targetProfileName = targetProfileName;
     this.targetProfileImageUrl = targetProfileImageUrl;
     this.participationsCount = participationsCount;
