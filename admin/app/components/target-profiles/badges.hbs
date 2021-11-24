@@ -8,6 +8,7 @@
           <th class="badges-table__key">Clé</th>
           <th class="badges-table__name">Nom</th>
           <th>Message</th>
+          <th>Toujours visible</th>
           <th class="badges-table__actions">Actions</th>
         </tr>
       </thead>
@@ -19,6 +20,7 @@
             <td>{{badge.key}}</td>
             <td>{{badge.title}}</td>
             <td>{{badge.message}}</td>
+            <td>{{if badge.isAlwaysVisible "Oui" "Non"}}</td>
             <td>
               <PixButtonLink
                 @backgroundColor="transparent-light"
