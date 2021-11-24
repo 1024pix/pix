@@ -3,13 +3,13 @@
     <table>
       <thead>
         <tr>
-          <th><label for="id">ID</label></th>
+          <th class="table__column--id"><label for="id">ID</label></th>
           <th><label for="name">Nom</label></th>
           <th><label for="type">Type</label></th>
           <th><label for="externalId">Identifiant externe</label></th>
         </tr>
         <tr>
-          <td>
+          <td class="table__column--id">
             <input
               id="id"
               type="text"
@@ -52,7 +52,7 @@
         <tbody>
           {{#each @organizations as |organization|}}
             <tr aria-label="Organisation">
-              <td>
+              <td class="table__column--id">
                 <LinkTo
                   @route="authenticated.organizations.get"
                   @model={{organization.id}}

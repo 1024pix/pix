@@ -7,7 +7,7 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column--medium">ID</th>
+            <th class="table__column--id">ID</th>
             <th class="table__column--medium">Code</th>
             <th class="table__column--medium">Type</th>
             <th class="table__column">Nom</th>
@@ -21,7 +21,7 @@
           <tbody>
             {{#each @campaigns as |campaign|}}
               <tr aria-label="campagne">
-                <td class="table__column--medium">
+                <td class="table__column--id">
                   <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
                     {{campaign.id}}
                   </LinkTo>
