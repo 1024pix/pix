@@ -9,19 +9,29 @@ export default class Organizations extends Component {
   @service notifications;
   @service router;
 
-  @tracked organizationsToAttach = [];
-  @tracked existingTargetProfile = null;
+  @tracked organizationsToAttach = '';
+  @tracked existingTargetProfile = '';
+
+  get isDisabledAttachOrganizationsFromExistingTargetProfile() {
+    return this.existingTargetProfile === '';
+  }
+
+  get isDisabledAttachOrganizations() {
+    return this.organizationsToAttach === '';
+  }
 
   @action
   async attachOrganizations(e) {
     e.preventDefault();
+    if (this.isDisabledAttachOrganizations) return;
+
     const targetProfile = this.args.targetProfile;
     try {
       const response = await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
 
       const { 'attached-ids': attachedIds, 'duplicated-ids': duplicatedIds } = response.data.attributes;
 
-      this.organizationsToAttach = null;
+      this.organizationsToAttach = '';
       const hasInsertedOrganizations = attachedIds.length > 0;
       const hasDuplicatedOrgnizations = duplicatedIds.length > 0;
       const message = [];
@@ -51,12 +61,14 @@ export default class Organizations extends Component {
   @action
   async attachOrganizationsFromExistingTargetProfile(e) {
     e.preventDefault();
+    if (this.isDisabledAttachOrganizationsFromExistingTargetProfile) return;
+
     const targetProfile = this.args.targetProfile;
     try {
       await targetProfile.attachOrganizationsFromExistingTargetProfile({
         'target-profile-id': this.existingTargetProfile,
       });
-      this.existingTargetProfile = null;
+      this.existingTargetProfile = '';
       await this.notifications.success('Organisation(s) rattaché(es) avec succès.');
       return this.router.replaceWith('authenticated.target-profiles.target-profile.organizations');
     } catch (responseError) {

@@ -36,7 +36,7 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
-        assert.equal(component.organizationsToAttach, null);
+        assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', { htmlContent: true })
         );
@@ -61,7 +61,7 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1] }));
-        assert.equal(component.organizationsToAttach, null);
+        assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
             'Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
@@ -89,7 +89,7 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
-        assert.equal(component.organizationsToAttach, null);
+        assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
             'Organisation(s) rattaché(es) avec succès.<br/>Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
@@ -119,7 +119,7 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
-        assert.equal(component.organizationsToAttach, null);
+        assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
         );
@@ -224,7 +224,7 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
             'target-profile-id': 1,
           })
         );
-        assert.equal(component.existingTargetProfile, null);
+        assert.equal(component.existingTargetProfile, '');
         assert.ok(component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')

@@ -91,4 +91,20 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     assert.dom('[placeholder="1135"]').hasValue('1');
   });
+
+  test('it should disable buttons when the inputs are empty', async function (assert) {
+    // given
+    const organizations = [];
+    organizations.meta = { page: 1, pageSize: 1 };
+    this.organizations = [];
+
+    // when
+    await render(
+      hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
+    );
+
+    // then
+    assert.dom('[aria-label="Valider le rattachement"]').isDisabled();
+    assert.dom('[aria-label="Valider le rattachement à partir de ce profil cible"]').isDisabled();
+  });
 });
