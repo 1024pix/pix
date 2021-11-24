@@ -298,6 +298,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               skillSets: [
                 {
                   id: 18,
+                  badgeId: 64,
                   name: 'Yellow',
                   skillIds: [1, 2, 4],
                 },
@@ -441,6 +442,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               skillSets: [
                 {
                   id: 42,
+                  badgeId: 64,
                   name: 'Green',
                   skillIds: [1, 2, 4],
                 },
@@ -613,6 +615,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               skillSets: [
                 {
                   id: 42,
+                  badgeId: 64,
                   name: 'Green',
                   skillIds: [1, 2, 4],
                 },

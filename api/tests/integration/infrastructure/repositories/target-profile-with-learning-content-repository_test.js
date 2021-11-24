@@ -32,6 +32,8 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
     ...skillSet2,
     badgeId: badge.id,
   }).id;
+  skillSet1.badgeId = badge.id;
+  skillSet2.badgeId = badge.id;
   await databaseBuilder.commit();
 
   return badge;

@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | badge-criteria-serializer', function () 
   });
 
   describe('#deserialize', function () {
-    it('should convert JSON API data into a BadgeCriterion model object', function () {
+    it('should convert JSON API data into a CampaignParticipation BadgeCriterion model object', function () {
       // given
       const badgeCriterionPayload = {
         data: {
@@ -51,6 +51,41 @@ describe('Unit | Serializer | JSONAPI | badge-criteria-serializer', function () 
         scope: 'CampaignParticipation',
         threshold: 65,
         skillSetIds: [],
+      };
+
+      expect(badgeCriteria).to.deep.equal(expectedBadgeCriterion);
+    });
+
+    it('should convert JSON API data into a SkillSet BadgeCriterion model object', function () {
+      // given
+      const badgeCriterionPayload = {
+        data: {
+          type: 'badge-criteria',
+          attributes: {
+            scope: 'SkillSet',
+            threshold: 65,
+          },
+          relationships: {
+            'skill-sets': {
+              data: [
+                {
+                  id: 'skillSet1',
+                  type: 'SkillSet',
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      // when
+      const badgeCriteria = serializer.deserialize(badgeCriterionPayload);
+
+      // then
+      const expectedBadgeCriterion = {
+        scope: 'SkillSet',
+        threshold: 65,
+        skillSetIds: ['skillSet1'],
       };
 
       expect(badgeCriteria).to.deep.equal(expectedBadgeCriterion);
