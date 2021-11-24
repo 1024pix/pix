@@ -91,6 +91,34 @@ module('Unit | Component | update-target-profile', function (hooks) {
       assert.equal(component.args.model.description, 'Edited description');
     });
 
+    test('it should update the comment of the target profile', async function (assert) {
+      // given
+      const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
+        model: {
+          name: 'Karam',
+          comment: null,
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+      component.form.comment = 'Edited comment';
+      component.args.model = {
+        name: 'Karam',
+        comment: null,
+        save: sinon.stub(),
+        rollbackAttributes: sinon.stub(),
+      };
+      component.notifications = { success: sinon.stub(), error: sinon.stub() };
+
+      // when
+      await component.updateProfile(event);
+      // then
+      assert.equal(component.args.model.comment, 'Edited comment');
+    });
+
     test('it should do nothing when form is not valid', async function (assert) {
       // given
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
