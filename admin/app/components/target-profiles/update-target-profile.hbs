@@ -1,5 +1,5 @@
 <section class="page-section mb_10">
-  <div class="organization__edit-form">
+  <div class="target-profile__edit-form">
     <form class="form" {{on "submit" this.updateProfile}}>
 
       <span class="form__instructions">
@@ -25,7 +25,6 @@
           @value={{this.form.name}}
           required={{true}}
         />
-
         <label for="targetProfileDescription" class="form-field__label">
           Description
         </label>
@@ -40,6 +39,21 @@
           @maxlength="500"
           class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.description}}
+        />
+        <label for="targetProfileComment" class="form-field__label">
+          Commentaire (usage interne)
+        </label>
+        {{#if (v-get this.form "comment" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "comment" "message"}}
+          </div>
+        {{/if}}
+        <PixTextarea
+          id="targetProfileComment"
+          rows="4"
+          @maxlength="500"
+          class={{if (v-get this.form "comment" "isInvalid") "form-control is-invalid" "form-control"}}
+          @value={{this.form.comment}}
         />
       </div>
       <div class="form-actions">

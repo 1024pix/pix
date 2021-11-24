@@ -468,6 +468,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
           attributes: {
             name: 'test',
             description: 'description changée.',
+            comment: 'commentaire changé.',
           },
         },
       };
@@ -492,6 +493,32 @@ describe('Integration | Application | Target Profiles | Routes', function () {
           attributes: {
             name: 'test',
             description: description.repeat(26),
+            comment: null,
+          },
+        },
+      };
+      const url = '/api/admin/target-profiles/123';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return a 400 error when comment is over than 500 characters', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      const comment = 'commentaire changé.';
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'PATCH';
+      const payload = {
+        data: {
+          attributes: {
+            name: 'test',
+            description: 'good',
+            comment: comment.repeat(27),
           },
         },
       };
@@ -533,6 +560,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
           attributes: {
             name: 'Not Pix Admin',
             description: null,
+            comment: null,
           },
         },
       };

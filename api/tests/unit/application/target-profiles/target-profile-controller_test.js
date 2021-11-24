@@ -19,6 +19,7 @@ describe('Unit | Controller | target-profile-controller', function () {
             attributes: {
               name: 'Pixer123',
               description: 'description changée',
+              comment: 'commentaire changée',
             },
           },
         },
@@ -37,6 +38,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           id: 123,
           name: 'Pixer123',
           description: 'description changée',
+          comment: 'commentaire changée',
         });
       });
     });
