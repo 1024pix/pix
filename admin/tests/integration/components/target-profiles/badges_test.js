@@ -16,7 +16,6 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       message: 'My message',
       imageUrl: 'data:,',
       altMessage: 'My alt message',
-      isAlwaysVisible: true,
     });
     this.set('badges', [badge]);
 
@@ -32,7 +31,6 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     assert.contains('Clé');
     assert.contains('Nom');
     assert.contains('Message');
-    assert.contains('Toujours visible');
     assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
     assert.equal(find('tbody tr td:first-child').textContent, '1');
@@ -42,7 +40,6 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     assert.contains('My key');
     assert.contains('My title');
     assert.contains('My message');
-    assert.contains('Oui');
     assert.contains('Voir détail');
     assert.notContains('Aucun résultat thématique associé');
   });
