@@ -2,7 +2,7 @@
   <table class="table-admin">
     <thead>
       <tr>
-        <th>ID</th>
+        <th class="table__column--id">ID</th>
         <th>Prénom</th>
         <th>Nom</th>
         <th>Adresse électronique</th>
@@ -13,7 +13,9 @@
       <tbody>
         {{#each @users as |user|}}
           <tr>
-            <td><LinkTo @route="authenticated.users.get" @model={{user.id}}> {{user.id}} </LinkTo></td>
+            <td class="table__column--id"><LinkTo @route="authenticated.users.get" @model={{user.id}}>
+                {{user.id}}
+              </LinkTo></td>
             <td>{{user.firstName}}</td>
             <td>{{user.lastName}}</td>
             <td>{{user.email}}</td>
