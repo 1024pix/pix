@@ -146,6 +146,10 @@ module.exports = {
     return knex(AUTHENTICATION_METHODS_TABLE).where({ userId, identityProvider }).del();
   },
 
+  async removeAllAuthenticationMethodsByUserId({ userId }) {
+    return knex(AUTHENTICATION_METHODS_TABLE).where({ userId }).del();
+  },
+
   async updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
