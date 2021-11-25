@@ -4,12 +4,12 @@ import Route from '@ember/routing/route';
 export default class AssessmentRoute extends Route.extend(SecuredRouteMixin) {
   async model() {
     const campaign = this.modelFor('campaigns');
-    const campaignAssessment = await this.store.query('assessment', {
-      filter: { type: 'CAMPAIGN', codeCampaign: campaign.code },
+    const campaignParticipation = await this.store.queryRecord('campaignParticipation', {
+      campaignId: campaign.id,
+      userId: this.currentUser.user.id,
     });
-    const assessment = await campaignAssessment.get('firstObject');
     return {
-      assessment,
+      assessment: await campaignParticipation.assessment,
       campaign,
     };
   }

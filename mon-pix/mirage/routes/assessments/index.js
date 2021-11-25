@@ -1,12 +1,10 @@
 import completeAssessment from './complete-assessment';
-import findAssessments from './find-assessments';
 import getAssessment from './get-assessment';
 import getNextChallenge from './get-next-challenge';
 import postAssessments from './post-assessments';
 import setFocusedOutState from './set-focusedout-state';
 
 export default function index(config) {
-  config.get('/assessments', findAssessments);
   config.post('/assessments', postAssessments);
 
   config.get('/assessments/:id', getAssessment);
