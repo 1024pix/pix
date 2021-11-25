@@ -1,6 +1,10 @@
 import ApplicationAdapter from './application';
 
 export default class OrganizationInvitationAdapter extends ApplicationAdapter {
+  urlForDeleteRecord(id, modelName, { adapterOptions }) {
+    return `${this.host}/${this.namespace}/organizations/${adapterOptions.organizationId}/invitations/${adapterOptions.organizationInvitationId}`;
+  }
+
   urlForCreateRecord(modelName, { adapterOptions }) {
     const { organizationId } = adapterOptions;
 

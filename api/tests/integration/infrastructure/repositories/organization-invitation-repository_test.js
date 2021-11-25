@@ -158,6 +158,40 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
     });
   });
 
+  describe('#markAsCancelled', function () {
+    it('should return an Organization-invitation domain object', async function () {
+      // given
+      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const organizationInvitationSaved = await organizationInvitationRepository.markAsCancelled({
+        id: organizationInvitation.id,
+      });
+
+      // then
+      expect(organizationInvitationSaved).to.be.an.instanceof(OrganizationInvitation);
+      expect(organizationInvitationSaved.id).to.equal(organizationInvitation.id);
+      expect(organizationInvitationSaved.organizationId).to.equal(organizationInvitation.organizationId);
+      expect(organizationInvitationSaved.email).to.equal(organizationInvitation.email);
+      expect(organizationInvitationSaved.status).to.equal(OrganizationInvitation.StatusType.CANCELLED);
+      expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
+    });
+
+    it('should throw a not found error', async function () {
+      // given
+      const notExistingInvitationId = '5';
+
+      // when
+      const error = await catchErr(organizationInvitationRepository.markAsCancelled)({ id: notExistingInvitationId });
+
+      // then
+      expect(error).to.be.an.instanceOf(NotFoundError);
+    });
+  });
+
   describe('#findOnePendingByOrganizationIdAndEmail', function () {
     let organizationInvitation;
 

@@ -14,6 +14,16 @@
             {{t "pages.team-invitations.table.row.message"}}
             {{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
           </td>
+          <td>
+            <PixTooltip @text={{t "pages.team-invitations.cancel-invitation"}} @isInline={{true}}>
+              <PixIconButton
+                @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
+                @icon="trash-alt"
+                @triggerAction={{fn this.cancelInvitation invitation}}
+                @withBackground={{true}}
+              />
+            </PixTooltip>
+          </td>
         </tr>
       {{/each}}
     </tbody>

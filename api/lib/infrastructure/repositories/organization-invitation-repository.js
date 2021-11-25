@@ -56,6 +56,20 @@ module.exports = {
       .catch((err) => _checkNotFoundError(err, id));
   },
 
+  async markAsCancelled({ id }) {
+    const [organizationInvitation] = await knex('organization-invitations')
+      .where({ id })
+      .update({
+        status: OrganizationInvitation.StatusType.CANCELLED,
+      })
+      .returning('*');
+
+    if (!organizationInvitation) {
+      throw new NotFoundError(`Organization invitation of id ${id} is not found.`);
+    }
+    return new OrganizationInvitation(organizationInvitation);
+  },
+
   findPendingByOrganizationId({ organizationId }) {
     return BookshelfOrganizationInvitation.where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
       .orderBy('updatedAt', 'desc')

@@ -8,6 +8,7 @@ const {
 } = require('../../../test-helper');
 
 const Organization = require('../../../../lib/domain/models/Organization');
+const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
@@ -778,6 +779,41 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails, locale });
+    });
+  });
+
+  describe('#cancelOrganizationInvitation', function () {
+    it('should call the usecase to cancel invitation with organizationInvitationId', async function () {
+      //given
+      const organizationInvitationId = 123;
+
+      const request = {
+        auth: { credentials: { userId: 1 } },
+        params: { organizationInvitationId },
+      };
+      const cancelledOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
+        id: organizationInvitationId,
+        status: OrganizationInvitation.StatusType.CANCELLED,
+      });
+
+      sinon
+        .stub(usecases, 'cancelOrganizationInvitation')
+        .withArgs({
+          organizationInvitationId: cancelledOrganizationInvitation.id,
+        })
+        .resolves(cancelledOrganizationInvitation);
+      const serializedResponse = Symbol('serializedCancelledOrganizationInvitation');
+
+      sinon
+        .stub(organizationInvitationSerializer, 'serialize')
+        .withArgs(cancelledOrganizationInvitation)
+        .returns(serializedResponse);
+
+      // when
+      const response = await organizationController.cancelOrganizationInvitation(request, hFake);
+
+      // then
+      expect(response.source).to.equal(serializedResponse);
     });
   });
 
