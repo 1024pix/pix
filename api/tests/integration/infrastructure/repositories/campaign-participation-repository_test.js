@@ -657,6 +657,24 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(response.id).to.equal(campaignParticipation.id);
     });
 
+    it('should include assessments found too', async function () {
+      // given
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+      const assessment = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation.id });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response.assessments).to.have.lengthOf(1);
+      expect(response.assessments[0]).to.be.instanceOf(Assessment);
+      expect(response.assessments[0].id).to.equal(assessment.id);
+    });
+
     it('should return no campaign participation', async function () {
       // when
       const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
