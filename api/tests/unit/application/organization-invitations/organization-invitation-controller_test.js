@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
 const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
@@ -9,13 +9,13 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
   let request;
 
   describe('#acceptOrganizationInvitation', function () {
-    const organizationInvitationId = 1;
-    const code = 'ABCDEFGH01';
-    const email = 'random@email.com';
-
-    beforeEach(function () {
-      request = {
-        params: { id: organizationInvitationId },
+    it('should call acceptOrganizationInvitation usecase to accept invitation with organizationInvitationId and code', async function () {
+      // given
+      const code = 'ABCDEFGH01';
+      const email = 'random@email.com';
+      const organizationInvitation = domainBuilder.buildOrganizationInvitation({ code, email });
+      const request = {
+        params: { id: organizationInvitation.id },
         payload: {
           data: {
             type: 'organization-invitations',
@@ -24,21 +24,45 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         },
       };
 
-      sinon.stub(usecases, 'acceptOrganizationInvitation');
-    });
-
-    it('should call the usecase to accept invitation with organizationInvitationId and code', async function () {
-      // given
-      usecases.acceptOrganizationInvitation.resolves();
+      sinon.stub(usecases, 'acceptOrganizationInvitation').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
 
       // when
       await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
       expect(usecases.acceptOrganizationInvitation).to.have.been.calledWith({
-        organizationInvitationId,
+        organizationInvitationId: organizationInvitation.id,
         code,
         email,
+      });
+    });
+
+    it('should call createCertificationCenterMembershipForScoOrganizationMember usecase to create certification center membership', async function () {
+      // given
+      const code = 'ABCDEFGH01';
+      const email = 'random@email.com';
+      const organizationInvitation = domainBuilder.buildOrganizationInvitation({ code, email });
+      const membership = domainBuilder.buildMembership();
+      const request = {
+        params: { id: organizationInvitation.id },
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: { code, email },
+          },
+        },
+      };
+
+      sinon.stub(usecases, 'acceptOrganizationInvitation').resolves(membership);
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+
+      // when
+      await organizationInvitationController.acceptOrganizationInvitation(request);
+
+      // then
+      expect(usecases.createCertificationCenterMembershipForScoOrganizationMember).to.have.been.calledWith({
+        membership,
       });
     });
   });
