@@ -50,11 +50,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 139px;
+    width: fit-content;
     height: 50px;
     border-radius: 7px;
     background-color: $grey-20;
     margin: 0 auto;
+    padding: 4px 12px;
     line-height: 3.125rem;
   }
 }
@@ -65,10 +66,6 @@
     width: 42px;
     padding-right: 6px;
     padding-bottom: 6px;
-  }
-
-  &__value {
-    width: 69px;
   }
 }
 

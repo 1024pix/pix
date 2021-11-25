@@ -2,16 +2,12 @@ import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
 
 export default class TimedChallengeInstructions extends Component {
-  get allocatedHumanTime() {
-    return _formatTimeForText(this.args.time);
-  }
-
   get allocatedTime() {
-    return _formatTimeForButton(this.args.time);
+    return _formatTime(this.args.time);
   }
 }
 
-function _formatTimeForText(time) {
+function _formatTime(time) {
   if (!isInteger(time)) {
     return '';
   }
@@ -24,20 +20,6 @@ function _formatTimeForText(time) {
   const joiningWord = !minutes || !seconds ? '' : ' et ';
 
   return `${formattedMinutes}${joiningWord}${formattedSeconds}`;
-}
-
-function _formatTimeForButton(time) {
-  if (!isInteger(time) || !time) {
-    return 0;
-  }
-
-  const minutes = _getMinutes(time);
-  const seconds = _getSeconds(time);
-
-  const formattedMinutes = minutes;
-  const formattedSeconds = seconds < 9 ? `0${seconds}` : `${seconds}`;
-
-  return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 function _getMinutes(time) {
