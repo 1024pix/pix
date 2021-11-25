@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.131.0 (25/11/2021)
+
+
+### :rocket: Enhancement
+- [#3731](https://github.com/1024pix/pix/pull/3731) [FEATURE] Permettre l'annulation d'une invitation envoyée par l'admin d'une organisation sur Pix Orga (PIX-399).
+- [#3746](https://github.com/1024pix/pix/pull/3746) [FEATURE] Badge: Ajouter un critère sur un ensemble d'acquis (backend)
+- [#3760](https://github.com/1024pix/pix/pull/3760) [FEATURE] Modifier un commentaire interne depuis Pix Admin (Pix-3869)
+- [#3759](https://github.com/1024pix/pix/pull/3759) [FEATURE] Embed + focus = :heavy_check_mark:  (PIX-3041)
+
+### :building_construction: Tech
+- [#3755](https://github.com/1024pix/pix/pull/3755) [TECH] Refactoring algo flash pour lisibilité
+
+### :bug: Bug fix
+- [#3765](https://github.com/1024pix/pix/pull/3765) [BUGFIX] Vérifier l'existence du contexte async local storage avant de tracer les métriques.
+
+### :coffee: Various
+- [#3766](https://github.com/1024pix/pix/pull/3766) [FEAT] Ajout d'une colonne 'Lacune' dans le tableau d'affichage des RT (PIX-3574).
+
 ## v3.130.0 (23/11/2021)
 
 
