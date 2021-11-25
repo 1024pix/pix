@@ -24,13 +24,13 @@ function buildCertificationCourse({
   isV2Certification = false,
   isPublished = false,
   verificationCode = 'P-ABCD1234',
-  acquiredPartnerCertifications = [],
   assessment = buildAssessment({ certificationCourseId: this.id }),
   challenges = [],
   userId = 456,
   sessionId = 789,
   isCancelled = false,
   abortReason = null,
+  complementaryCertificationCourses = [],
 } = {}) {
   const certificationIssueReports = [];
   if (examinerComment && examinerComment !== '') {
@@ -63,13 +63,13 @@ function buildCertificationCourse({
     isV2Certification,
     isPublished,
     verificationCode,
-    acquiredPartnerCertifications,
     assessment,
     challenges,
     sessionId,
     userId,
     isCancelled,
     abortReason,
+    complementaryCertificationCourses,
   });
 }
 
@@ -90,13 +90,13 @@ buildCertificationCourse.unpersisted = function ({
   isV2Certification = false,
   isPublished = false,
   verificationCode = 'P-ABCD1234',
-  acquiredPartnerCertifications = [],
   assessment = buildAssessment({ certificationCourseId: this.id }),
   challenges = [],
   userId = 456,
   sessionId = 789,
   isCancelled = false,
   abortReason = null,
+  complementaryCertificationCourses = [],
 } = {}) {
   return new CertificationCourse({
     firstName,
@@ -116,13 +116,13 @@ buildCertificationCourse.unpersisted = function ({
     isV2Certification,
     isPublished,
     verificationCode,
-    acquiredPartnerCertifications,
     assessment,
     challenges,
     sessionId,
     userId,
     isCancelled,
     abortReason,
+    complementaryCertificationCourses,
   });
 };
 
