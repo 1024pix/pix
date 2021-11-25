@@ -82,6 +82,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       // given
       const badge = store.createRecord('badge', { id: 1, imageUrl: 'url-badge' });
       const campaign = store.createRecord('campaign', {
+        targetProfileThematicResultCount: 1,
         badges: [badge],
       });
 
@@ -157,6 +158,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
     test('it should not display thematic results column', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
+        targetProfileThematicResultCount: 0,
         badges: [],
       });
 
@@ -182,6 +184,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       // given
       const badge = store.createRecord('badge');
       const campaign = store.createRecord('campaign', {
+        targetProfileThematicResultCount: 1,
         badges: [badge],
       });
 
@@ -206,6 +209,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
       const campaign = store.createRecord('campaign', {
         type: 'ASSESSMENT',
+        targetProfileThematicResultCount: 1,
         badges: [badge],
       });
 
@@ -233,6 +237,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       // given
       const stage = store.createRecord('stage', { threshold: 50 });
       const campaign = store.createRecord('campaign', {
+        targetProfileHasStage: true,
         stages: [stage],
       });
 

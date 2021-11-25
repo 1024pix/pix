@@ -51,7 +51,7 @@
                       @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
                       aria-describedby="copy-email-tooltip"
                     >
-                    <FaIcon @icon="copy" @prefix="far" />
+                      <FaIcon @icon="copy" @prefix="far" />
                     </CopyButton>
                   </:triggerElement>
                   <:tooltip>
@@ -98,7 +98,7 @@
                   >
                     <:triggerElement>
                       <CopyButton
-                        @aria-label="{{t "pages.students-sco.manage-authentication-method-modal.section.username.copy"}}"
+                        @aria-label={{t "pages.students-sco.manage-authentication-method-modal.section.username.copy"}}
                         @clipboardText={{@student.username}}
                         @success={{this.clipboardSuccessUsername}}
                         {{on "mouseout" this.clipboardOutUsername}}
@@ -146,7 +146,7 @@
                   >
                     <:triggerElement>
                       <CopyButton
-                        @aria-label="{{t "pages.students-sco.manage-authentication-method-modal.section.password.copy"}}"
+                        @aria-label={{t "pages.students-sco.manage-authentication-method-modal.section.password.copy"}}
                         @clipboardText={{this.generatedPassword}}
                         @success={{this.clipboardSuccessGeneratedPassword}}
                         {{on "mouseout" this.clipboardOutGeneratedPassword}}
