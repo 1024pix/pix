@@ -7,7 +7,6 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
   describe('#getWithAnswersAndCampaignParticipation', function () {
@@ -359,60 +358,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessmentReturned.id).first('id', 'userId');
       expect(parseInt(assessmentsInDb.userId)).to.equal(userId);
-    });
-  });
-
-  describe('#getLatestByCampaignParticipationId', function () {
-    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async function () {
-      // given
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
-      const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
-      databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
-        campaignParticipationId: otherCampaignParticipationId,
-      });
-      databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId }).id;
-      const otherAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
-      }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ assessmentId: otherAssessmentId });
-      await databaseBuilder.commit();
-
-      // when
-      const assessmentsReturned = await assessmentRepository.getLatestByCampaignParticipationId(
-        campaignParticipationId
-      );
-
-      // then
-      expect(assessmentsReturned).to.be.an.instanceOf(Assessment);
-      expect(assessmentsReturned.campaignParticipation).to.be.an.instanceOf(CampaignParticipation);
-      expect(assessmentsReturned.campaignParticipation.id).to.equal(campaignParticipationId);
-    });
-
-    it('should return the most recent assessment when there are several for the same campaignParticipation', async function () {
-      // given
-      const oldDate = new Date('2020-01-01');
-      const newDate = new Date('2020-02-01');
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
-      databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
-        campaignParticipationId,
-        createdAt: oldDate,
-      });
-      const mostRecentAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
-        campaignParticipationId,
-        createdAt: newDate,
-      }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const assessmentsReturned = await assessmentRepository.getLatestByCampaignParticipationId(
-        campaignParticipationId
-      );
-
-      // then
-      expect(assessmentsReturned.id).to.equal(mostRecentAssessmentId);
     });
   });
 

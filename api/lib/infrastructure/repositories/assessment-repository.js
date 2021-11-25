@@ -81,22 +81,6 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  getLatestByCampaignParticipationId(
-    campaignParticipationId,
-    domainTransaction = DomainTransaction.emptyTransaction()
-  ) {
-    return BookshelfAssessment.where({
-      'campaign-participations.id': campaignParticipationId,
-      'assessments.type': 'CAMPAIGN',
-    })
-      .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
-      })
-      .orderBy('assessments.createdAt', 'DESC')
-      .fetch({ withRelated: ['campaignParticipation.campaign'], transacting: domainTransaction.knexTransaction })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
-  },
-
   findNotAbortedCampaignAssessmentsByUserId(userId) {
     return BookshelfAssessment.where({ userId, type: 'CAMPAIGN' })
       .where('state', '!=', 'aborted')
