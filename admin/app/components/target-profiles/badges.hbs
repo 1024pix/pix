@@ -8,6 +8,7 @@
           <th class="badges-table__key">Clé</th>
           <th class="badges-table__name">Nom</th>
           <th>Message</th>
+          <th class="badges-table__shortcoming">Lacune</th>
           <th class="badges-table__actions">Actions</th>
         </tr>
       </thead>
@@ -19,6 +20,9 @@
             <td>{{badge.key}}</td>
             <td>{{badge.title}}</td>
             <td>{{badge.message}}</td>
+            <td>
+              <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
+            </td>
             <td>
               <PixButtonLink
                 @backgroundColor="transparent-light"
