@@ -17,17 +17,32 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   let domainTransaction;
   let verificationCode;
 
-  let sessionRepository;
-  let assessmentRepository;
-  let competenceRepository;
-  let certificationCandidateRepository;
-  let certificationChallengeRepository;
-  let certificationChallengesService;
-  let certificationCourseRepository;
-  let certificationCenterRepository;
-  let certificationBadgesService;
-  let placementProfileService;
-  let verifyCertificateCodeService;
+  const sessionRepository = {};
+  const assessmentRepository = {};
+  const competenceRepository = {};
+  const certificationCandidateRepository = {};
+  const certificationChallengeRepository = {};
+  const certificationChallengesService = {};
+  const certificationCourseRepository = {};
+  const certificationCenterRepository = {};
+  const certificationBadgesService = {};
+  const placementProfileService = {};
+  const verifyCertificateCodeService = {};
+  const complementaryCertificationRepository = {};
+
+  const injectables = {
+    assessmentRepository,
+    competenceRepository,
+    certificationCandidateRepository,
+    certificationChallengeRepository,
+    certificationCourseRepository,
+    sessionRepository,
+    certificationCenterRepository,
+    certificationBadgesService,
+    certificationChallengesService,
+    placementProfileService,
+    verifyCertificateCodeService,
+  };
 
   beforeEach(function () {
     now = new Date('2019-01-01T05:06:07Z');
@@ -35,29 +50,21 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     domainTransaction = Symbol('someDomainTransaction');
     verificationCode = Symbol('verificationCode');
 
-    assessmentRepository = { save: sinon.stub() };
-    competenceRepository = { listPixCompetencesOnly: sinon.stub() };
-    certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
-    certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub(), update: sinon.stub() };
-    certificationChallengeRepository = { save: sinon.stub() };
-    certificationChallengesService = {
-      pickCertificationChallengesForPixPlus: sinon.stub(),
-      pickCertificationChallenges: sinon.stub(),
-    };
-    certificationCourseRepository = {
-      findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
-      save: sinon.stub(),
-    };
-    sessionRepository = { get: sinon.stub() };
-    placementProfileService = {
-      getPlacementProfile: sinon.stub(),
-    };
-    verifyCertificateCodeService = {
-      generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
-    };
-    certificationCenterRepository = {
-      getBySessionId: sinon.stub(),
-    };
+    assessmentRepository.save = sinon.stub();
+    competenceRepository.listPixCompetencesOnly = sinon.stub();
+    certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
+    certificationBadgesService.hasStillValidCleaBadgeAcquisition = sinon.stub();
+    certificationCandidateRepository.getBySessionIdAndUserId = sinon.stub();
+    certificationCandidateRepository.update = sinon.stub();
+    certificationChallengeRepository.save = sinon.stub();
+    certificationChallengesService.pickCertificationChallengesForPixPlus = sinon.stub();
+    certificationChallengesService.pickCertificationChallenges = sinon.stub();
+    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
+    certificationCourseRepository.save = sinon.stub();
+    sessionRepository.get = sinon.stub();
+    placementProfileService.getPlacementProfile = sinon.stub();
+    verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub().resolves(verificationCode);
+    certificationCenterRepository.getBySessionId = sinon.stub();
   });
 
   afterEach(function () {
@@ -81,17 +88,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         accessCode,
         userId,
         locale: 'fr',
-        assessmentRepository,
-        competenceRepository,
-        certificationCandidateRepository,
-        certificationChallengeRepository,
-        certificationCourseRepository,
+        ...injectables,
         sessionRepository,
-        certificationCenterRepository,
-        certificationBadgesService,
-        certificationChallengesService,
-        placementProfileService,
-        verifyCertificateCodeService,
       });
 
       // then
@@ -118,17 +116,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           accessCode,
           userId,
           locale: 'fr',
-          assessmentRepository,
-          competenceRepository,
-          certificationCandidateRepository,
-          certificationChallengeRepository,
-          certificationCourseRepository,
-          sessionRepository,
-          certificationCenterRepository,
-          certificationBadgesService,
-          certificationChallengesService,
-          placementProfileService,
-          verifyCertificateCodeService,
+          ...injectables,
         });
 
         // then
@@ -174,17 +162,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode,
                 userId,
                 locale: 'fr',
-                assessmentRepository,
-                competenceRepository,
-                certificationCandidateRepository,
-                certificationChallengeRepository,
-                certificationCourseRepository,
-                sessionRepository,
-                certificationCenterRepository,
-                certificationBadgesService,
-                certificationChallengesService,
-                placementProfileService,
-                verifyCertificateCodeService,
+                ...injectables,
               });
 
               // then
@@ -228,17 +206,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode,
                 userId,
                 locale: 'fr',
-                assessmentRepository,
-                competenceRepository,
-                certificationCandidateRepository,
-                certificationChallengeRepository,
-                certificationCourseRepository,
-                sessionRepository,
-                certificationCenterRepository,
-                certificationBadgesService,
-                certificationChallengesService,
-                placementProfileService,
-                verifyCertificateCodeService,
+                ...injectables,
               });
 
               // then
@@ -288,17 +256,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               accessCode,
               userId,
               locale: 'fr',
-              assessmentRepository,
-              competenceRepository,
-              certificationCandidateRepository,
-              certificationChallengeRepository,
-              certificationCourseRepository,
-              sessionRepository,
-              certificationCenterRepository,
-              certificationBadgesService,
-              certificationChallengesService,
-              placementProfileService,
-              verifyCertificateCodeService,
+              ...injectables,
             });
 
             // then
@@ -351,17 +309,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode,
                 userId,
                 locale: 'fr',
-                assessmentRepository,
-                competenceRepository,
-                certificationCandidateRepository,
-                certificationChallengeRepository,
-                certificationCourseRepository,
-                sessionRepository,
-                certificationCenterRepository,
-                certificationBadgesService,
-                certificationChallengesService,
-                placementProfileService,
-                verifyCertificateCodeService,
+                ...injectables,
               });
 
               // then
@@ -404,17 +352,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode,
                 userId,
                 locale: 'fr',
-                assessmentRepository,
-                competenceRepository,
-                certificationCandidateRepository,
-                certificationChallengeRepository,
-                certificationCourseRepository,
-                sessionRepository,
-                certificationCenterRepository,
-                certificationBadgesService,
-                certificationChallengesService,
-                placementProfileService,
-                verifyCertificateCodeService,
+                ...injectables,
               });
 
               // then
@@ -483,17 +421,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   accessCode,
                   userId,
                   locale: 'fr',
-                  assessmentRepository,
-                  competenceRepository,
-                  certificationCandidateRepository,
-                  certificationChallengeRepository,
-                  certificationCourseRepository,
-                  sessionRepository,
-                  certificationCenterRepository,
-                  certificationBadgesService,
-                  certificationChallengesService,
-                  placementProfileService,
-                  verifyCertificateCodeService,
+                  ...injectables,
                 });
 
                 // then
@@ -597,17 +525,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   accessCode,
                   userId,
                   locale: 'fr',
-                  assessmentRepository,
-                  competenceRepository,
-                  certificationCandidateRepository,
-                  certificationChallengeRepository,
-                  certificationCourseRepository,
-                  sessionRepository,
-                  certificationCenterRepository,
-                  certificationBadgesService,
-                  certificationChallengesService,
-                  placementProfileService,
-                  verifyCertificateCodeService,
+                  ...injectables,
                 });
 
                 // then
@@ -737,17 +655,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       accessCode,
                       userId,
                       locale: 'fr',
-                      assessmentRepository,
-                      competenceRepository,
-                      certificationCandidateRepository,
-                      certificationChallengeRepository,
-                      certificationCourseRepository,
-                      sessionRepository,
-                      certificationCenterRepository,
-                      certificationBadgesService,
-                      certificationChallengesService,
-                      placementProfileService,
-                      verifyCertificateCodeService,
+                      ...injectables,
                     });
 
                     // then
@@ -870,17 +778,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         accessCode,
                         userId,
                         locale: 'fr',
-                        assessmentRepository,
-                        competenceRepository,
-                        certificationCandidateRepository,
-                        certificationChallengeRepository,
-                        certificationCourseRepository,
-                        sessionRepository,
-                        certificationCenterRepository,
-                        certificationBadgesService,
-                        certificationChallengesService,
-                        placementProfileService,
-                        verifyCertificateCodeService,
+                        ...injectables,
                       });
 
                       // then
@@ -993,17 +891,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       accessCode,
                       userId,
                       locale: 'fr',
-                      assessmentRepository,
-                      competenceRepository,
-                      certificationCandidateRepository,
-                      certificationChallengeRepository,
-                      certificationCourseRepository,
-                      sessionRepository,
-                      certificationCenterRepository,
-                      certificationBadgesService,
-                      certificationChallengesService,
-                      placementProfileService,
-                      verifyCertificateCodeService,
+                      ...injectables,
                     });
 
                     // then
@@ -1126,17 +1014,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         accessCode,
                         userId,
                         locale: 'fr',
-                        assessmentRepository,
-                        competenceRepository,
-                        certificationCandidateRepository,
-                        certificationChallengeRepository,
-                        certificationCourseRepository,
-                        sessionRepository,
-                        certificationCenterRepository,
-                        certificationBadgesService,
-                        certificationChallengesService,
-                        placementProfileService,
-                        verifyCertificateCodeService,
+                        ...injectables,
                       });
 
                       // then
@@ -1247,17 +1125,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     accessCode,
                     userId,
                     locale: 'fr',
-                    assessmentRepository,
-                    competenceRepository,
-                    certificationCandidateRepository,
-                    certificationChallengeRepository,
-                    certificationCourseRepository,
-                    sessionRepository,
-                    certificationCenterRepository,
-                    certificationBadgesService,
-                    certificationChallengesService,
-                    placementProfileService,
-                    verifyCertificateCodeService,
+                    ...injectables,
                   });
 
                   // then
