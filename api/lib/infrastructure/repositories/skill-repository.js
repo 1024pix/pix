@@ -9,6 +9,7 @@ function _toDomain(skillData) {
     competenceId: skillData.competenceId,
     tutorialIds: skillData.tutorialIds,
     tubeId: skillData.tubeId,
+    version: skillData.version,
   });
 }
 
