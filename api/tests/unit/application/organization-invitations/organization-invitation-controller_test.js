@@ -6,8 +6,6 @@ const usecases = require('../../../../lib/domain/usecases');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function () {
-  let request;
-
   describe('#acceptOrganizationInvitation', function () {
     it('should call acceptOrganizationInvitation usecase to accept invitation with organizationInvitationId and code', async function () {
       // given
@@ -68,23 +66,17 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
   });
 
   describe('#getOrganizationInvitation', function () {
-    const organizationInvitationId = 1;
-    const organizationInvitationCode = 'ABCDEFGH01';
-
-    beforeEach(function () {
-      request = {
+    it('should call the usecase to get invitation with organizationInvitationId, organizationInvitationCode', async function () {
+      // given
+      const organizationInvitationId = 1;
+      const organizationInvitationCode = 'ABCDEFGH01';
+      const request = {
         params: { id: organizationInvitationId },
         query: { code: organizationInvitationCode },
       };
 
-      sinon.stub(usecases, 'getOrganizationInvitation');
-      sinon.stub(organizationInvitationSerializer, 'serialize');
-    });
-
-    it('should call the usecase to get invitation with organizationInvitationId, organizationInvitationCode', async function () {
-      // given
-      usecases.getOrganizationInvitation.resolves();
-      organizationInvitationSerializer.serialize.returns();
+      sinon.stub(usecases, 'getOrganizationInvitation').resolves();
+      sinon.stub(organizationInvitationSerializer, 'serialize').returns();
 
       // when
       await organizationInvitationController.getOrganizationInvitation(request);
@@ -98,7 +90,11 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
 
     it('should throw a MissingQueryParamError when code is not defined', async function () {
       // given
-      request.query.code = undefined;
+      const organizationInvitationId = 1;
+      const request = {
+        params: { id: organizationInvitationId },
+        query: { code: undefined },
+      };
 
       // when
       const errorCatched = await catchErr(organizationInvitationController.getOrganizationInvitation)(request);
