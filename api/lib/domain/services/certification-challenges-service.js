@@ -100,7 +100,7 @@ function _pick3CertificationChallengesForCompetence(
   const result = [];
   const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
 
-  const orderedSkills = _.orderBy(userCompetence.skills, 'difficulty', 'desc');
+  const orderedSkills = _.orderBy(userCompetence.getSkillsAtLatestVersion(), 'difficulty', 'desc');
   for (const skill of orderedSkills) {
     if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION)) {
       break;
