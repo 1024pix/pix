@@ -30,6 +30,7 @@ class CertificationCourse {
     maxReachableLevelOnCertificationDate,
     isCancelled = false,
     abortReason,
+    complementaryCertificationCourses = [],
   } = {}) {
     this._id = id;
     this._firstName = firstName;
@@ -55,9 +56,16 @@ class CertificationCourse {
     this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._isCancelled = isCancelled;
     this._abortReason = abortReason;
+    this._complementaryCertificationCourses = complementaryCertificationCourses;
   }
 
-  static from({ certificationCandidate, challenges, verificationCode, maxReachableLevelOnCertificationDate }) {
+  static from({
+    certificationCandidate,
+    challenges,
+    verificationCode,
+    maxReachableLevelOnCertificationDate,
+    complementaryCertificationCourses,
+  }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
       sessionId: certificationCandidate.sessionId,
@@ -74,6 +82,7 @@ class CertificationCourse {
       challenges,
       verificationCode,
       maxReachableLevelOnCertificationDate,
+      complementaryCertificationCourses,
     });
   }
 
@@ -228,6 +237,7 @@ class CertificationCourse {
       maxReachableLevelOnCertificationDate: this._maxReachableLevelOnCertificationDate,
       isCancelled: this._isCancelled,
       abortReason: this._abortReason,
+      complementaryCertificationCourses: this._complementaryCertificationCourses,
     };
   }
 }

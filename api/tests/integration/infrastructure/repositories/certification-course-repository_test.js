@@ -8,17 +8,24 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 describe('Integration | Repository | Certification Course', function () {
   describe('#save', function () {
     let certificationCourse;
+    let complementaryCertificationId;
 
     beforeEach(function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const sessionId = databaseBuilder.factory.buildSession().id;
+      complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({}).id;
 
-      certificationCourse = domainBuilder.buildCertificationCourse.unpersisted({ userId, sessionId });
+      certificationCourse = domainBuilder.buildCertificationCourse.unpersisted({
+        userId,
+        sessionId,
+        complementaryCertificationCourses: [{ complementaryCertificationId: complementaryCertificationId }],
+      });
 
       return databaseBuilder.commit();
     });
 
     afterEach(async function () {
+      await knex('complementary-certification-courses').delete();
       await knex('certification-challenges').delete();
       return knex('certification-courses').delete();
     });
@@ -36,6 +43,7 @@ describe('Integration | Repository | Certification Course', function () {
         'completedAt',
         'createdAt',
         'certificationIssueReports',
+        'complementaryCertificationCourses',
         'maxReachableLevelOnCertificationDate',
       ];
 
@@ -52,6 +60,12 @@ describe('Integration | Repository | Certification Course', function () {
       );
 
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
+      const [savedComplementaryCertificationCourse] =
+        savedCertificationCourse.toDTO().complementaryCertificationCourses;
+      expect(_.omit(savedComplementaryCertificationCourse, ['createdAt'])).to.deep.equal({
+        complementaryCertificationId,
+        certificationCourseId: savedCertificationCourse.getId(),
+      });
 
       expect(_.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.getId())).to.be
         .true;
