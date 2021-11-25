@@ -32,6 +32,8 @@ module.exports = async function acceptOrganizationInvitation({
     const existingMembership = memberships.find((membership) => membership.user.id === userFound.id);
 
     if (existingMembership && !invitationRole) {
+      await organizationInvitationRepository.markAsAccepted(organizationInvitationId);
+
       throw new AlreadyExistingMembershipError(`User is already member of organisation ${organizationId}`);
     }
 
@@ -49,7 +51,7 @@ module.exports = async function acceptOrganizationInvitation({
 
     await userOrgaSettingsRepository.createOrUpdate({ userId: userFound.id, organizationId });
 
-    organizationInvitationRepository.markAsAccepted(organizationInvitationId);
+    await organizationInvitationRepository.markAsAccepted(organizationInvitationId);
 
     return membership;
   }
