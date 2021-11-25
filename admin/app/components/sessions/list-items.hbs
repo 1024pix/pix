@@ -2,7 +2,7 @@
   <table class="table-admin table-admin__auto-width">
     <thead>
       <tr>
-        <th>ID</th>
+        <th class="table__column--id">ID</th>
         <th>Centre de certification</th>
         <th>Identifiant externe</th>
         <th>Catégorie</th>
@@ -13,7 +13,7 @@
         <th>Date de diffusion au prescripteur</th>
       </tr>
       <tr>
-        <th>
+        <th class="table__column--id">
           <input
             id="id"
             type="text"
@@ -80,7 +80,11 @@
       <tbody>
         {{#each @sessions as |session|}}
           <tr>
-            <td><LinkTo @route="authenticated.sessions.session" @model={{session.id}}> {{session.id}} </LinkTo></td>
+            <td class="table__column--id">
+              <LinkTo @route="authenticated.sessions.session" @model={{session.id}}>
+                {{session.id}}
+              </LinkTo>
+            </td>
             <td>{{session.certificationCenterName}}</td>
             <td>{{session.certificationCenterExternalId}}</td>
             {{#if session.certificationCenterType}}
