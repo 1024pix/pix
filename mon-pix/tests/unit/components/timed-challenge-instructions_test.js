@@ -15,36 +15,6 @@ describe('Unit | Component | timed-challenge-instructions', function () {
   describe('Component rendering', function () {
     describe('#allocatedTime', function () {
       [
-        { input: '', expected: 0 },
-        { input: ' ', expected: 0 },
-        { input: 'undefined', expected: 0 },
-        { input: null, expected: 0 },
-        { input: 0, expected: 0 },
-        { input: 1, expected: '0:01' },
-        { input: 10, expected: '0:10' },
-        { input: 60, expected: '1:00' },
-        { input: 61, expected: '1:01' },
-        { input: 70, expected: '1:10' },
-        { input: 120, expected: '2:00' },
-        { input: 121, expected: '2:01' },
-        { input: 122, expected: '2:02' },
-        { input: 130, expected: '2:10' },
-      ].forEach((data) => {
-        it(`should return "${data.expected}" when passing ${data.input}`, function () {
-          // given
-          component.args.time = data.input;
-
-          // when
-          const allocatedTime = component.allocatedTime;
-
-          // then
-          expect(allocatedTime).to.equal(data.expected);
-        });
-      });
-    });
-
-    describe('#allocatedHumanTime', function () {
-      [
         { input: '', expected: '' },
         { input: ' ', expected: '' },
         { input: 'undefined', expected: '' },
@@ -65,10 +35,10 @@ describe('Unit | Component | timed-challenge-instructions', function () {
           component.args.time = data.input;
 
           // when
-          const allocatedHumanTime = component.allocatedHumanTime;
+          const allocatedTime = component.allocatedTime;
 
           // then
-          expect(allocatedHumanTime).to.equal(data.expected);
+          expect(allocatedTime).to.equal(data.expected);
         });
       });
     });

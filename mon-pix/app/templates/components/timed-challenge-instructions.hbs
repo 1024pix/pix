@@ -1,6 +1,6 @@
 <div class="rounded-panel rounded-panel--no-margin-bottom timed-challenge-instructions">
   <div class="timed-challenge-instructions__primary">
-    {{t "pages.timed-challenge-instructions.primary" time=this.allocatedHumanTime htmlSafe=true}}
+    {{t "pages.timed-challenge-instructions.primary" time=this.allocatedTime htmlSafe=true}}
   </div>
 
   <div class="timed-challenge-instructions__secondary">
@@ -15,7 +15,9 @@
         alt=""
         role="presentation"
       />
-      <span class="timed-challenge-instructions-gauge__value">{{this.allocatedTime}}</span>
+      <span class="timed-challenge-instructions-gauge__value">
+        {{t "pages.timed-challenge-instructions.allocated-time" time=this.allocatedTime htmlSafe=true}}
+      </span>
     </div>
   </div>
 
