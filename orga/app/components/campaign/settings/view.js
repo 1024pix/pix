@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 
-export default class CampaignSettings extends Component {
+export default class CampaignView extends Component {
   @service store;
   @service notifications;
   @service url;

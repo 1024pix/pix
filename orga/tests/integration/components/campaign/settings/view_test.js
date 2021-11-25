@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | Campaign::Settings', function (hooks) {
+module('Integration | Component | Campaign::Settings::View', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -26,7 +26,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains(`Campagne d'évaluation`);
@@ -40,7 +40,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Campagne de collecte de profils');
@@ -58,10 +58,104 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('profil cible de la campagne 1');
+      });
+
+      test('it should display target profile description related to campaign', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          targetProfileDescription: 'Description du profile cible',
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Description du profile cible');
+      });
+
+      test('it should display target profile tubes count related to campaign', async function (assert) {
+        // given
+        this.campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          targetProfileTubesCount: 3,
+        });
+
+        // when
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Sujets : 3');
+      });
+
+      module('Badge context', function () {
+        test('it should not display target profile thematic result when empty related to campaign', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            targetProfileThematicResultCount: 0,
+          });
+
+          // when
+          await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+          // then
+          assert.notContains('Résultats thématiques :');
+        });
+
+        test('it should display target profile thematic result related to campaign', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            targetProfileThematicResultCount: 1,
+          });
+
+          // when
+          await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+          // then
+          assert.contains('Résultats thématiques : 1');
+        });
+      });
+
+      module('Display Result', function () {
+        test('it should display target profile result with stars when stages related to campaign', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            targetProfileHasStage: true,
+          });
+
+          // when
+          await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+          // then
+          assert
+            .dom(`[aria-label="${this.intl.t('pages.campaign-settings.target-profile.tooltip.content.results.star')}"]`)
+            .exists();
+        });
+
+        test('it should display target profile result with percentage when no stages related to campaign', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            targetProfileHasStage: false,
+          });
+
+          // when
+          await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+          // then
+          assert
+            .dom(
+              `[aria-label="${this.intl.t('pages.campaign-settings.target-profile.tooltip.content.results.percent')}"]`
+            )
+            .exists();
+        });
       });
     });
 
@@ -72,7 +166,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Profil cible');
@@ -89,7 +183,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('idPixLabel');
@@ -104,7 +198,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.notContains("Libellé de l'identifiant");
@@ -118,7 +212,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
       this.campaign = store.createRecord('campaign', { code: '1234' });
 
       // when
-      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
       // then
       assert.contains('root-url/1234');
@@ -135,7 +229,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Mon titre de Campagne');
@@ -150,7 +244,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Titre du parcours');
@@ -164,7 +258,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
       this.campaign = store.createRecord('campaign', { isArchived: false });
 
       // when
-      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
       // then
       assert.contains('Archiver');
@@ -178,7 +272,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: false });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Modifier');
@@ -191,7 +285,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: true });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Modifier');
@@ -206,7 +300,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         type: 'PROFILES_COLLECTION',
       });
       // when
-      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
       // then
       assert.contains('Envoi multiple');
     });
@@ -220,7 +314,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Oui');
@@ -234,7 +328,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains(
@@ -252,7 +346,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Non');
@@ -266,7 +360,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
         // then
         assert.contains(
@@ -284,7 +378,7 @@ module('Integration | Component | Campaign::Settings', function (hooks) {
       });
 
       // when
-      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
       // then
       assert.notContains('Envoi multiple');

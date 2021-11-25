@@ -11,12 +11,7 @@
       <div class="indicator-card__title">
         <dt>{{@title}}</dt>
         {{#if @info}}
-          <PixTooltip
-            @id={{@title}}
-            @position="top"
-            @isWide={{true}}
-            class="indicator-card__tooltip hide-on-mobile"
-          >
+          <PixTooltip @id={{@title}} @position="top" @isWide={{true}} class="indicator-card__tooltip hide-on-mobile">
             <:triggerElement>
               <FaIcon
                 @icon="question-circle"

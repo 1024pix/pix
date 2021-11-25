@@ -14,11 +14,7 @@
       {{#each this.datasets as |dataset|}}
         <li class="participants-by-status__legend--{{dataset.key}}">
           <p>{{dataset.legend}}</p>
-          <PixTooltip
-            @id="legend-tooltip-{{dataset.key}}"
-            @isWide="true"
-            @position="top-left"
-          >
+          <PixTooltip @id="legend-tooltip-{{dataset.key}}" @isWide="true" @position="top-left">
             <:triggerElement>
               <FaIcon
                 @icon="question-circle"

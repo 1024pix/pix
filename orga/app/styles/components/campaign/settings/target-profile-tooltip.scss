@@ -1,0 +1,27 @@
+.target-profile-tooltip-description {
+    margin-bottom: 8px;
+}
+//dirty fix until we've got reset css inside pix-ui component
+.pix-tooltip .target-profile-tooltip-detail {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__content {
+        font-size: 0.875rem;
+        margin-bottom: 8px;
+
+        &--break-line {
+            flex-basis: 100%;
+            margin-bottom: 0;
+        }
+
+        &--add-separator {
+            &::before {
+                content: "";
+                height: 0.3125rem;
+                border-left: 1px solid $grey-20;
+                margin: auto 10px;
+            }
+        }
+    }
+}

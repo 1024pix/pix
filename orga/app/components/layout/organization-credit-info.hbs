@@ -5,12 +5,7 @@
         count=this.currentUser.organization.credit
       }}</span>
 
-    <PixTooltip
-      @id="credit-info-tooltip"
-      @position="bottom-left"
-      @isWide={{true}}
-      @isLight={{true}}
-    >
+    <PixTooltip @id="credit-info-tooltip" @position="bottom-left" @isWide={{true}} @isLight={{true}}>
       <:triggerElement>
         <FaIcon @icon="info-circle" class="info-icon" tabindex="0" aria-describedby="credit-info-tooltip" />
       </:triggerElement>

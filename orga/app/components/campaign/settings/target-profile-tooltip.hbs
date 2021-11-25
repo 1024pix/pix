@@ -1,0 +1,41 @@
+<PixTooltip @id="target-profile-info-tooltip" @position="top-right" @isWide={{true}} @isLight={{true}}>
+  <:triggerElement>
+    <FaIcon
+      ...attributes
+      @icon="info-circle"
+      tabindex="0"
+      aria-describedby={{t "pages.campaign-settings.target-profile.tooltip.aria-label"}}
+    />
+  </:triggerElement>
+  <:tooltip>
+    {{#if @targetProfileDescription}}
+      <MarkdownToHtml class="target-profile-tooltip-description" @markdown={{@targetProfileDescription}} />
+    {{/if}}
+    <ul class="target-profile-tooltip-detail">
+      <li class="target-profile-tooltip-detail__content">
+        <FaIcon @fixedWidth={{true}} class="target-profile-tooltip-detail__icon" @icon="book" />
+        {{t "pages.campaign-settings.target-profile.tooltip.content.subjects" value=@targetProfileTubesCount}}
+      </li>
+      {{#if @hasBadges}}
+        <li class="target-profile-tooltip-detail__content target-profile-tooltip-detail__content--add-separator">
+          <FaIcon @fixedWidth={{true}} class="target-profile-tooltip-detail__icon" @icon="award" />
+          {{t
+            "pages.campaign-settings.target-profile.tooltip.content.thematic-results"
+            value=@targetProfileThematicResultCount
+          }}
+        </li>
+      {{/if}}
+      <li class="target-profile-tooltip-detail__content target-profile-tooltip-detail__content--break-line">
+        <FaIcon @fixedWidth={{true}} class="target-profile-tooltip-detail__icon" @icon={{this.displayResultInfo.icon}} />
+        {{t "pages.campaign-settings.target-profile.tooltip.content.results.common"}}
+        <FaIcon
+          class="target-profile-tooltip-detail__icon"
+          @fixedWidth={{true}}
+          @aria-hidden={{false}}
+          aria-label={{t this.displayResultInfo.label}}
+          @icon={{this.displayResultInfo.icon}}
+        />
+      </li>
+    </ul>
+  </:tooltip>
+</PixTooltip>
