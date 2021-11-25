@@ -398,12 +398,12 @@ describe('Unit | Service | ScorecardService', function () {
         it('should return null for campaign participation', async function () {
           //given
           const campaignParticipation3 = domainBuilder.buildCampaignParticipation({
-            assessmentId: assessmentId1,
+            assessments: [domainBuilder.buildAssessment({ id: assessmentId1 })],
             campaign,
             campaignId: campaign.id,
           });
           const campaignParticipation4 = domainBuilder.buildCampaignParticipation({
-            assessmentId: assessmentId2,
+            assessments: [domainBuilder.buildAssessment({ id: assessmentId2 })],
             campaign,
             campaignId: campaign.id,
           });
