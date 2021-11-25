@@ -143,12 +143,13 @@ module.exports = {
       );
   },
 
-  findOneByCampaignIdAndUserId({ campaignId, userId }) {
-    return BookshelfCampaignParticipation.where({ campaignId, userId, isImproved: false })
-      .fetch({ require: false })
-      .then((campaignParticipation) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation)
-      );
+  async findOneByCampaignIdAndUserId({ campaignId, userId }) {
+    const campaignParticipation = await BookshelfCampaignParticipation.where({
+      campaignId,
+      userId,
+      isImproved: false,
+    }).fetch({ require: false, withRelated: ['assessments'] });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
   findOneByAssessmentIdWithSkillIds(assessmentId) {
