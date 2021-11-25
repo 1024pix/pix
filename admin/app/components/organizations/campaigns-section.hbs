@@ -8,12 +8,12 @@
         <thead>
           <tr>
             <th class="table__column--id">ID</th>
-            <th class="table__column--medium">Code</th>
-            <th class="table__column--medium">Type</th>
-            <th class="table__column">Nom</th>
-            <th class="table__column--small">Créée le</th>
-            <th class="table__column">Créée par</th>
-            <th class="table__column--small">Archivée le</th>
+            <th>Code</th>
+            <th>Type</th>
+            <th>Nom</th>
+            <th>Créée le</th>
+            <th>Créée par</th>
+            <th>Archivée le</th>
           </tr>
         </thead>
 
@@ -26,14 +26,14 @@
                     {{campaign.id}}
                   </LinkTo>
                 </td>
-                <td class="table__column--medium">{{campaign.code}}</td>
-                <td class="table__column--medium">
+                <td>{{campaign.code}}</td>
+                <td>
                   {{if (eq campaign.type "ASSESSMENT") "Évaluation" "Collecte de profils"}}
                 </td>
-                <td class="table__column">{{campaign.name}}</td>
-                <td class="table__column--small">{{moment-format campaign.createdAt "DD/MM/YYYY"}}</td>
+                <td>{{campaign.name}}</td>
+                <td>{{moment-format campaign.createdAt "DD/MM/YYYY"}}</td>
                 <td>{{campaign.creatorFirstName}} {{campaign.creatorLastName}}</td>
-                <td class="table__column--small">
+                <td>
                   {{#if campaign.archivedAt}}
                     {{moment-format campaign.archivedAt "DD/MM/YYYY"}}
                   {{else}}
