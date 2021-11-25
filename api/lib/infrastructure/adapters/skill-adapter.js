@@ -9,6 +9,7 @@ module.exports = {
       competenceId: datasourceObject.competenceId,
       tutorialIds: datasourceObject.tutorialIds,
       tubeId: datasourceObject.tubeId,
+      version: datasourceObject.version,
     });
   },
 };
