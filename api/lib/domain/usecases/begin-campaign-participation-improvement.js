@@ -13,7 +13,7 @@ module.exports = async function beginCampaignParticipationImprovement({
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(
     campaignParticipationId,
-    {},
+    { include: ['campaign'] },
     domainTransaction
   );
   if (campaignParticipation.userId !== userId) {

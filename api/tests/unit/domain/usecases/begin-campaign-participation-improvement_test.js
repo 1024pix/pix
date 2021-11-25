@@ -35,7 +35,9 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       userId: userId + 1,
       id: campaignParticipationId,
     });
-    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
+    campaignParticipationRepository.get
+      .withArgs(campaignParticipationId, { include: ['campaign'] })
+      .resolves(campaignParticipation);
 
     // when
     const error = await catchErr(beginCampaignParticipationImprovement)({
@@ -56,7 +58,9 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       userId,
       id: campaignParticipationId,
     });
-    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
+    campaignParticipationRepository.get
+      .withArgs(campaignParticipationId, { include: ['campaign'] })
+      .resolves(campaignParticipation);
 
     // when
     const error = await catchErr(beginCampaignParticipationImprovement)({
@@ -78,7 +82,9 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       id: campaignParticipationId,
       status: STARTED,
     });
-    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
+    campaignParticipationRepository.get
+      .withArgs(campaignParticipationId, { include: ['campaign'] })
+      .resolves(campaignParticipation);
     const ongoingAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     assessmentRepository.getLatestByCampaignParticipationId
       .withArgs(campaignParticipationId)
@@ -100,7 +106,9 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       id: campaignParticipationId,
       status: STARTED,
     });
-    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
+    campaignParticipationRepository.get
+      .withArgs(campaignParticipationId, { include: ['campaign'] })
+      .resolves(campaignParticipation);
     const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     latestAssessment.state = Assessment.states.COMPLETED;
     assessmentRepository.getLatestByCampaignParticipationId
