@@ -32,10 +32,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign, !this.state.hasUserSeenJoinPage);
     }
 
-    if (this._shouldValidateTermsOfService) {
-      return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
-    }
-
     if (this._shouldJoinFromMediacentre) {
       return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign.code);
     }
@@ -113,11 +109,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.replaceWith('login-pe');
   }
 
-  _redirectToTermsOfServicesBeforeAccessingToCampaign(transition) {
-    this.session.set('attemptedTransition', transition);
-    return this.replaceWith('terms-of-service');
-  }
-
   _redirectToLoginBeforeAccessingToCampaign(transition, campaign, displayRegisterForm) {
     this.session.set('attemptedTransition', transition);
     return this.replaceWith('campaigns.restricted.login-or-register-to-access', campaign.code, {
@@ -148,9 +139,5 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
     return this.state.isCampaignSimplifiedAccess && !this.state.isUserLogged;
-  }
-
-  get _shouldValidateTermsOfService() {
-    return this.state.isUserLogged && !this.state.externalUser && this.currentUser.user.mustValidateTermsOfService;
   }
 }
