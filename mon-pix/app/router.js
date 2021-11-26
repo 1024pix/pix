@@ -73,6 +73,7 @@ Router.map(function () {
     this.route('entry-point', { path: '/' });
     this.route('campaign-not-found', { path: '/oups' });
     this.route('start-or-resume', { path: '/startOrResume' });
+    this.route('anonymous', { path: '/anonyme' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('invited', { path: '/prescrit' }, function () {
       this.route('student-sco', { path: '/eleve' });
