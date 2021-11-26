@@ -31,6 +31,7 @@ module.exports = {
   buildCompetenceEvaluation: require('./build-competence-evaluation'),
   buildCompetenceMark: require('./build-competence-mark'),
   buildComplementaryCertification: require('./build-complementary-certification'),
+  buildComplementaryCertificationCourse: require('./build-complementary-certification-course'),
   buildComplementaryCertificationBadge: require('./build-complementary-certification-badge'),
   buildComplementaryCertificationHabilitation: require('./build-complementary-certification-habilitation'),
   buildComplementaryCertificationSubscription: require('./build-complementary-certification-subscription'),
