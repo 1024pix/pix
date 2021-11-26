@@ -40,6 +40,11 @@ export default class ListController extends Controller {
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
     const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+    const fileToUploadMimeType = files[0]?.type;
+    if (!fileToUploadMimeType?.includes(format)) {
+      this.notifications.sendError(this.intl.t('pages.students-sco.import.invalid-mimetype', { format }));
+      return;
+    }
 
     this.isLoading = true;
     this.notifications.clearAll();
