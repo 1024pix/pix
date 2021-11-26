@@ -5,6 +5,7 @@ const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
+const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let scoringCertificationService;
@@ -12,6 +13,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let assessmentResultRepository;
   let certificationCourseRepository;
   let competenceMarkRepository;
+  let complementaryCertificationCourseRepository;
 
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -29,6 +31,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       getCreationDate: sinon.stub(),
     };
     competenceMarkRepository = { save: sinon.stub() };
+    complementaryCertificationCourseRepository = { hasComplementaryCertification: sinon.stub() };
   });
 
   afterEach(function () {
@@ -67,6 +70,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         competenceMarkRepository,
         scoringCertificationService,
         certificationAssessmentRepository,
+        complementaryCertificationCourseRepository,
       });
 
       // then
@@ -75,12 +79,18 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
     context('when an error different from a compute error happens', function () {
       const otherError = new Error();
-      beforeEach(function () {
-        scoringCertificationService.calculateCertificationAssessmentScore.rejects(otherError);
-        sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
-      });
 
       it('should not save any results', async function () {
+        // given
+        scoringCertificationService.calculateCertificationAssessmentScore.rejects(otherError);
+        sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: CLEA,
+          })
+          .resolves(true);
+
         // when
         await catchErr(handleCertificationScoring)({
           event,
@@ -89,6 +99,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          complementaryCertificationCourseRepository,
         });
 
         // then
@@ -117,6 +128,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           .withArgs(certificationAssessment.certificationCourseId)
           .resolves(certificationCourse);
         certificationCourseRepository.update.resolves(certificationCourse);
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: CLEA,
+          })
+          .resolves(true);
       });
 
       it('should call the scoring service with the right arguments', async function () {
@@ -128,6 +145,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          complementaryCertificationCourseRepository,
         });
 
         // then
@@ -146,6 +164,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          complementaryCertificationCourseRepository,
         });
 
         // then
@@ -202,6 +221,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           .withArgs(certificationAssessment.certificationCourseId)
           .resolves(certificationCourse);
         certificationCourseRepository.update.resolves(certificationCourse);
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: CLEA,
+          })
+          .resolves(false);
       });
 
       it('should build and save an assessment result with the expected arguments', async function () {
@@ -213,6 +238,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          complementaryCertificationCourseRepository,
         });
 
         // then
@@ -240,6 +266,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          complementaryCertificationCourseRepository,
         });
 
         // then
@@ -260,6 +287,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          complementaryCertificationCourseRepository,
         });
 
         // then
@@ -286,6 +314,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         competenceMarkRepository,
         scoringCertificationService,
         certificationAssessmentRepository,
+        complementaryCertificationCourseRepository,
       });
 
       expect(certificationScoringCompleted).to.be.null;

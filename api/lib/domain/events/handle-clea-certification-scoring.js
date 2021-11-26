@@ -1,5 +1,6 @@
 const { checkEventTypes } = require('./check-event-types');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
+const { CLEA } = require('../models/ComplementaryCertification');
 
 const eventTypes = [CertificationScoringCompleted];
 
@@ -8,7 +9,7 @@ async function handleCleaCertificationScoring({
   partnerCertificationScoringRepository,
   badgeRepository,
   certificationCourseRepository,
-  certificationCenterRepository,
+  complementaryCertificationCourseRepository,
   knowledgeElementRepository,
   targetProfileRepository,
   badgeCriteriaService,
@@ -16,8 +17,11 @@ async function handleCleaCertificationScoring({
   checkEventTypes(event, eventTypes);
   const { certificationCourseId, userId, reproducibilityRate } = event;
 
-  const certificationCenter = await certificationCenterRepository.getByCertificationCourseId(certificationCourseId);
-  if (!certificationCenter.isAccreditedClea) {
+  const hasRunCleA = await complementaryCertificationCourseRepository.hasComplementaryCertification({
+    certificationCourseId,
+    complementaryCertificationName: CLEA,
+  });
+  if (!hasRunCleA) {
     return;
   }
 
