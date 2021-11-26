@@ -85,7 +85,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
   const skillRecherche4 = new Skill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRemplir2 = new Skill({ id: 50, name: '@remplir2', competenceId: competenceRemplir.id });
+  const skillRemplir2 = new Skill({ id: 50, name: '@remplir2', competenceId: competenceRemplir.id, version: 1 });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  const skillRemplir2Focus = new Skill({ id: 1789, name: '@remplir2', competenceId: competenceRemplir.id, version: 2 });
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const skillRemplir4 = new Skill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
@@ -115,6 +118,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       skillMoteur3,
       skillRecherche4,
       skillRemplir2,
+      skillRemplir2Focus,
       skillRemplir4,
       skillUrl3,
       skillWeb1,
@@ -206,6 +210,15 @@ describe('Unit | Service | Certification Challenge Service', function () {
   );
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
+  const challengeForSkillRemplir2Focus = _createChallenge(
+    'challengeRecordIdFiveFocus',
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    competenceRemplir.id,
+    [skillRemplir2Focus],
+    '@remplir2'
+  );
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   _createChallenge('anotherChallengeForSkillRemplir2', competenceRemplir.id, [skillRemplir2], '@remplir2');
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
@@ -258,6 +271,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           challengeForSkillCollaborer4,
           challengeForSkillRecherche4,
           challengeForSkillRemplir2,
+          challengeForSkillRemplir2Focus,
           challengeForSkillRemplir4,
           challengeForSkillUrl3,
           challengeForSkillWeb1,
@@ -652,7 +666,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should not add a skill twice', async function () {
+    it('should not add a skill with a given id twice', async function () {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -687,6 +701,47 @@ describe('Unit | Service | Certification Challenge Service', function () {
       // then
       expect(certificationChallenges).to.deep.equal([
         _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2),
+      ]);
+    });
+
+    it('should not add a skill with a given name twice', async function () {
+      // given
+      expect(skillRemplir2.version).to.deep.equal(1);
+      expect(skillRemplir2Focus.version).to.deep.equal(2);
+      placementProfile.userCompetences = [
+        userCompetence1,
+        new UserCompetence({
+          ...userCompetence2,
+          skills: [skillRemplir2, skillRemplir2Focus],
+        }),
+      ];
+      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
+        .withArgs({ userId, limitDate: 'limitDate' })
+        .resolves([
+          domainBuilder.buildKnowledgeElement({
+            answerId: 1,
+            competenceId: competenceRemplir.id,
+            skillId: skillRemplir2.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 2,
+            competenceId: competenceRemplir.id,
+            skillId: skillRemplir2Focus.id,
+          }),
+        ]);
+      answerRepository.findChallengeIdsFromAnswerIds
+        .withArgs([1, 2])
+        .resolves(['challengeRecordIdFive', 'anotherChallengeForSkillRemplir2']);
+
+      // when
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
+        placementProfile,
+        locale
+      );
+
+      // then
+      expect(certificationChallenges).to.deep.equal([
+        _createCertificationChallenge(challengeForSkillRemplir2Focus.id, skillRemplir2Focus),
       ]);
     });
 

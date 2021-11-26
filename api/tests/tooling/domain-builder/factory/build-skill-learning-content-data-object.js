@@ -5,7 +5,8 @@ const DEFAULT_ID = 'recSK0X22abcdefgh',
   DEFAULT_TUTORIAL_ID = 'recCO0X22abcdefgh',
   DEFAULT_COMPETENCE_ID = 'recCT0X22abcdefgh',
   DEFAULT_PIX_VALUE = 2.4,
-  DEFAULT_TUBE_ID = 'recTU0X22abcdefgh';
+  DEFAULT_TUBE_ID = 'recTU0X22abcdefgh',
+  DEFAULT_VERSION = 1;
 
 module.exports = function ({
   id = DEFAULT_ID,
@@ -16,6 +17,7 @@ module.exports = function ({
   competenceId = DEFAULT_COMPETENCE_ID,
   pixValue = DEFAULT_PIX_VALUE,
   tubeId = DEFAULT_TUBE_ID,
+  version = DEFAULT_VERSION,
 } = {}) {
   return {
     id,
@@ -26,5 +28,6 @@ module.exports = function ({
     pixValue,
     competenceId,
     tubeId,
+    version,
   };
 };
