@@ -7,6 +7,7 @@ const buildSkill = function buildSkill({
   competenceId = 'recCOMP123',
   tutorialIds = [],
   tubeId = 'recTUB123',
+  version = 1,
 } = {}) {
   return new Skill({
     id,
@@ -15,6 +16,7 @@ const buildSkill = function buildSkill({
     competenceId,
     tutorialIds,
     tubeId,
+    version,
   });
 };
 
