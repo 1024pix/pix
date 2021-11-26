@@ -105,8 +105,6 @@ describe('Integration | Repository | Certification Center Membership', function 
   });
 
   describe('#findByCertificationCenterId', function () {
-    let certificationCenterMembership;
-
     it('should return certification center membership associated to the certification center', async function () {
       // given
       const now = new Date('2021-01-02');
@@ -114,7 +112,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ updatedAt: now });
       const user = databaseBuilder.factory.buildUser();
-      certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+      const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
         certificationCenterId: certificationCenter.id,
         userId: user.id,
       });

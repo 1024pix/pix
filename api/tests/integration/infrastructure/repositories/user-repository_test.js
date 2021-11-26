@@ -486,12 +486,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     describe('#getWithCertificationCenterMemberships', function () {
-      beforeEach(async function () {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
       it('should return user for the given id', async function () {
         // given
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
         const expectedUser = new User(userInDB);
 
         // when
@@ -507,8 +504,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(user.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return certification center membership associated to the user', async function () {
+      it('should return actives certification center membership associated to the user', async function () {
         // when
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
         const user = await userRepository.getWithCertificationCenterMemberships(userInDB.id);
 
         // then
@@ -526,6 +524,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       it('should reject with a UserNotFound error when no user was found with the given id', async function () {
         // given
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
         const unknownUserId = 666;
 
         // when
