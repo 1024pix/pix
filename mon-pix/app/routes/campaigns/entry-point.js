@@ -11,11 +11,9 @@ export default class EntryPoint extends Route {
     return this.modelFor('campaigns');
   }
 
-  afterModel(campaign) {
+  async afterModel(campaign, transition) {
     this.campaignStorage.clear(campaign.code);
-  }
 
-  async redirect(campaign, transition) {
     const queryParams = transition.to.queryParams;
     if (queryParams.participantExternalId) {
       this.campaignStorage.set(campaign.code, 'participantExternalId', transition.to.queryParams.participantExternalId);
@@ -36,11 +34,11 @@ export default class EntryPoint extends Route {
     }
 
     if (campaign.isArchived && !hasParticipated) {
-      this.replaceWith('campaigns.campaign-not-found', campaign);
+      this.replaceWith('campaigns.campaign-not-found', campaign.code);
     } else if (hasParticipated) {
-      this.replaceWith('campaigns.entrance', campaign);
+      this.replaceWith('campaigns.entrance', campaign.code);
     } else {
-      this.replaceWith('campaigns.campaign-landing-page', campaign);
+      this.replaceWith('campaigns.campaign-landing-page', campaign.code);
     }
   }
 }

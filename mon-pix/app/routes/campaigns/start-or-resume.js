@@ -37,7 +37,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (this._shouldJoinFromMediacentre) {
-      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign);
+      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign.code);
     }
 
     if (this._shouldDisconnectAnonymousUser) {
@@ -54,7 +54,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     super.beforeModel(...arguments);
   }
 
-  async model() {
+  model() {
     return this.modelFor('campaigns');
   }
 
@@ -65,14 +65,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     });
     const hasParticipated = Boolean(ongoingCampaignParticipation);
     this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
-  }
 
-  redirect(campaign) {
-    const hasParticipated = this.campaignStorage.get(campaign.code, 'hasParticipated');
     if (hasParticipated) {
-      return this.replaceWith('campaigns.entrance', campaign);
+      this.replaceWith('campaigns.entrance', campaign.code);
+    } else {
+      this.replaceWith('campaigns.invited', campaign.code);
     }
-    return this.replaceWith('campaigns.invited', campaign);
   }
 
   _resetState() {
@@ -121,17 +119,17 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _redirectToPoleEmploiLoginPage(transition) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('login-pe');
+    return this.replaceWith('login-pe');
   }
 
   _redirectToTermsOfServicesBeforeAccessingToCampaign(transition) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('terms-of-service');
+    return this.replaceWith('terms-of-service');
   }
 
   _redirectToLoginBeforeAccessingToCampaign(transition, campaign, displayRegisterForm) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code, {
+    return this.replaceWith('campaigns.restricted.login-or-register-to-access', campaign.code, {
       queryParams: { displayRegisterForm },
     });
   }

@@ -32,19 +32,17 @@ describe('Unit | Route | Entry Point', function () {
   });
 
   describe('#afterModel', function () {
-    it('should erase campaign storage', async function () {
-      //given/when
-      await route.afterModel({ code: 'CODE' });
-
-      //then
-      sinon.assert.calledWith(route.campaignStorage.clear, 'CODE');
-    });
-  });
-
-  describe('#redirect', function () {
     let transition;
     beforeEach(function () {
       transition = { to: { queryParams: {} } };
+    });
+
+    it('should erase campaign storage', async function () {
+      //given/when
+      await route.afterModel({ code: 'CODE' }, transition);
+
+      //then
+      sinon.assert.calledWith(route.campaignStorage.clear, 'CODE');
     });
 
     describe('user not connected', function () {
@@ -55,7 +53,7 @@ describe('Unit | Route | Entry Point', function () {
 
       it('should not call queryRecord to retrieve campaignParticipation', async function () {
         //when
-        await route.redirect(campaign, transition);
+        await route.afterModel(campaign, transition);
 
         //then
         sinon.assert.notCalled(route.store.queryRecord);
@@ -63,7 +61,7 @@ describe('Unit | Route | Entry Point', function () {
 
       it('should redirect to landing page', async function () {
         //when
-        await route.redirect(campaign, transition);
+        await route.afterModel(campaign, transition);
 
         //then
         sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
@@ -76,7 +74,7 @@ describe('Unit | Route | Entry Point', function () {
 
         it('should redirect to not-found page', async function () {
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-not-found');
@@ -92,7 +90,7 @@ describe('Unit | Route | Entry Point', function () {
 
       it('should call queryRecord to retrieve campaignParticipation', async function () {
         //when
-        await route.redirect(campaign, transition);
+        await route.afterModel(campaign, transition);
 
         //then
         sinon.assert.calledWith(route.store.queryRecord, 'campaignParticipation', {
@@ -111,7 +109,7 @@ describe('Unit | Route | Entry Point', function () {
           .resolves(null);
 
         //when
-        await route.redirect(campaign, transition);
+        await route.afterModel(campaign, transition);
 
         //then
         sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
@@ -127,7 +125,7 @@ describe('Unit | Route | Entry Point', function () {
           .resolves('Ma Participation');
 
         //when
-        await route.redirect(campaign, transition);
+        await route.afterModel(campaign, transition);
 
         //then
         sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance');
@@ -148,7 +146,7 @@ describe('Unit | Route | Entry Point', function () {
             .resolves(null);
 
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-not-found');
@@ -164,7 +162,7 @@ describe('Unit | Route | Entry Point', function () {
             .resolves('Ma Participation');
 
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance');
@@ -184,7 +182,7 @@ describe('Unit | Route | Entry Point', function () {
           };
 
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', 'externalId');
@@ -202,7 +200,7 @@ describe('Unit | Route | Entry Point', function () {
           };
 
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.notCalled(route.campaignStorage.set);
@@ -222,7 +220,7 @@ describe('Unit | Route | Entry Point', function () {
           };
 
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'retry', 'true');
@@ -240,7 +238,7 @@ describe('Unit | Route | Entry Point', function () {
           };
 
           //when
-          await route.redirect(campaign, transition);
+          await route.afterModel(campaign, transition);
 
           //then
           sinon.assert.notCalled(route.campaignStorage.set);

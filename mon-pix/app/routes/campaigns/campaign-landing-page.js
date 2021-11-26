@@ -5,9 +5,9 @@ export default class CampaignLandingPageRoute extends Route {
     return this.modelFor('campaigns');
   }
 
-  redirect(campaign) {
+  afterModel(campaign) {
     if (campaign.isForAbsoluteNovice) {
-      return this.replaceWith('campaigns.start-or-resume', campaign);
+      this.replaceWith('campaigns.start-or-resume', campaign.code);
     }
   }
 }
