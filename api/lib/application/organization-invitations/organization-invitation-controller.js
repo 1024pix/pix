@@ -11,7 +11,8 @@ module.exports = {
     const organizationInvitationId = request.params.id;
     const { code, email } = request.payload.data.attributes;
 
-    await usecases.acceptOrganizationInvitation({ organizationInvitationId, code, email });
+    const membership = await usecases.acceptOrganizationInvitation({ organizationInvitationId, code, email });
+    await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
     return null;
   },
 

@@ -21,6 +21,7 @@ describe('Integration | Application | Organization-invitations | organization-in
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'sendScoInvitation');
+    sandbox.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
 
     httpTestServer = new HttpTestServer();
@@ -47,6 +48,7 @@ describe('Integration | Application | Organization-invitations | organization-in
       it('should return an HTTP response with status code 204', async function () {
         // given
         usecases.acceptOrganizationInvitation.resolves();
+        usecases.createCertificationCenterMembershipForScoOrganizationMember.resolves();
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);

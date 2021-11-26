@@ -3,7 +3,6 @@ const acceptOrganizationInvitation = require('../../../../lib/domain/usecases/ac
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
 const {
-  NotFoundError,
   AlreadyExistingOrganizationInvitationError,
   AlreadyExistingMembershipError,
 } = require('../../../../lib/domain/errors');
@@ -30,23 +29,6 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
     userOrgaSettingsRepository = {
       createOrUpdate: sinon.stub(),
     };
-  });
-
-  context('when invitation with id and code does not exist', function () {
-    it('should throw a NotFoundError', async function () {
-      // given
-      organizationInvitationRepository.getByIdAndCode.rejects(new NotFoundError());
-
-      // when
-      const error = await catchErr(acceptOrganizationInvitation)({
-        organizationInvitationId: 1,
-        code: 'codeNotExist',
-        organizationInvitationRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
   });
 
   context('when invitation is already accepted', function () {
@@ -196,22 +178,25 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
           .resolves([membership]);
       });
 
-      it('should throw an AlreadyExistingMembershipError', async function () {
-        // given
-        const { id: organizationInvitationId, code } = pendingOrganizationInvitation;
+      context('when no role is defined in the invitation', function () {
+        it('should mark invitation as accepted and throw an AlreadyExistingMembershipError', async function () {
+          // given
+          const { id: organizationInvitationId, code } = pendingOrganizationInvitation;
 
-        // when
-        const err = await catchErr(acceptOrganizationInvitation)({
-          organizationInvitationId,
-          code,
-          email,
-          userRepository,
-          membershipRepository,
-          organizationInvitationRepository,
+          // when
+          const err = await catchErr(acceptOrganizationInvitation)({
+            organizationInvitationId,
+            code,
+            email,
+            userRepository,
+            membershipRepository,
+            organizationInvitationRepository,
+          });
+
+          // then
+          expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
+          expect(err).to.be.instanceOf(AlreadyExistingMembershipError);
         });
-
-        // then
-        expect(err).to.be.instanceOf(AlreadyExistingMembershipError);
       });
 
       context('when the role is already defined in the invitation', function () {

@@ -32,21 +32,27 @@ module.exports = async function acceptOrganizationInvitation({
     const existingMembership = memberships.find((membership) => membership.user.id === userFound.id);
 
     if (existingMembership && !invitationRole) {
+      await organizationInvitationRepository.markAsAccepted(organizationInvitationId);
+
       throw new AlreadyExistingMembershipError(`User is already member of organisation ${organizationId}`);
     }
 
+    let membership;
+
     if (existingMembership) {
-      await membershipRepository.updateById({
+      membership = await membershipRepository.updateById({
         id: existingMembership.id,
         membership: { organizationRole: invitationRole },
       });
     } else {
       const organizationRole = invitationRole || _pickDefaultRole(memberships);
-      await membershipRepository.create(userFound.id, organizationId, organizationRole);
+      membership = await membershipRepository.create(userFound.id, organizationId, organizationRole);
     }
 
     await userOrgaSettingsRepository.createOrUpdate({ userId: userFound.id, organizationId });
 
-    return organizationInvitationRepository.markAsAccepted(organizationInvitationId);
+    await organizationInvitationRepository.markAsAccepted(organizationInvitationId);
+
+    return membership;
   }
 };
