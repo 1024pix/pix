@@ -43,7 +43,7 @@ describe('Unit | Route | Invited', function () {
     });
   });
 
-  describe('#redirect', function () {
+  describe('#afterModel', function () {
     it('should redirect to student sco invited page when association is needed', async function () {
       //given
       campaign = EmberObject.create({
@@ -53,10 +53,10 @@ describe('Unit | Route | Invited', function () {
       route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sco', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sco', campaign.code);
     });
 
     it('should redirect to student sup invited page when association is needed', async function () {
@@ -68,10 +68,10 @@ describe('Unit | Route | Invited', function () {
       route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sup', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sup', campaign.code);
     });
 
     it('should redirect to fill in participant external otherwise', async function () {
@@ -82,10 +82,10 @@ describe('Unit | Route | Invited', function () {
       route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
     });
   });
 });

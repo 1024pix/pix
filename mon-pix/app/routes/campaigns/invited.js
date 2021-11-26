@@ -7,24 +7,23 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
 
   beforeModel(transition) {
     if (!transition.from) {
-      this.replaceWith('campaigns.entry-point');
+      return this.replaceWith('campaigns.entry-point');
     }
+    super.beforeModel(...arguments);
   }
 
   model() {
     return this.modelFor('campaigns');
   }
 
-  redirect(campaign) {
+  afterModel(campaign) {
     if (this.shouldAssociateWithScoInformation(campaign)) {
-      return this.replaceWith('campaigns.invited.student-sco', campaign);
+      this.replaceWith('campaigns.invited.student-sco', campaign.code);
+    } else if (this.shouldAssociateWithSupInformation(campaign)) {
+      this.replaceWith('campaigns.invited.student-sup', campaign.code);
+    } else {
+      this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
     }
-
-    if (this.shouldAssociateWithSupInformation(campaign)) {
-      return this.replaceWith('campaigns.invited.student-sup', campaign);
-    }
-
-    return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign);
   }
 
   shouldAssociateWithScoInformation(campaign) {

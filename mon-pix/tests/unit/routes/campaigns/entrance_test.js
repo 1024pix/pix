@@ -47,7 +47,8 @@ describe('Unit | Route | Entrance', function () {
     let campaignParticipationStub;
     beforeEach(function () {
       campaignParticipationStub = { save: sinon.stub(), deleteRecord: sinon.stub() };
-      route.store = { createRecord: sinon.stub().returns(campaignParticipationStub) };
+      route.store = { createRecord: sinon.stub().returns(campaignParticipationStub), queryRecord: sinon.stub() };
+      route.currentUser = { user: {} };
     });
 
     it('should save new campaign participation', async function () {
@@ -85,7 +86,7 @@ describe('Unit | Route | Entrance', function () {
       campaign = EmberObject.create({
         code: 'SOMECODE',
       });
-      route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(true);
+      route.store.queryRecord.resolves({});
 
       //when
       await route.afterModel(campaign);
@@ -128,11 +129,9 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', null);
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
     });
-  });
 
-  describe('#redirect', function () {
     it('should redirect to profiles-collection when campaign is of type PROFILES COLLECTION', async function () {
       //given
       campaign = EmberObject.create({
@@ -142,7 +141,7 @@ describe('Unit | Route | Entrance', function () {
       route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(true);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
       sinon.assert.calledWith(route.replaceWith, 'campaigns.profiles-collection.start-or-resume');
@@ -157,7 +156,7 @@ describe('Unit | Route | Entrance', function () {
       route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(true);
 
       //when
-      await route.redirect(campaign);
+      await route.afterModel(campaign);
 
       //then
       sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.start-or-resume');
