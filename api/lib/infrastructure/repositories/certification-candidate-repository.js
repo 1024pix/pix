@@ -32,30 +32,15 @@ module.exports = {
   },
 
   async saveInSession({ certificationCandidate, sessionId }) {
-    const certificationCandidateDataToSave = _.pick(certificationCandidate, [
-      'id',
-      'firstName',
-      'lastName',
-      'sex',
-      'birthPostalCode',
-      'birthINSEECode',
-      'birthCity',
-      'birthProvinceCode',
-      'resultRecipientEmail',
-      'birthCountry',
-      'email',
-      'externalId',
-      'birthdate',
-      'extraTimePercentage',
-    ]);
+    const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
 
     try {
-      const addedCertificationCandidate = await new CertificationCandidateBookshelf({
-        ...certificationCandidateDataToSave,
-        sessionId,
-      }).save();
-      return bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, addedCertificationCandidate);
-    } catch (bookshelfError) {
+      const [addedCertificationCandidate] = await knex('certification-candidates')
+        .insert({ ...certificationCandidateDataToSave, sessionId })
+        .returning('*');
+
+      return new CertificationCandidate(addedCertificationCandidate);
+    } catch (error) {
       throw new CertificationCandidateCreationOrUpdateError(
         'An error occurred while saving the certification candidate in a session'
       );
@@ -193,7 +178,12 @@ module.exports = {
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse', 'complementaryCertifications']);
+  return _.omit(certificationCandidateToSave, [
+    'createdAt',
+    'certificationCourse',
+    'complementaryCertifications',
+    'userId',
+  ]);
 }
 
 function _toDomain(candidateData) {

@@ -72,26 +72,6 @@ describe('Integration | Repository | CertificationCandidate', function () {
           expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
         });
       });
-
-      context('when updating the candidate', function () {
-        beforeEach(function () {
-          certificationCandidate.id = databaseBuilder.factory.buildCertificationCandidate().id;
-          return databaseBuilder.commit();
-        });
-
-        it('should not add a row in the table', async function () {
-          // given
-          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
-
-          // when
-          await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
-
-          // then
-          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
-
-          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave);
-        });
-      });
     });
   });
 
