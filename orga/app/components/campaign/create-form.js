@@ -5,18 +5,22 @@ import { tracked } from '@glimmer/tracking';
 
 export default class CreateForm extends Component {
   @service currentUser;
-
+  @tracked campaign;
   @tracked wantIdPix = false;
   @tracked multipleSendingsEnabled = true;
   @tracked isCampaignGoalAssessment = null;
   @tracked isCampaignGoalProfileCollection = null;
+  @tracked targetProfile;
 
   constructor() {
     super(...arguments);
-    this.args.campaign.organization = this.currentUser.organization;
+    this.campaign = {
+      organization: this.currentUser.organization,
+    };
+
     if (!this.currentUser.organization.canCollectProfiles) {
       this.isCampaignGoalAssessment = true;
-      this.args.campaign.type = 'ASSESSMENT';
+      this.campaign.type = 'ASSESSMENT';
     }
   }
 
@@ -30,28 +34,26 @@ export default class CreateForm extends Component {
   @action
   askLabelIdPix() {
     this.wantIdPix = true;
-    this.args.campaign.idPixLabel = '';
+    this.campaign.idPixLabel = '';
   }
 
   @action
   doNotAskLabelIdPix() {
     this.wantIdPix = false;
-    this.args.campaign.idPixLabel = null;
+    this.campaign.idPixLabel = null;
   }
 
   @action
-  setSelectedTargetProfile(event) {
-    this.args.campaign.targetProfile = this.args.targetProfiles.find(
-      (targetProfile) => targetProfile.id === event.target.value
-    );
-    this.args.campaign.errors.remove('targetProfile');
+  selectTargetProfile(event) {
+    this.targetProfile = this.args.targetProfiles.find((targetProfile) => targetProfile.id === event.target.value);
+    this.campaign.targetProfile = this.targetProfile;
   }
 
   @action
   selectMultipleSendingsStatus(event) {
     const status = Boolean(event.target.value);
     this.multipleSendingsEnabled = status;
-    this.args.campaign.multipleSendings = status;
+    this.campaign.multipleSendings = status;
   }
 
   @action
@@ -59,14 +61,22 @@ export default class CreateForm extends Component {
     if (event.target.value === 'collect-participants-profile') {
       this.isCampaignGoalAssessment = false;
       this.isCampaignGoalProfileCollection = true;
-      this.args.campaign.multipleSendings = true;
-      this.args.campaign.title = null;
-      this.args.campaign.targetProfile = null;
-      return (this.args.campaign.type = 'PROFILES_COLLECTION');
+      this.campaign.multipleSendings = true;
+      this.campaign.title = null;
+      this.campaign.targetProfile = null;
+      this.targetProfile = null;
+      this.campaign.type = 'PROFILES_COLLECTION';
+    } else {
+      this.isCampaignGoalAssessment = true;
+      this.isCampaignGoalProfileCollection = false;
+      this.campaign.multipleSendings = false;
+      this.campaign.type = 'ASSESSMENT';
     }
-    this.isCampaignGoalAssessment = true;
-    this.isCampaignGoalProfileCollection = false;
-    this.args.campaign.multipleSendings = false;
-    return (this.args.campaign.type = 'ASSESSMENT');
+  }
+
+  @action
+  onSubmit(event) {
+    event.preventDefault();
+    this.args.onSubmit(this.campaign);
   }
 }

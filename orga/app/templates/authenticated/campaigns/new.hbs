@@ -6,6 +6,7 @@
   <Campaign::CreateForm
     @campaign={{@model.campaign}}
     @targetProfiles={{@model.targetProfiles}}
+    @errors={{this.errors}}
     @onSubmit={{this.createCampaign}}
     @onCancel={{this.cancel}}
   />
