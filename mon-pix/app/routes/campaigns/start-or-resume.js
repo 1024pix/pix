@@ -40,11 +40,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign.code);
     }
 
-    if (this._shouldDisconnectAnonymousUser) {
-      await this.session.invalidate();
-      this.state.isUserLogged = false;
-    }
-
     if (this._shouldJoinSimplifiedCampaignAsAnonymous) {
       this.session.set('attemptedTransition', { retry: () => {} });
       await this.session.authenticate('authenticator:anonymous', { campaignCode: this.state.campaignCode });
@@ -85,7 +80,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
       isUserLogged: false,
-      participantExternalId: null,
       externalUser: null,
       isCampaignPoleEmploi: false,
       isUserLoggedInPoleEmploi: false,
@@ -96,7 +90,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     const hasUserCompletedRestrictedCampaignAssociation =
       this.campaignStorage.get(campaign.code, 'associationDone') || false;
     const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
-    const participantExternalId = this.campaignStorage.get(campaign.code, 'participantExternalId');
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
@@ -105,7 +98,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
       isUserLogged: this.session.isAuthenticated,
-      participantExternalId,
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
       isUserLoggedInPoleEmploi:
@@ -157,10 +149,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
     return this.state.isCampaignSimplifiedAccess && !this.state.isUserLogged;
-  }
-
-  get _shouldDisconnectAnonymousUser() {
-    return this.state.isUserLogged && this.currentUser.user.isAnonymous && !this.state.participantExternalId;
   }
 
   get _shouldValidateTermsOfService() {

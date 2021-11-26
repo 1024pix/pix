@@ -19,6 +19,34 @@ describe('Unit | Route | Entry Point', function () {
     route.replaceWith = sinon.stub();
     route.modelFor = sinon.stub();
     route.campaignStorage = { set: sinon.stub(), clear: sinon.stub() };
+    route.session = { isAuthenticated: false, invalidate: sinon.stub() };
+    route.currentUser = { user: {} };
+  });
+
+  describe('#beforeModel', function () {
+    it('should invalidate session when a user is connected and anonymous', async function () {
+      //given
+      route.session.isAuthenticated = true;
+      route.currentUser.user.isAnonymous = true;
+
+      //when
+      await route.beforeModel();
+
+      //then
+      sinon.assert.called(route.session.invalidate);
+    });
+
+    it('should not invalidate session when a user is connected but not anonymous', async function () {
+      //given
+      route.session.isAuthenticated = true;
+      route.currentUser.user.isAnonymous = false;
+
+      //when
+      await route.beforeModel();
+
+      //then
+      sinon.assert.notCalled(route.session.invalidate);
+    });
   });
 
   describe('#model', function () {
