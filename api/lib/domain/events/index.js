@@ -22,6 +22,7 @@ const dependencies = {
   certificationIssueReportRepository: require('../../infrastructure/repositories/certification-issue-report-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
+  complementaryCertificationCourseRepository: require('../../infrastructure/repositories/complementary-certification-course-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
