@@ -11,7 +11,12 @@
           aria-describedby="attach-organizations-info"
         />
         <p id="attach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
-        <PixButton @type="submit" @size="small" aria-label="Valider le rattachement">
+        <PixButton
+          @type="submit"
+          @size="small"
+          aria-label="Valider le rattachement"
+          @isDisabled={{this.isDisabledAttachOrganizations}}
+        >
           Valider
         </PixButton>
       </div>
@@ -29,7 +34,12 @@
           aria-describedby="attach-organizations-from-existing-target-profile-info"
         />
         <p id="attach-organizations-from-existing-target-profile-info" hidden>Id du profil cible existant</p>
-        <PixButton @type="submit" @size="small" aria-label="Valider le rattachement à partir de ce profil cible">
+        <PixButton
+          @type="submit"
+          @size="small"
+          aria-label="Valider le rattachement à partir de ce profil cible"
+          @isDisabled={{this.isDisabledAttachOrganizationsFromExistingTargetProfile}}
+        >
           Valider
         </PixButton>
       </div>
