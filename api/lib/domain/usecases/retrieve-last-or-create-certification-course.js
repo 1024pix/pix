@@ -1,7 +1,7 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse');
-const { PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
+const { PIX_PLUS_DROIT, CLEA } = require('../models/ComplementaryCertification');
 const {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
@@ -74,10 +74,10 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationCourseRepository,
     certificationCenterRepository,
     certificationChallengesService,
-    certificationBadgesService,
     placementProfileService,
     verifyCertificateCodeService,
     complementaryCertificationRepository,
+    certificationBadgesService,
   });
 };
 
@@ -124,13 +124,18 @@ async function _startNewCertification({
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
   const complementaryCertificationIds = [];
 
+  const complementaryCertifications = await complementaryCertificationRepository.findAll();
+
+  if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
+    const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
+    complementaryCertificationIds.push(cleAComplementaryCertification.id);
+  }
+
   if (certificationCenter.isAccreditedPixPlusDroit) {
     const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId,
       domainTransaction,
     });
-
-    const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
     if (highestCertifiableBadgeAcquisitions.length > 0) {
       const pixDroitComplementaryCertification = complementaryCertifications.find(
