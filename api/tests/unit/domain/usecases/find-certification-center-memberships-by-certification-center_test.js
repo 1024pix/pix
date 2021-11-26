@@ -7,8 +7,8 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
     // given
     const certificationCenterId = 1;
     const certificationCenterMemberships = [domainBuilder.buildCertificationCenterMembership()];
-    const certificationCenterMembershipRepository = { findByCertificationCenterId: sinon.stub() };
-    certificationCenterMembershipRepository.findByCertificationCenterId.resolves(certificationCenterMemberships);
+    const certificationCenterMembershipRepository = { findActiveByCertificationCenterId: sinon.stub() };
+    certificationCenterMembershipRepository.findActiveByCertificationCenterId.resolves(certificationCenterMemberships);
 
     // when
     const foundCertificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
@@ -17,7 +17,7 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
     });
 
     // then
-    expect(certificationCenterMembershipRepository.findByCertificationCenterId).to.have.been.calledWith(
+    expect(certificationCenterMembershipRepository.findActiveByCertificationCenterId).to.have.been.calledWith(
       certificationCenterId
     );
     expect(foundCertificationCenterMemberships).to.deep.equal(certificationCenterMemberships);
