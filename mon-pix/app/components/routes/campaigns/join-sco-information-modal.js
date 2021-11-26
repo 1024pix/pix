@@ -47,6 +47,6 @@ export default class JoinScoInformationModal extends Component {
   async goToCampaignConnectionForm() {
     await this.session.invalidate();
     this.campaignStorage.set(this.args.campaignCode, 'hasUserSeenJoinPage', true);
-    return this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode);
+    this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode);
   }
 }
