@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
@@ -6,6 +5,12 @@ export default class EntryPoint extends Route {
   @service currentUser;
   @service campaignStorage;
   @service session;
+
+  async beforeModel() {
+    if (this.session.isAuthenticated && this.currentUser.user.isAnonymous) {
+      await this.session.invalidate();
+    }
+  }
 
   model() {
     return this.modelFor('campaigns');
@@ -24,7 +29,7 @@ export default class EntryPoint extends Route {
 
     let hasParticipated = false;
     if (this.session.isAuthenticated) {
-      const currentUserId = get(this.currentUser, 'user.id', null);
+      const currentUserId = this.currentUser.user.id;
       const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
         campaignId: campaign.id,
         userId: currentUserId,
