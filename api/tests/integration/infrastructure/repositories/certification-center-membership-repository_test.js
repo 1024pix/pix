@@ -104,7 +104,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
-  describe('#findByCertificationCenterId', function () {
+  describe('#findActiveByCertificationCenterId', function () {
     it('should return certification center membership associated to the certification center', async function () {
       // given
       const now = new Date('2021-01-02');
@@ -126,7 +126,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // when
       const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findByCertificationCenterId(certificationCenter.id);
+        await certificationCenterMembershipRepository.findActiveByCertificationCenterId(certificationCenter.id);
 
       // then
       expect(foundCertificationCenterMemberships).to.be.an('array');
@@ -162,12 +162,39 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // when
       const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findByCertificationCenterId(certificationCenter.id);
+        await certificationCenterMembershipRepository.findActiveByCertificationCenterId(certificationCenter.id);
 
       // then
       expect(foundCertificationCenterMemberships[0].id).to.equal(10);
       expect(foundCertificationCenterMemberships[1].id).to.equal(20);
       expect(foundCertificationCenterMemberships[2].id).to.equal(30);
+    });
+
+    it('should only return active (not disabled) certification center memberships', async function () {
+      // given
+      const now = new Date();
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      const user1 = databaseBuilder.factory.buildUser();
+      const user2 = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        id: 7,
+        userId: user1.id,
+        certificationCenterId: certificationCenter.id,
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: user2.id,
+        certificationCenterId: certificationCenter.id,
+        disabledAt: now,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCertificationCenterMemberships =
+        await certificationCenterMembershipRepository.findActiveByCertificationCenterId(certificationCenter.id);
+
+      // then
+      expect(foundCertificationCenterMemberships.length).to.equal(1);
+      expect(foundCertificationCenterMemberships[0].id).to.equal(7);
     });
   });
 

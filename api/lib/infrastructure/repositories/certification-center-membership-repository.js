@@ -15,8 +15,11 @@ module.exports = {
     );
   },
 
-  async findByCertificationCenterId(certificationCenterId) {
-    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({ certificationCenterId })
+  async findActiveByCertificationCenterId(certificationCenterId) {
+    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({
+      certificationCenterId,
+      disabledAt: null,
+    })
       .orderBy('id', 'ASC')
       .fetchAll({
         withRelated: ['certificationCenter', 'user'],
