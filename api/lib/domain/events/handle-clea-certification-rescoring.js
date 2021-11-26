@@ -12,11 +12,11 @@ async function handleCleaCertificationRescoring({
   checkEventTypes(event, eventTypes);
   const { certificationCourseId } = event;
 
-  const hasRunCla = await complementaryCertificationCourseRepository.hasComplementaryCertification({
+  const hasRunCleA = await complementaryCertificationCourseRepository.hasComplementaryCertification({
     certificationCourseId,
     complementaryCertificationName: CLEA,
   });
-  if (!hasRunCla) {
+  if (!hasRunCleA) {
     return;
   }
 
