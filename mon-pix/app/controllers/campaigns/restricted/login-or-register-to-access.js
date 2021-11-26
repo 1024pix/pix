@@ -8,11 +8,8 @@ export default class LoginOrRegisterToAccessRoute extends Controller {
   @service campaignStorage;
   @service session;
   @service store;
-  @service router;
 
   @tracked displayRegisterForm = true;
-
-  queryParams = ['displayRegisterForm'];
 
   @action
   toggleFormsVisibility() {
@@ -31,7 +28,6 @@ export default class LoginOrRegisterToAccessRoute extends Controller {
     await this._reconcileUser();
 
     this.campaignStorage.set(this.model.code, 'associationDone', true);
-    this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 
   _reconcileUser() {
