@@ -29,28 +29,9 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
     controller.set('model', { code: campaignCode });
     controller.set('session', sessionStub);
     controller.set('currentUser', currentUserStub);
-
-    controller.router = { transitionTo: sinon.stub() };
   });
 
   describe('#addGarAuthenticationMethodToUser', () => {
-    it('should redirect to campaigns.start-or-resume', async () => {
-      // given
-      const externallUserAuthenticationRequest = {
-        save: sinon.stub(),
-      };
-
-      const saveStub = sinon.stub();
-      const storeStub = { createRecord: sinon.stub().returns({ save: saveStub }) };
-      controller.set('store', storeStub);
-
-      // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externallUserAuthenticationRequest);
-
-      // then
-      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume');
-    });
-
     it('should add GAR authentication method and clear IdToken', async () => {
       // given
       const externalUserToken = 'ABCD';

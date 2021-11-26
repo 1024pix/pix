@@ -15,7 +15,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this._resetState();
   }
 
-  async beforeModel(transition) {
+  async beforeModel() {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
     if (this._shouldResetState(campaign.code)) {
@@ -25,20 +25,13 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this._updateStateFrom({ campaign, session: this.session });
 
     if (this._shouldVisitPoleEmploiLoginPage) {
-      return this._redirectToPoleEmploiLoginPage(transition);
-    }
-
-    if (this._shouldLoginToAccessRestrictedCampaign) {
-      return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign, !this.state.hasUserSeenJoinPage);
-    }
-
-    if (this._shouldJoinFromMediacentre) {
-      return this.replaceWith('campaigns.restricted.join-from-mediacentre', campaign.code);
-    }
-
-    if (this._shouldJoinSimplifiedCampaignAsAnonymous) {
-      this.session.set('attemptedTransition', transition);
-      return this.replaceWith('campaigns.anonymous', campaign.code);
+      this.authenticationRoute = 'login-pe';
+    } else if (this._shouldLoginToAccessRestrictedCampaign) {
+      this.authenticationRoute = 'campaigns.restricted.login-or-register-to-access';
+    } else if (this._shouldJoinFromMediacentre) {
+      this.authenticationRoute = 'campaigns.restricted.join-from-mediacentre';
+    } else if (this._shouldJoinSimplifiedCampaignAsAnonymous) {
+      this.authenticationRoute = 'campaigns.anonymous';
     }
 
     super.beforeModel(...arguments);
@@ -102,18 +95,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _shouldResetState(campaignCode) {
     return campaignCode !== this.state.campaignCode;
-  }
-
-  _redirectToPoleEmploiLoginPage(transition) {
-    this.session.set('attemptedTransition', transition);
-    return this.replaceWith('login-pe');
-  }
-
-  _redirectToLoginBeforeAccessingToCampaign(transition, campaign, displayRegisterForm) {
-    this.session.set('attemptedTransition', transition);
-    return this.replaceWith('campaigns.restricted.login-or-register-to-access', campaign.code, {
-      queryParams: { displayRegisterForm },
-    });
   }
 
   get _shouldLoginToAccessRestrictedCampaign() {
