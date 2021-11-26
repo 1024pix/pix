@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.132.0 (26/11/2021)
+
+
+### :rocket: Enhancement
+- [#3764](https://github.com/1024pix/pix/pull/3764) [FEATURE] Passer en "résolu" les signalements des anciennes sessions (PIX-2641).
+- [#3776](https://github.com/1024pix/pix/pull/3776) [FEATURE] Empêcher la sélection d'épreuves portant sur des acquis de même nom lors du choix des épreuves d'un test de certification (PIX-3935).
+- [#3768](https://github.com/1024pix/pix/pull/3768) [FEATURE] Désactive les boutons quand les champs sont vide lors du rattachement des organisations (PIX-3771).
+
+### :building_construction: Tech
+- [#3762](https://github.com/1024pix/pix/pull/3762) [TECH] Amélioration des transitions dans le flux d'accès campagne (PIX-3888).
+- [#3769](https://github.com/1024pix/pix/pull/3769) [TECH] Remplacer ember-cli-chai par chai sur Mon-Pix (PIX-3937).
+- [#3724](https://github.com/1024pix/pix/pull/3724) [TECH] Linter en local uniquement les fichiers modifiés (PIX-3936).
+
+### :bug: Bug fix
+- [#3763](https://github.com/1024pix/pix/pull/3763) [BUGFIX] Remettre le chargement entre les pages du flux d'accès campagne (PIX-3889).
+
 ## v3.131.0 (25/11/2021)
 
 
