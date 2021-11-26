@@ -7,7 +7,11 @@
     {{#if @user.hasEmailAuthenticationMethod}}
       <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
     {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      <FaIcon
+        @icon="times-circle"
+        aria-label="Méthode d'authentication par Email"
+        class="user-authentication-method-item__uncheck"
+      />
     {{/if}}
   </div>
   {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
@@ -26,7 +30,11 @@
     {{#if @user.hasUsernameAuthenticationMethod}}
       <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
     {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      <FaIcon
+        @icon="times-circle"
+        aria-label="Méthode d'authentication par Username"
+        class="user-authentication-method-item__uncheck"
+      />
     {{/if}}
   </div>
   {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
@@ -45,7 +53,11 @@
     {{#if @user.hasPoleEmploiAuthenticationMethod}}
       <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
     {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      <FaIcon
+        @icon="times-circle"
+        aria-label="Méthode d'authentication par Pole Emploi"
+        class="user-authentication-method-item__uncheck"
+      />
     {{/if}}
   </div>
   {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
@@ -64,7 +76,11 @@
     {{#if @user.hasGARAuthenticationMethod}}
       <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
     {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      <FaIcon
+        @icon="times-circle"
+        aria-label="Méthode d'authentication par GAR"
+        class="user-authentication-method-item__uncheck"
+      />
     {{/if}}
   </div>
   {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
