@@ -41,9 +41,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (this._shouldJoinSimplifiedCampaignAsAnonymous) {
-      this.session.set('attemptedTransition', { retry: () => {} });
-      await this.session.authenticate('authenticator:anonymous', { campaignCode: this.state.campaignCode });
-      await this.currentUser.load();
+      this.session.set('attemptedTransition', transition);
+      return this.replaceWith('campaigns.anonymous', campaign.code);
     }
 
     super.beforeModel(...arguments);
