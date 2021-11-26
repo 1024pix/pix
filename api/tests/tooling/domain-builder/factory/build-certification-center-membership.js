@@ -16,11 +16,13 @@ module.exports = function buildCertificationCenterMembership({
   certificationCenter = buildCertificationCenter(),
   user = _buildUser(),
   createdAt = new Date('2020-01-01'),
+  disabledAt,
 } = {}) {
   return new CertificationCenterMembership({
     id,
     certificationCenter,
     user,
     createdAt,
+    disabledAt,
   });
 };
