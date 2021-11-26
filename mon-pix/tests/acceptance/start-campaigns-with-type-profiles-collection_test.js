@@ -8,6 +8,7 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 import { clickByLabel } from '../helpers/click-by-label';
+import findByLabel from '../helpers/find-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
@@ -239,9 +240,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
               //then
-              expect(currentURL()).to.equal(
-                `/campagnes/${campaign.code}/privee/identification?displayRegisterForm=false`
-              );
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+              expect(findByLabel('Se connecter')).to.exist;
             });
           });
         });
