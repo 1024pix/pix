@@ -777,4 +777,37 @@ describe('Integration | Repository | CertificationCandidate', function () {
       });
     });
   });
+
+  describe('#deleteBySessionId', function () {
+    it('should remove the certification candidates and their subscriptions by a session id', async function () {
+      // given
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const firstCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId: firstCandidateId,
+      });
+      const secondCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId: secondCandidateId,
+      });
+      const thirdCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId: thirdCandidateId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCandidateRepository.deleteBySessionId({ sessionId });
+
+      // then
+      const subscriptionsInDB = await knex('complementary-certification-subscriptions').select();
+      const certificationCandidateInDB = await knex('certification-candidates').select();
+      expect(subscriptionsInDB).to.deep.equal([]);
+      expect(certificationCandidateInDB).to.deep.equal([]);
+    });
+  });
 });

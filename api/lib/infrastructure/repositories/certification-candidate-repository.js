@@ -182,6 +182,14 @@ module.exports = {
       throw new NotFoundError('Aucun candidat trouvé');
     }
   },
+
+  async deleteBySessionId({ sessionId }) {
+    await knex('complementary-certification-subscriptions')
+      .whereIn('certificationCandidateId', knex.select('id').from('certification-candidates').where({ sessionId }))
+      .del();
+
+    await knex('certification-candidates').where({ sessionId }).del();
+  },
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
