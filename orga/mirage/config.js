@@ -248,7 +248,7 @@ export default function () {
           )
         );
       });
-    } else if (type === 'valid-file') {
+    } else if (type === 'valid-file' || type === 'xml') {
       const organizationId = request.params.id;
       return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
     }

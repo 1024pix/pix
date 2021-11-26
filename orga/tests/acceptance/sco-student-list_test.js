@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl from '../helpers/setup-intl';
 import authenticateSession from '../helpers/authenticate-session';
 
 import {
@@ -15,6 +16,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 module('Acceptance | Sco Student List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   let organizationId;
 
@@ -80,8 +82,9 @@ module('Acceptance | Sco Student List', function (hooks) {
         test('it should display success message and reload students', async function (assert) {
           // given
           await visit('/eleves');
+          const expectedMimeTypeFormatWhenUserIsNotAGRI = 'xml';
 
-          const file = new Blob(['foo'], { type: 'valid-file' });
+          const file = new Blob(['foo'], { type: expectedMimeTypeFormatWhenUserIsNotAGRI });
 
           // when
           const input = find('#students-file-upload');
@@ -106,6 +109,24 @@ module('Acceptance | Sco Student List', function (hooks) {
 
           // then
           assert.dom('[data-test-notification-message="error"]').exists();
+        });
+
+        test('it should display invalid mime-type message when uploading a file with a wrong mime-type', async function (assert) {
+          // given
+          await visit('/eleves');
+          const expectedMimeTypeFormatWhenUserIsNotAGRI = 'xml';
+          const fileWithWrongMimeType = new Blob(['foo'], { type: 'text/csv' });
+          const expectedMsg = this.intl.t('pages.students-sco.import.invalid-mimetype', {
+            format: expectedMimeTypeFormatWhenUserIsNotAGRI,
+          });
+
+          // when
+          const input = find('#students-file-upload');
+          await triggerEvent(input, 'change', { files: [fileWithWrongMimeType] });
+
+          // then
+          assert.dom('[data-test-notification-message="error"]').exists();
+          assert.dom('[data-test-notification-message="error"]').hasText(expectedMsg);
         });
       });
 
