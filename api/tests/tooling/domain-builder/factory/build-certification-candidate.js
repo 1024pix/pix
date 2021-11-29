@@ -63,6 +63,7 @@ buildCertificationCandidate.notPersisted = function ({
   externalId = 'externalId',
   authorizedToStart = false,
   sessionId = 456,
+  complementaryCertifications = [],
 }) {
   return new CertificationCandidate({
     firstName,
@@ -80,6 +81,7 @@ buildCertificationCandidate.notPersisted = function ({
     externalId,
     extraTimePercentage,
     authorizedToStart,
+    complementaryCertifications,
   });
 };
 

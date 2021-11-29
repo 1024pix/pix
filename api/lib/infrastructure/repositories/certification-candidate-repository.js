@@ -39,6 +39,19 @@ module.exports = {
         .insert({ ...certificationCandidateDataToSave, sessionId })
         .returning('*');
 
+      if (!_.isEmpty(certificationCandidate.complementaryCertifications)) {
+        const complementaryCertificationSubscriptionsToSave = certificationCandidate.complementaryCertifications.map(
+          (complementaryCertification) => {
+            return {
+              complementaryCertificationId: complementaryCertification.id,
+              certificationCandidateId: addedCertificationCandidate.id,
+            };
+          }
+        );
+
+        await knex('complementary-certification-subscriptions').insert(complementaryCertificationSubscriptionsToSave);
+      }
+
       return new CertificationCandidate(addedCertificationCandidate);
     } catch (error) {
       throw new CertificationCandidateCreationOrUpdateError(
