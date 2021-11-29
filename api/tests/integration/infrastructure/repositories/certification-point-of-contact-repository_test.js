@@ -91,131 +91,125 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
       expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
 
-    it('should return all the AllowedCertificationCenterAccesses of the CertificationPointOfContact if user is linked to many certification centers', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 1,
-        name: 'Centre de certif sans orga reliée',
-        type: CertificationCenter.types.PRO,
-        externalId: 'Centre1',
-      });
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 2,
-        name: 'Centre de certif reliée à une orga sans tags',
-        type: CertificationCenter.types.PRO,
-        externalId: 'Centre2',
-      });
-      databaseBuilder.factory.buildOrganization({
-        externalId: 'Centre2',
-        isManagingStudents: true,
-      });
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 3,
-        name: 'Centre de certif reliée à une orga avec 1 tag',
-        type: CertificationCenter.types.SUP,
-        externalId: 'Centre3',
-      });
-      databaseBuilder.factory.buildOrganization({
-        id: 3,
-        externalId: 'Centre3',
-        isManagingStudents: false,
-      });
-      databaseBuilder.factory.buildTag({ id: 3, name: 'premier tag' });
-      databaseBuilder.factory.buildOrganizationTag({ organizationId: 3, tagId: 3 });
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 4,
-        name: 'Centre de certif reliée à une orga avec 2 tags',
-        type: CertificationCenter.types.SCO,
-        externalId: 'Centre4',
-      });
-      databaseBuilder.factory.buildOrganization({
-        id: 4,
-        externalId: 'Centre4',
-        isManagingStudents: false,
-      });
-      databaseBuilder.factory.buildTag({ id: 4, name: 'deuxieme tag' });
-      databaseBuilder.factory.buildTag({ id: 5, name: 'troisieme tag' });
-      databaseBuilder.factory.buildOrganizationTag({ organizationId: 4, tagId: 4 });
-      databaseBuilder.factory.buildOrganizationTag({ organizationId: 4, tagId: 5 });
-      databaseBuilder.factory.buildUser({
-        id: 123,
-        firstName: 'Jean',
-        lastName: 'Acajou',
-        email: 'jean.acajou@example.net',
-        pixCertifTermsOfServiceAccepted: true,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 1,
-        userId: 123,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 2,
-        userId: 123,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 3,
-        userId: 123,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 4,
-        userId: 123,
-      });
-      await databaseBuilder.commit();
+    describe('when user is linked to many certification centers', function () {
+      it('should return actives and allowed certification center accesses of the CertificationPointOfContact', async function () {
+        // given
+        const now = new Date();
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'Centre de certif sans orga reliée',
+          type: CertificationCenter.types.PRO,
+          externalId: 'Centre1',
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 2,
+          name: 'Centre de certif reliée à une orga sans tags',
+          type: CertificationCenter.types.PRO,
+          externalId: 'Centre2',
+        });
+        databaseBuilder.factory.buildOrganization({
+          externalId: 'Centre2',
+          isManagingStudents: true,
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 3,
+          name: 'Centre de certif reliée à une orga avec 1 tag',
+          type: CertificationCenter.types.SUP,
+          externalId: 'Centre3',
+        });
+        databaseBuilder.factory.buildOrganization({
+          id: 3,
+          externalId: 'Centre3',
+          isManagingStudents: false,
+        });
+        databaseBuilder.factory.buildTag({ id: 3, name: 'premier tag' });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: 3, tagId: 3 });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 4,
+          name: 'Centre de certif reliée à une orga avec 2 tags',
+          type: CertificationCenter.types.SCO,
+          externalId: 'Centre4',
+        });
+        databaseBuilder.factory.buildOrganization({
+          id: 4,
+          externalId: 'Centre4',
+          isManagingStudents: false,
+        });
+        databaseBuilder.factory.buildTag({ id: 4, name: 'deuxieme tag' });
+        databaseBuilder.factory.buildTag({ id: 5, name: 'troisieme tag' });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: 4, tagId: 4 });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: 4, tagId: 5 });
+        databaseBuilder.factory.buildUser({
+          id: 123,
+          firstName: 'Jean',
+          lastName: 'Acajou',
+          email: 'jean.acajou@example.net',
+          pixCertifTermsOfServiceAccepted: true,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: 1,
+          userId: 123,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: 2,
+          userId: 123,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: 3,
+          userId: 123,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: 4,
+          userId: 123,
+          disabledAt: now,
+        });
+        await databaseBuilder.commit();
 
-      // when
-      const certificationPointOfContact = await certificationPointOfContactRepository.get(123);
+        // when
+        const certificationPointOfContact = await certificationPointOfContactRepository.get(123);
 
-      // then
-      const expectedFirstAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 1,
-        name: 'Centre de certif sans orga reliée',
-        externalId: 'Centre1',
-        type: CertificationCenter.types.PRO,
-        isRelatedToManagingStudentsOrganization: false,
-        relatedOrganizationTags: [],
-        habilitations: [],
+        // then
+        const expectedFirstAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 1,
+          name: 'Centre de certif sans orga reliée',
+          externalId: 'Centre1',
+          type: CertificationCenter.types.PRO,
+          isRelatedToManagingStudentsOrganization: false,
+          relatedOrganizationTags: [],
+          habilitations: [],
+        });
+        const expectedSecondAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 2,
+          name: 'Centre de certif reliée à une orga sans tags',
+          externalId: 'Centre2',
+          type: CertificationCenter.types.PRO,
+          isRelatedToManagingStudentsOrganization: true,
+          relatedOrganizationTags: [],
+          habilitations: [],
+        });
+        const expectedThirdAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 3,
+          name: 'Centre de certif reliée à une orga avec 1 tag',
+          externalId: 'Centre3',
+          type: CertificationCenter.types.SUP,
+          isRelatedToManagingStudentsOrganization: false,
+          relatedOrganizationTags: ['premier tag'],
+          habilitations: [],
+        });
+        const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+          id: 123,
+          firstName: 'Jean',
+          lastName: 'Acajou',
+          email: 'jean.acajou@example.net',
+          pixCertifTermsOfServiceAccepted: true,
+          allowedCertificationCenterAccesses: [
+            expectedFirstAllowedCertificationCenterAccess,
+            expectedSecondAllowedCertificationCenterAccess,
+            expectedThirdAllowedCertificationCenterAccess,
+          ],
+        });
+        expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
       });
-      const expectedSecondAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 2,
-        name: 'Centre de certif reliée à une orga sans tags',
-        externalId: 'Centre2',
-        type: CertificationCenter.types.PRO,
-        isRelatedToManagingStudentsOrganization: true,
-        relatedOrganizationTags: [],
-        habilitations: [],
-      });
-      const expectedThirdAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 3,
-        name: 'Centre de certif reliée à une orga avec 1 tag',
-        externalId: 'Centre3',
-        type: CertificationCenter.types.SUP,
-        isRelatedToManagingStudentsOrganization: false,
-        relatedOrganizationTags: ['premier tag'],
-        habilitations: [],
-      });
-      const expectedFourthAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 4,
-        name: 'Centre de certif reliée à une orga avec 2 tags',
-        externalId: 'Centre4',
-        type: CertificationCenter.types.SCO,
-        isRelatedToManagingStudentsOrganization: false,
-        relatedOrganizationTags: ['deuxieme tag', 'troisieme tag'],
-        habilitations: [],
-      });
-      const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
-        id: 123,
-        firstName: 'Jean',
-        lastName: 'Acajou',
-        email: 'jean.acajou@example.net',
-        pixCertifTermsOfServiceAccepted: true,
-        allowedCertificationCenterAccesses: [
-          expectedFirstAllowedCertificationCenterAccess,
-          expectedSecondAllowedCertificationCenterAccess,
-          expectedThirdAllowedCertificationCenterAccess,
-          expectedFourthAllowedCertificationCenterAccess,
-        ],
-      });
-      expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
 
     it('should return all the certification center habilitations', async function () {
