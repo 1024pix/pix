@@ -329,6 +329,33 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         );
       });
 
+      it('should only return actives certification center membership associated to the user', async function () {
+        // given
+        const now = new Date();
+        const email = 'lilou@example.net';
+        const user = databaseBuilder.factory.buildUser({ email });
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const otherCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const activeCertificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenter.id,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: otherCertificationCenter.id,
+          disabledAt: now,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(email);
+
+        // then
+        const certificationCenterMembership = foundUser.certificationCenterMemberships[0];
+        expect(foundUser.certificationCenterMemberships).to.have.lengthOf(1);
+        expect(certificationCenterMembership.id).to.equal(activeCertificationCenterMembership.id);
+      });
+
       it('should return membership associated to the user', async function () {
         // when
         const user = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
