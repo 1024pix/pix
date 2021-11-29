@@ -647,6 +647,7 @@
       "import": {
         "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
         "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a>.</div>",
+        "invalid-mimetype": "The file type is not allowed, please upload {format} file",
         "global-success": "The list has been successfully imported."
       },
       "manage-authentication-method-modal": {
