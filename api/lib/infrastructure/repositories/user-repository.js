@@ -49,6 +49,7 @@ module.exports = {
         require: false,
         withRelated: [
           { memberships: (qb) => qb.where({ disabledAt: null }) },
+          { certificationCenterMemberships: (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
           'pixRoles',
           'certificationCenterMemberships.certificationCenter',
