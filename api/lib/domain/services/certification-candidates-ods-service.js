@@ -81,7 +81,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       });
 
       try {
-        certificationCandidate.validate(version);
+        certificationCandidate.validate();
       } catch (err) {
         _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
       }
