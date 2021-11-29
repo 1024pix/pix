@@ -11,7 +11,6 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  complementaryCertificationSubscriptionRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
 
@@ -46,17 +45,10 @@ module.exports = async function addCertificationCandidateToSession({
     certificationCandidate.updateBirthInformation(cpfBirthInformation);
   }
 
-  const savedCertificationCandidate = await certificationCandidateRepository.saveInSession({
+  certificationCandidate.complementaryCertifications = complementaryCertifications;
+
+  return await certificationCandidateRepository.saveInSession({
     certificationCandidate,
     sessionId: certificationCandidate.sessionId,
   });
-
-  for (const complementaryCertification of complementaryCertifications) {
-    await complementaryCertificationSubscriptionRepository.save({
-      complementaryCertificationId: complementaryCertification.id,
-      certificationCandidateId: savedCertificationCandidate.id,
-    });
-  }
-
-  return savedCertificationCandidate;
 };
