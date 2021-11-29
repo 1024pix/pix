@@ -28,11 +28,9 @@ module.exports = {
         complementaryCertificationId,
         certificationCourseId: savedCertificationCourseDTO.id,
       }));
-    let savedComplementaryCertificationCourses = [];
+
     if (!_.isEmpty(complementaryCertificationCourses)) {
-      savedComplementaryCertificationCourses = await knexConn('complementary-certification-courses')
-        .insert(complementaryCertificationCourses)
-        .returning('*');
+      await knexConn('complementary-certification-courses').insert(complementaryCertificationCourses);
     }
 
     const savedChallenges = await bluebird.mapSeries(
@@ -51,7 +49,6 @@ module.exports = {
 
     const savedCertificationCourse = toDomain(savedCertificationCourseDTO);
     savedCertificationCourse._challenges = savedChallenges;
-    savedCertificationCourse._complementaryCertificationCourses = savedComplementaryCertificationCourses;
     return savedCertificationCourse;
   },
 

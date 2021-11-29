@@ -1409,9 +1409,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const savedCertificationCourse = domainBuilder.buildCertificationCourse(
                       certificationCourseToSave.toDTO()
                     );
-                    savedCertificationCourse._complementaryCertificationCourses = [
-                      { ...complementaryCertificationCourse, certificationCourseId: savedCertificationCourse.getId() },
-                    ];
                     certificationCourseRepository.save.resolves(savedCertificationCourse);
 
                     const assessmentToSave = new Assessment({
@@ -1451,12 +1448,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         ...savedCertificationCourse.toDTO(),
                         assessment: savedAssessment,
                         challenges: [challenge1, challenge2],
-                        complementaryCertificationCourses: [
-                          {
-                            certificationCourseId: savedCertificationCourse.getId(),
-                            complementaryCertificationId: complementaryCertificationCleA.id,
-                          },
-                        ],
                       }),
                     });
                   });

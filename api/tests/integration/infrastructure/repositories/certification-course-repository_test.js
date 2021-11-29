@@ -60,8 +60,9 @@ describe('Integration | Repository | Certification Course', function () {
       );
 
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
+
       const [savedComplementaryCertificationCourse] =
-        savedCertificationCourse.toDTO().complementaryCertificationCourses;
+        retrievedCertificationCourse.toDTO().complementaryCertificationCourses;
       expect(_.omit(savedComplementaryCertificationCourse, ['createdAt'])).to.deep.equal({
         complementaryCertificationId,
         certificationCourseId: savedCertificationCourse.getId(),
