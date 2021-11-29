@@ -393,6 +393,27 @@ describe('Integration | Repository | Session', function () {
       expect(hasMembership).to.be.true;
     });
 
+    it('should return false if user has a disabled membership in the certification center that originated the session', async function () {
+      //given
+      const userId = 1;
+      const now = new Date();
+      databaseBuilder.factory.buildUser({ id: userId });
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId, disabledAt: now });
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+        userId,
+        sessionId
+      );
+
+      // then
+      expect(hasMembership).to.be.false;
+    });
+
     it('should return false if user has no membership in the certification center that originated the session', async function () {
       //given
       const userId = 1;

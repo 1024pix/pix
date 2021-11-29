@@ -96,6 +96,7 @@ module.exports = {
     const session = await BookshelfSession.where({
       'sessions.id': sessionId,
       'certification-center-memberships.userId': userId,
+      'certification-center-memberships.disabledAt': null,
     })
       .query((qb) => {
         qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');

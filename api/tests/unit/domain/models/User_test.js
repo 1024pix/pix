@@ -211,6 +211,25 @@ describe('Unit | Domain | Models | User', function () {
       //then
       expect(hasAccess).to.be.true;
     });
+
+    it('should be false if the user has a disabled access to the given CertificationCenterId ', function () {
+      // given
+      const certificationCenterId = 12345;
+      const now = new Date();
+      const user = domainBuilder.buildUser();
+      user.certificationCenterMemberships = [
+        domainBuilder.buildCertificationCenterMembership({
+          certificationCenter: { id: certificationCenterId },
+          disabledAt: now,
+        }),
+      ];
+
+      // when
+      const hasAccess = user.hasAccessToCertificationCenter(certificationCenterId);
+
+      //then
+      expect(hasAccess).to.be.false;
+    });
   });
 
   describe('#email', function () {
