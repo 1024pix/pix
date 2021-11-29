@@ -15,6 +15,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const userAnonymizedDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
@@ -835,29 +836,33 @@ describe('Unit | Controller | user-controller', function () {
   });
 
   describe('#anonymizeUser', function () {
-    const userId = 1;
-    const request = {
-      auth: {
-        credentials: {
-          userId,
-        },
-      },
-      params: {
-        id: userId,
-      },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'anonymizeUser').resolves();
-    });
-
     it('should call the anonymize user usecase', async function () {
+      // given
+      const userId = 1;
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+      };
+      const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
+      const userDetailsForAdmin = Symbol('userDetailsForAdmin');
+      sinon.stub(usecases, 'anonymizeUser').withArgs({ userId }).resolves(userDetailsForAdmin);
+      sinon
+        .stub(userAnonymizedDetailsForAdminSerializer, 'serialize')
+        .withArgs(userDetailsForAdmin)
+        .returns(anonymizedUserSerialized);
+
       // when
       const response = await userController.anonymizeUser(request, hFake);
 
       // then
-      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId });
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.deep.equal(anonymizedUserSerialized);
     });
   });
 
