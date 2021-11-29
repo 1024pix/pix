@@ -65,7 +65,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isCampaignRestricted: false,
       isCampaignForSCOOrganization: false,
       isCampaignSimplifiedAccess: false,
-      hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
       isUserLogged: false,
       externalUser: null,
@@ -75,15 +74,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   _updateStateFrom({ campaign = {}, session }) {
-    const hasUserCompletedRestrictedCampaignAssociation =
-      this.campaignStorage.get(campaign.code, 'associationDone') || false;
     const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
       isCampaignSimplifiedAccess: get(campaign, 'isSimplifiedAccess', this.state.isCampaignSimplifiedAccess),
       isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
-      hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
       isUserLogged: this.session.isAuthenticated,
       externalUser: get(session, 'data.externalUser'),
@@ -111,11 +107,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldJoinFromMediacentre() {
-    return (
-      this.state.isCampaignRestricted &&
-      this.state.externalUser &&
-      !this.state.hasUserCompletedRestrictedCampaignAssociation
-    );
+    return this.state.isCampaignRestricted && this.state.externalUser;
   }
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
