@@ -21,7 +21,7 @@ describe('Unit | Route | Start-or-resume', function () {
     it('should reset state', async function () {
       // given
       route.state.campaignCode = 'OLD_CODE';
-      route.state.hasUserCompletedRestrictedCampaignAssociation = true;
+      route.state.hasUserSeenJoinPage = true;
       const transition = { to: { queryParams: {} } };
       route.modelFor = sinon.stub().returns(campaign);
       route.session.isAuthenticated = true;
@@ -33,7 +33,7 @@ describe('Unit | Route | Start-or-resume', function () {
       await route.beforeModel(transition);
 
       // then
-      expect(route.state.hasUserCompletedRestrictedCampaignAssociation).to.be.false;
+      expect(route.state.hasUserSeenJoinPage).to.be.undefined;
     });
   });
 });
