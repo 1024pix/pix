@@ -28,7 +28,7 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column--id">ID</th>
+            <th class="table__column table__column--id">ID</th>
             <th>Nom du profil cible</th>
           </tr>
         </thead>
@@ -42,7 +42,7 @@
                 {{on "click" (fn this.goToTargetProfilePage targetProfile.id)}}
                 class="tr--clickable"
               >
-                <td class="table__column--id">{{targetProfile.id}}</td>
+                <td class="table__column table__column--id">{{targetProfile.id}}</td>
                 <td>{{targetProfile.name}}</td>
               </tr>
             {{/each}}
