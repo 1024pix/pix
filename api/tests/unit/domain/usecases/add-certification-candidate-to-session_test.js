@@ -149,7 +149,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         expect(certificationCandidate.sessionId).to.equal(sessionId);
       });
 
-      it('should validate the certification candidate with the right model version', async function () {
+      it('should validate the certification candidate', async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         certificationCandidate.validate = sinon.stub();
@@ -176,7 +176,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         });
 
         // then
-        expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.5');
+        expect(certificationCandidate.validate).to.has.been.called;
       });
 
       context('when birth information validation fail', function () {

@@ -13,10 +13,7 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCpfCityRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
-
-  const version = '1.5';
-
-  certificationCandidate.validate(version);
+  certificationCandidate.validate();
 
   const duplicateCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
     sessionId,
@@ -31,19 +28,17 @@ module.exports = async function addCertificationCandidateToSession({
     );
   }
 
-  if (version === '1.5') {
-    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-      ...certificationCandidate,
-      certificationCpfCityRepository,
-      certificationCpfCountryRepository,
-    });
+  const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+    ...certificationCandidate,
+    certificationCpfCityRepository,
+    certificationCpfCountryRepository,
+  });
 
-    if (cpfBirthInformation.hasFailed()) {
-      throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
-    }
-
-    certificationCandidate.updateBirthInformation(cpfBirthInformation);
+  if (cpfBirthInformation.hasFailed()) {
+    throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
   }
+
+  certificationCandidate.updateBirthInformation(cpfBirthInformation);
 
   certificationCandidate.complementaryCertifications = complementaryCertifications;
 
