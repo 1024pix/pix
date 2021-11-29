@@ -82,7 +82,9 @@ class User {
 
   hasAccessToCertificationCenter(certificationCenterId) {
     return this.certificationCenterMemberships.some(
-      (certificationCenterMembership) => certificationCenterMembership.certificationCenter.id === certificationCenterId
+      (certificationCenterMembership) =>
+        certificationCenterMembership.certificationCenter.id === certificationCenterId &&
+        _.isNil(certificationCenterMembership.disabledAt)
     );
   }
 }
