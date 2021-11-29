@@ -397,22 +397,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .onCall(1)
                   .resolves(existingCertificationCourse);
 
-                const skill1 = domainBuilder.buildSkill();
-                const skill2 = domainBuilder.buildSkill();
-                const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                // TODO : use the domainBuilder to instanciate userCompetences
-                const placementProfile = {
-                  isCertifiable: sinon.stub().returns(true),
-                  userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                };
-                placementProfileService.getPlacementProfile
-                  .withArgs({ userId, limitDate: now })
-                  .resolves(placementProfile);
-
-                const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                const { placementProfile, userCompetencesWithChallenges } = _buildPlacementProfileWithTwoChallenges(
+                  placementProfileService,
+                  userId,
+                  now
+                );
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -463,22 +452,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     })
                   );
 
-                const skill1 = domainBuilder.buildSkill();
-                const skill2 = domainBuilder.buildSkill();
-                const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                // TODO : use the domainBuilder to instanciate userCompetences
-                const placementProfile = {
-                  isCertifiable: sinon.stub().returns(true),
-                  userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                };
-                placementProfileService.getPlacementProfile
-                  .withArgs({ userId, limitDate: now })
-                  .resolves(placementProfile);
-
-                const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                  _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -570,22 +545,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         })
                       );
 
-                    const skill1 = domainBuilder.buildSkill();
-                    const skill2 = domainBuilder.buildSkill();
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                    userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                    userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -716,22 +677,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         })
                       );
 
-                    const skill1 = domainBuilder.buildSkill();
-                    const skill2 = domainBuilder.buildSkill();
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                    userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                    userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -856,22 +803,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         })
                       );
 
-                    const skill1 = domainBuilder.buildSkill();
-                    const skill2 = domainBuilder.buildSkill();
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                    userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                    userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -984,22 +917,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         })
                       );
 
-                    const skill1 = domainBuilder.buildSkill();
-                    const skill2 = domainBuilder.buildSkill();
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                    userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                    userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1098,22 +1017,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         })
                       );
 
-                    const skill1 = domainBuilder.buildSkill();
-                    const skill2 = domainBuilder.buildSkill();
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                    userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                    userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1227,22 +1132,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       })
                     );
 
-                  const skill1 = domainBuilder.buildSkill();
-                  const skill2 = domainBuilder.buildSkill();
-                  const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                  const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                  // TODO : use the domainBuilder to instanciate userCompetences
-                  const placementProfile = {
-                    isCertifiable: sinon.stub().returns(true),
-                    userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                  };
-                  placementProfileService.getPlacementProfile
-                    .withArgs({ userId, limitDate: now })
-                    .resolves(placementProfile);
-
-                  const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                  userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                  userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                  const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                    _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                   certificationChallengesService.pickCertificationChallenges
                     .withArgs(placementProfile)
                     .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1342,22 +1233,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         })
                       );
 
-                    const skill1 = domainBuilder.buildSkill();
-                    const skill2 = domainBuilder.buildSkill();
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
-                    userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
-                    userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1480,19 +1357,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           authorizedToStart: true,
                         })
                       );
-
-                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
-                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
-                    // TODO : use the domainBuilder to instanciate userCompetences
-                    const placementProfile = {
-                      isCertifiable: sinon.stub().returns(true),
-                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
-                    };
-                    placementProfileService.getPlacementProfile
-                      .withArgs({ userId, limitDate: now })
-                      .resolves(placementProfile);
-
-                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+                    const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                      _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1574,3 +1440,19 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     });
   });
 });
+
+function _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now) {
+  const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+  const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+  // TODO : use the domainBuilder to instanciate userCompetences
+  const placementProfile = {
+    isCertifiable: sinon.stub().returns(true),
+    userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+  };
+  placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
+
+  const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+  userCompetencesWithChallenges[0].challenges[0].testedSkill = domainBuilder.buildSkill();
+  userCompetencesWithChallenges[1].challenges[0].testedSkill = domainBuilder.buildSkill();
+  return { challenge1, challenge2, placementProfile, userCompetencesWithChallenges };
+}
