@@ -31,6 +31,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           birthdate: '1990-07-12',
           extraTimePercentage: '0.05',
           sessionId,
+          complementaryCertifications: [],
         });
 
         // when
@@ -40,7 +41,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         });
 
         // then
-        const attributesToOmit = ['id', 'createdAt', 'complementaryCertifications'];
+        const attributesToOmit = ['id', 'createdAt', 'complementaryCertifications', 'userId'];
         expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
           _.omit(certificationCandidate, attributesToOmit)
         );
@@ -62,17 +63,57 @@ describe('Integration | Repository | CertificationCandidate', function () {
             birthdate: '1990-07-12',
             extraTimePercentage: '0.05',
             sessionId,
+            complementaryCertifications: [],
           });
 
           const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
 
           // when
-          await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+          await certificationCandidateRepository.saveInSession({
+            certificationCandidate,
+            sessionId,
+          });
 
           // then
           const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
 
           expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
+        });
+      });
+
+      context('when there is complementary certifications to save', function () {
+        afterEach(function () {
+          return knex('complementary-certification-subscriptions').del();
+        });
+
+        it('should save the complementary certification subscriptions', async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          const firstComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+          const secondComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+          await databaseBuilder.commit();
+
+          const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
+            sessionId,
+            complementaryCertifications: [
+              domainBuilder.buildComplementaryCertification({ id: firstComplementaryCertificationId }),
+              domainBuilder.buildComplementaryCertification({ id: secondComplementaryCertificationId }),
+            ],
+          });
+
+          // when
+          const savedCertificationCandidate = await certificationCandidateRepository.saveInSession({
+            certificationCandidate,
+            sessionId,
+          });
+
+          // then
+          const complementaryCertificationSubscriptionsInDB = await knex(
+            'complementary-certification-subscriptions'
+          ).where({
+            certificationCandidateId: savedCertificationCandidate.id,
+          });
+          expect(complementaryCertificationSubscriptionsInDB).to.have.lengthOf(2);
         });
       });
     });
