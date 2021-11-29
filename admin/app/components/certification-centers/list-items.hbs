@@ -2,13 +2,13 @@
   <table class="table-admin">
     <thead>
       <tr>
-        <th class="table__column--id"><label for="id">ID</label></th>
+        <th class="table__column table__column--id"><label for="id">ID</label></th>
         <th><label for="name">Nom</label></th>
         <th><label for="type">Type</label></th>
         <th><label for="externalId">ID externe</label></th>
       </tr>
       <tr>
-        <td class="table__column--id">
+        <td class="table__column table__column--id">
           <input
             id="id"
             type="text"
@@ -51,7 +51,7 @@
       <tbody>
         {{#each @certificationCenters as |certificationCenter|}}
           <tr aria-label="Centre de certification">
-            <td class="table__column--id">
+            <td class="table__column table__column--id">
               <LinkTo
                 @route="authenticated.certification-centers.get"
                 @model={{certificationCenter.id}}

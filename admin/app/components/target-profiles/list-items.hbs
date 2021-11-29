@@ -3,12 +3,12 @@
     <table>
       <thead>
         <tr>
-          <th class="table__column--id">ID</th>
+          <th class="table__column table__column--id">ID</th>
           <th>Nom</th>
           <th class="col-status">Statut</th>
         </tr>
         <tr>
-          <th class="table__column--id">
+          <th class="table__column table__column--id">
             <input
               id="id"
               type="text"
@@ -34,7 +34,7 @@
         <tbody>
           {{#each @targetProfiles as |targetProfile|}}
             <tr aria-label="Profil cible">
-              <td class="table__column--id">{{targetProfile.id}}</td>
+              <td class="table__column table__column--id">{{targetProfile.id}}</td>
               <td>
                 <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile.id}}>
                   {{targetProfile.name}}
