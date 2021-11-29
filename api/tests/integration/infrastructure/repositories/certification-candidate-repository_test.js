@@ -11,23 +11,16 @@ const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {
-    let certificationCandidate;
-    let sessionId;
-
-    beforeEach(function () {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-
-      return databaseBuilder.commit();
-    });
-
     afterEach(function () {
       return knex('certification-candidates').delete();
     });
 
     context('when a proper candidate is being saved', function () {
-      beforeEach(async function () {
-        certificationCandidate = domainBuilder.buildCertificationCandidate({
+      it('should save the Certification candidate in session', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        await databaseBuilder.commit();
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
           firstName: 'Pix',
           lastName: 'Lover',
           sex: 'F',
@@ -37,30 +30,40 @@ describe('Integration | Repository | CertificationCandidate', function () {
           externalId: 'ABCDEF123',
           birthdate: '1990-07-12',
           extraTimePercentage: '0.05',
-          schoolingRegistrationId: null,
+          sessionId,
         });
 
-        delete certificationCandidate.id;
-      });
-
-      it('should save the Certification candidate in session', async function () {
         // when
-        await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+        const firstCertificationCandidatesInSession = await certificationCandidateRepository.saveInSession({
+          certificationCandidate,
+          sessionId,
+        });
 
         // then
-        const [firstCertificationCandidatesInSession] = await certificationCandidateRepository.findBySessionId(
-          sessionId
-        );
-        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id', 'complementaryCertifications'];
-        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deep.equal(
+        const attributesToOmit = ['id', 'createdAt', 'complementaryCertifications'];
+        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
           _.omit(certificationCandidate, attributesToOmit)
         );
-        expect(firstCertificationCandidatesInSession.sessionId).to.equal(sessionId);
       });
 
       context('when adding a new candidate', function () {
         it('should add a single row in the table', async function () {
           // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          await databaseBuilder.commit();
+          const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
+            firstName: 'Pix',
+            lastName: 'Lover',
+            sex: 'F',
+            birthPostalCode: '75000',
+            birthINSEECode: '75000',
+            birthCity: 'HaussmanPolis',
+            externalId: 'ABCDEF123',
+            birthdate: '1990-07-12',
+            extraTimePercentage: '0.05',
+            sessionId,
+          });
+
           const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
 
           // when
