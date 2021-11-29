@@ -22,6 +22,7 @@ exports.register = async (server) => {
         auth: false,
         handler: assessmentController.findByFilters,
         tags: ['api'],
+        notes: ['route désormais non utilisée et donc dépréciée'],
       },
     },
     {

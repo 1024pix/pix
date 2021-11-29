@@ -10,10 +10,6 @@ module.exports = {
         const campaignParticipationForSerialization = new CampaignParticipation(campaignParticipation);
         if (campaignParticipation.lastAssessment) {
           campaignParticipationForSerialization.assessment = { id: campaignParticipation.lastAssessment.id };
-        } else if (campaignParticipation.assessmentId) {
-          // FIXME: This ugly hack must me removed once all usage of this magical assessmentId property is deprecated
-          // FIXME: in favor of the lastAssessment getter. Currently, the repository adds this prop in a very brittle way.
-          campaignParticipationForSerialization.assessment = { id: campaignParticipation.assessmentId };
         }
         return campaignParticipationForSerialization;
       },

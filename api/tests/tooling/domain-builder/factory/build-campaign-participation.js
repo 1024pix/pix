@@ -9,7 +9,7 @@ module.exports = function buildCampaignParticipation({
   createdAt = new Date('2020-01-01'),
   participantExternalId = 'Mon mail pro',
   campaignId = campaign.id,
-  assessmentId = null,
+  assessments = [],
   userId = 123,
   status = SHARED,
   validatedSkillsCount,
@@ -23,7 +23,7 @@ module.exports = function buildCampaignParticipation({
     createdAt,
     participantExternalId,
     campaignId,
-    assessmentId,
+    assessments,
     userId,
     validatedSkillsCount,
   });

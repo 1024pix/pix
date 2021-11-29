@@ -3,7 +3,6 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 const Campaign = require('../../domain/models/Campaign');
 const Assessment = require('../../domain/models/Assessment');
 const Skill = require('../../domain/models/Skill');
-const User = require('../../domain/models/User');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
@@ -29,25 +28,6 @@ const ATTRIBUTES_TO_SAVE = [
   'masteryRate',
 ];
 
-function _toDomain(bookshelfCampaignParticipation) {
-  return new CampaignParticipation({
-    id: bookshelfCampaignParticipation.get('id'),
-    assessmentId: _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation),
-    assessments: bookshelfCampaignParticipation
-      .related('assessments')
-      .map((attributes) => new Assessment(attributes.toJSON())),
-    campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
-    campaignId: bookshelfCampaignParticipation.get('campaignId'),
-    status: bookshelfCampaignParticipation.get('status'),
-    sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
-    createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
-    participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
-    userId: bookshelfCampaignParticipation.get('userId'),
-    user: new User(bookshelfCampaignParticipation.related('user').toJSON()),
-    validatedSkillsCount: bookshelfCampaignParticipation.get('validatedSkillsCount'),
-  });
-}
-
 module.exports = {
   async get(id, options = {}, domainTransaction = DomainTransaction.emptyTransaction()) {
     if (options.include) {
@@ -61,7 +41,7 @@ module.exports = {
       require: false,
       transacting: domainTransaction.knexTransaction,
     });
-    return _toDomain(campaignParticipation);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
   async save(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -163,12 +143,13 @@ module.exports = {
       );
   },
 
-  findOneByCampaignIdAndUserId({ campaignId, userId }) {
-    return BookshelfCampaignParticipation.where({ campaignId, userId, isImproved: false })
-      .fetch({ require: false })
-      .then((campaignParticipation) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation)
-      );
+  async findOneByCampaignIdAndUserId({ campaignId, userId }) {
+    const campaignParticipation = await BookshelfCampaignParticipation.where({
+      campaignId,
+      userId,
+      isImproved: false,
+    }).fetch({ require: false, withRelated: ['assessments'] });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
   findOneByAssessmentIdWithSkillIds(assessmentId) {

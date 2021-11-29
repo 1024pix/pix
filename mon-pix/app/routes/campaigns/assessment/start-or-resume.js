@@ -14,15 +14,10 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
   }
 
   async model() {
-    return this.modelFor('campaigns');
+    return this.modelFor('campaigns.assessment');
   }
 
-  async redirect(campaign) {
-    const campaignAssessment = await this.store.query('assessment', {
-      filter: { type: 'CAMPAIGN', codeCampaign: campaign.code },
-    });
-    const assessment = await campaignAssessment.get('firstObject');
-
+  async redirect({ assessment, campaign }) {
     if (this._shouldShowTutorial(assessment, campaign.isForAbsoluteNovice)) {
       this.replaceWith('campaigns.assessment.tutorial', campaign.code);
     } else {
@@ -33,7 +28,7 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
   _shouldShowTutorial(assessment, isCampaignForAbsoluteNovice) {
     return (
       !this.userHasJustConsultedTutorial &&
-      assessment.answers.length === 0 &&
+      assessment.answers?.length === 0 &&
       !assessment.isCompleted &&
       !this.currentUser.user.hasSeenAssessmentInstructions &&
       !isCampaignForAbsoluteNovice

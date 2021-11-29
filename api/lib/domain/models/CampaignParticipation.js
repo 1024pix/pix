@@ -22,7 +22,6 @@ class CampaignParticipation {
     assessments,
     campaign,
     user,
-    assessmentId,
     campaignId,
     userId,
     validatedSkillsCount,
@@ -36,7 +35,6 @@ class CampaignParticipation {
     this.campaign = campaign;
     this.user = user;
     this.assessments = assessments;
-    this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
     this.status = status;
