@@ -16,7 +16,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
     participation = domainBuilder.buildCampaignParticipation({
       campaign,
       userId: user.id,
-      assessmentId: assessment.id,
+      assessments: [assessment],
     });
   });
 

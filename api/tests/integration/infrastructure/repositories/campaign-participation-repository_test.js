@@ -13,7 +13,7 @@ const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participation', function () {
   describe('#get', function () {
-    let campaignId, recentAssessmentId;
+    let campaignId;
     let campaignParticipationId, campaignParticipationNotSharedId;
     let campaignParticipationAssessments;
     beforeEach(async function () {
@@ -47,7 +47,6 @@ describe('Integration | Repository | Campaign Participation', function () {
       });
 
       campaignParticipationAssessments = [assessment1, assessment2];
-      recentAssessmentId = assessment2.id;
 
       await databaseBuilder.commit();
     });
@@ -67,14 +66,6 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       expect(foundCampaignParticipation.sharedAt).to.be.null;
-    });
-
-    it('should return the campaign participation with its last assessment', async function () {
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
-
-      // then
-      expect(foundCampaignParticipation.assessmentId).to.be.equal(recentAssessmentId);
     });
 
     it('returns the assessments of campaignParticipation', async function () {
@@ -666,6 +657,24 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(response.id).to.equal(campaignParticipation.id);
     });
 
+    it('should include assessments found too', async function () {
+      // given
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+      const assessment = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation.id });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response.assessments).to.have.lengthOf(1);
+      expect(response.assessments[0]).to.be.instanceOf(Assessment);
+      expect(response.assessments[0].id).to.equal(assessment.id);
+    });
+
     it('should return no campaign participation', async function () {
       // when
       const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
@@ -711,7 +720,9 @@ describe('Integration | Repository | Campaign Participation', function () {
         );
 
         // then
-        expect(campaignParticipationFound.assessmentId).to.equal(assessmentId);
+        expect(campaignParticipationFound.assessments).to.have.lengthOf(1);
+        expect(campaignParticipationFound.assessments[0]).to.be.instanceOf(Assessment);
+        expect(campaignParticipationFound.assessments[0].id).to.equal(assessmentId);
         expect(campaignParticipationFound.campaign.targetProfile.skills).to.have.lengthOf(2);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0]).to.be.instanceOf(Skill);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0].id).to.equal(skillId1);

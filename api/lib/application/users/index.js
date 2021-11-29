@@ -668,7 +668,7 @@ exports.register = async function (server) {
         handler: userController.getUserCampaignParticipationToCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des participations d’un utilisateur (**userId**) à la campagne donnée (**campaignId**)\n' +
+            '- Récupération de la dernière participation d’un utilisateur (**userId**) à une campagne donnée (**campaignId**)\n' +
             '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'campaign', 'campaign-participations'],

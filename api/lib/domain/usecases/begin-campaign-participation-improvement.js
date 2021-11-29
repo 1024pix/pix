@@ -13,7 +13,7 @@ module.exports = async function beginCampaignParticipationImprovement({
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(
     campaignParticipationId,
-    {},
+    { include: ['campaign'] },
     domainTransaction
   );
   if (campaignParticipation.userId !== userId) {
@@ -27,11 +27,7 @@ module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipation.improve();
   await campaignParticipationRepository.update(campaignParticipation, domainTransaction);
 
-  const latestAssessment = await assessmentRepository.getLatestByCampaignParticipationId(
-    campaignParticipation.id,
-    domainTransaction
-  );
-  if (latestAssessment.isImproving && !latestAssessment.isCompleted()) {
+  if (campaignParticipation.lastAssessment.isImproving && !campaignParticipation.lastAssessment.isCompleted()) {
     return null;
   }
 

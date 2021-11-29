@@ -29,7 +29,7 @@ async function handlePoleEmploiParticipationFinished({
   if (campaign.isAssessment() && organization.isPoleEmploi) {
     const user = await userRepository.get(participation.userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
-    const assessment = await assessmentRepository.get(participation.assessmentId);
+    const assessment = await assessmentRepository.get(participation.lastAssessment.id);
 
     const payload = PoleEmploiPayload.buildForParticipationFinished({
       user,

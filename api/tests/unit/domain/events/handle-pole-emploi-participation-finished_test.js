@@ -119,7 +119,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
           id: 55667788,
           userId,
           campaignId,
-          assessmentId,
+          assessments: [domainBuilder.buildAssessment({ id: assessmentId })],
           createdAt: new Date('2020-01-02'),
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
