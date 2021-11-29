@@ -21,6 +21,7 @@ module.exports = {
       .from('users')
       .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
       .where('users.id', userId)
+      .where('certification-center-memberships.disabledAt', null)
       .groupByRaw('1, 2, 3, 4, 5')
       .first();
 
