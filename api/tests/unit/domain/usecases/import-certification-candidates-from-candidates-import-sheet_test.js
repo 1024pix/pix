@@ -8,11 +8,13 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfService;
   let certificationCpfCityRepository;
   let certificationCpfCountryRepository;
+  let complementaryCertificationRepository;
 
   beforeEach(function () {
     certificationCandidateRepository = {
       doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
-      setSessionCandidates: sinon.stub(),
+      deleteBySessionId: sinon.stub(),
+      saveInSession: sinon.stub(),
     };
     certificationCandidatesOdsService = {
       extractCertificationCandidatesFromCandidatesImportSheet: sinon.stub(),
@@ -22,6 +24,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
+    complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
   });
 
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
@@ -44,6 +47,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCpfService,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
+          complementaryCertificationRepository,
         });
 
         // then
@@ -57,7 +61,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           // given
           const sessionId = 'sessionId';
           const odsBuffer = 'buffer';
-          const certificationCandidate = domainBuilder.buildCertificationCandidate();
+          const complementaryCertifications = [
+            domainBuilder.buildComplementaryCertification(),
+            domainBuilder.buildComplementaryCertification(),
+          ];
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({ complementaryCertifications });
           const certificationCandidates = [certificationCandidate];
 
           certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist
@@ -70,9 +78,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               certificationCpfService,
               certificationCpfCountryRepository,
               certificationCpfCityRepository,
+              complementaryCertificationRepository,
             })
             .resolves(certificationCandidates);
-          certificationCandidateRepository.setSessionCandidates.resolves();
 
           // when
           await importCertificationCandidatesFromCandidatesImportSheet({
@@ -83,16 +91,19 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfService,
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
+            complementaryCertificationRepository,
           });
 
           // then
-          expect(certificationCandidateRepository.setSessionCandidates).to.have.been.calledWith(
+          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWith({ sessionId });
+          expect(certificationCandidateRepository.saveInSession).to.have.been.calledWith({
+            certificationCandidate,
+            complementaryCertifications,
             sessionId,
-            certificationCandidates
-          );
+          });
           expect(
-            certificationCandidateRepository.setSessionCandidates.calledAfter(
-              certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+            certificationCandidateRepository.deleteBySessionId.calledBefore(
+              certificationCandidateRepository.saveInSession
             )
           ).to.be.true;
         });
