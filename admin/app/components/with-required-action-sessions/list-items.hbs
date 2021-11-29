@@ -2,7 +2,7 @@
   <table class="table-admin table-admin__auto-width">
     <thead>
       <tr>
-        <th>ID</th>
+        <th class="table__column table__column--id">ID</th>
         <th>Centre de certification</th>
         <th>Date de session</th>
         <th>Date de finalisation</th>
@@ -14,9 +14,11 @@
       <tbody>
         {{#each @withRequiredActionSessions as |withRequiredActionSession|}}
           <tr>
-            <td><LinkTo @route="authenticated.sessions.session" @model={{withRequiredActionSession.id}}>
+            <td class="table__column table__column--id">
+              <LinkTo @route="authenticated.sessions.session" @model={{withRequiredActionSession.id}}>
                 {{withRequiredActionSession.id}}
-              </LinkTo></td>
+              </LinkTo>
+            </td>
             <td>{{withRequiredActionSession.certificationCenterName}}</td>
             <td>{{withRequiredActionSession.printableDateAndTime}}</td>
             <td>{{withRequiredActionSession.printableFinalizationDate}}</td>
