@@ -109,10 +109,10 @@ module('Acceptance | User details personal information', function (hooks) {
       assert.contains(`nom_${userToAnonymise.id}`);
       assert.contains(`email_${userToAnonymise.id}@example.net`);
 
-      assert.dom(getByLabel("Méthode d'authentication par Username")).exists();
-      assert.dom(getByLabel("Méthode d'authentication par GAR")).exists();
-      assert.dom(getByLabel("Méthode d'authentication par Pole Emploi")).exists();
-      assert.dom(getByLabel("Méthode d'authentication par Email")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec GAR")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail ")).exists();
     });
   });
 
