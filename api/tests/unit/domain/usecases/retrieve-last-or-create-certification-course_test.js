@@ -1453,6 +1453,120 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   });
                 });
               });
+
+              context('when certification center has no habilitation for CleA', function () {
+                context('when user has certifiable badges with CleA', function () {
+                  it('should not save complementary certification info', async function () {
+                    // given
+                    const sessionId = 1;
+                    const accessCode = 'accessCode';
+                    const userId = 2;
+                    const domainTransaction = Symbol('someDomainTransaction');
+
+                    const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+                    sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+                    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                      .withArgs({ userId, sessionId, domainTransaction })
+                      .resolves(null);
+
+                    certificationCandidateRepository.getBySessionIdAndUserId
+                      .withArgs({ sessionId, userId })
+                      .onCall(0)
+                      .resolves(
+                        domainBuilder.buildCertificationCandidate({
+                          userId,
+                          sessionId,
+                          authorizedToStart: true,
+                        })
+                      );
+
+                    const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+                    const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
+                    // TODO : use the domainBuilder to instanciate userCompetences
+                    const placementProfile = {
+                      isCertifiable: sinon.stub().returns(true),
+                      userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
+                    };
+                    placementProfileService.getPlacementProfile
+                      .withArgs({ userId, limitDate: now })
+                      .resolves(placementProfile);
+
+                    const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+                    certificationChallengesService.pickCertificationChallenges
+                      .withArgs(placementProfile)
+                      .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+                    const complementaryCertificationCleA = domainBuilder.buildComplementaryCertification({
+                      name: CLEA,
+                    });
+                    const certificationCenter = domainBuilder.buildCertificationCenter();
+                    certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+                    complementaryCertificationRepository.findAll.resolves([complementaryCertificationCleA]);
+
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId,
+                    });
+                    certificationCandidateRepository.getBySessionIdAndUserId
+                      .withArgs({ sessionId, userId })
+                      .resolves(foundCertificationCandidate);
+
+                    const certificationCourseToSave = CertificationCourse.from({
+                      certificationCandidate: foundCertificationCandidate,
+                      challenges: [challenge1, challenge2],
+                      verificationCode,
+                      maxReachableLevelOnCertificationDate: 5,
+                      complementaryCertificationCourses: [],
+                    });
+
+                    const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                      certificationCourseToSave.toDTO()
+                    );
+                    certificationCourseRepository.save.resolves(savedCertificationCourse);
+
+                    const assessmentToSave = new Assessment({
+                      userId,
+                      certificationCourseId: savedCertificationCourse.getId(),
+                      state: Assessment.states.STARTED,
+                      type: Assessment.types.CERTIFICATION,
+                      isImproving: false,
+                      method: Assessment.methods.CERTIFICATION_DETERMINED,
+                    });
+                    const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                    assessmentRepository.save
+                      .withArgs({ assessment: assessmentToSave, domainTransaction })
+                      .resolves(savedAssessment);
+
+                    certificationBadgesService.hasStillValidCleaBadgeAcquisition.withArgs({ userId }).resolves(true);
+
+                    // when
+                    const result = await retrieveLastOrCreateCertificationCourse({
+                      domainTransaction,
+                      sessionId,
+                      accessCode,
+                      userId,
+                      locale: 'fr',
+                      ...injectables,
+                    });
+
+                    // then
+                    expect(certificationCourseRepository.save).to.have.been.calledWith({
+                      certificationCourse: certificationCourseToSave,
+                      domainTransaction,
+                    });
+
+                    expect(result).to.deep.equal({
+                      created: true,
+                      certificationCourse: new CertificationCourse({
+                        ...savedCertificationCourse.toDTO(),
+                        assessment: savedAssessment,
+                        challenges: [challenge1, challenge2],
+                      }),
+                    });
+                  });
+                });
+              });
             });
           });
         });

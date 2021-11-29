@@ -126,9 +126,11 @@ async function _startNewCertification({
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
-  if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
-    const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
-    complementaryCertificationIds.push(cleAComplementaryCertification.id);
+  if (certificationCenter.isAccreditedClea) {
+    if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
+      const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
+      complementaryCertificationIds.push(cleAComplementaryCertification.id);
+    }
   }
 
   if (certificationCenter.isAccreditedPixPlusDroit) {
