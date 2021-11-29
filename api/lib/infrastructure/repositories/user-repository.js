@@ -152,7 +152,10 @@ module.exports = {
   getWithCertificationCenterMemberships(userId) {
     return BookshelfUser.where({ id: userId })
       .fetch({
-        withRelated: ['certificationCenterMemberships.certificationCenter'],
+        withRelated: [
+          { certificationCenterMemberships: (qb) => qb.where({ disabledAt: null }) },
+          'certificationCenterMemberships.certificationCenter',
+        ],
       })
       .then(_toDomain)
       .catch((err) => {
