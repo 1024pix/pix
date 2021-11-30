@@ -21,7 +21,6 @@ module.exports = {
       .from('users')
       .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
       .where('users.id', userId)
-      .where('certification-center-memberships.disabledAt', null)
       .groupByRaw('1, 2, 3, 4, 5')
       .first();
 
@@ -29,8 +28,12 @@ module.exports = {
       throw new NotFoundError(`Le référent de certification ${userId} n'existe pas.`);
     }
 
-    const certificationCenterIds = _.compact(certificationPointOfContactDTO.certificationCenterIds);
-    const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(certificationCenterIds);
+    const autorizedCertificationCenterIds = await _removeDisabledCertificationCenterAccesses({
+      certificationPointOfContactDTO,
+    });
+    const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(
+      autorizedCertificationCenterIds
+    );
 
     return new CertificationPointOfContact({
       ...certificationPointOfContactDTO,
@@ -38,6 +41,24 @@ module.exports = {
     });
   },
 };
+
+async function _removeDisabledCertificationCenterAccesses({ certificationPointOfContactDTO }) {
+  const certificationCenters = await knex
+    .select('certificationCenterId')
+    .from('certification-center-memberships')
+    .where('certification-center-memberships.userId', certificationPointOfContactDTO.id)
+    .whereIn(
+      'certification-center-memberships.certificationCenterId',
+      certificationPointOfContactDTO.certificationCenterIds
+    )
+    .where('certification-center-memberships.disabledAt', null);
+
+  const certificationCenterIds = _.chain(certificationCenters)
+    .map((certificationCenter) => certificationCenter.certificationCenterId)
+    .compact()
+    .value();
+  return certificationCenterIds;
+}
 
 async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
   const allowedCertificationCenterAccessDTOs = await knex
