@@ -1,6 +1,7 @@
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
 const Joi = require('joi').extend(require('@joi/date'));
+const { PIX_PLUS_DROIT } = require('./ComplementaryCertification');
 const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
@@ -125,6 +126,10 @@ class CertificationCandidate {
     this.birthINSEECode = birthINSEECode;
     this.birthPostalCode = birthPostalCode;
     this.birthCity = birthCity;
+  }
+
+  isGrantedPixPlusDroit() {
+    return this.complementaryCertifications.find((comp) => comp.name === PIX_PLUS_DROIT);
   }
 }
 
