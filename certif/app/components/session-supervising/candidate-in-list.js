@@ -5,15 +5,11 @@ import noop from 'lodash/noop';
 
 export default class CandidateInList extends Component {
   @tracked isMenuOpen = false;
+  @tracked isConfirmationModalDisplayed = false;
 
   @action
   async toggleCandidate(candidate) {
     await this.args.toggleCandidate(candidate);
-  }
-
-  @action
-  allowTestResume() {
-    noop();
   }
 
   @action
@@ -24,5 +20,20 @@ export default class CandidateInList extends Component {
   @action
   closeMenu() {
     this.isMenuOpen = false;
+  }
+
+  @action
+  askUserToConfirmTestResume() {
+    this.isConfirmationModalDisplayed = true;
+  }
+
+  @action
+  closeConfirmationModal() {
+    this.isConfirmationModalDisplayed = false;
+  }
+
+  @action
+  authorizeTestResume() {
+    noop();
   }
 }
