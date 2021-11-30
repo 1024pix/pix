@@ -1,5 +1,7 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
+const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse');
+const { PIX_PLUS_DROIT, CLEA } = require('../models/ComplementaryCertification');
 const {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
@@ -20,6 +22,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
+  complementaryCertificationRepository,
   sessionRepository,
   certificationCenterRepository,
   certificationChallengesService,
@@ -71,9 +74,10 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationCourseRepository,
     certificationCenterRepository,
     certificationChallengesService,
-    certificationBadgesService,
     placementProfileService,
     verifyCertificateCodeService,
+    complementaryCertificationRepository,
+    certificationBadgesService,
   });
 };
 
@@ -90,6 +94,7 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
+  complementaryCertificationRepository,
 }) {
   const challengesForCertification = [];
 
@@ -117,40 +122,59 @@ async function _startNewCertification({
   }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const complementaryCertificationIds = [];
+
+  const complementaryCertifications = await complementaryCertificationRepository.findAll();
+
+  if (certificationCenter.isAccreditedClea) {
+    if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
+      const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
+      complementaryCertificationIds.push(cleAComplementaryCertification.id);
+    }
+  }
+
   if (certificationCenter.isAccreditedPixPlusDroit) {
-    const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
+    const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId,
-      certificationBadgesService,
-      certificationChallengesService,
       domainTransaction,
-      locale,
     });
-    challengesForCertification.push(...challengesForPixPlusCertification);
+
+    if (highestCertifiableBadgeAcquisitions.length > 0) {
+      const pixDroitComplementaryCertification = complementaryCertifications.find(
+        (comp) => comp.name === PIX_PLUS_DROIT
+      );
+      complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
+      const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
+        userId,
+        highestCertifiableBadgeAcquisitions,
+        certificationBadgesService,
+        certificationChallengesService,
+        locale,
+      });
+      challengesForCertification.push(...challengesForPixPlusCertification);
+    }
   }
 
   return _createCertificationCourse({
     certificationCandidateRepository,
     certificationCourseRepository,
     assessmentRepository,
+    complementaryCertificationRepository,
     userId,
     sessionId,
     certificationChallenges: challengesForCertification,
     domainTransaction,
     verifyCertificateCodeService,
+    complementaryCertificationIds,
   });
 }
 
 async function _findChallengesFromPixPlus({
   userId,
-  domainTransaction,
-  certificationBadgesService,
+  highestCertifiableBadgeAcquisitions,
   certificationChallengesService,
   locale,
 }) {
-  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-    userId,
-    domainTransaction,
-  });
   const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(
     highestCertifiableBadgeAcquisitions,
     ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale)
@@ -189,14 +213,19 @@ async function _createCertificationCourse({
   userId,
   sessionId,
   certificationChallenges,
+  complementaryCertificationIds,
   domainTransaction,
 }) {
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
+  const complementaryCertificationCourses = complementaryCertificationIds.map(
+    ComplementaryCertificationCourse.fromComplementaryCertificationId
+  );
   const newCertificationCourse = CertificationCourse.from({
     certificationCandidate,
     challenges: certificationChallenges,
     maxReachableLevelOnCertificationDate: features.maxReachableLevel,
+    complementaryCertificationCourses,
     verificationCode,
   });
 

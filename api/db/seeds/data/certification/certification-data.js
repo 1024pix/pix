@@ -552,6 +552,36 @@ const STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE
   { source: 'direct', skillId: 'rec7EvARki1b9t574', earnedPix: 4, status: 'validated', competenceId: 'recMiZPNl7V1hyE1d', result: 'ok', challengeId: 'recNMZX1W4lZPdyoY', timeout: null, resultDetails: 'null ' },
 ];
 
+const skillIdsForPixDroitDomain7 = [
+  'recVsrqKyTLbbDHr', 'rec1ToyUy6NRAYfsI', 'rec1EDXVReB5W6WXj', 'rec2fBbtPc8wp4KWt', 'rec1ZqFC2J4vnqMKs',
+  'rec1a0hrfPTy6Gf0t', 'recOiY1HuWVhoapW', 'rec2Q7Diqgtnz763e', 'recZKD07u0mLyujW', 'rec2N9CictMeBt1WF',
+  'rec1EXVl5Brzto10O', 'rec2vtVFViYBr0AiN', 'recNZPgcaDXajM0t', 'rec2h26SD99HTor6U', 'rec2D9DXaRKoWIi2B',
+  'rec1yUM0b5yqbJJL2', 'rec1lD19Cd9ABRiRw', 'rec1t5bLr4yky63Ta', 'rec1XGR9DqVYKdYJx', 'rec1rFg4UP2tcoari',
+  'rec1NArKsOVyN4EIk', 'recU2zsmTHLjPpk9', 'rec17oEfeJmMCUaqx', 'rec2LAaXB2PVhBtCB', 'rec1diQTFWvp6w30t',
+  'rec1UWIIBNSkSeCuL', 'rec2K9f6ZD7lxHv6j', 'recR9RgdSfG6xdcY', 'rec1HP8ydLGZQiNe3', 'rec2yo32jQUEUwaLF',
+  'rec1SfkJCdp3sz9FV', 'recVx1cQZCLOcFw4', 'rec29RWcyhULv9vqH', 'rec1489VTqc86A08u', 'recZGo5NepCfhvVn',
+  'rec1kB9mwJ5OgSVac',
+];
+
+const skillIdsForPixDroitDomain10 = [
+  'rec2N7a2V25EtOo65', 'rec2LKsFxZKznouzf', 'rec2l9DgRkwGLvypz', 'rec1hhx0ZAHDp7lbi', 'rec2HxQXDWViDqMIF',
+  'rec1WxB9xO0evkNZZ', 'rec17iburXjTGJ16I', 'rec2zRrGzUzcBGlTZ', 'rec1EIYS194JJkxvT', 'rec2Q8JYqSOHR5tXB',
+  'rec1q8EaC5p5YgH9t', 'recZZwBpFqbIrBcG', 'rec1HP5Zo3EjjkYMC', 'rec2bl04yHvkQalXp', 'rec176fBLAoLGgCik',
+  'rec2CGYVbOHJHfd3s', 'rec2UAabDUGTNPznB', 'rec2X9IfrJH2Bci4D', 'rec1742UQ2u18EvGi', 'rec1qwmvF5buKTbDr',
+  'rec1KUfQxRCM55gbC', 'rec2ooiMuIq0oUsnn', 'rec1gdjCWdJiacCjO', 'rec1euSl6Lvv6BRAj', 'rec23O6wwhi16ykUU',
+  'rec1bF7RyberJkxo8', 'rec2hdo5JKqc6W1LW', 'rec1MqaeSWF6ctGCI', 'rec1OZXpvNXccAlXH', 'rec1fP6bwoBfuSSt9',
+  'rec2Xa4FvWvA1u4EN', 'rec2Upsw0XxepV3aT', 'rec2szR4revLYvA81', 'rec2IHbKRAIatbLhR', 'rec1a3qGSOGR8ASKy',
+  'rec1Zj99pTKMJxI3b', 'rec1acCPu874VEndo', 'rec1jatQpmAIRF3zV', 'rec2owv7heER5tzB1', 'rec1iSqZ8hUYHc6k7',
+  'rec29zwatZLQvMPhb', 'rec2fkqn6Wg67b2ZA', 'rec2Kmgfh3rhMSLoS', 'rec25uNcX1RvqZmX8', 'rec2gX9NnuZdWH1ev',
+  'rec1rwutpqz9BA6uT', 'rec1kiqls8JYsVM7c', 'rec2NlK1kc6Lk5JE8', 'rec2jFSnBm3kgrLhw', 'rec1NM5bUvOaEISj7',
+  'rec2BoKMAoj65OQYc', 'rec1XXxlxvnKAzx5d',
+];
+
+const skillIdsForPixDroit = [...skillIdsForPixDroitDomain7, ...skillIdsForPixDroitDomain10];
+const PIXPLUS_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = skillIdsForPixDroit.map((skillId) =>
+  ({ source: 'direct', skillId, earnedPix: 0.666667, status: 'validated', competenceId: null, result: 'ok', challengeId: 12395, timeout: null, resultDetails: 'null ' }))
+;
+
 const WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
   { source: 'direct', skillId: 'rec9uQTL8ZFm1rSTY', earnedPix: 1.6, status: 'validated', competenceId: 'recFpYXCKcyhLI3Nu', result: 'ok', challengeId: 'recHmF7v2A4BSlzFf', timeout: null, resultDetails: 'null ' },
   { source: 'inferred', skillId: 'recH8iHKeJ5iws289', earnedPix: 1.3333334, status: 'validated', competenceId: 'recFpYXCKcyhLI3Nu', result: 'ok', challengeId: 'recHmF7v2A4BSlzFf', timeout: null, resultDetails: 'null ' },
@@ -848,6 +878,7 @@ module.exports = {
   STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   WEAK_CERTIFIABLE_WITH_TIMED_CHALLENGE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  PIXPLUS_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   CERTIFICATION_CHALLENGES_DATA,
   CERTIFICATION_FAILURE_ANSWERS_DATA,
   CERTIFICATION_SUCCESS_ANSWERS_DATA,

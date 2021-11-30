@@ -675,6 +675,7 @@ describe('Acceptance | API | Certification Course', function () {
           await knex('answers').delete();
           await knex('assessments').delete();
           await knex('certification-challenges').delete();
+          await knex('complementary-certification-courses').delete();
           await knex('certification-courses').delete();
         });
 
@@ -732,6 +733,7 @@ describe('Acceptance | API | Certification Course', function () {
           await knex('answers').delete();
           await knex('assessments').delete();
           await knex('certification-challenges').delete();
+          await knex('complementary-certification-courses').delete();
           await knex('certification-courses').delete();
         });
 
