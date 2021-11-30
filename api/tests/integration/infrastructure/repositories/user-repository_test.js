@@ -195,14 +195,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#getForObfuscation', function () {
-    let userInDb;
-
-    beforeEach(async function () {
-      userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      await databaseBuilder.commit();
-    });
-
     it('should return a domain user with authentication methods only when found', async function () {
+      // given
+      const userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+
       // when
       const user = await userRepository.getForObfuscation(userInDb.id);
 
@@ -225,14 +222,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
   describe('get user', function () {
     describe('#get', function () {
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-      });
-
       it('should return the found user', async function () {
+        // given
+        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
+
         // when
         const user = await userRepository.get(userInDb.id);
 
@@ -748,13 +742,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#checkIfEmailIsAvailable', function () {
-    let userInDb;
-
-    beforeEach(async function () {
-      userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      await databaseBuilder.commit();
-    });
-
     it('should return the email when the email is not registered', async function () {
       // when
       const email = await userRepository.checkIfEmailIsAvailable('email@example.net');
@@ -764,6 +751,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     it('should reject an AlreadyRegisteredEmailError when it already exists', async function () {
+      // given
+      const userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+
       // when
       const result = await catchErr(userRepository.checkIfEmailIsAvailable)(userInDb.email);
 
@@ -787,16 +778,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#updateEmail', function () {
-    let userInDb;
-
-    beforeEach(async function () {
-      userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net' });
-      await databaseBuilder.commit();
-    });
-
     it('should update the user email', async function () {
       // given
       const newEmail = 'new_email@example.net';
+      const userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net' });
+      await databaseBuilder.commit();
 
       // when
       const updatedUser = await userRepository.updateEmail({ id: userInDb.id, email: newEmail });
@@ -860,15 +846,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#updateUserAttributes', function () {
-    let userInDb;
-
-    beforeEach(async function () {
-      userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      await databaseBuilder.commit();
-    });
-
     it('should update lang of the user', async function () {
       // given
+      const userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+
       const userAttributes = {
         lang: 'en',
       };
@@ -1009,16 +991,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#updateUsername', function () {
-    let userId;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser(userToInsert).id;
-      await databaseBuilder.commit();
-    });
-
     it('should update the username', async function () {
       // given
       const username = 'blue.carter0701';
+      const userId = databaseBuilder.factory.buildUser(userToInsert).id;
+      await databaseBuilder.commit();
 
       // when
       const updatedUser = await userRepository.updateUsername({
@@ -1080,17 +1057,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
   describe('#findPaginatedFiltered', function () {
     context('when there are users in the database', function () {
-      beforeEach(function () {
-        times(3, databaseBuilder.factory.buildUser);
-
-        return databaseBuilder.commit();
-      });
-
       it('should return an Array of Users', async function () {
         // given
         const filter = {};
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+        times(3, databaseBuilder.factory.buildUser);
+        await databaseBuilder.commit();
 
         // when
         const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
@@ -1104,17 +1077,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     context('when there are lots of users (> 10) in the database', function () {
-      beforeEach(function () {
-        times(12, databaseBuilder.factory.buildUser);
-
-        return databaseBuilder.commit();
-      });
-
       it('should return paginated matching users', async function () {
         // given
         const filter = {};
         const page = { number: 1, size: 3 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+        times(12, databaseBuilder.factory.buildUser);
+        await databaseBuilder.commit();
 
         // when
         const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
@@ -1290,15 +1259,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#isPixMaster', function () {
-    let userId;
-
     context('when user is pix master', function () {
-      beforeEach(function () {
-        userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
-        return databaseBuilder.commit();
-      });
-
       it('should return true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+        await databaseBuilder.commit();
+
         // when
         const isPixMaster = await userRepository.isPixMaster(userId);
 
@@ -1308,12 +1274,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     context('when user is not pix master', function () {
-      beforeEach(function () {
-        userId = databaseBuilder.factory.buildUser().id;
-        return databaseBuilder.commit();
-      });
-
       it('should return false', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+
         // when
         const isPixMaster = await userRepository.isPixMaster(userId);
 
@@ -1324,14 +1289,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#updateHasSeenAssessmentInstructionsToTrue', function () {
-    let userId;
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false }).id;
-      return databaseBuilder.commit();
-    });
-
     it('should return the model with hasSeenAssessmentInstructions flag updated to true', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false }).id;
+      await databaseBuilder.commit();
+
       // when
       const actualUser = await userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
 
@@ -1341,17 +1303,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#acceptPixLastTermsOfService', function () {
-    let userId;
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser({
+    it('should validate the last terms of service and save the date of acceptance ', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({
         mustValidateTermsOfService: true,
         lastTermsOfServiceValidatedAt: null,
       }).id;
-      return databaseBuilder.commit();
-    });
+      await databaseBuilder.commit();
 
-    it('should validate the last terms of service and save the date of acceptance ', async function () {
       // when
       const actualUser = await userRepository.acceptPixLastTermsOfService(userId);
 
@@ -1404,14 +1363,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#updatePixCertifTermsOfServiceAcceptedToTrue', function () {
-    let userId;
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
-      return databaseBuilder.commit();
-    });
-
     it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
+      await databaseBuilder.commit();
+
       // when
       const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
 
@@ -1447,14 +1403,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('#updateHasSeenNewDashboardInfoToTrue', function () {
-    let userId;
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false }).id;
-      return databaseBuilder.commit();
-    });
-
     it('should return the model with hasSeenNewDashboardInfo flag updated to true', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false }).id;
+      await databaseBuilder.commit();
+
       // when
       const actualUser = await userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
 
