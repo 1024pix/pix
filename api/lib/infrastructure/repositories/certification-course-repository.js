@@ -9,15 +9,29 @@ const CertificationCourse = require('../../domain/models/CertificationCourse');
 const { NotFoundError } = require('../../domain/errors');
 const certificationChallengeRepository = require('./certification-challenge-repository');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
+const ComplementaryCertificationCourse = require('../../domain/models/ComplementaryCertificationCourse');
+const Bookshelf = require('../bookshelf');
 
 module.exports = {
   async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
     const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
     const options = { transacting: domainTransaction.knexTransaction };
     const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(
       null,
       options
     );
+
+    const complementaryCertificationCourses = certificationCourse
+      .toDTO()
+      .complementaryCertificationCourses.map(({ complementaryCertificationId }) => ({
+        complementaryCertificationId,
+        certificationCourseId: savedCertificationCourseDTO.id,
+      }));
+
+    if (!_.isEmpty(complementaryCertificationCourses)) {
+      await knexConn('complementary-certification-courses').insert(complementaryCertificationCourses);
+    }
 
     const savedChallenges = await bluebird.mapSeries(
       certificationCourse.toDTO().challenges,
@@ -53,7 +67,7 @@ module.exports = {
   async get(id) {
     try {
       const certificationCourseBookshelf = await CertificationCourseBookshelf.where({ id }).fetch({
-        withRelated: ['assessment', 'challenges', 'certificationIssueReports'],
+        withRelated: ['assessment', 'challenges', 'certificationIssueReports', 'complementaryCertificationCourses'],
       });
       return toDomain(certificationCourseBookshelf);
     } catch (bookshelfError) {
@@ -136,6 +150,10 @@ function toDomain(bookshelfCertificationCourse) {
       .related('certificationIssueReports')
       .toJSON()
       .map((json) => new CertificationIssueReport(json)),
+    complementaryCertificationCourses: bookshelfCertificationCourse
+      .related('complementaryCertificationCourses')
+      .toJSON()
+      .map((json) => new ComplementaryCertificationCourse(json)),
     ..._.pick(dbCertificationCourse, [
       'id',
       'userId',
@@ -163,7 +181,13 @@ function toDomain(bookshelfCertificationCourse) {
 }
 
 function _adaptModelToDb(certificationCourse) {
-  return _.omit(certificationCourse.toDTO(), ['certificationIssueReports', 'assessment', 'challenges', 'createdAt']);
+  return _.omit(certificationCourse.toDTO(), [
+    'complementaryCertificationCourses',
+    'certificationIssueReports',
+    'assessment',
+    'challenges',
+    'createdAt',
+  ]);
 }
 
 function _pickUpdatableProperties(certificationCourse) {

@@ -1,9 +1,8 @@
+const { PIX_PLUS_DROIT, CLEA } = require('./ComplementaryCertification');
+
 const SUP = 'SUP';
 const SCO = 'SCO';
 const PRO = 'PRO';
-
-const PIX_PLUS_DROIT = 'Pix+ Droit';
-const CLEA = 'CléA Numérique';
 
 const types = {
   SUP,

@@ -99,6 +99,10 @@ function certificationCentersBuilder({ databaseBuilder }) {
     name: DROIT_CERTIF_CENTER_NAME,
     type: 'SUP',
   });
+  databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+    certificationCenterId: DROIT_CERTIF_CENTER_ID,
+    complementaryCertificationId: pixDroitComplementaryCertificationId,
+  });
 
   for (let i = 0; i < 200; i++) {
     const types = ['SCO', 'PRO', 'SUP'];

@@ -3,6 +3,7 @@ const Bookshelf = require('../bookshelf');
 require('./Assessment');
 require('./CertificationChallenge');
 require('./CertificationIssueReport');
+require('./ComplementaryCertificationCourse');
 require('./Session');
 
 const modelName = 'CertificationCourse';
@@ -35,6 +36,10 @@ module.exports = Bookshelf.model(
 
     certificationIssueReports() {
       return this.hasMany('CertificationIssueReport', 'certificationCourseId');
+    },
+
+    complementaryCertificationCourses() {
+      return this.hasMany('ComplementaryCertificationCourse', 'certificationCourseId');
     },
   },
   {

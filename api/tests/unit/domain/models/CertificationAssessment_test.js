@@ -468,7 +468,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
 
       // when
-      const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgeKeysTaken();
+      const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
 
       // then
       expect(certifiableBadgeKeys).to.deep.include.members(['BADGE_2', 'BADGE_1']);
@@ -487,7 +487,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
 
       // when
-      const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgeKeysTaken();
+      const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
 
       // then
       expect(certifiableBadgeKeys).to.be.empty;
