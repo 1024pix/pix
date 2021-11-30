@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
+export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
   @service campaignStorage;
