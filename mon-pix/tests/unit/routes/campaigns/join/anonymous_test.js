@@ -11,27 +11,8 @@ describe('Unit | Route | Join | Anonymous', function () {
   beforeEach(function () {
     route = this.owner.lookup('route:campaigns.join.anonymous');
     route.modelFor = sinon.stub();
-    route.replaceWith = sinon.stub();
     route.session = { authenticate: sinon.stub() };
     route.currentUser = { load: sinon.stub() };
-  });
-
-  describe('#beforeModel', function () {
-    it('should redirect to entry point when /anonyme is directly set in the url', async function () {
-      //when
-      await route.beforeModel({ from: null });
-
-      //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entry-point');
-    });
-
-    it('should continue on anonymous route when from is set', async function () {
-      //when
-      await route.beforeModel({ from: 'campaigns.entry-point' });
-
-      //then
-      sinon.assert.notCalled(route.replaceWith);
-    });
   });
 
   describe('#model', function () {
