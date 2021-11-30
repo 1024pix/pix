@@ -1,5 +1,6 @@
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const bluebird = require('bluebird');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
@@ -30,12 +31,15 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
       certificationCenterRepository,
     });
 
-  await certificationCandidateRepository.deleteBySessionId({ sessionId });
-  await bluebird.mapSeries(certificationCandidates, function (certificationCandidate) {
-    return certificationCandidateRepository.saveInSession({
-      certificationCandidate,
-      complementaryCertifications: certificationCandidate.complementaryCertifications,
-      sessionId,
+  await DomainTransaction.execute(async (domainTransaction) => {
+    await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
+    await bluebird.mapSeries(certificationCandidates, function (certificationCandidate) {
+      return certificationCandidateRepository.saveInSession({
+        certificationCandidate,
+        complementaryCertifications: certificationCandidate.complementaryCertifications,
+        sessionId,
+        domainTransaction,
+      });
     });
   });
 };
