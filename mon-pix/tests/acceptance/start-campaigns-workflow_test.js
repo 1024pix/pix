@@ -410,7 +410,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             const session = currentSession();
             session.set('data.state', state);
-            session.set('data.nextURL', `/campagnes/${campaign.code}/startOrResume`);
+            session.set('data.nextURL', `/campagnes/${campaign.code}/rejoindre`);
             const data = {};
             data[campaign.code] = { landingPageShown: true };
             sessionStorage.setItem('campaigns', JSON.stringify(data));
