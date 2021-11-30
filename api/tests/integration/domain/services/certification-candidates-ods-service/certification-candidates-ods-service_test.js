@@ -43,7 +43,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
   it('should throw a CertificationCandidatesImportError if there is an error in the file', async function () {
     // given
-    const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_mandatory_ko_test.ods`;
+    const odsFilePath = `${__dirname}/attendance_sheet_extract_mandatory_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
 
     // when
@@ -65,7 +65,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
   it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async function () {
     // given
-    const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_birth_ko_test.ods`;
+    const odsFilePath = `${__dirname}/attendance_sheet_extract_birth_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
 
     // when
@@ -87,7 +87,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
   it('should return extracted and validated certification candidates', async function () {
     // given
-    const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_ok_test.ods`;
+    const odsFilePath = `${__dirname}/attendance_sheet_extract_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
     const expectedCertificationCandidates = _.map(
       [
