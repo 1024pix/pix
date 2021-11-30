@@ -240,7 +240,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
               //then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
               expect(findByLabel('Se connecter')).to.exist;
             });
           });

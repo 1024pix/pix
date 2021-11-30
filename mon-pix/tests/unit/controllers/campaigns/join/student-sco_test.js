@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns/restricted/login-or-register-to-access', () => {
+describe('Unit | Controller | campaigns | join | student-sco', () => {
   setupTest();
 
   let controller;
@@ -12,7 +12,7 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
   const expectedUserId = 1;
 
   beforeEach(function () {
-    controller = this.owner.lookup('controller:campaigns.restricted.login-or-register-to-access');
+    controller = this.owner.lookup('controller:campaigns.join.student-sco');
 
     sessionStub = {
       set: sinon.stub(),
