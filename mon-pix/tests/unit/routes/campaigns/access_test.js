@@ -16,12 +16,29 @@ describe('Unit | Route | Access', function () {
     route.modelFor = sinon.stub().returns(campaign);
     route.campaignStorage = { get: sinon.stub() };
     route.router.transitionTo = sinon.stub();
+    route.replaceWith = sinon.stub();
   });
 
   describe('#beforeModel', function () {
+    it('should redirect to entry point when /acces is directly set in the url', async function () {
+      //when
+      await route.beforeModel({ from: null });
+
+      //then
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.entry-point');
+    });
+
+    it('should continue on access route when from is set', async function () {
+      //when
+      await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+
+      //then
+      sinon.assert.notCalled(route.replaceWith);
+    });
+
     it('should override authentication route', async function () {
       // when
-      await route.beforeModel();
+      await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       // then
       expect(route.authenticationRoute).to.equal('inscription');
@@ -29,7 +46,7 @@ describe('Unit | Route | Access', function () {
 
     it('should call parent’s beforeModel and transition to authenticationRoute', async function () {
       // when
-      await route.beforeModel();
+      await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       // then
       sinon.assert.calledWith(route.router.transitionTo, 'inscription');
@@ -42,7 +59,7 @@ describe('Unit | Route | Access', function () {
         campaign.organizationIsPoleEmploi = true;
 
         // when
-        await route.beforeModel();
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
         expect(route.authenticationRoute).to.equal('login-pe');
@@ -60,7 +77,7 @@ describe('Unit | Route | Access', function () {
           route.session.data.externalUser = undefined;
 
           // when
-          await route.beforeModel();
+          await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
           // then
           expect(route.authenticationRoute).to.equal('campaigns.join.student-sco');
@@ -78,7 +95,7 @@ describe('Unit | Route | Access', function () {
         route.campaignStorage.get.withArgs(campaign.code, 'hasUserSeenJoinPage').returns(true);
 
         // when
-        await route.beforeModel();
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
         expect(route.authenticationRoute).to.equal('campaigns.join.student-sco');
@@ -92,7 +109,7 @@ describe('Unit | Route | Access', function () {
         route.session.data.externalUser = 'some external user';
 
         // when
-        await route.beforeModel();
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
         expect(route.authenticationRoute).to.equal('campaigns.join.sco-mediacentre');
@@ -106,7 +123,7 @@ describe('Unit | Route | Access', function () {
         route.session.isAuthenticated = false;
 
         // when
-        await route.beforeModel();
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
         expect(route.authenticationRoute).to.equal('campaigns.join.anonymous');
