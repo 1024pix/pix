@@ -3,48 +3,38 @@ const {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster,
-  knex,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-anonymize-user', function () {
-  let server;
-  let user;
-  let options;
-
-  beforeEach(async function () {
-    server = await createServer();
-    user = databaseBuilder.factory.buildUser();
-    const pixMaster = await insertUserWithRolePixMaster();
-    options = {
-      method: 'POST',
-      url: `/api/admin/users/${user.id}/anonymize`,
-      payload: {},
-      headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
-    };
-    return databaseBuilder.commit();
-  });
-
   describe('POST /admin/users/:id/anonymize', function () {
-    it('should return 204', async function () {
+    it('should anomymize user and remove authentication methods', async function () {
+      // given
+      const server = await createServer();
+      const user = databaseBuilder.factory.buildUser.withRawPassword();
+      const pixMaster = await insertUserWithRolePixMaster();
+      const options = {
+        method: 'POST',
+        url: `/api/admin/users/${user.id}/anonymize`,
+        payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+      };
+      await databaseBuilder.commit();
+
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(204);
-    });
+      expect(response.statusCode).to.equal(200);
 
-    it('should update user in Database', async function () {
-      // when
-      await server.inject(options);
+      const updatedUserAttributes = response.result.data.attributes;
+      const updatedUserRelationships = response.result.data.relationships;
+      expect(updatedUserAttributes['first-name']).to.equal(`prenom_${user.id}`);
+      expect(updatedUserAttributes['last-name']).to.equal(`nom_${user.id}`);
+      expect(updatedUserAttributes.email).to.equal(`email_${user.id}@example.net`);
+      expect(updatedUserAttributes.username).to.be.null;
 
-      // then
-      const users = await knex.select('*').from('users').where({ id: user.id });
-      const updatedUser = users[0];
-      expect(updatedUser.firstName).to.equal(`prenom_${user.id}`);
-      expect(updatedUser.lastName).to.equal(`nom_${user.id}`);
-      expect(updatedUser.email).to.equal(`email_${user.id}@example.net`);
-      expect(updatedUser.updatedAt).to.be.above(user.updatedAt);
+      expect(updatedUserRelationships['authentication-methods'].data).to.be.empty;
     });
   });
 });

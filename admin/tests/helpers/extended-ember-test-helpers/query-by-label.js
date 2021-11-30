@@ -9,6 +9,7 @@ export default function queryByLabel(labelText, options = {}) {
   }
 
   const labelledElement = _findElementWithLabel(labelText);
+
   if (!labelledElement) {
     return null;
   }
@@ -44,6 +45,7 @@ function _findElementWithLabel(labelText) {
     'select',
     'label[for]',
     'img',
+    'svg',
   ];
   return findAll(labellableElementSelectors.join(',')).find(_matchesLabel(labelText));
 }
@@ -57,7 +59,7 @@ function _matchesLabel(labelText) {
 }
 
 function _matchesInnerText(element, labelText) {
-  return element.innerText.includes(labelText);
+  return element.innerText?.includes(labelText);
 }
 
 function _matchesTitle(element, labelText) {

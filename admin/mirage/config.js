@@ -69,7 +69,6 @@ export default function () {
 
     return schema.users.find(userId);
   });
-  this.get('/admin/users/:id');
 
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
@@ -123,6 +122,7 @@ export default function () {
   this.post('/admin/stages', createStage);
 
   this.get('/admin/certifications/:id');
+
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {
     const id = request.params.id;
     return schema.certifiedProfiles.find(id);
@@ -170,6 +170,8 @@ export default function () {
 
   this.patch('/organizations/:id');
 
+  this.get('/admin/users/:id');
+
   this.patch('/admin/users/:id', (schema, request) => {
     const userId = request.params.id;
     const {
@@ -185,14 +187,14 @@ export default function () {
 
   this.post('/admin/users/:id/anonymize', (schema, request) => {
     const userId = request.params.id;
-    const expectedUpdatedUser = {
+    const user = schema.users.findBy({ id: userId });
+    return user.update({
       firstName: `prenom_${userId}`,
       lastName: `nom_${userId}`,
       email: `email_${userId}@example.net`,
-    };
-
-    const user = schema.users.findBy({ id: userId });
-    return user.update(expectedUpdatedUser);
+      username: null,
+      authenticationMethods: [],
+    });
   });
 
   this.post('/admin/users/:id/remove-authentication', (schema, request) => {

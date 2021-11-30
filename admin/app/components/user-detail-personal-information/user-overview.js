@@ -98,10 +98,6 @@ export default class UserOverview extends Component {
     return urlDashboardPrefix && urlDashboardPrefix + this.args.user.id;
   }
 
-  get canAdministratorAnonymizeUser() {
-    return this.args.user.email;
-  }
-
   get canModifyEmail() {
     return !!(this.args.user.email || this.args.user.username);
   }

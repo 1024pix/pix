@@ -49,7 +49,6 @@ export default class UserDetailPersonalInformationComponent extends Component {
   @action
   async anonymizeUser() {
     await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
-    await this.args.user.reload();
     this.toggleDisplayAnonymizeModal();
   }
 

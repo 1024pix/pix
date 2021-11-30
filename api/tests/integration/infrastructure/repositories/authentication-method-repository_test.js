@@ -817,7 +817,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-        id: 123,
         externalIdentifier: 'externalIdentifier',
         userId,
       });
@@ -830,8 +829,32 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       });
 
       // then
-      const result = await knex('authentication-methods').where({ id: 123 }).first();
+      const result = await knex('authentication-methods').where({ id: userId }).first();
       expect(result).to.be.undefined;
+    });
+  });
+
+  describe('#removeAllAuthenticationMethodsByUserId', function () {
+    it('should delete from database all the authentication methods by userId', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        externalIdentifier: 'externalIdentifier',
+        userId,
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({
+        userId,
+      });
+
+      // then
+      const result = await knex('authentication-methods');
+      expect(result).to.be.empty;
     });
   });
 
