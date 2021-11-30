@@ -2,13 +2,13 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns/restricted/join-from-mediacentre', function () {
+describe('Unit | Controller | campaigns | join | sco-mediacentre', function () {
   setupTest();
 
   let controller;
 
   beforeEach(function () {
-    controller = this.owner.lookup('controller:campaigns.restricted.join-from-mediacentre');
+    controller = this.owner.lookup('controller:campaigns.join.sco-mediacentre');
     controller.set('model', { code: 'AZERTY999' });
   });
 

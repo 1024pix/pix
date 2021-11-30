@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
-export default class JoinFromMediacentreRoute extends Route {
+export default class ScoMediacentreRoute extends Route {
   @service currentUser;
   @service session;
 

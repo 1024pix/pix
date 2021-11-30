@@ -3,13 +3,13 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Anonymous', function () {
+describe('Unit | Route | Join | Anonymous', function () {
   setupTest();
 
   let route, campaign;
 
   beforeEach(function () {
-    route = this.owner.lookup('route:campaigns.anonymous');
+    route = this.owner.lookup('route:campaigns.join.anonymous');
     route.modelFor = sinon.stub();
     route.replaceWith = sinon.stub();
     route.session = { authenticate: sinon.stub() };
