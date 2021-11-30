@@ -72,17 +72,17 @@ Router.map(function () {
   this.route('campaigns', { path: '/campagnes/:code' }, function () {
     this.route('entry-point', { path: '/' });
     this.route('campaign-not-found', { path: '/oups' });
-    this.route('access', { path: '/rejoindre' });
-    this.route('anonymous', { path: '/anonyme' });
+    this.route('access', { path: '/acces' });
+    this.route('join', { path: '/rejoindre' }, function () {
+      this.route('anonymous', { path: '/anonyme' });
+      this.route('student-sco', { path: '/identification' });
+      this.route('sco-mediacentre', { path: '/mediacentre' });
+    });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('invited', { path: '/prescrit' }, function () {
       this.route('student-sco', { path: '/eleve' });
       this.route('student-sup', { path: '/etudiant' });
       this.route('fill-in-participant-external-id', { path: '/identifiant' });
-    });
-    this.route('restricted', { path: '/privee' }, function () {
-      this.route('login-or-register-to-access', { path: '/identification' });
-      this.route('join-from-mediacentre', { path: '/rejoindre-depuis-mediacentre' });
     });
     this.route('entrance', { path: '/entree' });
     this.route('profiles-collection', { path: '/collecte' }, function () {

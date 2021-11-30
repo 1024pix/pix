@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class LoginOrRegisterToAccessRoute extends Controller {
+export default class StudentScoController extends Controller {
   @service currentUser;
   @service campaignStorage;
   @service session;

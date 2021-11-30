@@ -15,11 +15,11 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     if (this._shouldVisitPoleEmploiLoginPage(campaign)) {
       this.authenticationRoute = 'login-pe';
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
-      this.authenticationRoute = 'campaigns.restricted.login-or-register-to-access';
+      this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {
-      this.authenticationRoute = 'campaigns.restricted.join-from-mediacentre';
+      this.authenticationRoute = 'campaigns.join.sco-mediacentre';
     } else if (this._shouldJoinSimplifiedCampaignAsAnonymous(campaign)) {
-      this.authenticationRoute = 'campaigns.anonymous';
+      this.authenticationRoute = 'campaigns.join.anonymous';
     }
 
     super.beforeModel(...arguments);

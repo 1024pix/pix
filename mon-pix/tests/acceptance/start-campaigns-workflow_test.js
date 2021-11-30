@@ -211,7 +211,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
           });
 
           it('should not alter inputs(username,password,email) when email already exists', async function () {
@@ -266,7 +266,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await fillIn('#password', 'pix123');
             await click('#submit-registration');
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#firstName').value).to.equal(prescritUser.firstName);
             expect(find('#email').value).to.equal(prescritUser.email);
             expect(find('#password').value).to.equal('pix123');
@@ -281,7 +281,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
 
             // when
             await click('#login-button');
@@ -297,7 +297,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
 
             await click('#login-button');
             await fillIn('#login', prescritUser.email);
@@ -410,7 +410,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             const session = currentSession();
             session.set('data.state', state);
-            session.set('data.nextURL', `/campagnes/${campaign.code}/rejoindre`);
+            session.set('data.nextURL', `/campagnes/${campaign.code}/acces`);
             const data = {};
             data[campaign.code] = { landingPageShown: true };
             sessionStorage.setItem('campaigns', JSON.stringify(data));
@@ -991,7 +991,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre-depuis-mediacentre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/mediacentre`);
           });
 
           it('should set by default firstName and lastName', async function () {
@@ -1151,7 +1151,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
 
@@ -1191,7 +1191,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(
               expectedErrorMessage + expectedObfuscatedConnectionMethod
             );
@@ -1219,7 +1219,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
 
