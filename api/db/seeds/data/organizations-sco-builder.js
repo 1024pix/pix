@@ -23,6 +23,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
 
   const scoUser2 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -33,6 +34,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
 
   databaseBuilder.factory.buildOrganization({

@@ -11,6 +11,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
 
   const supUser2 = databaseBuilder.factory.buildUser.withRawPassword({
