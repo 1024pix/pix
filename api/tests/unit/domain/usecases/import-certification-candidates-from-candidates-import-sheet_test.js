@@ -9,6 +9,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCityRepository;
   let certificationCpfCountryRepository;
   let complementaryCertificationRepository;
+  let certificationCenterRepository;
 
   beforeEach(function () {
     certificationCandidateRepository = {
@@ -25,6 +26,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
+    certificationCenterRepository = Symbol('certificationCenterRepository');
   });
 
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
@@ -48,6 +50,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           complementaryCertificationRepository,
+          certificationCenterRepository,
         });
 
         // then
@@ -79,6 +82,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               certificationCpfCountryRepository,
               certificationCpfCityRepository,
               complementaryCertificationRepository,
+              certificationCenterRepository,
             })
             .resolves(certificationCandidates);
 
@@ -92,6 +96,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
             complementaryCertificationRepository,
+            certificationCenterRepository,
           });
 
           // then
