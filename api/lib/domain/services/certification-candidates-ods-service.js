@@ -1,6 +1,6 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const {
-  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
+  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
 } = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const { CertificationCandidatesImportError } = require('../errors');
@@ -18,21 +18,15 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
 }) {
-  let version = null;
   try {
-    version = await readOdsUtils.getOdsVersionByHeaders({
+    await readOdsUtils.validateOdsHeaders({
       odsBuffer,
-      transformationStructsByVersion: _.orderBy(
-        TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-        ['version'],
-        ['desc']
-      ),
+      headers: TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT.headers,
     });
   } catch (err) {
     _handleVersionError();
   }
-  const tableHeaderTargetPropertyMap =
-    TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION[version].transformStruct;
+  const tableHeaderTargetPropertyMap = TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT.transformStruct;
   let certificationCandidatesDataByLine = null;
   try {
     certificationCandidatesDataByLine = await readOdsUtils.extractTableDataFromOdsFile({
@@ -50,25 +44,23 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     async ([line, certificationCandidateData]) => {
       let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity } = certificationCandidateData;
 
-      if (version === '1.5') {
-        if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
-        if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
+      if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
+      if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
 
-        const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-          ...certificationCandidateData,
-          certificationCpfCityRepository,
-          certificationCpfCountryRepository,
-        });
+      const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+        ...certificationCandidateData,
+        certificationCpfCityRepository,
+        certificationCpfCountryRepository,
+      });
 
-        if (cpfBirthInformation.hasFailed()) {
-          _handleBirthInformationValidationError(cpfBirthInformation, line);
-        }
-
-        birthCountry = cpfBirthInformation.birthCountry;
-        birthINSEECode = cpfBirthInformation.birthINSEECode;
-        birthPostalCode = cpfBirthInformation.birthPostalCode;
-        birthCity = cpfBirthInformation.birthCity;
+      if (cpfBirthInformation.hasFailed()) {
+        _handleBirthInformationValidationError(cpfBirthInformation, line);
       }
+
+      birthCountry = cpfBirthInformation.birthCountry;
+      birthINSEECode = cpfBirthInformation.birthINSEECode;
+      birthPostalCode = cpfBirthInformation.birthPostalCode;
+      birthCity = cpfBirthInformation.birthCity;
 
       const certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,
