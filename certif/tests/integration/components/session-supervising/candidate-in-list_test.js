@@ -123,6 +123,95 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         // then
         assert.dom(screen.getByRole('button', { name: 'Autoriser la reprise du test' })).exists();
       });
+
+      module('when the "autoriser la reprise" option is clicked', function() {
+        test('it displays a confirmation modal', async function(assert) {
+          // given
+          this.candidate = store.createRecord('certification-candidate-for-supervising', {
+            id: 1123,
+            firstName: 'Drax',
+            lastName: 'The Destroyer',
+            birthdate: '1928-08-27',
+            extraTimePercentage: null,
+            authorizedToStart: true,
+            assessmentStatus: 'started',
+          });
+          this.toggleCandidate = sinon.spy();
+          const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />
+        `);
+
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+
+          // then
+          assert.dom(screen.getByRole('button', { name: 'Je confirme l\'autorisation' })).exists();
+        });
+
+        module('when the confirmation modal "Annuler" button is clicked', function() {
+          test('it closes the confirmation modal', async function(assert) {
+            // given
+            this.candidate = store.createRecord('certification-candidate-for-supervising', {
+              id: 1123,
+              firstName: 'Drax',
+              lastName: 'The Destroyer',
+              birthdate: '1928-08-27',
+              extraTimePercentage: null,
+              authorizedToStart: true,
+              assessmentStatus: 'started',
+            });
+            this.toggleCandidate = sinon.spy();
+            const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />
+        `);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+            await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+            await click(screen.getByRole('button', { name: 'Annuler et fermer la fenêtre de confirmation' }));
+
+            // then
+            assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+          });
+        });
+
+        module('when the confirmation modal "Fermer" button is clicked', function() {
+          test('it closes the confirmation modal', async function(assert) {
+            // given
+            this.candidate = store.createRecord('certification-candidate-for-supervising', {
+              id: 1123,
+              firstName: 'Drax',
+              lastName: 'The Destroyer',
+              birthdate: '1928-08-27',
+              extraTimePercentage: null,
+              authorizedToStart: true,
+              assessmentStatus: 'started',
+            });
+            this.toggleCandidate = sinon.spy();
+            const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />
+        `);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+            await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+            await click(screen.getByRole('button', { name: 'Fermer la fenêtre de confirmation' }));
+
+            // then
+            assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+          });
+        });
+      });
     });
   });
 
