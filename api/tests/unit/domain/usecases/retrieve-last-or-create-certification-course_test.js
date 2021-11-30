@@ -441,27 +441,21 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .withArgs({ userId, sessionId, domainTransaction })
                   .resolves(null);
 
+                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                  userId,
+                  sessionId,
+                  authorizedToStart: true,
+                });
+
                 certificationCandidateRepository.getBySessionIdAndUserId
                   .withArgs({ sessionId, userId })
-                  .onCall(0)
-                  .resolves(
-                    domainBuilder.buildCertificationCandidate({
-                      userId,
-                      sessionId,
-                      authorizedToStart: true,
-                    })
-                  );
+                  .resolves(foundCertificationCandidate);
 
                 const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                   _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
-
-                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({ userId, sessionId });
-                certificationCandidateRepository.getBySessionIdAndUserId
-                  .withArgs({ sessionId, userId })
-                  .resolves(foundCertificationCandidate);
 
                 const certificationCourseToSave = CertificationCourse.from({
                   certificationCandidate: foundCertificationCandidate,
@@ -535,16 +529,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .withArgs({ userId, sessionId, domainTransaction })
                         .resolves(null);
 
+                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                        userId,
+                        sessionId,
+                        authorizedToStart: true,
+                        complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                      });
+
                       certificationCandidateRepository.getBySessionIdAndUserId
                         .withArgs({ sessionId, userId })
-                        .onCall(0)
-                        .resolves(
-                          domainBuilder.buildCertificationCandidate({
-                            userId,
-                            sessionId,
-                            authorizedToStart: true,
-                          })
-                        );
+                        .resolves(foundCertificationCandidate);
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                         _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -582,16 +576,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .resolves([challengePlus1, challengePlus2])
                         .withArgs(certifiableBadge2, userId)
                         .resolves([challengePlus3]);
-
-                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                        userId,
-                        sessionId,
-                        complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
-                      });
-
-                      certificationCandidateRepository.getBySessionIdAndUserId
-                        .withArgs({ sessionId, userId })
-                        .resolves(foundCertificationCandidate);
 
                       const complementaryCertificationCourse =
                         ComplementaryCertificationCourse.fromComplementaryCertificationId(
@@ -672,17 +656,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .withArgs({ userId, sessionId, domainTransaction })
                         .resolves(null);
 
+                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                        userId,
+                        sessionId,
+                        authorizedToStart: true,
+                        complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                      });
+
                       certificationCandidateRepository.getBySessionIdAndUserId
                         .withArgs({ sessionId, userId })
-                        .onCall(0)
-                        .resolves(
-                          domainBuilder.buildCertificationCandidate({
-                            userId,
-                            sessionId,
-                            authorizedToStart: true,
-                            complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
-                          })
-                        );
+                        .resolves(foundCertificationCandidate);
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                         _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -720,15 +703,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .resolves([challengePlus1, challengePlus2])
                         .withArgs(certifiableBadge2, userId)
                         .resolves([challengePlus3]);
-
-                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                        userId,
-                        sessionId,
-                        complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
-                      });
-                      certificationCandidateRepository.getBySessionIdAndUserId
-                        .withArgs({ sessionId, userId })
-                        .resolves(foundCertificationCandidate);
 
                       const complementaryCertificationCourse =
                         ComplementaryCertificationCourse.fromComplementaryCertificationId(
@@ -803,16 +777,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .withArgs({ userId, sessionId, domainTransaction })
                         .resolves(null);
 
+                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                        userId,
+                        sessionId,
+                        authorizedToStart: true,
+                      });
+
                       certificationCandidateRepository.getBySessionIdAndUserId
                         .withArgs({ sessionId, userId })
-                        .onCall(0)
-                        .resolves(
-                          domainBuilder.buildCertificationCandidate({
-                            userId,
-                            sessionId,
-                            authorizedToStart: true,
-                          })
-                        );
+                        .resolves(foundCertificationCandidate);
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                         _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -857,13 +830,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .withArgs(expertBadge, userId)
                         .resolves(challengesForExpert);
 
-                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                        userId,
-                        sessionId,
-                      });
-                      certificationCandidateRepository.getBySessionIdAndUserId
-                        .withArgs({ sessionId, userId })
-                        .resolves(foundCertificationCandidate);
                       const savedCertificationCourse = domainBuilder.buildCertificationCourse({
                         ...foundCertificationCandidate,
                         isV2Certification: true,
@@ -917,16 +883,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .withArgs({ userId, sessionId, domainTransaction })
                         .resolves(null);
 
+                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                        userId,
+                        authorizedToStart: true,
+                        sessionId,
+                      });
+
                       certificationCandidateRepository.getBySessionIdAndUserId
                         .withArgs({ sessionId, userId })
-                        .onCall(0)
-                        .resolves(
-                          domainBuilder.buildCertificationCandidate({
-                            userId,
-                            sessionId,
-                            authorizedToStart: true,
-                          })
-                        );
+                        .resolves(foundCertificationCandidate);
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                         _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -964,14 +929,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .resolves([challengePlus1, challengePlus2])
                         .withArgs(certifiableBadge2, userId)
                         .resolves([challengePlus3]);
-
-                      const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                        userId,
-                        sessionId,
-                      });
-                      certificationCandidateRepository.getBySessionIdAndUserId
-                        .withArgs({ sessionId, userId })
-                        .resolves(foundCertificationCandidate);
 
                       const certificationCourseToSave = CertificationCourse.from({
                         certificationCandidate: foundCertificationCandidate,
@@ -1039,16 +996,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ userId, sessionId, domainTransaction })
                       .resolves(null);
 
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId,
+                      authorizedToStart: true,
+                    });
+
                     certificationCandidateRepository.getBySessionIdAndUserId
                       .withArgs({ sessionId, userId })
-                      .onCall(0)
-                      .resolves(
-                        domainBuilder.buildCertificationCandidate({
-                          userId,
-                          sessionId,
-                          authorizedToStart: true,
-                        })
-                      );
+                      .resolves(foundCertificationCandidate);
 
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                       _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -1068,14 +1024,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     certificationBadgesService.findStillValidBadgeAcquisitions
                       .withArgs({ userId, domainTransaction })
                       .resolves([]);
-
-                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                      userId,
-                      sessionId,
-                    });
-                    certificationCandidateRepository.getBySessionIdAndUserId
-                      .withArgs({ sessionId, userId })
-                      .resolves(foundCertificationCandidate);
 
                     const certificationCourseToSave = CertificationCourse.from({
                       certificationCandidate: foundCertificationCandidate,
@@ -1139,16 +1087,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ userId, sessionId, domainTransaction })
                       .resolves(null);
 
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId,
+                      authorizedToStart: true,
+                    });
+
                     certificationCandidateRepository.getBySessionIdAndUserId
                       .withArgs({ sessionId, userId })
-                      .onCall(0)
-                      .resolves(
-                        domainBuilder.buildCertificationCandidate({
-                          userId,
-                          sessionId,
-                          authorizedToStart: true,
-                        })
-                      );
+                      .resolves(foundCertificationCandidate);
 
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                       _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -1193,13 +1140,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs(expertBadge, userId)
                       .resolves(challengesForExpert);
 
-                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                      userId,
-                      sessionId,
-                    });
-                    certificationCandidateRepository.getBySessionIdAndUserId
-                      .withArgs({ sessionId, userId })
-                      .resolves(foundCertificationCandidate);
                     const savedCertificationCourse = domainBuilder.buildCertificationCourse({
                       ...foundCertificationCandidate,
                       isV2Certification: true,
@@ -1254,16 +1194,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     .withArgs({ userId, sessionId, domainTransaction })
                     .resolves(null);
 
+                  const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                    userId,
+                    sessionId,
+                    authorizedToStart: true,
+                  });
+
                   certificationCandidateRepository.getBySessionIdAndUserId
                     .withArgs({ sessionId, userId })
-                    .onCall(0)
-                    .resolves(
-                      domainBuilder.buildCertificationCandidate({
-                        userId,
-                        sessionId,
-                        authorizedToStart: true,
-                      })
-                    );
+                    .resolves(foundCertificationCandidate);
 
                   const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                     _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -1283,11 +1222,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationBadgesService.findStillValidBadgeAcquisitions
                     .withArgs({ userId, domainTransaction })
                     .resolves([]);
-
-                  const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({ userId, sessionId });
-                  certificationCandidateRepository.getBySessionIdAndUserId
-                    .withArgs({ sessionId, userId })
-                    .resolves(foundCertificationCandidate);
 
                   const certificationCourseToSave = CertificationCourse.from({
                     certificationCandidate: foundCertificationCandidate,
@@ -1355,16 +1289,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ userId, sessionId, domainTransaction })
                       .resolves(null);
 
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId,
+                      authorizedToStart: true,
+                    });
+
                     certificationCandidateRepository.getBySessionIdAndUserId
                       .withArgs({ sessionId, userId })
-                      .onCall(0)
-                      .resolves(
-                        domainBuilder.buildCertificationCandidate({
-                          userId,
-                          sessionId,
-                          authorizedToStart: true,
-                        })
-                      );
+                      .resolves(foundCertificationCandidate);
 
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                       _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
@@ -1395,14 +1328,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
 
                     certificationChallengesService.pickCertificationChallengesForPixPlus.resolves([]);
-
-                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                      userId,
-                      sessionId,
-                    });
-                    certificationCandidateRepository.getBySessionIdAndUserId
-                      .withArgs({ sessionId, userId })
-                      .resolves(foundCertificationCandidate);
 
                     const complementaryCertificationCourse =
                       ComplementaryCertificationCourse.fromComplementaryCertificationId(
@@ -1480,16 +1405,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ userId, sessionId, domainTransaction })
                       .resolves(null);
 
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId,
+                      authorizedToStart: true,
+                    });
+
                     certificationCandidateRepository.getBySessionIdAndUserId
                       .withArgs({ sessionId, userId })
-                      .onCall(0)
-                      .resolves(
-                        domainBuilder.buildCertificationCandidate({
-                          userId,
-                          sessionId,
-                          authorizedToStart: true,
-                        })
-                      );
+                      .resolves(foundCertificationCandidate);
+
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                       _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
                     certificationChallengesService.pickCertificationChallenges
@@ -1502,14 +1427,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const certificationCenter = domainBuilder.buildCertificationCenter();
                     certificationCenterRepository.getBySessionId.resolves(certificationCenter);
                     complementaryCertificationRepository.findAll.resolves([complementaryCertificationCleA]);
-
-                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                      userId,
-                      sessionId,
-                    });
-                    certificationCandidateRepository.getBySessionIdAndUserId
-                      .withArgs({ sessionId, userId })
-                      .resolves(foundCertificationCandidate);
 
                     const certificationCourseToSave = CertificationCourse.from({
                       certificationCandidate: foundCertificationCandidate,

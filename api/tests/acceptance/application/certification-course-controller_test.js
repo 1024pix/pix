@@ -754,6 +754,7 @@ describe('Acceptance | API | Certification Course', function () {
         // given
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
         databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -767,9 +768,12 @@ describe('Acceptance | API | Certification Course', function () {
 
       it('should retrieve the already existing certification course', async function () {
         // then
-        const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
-        expect(certificationCourses).to.have.length(1);
-        expect(certificationCourses[0].id).to.equal(certificationCourseId);
+        const [certificationCourse, ...otherCertificationCourses] = await knex('certification-courses').where({
+          userId,
+          sessionId,
+        });
+        expect(otherCertificationCourses).to.have.length(0);
+        expect(certificationCourse.id + '').to.equal(response.result.data.id);
       });
     });
   });

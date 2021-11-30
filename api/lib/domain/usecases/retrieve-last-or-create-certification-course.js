@@ -38,11 +38,12 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new SessionNotAccessible();
   }
 
+  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
+    userId,
+    sessionId,
+  });
+
   if (featureToggles.isEndTestScreenRemovalEnabled) {
-    const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
-      userId,
-      sessionId,
-    });
     if (!certificationCandidate.isAuthorizedToStart()) {
       throw new CandidateNotAuthorizedToJoinSessionError();
     }
@@ -67,10 +68,10 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     domainTransaction,
     sessionId,
     userId,
+    certificationCandidate,
     locale,
     assessmentRepository,
     competenceRepository,
-    certificationCandidateRepository,
     certificationCourseRepository,
     certificationCenterRepository,
     certificationChallengesService,
@@ -85,9 +86,9 @@ async function _startNewCertification({
   domainTransaction,
   sessionId,
   userId,
+  certificationCandidate,
   locale,
   assessmentRepository,
-  certificationCandidateRepository,
   certificationCourseRepository,
   certificationCenterRepository,
   certificationChallengesService,
@@ -122,7 +123,6 @@ async function _startNewCertification({
   }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
-  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
 
   const complementaryCertificationIds = [];
 
