@@ -11,6 +11,7 @@ const {
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationCandidate = require('../../domain/models/CertificationCandidate');
 const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
   async linkToUser({ id, userId }) {
@@ -29,13 +30,19 @@ module.exports = {
     }
   },
 
-  async saveInSession({ certificationCandidate, sessionId }) {
+  async saveInSession({ certificationCandidate, sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
 
     try {
-      const [addedCertificationCandidate] = await knex('certification-candidates')
+      const insertCertificationCandidateQuery = knex('certification-candidates')
         .insert({ ...certificationCandidateDataToSave, sessionId })
         .returning('*');
+
+      if (domainTransaction.knexTransaction) {
+        insertCertificationCandidateQuery.transacting(domainTransaction.knexTransaction);
+      }
+
+      const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
 
       if (!_.isEmpty(certificationCandidate.complementaryCertifications)) {
         const complementaryCertificationSubscriptionsToSave = certificationCandidate.complementaryCertifications.map(
@@ -47,7 +54,15 @@ module.exports = {
           }
         );
 
-        await knex('complementary-certification-subscriptions').insert(complementaryCertificationSubscriptionsToSave);
+        const insertComplementaryCertificationSubscriptionQuery = knex(
+          'complementary-certification-subscriptions'
+        ).insert(complementaryCertificationSubscriptionsToSave);
+
+        if (domainTransaction.knexTransaction) {
+          insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
+        }
+
+        await insertComplementaryCertificationSubscriptionQuery;
       }
 
       return new CertificationCandidate(addedCertificationCandidate);

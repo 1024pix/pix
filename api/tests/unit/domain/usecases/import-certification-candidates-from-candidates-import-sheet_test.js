@@ -1,6 +1,7 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {
   let certificationCandidateRepository;
@@ -10,6 +11,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCountryRepository;
   let complementaryCertificationRepository;
   let certificationCenterRepository;
+  let domainTransaction;
 
   beforeEach(function () {
     certificationCandidateRepository = {
@@ -27,6 +29,10 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
     certificationCenterRepository = Symbol('certificationCenterRepository');
+    domainTransaction = Symbol('domainTransaction');
+    DomainTransaction.execute = (lambda) => {
+      return lambda(domainTransaction);
+    };
   });
 
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
@@ -100,11 +106,15 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
 
           // then
-          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWith({ sessionId });
+          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWith({
+            sessionId,
+            domainTransaction,
+          });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledWith({
             certificationCandidate,
             complementaryCertifications,
             sessionId,
+            domainTransaction,
           });
           expect(
             certificationCandidateRepository.deleteBySessionId.calledBefore(
