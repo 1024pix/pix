@@ -8,7 +8,11 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service campaignStorage;
 
-  async beforeModel() {
+  beforeModel(transition) {
+    if (!transition.from) {
+      return this.replaceWith('campaigns.entry-point');
+    }
+
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
 

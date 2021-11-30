@@ -6,13 +6,6 @@ export default class AnonymousRoute extends Route.extend(UnauthenticatedRouteMix
   @service session;
   @service currentUser;
 
-  beforeModel(transition) {
-    if (!transition.from) {
-      return this.replaceWith('campaigns.entry-point');
-    }
-    super.beforeModel(...arguments);
-  }
-
   model() {
     return this.modelFor('campaigns');
   }
