@@ -72,7 +72,7 @@ Router.map(function () {
   this.route('campaigns', { path: '/campagnes/:code' }, function () {
     this.route('entry-point', { path: '/' });
     this.route('campaign-not-found', { path: '/oups' });
-    this.route('start-or-resume', { path: '/startOrResume' });
+    this.route('access', { path: '/rejoindre' });
     this.route('anonymous', { path: '/anonyme' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('invited', { path: '/prescrit' }, function () {

@@ -7,7 +7,7 @@ export default class CampaignLandingPageRoute extends Route {
 
   afterModel(campaign) {
     if (campaign.isForAbsoluteNovice) {
-      this.replaceWith('campaigns.start-or-resume', campaign.code);
+      this.replaceWith('campaigns.access', campaign.code);
     }
   }
 }
