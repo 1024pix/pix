@@ -49,24 +49,27 @@ describe('Unit | Route | Access', function () {
       });
     });
 
-    context('when campaign is SCO restricted and user is neither authenticated nor external', function () {
-      it('should override authentication route with login-or-register-to-access', async function () {
-        // given
-        route.session.isAuthenticated = false;
-        campaign.isRestricted = true;
-        campaign.organizationType = 'SCO';
-        route.session.data.externalUser = undefined;
+    context(
+      'when campaign is SCO restricted and user is neither authenticated from Pix nor a user from an external platform',
+      function () {
+        it('should override authentication route with student-sco', async function () {
+          // given
+          route.session.isAuthenticated = false;
+          campaign.isRestricted = true;
+          campaign.organizationType = 'SCO';
+          route.session.data.externalUser = undefined;
 
-        // when
-        await route.beforeModel();
+          // when
+          await route.beforeModel();
 
-        // then
-        expect(route.authenticationRoute).to.equal('campaigns.restricted.login-or-register-to-access');
-      });
-    });
+          // then
+          expect(route.authenticationRoute).to.equal('campaigns.join.student-sco');
+        });
+      }
+    );
 
     context('when campaign is SCO restricted and user has been disconnected from sco form', function () {
-      it('should override authentication route with login-or-register-to-access', async function () {
+      it('should override authentication route with student-sco', async function () {
         // given
         route.session.isAuthenticated = false;
         campaign.isRestricted = true;
@@ -78,12 +81,12 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel();
 
         // then
-        expect(route.authenticationRoute).to.equal('campaigns.restricted.login-or-register-to-access');
+        expect(route.authenticationRoute).to.equal('campaigns.join.student-sco');
       });
     });
 
-    context('when campaign is restricted and user is external', function () {
-      it('should override authentication route with join-from-mediacentre', async function () {
+    context('when campaign is restricted and user is from an external platform', function () {
+      it('should override authentication route with sco-mediacentre', async function () {
         // given
         campaign.isRestricted = true;
         route.session.data.externalUser = 'some external user';
@@ -92,7 +95,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel();
 
         // then
-        expect(route.authenticationRoute).to.equal('campaigns.restricted.join-from-mediacentre');
+        expect(route.authenticationRoute).to.equal('campaigns.join.sco-mediacentre');
       });
     });
 
@@ -106,7 +109,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel();
 
         // then
-        expect(route.authenticationRoute).to.equal('campaigns.anonymous');
+        expect(route.authenticationRoute).to.equal('campaigns.join.anonymous');
       });
     });
   });

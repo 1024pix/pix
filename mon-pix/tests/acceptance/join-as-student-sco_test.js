@@ -7,7 +7,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', function () {
+describe('Acceptance | Campaigns | Access | join-as-student-sco', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
@@ -20,7 +20,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
 
   it('should contain the organization name', async function () {
     // when
-    await visit(`/campagnes/${campaign.code}/privee/identification`);
+    await visit(`/campagnes/${campaign.code}/rejoindre/identification`);
 
     // then
     expect(find('.login-or-register-panel__invitation').textContent).to.equal(
@@ -30,7 +30,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
 
   it('should contain an open register form and closed login form', async function () {
     // when
-    await visit(`/campagnes/${campaign.code}/privee/identification`);
+    await visit(`/campagnes/${campaign.code}/rejoindre/identification`);
 
     // then
     expect(find('.register-form')).to.exist;
@@ -39,7 +39,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
 
   it('should open the login panel and close the register panel when clicking on login button', async function () {
     // when
-    await visit(`/campagnes/${campaign.code}/privee/identification`);
+    await visit(`/campagnes/${campaign.code}/rejoindre/identification`);
     await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
     // then
@@ -49,7 +49,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
 
   it('should open the register panel and close the login panel when clicking on register button', async function () {
     // when
-    await visit(`/campagnes/${campaign.code}/privee/identification`);
+    await visit(`/campagnes/${campaign.code}/rejoindre/identification`);
 
     await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
     await clickByLabel(this.intl.t('pages.login-or-register.register-form.button'));
