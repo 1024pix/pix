@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
 const { normalize } = require('../utils/string-utils');
 const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
@@ -7,7 +6,6 @@ const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-e
 const {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
-  CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../domain/errors');
 const { knex } = require('../../../db/knex-database-connection');
@@ -138,28 +136,6 @@ module.exports = {
     return CertificationCandidateBookshelf.where({ sessionId, userId })
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results)[0]);
-  },
-
-  async setSessionCandidates(sessionId, certificationCandidates) {
-    const certificationCandidatesToInsert = certificationCandidates.map(_adaptModelToDb);
-
-    return Bookshelf.knex.transaction(async (trx) => {
-      try {
-        await trx('certification-candidates').where({ sessionId }).del();
-      } catch (err) {
-        throw new CertificationCandidateDeletionError(
-          'An error occurred while deleting the certification candidates during the replacement operation'
-        );
-      }
-
-      try {
-        await trx.batchInsert('certification-candidates', certificationCandidatesToInsert).transacting(trx);
-      } catch (err) {
-        throw new CertificationCandidateCreationOrUpdateError(
-          'An error occurred while inserting the certification candidates during the replacement operation'
-        );
-      }
-    });
   },
 
   async doesLinkedCertificationCandidateInSessionExist({ sessionId }) {

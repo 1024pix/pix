@@ -3,7 +3,6 @@ const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const {
   NotFoundError,
-  CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../../../lib/domain/errors');
 const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
@@ -532,79 +531,6 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(actualCandidates[0].lastName).to.equal(commonCandidateInfo.lastName);
         expect(actualCandidates[1].lastName).to.equal(commonCandidateInfo.lastName);
         expect(actualCandidates[0].id).to.not.equal(actualCandidates[1].id);
-      });
-    });
-  });
-
-  describe('#setSessionCandidates', function () {
-    let sessionId;
-    let existingCertificationCandidateIds;
-    let newCertificationCandidates;
-
-    beforeEach(function () {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-      existingCertificationCandidateIds = _.times(
-        10,
-        () => databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id
-      );
-      newCertificationCandidates = _.times(5, () => {
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId, userId: null });
-        certificationCandidate.id = undefined;
-        return certificationCandidate;
-      });
-
-      return databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('certification-candidates').delete();
-    });
-
-    context('when there are some certification candidates to delete', function () {
-      it('should delete existing certification candidates in session', async function () {
-        // when
-        await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-        const actualIds = _.map(actualCertificationCandidates, 'id');
-
-        expect(_.intersection(existingCertificationCandidateIds, actualIds)).to.be.empty;
-      });
-
-      it('should save the new certification candidates', async function () {
-        // when
-        await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates')
-          .select('firstName')
-          .where({ sessionId });
-        const actualFirstNames = _.map(actualCertificationCandidates, 'firstName');
-        expect(_.map(newCertificationCandidates, 'firstName')).to.have.members(actualFirstNames);
-        expect(newCertificationCandidates.length).to.equal(actualFirstNames.length);
-      });
-    });
-
-    context('when delete succeeds and save fails', function () {
-      it('should rollback after save fails', async function () {
-        // given
-        newCertificationCandidates[0].sessionId = newCertificationCandidates[0].sessionId + 1;
-
-        // when
-        const error = await catchErr(certificationCandidateRepository.setSessionCandidates)(
-          sessionId,
-          newCertificationCandidates
-        );
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-        const actualIds = _.map(actualCertificationCandidates, 'id');
-
-        expect(error).to.be.an.instanceOf(CertificationCandidateCreationOrUpdateError);
-        expect(actualIds).to.have.members(existingCertificationCandidateIds);
-        expect(actualIds.length).to.equal(existingCertificationCandidateIds.length);
       });
     });
   });
