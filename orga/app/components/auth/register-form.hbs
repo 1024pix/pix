@@ -11,7 +11,7 @@
         @type="firstName"
         class="input {{if this.validation.firstName.hasError "input--error"}}"
         @value={{this.user.firstName}}
-        autocomplete="firstname"
+        autocomplete="given-name"
         {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
       />
       {{#if this.validation.firstName.hasError}}
@@ -32,7 +32,7 @@
         @type="lastName"
         class="input {{if this.validation.lastName.hasError "input--error"}}"
         @value={{this.user.lastName}}
-        autocomplete="lastname"
+        autocomplete="family-name"
         {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
       />
       {{#if this.validation.lastName.hasError}}
@@ -51,7 +51,7 @@
         @type="email"
         class="input {{if this.validation.email.hasError "input--error"}}"
         @value={{this.user.email}}
-        autocomplete="username"
+        autocomplete="email"
         {{on "focusout" (fn this.validateInput "email" this.user.email)}}
       />
       {{#if this.validation.email.hasError}}
