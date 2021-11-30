@@ -38,7 +38,7 @@ export default Route.extend(ApplicationRouteMixin, {
     const allowedRoutesForAnonymousAccess = [
       'fill-in-campaign-code',
       'campaigns.assessment.tutorial',
-      'campaigns.start-or-resume',
+      'campaigns.access',
       'campaigns.entry-point',
       'campaigns.campaign-landing-page',
       'assessments.challenge',

@@ -3,7 +3,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Start-or-resume', function () {
+describe('Unit | Route | Access', function () {
   setupTest();
 
   let route, campaign;
@@ -12,7 +12,7 @@ describe('Unit | Route | Start-or-resume', function () {
     campaign = {
       code: 'NEW_CODE',
     };
-    route = this.owner.lookup('route:campaigns.start-or-resume');
+    route = this.owner.lookup('route:campaigns.access');
     route.modelFor = sinon.stub().returns(campaign);
     route.campaignStorage = { get: sinon.stub() };
     route.router.transitionTo = sinon.stub();
