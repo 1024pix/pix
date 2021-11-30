@@ -148,11 +148,9 @@
       >
         Modifier
       </PixButton>
-      {{#if this.canAdministratorAnonymizeUser}}
-        <PixButton @size="small" @backgroundColor="red" @triggerAction={{@toggleDisplayAnonymizeModal}}>
-          Anonymiser cet utilisateur
-        </PixButton>
-      {{/if}}
+      <PixButton @size="small" @backgroundColor="red" @triggerAction={{@toggleDisplayAnonymizeModal}}>
+        Anonymiser cet utilisateur
+      </PixButton>
     </div>
   </form>
 {{/if}}

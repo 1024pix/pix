@@ -9,6 +9,7 @@ const sharedProfileForCampaignSerializer = require('../../infrastructure/seriali
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
+const userAnonymizedDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
 const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/update-email-serializer');
 const authenticationMethodsSerializer = require('../../infrastructure/serializers/jsonapi/authentication-methods-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -255,8 +256,8 @@ module.exports = {
 
   async anonymizeUser(request, h) {
     const userId = request.params.id;
-    await usecases.anonymizeUser({ userId });
-    return h.response({}).code(204);
+    const user = await usecases.anonymizeUser({ userId });
+    return h.response(userAnonymizedDetailsForAdminSerializer.serialize(user)).code(200);
   },
 
   async dissociateSchoolingRegistrations(request) {

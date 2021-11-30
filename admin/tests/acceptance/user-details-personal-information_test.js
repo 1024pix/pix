@@ -5,6 +5,7 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import getByLabel from '../helpers/extended-ember-test-helpers/get-by-label';
 
 module('Acceptance | User details personal information', function (hooks) {
   setupApplicationTest(hooks);
@@ -79,19 +80,39 @@ module('Acceptance | User details personal information', function (hooks) {
   });
 
   module('when administrator click on anonymize button and confirm modal', function () {
-    test('should anonymize the user', async function (assert) {
+    test('should anonymize the user and remove all authentication methods', async function (assert) {
       // given
-      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
-      await visit(`/users/${user.id}`);
+      await buildAndAuthenticateUser(this.server, {
+        email: 'john.harry@example.net',
+        username: 'john.harry121297',
+      });
+
+      const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
+      const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+      const userToAnonymise = server.create('user', {
+        firstName: 'Jane',
+        lastName: 'Harry',
+        email: 'jane.harry@example.net',
+        username: 'jane.harry050697',
+        isAuthenticatedFromGar: false,
+        authenticationMethods: [pixAuthenticationMethod, garAuthenticationMethod],
+      });
+
+      await visit(`/users/${userToAnonymise.id}`);
       await clickByLabel('Anonymiser cet utilisateur');
 
       // when
       await clickByLabel('Confirmer');
 
       // then
-      assert.contains(`prenom_${user.id}`);
-      assert.contains(`nom_${user.id}`);
-      assert.contains(`email_${user.id}@example.net`);
+      assert.contains(`prenom_${userToAnonymise.id}`);
+      assert.contains(`nom_${userToAnonymise.id}`);
+      assert.contains(`email_${userToAnonymise.id}@example.net`);
+
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec GAR")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail ")).exists();
     });
   });
 
