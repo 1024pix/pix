@@ -128,7 +128,7 @@ async function _startNewCertification({
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
-  if (certificationCenter.isAccreditedClea) {
+  if (certificationCenter.isAccreditedClea && certificationCandidate.isGrantedCleA()) {
     if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
       const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
       complementaryCertificationIds.push(cleAComplementaryCertification.id);
