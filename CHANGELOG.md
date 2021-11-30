@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.133.0 (30/11/2021)
+
+
+### :rocket: Enhancement
+- [#3779](https://github.com/1024pix/pix/pull/3779) [FEATURE] Permettre d'anonymiser un utilisateur peu importe sa méthode de connexion sur Pix Admin (PIX-3773).
+- [#3767](https://github.com/1024pix/pix/pull/3767) [FEATURE] Ajuster la taille des colonnes d'IDs sur Pix Admin (PIX-3603).
+- [#3771](https://github.com/1024pix/pix/pull/3771) [FEATURE] Rattacher un membre au centre de certification correspondant lorsqu'il accepte l'invitation à rejoindre une organisation (PIX-3852).
+
+### :building_construction: Tech
+- [#3787](https://github.com/1024pix/pix/pull/3787) [TECH] Corriger les valeurs de l'autocomplete dans le formulaire de création de compte sur Pix Orga (PIX-3896).
+- [#3777](https://github.com/1024pix/pix/pull/3777) [TECH] Déprécier la route GET /assessments (PIX-3939).
+- [#3781](https://github.com/1024pix/pix/pull/3781) [TECH] Améliorer l'accessibilité de la navigation sur Pix Orga (PIX-3894).
+
 ## v3.132.0 (26/11/2021)
 
 
