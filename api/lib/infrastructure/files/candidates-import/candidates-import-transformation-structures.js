@@ -1,5 +1,7 @@
 const _ = require('lodash');
 const { convertDateValue } = require('../../utils/date-utils');
+const { CLEA, PIX_PLUS_DROIT } = require('../../../domain/models/ComplementaryCertification');
+const { featureToggles } = require('../../../config');
 
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
@@ -75,10 +77,41 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = [
 ];
 
 // ALL
-const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT = {
-  transformStruct: _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
-  headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT),
-};
+function getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications({
+  complementaryCertifications,
+}) {
+  const transformationStruct = [..._TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
+
+  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
+    const containsClea = complementaryCertifications.some(
+      (complementaryCertification) => complementaryCertification.name === CLEA
+    );
+    const containsPixPlusDroit = complementaryCertifications.some(
+      (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
+    );
+
+    if (containsClea) {
+      transformationStruct.push({
+        header: 'CléA Numérique\n("oui" ou laisser vide)',
+        property: 'hasCleaNumerique',
+        transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      });
+    }
+
+    if (containsPixPlusDroit) {
+      transformationStruct.push({
+        header: 'Pix+ Droit\n("oui" ou laisser vide)',
+        property: 'hasPixPlusDroit',
+        transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      });
+    }
+  }
+
+  return {
+    transformStruct: transformationStruct,
+    headers: _getHeadersFromTransformationStruct(transformationStruct),
+  };
+}
 
 function _toNotEmptyTrimmedStringOrNull(val) {
   const value = _.toString(val);
@@ -95,6 +128,10 @@ function _getHeadersFromTransformationStruct(transformationStruct) {
   return _.map(transformationStruct, 'header');
 }
 
+function _toBooleanIfValueEqualsOuiOrNull(val) {
+  return _.toUpper(val) === 'OUI' ? true : null;
+}
+
 module.exports = {
-  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
+  getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications,
 };

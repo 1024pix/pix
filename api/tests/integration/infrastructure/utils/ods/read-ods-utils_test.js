@@ -7,7 +7,7 @@ const { expect, catchErr } = require('../../../../test-helper');
 const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
 
 const {
-  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
+  getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications,
 } = require('../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures');
 
 const {
@@ -243,7 +243,9 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
 
     it('should read range rows and get the appropriate headers', async function () {
       // given
-      const expectedHeaders = TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT.headers;
+      const expectedHeaders = getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications({
+        complementaryCertifications: [],
+      }).headers;
 
       // when
       const dataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer, jsonOptions: candidatesRange });

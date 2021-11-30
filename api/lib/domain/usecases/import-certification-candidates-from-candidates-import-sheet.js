@@ -10,6 +10,7 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
+  certificationCenterRepository,
 }) {
   const linkedCandidateInSessionExists =
     await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
@@ -26,6 +27,7 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
       complementaryCertificationRepository,
+      certificationCenterRepository,
     });
 
   await certificationCandidateRepository.deleteBySessionId({ sessionId });

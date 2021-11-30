@@ -1,8 +1,9 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const {
-  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
+  getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications,
 } = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
+const { CLEA, PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
 const { CertificationCandidatesImportError } = require('../errors');
 const _ = require('lodash');
 const bluebird = require('bluebird');
@@ -17,16 +18,22 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
+  complementaryCertificationRepository,
+  certificationCenterRepository,
 }) {
+  const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications({
+    complementaryCertifications: certificationCenter.habilitations,
+  });
   try {
     await readOdsUtils.validateOdsHeaders({
       odsBuffer,
-      headers: TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT.headers,
+      headers: candidateImportStructs.headers,
     });
   } catch (err) {
     _handleVersionError();
   }
-  const tableHeaderTargetPropertyMap = TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT.transformStruct;
+  const tableHeaderTargetPropertyMap = candidateImportStructs.transformStruct;
   let certificationCandidatesDataByLine = null;
   try {
     certificationCandidatesDataByLine = await readOdsUtils.extractTableDataFromOdsFile({
@@ -43,6 +50,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     Object.entries(certificationCandidatesDataByLine),
     async ([line, certificationCandidateData]) => {
       let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity } = certificationCandidateData;
+      const { hasCleaNumerique, hasPixPlusDroit } = certificationCandidateData;
 
       if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
       if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
@@ -62,6 +70,12 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       birthPostalCode = cpfBirthInformation.birthPostalCode;
       birthCity = cpfBirthInformation.birthCity;
 
+      const complementaryCertifications = await _buildComplementaryCertificationsForLine({
+        hasCleaNumerique,
+        hasPixPlusDroit,
+        complementaryCertificationRepository,
+      });
+
       const certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,
         birthCountry,
@@ -70,6 +84,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         birthCity,
         sex,
         sessionId,
+        complementaryCertifications,
       });
 
       try {
@@ -122,4 +137,26 @@ function _handleVersionError() {
 
 function _handleParsingError() {
   throw new CertificationCandidatesImportError({ code: 'INVALID_DOCUMENT', message: 'Le document est invalide.' });
+}
+
+async function _buildComplementaryCertificationsForLine({
+  hasCleaNumerique,
+  hasPixPlusDroit,
+  complementaryCertificationRepository,
+}) {
+  const complementaryCertifications = [];
+  const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
+  if (hasCleaNumerique) {
+    complementaryCertifications.push(
+      complementaryCertificationsInDB.find((complementaryCertification) => complementaryCertification.name === CLEA)
+    );
+  }
+  if (hasPixPlusDroit) {
+    complementaryCertifications.push(
+      complementaryCertificationsInDB.find(
+        (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
+      )
+    );
+  }
+  return complementaryCertifications;
 }
