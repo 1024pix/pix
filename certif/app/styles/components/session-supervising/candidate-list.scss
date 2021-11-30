@@ -45,11 +45,11 @@ $green-70: #006134;
       list-style: none;
       padding: 0;
 
-      li:nth-child(odd) {
+      > li:nth-child(odd) {
         background: $grey-80;
       }
 
-      li:nth-child(even) {
+      > li:nth-child(even) {
         background: $grey-90;
       }
     }
