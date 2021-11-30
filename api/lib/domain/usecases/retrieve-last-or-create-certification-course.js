@@ -122,6 +122,8 @@ async function _startNewCertification({
   }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
+
   const complementaryCertificationIds = [];
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
@@ -133,7 +135,7 @@ async function _startNewCertification({
     }
   }
 
-  if (certificationCenter.isAccreditedPixPlusDroit) {
+  if (certificationCenter.isAccreditedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit()) {
     const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId,
       domainTransaction,
@@ -156,12 +158,11 @@ async function _startNewCertification({
   }
 
   return _createCertificationCourse({
-    certificationCandidateRepository,
+    certificationCandidate,
     certificationCourseRepository,
     assessmentRepository,
     complementaryCertificationRepository,
     userId,
-    sessionId,
     certificationChallenges: challengesForCertification,
     domainTransaction,
     verifyCertificateCodeService,
@@ -206,17 +207,15 @@ async function _createPixCertification(placementProfileService, certificationCha
 }
 
 async function _createCertificationCourse({
-  certificationCandidateRepository,
+  certificationCandidate,
   certificationCourseRepository,
   assessmentRepository,
   verifyCertificateCodeService,
   userId,
-  sessionId,
   certificationChallenges,
   complementaryCertificationIds,
   domainTransaction,
 }) {
-  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourses = complementaryCertificationIds.map(
     ComplementaryCertificationCourse.fromComplementaryCertificationId
