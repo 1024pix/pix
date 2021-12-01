@@ -1,9 +1,11 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import noop from 'lodash/noop';
+import { inject as service } from '@ember/service';
 
 export default class CandidateInList extends Component {
+  @service notifications;
+
   @tracked isMenuOpen = false;
   @tracked isConfirmationModalDisplayed = false;
 
@@ -33,7 +35,11 @@ export default class CandidateInList extends Component {
   }
 
   @action
-  authorizeTestResume() {
-    noop();
+  async authorizeTestResume() {
+    await this.args.onCandidateTestResumeAuthorization();
+    this.closeConfirmationModal();
+    this.notifications.success(
+      `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`,
+    );
   }
 }

@@ -211,6 +211,40 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
           });
         });
+
+        module('when the confirmation modal "Je confirme…" button is clicked', function() {
+          module('when the authorization succeeds', function() {
+            test('it closes the modal and displays a success notification', async function(assert) {
+              // given
+              this.candidate = store.createRecord('certification-candidate-for-supervising', {
+                firstName: 'Yondu',
+                lastName: 'Undonta',
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+              });
+              this.toggleCandidate = sinon.spy();
+              this.authorizeTestResume = sinon.stub().resolves();
+              const screen = await renderScreen(hbs`
+                <SessionSupervising::CandidateInList
+                  @candidate={{this.candidate}}
+                  @toggleCandidate={{this.toggleCandidate}}
+                  @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
+                />
+                <NotificationContainer @position="bottom-right" />
+              `);
+
+              // when
+              await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+              await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+              await click(screen.getByRole('button', { name: 'Je confirme l\'autorisation' }));
+
+              // then
+              sinon.assert.calledOnce(this.authorizeTestResume);
+              assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+              assert.contains('Succès ! Yondu Undonta peut reprendre son test de certification.');
+            });
+          });
+        });
       });
     });
   });
