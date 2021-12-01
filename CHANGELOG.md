@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.134.0 (01/12/2021)
+
+
+### :rocket: Enhancement
+- [#3784](https://github.com/1024pix/pix/pull/3784) [FEATURE] Ne pas permettre à un utilisateur de se connecter à PixCertif si ses accès ont été désactivés (PIX-3562).
+- [#3775](https://github.com/1024pix/pix/pull/3775) [FEATURE] Sauvegarder le démarrage des certifications complémentaires(PIX-3689)
+
+### :building_construction: Tech
+- [#3770](https://github.com/1024pix/pix/pull/3770) [TECH] Empêcher la suppression de BDD sur Scalingo
+
+### :coffee: Various
+- [#3772](https://github.com/1024pix/pix/pull/3772) [A11Y] Amélioration du chronomètre sur l'écran de présentation (PIX-3922).
+- [#3778](https://github.com/1024pix/pix/pull/3778) [A11Y] Suppression de phrases pour lecteurs d'écrans entravant l'UX (PIX-3914).
+
 ## v3.133.0 (30/11/2021)
 
 
