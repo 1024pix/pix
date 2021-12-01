@@ -922,11 +922,6 @@
         "message": "{organization} vous invite à renvoyer votre profil pour mesurer votre progression."
       }
     },
-    "proposals": {
-      "answer": {
-        "qcu": "La réponse à la question est : "
-      }
-    },
     "reset-password": {
       "title": "Changer mon mot de passe",
       "actions": {
