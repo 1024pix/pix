@@ -37,7 +37,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   let passwordAuthenticationMethodInDB;
   let organizationInDB, organizationRoleInDB;
   let membershipInDB;
-  let certificationCenterInDB, certificationCenterMembershipInDB;
+  let certificationCenterInDB;
 
   function _insertUserWithOrganizationsAndCertificationCenterAccesses() {
     organizationInDB = databaseBuilder.factory.buildOrganization({
@@ -64,7 +64,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
     certificationCenterInDB = databaseBuilder.factory.buildCertificationCenter();
 
-    certificationCenterMembershipInDB = databaseBuilder.factory.buildCertificationCenterMembership({
+    databaseBuilder.factory.buildCertificationCenterMembership({
       userId: userInDB.id,
       certificationCenterId: certificationCenterInDB.id,
     });
@@ -329,6 +329,33 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         );
       });
 
+      it('should only return actives certification center membership associated to the user', async function () {
+        // given
+        const now = new Date();
+        const email = 'lilou@example.net';
+        const user = databaseBuilder.factory.buildUser({ email });
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const otherCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const activeCertificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenter.id,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: otherCertificationCenter.id,
+          disabledAt: now,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(email);
+
+        // then
+        const certificationCenterMembership = foundUser.certificationCenterMemberships[0];
+        expect(foundUser.certificationCenterMemberships).to.have.lengthOf(1);
+        expect(certificationCenterMembership.id).to.equal(activeCertificationCenterMembership.id);
+      });
+
       it('should return membership associated to the user', async function () {
         // when
         const user = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
@@ -486,12 +513,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     describe('#getWithCertificationCenterMemberships', function () {
-      beforeEach(async function () {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
       it('should return user for the given id', async function () {
         // given
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
         const expectedUser = new User(userInDB);
 
         // when
@@ -507,25 +531,42 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(user.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return certification center membership associated to the user', async function () {
+      it('should return actives certification center membership associated to the user', async function () {
+        // when
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const otherCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: userInDB.id,
+          certificationCenterId: certificationCenter.id,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: userInDB.id,
+          certificationCenterId: otherCertificationCenter.id,
+          disabledAt: new Date(),
+        });
+
+        await databaseBuilder.commit();
+
         // when
         const user = await userRepository.getWithCertificationCenterMemberships(userInDB.id);
 
         // then
-        expect(user.certificationCenterMemberships).to.be.an('array');
+        expect(user.certificationCenterMemberships.length).to.equal(1);
 
-        const certificationCenterMembership = user.certificationCenterMemberships[0];
-        expect(certificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
-        expect(certificationCenterMembership.id).to.equal(certificationCenterMembershipInDB.id);
+        const foundCertificationCenterMembership = user.certificationCenterMemberships[0];
+        expect(foundCertificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
+        expect(foundCertificationCenterMembership.id).to.equal(certificationCenterMembership.id);
 
-        const associatedCertificationCenter = certificationCenterMembership.certificationCenter;
+        const associatedCertificationCenter = foundCertificationCenterMembership.certificationCenter;
         expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
-        expect(associatedCertificationCenter.id).to.equal(certificationCenterInDB.id);
-        expect(associatedCertificationCenter.name).to.equal(certificationCenterInDB.name);
+        expect(associatedCertificationCenter.id).to.equal(certificationCenter.id);
+        expect(associatedCertificationCenter.name).to.equal(certificationCenter.name);
       });
 
       it('should reject with a UserNotFound error when no user was found with the given id', async function () {
         // given
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
         const unknownUserId = 666;
 
         // when
