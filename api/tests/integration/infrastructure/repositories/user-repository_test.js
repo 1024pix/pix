@@ -551,7 +551,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // when
         const user = await userRepository.getWithCertificationCenterMemberships(userInDB.id);
 
-        // then:
+        // then
         expect(user.certificationCenterMemberships.length).to.equal(1);
 
         const foundCertificationCenterMembership = user.certificationCenterMemberships[0];
