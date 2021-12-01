@@ -244,6 +244,38 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               assert.contains('Succès ! Yondu Undonta peut reprendre son test de certification.');
             });
           });
+
+          module('when the authorization fails', function() {
+            test('it closes the modal and displays an error notification', async function(assert) {
+              // given
+              this.candidate = store.createRecord('certification-candidate-for-supervising', {
+                firstName: 'Vance',
+                lastName: 'Astro',
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+              });
+              this.toggleCandidate = sinon.spy();
+              this.authorizeTestResume = sinon.stub().rejects();
+              const screen = await renderScreen(hbs`
+                <SessionSupervising::CandidateInList
+                  @candidate={{this.candidate}}
+                  @toggleCandidate={{this.toggleCandidate}}
+                  @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
+                />
+                <NotificationContainer @position="bottom-right" />
+              `);
+
+              // when
+              await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+              await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+              await click(screen.getByRole('button', { name: 'Je confirme l\'autorisation' }));
+
+              // then
+              sinon.assert.calledOnce(this.authorizeTestResume);
+              assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+              assert.contains('Une erreur est survenue, Vance Astro n\'a a pu être autorisé à reprendre son test.');
+            });
+          });
         });
       });
     });

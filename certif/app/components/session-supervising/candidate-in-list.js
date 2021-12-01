@@ -36,10 +36,16 @@ export default class CandidateInList extends Component {
 
   @action
   async authorizeTestResume() {
-    await this.args.onCandidateTestResumeAuthorization();
     this.closeConfirmationModal();
-    this.notifications.success(
-      `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`,
-    );
+    try {
+      await this.args.onCandidateTestResumeAuthorization();
+      this.notifications.success(
+        `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`,
+      );
+    } catch (error) {
+      this.notifications.error(
+        `Une erreur est survenue, ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a a pu être autorisé à reprendre son test.`,
+      );
+    }
   }
 }
