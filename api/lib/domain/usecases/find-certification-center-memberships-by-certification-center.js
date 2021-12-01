@@ -2,5 +2,5 @@ module.exports = function findCertificationCenterMembershipsByCertificationCente
   certificationCenterId,
   certificationCenterMembershipRepository,
 }) {
-  return certificationCenterMembershipRepository.findByCertificationCenterId(certificationCenterId);
+  return certificationCenterMembershipRepository.findActiveByCertificationCenterId(certificationCenterId);
 };
