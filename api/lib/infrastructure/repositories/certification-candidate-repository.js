@@ -94,10 +94,22 @@ module.exports = {
   async getBySessionIdAndUserId({ sessionId, userId }) {
     const certificationCandidate = await knex
       .select('certification-candidates.*')
+      .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
       .from('certification-candidates')
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'certification-candidates.id',
+        'complementary-certification-subscriptions.certificationCandidateId'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certification-subscriptions.complementaryCertificationId',
+        'complementary-certifications.id'
+      )
       .where({ sessionId, userId })
+      .groupBy('certification-candidates.id')
       .first();
-    return _toDomain(certificationCandidate);
+    return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
   },
 
   async findBySessionId(sessionId) {
@@ -186,7 +198,7 @@ function _adaptModelToDb(certificationCandidateToSave) {
 
 function _toDomain(candidateData) {
   const complementaryCertifications = candidateData.complementaryCertifications
-    ?.filter((certificationData) => certificationData !== null)
+    .filter((certificationData) => certificationData !== null)
     .map((certification) => new ComplementaryCertification(certification));
 
   return new CertificationCandidate({ ...candidateData, complementaryCertifications });

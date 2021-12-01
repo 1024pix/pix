@@ -538,12 +538,19 @@ describe('Integration | Repository | CertificationCandidate', function () {
   describe('#getBySessionIdAndUserId', function () {
     let sessionId;
     let userId;
+    let complementaryCertificationId;
 
     beforeEach(function () {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+      complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId,
+      });
+
       return databaseBuilder.commit();
     });
 
@@ -555,19 +562,34 @@ describe('Integration | Repository | CertificationCandidate', function () {
         // then
         expect(actualCandidates.sessionId).to.equal(sessionId);
         expect(actualCandidates.userId).to.equal(userId);
+        expect(actualCandidates.complementaryCertifications).not.to.be.empty;
+        expect(actualCandidates.complementaryCertifications[0].id).to.equal(complementaryCertificationId);
       });
     });
 
-    context('when there is no certification candidate with the given session id and user id', function () {
-      it('should throw an error', async function () {
+    context('when there is no certification candidate with the given session id', function () {
+      it('should return undefined', async function () {
         // when
-        const result = await catchErr(certificationCandidateRepository.getBySessionIdAndUserId)({
+        const result = await certificationCandidateRepository.getBySessionIdAndUserId({
           sessionId: sessionId + 1,
+          userId: userId,
+        });
+
+        // then
+        expect(result).to.be.undefined;
+      });
+    });
+
+    context('when there is no certification candidate with the given user id', function () {
+      it('should return undefined', async function () {
+        // when
+        const result = await certificationCandidateRepository.getBySessionIdAndUserId({
+          sessionId: sessionId,
           userId: userId + 1,
         });
 
         // then
-        expect(result).to.be.instanceOf(NotFoundError);
+        expect(result).to.be.undefined;
       });
     });
   });
