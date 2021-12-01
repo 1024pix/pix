@@ -212,7 +212,7 @@ describe('Unit | Domain | Models | User', function () {
       expect(hasAccess).to.be.true;
     });
 
-    it('should be false if the user has a disabled access to the given CertificationCenterId ', function () {
+    it('should be false if the user has a disabled access to the given CertificationCenterId', function () {
       // given
       const certificationCenterId = 12345;
       const now = new Date();
