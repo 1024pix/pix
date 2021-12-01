@@ -28,11 +28,11 @@ module.exports = {
       throw new NotFoundError(`Le référent de certification ${userId} n'existe pas.`);
     }
 
-    const autorizedCertificationCenterIds = await _removeDisabledCertificationCenterAccesses({
+    const authorizedCertificationCenterIds = await _removeDisabledCertificationCenterAccesses({
       certificationPointOfContactDTO,
     });
     const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(
-      autorizedCertificationCenterIds
+      authorizedCertificationCenterIds
     );
 
     return new CertificationPointOfContact({
