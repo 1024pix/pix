@@ -425,4 +425,8 @@ export default function () {
 
     return new Response(204);
   });
+
+  this.get('/framework/tubes', (schema) => {
+    return schema.tubes.all();
+  });
 }
