@@ -100,17 +100,30 @@ $pix-modal-border-radius: 5px;
         border-bottom-left-radius: $pix-modal-border-radius;
         border-bottom-right-radius: $pix-modal-border-radius;
         padding: 8px 0 20px 0;
-        display: flex;
-        justify-content: flex-end;
 
         .pix-button {
-          margin-left: 16px;
+          margin: 8px 0;
+          width: 100%;
         }
 
         &--border {
           border-top: 1px solid $grey-20;
         }
       }
+    }
+  }
+}
+
+@include device-is('tablet') {
+
+  .pix-modal-wrapper .pix-modal-dialog .pix-modal__container .pix-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    .pix-button {
+      margin: 0 0 0 16px;
+      width: auto;
     }
   }
 }
