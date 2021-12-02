@@ -5,7 +5,11 @@
       <span class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.</span>
       <ul class="session-supervising-candidate-list__candidates">
         {{#each @candidates as |candidate|}}
-          <SessionSupervising::CandidateInList @candidate={{candidate}} @toggleCandidate={{this.toggleCandidate}} />
+          <SessionSupervising::CandidateInList
+            @candidate={{candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+            @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
+          />
         {{/each}}
       </ul>
     </div>

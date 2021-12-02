@@ -67,10 +67,35 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom('.session-supervising-candidate-in-list').hasText('Lord Star 28/06/1983 · Temps majoré : 12%');
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isChecked();
     });
+    test('it does not display neither "en cours" label nor the options menu button', async function(assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        id: 789,
+        firstName: 'Rocket',
+        lastName: 'Racoon',
+        birthdate: '1982-07-28',
+        extraTimePercentage: null,
+        authorizedToStart: true,
+        assessmentStatus: null,
+      });
+      this.toggleCandidate = sinon.spy();
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList
+          @candidate={{this.candidate}}
+          @toggleCandidate={{this.toggleCandidate}}
+        />
+      `);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
+      assert.notContains('En cours');
+    });
   });
 
   module('when the candidate has started the test', function() {
-    test('it renders the "en cours" label and the options menu button', async function(assert) {
+    test('it displays the "en cours" label and the options menu button', async function(assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 789,
