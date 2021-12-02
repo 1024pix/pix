@@ -1,43 +1,15 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const { handleCleaCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Unit | Domain | Events | handle-clea-certification-scoring', function () {
   let partnerCertificationScoringRepository;
-  let certificationCourseRepository;
-  let badgeRepository;
-  let knowledgeElementRepository;
-  let targetProfileRepository;
-  let badgeCriteriaService;
+  let cleaCertificationResultRepository;
   let complementaryCertificationCourseRepository;
 
   beforeEach(function () {
-    partnerCertificationScoringRepository = {
-      buildCleaCertificationScoring: sinon.stub(),
-      save: sinon.stub(),
-    };
-
-    badgeRepository = {
-      getByKey: sinon.stub(),
-    };
-
-    knowledgeElementRepository = {
-      findUniqByUserId: sinon.stub(),
-    };
-
-    targetProfileRepository = {
-      get: sinon.stub(),
-    };
-
-    badgeCriteriaService = {
-      areBadgeCriteriaFulfilled: sinon.stub(),
-    };
-
-    certificationCourseRepository = {
-      getCreationDate: sinon.stub(),
-    };
-
+    partnerCertificationScoringRepository = { buildCleaCertificationScoring: sinon.stub(), save: sinon.stub() };
+    cleaCertificationResultRepository = { get: sinon.stub() };
     complementaryCertificationCourseRepository = { hasComplementaryCertification: sinon.stub() };
   });
 
@@ -49,123 +21,87 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
     const error = await catchErr(handleCleaCertificationScoring)({
       event,
       partnerCertificationScoringRepository,
-      badgeRepository,
-      knowledgeElementRepository,
-      certificationCourseRepository,
-      targetProfileRepository,
-      badgeCriteriaService,
+      cleaCertificationResultRepository,
       complementaryCertificationCourseRepository,
     });
 
     // then
-    expect(error).not.to.be.null;
+    expect(error.message).to.equal(
+      'event must be one of types CertificationScoringCompleted, CertificationRescoringCompleted'
+    );
   });
 
   context('#handleCleaCertificationScoring', function () {
-    context('when cleA certification has been started', function () {
-      it('should save a certif partner', async function () {
+    context('when CleA certification was not even taken in the first place', function () {
+      it('should not build or save no partner certification scoring', async function () {
         // given
-        const userId = 1234;
-        const certificationCourseId = 4567;
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ userId }),
-          domainBuilder.buildKnowledgeElement({ userId }),
-        ];
-        const cleaCertificationScoring = domainBuilder.buildCleaCertificationScoring({
-          reproducibilityRate: 85,
-          hasAcquiredBadge: true,
+        const certificationScoringCompletedEvent = domainBuilder.buildCertificationScoringCompletedEvent({
+          certificationCourseId: 123,
+          userId: 456,
+          reproducibilityRate: 80,
         });
-        const targetProfile = domainBuilder.buildTargetProfile({ id: 34435 });
-        const badge = domainBuilder.buildBadge({ targetProfileId: 34435 });
-        const event = new CertificationScoringCompleted({
-          certificationCourseId,
-          userId,
-          isCertification: true,
-          reproducibilityRate: 85,
-        });
-        const date = '2021-01-01';
-
-        partnerCertificationScoringRepository.buildCleaCertificationScoring
-          .withArgs({
-            certificationCourseId,
-            userId,
-            reproducibilityRate: 85,
-          })
-          .resolves(cleaCertificationScoring);
-
-        certificationCourseRepository.getCreationDate.withArgs(certificationCourseId).resolves(date);
-
-        badgeRepository.getByKey.resolves(badge);
-
-        targetProfileRepository.get.withArgs(34435).resolves(targetProfile);
-
-        knowledgeElementRepository.findUniqByUserId
-          .withArgs({ userId: event.userId, limitDate: date })
-          .resolves(knowledgeElements);
-
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ knowledgeElements, targetProfile, badge })
-          .returns(true);
 
         complementaryCertificationCourseRepository.hasComplementaryCertification
           .withArgs({
-            certificationCourseId,
-            complementaryCertificationName: CLEA,
-          })
-          .resolves(true);
-
-        // when
-        await handleCleaCertificationScoring({
-          event,
-          partnerCertificationScoringRepository,
-          badgeRepository,
-          knowledgeElementRepository,
-          certificationCourseRepository,
-          targetProfileRepository,
-          badgeCriteriaService,
-          complementaryCertificationCourseRepository,
-        });
-
-        // then
-        expect(partnerCertificationScoringRepository.save).to.have.been.calledWithMatch({
-          partnerCertificationScoring: cleaCertificationScoring,
-        });
-      });
-    });
-
-    context('when cleA certification has not been started', function () {
-      it('should not save a certif partner', async function () {
-        // given
-        const userId = 1234;
-        const certificationCourseId = 4567;
-        complementaryCertificationCourseRepository.hasComplementaryCertification
-          .withArgs({
-            certificationCourseId,
+            certificationCourseId: 123,
             complementaryCertificationName: CLEA,
           })
           .resolves(false);
 
-        const event = new CertificationScoringCompleted({
-          certificationCourseId,
-          userId,
-          isCertification: true,
-          reproducibilityRate: 85,
-        });
-
         // when
         await handleCleaCertificationScoring({
-          event,
+          event: certificationScoringCompletedEvent,
           partnerCertificationScoringRepository,
-          badgeRepository,
-          knowledgeElementRepository,
-          certificationCourseRepository,
-          targetProfileRepository,
-          badgeCriteriaService,
+          cleaCertificationResultRepository,
           complementaryCertificationCourseRepository,
         });
 
         // then
+        expect(partnerCertificationScoringRepository.buildCleaCertificationScoring).not.to.have.been.called;
         expect(partnerCertificationScoringRepository.save).not.to.have.been.called;
+      });
+    });
+
+    context('when CleA Certification was taken', function () {
+      it('should save the re-scored cleA certification', async function () {
+        // given
+        const certificationScoringCompletedEvent = domainBuilder.buildCertificationScoringCompletedEvent({
+          certificationCourseId: 123,
+          userId: 456,
+          reproducibilityRate: 80,
+        });
+
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: CLEA,
+          })
+          .resolves(true);
+
+        cleaCertificationResultRepository.get
+          .withArgs({ certificationCourseId: 123 })
+          .resolves(domainBuilder.buildCleaCertificationResult.acquired());
+        const cleaCertificationScoring = domainBuilder.buildCleaCertificationScoring();
+        partnerCertificationScoringRepository.buildCleaCertificationScoring.resolves(cleaCertificationScoring);
+        partnerCertificationScoringRepository.save.resolves();
+
+        // when
+        await handleCleaCertificationScoring({
+          event: certificationScoringCompletedEvent,
+          partnerCertificationScoringRepository,
+          cleaCertificationResultRepository,
+          complementaryCertificationCourseRepository,
+        });
+
+        // then
+        expect(partnerCertificationScoringRepository.buildCleaCertificationScoring).to.have.been.calledWithExactly({
+          certificationCourseId: 123,
+          userId: 456,
+          reproducibilityRate: 80,
+        });
+        expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
+          partnerCertificationScoring: cleaCertificationScoring,
+        });
       });
     });
   });
