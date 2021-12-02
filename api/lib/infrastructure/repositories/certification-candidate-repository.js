@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
 const { normalize } = require('../utils/string-utils');
 const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
@@ -7,12 +6,12 @@ const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-e
 const {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
-  CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../domain/errors');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationCandidate = require('../../domain/models/CertificationCandidate');
 const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
   async linkToUser({ id, userId }) {
@@ -31,31 +30,43 @@ module.exports = {
     }
   },
 
-  async saveInSession({ certificationCandidate, sessionId }) {
-    const certificationCandidateDataToSave = _.pick(certificationCandidate, [
-      'id',
-      'firstName',
-      'lastName',
-      'sex',
-      'birthPostalCode',
-      'birthINSEECode',
-      'birthCity',
-      'birthProvinceCode',
-      'resultRecipientEmail',
-      'birthCountry',
-      'email',
-      'externalId',
-      'birthdate',
-      'extraTimePercentage',
-    ]);
+  async saveInSession({ certificationCandidate, sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
 
     try {
-      const addedCertificationCandidate = await new CertificationCandidateBookshelf({
-        ...certificationCandidateDataToSave,
-        sessionId,
-      }).save();
-      return bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, addedCertificationCandidate);
-    } catch (bookshelfError) {
+      const insertCertificationCandidateQuery = knex('certification-candidates')
+        .insert({ ...certificationCandidateDataToSave, sessionId })
+        .returning('*');
+
+      if (domainTransaction.knexTransaction) {
+        insertCertificationCandidateQuery.transacting(domainTransaction.knexTransaction);
+      }
+
+      const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
+
+      if (!_.isEmpty(certificationCandidate.complementaryCertifications)) {
+        const complementaryCertificationSubscriptionsToSave = certificationCandidate.complementaryCertifications.map(
+          (complementaryCertification) => {
+            return {
+              complementaryCertificationId: complementaryCertification.id,
+              certificationCandidateId: addedCertificationCandidate.id,
+            };
+          }
+        );
+
+        const insertComplementaryCertificationSubscriptionQuery = knex(
+          'complementary-certification-subscriptions'
+        ).insert(complementaryCertificationSubscriptionsToSave);
+
+        if (domainTransaction.knexTransaction) {
+          insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
+        }
+
+        await insertComplementaryCertificationSubscriptionQuery;
+      }
+
+      return new CertificationCandidate(addedCertificationCandidate);
+    } catch (error) {
       throw new CertificationCandidateCreationOrUpdateError(
         'An error occurred while saving the certification candidate in a session'
       );
@@ -142,28 +153,6 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results)[0]);
   },
 
-  async setSessionCandidates(sessionId, certificationCandidates) {
-    const certificationCandidatesToInsert = certificationCandidates.map(_adaptModelToDb);
-
-    return Bookshelf.knex.transaction(async (trx) => {
-      try {
-        await trx('certification-candidates').where({ sessionId }).del();
-      } catch (err) {
-        throw new CertificationCandidateDeletionError(
-          'An error occurred while deleting the certification candidates during the replacement operation'
-        );
-      }
-
-      try {
-        await trx.batchInsert('certification-candidates', certificationCandidatesToInsert).transacting(trx);
-      } catch (err) {
-        throw new CertificationCandidateCreationOrUpdateError(
-          'An error occurred while inserting the certification candidates during the replacement operation'
-        );
-      }
-    });
-  },
-
   async doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
     const anyLinkedCandidateInSession = await CertificationCandidateBookshelf.query({
       where: { sessionId },
@@ -182,10 +171,23 @@ module.exports = {
       throw new NotFoundError('Aucun candidat trouvé');
     }
   },
+
+  async deleteBySessionId({ sessionId }) {
+    await knex('complementary-certification-subscriptions')
+      .whereIn('certificationCandidateId', knex.select('id').from('certification-candidates').where({ sessionId }))
+      .del();
+
+    await knex('certification-candidates').where({ sessionId }).del();
+  },
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse', 'complementaryCertifications']);
+  return _.omit(certificationCandidateToSave, [
+    'createdAt',
+    'certificationCourse',
+    'complementaryCertifications',
+    'userId',
+  ]);
 }
 
 function _toDomain(candidateData) {
