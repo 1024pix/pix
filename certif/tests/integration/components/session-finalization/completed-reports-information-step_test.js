@@ -6,6 +6,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
+import { render as renderScreen } from '@pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
@@ -162,6 +163,29 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       `);
 
     // then
-    assert.notContains('Certification(s) terminée(s)');
+    assert.dom('.session-finalization-reports-information-step__title-completed').doesNotExist();
+  });
+
+  test('it has an accessible label', async function(assert) {
+    // given
+    this.certificationReports = [run(() => store.createRecord('certification-report', {
+      hasSeenEndTestScreen: null,
+    }))];
+    this.issueReportDescriptionMaxLength = 500;
+    this.toggleCertificationReportHasSeenEndTestScreen = sinon.stub().returns();
+    this.toggleAllCertificationReportsHasSeenEndTestScreen = sinon.stub().returns();
+
+    // when
+    const screen = await renderScreen(hbs`
+      <SessionFinalization::CompletedReportsInformationStep
+        @certificationReports={{this.certificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+        @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+      />
+    `);
+
+    // then
+    assert.dom(screen.getByRole('table', { name: 'Certification(s) terminée(s)' })).exists();
   });
 });
