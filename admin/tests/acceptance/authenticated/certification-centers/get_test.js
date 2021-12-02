@@ -132,6 +132,31 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     assert.contains(expectedDate1);
   });
 
+  test('should be possible to desactive a certification center membership', async function (assert) {
+    // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
+
+    const user = server.create('user', { firstName: 'Lili' });
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
+    });
+    server.create('certification-center-membership', {
+      createdAt: new Date('2018-02-15T05:06:07Z'),
+      certificationCenter,
+      user,
+    });
+
+    // when
+    await visit(`/certification-centers/${certificationCenter.id}`);
+    await clickByLabel('Désactiver');
+
+    // then
+    assert.notContains('Lili');
+  });
+
   module('To add certification center membership', function () {
     test('should display elements to add certification center membership', async function (assert) {
       // given
