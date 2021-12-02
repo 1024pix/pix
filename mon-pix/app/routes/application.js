@@ -44,7 +44,7 @@ export default Route.extend(ApplicationRouteMixin, {
       'assessments.challenge',
       'campaigns.assessment.skill-review',
       'assessments.checkpoint',
-      'campaigns.campaign-not-found',
+      'campaigns.archived-error',
     ];
     const isUserAnonymous = get(this.session, 'data.authenticated.authenticator') === 'authenticator:anonymous';
     const isRouteAccessNotAllowedForAnonymousUser = !allowedRoutesForAnonymousAccess.includes(
