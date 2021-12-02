@@ -295,9 +295,14 @@ module.exports = {
   },
 
   async updatePixOrgaTermsOfServiceAcceptedToTrue(id) {
-    const user = await BookshelfUser.where({ id }).fetch({ require: false });
-    await user.save({ pixOrgaTermsOfServiceAccepted: true }, { patch: true, method: 'update' });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+    const now = new Date();
+
+    const [user] = await knex('users')
+      .where({ id })
+      .update({ pixOrgaTermsOfServiceAccepted: true, lastPixOrgaTermsOfServiceValidatedAt: now, updatedAt: now })
+      .returning('*');
+
+    return new User(user);
   },
 
   async updatePixCertifTermsOfServiceAcceptedToTrue(id) {
