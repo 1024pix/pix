@@ -98,6 +98,12 @@ export default function () {
     });
   });
 
+  this.delete('/certification-center-memberships/:id', (schema, request) => {
+    const certificationCenterMembershipId = request.params.id;
+    schema.db.certificationCenterMemberships.remove(certificationCenterMembershipId);
+    return new Response(204);
+  });
+
   this.post('/admin/memberships', createMembership);
   this.get('/organizations');
   this.get('/organizations/:id');
