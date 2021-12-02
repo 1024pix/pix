@@ -90,6 +90,25 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       assert.contains(t('pages.campaign-creation.purpose.label'));
     });
 
+    test('it should display the purpose explanation of an assessment campaign', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
+      await clickByLabel(t('pages.campaign-creation.purpose.assessment'));
+
+      // then
+      assert.contains(t('pages.campaign-creation.purpose.assessment-info'));
+      assert.notContains(t('pages.campaign-creation.purpose.profiles-collection-info'));
+    });
+
     test('it should not display multiple sendings field', async function (assert) {
       //given
       this.campaign = EmberObject.create({});
@@ -142,6 +161,24 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // then
       assert.contains(t('pages.campaign-creation.multiple-sendings.question-label'));
       assert.contains(t('pages.campaign-creation.multiple-sendings.info'));
+    });
+    test('it should display the purpose explanation of a profiles collection campaign', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
+      await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
+
+      // then
+      assert.contains(t('pages.campaign-creation.purpose.profiles-collection-info'));
+      assert.notContains(t('pages.campaign-creation.purpose.assessment-info'));
     });
   });
 
