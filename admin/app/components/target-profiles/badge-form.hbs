@@ -1,91 +1,135 @@
 <form {{on "submit" this.createBadgeAndCriteria}} class="badge-form">
-  <div class="badge-form__text-field">
-    <label for="title">Nom du badge : </label>
-    <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
-  </div>
-  <div class="badge-form__text-field">
-    <label for="image-url">Nom de l'image (svg) :
-      <a href="https://images.pix.fr/index.html" target="_blank" rel="noopener noreferrer"> Voir la liste des badges</a>
-    </label>
-    <Input
-      id="image-name"
-      required="true"
-      class="form-control"
-      @type="text"
-      @value={{this.imageName}}
-      placeholder="exemple: clea_num.svg"
-    />
-  </div>
-  <div class="badge-form__text-field">
-    <label for="alt-message">Texte alternatif pour l'image : </label>
-    <Input id="alt-message" required="true" class="form-control" @type="text" @value={{this.badge.altMessage}} />
-  </div>
-  <div class="badge-form__text-field">
-    <label for="message">Message : </label>
-    <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
-  </div>
-  <div class="badge-form__text-field">
-    <label for="badge-key">Clé (texte unique , vérifier qu'il n'existe pas) : </label>
-    <Input id="badge-key" class="form-control" maxlength="255" @type="text" required="true" @value={{this.badge.key}} />
-  </div>
-  <div class="badge-form__check-field">
-    <label for="isCertifiable">Certifiable : </label>
-    <Input
-      class="badge-form-check-field__control"
-      @type="checkbox"
-      @checked={{this.badge.isCertifiable}}
-      id="isCertifiable"
-    />
-  </div>
-  <div class="badge-form__check-field">
-    <label for="isAlwaysVisible">Lacunes : </label>
-    <Input
-      class="badge-form-check-field__control"
-      @type="checkbox"
-      @checked={{this.badge.isAlwaysVisible}}
-      id="isAlwaysVisible"
-    />
-  </div>
-
-  <div>
-    <h3>Réussite sur la participation de campagne</h3>
-    <p>Laissez ce champ vide si la participation de campagne est non souhaitée</p>
-    <div>
-      <label for="campaignParticipationThreshold">Taux de réussite souhaité :</label>
-      <Input id="campaignParticipationThreshold" @type="number" @value={{this.campaignParticipationThreshold}} />
-    </div>
-  </div>
-
-  <div>
-    <div>
-      <label for="skillSetThreshold">Taux de réussite souhaité :</label>
-      <Input id="skillSetThreshold" @type="number" @value={{this.skillSet.threshold}} />
-    </div>
-
-    <div>
-      <label for="skillSetName">Nom de la liste</label>
-      <Input id="skillSetName" @type="text" @value={{this.skillSet.name}} />
-    </div>
-
+  <section class="page-section">
+    <h2>Création d'un résultat thématique</h2>
     <div class="badge-form__text-field">
-      <label for="skillSetSkills">Message : </label>
-      <Textarea id="skillSetSkills" class="form-control" @value={{this.skillSet.skills}} rows="4" />
+      <label for="title">Nom du badge : </label>
+      <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
     </div>
-  </div>
+    <div class="badge-form__text-field">
+      <label for="image-url">Nom de l'image (svg) :
+        <a href="https://images.pix.fr/index.html" target="_blank" rel="noopener noreferrer">
+          Voir la liste des badges</a>
+      </label>
+      <Input
+        id="image-name"
+        required="true"
+        class="form-control"
+        @type="text"
+        @value={{this.imageName}}
+        placeholder="exemple: clea_num.svg"
+      />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="alt-message">Texte alternatif pour l'image : </label>
+      <Input id="alt-message" required="true" class="form-control" @type="text" @value={{this.badge.altMessage}} />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="message">Message : </label>
+      <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="badge-key">Clé (texte unique , vérifier qu'il n'existe pas) : </label>
+      <Input
+        id="badge-key"
+        class="form-control"
+        maxlength="255"
+        @type="text"
+        required="true"
+        @value={{this.badge.key}}
+      />
+    </div>
+    <div class="badge-form__check-field">
+      <label for="isCertifiable">Certifiable : </label>
+      <Input
+        class="badge-form-check-field__control"
+        @type="checkbox"
+        @checked={{this.badge.isCertifiable}}
+        id="isCertifiable"
+      />
+    </div>
+    <div class="badge-form__check-field">
+      <label for="isAlwaysVisible">Lacunes : </label>
+      <Input
+        class="badge-form-check-field__control"
+        @type="checkbox"
+        @checked={{this.badge.isAlwaysVisible}}
+        id="isAlwaysVisible"
+      />
+    </div>
+  </section>
 
-  <div class="badge-form__action-buttons">
-    <PixButtonLink
-      data-test="badge-form-cancel-button"
-      class="badge-form-action-buttons__cancel"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @size="small"
-      @route="authenticated.target-profiles.target-profile.insights"
-    >
-      Annuler
-    </PixButtonLink>
-    <PixButton data-test="badge-form-submit-button" @backgroundColor="green" @size="small" @type="submit">
-      Créer le badge
-    </PixButton>
-  </div>
+  <section class="page-section">
+    <h3>Définir un ou plusieurs critères</h3>
+
+    <p>
+      Vous pouvez définir un critère de réussite du RT sur une liste d’acquis ET/OU sur l’ensemble du profil cible.
+      Toutes les conditions devront être remplies pour obtenir le badge. Laissez vide les critères qui ne sont pas
+      souhaités.
+    </p>
+
+    <div>
+      <h4>Sur une liste d'acquis</h4>
+
+      <div class="badge-form-criteria">
+        <div class="badge-form__text-field badge-form-criteria__threshold">
+          <label for="skillSetThreshold">Taux de réussite :</label>
+          <Input
+            id="skillSetThreshold"
+            class="form-control"
+            @type="number"
+            min="1"
+            max="100"
+            @value={{this.skillSet.threshold}}
+          />
+        </div>
+
+        <div class="badge-form-criteria__skill-set">
+          <div class="badge-form__text-field">
+            <label for="skillSetName">Nom de la liste :</label>
+            <Input id="skillSetName" class="form-control" @type="text" @value={{this.skillSet.name}} />
+          </div>
+
+          <div class="badge-form__text-field">
+            <label for="skillSetSkills">Liste des acquis :</label>
+            <Textarea id="skillSetSkills" class="form-control" @value={{this.skillSet.skills}} rows="4" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h4>Sur l'ensemble du profil cible</h4>
+
+      <div class="badge-form-criteria">
+        <div class="badge-form__text-field badge-form-criteria__threshold">
+          <label for="campaignParticipationThreshold">Taux de réussite :</label>
+          <Input
+            id="campaignParticipationThreshold"
+            class="form-control"
+            @type="number"
+            min="1"
+            max="100"
+            @value={{this.campaignParticipationThreshold}}
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="badge-form__action-buttons">
+      <PixButtonLink
+        data-test="badge-form-cancel-button"
+        class="badge-form-action-buttons__cancel"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @size="small"
+        @route="authenticated.target-profiles.target-profile.insights"
+      >
+        Annuler
+      </PixButtonLink>
+      <PixButton data-test="badge-form-submit-button" @backgroundColor="green" @size="small" @type="submit">
+        Créer le badge
+      </PixButton>
+    </div>
+  </section>
+
 </form>

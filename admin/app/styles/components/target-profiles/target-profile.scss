@@ -1,5 +1,4 @@
 .page-section {
-
   &__container {
     display: flex;
   }
@@ -7,10 +6,13 @@
   &__content {
     width: 50%;
   }
+
+  &:not(:first-of-type) {
+    margin-top: 20px;
+  }
 }
 
 .target-profile__edit-form {
-
   #targetProfileName {
     margin-bottom: 24px;
   }
