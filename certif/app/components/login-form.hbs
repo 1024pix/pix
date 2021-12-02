@@ -1,58 +1,49 @@
 <div class="login-form">
 
   <div>
-    <img src="/pix-certif-logo.svg" alt="Pix Certif">
+    <img src="/pix-certif-logo.svg" alt="Pix Certif" />
   </div>
 
   <div>
 
     <h1 class="login-form__title">Connectez-vous</h1>
 
-    <div class="login-form__information paragraph">
+    <p class="login-form__information paragraph">
       L'accès à Pix Certif est limité aux centres de certification Pix.
-    </div>
+    </p>
 
     {{#if this.isErrorMessagePresent}}
-      <div id="login-form-error-message" class="login-form__error-message error-message">
+      <div
+        id="login-form-error-message"
+        class="login-form__error-message error-message"
+      >
         {{this.errorMessage}}
       </div>
     {{/if}}
 
-    <form {{on 'submit' this.authenticate}} >
+    <form {{on "submit" this.authenticate}}>
 
       <div class="login-form__input-container">
-        <label for="login-email" class="label">Adresse e-mail</label>
-        <Input
+        <PixInput
           @id="login-email"
-          @name="login"
-          @type="email"
-          @class="input"
+          name="login"
+          @label="Adresse e-mail"
           @value={{this.email}}
-          @autocomplete="username"
-          @required="true"
+          autocomplete="email"
+          type="email"
+          required="true"
         />
       </div>
 
       <div class="login-form__input-container">
-        <label for="login-password" class="label">Mot de passe</label>
-        <div class="login-form__input-field">
-          <Input
-            @id="login-password"
-            @name="password"
-            @type={{this.passwordInputType}}
-            @class="input"
-            @value={{this.password}}
-            @autocomplete="current-password"
-            @required="true"
-          />
-          <button type="button" aria-label="rendre le mot de passe lisible" class="login-form__icon" {{on 'click' this.togglePasswordVisibility}} >
-            {{#if this.isPasswordVisible}}
-              <div tabindex="-1" onmousedown={{this.togglePasswordVisibility}}><FaIcon @icon='eye' class="fa-fw login-form-icon__eye" /></div>
-            {{else}}
-              <div tabindex="-1" onmousedown={{this.togglePasswordVisibility}}><FaIcon @icon='eye-slash' class="fa-fw login-form-icon__eye" /></div>
-            {{/if}}
-          </button>
-        </div>
+        <PixInputPassword
+          @id="login-password"
+          name="password"
+          @label="Mot de passe"
+          @value={{this.password}}
+          autocomplete="current-password"
+          required="true"
+        />
       </div>
 
       <div class="login-form__input-container">
@@ -62,11 +53,15 @@
       </div>
 
       <div class="login-form__forgotten-password one-line-text">
-        <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" >Mot de passe oublié ?</a>
+        <a
+          href="https://app.pix.fr/mot-de-passe-oublie"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Mot de passe oublié ?</a>
       </div>
 
     </form>
 
-    </div>
+  </div>
 
 </div>
