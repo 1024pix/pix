@@ -31,17 +31,13 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
   return dataByLine;
 }
 
-async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
+async function validateOdsHeaders({ odsBuffer, headers }) {
   const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
-  const transformationStruct = _.find(transformationStructsByVersion, (transformationStruct) =>
-    _findHeaderRow(sheetDataRows, transformationStruct.headers)
-  );
+  const headerRow = _findHeaderRow(sheetDataRows, headers);
 
-  if (transformationStruct == undefined || transformationStruct.version == undefined) {
+  if (!headerRow) {
     throw new UnprocessableEntityError('Unknown attendance sheet version');
   }
-
-  return transformationStruct.version;
 }
 
 async function getSheetDataRowsFromOdsBuffer({ odsBuffer, jsonOptions = { header: 'A' } }) {
@@ -131,6 +127,6 @@ function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
 module.exports = {
   extractTableDataFromOdsFile,
   getContentXml,
-  getOdsVersionByHeaders,
   getSheetDataRowsFromOdsBuffer,
+  validateOdsHeaders,
 };

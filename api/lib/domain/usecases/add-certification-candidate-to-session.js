@@ -11,13 +11,9 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  complementaryCertificationSubscriptionRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
-
-  const version = '1.5';
-
-  certificationCandidate.validate(version);
+  certificationCandidate.validate();
 
   const duplicateCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
     sessionId,
@@ -32,31 +28,22 @@ module.exports = async function addCertificationCandidateToSession({
     );
   }
 
-  if (version === '1.5') {
-    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-      ...certificationCandidate,
-      certificationCpfCityRepository,
-      certificationCpfCountryRepository,
-    });
+  const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+    ...certificationCandidate,
+    certificationCpfCityRepository,
+    certificationCpfCountryRepository,
+  });
 
-    if (cpfBirthInformation.hasFailed()) {
-      throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
-    }
-
-    certificationCandidate.updateBirthInformation(cpfBirthInformation);
+  if (cpfBirthInformation.hasFailed()) {
+    throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
   }
 
-  const savedCertificationCandidate = await certificationCandidateRepository.saveInSession({
+  certificationCandidate.updateBirthInformation(cpfBirthInformation);
+
+  certificationCandidate.complementaryCertifications = complementaryCertifications;
+
+  return await certificationCandidateRepository.saveInSession({
     certificationCandidate,
     sessionId: certificationCandidate.sessionId,
   });
-
-  for (const complementaryCertification of complementaryCertifications) {
-    await complementaryCertificationSubscriptionRepository.save({
-      complementaryCertificationId: complementaryCertification.id,
-      certificationCandidateId: savedCertificationCandidate.id,
-    });
-  }
-
-  return savedCertificationCandidate;
 };

@@ -3,7 +3,6 @@ const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const {
   NotFoundError,
-  CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../../../lib/domain/errors');
 const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
@@ -11,23 +10,16 @@ const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {
-    let certificationCandidate;
-    let sessionId;
-
-    beforeEach(function () {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-
-      return databaseBuilder.commit();
-    });
-
     afterEach(function () {
       return knex('certification-candidates').delete();
     });
 
     context('when a proper candidate is being saved', function () {
-      beforeEach(async function () {
-        certificationCandidate = domainBuilder.buildCertificationCandidate({
+      it('should save the Certification candidate in session', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        await databaseBuilder.commit();
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
           firstName: 'Pix',
           lastName: 'Lover',
           sex: 'F',
@@ -37,34 +29,49 @@ describe('Integration | Repository | CertificationCandidate', function () {
           externalId: 'ABCDEF123',
           birthdate: '1990-07-12',
           extraTimePercentage: '0.05',
-          schoolingRegistrationId: null,
+          sessionId,
+          complementaryCertifications: [],
         });
 
-        delete certificationCandidate.id;
-      });
-
-      it('should save the Certification candidate in session', async function () {
         // when
-        await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+        const firstCertificationCandidatesInSession = await certificationCandidateRepository.saveInSession({
+          certificationCandidate,
+          sessionId,
+        });
 
         // then
-        const [firstCertificationCandidatesInSession] = await certificationCandidateRepository.findBySessionId(
-          sessionId
-        );
-        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id', 'complementaryCertifications'];
-        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deep.equal(
+        const attributesToOmit = ['id', 'createdAt', 'complementaryCertifications', 'userId'];
+        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
           _.omit(certificationCandidate, attributesToOmit)
         );
-        expect(firstCertificationCandidatesInSession.sessionId).to.equal(sessionId);
       });
 
       context('when adding a new candidate', function () {
         it('should add a single row in the table', async function () {
           // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          await databaseBuilder.commit();
+          const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
+            firstName: 'Pix',
+            lastName: 'Lover',
+            sex: 'F',
+            birthPostalCode: '75000',
+            birthINSEECode: '75000',
+            birthCity: 'HaussmanPolis',
+            externalId: 'ABCDEF123',
+            birthdate: '1990-07-12',
+            extraTimePercentage: '0.05',
+            sessionId,
+            complementaryCertifications: [],
+          });
+
           const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
 
           // when
-          await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+          await certificationCandidateRepository.saveInSession({
+            certificationCandidate,
+            sessionId,
+          });
 
           // then
           const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
@@ -73,23 +80,39 @@ describe('Integration | Repository | CertificationCandidate', function () {
         });
       });
 
-      context('when updating the candidate', function () {
-        beforeEach(function () {
-          certificationCandidate.id = databaseBuilder.factory.buildCertificationCandidate().id;
-          return databaseBuilder.commit();
+      context('when there is complementary certifications to save', function () {
+        afterEach(function () {
+          return knex('complementary-certification-subscriptions').del();
         });
 
-        it('should not add a row in the table', async function () {
+        it('should save the complementary certification subscriptions', async function () {
           // given
-          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          const firstComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+          const secondComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+          await databaseBuilder.commit();
+
+          const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
+            sessionId,
+            complementaryCertifications: [
+              domainBuilder.buildComplementaryCertification({ id: firstComplementaryCertificationId }),
+              domainBuilder.buildComplementaryCertification({ id: secondComplementaryCertificationId }),
+            ],
+          });
 
           // when
-          await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+          const savedCertificationCandidate = await certificationCandidateRepository.saveInSession({
+            certificationCandidate,
+            sessionId,
+          });
 
           // then
-          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
-
-          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave);
+          const complementaryCertificationSubscriptionsInDB = await knex(
+            'complementary-certification-subscriptions'
+          ).where({
+            certificationCandidateId: savedCertificationCandidate.id,
+          });
+          expect(complementaryCertificationSubscriptionsInDB).to.have.lengthOf(2);
         });
       });
     });
@@ -512,79 +535,6 @@ describe('Integration | Repository | CertificationCandidate', function () {
     });
   });
 
-  describe('#setSessionCandidates', function () {
-    let sessionId;
-    let existingCertificationCandidateIds;
-    let newCertificationCandidates;
-
-    beforeEach(function () {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-      existingCertificationCandidateIds = _.times(
-        10,
-        () => databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id
-      );
-      newCertificationCandidates = _.times(5, () => {
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId, userId: null });
-        certificationCandidate.id = undefined;
-        return certificationCandidate;
-      });
-
-      return databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('certification-candidates').delete();
-    });
-
-    context('when there are some certification candidates to delete', function () {
-      it('should delete existing certification candidates in session', async function () {
-        // when
-        await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-        const actualIds = _.map(actualCertificationCandidates, 'id');
-
-        expect(_.intersection(existingCertificationCandidateIds, actualIds)).to.be.empty;
-      });
-
-      it('should save the new certification candidates', async function () {
-        // when
-        await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates')
-          .select('firstName')
-          .where({ sessionId });
-        const actualFirstNames = _.map(actualCertificationCandidates, 'firstName');
-        expect(_.map(newCertificationCandidates, 'firstName')).to.have.members(actualFirstNames);
-        expect(newCertificationCandidates.length).to.equal(actualFirstNames.length);
-      });
-    });
-
-    context('when delete succeeds and save fails', function () {
-      it('should rollback after save fails', async function () {
-        // given
-        newCertificationCandidates[0].sessionId = newCertificationCandidates[0].sessionId + 1;
-
-        // when
-        const error = await catchErr(certificationCandidateRepository.setSessionCandidates)(
-          sessionId,
-          newCertificationCandidates
-        );
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-        const actualIds = _.map(actualCertificationCandidates, 'id');
-
-        expect(error).to.be.an.instanceOf(CertificationCandidateCreationOrUpdateError);
-        expect(actualIds).to.have.members(existingCertificationCandidateIds);
-        expect(actualIds.length).to.equal(existingCertificationCandidateIds.length);
-      });
-    });
-  });
-
   describe('#getBySessionIdAndUserId', function () {
     let sessionId;
     let userId;
@@ -775,6 +725,39 @@ describe('Integration | Repository | CertificationCandidate', function () {
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
       });
+    });
+  });
+
+  describe('#deleteBySessionId', function () {
+    it('should remove the certification candidates and their subscriptions by a session id', async function () {
+      // given
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const firstCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId: firstCandidateId,
+      });
+      const secondCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId: secondCandidateId,
+      });
+      const thirdCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        complementaryCertificationId,
+        certificationCandidateId: thirdCandidateId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCandidateRepository.deleteBySessionId({ sessionId });
+
+      // then
+      const subscriptionsInDB = await knex('complementary-certification-subscriptions').select();
+      const certificationCandidateInDB = await knex('certification-candidates').select();
+      expect(subscriptionsInDB).to.deep.equal([]);
+      expect(certificationCandidateInDB).to.deep.equal([]);
     });
   });
 });

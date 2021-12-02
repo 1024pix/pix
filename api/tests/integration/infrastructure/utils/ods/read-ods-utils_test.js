@@ -7,16 +7,13 @@ const { expect, catchErr } = require('../../../../test-helper');
 const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
 
 const {
-  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-} = require('../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures');
-const {
-  PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION,
+  getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications,
 } = require('../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures');
 
 const {
   getContentXml,
   extractTableDataFromOdsFile,
-  getOdsVersionByHeaders,
+  validateOdsHeaders,
   getSheetDataRowsFromOdsBuffer,
 } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 
@@ -27,14 +24,6 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
   const UNKNOWN_VERSION_ODS_FILE_PATH = `${__dirname}/files/unknown-version_test.ods`;
   const NEW_LINE_ODS_FILE_PATH = `${__dirname}/files/newline_test.ods`;
   const SIMPLE_ATTENDANCE_ODS_FILE_PATH = `${__dirname}/files/simple-attendance_test.ods`;
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const TRANSFORMATION_STRUCTS_BY_VERSION = _.orderBy(
-    TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-    ['version'],
-    ['desc']
-  );
 
   let odsBuffer;
 
@@ -192,75 +181,55 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
     });
   });
 
-  describe('#getOdsVersionByHeaders', function () {
-    const HEADERS_BY_VERSION = [
-      {
-        version: '1',
-        headers: ['HEADER1_V1', 'HEADER2_V1'],
-      },
-      {
-        version: '2',
-        headers: ['HEADER1', 'HEADER2'],
-      },
-    ];
+  describe('#validateOdsHeaders', function () {
+    const VALID_HEADERS = ['HEADER1', 'HEADER2'];
+    const INVALID_HEADERS = ['HEADER3', 'HEADER4'];
 
-    context('when a version is found', function () {
-      it('should return the appropriate version', async function () {
+    context('when the headers are found', function () {
+      it('should not throw a UnprocessableEntityError', async function () {
         // given
         odsBuffer = await readFile(DEFAULT_ODS_FILE_PATH);
 
         // when
-        const version = await getOdsVersionByHeaders({
+        await validateOdsHeaders({
           odsBuffer,
-          transformationStructsByVersion: HEADERS_BY_VERSION,
+          headers: VALID_HEADERS,
         });
 
         // then
-        expect(version).to.equal('2');
-      });
-
-      it('should get the current attendance sheet version', async function () {
-        // given
-        odsBuffer = await readFile(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
-        const transformationStructsByVersion = TRANSFORMATION_STRUCTS_BY_VERSION;
-
-        // when
-        const version = await getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion });
-
-        // then
-        expect(version).to.equal(PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION);
+        expect(true).to.be.true;
       });
     });
 
-    context('when no version is found', function () {
+    context('when the headers are not found', function () {
       it('should throw a UnprocessableEntityError', async function () {
         // given
         odsBuffer = await readFile(UNKNOWN_VERSION_ODS_FILE_PATH);
 
         // when
-        const result = await catchErr(getOdsVersionByHeaders)({
+        const error = await catchErr(validateOdsHeaders)({
           odsBuffer,
-          transformationStructsByVersion: HEADERS_BY_VERSION,
+          headers: INVALID_HEADERS,
         });
 
         // then
-        expect(result).to.be.instanceof(UnprocessableEntityError);
+        expect(error).to.be.instanceof(UnprocessableEntityError);
       });
     });
 
     context('when newlines are present in file headers', function () {
-      it('should return the appropriate version regardless of the newlines', async function () {
+      it('should not throw a UnprocessableEntityError', async function () {
         // given
         odsBuffer = await readFile(NEW_LINE_ODS_FILE_PATH);
 
         // when
-        const version = await getOdsVersionByHeaders({
+        await validateOdsHeaders({
           odsBuffer,
-          transformationStructsByVersion: HEADERS_BY_VERSION,
+          headers: VALID_HEADERS,
         });
 
         // then
-        expect(version).to.equal('2');
+        expect(true).to.be.true;
       });
     });
   });
@@ -274,8 +243,8 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
 
     it('should read range rows and get the appropriate headers', async function () {
       // given
-      const expectedHeaders = _.find(TRANSFORMATION_STRUCTS_BY_VERSION, {
-        version: PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION,
+      const expectedHeaders = getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications({
+        complementaryCertifications: [],
       }).headers;
 
       // when

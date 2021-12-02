@@ -7,20 +7,6 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../errors');
 
-const certificationCandidateValidationJoiSchema_v1_4 = Joi.object({
-  firstName: Joi.string().required().empty(null),
-  lastName: Joi.string().required().empty(null),
-  birthCity: Joi.string().required().empty(null),
-  birthProvinceCode: Joi.string().required().empty(null),
-  birthCountry: Joi.string().required().empty(null),
-  email: Joi.string().email().allow(null).optional(),
-  resultRecipientEmail: Joi.string().email().allow(null).optional(),
-  externalId: Joi.string().allow(null).optional(),
-  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
-  extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().required().empty(null),
-});
-
 const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   firstName: Joi.string().required().empty(null),
   lastName: Joi.string().required().empty(null),
@@ -34,6 +20,7 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   extraTimePercentage: Joi.number().allow(null).optional(),
   sessionId: Joi.number().required().empty(null),
+  complementaryCertifications: Joi.array().required(),
 });
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
@@ -104,23 +91,8 @@ class CertificationCandidate {
     this.complementaryCertifications = complementaryCertifications;
   }
 
-  validate(version = '1.4') {
-    const err = {};
-    let usedSchema = null;
-    switch (version) {
-      case '1.4':
-        usedSchema = certificationCandidateValidationJoiSchema_v1_4;
-        break;
-      case '1.5':
-        usedSchema = certificationCandidateValidationJoiSchema_v1_5;
-        break;
-      default:
-        err.key = 'version';
-        err.why = 'unknown';
-        throw new InvalidCertificationCandidate({ error: err });
-    }
-
-    const { error } = usedSchema.validate(this, { allowUnknown: true });
+  validate() {
+    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, { allowUnknown: true });
     if (error) {
       throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
     }
