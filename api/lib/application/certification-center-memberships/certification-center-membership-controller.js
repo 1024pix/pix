@@ -8,4 +8,12 @@ module.exports = {
       .createCertificationCenterMembership({ userId, certificationCenterId })
       .then((membership) => h.response(membership).created());
   },
+
+  async disable(request, h) {
+    const certificationCenterMembershipId = request.params.id;
+    await usecases.disableCertificationCenterMembership({
+      certificationCenterMembershipId,
+    });
+    return h.response().code(204);
+  },
 };

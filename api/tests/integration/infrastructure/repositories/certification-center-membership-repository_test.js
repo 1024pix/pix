@@ -8,7 +8,10 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const User = require('../../../../lib/domain/models/User');
 
-const { CertificationCenterMembershipDisableError } = require('../../../../lib/domain/errors');
+const {
+  CertificationCenterMembershipDisableError,
+  AlreadyExistingMembershipError,
+} = require('../../../../lib/domain/errors');
 
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 

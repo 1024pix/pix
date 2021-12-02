@@ -22,6 +22,24 @@ exports.register = async function (server) {
         tags: ['api', 'certification-center-membership'],
       },
     },
+    {
+      method: 'DELETE',
+      path: '/api/certification-center-memberships/{id}',
+      config: {
+        handler: certificationCenterMembershipController.disable,
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
+            '- Désactivation d‘un lien entre un utilisateur et un centre de certification\n',
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
   ]);
 };
 
