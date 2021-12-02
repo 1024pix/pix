@@ -71,7 +71,7 @@ Router.map(function () {
 
   this.route('campaigns', { path: '/campagnes/:code' }, function () {
     this.route('entry-point', { path: '/' });
-    this.route('campaign-not-found', { path: '/oups' });
+    this.route('archived-error', { path: '/oups' });
     this.route('access', { path: '/acces' });
     this.route('join', { path: '/rejoindre' }, function () {
       this.route('anonymous', { path: '/anonyme' });
