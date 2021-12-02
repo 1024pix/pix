@@ -199,8 +199,7 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains("Oups ! La session est en cours de traitement par les équipes Pix et n'est plus accessible.")).to
-        .exist;
+      expect(contains("La session que vous tentez de rejoindre n'est plus accessible.")).to.exist;
     });
   });
 });
