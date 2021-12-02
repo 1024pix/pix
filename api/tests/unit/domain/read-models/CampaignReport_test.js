@@ -2,6 +2,24 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const { types } = require('../../../../lib/domain/models/Campaign');
 
 describe('Unit | Domain | Models | CampaignReport', function () {
+  it('should define target profile informations', function () {
+    const targetProfileForSpecifier = {
+      name: 'target profile',
+      description: 'description',
+      TubesCount: 2,
+      hasStage: false,
+      thematicResult: 3,
+    };
+
+    const campaignReport = domainBuilder.buildCampaignReport({ targetProfileForSpecifier });
+
+    expect(campaignReport.targetProfileName).to.equal(targetProfileForSpecifier.name);
+    expect(campaignReport.targetProfileDescription).to.equal(targetProfileForSpecifier.description);
+    expect(campaignReport.targetProfileTubesCount).to.equal(targetProfileForSpecifier.tubeCount);
+    expect(campaignReport.targetProfileThematicResult).to.equal(targetProfileForSpecifier.thematicResultCount);
+    expect(campaignReport.targetProfileHasStage).to.equal(targetProfileForSpecifier.hasStage);
+  });
+
   describe('#isAssessment', function () {
     it('should return true if the campaign is of type ASSESSMENT', function () {
       // given
