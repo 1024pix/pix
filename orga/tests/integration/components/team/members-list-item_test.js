@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByLabel } from '../../../helpers/testing-library';
+import { clickByLabel, fillInByLabel } from '../../../helpers/testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::MembersListItem', function (hooks) {
@@ -77,7 +77,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByLabel('Modifier le rôle');
 
       // when
-      await click('#cancel-update-organization-role');
+      await clickByLabel('Annuler');
 
       // then
       assert.equal(memberMembership.organizationRole, 'MEMBER');
@@ -93,8 +93,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByLabel('Modifier le rôle');
 
       // when
-      await fillIn('select', 'ADMIN');
-      await click('#save-organization-role');
+      await fillInByLabel('Sélectionner un rôle', 'ADMIN');
+      await clickByLabel('Enregistrer');
 
       // then
       assert.equal(memberMembership.organizationRole, 'ADMIN');
@@ -110,8 +110,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByLabel('Modifier le rôle');
 
       // when
-      await fillIn('select', 'MEMBER');
-      await click('#save-organization-role');
+      await fillInByLabel('Sélectionner un rôle', 'MEMBER');
+      await clickByLabel('Enregistrer');
 
       // then
       assert.equal(adminMembership.organizationRole, 'MEMBER');
