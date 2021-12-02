@@ -8,7 +8,7 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const User = require('../../../../lib/domain/models/User');
 
-const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
+const { CertificationCenterMembershipDisableError } = require('../../../../lib/domain/errors');
 
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 
@@ -234,6 +234,72 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // then
       expect(hasMembership).to.be.true;
+    });
+  });
+
+  describe('#disable', function () {
+    const now = new Date('2019-01-01T05:06:07Z');
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    context('When certification center membership exist', function () {
+      it('should return the disabled membership', async function () {
+        // given
+        const certificationCenterMembershipId = 7;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certiciationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          id: certificationCenterMembershipId,
+          userId,
+          certificationCenterId,
+          disabledAt: null,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const updatedCertificationCenterMembership = await certificationCenterMembershipRepository.disableById({
+          certificationCenterMembershipId,
+        });
+
+        // then
+        expect(updatedCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
+        expect(updatedCertificationCenterMembership.id).to.equal(certiciationCenterMembership.id);
+        expect(updatedCertificationCenterMembership.certificationCenter.id).to.equal(certificationCenterId);
+        expect(updatedCertificationCenterMembership.user.id).to.equal(userId);
+        expect(updatedCertificationCenterMembership.disabledAt).to.deep.equal(now);
+      });
+    });
+
+    context('When certification center membership does not exist', function () {
+      it('should throw CertificationCenterMembershipDisableError', async function () {
+        // given
+        const id = 7;
+        const wrongId = id + 1;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          id,
+          userId,
+          certificationCenterId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(certificationCenterMembershipRepository.disableById)({
+          certificationCenterMembershipId: wrongId,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(CertificationCenterMembershipDisableError);
+        expect(error.message).to.be.equal('Erreur lors de la mise à jour du membership de centre de certification.');
+      });
     });
   });
 });

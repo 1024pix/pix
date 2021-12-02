@@ -1,7 +1,13 @@
 const bookshelfUtils = require('../utils/knex-utils');
 const BookshelfCertificationCenterMembership = require('../orm-models/CertificationCenterMembership');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
-const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');
+const {
+  CertificationCenterMembershipCreationError,
+  AlreadyExistingMembershipError,
+  CertificationCenterMembershipDisableError,
+} = require('../../domain/errors');
+const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async findByUserId(userId) {
@@ -64,4 +70,28 @@ module.exports = {
     }).fetch({ require: false, columns: 'id' });
     return Boolean(certificationCenterMembership);
   },
+
+  async disableById({ certificationCenterMembershipId }) {
+    try {
+      const now = new Date();
+      const [certificationCenterMembershipDTO] = await knex('certification-center-memberships')
+        .where({ id: certificationCenterMembershipId })
+        .update({ disabledAt: now })
+        .returning('*');
+
+      return _toDomain({ certificationCenterMembershipDTO });
+    } catch (e) {
+      throw new CertificationCenterMembershipDisableError();
+    }
+  },
 };
+
+function _toDomain({ certificationCenterMembershipDTO }) {
+  return new CertificationCenterMembership({
+    id: certificationCenterMembershipDTO.id,
+    certificationCenter: { id: certificationCenterMembershipDTO.certificationCenterId },
+    user: { id: certificationCenterMembershipDTO.userId },
+    createdAt: certificationCenterMembershipDTO.createdAt,
+    disabledAt: certificationCenterMembershipDTO.disabledAt,
+  });
+}

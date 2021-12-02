@@ -447,6 +447,12 @@ class CertificationCenterMembershipCreationError extends DomainError {
   }
 }
 
+class CertificationCenterMembershipDisableError extends DomainError {
+  constructor(message = 'Erreur lors de la mise à jour du membership de centre de certification.') {
+    super(message);
+  }
+}
+
 class ChallengeAlreadyAnsweredError extends DomainError {
   constructor(message = 'La question a déjà été répondue.') {
     super(message);
@@ -981,6 +987,7 @@ module.exports = {
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesImportError,
   CertificationCenterMembershipCreationError,
+  CertificationCenterMembershipDisableError,
   CertificationComputeError,
   CertificationCourseNotPublishableError,
   CertificationCourseUpdateError,
