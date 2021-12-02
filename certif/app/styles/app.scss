@@ -65,3 +65,7 @@ body > .ember-view {
 input:invalid {
   box-shadow: none;
 }
+
+* {
+  box-sizing: border-box;
+}
