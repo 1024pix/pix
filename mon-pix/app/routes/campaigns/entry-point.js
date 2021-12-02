@@ -39,7 +39,7 @@ export default class EntryPoint extends Route {
     }
 
     if (campaign.isArchived && !hasParticipated) {
-      this.replaceWith('campaigns.campaign-not-found', campaign.code);
+      this.replaceWith('campaigns.archived-error', campaign.code);
     } else if (hasParticipated) {
       this.replaceWith('campaigns.entrance', campaign.code);
     } else {
