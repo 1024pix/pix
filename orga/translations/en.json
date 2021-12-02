@@ -289,8 +289,10 @@
       "no": "No",
       "purpose": {
         "assessment": "Assess participants",
+        "assessment-info": "An assessment campaign tests participants on specific topics.",
         "label": "What is the purpose of your campaign?",
-        "profiles-collection": "Collect the participants' Pix profiles"
+        "profiles-collection": "Collect the participants' Pix profiles",
+        "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score."
       },
       "target-profile-informations": "If you want more information, see <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> the corresponding documentation</a>.",
       "target-profiles-list": {

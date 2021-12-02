@@ -9,7 +9,7 @@
     margin-bottom: 16px;
 
     @include device-is('desktop') {
-      max-width: 500px;
+      width: 500px;
     }
 
     &--wide > input,select,textarea {
@@ -36,6 +36,10 @@
     border-radius: 8px;
     background: $grey-15;
     height: max-content;
+
+    @include device-is('desktop') {
+      margin-bottom: min(40px);
+    }
 
     &-icon {
       color: $blue;

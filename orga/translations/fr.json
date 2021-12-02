@@ -289,8 +289,11 @@
       "no": "Non",
       "purpose": {
         "assessment": "Évaluer les participants",
+        "assessment-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis.",
         "label": "Quel est l'objectif de votre campagne ?",
-        "profiles-collection": "Collecter les profils Pix des participants"
+        "profiles-collection": "Collecter les profils Pix des participants",
+        "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix."
+
       },
       "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
       "target-profiles-list": {
