@@ -9,6 +9,12 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
         id: 'campaign_report_id',
         participationsCount: 4,
         sharedParticipationsCount: 2,
+        targetProfileForSpecifier: {
+          tubeCount: 3,
+          thematicResultCount: 2,
+          hasStage: true,
+          description: 'awesome target profile',
+        },
         averageResult: 0.4,
         stages: [
           {
@@ -89,6 +95,9 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             'target-profile-id': report.targetProfileId,
             'target-profile-name': report.targetProfileName,
             'target-profile-image-url': report.targetProfileImageUrl,
+            'target-profile-has-stage': report.targetProfileHasStage,
+            'target-profile-tubes-count': report.targetProfileTubesCount,
+            'target-profile-thematic-result-count': report.targetProfileThematicResultCount,
             'token-for-campaign-results': report.tokenForCampaignResults,
             'participations-count': report.participationsCount,
             'shared-participations-count': report.sharedParticipationsCount,
