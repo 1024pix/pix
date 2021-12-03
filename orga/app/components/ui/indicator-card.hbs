@@ -13,17 +13,21 @@
         {{#if @info}}
           <PixTooltip
             @id={{@title}}
-            @text={{@info}}
             @position="top"
             @isWide={{true}}
             class="indicator-card__tooltip hide-on-mobile"
           >
-            <FaIcon
-              @icon="question-circle"
-              class="indicator-card__tooltip-icon"
-              tabindex="0"
-              aria-describedby={{@title}}
-            />
+            <:triggerElement>
+              <FaIcon
+                @icon="question-circle"
+                class="indicator-card__tooltip-icon"
+                tabindex="0"
+                aria-describedby={{@title}}
+              />
+            </:triggerElement>
+            <:tooltip>
+              {{@info}}
+            </:tooltip>
           </PixTooltip>
         {{/if}}
       </div>

@@ -11,16 +11,20 @@
             <span>{{t "pages.campaign-settings.multiple-sendings.title"}}</span>
             <PixTooltip
               @id="credit-info-tooltip"
-              @text={{this.multipleSendingsTooltipText}}
               @position="top"
               @isWide={{true}}
             >
-              <FaIcon
-                @icon="info-circle"
-                class="campaign-settings-content__tooltip-icon"
-                tabindex="0"
-                aria-describedby={{t "pages.campaign-settings.multiple-sendings.tooltip.aria-label" htmlSafe=true}}
-              />
+              <:triggerElement>
+                <FaIcon
+                  @icon="info-circle"
+                  class="campaign-settings-content__tooltip-icon"
+                  tabindex="0"
+                  aria-describedby={{t "pages.campaign-settings.multiple-sendings.tooltip.aria-label" htmlSafe=true}}
+                />
+              </:triggerElement>
+              <:tooltip>
+                {{this.multipleSendingsTooltipText}}
+              </:tooltip>
             </PixTooltip>
           </dt>
           <dd class="content-text campaign-settings-content__text">{{this.multipleSendingsText}}</dd>
@@ -30,8 +34,28 @@
     <div class="campaign-settings-row">
       {{#if @campaign.isTypeAssessment}}
         <div class="campaign-settings-content">
-          <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.target-profile"}}</dt>
-          <dd class="content-text campaign-settings-content__text">{{@campaign.targetProfileName}}</dd>
+          <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.target-profile.title"}}</dt>
+          <dd class="content-text campaign-settings-content__text campaign-settings-content__text--tooltip">
+            <span>{{@campaign.targetProfileName}} </span>
+            <PixTooltip
+              @id="credit-info-tooltip"
+              @unescapeHtml={{true}}
+              @position="top"
+              @isWide={{true}}
+            >
+              <:triggerElement>
+                <FaIcon
+                  @icon="info-circle"
+                  class="campaign-settings-content__tooltip-icon"
+                  tabindex="0"
+                  aria-describedby={{t "pages.campaign-settings.target-profile.tooltip.aria-label"}}
+                />
+              </:triggerElement>
+              <:tooltip>
+                <MarkdownToHtml @markdown={{@campaign.targetProfileDescription}}/>
+              </:tooltip>
+            </PixTooltip>
+          </dd>
         </div>
       {{/if}}
       {{#if @campaign.idPixLabel}}
