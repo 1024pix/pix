@@ -23,6 +23,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             'image-url': null,
             'is-public': false,
             'skills-id': ['skill1', 'skill2'],
+            comment: 'comment',
           },
         },
       };
@@ -51,6 +52,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             'image-url': null,
             'is-public': false,
             'skills-id': ['skill1', 'skill2'],
+            comment: 'comment',
           },
         },
       };
@@ -76,6 +78,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             'image-url': null,
             'is-public': false,
             'skills-id': ['skill1', 'skill2'],
+            comment: 'comment',
           },
         },
       };
