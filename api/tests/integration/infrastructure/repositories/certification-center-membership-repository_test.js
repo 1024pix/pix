@@ -267,15 +267,13 @@ describe('Integration | Repository | Certification Center Membership', function 
         await databaseBuilder.commit();
 
         // when
-        const updatedCertificationCenterMembership = await certificationCenterMembershipRepository.disableById({
+        await certificationCenterMembershipRepository.disableById({
           certificationCenterMembershipId,
         });
 
         // then
-        expect(updatedCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
+        const updatedCertificationCenterMembership = await knex('certification-center-memberships').first();
         expect(updatedCertificationCenterMembership.id).to.equal(certiciationCenterMembership.id);
-        expect(updatedCertificationCenterMembership.certificationCenter.id).to.equal(certificationCenterId);
-        expect(updatedCertificationCenterMembership.user.id).to.equal(userId);
         expect(updatedCertificationCenterMembership.disabledAt).to.deep.equal(now);
       });
     });
