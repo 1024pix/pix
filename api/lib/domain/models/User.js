@@ -15,6 +15,7 @@ class User {
     lastName,
     lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
     hasSeenFocusedChallengeTooltip,
@@ -39,6 +40,7 @@ class User {
     this.cgu = cgu;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
+    this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
