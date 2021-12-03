@@ -15,6 +15,7 @@ describe('Unit | Serializer | organization-serializer', function () {
         email: 'sco.generic.account@example.net',
         tags,
         createdBy: 10,
+        documentationUrl: 'https://pix.fr/',
       });
       const meta = { some: 'meta' };
 
@@ -37,6 +38,7 @@ describe('Unit | Serializer | organization-serializer', function () {
             'can-collect-profiles': organization.canCollectProfiles,
             email: organization.email,
             'created-by': organization.createdBy,
+            'documentation-url': organization.documentationUrl,
           },
           relationships: {
             memberships: {

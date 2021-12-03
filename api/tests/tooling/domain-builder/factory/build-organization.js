@@ -58,6 +58,7 @@ buildOrganization.withSchoolingRegistrations = function ({
   createdAt = new Date('2018-01-12T01:02:03Z'),
   students = [],
   createdBy,
+  documentationUrl,
 } = {}) {
   const organization = new Organization({
     id,
@@ -72,6 +73,7 @@ buildOrganization.withSchoolingRegistrations = function ({
     createdAt,
     students,
     createdBy,
+    documentationUrl,
   });
 
   organization.students = [
