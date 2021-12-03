@@ -5,39 +5,11 @@
       <span class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.</span>
       <ul class="session-supervising-candidate-list__candidates">
         {{#each @candidates as |candidate|}}
-          <li class="session-supervising-candidate-list__candidate" data-test-id={{concat "candidate-" candidate.id}}>
-            {{#unless candidate.hasStarted}}
-              <PixInput
-                @id={{concat "candidate-checkbox-" candidate.id}}
-                class="session-supervising-candidate-list__candidate-checkbox"
-                type="checkbox"
-                checked={{candidate.authorizedToStart}}
-                {{on 'click' (fn this.toggleCandidate candidate)}}
-              />
-            {{/unless}}
-            <div>
-              <div class="session-supervising-candidate-list__candidate-full-name">
-                {{#if candidate.hasStarted}}
-                  {{candidate.lastName}} {{candidate.firstName}}
-                {{else}}
-                  <label for={{concat "candidate-checkbox-" candidate.id}}>
-                    {{candidate.lastName}} {{candidate.firstName}}
-                  </label>
-                {{/if}}
-              </div>
-              <div class="session-supervising-candidate-list__candidate-details">
-                {{moment-format candidate.birthdate "DD/MM/YYYY"}}
-                {{#if candidate.extraTimePercentage}}
-                  · Temps majoré : {{candidate.extraTimePercentage}}%
-                {{/if}}
-              </div>
-              {{#if candidate.hasStarted}}
-                <span class="session-supervising-candidate-list__candidate-status session-supervising-candidate-list__candidate-status--started">
-                  En cours
-                </span>
-              {{/if}}
-            </div>
-          </li>
+          <SessionSupervising::CandidateInList
+            @candidate={{candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+            @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
+          />
         {{/each}}
       </ul>
     </div>

@@ -155,7 +155,7 @@ module('Acceptance | authenticated', function(hooks) {
       // when
       const screen = await visitScreen('/');
       await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
-      await click(screen.getByRole('button', { name: 'Poupoune' }));
+      await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
       assert.contains('Poupoune (DEF456)');
@@ -188,7 +188,7 @@ module('Acceptance | authenticated', function(hooks) {
       // when
       const screen = await visitScreen('/sessions/555');
       await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
-      await click(screen.getByRole('button', { name: 'Poupoune' }));
+      await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
@@ -222,7 +222,7 @@ module('Acceptance | authenticated', function(hooks) {
       // when
       const screen = await visitScreen('/sessions/555');
       await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
-      await click(screen.getByRole('button', { name: 'Poupoune' }));
+      await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
       assert.equal(currentURL(), '/espace-ferme');
@@ -256,7 +256,7 @@ module('Acceptance | authenticated', function(hooks) {
       // when
       const screen = await visitScreen('/');
       await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
-      await click(screen.getByRole('button', { name: 'Poupoune' }));
+      await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
       assert.equal(currentURL(), '/sessions/liste');

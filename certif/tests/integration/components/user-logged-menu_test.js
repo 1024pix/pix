@@ -117,7 +117,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       const allowedCertificationCenterAccessA = run(() => store.createRecord('allowed-certification-center-access', {
         id: 456,
         name: 'Torreilles',
-        externalId: 'Ca déchire',
+        externalId: 'externalId1',
       }));
       const allowedCertificationCenterAccessB = run(() => store.createRecord('allowed-certification-center-access', {
         id: 789,
@@ -136,7 +136,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
       // then
       assert.contains('Torreilles');
-      assert.contains('(Ca déchire)');
+      assert.contains('(externalId1)');
       assert.contains('Paris');
       assert.contains('(ILPlEUT)');
     });
@@ -149,7 +149,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       const allowedCertificationCenterAccessA = run(() => store.createRecord('allowed-certification-center-access', {
         id: 456,
         name: 'Torreilles',
-        externalId: 'Ca déchire',
+        externalId: 'externalId1',
       }));
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
@@ -160,7 +160,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       // when
       await render(hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`);
       await clickByLabel('Buffy Summers Sunnydale');
-      await clickByLabel('Torreilles');
+      await clickByLabel('Torreilles (externalId1)');
 
       // then
       assert.dom('.fa-chevron-down').exists();
@@ -172,7 +172,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       const allowedCertificationCenterAccessA = run(() => store.createRecord('allowed-certification-center-access', {
         id: 456,
         name: 'Torreilles',
-        externalId: 'Ca déchire',
+        externalId: 'externalId1',
       }));
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
@@ -183,7 +183,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       // when
       await render(hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`);
       await clickByLabel('Buffy Summers Sunnydale');
-      await clickByLabel('Torreilles');
+      await clickByLabel('Torreilles (externalId1)');
 
       // then
       sinon.assert.calledWithExactly(this.onCertificationAccessChangedStub, allowedCertificationCenterAccessA);
