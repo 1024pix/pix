@@ -335,7 +335,21 @@
         }
       },
       "personalised-test-title": "Title of the customised test",
-      "target-profile": "Target profile"
+      "target-profile": {
+        "title": "Target profile",
+        "tooltip": {
+          "aria-label": "Target profiles' description",
+          "content" : {
+            "subjects" : "Topics: {value, number}",
+            "results" : {
+              "common": "Success rate in ",
+              "star" :"stars",
+              "percent": "percentage"
+            }, 
+            "thematic-results": "Thematic results: {value, number}"
+          }
+        }
+      }
     },
     "campaign-individual-results": {
       "shared-date": "Sent on",
