@@ -7,12 +7,16 @@
 
     <PixTooltip
       @id="credit-info-tooltip"
-      @text={{t "navigation.credits.tooltip-text" htmlSafe=true}}
       @position="bottom-left"
       @isWide={{true}}
       @isLight={{true}}
     >
-      <FaIcon @icon="info-circle" class="info-icon" tabindex="0" aria-describedby="credit-info-tooltip" />
+      <:triggerElement>
+        <FaIcon @icon="info-circle" class="info-icon" tabindex="0" aria-describedby="credit-info-tooltip" />
+      </:triggerElement>
+      <:tooltip>
+        {{t "navigation.credits.tooltip-text" htmlSafe=true}}
+      </:tooltip>
     </PixTooltip>
   </div>
 {{/if}}
