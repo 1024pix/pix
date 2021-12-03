@@ -43,6 +43,30 @@ module('Integration | Component | organizations/information-section', function (
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
   });
 
+  test('it should display documentation url', async function (assert) {
+    // given
+    const organization = EmberObject.create({ documentationUrl: 'https://pix.fr' });
+    this.set('organization', organization);
+
+    // when
+    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+    // then
+    assert.contains('https://pix.fr');
+  });
+
+  test('it should display empty documentation link message', async function (assert) {
+    // given
+    const organization = EmberObject.create({});
+    this.set('organization', organization);
+
+    // when
+    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+    // then
+    assert.contains('Non spécifié');
+  });
+
   test('it should display tags', async function (assert) {
     // given
     const organization = EmberObject.create({

@@ -15,6 +15,7 @@ export default class Organization extends Model {
   @attr() credit;
   @attr() email;
   @attr() createdBy;
+  @attr('string') documentationUrl;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
