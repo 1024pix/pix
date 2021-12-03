@@ -799,8 +799,14 @@
         }
       },
       "notifications": {
-        "error": "An error occurred while removing this member.",
-        "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team."
+        "remove-membership": {
+          "error": "An error occurred while removing this member.",
+          "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team."
+        },
+        "change-member-role": {
+          "success": "The role has been changed.",
+          "error": "An error occurred while changing this member's role."
+        }
       },
       "remove-membership-modal": {
         "title": "Are you sure you want to remove this member?",
