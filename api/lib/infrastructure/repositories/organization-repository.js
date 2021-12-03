@@ -23,6 +23,7 @@ function _toDomain(bookshelfOrganization) {
     credit: rawOrganization.credit,
     canCollectProfiles: Boolean(rawOrganization.canCollectProfiles),
     email: rawOrganization.email,
+    documentationUrl: rawOrganization.documentationUrl,
     createdBy: rawOrganization.createdBy,
   });
 
