@@ -49,6 +49,9 @@
     {{/if}}
   </section>
 
-  <CertificationCenters::MembershipsSection @certificationCenterMemberships={{@model.certificationCenterMemberships}} />
+  <CertificationCenters::MembershipsSection
+    @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+    @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+  />
 
 </main>

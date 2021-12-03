@@ -73,6 +73,17 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     }
   }
 
+  @action
+  async disableCertificationCenterMembership(certificationCenterMembership) {
+    try {
+      certificationCenterMembership.deleteRecord();
+      await certificationCenterMembership.save();
+      this.notifications.success('Le membre a correctement été désactivé.');
+    } catch (e) {
+      this.notifications.error("Une erreur est survenue, le membre n'a pas été désactivé.");
+    }
+  }
+
   _getEmailErrorMessage(email) {
     return email && !isEmailValid(email) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
   }
