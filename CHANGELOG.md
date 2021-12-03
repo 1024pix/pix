@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.136.0 (03/12/2021)
+
+
+### :rocket: Enhancement
+- [#3785](https://github.com/1024pix/pix/pull/3785) [FEATURE] Permettre à un candidat de reprendre son test - Front (PIX-3962)
+- [#3797](https://github.com/1024pix/pix/pull/3797) [FEATURE] Permettre aux utilisateurs Pix Admin de couper l'accès d'un utilisateur à Pix Certif (PIX-3563).
+
 ## v3.135.0 (03/12/2021)
 
 
