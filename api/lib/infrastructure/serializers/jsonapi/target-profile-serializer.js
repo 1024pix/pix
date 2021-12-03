@@ -15,6 +15,7 @@ module.exports = {
       isPublic: json.data.attributes['is-public'],
       imageUrl: json.data.attributes['image-url'],
       skillsId: json.data.attributes['skills-id'],
+      comment: json.data.attributes['comment'],
     };
   },
 };
