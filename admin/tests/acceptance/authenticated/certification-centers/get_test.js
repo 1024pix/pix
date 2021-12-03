@@ -14,35 +14,17 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  const certificationCenterData = {
-    name: 'Center 1',
-    externalId: 'ABCDEF',
-    type: 'SCO',
-  };
-
-  let certificationCenter;
-  let certificationCenterMembership1;
-  let currentUser;
-
-  hooks.beforeEach(async function () {
-    currentUser = server.create('user');
+  test('should access Certification center page by URL /certification-centers/:id', async function (assert) {
+    // given
+    const currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
-    certificationCenter = server.create('certification-center', certificationCenterData);
-
-    certificationCenterMembership1 = server.create('certification-center-membership', {
-      createdAt: new Date('2018-02-15T05:06:07Z'),
-      certificationCenter,
-      user: server.create('user'),
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
     });
-    server.create('certification-center-membership', {
-      createdAt: new Date('2019-02-15T05:06:07Z'),
-      certificationCenter,
-      user: server.create('user'),
-    });
-  });
 
-  test('should access Certification center page by URL /certification-centers/:id', async function (assert) {
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -51,8 +33,19 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   });
 
   test('should display Certification center detail', async function (assert) {
+    // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
+
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
+    });
+
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
+
     // then
     assert.contains('Center 1');
     assert.contains('ABCDEF');
@@ -61,9 +54,16 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should display Certification center accreditations', async function (assert) {
     // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
     const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
     const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
-    certificationCenter.update({ accreditations: [accreditation1, accreditation2] });
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
+      accreditations: [accreditation1, accreditation2],
+    });
 
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
@@ -75,9 +75,16 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should highlight the accreditations of the current certification center', async function (assert) {
     // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
     const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
     const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
-    certificationCenter.update({ accreditations: [accreditation1, accreditation2] });
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
+      accreditations: [accreditation1, accreditation2],
+    });
 
     server.create('accreditation', { name: 'Pix+Autre' });
 
@@ -92,6 +99,23 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should display Certification center memberships', async function (assert) {
     // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
+    });
+    const certificationCenterMembership1 = server.create('certification-center-membership', {
+      createdAt: new Date('2018-02-15T05:06:07Z'),
+      certificationCenter,
+      user: server.create('user'),
+    });
+    server.create('certification-center-membership', {
+      createdAt: new Date('2019-02-15T05:06:07Z'),
+      certificationCenter,
+      user: server.create('user'),
+    });
     const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
@@ -108,8 +132,42 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     assert.contains(expectedDate1);
   });
 
+  test('should be possible to desactive a certification center membership', async function (assert) {
+    // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
+
+    const user = server.create('user', { firstName: 'Lili' });
+    const certificationCenter = server.create('certification-center', {
+      name: 'Center 1',
+      externalId: 'ABCDEF',
+      type: 'SCO',
+    });
+    server.create('certification-center-membership', {
+      createdAt: new Date('2018-02-15T05:06:07Z'),
+      certificationCenter,
+      user,
+    });
+
+    // when
+    await visit(`/certification-centers/${certificationCenter.id}`);
+    await clickByLabel('Désactiver');
+
+    // then
+    assert.notContains('Lili');
+  });
+
   module('To add certification center membership', function () {
     test('should display elements to add certification center membership', async function (assert) {
+      // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
+
       // when
       await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -120,8 +178,15 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom('.error').notExists;
     });
 
-    test('should disable button if email is empty or contains only spaces', async function (assert) {
+    test('should disable button if email is empty or contains spaces', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       const spacesEmail = ' ';
       await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -135,6 +200,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display error message and disable button if email is invalid', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
@@ -148,6 +220,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should enable button and not display error message if email is valid', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
@@ -161,6 +240,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display new certification-center-membership', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       const email = 'test@example.net';
       await visit(`/certification-centers/${certificationCenter.id}`);
       await fillIn('#userEmailToAdd', email);
@@ -178,6 +264,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   module('Update certification center', function () {
     test('should display a form after clicking on "Editer"', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
@@ -190,6 +283,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should send edited certification center to the API', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByLabel('Editer');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
@@ -209,6 +309,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display a success notification when the certification has been successfully updated', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       server.create('accreditation', { name: 'Pix+Surf' });
       server.create('accreditation', { name: 'Pix+Autre' });
 
@@ -231,6 +338,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display an error notification when the certification has not been updated in API', async function (assert) {
       // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+      const certificationCenter = server.create('certification-center', {
+        name: 'Center 1',
+        externalId: 'ABCDEF',
+        type: 'SCO',
+      });
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
       await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByLabel('Editer');

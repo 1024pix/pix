@@ -5,6 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import sinon from 'sinon';
 
 module('Integration | Component | certification-centers/memberships-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -23,12 +24,15 @@ module('Integration | Component | certification-centers/memberships-section', fu
       createdAt: new Date('2018-02-15T05:06:07Z'),
     });
     this.set('certificationCenterMemberships', [certificationCenterMembership]);
+    this.set('disableCertificationCenterMembership', sinon.stub());
 
     const expectedDate = moment(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
     await render(
-      hbs`<CertificationCenters::MembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
+      hbs`<CertificationCenters::MembershipsSection
+        @certificationCenterMemberships={{certificationCenterMemberships}}
+        @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
@@ -57,10 +61,13 @@ module('Integration | Component | certification-centers/memberships-section', fu
     const certificationCenterMembership2 = EmberObject.create({ id: 2, user: user2 });
     const certificationCenterMemberships = [certificationCenterMembership1, certificationCenterMembership2];
     this.set('certificationCenterMemberships', certificationCenterMemberships);
+    this.set('disableCertificationCenterMembership', sinon.stub());
 
     // when
     await render(
-      hbs`<CertificationCenters::MembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
+      hbs`<CertificationCenters::MembershipsSection
+        @certificationCenterMemberships={{certificationCenterMemberships}}
+        @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
@@ -68,8 +75,13 @@ module('Integration | Component | certification-centers/memberships-section', fu
   });
 
   test('it should display a message when there is no membership', async function (assert) {
+    // given
+    this.set('disableCertificationCenterMembership', sinon.stub());
+
     // when
-    await render(hbs`<CertificationCenters::MembershipsSection />`);
+    await render(
+      hbs`<CertificationCenters::MembershipsSection @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
+    );
 
     // then
     assert.dom('[data-test-empty-message]').hasText('Aucun résultat');

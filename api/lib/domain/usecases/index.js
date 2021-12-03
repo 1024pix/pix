@@ -196,6 +196,7 @@ module.exports = injectDependencies(
     deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
     deneutralizeChallenge: require('./deneutralize-challenge'),
     disableMembership: require('./disable-membership'),
+    disableCertificationCenterMembership: require('./disable-certification-center-membership'),
     dissociateUserFromSchoolingRegistration: require('./dissociate-user-from-schooling-registration'),
     dissociateSchoolingRegistrations: require('./dissociate-schooling-registrations'),
     enrollStudentsToSession: require('./enroll-students-to-session'),

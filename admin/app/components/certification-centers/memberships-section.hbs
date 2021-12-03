@@ -15,6 +15,7 @@
             <th class="table__column table__column--wide">Nom</th>
             <th class="table__column table__column--wide">Adresse e-mail</th>
             <th class="table__column table__column--wide">Date de rattachement</th>
+            <th class="table__column table__column--wide">Actions</th>
           </tr>
         </thead>
 
@@ -29,6 +30,16 @@
                 <td data-test-user-email>{{certificationCenterMembership.user.email}}</td>
                 <td data-test-membership-created-at>
                   {{moment-format certificationCenterMembership.createdAt "DD-MM-YYYY - HH:mm:ss"}}
+                </td>
+                <td>
+                  <PixButton
+                    @size="small"
+                    @backgroundColor="red"
+                    @triggerAction={{fn @disableCertificationCenterMembership certificationCenterMembership}}
+                    class="member-item-actions__button"
+                  >
+                    <FaIcon @icon="trash" />Désactiver
+                  </PixButton>
                 </td>
               </tr>
             {{/each}}
