@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn, findAll } from '@ember/test-helpers';
+import { click, fillIn, find } from '@ember/test-helpers';
 import { visit as visitScreen } from '@pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
 
@@ -30,8 +30,8 @@ module('Acceptance | Session supervising', function(hooks) {
         certificationCandidates: [
           server.create('certification-candidate-for-supervising', {
             id: 123,
-            firstName: 'Toto',
-            lastName: 'Tutu',
+            firstName: 'John',
+            lastName: 'Doe',
             birthdate: '1984-05-28',
             extraTimePercentage: '8',
             authorizedToStart: true,
@@ -55,7 +55,7 @@ module('Acceptance | Session supervising', function(hooks) {
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // then
-      assert.dom(screen.getByRole('checkbox', { name: 'Tutu Toto' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: 'Doe John' })).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).exists();
     });
   });
@@ -68,8 +68,8 @@ module('Acceptance | Session supervising', function(hooks) {
       certificationCandidates: [
         server.create('certification-candidate-for-supervising', {
           id: 123,
-          firstName: 'Toto',
-          lastName: 'Tutu',
+          firstName: 'John',
+          lastName: 'Doe',
           birthdate: '1984-05-28',
           extraTimePercentage: '8',
           authorizedToStart: false,
@@ -83,13 +83,46 @@ module('Acceptance | Session supervising', function(hooks) {
     await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
 
     // when
-    await click(firstVisit.getByRole('checkbox', { name: 'Tutu Toto' }));
+    await click(firstVisit.getByRole('checkbox', { name: 'Doe John' }));
 
     // then
     const secondVisit = await visitScreen('/connexion-espace-surveillant');
     await fillIn(secondVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
     await fillIn(secondVisit.getByLabelText('Mot de passe de la session'), '6789');
     await click(secondVisit.getByRole('button', { name: 'Surveiller la session' }));
-    assert.true(findAll('input[type="checkbox"]')[0].checked);
+    assert.true(find('input[type="checkbox"]').checked);
+  });
+
+  test('when supervisor allow to resume test, it should display a success notification', async function(assert) {
+    // given
+    const sessionId = 12345;
+    this.sessionForSupervising = server.create('session-for-supervising', {
+      id: sessionId,
+      certificationCandidates: [
+        server.create('certification-candidate-for-supervising', {
+          id: 123,
+          firstName: 'John',
+          lastName: 'Doe',
+          birthdate: '1984-05-28',
+          extraTimePercentage: null,
+          authorizedToStart: true,
+          assessmentStatus: 'started',
+        }),
+      ],
+    });
+
+    const firstVisit = await visitScreen('/connexion-espace-surveillant');
+    await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+    await fillIn(firstVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+
+    // when
+    await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
+    await click(firstVisit.getByRole('button', { name: 'Autoriser la reprise du test' }));
+    await click(firstVisit.getByRole('button', { name: 'Je confirme l\'autorisation' }));
+
+    // then
+    assert.contains('Succès ! John Doe peut reprendre son test de certification.');
+
   });
 });
