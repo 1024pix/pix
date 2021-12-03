@@ -156,6 +156,7 @@ describe('Integration | Repository | Organization', function () {
           isManagingStudents: 'true',
           canCollectProfiles: 'true',
           email: 'sco.generic.account@example.net',
+          documentationUrl: 'https://pix.fr/',
           createdBy: pixMasterUserId,
         });
 
@@ -174,6 +175,7 @@ describe('Integration | Repository | Organization', function () {
           targetProfileShares: [],
           organizationInvitations: [],
           tags: [],
+          documentationUrl: 'https://pix.fr/',
           createdBy: insertedOrganization.createdBy,
         };
 
