@@ -562,7 +562,13 @@
       }
     },
     "preselect-target-profile": {
-      "title": "Topic selection"
+      "title": "Topic selection",
+      "table": {
+        "column" : {
+          "name": "Topic name"
+        },
+        "row-title": "Topic"
+      }
     },
     "profiles-individual-results": {
       "title": "Profile of {firstName} {lastName}",

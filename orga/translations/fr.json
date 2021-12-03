@@ -563,7 +563,13 @@
       }
     },
     "preselect-target-profile": {
-      "title": "Sélection des sujets"
+      "title": "Sélection des sujets",
+      "table": {
+        "column" : {
+          "name": "Nom du sujet"
+        },
+        "row-title": "Sujet"
+      }
     },
     "profiles-individual-results": {
       "title": "Profil de {firstName} {lastName}",
