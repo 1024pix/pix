@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.135.0 (03/12/2021)
+
+
+### :rocket: Enhancement
+- [#3793](https://github.com/1024pix/pix/pull/3793) [FEATURE] Enregistrer la date de validation des CGUs dans Pix Certif (PIX-3717).
+- [#3791](https://github.com/1024pix/pix/pull/3791) [FEATURE] Ajout d'une page de sélection des sujets dans pix-orga (PIX-3734).
+- [#3789](https://github.com/1024pix/pix/pull/3789) [FEATURE] Inscrire des candidats en certification complémentaire depuis l'import ODS (PIX-3876).
+- [#3790](https://github.com/1024pix/pix/pull/3790) [FEATURE] Mettre à jour le message d'erreur de session non-accessible (PIX-3902)
+- [#3788](https://github.com/1024pix/pix/pull/3788) [FEATURE] Enregistrer la date de validation des CGUs dans Pix Orga (PIX-3718).
+
+### :bug: Bug fix
+- [#3786](https://github.com/1024pix/pix/pull/3786) [BUGFIX] Corriger l'affichage de la page de login à Pix Certif (PIX-3952).
+
 ## v3.134.0 (01/12/2021)
 
 
