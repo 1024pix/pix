@@ -20,6 +20,7 @@ module.exports = {
         'targetProfiles',
         'tags',
         'createdBy',
+        'documentationUrl',
       ],
       memberships: {
         ref: 'id',
