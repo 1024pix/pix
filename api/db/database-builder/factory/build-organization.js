@@ -13,6 +13,7 @@ const buildOrganization = function buildOrganization({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
   email = 'contact@example.net',
+  documentationUrl = null,
   createdBy,
 } = {}) {
   const values = {
@@ -26,6 +27,7 @@ const buildOrganization = function buildOrganization({
     credit,
     canCollectProfiles,
     email,
+    documentationUrl,
     createdBy,
     createdAt,
     updatedAt,
