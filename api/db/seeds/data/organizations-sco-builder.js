@@ -45,6 +45,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     canCollectProfiles: true,
     email: 'sco.generic.account@example.net',
     externalId: SCO_COLLEGE_EXTERNAL_ID,
+    documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
   });
 
@@ -381,4 +382,3 @@ module.exports = {
   SCO_FOREIGNER_USER_ID,
   SCO_FRENCH_USER_ID,
 };
-
