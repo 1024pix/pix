@@ -128,14 +128,22 @@ async function _startNewCertification({
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
-  if (certificationCenter.isAccreditedClea && certificationCandidate.isGrantedCleA()) {
+  if (
+    !featureToggles.isComplementaryCertificationSubscriptionEnabled ||
+    (certificationCenter.isAccreditedClea && certificationCandidate.isGrantedCleA())
+  ) {
     if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
       const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
-      complementaryCertificationIds.push(cleAComplementaryCertification.id);
+      if (cleAComplementaryCertification) {
+        complementaryCertificationIds.push(cleAComplementaryCertification.id);
+      }
     }
   }
 
-  if (certificationCenter.isAccreditedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit()) {
+  if (
+    !featureToggles.isComplementaryCertificationSubscriptionEnabled ||
+    (certificationCenter.isAccreditedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit())
+  ) {
     const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId,
       domainTransaction,
@@ -145,7 +153,10 @@ async function _startNewCertification({
       const pixDroitComplementaryCertification = complementaryCertifications.find(
         (comp) => comp.name === PIX_PLUS_DROIT
       );
-      complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
+      if (pixDroitComplementaryCertification) {
+        complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
+      }
+
       const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
         userId,
         highestCertifiableBadgeAcquisitions,
