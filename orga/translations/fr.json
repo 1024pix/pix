@@ -336,7 +336,21 @@
         }
       },
       "personalised-test-title": "Titre du parcours",
-      "target-profile": "Profil cible"
+      "target-profile": {
+        "title": "Profil cible",
+        "tooltip": {
+          "aria-label": "Description du profil cible",
+          "content" : {
+            "subjects" : "Sujets : {value, number}",
+            "results" : {
+              "common": "Résultats affichés en ",
+              "star" : "étoile",
+              "percent": "pourcentage"
+            }, 
+            "thematic-results": "Résultats thématiques : {value, number}"
+          }
+        }
+      }
     },
     "campaign-individual-results": {
       "shared-date": "Envoyé le",
