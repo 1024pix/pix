@@ -32,6 +32,7 @@ Router.map(function() {
       });
       this.route('add-student', { path: '/:session_id/ajout-eleves' });
     });
+    this.route('team', { path: '/equipe' });
   });
 
   this.route('logout');
