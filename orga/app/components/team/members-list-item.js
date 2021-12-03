@@ -63,10 +63,14 @@ export default class MembersListItem extends Component {
     if (!this.selectedNewRole) return false;
 
     membership.organizationRole = this.selectedNewRole;
-
     membership.organization = this.currentUser.organization;
 
-    return membership.save();
+    try {
+      await membership.save();
+      this.notifications.success(this.intl.t('pages.team-members.notifications.change-member-role.success'));
+    } catch (e) {
+      this.notifications.error(this.intl.t('pages.team-members.notifications.change-member-role.error'));
+    }
   }
 
   @action
@@ -94,10 +98,10 @@ export default class MembersListItem extends Component {
 
       await this.args.onRemoveMember(membership);
       this.notifications.success(
-        this.intl.t('pages.team-members.notifications.success', { memberFirstName, memberLastName })
+        this.intl.t('pages.team-members.notifications.remove-membership.success', { memberFirstName, memberLastName })
       );
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.team-members.notifications.error'));
+      this.notifications.error(this.intl.t('pages.team-members.notifications.remove-membership.error'));
     } finally {
       this.closeRemoveMembershipModal();
     }
