@@ -1,0 +1,9 @@
+{
+  "all": true,
+  "reporter": "html",
+  "include": [
+    "lib/**/*.js"
+  ],
+  "temp-dir": "/tmp/pix-api-test-coverage/tmp",
+  "report-dir": "/tmp/pix-api-test-coverage/report"
+}
