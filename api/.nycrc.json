@@ -1,8 +1,14 @@
 {
   "all": true,
-  "reporter": "html",
+  "reporter": [
+    "html"
+  ],
   "include": [
     "lib/**/*.js"
+  ],
+  "exclude": [
+    "**/.eslintrc.js",
+    "./lib/infrastructure/validate-environement-variables.js"
   ],
   "temp-dir": "/tmp/pix-api-test-coverage/tmp",
   "report-dir": "/tmp/pix-api-test-coverage/report"
