@@ -184,13 +184,13 @@ describe('Acceptance | Certification | Start Certification Course', function () 
             });
           });
 
-          it('should render the component to provide the access code', function () {
+          it('should redirect to certification start route', function () {
             // then
-            expect(find('.certification-start-page__title')).to.exist;
+            expect(currentURL()).to.equal('/certifications/commencer/1');
           });
         });
 
-        context('when user is successfuly linked to the candidate', function () {
+        context('when user is successfully linked to the candidate', function () {
           beforeEach(async function () {
             // when
             await fillCertificationJoiner({
@@ -204,9 +204,9 @@ describe('Acceptance | Certification | Start Certification Course', function () 
             });
           });
 
-          it('should render the component to provide the access code', function () {
+          it('should redirect to certification start route', function () {
             // then
-            expect(find('.certification-start-page__title')).to.exist;
+            expect(currentURL()).to.equal('/certifications/commencer/1');
           });
         });
 

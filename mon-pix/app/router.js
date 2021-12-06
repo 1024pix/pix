@@ -56,7 +56,8 @@ Router.map(function () {
 
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
   this.route('certifications', function () {
-    this.route('start', { path: '/' });
+    this.route('join', { path: '/' });
+    this.route('start', { path: '/commencer/:session_id' });
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
