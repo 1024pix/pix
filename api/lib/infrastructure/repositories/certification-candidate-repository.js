@@ -91,19 +91,25 @@ module.exports = {
     return !!notLinkedCandidate;
   },
 
-  getBySessionIdAndUserId({ sessionId, userId }) {
-    return CertificationCandidateBookshelf.where({ sessionId, userId })
-      .fetch()
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, result))
-      .catch((error) => {
-        if (error instanceof CertificationCandidateBookshelf.NotFoundError) {
-          throw new NotFoundError(
-            `Candidate not found for certification session id ${sessionId} and user id ${userId}`
-          );
-        }
-
-        throw error;
-      });
+  async getBySessionIdAndUserId({ sessionId, userId }) {
+    const certificationCandidate = await knex
+      .select('certification-candidates.*')
+      .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
+      .from('certification-candidates')
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'certification-candidates.id',
+        'complementary-certification-subscriptions.certificationCandidateId'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certification-subscriptions.complementaryCertificationId',
+        'complementary-certifications.id'
+      )
+      .where({ sessionId, userId })
+      .groupBy('certification-candidates.id')
+      .first();
+    return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
   },
 
   async findBySessionId(sessionId) {

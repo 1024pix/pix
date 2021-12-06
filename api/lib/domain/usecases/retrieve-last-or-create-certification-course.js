@@ -38,11 +38,12 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new SessionNotAccessible();
   }
 
+  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
+    userId,
+    sessionId,
+  });
+
   if (featureToggles.isEndTestScreenRemovalEnabled) {
-    const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
-      userId,
-      sessionId,
-    });
     if (!certificationCandidate.isAuthorizedToStart()) {
       throw new CandidateNotAuthorizedToJoinSessionError();
     }
@@ -67,10 +68,10 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     domainTransaction,
     sessionId,
     userId,
+    certificationCandidate,
     locale,
     assessmentRepository,
     competenceRepository,
-    certificationCandidateRepository,
     certificationCourseRepository,
     certificationCenterRepository,
     certificationChallengesService,
@@ -85,9 +86,9 @@ async function _startNewCertification({
   domainTransaction,
   sessionId,
   userId,
+  certificationCandidate,
   locale,
   assessmentRepository,
-  certificationCandidateRepository,
   certificationCourseRepository,
   certificationCenterRepository,
   certificationChallengesService,
@@ -122,18 +123,27 @@ async function _startNewCertification({
   }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+
   const complementaryCertificationIds = [];
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
-  if (certificationCenter.isAccreditedClea) {
+  if (
+    !featureToggles.isComplementaryCertificationSubscriptionEnabled ||
+    (certificationCenter.isAccreditedClea && certificationCandidate.isGrantedCleA())
+  ) {
     if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
       const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
-      complementaryCertificationIds.push(cleAComplementaryCertification.id);
+      if (cleAComplementaryCertification) {
+        complementaryCertificationIds.push(cleAComplementaryCertification.id);
+      }
     }
   }
 
-  if (certificationCenter.isAccreditedPixPlusDroit) {
+  if (
+    !featureToggles.isComplementaryCertificationSubscriptionEnabled ||
+    (certificationCenter.isAccreditedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit())
+  ) {
     const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId,
       domainTransaction,
@@ -143,7 +153,10 @@ async function _startNewCertification({
       const pixDroitComplementaryCertification = complementaryCertifications.find(
         (comp) => comp.name === PIX_PLUS_DROIT
       );
-      complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
+      if (pixDroitComplementaryCertification) {
+        complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
+      }
+
       const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
         userId,
         highestCertifiableBadgeAcquisitions,
@@ -156,12 +169,11 @@ async function _startNewCertification({
   }
 
   return _createCertificationCourse({
-    certificationCandidateRepository,
+    certificationCandidate,
     certificationCourseRepository,
     assessmentRepository,
     complementaryCertificationRepository,
     userId,
-    sessionId,
     certificationChallenges: challengesForCertification,
     domainTransaction,
     verifyCertificateCodeService,
@@ -206,17 +218,15 @@ async function _createPixCertification(placementProfileService, certificationCha
 }
 
 async function _createCertificationCourse({
-  certificationCandidateRepository,
+  certificationCandidate,
   certificationCourseRepository,
   assessmentRepository,
   verifyCertificateCodeService,
   userId,
-  sessionId,
   certificationChallenges,
   complementaryCertificationIds,
   domainTransaction,
 }) {
-  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourses = complementaryCertificationIds.map(
     ComplementaryCertificationCourse.fromComplementaryCertificationId
