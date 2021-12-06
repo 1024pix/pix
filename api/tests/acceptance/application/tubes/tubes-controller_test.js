@@ -17,7 +17,20 @@ describe('Acceptance | Controller | tubes-controller', function () {
         description: 'Description tube',
         practicalTitleFrFr: 'Titre pratique',
         practicalDescriptionFrFr: 'description pratique',
-        competenceId: 'recCOMP123',
+        competenceId: 'competenceId',
+      },
+    ],
+    skills: [
+      {
+        id: 'skillId',
+        status: 'actif',
+        tubeId: 'tubeId',
+      },
+    ],
+    competences: [
+      {
+        id: 'competenceId',
+        origin: 'Pix',
       },
     ],
   };
@@ -56,7 +69,7 @@ describe('Acceptance | Controller | tubes-controller', function () {
             attributes: {
               'practical-title': 'Titre pratique',
               'practical-description': 'description pratique',
-              'competence-id': 'recCOMP123',
+              'competence-id': 'competenceId',
             },
           },
         ];
