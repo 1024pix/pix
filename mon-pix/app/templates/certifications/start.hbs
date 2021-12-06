@@ -5,26 +5,9 @@
     <NavbarHeader @burger={{burger}} />
     <main class="main">
       <PixBackgroundHeader id="main">
-
-        {{#if this.model.isCertifiable}}
-          <PixBlock @shadow="heavy" class="certification-start-page__block">
-            {{#if this.showCongratulationsBanner}}
-              <CongratulationsCertificationBanner
-                @certificationEligibility={{this.model}}
-                @fullName={{this.currentUser.user.fullName}}
-                @closeBanner={{this.closeBanner}}
-              />
-            {{/if}}
-            {{#if (eq this.currentStep "join")}}
-              <CertificationJoiner @onStepChange={{this.changeStep}} />
-            {{else}}
-              <CertificationStarter @sessionId={{this.sessionId}} />
-            {{/if}}
-          </PixBlock>
-        {{else}}
-          <CertificationNotCertifiable />
-        {{/if}}
-
+        <PixBlock @shadow="heavy" class="certification-start-page__block">
+          <CertificationStarter @sessionId={{@model.sessionId}} />
+        </PixBlock>
       </PixBackgroundHeader>
     </main>
 

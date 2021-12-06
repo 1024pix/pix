@@ -3,15 +3,14 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class StartCertificationController extends Controller {
+export default class JoinCertificationController extends Controller {
   @service currentUser;
+  @service router;
 
   @tracked displayCongratulationsBanner = true;
-  @tracked currentStep = 'join';
-  @tracked sessionId = null;
 
   get showCongratulationsBanner() {
-    return this.displayCongratulationsBanner && this.currentStep === 'join';
+    return this.displayCongratulationsBanner;
   }
 
   @action
@@ -21,7 +20,6 @@ export default class StartCertificationController extends Controller {
 
   @action
   changeStep(sessionId) {
-    this.sessionId = sessionId;
-    this.currentStep = 'start';
+    this.router.transitionTo('certifications.start', sessionId);
   }
 }
