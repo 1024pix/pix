@@ -799,8 +799,14 @@
         }
       },
       "notifications": {
-        "error": "Une erreur est survenue lors de la désactivation du membre.",
-        "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga."
+        "remove-membership": {
+          "error": "Une erreur est survenue lors de la désactivation du membre.",
+          "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga."
+        },
+        "change-member-role": {
+          "success": "Le rôle a bien été changé.",
+          "error": "Une erreur est survenue lors de la modification du rôle du membre."
+        }
       },
       "remove-membership-modal": {
         "title": "Confirmez-vous la suppression ?",
