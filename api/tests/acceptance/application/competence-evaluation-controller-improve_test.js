@@ -14,16 +14,6 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
 
   describe('POST /api/competence-evaluations/improve', function () {
     const competenceId = 'recABCD123';
-    const options = {
-      method: 'POST',
-      url: '/api/competence-evaluations/improve',
-      headers: {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        authorization: generateValidRequestAuthorizationHeader(userId),
-      },
-      payload: { competenceId },
-    };
 
     context('When user is authenticated', function () {
       afterEach(async function () {
@@ -37,14 +27,22 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
         let response, assessment;
 
         beforeEach(async function () {
-          // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
         });
 
         context('and user has not reached maximum level of given competence', function () {
           beforeEach(async function () {
+            // given
+            const options = {
+              method: 'POST',
+              url: '/api/competence-evaluations/improve',
+              headers: {
+                authorization: generateValidRequestAuthorizationHeader(userId),
+              },
+              payload: { competenceId },
+            };
+
             await databaseBuilder.commit();
 
             // when
@@ -68,16 +66,24 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
         });
 
         context('and user has reached maximum level of given competence', function () {
-          beforeEach(async function () {
+          it('should return 403 error', async function () {
+            // given
             databaseBuilder.factory.buildKnowledgeElement({
               earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE,
               competenceId,
               userId,
             });
             await databaseBuilder.commit();
-          });
 
-          it('should return 403 error', async function () {
+            const options = {
+              method: 'POST',
+              url: '/api/competence-evaluations/improve',
+              headers: {
+                authorization: generateValidRequestAuthorizationHeader(userId),
+              },
+              payload: { competenceId },
+            };
+
             // when
             response = await server.inject(options);
 
@@ -90,8 +96,14 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
       context('and competence evaluation does not exists', function () {
         it('should return 404 error', async function () {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
-          options.payload.competenceId = 'WRONG_ID';
+          const options = {
+            method: 'POST',
+            url: '/api/competence-evaluations/improve',
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+            payload: { competenceId: 'WRONG_ID' },
+          };
 
           // when
           const response = await server.inject(options);
@@ -105,7 +117,14 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
     context('When user is not authenticated', function () {
       it('should return 401 error', async function () {
         // given
-        options.headers.authorization = null;
+        const options = {
+          method: 'POST',
+          url: '/api/competence-evaluations/improve',
+          headers: {
+            authorization: null,
+          },
+          payload: { competenceId },
+        };
 
         // when
         const response = await server.inject(options);

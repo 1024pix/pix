@@ -20,16 +20,6 @@ describe('Acceptance | API | Competence Evaluations', function () {
 
   describe('POST /api/competence-evaluations/start-or-resume', function () {
     const competenceId = 'recABCD123';
-    const options = {
-      method: 'POST',
-      url: '/api/competence-evaluations/start-or-resume',
-      headers: {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        authorization: generateValidRequestAuthorizationHeader(userId),
-      },
-      payload: { competenceId },
-    };
 
     context('When user is authenticated', function () {
       beforeEach(async function () {
@@ -57,7 +47,14 @@ describe('Acceptance | API | Competence Evaluations', function () {
       context('and competence exists', function () {
         it('should return 201 and the competence evaluation when it has been successfully created', async function () {
           // when
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          const options = {
+            method: 'POST',
+            url: '/api/competence-evaluations/start-or-resume',
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+            payload: { competenceId },
+          };
           const response = await server.inject(options);
 
           // then
@@ -68,7 +65,14 @@ describe('Acceptance | API | Competence Evaluations', function () {
 
         it('should return 200 and the competence evaluation when it has been successfully found', async function () {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          const options = {
+            method: 'POST',
+            url: '/api/competence-evaluations/start-or-resume',
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+            payload: { competenceId },
+          };
           databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
 
@@ -85,8 +89,14 @@ describe('Acceptance | API | Competence Evaluations', function () {
       context('and competence does not exists', function () {
         it('should return 404 error', async function () {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
-          options.payload.competenceId = 'WRONG_ID';
+          const options = {
+            method: 'POST',
+            url: '/api/competence-evaluations/start-or-resume',
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+            payload: { competenceId: 'WRONG_ID' },
+          };
 
           // when
           const response = await server.inject(options);
@@ -100,7 +110,14 @@ describe('Acceptance | API | Competence Evaluations', function () {
     context('When user is not authenticated', function () {
       it('should return 401 error', async function () {
         // given
-        options.headers.authorization = null;
+        const options = {
+          method: 'POST',
+          url: '/api/competence-evaluations/start-or-resume',
+          headers: {
+            authorization: null,
+          },
+          payload: { competenceId },
+        };
 
         // when
         const response = await server.inject(options);
