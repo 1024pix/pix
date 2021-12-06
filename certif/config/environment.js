@@ -122,6 +122,7 @@ module.exports = function(environment) {
   // Warn for unknown feature toggles
   _.each(process.env, (value, key) => {
     if (key.startsWith('FT_') && _.indexOf(ACTIVE_FEATURE_TOGGLES, key) === -1) {
+      // eslint-disable-next-line no-console
       console.warn(`Unknown feature toggle ${key}. Please remove it from your environment variables.`);
     }
   });

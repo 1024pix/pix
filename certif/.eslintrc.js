@@ -26,6 +26,7 @@ module.exports = {
   },
   rules: {
     'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
+    'no-console': 'error',
   },
   overrides: [
     // node files
