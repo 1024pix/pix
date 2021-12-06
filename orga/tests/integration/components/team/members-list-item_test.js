@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByLabel } from '../../../helpers/testing-library';
+import { fillByLabel, clickByText, render, clickByName } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::MembersListItem', function (hooks) {
@@ -58,8 +57,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
 
       // when
-      await clickByLabel('Gérer');
-      await clickByLabel('Modifier le rôle');
+      await clickByName('Gérer');
+      await clickByText('Modifier le rôle');
 
       // then
       assert.dom('.zone-save-cancel-role').exists({ count: 1 });
@@ -73,11 +72,11 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
       await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
 
-      await clickByLabel('Gérer');
-      await clickByLabel('Modifier le rôle');
+      await clickByName('Gérer');
+      await clickByText('Modifier le rôle');
 
       // when
-      await click('#cancel-update-organization-role');
+      await clickByName('Annuler');
 
       // then
       assert.equal(memberMembership.organizationRole, 'MEMBER');
@@ -89,12 +88,12 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       this.set('membership', memberMembership);
 
       await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
-      await clickByLabel('Gérer');
-      await clickByLabel('Modifier le rôle');
+      await clickByName('Gérer');
+      await clickByText('Modifier le rôle');
 
       // when
-      await fillIn('select', 'ADMIN');
-      await click('#save-organization-role');
+      await fillByLabel('Sélectionner un rôle', 'ADMIN');
+      await clickByText('Enregistrer');
 
       // then
       assert.equal(memberMembership.organizationRole, 'ADMIN');
@@ -106,16 +105,61 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       this.set('membership', adminMembership);
 
       await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
-      await clickByLabel('Gérer');
-      await clickByLabel('Modifier le rôle');
+      await clickByName('Gérer');
+      await clickByText('Modifier le rôle');
 
       // when
-      await fillIn('select', 'MEMBER');
-      await click('#save-organization-role');
+      await fillByLabel('Sélectionner un rôle', 'MEMBER');
+      await clickByText('Enregistrer');
 
       // then
       assert.equal(adminMembership.organizationRole, 'MEMBER');
       sinon.assert.called(adminMembership.save);
+    });
+
+    test('it should display success message when updating a member role', async function (assert) {
+      // given
+      const notifications = this.owner.lookup('service:notifications');
+      sinon.stub(notifications, 'success');
+      this.set('membership', adminMembership);
+
+      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+      await clickByName('Gérer');
+      await clickByText('Modifier le rôle');
+
+      // when
+      await fillByLabel('Sélectionner un rôle', 'MEMBER');
+      await clickByText('Enregistrer');
+
+      // then
+      sinon.assert.calledWith(
+        notifications.success,
+        this.intl.t('pages.team-members.notifications.change-member-role.success')
+      );
+      assert.ok(true);
+    });
+
+    test('it should display error message when updating a member role fails', async function (assert) {
+      // given
+      adminMembership.save.rejects();
+      this.set('membership', adminMembership);
+      const notifications = this.owner.lookup('service:notifications');
+      sinon.stub(notifications, 'error');
+
+      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
+      await clickByName('Gérer');
+      await clickByText('Modifier le rôle');
+
+      // when
+      await fillByLabel('Sélectionner un rôle', 'MEMBER');
+      await clickByText('Enregistrer');
+
+      // then
+      sinon.assert.calledWith(
+        notifications.error,
+        this.intl.t('pages.team-members.notifications.change-member-role.error')
+      );
+      assert.ok(true);
     });
   });
 
@@ -133,8 +177,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
       // when
       await render(hbs`<Team::MembersListItem @membership={{membership}} @onRemoveMember={{removeMembership}} />`);
-      await clickByLabel('Gérer');
-      await clickByLabel('Supprimer');
+      await clickByName('Gérer');
+      await clickByText('Supprimer');
     });
 
     test('should display a confirmation modal', function (assert) {
@@ -152,7 +196,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
     test('should close the modal by clicking on cancel button', async function (assert) {
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       assert.notContains("Supprimer de l'équipe");
@@ -160,7 +204,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
     test('should call removeMembership and close modal by clicking on remove button', async function (assert) {
       // when
-      await click('button[data-test-modal-remove-button]');
+      await clickByText('Oui, supprimer le membre');
 
       // then
       sinon.assert.calledWith(removeMembershipStub, memberMembership);
