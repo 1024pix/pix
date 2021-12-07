@@ -203,4 +203,11 @@ export default function() {
     await candidate.update({ authorizedToStart });
     return new Response(204);
   });
+
+  this.post('/certification-candidates/:id/authorize-to-resume', async (schema, request)=>{
+    const candidateId = request.params.id;
+    const candidate = schema.certificationCandidateForSupervisings.find(candidateId);
+    await candidate.update({ authorizedToStart: true });
+    return new Response(204);
+  });
 }

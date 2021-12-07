@@ -35,10 +35,10 @@ export default class CandidateInList extends Component {
   }
 
   @action
-  async authorizeTestResume() {
+  async authorizeTestResume(candidate) {
     this.closeConfirmationModal();
     try {
-      await this.args.onCandidateTestResumeAuthorization();
+      await this.args.onCandidateTestResumeAuthorization(candidate);
       this.notifications.success(
         `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`,
       );
