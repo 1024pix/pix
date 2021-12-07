@@ -18,6 +18,20 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       this.owner.register('service:url', UrlServiceStub);
     });
 
+    test('it should display documentation url given by current organization', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 1, isPro: true, documentationUrl: 'https://pix.fr' });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      // when
+      await render(hbs`<Layout::Sidebar />`);
+
+      // then
+      assert.dom('a[href="https://pix.fr"]').exists();
+      assert.dom('a[href="https://cloud.pix.fr/s/cwZN2GAbqSPGnw4"]').doesNotExist();
+    });
+
     test('it should display documentation for a pro organization', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, isPro: true });
