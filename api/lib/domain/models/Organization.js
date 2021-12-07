@@ -27,6 +27,7 @@ class Organization {
     students = [],
     organizationInvitations = [],
     tags = [],
+    documentationUrl,
     createdBy,
   } = {}) {
     this.id = id;
@@ -43,6 +44,7 @@ class Organization {
     this.students = students;
     this.organizationInvitations = organizationInvitations;
     this.tags = tags;
+    this.documentationUrl = documentationUrl;
     this.createdBy = createdBy;
   }
 

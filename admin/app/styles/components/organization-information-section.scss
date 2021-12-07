@@ -4,6 +4,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    max-width: 600px;
+  }
+
+  &__details {
+    overflow: hidden;
+
+    p {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }
