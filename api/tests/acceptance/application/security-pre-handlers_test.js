@@ -332,4 +332,22 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
   });
+
+  describe('#checkUserIsMemberOfAnOrganization', function () {
+    it('should return a well formed JSON API error when user is not authorized', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/framework/tubes',
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError403);
+    });
+  });
 });

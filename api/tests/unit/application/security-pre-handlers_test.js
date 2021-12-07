@@ -7,6 +7,7 @@ const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
+const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
 
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkUserHasRolePixMaster', function () {
@@ -455,6 +456,74 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // when
         const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserIsMemberOfAnOrganization', function () {
+    let isMemberOfAnOrganizationStub;
+    let request;
+
+    beforeEach(function () {
+      isMemberOfAnOrganizationStub = sinon.stub(checkUserIsMemberOfAnOrganizationUseCase, 'execute');
+      request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234,
+          },
+        },
+      };
+    });
+
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and member of an organization', async function () {
+        // given
+        isMemberOfAnOrganizationStub.resolves(true);
+
+        // when
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user is not a member of any organization', async function () {
+        // given
+        isMemberOfAnOrganizationStub.resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        isMemberOfAnOrganizationStub.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
