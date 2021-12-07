@@ -195,7 +195,7 @@ export default function() {
     return new Response(204);
   });
 
-  this.patch('/certification-candidates/:id', async (schema, request)=>{
+  this.post('/certification-candidates/:id/authorize-to-start', async (schema, request)=>{
     const candidateId = request.params.id;
     const payload = JSON.parse(request.requestBody);
     const authorizedToStart = payload['authorized-to-start'];

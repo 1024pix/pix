@@ -4,7 +4,7 @@ export default class CertificationCandidateForSupervisingAdapter extends Applica
 
   buildURL(modelName, id, snapshot, requestType, query) {
     if (requestType === 'updateAuthorizedToStart') {
-      return `${this.host}/${this.namespace}/certification-candidates/${id}`;
+      return `${this.host}/${this.namespace}/certification-candidates/${id}/authorize-to-start`;
     } else {
       return super.buildURL(modelName, id, snapshot, requestType, query);
     }
