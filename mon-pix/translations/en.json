@@ -73,7 +73,7 @@
       "code": "I have a code",
       "dashboard": "Home",
       "help": "Help",
-      "link-help": "https://pix.org/en-gb/faq-pix",
+      "link-help": "https://support.pix.org/en/support/home",
       "skills": "Competences",
       "start-certification": "Certification",
       "tutorials": "My tutorials"
@@ -210,7 +210,7 @@
         "clea-eligibility": "You are also eligible for the CléA numérique certification.",
         "link": {
           "text": "How do I certify my digital skills?",
-          "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
+          "url": "https://support.pix.org/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
         },
         "message": "Well done, {fullName},'<br>'your profile can now be certified.",
         "pix-plus-droit-expert-eligibility": "You are also eligible for the Pix+ Droit Expert certification.",
@@ -489,7 +489,7 @@
           },
           "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
           "file-type": "file .{fileExtension}",
-          "help": "Need help to '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'open, edit or find this file'</a>'?"
+          "help": "Need help to '<a href=\"https://support.pix.org/en/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'open, edit or find this file'</a>'?"
         },
         "tooltip": {
           "aria-label": "Show question's warning",
@@ -987,10 +987,10 @@
           "warning": "Par précaution nous devons vérifier vos données ensemble."
         },
         "confirmation-step": {
-          "good-news" : "Bonne nouvelle { firstName } !",
+          "good-news": "Bonne nouvelle { firstName } !",
           "found-account": "Nous avons trouvé votre compte :",
           "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les vôtres, ",
-          "fields" : {
+          "fields": {
             "last-name": "Votre nom",
             "first-name": "Votre prénom",
             "username": "Votre identifiant",
@@ -998,7 +998,7 @@
           },
           "certify-account": "J’atteste sur l’honneur que le compte associé à ces données m’appartient.",
           "buttons": {
-            "cancel":"Annuler",
+            "cancel": "Annuler",
             "confirm": "Je confirme"
           }
         },
@@ -1015,12 +1015,12 @@
               "submit": "C'est parti",
               "cancel": "Annuler"
             },
-            "error":  {
+            "error": {
               "empty-email": "Le champ adresse e-mail est obligatoire.",
               "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
               "email-already-exist": {
                 "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
-                "init-password":" réinitialisez votre mot de passe",
+                "init-password": " réinitialisez votre mot de passe",
                 "new-email": ", sinon saisissez une nouvelle."
               },
               "new-backup-email": "Veuillez saisir un e-mail valide pour récupérer votre compte",
@@ -1134,7 +1134,7 @@
           "and": "and ",
           "cgu": "Pix terms of use",
           "data-protection-policy": "personal data protection policy",
-          "pix" : "",
+          "pix": "",
           "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
           "label": "Agree Pix terms of use and personal data protection policy"
         },
