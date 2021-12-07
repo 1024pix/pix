@@ -62,12 +62,16 @@ module.exports = {
     }
   },
 
-  async isMemberOfCertificationCenter(userId, certificationCenterId) {
-    const certificationCenterMembership = await BookshelfCertificationCenterMembership.where({
-      userId,
-      certificationCenterId,
-    }).fetch({ require: false, columns: 'id' });
-    return Boolean(certificationCenterMembership);
+  async isMemberOfCertificationCenter({ userId, certificationCenterId }) {
+    const certificationCenterMembershipId = await knex('certification-center-memberships')
+      .select('id')
+      .where({
+        userId,
+        certificationCenterId,
+      })
+      .first();
+
+    return Boolean(certificationCenterMembershipId);
   },
 
   async disableById({ certificationCenterMembershipId }) {
