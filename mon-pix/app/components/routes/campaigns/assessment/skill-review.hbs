@@ -132,6 +132,12 @@
   </PixBlock>
 {{/if}}
 
+{{#if this.featureToggles.featureToggles.isNetPromoterScoreEnabled}}
+  <PixBlock class="skill-review__net-promoter-score">
+    {{t "pages.skill-review.net-promoter-score.title"}}
+  </PixBlock>
+{{/if}}
+
 <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
   {{#if this.showBadges}}
     {{#unless this.hideBadgesTitle}}

@@ -12,6 +12,7 @@ export default class SkillReview extends Component {
   @service currentUser;
   @service url;
   @service store;
+  @service featureToggles;
 
   @tracked displayErrorMessage = false;
 

@@ -1220,6 +1220,9 @@
       "stage": {
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
+      },
+      "net-promoter-score": {
+        "title": "This is the Net Promoter Score!"
       }
     },
     "terms-of-service": {
