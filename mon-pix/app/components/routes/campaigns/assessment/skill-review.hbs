@@ -134,7 +134,12 @@
 
 {{#if this.featureToggles.featureToggles.isNetPromoterScoreEnabled}}
   <PixBlock class="skill-review__net-promoter-score">
-    {{t "pages.skill-review.net-promoter-score.title"}}
+    <div class="skill-review-net-promoter-score__container">
+      <p>{{t "pages.skill-review.net-promoter-score.title"}}</p>
+      <PixButtonLink @href="{{t "pages.skill-review.net-promoter-score.link.href"}}" target="_blank">
+        {{t "pages.skill-review.net-promoter-score.link.label"}}
+      </PixButtonLink>
+    </div>
   </PixBlock>
 {{/if}}
 

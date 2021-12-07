@@ -90,6 +90,12 @@
   &__improvement-button {
     height: 50px;
   }
+
+  &-net-promoter-score__container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
 }
 
 .skill-review-retry {
