@@ -1,4 +1,5 @@
 const TubesController = require('./tubes-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function (server) {
   server.route([
@@ -7,9 +8,10 @@ exports.register = async function (server) {
       path: '/api/framework/tubes',
       config: {
         handler: TubesController.getTubes,
+        pre: [{ method: securityPreHandlers.checkUserIsMemberOfAnOrganization }],
         tags: ['api', 'framework', 'tubes'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Cette route est restreinte aux utilisateurs authentifiés membre d'une organisation",
           'Elle permet de demander de récupérer tous les sujets du référentiel',
         ],
       },

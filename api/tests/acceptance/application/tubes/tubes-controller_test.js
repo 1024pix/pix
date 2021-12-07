@@ -41,14 +41,14 @@ describe('Acceptance | Controller | tubes-controller', function () {
 
   describe('GET /api/framework/tubes', function () {
     describe('User is authenticated', function () {
+      let userId;
+
       beforeEach(async function () {
-        await databaseBuilder.factory.buildUser({
-          id: 4444,
-          firstName: 'Classic',
-          lastName: 'Papa',
-          email: 'classic.papa@example.net',
-          password: 'abcd1234',
-        });
+        userId = databaseBuilder.factory.buildUser().id;
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
+
         await databaseBuilder.commit();
         mockLearningContent(learningContent);
       });
@@ -58,7 +58,7 @@ describe('Acceptance | Controller | tubes-controller', function () {
           method: 'GET',
           url: `/api/framework/tubes`,
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(4444),
+            authorization: generateValidRequestAuthorizationHeader(userId),
           },
         };
 

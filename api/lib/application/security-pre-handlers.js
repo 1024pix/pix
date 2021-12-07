@@ -6,6 +6,7 @@ const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./us
 const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
+const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization');
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -201,6 +202,26 @@ async function checkUserBelongsToOrganization(request, h) {
   return _replyForbiddenError(h);
 }
 
+async function checkUserIsMemberOfAnOrganization(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  let isMemberOfAnOrganization;
+  try {
+    isMemberOfAnOrganization = await checkUserIsMemberOfAnOrganizationUseCase.execute(userId);
+  } catch (err) {
+    return _replyForbiddenError(h);
+  }
+
+  if (isMemberOfAnOrganization) {
+    return h.response(true);
+  }
+  return _replyForbiddenError(h);
+}
+
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationOrHasRolePixMaster,
@@ -212,4 +233,5 @@ module.exports = {
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserBelongsToOrganization,
+  checkUserIsMemberOfAnOrganization,
 };
