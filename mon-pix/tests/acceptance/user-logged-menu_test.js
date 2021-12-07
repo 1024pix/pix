@@ -39,13 +39,13 @@ describe('Acceptance | User account', function () {
       expect(currentURL()).to.equal('/mes-certifications');
     });
 
-    it('should contain link to pix.fr/aide', async function () {
+    it('should contain link to support.pix.org/fr/support/home', async function () {
       // when
       await click('.logged-user-name');
       const helplink = findByLabel('Aide').getAttribute('href');
 
       // then
-      expect(helplink).to.equal('https://pix.fr/aide');
+      expect(helplink).to.equal('https://support.pix.org/fr/support/home');
     });
 
     it('should open My account page when click on menu', async function () {
