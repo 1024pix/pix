@@ -1,8 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
-const updateCertificationCandidateForSupervising = require('../../../../lib/domain/usecases/update-certification-candidate-for-supervising');
+const authorizeCertificationCandidateToStart = require('../../../../lib/domain/usecases/authorize-certification-candidate-to-start');
 const CertificationCandidateForSupervising = require('../../../../lib/domain/models/CertificationCandidateForSupervising');
 
-describe('Unit | Domain | Use Cases | update-certification-candidate-for-supervising', function () {
+describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start', function () {
   let certificationCandidateForSupervisingRepository;
 
   beforeEach(function () {
@@ -21,7 +21,7 @@ describe('Unit | Domain | Use Cases | update-certification-candidate-for-supervi
     });
 
     // when
-    await updateCertificationCandidateForSupervising({
+    await authorizeCertificationCandidateToStart({
       certificationCandidateForSupervisingId: 1234,
       authorizedToStart: true,
       certificationCandidateForSupervisingRepository,
