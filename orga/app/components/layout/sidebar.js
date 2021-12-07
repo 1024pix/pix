@@ -6,6 +6,8 @@ export default class SidebarMenu extends Component {
   @service url;
 
   get documentationUrl() {
+    if (this.currentUser.organization.documentationUrl) return this.currentUser.organization.documentationUrl;
+
     if (!this.url.isFrenchDomainExtension) {
       return 'https://cloud.pix.fr/s/HxpfpBnY47nYBkz';
     }

@@ -11,6 +11,7 @@ export default class Organization extends Model {
   @attr('boolean') isAEFE;
   @attr('boolean') isMLF;
   @attr('boolean') isMediationNumerique;
+  @attr('string') documentationUrl;
 
   @hasMany('campaign') campaigns;
   @hasMany('target-profile') targetProfiles;
