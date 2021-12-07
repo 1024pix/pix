@@ -13,7 +13,7 @@ export default class Challenge extends Model {
   @attr('string') format;
   @attr('string', {
     defaultValue() {
-      return "Illustration de l'épreuve";
+      return '';
     },
   })
   illustrationAlt;
