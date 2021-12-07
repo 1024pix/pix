@@ -157,6 +157,7 @@ module.exports = injectDependencies(
     authenticateExternalUser: require('./authenticate-external-user'),
     authenticateApplication: require('./authenticate-application'),
     authorizeCertificationCandidateToStart: require('./authorize-certification-candidate-to-start'),
+    authorizeCertificationCandidateToResume: require('./authorize-certification-candidate-to-resume'),
     beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
     cancelOrganizationInvitation: require('./cancel-organization-invitation'),
     cancelCertificationCourse: require('./cancel-certification-course'),
