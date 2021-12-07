@@ -1,6 +1,7 @@
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import { expect } from 'chai';
 
 describe('Unit | Route | Join', function () {
   setupTest();
@@ -28,6 +29,16 @@ describe('Unit | Route | Join', function () {
 
       //then
       sinon.assert.notCalled(route.replaceWith);
+    });
+
+    it('should redefine routeIfAlreadyAuthenticated', async function () {
+      // given
+
+      //when
+      await route.beforeModel({ from: 'campaigns.entry-point' });
+
+      //then
+      expect(route.routeIfAlreadyAuthenticated).to.equal('campaigns.access');
     });
   });
 
