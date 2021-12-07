@@ -8,10 +8,10 @@ module.exports = async function createCertificationCenterMembershipByEmail({
 }) {
   const { id: userId } = await userRepository.getByEmail(email);
 
-  const isMembershipExisting = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
+  const isMembershipExisting = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
     userId,
-    certificationCenterId
-  );
+    certificationCenterId,
+  });
 
   if (isMembershipExisting) {
     throw new AlreadyExistingEntityError(
