@@ -20,12 +20,13 @@ describe('Integration | Repository | Target-profile', function () {
         isPublic: true,
         ownerOrganizationId: null,
         skillsId: [],
+        comment: 'This is a high level target profile',
       };
       // when
       const targetProfileId = await targetProfileRepository.create(targetProfileData);
 
       const [targetProfile] = await knex('target-profiles')
-        .select(['name', 'imageUrl', 'outdated', 'isPublic', 'ownerOrganizationId'])
+        .select(['name', 'imageUrl', 'outdated', 'isPublic', 'ownerOrganizationId', 'comment'])
         .where({ id: targetProfileId });
 
       // then
@@ -34,6 +35,7 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.outdated).to.equal(false);
       expect(targetProfile.isPublic).to.equal(targetProfileData.isPublic);
       expect(targetProfile.ownerOrganizationId).to.equal(targetProfileData.ownerOrganizationId);
+      expect(targetProfile.comment).to.equal(targetProfileData.comment);
     });
 
     it('should attached each skillId once to target profile', async function () {
@@ -60,6 +62,7 @@ describe('Integration | Repository | Target-profile', function () {
         isPublic: true,
         ownerOrganizationId: null,
         skillsId: [null],
+        comment: 'This is a high level target profile',
       };
       // when
       const error = await catchErr(targetProfileRepository.create)(targetProfileData);

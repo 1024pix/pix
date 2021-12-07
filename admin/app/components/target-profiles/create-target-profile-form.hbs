@@ -55,6 +55,11 @@
       <p class="form__instructions create-target-profile__instructions">L'url à saisir doit être celle d'OVH. Veuillez
         vous rapprocher des équipes tech et produit pour la réalisation de celle-ci.</p>
     </div>
+
+    <div class="form-field form-group">
+      <label class="form-field__label" for="comment">Commentaire (usage interne) : </label>
+      <PixTextarea class="form-control" id="comment" @maxlength="500" row="4" @value={{@targetProfile.comment}} />
+    </div>
   </section>
 
   <section class="form-section form-actions form-section--actions">
