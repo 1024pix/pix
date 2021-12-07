@@ -22,4 +22,9 @@ export default class CertificationCandidateForSupervising extends Model {
       };
     },
   });
+
+  authorizeTestResume = memberAction({
+    type: 'post',
+    urlType: 'authorizeToResume',
+  });
 }
