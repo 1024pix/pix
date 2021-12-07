@@ -6,6 +6,7 @@ export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
     if (!transition.from) {
       return this.replaceWith('campaigns.entry-point');
     }
+    this.routeIfAlreadyAuthenticated = 'campaigns.access';
     super.beforeModel(...arguments);
   }
 
