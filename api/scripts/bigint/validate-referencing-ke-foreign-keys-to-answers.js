@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const { knex } = require('../db/knex-database-connection');
-const logger = require('../lib/infrastructure/logger');
+const { knex } = require('../../db/knex-database-connection');
+const logger = require('../../lib/infrastructure/logger');
 
 const validateForeignKey = async () => {
   logger.info('Validating foreign key...');
@@ -17,4 +17,3 @@ const validateForeignKey = async () => {
   await validateForeignKey();
   process.exit(0);
 })();
-

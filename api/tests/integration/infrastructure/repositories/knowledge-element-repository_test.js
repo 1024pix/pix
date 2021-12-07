@@ -39,11 +39,16 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // then
       let actualKnowledgeElement = await knex.select('*').from('knowledge-elements').first();
-      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'intId', 'answer_intId', 'createdAt', 'updatedAt']);
+      actualKnowledgeElement = _.omit(actualKnowledgeElement, [
+        'id',
+        'intId',
+        'answer_intId',
+        'createdAt',
+        'updatedAt',
+      ]);
       const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'answer_intId', 'createdAt', 'updatedAt']);
       expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
     });
-
   });
 
   describe('#findUniqByUserId', function () {
