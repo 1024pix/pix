@@ -1,4 +1,4 @@
-module.exports = async function updateCertificationCandidateForSupervising({
+module.exports = async function authorizeCertificationCandidateToStart({
   certificationCandidateForSupervisingId,
   authorizedToStart,
   certificationCandidateForSupervisingRepository,

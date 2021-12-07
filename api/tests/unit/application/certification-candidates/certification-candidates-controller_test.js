@@ -5,7 +5,7 @@ const { featureToggles } = require('../../../../lib/config');
 const { NotFoundError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Controller | certifications-candidate-controller', function () {
-  describe('#update', function () {
+  describe('#authorizeToStart', function () {
     describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
       it('should return a 204 status code', async function () {
         // given
@@ -20,8 +20,8 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
           payload: { 'authorized-to-start': true },
         };
 
-        usecases.updateCertificationCandidateForSupervising = sinon.stub().rejects();
-        usecases.updateCertificationCandidateForSupervising
+        usecases.authorizeCertificationCandidateToStart = sinon.stub().rejects();
+        usecases.authorizeCertificationCandidateToStart
           .withArgs({
             certificationCandidateForSupervisingId: 99,
             authorizedToStart: true,
@@ -29,7 +29,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
           .resolves();
 
         // when
-        const response = await certificationCandidateController.update(request, hFake);
+        const response = await certificationCandidateController.authorizeToStart(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(204);
@@ -52,7 +52,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
         };
 
         // when
-        const error = await catchErr(certificationCandidateController.update)(request, hFake);
+        const error = await catchErr(certificationCandidateController.authorizeToStart)(request, hFake);
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
