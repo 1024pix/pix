@@ -17,4 +17,17 @@ module.exports = {
 
     return h.response().code(204);
   },
+
+  async authorizeToResume(request, h) {
+    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+      throw new NotFoundError();
+    }
+
+    const certificationCandidateId = request.params.id;
+    await usecases.authorizeCertificationCandidateToResume({
+      certificationCandidateId,
+    });
+
+    return h.response().code(204);
+  },
 };

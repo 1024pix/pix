@@ -59,4 +59,56 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
       });
     });
   });
+
+  describe('#authorizeToResume', function () {
+    describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+      it('should return a 204 status code', async function () {
+        // given
+        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        const request = {
+          auth: {
+            credentials: { userId: '111' },
+          },
+          params: {
+            id: 99,
+          },
+        };
+
+        usecases.authorizeCertificationCandidateToResume = sinon.stub().rejects();
+        usecases.authorizeCertificationCandidateToResume
+          .withArgs({
+            certificationCandidateId: 99,
+          })
+          .resolves();
+
+        // when
+        const response = await certificationCandidateController.authorizeToResume(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function () {
+      it('should return a 404 status code', async function () {
+        // given
+        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+
+        const request = {
+          auth: {
+            credentials: { userId: '111' },
+          },
+          params: {
+            id: 99,
+          },
+        };
+
+        // when
+        const error = await catchErr(certificationCandidateController.authorizeToResume)(request, hFake);
+
+        // then
+        expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+  });
 });
