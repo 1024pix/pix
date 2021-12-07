@@ -20,6 +20,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       imageUrl: '',
       ownerOrganizationId: '',
       isPublic: false,
+      comment: '',
     };
 
     isFileInvalid = false;
@@ -58,6 +59,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     assert.contains("Lien de l'image du profil cible :");
     assert.contains('Annuler');
     assert.contains('Enregistrer');
+    assert.contains('Commentaire (usage interne) :');
   });
 
   test('it should display json file error text', async function (assert) {

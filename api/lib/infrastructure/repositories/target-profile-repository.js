@@ -12,7 +12,13 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
   async create(targetProfileData) {
-    const targetProfileRawData = _.pick(targetProfileData, ['name', 'isPublic', 'imageUrl', 'ownerOrganizationId']);
+    const targetProfileRawData = _.pick(targetProfileData, [
+      'name',
+      'isPublic',
+      'imageUrl',
+      'ownerOrganizationId',
+      'comment',
+    ]);
 
     const trx = await knex.transaction();
 
