@@ -1,4 +1,4 @@
-const { expect, sinon, hFake } = require('../../test-helper');
+const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
 
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 const tokenService = require('../../../lib/domain/services/token-service');
@@ -8,6 +8,7 @@ const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
+const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
 
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkUserHasRolePixMaster', function () {
@@ -487,7 +488,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // when
         const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
-
         // then
         expect(response.source).to.equal(true);
       });
@@ -528,6 +528,54 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // then
         expect(response.statusCode).to.equal(403);
         expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserIsMemberOfCertificationCenter', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and is member in certification center', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const certificationCenter = domainBuilder.buildCertificationCenter();
+        const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+          user,
+          certificationCenter,
+        });
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: certificationCenterMembership.user.id } },
+          params: { certificationCenterId: certificationCenterMembership.certificationCenter.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(checkUserIsMemberOfCertificationCenterUseCase, 'execute').resolves(true);
+
+        // when
+        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user is not member in certification center', async function () {
+        // given
+        const userId = domainBuilder.buildUser().id;
+        const certificationCenterId = domainBuilder.buildCertificationCenter().id;
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId } },
+          params: { certificationCenterId },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon.stub(checkUserIsMemberOfCertificationCenterUseCase, 'execute').resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
