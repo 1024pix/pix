@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const { featureToggles } = require('../../config');
 const { NotFoundError } = require('../http-errors');
+const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer');
 
 module.exports = {
   async authorizeToStart(request, h) {
@@ -29,5 +30,13 @@ module.exports = {
     });
 
     return h.response().code(204);
+  },
+
+  async getSubscriptions(request) {
+    const certificationCandidateId = request.params.id;
+    const certificationCandidateSubscription = await usecases.getCertificationCandidateSubscription({
+      certificationCandidateId,
+    });
+    return certificationCandidateSubscriptionSerializer.serialize(certificationCandidateSubscription);
   },
 };
