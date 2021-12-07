@@ -642,6 +642,7 @@ describe('Acceptance | Application | organization-controller', function () {
               credit: organization.credit,
               email: organization.email,
               'created-by': pixMasterUserId,
+              'documentation-url': organization.documentationUrl,
             },
             id: organization.id.toString(),
             relationships: {
