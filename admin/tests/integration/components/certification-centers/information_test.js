@@ -45,8 +45,8 @@ module('Integration | Component | certification-centers/information', function (
     assert.contains('Centre SCO');
     assert.contains('SCO');
     assert.contains('AX129');
-    assert.dom(screen.getByLabelText('Accrédité pour Pix+Droit')).exists();
-    assert.dom(screen.getByLabelText('Non-accrédité pour Cléa')).exists();
+    assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
+    assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
   });
 
   test('it enters edition mode when click on Edit button', async function (assert) {
@@ -277,7 +277,7 @@ module('Integration | Component | certification-centers/information', function (
     assert.contains('Centre SCO');
     assert.contains('SCO');
     assert.contains('AX129');
-    assert.dom(screen.getByLabelText('Accrédité pour Pix+Droit')).exists();
-    assert.dom(screen.getByLabelText('Non-accrédité pour Cléa')).exists();
+    assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
+    assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
   });
 });

@@ -104,12 +104,12 @@
             <ul class="accreditations-list-ul">
               {{#each this.availableAccreditations as |accreditation|}}
                 {{#if (contains accreditation @certificationCenter.accreditations)}}
-                  <li aria-label={{concat "Accrédité pour " accreditation.name}}>
+                  <li aria-label={{concat "Habilité pour " accreditation.name}}>
                     <FaIcon class="granted-accreditation-icon" @icon="check-circle" />
                     {{accreditation.name}}
                   </li>
                 {{else}}
-                  <li aria-label={{concat "Non-accrédité pour " accreditation.name}}>
+                  <li aria-label={{concat "Non-habilité pour " accreditation.name}}>
                     <FaIcon class="not-granted-accreditation-icon" @icon="times-circle" />
                     {{accreditation.name}}
                   </li>

@@ -92,9 +92,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.dom(screen.getByLabelText('Accrédité pour Pix+Edu')).exists();
-    assert.dom(screen.getByLabelText('Accrédité pour Pix+Surf')).exists();
-    assert.dom(screen.getByLabelText('Non-accrédité pour Pix+Autre')).exists();
+    assert.dom(screen.getByLabelText('Habilité pour Pix+Edu')).exists();
+    assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
+    assert.dom(screen.getByLabelText('Non-habilité pour Pix+Autre')).exists();
   });
 
   test('should display Certification center memberships', async function (assert) {
@@ -329,8 +329,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await clickByLabel('Enregistrer');
 
       // then
-      assert.dom(screen.getByLabelText('Accrédité pour Pix+Surf')).exists();
-      assert.dom(screen.getByLabelText('Non-accrédité pour Pix+Autre')).exists();
+      assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
+      assert.dom(screen.getByLabelText('Non-habilité pour Pix+Autre')).exists();
       assert.contains('Habilitations aux certifications complémentaires');
       assert.contains('Centre des réussites');
       assert.contains('Centre de certification mis à jour avec succès.');
