@@ -26,6 +26,7 @@ function buildOrganization({
   targetProfileShares = [],
   tags = [],
   createdBy,
+  documentationUrl = 'https://pix.fr',
 } = {}) {
   return new Organization({
     id,
@@ -42,6 +43,7 @@ function buildOrganization({
     targetProfileShares,
     tags,
     createdBy,
+    documentationUrl,
   });
 }
 

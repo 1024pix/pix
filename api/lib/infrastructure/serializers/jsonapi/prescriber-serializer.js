@@ -60,6 +60,7 @@ module.exports = {
             'students',
             'divisions',
             'organizationInvitations',
+            'documentationUrl',
             'groups',
           ],
           memberships: {
