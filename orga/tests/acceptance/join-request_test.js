@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import Response from 'ember-cli-mirage/response';
 
@@ -23,7 +22,7 @@ module('Acceptance | join-request', function (hooks) {
       await fillByLabel('Votre nom', 'lastName');
 
       // when
-      await clickByLabel('Envoyer');
+      await clickByName('Envoyer');
 
       // then
       assert.contains("L'UAI/RNE de l'établissement n’est pas reconnu.");
@@ -38,7 +37,7 @@ module('Acceptance | join-request', function (hooks) {
       await fillByLabel('Votre nom', 'lastName');
 
       // when
-      await clickByLabel('Envoyer');
+      await clickByName('Envoyer');
 
       // then
       assert.contains("L'UAI/RNE de l'établissement n’est pas reconnu.");
@@ -53,7 +52,7 @@ module('Acceptance | join-request', function (hooks) {
       await fillByLabel('Votre nom', 'lastName');
 
       // when
-      await clickByLabel('Envoyer');
+      await clickByName('Envoyer');
 
       // then
       assert.contains('Nous n’avons pas d’adresse e-mail de contact associée à votre établissement');
@@ -71,7 +70,7 @@ module('Acceptance | join-request', function (hooks) {
       await fillByLabel('Votre nom', 'lastName');
 
       // when
-      await clickByLabel('Envoyer');
+      await clickByName('Envoyer');
 
       // then
       assert.contains('Une erreur est survenue.');
@@ -90,7 +89,7 @@ module('Acceptance | join-request', function (hooks) {
       await fillByLabel('Votre nom', 'lastName');
 
       // when
-      await clickByLabel('Envoyer');
+      await clickByName('Envoyer');
 
       // then
       assert.dom('.join-request__success').exists();

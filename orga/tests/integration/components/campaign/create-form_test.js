@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import { clickByLabel } from '../../../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -84,7 +83,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.purpose.assessment'));
+      await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
       // then
       assert.contains(t('pages.campaign-creation.test-title.label'));
@@ -103,7 +102,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.purpose.assessment'));
+      await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
       // then
       assert.contains(t('pages.campaign-creation.purpose.assessment-info'));
@@ -138,7 +137,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
+      await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
       assert.notContains(t('pages.campaign-creation.test-title.label'));
@@ -157,7 +156,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
+      await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
       assert.contains(t('pages.campaign-creation.multiple-sendings.question-label'));
@@ -175,7 +174,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
+      await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
       assert.contains(t('pages.campaign-creation.purpose.profiles-collection-info'));
@@ -253,7 +252,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.no'));
+      await clickByName(t('pages.campaign-creation.no'));
 
       // then
       assert.notContains(t('pages.campaign-creation.legal-warning'));
@@ -269,7 +268,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.yes'));
+      await clickByName(t('pages.campaign-creation.yes'));
 
       // then
       assert.contains(t('pages.campaign-creation.legal-warning'));
@@ -285,7 +284,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     await fillByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
 
     // when
-    await clickByLabel(t('pages.campaign-creation.actions.create'));
+    await clickByName(t('pages.campaign-creation.actions.create'));
 
     // then
     assert.deepEqual(receivedCampaign.name, 'Ma campagne');
@@ -325,7 +324,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await render(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
       );
-      await clickByLabel(t('pages.campaign-creation.yes'));
+      await clickByName(t('pages.campaign-creation.yes'));
 
       // then
       assert.contains(t('api-errors-messages.campaign-creation.name-required'));

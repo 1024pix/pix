@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { clickByName } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberForOrganization } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
@@ -31,7 +31,7 @@ module('Acceptance | Invitations list', function (hooks) {
 
     // when
     await visit('/equipe/invitations');
-    await clickByLabel(this.intl.t('pages.team-invitations.cancel-invitation'));
+    await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
     assert.notContains('gigi@example.net');

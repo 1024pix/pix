@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -185,8 +184,8 @@ module('Acceptance | Sco Student List', function (hooks) {
             await visit('/eleves');
 
             // when
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // then
             assert.contains('Réinitialiser le mot de passe');
@@ -195,11 +194,11 @@ module('Acceptance | Sco Student List', function (hooks) {
           test('it should display unique password input when reset button is clicked', async function (assert) {
             // given
             await visit('/eleves');
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // when
-            await clickByLabel('Réinitialiser le mot de passe');
+            await clickByName('Réinitialiser le mot de passe');
 
             // then
             assert.dom('#generate-password').doesNotExist();
@@ -211,8 +210,8 @@ module('Acceptance | Sco Student List', function (hooks) {
             await visit('/eleves');
 
             // when
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // then
             assert.dom('#username').hasValue(username);
@@ -233,8 +232,8 @@ module('Acceptance | Sco Student List', function (hooks) {
             await visit('/eleves');
 
             // when
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // then
             assert.contains('Médiacentre');
@@ -244,11 +243,11 @@ module('Acceptance | Sco Student List', function (hooks) {
           test('it should display username and unique password when add username button is clicked', async function (assert) {
             // given
             await visit('/eleves');
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // when
-            await clickByLabel('Ajouter l’identifiant');
+            await clickByName('Ajouter l’identifiant');
 
             // then
             assert.contains('Médiacentre');
@@ -273,8 +272,8 @@ module('Acceptance | Sco Student List', function (hooks) {
             await visit('/eleves');
 
             // when
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // then
             assert.contains('Médiacentre');
@@ -286,8 +285,8 @@ module('Acceptance | Sco Student List', function (hooks) {
             await visit('/eleves');
 
             // when
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // then
             assert.contains('Réinitialiser le mot de passe');
@@ -296,11 +295,11 @@ module('Acceptance | Sco Student List', function (hooks) {
           test('it should open password modal and display unique password when reset button is clicked', async function (assert) {
             // given
             await visit('/eleves');
-            await clickByLabel('Afficher les actions');
-            await clickByLabel('Gérer le compte');
+            await clickByName('Afficher les actions');
+            await clickByName('Gérer le compte');
 
             // when
-            await clickByLabel('Réinitialiser le mot de passe');
+            await clickByName('Réinitialiser le mot de passe');
 
             // then
             assert.dom('#generate-password').doesNotExist();

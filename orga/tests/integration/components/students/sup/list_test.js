@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
-import { clickByLabel } from '../../../../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -141,7 +140,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       />`);
       const select = await getByPlaceholderText('Rechercher par groupe');
       await click(select);
-      await clickByLabel('L1');
+      await clickByName('L1');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'groups', ['L1']);

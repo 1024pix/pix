@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -91,7 +90,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, email);
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         const organizationInvitation = server.db.organizationInvitations[server.db.organizationInvitations.length - 1];
@@ -111,7 +110,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, emails);
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         assert.contains(this.intl.t('pages.team-new.success.multiple-invitations'));
@@ -123,7 +122,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, '');
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -133,7 +132,7 @@ module('Acceptance | Team Creation', function (hooks) {
         // given
         await visit('/equipe/creation');
         await fillByLabel(inputLabel, email);
-        await clickByLabel(cancelButton);
+        await clickByName(cancelButton);
 
         // when
         await visit('/equipe/creation');
@@ -147,7 +146,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await visit('/equipe/creation');
 
         // when
-        await clickByLabel(cancelButton);
+        await clickByName(cancelButton);
 
         // then
         assert.equal(currentURL(), '/equipe/invitations');
@@ -174,7 +173,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, email);
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -202,7 +201,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, email);
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -230,7 +229,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, email);
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -258,7 +257,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await fillByLabel(inputLabel, email);
 
         // when
-        await clickByLabel(inviteButton);
+        await clickByName(inviteButton);
 
         // then
         assert.equal(currentURL(), '/equipe/creation');

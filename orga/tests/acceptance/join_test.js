@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -129,12 +128,12 @@ module('Acceptance | join', function (hooks) {
       test('it should redirect user to the terms-of-service page', async function (assert) {
         // given
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginFormButton);
+        await clickByName(loginFormButton);
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel(loginButton);
+        await clickByName(loginButton);
 
         // then
         assert.equal(currentURL(), '/cgu');
@@ -146,12 +145,12 @@ module('Acceptance | join', function (hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginFormButton);
+        await clickByName(loginFormButton);
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel(loginButton);
+        await clickByName(loginButton);
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -184,12 +183,12 @@ module('Acceptance | join', function (hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginFormButton);
+        await clickByName(loginFormButton);
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel(loginButton);
+        await clickByName(loginButton);
 
         // then
         assert.equal(currentURL(), '/campagnes');
@@ -201,12 +200,12 @@ module('Acceptance | join', function (hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginFormButton);
+        await clickByName(loginFormButton);
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel(loginButton);
+        await clickByName(loginButton);
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -247,12 +246,12 @@ module('Acceptance | join', function (hooks) {
         );
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginFormButton);
+        await clickByName(loginFormButton);
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, 'fakepassword');
 
         // when
-        await clickByLabel(loginButton);
+        await clickByName(loginButton);
 
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -298,12 +297,12 @@ module('Acceptance | join', function (hooks) {
             412
           );
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await clickByLabel(loginFormButton);
+          await clickByName(loginFormButton);
           await fillByLabel(emailInputLabel, user.email);
           await fillByLabel(passwordInputLabel, 'secret');
 
           // when
-          await clickByLabel(loginButton);
+          await clickByName(loginButton);
 
           // then
           assert.equal(currentURL(), '/cgu');
@@ -353,10 +352,10 @@ module('Acceptance | join', function (hooks) {
           await fillByLabel(lastNameInputLabel, 'pix');
           await fillByLabel(emailInputLabel, 'shi@fu.me');
           await fillByLabel(passwordInputLabel, 'Password4register');
-          await clickByLabel(cguAriaLabel);
+          await clickByName(cguAriaLabel);
 
           // when
-          await clickByLabel(registerButtonLabel);
+          await clickByName(registerButtonLabel);
 
           // then
           assert.equal(currentURL(), '/cgu');
@@ -402,10 +401,10 @@ module('Acceptance | join', function (hooks) {
           await fillByLabel(lastNameInputLabel, 'pix');
           await fillByLabel(emailInputLabel, 'alreadyUser@organization.org');
           await fillByLabel(passwordInputLabel, 'Password4register');
-          await clickByLabel(cguAriaLabel);
+          await clickByName(cguAriaLabel);
 
           // when
-          await clickByLabel(registerButtonLabel);
+          await clickByName(registerButtonLabel);
 
           // then
           assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click, visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -33,8 +33,8 @@ module('Acceptance | Remove membership', function (hooks) {
   test('should remove the membership', async function (assert) {
     // given
     await visit('/equipe');
-    await clickByLabel('Gérer');
-    await clickByLabel('Supprimer');
+    await clickByName('Gérer');
+    await clickByName('Supprimer');
 
     // when
     await click('button[data-test-modal-remove-button]');

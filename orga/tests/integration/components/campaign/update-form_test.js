@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { clickByLabel } from '../../../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -35,7 +34,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
     // then
     await fillByLabel('Titre du parcours', 'New title');
-    await clickByLabel('Modifier');
+    await clickByName('Modifier');
 
     assert.deepEqual(this.campaign.title, 'New title');
   });

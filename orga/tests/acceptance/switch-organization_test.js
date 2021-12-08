@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import {
@@ -36,7 +36,7 @@ module('Acceptance | Switch Organization', function (hooks) {
       await visit('/');
 
       // when
-      await clickByLabel('Ouvrir le menu utilisateur');
+      await clickByName('Ouvrir le menu utilisateur');
 
       // then
       assert.dom('.user-logged-menu > li').exists({ count: 1 });
@@ -56,7 +56,7 @@ module('Acceptance | Switch Organization', function (hooks) {
 
     test('should have an organization in menu', async function (assert) {
       // when
-      await clickByLabel('Ouvrir le menu utilisateur');
+      await clickByName('Ouvrir le menu utilisateur');
 
       // then
       assert.dom('.user-logged-menu > li').exists({ count: 2 });
@@ -66,8 +66,8 @@ module('Acceptance | Switch Organization', function (hooks) {
     module('When prescriber click on an organization', function () {
       test('should change main organization in summary', async function (assert) {
         // when
-        await clickByLabel('Ouvrir le menu utilisateur');
-        await clickByLabel('My Heaven Company (HEAVEN)');
+        await clickByName('Ouvrir le menu utilisateur');
+        await clickByName('My Heaven Company (HEAVEN)');
 
         // then
         assert.contains('My Heaven Company (HEAVEN)');
@@ -75,9 +75,9 @@ module('Acceptance | Switch Organization', function (hooks) {
 
       test('should have the old main organization in the menu', async function (assert) {
         // when
-        await clickByLabel('Ouvrir le menu utilisateur');
-        await clickByLabel('My Heaven Company (HEAVEN)');
-        await clickByLabel('Ouvrir le menu utilisateur');
+        await clickByName('Ouvrir le menu utilisateur');
+        await clickByName('My Heaven Company (HEAVEN)');
+        await clickByName('Ouvrir le menu utilisateur');
 
         // then
         assert.dom('.user-logged-menu > li').exists({ count: 2 });
@@ -90,8 +90,8 @@ module('Acceptance | Switch Organization', function (hooks) {
           await visit('/campagnes?pageNumber=2&pageSize=10&name=test&status=archived');
 
           // when
-          await clickByLabel('Ouvrir le menu utilisateur');
-          await clickByLabel('My Heaven Company (HEAVEN)');
+          await clickByName('Ouvrir le menu utilisateur');
+          await clickByName('My Heaven Company (HEAVEN)');
 
           // then
           assert.equal(currentURL(), '/campagnes');
@@ -103,8 +103,8 @@ module('Acceptance | Switch Organization', function (hooks) {
         function () {
           test('it should display student menu item', async function (assert) {
             // when
-            await clickByLabel('Ouvrir le menu utilisateur');
-            await clickByLabel('My Heaven Company (HEAVEN)');
+            await clickByName('Ouvrir le menu utilisateur');
+            await clickByName('My Heaven Company (HEAVEN)');
 
             // then
             assert.dom('.sidebar').containsText('Élèves');

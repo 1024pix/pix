@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { clickByLabel } from '../../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Student::Sco::DissociateUserModal', function (hooks) {
@@ -70,7 +70,7 @@ module('Integration | Component | Student::Sco::DissociateUserModal', function (
     test('it dissociate user form student on click', async function (assert) {
       const student = { id: 12345 };
       this.set('student', student);
-      await clickByLabel('Oui, dissocier le compte');
+      await clickByName('Oui, dissocier le compte');
 
       assert.ok(studentAdapter.dissociateUser.calledWith(student));
     });
@@ -79,7 +79,7 @@ module('Integration | Component | Student::Sco::DissociateUserModal', function (
       const student = { id: 12345, lastName: 'Dupont', firstName: 'Jean' };
       this.set('student', student);
 
-      await clickByLabel('Oui, dissocier le compte');
+      await clickByName('Oui, dissocier le compte');
 
       assert.ok(notifications.sendSuccess.calledWith('La dissociation du compte de l’élève Dupont Jean est réussie.'));
     });
@@ -89,7 +89,7 @@ module('Integration | Component | Student::Sco::DissociateUserModal', function (
       const student = { id: 12345, lastName: 'Dupont', firstName: 'Jean' };
       this.set('student', student);
 
-      await clickByLabel('Oui, dissocier le compte');
+      await clickByName('Oui, dissocier le compte');
 
       assert.ok(
         notifications.sendError.calledWith(
