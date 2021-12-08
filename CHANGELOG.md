@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.137.0 (08/12/2021)
+
+
+### :rocket: Enhancement
+- [#3810](https://github.com/1024pix/pix/pull/3810) [FEATURE] Afficher l'url de la documentation d'une organisation quand elle en a une (PIX-3972).
+- [#3799](https://github.com/1024pix/pix/pull/3799) [FEATURE]  Ajouter un commentaire interne lors de la création d'un profil cible sur pix Admin(PIX-3873)
+- [#3798](https://github.com/1024pix/pix/pull/3798) [FEATURE] Ajouter une explication pour chaque type de campagne (PIX-3870)
+- [#3807](https://github.com/1024pix/pix/pull/3807) [FEATURE] Ajout d'une URL de documentation dans les détails d'une organisation (PIX-3971).
+- [#3792](https://github.com/1024pix/pix/pull/3792) [FEATURE] Bloquer les certif complementaires si le candidat n'est pas inscrit (PIX-3684)
+- [#3795](https://github.com/1024pix/pix/pull/3795) [FEATURE] Notifier que le rôle du membre à été modifié à l'utilisateur sur Pix Orga (PIX-3951).
+
+### :building_construction: Tech
+- [#3722](https://github.com/1024pix/pix/pull/3722) [TECH][CLEAN] Corriger plusieurs tests contenant la règle mocha/no-setup-in-describe (PIX-3827).
+- [#3802](https://github.com/1024pix/pix/pull/3802) [TECH] Prévenir les usages involontaires de console dans pix-certif.
+
+### :bug: Bug fix
+- [#3808](https://github.com/1024pix/pix/pull/3808) [BUGFIX] Utiliser un `alt` vide par défaut pour les illustrations d'épreuves (PIX-3987)
+- [#3796](https://github.com/1024pix/pix/pull/3796) [BUGFIX] Remettre la bonne image pour les focus dans le didacticiel (PIX-3904).
+
 ## v3.136.0 (03/12/2021)
 
 
