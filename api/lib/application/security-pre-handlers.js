@@ -23,22 +23,22 @@ function _replyForbiddenError(h) {
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
-function checkUserHasRolePixMaster(request, h) {
+async function checkUserHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
 
-  return checkUserHasRolePixMasterUseCase
-    .execute(userId)
-    .then((hasRolePixMaster) => {
-      if (hasRolePixMaster) {
-        return h.response(true);
-      }
-      return _replyForbiddenError(h);
-    })
-    .catch(() => _replyForbiddenError(h));
+  try {
+    const hasRolePixMaster = await checkUserHasRolePixMasterUseCase.execute(userId);
+    if (hasRolePixMaster) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
 }
 
 function checkRequestedUserIsAuthenticatedUser(request, h) {
