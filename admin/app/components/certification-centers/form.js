@@ -11,12 +11,12 @@ export default class CertificationCenterForm extends Component {
   }
 
   @action
-  updateGrantedAccreditation(accreditation) {
-    const accreditations = this.args.certificationCenter.accreditations;
-    if (accreditations.includes(accreditation)) {
-      accreditations.removeObject(accreditation);
+  updateGrantedHabilitation(habilitation) {
+    const habilitations = this.args.certificationCenter.habilitations;
+    if (habilitations.includes(habilitation)) {
+      habilitations.removeObject(habilitation);
     } else {
-      accreditations.addObject(accreditation);
+      habilitations.addObject(habilitation);
     }
   }
 }

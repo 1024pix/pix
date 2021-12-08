@@ -25,7 +25,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
 
       // then
-      expect(certificationCenter.isAccreditedPixPlusDroit).to.be.false;
+      expect(certificationCenter.isHabilitatedPixPlusDroit).to.be.false;
     });
 
     it('should return true when the certification center has Pix+ Droit complementary certification', function () {
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       });
 
       // then
-      expect(certificationCenter.isAccreditedPixPlusDroit).to.be.true;
+      expect(certificationCenter.isHabilitatedPixPlusDroit).to.be.true;
     });
   });
 
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
 
       // then
-      expect(certificationCenter.isAccreditedClea).to.be.false;
+      expect(certificationCenter.isHabilitatedClea).to.be.false;
     });
 
     it('should return true when the certification center has Cléa numérique complementary certification', function () {
@@ -61,7 +61,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       });
 
       // then
-      expect(certificationCenter.isAccreditedClea).to.be.true;
+      expect(certificationCenter.isHabilitatedClea).to.be.true;
     });
   });
 });

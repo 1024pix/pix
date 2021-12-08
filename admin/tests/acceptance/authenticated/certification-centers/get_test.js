@@ -52,17 +52,17 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     assert.contains('Établissement scolaire');
   });
 
-  test('should display Certification center accreditations', async function (assert) {
+  test('should display Certification center habilitations', async function (assert) {
     // given
     const currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
-    const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
-    const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
+    const habilitation1 = server.create('habilitation', { name: 'Pix+Edu' });
+    const habilitation2 = server.create('habilitation', { name: 'Pix+Surf' });
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
       externalId: 'ABCDEF',
       type: 'SCO',
-      accreditations: [accreditation1, accreditation2],
+      habilitations: [habilitation1, habilitation2],
     });
 
     // when
@@ -73,20 +73,20 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     assert.contains('Pix+Surf');
   });
 
-  test('should highlight the accreditations of the current certification center', async function (assert) {
+  test('should highlight the habilitations of the current certification center', async function (assert) {
     // given
     const currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
-    const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
-    const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
+    const habilitation1 = server.create('habilitation', { name: 'Pix+Edu' });
+    const habilitation2 = server.create('habilitation', { name: 'Pix+Surf' });
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
       externalId: 'ABCDEF',
       type: 'SCO',
-      accreditations: [accreditation1, accreditation2],
+      habilitations: [habilitation1, habilitation2],
     });
 
-    server.create('accreditation', { name: 'Pix+Autre' });
+    server.create('habilitation', { name: 'Pix+Autre' });
 
     // when
     const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
@@ -316,8 +316,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      server.create('accreditation', { name: 'Pix+Surf' });
-      server.create('accreditation', { name: 'Pix+Autre' });
+      server.create('habilitation', { name: 'Pix+Surf' });
+      server.create('habilitation', { name: 'Pix+Autre' });
 
       const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
       await clickByLabel('Editer');

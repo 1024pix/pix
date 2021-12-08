@@ -25,14 +25,14 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       save: saveStub,
     });
 
-    const testAccreditation = store.createRecord('accreditation', { name: 'Accreditation test' });
+    const testHabilitation = store.createRecord('habilitation', { name: 'Habilitation test' });
 
     certificationCenter = store.createRecord('certification-center', {
       id: 1,
       name: 'Centre des Anne-Etoiles',
       type: 'PRO',
       externalId: 'ex123',
-      accreditations: [testAccreditation],
+      habilitations: [testHabilitation],
     });
 
     store.createRecord = createRecordStub;

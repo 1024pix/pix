@@ -44,47 +44,47 @@ module('Integration | Component | certification-centers/form', function (hooks) 
     });
   });
 
-  module('#updateGrantedAccreditation', function () {
-    test('should add accreditation to certification center on checked checkbox', async function (assert) {
+  module('#updateGrantedHabilitation', function () {
+    test('should add habilitation to certification center on checked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const accreditation1 = store.createRecord('accreditation', { name: 'accreditation 1' });
-      const accreditation2 = store.createRecord('accreditation', { name: 'accreditation 2' });
+      const habilitation1 = store.createRecord('habilitation', { name: 'habilitation 1' });
+      const habilitation2 = store.createRecord('habilitation', { name: 'habilitation 2' });
       this.certificationCenter = store.createRecord('certification-center');
-      this.accreditations = EmberArray([accreditation1, accreditation2]);
+      this.habilitations = EmberArray([habilitation1, habilitation2]);
       this.stub = () => {};
 
       await render(
-        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @habilitations={{this.habilitations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
       );
 
       // when
-      await clickByLabel('accreditation 2');
+      await clickByLabel('habilitation 2');
 
       // then
-      assert.ok(this.certificationCenter.accreditations.includes(accreditation2));
+      assert.ok(this.certificationCenter.habilitations.includes(habilitation2));
     });
 
-    test('should remove accreditation to certification center on unchecked checkbox', async function (assert) {
+    test('should remove habilitation to certification center on unchecked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const accreditation1 = store.createRecord('accreditation', { name: 'accreditation 1' });
-      const accreditation2 = store.createRecord('accreditation', { name: 'accreditation 2' });
+      const habilitation1 = store.createRecord('habilitation', { name: 'habilitation 1' });
+      const habilitation2 = store.createRecord('habilitation', { name: 'habilitation 2' });
       this.certificationCenter = store.createRecord('certification-center', {
-        accreditations: [accreditation2],
+        habilitations: [habilitation2],
       });
-      this.accreditations = EmberArray([accreditation1, accreditation2]);
+      this.habilitations = EmberArray([habilitation1, habilitation2]);
       this.stub = () => {};
 
       await render(
-        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+        hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @habilitations={{this.habilitations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
       );
 
       // when
-      await clickByLabel('accreditation 2');
+      await clickByLabel('habilitation 2');
 
       // then
-      assert.notOk(this.certificationCenter.accreditations.includes(accreditation2));
+      assert.notOk(this.certificationCenter.habilitations.includes(habilitation2));
     });
   });
 });

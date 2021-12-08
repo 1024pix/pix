@@ -34,11 +34,11 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
                 related: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
               },
             },
-            accreditations: {
+            habilitations: {
               data: [
                 {
                   id: '1',
-                  type: 'accreditations',
+                  type: 'habilitations',
                 },
               ],
             },
@@ -47,7 +47,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
         included: [
           {
             id: '1',
-            type: 'accreditations',
+            type: 'habilitations',
             attributes: {
               name: 'Pix+surf',
             },

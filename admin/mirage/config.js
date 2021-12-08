@@ -260,8 +260,8 @@ export default function () {
     return schema.countries.all();
   });
 
-  this.get('/accreditations', (schema, _) => {
-    return schema.accreditations.all();
+  this.get('/habilitations', (schema) => {
+    return schema.habilitations.all();
   });
 
   this.put('/admin/sessions/:id/comment', (schema, request) => {
@@ -290,10 +290,6 @@ export default function () {
     certificationToUpdate.update({ status: 'validated' });
 
     return new Response(200);
-  });
-
-  this.get('/accreditations', (schema) => {
-    return schema.accreditations.all();
   });
 
   this.post('/admin/assessment-results/', () => {

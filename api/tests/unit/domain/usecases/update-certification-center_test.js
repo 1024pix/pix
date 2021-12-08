@@ -33,7 +33,7 @@ describe('Unit | UseCase | update-certification-center', function () {
       it('should reset existing complementary certitification habilitation and create new ones', async function () {
         // given
         const certificationCenter = domainBuilder.buildCertificationCenter();
-        const accreditationIds = ['1234', '5678'];
+        const complementaryCertificationIds = ['1234', '5678'];
         const complementaryCertificationHabilitation1 = domainBuilder.buildComplementaryCertificationHabilitation({
           complementaryCertificationId: 1234,
           certificationCenterId: certificationCenter.id,
@@ -54,7 +54,7 @@ describe('Unit | UseCase | update-certification-center', function () {
         // when
         const savedCertificationCenter = await updateCertificationCenter({
           certificationCenter,
-          accreditationIds,
+          complementaryCertificationIds,
           certificationCenterRepository,
           complementaryCertificationHabilitationRepository,
         });

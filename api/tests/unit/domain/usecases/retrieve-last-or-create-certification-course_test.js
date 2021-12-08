@@ -528,9 +528,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(false);
                     });
                     context(
-                      'when certificationCenter has no accreditation and user is not granted for complementary certification',
+                      'when certificationCenter has no habilitation and user is not granted for complementary certification',
                       function () {
-                        context('when user is elligible for cleA and Pix+ droit', function () {
+                        context('when user is eligible for cleA and Pix+ droit', function () {
                           it('should save complementary certification info for cleA and Pix+ droit', async function () {
                             // given
                             const sessionId = 1;

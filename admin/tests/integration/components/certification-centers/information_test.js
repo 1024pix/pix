@@ -10,7 +10,7 @@ import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-
 import repeat from 'lodash/repeat';
 import sinon from 'sinon';
 
-function _createEmberDataAccreditations() {
+function _createEmberDataHabilitations() {
   return ArrayProxy.create({
     content: [EmberObject.create({ id: 0, name: 'Pix+Droit' }), EmberObject.create({ id: 1, name: 'Cléa' })],
   });
@@ -21,21 +21,21 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it should display label and values in read mode', async function (assert) {
     // given
-    const availableAccreditations = _createEmberDataAccreditations();
-    this.availableAccreditations = availableAccreditations;
+    const availableHabilitations = _createEmberDataHabilitations();
+    this.availableHabilitations = availableHabilitations;
 
     const certificationCenter = EmberObject.create({
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
-      accreditations: [availableAccreditations.firstObject],
+      habilitations: [availableHabilitations.firstObject],
     });
     this.certificationCenter = certificationCenter;
 
     // when
     const screen = await renderScreen(
       hbs`<CertificationCenters::Information
-      @availableAccreditations={{this.availableAccreditations}}
+      @availableHabilitations={{this.availableHabilitations}}
       @certificationCenter={{this.certificationCenter}} />`
     );
 
@@ -122,20 +122,20 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it renders the certification center information component in edit mode', async function (assert) {
     // given
-    const availableAccreditations = _createEmberDataAccreditations();
-    this.availableAccreditations = availableAccreditations;
+    const availableHabilitations = _createEmberDataHabilitations();
+    this.availableHabilitations = availableHabilitations;
 
     const certificationCenter = EmberObject.create({
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
-      accreditations: [availableAccreditations.firstObject],
+      habilitations: [availableHabilitations.firstObject],
     });
     this.set('certificationCenter', certificationCenter);
 
     // when
     const screen = await renderScreen(
-      hbs`<CertificationCenters::Information @availableAccreditations={{this.availableAccreditations}} @certificationCenter={{this.certificationCenter}} />`
+      hbs`<CertificationCenters::Information @availableHabilitations={{this.availableHabilitations}} @certificationCenter={{this.certificationCenter}} />`
     );
     await clickByLabel('Editer');
 
@@ -207,20 +207,20 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it should call updateCertificationCenter with certification center data on save', async function (assert) {
     // given
-    const availableAccreditations = _createEmberDataAccreditations();
-    this.availableAccreditations = availableAccreditations;
+    const availableHabilitations = _createEmberDataHabilitations();
+    this.availableHabilitations = availableHabilitations;
     const certificationCenter = EmberObject.create({
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
-      accreditations: [],
+      habilitations: [],
     });
 
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
     await renderScreen(
       hbs`<CertificationCenters::Information
-        @availableAccreditations={{this.availableAccreditations}}
+        @availableHabilitations={{this.availableHabilitations}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
         @certificationCenter={{this.certificationCenter}} />`
     );
@@ -236,7 +236,7 @@ module('Integration | Component | certification-centers/information', function (
 
     // then
     sinon.assert.calledWithExactly(this.updateCertificationCenter, {
-      accreditations: [availableAccreditations.firstObject],
+      habilitations: [availableHabilitations.firstObject],
       externalId: 'externalId',
       name: 'Centre SUP',
       type: 'SUP',
@@ -246,13 +246,13 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it should not call updateCertificationCenter and discard user input on cancel', async function (assert) {
     // given
-    const availableAccreditations = _createEmberDataAccreditations();
-    this.availableAccreditations = availableAccreditations;
+    const availableHabilitations = _createEmberDataHabilitations();
+    this.availableHabilitations = availableHabilitations;
     const certificationCenter = EmberObject.create({
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
-      accreditations: [availableAccreditations.firstObject],
+      habilitations: [availableHabilitations.firstObject],
     });
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
@@ -261,7 +261,7 @@ module('Integration | Component | certification-centers/information', function (
     const screen = await renderScreen(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
-        @availableAccreditations={{this.availableAccreditations}}
+        @availableHabilitations={{this.availableHabilitations}}
         @updateCertificationCenter={{this.updateCertificationCenter}} />`
     );
 

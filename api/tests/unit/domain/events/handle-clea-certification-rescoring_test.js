@@ -109,7 +109,7 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', functio
       });
     });
 
-    context('when certification center is not accredited', function () {
+    context('when certification center is not habilitated', function () {
       it('should not save the re-scored cleA certification', async function () {
         // given
         const certificationRescoringCompletedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
