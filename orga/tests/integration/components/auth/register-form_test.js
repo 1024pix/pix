@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 import { render, triggerEvent } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../../../helpers/testing-library';
+import { clickByLabel } from '../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -74,10 +75,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillInByLabel(firstNameInputLabel, 'pix');
-      await fillInByLabel(lastNameInputLabel, 'pix');
-      await fillInByLabel(emailInputLabel, 'shi@fu.me');
-      await fillInByLabel(passwordInputLabel, 'Mypassword1');
+      await fillByLabel(firstNameInputLabel, 'pix');
+      await fillByLabel(lastNameInputLabel, 'pix');
+      await fillByLabel(emailInputLabel, 'shi@fu.me');
+      await fillByLabel(passwordInputLabel, 'Mypassword1');
       await clickByLabel(cguAriaLabel);
 
       // when
@@ -100,7 +101,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
           await render(hbs`<Auth::RegisterForm/>`);
 
           // when
-          await fillInByLabel(firstNameInputLabel, stringFilledIn);
+          await fillByLabel(firstNameInputLabel, stringFilledIn);
           await triggerEvent('#register-firstName', 'focusout');
 
           // then
@@ -117,7 +118,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
           await render(hbs`<Auth::RegisterForm/>`);
 
           // when
-          await fillInByLabel(lastNameInputLabel, stringFilledIn);
+          await fillByLabel(lastNameInputLabel, stringFilledIn);
           await triggerEvent('#register-lastName', 'focusout');
 
           // then
@@ -136,7 +137,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
           await render(hbs`<Auth::RegisterForm/>`);
 
           // when
-          await fillInByLabel(emailInputLabel, stringFilledIn);
+          await fillByLabel(emailInputLabel, stringFilledIn);
           await triggerEvent('#register-email', 'focusout');
 
           // then
@@ -156,7 +157,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
           await render(hbs`<Auth::RegisterForm/>`);
 
           // when
-          await fillInByLabel(passwordInputLabel, stringFilledIn);
+          await fillByLabel(passwordInputLabel, stringFilledIn);
           await triggerEvent('#register-password', 'focusout');
 
           // then
@@ -173,10 +174,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       let validUser;
 
       const fillForm = async function (user) {
-        await fillInByLabel(firstNameInputLabel, user.firstName);
-        await fillInByLabel(lastNameInputLabel, user.lastName);
-        await fillInByLabel(emailInputLabel, user.email);
-        await fillInByLabel(passwordInputLabel, user.password);
+        await fillByLabel(firstNameInputLabel, user.firstName);
+        await fillByLabel(lastNameInputLabel, user.lastName);
+        await fillByLabel(emailInputLabel, user.email);
+        await fillByLabel(passwordInputLabel, user.password);
         if (user.cgu) {
           await clickByLabel(cguAriaLabel);
         }

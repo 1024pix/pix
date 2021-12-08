@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
-import { fillInByLabel, clickByLabel } from '../../../../helpers/testing-library';
+import { clickByLabel } from '../../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -88,7 +89,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       // when
       await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
 
-      await fillInByLabel('Entrer un nom', 'bob');
+      await fillByLabel('Entrer un nom', 'bob');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'lastName', 'bob');
@@ -104,7 +105,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       // when
       await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
 
-      await fillInByLabel('Entrer un prénom', 'bob');
+      await fillByLabel('Entrer un prénom', 'bob');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'firstName', 'bob');
@@ -120,7 +121,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       // when
       await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}} @groups={{groups}}/>`);
 
-      await fillInByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
+      await fillByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'studentNumber', 'LATERREURGIGI123');

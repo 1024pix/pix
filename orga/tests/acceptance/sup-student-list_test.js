@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
@@ -75,7 +76,7 @@ module('Acceptance | Sup Student List', function (hooks) {
 
         await click(actions[0]);
         await clickByLabel('Éditer le numéro étudiant');
-        await fillInByLabel('Nouveau numéro étudiant', '1234');
+        await fillByLabel('Nouveau numéro étudiant', '1234');
         await clickByLabel('Mettre à jour');
 
         // then
@@ -91,7 +92,7 @@ module('Acceptance | Sup Student List', function (hooks) {
 
         await click(actions[0]);
         await clickByLabel('Éditer le numéro étudiant');
-        await fillInByLabel('Nouveau numéro étudiant', '321');
+        await fillByLabel('Nouveau numéro étudiant', '321');
         await clickByLabel('Mettre à jour');
 
         // then

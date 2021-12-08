@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { render, find } from '@ember/test-helpers';
-import { fillInByLabel } from '../../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -62,7 +62,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           @onFilter={{onFilter}}
         />`);
 
-      await fillInByLabel('Statut', 'SHARED');
+      await fillByLabel('Statut', 'SHARED');
 
       assert.ok(this.onFilter.calledWith({ status: 'SHARED' }));
     });

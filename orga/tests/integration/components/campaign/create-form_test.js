@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../../../helpers/testing-library';
+import { clickByLabel } from '../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -281,7 +282,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     await render(
       hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
     );
-    await fillInByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
+    await fillByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
 
     // when
     await clickByLabel(t('pages.campaign-creation.actions.create'));

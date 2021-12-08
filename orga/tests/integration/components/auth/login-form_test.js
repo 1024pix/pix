@@ -7,7 +7,8 @@ import { render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-import { clickByLabel, fillInByLabel } from '../../../helpers/testing-library';
+import { clickByLabel } from '../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -63,8 +64,8 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Auth::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillInByLabel(emailInputLabel, 'pix@example.net');
-      await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
+      await fillByLabel(emailInputLabel, 'pix@example.net');
+      await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
       // when
       await clickByLabel(loginLabel);
@@ -102,8 +103,8 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await render(
         hbs`<Auth::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`
       );
-      await fillInByLabel(emailInputLabel, 'pix@example.net');
-      await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
+      await fillByLabel(emailInputLabel, 'pix@example.net');
+      await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
       //  when
       await clickByLabel(loginLabel);
@@ -129,8 +130,8 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
     await render(hbs`<Auth::LoginForm/>`);
-    await fillInByLabel(emailInputLabel, 'pix@example.net');
-    await fillInByLabel(passwordInputLabel, 'Mauvais mot de passe');
+    await fillByLabel(emailInputLabel, 'pix@example.net');
+    await fillByLabel(passwordInputLabel, 'Mauvais mot de passe');
 
     //  when
     await clickByLabel(loginLabel);
@@ -152,8 +153,8 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
     await render(hbs`<Auth::LoginForm/>`);
-    await fillInByLabel(emailInputLabel, 'pix@example.net');
-    await fillInByLabel(passwordInputLabel, 'pix123');
+    await fillByLabel(emailInputLabel, 'pix@example.net');
+    await fillByLabel(passwordInputLabel, 'pix123');
 
     //  when
     await clickByLabel(loginLabel);
@@ -194,11 +195,11 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     test('it should not change icon when user keeps typing his password', async function (assert) {
       // given
-      await fillInByLabel(passwordInputLabel, 'début du mot de passe');
+      await fillByLabel(passwordInputLabel, 'début du mot de passe');
 
       // when
       await clickByLabel(showButtonText);
-      await fillInByLabel(passwordInputLabel, 'fin du mot de passe');
+      await fillByLabel(passwordInputLabel, 'fin du mot de passe');
 
       // then
       assert.dom('.fa-eye').exists();

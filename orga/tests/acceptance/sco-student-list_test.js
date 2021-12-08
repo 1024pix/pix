@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -119,7 +120,7 @@ module('Acceptance | Sco Student List', function (hooks) {
         test('it should display the students list filtered by lastname', async function (assert) {
           // when
           await visit('/eleves');
-          await fillInByLabel('Entrer un nom', 'ambo');
+          await fillByLabel('Entrer un nom', 'ambo');
           // then
           assert.equal(currentURL(), '/eleves?lastName=ambo');
           assert.contains('Rambo');
@@ -129,7 +130,7 @@ module('Acceptance | Sco Student List', function (hooks) {
         test('it should display the students list filtered by firstname', async function (assert) {
           // when
           await visit('/eleves');
-          await fillInByLabel('Entrer un prénom', 'Jo');
+          await fillByLabel('Entrer un prénom', 'Jo');
 
           // then
           assert.equal(currentURL(), '/eleves?firstName=Jo');
@@ -140,7 +141,7 @@ module('Acceptance | Sco Student List', function (hooks) {
         test('it should display the students list filtered by connection type', async function (assert) {
           // when
           await visit('/eleves');
-          await fillInByLabel('Rechercher par méthode de connexion', 'email');
+          await fillByLabel('Rechercher par méthode de connexion', 'email');
 
           // then
           assert.equal(currentURL(), '/eleves?connexionType=email');
