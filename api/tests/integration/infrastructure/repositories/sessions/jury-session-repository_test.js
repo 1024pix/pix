@@ -48,7 +48,7 @@ describe('Integration | Repository | JurySession', function () {
           examiner: 'Ginette',
           date: '2020-01-15',
           time: '15:30:00',
-          accessCode: 'ACC123A',
+          accessCode: 'ACC123',
           description: 'La session se déroule dans le jardin',
           examinerGlobalComment: '',
           finalizedAt: null,

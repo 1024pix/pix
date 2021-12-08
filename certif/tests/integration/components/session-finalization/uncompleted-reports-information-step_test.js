@@ -7,8 +7,9 @@ import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { render as renderScreen } from '@pix/ember-testing-library';
 
-module('Integration | Component | SessionFinalization::UnUncompletedReportsInformationStep', function(hooks) {
+module('Integration | Component | SessionFinalization::UncompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;
@@ -199,5 +200,27 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
 
     // then
     assert.contains('Retard, absence ou départ');
+  });
+
+  test('it has an accessible label', async function(assert) {
+    // given
+    this.certificationReports = [run(() => store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      certificationIssueReports: [],
+      hasSeenEndTestScreen: null,
+    }))];
+    this.abort = sinon.stub();
+
+    // when
+    const screen = await renderScreen(hbs`
+      <SessionFinalization::UncompletedReportsInformationStep
+        @certificationReports={{this.certificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onChangeAbortReason={{this.abort}}
+      />
+    `);
+
+    // then
+    assert.dom(screen.getByRole('table', { name: 'Ces candidats n\'ont pas fini leur test de certification' })).exists();
   });
 });
