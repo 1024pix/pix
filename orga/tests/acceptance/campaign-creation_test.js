@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel, selectChoiceForLabel } from '../helpers/testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, selectByLabelAndOption, visit, selectOptionInRadioGroup } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import {
@@ -53,15 +53,15 @@ module('Acceptance | Campaign Creation', function (hooks) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
 
-      await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
-      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Oui');
-      await fillInByLabel('Libellé de l’identifiant', 'Mail Pro');
-      await fillInByLabel('Titre du parcours', 'Savoir rechercher');
-      await fillInByLabel("Texte de la page d'accueil", 'Texte personnalisé');
+      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Oui');
+      await fillByLabel('Libellé de l’identifiant', 'Mail Pro');
+      await fillByLabel('Titre du parcours', 'Savoir rechercher');
+      await fillByLabel("Texte de la page d'accueil", 'Texte personnalisé');
 
       // when
-      await clickByLabel('Créer la campagne');
+      await clickByName('Créer la campagne');
 
       // then
       const firstCampaign = server.db.campaigns[0];
@@ -78,7 +78,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       server.post('/campaigns', {}, 500);
 
       // when
-      await clickByLabel('Créer la campagne');
+      await clickByName('Créer la campagne');
 
       // then
       assert.equal(currentURL(), '/campagnes/creation');
@@ -98,12 +98,13 @@ module('Acceptance | Campaign Creation', function (hooks) {
     test('it should allow to create a campaign of type ASSESSMENT and redirect to the newly created campaign', async function (assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
-      await clickByLabel('Évaluer les participants');
-      await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
-      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Non');
+      await clickByName('Évaluer les participants');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
+
       // when
-      await clickByLabel('Créer la campagne');
+      await clickByName('Créer la campagne');
 
       // then
       const firstCampaign = server.db.campaigns[0];
@@ -114,11 +115,12 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
       // given
-      await clickByLabel('Collecter les profils Pix des participants');
-      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Non');
+      await clickByName('Collecter les profils Pix des participants');
+      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
+
       // when
-      await clickByLabel('Créer la campagne');
+      await clickByName('Créer la campagne');
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
@@ -128,14 +130,14 @@ module('Acceptance | Campaign Creation', function (hooks) {
     test('it should create campaign if user changes type after filling the form', async function (assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
-      await clickByLabel('Évaluer les participants');
-      await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
-      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await fillInByLabel('Titre du parcours', 'Savoir rechercher');
-      await selectChoiceForLabel('Souhaitez-vous demander un identifiant externe ?', 'Non');
+      await clickByName('Évaluer les participants');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await fillByLabel('Titre du parcours', 'Savoir rechercher');
+      await clickByName('Non');
 
       // when
-      await clickByLabel('Créer la campagne');
+      await clickByName('Créer la campagne');
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
