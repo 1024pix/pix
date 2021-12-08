@@ -140,6 +140,21 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       // then
       assert.dom('.sidebar-menu__documentation-item').doesNotExist();
     });
+
+    test('it should display the team for all organisation members', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 1, isPro: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      // when
+      await render(hbs`<Layout::Sidebar />`);
+
+      // then
+      assert.contains('Équipe');
+    });
   });
 
   module('when the user is authenticated on orga.pix.org', function (hooks) {
