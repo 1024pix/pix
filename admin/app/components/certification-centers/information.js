@@ -45,7 +45,7 @@ class Form extends Object.extend(Validations) {
   @tracked name;
   @tracked externalId;
   @tracked type;
-  @tracked accreditations;
+  @tracked habilitations;
 }
 
 export default class Information extends Component {
@@ -53,9 +53,9 @@ export default class Information extends Component {
 
   certificationCenterTypes = types;
 
-  @computed('args.availableAccreditations.@each.id')
-  get availableAccreditations() {
-    return this.args.availableAccreditations?.sortBy('id');
+  @computed('args.availableHabilitations.@each.id')
+  get availableHabilitations() {
+    return this.args.availableHabilitations?.sortBy('id');
   }
 
   constructor() {
@@ -92,7 +92,7 @@ export default class Information extends Component {
       name: this.form.name.trim(),
       externalId: !this.form.externalId ? null : this.form.externalId.trim(),
       type: this.form.type.trim(),
-      accreditations: this.form.accreditations,
+      habilitations: this.form.habilitations,
     };
 
     await this.args.updateCertificationCenter(certificationCenterData);
@@ -100,25 +100,25 @@ export default class Information extends Component {
   }
 
   @action
-  updateGrantedAccreditation(accreditation) {
-    const accreditations = this.form.accreditations;
-    if (accreditations.includes(accreditation)) {
-      this.form.accreditations.removeObject(accreditation);
+  updateGrantedHabilitation(habilitation) {
+    const habilitations = this.form.habilitations;
+    if (habilitations.includes(habilitation)) {
+      this.form.habilitations.removeObject(habilitation);
     } else {
-      this.form.accreditations.addObject(accreditation);
+      this.form.habilitations.addObject(habilitation);
     }
   }
 
   _initForm() {
-    const { accreditations, name, externalId, type } = this.args.certificationCenter.getProperties(
-      'accreditations',
+    const { habilitations, name, externalId, type } = this.args.certificationCenter.getProperties(
+      'habilitations',
       'name',
       'externalId',
       'type'
     );
 
     this.form.name = name;
-    this.form.accreditations = accreditations ? accreditations.toArray() : [];
+    this.form.habilitations = habilitations ? habilitations.toArray() : [];
     this.form.externalId = externalId;
     this.form.type = type;
   }

@@ -65,19 +65,19 @@
     </div>
 
     <section>
-      <h1 class="accreditations-title">Habilitations aux certifications complémentaires</h1>
-      <div class="form-field accreditations-checkbox-list">
+      <h1 class="habilitations-title">Habilitations aux certifications complémentaires</h1>
+      <div class="form-field habilitations-checkbox-list">
         <ul>
-          {{#each @accreditations as |accreditation index|}}
+          {{#each @habilitations as |habilitation index|}}
             <li>
-              <label class="form-field__label" for={{concat "accreditation_" index}}>
+              <label class="form-field__label" for={{concat "habilitation_" index}}>
                 <Input
                   @type="checkbox"
-                  id={{concat "accreditation_" index}}
-                  @checked={{contains accreditation @certificationCenter.accreditations}}
-                  {{on "input" (fn this.updateGrantedAccreditation accreditation)}}
+                  id={{concat "habilitation_" index}}
+                  @checked={{contains habilitation @certificationCenter.habilitations}}
+                  {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
                 />
-                {{accreditation.name}}
+                {{habilitation.name}}
               </label>
             </li>
           {{/each}}

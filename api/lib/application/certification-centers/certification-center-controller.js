@@ -12,20 +12,20 @@ const map = require('lodash/map');
 module.exports = {
   async create(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
-    const accreditationIds = map(request.payload.data.relationships?.accreditations?.data, 'id');
+    const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
     const createdCertificationCenter = await usecases.createCertificationCenter({
       certificationCenter,
-      accreditationIds,
+      complementaryCertificationIds,
     });
     return certificationCenterSerializer.serialize(createdCertificationCenter);
   },
 
   async update(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
-    const accreditationIds = map(request.payload.data.relationships?.accreditations?.data, 'id');
+    const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
     const updatedCertificationCenter = await usecases.updateCertificationCenter({
       certificationCenter,
-      accreditationIds,
+      complementaryCertificationIds,
     });
     return certificationCenterSerializer.serialize(updatedCertificationCenter);
   },

@@ -24,14 +24,14 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
         data: [
           {
             id: '11',
-            type: 'accreditations',
+            type: 'habilitations',
             attributes: {
               name: 'Pix+Edu',
             },
           },
           {
             id: '22',
-            type: 'accreditations',
+            type: 'habilitations',
             attributes: {
               name: 'Cléa Numérique',
             },

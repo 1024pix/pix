@@ -5,7 +5,7 @@ exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/accreditations',
+      path: '/api/habilitations',
       config: {
         pre: [
           {

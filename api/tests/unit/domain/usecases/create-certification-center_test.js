@@ -12,7 +12,7 @@ describe('Unit | UseCase | create-certification-center', function () {
       // when
       const createdCertificationCenter = await createCertificationCenter({
         certificationCenter,
-        accreditationIds: [],
+        complementaryCertificationIds: [],
         certificationCenterRepository,
         complementaryCertificationHabilitationRepository,
       });
@@ -25,7 +25,7 @@ describe('Unit | UseCase | create-certification-center', function () {
     it('should save the complementary certification habilitations', async function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
-      const accreditationIds = ['1234', '4567'];
+      const complementaryCertificationIds = ['1234', '4567'];
       const certificationCenterRepository = { save: sinon.stub().returns(certificationCenter) };
       const complementaryCertificationHabilitationRepository = {
         save: sinon.stub(),
@@ -34,7 +34,7 @@ describe('Unit | UseCase | create-certification-center', function () {
       // when
       await createCertificationCenter({
         certificationCenter,
-        accreditationIds,
+        complementaryCertificationIds,
         certificationCenterRepository,
         complementaryCertificationHabilitationRepository,
       });

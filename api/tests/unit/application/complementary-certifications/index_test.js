@@ -4,7 +4,7 @@ const complementaryCertificationController = require('../../../../lib/applicatio
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Unit | Application | Router | complementary-certifications-router', function () {
-  describe('GET /api/accreditations', function () {
+  describe('GET /api/habilitations', function () {
     it('should return 403 HTTP status code when the user authenticated is not PixMaster', async function () {
       // given
       sinon
@@ -15,7 +15,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/accreditations');
+      const response = await httpTestServer.request('GET', '/api/habilitations');
 
       // then
       expect(response.statusCode).to.equal(403);

@@ -74,11 +74,11 @@ describe('Acceptance | API | Certification Center', function () {
                 type: 'SUP',
               },
               relationships: {
-                accreditations: {
+                habilitations: {
                   data: [
                     {
                       id: '12',
-                      type: 'accreditations',
+                      type: 'habilitations',
                     },
                   ],
                 },
@@ -99,7 +99,7 @@ describe('Acceptance | API | Certification Center', function () {
                 type: 'SCO',
               },
               relationships: {
-                accreditations: {
+                habilitations: {
                   data: [],
                 },
                 'certification-center-memberships': {
@@ -113,7 +113,7 @@ describe('Acceptance | API | Certification Center', function () {
           included: [
             {
               id: '12',
-              type: 'accreditations',
+              type: 'habilitations',
               attributes: {
                 name: 'Pix+Edu',
               },
@@ -168,10 +168,10 @@ describe('Acceptance | API | Certification Center', function () {
               type: 'SCO',
             },
             relationships: {
-              accreditations: {
+              habilitations: {
                 data: [
                   {
-                    type: 'accreditations',
+                    type: 'habilitations',
                     id: `${complementaryCertification.id}`,
                   },
                 ],

@@ -25,11 +25,11 @@ class CertificationCenter {
     return this.type === types.SCO;
   }
 
-  get isAccreditedPixPlusDroit() {
+  get isHabilitatedPixPlusDroit() {
     return this.habilitations.some((habilitation) => habilitation.name === PIX_PLUS_DROIT);
   }
 
-  get isAccreditedClea() {
+  get isHabilitatedClea() {
     return this.habilitations.some((habilitation) => habilitation.name === CLEA);
   }
 }

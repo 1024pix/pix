@@ -3,16 +3,16 @@ const certificationCenterCreationValidator = require('../validators/certificatio
 
 module.exports = async function createCertificationCenter({
   certificationCenter,
-  accreditationIds,
+  complementaryCertificationIds,
   complementaryCertificationHabilitationRepository,
   certificationCenterRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenter);
   const createdCertificationCenter = await certificationCenterRepository.save(certificationCenter);
 
-  for (const accreditationId of accreditationIds) {
+  for (const complementaryCertificationId of complementaryCertificationIds) {
     const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
-      complementaryCertificationId: parseInt(accreditationId),
+      complementaryCertificationId: parseInt(complementaryCertificationId),
       certificationCenterId: createdCertificationCenter.id,
     });
 

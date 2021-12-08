@@ -18,8 +18,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
 
   test('it should create a certification center', async function (assert) {
     // given
-    this.server.create('accreditation', { name: 'Pix+ Droit' });
-    this.server.create('accreditation', { name: 'CléA Numérique' });
+    this.server.create('habilitation', { name: 'Pix+ Droit' });
+    this.server.create('habilitation', { name: 'CléA Numérique' });
 
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
