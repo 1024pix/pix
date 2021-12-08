@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
-import { fillByLabel, clickByText, render, clickByName } from '@1024pix/ember-testing-library';
+import { clickByText, render, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::MembersListItem', function (hooks) {
@@ -92,7 +92,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByText('Modifier le rôle');
 
       // when
-      await fillByLabel('Sélectionner un rôle', 'ADMIN');
+      await selectByLabelAndOption('Sélectionner un rôle', 'ADMIN');
       await clickByText('Enregistrer');
 
       // then
@@ -109,7 +109,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByText('Modifier le rôle');
 
       // when
-      await fillByLabel('Sélectionner un rôle', 'MEMBER');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByText('Enregistrer');
 
       // then
@@ -128,7 +128,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByText('Modifier le rôle');
 
       // when
-      await fillByLabel('Sélectionner un rôle', 'MEMBER');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByText('Enregistrer');
 
       // then
@@ -151,7 +151,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       await clickByText('Modifier le rôle');
 
       // when
-      await fillByLabel('Sélectionner un rôle', 'MEMBER');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByText('Enregistrer');
 
       // then
