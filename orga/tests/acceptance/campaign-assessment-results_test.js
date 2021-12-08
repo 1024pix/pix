@@ -2,7 +2,8 @@ import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupIntl from '../helpers/setup-intl';
@@ -80,7 +81,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       await visit('/campagnes/1/resultats-evaluation');
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert
@@ -95,7 +96,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const changedPageSize = 10;
 
       await visit('/campagnes/1/resultats-evaluation');
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
       // when
@@ -113,7 +114,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { fillInByLabel, clickByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -59,8 +60,8 @@ module('Acceptance | authentication', function (hooks) {
     test('it should redirect prescriber to the terms-of-service page', async function (assert) {
       // given
       await visit('/connexion');
-      await fillInByLabel('Adresse e-mail', user.email);
-      await fillInByLabel('Mot de passe', 'secret');
+      await fillByLabel('Adresse e-mail', user.email);
+      await fillByLabel('Mot de passe', 'secret');
 
       // when
       await clickByLabel('Je me connecte');
@@ -75,8 +76,8 @@ module('Acceptance | authentication', function (hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillInByLabel('Adresse e-mail', user.email);
-      await fillInByLabel('Mot de passe', 'secret');
+      await fillByLabel('Adresse e-mail', user.email);
+      await fillByLabel('Mot de passe', 'secret');
 
       // when
       await clickByLabel('Je me connecte');
@@ -102,8 +103,8 @@ module('Acceptance | authentication', function (hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillInByLabel('Adresse e-mail', user.email);
-      await fillInByLabel('Mot de passe', 'secret');
+      await fillByLabel('Adresse e-mail', user.email);
+      await fillByLabel('Mot de passe', 'secret');
 
       // when
       await clickByLabel('Je me connecte');
@@ -118,8 +119,8 @@ module('Acceptance | authentication', function (hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillInByLabel('Adresse e-mail', user.email);
-      await fillInByLabel('Mot de passe', 'secret');
+      await fillByLabel('Adresse e-mail', user.email);
+      await fillByLabel('Mot de passe', 'secret');
 
       // when
       await clickByLabel('Je me connecte');

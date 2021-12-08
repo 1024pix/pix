@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, find } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -78,7 +79,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       // when
       await visit('/campagnes/1');
 
-      await fillInByLabel('Statut', 'STARTED');
+      await fillByLabel('Statut', 'STARTED');
       await clickByLabel('Effacer les filtres');
 
       // then

@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { render, click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { clickByLabel, fillInByLabel } from '../../../../helpers/testing-library';
+import { clickByLabel } from '../../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -83,7 +84,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
-      await fillInByLabel('Entrer un nom', 'bob');
+      await fillByLabel('Entrer un nom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -100,7 +101,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
-      await fillInByLabel('Entrer un prénom', 'bob');
+      await fillByLabel('Entrer un prénom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -137,7 +138,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       );
 
       // when
-      await fillInByLabel('Rechercher par méthode de connexion', 'email');
+      await fillByLabel('Rechercher par méthode de connexion', 'email');
 
       // then
       const call = triggerFiltering.getCall(0);

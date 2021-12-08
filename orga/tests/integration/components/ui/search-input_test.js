@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { fillInByLabel } from '../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Ui::SearchInput', function (hooks) {
   setupRenderingTest(hooks);
@@ -48,7 +48,7 @@ module('Integration | Component | Ui::SearchInput', function (hooks) {
 
     // when
     await render(hbs`<Ui::SearchInput @ariaLabel="search" @onSearch={{this.onSearch}} />`);
-    await fillInByLabel('search', 'Text to search');
+    await fillByLabel('search', 'Text to search');
 
     // then
     sinon.assert.called(onSearch);

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -87,7 +88,7 @@ module('Acceptance | Team Creation', function (hooks) {
         });
 
         await visit('/equipe/creation');
-        await fillInByLabel(inputLabel, email);
+        await fillByLabel(inputLabel, email);
 
         // when
         await clickByLabel(inviteButton);
@@ -107,7 +108,7 @@ module('Acceptance | Team Creation', function (hooks) {
         const emails = 'elisa.agnard@example.net,fred.durand@example.net';
 
         await visit('/equipe/creation');
-        await fillInByLabel(inputLabel, emails);
+        await fillByLabel(inputLabel, emails);
 
         // when
         await clickByLabel(inviteButton);
@@ -119,7 +120,7 @@ module('Acceptance | Team Creation', function (hooks) {
       test('it should not allow to invite a prescriber when an email is not given', async function (assert) {
         // given
         await visit('/equipe/creation');
-        await fillInByLabel(inputLabel, '');
+        await fillByLabel(inputLabel, '');
 
         // when
         await clickByLabel(inviteButton);
@@ -131,7 +132,7 @@ module('Acceptance | Team Creation', function (hooks) {
       test('should display an empty input field after cancel and before add a team member', async function (assert) {
         // given
         await visit('/equipe/creation');
-        await fillInByLabel(inputLabel, email);
+        await fillByLabel(inputLabel, email);
         await clickByLabel(cancelButton);
 
         // when
@@ -170,7 +171,7 @@ module('Acceptance | Team Creation', function (hooks) {
           },
           500
         );
-        await fillInByLabel(inputLabel, email);
+        await fillByLabel(inputLabel, email);
 
         // when
         await clickByLabel(inviteButton);
@@ -198,7 +199,7 @@ module('Acceptance | Team Creation', function (hooks) {
           },
           412
         );
-        await fillInByLabel(inputLabel, email);
+        await fillByLabel(inputLabel, email);
 
         // when
         await clickByLabel(inviteButton);
@@ -226,7 +227,7 @@ module('Acceptance | Team Creation', function (hooks) {
           },
           404
         );
-        await fillInByLabel(inputLabel, email);
+        await fillByLabel(inputLabel, email);
 
         // when
         await clickByLabel(inviteButton);
@@ -254,7 +255,7 @@ module('Acceptance | Team Creation', function (hooks) {
           },
           400
         );
-        await fillInByLabel(inputLabel, email);
+        await fillByLabel(inputLabel, email);
 
         // when
         await clickByLabel(inviteButton);

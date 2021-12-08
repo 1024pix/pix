@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { clickByLabel } from '../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import Response from 'ember-cli-mirage/response';
 
@@ -17,9 +18,9 @@ module('Acceptance | join-request', function (hooks) {
   module('When user submits the join request form', function () {
     test('it should fail if the uai does not belong to any organization', async function (assert) {
       // given
-      await fillInByLabel("UAI/RNE de l'établissement", '1111111A');
-      await fillInByLabel('Votre prénom', 'firstName');
-      await fillInByLabel('Votre nom', 'lastName');
+      await fillByLabel("UAI/RNE de l'établissement", '1111111A');
+      await fillByLabel('Votre prénom', 'firstName');
+      await fillByLabel('Votre nom', 'lastName');
 
       // when
       await clickByLabel('Envoyer');
@@ -32,9 +33,9 @@ module('Acceptance | join-request', function (hooks) {
       // given
       const proOrganization = server.create('organization', { type: 'PRO', externalId: '1234567P' });
 
-      await fillInByLabel("UAI/RNE de l'établissement", proOrganization.externalId);
-      await fillInByLabel('Votre prénom', 'firstName');
-      await fillInByLabel('Votre nom', 'lastName');
+      await fillByLabel("UAI/RNE de l'établissement", proOrganization.externalId);
+      await fillByLabel('Votre prénom', 'firstName');
+      await fillByLabel('Votre nom', 'lastName');
 
       // when
       await clickByLabel('Envoyer');
@@ -47,9 +48,9 @@ module('Acceptance | join-request', function (hooks) {
       // given
       const scoOrganization = server.create('organization', { type: 'SCO', externalId: '1234567S' });
 
-      await fillInByLabel("UAI/RNE de l'établissement", scoOrganization.externalId);
-      await fillInByLabel('Votre prénom', 'firstName');
-      await fillInByLabel('Votre nom', 'lastName');
+      await fillByLabel("UAI/RNE de l'établissement", scoOrganization.externalId);
+      await fillByLabel('Votre prénom', 'firstName');
+      await fillByLabel('Votre nom', 'lastName');
 
       // when
       await clickByLabel('Envoyer');
@@ -65,9 +66,9 @@ module('Acceptance | join-request', function (hooks) {
         () => new Response(500, {}, { errors: [{ status: '500', title: 'Internal Server Error' }] })
       );
 
-      await fillInByLabel("UAI/RNE de l'établissement", '1111111A');
-      await fillInByLabel('Votre prénom', 'firstName');
-      await fillInByLabel('Votre nom', 'lastName');
+      await fillByLabel("UAI/RNE de l'établissement", '1111111A');
+      await fillByLabel('Votre prénom', 'firstName');
+      await fillByLabel('Votre nom', 'lastName');
 
       // when
       await clickByLabel('Envoyer');
@@ -84,9 +85,9 @@ module('Acceptance | join-request', function (hooks) {
         email: 'sco@example.net',
       });
 
-      await fillInByLabel("UAI/RNE de l'établissement", scoOrganization.externalId);
-      await fillInByLabel('Votre prénom', 'firstName');
-      await fillInByLabel('Votre nom', 'lastName');
+      await fillByLabel("UAI/RNE de l'établissement", scoOrganization.externalId);
+      await fillByLabel('Votre prénom', 'firstName');
+      await fillByLabel('Votre nom', 'lastName');
 
       // when
       await clickByLabel('Envoyer');
