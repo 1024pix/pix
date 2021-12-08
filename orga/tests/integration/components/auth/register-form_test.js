@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 import { render, triggerEvent } from '@ember/test-helpers';
-import { clickByLabel } from '../../../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -79,10 +78,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       await fillByLabel(lastNameInputLabel, 'pix');
       await fillByLabel(emailInputLabel, 'shi@fu.me');
       await fillByLabel(passwordInputLabel, 'Mypassword1');
-      await clickByLabel(cguAriaLabel);
+      await clickByName(cguAriaLabel);
 
       // when
-      await clickByLabel(registerButtonLabel);
+      await clickByName(registerButtonLabel);
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -179,7 +178,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, user.password);
         if (user.cgu) {
-          await clickByLabel(cguAriaLabel);
+          await clickByName(cguAriaLabel);
         }
       };
 
@@ -210,7 +209,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await fillForm({ ...validUser, ...{ firstName: '' } });
 
         // when
-        await clickByLabel(registerButtonLabel);
+        await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -221,7 +220,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await fillForm({ ...validUser, ...{ lastName: '' } });
 
         // when
-        await clickByLabel(registerButtonLabel);
+        await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -232,7 +231,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await fillForm({ ...validUser, ...{ email: '' } });
 
         // when
-        await clickByLabel(registerButtonLabel);
+        await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -243,7 +242,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await fillForm({ ...validUser, ...{ password: '' } });
 
         // when
-        await clickByLabel(registerButtonLabel);
+        await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -254,7 +253,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await fillForm({ ...validUser, ...{ cgu: false } });
 
         // when
-        await clickByLabel(registerButtonLabel);
+        await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);

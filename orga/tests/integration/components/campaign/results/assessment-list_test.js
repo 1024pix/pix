@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { clickByLabel } from '../../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { render, click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
@@ -326,7 +326,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       await render(
         hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFilters}}/>`
       );
-      await clickByLabel('Effacer les filtres');
+      await clickByName('Effacer les filtres');
 
       // then
       assert.ok(resetFilters.called);

@@ -7,8 +7,7 @@ import { render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-import { clickByLabel } from '../../../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -68,7 +67,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
       // when
-      await clickByLabel(loginLabel);
+      await clickByName(loginLabel);
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -107,7 +106,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
       //  when
-      await clickByLabel(loginLabel);
+      await clickByName(loginLabel);
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -134,7 +133,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await fillByLabel(passwordInputLabel, 'Mauvais mot de passe');
 
     //  when
-    await clickByLabel(loginLabel);
+    await clickByName(loginLabel);
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -157,7 +156,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await fillByLabel(passwordInputLabel, 'pix123');
 
     //  when
-    await clickByLabel(loginLabel);
+    await clickByName(loginLabel);
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -179,7 +178,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     test('it should display password when user click', async function (assert) {
       // when
-      await clickByLabel(showButtonText);
+      await clickByName(showButtonText);
 
       // then
       assert.dom('#login-password').hasAttribute('type', 'text');
@@ -187,7 +186,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     test('it should change icon when user click on it', async function (assert) {
       // when
-      await clickByLabel(showButtonText);
+      await clickByName(showButtonText);
 
       // then
       assert.dom('.fa-eye').exists();
@@ -198,7 +197,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await fillByLabel(passwordInputLabel, 'début du mot de passe');
 
       // when
-      await clickByLabel(showButtonText);
+      await clickByName(showButtonText);
       await fillByLabel(passwordInputLabel, 'fin du mot de passe');
 
       // then

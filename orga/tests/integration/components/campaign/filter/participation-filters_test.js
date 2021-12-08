@@ -4,7 +4,7 @@ import { render, click, fillIn, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { clickByLabel } from '../../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -91,7 +91,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
                             @campaign={{campaign}}
                             @onResetFilter={{resetFiltering}}
                           />`);
-          await clickByLabel('Effacer les filtres');
+          await clickByName('Effacer les filtres');
 
           //then
           assert.ok(resetFiltering.called);

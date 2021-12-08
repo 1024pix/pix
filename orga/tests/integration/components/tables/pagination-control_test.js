@@ -4,8 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import { clickByLabel } from '../../../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 
 function getMetaForPage({ pageNumber, rowCount = 50 }) {
   const pageSize = 25;
@@ -90,7 +89,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // when
-    await clickByLabel('Aller à la page suivante');
+    await clickByName('Aller à la page suivante');
 
     // then
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageNumber: 2 } }));
@@ -102,7 +101,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // when
-    await clickByLabel('Aller à la page précédente');
+    await clickByName('Aller à la page précédente');
 
     // then
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageNumber: 1 } }));

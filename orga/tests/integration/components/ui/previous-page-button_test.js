@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import { clickByLabel } from '../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
   setupRenderingTest(hooks);
@@ -45,7 +45,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       );
 
       // when
-      await clickByLabel('Une instruction');
+      await clickByName('Une instruction');
 
       // then
       assert.ok(transitionToStub.calledWith(this.route, this.routeId));
@@ -60,7 +60,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       );
 
       // when
-      await clickByLabel('Une instruction');
+      await clickByName('Une instruction');
 
       // then
       assert.ok(transitionToStub.calledWith(this.route));

@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -64,7 +63,7 @@ module('Acceptance | authentication', function (hooks) {
       await fillByLabel('Mot de passe', 'secret');
 
       // when
-      await clickByLabel('Je me connecte');
+      await clickByName('Je me connecte');
 
       // then
       assert.equal(currentURL(), '/cgu');
@@ -80,7 +79,7 @@ module('Acceptance | authentication', function (hooks) {
       await fillByLabel('Mot de passe', 'secret');
 
       // when
-      await clickByLabel('Je me connecte');
+      await clickByName('Je me connecte');
 
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -107,7 +106,7 @@ module('Acceptance | authentication', function (hooks) {
       await fillByLabel('Mot de passe', 'secret');
 
       // when
-      await clickByLabel('Je me connecte');
+      await clickByName('Je me connecte');
 
       // then
       assert.equal(currentURL(), '/campagnes');
@@ -123,7 +122,7 @@ module('Acceptance | authentication', function (hooks) {
       await fillByLabel('Mot de passe', 'secret');
 
       // when
-      await clickByLabel('Je me connecte');
+      await clickByName('Je me connecte');
 
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -210,7 +209,7 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // when
-        await clickByLabel('Équipe');
+        await clickByName('Équipe');
 
         // then
         assert.dom('.sidebar-nav a:first-child').hasText('Campagnes');
@@ -263,7 +262,7 @@ module('Acceptance | authentication', function (hooks) {
           await visit('/');
 
           // when
-          await clickByLabel('Élèves');
+          await clickByName('Élèves');
 
           // then
           assert.dom('.sidebar-nav').containsText('Campagnes');
@@ -277,7 +276,7 @@ module('Acceptance | authentication', function (hooks) {
         test('should redirect to certifications page', async function (assert) {
           // when
           await visit('/');
-          await clickByLabel('Certifications');
+          await clickByName('Certifications');
 
           // then
           assert.dom('.sidebar-nav').containsText('Certifications');

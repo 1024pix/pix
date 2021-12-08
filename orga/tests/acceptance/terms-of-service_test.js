@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import authenticateSession from '../helpers/authenticate-session';
-import { clickByLabel } from '../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -35,7 +35,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await visit('/cgu');
 
       // when
-      await clickByLabel('J’accepte les conditions d’utilisation');
+      await clickByName('J’accepte les conditions d’utilisation');
 
       // then
       assert.equal(currentURL(), '/campagnes');

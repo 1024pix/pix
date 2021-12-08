@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import { clickByLabel } from '../../../helpers/testing-library';
 import hbs from 'htmlbars-inline-precompile';
+import { clickByName } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
@@ -44,7 +44,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
-    await clickByLabel(loginButton);
+    await clickByName(loginButton);
 
     // then
     assert.dom('.login-form').exists();
@@ -57,8 +57,8 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
-    await clickByLabel(loginButton);
-    await clickByLabel(registerButtonLabel);
+    await clickByName(loginButton);
+    await clickByName(registerButtonLabel);
 
     // then
     assert.dom('.register-form').exists();

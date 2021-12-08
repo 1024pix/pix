@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { clickByLabel } from '../../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -55,7 +55,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
 
       // when
       await render(hbs`<Campaign::Header::ArchivedBanner @campaign={{campaign}}/>`);
-      await clickByLabel('Désarchiver la campagne');
+      await clickByName('Désarchiver la campagne');
 
       // then
       assert.ok(this.campaign.unarchive.calledOnce);

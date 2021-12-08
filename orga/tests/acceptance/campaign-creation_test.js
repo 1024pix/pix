@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, selectByLabelAndOption, visit, selectOptionInRadioGroup } from '@1024pix/ember-testing-library';
+import {
+  fillByLabel,
+  clickByName,
+  selectByLabelAndOption,
+  visit,
+  selectOptionInRadioGroup,
+} from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import {
