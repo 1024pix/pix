@@ -45,7 +45,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     assert.contains(type.label);
     assert.contains(externalId);
 
-    assert.dom(screen.getByRole('listitem', { name: 'Non-accrédité pour CléA Numérique' })).exists();
-    assert.dom(screen.getByRole('listitem', { name: 'Accrédité pour Pix+ Droit' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour CléA Numérique' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+ Droit' })).exists();
   });
 });
