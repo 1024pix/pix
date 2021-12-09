@@ -122,6 +122,10 @@ export default class SkillReview extends Component {
     return this.args.model.campaign.customResultPageButtonText;
   }
 
+  get showNPS() {
+    return this.featureToggles.featureToggles.isNetPromoterScoreEnabled && this.args.model.campaign.organizationShowNPS;
+  }
+
   _buildUrl(baseUrl, params) {
     const Url = new URL(baseUrl);
     const urlParams = new URLSearchParams(Url.search);
