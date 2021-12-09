@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
-import { fillInByLabel } from '../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Auth::JoinRequestForm', function (hooks) {
@@ -17,7 +17,7 @@ module('Integration | Component | Auth::JoinRequestForm', function (hooks) {
         await render(hbs`<Auth::JoinRequestForm />`);
 
         // when
-        await fillInByLabel('Votre prénom', stringFilledIn);
+        await fillByLabel('Votre prénom', stringFilledIn);
         await triggerEvent('#firstName', 'focusout');
 
         // then
@@ -31,7 +31,7 @@ module('Integration | Component | Auth::JoinRequestForm', function (hooks) {
         await render(hbs`<Auth::JoinRequestForm />`);
 
         // when
-        await fillInByLabel('Votre nom', stringFilledIn);
+        await fillByLabel('Votre nom', stringFilledIn);
         await triggerEvent('#lastName', 'focusout');
 
         // then

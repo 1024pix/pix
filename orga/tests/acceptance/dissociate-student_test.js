@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { clickByName } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 
 import { createPrescriberByUser, createUserManagingStudents } from '../helpers/test-init';
@@ -43,9 +43,9 @@ module('Acceptance | Student List', function (hooks) {
       });
       // when
       await visit('/eleves');
-      await clickByLabel('Afficher les actions');
-      await clickByLabel('Dissocier le compte');
-      await clickByLabel('Oui, dissocier le compte');
+      await clickByName('Afficher les actions');
+      await clickByName('Dissocier le compte');
+      await clickByName('Oui, dissocier le compte');
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').doesNotExist();

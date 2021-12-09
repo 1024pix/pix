@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
@@ -57,7 +57,7 @@ module('Acceptance | Sup Student List', function (hooks) {
 
         const select = await getByPlaceholderText('Rechercher par groupe');
         await click(select);
-        await clickByLabel('L1');
+        await clickByName('L1');
 
         // then
         assert.notContains('toto');
@@ -74,9 +74,9 @@ module('Acceptance | Sup Student List', function (hooks) {
         const actions = getAllByRole('button', { name: 'Afficher les actions' });
 
         await click(actions[0]);
-        await clickByLabel('Éditer le numéro étudiant');
-        await fillInByLabel('Nouveau numéro étudiant', '1234');
-        await clickByLabel('Mettre à jour');
+        await clickByName('Éditer le numéro étudiant');
+        await fillByLabel('Nouveau numéro étudiant', '1234');
+        await clickByName('Mettre à jour');
 
         // then
         assert.contains('1234');
@@ -90,9 +90,9 @@ module('Acceptance | Sup Student List', function (hooks) {
         const actions = getAllByRole('button', { name: 'Afficher les actions' });
 
         await click(actions[0]);
-        await clickByLabel('Éditer le numéro étudiant');
-        await fillInByLabel('Nouveau numéro étudiant', '321');
-        await clickByLabel('Mettre à jour');
+        await clickByName('Éditer le numéro étudiant');
+        await fillByLabel('Nouveau numéro étudiant', '321');
+        await clickByName('Mettre à jour');
 
         // then
         assert.contains('123');

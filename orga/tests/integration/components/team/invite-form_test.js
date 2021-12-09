@@ -3,7 +3,7 @@ import { render } from '@ember/test-helpers';
 
 import hbs from 'htmlbars-inline-precompile';
 
-import { fillInByLabel } from '../../../helpers/testing-library';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::InviteForm', function (hooks) {
@@ -31,7 +31,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
 
     // when
     const inputLabel = this.intl.t('pages.team-new-item.input-label');
-    await fillInByLabel(inputLabel, 'dev@example.net');
+    await fillByLabel(inputLabel, 'dev@example.net');
 
     // then
     assert.deepEqual(this.email, 'dev@example.net');

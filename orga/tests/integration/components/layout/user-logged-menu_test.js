@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import { clickByLabel } from '../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
@@ -60,7 +60,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
   test('should display the chevron-up icon when menu is open', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
-    await clickByLabel('Ouvrir le menu utilisateur');
+    await clickByName('Ouvrir le menu utilisateur');
 
     // then
     assert.dom('.fa-chevron-up').exists();
@@ -70,7 +70,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
   test('should display the disconnect link when menu is open', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
-    await clickByLabel('Ouvrir le menu utilisateur');
+    await clickByName('Ouvrir le menu utilisateur');
 
     // then
     assert.contains('Se déconnecter');
@@ -79,7 +79,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
   test('should display the organizations name and externalId when menu is open', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu  />`);
-    await clickByLabel('Ouvrir le menu utilisateur');
+    await clickByName('Ouvrir le menu utilisateur');
 
     // then
     assert.contains(organization2.name);

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -64,7 +64,7 @@ module('Acceptance | Campaign List', function (hooks) {
       await visit('/campagnes');
 
       // when
-      await clickByLabel('CampagneEtPrairie');
+      await clickByName('CampagneEtPrairie');
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
@@ -83,7 +83,7 @@ module('Acceptance | Campaign List', function (hooks) {
         await visit('/campagnes');
 
         // when
-        await fillInByLabel('Rechercher un créateur', creator.firstName);
+        await fillByLabel('Rechercher un créateur', creator.firstName);
 
         // then
         assert.equal(currentURL(), `/campagnes?creatorName=${creator.firstName}`);
@@ -94,7 +94,7 @@ module('Acceptance | Campaign List', function (hooks) {
         await visit(`/campagnes?creatorName=${creator.firstName}`);
 
         // when
-        await fillInByLabel('Rechercher un créateur', '');
+        await fillByLabel('Rechercher un créateur', '');
 
         // then
         assert.equal(currentURL(), '/campagnes');

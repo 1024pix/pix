@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupIntl from '../helpers/setup-intl';
@@ -66,7 +66,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       await visit('/campagnes/1/resultats-evaluation');
 
       // when
-      await clickByLabel('AAAAAAAA_IAM_FIRST');
+      await clickByName('AAAAAAAA_IAM_FIRST');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
@@ -80,7 +80,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       await visit('/campagnes/1/resultats-evaluation');
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert
@@ -95,11 +95,11 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const changedPageSize = 10;
 
       await visit('/campagnes/1/resultats-evaluation');
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
       // when
-      await clickByLabel('Aller à la page suivante');
+      await clickByName('Aller à la page suivante');
 
       // then
       assert.contains('Page 2 / 10');
@@ -113,7 +113,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert
