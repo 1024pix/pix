@@ -23,13 +23,10 @@ $margin-right: 32px;
   }
 }
 
-.list-team-page-header {
-
-  &__add-member-button {
-    margin-top: 20px;
+.list-team-page-header__add-member-button {
     margin-left: auto;
+    margin-bottom: 14px;
   }
-}
 
 .list-team-page-invitations {
   margin-bottom: 35px;
