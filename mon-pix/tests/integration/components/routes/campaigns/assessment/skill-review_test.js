@@ -6,15 +6,26 @@ import hbs from 'htmlbars-inline-precompile';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
+import Service from '@ember/service';
+
+class MockFeatureTogglesService extends Service {
+  featureToggles = { isNetPromoterScoreEnabled: true };
+}
 
 describe('Integration | Component | routes/campaigns/assessment/skill-review', function () {
+  let campaign;
   setupIntlRenderingTest();
+  beforeEach(function () {
+    this.owner.register('service:feature-toggles', MockFeatureTogglesService);
+    campaign = {
+      organizationShowNPS: false,
+    };
+  });
 
   context('When user want to share his/her results', function () {
     context('when a skill has been reset after campaign completion and before sending results', function () {
       it('should see the button to share', async function () {
         // Given
-        const campaign = {};
         const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [] };
         this.set('model', { campaign, campaignParticipationResult });
 
@@ -27,7 +38,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       it('displays an error message and a resume button on share', async function () {
         // Given
-        const campaign = {};
         const campaignParticipationResult = {
           isShared: false,
           campaignParticipationBadges: [],
@@ -53,7 +63,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   context('When campaign is for Absolute Novice', function () {
     beforeEach(async function () {
       // Given
-      const campaign = { isForAbsoluteNovice: true };
+      campaign = { isForAbsoluteNovice: true, organizationShowNPS: false };
       const campaignParticipationResult = { campaignParticipationBadges: [] };
       this.set('model', { campaign, campaignParticipationResult });
 
@@ -79,10 +89,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         context('when the organization has a logo', function () {
           beforeEach(async function () {
             // Given
-            const campaign = {
+            campaign = {
               customResultPageText: 'Bravo !',
               organizationLogoUrl: 'www.logo-example.com',
               organizationName: 'Dragon & Co',
+              organizationShowNPS: false,
             };
             const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
             this.set('model', { campaign, campaignParticipationResult });
@@ -106,10 +117,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         context('when the organization has no logo', function () {
           beforeEach(async function () {
             // Given
-            const campaign = {
+            campaign = {
               customResultPageText: 'Bravo !',
               organizationLogoUrl: null,
               organizationName: 'Dragon & Co',
+              organizationShowNPS: false,
             };
             const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
             this.set('model', { campaign, campaignParticipationResult });
@@ -133,7 +145,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       context('when the organization has a customResultPageText', function () {
         beforeEach(async function () {
-          const campaign = { customResultPageText: 'some message', organizationName: 'Dragon & Co' };
+          campaign = {
+            customResultPageText: 'some message',
+            organizationName: 'Dragon & Co',
+            organizationShowNPS: false,
+          };
           const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
           this.set('model', { campaign, campaignParticipationResult });
 
@@ -155,10 +171,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               const reachedStage = {
                 get: sinon.stub().withArgs('threshold').returns([75]),
               };
-              const campaign = {
+              campaign = {
                 customResultPageButtonUrl: 'http://www.my-url.net/resultats',
                 customResultPageButtonText: 'Next step',
                 organizationName: 'Dragon & Co',
+                organizationShowNPS: false,
               };
               const campaignParticipationResult = {
                 isShared: true,
@@ -187,10 +204,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           'when the participant has finished a campaign with neither stages and he has neither masteryPercentage nor participantExternalId',
           function () {
             beforeEach(async function () {
-              const campaign = {
+              campaign = {
                 customResultPageButtonUrl: 'http://www.my-url.net',
                 customResultPageButtonText: 'Next step',
                 organizationName: 'Dragon & Co',
+                organizationShowNPS: false,
               };
               const campaignParticipationResult = {
                 isShared: true,
@@ -217,10 +235,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       context('when the organization only has a customResultPageButtonUrl', function () {
         beforeEach(async function () {
-          const campaign = {
+          campaign = {
             customResultPageButtonUrl: 'www.my-url.net',
             customResultPageButtonText: null,
             organizationName: 'Dragon & Co',
+            organizationShowNPS: false,
           };
           const campaignParticipationResult = {
             isShared: true,
@@ -241,11 +260,12 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       context('when the organization has neither a message nor a button', function () {
         beforeEach(async function () {
-          const campaign = {
+          campaign = {
             customResultPageText: null,
             customResultPageButtonUrl: null,
             customResultPageButtonText: null,
             organizationName: 'Dragon & Co',
+            organizationShowNPS: false,
           };
           const campaignParticipationResult = {
             isShared: true,
@@ -265,9 +285,10 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     });
     context('when the campaign is not shared', function () {
       beforeEach(async function () {
-        const campaign = {
+        campaign = {
           customResultPageButtonText: 'Bravo !',
           organizationName: 'Dragon & Co',
+          organizationShowNPS: false,
         };
         const campaignParticipationResult = {
           isShared: false,
@@ -290,7 +311,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   describe('The retry block', function () {
     context('when user can retry', function () {
       beforeEach(async function () {
-        const campaign = {};
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canRetry: true,
@@ -309,7 +329,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
     context('when user cannot retry', function () {
       beforeEach(async function () {
-        const campaign = {};
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canRetry: false,
@@ -330,7 +349,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   describe('The improve block', function () {
     context('when user can improve', function () {
       beforeEach(async function () {
-        const campaign = {};
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canImprove: true,
@@ -349,7 +367,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
     context('when user cannot improve', function () {
       beforeEach(async function () {
-        const campaign = {};
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canImprove: false,
@@ -363,6 +380,43 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       it('should not display improve block', function () {
         // Then
         expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
+      });
+    });
+  });
+
+  describe('The Net Promoter Score block', function () {
+    context('when organizationShowNPS is true', function () {
+      beforeEach(async function () {
+        campaign = {
+          organizationShowNPS: true,
+        };
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should display NPS Block', function () {
+        expect(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.exist;
+      });
+    });
+
+    context('when organizationShowNPS is false', function () {
+      beforeEach(async function () {
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should not display NPS Block', function () {
+        expect(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.not.exist;
       });
     });
   });
