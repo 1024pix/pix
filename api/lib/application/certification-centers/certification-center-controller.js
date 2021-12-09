@@ -95,6 +95,15 @@ module.exports = {
     return certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
   },
 
+  async findCertificationCenterMemberships(request) {
+    const certificationCenterId = request.params.certificationCenterId;
+    const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
+      certificationCenterId,
+    });
+
+    return certificationCenterMembershipSerializer.serializeMembers(certificationCenterMemberships);
+  },
+
   async createCertificationCenterMembershipByEmail(request, h) {
     const certificationCenterId = request.params.certificationCenterId;
     const { email } = request.payload;
