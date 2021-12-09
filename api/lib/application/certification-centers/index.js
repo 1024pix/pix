@@ -164,7 +164,30 @@ exports.register = async function (server) {
             "- Récupération de tous les membres d'un centre de certification.\n" +
             '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
-        tags: ['api', 'certification-center-membership'],
+        tags: ['api', 'admin', 'certification-center-membership'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/certification-centers/{certificationCenterId}/members',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: certificationCenterController.findCertificationCenterMemberships,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification**\n' +
+            "- Récupération de tous les membres d'un centre de certification.\n",
+        ],
+        tags: ['api', 'certification-center', 'members'],
       },
     },
     {
