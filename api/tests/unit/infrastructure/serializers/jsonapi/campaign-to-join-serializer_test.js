@@ -31,6 +31,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,
             'organization-logo-url': campaignToJoin.organizationLogoUrl,
+            'organization-show-nps': campaignToJoin.organizationShowNPS,
             'target-profile-name': campaignToJoin.targetProfileName,
             'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
             'custom-result-page-text': campaignToJoin.customResultPageText,
