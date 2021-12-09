@@ -15,6 +15,7 @@ const buildOrganization = function buildOrganization({
   email = 'contact@example.net',
   documentationUrl = null,
   createdBy,
+  showNPS = false,
 } = {}) {
   const values = {
     id,
@@ -31,6 +32,7 @@ const buildOrganization = function buildOrganization({
     createdBy,
     createdAt,
     updatedAt,
+    showNPS,
   };
 
   return databaseBuffer.pushInsertable({

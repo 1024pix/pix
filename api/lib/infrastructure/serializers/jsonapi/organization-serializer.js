@@ -21,6 +21,7 @@ module.exports = {
         'tags',
         'createdBy',
         'documentationUrl',
+        'showNPS',
       ],
       memberships: {
         ref: 'id',

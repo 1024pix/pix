@@ -27,6 +27,7 @@ function buildOrganization({
   tags = [],
   createdBy,
   documentationUrl = 'https://pix.fr',
+  showNPS = false,
 } = {}) {
   return new Organization({
     id,
@@ -44,6 +45,7 @@ function buildOrganization({
     tags,
     createdBy,
     documentationUrl,
+    showNPS,
   });
 }
 
