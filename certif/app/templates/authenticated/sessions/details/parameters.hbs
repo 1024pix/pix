@@ -9,20 +9,21 @@
       <h4 class="label-text session-details-content__label">Code d'accès
         <div class="session-details-content__sub-label">Candidat</div>
       </h4>
-      <div class="session-details-content__clipboard">
+      <div class="session-details-content__clipboard" {{on 'mouseout' this.removeAccessCodeTooltip}}>
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
           <PixTooltip
             @id="tooltip-clipboard-button"
-            @text={{this.tooltipText}}
+            @text={{this.accessCodeTooltipText}}
+            @isInline={{true}}
           >
             <CopyButton
               @clipboardText={{this.session.accessCode}}
-              @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}}
+              @success={{this.showAccessCodeTooltip}}
               @classNames="icon-button session-details-content__clipboard-button"
-              aria-labelledby="tooltip-clipboard-button"
+              aria-label="Copier le code d'accès"
             >
-              <FaIcon @icon='copy' prefix='far' />
+              <FaIcon @icon='copy' prefix='fas' />
             </CopyButton>
           </PixTooltip>
         {{/if}}
