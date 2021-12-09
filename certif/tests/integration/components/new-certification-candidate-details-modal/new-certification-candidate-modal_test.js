@@ -4,7 +4,7 @@ import { render, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import { render as renderScreen } from '@pix/ember-testing-library';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
 module('Integration | Component | new-certification-candidate-modal', function(hooks) {

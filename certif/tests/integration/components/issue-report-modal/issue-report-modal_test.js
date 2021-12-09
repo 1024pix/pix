@@ -4,7 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import { render as renderScreen } from '@pix/ember-testing-library';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | issue-report-modal', function(hooks) {
   setupRenderingTest(hooks);

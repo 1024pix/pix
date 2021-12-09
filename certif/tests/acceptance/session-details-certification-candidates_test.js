@@ -5,7 +5,7 @@ import moment from 'moment';
 import { authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit as visitScreen } from '@pix/ember-testing-library';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
 

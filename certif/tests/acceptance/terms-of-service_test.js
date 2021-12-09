@@ -7,7 +7,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
-import { visit as visitScreen } from '@pix/ember-testing-library';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
