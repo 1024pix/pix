@@ -5,8 +5,8 @@ const identifiersType = require('../../domain/types/identifiers-type');
 exports.register = async function (server) {
   server.route([
     {
-      method: 'PATCH',
-      path: '/api/certification-candidates/{id}',
+      method: 'POST',
+      path: '/api/certification-candidates/{id}/authorize-to-start',
       config: {
         validate: {
           params: Joi.object({
@@ -16,10 +16,27 @@ exports.register = async function (server) {
             'authorized-to-start': Joi.boolean().required(),
           }),
         },
-        handler: certificationCandidatesController.update,
+        handler: certificationCandidatesController.authorizeToStart,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Indiquer la présence d'un candidat pour permettre ou bloquer son entrée en session",
+        ],
+        tags: ['api', 'certification-candidates'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/certification-candidates/{id}/authorize-to-resume',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCandidateId,
+          }),
+        },
+        handler: certificationCandidatesController.authorizeToResume,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Autoriser la reprise du test par le candidat',
         ],
         tags: ['api', 'certification-candidates'],
       },

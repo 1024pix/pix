@@ -3,16 +3,29 @@ const { featureToggles } = require('../../config');
 const { NotFoundError } = require('../http-errors');
 
 module.exports = {
-  async update(request, h) {
+  async authorizeToStart(request, h) {
     if (!featureToggles.isEndTestScreenRemovalEnabled) {
       throw new NotFoundError();
     }
 
     const authorizedToStart = request.payload['authorized-to-start'];
     const certificationCandidateForSupervisingId = request.params.id;
-    await usecases.updateCertificationCandidateForSupervising({
+    await usecases.authorizeCertificationCandidateToStart({
       certificationCandidateForSupervisingId,
       authorizedToStart,
+    });
+
+    return h.response().code(204);
+  },
+
+  async authorizeToResume(request, h) {
+    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+      throw new NotFoundError();
+    }
+
+    const certificationCandidateId = request.params.id;
+    await usecases.authorizeCertificationCandidateToResume({
+      certificationCandidateId,
     });
 
     return h.response().code(204);
