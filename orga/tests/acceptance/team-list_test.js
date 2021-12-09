@@ -26,32 +26,48 @@ module('Acceptance | Team List', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
-    module('When prescriber is a member', function (hooks) {
-      hooks.beforeEach(async () => {
+    module('When prescriber is a member', function () {
+      test('it should show title of team page', async function (assert) {
+        // given
         user = createUserMembershipWithRole('MEMBER');
         createPrescriberByUser(user);
 
         await authenticateSession(user.id);
-      });
 
-      test('it should not be accessible', async function (assert) {
         // when
         await visit('/equipe');
 
         // then
-        assert.equal(currentURL(), '/campagnes');
+        assert.contains('Mon équipe');
+      });
+
+      test('it should be possible to see only members list', async function (assert) {
+        // given
+        user = createUserMembershipWithRole('MEMBER');
+        createPrescriberByUser(user);
+
+        await authenticateSession(user.id);
+
+        // when
+        await visit('/equipe');
+
+        // then
+        assert.equal(currentURL(), '/equipe/membres');
+        assert.notContains('Membres');
+        assert.notContains('Invitations');
+        assert.notContains('Inviter un membre');
+        assert.contains('Rôle');
       });
     });
 
-    module('When prescriber is an admin', function (hooks) {
-      hooks.beforeEach(async () => {
+    module('When prescriber is an admin', function () {
+      test('it should be accessible', async function (assert) {
+        // given
         user = createUserMembershipWithRole('ADMIN');
         createPrescriberByUser(user);
 
         await authenticateSession(user.id);
-      });
 
-      test('it should be accessible', async function (assert) {
         // when
         await visit('/equipe/membres');
 
@@ -60,25 +76,44 @@ module('Acceptance | Team List', function (hooks) {
       });
 
       test('it should show title of team page', async function (assert) {
+        // given
+        user = createUserMembershipWithRole('ADMIN');
+        createPrescriberByUser(user);
+
+        await authenticateSession(user.id);
+
         // when
         await visit('/equipe');
 
         // then
-        assert.dom('.page-title').hasText('Mon équipe');
+        assert.contains('Mon équipe');
+      });
+
+      test('it should show members list, invitations list and add an invitation button', async function (assert) {
+        // given
+        user = createUserMembershipWithRole('ADMIN');
+        createPrescriberByUser(user);
+
+        await authenticateSession(user.id);
+
+        // when
+        await visit('/equipe');
+
+        // then
+        assert.contains('Membres');
+        assert.contains('Invitations');
+        assert.contains('Inviter un membre');
       });
     });
   });
 
-  module('When the prescriber comes back to this route', function (hooks) {
-    hooks.beforeEach(async () => {
-      user = createUserMembershipWithRole('ADMIN');
-      createPrescriberByUser(user);
-
-      await authenticateSession(user.id);
-    });
-
+  module('When the prescriber comes back to this route', function () {
     test('it should land on first page', async function (assert) {
       // given
+      user = createUserMembershipWithRole('ADMIN');
+      createPrescriberByUser(user);
+      await authenticateSession(user.id);
+
       const organizationId = server.db.organizations[0].id;
       times(10, () => {
         server.create('membership', {
