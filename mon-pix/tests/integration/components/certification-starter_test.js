@@ -11,12 +11,172 @@ import { clickByLabel } from '../../helpers/click-by-label';
 describe('Integration | Component | certification-starter', function () {
   setupIntlRenderingTest();
 
+  describe('when the candidate has no complementary certification subscriptions', function () {
+    it('should not display subscriptions panel', async function () {
+      // given
+      const store = this.owner.lookup('service:store');
+      this.set(
+        'certificationCandidateSubscription',
+        store.createRecord('certification-candidate-subscription', {
+          eligibleSubscriptions: [],
+          nonEligibleSubscriptions: [],
+        })
+      );
+      this.set('certificationCandidateSubscription', { eligibleSubscriptions: [], nonEligibleSubscriptions: [] });
+
+      // when
+      await render(
+        hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+      );
+
+      // expect
+      expect(
+        contains(
+          'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'
+        )
+      ).to.not.exist;
+      expect(
+        contains(
+          "Vous avez été inscrit à/aux certification(s) complémentaire(s) suivantes : mais vous n'y êtes pas éligible.\n"
+        )
+      ).to.not.exist;
+    });
+  });
+
+  describe('when the candidate has complementary certification subscriptions', function () {
+    describe('when the candidate is eligible', function () {
+      it('should display subscription eligible panel', async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set(
+          'certificationCandidateSubscription',
+          store.createRecord('certification-candidate-subscription', {
+            eligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+            nonEligibleSubscriptions: [],
+          })
+        );
+
+        // when
+        await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        );
+
+        // then
+        expect(
+          contains(
+            'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :\n\n Certif complémentaire 1  Certif complémentaire 2'
+          )
+        ).to.exist;
+      });
+
+      it('should not display subscription non eligible panel', async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set(
+          'certificationCandidateSubscription',
+          store.createRecord('certification-candidate-subscription', {
+            eligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+            nonEligibleSubscriptions: [],
+          })
+        );
+
+        // when
+        await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        );
+
+        // expect
+        expect(
+          contains(
+            "Vous avez été inscrit aux certifications complémentaires suivantes : mais vous n'y êtes pas éligible."
+          )
+        ).to.not.exist;
+      });
+    });
+
+    describe('when the candidate is not eligible', function () {
+      it('should display subscription non eligible panel for 1 complementary certification', async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set(
+          'certificationCandidateSubscription',
+          store.createRecord('certification-candidate-subscription', {
+            eligibleSubscriptions: [],
+            nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }],
+          })
+        );
+
+        // when
+        await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        );
+
+        // expect
+        expect(
+          contains(
+            "Vous avez été inscrit à la certification complémentaire suivante : Certif complémentaire 1 mais vous n'y êtes pas éligible.\nVous pouvez néanmoins passer votre certification Pix si vous le souhaitez."
+          )
+        ).to.exist;
+      });
+
+      it('should display subscription non eligible panel for 2 complementary certifications', async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set(
+          'certificationCandidateSubscription',
+          store.createRecord('certification-candidate-subscription', {
+            eligibleSubscriptions: [],
+            nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+          })
+        );
+
+        // when
+        await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        );
+
+        // expect
+        expect(
+          contains(
+            "Vous avez été inscrit aux certifications complémentaires suivantes : Certif complémentaire 1, Certif complémentaire 2 mais vous n'y êtes pas éligible.\nVous pouvez néanmoins passer votre certification Pix si vous le souhaitez."
+          )
+        ).to.exist;
+      });
+
+      it('should not display subscription eligible panel', async function () {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set(
+          'certificationCandidateSubscription',
+          store.createRecord('certification-candidate-subscription', {
+            eligibleSubscriptions: [],
+            nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+          })
+        );
+
+        // when
+        await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        );
+
+        // expect
+        expect(
+          contains(
+            'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'
+          )
+        ).to.not.exist;
+      });
+    });
+  });
+
   describe('#submit', function () {
     context('when no access code is provided', function () {
       it('should display an appropriated error message', async function () {
         // given
-        this.set('sessionId', '123');
-        await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+        this.set('certificationCandidateSubscription', { sessionId: 123 });
+        await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        );
 
         // when
         await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
@@ -46,8 +206,10 @@ describe('Integration | Component | certification-starter', function () {
             deleteRecord: sinon.stub(),
           };
           createRecordStub.returns(certificationCourse);
-          this.set('sessionId', '123');
-          await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+          this.set('certificationCandidateSubscription', { sessionId: 123 });
+          await render(
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           replaceWithStub.returns('ok');
 
@@ -57,7 +219,7 @@ describe('Integration | Component | certification-starter', function () {
           // then
           sinon.assert.calledWithExactly(createRecordStub, 'certification-course', {
             accessCode: 'ABC123',
-            sessionId: '123',
+            sessionId: 123,
           });
           sinon.assert.calledOnce(certificationCourse.save);
           sinon.assert.calledWithExactly(replaceWithStub, 'certifications.resume', 456);
@@ -83,8 +245,10 @@ describe('Integration | Component | certification-starter', function () {
             deleteRecord: sinon.stub(),
           };
           createRecordStub.returns(certificationCourse);
-          this.set('sessionId', '123');
-          await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+          this.set('certificationCandidateSubscription', { sessionId: 123 });
+          await render(
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
 
@@ -113,8 +277,10 @@ describe('Integration | Component | certification-starter', function () {
             deleteRecord: sinon.stub(),
           };
           createRecordStub.returns(certificationCourse);
-          this.set('sessionId', '123');
-          await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+          this.set('certificationCandidateSubscription', { sessionId: 123 });
+          await render(
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '412' }] });
 
@@ -143,8 +309,10 @@ describe('Integration | Component | certification-starter', function () {
             deleteRecord: sinon.stub(),
           };
           createRecordStub.returns(certificationCourse);
-          this.set('sessionId', '123');
-          await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+          this.set('certificationCandidateSubscription', { sessionId: 123 });
+          await render(
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({
             errors: [{ status: '403', detail: "Message d'erreur envoyé par l 'API" }],
@@ -175,8 +343,10 @@ describe('Integration | Component | certification-starter', function () {
             deleteRecord: sinon.stub(),
           };
           createRecordStub.returns(certificationCourse);
-          this.set('sessionId', '123');
-          await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
+          this.set('certificationCandidateSubscription', { sessionId: 123 });
+          await render(
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: 'other' }] });
 

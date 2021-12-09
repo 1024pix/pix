@@ -267,6 +267,9 @@
     },
     "certification-start": {
       "title": "Rejoindre une session de certification",
+      "eligible-subscriptions": "Vous êtes inscrit {itemCount, plural, one {à la certification complémentaire suivante}  other {aux certifications complémentaires suivantes}} en plus de la certification Pix :",
+      "non-eligible-subscriptions": "Vous avez été inscrit {itemCount, plural, one {à la certification complémentaire suivante}  other {aux certifications complémentaires suivantes}} : {subscriptions} mais vous n'y êtes pas éligible.",
+      "non-eligible-subscriptions2": "Vous pouvez néanmoins passer votre certification Pix si vous le souhaitez.",
       "access-code": "Saisissez le code d'accès communiqué par le surveillant",
       "actions": {
         "submit": "Commencer mon test"

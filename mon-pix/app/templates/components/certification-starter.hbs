@@ -2,6 +2,34 @@
 <section class="certification-starter">
   <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
 
+  {{#if @certificationCandidateSubscription.hasSubscriptions}}
+    <div class="certification-starter-subscriptions">
+      {{#if @certificationCandidateSubscription.eligibleSubscriptions.length}}
+        <div class="certification-starter-subscriptions__eligible" data-test-id="eligible-subscriptions">
+          <p class="certification-starter-subscriptions__eligible-title">{{t
+              "pages.certification-start.eligible-subscriptions"
+              itemCount=@certificationCandidateSubscription.eligibleSubscriptions.length
+            }}</p>
+          {{#each @certificationCandidateSubscription.eligibleSubscriptions as |eligibleSubscription|}}
+            <span class="certification-starter-subscriptions__eligible-item">
+              <FaIcon @icon="check-circle" class="certification-starter-subscriptions__eligible-icon" />
+              {{eligibleSubscription.name}}
+            </span>
+          {{/each}}
+        </div>
+      {{/if}}
+      {{#if this.nonEligibleSubscriptionNames.length}}
+        <div class="certification-starter-subscriptions__non-eligible" data-test-id="non-eligible-subscriptions">
+          <FaIcon @icon="exclamation-circle" class="certification-starter-subscriptions__non-eligible-icon" />
+          <span>{{t
+              "pages.certification-start.non-eligible-subscriptions"
+              subscriptions=this.nonEligibleSubscriptionNames
+              itemCount=@certificationCandidateSubscription.nonEligibleSubscriptions.length
+            }}<br />{{t "pages.certification-start.non-eligible-subscriptions2"}}</span>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
   <p class="certification-course-page__order">
     {{t "pages.certification-start.access-code"}}
   </p>
