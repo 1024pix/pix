@@ -10,7 +10,7 @@ export default class SessionParametersController extends Controller {
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
-  @tracked tooltipText = 'Copier le lien direct';
+  @tracked accessCodeTooltipText = '';
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
@@ -18,12 +18,19 @@ export default class SessionParametersController extends Controller {
   }
 
   @action
-  clipboardSuccess() {
-    this.tooltipText = 'Copié !';
+  async showAccessCodeTooltip() {
+    this.accessCodeTooltipText = 'Copié !';
+    await _waitForSeconds(2);
+    this.removeAccessCodeTooltip();
   }
 
   @action
-  clipboardOut() {
-    this.tooltipText = 'Copier le code d\'accès';
+  removeAccessCodeTooltip() {
+    this.accessCodeTooltipText = '';
   }
+}
+
+async function _waitForSeconds(timeoutInSeconds) {
+  const timeoutInMiliseconds = timeoutInSeconds * 1000;
+  return new Promise((resolve) => window.setTimeout(resolve, timeoutInMiliseconds));
 }
