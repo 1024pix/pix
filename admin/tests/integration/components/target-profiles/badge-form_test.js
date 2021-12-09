@@ -130,7 +130,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     await fillIn('input#alt-message', 'texte alternatif à l‘image');
     await fillIn('input#skillSetThreshold', '75');
     await fillIn('input#skillSetName', 'nom du skill set');
-    await fillIn('textarea#skillSetSkills', 'skillId1,skillId3,skillId4');
+    await fillIn('textarea#skillSetSkills', 'skillId1, skillId3, skillId4');
     await click('button[data-test="badge-form-submit-button"]');
 
     // then
