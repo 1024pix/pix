@@ -7,7 +7,7 @@ import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import { render as renderScreen } from '@pix/ember-testing-library';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::UncompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
