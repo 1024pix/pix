@@ -1,5 +1,5 @@
-module.exports = async function createSkillSet({ badgeId, skillSet, skillSetRepository }) {
-  await skillSetRepository.save({
+module.exports = function createSkillSet({ badgeId, skillSet, skillSetRepository }) {
+  return skillSetRepository.save({
     skillSet: {
       ...skillSet,
       badgeId,

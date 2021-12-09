@@ -271,7 +271,7 @@ describe('Acceptance | API | Badges', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(201);
     });
 
     it('should create a SkillSet criterion and add it to an existing badge', async function () {
@@ -305,7 +305,7 @@ describe('Acceptance | API | Badges', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(201);
     });
   });
 
@@ -335,7 +335,7 @@ describe('Acceptance | API | Badges', function () {
       // given
       const skillSet = {
         name: 'Mon skillSet',
-        skillIds: ['recSkill1', 'recSkill2'],
+        'skill-ids': ['recSkill1', 'recSkill2'],
       };
 
       options = {
@@ -354,7 +354,7 @@ describe('Acceptance | API | Badges', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(201);
     });
   });
 });

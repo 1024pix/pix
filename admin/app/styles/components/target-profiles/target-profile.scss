@@ -7,6 +7,10 @@
   &__content {
     width: 50%;
   }
+
+  &:not(:first-of-type) {
+    margin-top: 20px;
+  }
 }
 
 .target-profile__edit-form {

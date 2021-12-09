@@ -8,7 +8,7 @@ module.exports = {
   },
 
   deserialize(skillSetJson) {
-    const { name, skillIds } = skillSetJson.data.attributes;
+    const { name, 'skill-ids': skillIds } = skillSetJson.data.attributes;
     return {
       name,
       skillIds,
