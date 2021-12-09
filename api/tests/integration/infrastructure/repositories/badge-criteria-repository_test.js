@@ -10,7 +10,7 @@ describe('Integration | Repository | Badge Criteria Repository', function () {
   });
 
   describe('#save', function () {
-    it('should save badge-criterion', async function () {
+    it('should save CampaignParticipation badge-criterion', async function () {
       // given
       const { id: badgeId } = databaseBuilder.factory.buildBadge();
       await databaseBuilder.commit();

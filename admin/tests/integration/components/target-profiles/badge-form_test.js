@@ -18,8 +18,8 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
   test('it should display the expected number of inputs', async function (assert) {
     // given
-    const expectedNumberOfInputsInForm = 8;
-    const expectedNumberOfTextareasInForm = 1;
+    const expectedNumberOfInputsInForm = 11;
+    const expectedNumberOfTextareasInForm = 2;
     const expectedNumberOfCheckboxesInForm = 2;
 
     // when
@@ -76,12 +76,14 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       assert.ok(true);
     });
 
-    test('should send badgeCriteria creation request to api', async function (assert) {
+    test('should send campaign participation badgeCriteria creation request to api', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const createRecordStub = sinon.stub();
       const saveStub = sinon.stub();
-      createRecordStub.returns({ save: saveStub, id: 123 });
+      const badge = { id: 'badgeId', save: saveStub };
+      createRecordStub.onFirstCall().returns(badge);
+      createRecordStub.onSecondCall().returns({ save: saveStub });
       store.createRecord = createRecordStub;
 
       await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
@@ -97,13 +99,54 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       sinon.assert.calledWith(createRecordStub.secondCall, 'badge-criterion', {
         threshold: '65',
         scope: 'CampaignParticipation',
+        badge,
       });
-      sinon.assert.calledWith(saveStub.secondCall, {
-        adapterOptions: {
-          badgeId: 123,
-        },
-      });
+      sinon.assert.calledWith(saveStub.secondCall);
       assert.ok(true);
     });
+  });
+
+  test('should send skillSet and badgeCriteria creation requests to api', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const findStub = sinon.stub();
+    const targetProfile = {};
+    findStub.onFirstCall().returns(targetProfile);
+    const createRecordStub = sinon.stub();
+    const saveStub = sinon.stub();
+    const badge = { id: 'badgeId', save: saveStub };
+    createRecordStub.onFirstCall().returns(badge);
+    const skillSet = { id: 'skillSetId', save: saveStub };
+    createRecordStub.onSecondCall().returns(skillSet);
+    createRecordStub.onThirdCall().returns({ save: saveStub });
+    store.createRecord = createRecordStub;
+    store.find = findStub;
+
+    await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
+
+    // when
+    await fillIn('input#badge-key', 'clé_du_badge');
+    await fillIn('input#image-name', 'nom_de_limage.svg');
+    await fillIn('input#alt-message', 'texte alternatif à l‘image');
+    await fillIn('input#skillSetThreshold', '75');
+    await fillIn('input#skillSetName', 'nom du skill set');
+    await fillIn('textarea#skillSetSkills', 'skillId1, skillId3, skillId4');
+    await click('button[data-test="badge-form-submit-button"]');
+
+    // then
+    sinon.assert.calledWith(createRecordStub.secondCall, 'skill-set', {
+      name: 'nom du skill set',
+      badge,
+      skillIds: ['skillId1', 'skillId3', 'skillId4'],
+    });
+    sinon.assert.calledWith(saveStub.secondCall);
+    sinon.assert.calledWith(createRecordStub.thirdCall, 'badge-criterion', {
+      threshold: '75',
+      scope: 'SkillSet',
+      badge,
+      skillSets: [skillSet],
+    });
+    sinon.assert.calledWith(saveStub.thirdCall);
+    assert.ok(true);
   });
 });
