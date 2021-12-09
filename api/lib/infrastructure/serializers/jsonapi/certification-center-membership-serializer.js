@@ -29,4 +29,15 @@ module.exports = {
       },
     }).serialize(certificationCenterMemberships);
   },
+
+  serializeMembers(certificationCenterMemberships) {
+    return new Serializer('members', {
+      transform: function (record) {
+        const { id, firstName, lastName } = record.user;
+        return { id, firstName, lastName };
+      },
+      ref: 'id',
+      attributes: ['firstName', 'lastName'],
+    }).serialize(certificationCenterMemberships);
+  },
 };

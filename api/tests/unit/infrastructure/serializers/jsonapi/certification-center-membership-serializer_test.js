@@ -73,4 +73,37 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
       expect(serializedCertificationCenter).to.deep.equal(expectedSerializedCertificationCenter);
     });
   });
+
+  describe('#serializeMembers', function () {
+    it('should convert into JSON API data', function () {
+      // given
+      const certificationCenter = domainBuilder.buildCertificationCenter();
+      const user = domainBuilder.buildUser();
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+        certificationCenter,
+        user,
+      });
+
+      const expectedSerializedMember = {
+        data: [
+          {
+            id: user.id.toString(),
+            type: 'members',
+            attributes: {
+              'first-name': user.firstName,
+              'last-name': user.lastName,
+            },
+          },
+        ],
+      };
+
+      // when
+      const serializedMember = certificationCenterMembershipSerializer.serializeMembers([
+        certificationCenterMembership,
+      ]);
+
+      // then
+      expect(serializedMember).to.deep.equal(expectedSerializedMember);
+    });
+  });
 });
