@@ -1220,6 +1220,13 @@
       "stage": {
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
+      },
+      "net-promoter-score": {
+        "title": "Your opinion counts! Take a few minutes to tell us what you thought of this test and help us improve it.",
+        "link": {
+          "label": "Give my feedback",
+          "href": "https://pix.org/en-gb"
+        }
       }
     },
     "terms-of-service": {
