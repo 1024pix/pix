@@ -2,7 +2,25 @@
   <div class="session-details-row">
     <div class="session-details-content session-details-content--multiple session-details-content--copyable">
       <h4 class="label-text session-details-content__label">Numéro de session</h4>
-      <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
+      <div class="session-details-content__clipboard" {{on 'mouseout' this.removeSessionNumberTooltip}}>
+        <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
+        {{#if (is-clipboard-supported)}}
+          <PixTooltip
+            @id="tooltip-clipboard-button"
+            @text={{this.sessionNumberTooltipText}}
+            @isInline={{true}}
+          >
+            <CopyButton
+              @clipboardText={{this.session.id}}
+              @success={{this.showSessionIdTooltip}}
+              @classNames="icon-button session-details-content__clipboard-button"
+              aria-label="Copier le code d'accès"
+            >
+              <FaIcon @icon='copy' prefix='fas' />
+            </CopyButton>
+          </PixTooltip>
+        {{/if}}
+      </div>
     </div>
 
     <div class="session-details-content session-details-content--multiple session-details-content--copyable">

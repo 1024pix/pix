@@ -10,11 +10,24 @@ export default class SessionParametersController extends Controller {
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
+  @tracked sessionNumberTooltipText = '';
   @tracked accessCodeTooltipText = '';
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
     return this.certificationCandidates.isAny('isLinked');
+  }
+
+  @action
+  async showSessionIdTooltip() {
+    this.sessionNumberTooltipText = 'Copié !';
+    await _waitForSeconds(2);
+    this.removeSessionNumberTooltip();
+  }
+
+  @action
+  removeSessionNumberTooltip() {
+    this.sessionNumberTooltipText = '';
   }
 
   @action
