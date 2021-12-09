@@ -1,12 +1,14 @@
 <div class="panel session-details-container">
   <div class="session-details-row">
-    <div class="session-details-content session-details-content--multiple">
+    <div class="session-details-content session-details-content--multiple session-details-content--copyable">
       <h4 class="label-text session-details-content__label">Numéro de session</h4>
-      <span class="content-text session-details-content__text">{{this.session.id}}</span>
+      <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
     </div>
 
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Code d'accès</h4>
+    <div class="session-details-content session-details-content--multiple session-details-content--copyable">
+      <h4 class="label-text session-details-content__label">Code d'accès
+        <div class="session-details-content__sub-label">Candidat</div>
+      </h4>
       <div class="session-details-content__clipboard">
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
