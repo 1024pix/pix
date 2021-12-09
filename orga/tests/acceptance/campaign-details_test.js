@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { clickByName } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
@@ -39,7 +39,7 @@ module('Acceptance | Campaign Details', function (hooks) {
       await visit('/campagnes/1');
 
       // when
-      await clickByLabel('Retour');
+      await clickByName('Retour');
 
       // then
       assert.equal(currentURL(), '/campagnes');

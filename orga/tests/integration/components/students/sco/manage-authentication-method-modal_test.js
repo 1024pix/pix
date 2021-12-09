@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import { clickByLabel } from '../../../../helpers/testing-library';
 import { resolve } from 'rsvp';
+import { clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
@@ -179,7 +179,7 @@ module('Integration | Component | Student::Sco::ManageAuthenticationMethodModal'
         );
 
         // when
-        await clickByLabel(
+        await clickByName(
           this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button')
         );
 
@@ -194,7 +194,7 @@ module('Integration | Component | Student::Sco::ManageAuthenticationMethodModal'
         );
 
         // when
-        await clickByLabel(
+        await clickByName(
           this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button')
         );
 
@@ -216,7 +216,7 @@ module('Integration | Component | Student::Sco::ManageAuthenticationMethodModal'
         );
 
         // when
-        await clickByLabel(
+        await clickByName(
           this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button')
         );
         await triggerCopySuccess(
@@ -234,7 +234,7 @@ module('Integration | Component | Student::Sco::ManageAuthenticationMethodModal'
         await render(
           hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
         );
-        await clickByLabel(
+        await clickByName(
           this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button')
         );
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
@@ -243,7 +243,7 @@ module('Integration | Component | Student::Sco::ManageAuthenticationMethodModal'
         await render(
           hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
         );
-        await clickByLabel(
+        await clickByName(
           this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button')
         );
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;

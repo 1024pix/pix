@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, find } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
+import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -38,7 +38,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       test('it could click on user to go to details', async function (assert) {
         // when
         await visit('/campagnes/1');
-        await clickByLabel('Bacri');
+        await clickByName('Bacri');
 
         // then
         assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
@@ -56,7 +56,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       test('it could click on profile to go to details', async function (assert) {
         // when
         await visit('/campagnes/2');
-        await clickByLabel('Bacri');
+        await clickByName('Bacri');
 
         // then
         assert.equal(currentURL(), '/campagnes/2/profils/1');
@@ -66,7 +66,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
     test('it could return on list of participants', async function (assert) {
       // when
       await visit('/campagnes/1/evaluations/1');
-      await clickByLabel('Retour');
+      await clickByName('Retour');
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
@@ -76,13 +76,13 @@ module('Acceptance | Campaign Activity', function (hooks) {
   module('when prescriber reset filters', () => {
     test('should reset status filter', async function (assert) {
       // when
-      await visit('/campagnes/1');
+      const screen = await visit('/campagnes/1');
 
-      await fillInByLabel('Statut', 'STARTED');
-      await clickByLabel('Effacer les filtres');
+      await fillByLabel('Statut', 'STARTED');
+      await clickByName('Effacer les filtres');
 
       // then
-      assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, '');
+      assert.equal(screen.getByLabelText('Statut').value, '');
     });
   });
 });

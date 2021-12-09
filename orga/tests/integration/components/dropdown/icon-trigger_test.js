@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByLabel } from '../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Dropdown | icon-trigger', function (hooks) {
@@ -18,7 +18,7 @@ module('Integration | Component | Dropdown | icon-trigger', function (hooks) {
   test('should display actions on click', async function (assert) {
     // when
     await render(hbs`<Dropdown::IconTrigger @ariaLabel="Afficher les actions">Something</Dropdown::IconTrigger>`);
-    await clickByLabel('Afficher les actions');
+    await clickByName('Afficher les actions');
 
     // then
     assert.contains('Something');
@@ -27,8 +27,8 @@ module('Integration | Component | Dropdown | icon-trigger', function (hooks) {
   test('should hide actions on click again', async function (assert) {
     // when
     await render(hbs`<Dropdown::IconTrigger @ariaLabel="Afficher les actions">Something</Dropdown::IconTrigger>`);
-    await clickByLabel('Afficher les actions');
-    await clickByLabel('Afficher les actions');
+    await clickByName('Afficher les actions');
+    await clickByName('Afficher les actions');
 
     // then
     assert.notContains('Something');

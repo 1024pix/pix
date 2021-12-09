@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { clickByName } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -31,7 +31,7 @@ module('Acceptance | Information Banner', function (hooks) {
 
       // when
       await visit('/');
-      await clickByLabel('importer ou ré-importer la base élèves');
+      await clickByName('importer ou ré-importer la base élèves');
 
       // then
       assert.equal(currentURL(), '/eleves');

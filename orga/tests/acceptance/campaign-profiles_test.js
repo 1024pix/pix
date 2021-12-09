@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { clickByLabel, fillInByLabel } from '../helpers/testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -57,7 +57,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // when
       await visit('/campagnes/1/profils');
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
@@ -70,11 +70,11 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       const changedPageSize = 10;
 
       await visit('/campagnes/1/profils');
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
-      await clickByLabel('Aller à la page suivante');
+      await clickByName('Aller à la page suivante');
 
       // then
       assert.contains('Page 2 / 10');
@@ -88,7 +88,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // when
       await visit(`/campagnes/1/profils?pageNumber=${startPage}`);
-      await fillInByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });

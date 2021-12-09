@@ -3,7 +3,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { clickByLabel } from '../../../helpers/testing-library';
+import { clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
@@ -66,7 +66,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
-    await clickByLabel(this.intl.t('pages.team-invitations.cancel-invitation'));
+    await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
     sinon.assert.calledWith(
@@ -97,7 +97,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
-    await clickByLabel(this.intl.t('pages.team-invitations.cancel-invitation'));
+    await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
     sinon.assert.calledWith(notifications.error, this.intl.t('api-errors-messages.global'));
