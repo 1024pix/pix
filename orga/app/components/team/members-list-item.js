@@ -43,6 +43,10 @@ export default class MembersListItem extends Component {
     return this.displayRoleByOrganizationRole[this.args.membership.organizationRole];
   }
 
+  get isNotCurrentUserMembership() {
+    return this.currentUser.prescriber.id !== this.args.membership.user.get('id');
+  }
+
   @action
   setRoleSelection(event) {
     this.selectedNewRole = event.target.value;
