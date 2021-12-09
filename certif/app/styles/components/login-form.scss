@@ -6,6 +6,7 @@
   background-color: $white;
   border-radius: 10px;
   padding: 20px 30px;
+  max-width: 500px;
 
   @include device-is("tablet") {
     padding: 40px 60px;
