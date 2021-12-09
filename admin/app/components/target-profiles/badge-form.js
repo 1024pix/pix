@@ -95,7 +95,7 @@ export default class BadgeForm extends Component {
         this.notifications.error('Le taux de réussite doit être compris entre 0 et 100.');
         return;
       }
-      const skillIds = this.skillSet.skills.split(',');
+      const skillIds = this.skillSet.skills.replace(/\s/g, '').split(',');
       const skillSet = this.store.createRecord('skill-set', {
         badge,
         name: this.skillSet.name,
