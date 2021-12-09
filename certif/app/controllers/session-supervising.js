@@ -7,4 +7,9 @@ export default class SessionSupervisingController extends Controller {
     const authorizedToStart = !candidate.authorizedToStart;
     await candidate.updateAuthorizedToStart(authorizedToStart);
   }
+
+  @action
+  async authorizeTestResume(candidate) {
+    await candidate.authorizeTestResume();
+  }
 }

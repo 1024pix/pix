@@ -14,12 +14,17 @@ export default class CertificationCandidateForSupervising extends Model {
   }
 
   updateAuthorizedToStart = memberAction({
-    type: 'patch',
+    type: 'post',
     urlType: 'updateAuthorizedToStart',
     before(authorizedToStart) {
       return {
         'authorized-to-start': authorizedToStart,
       };
     },
+  });
+
+  authorizeTestResume = memberAction({
+    type: 'post',
+    urlType: 'authorizeToResume',
   });
 }

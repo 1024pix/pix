@@ -77,7 +77,7 @@
         <div class="pix-modal-footer">
           <PixButton
             data-test-id="finalize-session-modal__confirm-button"
-            @triggerAction={{this.authorizeTestResume}}
+            @triggerAction={{fn this.authorizeTestResume @candidate}}
             @backgroundColor="yellow"
           >
             Je confirme l'autorisation

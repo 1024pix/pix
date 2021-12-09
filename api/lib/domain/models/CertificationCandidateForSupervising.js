@@ -10,6 +10,10 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
   }
+
+  authorizeToStart() {
+    this.authorizedToStart = true;
+  }
 }
 
 module.exports = CertificationCandidateForSupervising;
