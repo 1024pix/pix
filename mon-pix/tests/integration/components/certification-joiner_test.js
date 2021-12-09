@@ -79,14 +79,17 @@ describe('Integration | Component | certification-joiner', function () {
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
-      createRecordMock.returns({ save: function () {} });
+      createRecordMock.returns({
+        save: function () {},
+        id: '112233',
+      });
       store.createRecord = createRecordMock;
 
       // when
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      sinon.assert.calledWith(stepChangeStub, '123456');
+      sinon.assert.calledWith(stepChangeStub, '112233');
     });
 
     it('should display an error message if session id contains letters', async function () {

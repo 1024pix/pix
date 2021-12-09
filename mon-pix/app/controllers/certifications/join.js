@@ -19,7 +19,7 @@ export default class JoinCertificationController extends Controller {
   }
 
   @action
-  changeStep(sessionId) {
-    this.router.transitionTo('certifications.start', sessionId);
+  changeStep(certificationCandidateId) {
+    this.router.transitionTo('certifications.start', certificationCandidateId);
   }
 }

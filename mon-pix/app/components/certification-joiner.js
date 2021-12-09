@@ -81,7 +81,7 @@ export default class CertificationJoiner extends Component {
     try {
       currentCertificationCandidate = this.createCertificationCandidate();
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
-      this.args.onStepChange(this.sessionId);
+      this.args.onStepChange(currentCertificationCandidate.id);
     } catch (err) {
       if (currentCertificationCandidate) {
         currentCertificationCandidate.deleteRecord();

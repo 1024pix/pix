@@ -110,4 +110,9 @@ export default function () {
   });
 
   this.post('/shared-certifications', postSharedCertifications);
+
+  this.get('/certification-candidates/:id/subscriptions', (schema, request) => {
+    const certificationCandidateId = request.params.id;
+    return schema.certificationCandidateSubscriptions.find(certificationCandidateId);
+  });
 }

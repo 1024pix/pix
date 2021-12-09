@@ -172,6 +172,12 @@ describe('Acceptance | Certification | Start Certification Course', function () 
               sessionId: 1,
               birthdate: '1990-01-04',
             });
+            this.server.create('certification-candidate-subscription', {
+              id: 1,
+              sessionId: 1,
+              eligibleSubscriptions: [],
+              nonEligibleSubscriptions: [],
+            });
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -186,12 +192,20 @@ describe('Acceptance | Certification | Start Certification Course', function () 
 
           it('should redirect to certification start route', function () {
             // then
-            expect(currentURL()).to.equal('/certifications/commencer/1');
+            expect(currentURL()).to.equal('/certifications/candidat/1');
           });
         });
 
         context('when user is successfully linked to the candidate', function () {
           beforeEach(async function () {
+            // given
+            this.server.create('certification-candidate-subscription', {
+              id: 2,
+              sessionId: 1,
+              eligibleSubscriptions: [],
+              nonEligibleSubscriptions: [],
+            });
+
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -206,7 +220,7 @@ describe('Acceptance | Certification | Start Certification Course', function () 
 
           it('should redirect to certification start route', function () {
             // then
-            expect(currentURL()).to.equal('/certifications/commencer/1');
+            expect(currentURL()).to.equal('/certifications/candidat/2');
           });
         });
 
@@ -227,6 +241,13 @@ describe('Acceptance | Certification | Start Certification Course', function () 
               lastName: 'Bravo',
             });
             assessment = certificationCourse.assessment;
+
+            this.server.create('certification-candidate-subscription', {
+              id: 2,
+              sessionId: 1,
+              eligibleSubscriptions: [],
+              nonEligibleSubscriptions: [],
+            });
           });
 
           context('when user enter a correct code session', function () {
