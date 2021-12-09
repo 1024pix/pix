@@ -1220,6 +1220,13 @@
       "stage": {
         "masteryPercentage": "{rate, number, ::percent} de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoiles acquises}} sur {total}"
+      },
+      "net-promoter-score": {
+        "title": "Votre avis compte ! Prenez quelques minutes pour nous dire ce que vous avez pensé de ce test et nous aider à l'améliorer.",
+        "link": {
+          "label": "Je donne mon avis",
+          "href": "https://pix.fr"
+        }
       }
     },
     "terms-of-service": {
