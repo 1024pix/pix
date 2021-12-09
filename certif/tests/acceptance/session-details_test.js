@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
 } from '../helpers/test-init';
+import { visit } from '@1024pix/ember-testing-library';
 
 import config from 'pix-certif/config/environment';
 
@@ -96,20 +97,25 @@ module('Acceptance | Session Details', function(hooks) {
 
       test('it should display session details', async function(assert) {
         // given
-        const session = server.create('session', {
+        server.create('session', {
+          id: 123,
           date: '2019-02-18',
           time: '14:00',
+          address: '123 rue des peupliers',
+          room: 'Salle 101',
+          examiner: 'Winston',
+          accessCode: 'ABC123',
         });
 
         // when
-        await visit(`/sessions/${session.id}`);
+        const screen = await visit('/sessions/123');
 
         // then
-        assert.dom('.session-details-header__title h1').hasText(`Session ${session.id}`);
-        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(2) span').hasText(`${session.address}`);
-        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(3) span').hasText(`${session.room}`);
-        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${session.examiner}`);
-        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${session.accessCode}`);
+        assert.dom('.session-details-header__title h1').hasText('Session 123');
+        assert.dom(screen.getByText('123 rue des peupliers')).exists();
+        assert.dom(screen.getByText('Salle 101')).exists();
+        assert.dom(screen.getByText('Winston')).exists();
+        assert.dom(screen.getByText('ABC123')).exists();
         assert.dom('.session-details-header-datetime__date .content-text').hasText('lundi 18 févr. 2019');
         assert.contains('14:00');
       });

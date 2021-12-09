@@ -1,23 +1,8 @@
 <div class="panel session-details-container">
   <div class="session-details-row">
     <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">ID session</h4>
+      <h4 class="label-text session-details-content__label">Numéro de session</h4>
       <span class="content-text session-details-content__text">{{this.session.id}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Nom du site</h4>
-      <span class="content-text session-details-content__text">{{this.session.address}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Salle</h4>
-      <span class="content-text session-details-content__text">{{this.session.room}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Surveillant(s)</h4>
-      <span class="content-text session-details-content__text">{{this.session.examiner}}</span>
     </div>
 
     <div class="session-details-content session-details-content--multiple">
@@ -41,6 +26,23 @@
         {{/if}}
       </div>
     </div>
+
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Nom du site</h4>
+      <span class="content-text session-details-content__text">{{this.session.address}}</span>
+    </div>
+
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Salle</h4>
+      <span class="content-text session-details-content__text">{{this.session.room}}</span>
+    </div>
+
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Surveillant(s)</h4>
+      <span class="content-text session-details-content__text">{{this.session.examiner}}</span>
+    </div>
+
+
   </div>
 
   <div class="session-details-row">
