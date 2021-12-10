@@ -29,6 +29,7 @@ class Organization {
     tags = [],
     documentationUrl,
     createdBy,
+    showNPS,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -46,6 +47,7 @@ class Organization {
     this.tags = tags;
     this.documentationUrl = documentationUrl;
     this.createdBy = createdBy;
+    this.showNPS = showNPS;
   }
 
   get isSup() {

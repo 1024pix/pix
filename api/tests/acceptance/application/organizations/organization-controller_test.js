@@ -643,6 +643,7 @@ describe('Acceptance | Application | organization-controller', function () {
               email: organization.email,
               'created-by': pixMasterUserId,
               'documentation-url': organization.documentationUrl,
+              'show-nps': organization.showNPS,
             },
             id: organization.id.toString(),
             relationships: {

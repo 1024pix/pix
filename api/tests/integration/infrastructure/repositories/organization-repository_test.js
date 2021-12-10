@@ -158,6 +158,7 @@ describe('Integration | Repository | Organization', function () {
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
           createdBy: pixMasterUserId,
+          showNPS: true,
         });
 
         const expectedAttributes = {
@@ -177,6 +178,7 @@ describe('Integration | Repository | Organization', function () {
           tags: [],
           documentationUrl: 'https://pix.fr/',
           createdBy: insertedOrganization.createdBy,
+          showNPS: true,
         };
 
         await databaseBuilder.commit();
