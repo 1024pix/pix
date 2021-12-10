@@ -41,9 +41,8 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
           type: Assessment.types.CAMPAIGN,
           campaignParticipationId: 456,
         });
-        campaignParticipation = domainBuilder.buildCampaignParticipation({
-          campaignId: 123,
-        });
+        const campaign = domainBuilder.buildCampaign({ id: 123 });
+        campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
         targetProfile = domainBuilder.buildTargetProfile();
         flashAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
           userId,

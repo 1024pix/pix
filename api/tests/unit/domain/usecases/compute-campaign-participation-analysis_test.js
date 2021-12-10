@@ -26,7 +26,8 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
     targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
 
-    campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+    const campaign = domainBuilder.buildCampaign({ id: campaignId });
+    campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
   });
 
   context('User has access to this result', function () {

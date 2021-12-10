@@ -17,7 +17,9 @@ module.exports = async function getProgression({
   let progression;
 
   if (assessment.isForCampaign()) {
-    const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
+    const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId, {
+      include: ['campaign'],
+    });
     let targetProfile;
     if (!assessment.isFlash()) {
       targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);

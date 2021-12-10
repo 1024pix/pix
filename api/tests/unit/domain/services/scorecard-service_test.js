@@ -248,13 +248,11 @@ describe('Unit | Service | ScorecardService', function () {
         campaignParticipation1 = domainBuilder.buildCampaignParticipation({
           id: 1,
           campaign,
-          campaignId: campaign.id,
           status: STARTED,
         });
         campaignParticipation2 = domainBuilder.buildCampaignParticipation({
           id: 2,
           campaign,
-          campaignId: campaign.id,
           status: STARTED,
         });
         oldAssessment1 = domainBuilder.buildAssessment.ofTypeCampaign({
@@ -400,12 +398,10 @@ describe('Unit | Service | ScorecardService', function () {
           const campaignParticipation3 = domainBuilder.buildCampaignParticipation({
             assessments: [domainBuilder.buildAssessment({ id: assessmentId1 })],
             campaign,
-            campaignId: campaign.id,
           });
           const campaignParticipation4 = domainBuilder.buildCampaignParticipation({
             assessments: [domainBuilder.buildAssessment({ id: assessmentId2 })],
             campaign,
-            campaignId: campaign.id,
           });
           campaignParticipationRepository.findOneByAssessmentIdWithSkillIds
             .withArgs(assessmentId1)

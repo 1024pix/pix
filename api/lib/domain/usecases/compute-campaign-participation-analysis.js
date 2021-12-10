@@ -10,7 +10,9 @@ module.exports = async function computeCampaignParticipationAnalysis({
   tutorialRepository,
   locale,
 } = {}) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {
+    include: ['campaign'],
+  });
   const campaignId = campaignParticipation.campaignId;
   const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
 

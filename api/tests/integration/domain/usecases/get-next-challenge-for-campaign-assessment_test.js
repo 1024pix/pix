@@ -179,7 +179,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       challenges = [];
       challengeRepository = { findFlashCompatible: sinon.stub().resolves(challenges) };
       const campaign = domainBuilder.buildCampaign({ assessmentMethod: 'FLASH' });
-      domainBuilder.buildCampaignParticipation({ campaignId: campaign.id, id: campaignParticipationId });
+      domainBuilder.buildCampaignParticipation({ campaign, id: campaignParticipationId });
       assessment = domainBuilder.buildAssessment.ofTypeCampaign({
         id: assessmentId,
         userId,
