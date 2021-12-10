@@ -39,6 +39,7 @@ describe('Unit | Serializer | organization-serializer', function () {
             email: organization.email,
             'created-by': organization.createdBy,
             'documentation-url': organization.documentationUrl,
+            'show-nps': organization.showNPS,
           },
           relationships: {
             memberships: {

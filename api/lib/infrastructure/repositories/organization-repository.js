@@ -25,6 +25,7 @@ function _toDomain(bookshelfOrganization) {
     email: rawOrganization.email,
     documentationUrl: rawOrganization.documentationUrl,
     createdBy: rawOrganization.createdBy,
+    showNPS: rawOrganization.showNPS,
   });
 
   organization.targetProfileShares = rawOrganization.targetProfileShares || [];
