@@ -15,7 +15,7 @@ async function retrieveSchoolingRegistration({
 }) {
   const latestSchoolingRegistration = await schoolingRegistrationRepository.getLatestSchoolingRegistration({
     birthdate: studentInformation.birthdate,
-    nationalStudentId: studentInformation.ineIna,
+    nationalStudentId: studentInformation.ineIna.toUpperCase(),
   });
 
   const userId = await _getUserIdByMatchingStudentInformationWithSchoolingRegistration({
