@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.138.0 (10/12/2021)
+
+
+### :rocket: Enhancement
+- [#3812](https://github.com/1024pix/pix/pull/3812) [FEATURE] Permettre à un surveillant d'autoriser un·e candidat·e à reprendre son test - back (PIX-3966)
+- [#3806](https://github.com/1024pix/pix/pull/3806) [FEATURE]: Ajout d'un feature toggle pour le Net Promoter Score dans Pix App (PIX-3969 PIX-3967)
+- [#3761](https://github.com/1024pix/pix/pull/3761) [FEATURE] Badge: Ajouter un critère sur un ensemble d'acquis (frontend)
+- [#3805](https://github.com/1024pix/pix/pull/3805) [FEATURE] Améliorer l'accessibilité des tableaux sur la page de finalisation de session (PIX-3903)
+
+### :building_construction: Tech
+- [#3816](https://github.com/1024pix/pix/pull/3816) [TECH]  Supprimer les occurences d'accreditations de certification (PIX-3743)
+- [#3818](https://github.com/1024pix/pix/pull/3818) [TECH] Utiliser ember-testing-library dans les tests de Pix Orga (PIX-4002).
+
+### :bug: Bug fix
+- [#3811](https://github.com/1024pix/pix/pull/3811) [BUGFIX] Forcer la taille maximale du formulaire de connexion de Pix Certif (PIX-3986).
+- [#3809](https://github.com/1024pix/pix/pull/3809) [BUGFIX] Liens vers le support Pix (PIX-3981)
+
 ## v3.137.0 (08/12/2021)
 
 
