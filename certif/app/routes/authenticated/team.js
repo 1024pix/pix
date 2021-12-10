@@ -6,6 +6,6 @@ export default class AuthenticatedTeamRoute extends Route {
 
   model() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
-    return this.store.findAll('member', { adapterOptions: { certificationCenterId } });
+    return this.store.query('member', { certificationCenterId });
   }
 }
