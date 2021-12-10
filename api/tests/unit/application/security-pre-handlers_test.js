@@ -11,15 +11,15 @@ const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkUserHasRolePixMaster', function () {
     let hasRolePixMasterStub;
+    let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
       hasRolePixMasterStub = sinon.stub(checkUserHasRolePixMasterUseCase, 'execute');
+      request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
     context('Successful case', function () {
-      const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
-
       beforeEach(function () {
         hasRolePixMasterStub.resolves({ user_id: 1234 });
       });
@@ -36,8 +36,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Error cases', function () {
-      const request = { auth: { credentials: { accessToken: 'valid.access.token' } } };
-
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
@@ -77,18 +75,18 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkRequestedUserIsAuthenticatedUser', function () {
+    let request;
+
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      request = {
+        params: { id: '1234' },
+        auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
+      };
     });
 
     context('Successful case', function () {
       it('should authorize access to resource when the authenticated user is the same as the requested user (id)', async function () {
-        // given
-        const request = {
-          params: { id: '1234' },
-          auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
-        };
-
         // when
         const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
@@ -97,12 +95,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       });
 
       it('should authorize access to resource when the authenticated user is the same as the requested user (userId)', async function () {
-        // given
-        const request = {
-          params: { userId: '1234' },
-          auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
-        };
-
         // when
         const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
@@ -112,8 +104,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Error cases', function () {
-      const request = { params: { id: '1234' }, auth: { credentials: { accessToken: 'valid.access.token' } } };
-
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
@@ -149,13 +139,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Successful case', function () {
-      const request = {
-        auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
-        params: { id: 5678 },
-      };
+      let request;
 
       beforeEach(function () {
         isAdminInOrganizationStub.resolves(true);
+        request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
+          params: { id: 5678 },
+        };
       });
 
       it('should authorize access to resource when the user is authenticated and is ADMIN in Organization', async function () {
@@ -170,7 +161,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Error cases', function () {
-      const request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
+      let request;
+
+      beforeEach(function () {
+        isAdminInOrganizationStub.resolves(true);
+        request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
+      });
 
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
@@ -212,16 +208,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
   describe('#checkUserBelongsToOrganizationManagingStudents', function () {
     let belongToOrganizationManagingStudentsStub;
-
+    let request;
     beforeEach(function () {
       belongToOrganizationManagingStudentsStub = sinon.stub(
         checkUserBelongsToOrganizationManagingStudentsUseCase,
         'execute'
       );
-    });
-
-    context('Successful case', function () {
-      const request = {
+      request = {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
@@ -230,7 +223,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         },
         params: { id: 5678 },
       };
+    });
 
+    context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated, belongs to an Organization and manages students', async function () {
         // given
         belongToOrganizationManagingStudentsStub.resolves(true);
@@ -244,16 +239,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Error cases', function () {
-      const request = {
-        auth: {
-          credentials: {
-            accessToken: 'valid.access.token',
-            userId: 1234,
-          },
-        },
-        params: { id: 5678 },
-      };
-
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
@@ -294,28 +279,30 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
   describe('#checkUserBelongsToScoOrganizationAndManagesStudents', function () {
     let belongToScoOrganizationAndManageStudentsStub;
+    let request;
 
     beforeEach(function () {
       belongToScoOrganizationAndManageStudentsStub = sinon.stub(
         checkUserBelongsToScoOrganizationAndManagesStudentsUseCase,
         'execute'
       );
-    });
-
-    context('Successful case', function () {
-      const request = {
+      request = {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
             userId: 1234,
           },
         },
+        params: {
+          id: 5678,
+        },
       };
+    });
 
+    context('Successful case', function () {
       context('when organization id is in request params', function () {
         it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async function () {
           // given
-          request.params = { id: 5678 };
           belongToScoOrganizationAndManageStudentsStub.resolves(true);
 
           // when
@@ -354,16 +341,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Error cases', function () {
-      const request = {
-        auth: {
-          credentials: {
-            accessToken: 'valid.access.token',
-            userId: 1234,
-          },
-        },
-        params: { id: 5678 },
-      };
-
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
@@ -405,14 +382,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', function () {
     let belongsToOrganizationStub;
     let hasRolePixMasterStub;
+    let request;
 
     beforeEach(function () {
       belongsToOrganizationStub = sinon.stub(checkUserBelongsToOrganizationUseCase, 'execute');
       hasRolePixMasterStub = sinon.stub(checkUserHasRolePixMasterUseCase, 'execute');
-    });
-
-    context('Successful case', function () {
-      const request = {
+      request = {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
@@ -421,7 +396,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         },
         params: { id: 5678 },
       };
+    });
 
+    context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and belongs to organization', async function () {
         // given
         belongsToOrganizationStub.resolves(true);
@@ -460,15 +437,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
 
     context('Error cases', function () {
-      const request = {
-        auth: {
-          credentials: {
-            accessToken: 'valid.access.token',
-            userId: 1234,
-          },
-        },
-      };
-
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
@@ -484,18 +452,6 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user does not belong to organization or has role PIXMASTER', async function () {
         // given
         belongsToOrganizationStub.resolves(false);
-
-        // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when an error is thrown by use case', async function () {
-        // given
-        belongsToOrganizationStub.rejects(new Error('Some error'));
 
         // when
         const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
