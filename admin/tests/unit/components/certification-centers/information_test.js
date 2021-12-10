@@ -9,37 +9,37 @@ module('Unit | Component | certification-center informations', function (hooks) 
 
   hooks.beforeEach(function () {
     component = createGlimmerComponent('component:certification-centers/information', {
-      availableAccreditations: [],
+      availableHabilitations: [],
       certificationCenter: {},
       updateCertificationCenter: () => {},
     });
   });
 
-  module('#updateGrantedAccreditation', function () {
-    test('it should add the accreditation to the certification center', function (assert) {
+  module('#updateGrantedHabilitation', function () {
+    test('it should add the habilitation to the certification center', function (assert) {
       // given
-      const cleaAccreditation = { name: 'Pix+clea' };
+      const cleaHabilitation = { name: 'Pix+clea' };
 
-      component.form.accreditations = [];
+      component.form.habilitations = [];
 
       // when
-      component.updateGrantedAccreditation(cleaAccreditation);
+      component.updateGrantedHabilitation(cleaHabilitation);
 
       // then
-      assert.true(component.form.accreditations.includes(cleaAccreditation));
+      assert.true(component.form.habilitations.includes(cleaHabilitation));
     });
 
-    test('it should remove the accreditation from the certification center', function (assert) {
+    test('it should remove the habilitation from the certification center', function (assert) {
       // given
-      const pixSurfAccreditation = { name: 'Pix+Surf' };
+      const pixSurfHabilitation = { name: 'Pix+Surf' };
 
-      component.form.accreditations = [pixSurfAccreditation];
+      component.form.habilitations = [pixSurfHabilitation];
 
       // when
-      component.updateGrantedAccreditation(pixSurfAccreditation);
+      component.updateGrantedHabilitation(pixSurfHabilitation);
 
       // then
-      assert.false(component.form.accreditations.includes(pixSurfAccreditation));
+      assert.false(component.form.habilitations.includes(pixSurfHabilitation));
     });
   });
 });

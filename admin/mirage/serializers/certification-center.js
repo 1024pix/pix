@@ -1,6 +1,6 @@
 import { JSONAPISerializer } from 'ember-cli-mirage';
 
-const include = ['accreditations'];
+const include = ['habilitations'];
 
 export default JSONAPISerializer.extend({
   include,

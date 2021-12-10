@@ -55,20 +55,20 @@
               @value={{this.form.externalId}}
             />
           </div>
-          <div class="form-field certification-center-information__edit-form__accreditations-checkbox-list">
+          <div class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
             <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
-            <ul class="accreditations-list-ul">
-              {{#each this.availableAccreditations as |accreditation|}}
+            <ul class="habilitations-list-ul">
+              {{#each this.availableHabilitations as |habilitation|}}
                 <li>
-                  <div class="accreditation-entry">
+                  <div class="habilitation-entry">
                     <Input
-                      id="accreditation-checkbox__{{accreditation.id}}"
+                      id="habilitation-checkbox__{{habilitation.id}}"
                       @type="checkbox"
-                      @checked={{contains accreditation @certificationCenter.accreditations}}
-                      {{on "input" (fn this.updateGrantedAccreditation accreditation)}}
+                      @checked={{contains habilitation @certificationCenter.habilitations}}
+                      {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
                     />
-                    <label class="field__label" for="accreditation-checkbox__{{accreditation.id}}">
-                      {{accreditation.name}}
+                    <label class="field__label" for="habilitation-checkbox__{{habilitation.id}}">
+                      {{habilitation.name}}
                     </label>
                   </div>
                 </li>
@@ -100,18 +100,18 @@
         </div>
         <div class="property">
           <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
-          <div class="certification-center-information__display__accreditations-list">
-            <ul class="accreditations-list-ul">
-              {{#each this.availableAccreditations as |accreditation|}}
-                {{#if (contains accreditation @certificationCenter.accreditations)}}
-                  <li aria-label={{concat "Accrédité pour " accreditation.name}}>
-                    <FaIcon class="granted-accreditation-icon" @icon="check-circle" />
-                    {{accreditation.name}}
+          <div class="certification-center-information__display__habilitations-list">
+            <ul class="habilitations-list-ul">
+              {{#each this.availableHabilitations as |habilitation|}}
+                {{#if (contains habilitation @certificationCenter.habilitations)}}
+                  <li aria-label={{concat "Habilité pour " habilitation.name}}>
+                    <FaIcon class="granted-habilitation-icon" @icon="check-circle" />
+                    {{habilitation.name}}
                   </li>
                 {{else}}
-                  <li aria-label={{concat "Non-accrédité pour " accreditation.name}}>
-                    <FaIcon class="not-granted-accreditation-icon" @icon="times-circle" />
-                    {{accreditation.name}}
+                  <li aria-label={{concat "Non-habilité pour " habilitation.name}}>
+                    <FaIcon class="not-granted-habilitation-icon" @icon="times-circle" />
+                    {{habilitation.name}}
                   </li>
                 {{/if}}
               {{/each}}

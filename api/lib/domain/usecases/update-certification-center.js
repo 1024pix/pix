@@ -3,7 +3,7 @@ const ComplementaryCertificationHabilitation = require('../../domain/models/Comp
 
 module.exports = async function updateCertificationCenter({
   certificationCenter,
-  accreditationIds,
+  complementaryCertificationIds,
   certificationCenterRepository,
   complementaryCertificationHabilitationRepository,
 }) {
@@ -11,11 +11,11 @@ module.exports = async function updateCertificationCenter({
   if (certificationCenter.id) {
     await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenter.id);
   }
-  if (accreditationIds) {
+  if (complementaryCertificationIds) {
     await Promise.all(
-      accreditationIds.map((accreditationId) => {
+      complementaryCertificationIds.map((complementaryCertificationId) => {
         const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
-          complementaryCertificationId: parseInt(accreditationId),
+          complementaryCertificationId: parseInt(complementaryCertificationId),
           certificationCenterId: certificationCenter.id,
         });
         return complementaryCertificationHabilitationRepository.save(complementaryCertificationHabilitation);
