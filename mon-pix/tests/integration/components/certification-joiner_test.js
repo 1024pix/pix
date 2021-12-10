@@ -144,7 +144,7 @@ describe('Integration | Component | certification-joiner', function () {
       // then
       expect(
         contains(
-          'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.'
+          'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification. Pour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.'
         )
       ).to.exist;
     });
@@ -174,7 +174,7 @@ describe('Integration | Component | certification-joiner', function () {
       // then
       expect(
         contains(
-          'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
+          'Oups ! Nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez le surveillant.'
         )
       ).to.exist;
     });

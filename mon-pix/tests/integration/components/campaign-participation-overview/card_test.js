@@ -25,7 +25,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('En cours')).to.exist;
+      expect(contains('EN COURS')).to.exist;
     });
   });
 
@@ -42,7 +42,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('À envoyer')).to.exist;
+      expect(contains('À ENVOYER')).to.exist;
     });
   });
 
@@ -60,7 +60,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('Terminé')).to.exist;
+      expect(contains('TERMINÉ')).to.exist;
     });
   });
 
@@ -78,7 +78,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('Archivé')).to.exist;
+      expect(contains('ARCHIVÉ')).to.exist;
     });
   });
 });
