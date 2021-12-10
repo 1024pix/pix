@@ -44,6 +44,7 @@ module.exports = {
 
   getByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation.where({ assessmentId })
+      .orderBy('createdAt', 'asc')
       .fetch({ withRelated: ['assessment'] })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
@@ -56,6 +57,7 @@ module.exports = {
 
   getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return BookshelfCompetenceEvaluation.where({ competenceId, userId })
+      .orderBy('createdAt', 'asc')
       .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
@@ -68,14 +70,15 @@ module.exports = {
 
   findByUserId(userId) {
     return BookshelfCompetenceEvaluation.where({ userId })
-      .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'asc')
       .fetchAll({ withRelated: ['assessment'] })
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results))
+      .then(_selectOnlyOneCompetenceEvaluationByCompetence);
   },
 
   findByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation.where({ assessmentId })
-      .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'asc')
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
   },
@@ -95,3 +98,8 @@ module.exports = {
     return isCompetenceEvaluationExists;
   },
 };
+
+function _selectOnlyOneCompetenceEvaluationByCompetence(competenceEvaluations) {
+  const assessmentsGroupedByCompetence = _.groupBy(competenceEvaluations, 'competenceId');
+  return _.map(assessmentsGroupedByCompetence, _.head);
+}

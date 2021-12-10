@@ -170,6 +170,33 @@ describe('Integration | Repository | Competence Evaluation', function () {
         expect(error).to.be.instanceof(NotFoundError);
       });
     });
+
+    it('should return only one competence evaluation linked to the competence id', async function () {
+      // given
+      const anotherAssessment = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '1',
+        assessmentId: anotherAssessment.id,
+        status: STARTED,
+      });
+
+      // when
+      const result = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
+        competenceId: 1,
+        userId: user.id,
+      });
+
+      // then
+      expect(_.omit(result, ['assessment', 'scorecard'])).to.deep.equal(
+        _.omit(competenceEvaluationExpected, ['assessment'])
+      );
+      expect(result.assessment.id).to.deep.equal(assessmentExpected.id);
+    });
   });
 
   describe('#findByUserId', function () {
@@ -193,6 +220,13 @@ describe('Integration | Repository | Competence Evaluation', function () {
         createdAt: new Date('2018-01-01'),
         status: STARTED,
       });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '1',
+        createdAt: new Date('2018-01-02'),
+        status: STARTED,
+      });
+
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
         competenceId: '2',
