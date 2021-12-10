@@ -122,6 +122,7 @@ describe('Unit | Serializer | organization-serializer', function () {
         isManagingStudents: true,
         canCollectProfiles: true,
         createdBy: 10,
+        documentationUrl: 'https://pix.fr/',
       };
       const jsonApiOrganization = {
         data: {
@@ -138,6 +139,7 @@ describe('Unit | Serializer | organization-serializer', function () {
             'is-managing-students': organizationAttributes.isManagingStudents,
             'can-collect-profiles': organizationAttributes.canCollectProfiles,
             'created-by': organizationAttributes.createdBy,
+            'documentation-url': organizationAttributes.documentationUrl,
           },
         },
       };
@@ -158,6 +160,7 @@ describe('Unit | Serializer | organization-serializer', function () {
         isManagingStudents: organizationAttributes.isManagingStudents,
         canCollectProfiles: organizationAttributes.canCollectProfiles,
         createdBy: organizationAttributes.createdBy,
+        documentationUrl: organizationAttributes.documentationUrl,
       });
       expect(organization).to.be.instanceOf(Organization);
       expect(organization).to.deep.equal(expectedOrganization);
