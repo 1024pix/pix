@@ -153,7 +153,11 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function () {
       beforeEach(function () {
-        const campaign = domainBuilder.buildCampaign({ id: campaignId, type: 'ASSESSMENT', organization: { id: organizationId } });
+        const campaign = domainBuilder.buildCampaign({
+          id: campaignId,
+          type: 'ASSESSMENT',
+          organization: { id: organizationId },
+        });
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
@@ -163,9 +167,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get
-          .withArgs(campaignId)
-          .resolves(domainBuilder.buildCampaign(campaign));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign(campaign));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
       });
 
@@ -197,9 +199,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get
-          .withArgs(campaignId)
-          .resolves(domainBuilder.buildCampaign(campaign));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign(campaign));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
       });
 
