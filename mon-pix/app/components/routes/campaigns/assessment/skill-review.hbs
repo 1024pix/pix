@@ -134,8 +134,12 @@
 
 {{#if this.showNPS}}
   <PixBlock class="skill-review__net-promoter-score">
-    <div class="skill-review-net-promoter-score__container">
-      <p>{{t "pages.skill-review.net-promoter-score.title"}}</p>
+    <div class="skill-review-net-promoter-score__logo">
+      <img src="/images/illustrations/skill-review/net-promoter-score.svg" role="presentation" alt="" />
+    </div>
+    <div class="skill-review-net-promoter-score__content">
+      <h2>{{t "pages.skill-review.net-promoter-score.title"}}</h2>
+      <p>{{t "pages.skill-review.net-promoter-score.text"}}</p>
       <PixButtonLink @href="{{t "pages.skill-review.net-promoter-score.link.href"}}" target="_blank">
         {{t "pages.skill-review.net-promoter-score.link.label"}}
       </PixButtonLink>
