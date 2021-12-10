@@ -17,7 +17,7 @@ async function handleCleaCertificationScoring({
   const { certificationCourseId, userId, reproducibilityRate } = event;
 
   const certificationCenter = await certificationCenterRepository.getByCertificationCourseId(certificationCourseId);
-  if (!certificationCenter.isAccreditedClea) {
+  if (!certificationCenter.isHabilitatedClea) {
     return;
   }
 

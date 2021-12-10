@@ -267,7 +267,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
       });
     });
 
-    context('when certification center is not accredited', function () {
+    context('when certification center is not habilitated', function () {
       it('should not save a certif partner', async function () {
         // given
         const userId = 1234;

@@ -13,13 +13,13 @@ describe('Acceptance | API | complementary-certification-controller', function (
     server = await createServer();
   });
 
-  describe('GET /api/accreditations/', function () {
+  describe('GET /api/habilitations/', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const pixMaster = await insertUserWithRolePixMaster();
       const options = {
         method: 'GET',
-        url: '/api/accreditations',
+        url: '/api/habilitations',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
         },
@@ -42,14 +42,14 @@ describe('Acceptance | API | complementary-certification-controller', function (
       expect(response.result).to.deep.equal({
         data: [
           {
-            type: 'accreditations',
+            type: 'habilitations',
             id: '1',
             attributes: {
               name: 'Pix+Edu',
             },
           },
           {
-            type: 'accreditations',
+            type: 'habilitations',
             id: '2',
             attributes: {
               name: 'Cléa Numérique',

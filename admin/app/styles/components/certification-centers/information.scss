@@ -8,7 +8,7 @@
       margin-bottom: 20px;
     }
 
-    &__accreditations-list {
+    &__habilitations-list {
       background-color: #F4F5F7;
       border-radius: 16px;
       padding: 8px;
@@ -17,11 +17,11 @@
         width: 200px;
       }
 
-      .granted-accreditation-icon {
+      .granted-habilitation-icon {
         color: $green;
       }
 
-      .not-granted-accreditation-icon {
+      .not-granted-habilitation-icon {
         color: $grey-35;
       }
     }
@@ -44,15 +44,15 @@
   &__edit-form {
     width: 500px;
 
-    .accreditations-list-ul {
+    .habilitations-list-ul {
       flex-direction: column;
     }
 
-    &__accreditations-checkboxes {
+    &__habilitations-checkboxes {
       display: flex;
     }
 
-    .accreditation-entry {
+    .habilitation-entry {
       display: block;
       padding-bottom: 8px;
     }
@@ -70,7 +70,7 @@
     font-size: 0.85rem;
   }
 
-  .accreditations-list-ul {
+  .habilitations-list-ul {
     list-style-type: none;
     display: flex;
     margin: 8px 0;

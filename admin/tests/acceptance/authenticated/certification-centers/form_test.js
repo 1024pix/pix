@@ -18,8 +18,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
 
   test('it should create a certification center', async function (assert) {
     // given
-    this.server.create('accreditation', { name: 'Pix+ Droit' });
-    this.server.create('accreditation', { name: 'CléA Numérique' });
+    this.server.create('habilitation', { name: 'Pix+ Droit' });
+    this.server.create('habilitation', { name: 'CléA Numérique' });
 
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
@@ -45,7 +45,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     assert.contains(type.label);
     assert.contains(externalId);
 
-    assert.dom(screen.getByRole('listitem', { name: 'Non-accrédité pour CléA Numérique' })).exists();
-    assert.dom(screen.getByRole('listitem', { name: 'Accrédité pour Pix+ Droit' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour CléA Numérique' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+ Droit' })).exists();
   });
 });
