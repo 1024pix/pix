@@ -5,6 +5,8 @@ const {
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_DROIT_ID,
+  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
 } = require('./target-profiles-builder');
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID } = require('./organizations-sco-builder');
@@ -133,6 +135,34 @@ function _buildCampaignForSup(databaseBuilder) {
     customLandingPageText: null,
     idPixLabel: null,
     createdAt: new Date('2020-01-08'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 12397,
+    name: 'Campagne d’évaluation Pix+ Édu - Formation Initiale 1er degré',
+    code: 'PIXEDU123',
+    type: 'ASSESSMENT',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 7,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 12398,
+    name: 'Campagne d’évaluation Pix+ Édu - Formation Continue 1er degré',
+    code: 'PIXEDU456',
+    type: 'ASSESSMENT',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 7,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
   });
 }
 
