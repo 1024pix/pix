@@ -85,7 +85,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
 
         // then
         expect(contains('156')).to.exist;
-        expect(contains('Area_1_title')).to.exist;
+        expect(contains('AREA_1_TITLE')).to.exist;
         expect(contains('Area_1_Competence_1_name')).to.exist;
       });
     });
