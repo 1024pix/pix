@@ -7,6 +7,11 @@ const PRO_TOOLS_BADGE_ID = 115;
 const PIX_DROIT_MAITRE_BADGE_ID = 116;
 const PIX_DROIT_EXPERT_BADGE_ID = 117;
 const PIX_EMPLOI_CLEA_BADGE_ID_V2 = 118;
+const PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER_BADGE_ID = 119;
+const PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID = 120;
+const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE_BADGE_ID = 121;
+const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE_BADGE_ID = 122;
+const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 123;
 
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
@@ -18,6 +23,8 @@ const {
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_DROIT_ID,
+  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
 } = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
@@ -29,6 +36,7 @@ function badgesBuilder({ databaseBuilder }) {
   _createProfessionalToolsBadge(databaseBuilder);
   _createPixDroitBadge(databaseBuilder);
   _createPixEmploiCleaBadgeV2(databaseBuilder);
+  _createPixEduBadges(databaseBuilder);
 }
 
 function _createPixEmploiCleaBadge(databaseBuilder) {
@@ -236,7 +244,136 @@ function _createPixDroitBadge(databaseBuilder) {
 
   const skillSetsExpertIds = _associatePixDroitExpertSkillSets(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitExpertBadge);
   _associatePixDroitExpertBadgeCriteria(databaseBuilder, pixDroitExpertBadge, skillSetsExpertIds);
+}
 
+function _createPixEduBadges(databaseBuilder) {
+  const skillIdsForPixEduDomain1 = [
+    'rec15yReQYTFrSt4B', 'rec1Wkqw3nuHgIiIM', 'rec1j6CiXiURb2CHx', 'rec1Amct83clkurHS', 'rec1ekgLbl2OHiS2K',
+    'rec14jR3q6L4YhvhL', 'rec20QPg2JCWeRlwT', 'rec2cnUBnVRnO8Bha', 'rec2HwskucZtT4O2C', 'recPr5ClMsBGcYIV',
+    'recR8sdouZZjY0mV',
+  ];
+
+  const skillIdsForPixEduDomain2 = [
+    'rec2VUmfYHsCt3Xgn', 'rec1w6nZsb68eSxDh', 'rec1waG4ibaZS7WYY', 'rec1EUjw8czJj40JI', 'recPH84RB6iqHkFH',
+    'rec1LZeDXuMFiDxWa', 'skill2OTKzrFuYPadQE', 'rec2BmkSgPUbXJJ0Y', 'rec2SNc48TxxRQSue', 'rec2vsS9ZtT1z2Txb',
+    'rec1ERSB85H4PA4SR', 'rec12AsSoWBadXgdl', 'recL8znWTv2HWwbW', 'rec2PWfuWoWagrlY4', 'rec2A8SAqQMfZQ7NK',
+    'rec254TTW8EvdImzq', 'rec2NbKkZN8gFy3FZ', 'rec25v7ZleWGcvo4d', 'rec2jP5V76SOU9Y04', 'rec1aetrWEVisVDrH',
+    'rec2K1Mc9n8xOqOMP', 'skill2rcH2vsFpAiT6p', 'skill1qjh1GbjGh9Vns', 'skillOf3dZo931fV48', 'skill1uNgT2xU9D74n0',
+  ];
+
+  const skillIdsForPixEduDomain3 = [
+    'skillU67GhtfYVqwpv', 'skill1Twmb1rZDsEfE7', 'skill1g8g5coZkQXX4M', 'skill1ToY2ZTwexaBKp', 'skill1ny2KMgLu71jix',
+    'skill2ISuQfal7rbaXh', 'skillTZmYxFt743voi', 'skill14fiWIKaERX7BR', 'skill1uNdYxAX52fa62', 'skill1bE4gey9aNqbQZ',
+    'skill1WGPxbmhES4Oxa', 'skillRl8tfFE9xYJk4', 'skill2jNkrWFT4ba4Sf', 'skill2blmVwXGktteHR', 'skill2RAlN7ni693ddG',
+    'skill12UEhLVQ48X4rr', 'skill1klA1Gi5zQzrJx', 'skillVGB3FAtHy8dyO', 'skill11kT7wWx6zFn2w', 'skill1iIU3e7xGYwprq',
+    'skill2VV8u1UcI9NCXh', 'skill1ENYO2RGUPH5SM', 'skill22qk75PwZDqWoy', 'skill1teNFy22tZIfg7', 'skill1yZOkOIZTmJ3jY',
+    'skill2OLetxPA9DUVPt', 'skill109q79DREbmhuD', 'skill2FH5lzEpU7W9WP', 'skillO0bQ18VLVX9Gb', 'skill1PnlqHmqg1eunf',
+    'skill1GxkFDjxcI0cKc', 'skillUdOw1VhFGekoY', 'skill20U57sLssgVzMb', 'skill2fxgLE6DRN9chS', 'skill2SPl2q6wyNHn6D',
+    'skill1M8JfBs4DJbZ2u', 'skill1uKpAYnqPOPJmm', 'skill2XtWpclIQphAw7', 'skill1Y9XCwamT0vWAL', 'skill1KDyr0D7Vk0l65',
+    'skillPuGQjQ5eJQIxv', 'skill2ifeuYKWvCIdqe',
+  ];
+
+  const pixEduFormationInitialeEntreeMetierBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu - Entrée dans le métier',
+    title: 'Pix+ Édu - Entrée dans le métier',
+    imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
+    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER',
+    message: 'avez validé le badge Pix+ Édu - Entrée dans le métier',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  });
+  const [domain1EntreeMetierSkillSetId, domain2EntreeMetierSkillSetId] = _associatePixEduFormationInitialeSkillSets(databaseBuilder, skillIdsForPixEduDomain1, skillIdsForPixEduDomain2, pixEduFormationInitialeEntreeMetierBadge);
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 40,
+    badgeId: pixEduFormationInitialeEntreeMetierBadge.id,
+    skillSetIds: [domain1EntreeMetierSkillSetId],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 40,
+    badgeId: pixEduFormationInitialeEntreeMetierBadge.id,
+    skillSetIds: [domain2EntreeMetierSkillSetId],
+  });
+
+  const pixEduFormationInitialeInitieBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu - Initié',
+    title: 'Pix+ Édu - Initié',
+    imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
+    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
+    message: 'avez validé le badge Pix+ Édu - Initié',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  });
+  const [domain1InitieSkillSetId, domain2InitieSkillSetId] = _associatePixEduFormationInitialeSkillSets(databaseBuilder, skillIdsForPixEduDomain1, skillIdsForPixEduDomain2, pixEduFormationInitialeInitieBadge);
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 60,
+    badgeId: pixEduFormationInitialeInitieBadge.id,
+    skillSetIds: [domain1InitieSkillSetId],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 60,
+    badgeId: pixEduFormationInitialeInitieBadge.id,
+    skillSetIds: [domain2InitieSkillSetId],
+  });
+
+  const pixEduFormationContinueInitieBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu - Initié',
+    title: 'Pix+ Édu - Initié',
+    imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
+    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE',
+    message: 'avez validé le badge Pix+ Édu - Initié',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  });
+  const [domain3InitieSkillSetId] = _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, pixEduFormationContinueInitieBadge);
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 40,
+    badgeId: pixEduFormationContinueInitieBadge.id,
+    skillSetIds: [domain3InitieSkillSetId],
+  });
+
+  const pixEduFormationContinueMaitreBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu - Maître',
+    title: 'Pix+ Édu - Maître',
+    imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
+    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE',
+    message: 'avez validé le badge Pix+ Édu - Maître',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  });
+  const [domain3MaitreSkillSetId] = _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, pixEduFormationContinueMaitreBadge);
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 60,
+    badgeId: pixEduFormationContinueMaitreBadge.id,
+    skillSetIds: [domain3MaitreSkillSetId],
+  });
+
+  const pixEduFormationContinueExpertBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu - Expert',
+    title: 'Pix+ Édu - Expert',
+    imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
+    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
+    message: 'avez validé le badge Pix+ Édu - Expert',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  });
+  const [domain3ExpertSkillSetId] = _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, pixEduFormationContinueExpertBadge);
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 80,
+    badgeId: pixEduFormationContinueExpertBadge.id,
+    skillSetIds: [domain3ExpertSkillSetId],
+  });
 }
 
 function _returnIds(...builders) {
@@ -381,6 +518,31 @@ function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge, skillSets
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[2], skillSetsIds[3]],
   });
+}
+
+function _associatePixEduFormationInitialeSkillSets(databaseBuilder, skillIdsForPixEduDomain1, skillIdsForPixEduDomain2, badge) {
+  return _returnIds(
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Domaine Pix+ Édu Domaine 1',
+      skillIds: skillIdsForPixEduDomain1.map((id) => id),
+      badgeId: badge.id,
+    }),
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Domaine Pix+ Édu Domaine 2',
+      skillIds: skillIdsForPixEduDomain2.map((id) => id),
+      badgeId: badge.id,
+    }),
+  );
+}
+
+function _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, badge) {
+  return _returnIds(
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Domaine Pix+ Édu Domaine 3',
+      skillIds: skillIdsForPixEduDomain3.map((id) => id),
+      badgeId: badge.id,
+    }),
+  );
 }
 
 module.exports = {
