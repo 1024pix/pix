@@ -4,9 +4,7 @@ const assessmentAuthorization = require('../../../../lib/application/preHandlers
 const moduleUnderTest = require('../../../../lib/application/assessments');
 
 describe('Integration | Application | Assessments | assessment-controller', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessment = domainBuilder.buildAssessment({ id: 1234 });
+  let assessment;
 
   let httpTestServer;
 
@@ -15,6 +13,7 @@ describe('Integration | Application | Assessments | assessment-controller', func
     sinon.stub(assessmentAuthorization, 'verify');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
+    assessment = domainBuilder.buildAssessment();
   });
 
   describe('#get', function () {
