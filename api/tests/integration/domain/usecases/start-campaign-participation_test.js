@@ -20,7 +20,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 describe('Integration | UseCases | start-campaign-participation', function () {
   let userId;
   let organizationId;
-  let campaignId;
+  let campaign;
 
   beforeEach(async function () {
     const learningContentObjects = learningContentBuilder.buildLearningContent([]);
@@ -48,9 +48,9 @@ describe('Integration | UseCases | start-campaign-participation', function () {
     });
     it('should save a campaign participation of type ASSESSMENT with a schoolingRegistrationId', async function () {
       // given
-      campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT, organizationId }).id;
+      campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT, organizationId });
       await databaseBuilder.commit();
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
@@ -73,12 +73,12 @@ describe('Integration | UseCases | start-campaign-participation', function () {
 
     it('should save a campaign participation of type PROFILES_COLLECTION with a schoolingRegistrationId', async function () {
       // given
-      campaignId = databaseBuilder.factory.buildCampaign({
+      campaign = databaseBuilder.factory.buildCampaign({
         type: Campaign.types.PROFILES_COLLECTION,
         organizationId,
-      }).id;
+      });
       await databaseBuilder.commit();
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
@@ -102,9 +102,9 @@ describe('Integration | UseCases | start-campaign-participation', function () {
 
   it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async function () {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT, organizationId }).id;
+    campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT, organizationId });
     await databaseBuilder.commit();
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
     // when
     await DomainTransaction.execute(async (domainTransaction) => {
@@ -129,9 +129,9 @@ describe('Integration | UseCases | start-campaign-participation', function () {
 
   it('should save only a campaign participation when campaign is of type PROFILES_COLLECTION', async function () {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION, organizationId }).id;
+    campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION, organizationId });
     await databaseBuilder.commit();
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
     // when
     await DomainTransaction.execute(async (domainTransaction) => {
@@ -156,9 +156,9 @@ describe('Integration | UseCases | start-campaign-participation', function () {
 
   it('should throw an error and not create anything when something goes wrong within the transaction', async function () {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', organizationId }).id;
+    campaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', organizationId });
     await databaseBuilder.commit();
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
     // when
     await catchErr(async () => {
@@ -184,21 +184,22 @@ describe('Integration | UseCases | start-campaign-participation', function () {
   });
 
   context('when campaign is multipleSendings', function () {
-    let campaignParticipation;
+    let campaignParticipation, campaignId;
 
     beforeEach(async function () {
-      campaignId = databaseBuilder.factory.buildCampaign({
+      campaign = databaseBuilder.factory.buildCampaign({
         multipleSendings: true,
         idPixLabel: null,
         organizationId,
-      }).id;
+      });
+      campaignId = campaign.id;
       await databaseBuilder.commit();
     });
 
     it('should save new participation', async function () {
       databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
       await databaseBuilder.commit();
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
       await DomainTransaction.execute(async (domainTransaction) => {
         await startCampaignParticipation({
@@ -225,7 +226,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
         isImproved: false,
       }).id;
       await databaseBuilder.commit();
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
 
       await DomainTransaction.execute(async (domainTransaction) => {
         await startCampaignParticipation({
@@ -248,9 +249,12 @@ describe('Integration | UseCases | start-campaign-participation', function () {
     let campaignParticipation;
 
     beforeEach(async function () {
-      campaignId = databaseBuilder.factory.buildCampaign({ idPixLabel: 'toto', organizationId }).id;
+      campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: 'toto', organizationId });
       await databaseBuilder.commit();
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+      campaignParticipation = domainBuilder.buildCampaignParticipation({
+        campaign,
+        participantExternalId: null,
+      });
     });
 
     it('should throw an error', async function () {
@@ -287,13 +291,16 @@ describe('Integration | UseCases | start-campaign-participation', function () {
     });
 
     context('when campaign is multipleSendings', function () {
+      let campaignId;
+
       beforeEach(async function () {
-        campaignId = databaseBuilder.factory.buildCampaign({
+        campaign = databaseBuilder.factory.buildCampaign({
           multipleSendings: true,
           idPixLabel: 'identifiant',
           organizationId,
-        }).id;
+        });
         await databaseBuilder.commit();
+        campaignId = campaign.id;
       });
 
       context('when it is its first participation', function () {
@@ -335,7 +342,10 @@ describe('Integration | UseCases | start-campaign-participation', function () {
         it('should save new participation with participant external id of first participation', async function () {
           databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, participantExternalId: '123' }).id;
           await databaseBuilder.commit();
-          campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+          campaignParticipation = domainBuilder.buildCampaignParticipation({
+            campaign,
+            participantExternalId: null,
+          });
 
           await DomainTransaction.execute(async (domainTransaction) => {
             await startCampaignParticipation({

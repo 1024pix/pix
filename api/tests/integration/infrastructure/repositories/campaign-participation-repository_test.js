@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { sinon, expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { sinon, expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
@@ -96,14 +96,15 @@ describe('Integration | Repository | Campaign Participation', function () {
   });
 
   describe('#save', function () {
-    let campaignId, userId, schoolingRegistrationId;
+    let campaignId, userId, schoolingRegistrationId, campaign;
     beforeEach(async function () {
-      await knex('campaign-participations').delete();
       userId = databaseBuilder.factory.buildUser({}).id;
-      campaignId = databaseBuilder.factory.buildCampaign({}).id;
+      const campaignInDB = databaseBuilder.factory.buildCampaign({});
       schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId }).id;
 
       await databaseBuilder.commit();
+      campaignId = campaignInDB.id;
+      campaign = domainBuilder.buildCampaign(campaignInDB);
     });
 
     afterEach(function () {
@@ -113,7 +114,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return the given campaign participation', async function () {
       // given
       const campaignParticipationToSave = new CampaignParticipation({
-        campaignId,
+        campaign,
         userId,
       });
 
@@ -123,7 +124,6 @@ describe('Integration | Repository | Campaign Participation', function () {
       // then
       expect(savedCampaignParticipation).to.be.instanceof(CampaignParticipation);
       expect(savedCampaignParticipation.id).to.exist;
-      expect(savedCampaignParticipation.campaignId).to.equal(campaignParticipationToSave.campaignId);
       expect(savedCampaignParticipation.userId).to.equal(campaignParticipationToSave.userId);
     });
 
@@ -132,7 +132,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
       await databaseBuilder.commit();
       const campaignParticipationToSave = new CampaignParticipation({
-        campaignId,
+        campaign,
         userId,
       });
 
@@ -146,7 +146,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should throw an error if something went wrong', async function () {
       // given
       const campaignParticipationToSave = new CampaignParticipation({
-        campaignId,
+        campaign,
         userId: 'BOOM',
       });
 
@@ -160,7 +160,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should save the given campaign participation', async function () {
       // given
       const campaignParticipationToSave = new CampaignParticipation({
-        campaignId,
+        campaign,
         userId,
         schoolingRegistrationId,
         participantExternalId: '034516273645RET',
