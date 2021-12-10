@@ -140,7 +140,11 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function () {
       beforeEach(function () {
-        const campaign = domainBuilder.buildCampaign({ id: campaignId, type: 'ASSESSMENT', organization: { id: organizationId } });
+        const campaign = domainBuilder.buildCampaign({
+          id: campaignId,
+          type: 'ASSESSMENT',
+          organization: { id: organizationId },
+        });
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: campaignParticipationId,
           userId,

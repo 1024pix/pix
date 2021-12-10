@@ -196,7 +196,11 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function () {
       beforeEach(function () {
         event = new CampaignParticipationResultsShared({ campaignParticipationId });
-        const campaign = domainBuilder.buildCampaign({ id: campaignId, type: 'ASSESSMENT', organization: { id: organizationId } });
+        const campaign = domainBuilder.buildCampaign({
+          id: campaignId,
+          type: 'ASSESSMENT',
+          organization: { id: organizationId },
+        });
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(
           domainBuilder.buildCampaignParticipation({
             id: campaignParticipationId,
