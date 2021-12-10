@@ -15,7 +15,7 @@ describe('Acceptance | Route | Account-recovery', function () {
     });
 
     const studentInformation = {
-      ineIna: '123456789AA',
+      ineIna: '123456789aa',
       firstName: 'Jude',
       lastName: 'Law',
       birthdate: '2016-06-01',
@@ -40,14 +40,14 @@ describe('Acceptance | Route | Account-recovery', function () {
       databaseBuilder.factory.buildSchoolingRegistration({
         userId: user.id,
         ...studentInformation,
-        nationalStudentId: studentInformation.ineIna,
+        nationalStudentId: studentInformation.ineIna.toUpperCase(),
         organizationId: organization.id,
         updatedAt: new Date('2005-01-01T15:00:00Z'),
       });
       databaseBuilder.factory.buildSchoolingRegistration({
         userId: user.id,
         ...studentInformation,
-        nationalStudentId: studentInformation.ineIna,
+        nationalStudentId: studentInformation.ineIna.toUpperCase(),
         organizationId: latestOrganization.id,
         updatedAt: new Date('2010-01-01T15:00:00Z'),
       });
