@@ -5,7 +5,8 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Service | Certification Badges Service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {
@@ -42,8 +43,8 @@ describe('Unit | Service | Certification Badges Service', function () {
         domainTransaction = Symbol('someDomainTransaction');
         knowledgeElements = [];
         targetProfile = { id: 12 };
-        badge = { targetProfileId: targetProfile.id };
-        badgeAcquisition = { id: 'badgeId', userId, badge };
+        badge = domainBuilder.buildBadge({ targetProfileId: targetProfile.id });
+        badgeAcquisition = domainBuilder.buildBadgeAcquisition({ id: 'badgeId', userId, badge });
         badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([badgeAcquisition]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
         targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
@@ -86,10 +87,7 @@ describe('Unit | Service | Certification Badges Service', function () {
       });
     });
 
-    context('has certifiable badges including pix+droit', function () {
-      const pixDroitMaitre = 'PIX_DROIT_MAITRE_CERTIF';
-      const pixDroitExpert = 'PIX_DROIT_EXPERT_CERTIF';
-
+    context('has certifiable badges including Pix+ Droit', function () {
       let userId, knowledgeElements, targetProfile, domainTransaction;
 
       beforeEach(function () {
@@ -102,10 +100,22 @@ describe('Unit | Service | Certification Badges Service', function () {
       context('has maitreBadgeAcquisition', function () {
         it('should return badge-acquisitions with maitreBadgeAcquisition', async function () {
           // given
-          const maitreBadge = { id: 'maitre', targetProfileId: targetProfile.id };
-          const otherBadge = { id: 'other', targetProfileId: targetProfile.id };
-          const maitreBadgeAcquisition = { id: 'badgeId1', userId, badgeKey: pixDroitMaitre, badge: maitreBadge };
-          const otherBadgeAcquisition = { id: 'badgeId2', userId, badge: otherBadge };
+          const maitreBadge = domainBuilder.buildBadge({
+            id: 'maitre',
+            targetProfileId: targetProfile.id,
+            key: PIX_DROIT_MAITRE_CERTIF,
+          });
+          const otherBadge = domainBuilder.buildBadge({ id: 'other', targetProfileId: targetProfile.id });
+          const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+            id: 'badgeId1',
+            userId,
+            badge: maitreBadge,
+          });
+          const otherBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+            id: 'badgeId2',
+            userId,
+            badge: otherBadge,
+          });
           badgeAcquisitionRepository.findCertifiable
             .withArgs({ userId, domainTransaction })
             .resolves([maitreBadgeAcquisition, otherBadgeAcquisition]);
@@ -134,10 +144,26 @@ describe('Unit | Service | Certification Badges Service', function () {
       context('has maitreBadgeAcquisition and expertBadgeAcquisition', function () {
         it('should return badge-acquisitions with expertBadgeAcquisition', async function () {
           // given
-          const maitreBadge = { id: 'maitre', targetProfileId: targetProfile.id };
-          const expertBadge = { id: 'expert', targetProfileId: targetProfile.id };
-          const maitreBadgeAcquisition = { id: 'badgeId1', userId, badgeKey: pixDroitMaitre, badge: maitreBadge };
-          const expertBadgeAcquisition = { id: 'badgeId2', userId, badgeKey: pixDroitExpert, badge: expertBadge };
+          const maitreBadge = domainBuilder.buildBadge({
+            id: 'maitre',
+            targetProfileId: targetProfile.id,
+            key: PIX_DROIT_MAITRE_CERTIF,
+          });
+          const expertBadge = domainBuilder.buildBadge({
+            id: 'expert',
+            targetProfileId: targetProfile.id,
+            key: PIX_DROIT_EXPERT_CERTIF,
+          });
+          const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+            id: 'badgeId1',
+            userId,
+            badge: maitreBadge,
+          });
+          const expertBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+            id: 'badgeId2',
+            userId,
+            badge: expertBadge,
+          });
           badgeAcquisitionRepository.findCertifiable
             .withArgs({ userId, domainTransaction })
             .resolves([maitreBadgeAcquisition, expertBadgeAcquisition]);
