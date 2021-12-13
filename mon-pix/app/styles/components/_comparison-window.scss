@@ -54,13 +54,6 @@
   border-top-right-radius: 5px;
 }
 
-.comparison-window__title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 15px;
-}
-
 .comparison-window__title-text {
   display: flex;
   margin-left: 9px;
@@ -130,5 +123,30 @@
 
   &--with-margin {
     margin: 0 0 20px 20px;
+  }
+}
+
+.comparison-window__result-item-icon {
+  margin-left: 10px;
+  font-size: 1.375rem;
+
+  @include device-is('tablet') {
+    margin-left: 20px;
+  }
+
+  &--green {
+    color: $green;
+  }
+
+  &--orange {
+    color: $information-light;
+  }
+
+  &--red {
+    color: $error;
+  }
+
+  &--grey {
+    color: $grey-60;
   }
 }

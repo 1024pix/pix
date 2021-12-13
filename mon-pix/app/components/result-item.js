@@ -1,41 +1,12 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-
-const contentReference = {
-  ok: {
-    icon: 'check-circle',
-    color: 'green',
-  },
-  ko: {
-    icon: 'times-circle',
-    color: 'red',
-  },
-  focusedOut: {
-    icon: 'times-circle',
-    color: 'red',
-  },
-  aband: {
-    icon: 'times-circle',
-    color: 'grey',
-  },
-  partially: {
-    icon: 'check-circle',
-    color: 'orange',
-  },
-  timedout: {
-    icon: 'times-circle',
-    color: 'red',
-  },
-};
+import resultIcon from 'mon-pix/utils/result-icon';
 
 export default class ResultItemComponent extends Component {
   @service intl;
 
   get resultItem() {
-    if (this.args.answer.result) {
-      return contentReference[this.args.answer.result];
-    }
-    return undefined;
+    return resultIcon(this.args.answer.result);
   }
 
   get resultTooltip() {
