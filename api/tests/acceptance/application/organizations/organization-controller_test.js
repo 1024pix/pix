@@ -18,7 +18,7 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
-describe('Acceptance | Application | organization-controller', function () {
+describe.only('Acceptance | Application | organization-controller', function () {
   let server;
 
   beforeEach(async function () {
@@ -644,6 +644,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'created-by': pixMasterUserId,
               'documentation-url': organization.documentationUrl,
               'show-nps': organization.showNPS,
+              'form-nps-url': organization.formNPSUrl,
             },
             id: organization.id.toString(),
             relationships: {
