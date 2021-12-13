@@ -40,16 +40,23 @@ async function resetScorecard({
   knowledgeElementRepository,
   competenceEvaluationRepository,
   campaignParticipationRepository,
+  targetProfileRepository,
 }) {
   const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
 
-  const resetSkills = _.map(newKnowledgeElements, (knowledgeElement) => knowledgeElement.skillId);
+  const resetSkillIds = _.map(newKnowledgeElements, (knowledgeElement) => knowledgeElement.skillId);
 
   // user can have only answered to questions in campaign, in that case, competenceEvaluation does not exists
   if (shouldResetCompetenceEvaluation) {
     return Promise.all([
       newKnowledgeElements,
-      _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
+      _resetCampaignAssessments({
+        userId,
+        resetSkillIds,
+        assessmentRepository,
+        targetProfileRepository,
+        campaignParticipationRepository,
+      }),
       _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
     ]);
   }
@@ -58,9 +65,10 @@ async function resetScorecard({
     newKnowledgeElements,
     _resetCampaignAssessments({
       userId,
-      resetSkills,
+      resetSkillIds,
       assessmentRepository,
       campaignParticipationRepository,
+      targetProfileRepository,
     }),
   ]);
 }
@@ -95,9 +103,10 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
 
 async function _resetCampaignAssessments({
   userId,
-  resetSkills,
+  resetSkillIds,
   assessmentRepository,
   campaignParticipationRepository,
+  targetProfileRepository,
 }) {
   const notAbortedCampaignAssessments = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
@@ -108,9 +117,10 @@ async function _resetCampaignAssessments({
   const resetCampaignAssessmentsPromises = _.map(notAbortedCampaignAssessments, (campaignAssessment) =>
     _resetCampaignAssessment({
       assessment: campaignAssessment,
-      resetSkills,
+      resetSkillIds,
       assessmentRepository,
       campaignParticipationRepository,
+      targetProfileRepository,
     })
   );
   return Promise.all(resetCampaignAssessmentsPromises);
@@ -118,15 +128,17 @@ async function _resetCampaignAssessments({
 
 async function _resetCampaignAssessment({
   assessment,
-  resetSkills,
+  resetSkillIds,
   assessmentRepository,
   campaignParticipationRepository,
+  targetProfileRepository,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessment.id);
+  const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
+  const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
-    targetObjectSkills: _.get(campaignParticipation, 'campaign.targetProfile.skills'),
-    resetSkills,
+    targetedSkillIds: targetProfile.skills.map((skill) => skill.id),
+    resetSkillIds,
   });
 
   if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInTargetProfile) {
@@ -141,9 +153,8 @@ async function _resetCampaignAssessment({
   return await assessmentRepository.save({ assessment: newAssessment });
 }
 
-function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {
-  const targetSkills = _.map(targetObjectSkills, (skill) => skill.id);
-  return _(targetSkills).intersection(resetSkills).isEmpty();
+function _computeResetSkillsNotIncludedInTargetProfile({ targetedSkillIds, resetSkillIds }) {
+  return _(targetedSkillIds).intersection(resetSkillIds).isEmpty();
 }
 
 module.exports = {

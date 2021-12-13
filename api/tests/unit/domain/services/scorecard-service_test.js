@@ -5,7 +5,7 @@ const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEv
 const scorecardService = require('../../../../lib/domain/services/scorecard-service');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED, SHARED } = CampaignParticipation.statuses;
 
 describe('Unit | Service | ScorecardService', function () {
   describe('#computeScorecard', function () {
@@ -97,6 +97,7 @@ describe('Unit | Service | ScorecardService', function () {
     let knowledgeElementRepository;
     let competenceEvaluationRepository;
     let campaignParticipationRepository;
+    let targetProfileRepository;
     let resetKnowledgeElement1;
     let resetKnowledgeElement2;
 
@@ -299,8 +300,12 @@ describe('Unit | Service | ScorecardService', function () {
           findUniqByUserIdAndCompetenceId: sinon.stub(),
         };
         campaignParticipationRepository = {
-          findOneByAssessmentIdWithSkillIds: sinon.stub(),
+          get: sinon.stub(),
           updateAssessmentIdByOldAssessmentId: sinon.stub(),
+        };
+
+        targetProfileRepository = {
+          getByCampaignParticipationId: sinon.stub(),
         };
 
         assessmentRepository.findNotAbortedCampaignAssessmentsByUserId
@@ -316,12 +321,8 @@ describe('Unit | Service | ScorecardService', function () {
           .onSecondCall()
           .resolves(newAssessment2Saved);
 
-        campaignParticipationRepository.findOneByAssessmentIdWithSkillIds
-          .withArgs(oldAssessment1.id)
-          .resolves(campaignParticipation1);
-        campaignParticipationRepository.findOneByAssessmentIdWithSkillIds
-          .withArgs(oldAssessment2.id)
-          .resolves(campaignParticipation2);
+        campaignParticipationRepository.get.withArgs(campaignParticipation1.id).resolves(campaignParticipation1);
+        campaignParticipationRepository.get.withArgs(campaignParticipation2.id).resolves(campaignParticipation2);
 
         campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
           .withArgs({ oldAssessmentId: oldAssessment1.id, newAssessmentId: newAssessment1Saved.id })
@@ -329,6 +330,13 @@ describe('Unit | Service | ScorecardService', function () {
         campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
           .withArgs({ oldAssessmentId: oldAssessment2.id, newAssessmentId: newAssessment2Saved.id })
           .resolves(campaignParticipation2Updated);
+
+        targetProfileRepository.getByCampaignParticipationId
+          .withArgs(campaignParticipation1.id)
+          .resolves(targetProfile);
+        targetProfileRepository.getByCampaignParticipationId
+          .withArgs(campaignParticipation2.id)
+          .resolves(targetProfile);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
           .withArgs({ userId, competenceId })
@@ -351,6 +359,7 @@ describe('Unit | Service | ScorecardService', function () {
           knowledgeElementRepository,
           campaignParticipationRepository,
           competenceEvaluationRepository,
+          targetProfileRepository,
         });
 
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
@@ -376,6 +385,7 @@ describe('Unit | Service | ScorecardService', function () {
           knowledgeElementRepository,
           campaignParticipationRepository,
           competenceEvaluationRepository,
+          targetProfileRepository,
         });
         // given
         expect(assessmentRepository.save.args[0][0].assessment).to.include({
@@ -392,23 +402,26 @@ describe('Unit | Service | ScorecardService', function () {
         });
       });
 
-      context('when campaign is already shared', function () {
+      context('when campaign participation is already shared', function () {
         it('should return null for campaign participation', async function () {
           //given
-          const campaignParticipation3 = domainBuilder.buildCampaignParticipation({
-            assessments: [domainBuilder.buildAssessment({ id: assessmentId1 })],
+          const campaignParticipation1Shared = domainBuilder.buildCampaignParticipation({
+            id: 1,
             campaign,
+            status: SHARED,
           });
-          const campaignParticipation4 = domainBuilder.buildCampaignParticipation({
-            assessments: [domainBuilder.buildAssessment({ id: assessmentId2 })],
+          const campaignParticipation2Shared = domainBuilder.buildCampaignParticipation({
+            id: 2,
             campaign,
+            status: SHARED,
           });
-          campaignParticipationRepository.findOneByAssessmentIdWithSkillIds
-            .withArgs(assessmentId1)
-            .resolves(campaignParticipation3);
-          campaignParticipationRepository.findOneByAssessmentIdWithSkillIds
-            .withArgs(assessmentId2)
-            .resolves(campaignParticipation4);
+
+          campaignParticipationRepository.get
+            .withArgs(campaignParticipation1.id)
+            .resolves(campaignParticipation1Shared);
+          campaignParticipationRepository.get
+            .withArgs(campaignParticipation2.id)
+            .resolves(campaignParticipation2Shared);
 
           //when
           [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
@@ -419,6 +432,7 @@ describe('Unit | Service | ScorecardService', function () {
             knowledgeElementRepository,
             campaignParticipationRepository,
             competenceEvaluationRepository,
+            targetProfileRepository,
           });
           //then
           expect(resetCampaignParticipation).to.deep.equal([null, null]);
@@ -446,6 +460,7 @@ describe('Unit | Service | ScorecardService', function () {
             knowledgeElementRepository,
             campaignParticipationRepository,
             competenceEvaluationRepository,
+            targetProfileRepository,
           });
 
           //then
@@ -487,6 +502,7 @@ describe('Unit | Service | ScorecardService', function () {
           assessmentRepository,
           knowledgeElementRepository,
           competenceEvaluationRepository,
+          targetProfileRepository,
         });
       });
 
@@ -516,13 +532,13 @@ describe('Unit | Service | ScorecardService', function () {
   describe('#_computeResetSkillsNotIncludedInTargetProfile', function () {
     it('should return true when no skill is in common between target profile and reset skills', function () {
       // given
-      const targetObjectSkills = [{ id: 'recmoustache' }, { id: 'recherisson' }];
-      const resetSkills = ['recbarbe', 'rectaupe'];
+      const targetedSkillIds = ['recmoustache', 'recherisson'];
+      const resetSkillIds = ['recbarbe', 'rectaupe'];
 
       // when
       const response = scorecardService._computeResetSkillsNotIncludedInTargetProfile({
-        targetObjectSkills,
-        resetSkills,
+        targetedSkillIds,
+        resetSkillIds,
       });
 
       // then
@@ -531,13 +547,13 @@ describe('Unit | Service | ScorecardService', function () {
 
     it('should return false when some skills are in common between target profile and reset skills', function () {
       // given
-      const targetObjectSkills = [{ id: 'recmoustache' }, { id: 'recherisson' }];
-      const resetSkills = ['recmoustache', 'rectaupe'];
+      const targetedSkillIds = ['recmoustache', 'recherisson'];
+      const resetSkillIds = ['recmoustache', 'rectaupe'];
 
       // when
       const response = scorecardService._computeResetSkillsNotIncludedInTargetProfile({
-        targetObjectSkills,
-        resetSkills,
+        targetedSkillIds,
+        resetSkillIds,
       });
 
       // then
@@ -546,13 +562,13 @@ describe('Unit | Service | ScorecardService', function () {
 
     it('should return false when all skills are in common between target profile and reset skills', function () {
       // given
-      const targetObjectSkills = [{ id: 'recmoustache' }, { id: 'recherisson' }];
-      const resetSkills = ['recmoustache', 'recherisson'];
+      const targetedSkillIds = ['recmoustache', 'recherisson'];
+      const resetSkillIds = ['recmoustache', 'recherisson'];
 
       // when
       const response = scorecardService._computeResetSkillsNotIncludedInTargetProfile({
-        targetObjectSkills,
-        resetSkills,
+        targetedSkillIds,
+        resetSkillIds,
       });
 
       // then
