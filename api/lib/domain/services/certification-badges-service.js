@@ -68,14 +68,10 @@ function _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions)
 function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions) {
   const [pixDroitBadgeAcquisitions, nonPixDroitBadgeAcquisitions] = _.partition(
     certifiableBadgeAcquisitions,
-    _isPixDroit
+    (badgeAcquisition) => badgeAcquisition.isPixDroit()
   );
   if (pixDroitBadgeAcquisitions.length === 0) return nonPixDroitBadgeAcquisitions;
   const expertBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: PIX_DROIT_EXPERT_CERTIF });
   const maitreBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: PIX_DROIT_MAITRE_CERTIF });
   return [...nonPixDroitBadgeAcquisitions, expertBadgeAcquisition || maitreBadgeAcquisition];
-}
-
-function _isPixDroit(badgeAcquisition) {
-  return [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(badgeAcquisition.badgeKey);
 }
