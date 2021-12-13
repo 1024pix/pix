@@ -9,8 +9,6 @@ const {
   CandidateNotAuthorizedToJoinSessionError,
 } = require('../errors');
 const { features, featureToggles } = require('../../config');
-const _ = require('lodash');
-const bluebird = require('bluebird');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -149,10 +147,10 @@ async function _startNewCertification({
       domainTransaction,
     });
 
-    const hasPixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    const pixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
       badgeAcquisition.isPixDroit()
     );
-    if (hasPixDroitBadgeAcquisition) {
+    if (pixDroitBadgeAcquisition) {
       const pixDroitComplementaryCertification = complementaryCertifications.find(
         (comp) => comp.name === PIX_PLUS_DROIT
       );
@@ -160,14 +158,13 @@ async function _startNewCertification({
         complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
       }
 
-      const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
-        userId,
-        highestCertifiableBadgeAcquisitions,
-        certificationBadgesService,
-        certificationChallengesService,
-        locale,
-      });
-      challengesForCertification.push(...challengesForPixPlusCertification);
+      const certificationChallengesForPixDroit =
+        await certificationChallengesService.pickCertificationChallengesForPixPlus(
+          pixDroitBadgeAcquisition.badge,
+          userId,
+          locale
+        );
+      challengesForCertification.push(...certificationChallengesForPixDroit);
     }
   }
 
@@ -182,19 +179,6 @@ async function _startNewCertification({
     verifyCertificateCodeService,
     complementaryCertificationIds,
   });
-}
-
-async function _findChallengesFromPixPlus({
-  userId,
-  highestCertifiableBadgeAcquisitions,
-  certificationChallengesService,
-  locale,
-}) {
-  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(
-    highestCertifiableBadgeAcquisitions,
-    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale)
-  );
-  return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
 
 async function _getCertificationCourseIfCreatedMeanwhile(
