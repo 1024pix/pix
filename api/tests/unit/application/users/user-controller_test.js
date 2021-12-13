@@ -782,6 +782,7 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const userId = '12';
       const competenceId = '875432';
+      const locale = 'fr-fr';
 
       const request = {
         auth: {
@@ -799,7 +800,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.resetScorecard(request);
 
       // then
-      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId });
+      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId, locale });
     });
   });
 

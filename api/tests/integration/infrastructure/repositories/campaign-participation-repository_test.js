@@ -1,11 +1,9 @@
 const _ = require('lodash');
-const moment = require('moment');
 const { sinon, expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
-const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -692,73 +690,6 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       expect(response).to.equal(null);
-    });
-  });
-
-  describe('#findOneByAssessmentIdWithSkillIds', function () {
-    const assessmentId = 12345;
-    const campaignId = 123;
-    const targetProfileId = 456;
-    const skillId1 = 'rec1';
-    const skillId2 = 'rec2';
-
-    context('when assessment is linked', function () {
-      beforeEach(async function () {
-        databaseBuilder.factory.buildTargetProfile({ id: targetProfileId });
-        databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId1, targetProfileId });
-        databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId2, targetProfileId });
-        databaseBuilder.factory.buildCampaign({ id: campaignId, targetProfileId });
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
-        const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({});
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
-          campaignParticipationId: campaignParticipation.id,
-          createdAt: moment().toDate(),
-        });
-        databaseBuilder.factory.buildAssessment({
-          id: 67890,
-          campaignParticipationId: otherCampaignParticipation.id,
-          createdAt: moment().subtract(1, 'month').toDate(),
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return the campaign-participation linked to the given assessment with skills', async function () {
-        // when
-        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(
-          assessmentId
-        );
-
-        // then
-        expect(campaignParticipationFound.assessments).to.have.lengthOf(1);
-        expect(campaignParticipationFound.assessments[0]).to.be.instanceOf(Assessment);
-        expect(campaignParticipationFound.assessments[0].id).to.equal(assessmentId);
-        expect(campaignParticipationFound.campaign.targetProfile.skills).to.have.lengthOf(2);
-        expect(campaignParticipationFound.campaign.targetProfile.skills[0]).to.be.instanceOf(Skill);
-        expect(campaignParticipationFound.campaign.targetProfile.skills[0].id).to.equal(skillId1);
-        expect(campaignParticipationFound.campaign.targetProfile.skills[1]).to.be.instanceOf(Skill);
-        expect(campaignParticipationFound.campaign.targetProfile.skills[1].id).to.equal(skillId2);
-      });
-    });
-
-    context('when assessment is not linked', function () {
-      beforeEach(async function () {
-        databaseBuilder.factory.buildAssessment({ id: 67890 });
-        databaseBuilder.factory.buildCampaignParticipation({ assessmentId: 67890 });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return null', async function () {
-        // when
-        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(
-          assessmentId
-        );
-
-        // then
-        expect(campaignParticipationFound).to.equal(null);
-      });
     });
   });
 

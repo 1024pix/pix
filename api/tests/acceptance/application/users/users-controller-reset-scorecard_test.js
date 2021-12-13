@@ -6,6 +6,7 @@ const {
   generateValidRequestAuthorizationHeader,
   sinon,
   mockLearningContent,
+  learningContentBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
@@ -18,6 +19,21 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
 
   let userId;
   const competenceId = 'recAbe382T0e1337';
+  const competence = {
+    id: competenceId,
+    nameFr: 'Mener une recherche et une veille d’information',
+    descriptionFr: 'descriptionCompetence1',
+    index: '1.1',
+    origin: 'Pix',
+    areaId: 'recvoGdo7z2z7pXWa',
+  };
+  const area = {
+    id: 'recvoGdo7z2z7pXWa',
+    titleFr: 'Information et données',
+    color: 'jaffa',
+    code: '1',
+    competenceIds: [competenceId],
+  };
 
   function inspectCompetenceEvaluationInDb({ userId, competenceId }) {
     return knex.select('*').from('competence-evaluations').where({ userId, competenceId });
@@ -39,16 +55,61 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
       method: 'POST',
       url: `/api/users/${userId}/competences/${competenceId}/reset`,
       payload: {},
-      headers: {},
+      headers: { 'accept-language': 'fr-fr' },
     };
+
+    const learningContent = [
+      {
+        ...area,
+        competences: [
+          {
+            ...competence,
+            tubes: [
+              {
+                id: 'recTube1',
+                skills: [
+                  {
+                    id: 'web1',
+                  },
+                  {
+                    id: 'web2',
+                  },
+                  {
+                    id: 'web3',
+                  },
+                  {
+                    id: 'web4',
+                  },
+                ],
+              },
+              {
+                id: 'recTube2',
+                skills: [
+                  {
+                    id: 'url1',
+                  },
+                  {
+                    id: 'url2',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
+
     server = await createServer();
   });
 
   afterEach(async function () {
-    await knex('competence-evaluations').delete();
     await knex('knowledge-elements').delete();
     await knex('answers').delete();
-    return knex('assessments').delete();
+    await knex('competence-evaluations').delete();
+    await knex('assessments').delete();
+    await knex('campaign-participations').delete();
   });
 
   describe('POST /users/{id}/competences/{id}/reset', function () {
@@ -110,27 +171,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
 
     describe('Success case', function () {
       let response;
-      const competence = {
-        id: competenceId,
-        nameFrFr: 'Mener une recherche et une veille d’information',
-        descriptionFrFr: 'descriptionCompetence1',
-        index: '1.1',
-        origin: 'Pix',
-        areaId: 'recvoGdo7z2z7pXWa',
-      };
-      const area = {
-        id: 'recvoGdo7z2z7pXWa',
-        titleFrFr: 'Information et données',
-        color: 'jaffa',
-        code: '1',
-        competenceIds: [competenceId],
-      };
       const otherStartedCompetenceId = 'recBejNZgJke422G';
       const createdAt = new Date('2019-01-01');
-      const learningContent = {
-        areas: [area],
-        competences: [competence],
-      };
 
       beforeEach(async function () {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -143,8 +185,6 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'url1' });
         const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-
-        mockLearningContent(learningContent);
 
         _.each(
           [
@@ -195,14 +235,6 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
         await databaseBuilder.commit();
       });
 
-      afterEach(async function () {
-        await knex('knowledge-elements').delete();
-        await knex('answers').delete();
-        await knex('competence-evaluations').delete();
-        await knex('assessments').delete();
-        await knex('campaign-participations').delete();
-      });
-
       it('should return 200 and the updated scorecard', async function () {
         // given
         const expectedScorecardJSONApi = {
@@ -210,8 +242,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
             type: 'scorecards',
             id: `${userId}_${competenceId}`,
             attributes: {
-              name: competence.nameFrFr,
-              description: competence.descriptionFrFr,
+              name: competence.nameFr,
+              description: competence.descriptionFr,
               'competence-id': competenceId,
               index: competence.index,
               'earned-pix': 0,
@@ -239,7 +271,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
             {
               attributes: {
                 code: area.code,
-                title: area.titleFrFr,
+                title: area.titleFr,
                 color: area.color,
               },
               id: area.id,

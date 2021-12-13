@@ -88,6 +88,8 @@ const buildLearningContent = function (learningContent) {
         index: competence.index,
         nameFrFr: competence.nameFr || competence.name,
         nameEnUs: competence.nameEn || competence.name,
+        descriptionFrFr: competence.descriptionFr || competence.description,
+        descriptionEnUs: competence.descriptionEn || competence.description,
       };
     });
     allCompetences.push(competences);

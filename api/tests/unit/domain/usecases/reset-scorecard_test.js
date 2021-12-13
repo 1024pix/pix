@@ -5,6 +5,7 @@ const { CompetenceResetError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reset-scorecard', function () {
   let knowledgeElements;
+  const locale = 'fr-fr';
 
   const competenceId = 123;
   const userId = 456;
@@ -19,6 +20,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
   const competenceRepository = {};
   const assessmentRepository = {};
   const campaignParticipationRepository = {};
+  const targetProfileRepository = {};
   const scorecardService = {};
   let getRemainingDaysBeforeResetStub;
 
@@ -62,6 +64,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           competenceRepository,
           competenceEvaluationRepository,
           knowledgeElementRepository,
+          locale,
         })
         .resolves(scorecard);
 
@@ -81,6 +84,8 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        targetProfileRepository,
+        locale,
       });
 
       // then
@@ -93,6 +98,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         knowledgeElementRepository,
         competenceEvaluationRepository,
+        targetProfileRepository,
       });
       expect(response).to.equal(scorecard);
     });
@@ -124,6 +130,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           competenceRepository,
           competenceEvaluationRepository,
           knowledgeElementRepository,
+          locale,
         })
         .resolves(scorecard);
 
@@ -137,6 +144,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        locale,
       });
 
       // then
@@ -162,6 +170,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        locale,
       });
 
       // then
@@ -184,6 +193,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        locale,
       });
 
       // then
