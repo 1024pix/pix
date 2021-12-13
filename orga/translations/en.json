@@ -564,7 +564,9 @@
     "preselect-target-profile": {
       "title": "Topic selection",
       "table": {
+        "caption": "Topic selection",
         "column" : {
+          "action": "Select",
           "name": "Topic name"
         },
         "row-title": "Topic"
