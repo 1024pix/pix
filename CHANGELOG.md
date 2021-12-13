@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.139.0 (13/12/2021)
+
+
+### :rocket: Enhancement
+- [#3825](https://github.com/1024pix/pix/pull/3825) [FEATURE] Design du block Net Promoter Score sur la page de fin de campagne (PIX-4007)
+- [#3820](https://github.com/1024pix/pix/pull/3820) [FEATURE] Afficher le bloc NPS seulement pour certaines organisations (PIX-3968)
+
+### :bug: Bug fix
+- [#3819](https://github.com/1024pix/pix/pull/3819) [BUGFIX] Les tests du pre-handler checkUserHasRolePixMaster sont fragiles.
+- [#3823](https://github.com/1024pix/pix/pull/3823) [BUGFIX] Permettre la récupération de compte avec un INE en minuscule (PIX-3997).
+
 ## v3.138.0 (10/12/2021)
 
 
