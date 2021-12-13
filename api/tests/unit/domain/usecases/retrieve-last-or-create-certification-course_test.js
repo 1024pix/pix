@@ -579,24 +579,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                           const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
                           const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-                          const certifiableBadge1 = domainBuilder.buildBadge({ key: 'COUCOU', targetProfileId: 11 });
-                          const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
-                          const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({
-                            badge: certifiableBadge1,
-                          });
-                          const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({
-                            badge: certifiableBadge2,
-                          });
 
+                          const pixDroitMaitreBadgeAcquisition =
+                            domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({ userId, domainTransaction })
-                            .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                            .resolves([pixDroitMaitreBadgeAcquisition]);
 
                           certificationChallengesService.pickCertificationChallengesForPixPlus
-                            .withArgs(certifiableBadge1, userId)
-                            .resolves([challengePlus1, challengePlus2])
-                            .withArgs(certifiableBadge2, userId)
-                            .resolves([challengePlus3]);
+                            .withArgs(pixDroitMaitreBadgeAcquisition.badge, userId)
+                            .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                           certificationBadgesService.hasStillValidCleaBadgeAcquisition
                             .withArgs({ userId })
@@ -706,24 +698,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                           const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
                           const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-                          const certifiableBadge1 = domainBuilder.buildBadge({ key: 'COUCOU', targetProfileId: 11 });
-                          const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
-                          const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({
-                            badge: certifiableBadge1,
-                          });
-                          const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({
-                            badge: certifiableBadge2,
-                          });
 
+                          const pixDroitMaitreBadgeAcquisition =
+                            domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({ userId, domainTransaction })
-                            .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                            .resolves([pixDroitMaitreBadgeAcquisition]);
 
                           certificationChallengesService.pickCertificationChallengesForPixPlus
-                            .withArgs(certifiableBadge1, userId)
-                            .resolves([challengePlus1, challengePlus2])
-                            .withArgs(certifiableBadge2, userId)
-                            .resolves([challengePlus3]);
+                            .withArgs(pixDroitMaitreBadgeAcquisition.badge, userId)
+                            .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                           certificationBadgesService.hasStillValidCleaBadgeAcquisition
                             .withArgs({ userId })
@@ -874,24 +858,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                             const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
                             const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-                            const certifiableBadge1 = domainBuilder.buildBadge({ key: 'COUCOU', targetProfileId: 11 });
-                            const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
-                            const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({
-                              badge: certifiableBadge1,
-                            });
-                            const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({
-                              badge: certifiableBadge2,
-                            });
 
+                            const pixDroitMaitreBadgeAcquisition =
+                              domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
                             certificationBadgesService.findStillValidBadgeAcquisitions
                               .withArgs({ userId, domainTransaction })
-                              .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                              .resolves([pixDroitMaitreBadgeAcquisition]);
 
                             certificationChallengesService.pickCertificationChallengesForPixPlus
-                              .withArgs(certifiableBadge1, userId)
-                              .resolves([challengePlus1, challengePlus2])
-                              .withArgs(certifiableBadge2, userId)
-                              .resolves([challengePlus3]);
+                              .withArgs(pixDroitMaitreBadgeAcquisition.badge, userId)
+                              .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                             const complementaryCertificationCourse =
                               ComplementaryCertificationCourse.fromComplementaryCertificationId(
@@ -1004,24 +980,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                             const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
                             const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-                            const certifiableBadge1 = domainBuilder.buildBadge({ key: 'COUCOU', targetProfileId: 11 });
-                            const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
-                            const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({
-                              badge: certifiableBadge1,
-                            });
-                            const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({
-                              badge: certifiableBadge2,
-                            });
 
+                            const pixDroitMaitreBadgeAcquisition =
+                              domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
                             certificationBadgesService.findStillValidBadgeAcquisitions
                               .withArgs({ userId, domainTransaction })
-                              .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                              .resolves([pixDroitMaitreBadgeAcquisition]);
 
                             certificationChallengesService.pickCertificationChallengesForPixPlus
-                              .withArgs(certifiableBadge1, userId)
-                              .resolves([challengePlus1, challengePlus2])
-                              .withArgs(certifiableBadge2, userId)
-                              .resolves([challengePlus3]);
+                              .withArgs(pixDroitMaitreBadgeAcquisition.badge, userId)
+                              .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                             const complementaryCertificationCourse =
                               ComplementaryCertificationCourse.fromComplementaryCertificationId(
