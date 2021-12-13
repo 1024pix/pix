@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
 } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { visit } from '@1024pix/ember-testing-library';
 
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
@@ -62,7 +63,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
 
         module('when the session is CREATED', function() {
 
-          test('it should not display the finalize button if no candidat has joined the session', async function(assert) {
+          test('it should not display the finalize button if no candidate has joined the session', async function(assert) {
             // given
             const sessionCreated = server.create('session', { status: CREATED });
             server.createList('certification-candidate', 2, { isLinked: false, sessionId: sessionCreated.id });
@@ -85,6 +86,48 @@ module('Acceptance | Session Details Parameters', function(hooks) {
 
             // then
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
+          });
+
+          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function() {
+            test('it should not display supervisor password', async function(assert) {
+              // given
+              server.create('feature-toggle', {
+                id: 0,
+                isEndTestScreenRemovalEnabled: false,
+              });
+              const sessionWithSupervisorPassword = server.create('session', {
+                supervisorPassword: 'SOWHAT',
+                status: CREATED,
+              });
+
+              // when
+              const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
+
+              // then
+              const supervisorPasswordElement = screen.queryByText('C-SOWHAT');
+              assert.dom(supervisorPasswordElement).doesNotExist();
+            });
+          });
+
+          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function() {
+            test('it should display supervisor password', async function(assert) {
+              // given
+              server.create('feature-toggle', {
+                id: 0,
+                isEndTestScreenRemovalEnabled: true,
+              });
+              const sessionWithSupervisorPassword = server.create('session', {
+                supervisorPassword: 'SOWHAT',
+                status: CREATED,
+              });
+
+              // when
+              const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
+
+              // then
+              const supervisorPasswordElement = screen.getByText('C-SOWHAT');
+              assert.dom(supervisorPasswordElement).exists();
+            });
           });
         });
       });
