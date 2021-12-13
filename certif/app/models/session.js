@@ -29,6 +29,7 @@ export default class Session extends Model {
   @attr('string') room;
   @attr('string') status;
   @attr('string') examinerGlobalComment;
+  @attr('string') supervisorPassword;
   @attr() certificationCenterId;
   @hasMany('certificationReport') certificationReports;
 
