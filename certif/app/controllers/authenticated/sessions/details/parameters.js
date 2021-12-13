@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class SessionParametersController extends Controller {
 
@@ -12,10 +13,16 @@ export default class SessionParametersController extends Controller {
   @alias('model.certificationCandidates') certificationCandidates;
   @tracked sessionNumberTooltipText = '';
   @tracked accessCodeTooltipText = '';
+  @tracked supervisorPasswordTooltipText = '';
+  @service featureToggles;
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
     return this.certificationCandidates.isAny('isLinked');
+  }
+
+  get supervisorPasswordShouldBeDisplayed() {
+    return this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled;
   }
 
   @action
@@ -40,6 +47,18 @@ export default class SessionParametersController extends Controller {
   @action
   removeAccessCodeTooltip() {
     this.accessCodeTooltipText = '';
+  }
+
+  @action
+  async showSupervisorPasswordTooltip() {
+    this.supervisorPasswordTooltipText = 'Copié !';
+    await _waitForSeconds(2);
+    this.removeSupervisorPasswordTooltip();
+  }
+
+  @action
+  removeSupervisorPasswordTooltip() {
+    this.supervisorPasswordTooltipText = '';
   }
 }
 
