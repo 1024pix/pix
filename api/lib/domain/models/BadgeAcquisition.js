@@ -1,4 +1,6 @@
 const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER,
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE,
@@ -17,6 +19,10 @@ class BadgeAcquisition {
 
   get badgeKey() {
     return this.badge.key;
+  }
+
+  isPixDroit() {
+    return [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(this.badgeKey);
   }
 
   isPixEdu() {
