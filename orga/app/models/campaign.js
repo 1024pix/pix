@@ -21,7 +21,6 @@ export default class Campaign extends Model {
   @attr('string') targetProfileId;
   @attr('string') targetProfileDescription;
   @attr('string') targetProfileName;
-  @attr('string') targetProfileImageUrl;
   @attr('number') targetProfileTubesCount;
   @attr('number') targetProfileThematicResultCount;
   @attr('boolean') targetProfileHasStage;

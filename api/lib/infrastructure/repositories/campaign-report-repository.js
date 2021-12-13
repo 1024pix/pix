@@ -47,7 +47,6 @@ module.exports = {
         targetProfileId: 'target-profiles.id',
         targetProfileDescription: 'target-profiles.description',
         targetProfileName: 'target-profiles.name',
-        targetProfileImageUrl: 'target-profiles.imageUrl',
       })
       .select(
         knex.raw('ARRAY_AGG("skillId") AS "skillIds"'),

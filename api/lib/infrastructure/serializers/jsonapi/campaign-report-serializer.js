@@ -22,7 +22,6 @@ module.exports = {
         'targetProfileId',
         'targetProfileDescription',
         'targetProfileName',
-        'targetProfileImageUrl',
         'targetProfileTubesCount',
         'targetProfileThematicResultCount',
         'targetProfileHasStage',
