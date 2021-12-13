@@ -1,3 +1,4 @@
+import { set } from '@ember/object';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -12,6 +13,7 @@ export default class CandidateInList extends Component {
   @tracked modalCancelText;
   @tracked modalConfirmationText;
   @tracked modalInstructionText;
+  @tracked actionOnConfirmation;
 
   get isCheckboxToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
@@ -42,7 +44,17 @@ export default class CandidateInList extends Component {
     this.modalCancelText = 'Fermer';
     this.modalConfirmationText = 'Je confirme l\'autorisation';
     this.modalInstructionText = `Autoriser ${this.args.candidate.firstName} ${this.args.candidate.lastName} à reprendre son test ?`;
-    this.actionOnConfirmation = this.authorizeTestResume.bind(this);
+    set(this, 'actionOnConfirmation', this.authorizeTestResume);
+    this.isConfirmationModalDisplayed = true;
+  }
+
+  @action
+  askUserToConfirmTestEnd() {
+    this.modalDescriptionText = 'Attention : cette action entraine la fin de son test de certification et est irréversible.';
+    this.modalCancelText = 'Annuler';
+    this.modalConfirmationText = 'Terminer le test';
+    this.modalInstructionText = `Terminer le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} ?`;
+    set(this, 'actionOnConfirmation', this.endAssessmentForCandidate);
     this.isConfirmationModalDisplayed = true;
   }
 
@@ -64,5 +76,24 @@ export default class CandidateInList extends Component {
         `Une erreur est survenue, ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a a pu être autorisé à reprendre son test.`,
       );
     }
+  }
+
+  @action
+  async endAssessmentForCandidate() {
+    this.closeConfirmationModal();
+    try {
+      await this.args.onSupervisorEndAssessment(this.args.candidate);
+      this.notifications.success(
+        `Succès ! Le test de  ${this.args.candidate.firstName} ${this.args.candidate.lastName} est terminé.`,
+      );
+    } catch (error) {
+      this.notifications.error(
+        `Une erreur est survenue, le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a pas pu être terminé`,
+      );
+    }
+  }
+
+  get actionMethod() {
+    return this.actionOnConfirmation;
   }
 }

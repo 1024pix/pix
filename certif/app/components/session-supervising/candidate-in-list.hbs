@@ -46,6 +46,9 @@
         <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
           Autoriser la reprise du test
         </Dropdown::Item>
+        <Dropdown::Item @onClick={{this.askUserToConfirmTestEnd}}>
+          Terminer le test
+        </Dropdown::Item>
       </Dropdown::Content>
     </div>
   {{/if}}
@@ -53,13 +56,18 @@
   {{#if this.isConfirmationModalDisplayed}}
     <SessionSupervising::ConfirmationModal
       @closeConfirmationModal={{this.closeConfirmationModal}}
-      @actionOnConfirmation={{this.actionOnConfirmation}}
+      @actionOnConfirmation={{this.actionMethod}}
       @candidate={{this.candidate}}
-      @modalDescriptionText={{this.modalDescriptionText}}
-      @modalInstructionText={{this.modalInstructionText}}
       @modalCancelText={{this.modalCancelText}}
       @modalConfirmationButtonText={{this.modalConfirmationText}}
-    />
+    >
+      <:instruction>
+        {{this.modalInstructionText}}
+      </:instruction>
+      <:description>
+        {{this.modalDescriptionText}}
+      </:description>
+    </SessionSupervising::ConfirmationModal>
 
   {{/if}}
 

@@ -12,4 +12,9 @@ export default class SessionSupervisingController extends Controller {
   async authorizeTestResume(candidate) {
     await candidate.authorizeTestResume();
   }
+
+  @action
+  async endAssessmentBySupervisor(candidate) {
+    await candidate.endAssessmentBySupervisor();
+  }
 }

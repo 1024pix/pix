@@ -15,11 +15,11 @@
   <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
     <div class="pix-modal-body pix-modal-body--with-padding">
       <div class="app-modal-body__attention">
-        {{@modalInstructionText}}
+        {{yield to="instruction"}}
       </div>
       <div class="app-modal-body__warning">
         <p>
-          {{@modalDescriptionText}}
+          {{yield to="description"}}
         </p>
       </div>
     </div>
