@@ -8,6 +8,10 @@ export default class CandidateInList extends Component {
 
   @tracked isMenuOpen = false;
   @tracked isConfirmationModalDisplayed = false;
+  @tracked modalDescriptionText;
+  @tracked modalCancelText;
+  @tracked modalConfirmationText;
+  @tracked modalInstructionText;
 
   get isCheckboxToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
@@ -34,6 +38,11 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToConfirmTestResume() {
+    this.modalDescriptionText = 'Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d\'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l\'endroit où il l\'avait quitté.';
+    this.modalCancelText = 'Fermer';
+    this.modalConfirmationText = 'Je confirme l\'autorisation';
+    this.modalInstructionText = `Autoriser ${this.args.candidate.firstName} ${this.args.candidate.lastName} à reprendre son test ?`;
+    this.actionOnConfirmation = this.authorizeTestResume.bind(this);
     this.isConfirmationModalDisplayed = true;
   }
 
@@ -43,10 +52,10 @@ export default class CandidateInList extends Component {
   }
 
   @action
-  async authorizeTestResume(candidate) {
+  async authorizeTestResume() {
     this.closeConfirmationModal();
     try {
-      await this.args.onCandidateTestResumeAuthorization(candidate);
+      await this.args.onCandidateTestResumeAuthorization(this.args.candidate);
       this.notifications.success(
         `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`,
       );

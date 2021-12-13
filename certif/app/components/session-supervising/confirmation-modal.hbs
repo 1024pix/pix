@@ -1,0 +1,46 @@
+<AppModal @containerClass="pix-modal-dialog" @onClose={{@closeConfirmationModal}}>
+
+  <div class="pix-modal__close-button">
+    <button
+      type="button"
+      data-test-id="finalize-session-modal__close-cross"
+      {{on "click" @closeConfirmationModal}}
+      aria-label="Fermer la fenêtre de confirmation"
+    >
+      Fermer
+      <img src="/icons/icon-close-modal.svg" alt="" role="presentation" width="24" height="24">
+    </button>
+  </div>
+
+  <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
+    <div class="pix-modal-body pix-modal-body--with-padding">
+      <div class="app-modal-body__attention">
+        {{@modalInstructionText}}
+      </div>
+      <div class="app-modal-body__warning">
+        <p>
+          {{@modalDescriptionText}}
+        </p>
+      </div>
+    </div>
+
+    <div class="pix-modal-footer">
+      <PixButton
+        data-test-id="finalize-session-modal__confirm-button"
+        @triggerAction={{@actionOnConfirmation}}
+        @backgroundColor="yellow"
+      >
+        {{@modalConfirmationButtonText}}
+      </PixButton>
+      <PixButton
+        data-test-id="finalize-session-modal__cancel-button"
+        @triggerAction={{@closeConfirmationModal}}
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        aria-label="Annuler et fermer la fenêtre de confirmation"
+      >
+        {{@modalCancelText}}
+      </PixButton>
+    </div>
+  </div>
+</AppModal>
