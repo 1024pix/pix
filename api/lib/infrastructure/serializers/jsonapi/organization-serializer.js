@@ -22,6 +22,7 @@ module.exports = {
         'createdBy',
         'documentationUrl',
         'showNPS',
+        'formNPSUrl',
       ],
       memberships: {
         ref: 'id',
