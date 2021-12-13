@@ -31,13 +31,11 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
   beforeEach(async function () {
     server = await createServer();
-
     userId = databaseBuilder.factory.buildUser.withRawPassword({
       email: userEmailAddress,
       rawPassword: userPassword,
       cgu: true,
     }).id;
-
     await databaseBuilder.commit();
   });
 
@@ -49,9 +47,20 @@ describe('Acceptance | Controller | authentication-controller', function () {
     });
 
     it('should return an 200 with accessToken when authentication is ok', async function () {
-      // when
-      const options = _getOptions({ scope: 'pix-orga', username: userEmailAddress, password: userPassword });
-      const response = await server.inject(options);
+      // given / when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username: userEmailAddress,
+          password: userPassword,
+          scope: 'pix-orga',
+        }),
+      });
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -66,8 +75,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
       // given
       const username = 'username123';
       const shouldChangePassword = true;
-
-      const options = _getOptions({ scope: 'pix-orga', username, password: userPassword });
 
       databaseBuilder.factory.buildUser.withRawPassword({
         username,
@@ -90,7 +97,19 @@ describe('Acceptance | Controller | authentication-controller', function () {
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username,
+          password: userPassword,
+          scope: 'pix-orga',
+        }),
+      });
 
       // then
       expect(response.statusCode).to.equal(401);
