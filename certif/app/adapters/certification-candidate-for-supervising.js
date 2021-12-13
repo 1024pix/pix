@@ -11,6 +11,10 @@ export default class CertificationCandidateForSupervisingAdapter extends Applica
       return `${this.host}/${this.namespace}/certification-candidates/${id}/authorize-to-resume`;
     }
 
+    if (requestType === 'endAssessmentBySupervisor') {
+      return `${this.host}/${this.namespace}/assessments/${id}/end-assessment-by-supervisor`;
+    }
+
     return super.buildURL(modelName, id, snapshot, requestType, query);
   }
 }

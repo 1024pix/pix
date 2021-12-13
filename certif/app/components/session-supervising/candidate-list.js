@@ -12,4 +12,9 @@ export default class CandidateList extends Component {
   async authorizeTestResume(candidate) {
     await this.args.authorizeTestResume(candidate);
   }
+
+  @action
+  async endAssessmentBySupervisor(candidate) {
+    await this.args.endAssessmentBySupervisor(candidate);
+  }
 }
