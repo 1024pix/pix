@@ -16,6 +16,7 @@ module.exports = {
         organizationLogoUrl: 'organizations.logoUrl',
         organizationIsManagingStudents: 'organizations.isManagingStudents',
         organizationShowNPS: 'organizations.showNPS',
+        organizationFormNPSUrl: 'organizations.formNPSUrl',
         targetProfileName: 'target-profiles.name',
         targetProfileImageUrl: 'target-profiles.imageUrl',
       })
@@ -41,6 +42,7 @@ module.exports = {
         organizationLogoUrl: 'organizations.logoUrl',
         organizationIsManagingStudents: 'organizations.isManagingStudents',
         organizationShowNPS: 'organizations.showNPS',
+        organizationFormNPSUrl: 'organizations.formNPSUrl',
         targetProfileName: 'target-profiles.name',
         targetProfileImageUrl: 'target-profiles.imageUrl',
         targetProfileIsSimplifiedAccess: 'target-profiles.isSimplifiedAccess',

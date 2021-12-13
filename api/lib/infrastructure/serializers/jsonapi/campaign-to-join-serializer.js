@@ -20,6 +20,7 @@ module.exports = {
         'organizationLogoUrl',
         'organizationIsPoleEmploi',
         'organizationShowNPS',
+        'organizationFormNPSUrl',
         'targetProfileName',
         'targetProfileImageUrl',
         'customResultPageText',
