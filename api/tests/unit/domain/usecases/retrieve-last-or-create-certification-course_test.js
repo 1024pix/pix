@@ -224,7 +224,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
       );
 
       context(
-        "'when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is active and when the certification candidate is authorized",
+        'when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is active and when the certification candidate is authorized',
         function () {
           beforeEach(function () {
             sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
@@ -528,7 +528,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(false);
                     });
                     context('when certificationCenter has no habilitation', function () {
-                      context('when user is eligible for cleA and Pix+ droit', function () {
+                      context('when user is eligible for cleA and Pix+ Droit', function () {
                         it('should not save complementary certification', async function () {
                           // given
                           const sessionId = 1;
@@ -809,9 +809,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
                     });
 
-                    context('when certification center has habilitation for pix plus', function () {
-                      context('when user has certifiable badges with pix plus', function () {
-                        context('when user is granted for pix plus droit complementary certification', function () {
+                    context('when certification center has habilitation for Pix+ Droit', function () {
+                      context('when user has certifiable badges with Pix+ Droit', function () {
+                        context('when user is granted for Pix+ Droit complementary certification', function () {
                           it('should save complementary certification info', async function () {
                             // given
                             const sessionId = 1;
@@ -934,7 +934,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             });
                           });
 
-                          it('should save all the challenges from pix and pix plus', async function () {
+                          it('should save all the challenges from pix and Pix+ Droit', async function () {
                             // given
                             const sessionId = 1;
                             const accessCode = 'accessCode';
@@ -1160,7 +1160,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           });
                         });
 
-                        context('when user is not granted for pix plus complementary certification', function () {
+                        context('when user is not granted for Pix+ Droit complementary certification', function () {
                           it('should not save complementary certification info', async function () {
                             // given
                             const sessionId = 1;
@@ -1279,8 +1279,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         });
                       });
 
-                      context('when user has no certifiable badges with pix plus', function () {
-                        it('should not save challenges from pix plus', async function () {
+                      context('when user has no certifiable badges for Pix+ Droit', function () {
+                        it('should not save challenges from Pix+ Droit', async function () {
                           // given
                           const sessionId = 1;
                           const accessCode = 'accessCode';
@@ -1483,7 +1483,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
                     });
 
-                    context('when certification center has no habilitation for pix plus', function () {
+                    context('when certification center has no habilitation for Pix+ Droit', function () {
                       it('should save only the challenges from pix', async function () {
                         // given
                         const sessionId = 1;
@@ -1649,6 +1649,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             certificationBadgesService.hasStillValidCleaBadgeAcquisition
                               .withArgs({ userId })
                               .resolves(false);
+
+                            certificationBadgesService.findStillValidBadgeAcquisitions
+                              .withArgs({
+                                userId,
+                                domainTransaction,
+                              })
+                              .resolves([]);
 
                             // when
                             const result = await retrieveLastOrCreateCertificationCourse({
@@ -1861,6 +1868,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                               .withArgs({ userId })
                               .resolves(true);
 
+                            certificationBadgesService.findStillValidBadgeAcquisitions
+                              .withArgs({
+                                userId,
+                                domainTransaction,
+                              })
+                              .resolves([]);
+
                             // when
                             const result = await retrieveLastOrCreateCertificationCourse({
                               domainTransaction,
@@ -1959,6 +1973,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .withArgs({ userId })
                             .resolves(true);
 
+                          certificationBadgesService.findStillValidBadgeAcquisitions
+                            .withArgs({
+                              userId,
+                              domainTransaction,
+                            })
+                            .resolves([]);
+
                           // when
                           const result = await retrieveLastOrCreateCertificationCourse({
                             domainTransaction,
@@ -1983,6 +2004,107 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                               challenges: [challenge1, challenge2],
                             }),
                           });
+                        });
+                      });
+                    });
+
+                    context('when user has certifiable badge for Pix+ Édu', function () {
+                      it('should save all the challenges from pix and Pix+ Édu', async function () {
+                        // given
+                        const sessionId = 1;
+                        const accessCode = 'accessCode';
+                        const userId = 2;
+                        const domainTransaction = Symbol('someDomainTransaction');
+
+                        const foundSession = domainBuilder.buildSession.created({ id: sessionId, accessCode });
+                        sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+
+                        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                          .withArgs({ userId, sessionId, domainTransaction })
+                          .resolves(null);
+
+                        const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                          userId,
+                          sessionId,
+                          authorizedToStart: true,
+                          complementaryCertifications: [],
+                        });
+
+                        certificationCandidateRepository.getBySessionIdAndUserId
+                          .withArgs({ sessionId, userId })
+                          .resolves(foundCertificationCandidate);
+
+                        const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                          _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now);
+                        certificationChallengesService.pickCertificationChallenges
+                          .withArgs(placementProfile)
+                          .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+                        const certificationCenter = domainBuilder.buildCertificationCenter({
+                          habilitations: [],
+                        });
+                        certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+                        complementaryCertificationRepository.findAll.resolves([]);
+
+                        const challengeEdu1 = domainBuilder.buildChallenge({ id: 'challenge-pix-edu1' });
+                        const challengeEdu2 = domainBuilder.buildChallenge({ id: 'challenge-pix-edu2' });
+
+                        const pixEduFormationContinueExpertBadgeAcquisition =
+                          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreExpert();
+                        certificationBadgesService.findStillValidBadgeAcquisitions
+                          .withArgs({ userId, domainTransaction })
+                          .resolves([pixEduFormationContinueExpertBadgeAcquisition]);
+
+                        certificationChallengesService.pickCertificationChallengesForPixPlus
+                          .withArgs(pixEduFormationContinueExpertBadgeAcquisition.badge, userId)
+                          .resolves([challengeEdu1, challengeEdu2]);
+
+                        const certificationCourseToSave = CertificationCourse.from({
+                          certificationCandidate: foundCertificationCandidate,
+                          challenges: [challenge1, challenge2, challengeEdu1, challengeEdu2],
+                          verificationCode,
+                          maxReachableLevelOnCertificationDate: 5,
+                          complementaryCertificationCourses: [],
+                        });
+
+                        const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                          certificationCourseToSave.toDTO()
+                        );
+                        certificationCourseRepository.save
+                          .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                          .resolves(savedCertificationCourse);
+
+                        const assessmentToSave = new Assessment({
+                          userId,
+                          certificationCourseId: savedCertificationCourse.getId(),
+                          state: Assessment.states.STARTED,
+                          type: Assessment.types.CERTIFICATION,
+                          isImproving: false,
+                          method: Assessment.methods.CERTIFICATION_DETERMINED,
+                        });
+                        const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                        assessmentRepository.save
+                          .withArgs({ assessment: assessmentToSave, domainTransaction })
+                          .resolves(savedAssessment);
+
+                        // when
+                        const result = await retrieveLastOrCreateCertificationCourse({
+                          domainTransaction,
+                          sessionId,
+                          accessCode,
+                          userId,
+                          locale: 'fr',
+                          ...injectables,
+                        });
+
+                        // then
+                        expect(result).to.deep.equal({
+                          created: true,
+                          certificationCourse: new CertificationCourse({
+                            ...savedCertificationCourse.toDTO(),
+                            assessment: savedAssessment,
+                            challenges: [challenge1, challenge2, challengeEdu1, challengeEdu2],
+                          }),
                         });
                       });
                     });

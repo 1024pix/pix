@@ -138,15 +138,15 @@ async function _startNewCertification({
     }
   }
 
+  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    userId,
+    domainTransaction,
+  });
+
   if (
     certificationCenter.isHabilitatedPixPlusDroit &&
     (!featureToggles.isComplementaryCertificationSubscriptionEnabled || certificationCandidate.isGrantedPixPlusDroit())
   ) {
-    const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-      userId,
-      domainTransaction,
-    });
-
     const pixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
       badgeAcquisition.isPixDroit()
     );
@@ -166,6 +166,18 @@ async function _startNewCertification({
         );
       challengesForCertification.push(...certificationChallengesForPixDroit);
     }
+  }
+
+  const pixEduBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    badgeAcquisition.isPixEdu()
+  );
+  if (pixEduBadgeAcquisition) {
+    const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+      pixEduBadgeAcquisition.badge,
+      userId,
+      locale
+    );
+    challengesForCertification.push(...certificationChallengesForPixEdu);
   }
 
   return _createCertificationCourse({
