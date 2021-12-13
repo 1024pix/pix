@@ -94,7 +94,6 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             'target-profile-description': report.targetProfileDescription,
             'target-profile-id': report.targetProfileId,
             'target-profile-name': report.targetProfileName,
-            'target-profile-image-url': report.targetProfileImageUrl,
             'target-profile-has-stage': report.targetProfileHasStage,
             'target-profile-tubes-count': report.targetProfileTubesCount,
             'target-profile-thematic-result-count': report.targetProfileThematicResultCount,

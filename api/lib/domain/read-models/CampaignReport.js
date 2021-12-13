@@ -15,8 +15,6 @@ class CampaignReport {
     creatorId,
     creatorLastName,
     creatorFirstName,
-    targetProfileId,
-    targetProfileImageUrl,
     targetProfileForSpecifier = {},
     participationsCount,
     sharedParticipationsCount,
@@ -43,9 +41,8 @@ class CampaignReport {
     this.badges = badges;
     this.stages = stages;
     this.multipleSendings = multipleSendings;
-    this.targetProfileImageUrl = targetProfileImageUrl;
 
-    this.targetProfileId = targetProfileId;
+    this.targetProfileId = targetProfileForSpecifier.id;
     this.targetProfileDescription = targetProfileForSpecifier.description;
     this.targetProfileName = targetProfileForSpecifier.name;
     this.targetProfileTubesCount = targetProfileForSpecifier.tubeCount;
