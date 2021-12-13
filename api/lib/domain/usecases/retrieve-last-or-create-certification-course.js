@@ -149,7 +149,10 @@ async function _startNewCertification({
       domainTransaction,
     });
 
-    if (highestCertifiableBadgeAcquisitions.length > 0) {
+    const hasPixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+      badgeAcquisition.isPixDroit()
+    );
+    if (hasPixDroitBadgeAcquisition) {
       const pixDroitComplementaryCertification = complementaryCertifications.find(
         (comp) => comp.name === PIX_PLUS_DROIT
       );
