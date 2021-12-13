@@ -26,16 +26,13 @@ thead {
     font-size: 0.875rem;
     font-weight: 500;
   }
+}
 
-  caption {
-    text-align: left;
-    display: table-cell;
-    vertical-align: inherit;
-    height: 60px;
-    padding-left: 30px;
-    font-weight: bold;
-    font-size: 0.9rem;
-  }
+caption {
+  text-align: center;
+  padding: 1rem 24px;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 tbody {
@@ -98,6 +95,11 @@ th::first-letter {
   &--center {
     text-align: center;
   }
+
+  &--x-small {
+    width: 3%;
+  }
+
 
   &--small {
     width: 6%;
