@@ -19,12 +19,10 @@
   <div class="pix-modal__container comparison-window" {{on-key "Escape" @closeComparisonWindow}}>
 
     <div class="pix-modal-header comparison-window-header">
-      <div class="comparison-window__title">
-        <img
-          class="comparison-window__result-icon comparison-window__result-icon--{{this.resultItem.status}}"
-          src={{this.resultItemIcon}}
-          role="presentation"
-          alt=""
+      <div class="comparison-window__result-item-icon">
+        <FaIcon
+          @icon={{this.resultItemIcon.icon}}
+          class={{concat "comparison-window__result-item-icon--" this.resultItemIcon.color}}
         />
       </div>
       <h3 class="comparison-window__title-text">{{t this.resultItem.title}}</h3>

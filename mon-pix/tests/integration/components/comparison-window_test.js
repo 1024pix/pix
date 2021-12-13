@@ -65,7 +65,7 @@ describe('Integration | Component | comparison-window', function () {
 
       // then
       expect(find('.comparison-window-header')).to.exist;
-      expect(find('.comparison-window__result-icon')).to.exist;
+      expect(find('.comparison-window__result-item-icon')).to.exist;
     });
 
     it('should render challenge instruction', async function () {
@@ -90,12 +90,11 @@ describe('Integration | Component | comparison-window', function () {
     });
 
     [
-      { status: 'ok' },
-      { status: 'ko' },
-      { status: 'aband' },
-      { status: 'partially' },
-      { status: 'timedout' },
-      { status: 'default' },
+      { status: 'ok', color: 'green', icon: 'check-circle' },
+      { status: 'ko', color: 'red', icon: 'times-circle' },
+      { status: 'aband', color: 'grey', icon: 'times-circle' },
+      { status: 'partially', color: 'orange', icon: 'check-circle' },
+      { status: 'timedout', color: 'red', icon: 'times-circle' },
     ].forEach(function (data) {
       it(`should display the good icon in title when answer's result is "${data.status}"`, async function () {
         // given
@@ -110,10 +109,8 @@ describe('Integration | Component | comparison-window', function () {
         );
 
         // then
-        expect(find(`.comparison-window__result-icon--${data.status}`)).to.exist;
-        expect(find('.comparison-window__result-icon').src).to.have.string(
-          `/images/icons/answer-validation/icon-${data.status}.svg`
-        );
+        expect(find(`.comparison-window__result-item-icon--${data.color}`)).to.exist;
+        expect(find(`.comparison-window__result-item-icon svg.fa-${data.icon}`)).to.exist;
       });
     });
 
