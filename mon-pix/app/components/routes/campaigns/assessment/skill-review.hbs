@@ -140,7 +140,7 @@
     <div class="skill-review-net-promoter-score__content">
       <h2>{{t "pages.skill-review.net-promoter-score.title"}}</h2>
       <p>{{t "pages.skill-review.net-promoter-score.text"}}</p>
-      <PixButtonLink @href="{{t "pages.skill-review.net-promoter-score.link.href"}}" target="_blank">
+      <PixButtonLink @href="{{@model.campaign.organizationFormNPSUrl}}" target="_blank">
         {{t "pages.skill-review.net-promoter-score.link.label"}}
       </PixButtonLink>
     </div>
