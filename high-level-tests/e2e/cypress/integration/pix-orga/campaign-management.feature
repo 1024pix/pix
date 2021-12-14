@@ -48,7 +48,7 @@ Fonctionnalité: Gestion des Campagnes
     Lorsque je clique sur "Créer une campagne"
     Et je saisis "Campagne du Nord" dans le champ "Nom de la campagne"
     Et je clique sur "Évaluer les participants"
-    Et je sélectionne "Compétences pour un Mestre" dans le champ "Que souhaitez-vous tester ?"
+    Et je saisis "Compétences pour un Mestre" dans le champ "Que souhaitez-vous tester ?"
     Et je clique sur "Non"
     Et je clique sur "Créer la campagne"
     Alors je vois le détail de la campagne "Campagne du Nord"
