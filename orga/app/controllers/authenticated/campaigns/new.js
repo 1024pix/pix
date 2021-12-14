@@ -1,4 +1,6 @@
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
@@ -7,26 +9,24 @@ export default class NewController extends Controller {
   @service notifications;
   @service intl;
 
-  @action
-  createCampaign(event) {
-    event.preventDefault();
-    this.notifications.clearAll();
-    return this.model.campaign
-      .save()
-      .then((campaign) => {
-        this.transitionToRoute('authenticated.campaigns.campaign.settings', campaign.id);
-      })
-      .catch((errorResponse) => {
-        errorResponse.errors.forEach((error) => {
-          if (error.status === '500') {
-            return this.notifications.sendError(this.intl.t('api-errors-messages.global'));
-          }
-        });
-      });
-  }
+  @tracked errors;
 
   @action
-  cancel() {
-    this.transitionToRoute('authenticated.campaigns');
+  async createCampaign(campaignAttributes) {
+    this.notifications.clearAll();
+    try {
+      this.model.campaign.setProperties(campaignAttributes);
+      await this.model.campaign.save();
+    } catch (errorResponse) {
+      errorResponse.errors.forEach((error) => {
+        if (error.status === '500') {
+          this.notifications.sendError(this.intl.t('api-errors-messages.global'));
+        }
+      });
+      this.errors = this.model.campaign.errors;
+    }
+    if (!this.errors) {
+      this.transitionToRoute('authenticated.campaigns.campaign.settings', this.model.campaign.id);
+    }
   }
 }

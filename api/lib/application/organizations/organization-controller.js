@@ -1,4 +1,3 @@
-const organizationService = require('../../domain/services/organization-service');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
@@ -9,10 +8,10 @@ const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const higherSchoolingRegistrationWarningSerializer = require('../../infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
+const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const {
@@ -146,12 +145,9 @@ module.exports = {
   },
 
   async findTargetProfiles(request) {
-    const requestedOrganizationId = request.params.id;
-
-    const targetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
-      requestedOrganizationId
-    );
-    return targetProfileSerializer.serialize(targetProfiles);
+    const organizationId = request.params.id;
+    const targetProfiles = await usecases.getAvailableTargetProfilesForOrganization({ organizationId });
+    return TargetProfileForSpecifierSerializer.serialize(targetProfiles);
   },
 
   async attachTargetProfiles(request, h) {

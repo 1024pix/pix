@@ -14,14 +14,13 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 
 const usecases = require('../../../../lib/domain/usecases');
-const organizationService = require('../../../../lib/domain/services/organization-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 const campaignManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
+const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
@@ -536,13 +535,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
         params: { id: organizationId },
       };
 
-      const foundTargetProfiles = [domainBuilder.buildTargetProfile()];
+      const foundTargetProfiles = Symbol('TargetProfile');
 
-      sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
-      sinon.stub(targetProfileSerializer, 'serialize');
+      sinon.stub(usecases, 'getAvailableTargetProfilesForOrganization');
+      sinon.stub(TargetProfileForSpecifierSerializer, 'serialize');
 
-      organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(145).resolves(foundTargetProfiles);
-      targetProfileSerializer.serialize.withArgs(foundTargetProfiles).returns({});
+      usecases.getAvailableTargetProfilesForOrganization.withArgs({ organizationId }).resolves(foundTargetProfiles);
+      TargetProfileForSpecifierSerializer.serialize.withArgs(foundTargetProfiles).returns({});
 
       // when
       const response = await organizationController.findTargetProfiles(request, hFake);
