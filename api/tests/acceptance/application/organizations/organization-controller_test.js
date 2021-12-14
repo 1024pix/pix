@@ -18,7 +18,7 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
-describe.only('Acceptance | Application | organization-controller', function () {
+describe('Acceptance | Application | organization-controller', function () {
   let server;
 
   beforeEach(async function () {
