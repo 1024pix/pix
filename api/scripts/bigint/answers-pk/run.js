@@ -1,10 +1,10 @@
 require('dotenv').config();
-const { run } = require('./runner');
+const { runAnswers } = require('./runner');
 const logger = require('../../../lib/infrastructure/logger');
 
 (async () => {
   try {
-    await run();
+    await runAnswers();
     process.exit(0);
   } catch (error) {
     logger.error(error.message);

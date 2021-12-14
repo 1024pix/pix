@@ -1,9 +1,9 @@
 const { expect, databaseBuilder } = require('../../../../test-helper');
-const { run } = require('../../../../../scripts/bigint/answers-pk/runner');
+const { runAnswers } = require('../../../../../scripts/bigint/answers-pk/runner');
 const { knex } = require('../../../../../db/knex-database-connection');
 
 describe('Acceptance | Runner | runner.js', function () {
-  describe('#run', function () {
+  describe('#runAnswers', function () {
     beforeEach(async function () {
       await knex.from('bigint-migration-settings').delete();
     });
@@ -30,7 +30,7 @@ describe('Acceptance | Runner | runner.js', function () {
       });
 
       // when
-      await run();
+      await runAnswers();
 
       // then
       const { count: nonMigratedRowsCount } = await knex('answers').count('id').where('bigintId', -1).first();

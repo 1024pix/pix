@@ -2,7 +2,7 @@ const logger = require('../../../lib/infrastructure/logger');
 const waitForThatMilliseconds = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const externalSettings = { POLLING_INTERVAL_SECONDS: 60 };
 
-const migrate = async (settingsRepository, answerRepository) => {
+const migrate = async (settingsRepository, dataRepository) => {
   if (!(await settingsRepository.isScheduled())) {
     throw new Error(`Migration is not scheduled, exiting..`);
   }
@@ -22,7 +22,7 @@ const migrate = async (settingsRepository, answerRepository) => {
       chunkEndId = endAt;
     }
     logger.info(`Migrating answers from  ${chunkStartId} from ${chunkEndId}`);
-    await answerRepository.copyIntIdToBigintId({ startAt: chunkStartId, endAt: chunkEndId });
+    await dataRepository.copyIntIdToBigintId({ startAt: chunkStartId, endAt: chunkEndId });
     await settingsRepository.markRowsAsMigrated(chunkEndId);
     const pauseMilliseconds = await settingsRepository.pauseInterval();
 

@@ -4,10 +4,10 @@ externalSettings.POLLING_INTERVAL_SECONDS = 0;
 
 describe('Unit | Use-case | usecase.js', function () {
   describe('#migrate', function () {
-    let answersRepository;
+    let dataRepository;
     let settingsRepository;
     beforeEach(function () {
-      answersRepository = {
+      dataRepository = {
         copyIntIdToBigintId: sinon.stub(),
       };
       settingsRepository = {
@@ -23,7 +23,7 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.isScheduled.resolves(false);
 
       // when
-      const error = await catchErr(migrate)(settingsRepository, answersRepository);
+      const error = await catchErr(migrate)(settingsRepository, dataRepository);
 
       // then
       expect(error.message).to.equal('Migration is not scheduled, exiting..');
@@ -35,7 +35,7 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.migrationInterval.resolves({ startAt: 3, endAt: 3 });
 
       // when
-      const error = await catchErr(migrate)(settingsRepository, answersRepository);
+      const error = await catchErr(migrate)(settingsRepository, dataRepository);
 
       // then
       expect(error.message).to.deep.equal('All rows have already been migrated, exiting..');
@@ -51,10 +51,10 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.pauseInterval.resolves(0);
 
       // when
-      await catchErr(migrate)(settingsRepository, answersRepository);
+      await catchErr(migrate)(settingsRepository, dataRepository);
 
       // then
-      expect(answersRepository.copyIntIdToBigintId).to.have.been.calledOnceWithExactly({ startAt: 1, endAt: 2 });
+      expect(dataRepository.copyIntIdToBigintId).to.have.been.calledOnceWithExactly({ startAt: 1, endAt: 2 });
     });
 
     it('should update rows using different batches size if batch size has been modified between batches', async function () {
@@ -67,13 +67,13 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.pauseInterval.resolves(0);
 
       // when
-      await migrate(settingsRepository, answersRepository);
+      await migrate(settingsRepository, dataRepository);
 
       // then
-      expect(answersRepository.copyIntIdToBigintId).to.have.been.calledThrice;
-      expect(answersRepository.copyIntIdToBigintId.getCall(0).args[0]).to.deep.equal({ startAt: 1, endAt: 2 });
-      expect(answersRepository.copyIntIdToBigintId.getCall(1).args[0]).to.deep.equal({ startAt: 3, endAt: 6 });
-      expect(answersRepository.copyIntIdToBigintId.getCall(2).args[0]).to.deep.equal({ startAt: 7, endAt: 11 });
+      expect(dataRepository.copyIntIdToBigintId).to.have.been.calledThrice;
+      expect(dataRepository.copyIntIdToBigintId.getCall(0).args[0]).to.deep.equal({ startAt: 1, endAt: 2 });
+      expect(dataRepository.copyIntIdToBigintId.getCall(1).args[0]).to.deep.equal({ startAt: 3, endAt: 6 });
+      expect(dataRepository.copyIntIdToBigintId.getCall(2).args[0]).to.deep.equal({ startAt: 7, endAt: 11 });
     });
 
     it('should update at most as many rows as batch size', async function () {
@@ -84,12 +84,12 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.pauseInterval.resolves(0);
 
       // when
-      await migrate(settingsRepository, answersRepository);
+      await migrate(settingsRepository, dataRepository);
 
       // then
-      expect(answersRepository.copyIntIdToBigintId.callCount).to.equal(2);
-      expect(answersRepository.copyIntIdToBigintId.getCall(0).args[0]).to.deep.equal({ startAt: 1, endAt: 2 });
-      expect(answersRepository.copyIntIdToBigintId.getCall(1).args[0]).to.deep.equal({ startAt: 3, endAt: 3 });
+      expect(dataRepository.copyIntIdToBigintId.callCount).to.equal(2);
+      expect(dataRepository.copyIntIdToBigintId.getCall(0).args[0]).to.deep.equal({ startAt: 1, endAt: 2 });
+      expect(dataRepository.copyIntIdToBigintId.getCall(1).args[0]).to.deep.equal({ startAt: 3, endAt: 3 });
     });
 
     it('should pause dynamically between batches', async function () {
@@ -103,7 +103,7 @@ describe('Unit | Use-case | usecase.js', function () {
 
       // when
       const start = new Date();
-      await migrate(settingsRepository, answersRepository);
+      await migrate(settingsRepository, dataRepository);
       const end = new Date();
 
       // then
@@ -122,7 +122,7 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.pauseInterval.resolves(0);
 
       // when
-      await migrate(settingsRepository, answersRepository);
+      await migrate(settingsRepository, dataRepository);
 
       // then
       expect(settingsRepository.markRowsAsMigrated.callCount).to.equal(2);
@@ -138,10 +138,10 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.pauseInterval.resolves(0);
 
       // when
-      await migrate(settingsRepository, answersRepository);
+      await migrate(settingsRepository, dataRepository);
 
       // then
-      expect(answersRepository.copyIntIdToBigintId).to.have.been.calledOnceWithExactly({ startAt: 1, endAt: 2 });
+      expect(dataRepository.copyIntIdToBigintId).to.have.been.calledOnceWithExactly({ startAt: 1, endAt: 2 });
     });
 
     it('should not migrate already migrated rows', async function () {
@@ -152,11 +152,11 @@ describe('Unit | Use-case | usecase.js', function () {
       settingsRepository.pauseInterval.resolves(0);
 
       // when
-      await migrate(settingsRepository, answersRepository);
+      await migrate(settingsRepository, dataRepository);
 
       // then
-      expect(answersRepository.copyIntIdToBigintId.callCount).to.equal(1);
-      expect(answersRepository.copyIntIdToBigintId.getCall(0).args[0]).to.deep.equal({ startAt: 3, endAt: 4 });
+      expect(dataRepository.copyIntIdToBigintId.callCount).to.equal(1);
+      expect(dataRepository.copyIntIdToBigintId.getCall(0).args[0]).to.deep.equal({ startAt: 3, endAt: 4 });
     });
   });
 });

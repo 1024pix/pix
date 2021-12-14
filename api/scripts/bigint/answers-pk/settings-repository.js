@@ -1,50 +1,54 @@
 const { knex } = require('../../../db/knex-database-connection');
 
-const isScheduled = async () => {
-  const result = await knex.select('isScheduled').from('bigint-migration-settings').where('table', 'answers').first();
-  if (!result) {
-    throw new Error('No settings found in bigint-migration-settings');
+class SettingsRepository {
+  constructor(table) {
+    this.table = table;
   }
-  return result.isScheduled;
-};
 
-const pauseInterval = async () => {
-  const result = await knex
-    .select('pauseMilliseconds')
-    .from('bigint-migration-settings')
-    .where('table', 'answers')
-    .first();
-  if (!result) {
-    throw new Error('No settings found in bigint-migration-settings');
+  async isScheduled() {
+    const result = await knex
+      .select('isScheduled')
+      .from('bigint-migration-settings')
+      .where('table', this.table)
+      .first();
+    if (!result) {
+      throw new Error(`No settings found in bigint-migration-settings for table ${this.table}`);
+    }
+    return result.isScheduled;
   }
-  return result.pauseMilliseconds;
-};
 
-const migrationInterval = async () => {
-  const result = await knex
-    .select('startAt', 'endAt')
-    .from('bigint-migration-settings')
-    .where('table', 'answers')
-    .first();
-  return {
-    startAt: result.startAt,
-    endAt: result.endAt,
-  };
-};
+  async pauseInterval() {
+    const result = await knex
+      .select('pauseMilliseconds')
+      .from('bigint-migration-settings')
+      .where('table', this.table)
+      .first();
+    if (!result) {
+      throw new Error('No settings found in bigint-migration-settings');
+    }
+    return result.pauseMilliseconds;
+  }
 
-const chunkSize = async () => {
-  const result = await knex.select('chunkSize').from('bigint-migration-settings').where('table', 'answers').first();
-  return result.chunkSize;
-};
+  async migrationInterval() {
+    const result = await knex
+      .select('startAt', 'endAt')
+      .from('bigint-migration-settings')
+      .where('table', this.table)
+      .first();
+    return {
+      startAt: result.startAt,
+      endAt: result.endAt,
+    };
+  }
 
-const markRowsAsMigrated = async (id) => {
-  await knex.from('bigint-migration-settings').where('table', 'answers').update('startAt', id);
-};
+  async chunkSize() {
+    const result = await knex.select('chunkSize').from('bigint-migration-settings').where('table', this.table).first();
+    return result.chunkSize;
+  }
 
-module.exports = {
-  isScheduled,
-  chunkSize,
-  migrationInterval,
-  markRowsAsMigrated,
-  pauseInterval,
-};
+  async markRowsAsMigrated(id) {
+    await knex.from('bigint-migration-settings').where('table', this.table).update('startAt', id);
+  }
+}
+
+module.exports = SettingsRepository;

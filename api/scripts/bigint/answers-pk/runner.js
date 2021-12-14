@@ -1,9 +1,10 @@
 const { migrate } = require('./usecase');
-const settingsRepository = require('./settings-repository');
+const SettingsRepository = require('./settings-repository');
 const answersRepository = require('./answers-repository');
 
-const run = async function () {
-  await migrate(settingsRepository, answersRepository);
+const runAnswers = async function () {
+  const answersSettingsRepository = new SettingsRepository('answers');
+  await migrate(answersSettingsRepository, answersRepository);
 };
 
-module.exports = { run };
+module.exports = { runAnswers };
