@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.140.0 (14/12/2021)
+
+
+### :rocket: Enhancement
+- [#3822](https://github.com/1024pix/pix/pull/3822) [FEATURE] Permettre aux utilisateurs ayant un rôle "membre" sur Pix Orga d'accéder à la liste des membres de l'organisation (PIX-531).
+- [#3800](https://github.com/1024pix/pix/pull/3800) [FEATURE] Baser le scoring sur les participations des certifications complémentaires (PIX-3941).
+- [#3801](https://github.com/1024pix/pix/pull/3801) [FEATURE] Afficher les sujets sur la page de selection des profils cibles dans Pix Orga (PIX-3949).
+- [#3782](https://github.com/1024pix/pix/pull/3782) [FEATURE] Améliorer la sélection de profil cible lors de la création d'une campagne d'évaluation (PIX-3761).
+
+### :coffee: Various
+- [#3815](https://github.com/1024pix/pix/pull/3815) [DOCUMENTATION] Prévenir les erreurs de linter sous Windows.
+
 ## v3.139.0 (13/12/2021)
 
 
