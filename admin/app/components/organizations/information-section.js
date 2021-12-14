@@ -75,6 +75,14 @@ const Validations = buildValidations({
       }),
     ],
   },
+  documentationUrl: {
+    validators: [
+      validator('absolute-url', {
+        allowBlank: true,
+        message: "Le lien n'est pas valide.",
+      }),
+    ],
+  },
 });
 
 class Form extends Object.extend(Validations) {
@@ -85,6 +93,7 @@ class Form extends Object.extend(Validations) {
   @tracked credit;
   @tracked isManagingStudents;
   @tracked canCollectProfiles;
+  @tracked documentationUrl;
 }
 
 export default class OrganizationInformationSection extends Component {
@@ -136,6 +145,7 @@ export default class OrganizationInformationSection extends Component {
     this.args.organization.set('credit', !this.form.credit ? null : this.form.credit);
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
     this.args.organization.set('canCollectProfiles', this.form.canCollectProfiles);
+    this.args.organization.set('documentationUrl', this.form.documentationUrl);
 
     this.isEditMode = false;
     return this.args.onSubmit();
@@ -149,5 +159,6 @@ export default class OrganizationInformationSection extends Component {
     this.form.credit = this.args.organization.credit;
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.canCollectProfiles = this.args.organization.canCollectProfiles;
+    this.form.documentationUrl = this.args.organization.documentationUrl;
   }
 }
