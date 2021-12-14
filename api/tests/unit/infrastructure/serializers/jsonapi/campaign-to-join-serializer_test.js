@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'organization-type': campaignToJoin.organizationType,
             'organization-logo-url': campaignToJoin.organizationLogoUrl,
             'organization-show-nps': campaignToJoin.organizationShowNPS,
-            'organizaton-form-nps-url': campaignToJoin.organizationFormNPSUrl,
+            'organization-form-nps-url': campaignToJoin.organizationFormNPSUrl,
             'target-profile-name': campaignToJoin.targetProfileName,
             'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
             'custom-result-page-text': campaignToJoin.customResultPageText,
