@@ -5,10 +5,26 @@ const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
-  save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return new BookshelfCompetenceEvaluation(_.omit(competenceEvaluation, ['assessment', 'scorecard']))
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
+  async save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    let competenceEvaluationCreated = null;
+    try {
+      competenceEvaluationCreated = await this.getByCompetenceIdAndUserId({
+        competenceId: competenceEvaluation.competenceId,
+        userId: competenceEvaluation.userId,
+        domainTransaction,
+      });
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        competenceEvaluationCreated = await new BookshelfCompetenceEvaluation(
+          _.omit(competenceEvaluation, ['assessment', 'scorecard'])
+        )
+          .save(null, { transacting: domainTransaction.knexTransaction })
+          .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
+      } else {
+        throw error;
+      }
+    }
+    return competenceEvaluationCreated;
   },
 
   updateStatusByAssessmentId({ assessmentId, status }) {

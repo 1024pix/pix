@@ -70,6 +70,38 @@ describe('Integration | Repository | Competence Evaluation', function () {
           expect(competenceEvaluationInDb.status).to.equal('started');
         });
     });
+
+    it('should not save the given competence evaluation if it already exists', async function () {
+      // given
+      const competenceEvaluationToSave = new CompetenceEvaluation({
+        assessmentId: assessment.id,
+        competenceId: 'recABCD1234',
+        status: STARTED,
+        userId: assessment.userId,
+      });
+      await DomainTransaction.execute(async (domainTransaction) =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+      );
+
+      // when
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+      );
+
+      // then
+      return knex
+        .select('id', 'assessmentId', 'competenceId', 'userId', 'status')
+        .from('competence-evaluations')
+        .where({ id: savedCompetenceEvaluation.id })
+        .then((result) => {
+          expect(result.length).to.equal(1);
+          expect(result[0].id).to.equal(savedCompetenceEvaluation.id);
+          expect(result[0].assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
+          expect(result[0].competenceId).to.equal(competenceEvaluationToSave.competenceId);
+          expect(result[0].userId).to.equal(competenceEvaluationToSave.userId);
+          expect(result[0].status).to.equal('started');
+        });
+    });
   });
 
   describe('#getByAssessmentId', function () {
