@@ -1,0 +1,23 @@
+<section>
+  <div class="panel">
+    <table class="table content-text content-text--small">
+      <thead>
+        <tr>
+          <Table::Header @size="wide">{{t "pages.preselect-target-profile.table.column.name"}}</Table::Header>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each @tubes as |tube|}}
+          <tr class="row-tube" aria-label={{t "pages.preselect-target-profile.table.row-title"}}>
+            <td class="table__column">
+              {{tube.practicalTitle}}
+              :
+              {{tube.practicalDescription}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

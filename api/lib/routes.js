@@ -42,6 +42,7 @@ module.exports = [
   require('./application/stages'),
   require('./application/tags'),
   require('./application/target-profiles'),
+  require('./application/tubes'),
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
   require('./application/user-tutorials'),
