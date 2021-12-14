@@ -15,35 +15,57 @@
     &--wide > input,select,textarea {
       width: 100%;
     }
+
+    .form__radio-button:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__field-with-info {
+    position: relative;
     display: flex;
     align-content: center;
-    width: 100%;
     flex-direction: column;
 
+    & > .form__field--wide {
+      flex-grow:1;
+    }
 
     @include device-is('desktop') {
       flex-direction: row;
+      max-width: 500px;
     }
   }
 
   &__field-info {
     display: flex;
     flex-direction: column;
-    flex: 1;
     border-radius: 8px;
     background: $grey-15;
     height: max-content;
+    margin-bottom: 16px;
 
     @include device-is('desktop') {
-      margin-bottom: min(40px);
+      position: absolute;
+      margin-left: 16px;
+      margin-bottom: 0;
+      position: absolute;
+      left: 100%;
+      width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
 
     &-icon {
       color: $blue;
       margin-right: 8px;
+
+      &--small {
+        margin-right: 6px;
+        color: $grey-60;
+      }
+
+      &--small:first-child {
+        margin-left: 16px;
+      }
     }
 
     &-title {
@@ -57,6 +79,32 @@
       color: $grey-60;
       font-size: 13px;
       margin: 0 16px 16px 16px;
+    }
+
+    &__stats-line {
+      margin-bottom: 13px;
+      font-size: 0.875rem;
+    }
+
+    &__stats-line:last-child {
+      margin-bottom: 15px;
+
+      .form__field-info-icon--small:last-child {
+        margin-left: 6px;
+      }
+    }
+
+    &__stats {
+      color: $grey-70;
+
+      &--bordered {
+        margin-right: 8px;
+        padding-right: 8px;
+        border-radius: 0.5px;
+        border-right: solid;
+        border-right-width: 1px;
+        border-color: $grey-25;
+      }
     }
   }
 

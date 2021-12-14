@@ -1,4 +1,4 @@
-<form {{on "submit" @onSubmit}} class="form">
+<form {{on "submit" this.onSubmit}} class="form">
 
   <div class="form__field">
     <PixInput
@@ -8,12 +8,12 @@
       @type="text"
       class="input"
       maxlength="255"
-      @value={{@campaign.name}}
+      @value={{this.campaign.name}}
     />
 
-    {{#if @campaign.errors.name}}
+    {{#if @errors.name}}
       <div class="form__error error-message">
-        {{display-campaign-errors @campaign.errors.name}}
+        {{display-campaign-errors @errors.name}}
       </div>
     {{/if}}
   </div>
@@ -28,6 +28,7 @@
             id="assess-participants"
             name="campaign-goal"
             value="assess-participants"
+            aria-describedby="campaign-goal-assessment-info"
             {{on "change" this.setCampaignGoal}}
           />
           <label for="assess-participants">{{t "pages.campaign-creation.purpose.assessment"}}</label>
@@ -39,18 +40,19 @@
             id="collect-participants-profile"
             name="campaign-goal"
             value="collect-participants-profile"
+            aria-describedby="campaign-goal-profiles-collection-info"
             {{on "change" this.setCampaignGoal}}
           />
           <label for="collect-participants-profile">{{t "pages.campaign-creation.purpose.profiles-collection"}}</label>
         </div>
-        {{#if @campaign.errors.type}}
+        {{#if @errors.type}}
           <div class="form__error error-message">
-            {{display-campaign-errors @campaign.errors.type}}
+            {{display-campaign-errors @errors.type}}
           </div>
         {{/if}}
       </div>
       {{#if this.isCampaignGoalAssessment}}
-        <div class="form__field-info">
+        <div class="form__field-info" id="campaign-goal-assessment-info">
           <span class="form__field-info-title">
             <FaIcon @icon="info-circle" class="form__field-info-icon" />
             <span>{{t "pages.campaign-creation.purpose.assessment"}}</span>
@@ -58,7 +60,7 @@
           <span class="form__field-info-message">{{t "pages.campaign-creation.purpose.assessment-info"}}</span>
         </div>
       {{else if this.isCampaignGoalProfileCollection}}
-        <div class="form__field-info">
+        <div class="form__field-info" id="campaign-goal-profiles-collection-info">
           <span class="form__field-info-title">
             <FaIcon @icon="info-circle" class="form__field-info-icon" />
             <span>{{t "pages.campaign-creation.purpose.profiles-collection"}}</span>
@@ -70,24 +72,80 @@
   {{/if}}
 
   {{#if this.isCampaignGoalAssessment}}
-    <div class="form__field form__field--wide">
-      <PixSelect
-        @id="campaign-target-profile"
-        @label={{t "pages.campaign-creation.target-profiles-list.label"}}
-        @onChange={{this.setSelectedTargetProfile}}
-        @options={{this.targetProfilesOptions}}
-        @emptyOptionLabel=""
-        @size="big"
-      />
-      {{#if @campaign.errors.targetProfile}}
-        <div class="form__error error-message">
-          {{display-campaign-errors @campaign.errors.targetProfile}}
+    <div class="form__field-with-info form__field-with-info--small">
+      <div class="form__field form__field--wide">
+        <PixSelect
+          @id="campaign-target-profile"
+          @label={{t "pages.campaign-creation.target-profiles-list.label"}}
+          @onChange={{this.selectTargetProfile}}
+          @options={{this.targetProfilesOptions}}
+          @emptyOptionLabel=""
+          @size="big"
+          aria-describedby="target-profile-info"
+        />
+        {{#if @errors.targetProfile}}
+          <div class="form__error error-message">
+            {{display-campaign-errors @errors.targetProfile}}
+          </div>
+        {{/if}}
+        {{#if this.currentUser.isSCOManagingStudents}}
+          <p class="form__comment">
+            {{t "pages.campaign-creation.target-profile-informations" htmlSafe=true}}
+          </p>
+        {{/if}}
+      </div>
+      {{#if this.targetProfile}}
+        <div class="form__field-info" id="target-profile-info">
+          <span class="form__field-info-title">
+            <FaIcon @icon="info-circle" class="form__field-info-icon" />
+            <span>{{this.targetProfile.name}}</span>
+          </span>
+          {{! template-lint-disable no-triple-curlies }}
+          {{#if this.targetProfile.description}}
+
+            <div class="form__field-info-message">
+              <MarkdownToHtml @markdown={{this.campaign.targetProfile.description}} />
+            </div>
+          {{/if}}
+          {{! template-lint-enable no-triple-curlies }}
+          <span class="form__field-info__stats-line">
+            <FaIcon @icon="book" @fixedWidth={{true}} class="form__field-info-icon--small" />
+            <span
+              class="form__field-info__stats
+                {{if (gt this.targetProfile.thematicResultCount 0) "form__field-info__stats--bordered"}}"
+            >{{t "pages.campaign-creation.target-profiles-list.tube" count=this.targetProfile.tubeCount}}</span>
+            {{#if (gt this.targetProfile.thematicResultCount 0)}}
+              <FaIcon @icon="award" fixedWidth={{true}} class="form__field-info-icon--small" />
+              <span class="form__field-info__stats">{{t
+                  "pages.campaign-creation.target-profiles-list.thematic-results"
+                  count=this.targetProfile.thematicResultCount
+                }}</span>
+            {{/if}}
+          </span>
+          <span class="form__field-info__stats-line">
+            {{#if this.targetProfile.hasStage}}
+              <FaIcon @icon="star" @fixedWidth={{true}} class="form__field-info-icon--small" />
+              <span class="form__field-info__stats">{{t "pages.campaign-creation.target-profiles-list.result"}}</span>
+              <FaIcon
+                @icon="star"
+                @fixedWidth={{true}}
+                class="form__field-info-icon--small"
+                aria-hidden={{false}}
+                aria-label={{t "pages.campaign-creation.target-profiles-list.star"}}
+              />
+            {{else}}
+              <FaIcon @icon="percent" @fixedWidth={{true}} class="form__field-info-icon--small" />
+              <span class="form__field-info__stats">{{t "pages.campaign-creation.target-profiles-list.result"}}</span>
+              <FaIcon
+                @icon="percent"
+                @fixedWidth={{true}}
+                class="form__field-info-icon--small"
+                aria-hidden={{false}}
+                aria-label={{t "pages.campaign-creation.target-profiles-list.percentage"}}
+              />
+            {{/if}}
+          </span>
         </div>
-      {{/if}}
-      {{#if this.currentUser.isSCOManagingStudents}}
-        <p class="form__comment">
-          {{t "pages.campaign-creation.target-profile-informations" htmlSafe=true}}
-        </p>
       {{/if}}
     </div>
   {{/if}}
@@ -103,6 +161,7 @@
             type="radio"
             checked={{this.multipleSendingsEnabled}}
             id="multiple-sendings-enabled"
+            aria-describedby="multiple-sendings-info"
             name="multiple-sendings-label"
             value="true"
             {{on "change" this.selectMultipleSendingsStatus}}
@@ -121,7 +180,7 @@
           <label for="multiple-sendings-disabled">{{t "pages.campaign-creation.no"}}</label>
         </div>
       </div>
-      <div class="form__field-info">
+      <div class="form__field-info" id="multiple-sendings-info">
         <span class="form__field-info-title">
           <FaIcon @icon="info-circle" class="form__field-info-icon" />
           <span>{{t "pages.campaign-creation.multiple-sendings.info-title"}}</span>
@@ -163,11 +222,11 @@
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
         aria-required="true"
-        @value={{@campaign.idPixLabel}}
+        @value={{this.campaign.idPixLabel}}
       />
-      {{#if @campaign.errors.idPixLabel}}
+      {{#if @errors.idPixLabel}}
         <div class="form__error error-message">
-          {{display-campaign-errors @campaign.errors.idPixLabel}}
+          {{display-campaign-errors @errors.idPixLabel}}
         </div>
       {{/if}}
       <div class="form__information help-text">
@@ -183,7 +242,7 @@
         @id="campaign-title"
         @name="campaign-title"
         maxlength="50"
-        @value={{@campaign.title}}
+        @value={{this.campaign.title}}
       />
     </div>
   {{/if}}
@@ -193,7 +252,7 @@
       @label={{t "pages.campaign-creation.landing-page-text.label"}}
       @id="custom-landing-page-text"
       @maxlength="5000"
-      @value={{@campaign.customLandingPageText}}
+      @value={{this.campaign.customLandingPageText}}
       rows="8"
     />
   </div>
