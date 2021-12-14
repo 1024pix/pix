@@ -298,6 +298,7 @@ module.exports = injectDependencies(
     getShareableCertificate: require('./certificate/get-shareable-certificate'),
     getStageDetails: require('./get-stage-details'),
     getTargetProfileDetails: require('./get-target-profile-details'),
+    getTubesFromPixFramework: require('./get-tubes-from-pix-framework'),
     getAccountRecoveryDetails: require('./account-recovery/get-account-recovery-details'),
     getParticipationsCountByMasteryRate: require('./get-participations-count-by-mastery-rate'),
     findUserAuthenticationMethods: require('./find-user-authentication-methods'),
