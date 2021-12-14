@@ -17,6 +17,7 @@ export default class Campaign extends Model {
   @attr('string') organizationLogoUrl;
   @attr('boolean') organizationIsPoleEmploi;
   @attr('boolean') organizationShowNPS;
+  @attr('string') organizationFormNpsUrl;
   @attr('string') targetProfileName;
   @attr('string') targetProfileImageUrl;
   @attr('string') customResultPageText;
