@@ -1,33 +1,26 @@
-const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handlePixPlusCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const { PIX_PLUS_DROIT } = require('../../../../lib/domain/models/ComplementaryCertification');
+const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', function () {
-  const certificationAssessmentRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getByCertificationCourseId: _.noop(),
-  };
-  const partnerCertificationScoringRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    save: _.noop(),
-  };
-  const assessmentResultRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getByCertificationCourseId: _.noop(),
-  };
+  const certificationAssessmentRepository = {};
+  const partnerCertificationScoringRepository = {};
+  const assessmentResultRepository = {};
+  const complementaryCertificationCourseRepository = {};
+
   const dependencies = {
     certificationAssessmentRepository,
     partnerCertificationScoringRepository,
     assessmentResultRepository,
+    complementaryCertificationCourseRepository,
   };
 
   beforeEach(function () {
     partnerCertificationScoringRepository.save = sinon.stub();
     certificationAssessmentRepository.getByCertificationCourseId = sinon.stub();
     assessmentResultRepository.getByCertificationCourseId = sinon.stub();
+    complementaryCertificationCourseRepository.hasComplementaryCertification = sinon.stub();
   });
 
   it('fails when event is not of correct type', async function () {
@@ -44,8 +37,9 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
   });
 
   context('when user was not asked any pix plus challenges', function () {
-    it('should save no pix plus certifications', async function () {
+    it('should not save pix plus certifications when feature toggle is disabled', async function () {
       // given
+      sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(false);
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
         userId: 456,
@@ -68,6 +62,30 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
 
       // then
       expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
+      expect(complementaryCertificationCourseRepository.hasComplementaryCertification).to.not.have.been.called;
+    });
+
+    it('should not save pix plus certifications when feature toggle is enabled', async function () {
+      // given
+      sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
+      createPixPlusCertifiableAssessment();
+      complementaryCertificationCourseRepository.hasComplementaryCertification
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_DROIT,
+        })
+        .resolves(false);
+      const event = domainBuilder.buildCertificationScoringCompletedEvent({
+        certificationCourseId: 123,
+        userId: 456,
+      });
+
+      // when
+      await handlePixPlusCertificationsScoring({ event, ...dependencies });
+
+      // then
+      expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
+      expect(certificationAssessmentRepository.getByCertificationCourseId).to.not.have.been.called;
     });
   });
 
@@ -78,29 +96,13 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
         certificationCourseId: 123,
         userId: 456,
       });
-      const certificationChallengeMangue = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal1',
-        certifiableBadgeKey: 'BADGE_MANGUE',
-      });
-      const certificationChallengePasteque = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'chal2',
-        certifiableBadgeKey: 'BADGE_PASTEQUE',
-      });
-      const certificationAnswerMangue = domainBuilder.buildAnswer({ challengeId: 'chal1' });
-      const certificationAnswerPasteque = domainBuilder.buildAnswer({ challengeId: 'chal2' });
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationCourseId: 123,
-        userId: 456,
-        createdAt: new Date('2020-01-01'),
-        certificationChallenges: [certificationChallengeMangue, certificationChallengePasteque],
-        certificationAnswersByDate: [certificationAnswerMangue, certificationAnswerPasteque],
-      });
-      certificationAssessmentRepository.getByCertificationCourseId
-        .withArgs({ certificationCourseId: 123 })
-        .resolves(certificationAssessment);
-      assessmentResultRepository.getByCertificationCourseId
-        .withArgs({ certificationCourseId: 123 })
-        .resolves(domainBuilder.buildAssessmentResult());
+      createPixPlusCertifiableAssessment();
+      complementaryCertificationCourseRepository.hasComplementaryCertification
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_DROIT,
+        })
+        .resolves(true);
 
       // when
       await handlePixPlusCertificationsScoring({ event, ...dependencies });
@@ -134,6 +136,12 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
         assessmentResultRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildAssessmentResult.rejected());
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: PIX_PLUS_DROIT,
+          })
+          .resolves(true);
 
         // when
         await handlePixPlusCertificationsScoring({ event, ...dependencies });
@@ -179,6 +187,12 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
         assessmentResultRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildAssessmentResult.validated());
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: PIX_PLUS_DROIT,
+          })
+          .resolves(true);
 
         // when
         await handlePixPlusCertificationsScoring({ event, ...dependencies });
@@ -224,6 +238,12 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
         assessmentResultRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildAssessmentResult.validated());
+        complementaryCertificationCourseRepository.hasComplementaryCertification
+          .withArgs({
+            certificationCourseId: 123,
+            complementaryCertificationName: PIX_PLUS_DROIT,
+          })
+          .resolves(true);
 
         // when
         await handlePixPlusCertificationsScoring({ event, ...dependencies });
@@ -241,4 +261,30 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
       });
     });
   });
+
+  function createPixPlusCertifiableAssessment() {
+    const certificationChallengeMangue = domainBuilder.buildCertificationChallengeWithType({
+      challengeId: 'chal1',
+      certifiableBadgeKey: 'BADGE_MANGUE',
+    });
+    const certificationChallengePasteque = domainBuilder.buildCertificationChallengeWithType({
+      challengeId: 'chal2',
+      certifiableBadgeKey: 'BADGE_PASTEQUE',
+    });
+    const certificationAnswerMangue = domainBuilder.buildAnswer({ challengeId: 'chal1' });
+    const certificationAnswerPasteque = domainBuilder.buildAnswer({ challengeId: 'chal2' });
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
+      certificationCourseId: 123,
+      userId: 456,
+      createdAt: new Date('2020-01-01'),
+      certificationChallenges: [certificationChallengeMangue, certificationChallengePasteque],
+      certificationAnswersByDate: [certificationAnswerMangue, certificationAnswerPasteque],
+    });
+    certificationAssessmentRepository.getByCertificationCourseId
+      .withArgs({ certificationCourseId: 123 })
+      .resolves(certificationAssessment);
+    assessmentResultRepository.getByCertificationCourseId
+      .withArgs({ certificationCourseId: 123 })
+      .resolves(domainBuilder.buildAssessmentResult());
+  }
 });

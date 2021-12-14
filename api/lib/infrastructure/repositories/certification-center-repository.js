@@ -76,6 +76,7 @@ module.exports = {
     throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
   },
 
+  //to delete when feature toggleisEndTestScreenRemovalEnabled is removed
   async getByCertificationCourseId(certificationCourseId) {
     const certificationCenterBookshelf = await BookshelfCertificationCenter.where({
       'certification-courses.id': certificationCourseId,

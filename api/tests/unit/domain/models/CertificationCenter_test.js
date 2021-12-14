@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     });
   });
 
-  describe('#isAccreditedPixPlusDroit', function () {
+  describe('#isHabilitatedPixPlusDroit', function () {
     it('should return false when the certification center does not have Pix+ Droit habilitation', function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
@@ -42,7 +42,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     });
   });
 
-  describe('#isAccreditedClea', function () {
+  describe('#isHabilitatedClea', function () {
     it('should return false when the certification center does not have Cléa numérique complementary certification', function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
