@@ -4,6 +4,8 @@ const CertificationRescoringCompleted = require('./CertificationRescoringComplet
 const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
+const { PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
+const { featureToggles } = require('../../config');
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
@@ -12,9 +14,20 @@ async function handlePixPlusCertificationsScoring({
   assessmentResultRepository,
   certificationAssessmentRepository,
   partnerCertificationScoringRepository,
+  complementaryCertificationCourseRepository,
 }) {
   checkEventTypes(event, eventTypes);
   const certificationCourseId = event.certificationCourseId;
+  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
+    const hasRunPixPlus = await complementaryCertificationCourseRepository.hasComplementaryCertification({
+      certificationCourseId,
+      complementaryCertificationName: PIX_PLUS_DROIT,
+    });
+    if (!hasRunPixPlus) {
+      return;
+    }
+  }
+
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
   });
