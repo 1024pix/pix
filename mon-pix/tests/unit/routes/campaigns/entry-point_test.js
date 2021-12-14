@@ -19,6 +19,34 @@ describe('Unit | Route | Entry Point', function () {
     route.replaceWith = sinon.stub();
     route.modelFor = sinon.stub();
     route.campaignStorage = { set: sinon.stub(), clear: sinon.stub() };
+    route.session = { isAuthenticated: false, invalidate: sinon.stub() };
+    route.currentUser = { user: {} };
+  });
+
+  describe('#beforeModel', function () {
+    it('should invalidate session when a user is connected and anonymous', async function () {
+      //given
+      route.session.isAuthenticated = true;
+      route.currentUser.user.isAnonymous = true;
+
+      //when
+      await route.beforeModel();
+
+      //then
+      sinon.assert.called(route.session.invalidate);
+    });
+
+    it('should not invalidate session when a user is connected but not anonymous', async function () {
+      //given
+      route.session.isAuthenticated = true;
+      route.currentUser.user.isAnonymous = false;
+
+      //when
+      await route.beforeModel();
+
+      //then
+      sinon.assert.notCalled(route.session.invalidate);
+    });
   });
 
   describe('#model', function () {
@@ -72,12 +100,12 @@ describe('Unit | Route | Entry Point', function () {
           campaign.isArchived = true;
         });
 
-        it('should redirect to not-found page', async function () {
+        it('should redirect to campaign archived error', async function () {
           //when
           await route.afterModel(campaign, transition);
 
           //then
-          sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-not-found');
+          sinon.assert.calledWith(route.replaceWith, 'campaigns.archived-error');
         });
       });
     });
@@ -136,7 +164,7 @@ describe('Unit | Route | Entry Point', function () {
           campaign.isArchived = true;
         });
 
-        it('should redirect to not-found page with no participation', async function () {
+        it('should redirect to campaign archived error with no participation', async function () {
           //given
           route.store.queryRecord
             .withArgs('campaignParticipation', {
@@ -149,7 +177,7 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
-          sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-not-found');
+          sinon.assert.calledWith(route.replaceWith, 'campaigns.archived-error');
         });
 
         it('should redirect to entrance with participation', async function () {

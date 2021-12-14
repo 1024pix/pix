@@ -71,7 +71,7 @@ export default class LoginPeRoute extends Route {
       /**
        * There is two types of intent in transition (see: https://github.com/tildeio/router.js/blob/9b3d00eb923e0bbc34c44f08c6de1e05684b907a/ARCHITECTURE.md#transitionintent)
        * When the route is accessed by url (/campagnes/:code), the url is provided
-       * When the route is accessed by the submit of the campaign code, the route name (campaigns.start-or-resume) and contexts ([Campaign]) are provided
+       * When the route is accessed by the submit of the campaign code, the route name (campaigns.access) and contexts ([Campaign]) are provided
        */
 
       let { url } = this.session.get('attemptedTransition.intent');

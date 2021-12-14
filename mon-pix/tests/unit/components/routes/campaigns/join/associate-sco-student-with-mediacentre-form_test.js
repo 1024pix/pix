@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/restricted/associate-sco-student-with-mediacentre-form', function () {
+describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-mediacentre-form', function () {
   setupTest();
   setupIntl();
 
@@ -21,7 +21,7 @@ describe('Unit | Component | routes/campaigns/restricted/associate-sco-student-w
     storeStub = { createRecord: sinon.stub().returns(record) };
     sessionStub = { data: {}, get: sinon.stub(), set: sinon.stub() };
     onSubmitStub = sinon.stub();
-    component = createComponent('component:routes/campaigns/restricted/associate-sco-student-with-mediacentre-form', {
+    component = createComponent('component:routes/campaigns/join/associate-sco-student-with-mediacentre-form', {
       onSubmit: onSubmitStub,
       campaignCode: 123,
     });

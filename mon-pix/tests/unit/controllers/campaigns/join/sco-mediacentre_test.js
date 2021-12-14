@@ -2,14 +2,13 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | campaigns/restricted/join-from-mediacentre', function () {
+describe('Unit | Controller | campaigns | join | sco-mediacentre', function () {
   setupTest();
 
   let controller;
 
   beforeEach(function () {
-    controller = this.owner.lookup('controller:campaigns.restricted.join-from-mediacentre');
-    controller.router = { transitionTo: sinon.stub() };
+    controller = this.owner.lookup('controller:campaigns.join.sco-mediacentre');
     controller.set('model', { code: 'AZERTY999' });
   });
 
@@ -29,7 +28,7 @@ describe('Unit | Controller | campaigns/restricted/join-from-mediacentre', funct
       controller.set('currentUser', currentUserStub);
     });
 
-    it('should authenticate the user and redirect to campaigns.start-or-resume after save', async function () {
+    it('should authenticate the user', async function () {
       // given
       const accessToken = 'access-token';
       externalUser.save.resolves({ accessToken });
@@ -44,7 +43,6 @@ describe('Unit | Controller | campaigns/restricted/join-from-mediacentre', funct
       sinon.assert.calledOnce(externalUser.save);
       sinon.assert.calledWith(sessionStub.set, 'data.externalUser', null);
       sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:oauth2', { token: accessToken });
-      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume', 'AZERTY999');
     });
   });
 });

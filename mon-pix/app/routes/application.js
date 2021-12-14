@@ -38,13 +38,13 @@ export default Route.extend(ApplicationRouteMixin, {
     const allowedRoutesForAnonymousAccess = [
       'fill-in-campaign-code',
       'campaigns.assessment.tutorial',
-      'campaigns.start-or-resume',
+      'campaigns.access',
       'campaigns.entry-point',
       'campaigns.campaign-landing-page',
       'assessments.challenge',
       'campaigns.assessment.skill-review',
       'assessments.checkpoint',
-      'campaigns.campaign-not-found',
+      'campaigns.archived-error',
     ];
     const isUserAnonymous = get(this.session, 'data.authenticated.authenticator') === 'authenticator:anonymous';
     const isRouteAccessNotAllowedForAnonymousUser = !allowedRoutesForAnonymousAccess.includes(
