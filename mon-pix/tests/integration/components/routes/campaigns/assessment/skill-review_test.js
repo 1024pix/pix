@@ -12,7 +12,7 @@ class MockFeatureTogglesService extends Service {
   featureToggles = { isNetPromoterScoreEnabled: true };
 }
 
-describe.only('Integration | Component | routes/campaigns/assessment/skill-review', function () {
+describe('Integration | Component | routes/campaigns/assessment/skill-review', function () {
   let campaign;
   setupIntlRenderingTest();
   beforeEach(function () {
@@ -389,7 +389,7 @@ describe.only('Integration | Component | routes/campaigns/assessment/skill-revie
       beforeEach(async function () {
         campaign = {
           organizationShowNPS: true,
-          organizationFormNpsUrl: 'https://pix.fr',
+          organizationFormNPSUrl: 'https://pix.fr',
         };
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
@@ -402,7 +402,11 @@ describe.only('Integration | Component | routes/campaigns/assessment/skill-revie
 
       it('should display NPS Block', function () {
         expect(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.exist;
+      });
+      it('should display the button to access the NPS form  ', function () {
         expect(contains(this.intl.t('pages.skill-review.net-promoter-score.link.label'))).to.exist;
+        expect(find('[href="https://pix.fr"]')).to.exist;
+        expect(find('[target="_blank"]')).to.exist;
       });
     });
 
