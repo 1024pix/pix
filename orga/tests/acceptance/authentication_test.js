@@ -307,7 +307,8 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // then
-        assert.dom('.sidebar-nav a').exists({ count: 2 });
+
+        assert.dom('.sidebar-nav a').exists({ count: 3 });
         assert.dom('.sidebar-nav').containsText('Campagnes');
         assert.dom('.sidebar-nav').containsText('Documentation');
         assert.dom('.sidebar-nav a:first-child ').hasClass('active');
@@ -345,7 +346,7 @@ module('Acceptance | authentication', function (hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-nav a').exists({ count: 3 });
+          assert.dom('.sidebar-nav a').exists({ count: 4 });
           assert.dom('.sidebar-nav').containsText('Campagnes');
           assert.dom('.sidebar-nav').containsText('Élèves');
           assert.dom('.sidebar-nav a:first-child ').hasClass('active');
