@@ -1,19 +1,24 @@
 const { expect, databaseBuilder, knex } = require('../../test-helper');
-const { cleanAnonymizedUsersPasswords } = require('../../../scripts/clean-anonymized-users-passwords');
+const {
+  cleanAnonymizedAuthenticationMethods,
+} = require('../../../scripts/clean-anonymized-users-authentication-methods');
 
-describe('Integration | Scripts | clean-anonymized-users-passwords', function () {
-  describe('#cleanAnonymizedUsersPasswords', function () {
-    it("should delete given user's passwords", async function () {
+describe('Integration | Scripts | clean-anonymized-users-authentication-methods', function () {
+  describe('#cleanAnonymizedAuthenticationMethods', function () {
+    it("should delete given user's authentication methods", async function () {
       // given
       databaseBuilder.factory.buildUser({ id: 1 });
       databaseBuilder.factory.buildUser({ id: 3 });
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({ userId: 1 });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: 1 });
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId: 3 });
       await databaseBuilder.commit();
 
       // when
       const arrayOfAnonymizedUsersIds = [1, 3];
-      const anonymizedUserIdsWithPasswordDeleted = await cleanAnonymizedUsersPasswords({ arrayOfAnonymizedUsersIds });
+      const anonymizedUserIdsWithAuthenticationMethodsDeleted = await cleanAnonymizedAuthenticationMethods({
+        arrayOfAnonymizedUsersIds,
+      });
 
       // then
       const authenticationMethodsForUsers1 = await knex('authentication-methods').where({ userId: 1 });
@@ -22,7 +27,7 @@ describe('Integration | Scripts | clean-anonymized-users-passwords', function ()
       const authenticationMethodsForUsers3 = await knex('authentication-methods').where({ userId: 3 });
       expect(authenticationMethodsForUsers3.length).to.equal(0);
 
-      expect(anonymizedUserIdsWithPasswordDeleted).to.deep.equal(arrayOfAnonymizedUsersIds);
+      expect(anonymizedUserIdsWithAuthenticationMethodsDeleted).to.deep.equal(arrayOfAnonymizedUsersIds);
     });
   });
 });

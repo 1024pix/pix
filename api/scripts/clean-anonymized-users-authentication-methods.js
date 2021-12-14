@@ -6,24 +6,22 @@ const bluebird = require('bluebird');
 
 const { parseCsvWithHeader } = require('./helpers/csvHelpers');
 const authenticationMethodRepository = require('../lib/infrastructure/repositories/authentication-method-repository');
-const AuthenticationMethod = require('../lib/domain/models/AuthenticationMethod');
 
-async function cleanAnonymizedUsersPasswords({ arrayOfAnonymizedUsersIds }) {
-  const anonymizedUserIdsWithPasswordDeleted = [];
+async function cleanAnonymizedAuthenticationMethods({ arrayOfAnonymizedUsersIds }) {
+  const anonymizedUserIdsWithAuthenticationMethodsDeleted = [];
   await bluebird.mapSeries(arrayOfAnonymizedUsersIds, async (userId) => {
-    const numberOfRowDeleted = await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
+    const numberOfRowDeleted = await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
     });
     if (numberOfRowDeleted > 0) {
-      anonymizedUserIdsWithPasswordDeleted.push(userId);
+      anonymizedUserIdsWithAuthenticationMethodsDeleted.push(userId);
     }
   });
-  return anonymizedUserIdsWithPasswordDeleted;
+  return anonymizedUserIdsWithAuthenticationMethodsDeleted;
 }
 
 async function main() {
-  console.log('Starting cleaning anonymized users with passwords');
+  console.log('Starting deleting anonymized users authentication methods');
 
   try {
     const filePath = process.argv[2];
@@ -37,11 +35,13 @@ async function main() {
     if (arrayOfAnonymizedUsersIds.length < 1) {
       throw new Error('ID column must be present in CSV');
     }
-    const anonymizedUserIdsWithPasswordDeleted = await cleanAnonymizedUsersPasswords({ arrayOfAnonymizedUsersIds });
+    const anonymizedUserIdsWithAllAuthenticationMethodsDeleted = await cleanAnonymizedAuthenticationMethods({
+      arrayOfAnonymizedUsersIds,
+    });
 
     console.log(
-      "\nDone. Here the list of user's id which password was deleted : ",
-      anonymizedUserIdsWithPasswordDeleted
+      "\nDone. Here the list of user's id which authentication methods were deleted : ",
+      anonymizedUserIdsWithAllAuthenticationMethodsDeleted
     );
   } catch (error) {
     console.error(error);
@@ -60,4 +60,4 @@ if (require.main === module) {
   );
 }
 
-module.exports = { cleanAnonymizedUsersPasswords };
+module.exports = { cleanAnonymizedAuthenticationMethods };
