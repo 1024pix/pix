@@ -1,19 +1,34 @@
 <section>
   <div class="panel">
     <table class="table content-text content-text--small">
+      <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
       <thead>
         <tr>
-          <Table::Header @size="wide">{{t "pages.preselect-target-profile.table.column.name"}}</Table::Header>
+          <Table::Header @size="x-small" @align="center" scope="col">
+            {{t "pages.preselect-target-profile.table.column.action"}}
+          </Table::Header>
+          <Table::Header @size="wide" scope="col">
+            {{t "pages.preselect-target-profile.table.column.name"}}
+          </Table::Header>
         </tr>
       </thead>
 
       <tbody>
         {{#each @tubes as |tube|}}
-          <tr class="row-tube" aria-label={{t "pages.preselect-target-profile.table.row-title"}}>
-            <td class="table__column">
-              {{tube.practicalTitle}}
-              :
-              {{tube.practicalDescription}}
+          <tr
+            {{on "click" this.toggleInput}}
+            class="row-tube tr--clickable"
+            aria-label={{t "pages.preselect-target-profile.table.row-title"}}
+          >
+            <td class="table__column--center">
+              <Input id="tube-{{tube.id}}" @type="checkbox" />
+            </td>
+            <td>
+              <label for="tube-{{tube.id}}">
+                {{tube.practicalTitle}}
+                :
+                {{tube.practicalDescription}}
+              </label>
             </td>
           </tr>
         {{/each}}
