@@ -7,6 +7,38 @@ const {
   CertificationCenterMembershipDisableError,
 } = require('../../domain/errors');
 const { knex } = require('../../../db/knex-database-connection');
+const CertificationCenter = require('../../domain/models/CertificationCenter');
+const User = require('../../domain/models/User');
+const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
+
+function _toDomain(certificationCenterMembershipDTO) {
+  let user, certificationCenter;
+  if (certificationCenterMembershipDTO.lastName || certificationCenterMembershipDTO.firstName) {
+    user = new User({
+      id: certificationCenterMembershipDTO.userId,
+      firstName: certificationCenterMembershipDTO.firstName,
+      lastName: certificationCenterMembershipDTO.lastName,
+      email: certificationCenterMembershipDTO.email,
+    });
+  }
+  if (certificationCenterMembershipDTO.name) {
+    certificationCenter = new CertificationCenter({
+      id: certificationCenterMembershipDTO.certificationCenterId,
+      name: certificationCenterMembershipDTO.name,
+      type: certificationCenterMembershipDTO.type,
+      externalId: certificationCenterMembershipDTO.externalId,
+      createdAt: certificationCenterMembershipDTO.certificationCenterCreatedAt,
+      updatedAt: certificationCenterMembershipDTO.certificationCenterUpdatedAt,
+    });
+  }
+  return new CertificationCenterMembership({
+    id: certificationCenterMembershipDTO.id,
+    certificationCenter,
+    user,
+    createdAt: certificationCenterMembershipDTO.createdAt,
+    updatedAt: certificationCenterMembershipDTO.updatedAt,
+  });
+}
 
 module.exports = {
   async findByUserId(userId) {
@@ -20,7 +52,36 @@ module.exports = {
     );
   },
 
-  async findActiveByCertificationCenterId(certificationCenterId) {
+  async findActiveByCertificationCenterIdSortedByNames({ certificationCenterId }) {
+    const certificationCenterMemberships = await knex
+      .select(
+        'certification-center-memberships.*',
+        'users.firstName',
+        'users.lastName',
+        'users.email',
+        'certification-centers.name',
+        'certification-centers.type',
+        'certification-centers.externalId',
+        'certification-centers.createdAt AS certificationCenterCreatedAt',
+        'certification-centers.updatedAt AS certificationCenterUpdatedAt'
+      )
+      .from('certification-center-memberships')
+      .leftJoin('users', 'users.id', 'certification-center-memberships.userId')
+      .leftJoin(
+        'certification-centers',
+        'certification-centers.id',
+        'certification-center-memberships.certificationCenterId'
+      )
+      .where({
+        certificationCenterId,
+        disabledAt: null,
+      })
+      .orderBy('lastName', 'ASC')
+      .orderBy('firstName', 'ASC');
+    return certificationCenterMemberships.map(_toDomain);
+  },
+
+  async findActiveByCertificationCenterIdSortedById({ certificationCenterId }) {
     const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({
       certificationCenterId,
       disabledAt: null,
