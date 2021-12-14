@@ -13,7 +13,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function () {
   });
 
   describe('#startCampaignParticipation', () => {
-    it('should redirect to route campaigns.start-or-resume', function () {
+    it('should redirect to route campaigns.access', function () {
       // given
       controller.set('model', { code: 'konami' });
 
@@ -21,7 +21,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function () {
       controller.actions.startCampaignParticipation.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume', 'konami');
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.access', 'konami');
     });
   });
 });
