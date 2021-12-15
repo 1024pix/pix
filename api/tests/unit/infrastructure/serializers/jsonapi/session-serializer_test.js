@@ -1,8 +1,9 @@
-const { expect, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
+const { expect, EMPTY_BLANK_AND_NULL, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../../lib/domain/models/Session');
+const { featureToggles } = require('../../../../../lib/config');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function () {
   describe('#serialize()', function () {
@@ -53,6 +54,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         time: '14:30',
         description: '',
         accessCode: '',
+        supervisorPassword: 'SOWHAT',
         examinerGlobalComment: 'It was a fine session my dear',
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
@@ -61,12 +63,31 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
     });
 
     context('when session does not have a link to an existing certification center', function () {
-      it('should convert a Session model object into JSON API data', function () {
-        // when
-        const json = serializer.serialize(modelSession);
+      context('when feature toggle FT_IS_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
+        it('should convert a Session model object into JSON API data without supervisor password', function () {
+          // when
+          const json = serializer.serialize(modelSession);
 
-        // then
-        expect(json).to.deep.equal(expectedJsonApi);
+          // then
+          expect(json).to.deep.equal(expectedJsonApi);
+        });
+      });
+
+      context('when feature toggle FT_IS_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+        it('should convert a Session model object into JSON API data including supervisor password', function () {
+          // given
+          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+          const expectedJsonApiIncludingSupervisorPassword = {
+            ...expectedJsonApi,
+          };
+          expectedJsonApiIncludingSupervisorPassword.data.attributes['supervisor-password'] = 'SOWHAT';
+
+          // when
+          const json = serializer.serialize(modelSession);
+
+          // then
+          expect(json).to.deep.equal(expectedJsonApiIncludingSupervisorPassword);
+        });
       });
     });
   });

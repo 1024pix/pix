@@ -25,7 +25,7 @@ Then(`je vois le formulaire de modification de session de certification`, () => 
 });
 
 Then(`je lis la valeur {string} à l'emplacement de l'adresse de la session`, (sessionAddress) => {
-  cy.get('.session-details-row div:nth-child(2)').should('contain', sessionAddress);
+  cy.get('.session-details-row .session-details-content:nth-child(3) .session-details-content__text').should('contain', sessionAddress);
 });
 
 Then('je vois {int} candidat(s) dans le tableau de candidats', (candidateCount) => {
