@@ -7,8 +7,9 @@ const validationSchema = Joi.object({
   lastName: Joi.string().required(),
   birthdate: Joi.date().required(),
   division: Joi.string().optional().allow(null),
+  group: Joi.string().optional().allow(null),
   organizationId: Joi.number().integer().required(),
-  organizationExternalId: Joi.string().required(),
+  //organizationExternalId: Joi.string().required(),
   organizationName: Joi.string().required(),
   createdAt: Joi.date().required(),
   updatedAt: Joi.date().required(),
@@ -22,8 +23,8 @@ class SchoolingRegistrationForAdmin {
     lastName,
     birthdate,
     division,
+    group,
     organizationId,
-    organizationExternalId,
     organizationName,
     createdAt,
     updatedAt,
@@ -34,8 +35,8 @@ class SchoolingRegistrationForAdmin {
     this.lastName = lastName;
     this.birthdate = birthdate;
     this.division = division;
+    this.group = group;
     this.organizationId = organizationId;
-    this.organizationExternalId = organizationExternalId;
     this.organizationName = organizationName;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
