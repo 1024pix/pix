@@ -1,16 +1,14 @@
 <section class="campaign-list">
+  <Campaign::Filter::Filters
+    @creatorNameFilter={{@creatorNameFilter}}
+    @nameFilter={{@nameFilter}}
+    @onFilter={{@onFilter}}
+    @isArchived={{@isArchived}}
+    @onClickStatusFilter={{@onClickStatusFilter}}
+  />
   <div class="panel">
     <table class="table content-text content-text--small">
       <thead>
-        <tr class="hide-on-mobile">
-          <Table::HeaderFilters
-            @creatorNameFilter={{@creatorNameFilter}}
-            @nameFilter={{@nameFilter}}
-            @onFilter={{@onFilter}}
-            @isArchived={{@isArchived}}
-            @onClickStatusFilter={{@onClickStatusFilter}}
-          />
-        </tr>
         <tr>
           <Table::Header @size="wide">{{t "pages.campaigns-list.table.column.campaign"}}</Table::Header>
           <Table::Header @size="wide" class="hide-on-mobile">{{t

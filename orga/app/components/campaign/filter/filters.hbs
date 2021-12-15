@@ -1,0 +1,39 @@
+<div class="hide-on-mobile campaign-filters">
+  <label >{{t "pages.campaigns-list.table.filter.title"}}</label>
+  <Campaign::Filter::SearchInputFilter
+    @field="name"
+    @value={{@nameFilter}}
+    @placeholder={{t "pages.campaigns-list.table.filter.by-name"}}
+    @ariaLabel={{t "pages.campaigns-list.table.filter.by-name"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Campaign::Filter::SearchInputFilter
+    @field="creatorName"
+    @value={{@creatorNameFilter}}
+    @placeholder={{t "pages.campaigns-list.table.filter.by-creator"}}
+    @ariaLabel={{t "pages.campaigns-list.table.filter.by-creator"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <div class="campaign-filters__type">
+    <button
+      role="tab"
+      type="submit"
+      class="campaign-filters__tab {{unless @isArchived "campaign-filters__tab--active"}}"
+      aria-selected="{{not @isArchived}}"
+      aria-label={{t "pages.campaigns-list.action.ongoing.aria-label"}}
+      {{on "click" (fn @onClickStatusFilter null)}}
+    >
+      {{t "pages.campaigns-list.action.ongoing.label"}}
+    </button>
+    <button
+      role="tab"
+      type="submit"
+      class="campaign-filters__tab {{if @isArchived "campaign-filters__tab--active"}}"
+      aria-selected="{{@isArchived}}"
+      aria-label={{t "pages.campaigns-list.action.archived.aria-label"}}
+      {{on "click" (fn @onClickStatusFilter "archived")}}
+    >
+      {{t "pages.campaigns-list.action.archived.label"}}
+    </button>
+  </div>
+</div>
