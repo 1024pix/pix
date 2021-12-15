@@ -124,39 +124,4 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
   });
-
-  describe('#deserialize', function () {
-    it('should convert JSON API data into a Badge model object', function () {
-      // given
-      const jsonBadge = {
-        data: {
-          type: 'badges',
-          attributes: {
-            key: 'BADGE_KEY',
-            'alt-message': 'alt-message',
-            'image-url': 'https://example.net/image.svg',
-            message: 'message',
-            title: 'title',
-            'is-certifiable': false,
-            'is-always-visible': true,
-          },
-        },
-      };
-
-      // when
-      const badge = serializer.deserialize(jsonBadge);
-
-      // then
-      const expectedBadge = {
-        key: 'BADGE_KEY',
-        altMessage: 'alt-message',
-        imageUrl: 'https://example.net/image.svg',
-        message: 'message',
-        title: 'title',
-        isCertifiable: false,
-        isAlwaysVisible: true,
-      };
-      expect(badge).to.deep.equal(expectedBadge);
-    });
-  });
 });
