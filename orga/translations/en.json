@@ -477,6 +477,12 @@
         "title": "Create your first campaign",
         "description": "Set up and launch your first campaign. Then, invite your users to join this customised test."
       },
+      "filter": {
+        "title": "Filters",
+        "by-creator": "Search for a creator",
+        "by-name": "Search for a campaign",
+        "results": "{total, plural, =0 {0 campaigns} =1 {1 campaign} other {{total, number} campaigns}}"
+      },
       "table": {
         "column": {
           "campaign": "Campaigns",
@@ -486,11 +492,6 @@
           "results": "Results submitted"
         },
         "empty": "No campaign",
-        "filter": {
-          "title": "Filters",
-          "by-creator": "Search for a creator",
-          "by-name": "Search for a campaign"
-        },
         "row-title": "Campaign"
       }
     },

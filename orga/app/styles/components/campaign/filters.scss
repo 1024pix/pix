@@ -1,20 +1,27 @@
 .campaign-filters {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  justify-content: space-between;
   padding: 14px 24px;
   margin-bottom: 8px;
   background-color: $white;
   border-radius: 4px;
 
+  section:first-child {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
   &__type {
     display: flex;
 
-    button:first-child{
+    button:first-child {
       border-radius: 4px 0 0 4px;
     }
-    button:last-child{
+
+    button:last-child {
       border-left: none;
       border-radius: 0 4px 4px 0;
     }
@@ -30,6 +37,12 @@
     font-size: 0.875em;
   }
 
+  &__results {
+    color: $grey-60;
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+
   &__tab {
     color: $grey-60;
     background: transparent;
@@ -42,6 +55,7 @@
     font-family: $roboto;
     border: 1.2px solid $grey-45;
     height: 36px;
+
     &:hover {
       background: $grey-20;
       opacity: .8;
@@ -49,6 +63,7 @@
 
     &--active {
       background: $grey-20;
+
       &:hover {
         opacity: 1;
       }
