@@ -2,7 +2,7 @@
 
 <article class="list-campaigns-page">
   {{#if @model.meta.hasCampaigns}}
-    <Campaign::ListActions
+    <Campaign::ListHeader
       @title={{this.pageTitle}}
       @isArchived={{this.isArchived}}
       @onClickStatusFilter={{this.updateCampaignStatus}}
