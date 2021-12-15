@@ -339,7 +339,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when the candidate is not authorized', function() {
       test('it calls the argument callback with candidate', async function(assert) {
         // given
-        const candidate = store.createRecord('certification-candidate-for-supervising', {
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 123,
           firstName: 'Toto',
           lastName: 'Tutu',
@@ -348,13 +348,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           authorizedToStart: false,
           assessmentResult: null,
         });
-        this.sessionForSupervising = store.createRecord('session-for-supervising', {
-          certificationCandidates: [candidate],
-        });
         this.toggleCandidate = sinon.spy();
 
         const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList
-            @candidates={{this.sessionForSupervising.certificationCandidates}}
+            @candidate={{this.candidate}}
             @toggleCandidate={{this.toggleCandidate}}
         />`);
         const checkbox = screen.getByRole('checkbox');
