@@ -125,7 +125,7 @@ module('Acceptance | Sco Student List', function (hooks) {
           assert
             .dom('[data-test-notification-message="error"]')
             .hasText(
-              "Aucun élève n’a été importé.Le type de fichier n'est pas accepté, veuillez importer un fichier xml Veuillez vérifier ou modifier votre base élèves et importer à nouveau."
+              "Aucun élève n’a été importé.Le type de fichier n'est pas accepté, veuillez importer un fichier xml."
             );
         });
       });

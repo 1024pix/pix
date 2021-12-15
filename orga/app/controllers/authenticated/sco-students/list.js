@@ -57,9 +57,8 @@ export default class ListController extends Controller {
 
   _handleError(errorResponse, acceptedFormat) {
     if (errorResponse.message === StudentImportsAdapter.FORMAT_NOT_SUPPORTED_ERROR) {
-      const message = this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat });
       return this.notifications.sendError(
-        this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true })
+        this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat, htmlSafe: true })
       );
     }
 
