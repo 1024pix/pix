@@ -42,7 +42,8 @@ export default class ListController extends Controller {
     const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
     const fileToUploadMimeType = files[0]?.type;
     if (!fileToUploadMimeType?.includes(format)) {
-      this.notifications.sendError(this.intl.t('pages.students-sco.import.invalid-mimetype', { format }));
+      const message = this.intl.t('pages.students-sco.import.invalid-mimetype', { format });
+      this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message }));
       return;
     }
 
