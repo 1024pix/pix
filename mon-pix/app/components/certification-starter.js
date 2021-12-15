@@ -18,9 +18,22 @@ export default class CertificationJoiner extends Component {
     return this.inputAccessCode.toUpperCase();
   }
 
+  get allComplementaryCertificationsLength() {
+    return (
+      this.args.certificationCandidateSubscription.eligibleSubscriptions.length +
+      this.args.certificationCandidateSubscription.nonEligibleSubscriptions.length
+    );
+  }
+
   get nonEligibleSubscriptionNames() {
     return this.args.certificationCandidateSubscription.nonEligibleSubscriptions
       .map((nonEligibleSubscription) => nonEligibleSubscription.name)
+      .join(', ');
+  }
+
+  get eligibleSubscriptionNames() {
+    return this.args.certificationCandidateSubscription.eligibleSubscriptions
+      .map((eligibleSubscription) => eligibleSubscription.name)
       .join(', ');
   }
 

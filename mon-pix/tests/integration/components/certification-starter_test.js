@@ -114,7 +114,7 @@ describe('Integration | Component | certification-starter', function () {
         // expect
         expect(
           contains(
-            "Vous avez été inscrit à la certification complémentaire suivante : Certif complémentaire 1 mais vous n'y êtes pas éligible.\nVous pouvez néanmoins passer votre certification Pix si vous le souhaitez."
+            'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix'
           )
         ).to.exist;
       });
@@ -138,12 +138,12 @@ describe('Integration | Component | certification-starter', function () {
         // expect
         expect(
           contains(
-            "Vous avez été inscrit aux certifications complémentaires suivantes : Certif complémentaire 1, Certif complémentaire 2 mais vous n'y êtes pas éligible.\nVous pouvez néanmoins passer votre certification Pix si vous le souhaitez."
+            'Vous n’êtes pas éligible à Certif complémentaire 1, Certif complémentaire 2. Vous pouvez néanmoins passer votre certification Pix'
           )
         ).to.exist;
       });
 
-      it('should not display subscription eligible panel', async function () {
+      it('should display subscription panel', async function () {
         // given
         const store = this.owner.lookup('service:store');
         this.set(
@@ -161,10 +161,8 @@ describe('Integration | Component | certification-starter', function () {
 
         // expect
         expect(
-          contains(
-            'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'
-          )
-        ).to.not.exist;
+          contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :')
+        ).to.exist;
       });
     });
   });
