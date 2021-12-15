@@ -35,12 +35,18 @@
     font-size: 1rem;
   }
 
-  &__eligible-item {
+  &__eligible-item,
+  &__non-eligible-item {
     font-weight: 500;
   }
 
   &__eligible-icon {
     color: $green;
+  }
+
+  &__non-eligible-item,
+  &__non-eligible-icon {
+    color: $grey-50;
   }
 
   &__non-eligible {
@@ -51,7 +57,7 @@
     padding: 10px 16px;
   }
 
-  &__non-eligible-icon {
+  &__info-icon {
     margin-right: 10px;
   }
 }
