@@ -1,0 +1,36 @@
+.campaign-header-filters {
+  display: flex;
+
+  &__tab {
+    color: $grey-60;
+    background: transparent;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    outline: none;
+    font-family: $roboto;
+    border: 1.2px solid $grey-45;
+    height: 36px;
+    &:hover {
+      background: $grey-20;
+      opacity: .8;
+    }
+
+    &--active {
+      background: $grey-20;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  button:first-child{
+    border-radius: 4px 0 0 4px;
+  }
+  button:last-child{
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+  }
+}

@@ -9,6 +9,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   hooks.beforeEach(function () {
     this.set('triggerFilteringSpy', () => {});
     this.set('goToCampaignPageSpy', () => {});
+    this.set('onClickStatusFilterSpy', () => {});
   });
 
   module('When there are no campaigns to display', function () {
@@ -21,8 +22,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.contains('Aucune campagne');
@@ -44,8 +46,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.notContains('Aucune campagne');
@@ -72,8 +75,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.dom('a[href="/campagnes/1"]').exists();
@@ -103,7 +107,8 @@ module('Integration | Component | Campaign::List', function (hooks) {
       await render(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
       // then
       assert.contains('campagne 1');
       assert.contains('campagne 2');
@@ -130,7 +135,8 @@ module('Integration | Component | Campaign::List', function (hooks) {
       await render(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.dom('[aria-label="Campagne"]:first-child').containsText('Jean-Michel Jarre');
@@ -161,8 +167,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.contains('02/02/2020');
@@ -184,8 +191,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.dom('[aria-label="Campagne"]').containsText('10');
@@ -207,8 +215,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.dom('[aria-label="Campagne"]').containsText('4');
@@ -223,8 +232,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.dom('[placeholder="Rechercher une campagne"]').exists();
@@ -239,8 +249,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // when
       await render(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
-                  @onFilter={{this.triggerFilteringSpy}} 
-                  @onClickCampaign={{this.goToCampaignPageSpy}} />`);
+                  @onFilter={{this.triggerFilteringSpy}}
+                  @onClickCampaign={{this.goToCampaignPageSpy}}
+                  @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
       assert.dom('[placeholder="Rechercher un créateur"]').exists();

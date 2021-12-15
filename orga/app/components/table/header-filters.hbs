@@ -15,5 +15,28 @@
   @ariaLabel={{t "pages.campaigns-list.table.filter.by-creator"}}
   @triggerFiltering={{@onFilter}}
 />
-<td></td>
+<td>
+  <div class="campaign-header-filters">
+    <button
+      role="tab"
+      type="submit"
+      class="campaign-header-filters__tab {{unless @isArchived "campaign-header-filters__tab--active"}}"
+      aria-selected="{{not @isArchived}}"
+      aria-label={{t "pages.campaigns-list.action.ongoing.aria-label"}}
+      {{on "click" (fn @onClickStatusFilter null)}}
+    >
+      {{t "pages.campaigns-list.action.ongoing.label"}}
+    </button>
+    <button
+      role="tab"
+      type="submit"
+      class="campaign-header-filters__tab {{if @isArchived "campaign-header-filters__tab--active"}}"
+      aria-selected="{{@isArchived}}"
+      aria-label={{t "pages.campaigns-list.action.archived.aria-label"}}
+      {{on "click" (fn @onClickStatusFilter "archived")}}
+    >
+      {{t "pages.campaigns-list.action.archived.label"}}
+    </button>
+  </div>
+</td>
 <td></td>
