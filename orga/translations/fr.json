@@ -481,6 +481,7 @@
         },
         "empty": "Aucune campagne",
         "filter": {
+          "title": "Filtres",
           "by-creator": "Rechercher un créateur",
           "by-name": "Rechercher une campagne"
         },
