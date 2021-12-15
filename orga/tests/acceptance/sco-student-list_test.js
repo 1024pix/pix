@@ -114,11 +114,7 @@ module('Acceptance | Sco Student List', function (hooks) {
         test('it should display invalid mime-type message when uploading a file with a wrong mime-type', async function (assert) {
           // given
           await visit('/eleves');
-          const expectedMimeTypeFormatWhenUserIsNotAGRI = 'xml';
           const fileWithWrongMimeType = new Blob(['foo'], { type: 'text/csv' });
-          const expectedMsg = this.intl.t('pages.students-sco.import.invalid-mimetype', {
-            format: expectedMimeTypeFormatWhenUserIsNotAGRI,
-          });
 
           // when
           const input = find('#students-file-upload');
@@ -126,7 +122,11 @@ module('Acceptance | Sco Student List', function (hooks) {
 
           // then
           assert.dom('[data-test-notification-message="error"]').exists();
-          assert.dom('[data-test-notification-message="error"]').hasText(expectedMsg);
+          assert
+            .dom('[data-test-notification-message="error"]')
+            .hasText(
+              "Aucun élève n’a été importé.Le type de fichier n'est pas accepté, veuillez importer un fichier xml Veuillez vérifier ou modifier votre base élèves et importer à nouveau."
+            );
         });
       });
 
