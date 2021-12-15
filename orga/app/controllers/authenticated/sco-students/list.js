@@ -39,10 +39,10 @@ export default class ListController extends Controller {
   async importStudents(files) {
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+    const acceptedFormat = this.currentUser.isAgriculture ? 'csv' : 'xml';
     const fileToUploadMimeType = files[0]?.type;
-    if (!fileToUploadMimeType?.includes(format)) {
-      const message = this.intl.t('pages.students-sco.import.invalid-mimetype', { format });
+    if (!fileToUploadMimeType?.includes(acceptedFormat)) {
+      const message = this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat });
       this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message }));
       return;
     }
@@ -50,7 +50,7 @@ export default class ListController extends Controller {
     this.isLoading = true;
     this.notifications.clearAll();
     try {
-      await adapter.importStudentsSiecle(organizationId, files, format);
+      await adapter.importStudentsSiecle(organizationId, files, acceptedFormat);
       this.refresh();
       this.isLoading = false;
       this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
