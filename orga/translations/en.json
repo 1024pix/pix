@@ -487,6 +487,7 @@
         },
         "empty": "No campaign",
         "filter": {
+          "title": "Filters",
           "by-creator": "Search for a creator",
           "by-name": "Search for a campaign"
         },
