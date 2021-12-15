@@ -3,25 +3,11 @@
     <table class="table content-text content-text--small">
       <thead>
         <tr class="hide-on-mobile">
-          <Table::Header id="filters">{{t "pages.campaigns-list.table.filter.title"}}</Table::Header>
-          <Table::HeaderFilterInput
-            @headers="filters"
-            @field="name"
-            @value={{@nameFilter}}
-            @placeholder={{t "pages.campaigns-list.table.filter.by-name"}}
-            @ariaLabel={{t "pages.campaigns-list.table.filter.by-name"}}
-            @triggerFiltering={{@onFilter}}
+          <Table::HeaderFilters
+            @creatorNameFilter={{@creatorNameFilter}}
+            @nameFilter={{@nameFilter}}
+            @onFilter={{@onFilter}}
           />
-          <Table::HeaderFilterInput
-            @headers="filters"
-            @field="creatorName"
-            @value={{@creatorNameFilter}}
-            @placeholder={{t "pages.campaigns-list.table.filter.by-creator"}}
-            @ariaLabel={{t "pages.campaigns-list.table.filter.by-creator"}}
-            @triggerFiltering={{@onFilter}}
-          />
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <Table::Header @size="wide">{{t "pages.campaigns-list.table.column.campaign"}}</Table::Header>
