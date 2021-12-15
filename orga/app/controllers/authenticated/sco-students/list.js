@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { CONNECTION_TYPES } from '../../../models/student';
+import StudentImportsAdapter from '../../../adapters/students-import';
 
 export default class ListController extends Controller {
   @service currentUser;
@@ -40,12 +41,6 @@ export default class ListController extends Controller {
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
     const acceptedFormat = this.currentUser.isAgriculture ? 'csv' : 'xml';
-    const fileToUploadMimeType = files[0]?.type;
-    if (!fileToUploadMimeType?.includes(acceptedFormat)) {
-      const message = this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat });
-      this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message }));
-      return;
-    }
 
     this.isLoading = true;
     this.notifications.clearAll();
@@ -56,11 +51,18 @@ export default class ListController extends Controller {
       this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
     } catch (errorResponse) {
       this.isLoading = false;
-      this._handleError(errorResponse);
+      this._handleError(errorResponse, acceptedFormat);
     }
   }
 
-  _handleError(errorResponse) {
+  _handleError(errorResponse, acceptedFormat) {
+    if (errorResponse.message === StudentImportsAdapter.FORMAT_NOT_SUPPORTED_ERROR) {
+      const message = this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat });
+      return this.notifications.sendError(
+        this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true })
+      );
+    }
+
     const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error', { htmlSafe: true });
     if (!errorResponse.errors) {
       return this.notifications.sendError(globalErrorMessage, {
