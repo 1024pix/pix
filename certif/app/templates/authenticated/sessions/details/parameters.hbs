@@ -1,9 +1,82 @@
 <div class="panel session-details-container">
   <div class="session-details-row">
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">ID session</h4>
-      <span class="content-text session-details-content__text">{{this.session.id}}</span>
+    <div class="session-details-content session-details-content--multiple session-details-content--copyable">
+      <h4 class="label-text session-details-content__label">Numéro de session</h4>
+      <div class="session-details-content__clipboard" {{on 'mouseout' this.removeSessionNumberTooltip}}>
+        <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
+        {{#if (is-clipboard-supported)}}
+          <PixTooltip
+            @id="tooltip-clipboard-button"
+            @text={{this.sessionNumberTooltipText}}
+            @isInline={{true}}
+          >
+            <CopyButton
+              @clipboardText={{this.session.id}}
+              @success={{this.showSessionIdTooltip}}
+              @classNames="icon-button session-details-content__clipboard-button"
+              aria-label="Copier le code d'accès"
+            >
+              <FaIcon @icon='copy' prefix='fas' />
+            </CopyButton>
+          </PixTooltip>
+        {{/if}}
+      </div>
     </div>
+
+    <div class="session-details-content session-details-content--multiple session-details-content--copyable">
+      <h4 class="label-text session-details-content__label">Code d'accès
+        <div class="session-details-content__sub-label">Candidat</div>
+      </h4>
+      <div class="session-details-content__clipboard" {{on 'mouseout' this.removeAccessCodeTooltip}}>
+        <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
+        {{#if (is-clipboard-supported)}}
+          <PixTooltip
+            @id="tooltip-clipboard-button"
+            @text={{this.accessCodeTooltipText}}
+            @isInline={{true}}
+          >
+            <CopyButton
+              @clipboardText={{this.session.accessCode}}
+              @success={{this.showAccessCodeTooltip}}
+              @classNames="icon-button session-details-content__clipboard-button"
+              aria-label="Copier le code d'accès"
+            >
+              <FaIcon @icon='copy' prefix='fas' />
+            </CopyButton>
+          </PixTooltip>
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if this.supervisorPasswordShouldBeDisplayed}}
+      <div class="session-details-content session-details-content--multiple session-details-content--copyable">
+        <h4 class="label-text session-details-content__label">
+          Mot de passe de session
+          <div class="session-details-content__sub-label">Surveillant</div>
+        </h4>
+        <div class="session-details-content__clipboard" {{on 'mouseout' this.removeSupervisorPasswordTooltip}}>
+          <span class="content-text content-text--bold session-details-content__text">
+            C-{{this.session.supervisorPassword}}
+          </span>
+          {{#if (is-clipboard-supported)}}
+            <PixTooltip
+              @id="tooltip-clipboard-button"
+              @text={{this.supervisorPasswordTooltipText}}
+              @isInline={{true}}
+            >
+              <CopyButton
+                @clipboardText={{this.session.supervisorPassword}}
+                @success={{this.showSupervisorPasswordTooltip}}
+                @classNames="icon-button session-details-content__clipboard-button"
+                aria-label="Copier le code d'accès"
+              >
+                <FaIcon @icon='copy' prefix='fas' />
+              </CopyButton>
+            </PixTooltip>
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
 
     <div class="session-details-content session-details-content--multiple">
       <h4 class="label-text session-details-content__label">Nom du site</h4>
@@ -20,27 +93,7 @@
       <span class="content-text session-details-content__text">{{this.session.examiner}}</span>
     </div>
 
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Code d'accès</h4>
-      <div class="session-details-content__clipboard">
-        <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
-        {{#if (is-clipboard-supported)}}
-          <PixTooltip
-            @id="tooltip-clipboard-button"
-            @text={{this.tooltipText}}
-          >
-            <CopyButton
-              @clipboardText={{this.session.accessCode}}
-              @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}}
-              @classNames="icon-button session-details-content__clipboard-button"
-              aria-labelledby="tooltip-clipboard-button"
-            >
-              <FaIcon @icon='copy' prefix='far' />
-            </CopyButton>
-          </PixTooltip>
-        {{/if}}
-      </div>
-    </div>
+
   </div>
 
   <div class="session-details-row">

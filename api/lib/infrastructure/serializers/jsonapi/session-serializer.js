@@ -5,27 +5,32 @@ const { WrongDateFormatError } = require('../../../domain/errors');
 const { isValidDate } = require('../../utils/date-utils');
 
 const Session = require('../../../domain/models/Session');
+const { featureToggles } = require('../../../config');
 
 module.exports = {
   serialize(sessions) {
+    const attributes = [
+      'address',
+      'room',
+      'examiner',
+      'date',
+      'time',
+      'status',
+      'description',
+      'accessCode',
+      'examinerGlobalComment',
+      'finalizedAt',
+      'resultsSentToPrescriberAt',
+      'publishedAt',
+      'certificationCenterId',
+      'certificationCandidates',
+      'certificationReports',
+    ];
+    if (featureToggles.isEndTestScreenRemovalEnabled) {
+      attributes.push('supervisorPassword');
+    }
     return new Serializer('session', {
-      attributes: [
-        'address',
-        'room',
-        'examiner',
-        'date',
-        'time',
-        'status',
-        'description',
-        'accessCode',
-        'examinerGlobalComment',
-        'finalizedAt',
-        'resultsSentToPrescriberAt',
-        'publishedAt',
-        'certificationCenterId',
-        'certificationCandidates',
-        'certificationReports',
-      ],
+      attributes,
       certificationCandidates: {
         ref: 'id',
         ignoreRelationshipData: true,

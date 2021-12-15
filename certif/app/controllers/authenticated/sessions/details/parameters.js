@@ -5,25 +5,64 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class SessionParametersController extends Controller {
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
-  @tracked tooltipText = 'Copier le lien direct';
+  @tracked sessionNumberTooltipText = '';
+  @tracked accessCodeTooltipText = '';
+  @tracked supervisorPasswordTooltipText = '';
+  @service featureToggles;
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
     return this.certificationCandidates.isAny('isLinked');
   }
 
-  @action
-  clipboardSuccess() {
-    this.tooltipText = 'Copié !';
+  get supervisorPasswordShouldBeDisplayed() {
+    return this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled;
   }
 
   @action
-  clipboardOut() {
-    this.tooltipText = 'Copier le code d\'accès';
+  async showSessionIdTooltip() {
+    this.sessionNumberTooltipText = 'Copié !';
+    await _waitForSeconds(2);
+    this.removeSessionNumberTooltip();
   }
+
+  @action
+  removeSessionNumberTooltip() {
+    this.sessionNumberTooltipText = '';
+  }
+
+  @action
+  async showAccessCodeTooltip() {
+    this.accessCodeTooltipText = 'Copié !';
+    await _waitForSeconds(2);
+    this.removeAccessCodeTooltip();
+  }
+
+  @action
+  removeAccessCodeTooltip() {
+    this.accessCodeTooltipText = '';
+  }
+
+  @action
+  async showSupervisorPasswordTooltip() {
+    this.supervisorPasswordTooltipText = 'Copié !';
+    await _waitForSeconds(2);
+    this.removeSupervisorPasswordTooltip();
+  }
+
+  @action
+  removeSupervisorPasswordTooltip() {
+    this.supervisorPasswordTooltipText = '';
+  }
+}
+
+async function _waitForSeconds(timeoutInSeconds) {
+  const timeoutInMiliseconds = timeoutInSeconds * 1000;
+  return new Promise((resolve) => window.setTimeout(resolve, timeoutInMiliseconds));
 }

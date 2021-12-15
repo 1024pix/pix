@@ -6,7 +6,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
-import { render as renderScreen } from '@pix/ember-testing-library';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
