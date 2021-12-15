@@ -576,6 +576,8 @@
       }
     },
     "preselect-target-profile": {
+      "download": "Download topics selection (JSON, { fileSize }kb)",
+      "download-filename": "topic-selection.json",
       "title": "Topic selection",
       "table": {
         "caption": "Topic selection",

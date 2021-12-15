@@ -1,0 +1,11 @@
+.download-file {
+  position: sticky;
+  padding: 0.5em;
+  top: 0;
+  z-index: 1;
+  background: white;
+
+  &__button {
+    width: fit-content;
+  }
+}

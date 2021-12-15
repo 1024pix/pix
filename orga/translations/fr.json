@@ -569,6 +569,8 @@
       }
     },
     "preselect-target-profile": {
+      "download": "Télécharger la sélection des sujets (JSON, { fileSize }ko)",
+      "download-filename": "selection-sujets.json",
       "title": "Sélection des sujets",
       "table": {
         "caption": "Sélection des sujets",
