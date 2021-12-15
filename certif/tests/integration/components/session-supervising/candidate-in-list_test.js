@@ -306,6 +306,62 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
+  module('when the candidate has completed the test', function() {
+    test('it displays the "terminé" label and no options menu', async function(assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        firstName: 'Martinex',
+        lastName: 'T\'Naga',
+        birthdate: '1979-08-27',
+        extraTimePercentage: null,
+        authorizedToStart: true,
+        assessmentStatus: 'completed',
+      });
+      this.toggleCandidate = sinon.spy();
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList
+          @candidate={{this.candidate}}
+          @toggleCandidate={{this.toggleCandidate}}
+        />
+      `);
+
+      // then
+      assert.dom('.session-supervising-candidate-in-list').hasText('T\'Naga Martinex 27/08/1979 Terminé');
+      assert.dom(screen.queryByRole('checkbox', { name: 'T\'Naga Martinex' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
+    });
+  });
+
+  module('when the candidate\'s test has been ended by supervisor', function() {
+    test('it displays the "terminé" label and no options menu', async function(assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        firstName: 'Stakar',
+        lastName: 'Ogord',
+        birthdate: '1976-09-26',
+        extraTimePercentage: null,
+        authorizedToStart: true,
+        assessmentStatus: 'endedBySupervisor',
+      });
+      this.toggleCandidate = sinon.spy();
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList
+          @candidate={{this.candidate}}
+          @toggleCandidate={{this.toggleCandidate}}
+        />
+      `);
+
+      // then
+      assert.dom('.session-supervising-candidate-in-list').hasText('Ogord Stakar 26/09/1976 Terminé');
+      assert.dom(screen.queryByRole('checkbox', { name: 'Ogord Stakar' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
+    });
+  });
+
   module('when the checkbox is clicked', function() {
     module('when the candidate is already authorized', function() {
       test('it calls the argument callback with candidate and false', async function(assert) {
