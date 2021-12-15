@@ -1,0 +1,57 @@
+.campaign-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 24px;
+  margin-bottom: 8px;
+  background-color: $white;
+  border-radius: 4px;
+
+  &__type {
+    display: flex;
+
+    button:first-child{
+      border-radius: 4px 0 0 4px;
+    }
+    button:last-child{
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  .search-input {
+    height: 36px;
+    width: 260px;
+  }
+
+  label {
+    color: $grey-60;
+    font-size: 0.875em;
+  }
+
+  &__tab {
+    color: $grey-60;
+    background: transparent;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    outline: none;
+    font-family: $roboto;
+    border: 1.2px solid $grey-45;
+    height: 36px;
+    &:hover {
+      background: $grey-20;
+      opacity: .8;
+    }
+
+    &--active {
+      background: $grey-20;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
