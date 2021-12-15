@@ -329,7 +329,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       await databaseBuilder.commit();
-      const badge = {
+      const badgeCreation = {
         key: 'TOTO23',
         'alt-message': 'alt-message',
         'image-url': 'https//images.example.net',
@@ -344,8 +344,8 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           data: {
-            type: 'badges',
-            attributes: badge,
+            type: 'badge-creations',
+            attributes: badgeCreation,
           },
         },
       };
@@ -377,7 +377,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       await databaseBuilder.commit();
-      const badge = {
+      const badgeCreation = {
         key: 'TOTO23',
         'alt-message': 'alt-message',
         'image-url': 'https//images.example.net',
@@ -392,8 +392,8 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           data: {
-            type: 'badges',
-            attributes: badge,
+            type: 'badge-creations',
+            attributes: badgeCreation,
           },
         },
       };
@@ -412,6 +412,61 @@ describe('Acceptance | Controller | target-profile-controller', function () {
             key: 'TOTO23',
             message: '',
             title: null,
+          },
+          type: 'badges',
+        },
+      };
+      expect(response.statusCode).to.equal(201);
+      expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+    });
+
+    it('should create a badge with criteria', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki9' });
+      await databaseBuilder.commit();
+      const badgeCreation = {
+        key: 'TOTO23',
+        'alt-message': 'alt-message',
+        'image-url': 'https//images.example.net',
+        message: 'Bravo !',
+        title: 'Le super badge',
+        'is-certifiable': false,
+        'is-always-visible': true,
+        'campaign-threshold': '99',
+        'skill-set-threshold': '66',
+        'skill-set-name': "c'est le nom du lot d'acquis !",
+        'skill-set-skills-ids': ['aki1', 'aki3', 'aki9'],
+      };
+      const options = {
+        method: 'POST',
+        url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            type: 'badge-creations',
+            attributes: badgeCreation,
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const expectedResult = {
+        data: {
+          attributes: {
+            'alt-message': 'alt-message',
+            'image-url': 'https//images.example.net',
+            'is-certifiable': false,
+            'is-always-visible': true,
+            key: 'TOTO23',
+            message: 'Bravo !',
+            title: 'Le super badge',
           },
           type: 'badges',
         },
