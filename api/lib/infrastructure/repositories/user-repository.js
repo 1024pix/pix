@@ -106,7 +106,6 @@ module.exports = {
             schoolingRegistrations: (query) => {
               query
                 .leftJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
-                .where({ type: 'SCO' })
                 .orderBy('id');
             },
           },
@@ -428,8 +427,8 @@ function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
       lastName: schoolingRegistration.lastName,
       birthdate: schoolingRegistration.birthdate,
       division: schoolingRegistration.division,
+      group: schoolingRegistration.group,
       organizationId: schoolingRegistration.organization.id,
-      organizationExternalId: schoolingRegistration.organization.externalId,
       organizationName: schoolingRegistration.organization.name,
       createdAt: schoolingRegistration.createdAt,
       updatedAt: schoolingRegistration.updatedAt,
