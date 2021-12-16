@@ -3,12 +3,13 @@ const _ = require('lodash');
 const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
 
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
+const badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const createBadge = require('../../../../lib/domain/usecases/create-badge');
 const Badge = require('../../../../lib/domain/models/Badge');
 const { AlreadyExistingEntityError, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCases | create-badge', function () {
+describe.only('Integration | UseCases | create-badge', function () {
   let targetProfileId;
   let badge;
   let badgeCreation;
@@ -41,6 +42,7 @@ describe('Integration | UseCases | create-badge', function () {
   });
 
   afterEach(async function () {
+    await knex('badge-criteria').delete();
     await knex('badges').delete();
   });
 
@@ -50,12 +52,38 @@ describe('Integration | UseCases | create-badge', function () {
       targetProfileId,
       badgeCreation,
       badgeRepository,
+      badgeCriteriaRepository,
       targetProfileRepository,
     });
 
     // then
     expect(result).to.be.an.instanceOf(Badge);
     expect(_.pick(result, Object.keys(badge))).to.deep.equal(badge);
+  });
+
+  it('should save a new badge with a campaign criterion', async function () {
+    // given
+    badgeCreation.campaignThreshold = 99;
+
+    // when
+    const result = await createBadge({
+      targetProfileId,
+      badgeCreation,
+      badgeRepository,
+      badgeCriteriaRepository,
+      targetProfileRepository,
+    });
+
+    // then
+    expect(result).to.be.an.instanceOf(Badge);
+    expect(_.pick(result, Object.keys(badge))).to.deep.equal(badge);
+
+    const criteria = await knex('badge-criteria').select().where({ badgeId: result.id });
+    expect(criteria).to.have.lengthOf(1);
+    expect(_.pick(criteria[0], ['threshold', 'scope'])).to.deep.equal({
+      threshold: badgeCreation.campaignThreshold,
+      scope: 'CampaignParticipation',
+    });
   });
 
   describe("when targetProfile doesn't exist", function () {
@@ -65,6 +93,7 @@ describe('Integration | UseCases | create-badge', function () {
         targetProfileId: -1,
         badgeCreation,
         badgeRepository,
+        badgeCriteriaRepository,
         targetProfileRepository,
       });
 
@@ -83,6 +112,7 @@ describe('Integration | UseCases | create-badge', function () {
         targetProfileId,
         badgeCreation,
         badgeRepository,
+        badgeCriteriaRepository,
         targetProfileRepository,
       });
 
