@@ -5,8 +5,8 @@ export default class SchoolingRegistration extends Model {
   @attr() lastName;
   @attr('date-only') birthdate;
   @attr() division;
+  @attr() group;
   @attr() organizationId;
-  @attr() organizationExternalId;
   @attr() organizationName;
   @attr() createdAt;
   @attr() updatedAt;
