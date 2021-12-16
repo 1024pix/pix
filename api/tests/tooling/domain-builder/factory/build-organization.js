@@ -28,6 +28,7 @@ function buildOrganization({
   createdBy,
   documentationUrl = 'https://pix.fr',
   showNPS = false,
+  formNPSUrl = 'https://pix.fr',
 } = {}) {
   return new Organization({
     id,
@@ -46,6 +47,7 @@ function buildOrganization({
     createdBy,
     documentationUrl,
     showNPS,
+    formNPSUrl,
   });
 }
 

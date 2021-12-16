@@ -40,6 +40,7 @@ describe('Unit | Serializer | organization-serializer', function () {
             'created-by': organization.createdBy,
             'documentation-url': organization.documentationUrl,
             'show-nps': organization.showNPS,
+            'form-nps-url': organization.formNPSUrl,
           },
           relationships: {
             memberships: {
