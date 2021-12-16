@@ -112,4 +112,11 @@ module.exports = {
       .header('Cache-Control', 'no-store')
       .header('Pragma', 'no-cache');
   },
+
+  async revokeToken(request, h) {
+    if (request.payload.token_type_hint === 'access_token') return null;
+
+    await usecases.revokeRefreshToken({ refreshToken: request.payload.token });
+    return h.response().code(204);
+  },
 };
