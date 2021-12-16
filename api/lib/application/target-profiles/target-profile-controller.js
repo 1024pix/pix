@@ -92,11 +92,7 @@ module.exports = {
     const targetProfileId = request.params.id;
     const badgeCreation = await badgeCreationSerializer.deserialize(request.payload);
 
-    // FIXME update usecase to accept a badgeCreation object
-    // eslint-disable-next-line no-unused-vars
-    const { campaignThreshold, skillSetThreshold, skillSetName, skillSetSkillsIds, ...badge } = badgeCreation;
-
-    const createdBadge = await usecases.createBadge({ targetProfileId, badge });
+    const createdBadge = await usecases.createBadge({ targetProfileId, badgeCreation });
 
     return h.response(badgeSerializer.serialize(createdBadge)).created();
   },

@@ -13,7 +13,12 @@ describe('Unit | UseCase | create-badge', function () {
     const badgeWithTargetProfile = { ...badge, targetProfileId };
 
     // when
-    const result = await createBadge({ targetProfileId, badge, badgeRepository, targetProfileRepository });
+    const result = await createBadge({
+      targetProfileId,
+      badgeCreation: badge,
+      badgeRepository,
+      targetProfileRepository,
+    });
 
     // then
     expect(badgeRepository.save).to.have.been.calledWith(badgeWithTargetProfile);
@@ -29,7 +34,12 @@ describe('Unit | UseCase | create-badge', function () {
       const badgeRepository = { save: sinon.stub() };
 
       // when
-      const error = await catchErr(createBadge)({ targetProfileId, badge, badgeRepository, targetProfileRepository });
+      const error = await catchErr(createBadge)({
+        targetProfileId,
+        badgeCreation: badge,
+        badgeRepository,
+        targetProfileRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -45,7 +55,12 @@ describe('Unit | UseCase | create-badge', function () {
       const badgeRepository = { isKeyAvailable: sinon.stub().throws(new AlreadyExistingEntityError()) };
 
       // when
-      const error = await catchErr(createBadge)({ targetProfileId, badge, badgeRepository, targetProfileRepository });
+      const error = await catchErr(createBadge)({
+        targetProfileId,
+        badgeCreation: badge,
+        badgeRepository,
+        targetProfileRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
