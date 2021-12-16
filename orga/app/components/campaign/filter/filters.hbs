@@ -1,6 +1,6 @@
 <div class="hide-on-mobile campaign-filters">
   <section>
-    <label>{{t "pages.campaigns-list.filter.title"}}</label>
+    <label class="campaign-filters__title">{{t "pages.campaigns-list.filter.title"}}</label>
     <Campaign::Filter::SearchInputFilter
       @field="name"
       @value={{@nameFilter}}
@@ -15,30 +15,32 @@
       @ariaLabel={{t "pages.campaigns-list.filter.by-creator"}}
       @triggerFiltering={{@onFilter}}
     />
-    <div class="campaign-filters__type">
-      <button
-        role="tab"
-        type="submit"
-        class="campaign-filters__tab {{unless @isArchived "campaign-filters__tab--active"}}"
-        aria-selected="{{not @isArchived}}"
+    <div role="radiogroup" class="campaign-filters__type">
+      <input
+        type="radio"
+        class="campaign-filters__radio"
+        checked={{not @isArchived}}
         aria-label={{t "pages.campaigns-list.action.ongoing.aria-label"}}
         {{on "click" (fn @onClickStatusFilter null)}}
-      >
+      />
+      <label class="campaign-filters__tab {{unless @isArchived "campaign-filters__tab--active"}}">
         {{t "pages.campaigns-list.action.ongoing.label"}}
-      </button>
-      <button
-        role="tab"
-        type="submit"
-        class="campaign-filters__tab {{if @isArchived "campaign-filters__tab--active"}}"
-        aria-selected="{{@isArchived}}"
+      </label>
+      <input
+        type="radio"
+        class="campaign-filters__radio"
+        checked={{@isArchived}}
         aria-label={{t "pages.campaigns-list.action.archived.aria-label"}}
         {{on "click" (fn @onClickStatusFilter "archived")}}
-      >
+      />
+      <label class="campaign-filters__tab {{if @isArchived "campaign-filters__tab--active"}}">
         {{t "pages.campaigns-list.action.archived.label"}}
-      </button>
+      </label>
     </div>
   </section>
   <section>
-    <p class="campaign-filters__results">{{t "pages.campaigns-list.filter.results" total=@numResults}}</p>
+    <p class="campaign-filters__results">
+      {{t "pages.campaigns-list.filter.results" total=@numResults}}
+    </p>
   </section>
 </div>
