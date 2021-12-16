@@ -1,5 +1,6 @@
 const settings = require('../../config');
 const temporaryStorage = require('../../infrastructure/temporary-storage');
+const tokenService = require('./token-service');
 const ms = require('ms');
 
 async function createRefreshTokenFromUserId({ userId, source }) {
@@ -10,6 +11,13 @@ async function createRefreshTokenFromUserId({ userId, source }) {
   });
 }
 
+async function createAccessTokenFromRefreshToken({ refreshToken }) {
+  const { userId, source } = (await temporaryStorage.get(refreshToken)) || {};
+  if (!userId) return null;
+  return tokenService.createAccessTokenFromUser(userId, source);
+}
+
 module.exports = {
   createRefreshTokenFromUserId,
+  createAccessTokenFromRefreshToken,
 };
