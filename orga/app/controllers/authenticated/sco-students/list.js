@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { CONNECTION_TYPES } from '../../../models/student';
-import StudentImportsAdapter from '../../../adapters/students-import';
+import ENV from 'pix-orga/config/environment';
 
 export default class ListController extends Controller {
   @service currentUser;
@@ -13,7 +13,6 @@ export default class ListController extends Controller {
   @service store;
 
   @tracked isLoading = false;
-
   @tracked lastName = null;
   @tracked firstName = null;
   @tracked divisions = [];
@@ -56,7 +55,7 @@ export default class ListController extends Controller {
   }
 
   _handleError(errorResponse, acceptedFormat) {
-    if (errorResponse.message === StudentImportsAdapter.FORMAT_NOT_SUPPORTED_ERROR) {
+    if (errorResponse.message === ENV.APP.ERRORS.FILE_UPLOAD.FORMAT_NOT_SUPPORTED_ERROR) {
       return this.notifications.sendError(
         this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat, htmlSafe: true })
       );

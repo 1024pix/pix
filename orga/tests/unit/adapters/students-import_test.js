@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import catchErr from '../../helpers/catch-err';
-import StudentImportsAdapter from '../../../app/adapters/students-import';
+import ENV from 'pix-orga/config/environment';
 
 module('Unit | Adapters | Students import', function (hooks) {
   setupTest(hooks);
@@ -45,7 +45,7 @@ module('Unit | Adapters | Students import', function (hooks) {
     test('should throw an error if format is not handled', async function (assert) {
       const error = await catchErr(adapter.importStudentsSiecle)(1, [zipFile], acceptedFormat);
       sinon.assert.notCalled(adapter.ajax);
-      assert.equal(error.message, StudentImportsAdapter.FORMAT_NOT_SUPPORTED_ERROR);
+      assert.equal(error.message, ENV.APP.ERRORS.FILE_UPLOAD.FORMAT_NOT_SUPPORTED_ERROR);
     });
 
     test('should build importStudentsSiecle url from organizationId and format', async function (assert) {
