@@ -64,4 +64,18 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       });
     });
   });
+
+  describe('#revokeRefreshToken', function () {
+    it('should remove refresh token from temporary storage', async function () {
+      // given
+      const refreshToken = 'valid-refresh-token';
+      sinon.stub(temporaryStorage, 'delete');
+
+      // when
+      await refreshTokenService.revokeRefreshToken({ refreshToken });
+
+      // then
+      expect(temporaryStorage.delete).to.have.been.calledWith(refreshToken);
+    });
+  });
 });

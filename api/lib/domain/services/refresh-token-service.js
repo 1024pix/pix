@@ -17,7 +17,12 @@ async function createAccessTokenFromRefreshToken({ refreshToken }) {
   return tokenService.createAccessTokenFromUser(userId, source);
 }
 
+async function revokeRefreshToken({ refreshToken }) {
+  await temporaryStorage.delete(refreshToken);
+}
+
 module.exports = {
   createRefreshTokenFromUserId,
   createAccessTokenFromRefreshToken,
+  revokeRefreshToken,
 };

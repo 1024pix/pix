@@ -102,4 +102,22 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(result).to.deep.equal(value);
     });
   });
+
+  describe('#delete', function () {
+    it('should delete the value if it exists', async function () {
+      // given
+      const value = { name: 'name' };
+      const expirationDelaySeconds = 1000;
+
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+      const key = await inMemoryTemporaryStorage.save({ value, expirationDelaySeconds });
+
+      // when
+      await inMemoryTemporaryStorage.delete(key);
+
+      // then
+      const savedKey = await inMemoryTemporaryStorage.get(key);
+      expect(savedKey).to.be.undefined;
+    });
+  });
 });

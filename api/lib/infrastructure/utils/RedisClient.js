@@ -24,6 +24,7 @@ module.exports = class RedisClient {
 
     this.get = promisify(this._client.get).bind(this._client);
     this.set = promisify(this._client.set).bind(this._client);
+    this.del = promisify(this._client.del).bind(this._client);
     this.ping = promisify(this._client.ping).bind(this._client);
     this.flushall = promisify(this._client.flushall).bind(this._client);
     this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);

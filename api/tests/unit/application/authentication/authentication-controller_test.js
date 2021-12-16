@@ -241,4 +241,26 @@ describe('Unit | Application | Controller | Authentication', function () {
       });
     });
   });
+
+  describe('#revokeToken', function () {
+    it('should return 204', async function () {
+      // given
+      const token = 'jwt.refresh.token';
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: {
+          token,
+        },
+      };
+      sinon.stub(usecases, 'revokeRefreshToken').withArgs({ refreshToken: token }).resolves();
+
+      // when
+      const response = await authenticationController.revokeToken(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });

@@ -337,6 +337,7 @@ module.exports = injectDependencies(
     replaceHigherSchoolingRegistrations: require('./replace-higher-schooling-registrations'),
     resetScorecard: require('./reset-scorecard'),
     retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
+    revokeRefreshToken: require('./revoke-refresh-token'),
     saveCertificationIssueReport: require('./save-certification-issue-report'),
     sendEmailForAccountRecovery: require('./account-recovery/send-email-for-account-recovery'),
     sendScoInvitation: require('./send-sco-invitation'),
