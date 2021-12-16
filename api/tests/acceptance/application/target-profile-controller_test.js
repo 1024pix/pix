@@ -321,6 +321,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     });
 
     afterEach(async function () {
+      await knex('badge-criteria').delete();
       await knex('badges').delete();
     });
 
