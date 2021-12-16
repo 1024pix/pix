@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import catchErr from '../../helpers/catch-err';
 import StudentImportsAdapter from '../../../app/adapters/students-import';
 
 module('Unit | Adapters | Students import', function (hooks) {
@@ -42,17 +43,9 @@ module('Unit | Adapters | Students import', function (hooks) {
     const acceptedFormat = 'csv';
 
     test('should throw an error if format is not handled', async function (assert) {
-      assert.expect(1);
-
-      try {
-        // when
-        await adapter.importStudentsSiecle(1, [zipFile], acceptedFormat);
-        assert.fail('It should not be possible to upload a zip');
-      } catch (error) {
-        // then
-        sinon.assert.notCalled(adapter.ajax);
-        assert.equals(error.message, StudentImportsAdapter.FORMAT_NOT_SUPPORTED_ERROR);
-      }
+      const error = await catchErr(adapter.importStudentsSiecle)(1, [zipFile], acceptedFormat);
+      sinon.assert.notCalled(adapter.ajax);
+      assert.equal(error.message, StudentImportsAdapter.FORMAT_NOT_SUPPORTED_ERROR);
     });
 
     test('should build importStudentsSiecle url from organizationId and format', async function (assert) {
