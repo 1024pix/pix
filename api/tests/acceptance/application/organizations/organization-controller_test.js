@@ -644,6 +644,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'created-by': pixMasterUserId,
               'documentation-url': organization.documentationUrl,
               'show-nps': organization.showNPS,
+              'form-nps-url': organization.formNPSUrl,
             },
             id: organization.id.toString(),
             relationships: {

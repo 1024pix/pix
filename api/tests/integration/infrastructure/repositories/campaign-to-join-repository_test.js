@@ -47,6 +47,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.organizationType).to.equal(organization.type);
       expect(actualCampaign.organizationLogoUrl).to.equal(organization.logoUrl);
       expect(actualCampaign.organizationShowNPS).to.equal(organization.showNPS);
+      expect(actualCampaign.organizationFormNPSUrl).to.equal(organization.formNPSUrl);
       expect(actualCampaign.isRestricted).to.equal(organization.isManagingStudents);
       expect(actualCampaign.targetProfileName).to.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.equal(targetProfile.imageUrl);
@@ -104,6 +105,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.organizationType).to.equal(organization.type);
       expect(actualCampaign.organizationLogoUrl).to.equal(organization.logoUrl);
       expect(actualCampaign.organizationShowNPS).to.equal(organization.showNPS);
+      expect(actualCampaign.organizationFormNPSUrl).to.equal(organization.formNPSUrl);
       expect(actualCampaign.isRestricted).to.equal(organization.isManagingStudents);
       expect(actualCampaign.targetProfileName).to.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.equal(targetProfile.imageUrl);

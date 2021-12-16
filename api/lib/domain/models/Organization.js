@@ -30,6 +30,7 @@ class Organization {
     documentationUrl,
     createdBy,
     showNPS,
+    formNPSUrl,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -48,6 +49,7 @@ class Organization {
     this.documentationUrl = documentationUrl;
     this.createdBy = createdBy;
     this.showNPS = showNPS;
+    this.formNPSUrl = formNPSUrl;
   }
 
   get isSup() {

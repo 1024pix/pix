@@ -13,6 +13,7 @@ export default class Organization extends Model {
   @attr() isManagingStudents;
   @attr() canCollectProfiles;
   @attr('boolean') showNPS;
+  @attr('string') formNPSUrl;
   @attr() credit;
   @attr() email;
   @attr() createdBy;

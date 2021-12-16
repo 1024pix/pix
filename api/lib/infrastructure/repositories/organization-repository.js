@@ -26,6 +26,7 @@ function _toDomain(bookshelfOrganization) {
     documentationUrl: rawOrganization.documentationUrl,
     createdBy: rawOrganization.createdBy,
     showNPS: rawOrganization.showNPS,
+    formNPSUrl: rawOrganization.formNPSUrl,
   });
 
   organization.targetProfileShares = rawOrganization.targetProfileShares || [];

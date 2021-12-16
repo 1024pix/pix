@@ -16,6 +16,7 @@ const buildOrganization = function buildOrganization({
   documentationUrl = null,
   createdBy,
   showNPS = false,
+  formNPSUrl = null,
 } = {}) {
   const values = {
     id,
@@ -33,6 +34,7 @@ const buildOrganization = function buildOrganization({
     createdAt,
     updatedAt,
     showNPS,
+    formNPSUrl,
   };
 
   return databaseBuffer.pushInsertable({
