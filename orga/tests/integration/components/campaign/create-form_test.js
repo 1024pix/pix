@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
       // then
       assert.contains(t('pages.campaign-creation.test-title.label'));
-      assert.contains(t('pages.campaign-creation.target-profiles-list.label'));
+      assert.contains(t('pages.campaign-creation.target-profiles-list-label'));
     });
 
     test('it should not contain field to select campaign type', async function (assert) {
@@ -139,11 +139,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
-        await fillByLabel(t('pages.campaign-creation.target-profiles-list.label'), 1);
+        await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), 1);
         // then
         assert.contains('description1');
-        assert.contains(t('pages.campaign-creation.target-profiles-list.tube', { count: 11 }));
-        assert.contains(t('pages.campaign-creation.target-profiles-list.thematic-results', { count: 12 }));
+        assert.contains(t('common.target-profile-details.subjects', { value: 11 }));
+        assert.contains(t('common.target-profile-details.thematic-results', { value: 12 }));
       });
 
       test('it should display a message about result', async function (assert) {
@@ -175,10 +175,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
-        await fillByLabel(t('pages.campaign-creation.target-profiles-list.label'), 1);
+        await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), 1);
 
         // then
-        assert.contains(t('pages.campaign-creation.target-profiles-list.result'));
+        assert.contains(t('common.target-profile-details.results.common'));
       });
     });
   });
@@ -198,7 +198,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
       // then
       assert.notContains(t('pages.campaign-creation.test-title.label'));
-      assert.notContains(t('pages.campaign-creation.target-profiles-list.label'));
+      assert.notContains(t('pages.campaign-creation.target-profiles-list-label'));
     });
 
     test('it should display fields for enabling multiple sendings', async function (assert) {

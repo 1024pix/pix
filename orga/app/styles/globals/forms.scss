@@ -44,12 +44,14 @@
     background: $grey-15;
     height: max-content;
     margin-bottom: 16px;
+    padding: 16px;
+    color: $grey-60;
+    font-size: 0.875rem;
 
     @include device-is('desktop') {
       position: absolute;
       margin-left: 16px;
       margin-bottom: 0;
-      position: absolute;
       left: 100%;
       width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
@@ -57,54 +59,18 @@
     &-icon {
       color: $blue;
       margin-right: 8px;
-
-      &--small {
-        margin-right: 6px;
-        color: $grey-60;
-      }
-
-      &--small:first-child {
-        margin-left: 16px;
-      }
     }
 
     &-title {
       font-weight: 500;
-      font-size: 14px;
-      margin: 16px 0 8px 16px;
+      font-size: 0.875rem;
+      margin-bottom: 8px;
       color: $grey-90;
     }
 
     &-message {
+      font-size: 0.8125rem;
       color: $grey-60;
-      font-size: 13px;
-      margin: 0 16px 16px 16px;
-    }
-
-    &__stats-line {
-      margin-bottom: 13px;
-      font-size: 0.875rem;
-    }
-
-    &__stats-line:last-child {
-      margin-bottom: 15px;
-
-      .form__field-info-icon--small:last-child {
-        margin-left: 6px;
-      }
-    }
-
-    &__stats {
-      color: $grey-70;
-
-      &--bordered {
-        margin-right: 8px;
-        padding-right: 8px;
-        border-radius: 0.5px;
-        border-right: solid;
-        border-right-width: 1px;
-        border-color: $grey-25;
-      }
     }
   }
 
