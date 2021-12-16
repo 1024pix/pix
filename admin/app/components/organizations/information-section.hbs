@@ -183,6 +183,17 @@
                 }}</span><br />
               Affichage du Net Promoter Score :
               <span>{{if @organization.showNPS "Oui" "Non"}}</span><br />
+              Lien vers le formulaire du Net Promoter Score :
+              {{#if @organization.formNPSUrl}}
+                <a
+                  href="{{@organization.formNPSUrl}}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{@organization.formNPSUrl}}</a>
+              {{else}}
+                Non spécifié
+              {{/if}}
+              <br />
               Crédits :
               <span>{{@organization.credit}}</span>
               <br />
