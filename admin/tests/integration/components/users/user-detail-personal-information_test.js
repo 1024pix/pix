@@ -6,9 +6,9 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | user-detail-personal-information', function (hooks) {
+module('Integration | Component | users | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
 
   module('schooling registrations', function () {
@@ -18,7 +18,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('user', { schoolingRegistrations: [] });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
         assert.contains('Aucun résultat');
@@ -31,7 +31,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
         assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
@@ -43,7 +43,7 @@ module('Integration | Component | user-detail-personal-information', function (h
           this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
 
           // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.dom('[aria-label="Inscription activée"]').exists();
@@ -54,7 +54,7 @@ module('Integration | Component | user-detail-personal-information', function (h
           this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
 
           // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.dom('[aria-label="Inscription désactivée"]').exists();
@@ -70,7 +70,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('user', { hasEmailAuthenticationMethod: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
         assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__check');
@@ -81,7 +81,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('user', { hasUsernameAuthenticationMethod: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
         assert.dom('div[data-test-username] > div > svg').hasClass('user-authentication-method-item__check');
@@ -92,7 +92,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('user', { hasPoleEmploiAuthenticationMethod: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
         assert.dom('div[data-test-pole-emploi] > div > svg').hasClass('user-authentication-method-item__check');
@@ -103,7 +103,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('user', { hasGARAuthenticationMethod: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
         assert.dom('div[data-test-mediacentre] > div > svg').hasClass('user-authentication-method-item__check');
@@ -115,7 +115,7 @@ module('Integration | Component | user-detail-personal-information', function (h
           this.set('user', { hasOnlyOneAuthenticationMethod: true });
 
           // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.notOk(find('.user-authentication-method__remove-button'));
@@ -139,7 +139,7 @@ module('Integration | Component | user-detail-personal-information', function (h
     test('should show modal', async function (assert) {
       // given
       this.set('user', user);
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
       await clickByLabel('Anonymiser cet utilisateur');
@@ -152,7 +152,7 @@ module('Integration | Component | user-detail-personal-information', function (h
     test('should close the modal to cancel action', async function (assert) {
       // given
       this.set('user', user);
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByLabel('Anonymiser cet utilisateur');
 
       // when
@@ -182,7 +182,7 @@ module('Integration | Component | user-detail-personal-information', function (h
       });
       this.set('user', user);
 
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
       await click('button[data-test-dissociate-schooling-registration]');
@@ -209,7 +209,7 @@ module('Integration | Component | user-detail-personal-information', function (h
       });
       this.set('user', user);
 
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await click('button[data-test-dissociate-schooling-registration]');
 
       // when
@@ -238,7 +238,7 @@ module('Integration | Component | user-detail-personal-information', function (h
       });
       this.set('user', user);
 
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
       await click('button[data-test-dissociate-schooling-registration]');
 
       // when
@@ -261,7 +261,7 @@ module('Integration | Component | user-detail-personal-information', function (h
       });
 
       this.set('user', user);
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
       await click('button[data-test-remove-email]');
@@ -281,7 +281,7 @@ module('Integration | Component | user-detail-personal-information', function (h
       });
 
       this.set('user', user);
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await click('button[data-test-remove-email]');
 
       // when
@@ -306,7 +306,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
         await render(
-          hbs`<UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
+          hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
         await click('button[data-test-remove-email]');
 
@@ -339,7 +339,7 @@ module('Integration | Component | user-detail-personal-information', function (h
         removeAuthenticationMethodStub.rejects({ errors: [{ status: '403' }] });
 
         await render(
-          hbs`<UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
+          hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
         await click('button[data-test-remove-email]');
 
