@@ -137,6 +137,44 @@ describe('Unit | Controller | certifications-center-controller', function () {
     });
   });
 
+  describe('#findCertificationCenterMemberships', function () {
+    it('should return the serialized membership', async function () {
+      // given
+      const user = domainBuilder.buildUser();
+      const certificationCenter = domainBuilder.buildCertificationCenter();
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+        certificationCenter,
+        user,
+      });
+      const serializedCertificationCenterMembership = Symbol('certification center membership serialized');
+
+      const request = {
+        params: {
+          certificationCenterId: certificationCenter.id,
+        },
+      };
+
+      sinon
+        .stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter')
+        .withArgs({
+          certificationCenterId: certificationCenter.id,
+        })
+        .resolves(certificationCenterMembership);
+
+      sinon
+        .stub(certificationCenterMembershipSerializer, 'serializeMembers')
+        .withArgs(certificationCenterMembership)
+        .returns(serializedCertificationCenterMembership);
+
+      // when
+      const response = await certificationCenterController.findCertificationCenterMemberships(request);
+
+      // then
+      expect(usecases.findCertificationCenterMembershipsByCertificationCenter).to.have.been.calledOnce;
+      expect(response).equal(serializedCertificationCenterMembership);
+    });
+  });
+
   describe('#createCertificationCenterMembershipByEmail', function () {
     const certificationCenterId = 1;
     const email = 'user@example.net';

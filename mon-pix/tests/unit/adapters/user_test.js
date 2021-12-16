@@ -63,7 +63,6 @@ describe('Unit | Adapters | user', function () {
       // when
       const snapshot = { adapterOptions: { tooltipChallengeType: 'focused' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
-      console.log(url);
 
       // then
       expect(url.endsWith('/users/123/has-seen-challenge-tooltip/focused')).to.be.true;

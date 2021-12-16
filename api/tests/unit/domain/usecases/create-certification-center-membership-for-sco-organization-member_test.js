@@ -43,7 +43,10 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
               .withArgs({ externalId })
               .resolves(existingCertificationCenter);
             certificationCenterMembershipRepository.isMemberOfCertificationCenter
-              .withArgs(userWhoseOrganizationRoleIsToUpdate.id, existingCertificationCenter.id)
+              .withArgs({
+                userId: userWhoseOrganizationRoleIsToUpdate.id,
+                certificationCenterId: existingCertificationCenter.id,
+              })
               .resolves(true);
 
             // when

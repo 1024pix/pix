@@ -45,6 +45,10 @@ export default function() {
     return schema.sessions.find(sessionId);
   });
 
+  this.get('/certification-centers/:id/members', function(schema) {
+    return schema.members.all();
+  });
+
   this.patch('/sessions/:id');
 
   this.get('/sessions/:id/certification-candidates', function(schema, request) {

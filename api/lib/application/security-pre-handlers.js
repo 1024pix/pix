@@ -7,6 +7,7 @@ const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./us
 const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization');
+const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter');
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -70,6 +71,25 @@ function checkUserIsAdminInOrganization(request, h) {
     .execute(userId, organizationId)
     .then((isAdminInOrganization) => {
       if (isAdminInOrganization) {
+        return h.response(true);
+      }
+      return _replyForbiddenError(h);
+    })
+    .catch(() => _replyForbiddenError(h));
+}
+
+function checkUserIsMemberOfCertificationCenter(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationCenterId = parseInt(request.params.certificationCenterId);
+
+  return checkUserIsMemberOfCertificationCenterUsecase
+    .execute(userId, certificationCenterId)
+    .then((isMemberInCertificationCenter) => {
+      if (isMemberInCertificationCenter) {
         return h.response(true);
       }
       return _replyForbiddenError(h);
@@ -234,4 +254,5 @@ module.exports = {
   checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
+  checkUserIsMemberOfCertificationCenter,
 };
