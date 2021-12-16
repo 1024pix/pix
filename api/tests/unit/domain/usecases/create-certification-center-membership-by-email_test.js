@@ -37,10 +37,10 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
 
     // then
     expect(userRepository.getByEmail).has.been.calledWith(email);
-    expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).has.been.calledWith(
+    expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).has.been.calledWith({
       userId,
-      certificationCenterId
-    );
+      certificationCenterId,
+    });
     expect(certificationCenterMembershipRepository.save).has.been.calledWith({ userId, certificationCenterId });
   });
 

@@ -13,10 +13,10 @@ module.exports = async function createCertificationCenterMembershipForScoOrganiz
 
     if (existingCertificationCenter) {
       const isAlreadyMemberOfCertificationCenter =
-        await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
-          existingMembership.user.id,
-          existingCertificationCenter.id
-        );
+        await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
+          userId: existingMembership.user.id,
+          certificationCenterId: existingCertificationCenter.id,
+        });
 
       if (!isAlreadyMemberOfCertificationCenter) {
         return await certificationCenterMembershipRepository.save({

@@ -441,39 +441,25 @@ describe('Acceptance | API | Certification Center', function () {
   });
 
   describe('GET /api/certification-centers/{id}/certification-center-memberships', function () {
-    let certificationCenter;
-    let certificationCenterMembership1;
-    let certificationCenterMembership2;
-    let user1;
-    let user2;
-
-    beforeEach(async function () {
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      user1 = databaseBuilder.factory.buildUser();
-      user2 = databaseBuilder.factory.buildUser();
-      certificationCenterMembership1 = databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user1.id,
-      });
-      certificationCenterMembership2 = databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: certificationCenter.id,
-        userId: user2.id,
-      });
-      await databaseBuilder.commit();
-
-      request = {
-        headers: {
-          authorization: generateValidRequestAuthorizationHeader(),
-        },
-        method: 'GET',
-        url: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
-      };
-    });
-
     context('when certification center membership is linked to the certification center', function () {
       it('should return 200 HTTP status', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const user1 = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: certificationCenter.id,
+          userId: user1.id,
+        });
+        await databaseBuilder.commit();
+
         // when
-        const response = await server.inject(request);
+        const response = await server.inject({
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
+          method: 'GET',
+          url: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+        });
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -481,6 +467,39 @@ describe('Acceptance | API | Certification Center', function () {
 
       it('should return certification center memberships', async function () {
         // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const user1 = databaseBuilder.factory.buildUser();
+        const user2 = databaseBuilder.factory.buildUser();
+        const certificationCenterMembership1 = databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: certificationCenter.id,
+          userId: user1.id,
+        });
+        const certificationCenterMembership2 = databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: certificationCenter.id,
+          userId: user2.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
+          method: 'GET',
+          url: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+        });
+
+        // then
+        expect(response.result.data[0].id).to.equal(certificationCenterMembership1.id.toString());
+        expect(response.result.data[0].attributes['created-at']).to.deep.equal(
+          certificationCenterMembership1.createdAt
+        );
+
+        expect(response.result.data[1].id).to.equal(certificationCenterMembership2.id.toString());
+        expect(response.result.data[1].attributes['created-at']).to.deep.equal(
+          certificationCenterMembership2.createdAt
+        );
+
         const expectedIncluded = [
           {
             id: certificationCenter.id.toString(),
@@ -516,21 +535,6 @@ describe('Acceptance | API | Certification Center', function () {
             },
           },
         ];
-
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.result.data[0].id).to.equal(certificationCenterMembership1.id.toString());
-        expect(response.result.data[0].attributes['created-at']).to.deep.equal(
-          certificationCenterMembership1.createdAt
-        );
-
-        expect(response.result.data[1].id).to.equal(certificationCenterMembership2.id.toString());
-        expect(response.result.data[1].attributes['created-at']).to.deep.equal(
-          certificationCenterMembership2.createdAt
-        );
-
         expect(response.result.included).to.deep.equal(expectedIncluded);
       });
     });
