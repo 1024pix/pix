@@ -513,31 +513,6 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findByUserIdAndSCOOrganization', function () {
-    it('should return schoolingRegistrations belonging to SCO organizations and user only', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const otherUserId = databaseBuilder.factory.buildUser().id;
-      const firstScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-      const secondScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-      const supOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
-      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: firstScoOrganizationId });
-      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: secondScoOrganizationId });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        userId: otherUserId,
-        organizationId: secondScoOrganizationId,
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: supOrganizationId });
-      await databaseBuilder.commit();
-
-      // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByUserIdAndSCOOrganization({ userId });
-
-      // then
-      expect(schoolingRegistrations.length).to.equal(2);
-    });
-  });
-
   describe('#isSchoolingRegistrationIdLinkedToUserAndSCOOrganization', function () {
     it('should return true when a schoolingRegistration matches an id and matches also a given user id and a SCO organization', async function () {
       // given
