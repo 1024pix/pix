@@ -1,17 +1,44 @@
 .campaign-filters {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 24px;
-  margin-bottom: 8px;
+  flex-direction: column;
+  margin: 8px 5px;
   background-color: $white;
   border-radius: 4px;
+  padding: 10px 14px;
+
+  @include device-is('tablet') {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    margin: 0 0 8px 0;
+  }
 
   section:first-child {
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
+    padding-top: 10px;
+
+    @include device-is('desktop') {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-top: 0;
+    }
+  }
+
+  section:last-child {
+    border-top: 1.2px solid $grey-15;
+    margin-top: 20px;
+
+    @include device-is('tablet') {
+      border: none;
+      margin: 0;
+    }
   }
 
   &__title {
