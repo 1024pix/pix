@@ -8,5 +8,8 @@
 </header>
 
 <main class="page-body">
-  <UserDetailPersonalInformation @user={{@model}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}} />
+  <Users::UserDetailPersonalInformation
+    @user={{@model}}
+    @removeAuthenticationMethod={{this.removeAuthenticationMethod}}
+  />
 </main>
