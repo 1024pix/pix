@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.141.0 (16/12/2021)
+
+
+### :rocket: Enhancement
+- [#3826](https://github.com/1024pix/pix/pull/3826) [FEATURE] Ajout d'un script pour supprimer les méthodes de connexion des utilisateurs anonymisés (PIX-3459).
+- [#3814](https://github.com/1024pix/pix/pull/3814) [FEATURE] Afficher la liste des membres sur Pix Certif (PIX-418).
+- [#3830](https://github.com/1024pix/pix/pull/3830) [FEATURE] Afficher le mot de passe surveillant sur la page de session de Pix Certif (PIX-3730)
+- [#3829](https://github.com/1024pix/pix/pull/3829) [FEATURE] Ajout de la case à cocher de sélection de sujets (PIX-3953)
+
+### :building_construction: Tech
+- [#3794](https://github.com/1024pix/pix/pull/3794) [TECH] Création d'une brique Accès au flux de campagne et annihilation du `start-or-resume` (PIX-3185).
+
 ## v3.140.0 (14/12/2021)
 
 
