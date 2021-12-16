@@ -1,10 +1,11 @@
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadge = require('../orm-models/Badge');
 const Badge = require('../../domain/models/Badge');
 const omit = require('lodash/omit');
 const bookshelfUtils = require('../utils/knex-utils');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const TABLE_NAME = 'badges';
 
@@ -59,9 +60,9 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
 
-  async save(badge) {
+  async save(badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
     try {
-      const [savedBadge] = await knex(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
+      const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
       return new Badge(savedBadge);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
@@ -71,8 +72,8 @@ module.exports = {
     }
   },
 
-  async isKeyAvailable(key) {
-    const result = await knex(TABLE_NAME).select('key').where('key', key);
+  async isKeyAvailable(key, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const result = await (knexTransaction ?? knex)(TABLE_NAME).select('key').where('key', key);
     if (result.length) {
       throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
     }

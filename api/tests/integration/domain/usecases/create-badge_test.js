@@ -1,15 +1,15 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, knex, catchErr, sinon } = require('../../../test-helper');
 
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
+let badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const createBadge = require('../../../../lib/domain/usecases/create-badge');
 const Badge = require('../../../../lib/domain/models/Badge');
 const { AlreadyExistingEntityError, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe.only('Integration | UseCases | create-badge', function () {
+describe('Integration | UseCases | create-badge', function () {
   let targetProfileId;
   let badge;
   let badgeCreation;
@@ -83,6 +83,31 @@ describe.only('Integration | UseCases | create-badge', function () {
     expect(_.pick(criteria[0], ['threshold', 'scope'])).to.deep.equal({
       threshold: badgeCreation.campaignThreshold,
       scope: 'CampaignParticipation',
+    });
+  });
+
+  describe('when an error occurs during criterion creation', function () {
+    it('should not create a badge nor a criterion', async function () {
+      // given
+      badgeCreation.campaignThreshold = 99;
+      const expectedError = new Error('Erreur lors de la création du critère');
+      badgeCriteriaRepository = {
+        save: sinon.stub().rejects(expectedError),
+      };
+
+      // when
+      const error = await catchErr(createBadge)({
+        targetProfileId,
+        badgeCreation,
+        badgeRepository,
+        badgeCriteriaRepository,
+        targetProfileRepository,
+      });
+
+      // then
+      expect(error).to.equal(expectedError);
+      const badges = await knex('badges').select().where({ key: badgeCreation.key });
+      expect(badges).to.have.lengthOf(0);
     });
   });
 
