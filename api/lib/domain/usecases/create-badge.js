@@ -1,3 +1,5 @@
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
+
 module.exports = async function createBadge({
   targetProfileId,
   badgeCreation,
@@ -8,22 +10,27 @@ module.exports = async function createBadge({
   // eslint-disable-next-line no-unused-vars
   const { campaignThreshold, skillSetThreshold, skillSetName, skillSetSkillsIds, ...badge } = badgeCreation;
 
-  await targetProfileRepository.get(targetProfileId);
-  await badgeRepository.isKeyAvailable(badge.key);
+  return DomainTransaction.execute(async (domainTransaction) => {
+    await targetProfileRepository.get(targetProfileId, domainTransaction);
+    await badgeRepository.isKeyAvailable(badge.key, domainTransaction);
 
-  const savedBadge = await badgeRepository.save({ ...badge, targetProfileId });
+    const savedBadge = await badgeRepository.save({ ...badge, targetProfileId }, domainTransaction);
 
-  if (campaignThreshold) {
-    await badgeCriteriaRepository.save({
-      badgeCriterion: {
-        badgeId: savedBadge.id,
-        threshold: campaignThreshold,
-        scope: 'CampaignParticipation',
-      },
-    });
-  }
+    if (campaignThreshold) {
+      await badgeCriteriaRepository.save(
+        {
+          badgeCriterion: {
+            badgeId: savedBadge.id,
+            threshold: campaignThreshold,
+            scope: 'CampaignParticipation',
+          },
+        },
+        domainTransaction
+      );
+    }
 
-  // FIXME create criteria and skillSet
+    // FIXME create criteria and skillSet
 
-  return savedBadge;
+    return savedBadge;
+  });
 };
