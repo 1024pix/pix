@@ -76,7 +76,7 @@
       <div class="form__field form__field--wide">
         <PixSelect
           @id="campaign-target-profile"
-          @label={{t "pages.campaign-creation.target-profiles-list.label"}}
+          @label={{t "pages.campaign-creation.target-profiles-list-label"}}
           @onChange={{this.selectTargetProfile}}
           @options={{this.targetProfilesOptions}}
           @emptyOptionLabel=""
@@ -100,51 +100,15 @@
             <FaIcon @icon="info-circle" class="form__field-info-icon" />
             <span>{{this.targetProfile.name}}</span>
           </span>
-          {{! template-lint-disable no-triple-curlies }}
-          {{#if this.targetProfile.description}}
 
-            <div class="form__field-info-message">
-              <MarkdownToHtml @markdown={{this.campaign.targetProfile.description}} />
-            </div>
-          {{/if}}
-          {{! template-lint-enable no-triple-curlies }}
-          <span class="form__field-info__stats-line">
-            <FaIcon @icon="book" @fixedWidth={{true}} class="form__field-info-icon--small" />
-            <span
-              class="form__field-info__stats
-                {{if (gt this.targetProfile.thematicResultCount 0) "form__field-info__stats--bordered"}}"
-            >{{t "pages.campaign-creation.target-profiles-list.tube" count=this.targetProfile.tubeCount}}</span>
-            {{#if (gt this.targetProfile.thematicResultCount 0)}}
-              <FaIcon @icon="award" fixedWidth={{true}} class="form__field-info-icon--small" />
-              <span class="form__field-info__stats">{{t
-                  "pages.campaign-creation.target-profiles-list.thematic-results"
-                  count=this.targetProfile.thematicResultCount
-                }}</span>
-            {{/if}}
-          </span>
-          <span class="form__field-info__stats-line">
-            {{#if this.targetProfile.hasStage}}
-              <FaIcon @icon="star" @fixedWidth={{true}} class="form__field-info-icon--small" />
-              <span class="form__field-info__stats">{{t "pages.campaign-creation.target-profiles-list.result"}}</span>
-              <FaIcon
-                @icon="star"
-                @fixedWidth={{true}}
-                class="form__field-info-icon--small"
-                aria-hidden={{false}}
-                aria-label={{t "pages.campaign-creation.target-profiles-list.star"}}
-              />
-            {{else}}
-              <FaIcon @icon="percent" @fixedWidth={{true}} class="form__field-info-icon--small" />
-              <span class="form__field-info__stats">{{t "pages.campaign-creation.target-profiles-list.result"}}</span>
-              <FaIcon
-                @icon="percent"
-                @fixedWidth={{true}}
-                class="form__field-info-icon--small"
-                aria-hidden={{false}}
-                aria-label={{t "pages.campaign-creation.target-profiles-list.percentage"}}
-              />
-            {{/if}}
-          </span>
+          <Campaign::TargetProfileDetails
+            class="form__field-info-message"
+            @targetProfileDescription={{this.targetProfile.description}}
+            @hasStages={{this.targetProfile.hasStage}}
+            @hasBadges={{gt this.targetProfile.thematicResultCount 0}}
+            @targetProfileTubesCount={{this.targetProfile.tubeCount}}
+            @targetProfileThematicResultCount={{this.targetProfile.thematicResultCount}}
+          />
         </div>
       {{/if}}
     </div>

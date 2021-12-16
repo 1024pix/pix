@@ -134,9 +134,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
           // then
-          assert
-            .dom(`[aria-label="${this.intl.t('pages.campaign-settings.target-profile.tooltip.content.results.star')}"]`)
-            .exists();
+          assert.dom(`[aria-label="${this.intl.t('common.target-profile-details.results.star')}"]`).exists();
         });
 
         test('it should display target profile result with percentage when no stages related to campaign', async function (assert) {
@@ -150,11 +148,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           await render(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
 
           // then
-          assert
-            .dom(
-              `[aria-label="${this.intl.t('pages.campaign-settings.target-profile.tooltip.content.results.percent')}"]`
-            )
-            .exists();
+          assert.dom(`[aria-label="${this.intl.t('common.target-profile-details.results.percent')}"]`).exists();
         });
       });
     });
