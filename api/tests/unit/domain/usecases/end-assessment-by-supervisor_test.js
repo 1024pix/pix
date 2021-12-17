@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const endAssessmentBySupervisor = require('../../../../lib/domain/usecases/end-assessment-by-supervisor');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | UseCase | end-by-supervisor-assessment', function () {
   let assessmentRepository;
@@ -16,7 +15,7 @@ describe('Unit | UseCase | end-by-supervisor-assessment', function () {
   context('when assessment is already completed', function () {
     it('should not end the assessment', async function () {
       // when
-      const completedAssessment = _buildCertificationAssessment({ state: 'completed' });
+      const completedAssessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'completed' });
       sinon.stub(assessmentRepository, 'endBySupervisorByAssessmentId').resolves();
       sinon.stub(assessmentRepository, 'get').withArgs(completedAssessment.id).resolves(completedAssessment);
 
@@ -33,7 +32,7 @@ describe('Unit | UseCase | end-by-supervisor-assessment', function () {
   context('when assessment is not completed', function () {
     it('should end the assessment', async function () {
       // when
-      const assessment = _buildCertificationAssessment({ state: 'started' });
+      const assessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'started' });
       sinon.stub(assessmentRepository, 'endBySupervisorByAssessmentId').resolves();
       sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
 
@@ -47,12 +46,3 @@ describe('Unit | UseCase | end-by-supervisor-assessment', function () {
     });
   });
 });
-
-function _buildCertificationAssessment({ state }) {
-  return domainBuilder.buildAssessment({
-    id: Symbol('assessmentId'),
-    certificationCourseId: Symbol('certificationCourseId'),
-    state,
-    type: Assessment.types.CERTIFICATION,
-  });
-}
