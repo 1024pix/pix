@@ -18,23 +18,21 @@
 
   <div class="pix-modal__container comparison-window" {{on-key "Escape" @closeComparisonWindow}}>
 
-    <div class="pix-modal-header comparison-window-header">
-      <div class="comparison-window__title">
-        <img
-          class="comparison-window__result-icon comparison-window__result-icon--{{this.resultItem.status}}"
-          src={{this.resultItemIcon}}
-          role="presentation"
-          alt=""
+    <div class="pix-modal-header comparison-window__header">
+      <div class="comparison-window-header__result-item-icon">
+        <FaIcon
+          @icon={{this.resultItemIcon.icon}}
+          class={{concat "comparison-window-header__result-item-icon--" this.resultItemIcon.color}}
         />
       </div>
-      <h3 class="comparison-window__title-text">{{t this.resultItem.title}}</h3>
+      <h3 class="comparison-window-header__title">{{t this.resultItem.title}}</h3>
     </div>
 
-    <div class="comparison-window--content">
+    <div class="comparison-window__content">
 
-      <div class="comparison-window--body">
+      <div class="comparison-window-content__body">
 
-        <div class="rounded-panel comparison-window__instruction">
+        <div class="rounded-panel comparison-window-content-body__instruction">
           <div class="rounded-panel__row">
             <MarkdownToHtmlUnsafe
               @class="challenge-statement-instruction__text"
@@ -51,7 +49,7 @@
             </div>
           {{/if}}
         </div>
-        <div class="comparison-window__corrected-answers">
+        <div class="comparison-window-content-body__corrected-answers">
           {{#if this.isAssessmentChallengeTypeQcm}}
             <QcmSolutionPanel
               @challenge={{@answer.challenge}}
@@ -105,7 +103,7 @@
 
         {{#if @answer.isResultNotOk}}
           {{#if @answer.correction.noHintsNorTutorialsAtAll}}
-            <div class="comparison-windows__default-message-container">
+            <div class="comparison-windows-content-body__default-message-container">
               <div>
                 <img
                   src="{{this.rootURL}}/images/icons/comparison-window/icon-tuto.svg"
@@ -114,7 +112,7 @@
                   data-test-id="comparison-windows__default-message-picto"
                 />
               </div>
-              <div class="comparison-windows__default-message-title">{{t
+              <div class="comparison-windows-content-body-default-message-container__default-message-title">{{t
                   "pages.comparison-window.upcoming-tutorials"
                 }}</div>
             </div>
