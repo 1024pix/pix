@@ -812,4 +812,43 @@ describe('Integration | Repository | Target-profile', function () {
       });
     });
   });
+
+  describe('#hasSkills', function () {
+    let targetProfileId;
+
+    beforeEach(function () {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill2' });
+
+      return databaseBuilder.commit();
+    });
+
+    context('when all skillIds belong to target profile', function () {
+      it('should return true', async function () {
+        // given
+        const skillIds = ['recSkill1', 'recSkill2'];
+
+        // when
+        const result = await targetProfileRepository.hasSkills({ targetProfileId, skillIds });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context("when at least one skillId doesn't belong to target profile", function () {
+      it('should throw an error', async function () {
+        // given
+        const skillIds = ['recSkill1', 'recSkill666', 'recSkill2'];
+
+        // when
+        const error = await catchErr(targetProfileRepository.hasSkills)({ targetProfileId, skillIds });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
+      });
+    });
+  });
 });

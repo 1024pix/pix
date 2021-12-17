@@ -189,6 +189,20 @@ module.exports = {
 
     return _createTargetProfileShares(rows, targetProfileId);
   },
+
+  async hasSkills({ targetProfileId, skillIds }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const result = await (knexTransaction ?? knex)('target-profiles_skills')
+      .select('skillId')
+      .whereIn('skillId', skillIds)
+      .andWhere('targetProfileId', targetProfileId);
+
+    const unknownSkillIds = _.difference(skillIds, _.map(result, 'skillId'));
+    if (unknownSkillIds.length) {
+      throw new NotFoundError(`Unknown skillIds : ${unknownSkillIds}`);
+    }
+
+    return true;
+  },
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
