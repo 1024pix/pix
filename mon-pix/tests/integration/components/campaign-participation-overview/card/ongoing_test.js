@@ -30,7 +30,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ongoi
     // then
     expect(contains('My organization')).to.exist;
     expect(contains('My campaign')).to.exist;
-    expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.started'))).to.exist;
+    expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.started').toUpperCase())).to.exist;
     expect(contains(this.intl.t('pages.campaign-participation-overview.card.resume'))).to.exist;
     expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' }))).to
       .exist;

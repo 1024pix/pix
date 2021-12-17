@@ -6,6 +6,14 @@ class ComplementaryCertification {
     this.id = id;
     this.name = name;
   }
+
+  isClea() {
+    return this.name === CLEA;
+  }
+
+  isPixPlusDroit() {
+    return this.name === PIX_PLUS_DROIT;
+  }
 }
 
 ComplementaryCertification.PIX_PLUS_DROIT = PIX_PLUS_DROIT;

@@ -185,6 +185,26 @@ module.exports = {
 
     await knex('certification-candidates').where({ sessionId }).del();
   },
+
+  async getWithComplementaryCertifications(id) {
+    const candidateData = await knex('certification-candidates')
+      .select('certification-candidates.*')
+      .select({ complementaryCertifications: knex.raw('json_agg("complementary-certifications".*)') })
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'complementary-certification-subscriptions.certificationCandidateId',
+        'certification-candidates.id'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certifications.id',
+        'complementary-certification-subscriptions.complementaryCertificationId'
+      )
+      .where('certification-candidates.id', id)
+      .groupBy('certification-candidates.id')
+      .first();
+    return _toDomain(candidateData);
+  },
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
