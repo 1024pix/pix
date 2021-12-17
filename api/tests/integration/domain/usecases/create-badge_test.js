@@ -3,7 +3,8 @@ const _ = require('lodash');
 const { expect, databaseBuilder, mockLearningContent, knex, catchErr, sinon } = require('../../../test-helper');
 
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-let badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
+const badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
+const skillSetRepository = require('../../../../lib/infrastructure/repositories/skill-set-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const createBadge = require('../../../../lib/domain/usecases/create-badge');
 const Badge = require('../../../../lib/domain/models/Badge');
@@ -14,6 +15,7 @@ describe('Integration | UseCases | create-badge', function () {
   let badge;
   let badgeCreation;
   let existingBadgeKey;
+  let dependencies;
 
   beforeEach(async function () {
     targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -36,12 +38,21 @@ describe('Integration | UseCases | create-badge', function () {
       isCertifiable: false,
       isAlwaysVisible: true,
     };
+
     badgeCreation = {
       ...badge,
+    };
+
+    dependencies = {
+      badgeRepository,
+      badgeCriteriaRepository,
+      targetProfileRepository,
+      skillSetRepository,
     };
   });
 
   afterEach(async function () {
+    await knex('skill-sets').delete();
     await knex('badge-criteria').delete();
     await knex('badges').delete();
   });
@@ -51,9 +62,7 @@ describe('Integration | UseCases | create-badge', function () {
     const result = await createBadge({
       targetProfileId,
       badgeCreation,
-      badgeRepository,
-      badgeCriteriaRepository,
-      targetProfileRepository,
+      ...dependencies,
     });
 
     // then
@@ -69,9 +78,7 @@ describe('Integration | UseCases | create-badge', function () {
     const result = await createBadge({
       targetProfileId,
       badgeCreation,
-      badgeRepository,
-      badgeCriteriaRepository,
-      targetProfileRepository,
+      ...dependencies,
     });
 
     // then
@@ -86,12 +93,47 @@ describe('Integration | UseCases | create-badge', function () {
     });
   });
 
+  it('should save a new badge with a skillset criterion', async function () {
+    // given
+    Object.assign(badgeCreation, {
+      skillSetThreshold: 99,
+      skillSetName: 'skillset-name',
+      skillSetSkillsIds: ['recSkill1'],
+    });
+
+    // when
+    const result = await createBadge({
+      targetProfileId,
+      badgeCreation,
+      ...dependencies,
+    });
+
+    // then
+    expect(result).to.be.an.instanceOf(Badge);
+    expect(_.pick(result, Object.keys(badge))).to.deep.equal(badge);
+
+    const skillSets = await knex('skill-sets').select().where({ badgeId: result.id });
+    expect(skillSets).to.have.lengthOf(1);
+    expect(_.pick(skillSets[0], ['name', 'skillIds'])).to.deep.equal({
+      name: badgeCreation.skillSetName,
+      skillIds: badgeCreation.skillSetSkillsIds,
+    });
+
+    const criteria = await knex('badge-criteria').select().where({ badgeId: result.id });
+    expect(criteria).to.have.lengthOf(1);
+    expect(_.pick(criteria[0], ['threshold', 'scope', 'skillSetIds'])).to.deep.equal({
+      threshold: badgeCreation.skillSetThreshold,
+      scope: 'SkillSet',
+      skillSetIds: [skillSets[0].id],
+    });
+  });
+
   describe('when an error occurs during criterion creation', function () {
     it('should not create a badge nor a criterion', async function () {
       // given
       badgeCreation.campaignThreshold = 99;
       const expectedError = new Error('Erreur lors de la création du critère');
-      badgeCriteriaRepository = {
+      dependencies.badgeCriteriaRepository = {
         save: sinon.stub().rejects(expectedError),
       };
 
@@ -99,9 +141,7 @@ describe('Integration | UseCases | create-badge', function () {
       const error = await catchErr(createBadge)({
         targetProfileId,
         badgeCreation,
-        badgeRepository,
-        badgeCriteriaRepository,
-        targetProfileRepository,
+        ...dependencies,
       });
 
       // then
@@ -117,9 +157,7 @@ describe('Integration | UseCases | create-badge', function () {
       const error = await catchErr(createBadge)({
         targetProfileId: -1,
         badgeCreation,
-        badgeRepository,
-        badgeCriteriaRepository,
-        targetProfileRepository,
+        ...dependencies,
       });
 
       // then
@@ -136,9 +174,7 @@ describe('Integration | UseCases | create-badge', function () {
       const error = await catchErr(createBadge)({
         targetProfileId,
         badgeCreation,
-        badgeRepository,
-        badgeCriteriaRepository,
-        targetProfileRepository,
+        ...dependencies,
       });
 
       // then
