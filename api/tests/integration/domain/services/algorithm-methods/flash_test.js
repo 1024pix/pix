@@ -325,6 +325,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           0, -0.6086049191210775, -0.6653800198379971, -1.7794873733366134, -1.8036203882448785, -1.557864373635504,
           -1.3925555729766932,
         ];
+
+        const expectedError = [
+          0, 1.0659524854635638, 0.9249688328247474, 0.6682031829777919, 0.6193894938423906, 0.5934694499356048,
+          0.5880298028515323,
+        ];
+
         const expectedChallengeIds = ['recL', 'recC', 'recT', 'recE', 'recA', 'recQ'];
 
         const allAnswers = [];
@@ -336,6 +342,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           // then
           expect(result.possibleChallenges[0].id).to.equal(expectedChallengeIds[i]);
           expect(result.estimatedLevel).to.be.closeTo(expectedEstimatedLevel[i], 0.000000001);
+          expect(result.error).to.be.closeTo(expectedEstimatedLevel[i], 0.000000001);
 
           allAnswers.push(answers[i]);
         }
