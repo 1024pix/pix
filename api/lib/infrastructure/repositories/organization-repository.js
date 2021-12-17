@@ -100,6 +100,7 @@ module.exports = {
       'canCollectProfiles',
       'email',
       'credit',
+      'documentationUrl',
     ]);
 
     return new BookshelfOrganization({ id: organization.id })
