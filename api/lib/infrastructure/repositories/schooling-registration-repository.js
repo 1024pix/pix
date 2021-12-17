@@ -135,16 +135,6 @@ module.exports = {
     return Boolean(exist);
   },
 
-  async findByUserIdAndSCOOrganization({ userId }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration.query((qb) =>
-      qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id')
-    )
-      .where({ userId, type: 'SCO' })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
-  },
-
   async disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId }) {
     const knexConn = domainTransaction.knexTransaction;
     await knexConn('schooling-registrations')

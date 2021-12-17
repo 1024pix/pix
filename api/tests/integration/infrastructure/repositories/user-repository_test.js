@@ -632,7 +632,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(firstSchoolingRegistration.birthdate).to.equal(firstSchoolingRegistrationInDB.birthdate);
         expect(firstSchoolingRegistration.division).to.equal(firstSchoolingRegistrationInDB.division);
         expect(firstSchoolingRegistration.organizationId).to.equal(firstOrganizationInDB.id);
-        expect(firstSchoolingRegistration.organizationExternalId).to.equal(firstOrganizationInDB.externalId);
         expect(firstSchoolingRegistration.organizationName).to.equal(firstOrganizationInDB.name);
         expect(firstSchoolingRegistration.createdAt).to.deep.equal(firstSchoolingRegistrationInDB.createdAt);
         expect(firstSchoolingRegistration.updatedAt).to.deep.equal(firstSchoolingRegistrationInDB.updatedAt);
@@ -644,25 +643,24 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(secondSchoolingRegistration.birthdate).to.equal(secondSchoolingRegistrationInDB.birthdate);
         expect(secondSchoolingRegistration.division).to.equal(secondSchoolingRegistrationInDB.division);
         expect(secondSchoolingRegistration.organizationId).to.equal(secondOrganizationInDB.id);
-        expect(secondSchoolingRegistration.organizationExternalId).to.equal(secondOrganizationInDB.externalId);
         expect(secondSchoolingRegistration.organizationName).to.equal(secondOrganizationInDB.name);
         expect(secondSchoolingRegistration.createdAt).to.deep.equal(secondSchoolingRegistrationInDB.createdAt);
         expect(secondSchoolingRegistration.updatedAt).to.deep.equal(secondSchoolingRegistrationInDB.updatedAt);
       });
     });
 
-    context('when user has schoolingRegistrations from non-SCO organization', function () {
-      it('should return the user with empty schoolingRegistrations', async function () {
+    context('when user has schoolingRegistrations from SUP organization', function () {
+      it('should return the user with his schoolingRegistrations', async function () {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        const firstSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({
           id: 1,
           userId: userInDB.id,
           organizationId: firstOrganizationInDB.id,
         });
         const secondOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        const secondSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({
           id: 2,
           userId: userInDB.id,
           organizationId: secondOrganizationInDB.id,
@@ -673,7 +671,29 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
         // then
-        expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(0);
+        expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(2);
+
+        const firstSchoolingRegistration = userDetailsForAdmin.schoolingRegistrations[0];
+        expect(firstSchoolingRegistration).to.be.instanceOf(SchoolingRegistrationForAdmin);
+        expect(firstSchoolingRegistration.firstName).to.equal(firstSchoolingRegistrationInDB.firstName);
+        expect(firstSchoolingRegistration.lastName).to.equal(firstSchoolingRegistrationInDB.lastName);
+        expect(firstSchoolingRegistration.birthdate).to.equal(firstSchoolingRegistrationInDB.birthdate);
+        expect(firstSchoolingRegistration.group).to.equal(firstSchoolingRegistrationInDB.group);
+        expect(firstSchoolingRegistration.organizationId).to.equal(firstOrganizationInDB.id);
+        expect(firstSchoolingRegistration.organizationName).to.equal(firstOrganizationInDB.name);
+        expect(firstSchoolingRegistration.createdAt).to.deep.equal(firstSchoolingRegistrationInDB.createdAt);
+        expect(firstSchoolingRegistration.updatedAt).to.deep.equal(firstSchoolingRegistrationInDB.updatedAt);
+
+        const secondSchoolingRegistration = userDetailsForAdmin.schoolingRegistrations[1];
+        expect(secondSchoolingRegistration).to.be.instanceOf(SchoolingRegistrationForAdmin);
+        expect(secondSchoolingRegistration.firstName).to.equal(secondSchoolingRegistrationInDB.firstName);
+        expect(secondSchoolingRegistration.lastName).to.equal(secondSchoolingRegistrationInDB.lastName);
+        expect(secondSchoolingRegistration.birthdate).to.equal(secondSchoolingRegistrationInDB.birthdate);
+        expect(secondSchoolingRegistration.group).to.equal(secondSchoolingRegistrationInDB.group);
+        expect(secondSchoolingRegistration.organizationId).to.equal(secondOrganizationInDB.id);
+        expect(secondSchoolingRegistration.organizationName).to.equal(secondOrganizationInDB.name);
+        expect(secondSchoolingRegistration.createdAt).to.deep.equal(secondSchoolingRegistrationInDB.createdAt);
+        expect(secondSchoolingRegistration.updatedAt).to.deep.equal(secondSchoolingRegistrationInDB.updatedAt);
       });
     });
 

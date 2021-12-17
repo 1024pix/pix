@@ -8,7 +8,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', function () {
 
   beforeEach(function () {
     schoolingRegistrationRepository = {
-      findByUserIdAndSCOOrganization: sinon.stub(),
+      findByUserId: sinon.stub(),
       dissociateUserFromSchoolingRegistrationIds: sinon.stub().resolves(),
     };
     userRepository = {
@@ -20,7 +20,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', function () {
     it('should not dissociate user', async function () {
       // given
       const userId = 1;
-      schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([]);
+      schoolingRegistrationRepository.findByUserId.resolves([]);
       userRepository.getUserDetailsForAdmin.resolves({ id: userId, schoolingRegistrations: [] });
 
       // when
@@ -44,7 +44,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', function () {
       schoolingRegistrations: [],
     };
 
-    schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([expectedSchoolingRegistration]);
+    schoolingRegistrationRepository.findByUserId.resolves([expectedSchoolingRegistration]);
     userRepository.getUserDetailsForAdmin.resolves({ id: userId, schoolingRegistrations: [] });
 
     // when
