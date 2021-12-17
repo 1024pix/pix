@@ -58,9 +58,10 @@ module('Acceptance | Campaign Creation', function (hooks) {
     test('it should allow to create a campaign of type ASSESSMENT by default and redirect to the newly created campaign', async function (assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
+      const expectedTargetProfileName = availableTargetProfiles[1].name;
 
       await fillByLabel('Nom de la campagne', 'Ma Campagne');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Oui');
       await fillByLabel('Libellé de l’identifiant', 'Mail Pro');
       await fillByLabel('Titre du parcours', 'Savoir rechercher');
@@ -104,8 +105,10 @@ module('Acceptance | Campaign Creation', function (hooks) {
     test('it should allow to create a campaign of type ASSESSMENT and redirect to the newly created campaign', async function (assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
+      const expectedTargetProfileName = availableTargetProfiles[1].name;
+
       await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
       await fillByLabel('Nom de la campagne', 'Ma Campagne');
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
 
@@ -135,9 +138,10 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should create campaign if user changes type after filling the form', async function (assert) {
       // given
-      const expectedTargetProfileId = availableTargetProfiles[1].id;
+      const expectedTargetProfileName = availableTargetProfiles[1].name;
+
       await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
       await fillByLabel('Nom de la campagne', 'Ma Campagne');
       await fillByLabel('Titre du parcours', 'Savoir rechercher');
       await clickByName('Non');
