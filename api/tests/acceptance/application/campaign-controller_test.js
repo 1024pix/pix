@@ -991,17 +991,39 @@ describe('Acceptance | API | Campaign Controller', function () {
     let userId;
 
     beforeEach(async function () {
+      const skillId = 'recSkillId1';
       campaign = databaseBuilder.factory.buildCampaign();
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({
         organizationId: campaign.organizationId,
         userId,
       });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: campaign.targetProfileId, skillId: skillId });
 
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
       options.url = `/api/campaigns/${campaign.id}`;
 
       await databaseBuilder.commit();
+
+      const learningContent = [
+        {
+          competences: [
+            {
+              tubes: [
+                {
+                  skills: [
+                    {
+                      id: skillId,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should return the campaign by id', async function () {

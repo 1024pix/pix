@@ -70,9 +70,8 @@ module('Unit | Model | campaign', function (hooks) {
   module('#hasStages', function () {
     test('returns true while campaign contains stages', function (assert) {
       const store = this.owner.lookup('service:store');
-      const stage = store.createRecord('stage', { threshold: 45 });
       const model = store.createRecord('campaign', {
-        stages: [stage],
+        targetProfileHasStage: true,
       });
 
       assert.true(model.hasStages);
@@ -81,7 +80,7 @@ module('Unit | Model | campaign', function (hooks) {
     test('returns false while campaign does not contain stages', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
-        stages: [],
+        targetProfileHasStage: false,
       });
 
       assert.false(model.hasStages);
@@ -91,9 +90,9 @@ module('Unit | Model | campaign', function (hooks) {
   module('#hasBadges', function () {
     test('returns true while campaign contains badges', function (assert) {
       const store = this.owner.lookup('service:store');
-      const badge = store.createRecord('badge', { threshold: 45 });
+
       const model = store.createRecord('campaign', {
-        badges: [badge],
+        targetProfileThematicResultCount: 2,
       });
 
       assert.true(model.hasBadges);
@@ -102,7 +101,7 @@ module('Unit | Model | campaign', function (hooks) {
     test('returns false while campaign does not contain badges', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
-        badges: [],
+        targetProfileThematicResultCount: 0,
       });
 
       assert.false(model.hasBadges);

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, mockLearningContent } = require('../../../test-helper');
 const campaignReportRepository = require('../../../../lib/infrastructure/repositories/campaign-report-repository');
 const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -15,6 +15,21 @@ describe('Integration | Repository | Campaign-Report', function () {
     beforeEach(function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaign = databaseBuilder.factory.buildCampaign({ targetProfileId, archivedAt: new Date() });
+
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
+
+      const learningContent = {
+        skills: [
+          {
+            id: 'skill1',
+          },
+          {
+            id: 'skill2',
+          },
+        ],
+      };
+
+      mockLearningContent(learningContent);
       return databaseBuilder.commit();
     });
 
@@ -41,11 +56,22 @@ describe('Integration | Repository | Campaign-Report', function () {
           'creatorFirstName',
           'targetProfileId',
           'targetProfileName',
-          'targetProfileImageUrl',
+          'targetProfileTubesCount',
+          'targetProfileDescription',
           'participationsCount',
           'sharedParticipationsCount',
+          'averageResult',
         ])
       );
+    });
+
+    it('should only count tube in targetProfile', async function () {
+      // given
+      // when
+      const result = await campaignReportRepository.get(campaign.id);
+
+      // then
+      expect(result.targetProfileTubesCount).to.equal(1);
     });
 
     it('should only count participations not improved', async function () {
@@ -228,7 +254,6 @@ describe('Integration | Repository | Campaign-Report', function () {
             'code',
             'createdAt',
             'archivedAt',
-            'targetProfileId',
             'idPixLabel',
             'title',
             'type',
@@ -236,9 +261,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             'creatorId',
             'creatorLastName',
             'creatorFirstName',
-            'targetProfileId',
             'targetProfileName',
-            'targetProfileImageUrl',
             'participationsCount',
             'sharedParticipationsCount',
           ])
