@@ -75,8 +75,8 @@ describe('Compare answers and solutions for QCM questions', function () {
       await visit(`/assessments/${assessment.id}/results`);
       await click('.result-item__correction-button');
 
-      expect(find('.comparison-window--body .challenge-statement-instruction__text')).to.exist;
-      expect(find('.comparison-window--body .challenge-statement__illustration-section')).to.exist;
+      expect(find('.comparison-window-content__body .challenge-statement-instruction__text')).to.exist;
+      expect(find('.comparison-window-content__body .challenge-statement__illustration-section')).to.exist;
     });
   });
 });

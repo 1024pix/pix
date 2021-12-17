@@ -1,4 +1,4 @@
-import resultIconUrl from 'mon-pix/utils/result-icon-url';
+import resultIcon from 'mon-pix/utils/result-icon';
 import Component from '@glimmer/component';
 
 const TRANSLATION_PREFIX = 'pages.comparison-window.results.';
@@ -52,6 +52,10 @@ export default class ComparisonWindow extends Component {
     return this._isAutoReply ? 'AutoReply' : '';
   }
 
+  get resultItemIcon() {
+    return resultIcon(this.resultItem.status);
+  }
+
   get resultItem() {
     let resultItem = _getTextForResult('default');
     const answerStatus = `${this.args.answer.result}${this.answerSuffix}`;
@@ -60,10 +64,6 @@ export default class ComparisonWindow extends Component {
       resultItem = _getTextForResult(answerStatus);
     }
     return resultItem;
-  }
-
-  get resultItemIcon() {
-    return resultIconUrl(this.resultItem.status);
   }
 
   get solution() {
