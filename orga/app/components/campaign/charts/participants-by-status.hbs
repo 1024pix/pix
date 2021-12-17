@@ -14,18 +14,18 @@
       {{#each this.datasets as |dataset|}}
         <li class="participants-by-status__legend--{{dataset.key}}">
           <p>{{dataset.legend}}</p>
-          <PixTooltip
-            @id="legend-tooltip-{{dataset.key}}"
-            @text={{dataset.legendTooltip}}
-            @isWide="true"
-            @position="top-left"
-          >
-            <FaIcon
-              @icon="question-circle"
-              class="participants-by-status__legend-tooltip"
-              tabindex="0"
-              aria-describedby="legend-tooltip-{{dataset.key}}"
-            />
+          <PixTooltip @id="legend-tooltip-{{dataset.key}}" @isWide="true" @position="top-left">
+            <:triggerElement>
+              <FaIcon
+                @icon="question-circle"
+                class="participants-by-status__legend-tooltip"
+                tabindex="0"
+                aria-describedby="legend-tooltip-{{dataset.key}}"
+              />
+            </:triggerElement>
+            <:tooltip>
+              {{dataset.legendTooltip}}
+            </:tooltip>
           </PixTooltip>
         </li>
       {{/each}}

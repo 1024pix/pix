@@ -19,8 +19,11 @@ export default class Campaign extends Model {
   @attr('string') creatorFirstName;
   @attr('date') createdAt;
   @attr('string') targetProfileId;
+  @attr('string') targetProfileDescription;
   @attr('string') targetProfileName;
-  @attr('string') targetProfileImageUrl;
+  @attr('number') targetProfileTubesCount;
+  @attr('number') targetProfileThematicResultCount;
+  @attr('boolean') targetProfileHasStage;
   @attr('number') participationsCount;
   @attr('number') sharedParticipationsCount;
   @attr('number') averageResult;
@@ -38,11 +41,11 @@ export default class Campaign extends Model {
   @hasMany('groups') groups;
 
   get hasBadges() {
-    return Boolean(this.badges) && this.badges.length > 0;
+    return this.targetProfileThematicResultCount > 0;
   }
 
   get hasStages() {
-    return Boolean(this.stages) && this.stages.length > 0;
+    return this.targetProfileHasStage;
   }
 
   get creatorFullName() {

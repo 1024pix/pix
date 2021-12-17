@@ -38,18 +38,27 @@
   &__label {
     margin: 0 0 4px;
 
-    &--tooltip {
+    &--with-tooltip {
       display: flex;
 
-      & span {
-        padding-right: 8px;
+      & > :last-child {
+        margin-left: 8px;
       }
     }
+
   }
 
   &__text {
     margin: 0;
 
+    &--with-tooltip {
+      display: flex;
+
+      & > :last-child {
+        margin-left: 8px;
+      }
+    }
+    
     & p {
       margin: 0;
     }

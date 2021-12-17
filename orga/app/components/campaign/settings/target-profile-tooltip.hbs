@@ -1,0 +1,20 @@
+<PixTooltip @id="target-profile-info-tooltip" @position="top-right" @isWide={{true}} @isLight={{true}}>
+  <:triggerElement>
+    <FaIcon
+      ...attributes
+      @icon="info-circle"
+      tabindex="0"
+      aria-label={{t "pages.campaign-settings.target-profile.tooltip"}}
+      aria-describedby="target-profile-info-tooltip"
+    />
+  </:triggerElement>
+  <:tooltip>
+    <Campaign::TargetProfileDetails
+      @targetProfileDescription={{@targetProfileDescription}}
+      @hasStages={{@hasStages}}
+      @hasBadges={{@hasBadges}}
+      @targetProfileTubesCount={{@targetProfileTubesCount}}
+      @targetProfileThematicResultCount={{@targetProfileThematicResultCount}}
+    />
+  </:tooltip>
+</PixTooltip>

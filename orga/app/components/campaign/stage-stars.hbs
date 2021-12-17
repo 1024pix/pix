@@ -9,17 +9,21 @@
   {{#if this.displayTooltip}}
     <PixTooltip
       @id="stage-tooltip-{{this.reachedStage.id}}"
-      @text={{this.tooltipText}}
       @position={{@tooltipPosition}}
       @isWide={{true}}
       class="hide-on-mobile"
     >
-      <FaIcon
-        @icon="info-circle"
-        class="stage-stars__info-icon"
-        tabindex="0"
-        aria-describedby="stage-tooltip-{{this.reachedStage.id}}"
-      />
+      <:triggerElement>
+        <FaIcon
+          @icon="info-circle"
+          class="stage-stars__info-icon"
+          tabindex="0"
+          aria-describedby="stage-tooltip-{{this.reachedStage.id}}"
+        />
+      </:triggerElement>
+      <:tooltip>
+        {{this.tooltipText}}
+      </:tooltip>
     </PixTooltip>
   {{/if}}
 </div>

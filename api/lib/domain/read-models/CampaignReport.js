@@ -15,9 +15,7 @@ class CampaignReport {
     creatorId,
     creatorLastName,
     creatorFirstName,
-    targetProfileId,
-    targetProfileName,
-    targetProfileImageUrl,
+    targetProfileForSpecifier = {},
     participationsCount,
     sharedParticipationsCount,
     averageResult,
@@ -37,15 +35,19 @@ class CampaignReport {
     this.creatorId = creatorId;
     this.creatorLastName = creatorLastName;
     this.creatorFirstName = creatorFirstName;
-    this.targetProfileId = targetProfileId;
-    this.targetProfileName = targetProfileName;
-    this.targetProfileImageUrl = targetProfileImageUrl;
     this.participationsCount = participationsCount;
     this.sharedParticipationsCount = sharedParticipationsCount;
     this.averageResult = averageResult;
     this.badges = badges;
     this.stages = stages;
     this.multipleSendings = multipleSendings;
+
+    this.targetProfileId = targetProfileForSpecifier.id;
+    this.targetProfileDescription = targetProfileForSpecifier.description;
+    this.targetProfileName = targetProfileForSpecifier.name;
+    this.targetProfileTubesCount = targetProfileForSpecifier.tubeCount;
+    this.targetProfileThematicResultCount = targetProfileForSpecifier.thematicResultCount;
+    this.targetProfileHasStage = targetProfileForSpecifier.hasStage;
   }
 
   get isAssessment() {

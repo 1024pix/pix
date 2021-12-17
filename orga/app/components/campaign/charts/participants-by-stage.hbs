@@ -18,20 +18,24 @@
           {{#if stage.displayTooltip}}
             <PixTooltip
               @id="chart-stage-{{index}}"
-              @text={{stage.tooltip}}
               @position="bottom-right"
               @isWide={{true}}
               class="participants-by-stage__container"
             >
-              <Campaign::Charts::ParticipantsByStageBar
-                @onClickBar={{this.onClickBar}}
-                @stageId={{stage.id}}
-                @barWidth={{stage.barWidth}}
-                tabindex="0"
-                aria-describedby="chart-stage-{{index}}"
-              >
-                {{t "charts.participants-by-stage.percentage" percentage=stage.percentage}}
-              </Campaign::Charts::ParticipantsByStageBar>
+              <:triggerElement>
+                <Campaign::Charts::ParticipantsByStageBar
+                  @onClickBar={{this.onClickBar}}
+                  @stageId={{stage.id}}
+                  @barWidth={{stage.barWidth}}
+                  tabindex="0"
+                  aria-describedby="chart-stage-{{index}}"
+                >
+                  {{t "charts.participants-by-stage.percentage" percentage=stage.percentage}}
+                </Campaign::Charts::ParticipantsByStageBar>
+              </:triggerElement>
+              <:tooltip>
+                {{stage.tooltip}}
+              </:tooltip>
             </PixTooltip>
           {{else}}
             <div class="participants-by-stage__container">

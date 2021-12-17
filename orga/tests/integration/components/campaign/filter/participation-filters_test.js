@@ -34,6 +34,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         const badge = store.createRecord('badge');
         const campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
+          targetProfileHasStage: true,
           badges: [badge],
         });
         const rowCount = 1;
@@ -55,6 +56,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         const badge = store.createRecord('badge');
         const campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
+          targetProfileHasStage: true,
           badges: [badge],
         });
         const rowCount = 2;
@@ -80,6 +82,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const badge = store.createRecord('badge');
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileHasStage: true,
             badges: [badge],
           });
           const resetFiltering = sinon.stub();
@@ -105,6 +108,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           // given
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileHasStage: false,
             stages: [],
           });
 
@@ -124,6 +128,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const stage = store.createRecord('stage', { id: 'stage1' });
           const campaign = store.createRecord('campaign', {
             type: 'PROFILES_COLLECTION',
+            targetProfileHasStage: true,
             stages: [stage],
           });
 
@@ -143,6 +148,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileHasStage: true,
             stages: [stage],
           });
 
@@ -160,6 +166,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileHasStage: true,
             stages: [stage],
           });
 
@@ -177,6 +184,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileHasStage: true,
             stages: [stage],
           });
 
@@ -203,6 +211,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const badge = store.createRecord('badge', { title: 'Les bases' });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileThematicResultCount: 1,
             badges: [badge],
           });
 
@@ -221,6 +230,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const badge = store.createRecord('badge', { title: 'Les bases' });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileThematicResultCount: 1,
             badges: [badge],
           });
 
@@ -239,6 +249,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileThematicResultCount: 1,
             badges: [badge],
           });
 
@@ -262,6 +273,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           // given
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
+            targetProfileThematicResultCount: 0,
             badges: [],
           });
 
@@ -281,6 +293,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
           const campaign = store.createRecord('campaign', {
             type: 'PROFILES_COLLECTION',
+            targetProfileThematicResultCount: 1,
             badges: [badge],
           });
 
@@ -301,6 +314,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           id: campaignId,
           name: 'campagne 1',
           type: 'ASSESSMENT',
+          targetProfileHasStage: false,
           stages: [],
         });
 
@@ -324,6 +338,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           id: campaignId,
           name: 'campagne 1',
           type: 'ASSESSMENT',
+          targetProfileHasStage: false,
           stages: [],
         });
 
@@ -346,6 +361,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           id: campaignId,
           name: 'campagne 1',
           type: 'ASSESSMENT',
+          targetProfileHasStage: false,
           stages: [],
         });
 
@@ -369,6 +385,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           id: 1,
           name: 'campagne 1',
           type: 'PROFILES_COLLECTION',
+          targetProfileHasStage: false,
           stages: [],
         });
 
