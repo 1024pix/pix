@@ -18,6 +18,25 @@ export default class CertificationJoiner extends Component {
     return this.inputAccessCode.toUpperCase();
   }
 
+  get allComplementaryCertificationsLength() {
+    return (
+      this.args.certificationCandidateSubscription.eligibleSubscriptions.length +
+      this.args.certificationCandidateSubscription.nonEligibleSubscriptions.length
+    );
+  }
+
+  get nonEligibleSubscriptionNames() {
+    return this.args.certificationCandidateSubscription.nonEligibleSubscriptions
+      .map((nonEligibleSubscription) => nonEligibleSubscription.name)
+      .join(', ');
+  }
+
+  get eligibleSubscriptionNames() {
+    return this.args.certificationCandidateSubscription.eligibleSubscriptions
+      .map((eligibleSubscription) => eligibleSubscription.name)
+      .join(', ');
+  }
+
   @action
   async submit(e) {
     e.preventDefault();
@@ -29,7 +48,7 @@ export default class CertificationJoiner extends Component {
 
     const newCertificationCourse = this.store.createRecord('certification-course', {
       accessCode: this.accessCode,
-      sessionId: this.args.sessionId,
+      sessionId: this.args.certificationCandidateSubscription.sessionId,
     });
     try {
       await newCertificationCourse.save();

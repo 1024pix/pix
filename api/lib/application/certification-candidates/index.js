@@ -41,6 +41,23 @@ exports.register = async function (server) {
         tags: ['api', 'certification-candidates'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/certification-candidates/{id}/subscriptions',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCandidateId,
+          }),
+        },
+        handler: certificationCandidatesController.getSubscriptions,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Renvoie les informations d'inscription et d'élligibilité au passage de certification complémentaires d'un candidat",
+        ],
+        tags: ['api', 'certification-candidates'],
+      },
+    },
   ]);
 };
 

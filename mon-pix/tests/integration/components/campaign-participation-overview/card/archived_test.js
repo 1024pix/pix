@@ -35,8 +35,8 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         // then
         expect(contains('My organization')).to.exist;
         expect(contains('My campaign')).to.exist;
-        expect(contains("Parcours archivé par votre organisation.Vos résultats n'ont pas pu être envoyés.")).to.exist;
-        expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.archived'))).to.exist;
+        expect(contains("Parcours archivé par votre organisation.\nVos résultats n'ont pas pu être envoyés.")).to.exist;
+        expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.archived').toUpperCase())).to.exist;
         expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' })))
           .to.exist;
       });
