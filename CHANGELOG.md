@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.141.1 (17/12/2021)
+
+
+### :building_construction: Tech
+- [#3844](https://github.com/1024pix/pix/pull/3844) Revert de "[TECH] Création d'une brique Accès au flux de campagne et annihilation du `start-or-resume` (PIX-3185)."
+
+
 ## v3.141.0 (16/12/2021)
 
 
