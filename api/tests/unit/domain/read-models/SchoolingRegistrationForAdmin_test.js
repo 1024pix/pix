@@ -11,9 +11,7 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
         firstName: 'John',
         lastName: 'Doe',
         birthdate: new Date('2000-10-15'),
-        division: '4B',
         organizationId: 1,
-        organizationExternalId: 'EXTERNAL',
         organizationName: 'School',
         createdAt: new Date('2020-09-05'),
         updatedAt: new Date('2020-09-08'),
@@ -76,6 +74,16 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
       );
     });
 
+    it('should not throw an ObjectValidationError when group is null or undefined', function () {
+      // when
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, group: null })).not.to.throw(
+        ObjectValidationError
+      );
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, group: undefined })).not.to.throw(
+        ObjectValidationError
+      );
+    });
+
     it('should throw an ObjectValidationError when organizationId is not valid', function () {
       // when
       expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, organizationId: 'not_valid' })).to.throw(
@@ -84,16 +92,6 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
       expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, organizationId: undefined })).to.throw(
         ObjectValidationError
       );
-    });
-
-    it('should throw an ObjectValidationError when organizationExternalId is not valid', function () {
-      // when
-      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, organizationExternalId: 123456 })).to.throw(
-        ObjectValidationError
-      );
-      expect(
-        () => new SchoolingRegistrationForAdmin({ ...validArguments, organizationExternalId: undefined })
-      ).to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when organizationName is not valid', function () {

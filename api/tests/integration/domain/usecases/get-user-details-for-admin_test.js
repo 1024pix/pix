@@ -43,13 +43,11 @@ describe('Integration | UseCase | get-user-details-for-admin', function () {
         domainBuilder.buildSchoolingRegistrationForAdmin({
           ...firstSchoolingRegistrationInDB,
           organizationId: firstOrganizationInDB.id,
-          organizationExternalId: firstOrganizationInDB.externalId,
           organizationName: firstOrganizationInDB.name,
         }),
         domainBuilder.buildSchoolingRegistrationForAdmin({
           ...secondSchoolingRegistrationInDB,
           organizationId: secondOrganizationInDB.id,
-          organizationExternalId: secondOrganizationInDB.externalId,
           organizationName: secondOrganizationInDB.name,
         }),
       ],

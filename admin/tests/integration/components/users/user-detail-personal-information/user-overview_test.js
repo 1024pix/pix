@@ -3,9 +3,9 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | user-detail-personal-information/user-overview', function (hooks) {
+module('Integration | Component | users | user-detail-personal-information/user-overview', function (hooks) {
   setupRenderingTest(hooks);
 
   module('When the administrator click on user details', function () {
@@ -20,7 +20,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('Modifier');
@@ -33,7 +33,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { firstName: 'John' });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains(this.user.firstName);
@@ -44,7 +44,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { lastName: 'Snow' });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains(this.user.lastName);
@@ -55,7 +55,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { email: 'john.snow@winterfell.got' });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains(this.user.email);
@@ -66,7 +66,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { username: 'kingofthenorth' });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains(this.user.username);
@@ -79,7 +79,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { cgu: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('OUI');
@@ -90,7 +90,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { cgu: false });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('NON');
@@ -101,7 +101,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { pixOrgaTermsOfServiceAccepted: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('OUI');
@@ -112,7 +112,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { pixOrgaTermsOfServiceAccepted: false });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('NON');
@@ -123,7 +123,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { pixCertifTermsOfServiceAccepted: true });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('OUI');
@@ -134,7 +134,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', { pixCertifTermsOfServiceAccepted: false });
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.contains('NON');
@@ -164,7 +164,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
       });
 
       // when
-      await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+      await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
       await clickByLabel('Modifier');
 
       // then
@@ -177,7 +177,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
       this.set('user', user);
 
       // when
-      await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
       await clickByLabel('Modifier');
 
       // then
@@ -191,7 +191,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', user);
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
         await clickByLabel('Modifier');
 
         // then
@@ -203,7 +203,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', user);
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
         await clickByLabel('Modifier');
 
         // then
@@ -223,7 +223,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', user);
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
         await clickByLabel('Modifier');
 
         // then
@@ -241,7 +241,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', user);
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
         await clickByLabel('Modifier');
 
         // then
@@ -261,7 +261,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
         this.set('user', user);
 
         // when
-        await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
         await clickByLabel('Modifier');
 
         // then
@@ -274,7 +274,7 @@ module('Integration | Component | user-detail-personal-information/user-overview
       this.set('user', user);
 
       // when
-      await render(hbs`<UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+      await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
       await clickByLabel('Modifier');
 
       // then

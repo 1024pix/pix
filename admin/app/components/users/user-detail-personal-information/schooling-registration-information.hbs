@@ -1,5 +1,5 @@
 <header class="page-section__header">
-  <h2 class="page-section__title">Informations élèves SCO</h2>
+  <h2 class="page-section__title">Informations prescrit</h2>
 </header>
 
 <div class="schooling-registrations-table content-text content-text--small">
@@ -9,12 +9,12 @@
         <th>Prénom</th>
         <th>Nom</th>
         <th>DDN</th>
-        <th class="table__column--small">Classe</th>
+        <th>Classe / Groupe</th>
         <th class="table__column--small">Orga ID</th>
         <th class="table__column--wide">Nom de l'orga</th>
         <th>Date d'import</th>
         <th>Dernière MAJ</th>
-        <th>Actif</th>
+        <th class="table__column--small">Actif</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -24,7 +24,10 @@
           <td>{{schoolingRegistration.firstName}}</td>
           <td>{{schoolingRegistration.lastName}}</td>
           <td>{{format-date schoolingRegistration.birthdate}}</td>
-          <td>{{schoolingRegistration.division}}</td>
+          <td>
+            {{if schoolingRegistration.division schoolingRegistration.division}}
+            {{if schoolingRegistration.group schoolingRegistration.group}}
+          </td>
           <td><LinkTo
               @route="authenticated.organizations.get"
               @model={{schoolingRegistration.organizationId}}

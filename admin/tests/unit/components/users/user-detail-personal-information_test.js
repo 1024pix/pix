@@ -1,15 +1,15 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 
-module('Unit | Component | user-detail-personal-information', function (hooks) {
+module('Unit | Component | users | user-detail-personal-information', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:user-detail-personal-information');
+    component = createGlimmerComponent('component:users/user-detail-personal-information');
     component.notifications = {
       success: sinon.stub(),
       error: sinon.stub(),
