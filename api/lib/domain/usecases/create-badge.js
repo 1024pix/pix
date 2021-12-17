@@ -6,8 +6,8 @@ module.exports = async function createBadge({
   badgeRepository,
   badgeCriteriaRepository,
   targetProfileRepository,
+  skillSetRepository,
 }) {
-  // eslint-disable-next-line no-unused-vars
   const { campaignThreshold, skillSetThreshold, skillSetName, skillSetSkillsIds, ...badge } = badgeCreation;
 
   return DomainTransaction.execute(async (domainTransaction) => {
@@ -29,7 +29,30 @@ module.exports = async function createBadge({
       );
     }
 
-    // FIXME create criteria and skillSet
+    if (skillSetThreshold) {
+      const { id: skillSetId } = await skillSetRepository.save(
+        {
+          skillSet: {
+            badgeId: savedBadge.id,
+            name: skillSetName,
+            skillIds: skillSetSkillsIds,
+          },
+        },
+        domainTransaction
+      );
+
+      await badgeCriteriaRepository.save(
+        {
+          badgeCriterion: {
+            badgeId: savedBadge.id,
+            threshold: skillSetThreshold,
+            scope: 'SkillSet',
+            skillSetIds: [skillSetId],
+          },
+        },
+        domainTransaction
+      );
+    }
 
     return savedBadge;
   });
