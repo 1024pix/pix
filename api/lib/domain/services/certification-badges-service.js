@@ -7,6 +7,7 @@ const targetProfileRepository = require('../../infrastructure/repositories/targe
 const badgeCriteriaService = require('../../domain/services/badge-criteria-service');
 const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } =
   require('../../domain/models/Badge').keys;
+const PixEduBadgeAcquisitionOrderer = require('../../domain/models/PixEduBadgeAcquisitionOrderer');
 
 module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
@@ -62,13 +63,14 @@ module.exports = {
 };
 
 function _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions) {
-  return _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
+  const highestBadgeWithinDroit = _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
+  return _keepHighestBadgeWithinEduCertification(highestBadgeWithinDroit);
 }
 
 function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions) {
   const [pixDroitBadgeAcquisitions, nonPixDroitBadgeAcquisitions] = _.partition(
     certifiableBadgeAcquisitions,
-    _isPixDroit
+    (badgeAcquisition) => badgeAcquisition.isPixDroit()
   );
   if (pixDroitBadgeAcquisitions.length === 0) return nonPixDroitBadgeAcquisitions;
   const expertBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: PIX_DROIT_EXPERT_CERTIF });
@@ -76,6 +78,14 @@ function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions)
   return [...nonPixDroitBadgeAcquisitions, expertBadgeAcquisition || maitreBadgeAcquisition];
 }
 
-function _isPixDroit(badgeAcquisition) {
-  return [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(badgeAcquisition.badgeKey);
+function _keepHighestBadgeWithinEduCertification(certifiableBadgeAcquisitions) {
+  const [pixEduBadgeAcquisitions, nonPixEduBadgeAcquisitions] = _.partition(
+    certifiableBadgeAcquisitions,
+    (badgeAcquisition) => badgeAcquisition.isPixEdu()
+  );
+  if (pixEduBadgeAcquisitions.length === 0) return nonPixEduBadgeAcquisitions;
+  const pixEduBadgeAcquisitionOrderer = new PixEduBadgeAcquisitionOrderer({
+    badgesAcquisitions: pixEduBadgeAcquisitions,
+  });
+  return [...nonPixEduBadgeAcquisitions, pixEduBadgeAcquisitionOrderer.getHighestBadge()];
 }

@@ -9,8 +9,6 @@ const {
   CandidateNotAuthorizedToJoinSessionError,
 } = require('../errors');
 const { features, featureToggles } = require('../../config');
-const _ = require('lodash');
-const bluebird = require('bluebird');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -140,16 +138,19 @@ async function _startNewCertification({
     }
   }
 
+  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    userId,
+    domainTransaction,
+  });
+
   if (
     certificationCenter.isHabilitatedPixPlusDroit &&
     (!featureToggles.isComplementaryCertificationSubscriptionEnabled || certificationCandidate.isGrantedPixPlusDroit())
   ) {
-    const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-      userId,
-      domainTransaction,
-    });
-
-    if (highestCertifiableBadgeAcquisitions.length > 0) {
+    const pixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+      badgeAcquisition.isPixDroit()
+    );
+    if (pixDroitBadgeAcquisition) {
       const pixDroitComplementaryCertification = complementaryCertifications.find(
         (comp) => comp.name === PIX_PLUS_DROIT
       );
@@ -157,15 +158,26 @@ async function _startNewCertification({
         complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
       }
 
-      const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
-        userId,
-        highestCertifiableBadgeAcquisitions,
-        certificationBadgesService,
-        certificationChallengesService,
-        locale,
-      });
-      challengesForCertification.push(...challengesForPixPlusCertification);
+      const certificationChallengesForPixDroit =
+        await certificationChallengesService.pickCertificationChallengesForPixPlus(
+          pixDroitBadgeAcquisition.badge,
+          userId,
+          locale
+        );
+      challengesForCertification.push(...certificationChallengesForPixDroit);
     }
+  }
+
+  const pixEduBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    badgeAcquisition.isPixEdu()
+  );
+  if (pixEduBadgeAcquisition) {
+    const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+      pixEduBadgeAcquisition.badge,
+      userId,
+      locale
+    );
+    challengesForCertification.push(...certificationChallengesForPixEdu);
   }
 
   return _createCertificationCourse({
@@ -179,19 +191,6 @@ async function _startNewCertification({
     verifyCertificateCodeService,
     complementaryCertificationIds,
   });
-}
-
-async function _findChallengesFromPixPlus({
-  userId,
-  highestCertifiableBadgeAcquisitions,
-  certificationChallengesService,
-  locale,
-}) {
-  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(
-    highestCertifiableBadgeAcquisitions,
-    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale)
-  );
-  return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
 
 async function _getCertificationCourseIfCreatedMeanwhile(

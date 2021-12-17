@@ -1,4 +1,13 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | BadgeAcquisition', function () {
   describe('#get badgeKey', function () {
@@ -12,6 +21,74 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
 
       // then
       expect(badgeKey).to.equal('someKey');
+    });
+  });
+
+  describe('#isPixDroit', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].forEach((badgeKey) => {
+      it(`should return true for badge ${badgeKey}`, function () {
+        // given
+        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          badge: domainBuilder.buildBadge({ key: badgeKey }),
+        });
+
+        // when
+        const isPixDroit = badgeAcquisition.isPixDroit();
+
+        // then
+        expect(isPixDroit).to.be.true;
+      });
+    });
+
+    it('should return false otherwise', function () {
+      // given
+      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'NOT_PIX_DROIT' }),
+      });
+
+      // when
+      const isPixDroit = badgeAcquisition.isPixDroit();
+
+      // then
+      expect(isPixDroit).to.be.false;
+    });
+  });
+
+  describe('#isPixEdu', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER,
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+    ].forEach((badgeKey) => {
+      it(`should return true for badge ${badgeKey}`, function () {
+        // given
+        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          badge: domainBuilder.buildBadge({ key: badgeKey }),
+        });
+
+        // when
+        const isPixEdu = badgeAcquisition.isPixEdu();
+
+        // then
+        expect(isPixEdu).to.be.true;
+      });
+    });
+
+    it('should return false otherwise', function () {
+      // given
+      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'NOT_PIX_EDU' }),
+      });
+
+      // when
+      const isPixEdu = badgeAcquisition.isPixEdu();
+
+      // then
+      expect(isPixEdu).to.be.false;
     });
   });
 });

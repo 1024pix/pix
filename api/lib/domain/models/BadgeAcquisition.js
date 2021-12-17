@@ -1,3 +1,13 @@
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+} = require('./Badge').keys;
+
 class BadgeAcquisition {
   constructor({ id, badge, userId, badgeId, campaignParticipationId } = {}) {
     this.id = id;
@@ -9,6 +19,20 @@ class BadgeAcquisition {
 
   get badgeKey() {
     return this.badge.key;
+  }
+
+  isPixDroit() {
+    return [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(this.badgeKey);
+  }
+
+  isPixEdu() {
+    return [
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER,
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+    ].includes(this.badgeKey);
   }
 }
 
