@@ -83,6 +83,7 @@ module.exports = {
       isManagingStudents: attributes['is-managing-students'],
       canCollectProfiles: attributes['can-collect-profiles'],
       createdBy: attributes['created-by'],
+      documentationUrl: attributes['documentation-url'],
       tags,
     });
 

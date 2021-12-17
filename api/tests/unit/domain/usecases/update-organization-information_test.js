@@ -246,6 +246,28 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
     });
 
+    it('should allow to update the organization documentationUrl', async function () {
+      // given
+      const newDocumentationUrl = 'https://pix.fr/';
+      const organizationId = 7;
+      const givenOrganization = _buildOrganizationWithNullAttributes({
+        id: organizationId,
+        documentationUrl: newDocumentationUrl,
+      });
+      const originalOrganization = _buildOriginalOrganization(organizationId);
+
+      organizationRepository.get.resolves(originalOrganization);
+
+      // when
+      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+
+      // then
+      expect(organizationRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        documentationUrl: newDocumentationUrl,
+      });
+    });
+
     context('when updating tags', function () {
       it('should allow to assign a tag to organization', async function () {
         // given
@@ -349,6 +371,7 @@ function _buildOrganizationWithNullAttributes(attributes) {
     email: attributes.email,
     credit: attributes.credit,
     tags: attributes.tags,
+    documentationUrl: attributes.documentationUrl,
   });
 }
 

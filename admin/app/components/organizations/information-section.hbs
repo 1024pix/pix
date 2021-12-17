@@ -28,7 +28,7 @@
               Nom
             </label>
             {{#if (v-get this.form "name" "isInvalid")}}
-              <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+              <div class="form-field__error">
                 {{v-get this.form "name" "message"}}
               </div>
             {{/if}}
@@ -43,7 +43,7 @@
           <div class="form-field">
             <label for="externalId" class="form-field__label">Identifiant externe</label>
             {{#if (v-get this.form "externalId" "isInvalid")}}
-              <div class="form-field__error" aria-label="Message d'erreur du champ identifiant externe">
+              <div class="form-field__error">
                 {{v-get this.form "externalId" "message"}}
               </div>
             {{/if}}
@@ -57,7 +57,7 @@
           <div class="form-field">
             <label for="provinceCode" class="form-field__label">Département (en 3 chiffres)</label>
             {{#if (v-get this.form "provinceCode" "isInvalid")}}
-              <div class="form-field__error" aria-label="Message d'erreur du champ département">
+              <div class="form-field__error">
                 {{v-get this.form "provinceCode" "message"}}
               </div>
             {{/if}}
@@ -71,7 +71,7 @@
           <div class="form-field">
             <label for="email" class="form-field__label">Adresse e-mail (SCO)</label>
             {{#if (v-get this.form "email" "isInvalid")}}
-              <div class="form-field__error" aria-label="Message d'erreur du champ adresse email">
+              <div class="form-field__error">
                 {{v-get this.form "email" "message"}}
               </div>
             {{/if}}
@@ -94,6 +94,20 @@
               @type="number"
               class={{if (v-get this.form "credit" "isInvalid") "form-control is-invalid" "form-control"}}
               @value={{this.form.credit}}
+            />
+          </div>
+          <div class="form-field">
+            <label for="documentationUrl" class="form-field__label">Lien vers la documentation</label>
+            {{#if (v-get this.form "documentationUrl" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "documentationUrl" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="documentationUrl"
+              @type="text"
+              class={{if (v-get this.form "documentationUrl" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.documentationUrl}}
             />
           </div>
           {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
@@ -213,7 +227,6 @@
               @isBorderVisible={{true}}
               @size="small"
               @triggerAction={{this.toggleEditMode}}
-              aria-label="Editer"
             >Editer</PixButton>
           </div>
           <div>

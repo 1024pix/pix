@@ -121,6 +121,7 @@ describe('Integration | Repository | Organization', function () {
         canCollectProfiles: true,
         credit: 50,
         email: 'email@example.net',
+        documentationUrl: 'https://pix.fr/',
       });
 
       // when
@@ -137,6 +138,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationSaved.canCollectProfiles).to.equal(organization.canCollectProfiles);
       expect(organizationSaved.credit).to.equal(organization.credit);
       expect(organizationSaved.email).to.equal(organization.email);
+      expect(organizationSaved.documentationUrl).to.equal('https://pix.fr/');
     });
   });
 

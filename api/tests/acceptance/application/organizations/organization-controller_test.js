@@ -612,6 +612,7 @@ describe('Acceptance | Application | organization-controller', function () {
           credit: 666,
           email: 'sco.generic.account@example.net',
           createdBy: pixMasterUserId,
+          documentationUrl: 'https://pix.fr/',
         });
 
         await databaseBuilder.commit();
