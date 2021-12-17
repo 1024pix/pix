@@ -29,4 +29,18 @@ export default class ToolsController extends Controller {
       this.notifications.error('Une erreur est survenue.');
     }
   }
+
+  @action
+  async createNewTag(event) {
+    event.preventDefault();
+
+    try {
+      const tag = this.store.createRecord('tag', { name: this.tagName });
+      await tag.save();
+
+      this.notifications.success('Le tag a bien été créé !');
+    } catch (e) {
+      this.notifications.error('Une erreur est survenue. Veuillez réessayer.');
+    }
+  }
 }
