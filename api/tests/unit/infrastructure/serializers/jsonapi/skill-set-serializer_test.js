@@ -28,30 +28,4 @@ describe('Unit | Serializer | JSONAPI | skill-set-serializer', function () {
       expect(serializedSkillSet).to.deep.equal(expectedSkillSet);
     });
   });
-
-  describe('#deserialize', function () {
-    it('should convert JSON API data into a SkillSet model object', function () {
-      // given
-      const sPayload = {
-        data: {
-          type: 'skill-sets',
-          attributes: {
-            name: 'Mon SkillSet',
-            'skill-ids': ['recSkill1', 'recSkill2'],
-          },
-        },
-      };
-
-      // when
-      const deserializedSkillSet = serializer.deserialize(sPayload);
-
-      // then
-      const expectedSkillSet = {
-        name: 'Mon SkillSet',
-        skillIds: ['recSkill1', 'recSkill2'],
-      };
-
-      expect(deserializedSkillSet).to.deep.equal(expectedSkillSet);
-    });
-  });
 });
