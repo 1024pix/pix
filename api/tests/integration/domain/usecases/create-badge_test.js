@@ -18,16 +18,19 @@ describe('Integration | UseCases | create-badge', function () {
   let dependencies;
 
   beforeEach(async function () {
-    targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-    existingBadgeKey = databaseBuilder.factory.buildBadge().key;
-
-    await databaseBuilder.commit();
-
     const learningContent = {
       skills: [{ id: 'recSkill1' }],
     };
 
-    mockLearningContent(learningContent); // ???
+    mockLearningContent(learningContent);
+
+    targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    learningContent.skills.forEach((skill) =>
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill.id })
+    );
+    existingBadgeKey = databaseBuilder.factory.buildBadge().key;
+
+    await databaseBuilder.commit();
 
     badge = {
       key: 'TOTO23',
@@ -179,6 +182,28 @@ describe('Integration | UseCases | create-badge', function () {
 
       // then
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+    });
+  });
+
+  describe('when skillId is not attached to the corresponding target profile', function () {
+    it('should throw a NotFoundError', async function () {
+      // given
+      Object.assign(badgeCreation, {
+        skillSetThreshold: 99,
+        skillSetName: 'skillset-name',
+        skillSetSkillsIds: ['recSkill666'],
+      });
+
+      // when
+      const error = await catchErr(createBadge)({
+        targetProfileId,
+        badgeCreation,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
     });
   });
 });

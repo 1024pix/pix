@@ -30,6 +30,8 @@ module.exports = async function createBadge({
     }
 
     if (skillSetThreshold) {
+      await targetProfileRepository.hasSkills({ targetProfileId, skillIds: skillSetSkillsIds }, domainTransaction);
+
       const { id: skillSetId } = await skillSetRepository.save(
         {
           skillSet: {
