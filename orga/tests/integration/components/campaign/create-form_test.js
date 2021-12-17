@@ -139,7 +139,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
-        await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), 1);
+        await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), 'targetProfile1');
         // then
         assert.contains('description1');
         assert.contains(t('common.target-profile-details.subjects', { value: 11 }));
@@ -175,7 +175,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
-        await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), 1);
+        await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), 'targetProfile1');
 
         // then
         assert.contains(t('common.target-profile-details.results.common'));

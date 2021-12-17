@@ -80,8 +80,8 @@
           @onChange={{this.selectTargetProfile}}
           @options={{this.targetProfilesOptions}}
           @emptyOptionLabel=""
-          @size="big"
           aria-describedby="target-profile-info"
+          @isSearchable={{true}}
         />
         {{#if @errors.targetProfile}}
           <div class="form__error error-message">

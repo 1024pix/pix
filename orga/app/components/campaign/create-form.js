@@ -45,7 +45,7 @@ export default class CreateForm extends Component {
 
   @action
   selectTargetProfile(event) {
-    this.targetProfile = this.args.targetProfiles.find((targetProfile) => targetProfile.id === event.target.value);
+    this.targetProfile = this.args.targetProfiles.find((targetProfile) => targetProfile.name === event.target.value);
     this.campaign.targetProfile = this.targetProfile;
   }
 
