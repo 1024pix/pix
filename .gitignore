@@ -84,3 +84,6 @@ high-level-tests/e2e/cypress/snapshots/actual/**
 **/.ipython
 **/.ipynb_checkpoints
 **/.local
+
+# Pipe viewer
+**/pv*.out
