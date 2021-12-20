@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.142.0 (20/12/2021)
+
+
+### :building_construction: Tech
+- [#3846](https://github.com/1024pix/pix/pull/3846) [TECH] Utilisation des paramètres longs des commandes `artillery`
+
+### :bug: Bug fix
+- [#3845](https://github.com/1024pix/pix/pull/3845) [BUGFIX] Retourner sur la liste des campagnes lorsque l'on clique sur annuler lors de la création d'une campagne (PIX-4045)
+
 ## v3.141.0 (16/12/2021)
 
 
