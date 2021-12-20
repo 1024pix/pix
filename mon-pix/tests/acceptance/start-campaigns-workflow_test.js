@@ -23,7 +23,7 @@ import setupIntl from '../helpers/setup-intl';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
-describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
+describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
@@ -423,9 +423,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           });
 
           context('When user must validate terms of service Pole Emploi', function () {
-            const authenticationKey = 'authenticationKey';
-
-            beforeEach(function () {
+            it('should redirect to terms of service Pole Emploi page', async function () {
+              // given
+              const authenticationKey = 'authenticationKey';
               server.post('/pole-emploi/token', () => {
                 const userAccountNotFoundForPoleEmploiError = {
                   errors: [
@@ -441,10 +441,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
                 return new Response(401, {}, userAccountNotFoundForPoleEmploiError);
               });
-            });
-
-            it('should redirect to terms of service Pole Emploi page', async function () {
-              // given
               const state = 'state';
               const session = currentSession();
               session.set('data.state', state);
@@ -454,6 +450,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
               // then
               expect(currentURL()).to.equal(`/cgu-pole-emploi?authenticationKey=${authenticationKey}`);
+              expect(find('.terms-of-service-form__conditions').textContent).to.contains(
+                "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
+              );
             });
           });
         });
