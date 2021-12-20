@@ -8,8 +8,14 @@ const STEP_OF_SAMPLES = 18 / 80;
 const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
 const samples = _.range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
 const DEFAULT_PROBABILITY_TO_ANSWER = 1;
+const DEFAULT_ERROR_RATE = 5;
+const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
 
-module.exports = { getPossibleNextChallenges, getEstimatedLevel, getNonAnsweredChallenges };
+module.exports = {
+  getPossibleNextChallenges,
+  getEstimatedLevelAndErrorRate,
+  getNonAnsweredChallenges,
+};
 
 function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   const nonAnsweredChallenges = getNonAnsweredChallenges({ allAnswers, challenges });
@@ -18,11 +24,12 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
     return {
       hasAssessmentEnded: true,
       possibleChallenges: [],
-      estimatedLevel: 0,
+      estimatedLevel: DEFAULT_ESTIMATED_LEVEL,
+      errorRate: DEFAULT_ERROR_RATE,
     };
   }
 
-  const estimatedLevel = getEstimatedLevel({ allAnswers, challenges });
+  const { estimatedLevel, errorRate } = getEstimatedLevelAndErrorRate({ allAnswers, challenges });
 
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
@@ -46,12 +53,13 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
     hasAssessmentEnded: false,
     possibleChallenges,
     estimatedLevel,
+    errorRate,
   };
 }
 
-function getEstimatedLevel({ allAnswers, challenges }) {
+function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
   if (allAnswers.length === 0) {
-    return DEFAULT_ESTIMATED_LEVEL;
+    return { estimatedLevel: DEFAULT_ESTIMATED_LEVEL, errorRate: DEFAULT_ERROR_RATE };
   }
 
   let latestEstimatedLevel = DEFAULT_ESTIMATED_LEVEL;
@@ -95,7 +103,14 @@ function getEstimatedLevel({ allAnswers, challenges }) {
     );
   }
 
-  return latestEstimatedLevel;
+  const rawErrorRate = samplesWithResults.reduce(
+    (acc, { sample, probability }) => acc + probability * (sample - latestEstimatedLevel) ** 2,
+    0
+  );
+
+  const correctedErrorRate = Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
+
+  return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
 }
 
 function getNonAnsweredChallenges({ allAnswers, challenges }) {
