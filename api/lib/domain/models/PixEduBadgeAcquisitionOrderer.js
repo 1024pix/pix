@@ -1,9 +1,9 @@
 const {
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('./Badge').keys;
 
 class PixEduBadgeAcquisitionOrderer {
@@ -12,27 +12,27 @@ class PixEduBadgeAcquisitionOrderer {
   }
 
   getHighestBadge() {
+    const formateurFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+    );
     const expertFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
-    const maitreFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE
+    const avanceFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
-    const initieFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE
+    const avanceFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE
     );
-    const initieFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE
-    );
-    const entreeMetierFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER
+    const autonomeFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
     );
     return (
+      formateurFormationContinueBadgeAcquisition ||
       expertFormationContinueBadgeAcquisition ||
-      maitreFormationContinueBadgeAcquisition ||
-      initieFormationContinueBadgeAcquisition ||
-      initieFormationInitialeBadgeAcquisition ||
-      entreeMetierFormationInitialeBadgeAcquisition
+      avanceFormationContinueBadgeAcquisition ||
+      avanceFormationInitialeBadgeAcquisition ||
+      autonomeFormationInitialeBadgeAcquisition
     );
   }
 }
