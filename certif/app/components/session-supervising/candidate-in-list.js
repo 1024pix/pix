@@ -9,6 +9,14 @@ export default class CandidateInList extends Component {
   @tracked isMenuOpen = false;
   @tracked isConfirmationModalDisplayed = false;
 
+  get isCheckboxToBeDisplayed() {
+    return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
+  }
+
+  get optionsMenuShouldBeDisplayed() {
+    return this.args.candidate.hasStarted;
+  }
+
   @action
   async toggleCandidate(candidate) {
     await this.args.toggleCandidate(candidate);
