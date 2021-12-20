@@ -58,7 +58,7 @@ export default class BadgeForm extends Component {
       return badge;
     } catch (error) {
       console.error(error);
-      this.notifications.error('Erreur lors de la création du résultat thématique.');
+      this.notifications.error(`${error.errors[0].detail}`);
     }
   }
 
