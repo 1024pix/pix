@@ -476,6 +476,55 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       expect(response.statusCode).to.equal(201);
       expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
     });
+
+    it('should not create a badge nor criteria', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
+      await databaseBuilder.commit();
+      const badgeCreation = {
+        key: 'TOTO23',
+        'alt-message': 'alt-message',
+        'image-url': 'https//images.example.net',
+        message: 'Bravo !',
+        title: 'Le super badge',
+        'is-certifiable': false,
+        'is-always-visible': true,
+        'campaign-threshold': '99',
+        'skill-set-threshold': '66',
+        'skill-set-name': "c'est le nom du lot d'acquis !",
+        'skill-set-skills-ids': ['aki1', 'aki3', 'aki9'],
+      };
+      const options = {
+        method: 'POST',
+        url: `/api/admin/target-profiles/${targetProfileId}/badges/`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            type: 'badge-creations',
+            attributes: badgeCreation,
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const expectedError = {
+        errors: [
+          {
+            detail: 'Unknown skillIds : aki9',
+            status: '400',
+            title: 'Default Bad Request',
+          },
+        ],
+      };
+      expect(response.statusCode).to.equal(400);
+      expect(response.result).to.deep.equal(expectedError);
+    });
   });
 
   describe('GET /api/admin/target-profiles/{id}/badges', function () {

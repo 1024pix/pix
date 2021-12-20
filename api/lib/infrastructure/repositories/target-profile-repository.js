@@ -7,7 +7,12 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { TargetProfileCannotBeCreated, NotFoundError, ObjectValidationError } = require('../../domain/errors');
+const {
+  TargetProfileCannotBeCreated,
+  NotFoundError,
+  ObjectValidationError,
+  InvalidSkillSetError,
+} = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
@@ -198,7 +203,7 @@ module.exports = {
 
     const unknownSkillIds = _.difference(skillIds, _.map(result, 'skillId'));
     if (unknownSkillIds.length) {
-      throw new NotFoundError(`Unknown skillIds : ${unknownSkillIds}`);
+      throw new InvalidSkillSetError(`Unknown skillIds : ${unknownSkillIds}`);
     }
 
     return true;
