@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 
-const { UnauthorizedError } = require('../http-errors');
+const { UnauthorizedError, BadRequestError } = require('../http-errors');
 
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
@@ -10,15 +10,29 @@ module.exports = {
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
   async authenticateUser(request, h) {
-    const { username, password, scope } = request.payload;
+    let accessToken, refreshToken;
 
-    const accessToken = await usecases.authenticateUser({ username, password, scope, source: 'pix' });
+    if (request.payload.grant_type === 'refresh_token') {
+      // TODO Renvoyer un nouveau refresh token ici: refreshTokenService.createRefreshTokenFromUserId();
+      refreshToken = request.payload.refresh_token;
+      accessToken = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
+    } else if (request.payload.grant_type === 'password') {
+      const { username, password, scope } = request.payload;
+
+      const source = 'pix';
+      const tokens = await usecases.authenticateUser({ username, password, scope, source });
+      accessToken = tokens.accessToken;
+      refreshToken = tokens.refreshToken;
+    } else {
+      throw new BadRequestError('Invalid grant type');
+    }
 
     return h
       .response({
         token_type: 'bearer',
         access_token: accessToken,
         user_id: tokenService.extractUserId(accessToken),
+        refresh_token: refreshToken,
       })
       .code(200)
       .header('Content-Type', 'application/json;charset=UTF-8')
