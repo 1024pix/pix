@@ -46,7 +46,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 with accessToken when authentication is ok', async function () {
+    it('should return a 200 with an access token and a refresh token when authentication is ok', async function () {
       // given / when
       const response = await server.inject({
         method: 'POST',
@@ -63,12 +63,29 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
 
       // then
-      expect(response.statusCode).to.equal(200);
-
       const result = response.result;
+      expect(response.statusCode).to.equal(200);
       expect(result.token_type).to.equal('bearer');
       expect(result.access_token).to.exist;
       expect(result.user_id).to.equal(userId);
+      expect(result.refresh_token).to.exist;
+    });
+
+    it('should return a 400 if grant type is invalid', async function () {
+      // when
+      const errorResponse = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'appleSauce',
+        }),
+      });
+
+      // then
+      expect(errorResponse.statusCode).to.equal(400);
     });
 
     it('should return http code 401 when user should change password', async function () {

@@ -28,7 +28,15 @@ function _checkUserAccessScope(scope, user) {
   }
 }
 
-module.exports = async function authenticateUser({ password, scope, source, username, tokenService, userRepository }) {
+module.exports = async function authenticateUser({
+  password,
+  scope,
+  source,
+  username,
+  refreshTokenService,
+  tokenService,
+  userRepository,
+}) {
   try {
     const foundUser = await authenticationService.getUserByUsernameAndPassword({
       username,
@@ -43,9 +51,11 @@ module.exports = async function authenticateUser({ password, scope, source, user
 
     if (!shouldChangePassword) {
       _checkUserAccessScope(scope, foundUser);
-      const token = tokenService.createAccessTokenFromUser(foundUser.id, source);
+      const accessToken = tokenService.createAccessTokenFromUser(foundUser.id, source);
+      const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
+
       await userRepository.updateLastLoggedAt({ userId: foundUser.id });
-      return token;
+      return { accessToken, refreshToken };
     } else {
       throw new UserShouldChangePasswordError();
     }

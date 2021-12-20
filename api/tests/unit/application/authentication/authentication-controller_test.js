@@ -10,16 +10,19 @@ const authenticationController = require('../../../../lib/application/authentica
 describe('Unit | Application | Controller | Authentication', function () {
   describe('#authenticateUser', function () {
     const accessToken = 'jwt.access.token';
-
-    let request;
     const USER_ID = 1;
     const username = 'user@email.com';
     const password = 'user_password';
     const scope = 'pix-orga';
     const source = 'pix';
 
-    beforeEach(function () {
-      request = {
+    /**
+     * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
+     */
+    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
+      // given
+      const refreshToken = 'refresh.token';
+      const request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
         },
@@ -30,15 +33,12 @@ describe('Unit | Application | Controller | Authentication', function () {
           scope,
         },
       };
-      sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
-    });
 
-    /**
-     * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
-     */
-    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
-      // given
-      sinon.stub(usecases, 'authenticateUser').withArgs({ username, password, scope, source }).resolves(accessToken);
+      sinon
+        .stub(usecases, 'authenticateUser')
+        .withArgs({ username, password, scope, source })
+        .resolves({ accessToken, refreshToken });
+      sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
 
       // when
       const response = await authenticationController.authenticateUser(request, hFake);
@@ -48,6 +48,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         token_type: 'bearer',
         access_token: accessToken,
         user_id: USER_ID,
+        refresh_token: refreshToken,
       };
       expect(response.source).to.deep.equal(expectedResponseResult);
       expect(response.statusCode).to.equal(200);

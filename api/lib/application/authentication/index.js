@@ -15,12 +15,19 @@ exports.register = async (server) => {
           allow: 'application/x-www-form-urlencoded',
         },
         validate: {
-          payload: Joi.object().required().keys({
-            grant_type: 'password',
-            username: Joi.string().required(),
-            password: Joi.string().required(),
-            scope: Joi.string(),
-          }),
+          payload: Joi.alternatives().try(
+            Joi.object().required().keys({
+              grant_type: 'password',
+              username: Joi.string().required(),
+              password: Joi.string().required(),
+              scope: Joi.string(),
+            }),
+            Joi.object().required().keys({
+              grant_type: 'refresh_token',
+              refresh_token: Joi.string(),
+              scope: Joi.string(),
+            })
+          ),
         },
         handler: AuthenticationController.authenticateUser,
         tags: ['api'],

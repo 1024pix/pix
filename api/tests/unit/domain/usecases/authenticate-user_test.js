@@ -16,6 +16,7 @@ const appMessages = require('../../../../lib/domain/constants');
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let tokenService;
+  let refreshTokenService;
   let userRepository;
 
   const userEmail = 'user@example.net';
@@ -24,6 +25,9 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
   beforeEach(function () {
     tokenService = {
       createAccessTokenFromUser: sinon.stub(),
+    };
+    refreshTokenService = {
+      createRefreshTokenFromUserId: sinon.stub(),
     };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
@@ -36,18 +40,21 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
   it('should resolves a valid JWT access token when authentication succeeded', async function () {
     // given
     const accessToken = 'jwt.access.token';
+    const refreshToken = 'jwt.refresh.token';
     const source = 'pix';
     const user = domainBuilder.buildUser({ email: userEmail });
 
     authenticationService.getUserByUsernameAndPassword.resolves(user);
     tokenService.createAccessTokenFromUser.returns(accessToken);
+    refreshTokenService.createRefreshTokenFromUserId.returns(refreshToken);
 
     // when
-    await authenticateUser({
+    const result = await authenticateUser({
       username: userEmail,
       password,
       source,
       tokenService,
+      refreshTokenService,
       userRepository,
     });
 
@@ -58,6 +65,11 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       userRepository,
     });
     expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user.id, source);
+    expect(refreshTokenService.createRefreshTokenFromUserId).to.have.been.calledWithExactly({
+      userId: user.id,
+      source,
+    });
+    expect(result).to.deep.equal({ accessToken, refreshToken });
   });
 
   it('should save the last date of login when authentication succeeded', async function () {
@@ -75,6 +87,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       password,
       source,
       tokenService,
+      refreshTokenService,
       userRepository,
     });
 
@@ -204,6 +217,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           scope,
           source,
           tokenService,
+          refreshTokenService,
           userRepository,
           endTestScreenRemovalService,
         });
