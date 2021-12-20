@@ -75,8 +75,8 @@ const TARGET_PROFILE_SIMPLIFIED_ACCESS_ID = 4;
 const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID = 5;
 const TARGET_PROFILE_PIX_DROIT_ID = 6;
 const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2 = 7;
-const TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE = 8;
-const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE = 9;
+const TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE = 8;
+const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE = 9;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
@@ -276,8 +276,8 @@ function _buildTargetProfilePixDroit(databaseBuilder) {
 
 function _buildTargetProfilePixEduFormationInitiale(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
-    name: 'Pix+ Édu - Formation Initiale 1er degré',
+    id: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+    name: 'Pix+ Édu - Formation Initiale 2nd degré',
     isPublic: false,
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
@@ -297,14 +297,14 @@ function _buildTargetProfilePixEduFormationInitiale(databaseBuilder) {
   ];
 
   [...skillIdsForPixEduDomain1, ...skillIdsForPixEduDomain2].forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE, skillId });
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE, skillId });
   });
 }
 
 function _buildTargetProfilePixEduFormationContinue(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
-    name: 'Pix+ Édu - Formation Continue 1er degré',
+    id: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
+    name: 'Pix+ Édu - Formation Continue 2nd degré',
     isPublic: false,
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
@@ -322,7 +322,7 @@ function _buildTargetProfilePixEduFormationContinue(databaseBuilder) {
   ];
 
   skillIdsForPixEduDomain3.forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE, skillId });
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE, skillId });
   });
 }
 
@@ -335,8 +335,8 @@ module.exports = {
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_DROIT_ID,
-  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
-  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   skillIdsForSkillSetsV1,
   skillIdsForSkillSetsV2,
 };

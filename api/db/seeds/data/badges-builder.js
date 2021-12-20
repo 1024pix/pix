@@ -7,11 +7,11 @@ const PRO_TOOLS_BADGE_ID = 115;
 const PIX_DROIT_MAITRE_BADGE_ID = 116;
 const PIX_DROIT_EXPERT_BADGE_ID = 117;
 const PIX_EMPLOI_CLEA_BADGE_ID_V2 = 118;
-const PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER_BADGE_ID = 119;
-const PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID = 120;
-const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE_BADGE_ID = 121;
-const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE_BADGE_ID = 122;
-const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 123;
+const PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME_BADGE_ID = 119;
+const PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE_BADGE_ID = 120;
+const PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID = 121;
+const PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT_BADGE_ID = 122;
+const PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR_BADGE_ID = 123;
 
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
@@ -23,8 +23,8 @@ const {
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_DROIT_ID,
-  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
-  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
 } = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
@@ -46,7 +46,8 @@ function _createPixEmploiCleaBadge(databaseBuilder) {
     title: 'Pix Emploi - Clea',
     imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
     key: Badge.keys.PIX_EMPLOI_CLEA,
-    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+    message:
+      'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   });
@@ -62,7 +63,8 @@ function _createPixEmploiCleaBadgeV2(databaseBuilder) {
     title: 'Prêt pour le CléA numérique',
     imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
     key: Badge.keys.PIX_EMPLOI_CLEA_V2,
-    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+    message:
+      'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   });
@@ -85,7 +87,8 @@ function _createBasicsBadge(databaseBuilder) {
     title: 'Des bases sont là',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
     key: 'Basics',
-    message: 'Bravo ! Vous maîtrisez quelques bases du numérique comme le vocabulaire, la manipulation basique ou l\'utilisation d\'outils',
+    message:
+      'Bravo ! Vous maîtrisez quelques bases du numérique comme le vocabulaire, la manipulation basique ou l\'utilisation d\'outils',
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
@@ -107,7 +110,8 @@ function _createToolsBadge(databaseBuilder) {
     title: 'Vocabulaire et outils du numérique',
     imageUrl: 'https://images.pix.fr/badges/pro-recherche.svg',
     key: 'Tools',
-    message: 'Vous reconnaissez les éléments courants du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
+    message:
+      'Vous reconnaissez les éléments courants du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
@@ -129,7 +133,8 @@ function _createManipBadge(databaseBuilder) {
     title: 'Je manipule',
     imageUrl: 'https://images.pix.fr/badges/office.svg',
     key: 'Manip',
-    message: 'Vous maîtrisez les gestes de base : le clic, la saisie de texte et la navigation entre onglets d\'un navigateur WEB',
+    message:
+      'Vous maîtrisez les gestes de base : le clic, la saisie de texte et la navigation entre onglets d\'un navigateur WEB',
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
@@ -155,10 +160,11 @@ function _createProfessionalToolsBadge(databaseBuilder) {
   const toolsBadge = databaseBuilder.factory.buildBadge({
     id: PRO_TOOLS_BADGE_ID,
     altMessage: 'Vous avez validé le Vocabulaire et outils professionels du numérique.',
-    title: 'Vocabulaire et outils professionels du numérique',
+    title: 'Vocabulaire et outils professionnels du numérique',
     imageUrl: 'https://images.pix.fr/badges/pro-recherche.svg',
     key: 'Pro Tools',
-    message: 'Vous reconnaissez les éléments courants professionels du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
+    message:
+      'Vous reconnaissez les éléments courants professionnels du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
     targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
   });
 
@@ -167,45 +173,170 @@ function _createProfessionalToolsBadge(databaseBuilder) {
 
 function _createPixDroitBadge(databaseBuilder) {
   const skillIdsForPix = [
-    'recybd8jWDNiFpbgq', 'rec4Gvnh9kV1NeMsw', 'rectLj7NPg5JcSIqN', 'rec22kidf1QiHbWwE', 'rec9qal2FLjWysrfu',
-    'rec1xAgCoZux1Lxq8', 'rec50IhKadDxbvjES', 'recfQIxf8y4Nrs6M1', 'recPgkHUdzk0HPGt1', 'reclX9KELFBQeVKoC',
-    'recJLroTYxcfbczfW', 'reczOCGv8pz976Acl', 'recOrdJPMeAtA9Zse', 'recdmDASRPMTzOmVc', 'recJKLhRCjl9zizHr',
-    'rec1vRwGybfjq1Adm', 'rec1BJ9Z7bZRX2zkY', 'recPrXhP0X07OdHXe', 'recVSLpyP7v5vVn9M', 'rec7QdcMIhYfmkgq9',
-    'recIkcTpbNZy9YetV', 'recmMMVns3LEFkHeO', 'recfRe4luCCP8GoVA', 'recZbsu9i7LtYnEmx', 'recYLE9xXQelhycvQ',
-    'recSt4BLhSGpuu8cn', 'rec0y0EK2ko8YmmKB', 'recJYhsVsioiOFycp', 'recDUnCktq5wj7pZt', 'recagUd44RPEWti0X',
-    'recrvTvLTUXEcUIV1', 'recQdr7rbPZ3Kh6Ef', 'recLhYgOVFwOmQSLn', 'rec9IR04aOpn5aSCP', 'recJGN6S3MmTZVa5O',
-    'recnaom17JAkKT32Q', 'recINswt85utqO5KJ', 'recUvHMSCCrhtSWS6', 'recdgeyLSVKUpyJF0', 'recfSZlSomGI9PQjn',
-    'recg4t3r8Cs7RPKXY', 'recsBYc8s5lDrQDMx', 'rec5JQfWV9brlT8hO', 'recF6K3wLUiBSJCE6', 'recPG9ftlGZLiF0O6',
-    'recH1pcEWLBUCqXTm', 'rec4973AsptLwKr5f', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ', 'recKbNbM8G7mKaloD',
-    'recpdpemRXuzV9r10', 'recZ6RUx2zcIaRAIC', 'recdnFCH9mBrDW06P', 'recUDrhjEYqmfahRX', 'recTR73NgMRmrKRhT',
-    'rec3Oe2Z980n3Rdn7', 'recLIyfyDB8US3I6a', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5', 'recI4zS51by3N7Ryi',
-    'recrV8JAEsieJOAch', 'receMEAc7Jf2hYll6', 'rec5YCXgs5gMvQHAF', 'recbZos82xPmwuIKC', 'recwKS00LVuYSdCvD',
-    'reciVXqruKqnV4haA', 'recGpbqIcGoTPpgSk', 'recaTPKUCD6uAS0li', 'recicaqEeoJUtXT6j', 'recKWLJSisAK7f0Cy',
+    'recybd8jWDNiFpbgq',
+    'rec4Gvnh9kV1NeMsw',
+    'rectLj7NPg5JcSIqN',
+    'rec22kidf1QiHbWwE',
+    'rec9qal2FLjWysrfu',
+    'rec1xAgCoZux1Lxq8',
+    'rec50IhKadDxbvjES',
+    'recfQIxf8y4Nrs6M1',
+    'recPgkHUdzk0HPGt1',
+    'reclX9KELFBQeVKoC',
+    'recJLroTYxcfbczfW',
+    'reczOCGv8pz976Acl',
+    'recOrdJPMeAtA9Zse',
+    'recdmDASRPMTzOmVc',
+    'recJKLhRCjl9zizHr',
+    'rec1vRwGybfjq1Adm',
+    'rec1BJ9Z7bZRX2zkY',
+    'recPrXhP0X07OdHXe',
+    'recVSLpyP7v5vVn9M',
+    'rec7QdcMIhYfmkgq9',
+    'recIkcTpbNZy9YetV',
+    'recmMMVns3LEFkHeO',
+    'recfRe4luCCP8GoVA',
+    'recZbsu9i7LtYnEmx',
+    'recYLE9xXQelhycvQ',
+    'recSt4BLhSGpuu8cn',
+    'rec0y0EK2ko8YmmKB',
+    'recJYhsVsioiOFycp',
+    'recDUnCktq5wj7pZt',
+    'recagUd44RPEWti0X',
+    'recrvTvLTUXEcUIV1',
+    'recQdr7rbPZ3Kh6Ef',
+    'recLhYgOVFwOmQSLn',
+    'rec9IR04aOpn5aSCP',
+    'recJGN6S3MmTZVa5O',
+    'recnaom17JAkKT32Q',
+    'recINswt85utqO5KJ',
+    'recUvHMSCCrhtSWS6',
+    'recdgeyLSVKUpyJF0',
+    'recfSZlSomGI9PQjn',
+    'recg4t3r8Cs7RPKXY',
+    'recsBYc8s5lDrQDMx',
+    'rec5JQfWV9brlT8hO',
+    'recF6K3wLUiBSJCE6',
+    'recPG9ftlGZLiF0O6',
+    'recH1pcEWLBUCqXTm',
+    'rec4973AsptLwKr5f',
+    'recPGDVdX0LSOWQQC',
+    'rec0tk8dZWOzSQbaQ',
+    'recKbNbM8G7mKaloD',
+    'recpdpemRXuzV9r10',
+    'recZ6RUx2zcIaRAIC',
+    'recdnFCH9mBrDW06P',
+    'recUDrhjEYqmfahRX',
+    'recTR73NgMRmrKRhT',
+    'rec3Oe2Z980n3Rdn7',
+    'recLIyfyDB8US3I6a',
+    'recL0AotZshb9quhR',
+    'recrOwaV2PTt1N0i5',
+    'recI4zS51by3N7Ryi',
+    'recrV8JAEsieJOAch',
+    'receMEAc7Jf2hYll6',
+    'rec5YCXgs5gMvQHAF',
+    'recbZos82xPmwuIKC',
+    'recwKS00LVuYSdCvD',
+    'reciVXqruKqnV4haA',
+    'recGpbqIcGoTPpgSk',
+    'recaTPKUCD6uAS0li',
+    'recicaqEeoJUtXT6j',
+    'recKWLJSisAK7f0Cy',
   ];
 
   const skillIdsForPixDroitDomain7 = [
-    'recVsrqKyTLbbDHr', 'rec1ToyUy6NRAYfsI', 'rec1EDXVReB5W6WXj', 'rec2fBbtPc8wp4KWt', 'rec1ZqFC2J4vnqMKs',
-    'rec1a0hrfPTy6Gf0t', 'recOiY1HuWVhoapW', 'rec2Q7Diqgtnz763e', 'recZKD07u0mLyujW', 'rec2N9CictMeBt1WF',
-    'rec1EXVl5Brzto10O', 'rec2vtVFViYBr0AiN', 'recNZPgcaDXajM0t', 'rec2h26SD99HTor6U', 'rec2D9DXaRKoWIi2B',
-    'rec1yUM0b5yqbJJL2', 'rec1lD19Cd9ABRiRw', 'rec1t5bLr4yky63Ta', 'rec1XGR9DqVYKdYJx', 'rec1rFg4UP2tcoari',
-    'rec1NArKsOVyN4EIk', 'recU2zsmTHLjPpk9', 'rec17oEfeJmMCUaqx', 'rec2LAaXB2PVhBtCB', 'rec1diQTFWvp6w30t',
-    'rec1UWIIBNSkSeCuL', 'rec2K9f6ZD7lxHv6j', 'recR9RgdSfG6xdcY', 'rec1HP8ydLGZQiNe3', 'rec2yo32jQUEUwaLF',
-    'rec1SfkJCdp3sz9FV', 'recVx1cQZCLOcFw4', 'rec29RWcyhULv9vqH', 'rec1489VTqc86A08u', 'recZGo5NepCfhvVn',
+    'recVsrqKyTLbbDHr',
+    'rec1ToyUy6NRAYfsI',
+    'rec1EDXVReB5W6WXj',
+    'rec2fBbtPc8wp4KWt',
+    'rec1ZqFC2J4vnqMKs',
+    'rec1a0hrfPTy6Gf0t',
+    'recOiY1HuWVhoapW',
+    'rec2Q7Diqgtnz763e',
+    'recZKD07u0mLyujW',
+    'rec2N9CictMeBt1WF',
+    'rec1EXVl5Brzto10O',
+    'rec2vtVFViYBr0AiN',
+    'recNZPgcaDXajM0t',
+    'rec2h26SD99HTor6U',
+    'rec2D9DXaRKoWIi2B',
+    'rec1yUM0b5yqbJJL2',
+    'rec1lD19Cd9ABRiRw',
+    'rec1t5bLr4yky63Ta',
+    'rec1XGR9DqVYKdYJx',
+    'rec1rFg4UP2tcoari',
+    'rec1NArKsOVyN4EIk',
+    'recU2zsmTHLjPpk9',
+    'rec17oEfeJmMCUaqx',
+    'rec2LAaXB2PVhBtCB',
+    'rec1diQTFWvp6w30t',
+    'rec1UWIIBNSkSeCuL',
+    'rec2K9f6ZD7lxHv6j',
+    'recR9RgdSfG6xdcY',
+    'rec1HP8ydLGZQiNe3',
+    'rec2yo32jQUEUwaLF',
+    'rec1SfkJCdp3sz9FV',
+    'recVx1cQZCLOcFw4',
+    'rec29RWcyhULv9vqH',
+    'rec1489VTqc86A08u',
+    'recZGo5NepCfhvVn',
     'rec1kB9mwJ5OgSVac',
   ];
 
   const skillIdsForPixDroitDomain10 = [
-    'rec2N7a2V25EtOo65', 'rec2LKsFxZKznouzf', 'rec2l9DgRkwGLvypz', 'rec1hhx0ZAHDp7lbi', 'rec2HxQXDWViDqMIF',
-    'rec1WxB9xO0evkNZZ', 'rec17iburXjTGJ16I', 'rec2zRrGzUzcBGlTZ', 'rec1EIYS194JJkxvT', 'rec2Q8JYqSOHR5tXB',
-    'rec1q8EaC5p5YgH9t', 'recZZwBpFqbIrBcG', 'rec1HP5Zo3EjjkYMC', 'rec2bl04yHvkQalXp', 'rec176fBLAoLGgCik',
-    'rec2CGYVbOHJHfd3s', 'rec2UAabDUGTNPznB', 'rec2X9IfrJH2Bci4D', 'rec1742UQ2u18EvGi', 'rec1qwmvF5buKTbDr',
-    'rec1KUfQxRCM55gbC', 'rec2ooiMuIq0oUsnn', 'rec1gdjCWdJiacCjO', 'rec1euSl6Lvv6BRAj', 'rec23O6wwhi16ykUU',
-    'rec1bF7RyberJkxo8', 'rec2hdo5JKqc6W1LW', 'rec1MqaeSWF6ctGCI', 'rec1OZXpvNXccAlXH', 'rec1fP6bwoBfuSSt9',
-    'rec2Xa4FvWvA1u4EN', 'rec2Upsw0XxepV3aT', 'rec2szR4revLYvA81', 'rec2IHbKRAIatbLhR', 'rec1a3qGSOGR8ASKy',
-    'rec1Zj99pTKMJxI3b', 'rec1acCPu874VEndo', 'rec1jatQpmAIRF3zV', 'rec2owv7heER5tzB1', 'rec1iSqZ8hUYHc6k7',
-    'rec29zwatZLQvMPhb', 'rec2fkqn6Wg67b2ZA', 'rec2Kmgfh3rhMSLoS', 'rec25uNcX1RvqZmX8', 'rec2gX9NnuZdWH1ev',
-    'rec1rwutpqz9BA6uT', 'rec1kiqls8JYsVM7c', 'rec2NlK1kc6Lk5JE8', 'rec2jFSnBm3kgrLhw', 'rec1NM5bUvOaEISj7',
-    'rec2BoKMAoj65OQYc', 'rec1XXxlxvnKAzx5d',
+    'rec2N7a2V25EtOo65',
+    'rec2LKsFxZKznouzf',
+    'rec2l9DgRkwGLvypz',
+    'rec1hhx0ZAHDp7lbi',
+    'rec2HxQXDWViDqMIF',
+    'rec1WxB9xO0evkNZZ',
+    'rec17iburXjTGJ16I',
+    'rec2zRrGzUzcBGlTZ',
+    'rec1EIYS194JJkxvT',
+    'rec2Q8JYqSOHR5tXB',
+    'rec1q8EaC5p5YgH9t',
+    'recZZwBpFqbIrBcG',
+    'rec1HP5Zo3EjjkYMC',
+    'rec2bl04yHvkQalXp',
+    'rec176fBLAoLGgCik',
+    'rec2CGYVbOHJHfd3s',
+    'rec2UAabDUGTNPznB',
+    'rec2X9IfrJH2Bci4D',
+    'rec1742UQ2u18EvGi',
+    'rec1qwmvF5buKTbDr',
+    'rec1KUfQxRCM55gbC',
+    'rec2ooiMuIq0oUsnn',
+    'rec1gdjCWdJiacCjO',
+    'rec1euSl6Lvv6BRAj',
+    'rec23O6wwhi16ykUU',
+    'rec1bF7RyberJkxo8',
+    'rec2hdo5JKqc6W1LW',
+    'rec1MqaeSWF6ctGCI',
+    'rec1OZXpvNXccAlXH',
+    'rec1fP6bwoBfuSSt9',
+    'rec2Xa4FvWvA1u4EN',
+    'rec2Upsw0XxepV3aT',
+    'rec2szR4revLYvA81',
+    'rec2IHbKRAIatbLhR',
+    'rec1a3qGSOGR8ASKy',
+    'rec1Zj99pTKMJxI3b',
+    'rec1acCPu874VEndo',
+    'rec1jatQpmAIRF3zV',
+    'rec2owv7heER5tzB1',
+    'rec1iSqZ8hUYHc6k7',
+    'rec29zwatZLQvMPhb',
+    'rec2fkqn6Wg67b2ZA',
+    'rec2Kmgfh3rhMSLoS',
+    'rec25uNcX1RvqZmX8',
+    'rec2gX9NnuZdWH1ev',
+    'rec1rwutpqz9BA6uT',
+    'rec1kiqls8JYsVM7c',
+    'rec2NlK1kc6Lk5JE8',
+    'rec2jFSnBm3kgrLhw',
+    'rec1NM5bUvOaEISj7',
+    'rec2BoKMAoj65OQYc',
+    'rec1XXxlxvnKAzx5d',
   ];
 
   const skillIdsForPixDroit = skillIdsForPixDroitDomain7.concat(skillIdsForPixDroitDomain10);
@@ -239,139 +370,230 @@ function _createPixDroitBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
   });
 
-  const skillSetsMasterIds = _associatePixDroitMasterSkillSets(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitMasterBadge);
+  const skillSetsMasterIds = _associatePixDroitMasterSkillSets(
+    databaseBuilder,
+    targetProfileSkillIdsForPixDroitBadge,
+    pixDroitMasterBadge,
+  );
   _associatePixDroitMasterBadgeCriteria(databaseBuilder, pixDroitMasterBadge, skillSetsMasterIds);
 
-  const skillSetsExpertIds = _associatePixDroitExpertSkillSets(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitExpertBadge);
+  const skillSetsExpertIds = _associatePixDroitExpertSkillSets(
+    databaseBuilder,
+    targetProfileSkillIdsForPixDroitBadge,
+    pixDroitExpertBadge,
+  );
   _associatePixDroitExpertBadgeCriteria(databaseBuilder, pixDroitExpertBadge, skillSetsExpertIds);
 }
 
 function _createPixEduBadges(databaseBuilder) {
   const skillIdsForPixEduDomain1 = [
-    'rec15yReQYTFrSt4B', 'rec1Wkqw3nuHgIiIM', 'rec1j6CiXiURb2CHx', 'rec1Amct83clkurHS', 'rec1ekgLbl2OHiS2K',
-    'rec14jR3q6L4YhvhL', 'rec20QPg2JCWeRlwT', 'rec2cnUBnVRnO8Bha', 'rec2HwskucZtT4O2C', 'recPr5ClMsBGcYIV',
+    'rec15yReQYTFrSt4B',
+    'rec1Wkqw3nuHgIiIM',
+    'rec1j6CiXiURb2CHx',
+    'rec1Amct83clkurHS',
+    'rec1ekgLbl2OHiS2K',
+    'rec14jR3q6L4YhvhL',
+    'rec20QPg2JCWeRlwT',
+    'rec2cnUBnVRnO8Bha',
+    'rec2HwskucZtT4O2C',
+    'recPr5ClMsBGcYIV',
     'recR8sdouZZjY0mV',
   ];
 
   const skillIdsForPixEduDomain2 = [
-    'rec2VUmfYHsCt3Xgn', 'rec1w6nZsb68eSxDh', 'rec1waG4ibaZS7WYY', 'rec1EUjw8czJj40JI', 'recPH84RB6iqHkFH',
-    'rec1LZeDXuMFiDxWa', 'skill2OTKzrFuYPadQE', 'rec2BmkSgPUbXJJ0Y', 'rec2SNc48TxxRQSue', 'rec2vsS9ZtT1z2Txb',
-    'rec1ERSB85H4PA4SR', 'rec12AsSoWBadXgdl', 'recL8znWTv2HWwbW', 'rec2PWfuWoWagrlY4', 'rec2A8SAqQMfZQ7NK',
-    'rec254TTW8EvdImzq', 'rec2NbKkZN8gFy3FZ', 'rec25v7ZleWGcvo4d', 'rec2jP5V76SOU9Y04', 'rec1aetrWEVisVDrH',
-    'rec2K1Mc9n8xOqOMP', 'skill2rcH2vsFpAiT6p', 'skill1qjh1GbjGh9Vns', 'skillOf3dZo931fV48', 'skill1uNgT2xU9D74n0',
+    'rec2VUmfYHsCt3Xgn',
+    'rec1w6nZsb68eSxDh',
+    'rec1waG4ibaZS7WYY',
+    'rec1EUjw8czJj40JI',
+    'recPH84RB6iqHkFH',
+    'rec1LZeDXuMFiDxWa',
+    'skill2OTKzrFuYPadQE',
+    'rec2BmkSgPUbXJJ0Y',
+    'rec2SNc48TxxRQSue',
+    'rec2vsS9ZtT1z2Txb',
+    'rec1ERSB85H4PA4SR',
+    'rec12AsSoWBadXgdl',
+    'recL8znWTv2HWwbW',
+    'rec2PWfuWoWagrlY4',
+    'rec2A8SAqQMfZQ7NK',
+    'rec254TTW8EvdImzq',
+    'rec2NbKkZN8gFy3FZ',
+    'rec25v7ZleWGcvo4d',
+    'rec2jP5V76SOU9Y04',
+    'rec1aetrWEVisVDrH',
+    'rec2K1Mc9n8xOqOMP',
+    'skill2rcH2vsFpAiT6p',
+    'skill1qjh1GbjGh9Vns',
+    'skillOf3dZo931fV48',
+    'skill1uNgT2xU9D74n0',
   ];
 
   const skillIdsForPixEduDomain3 = [
-    'skillU67GhtfYVqwpv', 'skill1Twmb1rZDsEfE7', 'skill1g8g5coZkQXX4M', 'skill1ToY2ZTwexaBKp', 'skill1ny2KMgLu71jix',
-    'skill2ISuQfal7rbaXh', 'skillTZmYxFt743voi', 'skill14fiWIKaERX7BR', 'skill1uNdYxAX52fa62', 'skill1bE4gey9aNqbQZ',
-    'skill1WGPxbmhES4Oxa', 'skillRl8tfFE9xYJk4', 'skill2jNkrWFT4ba4Sf', 'skill2blmVwXGktteHR', 'skill2RAlN7ni693ddG',
-    'skill12UEhLVQ48X4rr', 'skill1klA1Gi5zQzrJx', 'skillVGB3FAtHy8dyO', 'skill11kT7wWx6zFn2w', 'skill1iIU3e7xGYwprq',
-    'skill2VV8u1UcI9NCXh', 'skill1ENYO2RGUPH5SM', 'skill22qk75PwZDqWoy', 'skill1teNFy22tZIfg7', 'skill1yZOkOIZTmJ3jY',
-    'skill2OLetxPA9DUVPt', 'skill109q79DREbmhuD', 'skill2FH5lzEpU7W9WP', 'skillO0bQ18VLVX9Gb', 'skill1PnlqHmqg1eunf',
-    'skill1GxkFDjxcI0cKc', 'skillUdOw1VhFGekoY', 'skill20U57sLssgVzMb', 'skill2fxgLE6DRN9chS', 'skill2SPl2q6wyNHn6D',
-    'skill1M8JfBs4DJbZ2u', 'skill1uKpAYnqPOPJmm', 'skill2XtWpclIQphAw7', 'skill1Y9XCwamT0vWAL', 'skill1KDyr0D7Vk0l65',
-    'skillPuGQjQ5eJQIxv', 'skill2ifeuYKWvCIdqe',
+    'skillU67GhtfYVqwpv',
+    'skill1Twmb1rZDsEfE7',
+    'skill1g8g5coZkQXX4M',
+    'skill1ToY2ZTwexaBKp',
+    'skill1ny2KMgLu71jix',
+    'skill2ISuQfal7rbaXh',
+    'skillTZmYxFt743voi',
+    'skill14fiWIKaERX7BR',
+    'skill1uNdYxAX52fa62',
+    'skill1bE4gey9aNqbQZ',
+    'skill1WGPxbmhES4Oxa',
+    'skillRl8tfFE9xYJk4',
+    'skill2jNkrWFT4ba4Sf',
+    'skill2blmVwXGktteHR',
+    'skill2RAlN7ni693ddG',
+    'skill12UEhLVQ48X4rr',
+    'skill1klA1Gi5zQzrJx',
+    'skillVGB3FAtHy8dyO',
+    'skill11kT7wWx6zFn2w',
+    'skill1iIU3e7xGYwprq',
+    'skill2VV8u1UcI9NCXh',
+    'skill1ENYO2RGUPH5SM',
+    'skill22qk75PwZDqWoy',
+    'skill1teNFy22tZIfg7',
+    'skill1yZOkOIZTmJ3jY',
+    'skill2OLetxPA9DUVPt',
+    'skill109q79DREbmhuD',
+    'skill2FH5lzEpU7W9WP',
+    'skillO0bQ18VLVX9Gb',
+    'skill1PnlqHmqg1eunf',
+    'skill1GxkFDjxcI0cKc',
+    'skillUdOw1VhFGekoY',
+    'skill20U57sLssgVzMb',
+    'skill2fxgLE6DRN9chS',
+    'skill2SPl2q6wyNHn6D',
+    'skill1M8JfBs4DJbZ2u',
+    'skill1uKpAYnqPOPJmm',
+    'skill2XtWpclIQphAw7',
+    'skill1Y9XCwamT0vWAL',
+    'skill1KDyr0D7Vk0l65',
+    'skillPuGQjQ5eJQIxv',
+    'skill2ifeuYKWvCIdqe',
   ];
 
-  const pixEduFormationInitialeEntreeMetierBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Édu - Entrée dans le métier',
-    title: 'Pix+ Édu - Entrée dans le métier',
+  const pixEduFormationInitialeAutonomeBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Autonome',
+    title: 'Pix+ Édu 2nd degré - Autonome',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_ENTREE_METIER',
-    message: 'avez validé le badge Pix+ Édu - Entrée dans le métier',
+    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME',
+    message: 'avez validé le badge Pix+ Édu 2nd degré - Autonome',
     isCertifiable: true,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   });
-  const [domain1EntreeMetierSkillSetId, domain2EntreeMetierSkillSetId] = _associatePixEduFormationInitialeSkillSets(databaseBuilder, skillIdsForPixEduDomain1, skillIdsForPixEduDomain2, pixEduFormationInitialeEntreeMetierBadge);
+  const [domain1EntreeMetierSkillSetId, domain2EntreeMetierSkillSetId] = _associatePixEduFormationInitialeSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain1,
+    skillIdsForPixEduDomain2,
+    pixEduFormationInitialeAutonomeBadge,
+  );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
-    badgeId: pixEduFormationInitialeEntreeMetierBadge.id,
+    badgeId: pixEduFormationInitialeAutonomeBadge.id,
     skillSetIds: [domain1EntreeMetierSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
-    badgeId: pixEduFormationInitialeEntreeMetierBadge.id,
+    badgeId: pixEduFormationInitialeAutonomeBadge.id,
     skillSetIds: [domain2EntreeMetierSkillSetId],
   });
 
-  const pixEduFormationInitialeInitieBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Édu - Initié',
-    title: 'Pix+ Édu - Initié',
+  const pixEduFormationInitialeAvanceBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Avancé',
+    title: 'Pix+ Édu 2nd degré - Avancé',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
-    message: 'avez validé le badge Pix+ Édu - Initié',
+    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE',
+    message: 'avez validé le badge Pix+ Édu 2nd degré - Avancé',
     isCertifiable: true,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   });
-  const [domain1InitieSkillSetId, domain2InitieSkillSetId] = _associatePixEduFormationInitialeSkillSets(databaseBuilder, skillIdsForPixEduDomain1, skillIdsForPixEduDomain2, pixEduFormationInitialeInitieBadge);
+  const [domain1InitieSkillSetId, domain2InitieSkillSetId] = _associatePixEduFormationInitialeSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain1,
+    skillIdsForPixEduDomain2,
+    pixEduFormationInitialeAvanceBadge,
+  );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
-    badgeId: pixEduFormationInitialeInitieBadge.id,
+    badgeId: pixEduFormationInitialeAvanceBadge.id,
     skillSetIds: [domain1InitieSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
-    badgeId: pixEduFormationInitialeInitieBadge.id,
+    badgeId: pixEduFormationInitialeAvanceBadge.id,
     skillSetIds: [domain2InitieSkillSetId],
   });
 
-  const pixEduFormationContinueInitieBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Édu - Initié',
-    title: 'Pix+ Édu - Initié',
+  const pixEduFormationContinueAvanceBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Avancé',
+    title: 'Pix+ Édu 2nd degré - Avancé',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_INITIE',
-    message: 'avez validé le badge Pix+ Édu - Initié',
+    key: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE',
+    message: 'avez validé le badge Pix+ Édu 2nd degré - Avancé',
     isCertifiable: true,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   });
-  const [domain3InitieSkillSetId] = _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, pixEduFormationContinueInitieBadge);
+  const [domain3InitieSkillSetId] = _associatePixEduFormationContinueSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain3,
+    pixEduFormationContinueAvanceBadge,
+  );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
-    badgeId: pixEduFormationContinueInitieBadge.id,
+    badgeId: pixEduFormationContinueAvanceBadge.id,
     skillSetIds: [domain3InitieSkillSetId],
   });
 
-  const pixEduFormationContinueMaitreBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Édu - Maître',
-    title: 'Pix+ Édu - Maître',
+  const pixEduFormationContinueExpertBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Expert',
+    title: 'Pix+ Édu 2nd degré - Expert',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_MAITRE',
-    message: 'avez validé le badge Pix+ Édu - Maître',
+    key: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT',
+    message: 'avez validé le badge Pix+ Édu 2nd degré - Expert',
     isCertifiable: true,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   });
-  const [domain3MaitreSkillSetId] = _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, pixEduFormationContinueMaitreBadge);
+  const [domain3MaitreSkillSetId] = _associatePixEduFormationContinueSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain3,
+    pixEduFormationContinueExpertBadge,
+  );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
-    badgeId: pixEduFormationContinueMaitreBadge.id,
+    badgeId: pixEduFormationContinueExpertBadge.id,
     skillSetIds: [domain3MaitreSkillSetId],
   });
 
-  const pixEduFormationContinueExpertBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Édu - Expert',
-    title: 'Pix+ Édu - Expert',
+  const pixEduFormationContinueFormateurBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Formateur',
+    title: 'Pix+ Édu 2nd degré - Formateur',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
-    message: 'avez validé le badge Pix+ Édu - Expert',
+    key: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR',
+    message: 'avez validé le badge Pix+ Édu 2nd degré - Formateur',
     isCertifiable: true,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   });
-  const [domain3ExpertSkillSetId] = _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsForPixEduDomain3, pixEduFormationContinueExpertBadge);
+  const [domain3ExpertSkillSetId] = _associatePixEduFormationContinueSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain3,
+    pixEduFormationContinueFormateurBadge,
+  );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 80,
-    badgeId: pixEduFormationContinueExpertBadge.id,
+    badgeId: pixEduFormationContinueFormateurBadge.id,
     skillSetIds: [domain3ExpertSkillSetId],
   });
 }
@@ -423,7 +645,6 @@ function _associateBadgeCriteria(databaseBuilder, badge, skillSetsIds = []) {
 
 function _associatePixDroitMasterSkillSets(databaseBuilder, targetProfileSkillIds, badge) {
   return _returnIds(
-
     databaseBuilder.factory.buildSkillSet({
       name: 'Acquis du référentiel Pix',
       skillIds: targetProfileSkillIds[0].map((id) => id),
@@ -520,7 +741,12 @@ function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge, skillSets
   });
 }
 
-function _associatePixEduFormationInitialeSkillSets(databaseBuilder, skillIdsForPixEduDomain1, skillIdsForPixEduDomain2, badge) {
+function _associatePixEduFormationInitialeSkillSets(
+  databaseBuilder,
+  skillIdsForPixEduDomain1,
+  skillIdsForPixEduDomain2,
+  badge,
+) {
   return _returnIds(
     databaseBuilder.factory.buildSkillSet({
       name: 'Domaine Pix+ Édu Domaine 1',
@@ -556,6 +782,6 @@ module.exports = {
   PRO_TOOLS_BADGE_ID,
   PIX_DROIT_MAITRE_BADGE_ID,
   PIX_DROIT_EXPERT_BADGE_ID,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE_BADGE_ID,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR_BADGE_ID,
 };
