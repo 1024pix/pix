@@ -9,6 +9,12 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
+  afterEach(async function () {
+    await knex('answers').delete();
+    await knex('assessment-results').delete();
+    return knex('assessments').delete();
+  });
+
   describe('#getWithAnswersAndCampaignParticipation', function () {
     let assessmentId;
 
@@ -347,10 +353,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('assessments').delete();
-    });
-
     it('should save new assessment if not already existing', async function () {
       // when
       assessmentReturned = await assessmentRepository.save({ assessment: assessmentToBeSaved });
@@ -538,10 +540,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('assessments').delete();
-    });
-
     it('should complete an assessment if not already existing and commited', async function () {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
@@ -565,6 +563,28 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
       expect(assessmentsInDb.state).to.equal(Assessment.states.STARTED);
+    });
+  });
+
+  describe('#endBySupervisorByAssessmentId', function () {
+    it('should end an assessment', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+        state: Assessment.states.STARTED,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      await assessmentRepository.endBySupervisorByAssessmentId(assessmentId);
+
+      // then
+      const { state } = await knex('assessments').where('id', assessmentId).first('state');
+      expect(state).to.equal(Assessment.states.ENDED_BY_SUPERVISOR);
     });
   });
 
