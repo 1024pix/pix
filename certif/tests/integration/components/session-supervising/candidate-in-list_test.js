@@ -26,14 +26,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       authorizedToStart: false,
       assessmentStatus: null,
     });
-    this.toggleCandidate = sinon.spy();
 
     // when
     const screen = await renderScreen(hbs`
-      <SessionSupervising::CandidateInList
-        @candidate={{this.candidate}}
-        @toggleCandidate={{this.toggleCandidate}}
-      />
+      <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
     `);
 
     // then
@@ -53,14 +49,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         authorizedToStart: true,
         assessmentStatus: null,
       });
-      this.toggleCandidate = sinon.spy();
 
       // when
       const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList
-          @candidate={{this.candidate}}
-          @toggleCandidate={{this.toggleCandidate}}
-        />
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
       `);
 
       // then
@@ -78,14 +70,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         authorizedToStart: true,
         assessmentStatus: null,
       });
-      this.toggleCandidate = sinon.spy();
 
       // when
       const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList
-          @candidate={{this.candidate}}
-          @toggleCandidate={{this.toggleCandidate}}
-        />
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
       `);
 
       // then
@@ -106,14 +94,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         authorizedToStart: true,
         assessmentStatus: 'started',
       });
-      this.toggleCandidate = sinon.spy();
 
       // when
       const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList
-          @candidate={{this.candidate}}
-          @toggleCandidate={{this.toggleCandidate}}
-        />
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
       `);
 
       // then
@@ -134,12 +118,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           authorizedToStart: true,
           assessmentStatus: 'started',
         });
-        this.toggleCandidate = sinon.spy();
+
         const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList
-            @candidate={{this.candidate}}
-            @toggleCandidate={{this.toggleCandidate}}
-          />
+          <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
         `);
 
         // when
@@ -161,13 +142,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             authorizedToStart: true,
             assessmentStatus: 'started',
           });
-          this.toggleCandidate = sinon.spy();
+
           const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList
-            @candidate={{this.candidate}}
-            @toggleCandidate={{this.toggleCandidate}}
-          />
-        `);
+            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+          `);
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
@@ -189,13 +167,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               authorizedToStart: true,
               assessmentStatus: 'started',
             });
-            this.toggleCandidate = sinon.spy();
+
             const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList
-            @candidate={{this.candidate}}
-            @toggleCandidate={{this.toggleCandidate}}
-          />
-        `);
+              <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+            `);
 
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
@@ -219,13 +194,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               authorizedToStart: true,
               assessmentStatus: 'started',
             });
-            this.toggleCandidate = sinon.spy();
+
             const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList
-            @candidate={{this.candidate}}
-            @toggleCandidate={{this.toggleCandidate}}
-          />
-        `);
+              <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+            `);
 
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
@@ -247,12 +219,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
                 authorizedToStart: true,
                 assessmentStatus: 'started',
               });
-              this.toggleCandidate = sinon.spy();
               this.authorizeTestResume = sinon.stub().resolves();
               const screen = await renderScreen(hbs`
                 <SessionSupervising::CandidateInList
                   @candidate={{this.candidate}}
-                  @toggleCandidate={{this.toggleCandidate}}
                   @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
                 />
                 <NotificationContainer @position="bottom-right" />
@@ -279,12 +249,10 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
                 authorizedToStart: true,
                 assessmentStatus: 'started',
               });
-              this.toggleCandidate = sinon.spy();
               this.authorizeTestResume = sinon.stub().rejects();
               const screen = await renderScreen(hbs`
                 <SessionSupervising::CandidateInList
                   @candidate={{this.candidate}}
-                  @toggleCandidate={{this.toggleCandidate}}
                   @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
                 />
                 <NotificationContainer @position="bottom-right" />
@@ -306,6 +274,54 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
+  module('when the candidate has completed the test', function() {
+    test('it displays the "terminé" label and no options menu', async function(assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        firstName: 'Martinex',
+        lastName: 'T\'Naga',
+        birthdate: '1979-08-27',
+        extraTimePercentage: null,
+        authorizedToStart: true,
+        assessmentStatus: 'completed',
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+      // then
+      assert.dom('.session-supervising-candidate-in-list').hasText('T\'Naga Martinex 27/08/1979 Terminé');
+      assert.dom(screen.queryByRole('checkbox', { name: 'T\'Naga Martinex' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
+    });
+  });
+
+  module('when the candidate\'s test has been ended by supervisor', function() {
+    test('it displays the "terminé" label and no options menu', async function(assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        firstName: 'Stakar',
+        lastName: 'Ogord',
+        birthdate: '1976-09-26',
+        extraTimePercentage: null,
+        authorizedToStart: true,
+        assessmentStatus: 'endedBySupervisor',
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+      // then
+      assert.dom('.session-supervising-candidate-in-list').hasText('Ogord Stakar 26/09/1976 Terminé');
+      assert.dom(screen.queryByRole('checkbox', { name: 'Ogord Stakar' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
+    });
+  });
+
   module('when the checkbox is clicked', function() {
     module('when the candidate is already authorized', function() {
       test('it calls the argument callback with candidate and false', async function(assert) {
@@ -321,10 +337,12 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
         this.toggleCandidate = sinon.spy();
 
-        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList
-          @candidate={{this.candidate}}
-          @toggleCandidate={{this.toggleCandidate}}
-        />`);
+        const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />`,
+        );
         const checkbox = screen.getByRole('checkbox');
 
         // when
@@ -339,7 +357,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when the candidate is not authorized', function() {
       test('it calls the argument callback with candidate', async function(assert) {
         // given
-        const candidate = store.createRecord('certification-candidate-for-supervising', {
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 123,
           firstName: 'Toto',
           lastName: 'Tutu',
@@ -348,15 +366,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           authorizedToStart: false,
           assessmentResult: null,
         });
-        this.sessionForSupervising = store.createRecord('session-for-supervising', {
-          certificationCandidates: [candidate],
-        });
         this.toggleCandidate = sinon.spy();
 
-        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList
-            @candidates={{this.sessionForSupervising.certificationCandidates}}
+        const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
             @toggleCandidate={{this.toggleCandidate}}
-        />`);
+          />
+        `);
         const checkbox = screen.getByRole('checkbox');
 
         // when
