@@ -63,10 +63,11 @@ describe('Integration | Component | certification-starter', function () {
 
         // then
         expect(
-          contains(
-            'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :\n\n Certif complémentaire 1  Certif complémentaire 2'
-          )
+          contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'),
+          'Vous êtes inscrit...'
         ).to.exist;
+        expect(contains('Certif complémentaire 1'), 'Certif complémentaire 1').to.exist;
+        expect(contains('Certif complémentaire 2'), 'Certif complémentaire 2').to.exist;
       });
 
       it('should not display subscription non eligible panel', async function () {
@@ -101,7 +102,7 @@ describe('Integration | Component | certification-starter', function () {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscriptions: [],
+            eligibleSubscriptions: [{ name: 'Certif complémentaire 2' }],
             nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }],
           })
         );
@@ -114,7 +115,7 @@ describe('Integration | Component | certification-starter', function () {
         // expect
         expect(
           contains(
-            'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix'
+            'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix et Certif complémentaire 2'
           )
         ).to.exist;
       });
