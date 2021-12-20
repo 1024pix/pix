@@ -21,6 +21,7 @@ module.exports = function buildCampaign({
   createdAt = new Date('2020-01-01'),
   organizationId,
   creatorId,
+  ownerId,
   targetProfileId,
   customResultPageText = null,
   customResultPageButtonText = null,
@@ -37,6 +38,7 @@ module.exports = function buildCampaign({
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
   creatorId = _.isUndefined(creatorId) ? buildUser().id : creatorId;
+  ownerId = _.isUndefined(ownerId) ? buildUser().id : ownerId;
 
   const values = {
     id,
@@ -53,6 +55,7 @@ module.exports = function buildCampaign({
     isForAbsoluteNovice,
     organizationId,
     creatorId,
+    ownerId,
     targetProfileId,
     customResultPageText,
     customResultPageButtonText,
