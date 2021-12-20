@@ -106,6 +106,14 @@ module.exports = {
     return null;
   },
 
+  async endAssessmentBySupervisor(request) {
+    const assessmentId = request.params.id;
+
+    await usecases.endAssessmentBySupervisor({ assessmentId });
+
+    return null;
+  },
+
   async updateLastChallengeState(request) {
     const assessmentId = request.params.id;
     const lastQuestionState = request.params.state;

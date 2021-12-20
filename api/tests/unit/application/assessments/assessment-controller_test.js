@@ -180,6 +180,25 @@ describe('Unit | Controller | assessment-controller', function () {
     });
   });
 
+  describe('#endAssessmentBySupervisor', function () {
+    const assessmentId = 2;
+    const assessmentCompletedEvent = new AssessmentCompleted();
+
+    beforeEach(function () {});
+
+    it('should call the endAssessmentBySupervisor use case', async function () {
+      // given
+      sinon.stub(usecases, 'endAssessmentBySupervisor');
+      usecases.endAssessmentBySupervisor.resolves(assessmentCompletedEvent);
+
+      // when
+      await assessmentController.endAssessmentBySupervisor({ params: { id: assessmentId } });
+
+      // then
+      expect(usecases.endAssessmentBySupervisor).to.have.been.calledWithExactly({ assessmentId });
+    });
+  });
+
   describe('#findCompetenceEvaluations', function () {
     it('should return the competence evaluations', async function () {
       // given
