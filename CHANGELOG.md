@@ -2,19 +2,30 @@
 
 ## v3.142.0 (20/12/2021)
 
+### :rocket: Enhancement
+- [#3842](https://github.com/1024pix/pix/pull/3842) [FEATURE] Permettre de rechercher dans la liste des profils cibles lors de la création d'une campagne (Pix-3762).
+- [#3838](https://github.com/1024pix/pix/pull/3838) [FEATURE] Dissocier un étudiant dans Pix Admin (PIX-4033).
+- [#3831](https://github.com/1024pix/pix/pull/3831) [FEATURE] Modifier l'url de documentation dans le détail d'une orga sur pix admin (Pix-3973).
+- [#3834](https://github.com/1024pix/pix/pull/3834) [FEATURE] Ajouter les épreuves Pix+ Édu lors du choix des épreuves d'une certification pour un utilisateur ayant obtenu un badge (PIX-3990).
+- [#3821](https://github.com/1024pix/pix/pull/3821) [FEATURE] Afficher dans Pix App les certification complémentaires que va passer un candidat (PIX-3688).
+- [#3773](https://github.com/1024pix/pix/pull/3773) [FEATURE] Afficher une description du profil cible dans la page paramètres d'une campagne d'évaluation (PIX-3765).
+- [#3832](https://github.com/1024pix/pix/pull/3832) [FEATURE] Ajout d'une colonne formNPSUrl pour un lien dynamique dans Pix App (PIX-4019).
 
 ### :building_construction: Tech
 - [#3846](https://github.com/1024pix/pix/pull/3846) [TECH] Utilisation des paramètres longs des commandes `artillery`
+- [#3843](https://github.com/1024pix/pix/pull/3843) [TECH] Corriger l'URL cible de l'API dans la documentation des tests de charge.
+- [#3827](https://github.com/1024pix/pix/pull/3827)[TECH] Uniformiser les pictos des réponses entre page checkpoint et pop-in réponse (PIX-450).
 
 ### :bug: Bug fix
 - [#3845](https://github.com/1024pix/pix/pull/3845) [BUGFIX] Retourner sur la liste des campagnes lorsque l'on clique sur annuler lors de la création d'une campagne (PIX-4045)
+
+
 
 ## v3.141.1 (17/12/2021)
 
 
 ### :building_construction: Tech
 - [#3844](https://github.com/1024pix/pix/pull/3844) Revert de "[TECH] Création d'une brique Accès au flux de campagne et annihilation du `start-or-resume` (PIX-3185)."
-
 
 ## v3.141.0 (16/12/2021)
 
