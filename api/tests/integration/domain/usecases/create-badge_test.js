@@ -8,7 +8,7 @@ const skillSetRepository = require('../../../../lib/infrastructure/repositories/
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const createBadge = require('../../../../lib/domain/usecases/create-badge');
 const Badge = require('../../../../lib/domain/models/Badge');
-const { AlreadyExistingEntityError, NotFoundError } = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntityError, NotFoundError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCases | create-badge', function () {
   let targetProfileId;
@@ -186,7 +186,7 @@ describe('Integration | UseCases | create-badge', function () {
   });
 
   describe('when skillId is not attached to the corresponding target profile', function () {
-    it('should throw a NotFoundError', async function () {
+    it('should throw a InvalidSkillSetError', async function () {
       // given
       Object.assign(badgeCreation, {
         skillSetThreshold: 99,
@@ -202,7 +202,7 @@ describe('Integration | UseCases | create-badge', function () {
       });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error).to.be.instanceOf(InvalidSkillSetError);
       expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
     });
   });

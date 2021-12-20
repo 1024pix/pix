@@ -5,7 +5,7 @@ const TargetProfileForCreation = require('../../../../lib/domain/models/TargetPr
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, ObjectValidationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -846,7 +846,7 @@ describe('Integration | Repository | Target-profile', function () {
         const error = await catchErr(targetProfileRepository.hasSkills)({ targetProfileId, skillIds });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error).to.be.instanceOf(InvalidSkillSetError);
         expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
       });
     });

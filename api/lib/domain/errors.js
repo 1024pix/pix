@@ -960,6 +960,12 @@ class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   }
 }
 
+class InvalidSkillSetError extends DomainError {
+  constructor(message = 'Acquis non valide') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1031,6 +1037,7 @@ module.exports = {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   InvalidSessionSupervisorPasswordError,
+  InvalidSkillSetError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
