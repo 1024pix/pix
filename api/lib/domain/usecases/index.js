@@ -189,6 +189,7 @@ module.exports = injectDependencies(
     createSession: require('./create-session'),
     createSkillSet: require('./create-skill-set'),
     createStage: require('./create-stage'),
+    createTag: require('./create-tag'),
     createTargetProfile: require('./create-target-profile'),
     createUser: require('./create-user'),
     createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
