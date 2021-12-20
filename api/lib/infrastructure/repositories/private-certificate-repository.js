@@ -8,6 +8,13 @@ const {
 const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../domain/models/Badge').keys;
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
@@ -117,7 +124,15 @@ async function _getCleaCertificationResult(certificationCourseId) {
 }
 
 async function _getCertifiedBadgeImages(certificationCourseId) {
-  const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
+  const handledBadgeKeys = [
+    pixPlusDroitExpertBadgeKey,
+    pixPlusDroitMaitreBadgeKey,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  ];
   const results = await knex
     .select('partnerKey')
     .from('partner-certifications')
@@ -131,6 +146,16 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
         return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
       if (result.partnerKey === pixPlusDroitExpertBadgeKey)
         return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
+      if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME)
+        return 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg';
+      if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE)
+        return 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg';
+      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE)
+        return 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg';
+      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
+        return 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg';
+      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR)
+        return 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg';
       return null;
     })
   );

@@ -19,6 +19,13 @@ const {
 const {
   badgeKey: pixPlusDroitExpertBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', function () {
@@ -491,6 +498,226 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
           acquiredBadges: [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/autonome.svg'],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/avance.svg'],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/avance.svg'],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/expert.svg'],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/formateur.svg'],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR],
           notAcquiredBadges: [],
         });
 
