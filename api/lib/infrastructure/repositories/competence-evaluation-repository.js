@@ -6,23 +6,19 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
   async save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    let competenceEvaluationCreated = null;
-    try {
-      competenceEvaluationCreated = await this.getByCompetenceIdAndUserId({
-        competenceId: competenceEvaluation.competenceId,
-        userId: competenceEvaluation.userId,
-        domainTransaction,
-      });
-    } catch (error) {
-      if (error instanceof NotFoundError) {
-        competenceEvaluationCreated = await new BookshelfCompetenceEvaluation(
-          _.omit(competenceEvaluation, ['assessment', 'scorecard'])
-        )
-          .save(null, { transacting: domainTransaction.knexTransaction })
-          .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
-      } else {
-        throw error;
-      }
+    let competenceEvaluationCreated = await _getByCompetenceIdAndUserId({
+      competenceId: competenceEvaluation.competenceId,
+      userId: competenceEvaluation.userId,
+      domainTransaction,
+    });
+    if (competenceEvaluationCreated) {
+      return competenceEvaluationCreated;
+    } else {
+      competenceEvaluationCreated = await new BookshelfCompetenceEvaluation(
+        _.omit(competenceEvaluation, ['assessment', 'scorecard'])
+      )
+        .save(null, { transacting: domainTransaction.knexTransaction })
+        .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
     }
     return competenceEvaluationCreated;
   },
@@ -71,17 +67,12 @@ module.exports = {
       });
   },
 
-  getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfCompetenceEvaluation.where({ competenceId, userId })
-      .orderBy('createdAt', 'asc')
-      .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
-      .catch((bookshelfError) => {
-        if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
-          throw new NotFoundError();
-        }
-        throw bookshelfError;
-      });
+  async getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction });
+    if (competenceEvaluation === null) {
+      throw new NotFoundError();
+    }
+    return competenceEvaluation;
   },
 
   findByUserId(userId) {
@@ -100,20 +91,27 @@ module.exports = {
   },
 
   async existsByCompetenceIdAndUserId({ competenceId, userId }) {
-    let isCompetenceEvaluationExists = true;
-    try {
-      await this.getByCompetenceIdAndUserId({ competenceId, userId });
-    } catch (err) {
-      if (err instanceof NotFoundError) {
-        isCompetenceEvaluationExists = false;
-      } else {
-        throw err;
-      }
-    }
-
-    return isCompetenceEvaluationExists;
+    const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId });
+    return competenceEvaluation ? true : false;
   },
 };
+
+async function _getByCompetenceIdAndUserId({
+  competenceId,
+  userId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  return BookshelfCompetenceEvaluation.where({ competenceId, userId })
+    .orderBy('createdAt', 'asc')
+    .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
+    .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
+    .catch((bookshelfError) => {
+      if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
+        return null;
+      }
+      throw bookshelfError;
+    });
+}
 
 function _selectOnlyOneCompetenceEvaluationByCompetence(competenceEvaluations) {
   const assessmentsGroupedByCompetence = _.groupBy(competenceEvaluations, 'competenceId');
