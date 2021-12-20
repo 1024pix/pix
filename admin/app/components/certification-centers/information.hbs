@@ -55,26 +55,22 @@
               @value={{this.form.externalId}}
             />
           </div>
-          <div class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
-            <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
-            <ul class="habilitations-list-ul">
-              {{#each this.availableHabilitations as |habilitation|}}
-                <li>
-                  <div class="habilitation-entry">
-                    <Input
-                      id="habilitation-checkbox__{{habilitation.id}}"
-                      @type="checkbox"
-                      @checked={{contains habilitation @certificationCenter.habilitations}}
-                      {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
-                    />
-                    <label class="field__label" for="habilitation-checkbox__{{habilitation.id}}">
-                      {{habilitation.name}}
-                    </label>
-                  </div>
-                </li>
-              {{/each}}
-            </ul>
-          </div>
+          <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
+          <ul class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
+            {{#each this.availableHabilitations as |habilitation|}}
+              <li class="habilitation-entry">
+                <Input
+                  id="habilitation-checkbox__{{habilitation.id}}"
+                  @type="checkbox"
+                  @checked={{contains habilitation @certificationCenter.habilitations}}
+                  {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
+                />
+                <label class="field__label" for="habilitation-checkbox__{{habilitation.id}}">
+                  {{habilitation.name}}
+                </label>
+              </li>
+            {{/each}}
+          </ul>
           <div class="form-actions justify-content-end">
             <PixButton
               @size="small"
@@ -100,30 +96,28 @@
         </div>
         <div class="property">
           <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
-          <div class="certification-center-information__display__habilitations-list">
-            <ul class="habilitations-list-ul">
-              {{#each this.availableHabilitations as |habilitation|}}
-                {{#if (contains habilitation @certificationCenter.habilitations)}}
-                  <li aria-label={{concat "Habilité pour " habilitation.name}}>
-                    <FaIcon class="granted-habilitation-icon" @icon="check-circle" />
-                    {{habilitation.name}}
-                  </li>
-                {{else}}
-                  <li aria-label={{concat "Non-habilité pour " habilitation.name}}>
-                    <FaIcon class="not-granted-habilitation-icon" @icon="times-circle" />
-                    {{habilitation.name}}
-                  </li>
-                {{/if}}
-              {{/each}}
-            </ul>
-          </div>
+          <ul class="certification-center-information__display__habilitations-list">
+            {{#each this.availableHabilitations as |habilitation|}}
+              {{#if (contains habilitation @certificationCenter.habilitations)}}
+                <li aria-label={{concat "Habilité pour " habilitation.name}}>
+                  <FaIcon class="granted-habilitation-icon" @icon="check-circle" />
+                  {{habilitation.name}}
+                </li>
+              {{else}}
+                <li aria-label={{concat "Non-habilité pour " habilitation.name}}>
+                  <FaIcon class="not-granted-habilitation-icon" @icon="times-circle" />
+                  {{habilitation.name}}
+                </li>
+              {{/if}}
+            {{/each}}
+          </ul>
           <PixButton
             @backgroundColor="transparent-light"
             @isBorderVisible={{true}}
             @size="small"
             @triggerAction={{this.enterEditMode}}
             aria-label="Editer"
-          >Editer
+          >Editer les informations
           </PixButton>
         </div>
       </div>

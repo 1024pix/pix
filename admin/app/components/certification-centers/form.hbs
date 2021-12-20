@@ -66,23 +66,21 @@
 
     <section>
       <h1 class="habilitations-title">Habilitations aux certifications complémentaires</h1>
-      <div class="form-field habilitations-checkbox-list">
-        <ul>
-          {{#each @habilitations as |habilitation index|}}
-            <li>
-              <label class="form-field__label" for={{concat "habilitation_" index}}>
-                <Input
-                  @type="checkbox"
-                  id={{concat "habilitation_" index}}
-                  @checked={{contains habilitation @certificationCenter.habilitations}}
-                  {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
-                />
-                {{habilitation.name}}
-              </label>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
+      <ul class="form-field habilitations-checkbox-list">
+        {{#each @habilitations as |habilitation index|}}
+          <li class="habilitation-entry">
+            <Input
+              @type="checkbox"
+              id={{concat "habilitation_" index}}
+              @checked={{contains habilitation @certificationCenter.habilitations}}
+              {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
+            />
+            <label class="form-field__label" for={{concat "habilitation_" index}}>
+              {{habilitation.name}}
+            </label>
+          </li>
+        {{/each}}
+      </ul>
     </section>
   </section>
 

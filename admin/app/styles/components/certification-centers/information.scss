@@ -1,29 +1,15 @@
 .certification-center-information {
 
+  h1 {
+    padding-bottom: 16px;
+  }
+
   &__display {
 
     &__name {
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 20px;
-    }
-
-    &__habilitations-list {
-      background-color: #F4F5F7;
-      border-radius: 16px;
-      padding: 8px;
-
-      li {
-        width: 200px;
-      }
-
-      .granted-habilitation-icon {
-        color: $green;
-      }
-
-      .not-granted-habilitation-icon {
-        color: $grey-35;
-      }
     }
 
     .property {
@@ -43,19 +29,6 @@
 
   &__edit-form {
     width: 500px;
-
-    .habilitations-list-ul {
-      flex-direction: column;
-    }
-
-    &__habilitations-checkboxes {
-      display: flex;
-    }
-
-    .habilitation-entry {
-      display: block;
-      padding-bottom: 8px;
-    }
   }
 
   .field__label {
@@ -70,10 +43,50 @@
     font-size: 0.85rem;
   }
 
-  .habilitations-list-ul {
+  &__display__habilitations-list,
+  &__edit-form__habilitations-checkbox-list {
     list-style-type: none;
-    display: flex;
     margin: 8px 0;
     padding: 0;
+  }
+
+  &__edit-form__habilitations-checkbox-list {
+    flex-direction: column;
+    display: flex;
+
+    .habilitation-entry {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      padding-bottom: 8px;
+
+      * {
+        margin-bottom: 0;
+        align-self: center;
+      }
+
+      input[type=checkbox] {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+
+  &__display__habilitations-list {
+    background-color: #F4F5F7;
+    border-radius: 8px;
+    align-items: flex-start;
+    gap: 24px;
+    display: inline-flex;
+    flex-direction: row;
+    padding: 8px 16px;
+
+    .granted-habilitation-icon {
+      color: $green;
+    }
+
+    .not-granted-habilitation-icon {
+      color: $grey-35;
+    }
   }
 }

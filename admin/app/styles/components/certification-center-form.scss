@@ -19,11 +19,26 @@
 
   .habilitations-checkbox-list {
     display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 8px 0;
+    padding: 0;
 
-    ul {
-      list-style-type: none;
-      margin: 8px;
-      padding: 0;
+    .habilitation-entry {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      padding-bottom: 8px;
+
+      * {
+        margin-bottom: 0;
+        align-self: center;
+      }
+
+      input[type=checkbox] {
+        width: 1rem;
+        height: 1rem;
+      }
     }
   }
 }
