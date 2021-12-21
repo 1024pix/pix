@@ -24,8 +24,21 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     assert.contains('Filtres');
     assert.dom(screen.getByLabelText('Rechercher une campagne')).exists();
     assert.dom(screen.getByLabelText('Rechercher un créateur')).exists();
-    assert.dom(screen.getByLabelText('Afficher les campagnes actives')).exists();
-    assert.dom(screen.getByLabelText('Afficher les campagnes archivées')).exists();
+    assert.dom(screen.getByLabelText('Archivées')).exists();
+    assert.dom(screen.getByLabelText('Actives')).exists();
     assert.contains('1 campagne');
+  });
+
+  test('[A11Y] it should make filters container accessible', async function (assert) {
+    // when
+    const screen = await renderScreen(
+      hbs`<Campaign::Filter::Filters
+        @onFilter={{this.triggerFilteringSpy}}
+        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @numResults={{1}} />`
+    );
+
+    // then
+    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.legend'))).exists();
   });
 });
