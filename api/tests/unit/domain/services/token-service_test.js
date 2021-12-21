@@ -10,7 +10,6 @@ const {
   InvalidSessionResultError,
 } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
-
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Domain | Service | Token Service', function () {
