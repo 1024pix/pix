@@ -41,10 +41,12 @@ module.exports = {
       idPixLabel,
       customLandingPageText,
       creatorId: userId,
+      ownerId: userId,
       organizationId,
       targetProfileId,
       multipleSendings,
     };
+
     const createdCampaign = await usecases.createCampaign({ campaign });
     return h.response(campaignReportSerializer.serialize(createdCampaign)).created();
   },

@@ -79,8 +79,9 @@ describe('Integration | Repository | Campaign', function () {
 
     beforeEach(async function () {
       // given
-      const creator = databaseBuilder.factory.buildUser({});
-      creatorId = creator.id;
+      const user = databaseBuilder.factory.buildUser({});
+      creatorId = user.id;
+      const ownerId = user.id;
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({}).id;
@@ -91,6 +92,7 @@ describe('Integration | Repository | Campaign', function () {
         code: 'BCTERD153',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
         creatorId,
+        ownerId,
         organizationId,
         multipleSendings: true,
       };
