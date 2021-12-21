@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.143.0 (21/12/2021)
+
+
+### :rocket: Enhancement
+- [#3857](https://github.com/1024pix/pix/pull/3857) [FEATURE] Afficher le NPS après l'envoi des résultats d'une campagne (PIX-4061).
+- [#3824](https://github.com/1024pix/pix/pull/3824) [FEATURE] Terminer un test de certification depuis le portail surveillant partie 1(Pix-4055)
+- [#3849](https://github.com/1024pix/pix/pull/3849) [FEATURE] Permettre d'ajouter un tag sur Pix Admin (PIX-4044)
+- [#3837](https://github.com/1024pix/pix/pull/3837) [FEATURE] Afficher dans l'espace surveillant quand un candidat a terminé son test (PIX-3659)
+- [#3835](https://github.com/1024pix/pix/pull/3835) [FEATURE]Ajout d'un lien vers la politique de confidentialité de pix sur la page d'inscription Pole Emploi(PIX-4028)
+
+### :building_construction: Tech
+- [#3850](https://github.com/1024pix/pix/pull/3850) [TECH] Reporter le hotfix dans le CHANGELOG
+
+### :bug: Bug fix
+- [#3852](https://github.com/1024pix/pix/pull/3852) [BUGFIX] Corriger l'espace entre un bouton radio  & le label pour choisir le type de fichier à télécharger (PIX-4034)
+
 ## v3.142.0 (20/12/2021)
 
 ### :rocket: Enhancement
