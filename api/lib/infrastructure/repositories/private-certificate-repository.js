@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
+const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const {
   badgeKey: pixPlusDroitExpertBadgeKey,
 } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
@@ -143,19 +144,45 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   return _.compact(
     _.map(results, (result) => {
       if (result.partnerKey === pixPlusDroitMaitreBadgeKey)
-        return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+          isTemporaryBadge: false,
+        });
       if (result.partnerKey === pixPlusDroitExpertBadgeKey)
-        return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+          isTemporaryBadge: false,
+        });
       if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME)
-        return 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg',
+          isTemporaryBadge: true,
+          levelName: 'Autonome',
+        });
       if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE)
-        return 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+          isTemporaryBadge: true,
+          levelName: 'Avancé',
+        });
       if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE)
-        return 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+          isTemporaryBadge: true,
+          levelName: 'Avancé',
+        });
       if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
-        return 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg',
+          isTemporaryBadge: true,
+          levelName: 'Expert',
+        });
       if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR)
-        return 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg',
+          isTemporaryBadge: true,
+          levelName: 'Formateur',
+        });
       return null;
     })
   );

@@ -401,7 +401,11 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -445,7 +449,11 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/maitre.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -490,8 +498,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-            'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            }),
           ],
         };
 
@@ -536,7 +548,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/autonome.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg',
+              levelName: 'Autonome',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -580,7 +597,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/avance.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+              levelName: 'Avancé',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -624,7 +646,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/avance.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+              levelName: 'Avancé',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -668,7 +695,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/expert.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg',
+              levelName: 'Expert',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -712,7 +744,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-edu/formateur.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg',
+              levelName: 'Formateur',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -756,7 +793,11 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
