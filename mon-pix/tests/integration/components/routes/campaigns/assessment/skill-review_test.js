@@ -393,6 +393,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         };
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
+          isShared: true,
         };
         this.set('model', { campaign, campaignParticipationResult });
 
