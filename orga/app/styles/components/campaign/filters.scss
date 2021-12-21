@@ -15,7 +15,7 @@
     margin: 0 0 8px 0;
   }
 
-  section:first-child {
+  > div:first-child {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -31,7 +31,7 @@
     }
   }
 
-  section:last-child {
+  > div:last-child {
     border-top: 1.2px solid $grey-15;
     margin-top: 20px;
 

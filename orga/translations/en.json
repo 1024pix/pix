@@ -169,7 +169,7 @@
         "common": "Success rate in ",
         "star" :"stars",
         "percent": "percentage"
-      }, 
+      },
       "thematic-results": "Thematic results: {value, number}"
     }
   },
@@ -464,12 +464,10 @@
       },
       "action": {
         "archived": {
-          "aria-label": "Display archived campaigns",
           "label": "Archived"
         },
         "create": "Create a campaign",
         "ongoing": {
-          "aria-label": "Display ongoing campaigns",
           "label": "Ongoing"
         }
       },
@@ -478,6 +476,7 @@
         "description": "Set up and launch your first campaign. Then, invite your users to join this customised test."
       },
       "filter": {
+        "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du créateur. Des boutons permettent de filtrer les campagnes actives et archivées.",
         "title": "Filters",
         "by-creator": "Search for a creator",
         "by-name": "Search for a campaign",
