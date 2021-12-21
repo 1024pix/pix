@@ -9,6 +9,7 @@ const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
   ABORTED: 'aborted',
+  ENDED_BY_SUPERVISOR: 'endedBySupervisor',
 };
 
 const types = {

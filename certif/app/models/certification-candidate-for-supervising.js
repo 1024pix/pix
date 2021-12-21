@@ -1,6 +1,13 @@
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 
+const assessmentStates = {
+  COMPLETED: 'completed',
+  STARTED: 'started',
+  ABORTED: 'aborted',
+  ENDED_BY_SUPERVISOR: 'endedBySupervisor',
+};
+
 export default class CertificationCandidateForSupervising extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
@@ -11,6 +18,11 @@ export default class CertificationCandidateForSupervising extends Model {
 
   get hasStarted() {
     return this.assessmentStatus === 'started';
+  }
+
+  get hasCompleted() {
+    return [assessmentStates.COMPLETED, assessmentStates.ENDED_BY_SUPERVISOR]
+      .includes(this.assessmentStatus);
   }
 
   updateAuthorizedToStart = memberAction({
@@ -26,5 +38,10 @@ export default class CertificationCandidateForSupervising extends Model {
   authorizeTestResume = memberAction({
     type: 'post',
     urlType: 'authorizeToResume',
+  });
+
+  endAssessmentBySupervisor = memberAction({
+    type: 'patch',
+    urlType: 'endAssessmentBySupervisor',
   });
 }

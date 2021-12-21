@@ -1,5 +1,5 @@
 <li class="session-supervising-candidate-in-list">
-  {{#unless @candidate.hasStarted}}
+  {{#if this.isCheckboxToBeDisplayed}}
     <PixInput
       @id={{concat "candidate-checkbox-" @candidate.id}}
       class="session-supervising-candidate-in-list__checkbox"
@@ -7,7 +7,7 @@
       checked={{@candidate.authorizedToStart}}
       {{on 'click' (fn this.toggleCandidate @candidate)}}
     />
-  {{/unless}}
+  {{/if}}
   <div class="session-supervising-candidate-in-list__candidate-data">
     <div class="session-supervising-candidate-in-list__full-name">
       {{#if @candidate.hasStarted}}
@@ -29,8 +29,13 @@
         En cours
       </span>
     {{/if}}
+    {{#if @candidate.hasCompleted}}
+      <span class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed">
+        Terminé
+      </span>
+    {{/if}}
   </div>
-  {{#if @candidate.hasStarted}}
+  {{#if this.optionsMenuShouldBeDisplayed}}
     <div class="session-supervising-candidate-in-list__menu">
       <PixIconButton
         @icon="ellipsis-v"
@@ -41,59 +46,29 @@
         <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
           Autoriser la reprise du test
         </Dropdown::Item>
+        <Dropdown::Item @onClick={{this.askUserToConfirmTestEnd}}>
+          Terminer le test
+        </Dropdown::Item>
       </Dropdown::Content>
     </div>
   {{/if}}
 
   {{#if this.isConfirmationModalDisplayed}}
-    <AppModal @containerClass="pix-modal-dialog" @onClose={{this.closeConfirmationModal}}>
+    <SessionSupervising::ConfirmationModal
+      @closeConfirmationModal={{this.closeConfirmationModal}}
+      @actionOnConfirmation={{this.actionMethod}}
+      @candidate={{this.candidate}}
+      @modalCancelText={{this.modalCancelText}}
+      @modalConfirmationButtonText={{this.modalConfirmationText}}
+    >
+      <:instruction>
+        {{this.modalInstructionText}}
+      </:instruction>
+      <:description>
+        {{this.modalDescriptionText}}
+      </:description>
+    </SessionSupervising::ConfirmationModal>
 
-      <div class="pix-modal__close-button">
-        <button
-          type="button"
-          data-test-id="finalize-session-modal__close-cross"
-          {{on "click" this.closeConfirmationModal}}
-          aria-label="Fermer la fenêtre de confirmation"
-        >
-          Fermer
-          <img src="/icons/icon-close-modal.svg" alt="" role="presentation" width="24" height="24">
-        </button>
-      </div>
-
-      <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
-        <div class="pix-modal-body pix-modal-body--with-padding">
-          <div class="app-modal-body__attention">
-            Autoriser {{@candidate.firstName}} {{@candidate.lastName}} à reprendre son test ?
-          </div>
-          <div class="app-modal-body__warning">
-            <p>
-              Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème
-              technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test
-              à l'endroit où il l'avait quitté.
-            </p>
-          </div>
-        </div>
-
-        <div class="pix-modal-footer">
-          <PixButton
-            data-test-id="finalize-session-modal__confirm-button"
-            @triggerAction={{fn this.authorizeTestResume @candidate}}
-            @backgroundColor="yellow"
-          >
-            Je confirme l'autorisation
-          </PixButton>
-          <PixButton
-            data-test-id="finalize-session-modal__cancel-button"
-            @triggerAction={{this.closeConfirmationModal}}
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-            aria-label="Annuler et fermer la fenêtre de confirmation"
-          >
-            Annuler
-          </PixButton>
-        </div>
-      </div>
-    </AppModal>
   {{/if}}
 
 </li>

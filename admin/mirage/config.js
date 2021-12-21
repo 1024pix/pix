@@ -295,4 +295,10 @@ export default function () {
   this.post('/admin/assessment-results/', () => {
     return new Response(204);
   });
+
+  this.post('/admin/tags', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const tagName = params.data.attributes.name;
+    return schema.create('tag', { name: tagName });
+  });
 }
