@@ -123,7 +123,11 @@ export default class SkillReview extends Component {
   }
 
   get showNPS() {
-    return this.featureToggles.featureToggles.isNetPromoterScoreEnabled && this.args.model.campaign.organizationShowNPS;
+    return (
+      this.featureToggles.featureToggles.isNetPromoterScoreEnabled &&
+      this.args.model.campaign.organizationShowNPS &&
+      this.isShared
+    );
   }
 
   _buildUrl(baseUrl, params) {
