@@ -153,4 +153,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
   });
 };
 
+buildAssessment.ofTypeCertification = buildAssessment;
+
 module.exports = buildAssessment;

@@ -52,7 +52,7 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   // A candidate that is authorized to start
   databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'Jean-François',
-    lastName: 'Ananas',
+    lastName: 'Apascommencé',
     sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
     userId: null,
     authorizedToStart: true,
@@ -62,7 +62,7 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   const userId = databaseBuilder.factory.buildUser().id;
   const candidateWithStartedTest = {
     firstName: 'Jean-Pierre',
-    lastName: 'Arbuste',
+    lastName: 'Acommencé',
     userId,
     sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
   };
@@ -77,6 +77,9 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
     certificationCourseId: certificationCourse.id,
     state: Assessment.states.STARTED,
   });
+
+  _addCandidateWithTestCompleted({ sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, databaseBuilder });
+  _addCandidateWithTestEndedBySupervisor({ sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, databaseBuilder });
 
   let sessionId;
   const candidateDataSuccessWithUser = { ...CANDIDATE_DATA_SUCCESS, userId: CERTIF_SUCCESS_USER_ID };
@@ -176,4 +179,46 @@ function _convertToRoman(num) {
       return roman + _convertToRoman(num - pivot);
     }
   }
+}
+
+function _addCandidateWithTestCompleted({ sessionId, databaseBuilder }) {
+  const user = databaseBuilder.factory.buildUser();
+  const candidate = {
+    firstName: 'Jean-Claude',
+    lastName: 'Afini',
+    userId: user.id,
+    sessionId,
+  };
+  databaseBuilder.factory.buildCertificationCandidate({
+    ...candidate,
+    authorizedToStart: true,
+  });
+  const certificationCourseWithCompletedTest = databaseBuilder.factory.buildCertificationCourse({
+    ...candidate,
+  });
+  databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationCourseWithCompletedTest.id,
+    state: Assessment.states.COMPLETED,
+  });
+}
+
+function _addCandidateWithTestEndedBySupervisor({ sessionId, databaseBuilder }) {
+  const user = databaseBuilder.factory.buildUser();
+  const candidate = {
+    firstName: 'Jean-Michel',
+    lastName: 'Avusontestterminéparlesurveillant',
+    userId: user.id,
+    sessionId,
+  };
+  databaseBuilder.factory.buildCertificationCandidate({
+    ...candidate,
+    authorizedToStart: true,
+  });
+  const certificationCourseWithCompletedTest = databaseBuilder.factory.buildCertificationCourse({
+    ...candidate,
+  });
+  databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationCourseWithCompletedTest.id,
+    state: Assessment.states.ENDED_BY_SUPERVISOR,
+  });
 }

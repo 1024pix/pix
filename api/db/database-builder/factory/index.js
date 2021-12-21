@@ -50,6 +50,7 @@ module.exports = {
   buildSchoolingRegistration: require('./build-schooling-registration'),
   buildSchoolingRegistrationWithUser: require('./build-schooling-registration-with-user'),
   buildStage: require('./build-stage'),
+  buildSupervisorAccess: require('./build-supervisor-access'),
   buildTag: require('./build-tag'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileSkill: require('./build-target-profile-skill'),

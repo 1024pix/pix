@@ -3,6 +3,7 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
+import get from 'lodash/get';
 
 export default class ToolsController extends Controller {
   @service notifications;
@@ -27,6 +28,28 @@ export default class ToolsController extends Controller {
       );
     } catch (err) {
       this.notifications.error('Une erreur est survenue.');
+    }
+  }
+
+  @action
+  async createNewTag(event) {
+    event.preventDefault();
+    let tag;
+
+    try {
+      tag = this.store.createRecord('tag', { name: this.tagName });
+      await tag.save();
+
+      this.notifications.success('Le tag a bien été créé !');
+      document.getElementById('tagNameInput').value = '';
+    } catch (response) {
+      this.store.deleteRecord(tag);
+      const status = get(response, 'errors[0].status');
+      if (status === '412') {
+        this.notifications.error('Ce tag existe déjà.');
+      } else {
+        this.notifications.error('Une erreur est survenue. Veuillez réessayer.');
+      }
     }
   }
 }

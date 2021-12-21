@@ -42,6 +42,11 @@ $green-70: #006134;
       background-color: $green-0;
       color: $green-70;
     }
+
+    &--completed {
+      background-color: $blue-alert-light;
+      color: $blue-alert-dark;
+    }
   }
 
   &__menu {
