@@ -390,5 +390,33 @@ describe('Unit | Route | Assessments | Challenge', function () {
           });
       });
     });
+
+    context('when assessmnt has been ended by supervisor', function () {
+      it('should redirect candidate to end test screen when trying to answer', async function () {
+        // given
+        const error = {
+          errors: [
+            {
+              detail: 'Le surveillant a mis fin à votre test de certification.',
+            },
+          ],
+        };
+        answerToChallengeOne.save = sinon.stub().rejects(error);
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+
+        // when
+        await route.actions.saveAnswerAndNavigate.call(
+          route,
+          challengeOne,
+          assessment,
+          answerValue,
+          answerTimeout,
+          answerFocusedOut
+        );
+
+        // then
+        sinon.assert.calledWithExactly(route.transitionTo, 'certifications.results', assessment.get('id'));
+      });
+    });
   });
 });
