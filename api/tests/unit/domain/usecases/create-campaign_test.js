@@ -20,11 +20,13 @@ describe('Unit | UseCase | create-campaign', function () {
     const code = 'ABCDEF123';
     const targetProfileId = 12;
     const creatorId = 13;
+    const ownerId = 13;
     const organizationId = 14;
     const campaignData = {
       name: 'campagne utilisateur',
       type: Campaign.types.ASSESSMENT,
       creatorId,
+      ownerId,
       targetProfileId,
       organizationId,
     };
@@ -52,11 +54,13 @@ describe('Unit | UseCase | create-campaign', function () {
     const code = 'ABCDEF123';
     const targetProfileId = 12;
     const creatorId = 13;
+    const ownerId = 13;
     const organizationId = 14;
     const campaignData = {
       name: 'campagne utilisateur',
       type: Campaign.types.ASSESSMENT,
       creatorId,
+      ownerId,
       targetProfileId,
       organizationId,
     };
