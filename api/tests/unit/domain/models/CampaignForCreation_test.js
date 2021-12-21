@@ -12,6 +12,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             type: Campaign.types.ASSESSMENT,
             targetProfileId: 1,
             creatorId: 2,
+            ownerId: 2,
             organizationId: 3,
           };
 
@@ -27,6 +28,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             type: Campaign.types.ASSESSMENT,
             targetProfileId: 1,
             creatorId: 2,
+            ownerId: 2,
             organizationId: 3,
           };
         });
@@ -48,6 +50,16 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             const error = await catchErr(() => new CampaignForCreation(attributes))();
             expect(error.message).to.equal("Échec de validation de l'entité.");
             expect(error.invalidAttributes).to.deep.equal([{ attribute: 'creatorId', message: 'MISSING_CREATOR' }]);
+          });
+        });
+
+        context('ownerId is missing', function () {
+          it('throws an error', async function () {
+            attributes.ownerId = undefined;
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([{ attribute: 'ownerId', message: 'MISSING_OWNER' }]);
           });
         });
 
@@ -84,6 +96,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             name: 'CampaignName',
             type: Campaign.types.PROFILES_COLLECTION,
             creatorId: 2,
+            ownerId: 2,
             organizationId: 3,
           };
 
@@ -98,6 +111,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             name: 'CampaignName',
             type: Campaign.types.PROFILES_COLLECTION,
             creatorId: 2,
+            ownerId: 2,
             organizationId: 3,
           };
         });
@@ -119,6 +133,16 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             const error = await catchErr(() => new CampaignForCreation(attributes))();
             expect(error.message).to.equal("Échec de validation de l'entité.");
             expect(error.invalidAttributes).to.deep.equal([{ attribute: 'creatorId', message: 'MISSING_CREATOR' }]);
+          });
+        });
+
+        context('ownerId is missing', function () {
+          it('throws an error', async function () {
+            attributes.ownerId = undefined;
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([{ attribute: 'ownerId', message: 'MISSING_OWNER' }]);
           });
         });
 
@@ -169,6 +193,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
           name: 'CampaignName',
           type: 'BAD TYPE',
           creatorId: 2,
+          ownerId: 2,
           organizationId: 3,
         };
 

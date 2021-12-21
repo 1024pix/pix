@@ -8,6 +8,7 @@ class CampaignForCreation {
     type,
     targetProfileId,
     creatorId,
+    ownerId,
     organizationId,
     multipleSendings,
     code,
@@ -19,6 +20,7 @@ class CampaignForCreation {
     this.type = type;
     this.targetProfileId = targetProfileId;
     this.creatorId = creatorId;
+    this.ownerId = ownerId;
     this.organizationId = organizationId;
     this.multipleSendings = multipleSendings;
     this.code = code;
