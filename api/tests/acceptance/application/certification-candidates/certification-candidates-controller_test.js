@@ -68,40 +68,93 @@ describe('Acceptance | API | Certifications candidates', function () {
   describe('PATCH /api/certification-candidates/{id}/end-assessment-by-supervisor', function () {
     context('when user is authenticated', function () {
       describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
-        it('should return a 204 status code', async function () {
-          // given
-          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        context('when the user is the supervisor of the session', function () {
+          it('should return a 204 status code', async function () {
+            // given
+            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
 
-          const server = await createServer();
-          const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-          const sessionId = databaseBuilder.factory.buildSession().id;
-          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-            sessionId,
-            userId: candidateUserId,
-          }).id;
-          databaseBuilder.factory.buildCertificationCandidate({
-            id: 1001,
-            sessionId,
-            userId: candidateUserId,
+            const server = await createServer();
+            const candidateUserId = databaseBuilder.factory.buildUser({}).id;
+            const sessionId = databaseBuilder.factory.buildSession().id;
+            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+              sessionId,
+              userId: candidateUserId,
+            }).id;
+            databaseBuilder.factory.buildCertificationCandidate({
+              id: 1001,
+              sessionId,
+              userId: candidateUserId,
+            });
+            databaseBuilder.factory.buildAssessment({
+              state: 'started',
+              userId: candidateUserId,
+              type: 'CERTIFICATION',
+              certificationCourseId,
+            });
+
+            const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
+            databaseBuilder.factory.buildSupervisorAccess({
+              userId: supervisorUserId,
+              sessionId,
+            });
+
+            await databaseBuilder.commit();
+            const options = {
+              method: 'PATCH',
+              url: `/api/certification-candidates/1001/end-assessment-by-supervisor`,
+              headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
+            };
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(204);
           });
-          databaseBuilder.factory.buildAssessment({
-            state: 'started',
-            userId: candidateUserId,
-            type: 'CERTIFICATION',
-            certificationCourseId,
+        });
+        describe('when user is not the supervisor of the assessment session', function () {
+          it('should return a 401 HTTP status code', async function () {
+            // given
+            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+
+            const server = await createServer();
+            const candidateUserId = databaseBuilder.factory.buildUser({}).id;
+            const sessionId = databaseBuilder.factory.buildSession().id;
+            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+              sessionId,
+              userId: candidateUserId,
+            }).id;
+            databaseBuilder.factory.buildCertificationCandidate({
+              id: 1001,
+              sessionId,
+              userId: candidateUserId,
+            });
+            databaseBuilder.factory.buildAssessment({
+              state: 'started',
+              userId: candidateUserId,
+              type: 'CERTIFICATION',
+              certificationCourseId,
+            });
+
+            const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
+            databaseBuilder.factory.buildSupervisorAccess({
+              userId: supervisorUserId,
+              sessionId,
+            });
+
+            await databaseBuilder.commit();
+            const options = {
+              method: 'PATCH',
+              url: `/api/certification-candidates/1001/end-assessment-by-supervisor`,
+              headers: { authorization: generateValidRequestAuthorizationHeader(1, 'pix-certif') },
+            };
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(401);
           });
-          await databaseBuilder.commit();
-
-          const options = {
-            method: 'PATCH',
-            url: `/api/certification-candidates/1001/end-assessment-by-supervisor`,
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
         });
       });
     });
