@@ -8,9 +8,6 @@ config:
       rampTo: 50
       name: Ramp up load
 
-  variables:
-    competenceId: "recsvLz0W2ShyfD63"
-
 scenarios:
   - name: "Inscription et évaluation"
     flow:
@@ -50,6 +47,18 @@ scenarios:
           headers:
             Authorization: "Bearer {{ accessToken }}"
 
+      # Fetch competence-id from user profile
+      - get:
+          url: "/api/users/{{ userId }}/profile"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          capture:
+            json: "$.included[?(@.type == 'scorecards')].attributes['competence-id']"
+            as: "competenceId"
+          expect:
+            - statusCode: 200
+            - contentType: json
+
       # Fetch campaign participations
       - get:
           url: "/api/users/{{ userId }}/campaign-participations"
@@ -70,6 +79,9 @@ scenarios:
           capture:
             json: "$.data.relationships.assessment.data.id"
             as: "assessmentId"
+          expect: 
+            - statusCode: 201
+
 
       # Fetch assessment
       - get:
