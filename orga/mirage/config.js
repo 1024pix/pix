@@ -83,7 +83,24 @@ export default function () {
   this.patch('/memberships/:id');
 
   this.get('/organizations/:id/campaigns', (schema, request) => {
-    const results = schema.campaigns.all();
+    const { 'filter[creatorName]': creatorName, 'filter[name]': campaignName } = request.queryParams;
+    let results;
+    if (!creatorName && !campaignName) {
+      results = schema.campaigns.all();
+    } else if (creatorName && !campaignName) {
+      results = schema.campaigns.where(
+        ({ creatorFirstName, creatorLastName }) =>
+          creatorFirstName.includes(creatorName) || creatorLastName.includes(creatorName)
+      );
+    } else if (!creatorName && campaignName) {
+      results = schema.campaigns.where(({ name }) => name.includes(campaignName));
+    } else {
+      results = schema.campaigns.where(
+        ({ creatorFirstName, creatorLastName, name }) =>
+          (creatorFirstName.includes(creatorName) || creatorLastName.includes(creatorName)) &&
+          name.includes(campaignName)
+      );
+    }
     const json = this.serializerOrRegistry.serialize(results, request);
     json.meta = { hasCampaigns: results.length > 0 };
 

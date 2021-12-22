@@ -1,4 +1,12 @@
 <section class="campaign-list">
+  <Campaign::Filter::Filters
+    @creatorNameFilter={{@creatorNameFilter}}
+    @nameFilter={{@nameFilter}}
+    @onFilter={{@onFilter}}
+    @isArchived={{@isArchived}}
+    @onClickStatusFilter={{@onClickStatusFilter}}
+    @numResults={{@campaigns.meta.rowCount}}
+  />
   <div class="panel">
     <table class="table content-text content-text--small">
       <thead>
@@ -16,25 +24,6 @@
           <Table::Header @size="small" class="hide-on-mobile">{{t
               "pages.campaigns-list.table.column.results"
             }}</Table::Header>
-        </tr>
-        <tr class="hide-on-mobile">
-          <Table::HeaderFilterInput
-            @field="name"
-            @value={{@nameFilter}}
-            @placeholder={{t "pages.campaigns-list.table.filter.by-name"}}
-            @ariaLabel={{t "pages.campaigns-list.table.filter.by-name"}}
-            @triggerFiltering={{@onFilter}}
-          />
-          <Table::HeaderFilterInput
-            @field="creatorName"
-            @value={{@creatorNameFilter}}
-            @placeholder={{t "pages.campaigns-list.table.filter.by-creator"}}
-            @ariaLabel={{t "pages.campaigns-list.table.filter.by-creator"}}
-            @triggerFiltering={{@onFilter}}
-          />
-          <Table::Header />
-          <Table::Header />
-          <Table::Header />
         </tr>
       </thead>
 

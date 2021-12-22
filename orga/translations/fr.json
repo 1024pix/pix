@@ -168,7 +168,7 @@
         "common": "Résultats affichés en ",
         "star" : "étoile",
         "percent": "pourcentage"
-      }, 
+      },
       "subjects" : "Sujets : {value, number}",
       "thematic-results": "Résultats thématiques : {value, number}"
     }
@@ -302,7 +302,6 @@
         "label": "Quel est l'objectif de votre campagne ?",
         "profiles-collection": "Collecter les profils Pix des participants",
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix."
-
       },
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
@@ -378,7 +377,7 @@
             "empty": "Tous les statuts"
           },
           "stages": "Paliers",
-          "groups":  {
+          "groups": {
             "title": "Groupes",
             "empty": "Aucun groupe"
           }
@@ -458,18 +457,23 @@
       },
       "action": {
         "archived": {
-          "aria-label": "Afficher les campagnes archivées",
           "label": "Archivées"
         },
         "create": "Créer une campagne",
         "ongoing": {
-          "aria-label": "Afficher les campagnes actives",
           "label": "Actives"
         }
       },
       "no-campaign": {
         "title": "Créez votre première campagne",
         "description": "Configurez et lancez votre première campagne. Vous pourrez ensuite inviter vos utilisateurs à rejoindre ce parcours."
+      },
+      "filter": {
+        "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du créateur. Des boutons permettent de filtrer les campagnes actives et archivées.",
+        "title": "Filtres",
+        "by-creator": "Rechercher un créateur",
+        "by-name": "Rechercher une campagne",
+        "results": "{total, plural, =0 {0 campagne} =1 {1 campagne} other {{total, number} campagnes}}"
       },
       "table": {
         "column": {
@@ -480,10 +484,6 @@
           "results": "Résultats reçus"
         },
         "empty": "Aucune campagne",
-        "filter": {
-          "by-creator": "Rechercher un créateur",
-          "by-name": "Rechercher une campagne"
-        },
         "row-title": "Campagne"
       }
     },
@@ -571,7 +571,7 @@
       "title": "Sélection des sujets",
       "table": {
         "caption": "Sélection des sujets",
-        "column" : {
+        "column": {
           "action": "Sélection",
           "name": "Nom du sujet"
         },
@@ -797,7 +797,7 @@
       }
     },
     "team-list": {
-      "title": "Mon équipe",
+      "title": "Équipe",
       "add-member-button": "Inviter un membre",
       "tabs": {
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
