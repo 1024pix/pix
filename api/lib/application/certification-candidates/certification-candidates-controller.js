@@ -39,4 +39,12 @@ module.exports = {
     });
     return certificationCandidateSubscriptionSerializer.serialize(certificationCandidateSubscription);
   },
+
+  async endAssessmentBySupervisor(request) {
+    const certificationCandidateId = request.params.id;
+
+    await usecases.endAssessmentBySupervisor({ certificationCandidateId });
+
+    return null;
+  },
 };

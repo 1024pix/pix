@@ -65,6 +65,48 @@ describe('Acceptance | API | Certifications candidates', function () {
     });
   });
 
+  describe('PATCH /api/certification-candidates/{id}/end-assessment-by-supervisor', function () {
+    context('when user is authenticated', function () {
+      describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+        it('should return a 204 status code', async function () {
+          // given
+          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+
+          const server = await createServer();
+          const candidateUserId = databaseBuilder.factory.buildUser({}).id;
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            sessionId,
+            userId: candidateUserId,
+          }).id;
+          databaseBuilder.factory.buildCertificationCandidate({
+            id: 1001,
+            sessionId,
+            userId: candidateUserId,
+          });
+          databaseBuilder.factory.buildAssessment({
+            state: 'started',
+            userId: candidateUserId,
+            type: 'CERTIFICATION',
+            certificationCourseId,
+          });
+          await databaseBuilder.commit();
+
+          const options = {
+            method: 'PATCH',
+            url: `/api/certification-candidates/1001/end-assessment-by-supervisor`,
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+      });
+    });
+  });
+
   describe('GET /api/certification-candidates/:id/subscriptions', function () {
     it('should return the certification candidate subscriptions', async function () {
       // given
