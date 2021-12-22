@@ -12,7 +12,7 @@ export default class CertificationCandidateForSupervisingAdapter extends Applica
     }
 
     if (requestType === 'endAssessmentBySupervisor') {
-      return `${this.host}/${this.namespace}/assessments/${id}/end-assessment-by-supervisor`;
+      return `${this.host}/${this.namespace}/certification-candidates/${id}/end-assessment-by-supervisor`;
     }
 
     return super.buildURL(modelName, id, snapshot, requestType, query);
