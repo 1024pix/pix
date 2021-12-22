@@ -38,7 +38,7 @@ module('Acceptance | Team List', function (hooks) {
         await visit('/equipe');
 
         // then
-        assert.contains('Mon équipe');
+        assert.contains('Équipe');
       });
 
       test('it should be possible to see only members list', async function (assert) {
@@ -86,7 +86,7 @@ module('Acceptance | Team List', function (hooks) {
         await visit('/equipe');
 
         // then
-        assert.contains('Mon équipe');
+        assert.contains('Équipe');
       });
 
       test('it should show members list, invitations list and add an invitation button', async function (assert) {
