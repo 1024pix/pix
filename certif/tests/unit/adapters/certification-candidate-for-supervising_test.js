@@ -36,5 +36,16 @@ module('Unit | Adapters | certification-candidate-for-supervising', function(hoo
         assert.true(url.endsWith('certification-candidates/2/authorize-to-resume'));
       });
     });
+
+    module('when request type is endAssessmentBySupervisor', function() {
+
+      test('should build url', async function(assert) {
+        // when
+        const url = await adapter.buildURL(undefined, 2, undefined, 'endAssessmentBySupervisor', undefined);
+
+        // then
+        assert.true(url.endsWith('certification-candidates/2/end-assessment-by-supervisor'));
+      });
+    });
   });
 });
