@@ -2,7 +2,6 @@ const Joi = require('joi');
 const assessmentController = require('./assessment-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
-const assessmentSupervisorAuthorization = require('../preHandlers/assessment-supervisor-authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
@@ -116,26 +115,6 @@ exports.register = async (server) => {
           }),
         },
         handler: assessmentController.completeAssessment,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/assessments/{id}/end-assessment-by-supervisor',
-      config: {
-        auth: false,
-        pre: [
-          {
-            method: assessmentSupervisorAuthorization.verify,
-            assign: 'authorizationCheck',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.assessmentId,
-          }),
-        },
-        handler: assessmentController.endAssessmentBySupervisor,
         tags: ['api'],
       },
     },
