@@ -8,7 +8,7 @@ const nullDestination = {
 let pinoPrettyOptions;
 
 if (settings.logging.logForHumans) {
-  const omitDay = 'h:MM:ss';
+  const omitDay = 'HH:MM:ss';
 
   pinoPrettyOptions = {
     colorize: true,
