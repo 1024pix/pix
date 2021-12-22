@@ -90,7 +90,7 @@ describe('Acceptance | Controller | users-controller-update-password', function 
       let access_token = null;
 
       // when
-      access_token = await authenticationController.authenticateUser(request, hFake);
+      access_token = await authenticationController.createToken(request, hFake);
 
       // then
       expect(access_token).to.ok;
