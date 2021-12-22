@@ -9,8 +9,8 @@ const { extractUserIdFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   async verify(request, h) {
     const userId = extractUserIdFromRequest(request);
-    const assessmentId = parseInt(request.params.id);
-    const assessment = await assessmentRepository.get(assessmentId);
+    const candidateId = parseInt(request.params.id);
+    const assessment = await assessmentRepository.getByCertificationCandidateId(candidateId);
     const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
     const isSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSession({
       sessionId: certificationCourse.getSessionId(),
