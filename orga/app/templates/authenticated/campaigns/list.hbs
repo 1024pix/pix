@@ -2,17 +2,15 @@
 
 <article class="list-campaigns-page">
   {{#if @model.meta.hasCampaigns}}
-    <Campaign::ListActions
-      @title={{this.pageTitle}}
-      @isArchived={{this.isArchived}}
-      @onClickStatusFilter={{this.updateCampaignStatus}}
-    />
+    <Campaign::ListHeader @title={{this.pageTitle}} />
     <Campaign::List
       @campaigns={{@model}}
       @nameFilter={{this.name}}
       @creatorNameFilter={{this.creatorName}}
       @onFilter={{this.triggerFiltering}}
       @onClickCampaign={{this.goToCampaignPage}}
+      @isArchived={{this.isArchived}}
+      @onClickStatusFilter={{this.updateCampaignStatus}}
     />
   {{else}}
     <Campaign::NoCampaignPanel />

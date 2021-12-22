@@ -1,0 +1,115 @@
+.campaign-filters {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 5px;
+  background-color: $white;
+  border-radius: 4px;
+  padding: 10px 14px;
+
+  @include device-is('tablet') {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    margin: 0 0 8px 0;
+  }
+
+  > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+
+    @include device-is('desktop') {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-top: 0;
+    }
+  }
+
+  > div:last-child {
+    border-top: 1.2px solid $grey-15;
+    margin-top: 20px;
+
+    @include device-is('tablet') {
+      border: none;
+      margin: 0;
+    }
+  }
+
+  &__title {
+    color: $grey-60;
+    font-size: 0.875em;
+  }
+
+  .search-input {
+    height: 36px;
+    width: 260px;
+  }
+
+  &__type {
+    display: flex;
+
+    label:first-of-type {
+      border-radius: 4px 0 0 4px;
+    }
+
+    label:last-of-type {
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  &__results {
+    color: $grey-60;
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+
+  &__radio {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+
+    &:focus-visible + .campaign-filters__tab {
+      box-shadow: $white 0 0 0 2px, $blue 0 0 0 4px;;
+      z-index: 1;
+    }
+  }
+
+  &__tab {
+    display: flex;
+    align-items: center;
+    color: $grey-60;
+    background: transparent;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    outline: none;
+    font-family: $roboto;
+    border: 1.2px solid $grey-45;
+    height: 36px;
+
+    &:hover {
+      background: $grey-20;
+      opacity: .8;
+    }
+
+    &--active {
+      background: $grey-20;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.campaign-list-header {
+  &__header {
+    display: flex;
+    margin: 1em 0 2.4em;
+    align-items: center;
+  }
+
+  &__create-campaign-button {
+    margin-left: auto;
+  }
+}
