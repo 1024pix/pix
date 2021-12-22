@@ -2049,14 +2049,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         const challengeEdu1 = domainBuilder.buildChallenge({ id: 'challenge-pix-edu1' });
                         const challengeEdu2 = domainBuilder.buildChallenge({ id: 'challenge-pix-edu2' });
 
-                        const pixEduFormationContinueExpertBadgeAcquisition =
-                          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreExpert();
+                        const pixEduFormationContinueFormateurBadgeAcquisition =
+                          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreFormateur();
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId, domainTransaction })
-                          .resolves([pixEduFormationContinueExpertBadgeAcquisition]);
+                          .resolves([pixEduFormationContinueFormateurBadgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus
-                          .withArgs(pixEduFormationContinueExpertBadgeAcquisition.badge, userId)
+                          .withArgs(pixEduFormationContinueFormateurBadgeAcquisition.badge, userId)
                           .resolves([challengeEdu1, challengeEdu2]);
 
                         const certificationCourseToSave = CertificationCourse.from({

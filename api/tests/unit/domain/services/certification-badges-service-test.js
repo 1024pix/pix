@@ -198,26 +198,26 @@ describe('Unit | Service | Certification Badges Service', function () {
         const knowledgeElements = [];
         const targetProfile = { id: 456 };
 
-        const pixEduFormationContinueMaitreBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreMaitre();
-        const pixEduFormationContinueInitieBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreInitie();
+        const pixEduFormationContinueExpertBadgeAcquisition =
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert();
+        const pixEduFormationContinueAvanceBadgeAcquisition =
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance();
         const otherBadgeAcquisition = domainBuilder.buildBadgeAcquisition();
 
         badgeAcquisitionRepository.findCertifiable
           .withArgs({ userId, domainTransaction })
           .resolves([
-            pixEduFormationContinueInitieBadgeAcquisition,
-            pixEduFormationContinueMaitreBadgeAcquisition,
+            pixEduFormationContinueAvanceBadgeAcquisition,
+            pixEduFormationContinueExpertBadgeAcquisition,
             otherBadgeAcquisition,
           ]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
         targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
         badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueMaitreBadgeAcquisition.badge, knowledgeElements })
+          .withArgs({ targetProfile, badge: pixEduFormationContinueExpertBadgeAcquisition.badge, knowledgeElements })
           .returns(true);
         badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueInitieBadgeAcquisition.badge, knowledgeElements })
+          .withArgs({ targetProfile, badge: pixEduFormationContinueAvanceBadgeAcquisition.badge, knowledgeElements })
           .returns(true);
         badgeCriteriaService.areBadgeCriteriaFulfilled
           .withArgs({ targetProfile, badge: otherBadgeAcquisition.badge, knowledgeElements })
@@ -232,7 +232,7 @@ describe('Unit | Service | Certification Badges Service', function () {
         // then
         expect(badgesAcquisitions).to.deep.equal([
           otherBadgeAcquisition,
-          pixEduFormationContinueMaitreBadgeAcquisition,
+          pixEduFormationContinueExpertBadgeAcquisition,
         ]);
       });
     });
@@ -245,28 +245,28 @@ describe('Unit | Service | Certification Badges Service', function () {
         const knowledgeElements = [];
         const targetProfile = { id: 456 };
 
-        const pixEduFormationContinueMaitreBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreMaitre();
-        const pixEduFormationContinueInitieBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreInitie();
+        const pixEduFormationContinueExpertBadgeAcquisition =
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert();
+        const pixEduFormationContinueAvanceBadgeAcquisition =
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance();
         const pixDroitMaitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
         const pixDroitExpertBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forPixDroitExpert();
 
         badgeAcquisitionRepository.findCertifiable
           .withArgs({ userId, domainTransaction })
           .resolves([
-            pixEduFormationContinueInitieBadgeAcquisition,
-            pixEduFormationContinueMaitreBadgeAcquisition,
+            pixEduFormationContinueAvanceBadgeAcquisition,
+            pixEduFormationContinueExpertBadgeAcquisition,
             pixDroitMaitreBadgeAcquisition,
             pixDroitExpertBadgeAcquisition,
           ]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
         targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
         badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueMaitreBadgeAcquisition.badge, knowledgeElements })
+          .withArgs({ targetProfile, badge: pixEduFormationContinueExpertBadgeAcquisition.badge, knowledgeElements })
           .returns(true);
         badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueInitieBadgeAcquisition.badge, knowledgeElements })
+          .withArgs({ targetProfile, badge: pixEduFormationContinueAvanceBadgeAcquisition.badge, knowledgeElements })
           .returns(true);
         badgeCriteriaService.areBadgeCriteriaFulfilled
           .withArgs({ targetProfile, badge: pixDroitMaitreBadgeAcquisition.badge, knowledgeElements })
@@ -284,7 +284,7 @@ describe('Unit | Service | Certification Badges Service', function () {
         // then
         expect(badgesAcquisitions).to.deep.equal([
           pixDroitExpertBadgeAcquisition,
-          pixEduFormationContinueMaitreBadgeAcquisition,
+          pixEduFormationContinueExpertBadgeAcquisition,
         ]);
       });
     });
