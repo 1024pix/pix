@@ -874,7 +874,7 @@ const CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA = [
   { level: -1, score: 0, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' },
 ];
 
-const PIX_EDU_FORMATION_INITIALE_INITIE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
+const PIX_EDU_FORMATION_INITIALE_AVANCE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
   { source: 'direct', skillId: 'rec1w6nZsb68eSxDh', earnedPix: 0, status: 'invalidated', competenceId: 'rec1URJui9p85ZasV', result: 'aband', challengeId: 'rec1HGFnU7SdRLcMG', elapsedTime: 5, timeout: null, resultDetails: 'null ' },
   { source: 'inferred', skillId: 'rec1waG4ibaZS7WYY', earnedPix: 0, status: 'invalidated', competenceId: 'rec1URJui9p85ZasV', result: 'aband', challengeId: 'rec1HGFnU7SdRLcMG<', elapsedTime: 5, timeout: null, resultDetails: 'null ' },
   { source: 'direct', skillId: 'rec2jP5V76SOU9Y04', earnedPix: 0, status: 'validated', competenceId: 'rec2cAjPRs5GeMXJt', result: 'ok', challengeId: 'rec1g1ymGthJlr5jb', elapsedTime: 1, timeout: null, resultDetails: 'null ' },
@@ -912,7 +912,7 @@ const PIX_EDU_FORMATION_INITIALE_INITIE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWER
   { source: 'direct', skillId: 'rec1ekgLbl2OHiS2K', earnedPix: 0, status: 'validated', competenceId: 'rec18PiZuaU2CjG8C', result: 'ok', challengeId: 'rec1z9HjYtFsoAuxQ', elapsedTime: 1, timeout: null, resultDetails: 'etab: true discipline: true primaire: true acad: true ' },
 ];
 
-const PIX_EDU_FORMATION_CONTINUE_EXPERT_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
+const PIX_EDU_FORMATION_CONTINUE_FORMATEUR_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
   { source: 'direct', skillId: 'skill2blmVwXGktteHR', earnedPix: 0, status: 'validated', competenceId: 'rec2lyPIsYcClOjc8', result: 'ok', challengeId: 'challenge1098XCs0w6HTOK', elapsedTime: 2, timeout: null, resultDetails: 'null ' },
   { source: 'inferred', skillId: 'skill2jNkrWFT4ba4Sf', earnedPix: 0, status: 'validated', competenceId: 'rec2lyPIsYcClOjc8', result: 'ok', challengeId: 'challenge1098XCs0w6HTOK', elapsedTime: 2, timeout: null, resultDetails: 'null ' },
   { source: 'direct', skillId: 'skill2ifeuYKWvCIdqe', earnedPix: 0, status: 'validated', competenceId: 'rec15NJfeMPUjClNM', result: 'ok', challengeId: 'challenge29Mz5dh5tgT6w5', elapsedTime: 1, timeout: null, resultDetails: 'null ' },
@@ -967,6 +967,6 @@ module.exports = {
   CERTIFICATION_SUCCESS_ANSWERS_DATA,
   CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA,
   CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA,
-  PIX_EDU_FORMATION_INITIALE_INITIE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
-  PIX_EDU_FORMATION_CONTINUE_EXPERT_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  PIX_EDU_FORMATION_INITIALE_AVANCE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  PIX_EDU_FORMATION_CONTINUE_FORMATEUR_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
 };
