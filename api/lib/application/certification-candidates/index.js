@@ -42,6 +42,20 @@ exports.register = async function (server) {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCandidateId,
+          }),
+        },
+        handler: certificationCandidatesController.endAssessmentBySupervisor,
+        tags: ['api'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/certification-candidates/{id}/subscriptions',
       config: {
