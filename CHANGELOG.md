@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.144.0 (22/12/2021)
+
+
+### :rocket: Enhancement
+- [#3840](https://github.com/1024pix/pix/pull/3840) [FEATURE] Déplacer les filtres de la page de campagne sur Pix Orga (PIX-3983).
+- [#3853](https://github.com/1024pix/pix/pull/3853) [FEATURE] Algo Flash : Calculer le taux d'erreur (PIX-3789)
+- [#3862](https://github.com/1024pix/pix/pull/3862) [FEATURE] Remettre la poubelle du bouton "Effacer les filtres" (PIX-4051).
+- [#3851](https://github.com/1024pix/pix/pull/3851) [FEATURE] Renommer les libellés des badges Pix+ Édu afin de correspondre aux noms définitifs (PIX-4057).
+
+### :building_construction: Tech
+- [#3860](https://github.com/1024pix/pix/pull/3860) [TECH] Utiliser un ID de compétence spécifique au profil utilisateur dans les tests de charge.
+
+### :coffee: Various
+- [#3863](https://github.com/1024pix/pix/pull/3863) [FEAT] Changement d'url pour le listing des bagdes (PIX-3790).
+
 ## v3.143.0 (21/12/2021)
 
 
