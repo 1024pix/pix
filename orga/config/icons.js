@@ -32,6 +32,6 @@ module.exports = function () {
       'users',
       'trash-alt',
     ],
-    'free-regular-svg-icons': ['check-circle', 'copy'],
+    'free-regular-svg-icons': ['check-circle', 'copy', 'trash-alt'],
   };
 };
