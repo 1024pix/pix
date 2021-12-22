@@ -8,7 +8,7 @@ const { UnauthorizedError } = require('../../../../lib/application/http-errors')
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 describe('Unit | Application | Controller | Authentication', function () {
-  describe('#authenticateUser', function () {
+  describe('#createToken', function () {
     const accessToken = 'jwt.access.token';
     const USER_ID = 1;
     const username = 'user@email.com';
@@ -41,7 +41,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
 
       // when
-      const response = await authenticationController.authenticateUser(request, hFake);
+      const response = await authenticationController.createToken(request, hFake);
 
       // then
       const expectedResponseResult = {

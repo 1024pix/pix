@@ -29,7 +29,7 @@ exports.register = async (server) => {
             })
           ),
         },
-        handler: AuthenticationController.authenticateUser,
+        handler: AuthenticationController.createToken,
         tags: ['api'],
       },
     },

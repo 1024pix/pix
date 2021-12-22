@@ -11,7 +11,7 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
   let server;
 
   beforeEach(async function () {
-    sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) =>
+    sinon.stub(authenticationController, 'createToken').callsFake((request, h) =>
       h.response({
         token_type: 'bearer',
         access_token: 'some-jwt-access-token',

@@ -9,7 +9,7 @@ module.exports = {
   /**
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
-  async authenticateUser(request, h) {
+  async createToken(request, h) {
     let accessToken, refreshToken;
 
     if (request.payload.grant_type === 'refresh_token') {
