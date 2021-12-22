@@ -189,21 +189,14 @@ describe('Unit | Application | Controller | Authentication', function () {
   });
 
   describe('#authenticateApplication', function () {
-    const access_token = 'jwt.access.token';
+    it('should return an OAuth 2 token response', async function () {
+      // given
+      const access_token = 'jwt.access.token';
+      const client_id = Symbol('clientId');
+      const client_secret = Symbol('clientSecret');
+      const scope = Symbol('scope');
 
-    let request;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const client_id = Symbol('clientId');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const client_secret = Symbol('clientSecret');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const scope = Symbol('scope');
-
-    beforeEach(function () {
-      request = {
+      const request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
         },
@@ -215,10 +208,6 @@ describe('Unit | Application | Controller | Authentication', function () {
         },
       };
       sinon.stub(tokenService, 'extractClientId').returns(client_id);
-    });
-
-    it('should return an OAuth 2 token response', async function () {
-      // given
       sinon
         .stub(usecases, 'authenticateApplication')
         .withArgs({ clientId: client_id, clientSecret: client_secret, scope })
