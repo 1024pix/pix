@@ -804,7 +804,7 @@
       }
     },
     "team-list": {
-      "title": "My team",
+      "title": "Team",
       "add-member-button": "Invite a member",
       "tabs": {
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",

@@ -797,7 +797,7 @@
       }
     },
     "team-list": {
-      "title": "Mon équipe",
+      "title": "Équipe",
       "add-member-button": "Inviter un membre",
       "tabs": {
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",

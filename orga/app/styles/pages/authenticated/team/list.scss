@@ -9,7 +9,8 @@ $margin-right: 32px;
 
   &__header {
     display: flex;
-    margin: 1em;
+    align-items: center;
+    margin: 1em 0 2.4em;
   }
 
   &__tabs {
@@ -25,7 +26,6 @@ $margin-right: 32px;
 
 .list-team-page-header__add-member-button {
     margin-left: auto;
-    margin-bottom: 14px;
   }
 
 .list-team-page-invitations {
