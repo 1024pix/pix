@@ -17,7 +17,7 @@ describe('Unit | Pre-handler | Assessment Supervisor Authorization', function ()
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
       sinon.stub(tokenService, 'extractUserId');
-      sinon.stub(assessmentRepository, 'get');
+      sinon.stub(assessmentRepository, 'getByCertificationCandidateId');
       sinon.stub(certificationCourseRepository, 'get');
       sinon.stub(supervisorAccessRepository, 'isUserSupervisorForSession');
     });
@@ -31,7 +31,7 @@ describe('Unit | Pre-handler | Assessment Supervisor Authorization', function ()
         const assessement = domainBuilder.buildAssessment({ courseId: certificationCourse.id });
         tokenService.extractTokenFromAuthChain.returns('VALID_TOKEN');
         tokenService.extractUserId.returns('userId');
-        assessmentRepository.get.resolves(assessement);
+        assessmentRepository.getByCertificationCandidateId.resolves(assessement);
         certificationCourseRepository.get.resolves(certificationCourse);
         supervisorAccessRepository.isUserSupervisorForSession.resolves(true);
 
@@ -39,7 +39,7 @@ describe('Unit | Pre-handler | Assessment Supervisor Authorization', function ()
         const response = await AssessmentSupervisorAuthorization.verify(request, hFake);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.get);
+        sinon.assert.calledOnce(assessmentRepository.getByCertificationCandidateId);
         sinon.assert.calledWith(supervisorAccessRepository.isUserSupervisorForSession, {
           sessionId: certificationCourse.getSessionId(),
           userId: extractedUserId,
@@ -57,7 +57,7 @@ describe('Unit | Pre-handler | Assessment Supervisor Authorization', function ()
         const assessement = domainBuilder.buildAssessment({ courseId: certificationCourse.id });
         tokenService.extractTokenFromAuthChain.returns('VALID_TOKEN');
         tokenService.extractUserId.returns('userId');
-        assessmentRepository.get.resolves(assessement);
+        assessmentRepository.getByCertificationCandidateId.resolves(assessement);
         certificationCourseRepository.get.resolves(certificationCourse);
         supervisorAccessRepository.isUserSupervisorForSession.resolves(false);
 
@@ -65,7 +65,7 @@ describe('Unit | Pre-handler | Assessment Supervisor Authorization', function ()
         const response = await AssessmentSupervisorAuthorization.verify(request, hFake);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.get);
+        sinon.assert.calledOnce(assessmentRepository.getByCertificationCandidateId);
         sinon.assert.calledWith(supervisorAccessRepository.isUserSupervisorForSession, {
           sessionId: certificationCourse.getSessionId(),
           userId: extractedUserId,

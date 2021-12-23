@@ -1,4 +1,5 @@
 const certificationCandidatesController = require('./certification-candidates-controller');
+const assessmentSupervisorAuthorization = require('../preHandlers/assessment-supervisor-authorization');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
@@ -39,6 +40,26 @@ exports.register = async function (server) {
             '- Autoriser la reprise du test par le candidat',
         ],
         tags: ['api', 'certification-candidates'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
+      config: {
+        auth: false,
+        pre: [
+          {
+            method: assessmentSupervisorAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCandidateId,
+          }),
+        },
+        handler: certificationCandidatesController.endAssessmentBySupervisor,
+        tags: ['api'],
       },
     },
     {

@@ -122,6 +122,21 @@ module.exports = {
     return this._updateStateById({ id: assessmentId, state: Assessment.states.ENDED_BY_SUPERVISOR });
   },
 
+  async getByCertificationCandidateId(certificationCandidateId) {
+    const assessment = await knex('assessments')
+      .select('assessments.*')
+      .innerJoin('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
+      .innerJoin('certification-candidates', function () {
+        this.on('certification-candidates.userId', 'certification-courses.userId').andOn(
+          'certification-candidates.sessionId',
+          'certification-courses.sessionId'
+        );
+      })
+      .where({ 'certification-candidates.id': certificationCandidateId })
+      .first();
+    return new Assessment({ ...assessment });
+  },
+
   async ownedByUser({ id, userId = null }) {
     const assessment = await knex('assessments').select('userId').where({ id }).first();
 
