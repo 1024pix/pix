@@ -5,7 +5,12 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
-const { ChallengeNotAskedError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const {
+  ChallengeNotAskedError,
+  NotFoundError,
+  ForbiddenAccess,
+  CertificationEndedBySupervisorError,
+} = require('../../../../lib/domain/errors');
 const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
@@ -91,6 +96,32 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
       // then
       return expect(error).to.be.an.instanceOf(ChallengeNotAskedError);
+    });
+  });
+
+  context('when the assessment has been ended by supervisor', function () {
+    it('should throw a CertificationEndedBySupervisorError error', async function () {
+      // given
+      assessment.state = Assessment.states.ENDED_BY_SUPERVISOR;
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.findByChallengeAndAssessment
+        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
+        .resolves(true);
+
+      // when
+      const error = await catchErr(correctAnswerThenUpdateAssessment)({
+        answer,
+        userId,
+        answerRepository,
+        assessmentRepository,
+        challengeRepository,
+        targetProfileRepository,
+        knowledgeElementRepository,
+        scorecardService,
+      });
+
+      // then
+      return expect(error).to.be.an.instanceOf(CertificationEndedBySupervisorError);
     });
   });
 

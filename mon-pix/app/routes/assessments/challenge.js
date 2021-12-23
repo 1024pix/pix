@@ -96,6 +96,11 @@ export default class ChallengeRoute extends Route {
       this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
     } catch (error) {
       answer.rollbackAttributes();
+
+      if (error?.errors?.[0]?.detail === 'Le surveillant a mis fin à votre test de certification.') {
+        return this.transitionTo('certifications.results', assessment.get('id'));
+      }
+
       return this.intermediateTransitionTo('error', error);
     }
   }
