@@ -19,6 +19,13 @@ const {
 const {
   badgeKey: pixPlusDroitExpertBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', function () {
@@ -394,12 +401,18 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+          ],
         };
 
-        const { certificateId } = await _buildValidPrivateCertificateWithPixPlusDroitExpertBadge(
-          privateCertificateData
-        );
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [pixPlusDroitExpertBadgeKey],
+          notAcquiredBadges: [pixPlusDroitMaitreBadgeKey],
+        });
 
         // when
         const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -436,12 +449,18 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/maitre.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            }),
+          ],
         };
 
-        const { certificateId } = await _buildValidPrivateCertificateWithPixPlusDroitMaitreBadge(
-          privateCertificateData
-        );
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [pixPlusDroitMaitreBadgeKey],
+          notAcquiredBadges: [pixPlusDroitExpertBadgeKey],
+        });
 
         // when
         const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -479,12 +498,265 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-            'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            }),
           ],
         };
 
-        const { certificateId } = await _buildValidPrivateCertificateWithBothPixPlusDroitBadges(privateCertificateData);
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg',
+              levelName: 'Autonome',
+            }),
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+              levelName: 'Avancé',
+            }),
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+              levelName: 'Avancé',
+            }),
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg',
+              levelName: 'Expert',
+            }),
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT],
+          notAcquiredBadges: [],
+        });
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+        );
+      });
+
+      it('should get the certified badge image of PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR when this certification was acquired', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.temporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg',
+              levelName: 'Formateur',
+            }),
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR],
+          notAcquiredBadges: [],
+        });
 
         // when
         const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -521,41 +793,18 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           pixScore: null,
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+          ],
         };
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const sessionId = databaseBuilder.factory.buildSession({
-          publishedAt: privateCertificateData.deliveredAt,
-          certificationCenter: privateCertificateData.certificationCenter,
-          certificationCenterId,
-        }).id;
-        const certificateId = databaseBuilder.factory.buildCertificationCourse({
-          firstName: privateCertificateData.firstName,
-          lastName: privateCertificateData.lastName,
-          birthdate: privateCertificateData.birthdate,
-          birthplace: privateCertificateData.birthplace,
-          isPublished: privateCertificateData.isPublished,
-          isCancelled: false,
-          createdAt: privateCertificateData.date,
-          verificationCode: privateCertificateData.verificationCode,
-          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-          sessionId,
-          userId,
-        }).id;
-        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: pixPlusDroitExpertBadgeKey,
-          acquired: true,
+
+        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+          privateCertificateData,
+          acquiredBadges: [pixPlusDroitExpertBadgeKey],
+          notAcquiredBadges: [pixPlusDroitMaitreBadgeKey],
         });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: pixPlusDroitMaitreBadgeKey,
-          acquired: false,
-        });
-        await databaseBuilder.commit();
 
         // when
         const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -792,149 +1041,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       });
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
     });
-
-    context('acquired certifiable badges', function () {
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const privateCertificateData = {
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId,
-          date: new Date('2020-01-01'),
-          verificationCode: 'ABCDE-F',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: null,
-          commentForCandidate: null,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: [
-            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-            'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
-          ],
-        };
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const sessionId = databaseBuilder.factory.buildSession({
-          publishedAt: privateCertificateData.deliveredAt,
-          certificationCenter: privateCertificateData.certificationCenter,
-          certificationCenterId,
-        }).id;
-        const certificateId = databaseBuilder.factory.buildCertificationCourse({
-          firstName: privateCertificateData.firstName,
-          lastName: privateCertificateData.lastName,
-          birthdate: privateCertificateData.birthdate,
-          birthplace: privateCertificateData.birthplace,
-          isPublished: privateCertificateData.isPublished,
-          isCancelled: false,
-          createdAt: privateCertificateData.date,
-          verificationCode: privateCertificateData.verificationCode,
-          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-          sessionId,
-          userId,
-        }).id;
-        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: pixPlusDroitExpertBadgeKey,
-          acquired: true,
-        });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: pixPlusDroitMaitreBadgeKey,
-          acquired: true,
-        });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: 'should_be_ignored',
-          acquired: true,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
-
-        // then
-        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
-          id: certificateId,
-          ...privateCertificateData,
-        });
-        expect(privateCertificates).to.have.length(1);
-        expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
-      });
-
-      it('should only take into account acquired ones', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const privateCertificateData = {
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId,
-          date: new Date('2020-01-01'),
-          verificationCode: 'ABCDE-F',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: null,
-          commentForCandidate: null,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
-        };
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const sessionId = databaseBuilder.factory.buildSession({
-          publishedAt: privateCertificateData.deliveredAt,
-          certificationCenter: privateCertificateData.certificationCenter,
-          certificationCenterId,
-        }).id;
-        const certificateId = databaseBuilder.factory.buildCertificationCourse({
-          firstName: privateCertificateData.firstName,
-          lastName: privateCertificateData.lastName,
-          birthdate: privateCertificateData.birthdate,
-          birthplace: privateCertificateData.birthplace,
-          isPublished: privateCertificateData.isPublished,
-          isCancelled: false,
-          createdAt: privateCertificateData.date,
-          verificationCode: privateCertificateData.verificationCode,
-          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-          sessionId,
-          userId,
-        }).id;
-        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: pixPlusDroitExpertBadgeKey,
-          acquired: true,
-        });
-        databaseBuilder.factory.buildPartnerCertification({
-          certificationCourseId: certificateId,
-          partnerKey: pixPlusDroitMaitreBadgeKey,
-          acquired: false,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
-
-        // then
-        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
-          id: certificateId,
-          ...privateCertificateData,
-        });
-        expect(privateCertificates).to.have.length(1);
-        expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
-      });
-    });
   });
 });
 
@@ -977,106 +1083,12 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
 
   return { certificateId, assessmentResultId, assessmentId };
 }
-async function _buildValidPrivateCertificateWithPixPlusDroitMaitreBadge(privateCertificateData) {
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  const sessionId = databaseBuilder.factory.buildSession({
-    publishedAt: privateCertificateData.deliveredAt,
-    certificationCenter: privateCertificateData.certificationCenter,
-    certificationCenterId,
-  }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
-    firstName: privateCertificateData.firstName,
-    lastName: privateCertificateData.lastName,
-    birthdate: privateCertificateData.birthdate,
-    birthplace: privateCertificateData.birthplace,
-    isPublished: privateCertificateData.isPublished,
-    isCancelled: false,
-    createdAt: privateCertificateData.date,
-    verificationCode: privateCertificateData.verificationCode,
-    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-    sessionId,
-    userId: privateCertificateData.userId,
-  }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
-    pixScore: privateCertificateData.pixScore,
-    status: 'started',
-    commentForCandidate: privateCertificateData.commentForCandidate,
-    createdAt: new Date('2021-01-01'),
-  });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitExpertBadgeKey,
-    acquired: false,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitMaitreBadgeKey,
-    acquired: true,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: 'should_be_ignored',
-    acquired: true,
-  });
-  await databaseBuilder.commit();
-  return { certificateId };
-}
-async function _buildValidPrivateCertificateWithPixPlusDroitExpertBadge(privateCertificateData) {
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  const sessionId = databaseBuilder.factory.buildSession({
-    publishedAt: privateCertificateData.deliveredAt,
-    certificationCenter: privateCertificateData.certificationCenter,
-    certificationCenterId,
-  }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
-    firstName: privateCertificateData.firstName,
-    lastName: privateCertificateData.lastName,
-    birthdate: privateCertificateData.birthdate,
-    birthplace: privateCertificateData.birthplace,
-    isPublished: privateCertificateData.isPublished,
-    isCancelled: false,
-    createdAt: privateCertificateData.date,
-    verificationCode: privateCertificateData.verificationCode,
-    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-    sessionId,
-    userId: privateCertificateData.userId,
-  }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
-    pixScore: privateCertificateData.pixScore,
-    status: 'started',
-    commentForCandidate: privateCertificateData.commentForCandidate,
-    createdAt: new Date('2021-01-01'),
-  });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitExpertBadgeKey,
-    acquired: true,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitMaitreBadgeKey,
-    acquired: false,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: 'should_be_ignored',
-    acquired: true,
-  });
-  await databaseBuilder.commit();
-  return { certificateId };
-}
 
-async function _buildValidPrivateCertificateWithBothPixPlusDroitBadges(privateCertificateData) {
+async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+  privateCertificateData,
+  acquiredBadges,
+  notAcquiredBadges,
+}) {
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   const sessionId = databaseBuilder.factory.buildSession({
     publishedAt: privateCertificateData.deliveredAt,
@@ -1104,23 +1116,23 @@ async function _buildValidPrivateCertificateWithBothPixPlusDroitBadges(privateCe
     commentForCandidate: privateCertificateData.commentForCandidate,
     createdAt: new Date('2021-01-01'),
   });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitExpertBadgeKey,
-    acquired: true,
+
+  [...acquiredBadges, 'should_be_ignored'].forEach((badgeKey) => {
+    databaseBuilder.factory.buildBadge({ key: badgeKey });
+    databaseBuilder.factory.buildPartnerCertification({
+      certificationCourseId: certificateId,
+      partnerKey: badgeKey,
+      acquired: true,
+    });
   });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitMaitreBadgeKey,
-    acquired: true,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: 'should_be_ignored',
-    acquired: true,
+
+  notAcquiredBadges.forEach((badgeKey) => {
+    databaseBuilder.factory.buildBadge({ key: badgeKey });
+    databaseBuilder.factory.buildPartnerCertification({
+      certificationCourseId: certificateId,
+      partnerKey: badgeKey,
+      acquired: false,
+    });
   });
   await databaseBuilder.commit();
   return { certificateId };
