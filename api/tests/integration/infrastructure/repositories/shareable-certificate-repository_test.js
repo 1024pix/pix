@@ -356,7 +356,11 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
       };
 
-      const { certificateId } = await _buildValidShareableCertificateWithCleaV1(shareableCertificateData);
+      const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+        shareableCertificateData,
+        acquiredBadges: [cleaBadgeKeyV1],
+        notAcquiredBadges: [],
+      });
 
       // when
       const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -392,7 +396,11 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
       };
 
-      const { certificateId } = await _buildValidShareableCertificateWithCleaV2(shareableCertificateData);
+      const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+        shareableCertificateData,
+        acquiredBadges: [cleaBadgeKeyV2],
+        notAcquiredBadges: [],
+      });
 
       // when
       const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -436,9 +444,11 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           ],
         };
 
-        const { certificateId } = await _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges(
-          shareableCertificateData
-        );
+        const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+          shareableCertificateData,
+          acquiredBadges: [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey],
+          notAcquiredBadges: [],
+        });
 
         // when
         const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -480,9 +490,11 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           ],
         };
 
-        const { certificateId } = await _buildValidShareableCertificateWithOneAcquiredPixPlusDroitBadge(
-          shareableCertificateData
-        );
+        const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+          shareableCertificateData,
+          acquiredBadges: [pixPlusDroitExpertBadgeKey],
+          notAcquiredBadges: [],
+        });
 
         // when
         const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -543,63 +555,11 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
   return { certificateId, assessmentResultId };
 }
 
-async function _buildValidShareableCertificationWithClea(shareableCertificateData, badgeKey) {
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  const sessionId = databaseBuilder.factory.buildSession({
-    id: shareableCertificateData.sessionId,
-    publishedAt: shareableCertificateData.deliveredAt,
-    certificationCenter: shareableCertificateData.certificationCenter,
-    certificationCenterId,
-  }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
-    id: shareableCertificateData.id,
-    firstName: shareableCertificateData.firstName,
-    lastName: shareableCertificateData.lastName,
-    birthdate: shareableCertificateData.birthdate,
-    birthplace: shareableCertificateData.birthplace,
-    isPublished: shareableCertificateData.isPublished,
-    isCancelled: false,
-    createdAt: shareableCertificateData.date,
-    verificationCode: shareableCertificateData.verificationCode,
-    maxReachableLevelOnCertificationDate: shareableCertificateData.maxReachableLevelOnCertificationDate,
-    sessionId,
-    userId: shareableCertificateData.userId,
-  }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({
-    certificationCourseId: shareableCertificateData.id,
-  }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
-    pixScore: shareableCertificateData.pixScore,
-    status: 'validated',
-    createdAt: new Date('2020-01-02'),
-  }).id;
-
-  databaseBuilder.factory.buildBadge({ key: badgeKey });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: badgeKey,
-    acquired: true,
-  });
-
-  databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId,
-  });
-
-  await databaseBuilder.commit();
-
-  return { certificateId };
-}
-
-async function _buildValidShareableCertificateWithCleaV1(shareableCertificateData) {
-  return _buildValidShareableCertificationWithClea(shareableCertificateData, cleaBadgeKeyV1);
-}
-
-async function _buildValidShareableCertificateWithCleaV2(shareableCertificateData) {
-  return _buildValidShareableCertificationWithClea(shareableCertificateData, cleaBadgeKeyV2);
-}
-
-async function _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges(shareableCertificateData) {
+async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+  shareableCertificateData,
+  acquiredBadges,
+  notAcquiredBadges,
+}) {
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   const sessionId = databaseBuilder.factory.buildSession({
     publishedAt: shareableCertificateData.deliveredAt,
@@ -626,83 +586,29 @@ async function _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges
     pixScore: shareableCertificateData.pixScore,
     status: 'validated',
   }).id;
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitExpertBadgeKey,
-    acquired: true,
+
+  [...acquiredBadges, 'should_be_ignored'].forEach((badgeKey) => {
+    databaseBuilder.factory.buildBadge({ key: badgeKey });
+    databaseBuilder.factory.buildPartnerCertification({
+      certificationCourseId: certificateId,
+      partnerKey: badgeKey,
+      acquired: true,
+    });
   });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitMaitreBadgeKey,
-    acquired: true,
+
+  notAcquiredBadges.forEach((badgeKey) => {
+    databaseBuilder.factory.buildBadge({ key: badgeKey });
+    databaseBuilder.factory.buildPartnerCertification({
+      certificationCourseId: certificateId,
+      partnerKey: badgeKey,
+      acquired: false,
+    });
   });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: 'should_be_ignored',
-    acquired: true,
-  });
+
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   });
 
   await databaseBuilder.commit();
-
-  return { certificateId };
-}
-
-async function _buildValidShareableCertificateWithOneAcquiredPixPlusDroitBadge(shareableCertificateData) {
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  const sessionId = databaseBuilder.factory.buildSession({
-    publishedAt: shareableCertificateData.deliveredAt,
-    certificationCenter: shareableCertificateData.certificationCenter,
-    certificationCenterId,
-  }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
-    id: shareableCertificateData.id,
-    firstName: shareableCertificateData.firstName,
-    lastName: shareableCertificateData.lastName,
-    birthdate: shareableCertificateData.birthdate,
-    birthplace: shareableCertificateData.birthplace,
-    isPublished: shareableCertificateData.isPublished,
-    isCancelled: false,
-    createdAt: shareableCertificateData.date,
-    verificationCode: shareableCertificateData.verificationCode,
-    maxReachableLevelOnCertificationDate: shareableCertificateData.maxReachableLevelOnCertificationDate,
-    sessionId,
-    userId: shareableCertificateData.userId,
-  }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
-    pixScore: shareableCertificateData.pixScore,
-    status: 'validated',
-  }).id;
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitExpertBadgeKey,
-    acquired: true,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: pixPlusDroitMaitreBadgeKey,
-    acquired: false,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId: certificateId,
-    partnerKey: 'should_be_ignored',
-    acquired: true,
-  });
-  databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId,
-  });
-
-  await databaseBuilder.commit();
-
   return { certificateId };
 }
