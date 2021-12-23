@@ -74,6 +74,10 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });
 
+  it('should export a AuthenticationMethodAlreadyExistsError', function () {
+    expect(errors.AuthenticationMethodAlreadyExistsError).to.exist;
+  });
+
   it('should export a SessionNotAccessible error', function () {
     expect(errors.SessionNotAccessible).to.exist;
   });
