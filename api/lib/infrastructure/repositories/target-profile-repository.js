@@ -18,6 +18,7 @@ module.exports = {
       'imageUrl',
       'ownerOrganizationId',
       'comment',
+      'description',
     ]);
 
     const trx = await knex.transaction();
