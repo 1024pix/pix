@@ -74,6 +74,30 @@ class CertificationAttestation {
     );
   }
 
+  getPixPlusEduBadgeDisplayName() {
+    const acquiredPixPlusEduCertification = this.getAcquiredPixPlusEduCertification();
+    if (!acquiredPixPlusEduCertification) {
+      return null;
+    }
+
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME) {
+      return 'Autonome';
+    }
+    if (
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(
+        acquiredPixPlusEduCertification
+      )
+    ) {
+      return 'Avancé';
+    }
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
+      return 'Expert';
+    }
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
+      return 'Formateur';
+    }
+  }
+
   hasAcquiredAnyComplementaryCertifications() {
     return this.acquiredPartnerCertificationKeys.length > 0;
   }
