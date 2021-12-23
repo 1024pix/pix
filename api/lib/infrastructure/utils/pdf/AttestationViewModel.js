@@ -21,6 +21,9 @@ class AttestationViewModel {
     hasAcquiredPixPlusDroitCertification,
     hasAcquiredCleaCertification,
     pixPlusDroitCertificationImagePath,
+    hasAcquiredPixPlusEduCertification,
+    pixPlusEduCertificationImagePath,
+    pixPlusEduTemporaryBadgeMessage,
     competenceDetailViewModels,
   }) {
     this.pixScore = pixScore;
@@ -35,12 +38,15 @@ class AttestationViewModel {
     this.certificationDate = certificationDate;
     this.cleaCertificationImagePath = cleaCertificationImagePath;
     this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
+    this.pixPlusEduCertificationImagePath = pixPlusEduCertificationImagePath;
+    this.pixPlusEduTemporaryBadgeMessage = pixPlusEduTemporaryBadgeMessage;
     this.competenceDetailViewModels = competenceDetailViewModels;
     this.verificationCode = verificationCode;
     this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._hasAcquiredAnyComplementaryCertifications = hasAcquiredAnyComplementaryCertifications;
     this._hasAcquiredPixPlusDroitCertification = hasAcquiredPixPlusDroitCertification;
     this._hasAcquiredCleaCertification = hasAcquiredCleaCertification;
+    this._hasAcquiredPixPlusEduCertification = hasAcquiredPixPlusEduCertification;
   }
 
   shouldDisplayComplementaryCertifications() {
@@ -57,6 +63,10 @@ class AttestationViewModel {
 
   shouldDisplayPixPlusDroitCertification() {
     return Boolean(this._hasAcquiredPixPlusDroitCertification);
+  }
+
+  shouldDisplayPixPlusEduCertification() {
+    return Boolean(this._hasAcquiredPixPlusEduCertification);
   }
 
   static from(certificate) {
@@ -78,12 +88,34 @@ class AttestationViewModel {
 
     const maxReachableLevelOnCertificationDate = certificate.maxReachableLevelOnCertificationDate < 8;
     const hasAcquiredAnyComplementaryCertifications = certificate.hasAcquiredAnyComplementaryCertifications();
-    const hasAcquiredCleaCertification = Boolean(certificate.getAcquiredCleaCertification());
-    const cleaCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredCleaCertification());
-    const hasAcquiredPixPlusDroitCertification = Boolean(certificate.getAcquiredPixPlusDroitCertification());
-    const pixPlusDroitCertificationImagePath = getImagePathByBadgeKey(
-      certificate.getAcquiredPixPlusDroitCertification()
-    );
+
+    let hasAcquiredCleaCertification = false;
+    let cleaCertificationImagePath;
+    if (certificate.getAcquiredCleaCertification()) {
+      hasAcquiredCleaCertification = true;
+      cleaCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredCleaCertification());
+    }
+
+    let hasAcquiredPixPlusDroitCertification = false;
+    let pixPlusDroitCertificationImagePath;
+    if (certificate.getAcquiredPixPlusDroitCertification()) {
+      hasAcquiredPixPlusDroitCertification = true;
+      pixPlusDroitCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredPixPlusDroitCertification());
+    }
+
+    let hasAcquiredPixPlusEduCertification = false;
+    let pixPlusEduCertificationImagePath;
+    let pixPlusEduTemporaryBadgeMessage;
+    if (certificate.getAcquiredPixPlusEduCertification()) {
+      hasAcquiredPixPlusEduCertification = true;
+      pixPlusEduCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredPixPlusEduCertification());
+      pixPlusEduTemporaryBadgeMessage = [
+        `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}”`,
+        'dans le cadre, du volet 1 de la certification',
+        'Pix+Édu. Votre niveau final sera déterminé',
+        'à l’issue du volet 2',
+      ];
+    }
 
     const sortedCompetenceTree = sortBy(certificate.resultCompetenceTree.areas, 'code');
     const competenceDetailViewModels = sortedCompetenceTree.flatMap((area) => {
@@ -108,8 +140,11 @@ class AttestationViewModel {
       hasAcquiredAnyComplementaryCertifications,
       cleaCertificationImagePath,
       pixPlusDroitCertificationImagePath,
+      pixPlusEduCertificationImagePath,
+      pixPlusEduTemporaryBadgeMessage,
       hasAcquiredPixPlusDroitCertification,
       hasAcquiredCleaCertification,
+      hasAcquiredPixPlusEduCertification,
       competenceDetailViewModels,
     });
   }
