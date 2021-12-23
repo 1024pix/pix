@@ -3,6 +3,8 @@ const { isSameBinary } = require('../../../../tooling/binary-comparator');
 const {
   getCertificationAttestationsPdfBuffer,
 } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+const { PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../../lib/domain/models/Badge').keys;
 
 const { addRandomSuffix } = require('pdf-lib/cjs/utils');
 
@@ -23,8 +25,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      cleaCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_clea.png',
-      pixPlusDroitCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_maitre.png',
+      acquiredPartnerCertificationKeys: [PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full.pdf';
 
@@ -51,16 +52,14 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      cleaCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_clea.png',
-      pixPlusDroitCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_maitre.png',
+      acquiredPartnerCertificationKeys: [PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF],
     });
     const certificateWithCleaAndPixPlusDroitExpert = domainBuilder.buildCertificationAttestation({
       id: 2,
       firstName: 'Harry',
       lastName: 'Covert',
       resultCompetenceTree,
-      cleaCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_clea.png',
-      pixPlusDroitCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_expert.png',
+      acquiredPartnerCertificationKeys: [PIX_EMPLOI_CLEA, PIX_DROIT_EXPERT_CERTIF],
     });
     const certificateWithoutCleaNorPixPlusDroit = domainBuilder.buildCertificationAttestation({
       ...certificateWithCleaAndPixPlusDroitMaitre,
@@ -69,6 +68,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       lastName: 'Decaffé',
       cleaCertificationImagePath: null,
       pixPlusDroitCertificationImagePath: null,
+      acquiredPartnerCertificationKeys: [],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_several_pages.pdf';
 

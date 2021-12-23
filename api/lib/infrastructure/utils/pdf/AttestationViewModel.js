@@ -1,5 +1,6 @@
 const sortBy = require('lodash/sortBy');
 const moment = require('moment');
+const getImagePathByBadgeKey = require('./get-image-path-by-badge-key');
 
 class AttestationViewModel {
   constructor({
@@ -77,10 +78,12 @@ class AttestationViewModel {
 
     const maxReachableLevelOnCertificationDate = certificate.maxReachableLevelOnCertificationDate < 8;
     const hasAcquiredAnyComplementaryCertifications = certificate.hasAcquiredAnyComplementaryCertifications();
-    const cleaCertificationImagePath = certificate.cleaCertificationImagePath;
-    const hasAcquiredPixPlusDroitCertification = certificate.hasAcquiredPixPlusDroitCertification();
-    const hasAcquiredCleaCertification = certificate.hasAcquiredCleaCertification();
-    const pixPlusDroitCertificationImagePath = certificate.pixPlusDroitCertificationImagePath;
+    const hasAcquiredCleaCertification = Boolean(certificate.getAcquiredCleaCertification());
+    const cleaCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredCleaCertification());
+    const hasAcquiredPixPlusDroitCertification = Boolean(certificate.getAcquiredPixPlusDroitCertification());
+    const pixPlusDroitCertificationImagePath = getImagePathByBadgeKey(
+      certificate.getAcquiredPixPlusDroitCertification()
+    );
 
     const sortedCompetenceTree = sortBy(certificate.resultCompetenceTree.areas, 'code');
     const competenceDetailViewModels = sortedCompetenceTree.flatMap((area) => {

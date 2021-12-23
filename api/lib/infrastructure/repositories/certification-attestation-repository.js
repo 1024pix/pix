@@ -14,15 +14,7 @@ const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
-const macaronCleaPath = `${__dirname}/../utils/pdf/files/macaron_clea.png`;
-const macaronPixPlusDroitMaitrePath = `${__dirname}/../utils/pdf/files/macaron_maitre.png`;
-const macaronPixPlusDroitExpertPath = `${__dirname}/../utils/pdf/files/macaron_expert.png`;
-
 module.exports = {
-  macaronCleaPath,
-  macaronPixPlusDroitMaitrePath,
-  macaronPixPlusDroitExpertPath,
-
   async get(id) {
     const certificationCourseDTO = await _selectCertificationAttestations()
       .where('certification-courses.id', '=', id)
@@ -34,16 +26,9 @@ module.exports = {
     }
 
     const competenceTree = await competenceTreeRepository.get();
+    const acquiredPartnerCertificationKeys = await _getAcquiredPartnerCertificationKeys(certificationCourseDTO.id);
 
-    const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
-    const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
-
-    return _toDomain(
-      certificationCourseDTO,
-      competenceTree,
-      cleaCertificationImagePath,
-      pixPlusDroitCertificationImagePath
-    );
+    return _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertificationKeys);
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
@@ -81,7 +66,7 @@ module.exports = {
     return _(mostRecentCertificationsPerSchoolingRegistration)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
       .map((certificationCourseDTO) => {
-        return _toDomain(certificationCourseDTO, competenceTree, null, null);
+        return _toDomain(certificationCourseDTO, competenceTree, []);
       })
       .value();
   },
@@ -147,38 +132,23 @@ function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
   return mostRecent;
 }
 
-async function _getCleaCertificationImagePath(certificationCourseId) {
-  const result = await knex
+async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
+  const handledBadgeKeys = [
+    CleaCertificationResult.badgeKeyV1,
+    CleaCertificationResult.badgeKeyV2,
+    pixPlusDroitExpertBadgeKey,
+    pixPlusDroitMaitreBadgeKey,
+  ];
+  const partnerCertifications = await knex
     .select('partnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
-    .first();
+    .whereIn('partnerKey', handledBadgeKeys);
 
-  if (!result) return null;
-  return macaronCleaPath;
+  return partnerCertifications.map((partnerCertification) => partnerCertification.partnerKey);
 }
 
-async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
-  const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
-  const result = await knex
-    .select('partnerKey')
-    .from('partner-certifications')
-    .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', handledBadgeKeys)
-    .first();
-
-  if (!result) return null;
-  if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return macaronPixPlusDroitMaitrePath;
-  if (result.partnerKey === pixPlusDroitExpertBadgeKey) return macaronPixPlusDroitExpertPath;
-}
-
-function _toDomain(
-  certificationCourseDTO,
-  competenceTree,
-  cleaCertificationImagePath,
-  pixPlusDroitCertificationImagePath
-) {
+function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertificationKeys) {
   const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
     (competenceMark) => new CompetenceMark({ ...competenceMark })
   );
@@ -193,7 +163,6 @@ function _toDomain(
   return new CertificationAttestation({
     ...certificationCourseDTO,
     resultCompetenceTree,
-    cleaCertificationImagePath,
-    pixPlusDroitCertificationImagePath,
+    acquiredPartnerCertificationKeys,
   });
 }
