@@ -3,8 +3,12 @@ const { isSameBinary } = require('../../../../tooling/binary-comparator');
 const {
   getCertificationAttestationsPdfBuffer,
 } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const { PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('../../../../../lib/domain/models/Badge').keys;
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+} = require('../../../../../lib/domain/models/Badge').keys;
 
 const { addRandomSuffix } = require('pdf-lib/cjs/utils');
 
@@ -35,7 +39,34 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       creationDate: new Date('2021-01-01'),
     });
 
-    // Note: to update the reference pdf, you can run the test with the followling lines.
+    // Note: to update the reference pdf, you can run the test with the following lines.
+    //
+    // const { writeFile } = require('fs/promises');
+    // await writeFile(referencePdfPath, buffer);
+
+    // then
+    expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
+  });
+
+  it('should generate full attestation with Pix+ Édu badge', async function () {
+    // given
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    const certificate = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
+      resultCompetenceTree,
+      acquiredPartnerCertificationKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+    });
+    const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu.pdf';
+
+    // when
+    const { buffer } = await getCertificationAttestationsPdfBuffer({
+      certificates: [certificate],
+      creationDate: new Date('2021-01-01'),
+    });
+
+    // Note: to update the reference pdf, you can run the test with the following lines.
     //
     // const { writeFile } = require('fs/promises');
     // await writeFile(referencePdfPath, buffer);
