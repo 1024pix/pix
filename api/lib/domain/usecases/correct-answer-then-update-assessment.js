@@ -17,6 +17,9 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   skillRepository,
   targetProfileRepository,
   knowledgeElementRepository,
+  flashAssessmentResultRepository,
+  flashAlgorithmService,
+  algorithmDataFetcherService,
 } = {}) {
   const assessment = await assessmentRepository.get(answer.assessmentId);
   if (assessment.userId !== userId) {
@@ -81,6 +84,21 @@ module.exports = async function correctAnswerThenUpdateAssessment({
     locale,
   });
 
+  if (assessment.isFlash()) {
+    const flashData = await algorithmDataFetcherService.fetchForFlashLevelEstimation({
+      assessment,
+      answerRepository,
+      challengeRepository,
+    });
+
+    const { estimatedLevel, errorRate } = flashAlgorithmService.getEstimatedLevelAndErrorRate(flashData);
+
+    await flashAssessmentResultRepository.updateEstimatedLevelAndErrorRate({
+      assessmentId: assessment.id,
+      estimatedLevel,
+      errorRate,
+    });
+  }
   return answerSaved;
 };
 
