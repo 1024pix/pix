@@ -1,5 +1,4 @@
 exports.up = (knex) => {
-
   return knex.schema
     .createTable('pix_roles', (table) => {
       table.increments('id').primary();
@@ -13,10 +12,7 @@ exports.up = (knex) => {
       });
     })
     .then(() => {
-      const roles = [
-        { name: 'PIX_MASTER' },
-        { name: 'PIX_READER' },
-      ];
+      const roles = [{ name: 'PIX_MASTER' }, { name: 'PIX_READER' }];
 
       return knex.batchInsert('pix_roles', roles);
     });

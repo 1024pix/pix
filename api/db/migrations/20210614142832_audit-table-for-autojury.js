@@ -1,7 +1,6 @@
 const TABLE_NAME = 'autojury-script-audit';
 
 exports.up = (knex) => {
-
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('sessionId').primary();
     t.text('certificationCenterName');

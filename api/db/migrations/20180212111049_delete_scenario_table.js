@@ -1,15 +1,11 @@
 const TABLE_NAME = 'scenarios';
 
-exports.up = function(knex) {
-
-  return knex.schema
-    .dropTable(TABLE_NAME);
+exports.up = function (knex) {
+  return knex.schema.dropTable(TABLE_NAME);
 };
 
-exports.down = function(knex) {
-
+exports.down = function (knex) {
   function table(t) {
-
     t.increments().primary();
     t.string('courseId').notNull();
     t.string('path').notNull();
@@ -18,7 +14,5 @@ exports.down = function(knex) {
     t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
   }
 
-  return knex.schema
-    .createTable(TABLE_NAME, table);
-
+  return knex.schema.createTable(TABLE_NAME, table);
 };

@@ -14,7 +14,9 @@ exports.up = async (knex) => {
     t.unique(['identityProvider', 'userId']);
   });
 
-  return knex.raw('ALTER TABLE "authentication-methods" ADD CONSTRAINT "authentication_methods_identityProvider_check" CHECK ( "identityProvider" IN (\'PIX\', \'GAR\', \'POLE_EMPLOI\') )');
+  return knex.raw(
+    'ALTER TABLE "authentication-methods" ADD CONSTRAINT "authentication_methods_identityProvider_check" CHECK ( "identityProvider" IN (\'PIX\', \'GAR\', \'POLE_EMPLOI\') )'
+  );
 };
 
 exports.down = (knex) => {

@@ -1,7 +1,6 @@
 const TABLE_NAME = 'user_tutorials';
 
 exports.up = (knex) => {
-
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.bigInteger('userId').index();
