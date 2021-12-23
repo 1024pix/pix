@@ -18,6 +18,7 @@ module.exports = {
         'competences',
         'areas',
         'imageUrl',
+        'category',
       ],
       skills: {
         ref: 'id',
