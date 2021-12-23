@@ -402,7 +402,8 @@ describe('Unit | Route | Assessments | Challenge', function () {
           ],
         };
         answerToChallengeOne.save = sinon.stub().rejects(error);
-        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+        const certificationCourse = EmberObject.create({});
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne], certificationCourse });
 
         // when
         await route.actions.saveAnswerAndNavigate.call(
@@ -415,7 +416,11 @@ describe('Unit | Route | Assessments | Challenge', function () {
         );
 
         // then
-        sinon.assert.calledWithExactly(route.transitionTo, 'certifications.results', assessment.get('id'));
+        sinon.assert.calledWithExactly(
+          route.transitionTo,
+          'certifications.results',
+          assessment.certificationCourse.get('id')
+        );
       });
     });
   });

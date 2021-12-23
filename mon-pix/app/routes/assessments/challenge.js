@@ -98,7 +98,7 @@ export default class ChallengeRoute extends Route {
       answer.rollbackAttributes();
 
       if (error?.errors?.[0]?.detail === 'Le surveillant a mis fin à votre test de certification.') {
-        return this.transitionTo('certifications.results', assessment.get('id'));
+        return this.transitionTo('certifications.results', assessment.certificationCourse.get('id'));
       }
 
       return this.intermediateTransitionTo('error', error);
