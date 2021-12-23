@@ -8,6 +8,13 @@ const {
 const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../domain/models/Badge').keys;
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
@@ -138,6 +145,11 @@ async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
     CleaCertificationResult.badgeKeyV2,
     pixPlusDroitExpertBadgeKey,
     pixPlusDroitMaitreBadgeKey,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
   ];
   const partnerCertifications = await knex
     .select('partnerKey')

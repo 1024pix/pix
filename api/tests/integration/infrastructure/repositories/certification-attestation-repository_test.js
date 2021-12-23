@@ -19,6 +19,13 @@ const {
 const {
   badgeKey: pixPlusDroitExpertBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
@@ -311,7 +318,17 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
     context('acquired certifiable badges', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [cleaBadgeKeyV1, cleaBadgeKeyV2, pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey].forEach((badgeKey) => {
+      [
+        cleaBadgeKeyV1,
+        cleaBadgeKeyV2,
+        pixPlusDroitExpertBadgeKey,
+        pixPlusDroitMaitreBadgeKey,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+      ].forEach((badgeKey) => {
         it(`should get the certified badge ${badgeKey} when acquired`, async function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
