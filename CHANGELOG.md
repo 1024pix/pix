@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.145.0 (23/12/2021)
+
+
+### :rocket: Enhancement
+- [#3864](https://github.com/1024pix/pix/pull/3864) [FEATURE] Afficher le macaron Pix+ Édu dans le certificat pour un candidat ayant validé sa certification Pix+ Édu (PIX-3996).
+- [#3854](https://github.com/1024pix/pix/pull/3854) [FEATURE] Ameliorer le rendu des certifications complementaires (PIX-3867)
+- [#3855](https://github.com/1024pix/pix/pull/3855) [FEATURE] Bloquer le passage du test pour le candidat dont le test a été terminé par le Surveillant (PIX-4047)
+
+### :building_construction: Tech
+- [#3833](https://github.com/1024pix/pix/pull/3833) [TECH] Refacto du test du usecase retrieve-last-or-create-certification-course (PIX-4031)
+
+### :bug: Bug fix
+- [#3866](https://github.com/1024pix/pix/pull/3866) [BUGFIX] Modifier le endpoint pour terminer un test de certification depuis l'espace surveillant (PIX-4062)
+
 ## v3.144.0 (22/12/2021)
 
 
