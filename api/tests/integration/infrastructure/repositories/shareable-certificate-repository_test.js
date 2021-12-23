@@ -427,8 +427,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-            'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            }),
           ],
         };
 
@@ -469,7 +473,11 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
+          certifiedBadgeImages: [
+            domainBuilder.buildCertifiedBadgeImage.notTemporary({
+              path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            }),
+          ],
         };
 
         const { certificateId } = await _buildValidShareableCertificateWithOneAcquiredPixPlusDroitBadge(
