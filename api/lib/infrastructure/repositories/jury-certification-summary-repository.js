@@ -5,12 +5,17 @@ const CertificationIssueReport = require('../../domain/models/CertificationIssue
 const CleaCertificationResult = require('../../domain/models/CleaCertificationResult');
 const PixPlusDroitMaitreCertificationResult = require('../../domain/models/PixPlusDroitMaitreCertificationResult');
 const PixPlusDroitExpertCertificationResult = require('../../domain/models/PixPlusDroitExpertCertificationResult');
+const Assessment = require('../../domain/models/Assessment');
 
 module.exports = {
   async findBySessionId(sessionId) {
     const juryCertificationSummaryRows = await knex
       .with('certifications_every_assess_results', (qb) => {
-        qb.select('certification-courses.*', 'assessment-results.pixScore', 'assessment-results.status')
+        qb.select('certification-courses.*', 'assessment-results.pixScore')
+          .select({
+            assesmentResultStatus: 'assessment-results.status',
+            assessmentState: 'assessments.state',
+          })
           .select(
             knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_row_number', [
               'certification-courses.id',
@@ -81,7 +86,9 @@ function _toDomain(juryCertificationSummaryDTO) {
     _getPartnerCertificationsResult(juryCertificationSummaryDTO.partnerCertifications);
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
+    status: juryCertificationSummaryDTO.assesmentResultStatus,
     isCourseCancelled: juryCertificationSummaryDTO.isCancelled,
+    isEndedBySupervisor: juryCertificationSummaryDTO.assessmentState === Assessment.states.ENDED_BY_SUPERVISOR,
     certificationIssueReports,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
