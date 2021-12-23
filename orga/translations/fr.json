@@ -305,6 +305,7 @@
       },
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
+      "target-profiles-search-placeholder": "Rechercher par nom",
       "test-title": {
         "label": "Titre du parcours"
       },
