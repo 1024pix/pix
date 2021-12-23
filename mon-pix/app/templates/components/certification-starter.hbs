@@ -5,29 +5,37 @@
   {{#if @certificationCandidateSubscription.hasSubscriptions}}
     <div class="certification-starter-subscriptions">
       {{#if (gt this.allComplementaryCertificationsLength 0)}}
-        <div class="certification-starter-subscriptions__eligible" data-test-id="eligible-subscriptions">
-          <p class="certification-starter-subscriptions__eligible-title">{{t
-              "pages.certification-start.eligible-subscriptions"
-              itemCount=this.allComplementaryCertificationsLength
-            }}</p>
-          {{#each @certificationCandidateSubscription.eligibleSubscriptions as |eligibleSubscription|}}
-            <span class="certification-starter-subscriptions__eligible-item">
-              <FaIcon @icon="check-circle" class="certification-starter-subscriptions__eligible-icon" />
-              {{eligibleSubscription.name}}
-            </span>
-          {{/each}}
-          {{#each @certificationCandidateSubscription.nonEligibleSubscriptions as |nonEligibleSubscription|}}
-            <span class="certification-starter-subscriptions__non-eligible-item">
-              <FaIcon @icon="check-circle" class="certification-starter-subscriptions__non-eligible-icon" />
-              {{nonEligibleSubscription.name}}
-            </span>
-          {{/each}}
+        <div class="certification-starter-subscriptions-container">
+          <p class="certification-starter-subscriptions-container-title">
+            {{t "pages.certification-start.eligible-subscriptions" itemCount=this.allComplementaryCertificationsLength}}
+          </p>
+          <div class="certification-starter-subscriptions-container-items">
+            {{#each @certificationCandidateSubscription.eligibleSubscriptions as |eligibleSubscription|}}
+              <span class="certification-starter-subscriptions-container-items__eligible-item">
+                <FaIcon
+                  @icon="check-circle"
+                  class="certification-starter-subscriptions-container-items__eligible-icon"
+                />
+                {{eligibleSubscription.name}}
+              </span>
+            {{/each}}
+            {{#each @certificationCandidateSubscription.nonEligibleSubscriptions as |nonEligibleSubscription|}}
+              <span class="certification-starter-subscriptions-container-items__non-eligible-item">
+                <FaIcon
+                  @icon="check-circle"
+                  class="certification-starter-subscriptions-container-items__non-eligible-icon"
+                />
+                {{nonEligibleSubscription.name}}
+              </span>
+            {{/each}}
+          </div>
         </div>
       {{/if}}
       {{#if this.nonEligibleSubscriptionNames.length}}
-        <div class="certification-starter-subscriptions__non-eligible" data-test-id="non-eligible-subscriptions">
-          <FaIcon @icon="exclamation-circle" class="certification-starter-subscriptions__info-icon" />
-          <span>{{t
+        <div class="certification-starter-subscriptions-container__non-eligible">
+          <FaIcon @icon="exclamation-circle" class="certification-starter-subscriptions-container__info-icon" />
+          <span>
+            {{t
               "pages.certification-start.non-eligible-subscriptions"
               nonEligibleSubscription=this.nonEligibleSubscriptionNames
               eligibleSubscription=this.eligibleSubscriptionNames
