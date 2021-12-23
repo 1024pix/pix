@@ -23,8 +23,7 @@
       <div class="user-certifications-detail-result__complementary-certification">
         <img src={{certifiedBadgeImage.path}} alt="{{t "pages.certificate.complementary.alternative"}}" />
         {{#if certifiedBadgeImage.isTemporaryBadge}}
-          <span>Vous avez obtenu le niveau “{{certifiedBadgeImage.levelName}}” dans le cadre du volet 1 de la
-            certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2</span>
+          <span>{{t "pages.certificate.temporary-badge-info" level=certifiedBadgeImage.levelName}}</span>
         {{/if}}
       </div>
     {{/each}}

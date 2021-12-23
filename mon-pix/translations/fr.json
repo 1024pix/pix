@@ -194,6 +194,7 @@
       "issued-on": "Délivré le",
       "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
       "jury-title": "Observations du jury",
+      "temporary-badge-info": "Vous avez obtenu le niveau \"{level}\" dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2",
       "validity": "Certificat valable 3 ans",
       "verification-code": {
         "title": "Code de vérification",

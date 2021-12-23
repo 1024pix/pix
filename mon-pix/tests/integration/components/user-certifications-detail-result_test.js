@@ -183,7 +183,7 @@ describe('Integration | Component | user certifications detail result', function
         // then
         expect(
           contains(
-            'Vous avez obtenu le niveau “Level Name” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2'
+            'Vous avez obtenu le niveau "Level Name" dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2'
           )
         ).to.exist;
       });
