@@ -60,8 +60,6 @@ if [ -z "${DUMP_DATABASE_CLIENT_VERSION}" ]; then
     echo "DUMP_DATABASE_CLIENT_VERSION is not set, assuming $DUMP_DATABASE_CLIENT_VERSION"
 fi
 
-
-
 # If you get this message
 # sort: --batch-size argument '1024' too large
 # sort: maximum --batch-size argument with current rlimit is 1021
@@ -168,8 +166,31 @@ import_unsorted_ke(){
   echo 'KE rows have been successfully loaded into knowledge-elements_bigint table'
 }
 
+extract_ke_first_lines(){
+
+  echo 'Downloading backup'
+  cd ./scripts/database/restore-dump
+  node download-backup.js
+  cd ../../bigint/answers
+
+  echo 'Locating KE rows in dump..'
+
+  tar -x --to-stdout -f "$DUMP_FILE_PATH"  2>/dev/null | pg_restore --list | grep "TABLE DATA public knowledge-elements" | head -1 > ke.ctl
+
+  echo 'KE rows located'
+
+  echo 'Extracting KE rows from dump...'
+
+  tar -x --to-stdout -f "$DUMP_FILE_PATH"  2>/dev/null \
+    | pg_restore --use-list=ke.ctl --file - \
+    | head -n 100 \
+    | cat
+
+  echo 'KE 100 lines have been displayed'
+}
+
 main(){
-  import_unsorted_ke
+  extract_ke_first_lines
 }
 
 main
