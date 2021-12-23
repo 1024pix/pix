@@ -49,6 +49,7 @@ async function _get(whereClauseFnc, locale) {
       'target-profiles.description',
       'target-profiles.comment',
       'target-profiles.ownerOrganizationId',
+      'target-profiles.category',
       'target-profiles_skills.skillId'
     )
     .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
@@ -78,6 +79,7 @@ async function _toDomain(results, badges, stages, locale) {
     imageUrl: results[0].imageUrl,
     description: results[0].description,
     comment: results[0].comment,
+    category: results[0].category,
     skills,
     tubes,
     competences,
