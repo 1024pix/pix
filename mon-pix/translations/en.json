@@ -194,6 +194,7 @@
       "issued-on": "Delivered on",
       "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
       "jury-title": "Notes from the examining body",
+      "temporary-badge-info": "--- \"{level}\" ---",
       "validity": "Certificate valid for 3 years",
       "verification-code": {
         "title": "Verification code",
