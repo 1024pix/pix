@@ -742,4 +742,52 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
     });
   });
+
+  describe('#getByCertificationCandidateId', function () {
+    it("should return the user's assessment given its certification candidate id", async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession({}).id;
+      const firstUserId = databaseBuilder.factory.buildUser({}).id;
+      const secondUserId = databaseBuilder.factory.buildUser({}).id;
+
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        sessionId,
+        userId: firstUserId,
+      }).id;
+
+      const firstUserCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        userId: firstUserId,
+      }).id;
+      const secondUserCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        userId: secondUserId,
+      }).id;
+
+      const firstUserAssessmentId = databaseBuilder.factory.buildAssessment({
+        userId: firstUserId,
+        certificationCourseId: firstUserCertificationCourse,
+        state: 'started',
+        type: 'CERTIFICATION',
+      }).id;
+      databaseBuilder.factory.buildAssessment({
+        userId: secondUserId,
+        certificationCourseId: secondUserCertificationCourse,
+        state: 'started',
+        type: 'CERTIFICATION',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const assessment = await assessmentRepository.getByCertificationCandidateId(certificationCandidateId);
+
+      // then
+      expect(assessment).to.be.an.instanceOf(Assessment);
+      expect(assessment.id).to.equal(firstUserAssessmentId);
+      expect(assessment.certificationCourseId).to.equal(firstUserCertificationCourse);
+      expect(assessment.userId).to.equal(firstUserId);
+      expect(assessment.state).to.equal('started');
+    });
+  });
 });

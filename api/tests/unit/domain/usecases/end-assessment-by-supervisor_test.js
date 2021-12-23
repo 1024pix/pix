@@ -7,7 +7,7 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
 
   beforeEach(function () {
     assessmentRepository = {
-      get: _.noop,
+      getByCertificationCandidateId: _.noop,
       endBySupervisorByAssessmentId: _.noop,
     };
   });
@@ -16,11 +16,15 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
     it('should not end the assessment', async function () {
       // when
       const completedAssessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'completed' });
+      const certificationCandidateId = domainBuilder.buildCertificationCandidate().id;
       sinon.stub(assessmentRepository, 'endBySupervisorByAssessmentId').resolves();
-      sinon.stub(assessmentRepository, 'get').withArgs(completedAssessment.id).resolves(completedAssessment);
+      sinon
+        .stub(assessmentRepository, 'getByCertificationCandidateId')
+        .withArgs(certificationCandidateId)
+        .resolves(completedAssessment);
 
       await endAssessmentBySupervisor({
-        assessmentId: completedAssessment.id,
+        certificationCandidateId,
         assessmentRepository,
       });
 
@@ -32,12 +36,16 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
   context('when assessment is not completed', function () {
     it('should end the assessment', async function () {
       // when
-      const assessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'started' });
+      const assessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'started', userId: 123 });
+      const certificationCandidateId = domainBuilder.buildCertificationCandidate({ userId: 123 }).id;
       sinon.stub(assessmentRepository, 'endBySupervisorByAssessmentId').resolves();
-      sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+      sinon
+        .stub(assessmentRepository, 'getByCertificationCandidateId')
+        .withArgs(certificationCandidateId)
+        .resolves(assessment);
 
       await endAssessmentBySupervisor({
-        assessmentId: assessment.id,
+        certificationCandidateId,
         assessmentRepository,
       });
 

@@ -1,9 +1,9 @@
-module.exports = async function endAssessmentBySupervisor({ assessmentId, assessmentRepository }) {
-  const assessment = await assessmentRepository.get(assessmentId);
+module.exports = async function endAssessmentBySupervisor({ certificationCandidateId, assessmentRepository }) {
+  const assessment = await assessmentRepository.getByCertificationCandidateId(certificationCandidateId);
 
   if (assessment.isCompleted()) {
     return;
   }
 
-  await assessmentRepository.endBySupervisorByAssessmentId(assessmentId);
+  await assessmentRepository.endBySupervisorByAssessmentId(assessment.id);
 };
