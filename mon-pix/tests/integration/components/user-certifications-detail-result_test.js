@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
+import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -125,7 +126,7 @@ describe('Integration | Component | user certifications detail result', function
   });
 
   context('when certification has a certified badge image', function () {
-    beforeEach(async function () {
+    it('should show the complementary certification badge', async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -137,17 +138,55 @@ describe('Integration | Component | user certifications detail result', function
         isPublished: true,
         pixScore: 654,
         status: 'validated',
-        certifiedBadgeImages: ['/some/img'],
+        certifiedBadgeImages: [
+          {
+            url: '/some/img',
+            isTemporaryBadge: false,
+          },
+        ],
       });
       this.set('certification', certification);
 
       // when
       await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+
+      // then
+      expect(find('img[alt="Certification complémentaire"]')).to.exist;
     });
 
-    // then
-    it('should show the complementary certification badge', function () {
-      expect(find('img[alt="Certification complémentaire"]')).to.exist;
+    context('when the certified badge image is a temporary badge', function () {
+      it('should display the temporary badge message', async function () {
+        // given
+        certification = EmberObject.create({
+          id: 1,
+          birthdate: new Date('2000-01-22T15:15:52Z'),
+          firstName: 'Jean',
+          lastName: 'Bon',
+          date: new Date('2018-02-15T15:15:52Z'),
+          certificationCenter: 'Université de Lyon',
+          isPublished: true,
+          pixScore: 654,
+          status: 'validated',
+          certifiedBadgeImages: [
+            {
+              url: '/some/img',
+              isTemporaryBadge: true,
+              levelName: 'Level Name',
+            },
+          ],
+        });
+        this.set('certification', certification);
+
+        // when
+        await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+
+        // then
+        expect(
+          contains(
+            'Vous avez obtenu le niveau "Level Name" dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2'
+          )
+        ).to.exist;
+      });
     });
   });
 
