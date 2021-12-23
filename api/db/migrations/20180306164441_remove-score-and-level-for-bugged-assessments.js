@@ -2,7 +2,7 @@ const { batch } = require('../batch-processing');
 
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'estimatedLevel', 'pixScore', 'type')
     .where('type', '=', 'PLACEMENT')
@@ -11,16 +11,13 @@ exports.up = function(knex) {
 
     .then((allAssessmentsWithBuggedScore) => {
       return batch(knex, allAssessmentsWithBuggedScore, (assessment) => {
-        return knex(TABLE_NAME_ASSESSMENTS)
-          .where('id', '=', assessment.id)
-          .update({
-            pixScore: null,
-            estimatedLevel: null,
-            updatedAt: knex.fn.now(),
-          });
+        return knex(TABLE_NAME_ASSESSMENTS).where('id', '=', assessment.id).update({
+          pixScore: null,
+          estimatedLevel: null,
+          updatedAt: knex.fn.now(),
+        });
       });
     });
 };
 
-exports.down = function() {
-};
+exports.down = function () {};

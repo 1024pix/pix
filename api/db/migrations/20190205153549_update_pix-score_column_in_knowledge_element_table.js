@@ -1,12 +1,12 @@
 const TABLE_NAME = 'knowledge-elements';
 
-exports.up = async function(knex) {
+exports.up = async function (knex) {
   await knex.schema.table(TABLE_NAME, (t) => {
     t.float('earnedPix').notNullable().defaultTo(0);
   });
 };
 
-exports.down = async function(knex) {
+exports.down = async function (knex) {
   await knex.schema.table(TABLE_NAME, (t) => {
     t.dropColumn('earnedPix');
   });

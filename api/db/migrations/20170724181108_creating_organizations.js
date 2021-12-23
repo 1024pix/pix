@@ -1,5 +1,4 @@
-exports.up = function(knex) {
-
+exports.up = function (knex) {
   function table(table) {
     table.increments().primary();
     table.string('email').notNullable();
@@ -10,10 +9,9 @@ exports.up = function(knex) {
     table.bigInteger('userId').index().references('users.id');
   }
 
-  return knex.schema
-    .createTable('organizations', table);
+  return knex.schema.createTable('organizations', table);
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTable('organizations');
 };

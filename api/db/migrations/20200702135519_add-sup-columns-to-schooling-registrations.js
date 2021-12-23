@@ -1,6 +1,6 @@
 const TABLE_NAME = 'schooling-registrations';
 
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('email');
     table.string('studentNumber');
@@ -11,7 +11,7 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('email');
     table.dropColumn('studentNumber');

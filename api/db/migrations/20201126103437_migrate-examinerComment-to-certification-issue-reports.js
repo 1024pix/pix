@@ -25,7 +25,5 @@ exports.down = async (knex) => {
 
   const idsToDelete = certificationCoursesWithExaminerComment.map((c) => c.id);
 
-  return knex(CERTIFICATION_ISSUE_REPORTS)
-    .whereIn('certificationCourseId', idsToDelete)
-    .delete();
+  return knex(CERTIFICATION_ISSUE_REPORTS).whereIn('certificationCourseId', idsToDelete).delete();
 };

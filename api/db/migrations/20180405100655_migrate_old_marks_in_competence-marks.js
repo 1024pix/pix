@@ -4,28 +4,24 @@ const TABLE_NAME_MARKS = 'marks';
 const TABLE_NAME_COMPETENCE_MARKS = 'competence-marks';
 const TABLE_NAME_ASSESSMENT_RESULTS = 'assessment-results';
 
-exports.up = function(knex) {
-
+exports.up = function (knex) {
   return knex(TABLE_NAME_MARKS)
     .select('id', 'level', 'score', 'area_code', 'competence_code', 'assessmentResultId')
     .then((allMarks) => {
-
       return batch(knex, allMarks, (mark) => {
-        return knex(TABLE_NAME_COMPETENCE_MARKS)
-          .insert({
-            level: mark.level,
-            score: mark.score,
-            area_code: mark.area_code,
-            competence_code: mark.competence_code,
-            assessmentResultId: mark.assessmentResultId,
-          });
+        return knex(TABLE_NAME_COMPETENCE_MARKS).insert({
+          level: mark.level,
+          score: mark.score,
+          area_code: mark.area_code,
+          competence_code: mark.competence_code,
+          assessmentResultId: mark.assessmentResultId,
+        });
       });
-
-    }).then(() => knex.schema.dropTable(TABLE_NAME_MARKS));
+    })
+    .then(() => knex.schema.dropTable(TABLE_NAME_MARKS));
 };
 
-exports.down = function(knex) {
-
+exports.down = function (knex) {
   return knex.schema
     .createTable(TABLE_NAME_MARKS, (t) => {
       t.increments().primary();
@@ -36,31 +32,26 @@ exports.down = function(knex) {
       t.integer('assessmentId').unsigned().references('assessments.id');
       t.integer('assessmentResultId').unsigned();
     })
-    .then(() => knex(TABLE_NAME_COMPETENCE_MARKS).select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId'))
+    .then(() =>
+      knex(TABLE_NAME_COMPETENCE_MARKS).select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId')
+    )
     .then((allMarks) => {
-
       return batch(knex, allMarks, (mark) => {
-        return knex(TABLE_NAME_MARKS)
-          .insert({
-            level: mark.level,
-            score: mark.score,
-            area_code: mark.area_code,
-            competence_code: mark.competence_code,
-            assessmentResultId: mark.assessmentResultId,
-          });
+        return knex(TABLE_NAME_MARKS).insert({
+          level: mark.level,
+          score: mark.score,
+          area_code: mark.area_code,
+          competence_code: mark.competence_code,
+          assessmentResultId: mark.assessmentResultId,
+        });
       });
-
     })
     .then(() => knex(TABLE_NAME_ASSESSMENT_RESULTS).select('id', 'assessmentId'))
     .then((allAssessmentResults) => {
-
       return batch(knex, allAssessmentResults, (result) => {
-        return knex(TABLE_NAME_MARKS)
-          .where('assessmentResultId', '=', result.id)
-          .update({
-            assessmentId: result.assessmentResultId,
-          });
+        return knex(TABLE_NAME_MARKS).where('assessmentResultId', '=', result.id).update({
+          assessmentId: result.assessmentResultId,
+        });
       });
-
     });
 };
