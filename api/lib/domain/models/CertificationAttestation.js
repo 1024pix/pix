@@ -1,5 +1,14 @@
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('./Badge').keys;
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('./Badge').keys;
 
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
@@ -51,6 +60,17 @@ class CertificationAttestation {
   getAcquiredPixPlusDroitCertification() {
     return this.acquiredPartnerCertificationKeys.find(
       (key) => key === PIX_DROIT_MAITRE_CERTIF || key === PIX_DROIT_EXPERT_CERTIF
+    );
+  }
+
+  getAcquiredPixPlusEduCertification() {
+    return this.acquiredPartnerCertificationKeys.find(
+      (key) =>
+        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME ||
+        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
     );
   }
 
