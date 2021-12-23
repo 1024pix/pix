@@ -89,6 +89,10 @@ class Assessment {
     return this.state === Assessment.states.STARTED;
   }
 
+  isEndedBySupervisor() {
+    return this.state === Assessment.states.ENDED_BY_SUPERVISOR;
+  }
+
   setCompleted() {
     this.state = Assessment.states.COMPLETED;
   }
