@@ -1,3 +1,6 @@
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('./Badge').keys;
+
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 
@@ -14,8 +17,7 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    cleaCertificationImagePath,
-    pixPlusDroitCertificationImagePath,
+    acquiredPartnerCertificationKeys,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -31,8 +33,7 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.cleaCertificationImagePath = cleaCertificationImagePath;
-    this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
+    this.acquiredPartnerCertificationKeys = acquiredPartnerCertificationKeys;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -43,16 +44,18 @@ class CertificationAttestation {
     this.resultCompetenceTree = resultCompetenceTree;
   }
 
-  hasAcquiredCleaCertification() {
-    return this.cleaCertificationImagePath !== null;
+  getAcquiredCleaCertification() {
+    return this.acquiredPartnerCertificationKeys.find((key) => key === PIX_EMPLOI_CLEA || key === PIX_EMPLOI_CLEA_V2);
   }
 
-  hasAcquiredPixPlusDroitCertification() {
-    return this.pixPlusDroitCertificationImagePath !== null;
+  getAcquiredPixPlusDroitCertification() {
+    return this.acquiredPartnerCertificationKeys.find(
+      (key) => key === PIX_DROIT_MAITRE_CERTIF || key === PIX_DROIT_EXPERT_CERTIF
+    );
   }
 
   hasAcquiredAnyComplementaryCertifications() {
-    return this.hasAcquiredPixPlusDroitCertification() || this.hasAcquiredCleaCertification();
+    return this.acquiredPartnerCertificationKeys.length > 0;
   }
 }
 

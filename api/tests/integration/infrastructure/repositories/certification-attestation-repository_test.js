@@ -62,8 +62,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildIncomplete(certificationAttestationData);
@@ -92,8 +91,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
@@ -122,8 +120,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -152,8 +149,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
@@ -186,8 +182,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -220,8 +215,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
 
@@ -301,8 +295,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
@@ -334,8 +327,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: certificationAttestationRepository.macaronCleaPath,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [cleaBadgeKeyV1],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -372,8 +364,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: certificationAttestationRepository.macaronCleaPath,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [cleaBadgeKeyV2],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -411,8 +402,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitExpertPath,
+          acquiredPartnerCertificationKeys: [pixPlusDroitExpertBadgeKey],
           sessionId: 789,
         };
         await _buildValidCertificationAttestation(certificationAttestationData);
@@ -448,8 +438,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitMaitrePath,
+          acquiredPartnerCertificationKeys: [pixPlusDroitMaitreBadgeKey],
           sessionId: 789,
         };
         await _buildValidCertificationAttestation(certificationAttestationData);
@@ -485,8 +474,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitMaitrePath,
+          acquiredPartnerCertificationKeys: [pixPlusDroitMaitreBadgeKey],
           sessionId: 789,
         };
         await _buildValidCertificationAttestation(certificationAttestationData);

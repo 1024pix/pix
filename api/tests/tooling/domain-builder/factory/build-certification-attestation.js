@@ -14,8 +14,7 @@ module.exports = function buildCertificationAttestation({
   pixScore = 123,
   maxReachableLevelOnCertificationDate = 5,
   verificationCode = 'P-SOMECODE',
-  cleaCertificationImagePath = 'some/path',
-  pixPlusDroitCertificationImagePath = null,
+  acquiredPartnerCertificationKeys = [],
   resultCompetenceTree = null,
 } = {}) {
   return new CertificationAttestation({
@@ -32,8 +31,7 @@ module.exports = function buildCertificationAttestation({
     pixScore,
     maxReachableLevelOnCertificationDate,
     verificationCode,
-    cleaCertificationImagePath,
-    pixPlusDroitCertificationImagePath,
+    acquiredPartnerCertificationKeys,
     resultCompetenceTree,
   });
 };
