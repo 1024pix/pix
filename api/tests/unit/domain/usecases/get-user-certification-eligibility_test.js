@@ -1,16 +1,11 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const getUserCertificationEligibility = require('../../../../lib/domain/usecases/get-user-certification-eligibility');
-const CertificationEligibility = require('../../../../lib/domain/read-models/CertificationEligibility');
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
   let clock;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const pixPlusDroitMaitreBadgeKey = CertificationEligibility.pixPlusDroitMaitreBadgeKey;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const pixPlusDroitExpertBadgeKey = CertificationEligibility.pixPlusDroitExpertBadgeKey;
   const now = new Date(2020, 1, 1);
+
   const placementProfileService = {
     getPlacementProfile: () => undefined,
   };
@@ -118,7 +113,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
       certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
       const maitreBadge = domainBuilder.buildBadge({
-        key: pixPlusDroitMaitreBadgeKey,
+        key: PIX_DROIT_MAITRE_CERTIF,
       });
       const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
         badge: maitreBadge,
@@ -174,7 +169,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
       certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
       const expertBadge = domainBuilder.buildBadge({
-        key: pixPlusDroitExpertBadgeKey,
+        key: PIX_DROIT_EXPERT_CERTIF,
       });
       const expertBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
         badge: expertBadge,
