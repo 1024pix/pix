@@ -80,7 +80,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       await visit('/campagnes/1/resultats-evaluation');
-      await fillByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
 
       // then
       assert
@@ -95,7 +95,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const changedPageSize = 10;
 
       await visit('/campagnes/1/resultats-evaluation');
-      await fillByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
       const someElementFromPage1 = this.element.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
       // when
@@ -113,7 +113,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
-      await fillByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
 
       // then
       assert

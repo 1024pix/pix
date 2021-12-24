@@ -113,7 +113,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // when
-    await fillByLabel('Sélectionner une pagination', '10');
+    await fillByLabel("Nombre d'élément à afficher par page", '10');
 
     // then
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '10', pageNumber: 1 } }));
