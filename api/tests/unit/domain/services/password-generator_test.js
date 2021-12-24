@@ -4,20 +4,32 @@ const service = require('../../../../lib/domain/services/password-generator');
 describe('Unit | Service | password-generator', function () {
   let generatedPassword;
 
-  beforeEach(function () {
-    generatedPassword = service.generate();
-  });
+  context('#generateSimplePassword', function () {
+    it('should have a length of 8 characters', function () {
+      // given & when
+      generatedPassword = service.generateSimplePassword();
 
-  it('should have a length of 8 characters', function () {
-    expect(generatedPassword.length).to.equal(8);
-  });
+      // then
+      expect(generatedPassword.length).to.equal(8);
+    });
 
-  it('should not contains hard to read characters', function () {
-    const hardToReadCharacters = '[ilo]';
-    expect(RegExp(hardToReadCharacters).test(generatedPassword)).to.be.false;
-  });
+    it('should not contains hard to read characters', function () {
+      // given
+      const hardToReadCharacters = '[ilo]';
 
-  it('should contains 6 lowercase letters and two digits', function () {
-    expect(RegExp('^[a-z]{6}[0-9]{2}$').test(generatedPassword)).to.be.true;
+      // when
+      generatedPassword = service.generateSimplePassword();
+
+      // then
+      expect(RegExp(hardToReadCharacters).test(generatedPassword)).to.be.false;
+    });
+
+    it('should contains 6 lowercase letters and two digits', function () {
+      // given & when
+      generatedPassword = service.generateSimplePassword();
+
+      // then
+      expect(RegExp('^[a-z]{6}[0-9]{2}$').test(generatedPassword)).to.be.true;
+    });
   });
 });
