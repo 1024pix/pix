@@ -50,6 +50,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         ownerOrganizationId: 456,
         description: 'Top profil cible.',
         comment: 'Commentaire Privé.',
+        category: 'SUBJECT',
       });
 
       // when
@@ -57,6 +58,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
       // then
       assert.contains('Profil Cible Fantastix');
+      assert.contains('Thématique');
       assert.dom('section').containsText('ID : 1');
       assert.dom('section').containsText('Public : Oui');
       assert.dom('section').containsText('Obsolète : Non');

@@ -10,6 +10,7 @@ export default class TargetProfile extends Model {
   @attr('string') description;
   @attr('string') comment;
   @attr('string') ownerOrganizationId;
+  @attr('string') category;
 
   @attr('array') skillsId;
 
