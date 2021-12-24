@@ -1,7 +1,6 @@
 const TABLE_NAME = 'stages';
 
 exports.up = (knex) => {
-
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.integer('targetProfileId').notNullable().references('target-profiles.id').index();

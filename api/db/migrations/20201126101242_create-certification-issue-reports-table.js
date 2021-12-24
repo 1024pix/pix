@@ -11,6 +11,6 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };

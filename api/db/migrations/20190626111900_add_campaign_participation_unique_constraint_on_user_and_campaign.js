@@ -1,6 +1,6 @@
 const TABLE_NAME = 'campaign-participations';
 
-exports.up = async function(knex) {
+exports.up = async function (knex) {
   await knex.raw(`
     DELETE FROM "campaign-participations"
     WHERE id IN (
@@ -18,10 +18,8 @@ exports.up = async function(knex) {
   });
 };
 
-exports.down = function(knex) {
-
+exports.down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropUnique(['campaignId', 'userId']);
   });
 };
-

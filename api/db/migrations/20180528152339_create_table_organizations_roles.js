@@ -2,7 +2,6 @@ const ORGANIZATION_ROLES_TABLE = 'organization-roles';
 const ORGANIZATIONS_ACCESSES_TABLE = 'organizations-accesses';
 
 exports.up = (knex) => {
-
   return knex.schema
     .createTable(ORGANIZATION_ROLES_TABLE, (table) => {
       table.increments('id').primary();
@@ -16,9 +15,7 @@ exports.up = (knex) => {
       });
     })
     .then(() => {
-      const roles = [
-        { name: 'ADMIN' },
-      ];
+      const roles = [{ name: 'ADMIN' }];
 
       return knex.batchInsert(ORGANIZATION_ROLES_TABLE, roles);
     });

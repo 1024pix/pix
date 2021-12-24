@@ -1,6 +1,6 @@
 const TABLE_NAME = 'skills';
 
-exports.up = function(knex) {
+exports.up = function (knex) {
   function table(t) {
     t.increments().primary();
     t.integer('assessmentId').unsigned().references('assessments.id').index();
@@ -10,11 +10,9 @@ exports.up = function(knex) {
     t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
   }
 
-  return knex.schema
-    .createTable(TABLE_NAME, table);
+  return knex.schema.createTable(TABLE_NAME, table);
 };
 
-exports.down = function(knex) {
-  return knex.schema
-    .dropTable(TABLE_NAME);
+exports.down = function (knex) {
+  return knex.schema.dropTable(TABLE_NAME);
 };
