@@ -13,6 +13,10 @@ module.exports = {
         'cleaCertificationEligible',
         'pixPlusDroitMaitreCertificationEligible',
         'pixPlusDroitExpertCertificationEligible',
+        'pixPlusEduAutonomeCertificationEligible',
+        'pixPlusEduAvanceCertificationEligible',
+        'pixPlusEduExpertCertificationEligible',
+        'pixPlusEduFormateurCertificationEligible',
       ],
     }).serialize(certificationEligibility);
   },
