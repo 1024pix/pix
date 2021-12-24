@@ -1,3 +1,15 @@
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('./Badge').keys;
+
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 
@@ -14,8 +26,7 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    cleaCertificationImagePath,
-    pixPlusDroitCertificationImagePath,
+    acquiredPartnerCertificationKeys,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -31,8 +42,7 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.cleaCertificationImagePath = cleaCertificationImagePath;
-    this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
+    this.acquiredPartnerCertificationKeys = acquiredPartnerCertificationKeys;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -43,16 +53,53 @@ class CertificationAttestation {
     this.resultCompetenceTree = resultCompetenceTree;
   }
 
-  hasAcquiredCleaCertification() {
-    return this.cleaCertificationImagePath !== null;
+  getAcquiredCleaCertification() {
+    return this.acquiredPartnerCertificationKeys.find((key) => key === PIX_EMPLOI_CLEA || key === PIX_EMPLOI_CLEA_V2);
   }
 
-  hasAcquiredPixPlusDroitCertification() {
-    return this.pixPlusDroitCertificationImagePath !== null;
+  getAcquiredPixPlusDroitCertification() {
+    return this.acquiredPartnerCertificationKeys.find(
+      (key) => key === PIX_DROIT_MAITRE_CERTIF || key === PIX_DROIT_EXPERT_CERTIF
+    );
+  }
+
+  getAcquiredPixPlusEduCertification() {
+    return this.acquiredPartnerCertificationKeys.find(
+      (key) =>
+        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME ||
+        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+    );
+  }
+
+  getPixPlusEduBadgeDisplayName() {
+    const acquiredPixPlusEduCertification = this.getAcquiredPixPlusEduCertification();
+    if (!acquiredPixPlusEduCertification) {
+      return null;
+    }
+
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME) {
+      return 'Autonome';
+    }
+    if (
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(
+        acquiredPixPlusEduCertification
+      )
+    ) {
+      return 'Avancé';
+    }
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
+      return 'Expert';
+    }
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
+      return 'Formateur';
+    }
   }
 
   hasAcquiredAnyComplementaryCertifications() {
-    return this.hasAcquiredPixPlusDroitCertification() || this.hasAcquiredCleaCertification();
+    return this.acquiredPartnerCertificationKeys.length > 0;
   }
 }
 
