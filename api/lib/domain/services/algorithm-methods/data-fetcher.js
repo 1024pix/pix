@@ -88,8 +88,7 @@ async function fetchForFlashCampaigns({ assessment, answerRepository, challengeR
 
 async function fetchForFlashLevelEstimation({ assessment, answerRepository, challengeRepository }) {
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
-  // FIXME might need optimization, add a getMany on challengeRepository?
-  const challenges = await Promise.all(allAnswers.map(({ challengeId }) => challengeRepository.get(challengeId)));
+  const challenges = await challengeRepository.getMany(allAnswers.map(({ challengeId }) => challengeId));
 
   return {
     allAnswers,
