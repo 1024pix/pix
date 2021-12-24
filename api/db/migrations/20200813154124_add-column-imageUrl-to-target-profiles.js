@@ -12,4 +12,3 @@ exports.down = (knex) => {
     table.dropColumn(COLUMN_NAME);
   });
 };
-

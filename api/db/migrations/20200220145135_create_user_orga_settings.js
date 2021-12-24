@@ -1,7 +1,6 @@
 const TABLE_NAME = 'user-orga-settings';
 
 exports.up = (knex) => {
-
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.bigInteger('userId').references('users.id').index();

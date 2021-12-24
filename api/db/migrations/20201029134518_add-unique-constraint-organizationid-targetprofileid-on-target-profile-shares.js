@@ -1,6 +1,6 @@
-exports.up = async function(knex) {
-  await knex.with('all_target_profile_shares_ranked',
-    (qb) => {
+exports.up = async function (knex) {
+  await knex
+    .with('all_target_profile_shares_ranked', (qb) => {
       qb.select([
         'target-profile-shares.id',
         knex.raw('ROW_NUMBER() OVER (PARTITION BY ??, ?? ORDER BY ??) AS rank', [
@@ -18,6 +18,6 @@ exports.up = async function(knex) {
   return knex.schema.table('target-profile-shares', (table) => table.unique(['organizationId', 'targetProfileId']));
 };
 
-exports.down = async function(knex) {
+exports.down = async function (knex) {
   return knex.schema.table('target-profile-shares', (table) => table.dropUnique(['organizationId', 'targetProfileId']));
 };

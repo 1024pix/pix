@@ -1,4 +1,4 @@
-exports.up = async function(knex) {
+exports.up = async function (knex) {
   await knex.schema.createTable('complementary-certification-badges', (t) => {
     t.increments().primary();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
@@ -21,10 +21,11 @@ exports.up = async function(knex) {
 
     const maxIdResult = await knex('complementary-certification-badges').max('id').first();
     const idForNextInsertion = maxIdResult.max + 1;
+    // eslint-disable-next-line knex/avoid-injections
     await knex.raw(`ALTER SEQUENCE "complementary-certification-badges_id_seq" RESTART WITH ${idForNextInsertion}`);
   }
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTable('complementary-certification-badges');
 };
