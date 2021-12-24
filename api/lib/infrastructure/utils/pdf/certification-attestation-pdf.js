@@ -92,6 +92,20 @@ async function _embedImages(pdfDocument, viewModels) {
       embeddedImages[path] = image;
     }
   }
+
+  const viewModelsWithPixPlusEduCertification = _.filter(viewModels, (viewModel) =>
+    viewModel.shouldDisplayPixPlusEduCertification()
+  );
+
+  if (viewModelsWithPixPlusEduCertification.length > 0) {
+    const singleImagePaths = _(viewModelsWithPixPlusEduCertification)
+      .map('pixPlusEduCertificationImagePath')
+      .uniq()
+      .value();
+    for (const path of singleImagePaths) {
+      embeddedImages[path] = await _embedPixPlusEduCertificationImage(pdfDocument, path);
+    }
+  }
   return embeddedImages;
 }
 
@@ -115,6 +129,16 @@ async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCer
     .toBuffer();
   const pngImage = await pdfDocument.embedPng(pngBuffer);
   return pngImage;
+}
+
+async function _embedPixPlusEduCertificationImage(pdfDocument, pixPlusEduCertificationImagePath) {
+  const pngBuffer = await sharp(pixPlusEduCertificationImagePath)
+    .resize(80, 90, {
+      fit: 'inside',
+    })
+    .sharpen()
+    .toBuffer();
+  return await pdfDocument.embedPng(pngBuffer);
 }
 
 async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument) {
@@ -286,6 +310,25 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
     page.drawImage(pngImage, {
       x: 390,
       y: yCoordinate,
+    });
+    yCoordinate -= 100;
+  }
+
+  if (viewModel.shouldDisplayPixPlusEduCertification()) {
+    const pngImage = embeddedImages[viewModel.pixPlusEduCertificationImagePath];
+    page.drawImage(pngImage, {
+      x: 400,
+      y: yCoordinate,
+    });
+    yCoordinate -= 15;
+
+    viewModel.pixPlusEduTemporaryBadgeMessage.forEach((text, index) => {
+      page.drawText(text, {
+        x: 350,
+        y: yCoordinate - index * 10,
+        size: 7,
+        color: rgb(37 / 255, 56 / 255, 88 / 255),
+      });
     });
   }
 }

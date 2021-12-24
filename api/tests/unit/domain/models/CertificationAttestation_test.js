@@ -1,4 +1,15 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | CertificationAttestation', function () {
   context('#setResultCompetenceTree', function () {
@@ -15,68 +26,154 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     });
   });
 
-  context('#hasAcquiredCleaCertification', function () {
-    it('should return true if clea image path has been set', function () {
+  context('#getAcquiredCleaCertification', function () {
+    it('should return the acquired PIX_EMPLOI_CLEA badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationImagePath: '/some/path',
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_EMPLOI_CLEA],
       });
 
       // when
-      const hasAcquiredCleaCertification = certificationAttestation.hasAcquiredCleaCertification();
+      const acquiredCleaCertification = certificationAttestation.getAcquiredCleaCertification();
 
       // expect
-      expect(hasAcquiredCleaCertification).to.be.true;
+      expect(acquiredCleaCertification).to.deep.equal(PIX_EMPLOI_CLEA);
     });
 
-    it('should return true if clea no image path has been set', function () {
+    it('should return the acquired PIX_EMPLOI_CLEA_V2 badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_EMPLOI_CLEA_V2],
       });
 
       // when
-      const hasAcquiredCleaCertification = certificationAttestation.hasAcquiredCleaCertification();
+      const acquiredCleaCertification = certificationAttestation.getAcquiredCleaCertification();
 
       // expect
-      expect(hasAcquiredCleaCertification).to.be.false;
+      expect(acquiredCleaCertification).to.deep.equal(PIX_EMPLOI_CLEA_V2);
+    });
+
+    it('should return undefined if no clea badge has been acquired', function () {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
+      });
+
+      // when
+      const acquiredCleaCertification = certificationAttestation.getAcquiredCleaCertification();
+
+      // expect
+      expect(acquiredCleaCertification).to.be.undefined;
     });
   });
 
-  context('#hasAcquiredPixPlusDroitCertification', function () {
-    it('should return true if pix plus droit image path has been set', function () {
+  context('#getAcquiredPixPlusDroitCertification', function () {
+    it('should return the acquired PIX_DROIT_MAITRE_CERTIF badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        pixPlusDroitCertificationImagePath: '/some/path',
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_DROIT_MAITRE_CERTIF],
       });
 
       // when
-      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification();
+      const acquiredPixPlusDroitCertification = certificationAttestation.getAcquiredPixPlusDroitCertification();
 
       // expect
-      expect(hasAcquiredPixPlusDroitCertification).to.be.true;
+      expect(acquiredPixPlusDroitCertification).to.deep.equal(PIX_DROIT_MAITRE_CERTIF);
     });
 
-    it('should return true if not pix plus droit image path has been set', function () {
+    it('should return the acquired PIX_DROIT_EXPERT_CERTIF badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_DROIT_EXPERT_CERTIF],
       });
 
       // when
-      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification();
+      const acquiredPixPlusDroitCertification = certificationAttestation.getAcquiredPixPlusDroitCertification();
 
       // expect
-      expect(hasAcquiredPixPlusDroitCertification).to.be.false;
+      expect(acquiredPixPlusDroitCertification).to.deep.equal(PIX_DROIT_EXPERT_CERTIF);
+    });
+
+    it('should return undefined if no Pix+ Droit badge has been acquired', function () {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
+      });
+
+      // when
+      const acquiredPixPlusDroitCertification = certificationAttestation.getAcquiredPixPlusDroitCertification();
+
+      // expect
+      expect(acquiredPixPlusDroitCertification).to.be.undefined;
+    });
+  });
+
+  context('#getAcquiredPixPlusEduCertification', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+    ].forEach((badgeKey) => {
+      it(`should return the acquired ${badgeKey} badge`, function () {
+        // given
+        const certificationAttestation = domainBuilder.buildCertificationAttestation({
+          acquiredPartnerCertificationKeys: ['OTHER_BADGE', badgeKey],
+        });
+
+        // when
+        const acquiredPixPlusEduCertification = certificationAttestation.getAcquiredPixPlusEduCertification();
+
+        // expect
+        expect(acquiredPixPlusEduCertification).to.deep.equal(badgeKey);
+      });
+    });
+
+    it('should return undefined if no Pix+ Edu badge has been acquired', function () {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        acquiredPartnerCertificationKeys: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
+      });
+
+      // when
+      const acquiredPixPlusEduCertification = certificationAttestation.getAcquiredPixPlusEduCertification();
+
+      // expect
+      expect(acquiredPixPlusEduCertification).to.be.undefined;
+    });
+  });
+
+  context('#getPixPlusEduBadgeDisplayName', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, expectedDisplayName: 'Autonome' },
+      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedDisplayName: 'Expert' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, expectedDisplayName: 'Formateur' },
+    ].forEach(({ badgeKey, expectedDisplayName }) => {
+      it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
+        // given
+        const certificationAttestation = domainBuilder.buildCertificationAttestation({
+          acquiredPartnerCertificationKeys: [badgeKey],
+        });
+
+        // when
+        const result = certificationAttestation.getPixPlusEduBadgeDisplayName();
+
+        // then
+        expect(result).to.equal(expectedDisplayName);
+      });
     });
   });
 
   context('#hasAcquiredAnyComplementaryCertifications', function () {
-    it('should return true if pix plus droit certification only has been acquired', function () {
+    it('should return true if certified badge images for attestation is not empty', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: '/some/path',
+        acquiredPartnerCertificationKeys: [PIX_EMPLOI_CLEA],
       });
 
       // when
@@ -87,41 +184,10 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
     });
 
-    it('should return true if clea certification only has been acquired', function () {
+    it('should return false if certified badge images for attestation is empty', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationImagePath: '/some/path',
-        pixPlusDroitCertificationImagePath: null,
-      });
-
-      // when
-      const hasAcquiredAnyComplementaryCertifications =
-        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
-
-      // expect
-      expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
-    });
-
-    it('should return true if both pix plus droit and clea certifications have been acquired', function () {
-      // given
-      const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationImagePath: '/some/path',
-        pixPlusDroitCertificationImagePath: 'some/other/path',
-      });
-
-      // when
-      const hasAcquiredAnyComplementaryCertifications =
-        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
-
-      // expect
-      expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
-    });
-
-    it('should return false if none of clea or pix plus certifications have been acquired', function () {
-      // given
-      const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
       });
 
       // when

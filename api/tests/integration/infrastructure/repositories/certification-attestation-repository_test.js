@@ -19,6 +19,13 @@ const {
 const {
   badgeKey: pixPlusDroitExpertBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
@@ -62,8 +69,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildIncomplete(certificationAttestationData);
@@ -92,8 +98,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
@@ -122,8 +127,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -152,8 +156,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
@@ -186,8 +189,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -220,8 +222,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
 
@@ -301,8 +302,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
+        acquiredPartnerCertificationKeys: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
@@ -316,194 +316,104 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation).to.deepEqualInstance(expectedCertificationAttestation);
     });
 
-    it('should get the clea certification result if badge V1 taken', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-      const certificationAttestationData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId: 456,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationImagePath: certificationAttestationRepository.macaronCleaPath,
-        pixPlusDroitCertificationImagePath: null,
-        sessionId: 789,
-      };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _buildCleaResult({ certificationCourseId: 123, acquired: true, cleaBadgeKey: cleaBadgeKeyV1 });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationAttestation = await certificationAttestationRepository.get(123);
-
-      // then
-      const expectedCertificationAttestation =
-        domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
-    });
-
-    it('should get the clea certification result if badge V2 taken', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-      const certificationAttestationData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId: 456,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationImagePath: certificationAttestationRepository.macaronCleaPath,
-        pixPlusDroitCertificationImagePath: null,
-        sessionId: 789,
-      };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _buildCleaResult({ certificationCourseId: 123, acquired: true, cleaBadgeKey: cleaBadgeKeyV2 });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationAttestation = await certificationAttestationRepository.get(123);
-
-      // then
-      const expectedCertificationAttestation =
-        domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
-    });
-
     context('acquired certifiable badges', function () {
-      it('should get the certified badge images of pixPlusDroitExpert when acquired', async function () {
-        // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-        mockLearningContent(learningContentObjects);
-        const certificationAttestationData = {
-          id: 123,
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId: 456,
-          date: new Date('2020-01-01'),
-          verificationCode: 'P-SOMECODE',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: 51,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitExpertPath,
-          sessionId: 789,
-        };
-        await _buildValidCertificationAttestation(certificationAttestationData);
-        await _buildPixPlusDroitExpertResult({ certificationCourseId: 123, acquired: true });
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        cleaBadgeKeyV1,
+        cleaBadgeKeyV2,
+        pixPlusDroitExpertBadgeKey,
+        pixPlusDroitMaitreBadgeKey,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+      ].forEach((badgeKey) => {
+        it(`should get the certified badge ${badgeKey} when acquired`, async function () {
+          // given
+          const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+          mockLearningContent(learningContentObjects);
+          const certificationAttestationData = {
+            id: 123,
+            firstName: 'Sarah Michelle',
+            lastName: 'Gellar',
+            birthdate: '1977-04-14',
+            birthplace: 'Saint-Ouen',
+            isPublished: true,
+            userId: 456,
+            date: new Date('2020-01-01'),
+            verificationCode: 'P-SOMECODE',
+            maxReachableLevelOnCertificationDate: 5,
+            deliveredAt: new Date('2021-05-05'),
+            certificationCenter: 'Centre des poules bien dodues',
+            pixScore: 51,
+            acquiredPartnerCertificationKeys: [badgeKey],
+            sessionId: 789,
+          };
+          await _buildValidCertificationAttestation(certificationAttestationData);
+          databaseBuilder.factory.buildBadge({ key: badgeKey });
+          databaseBuilder.factory.buildBadge({ key: 'some-other-badge-e' });
+          databaseBuilder.factory.buildPartnerCertification({
+            certificationCourseId: 123,
+            partnerKey: badgeKey,
+            acquired: true,
+          });
+          databaseBuilder.factory.buildPartnerCertification({
+            certificationCourseId: 123,
+            partnerKey: 'some-other-badge-e',
+            acquired: true,
+          });
+          await databaseBuilder.commit();
 
-        // when
-        const certificationAttestation = await certificationAttestationRepository.get(123);
+          // when
+          const certificationAttestation = await certificationAttestationRepository.get(123);
 
-        // then
-        const expectedCertificationAttestation =
-          domainBuilder.buildCertificationAttestation(certificationAttestationData);
-        expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-        );
+          // then
+          const expectedCertificationAttestation =
+            domainBuilder.buildCertificationAttestation(certificationAttestationData);
+          expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
+          expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+            _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+          );
+        });
       });
+    });
 
-      it('should get the certified badge images of pixPlusDroitMaitre when acquired', async function () {
-        // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-        mockLearningContent(learningContentObjects);
-        const certificationAttestationData = {
-          id: 123,
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId: 456,
-          date: new Date('2020-01-01'),
-          verificationCode: 'P-SOMECODE',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: 51,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitMaitrePath,
-          sessionId: 789,
-        };
-        await _buildValidCertificationAttestation(certificationAttestationData);
-        await _buildPixPlusDroitMaitreResult({ certificationCourseId: 123, acquired: true });
+    it('should only take into account acquired ones', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+      const certificationAttestationData = {
+        id: 123,
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId: 456,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        acquiredPartnerCertificationKeys: [pixPlusDroitMaitreBadgeKey],
+        sessionId: 789,
+      };
+      await _buildValidCertificationAttestation(certificationAttestationData);
+      await _buildCleaResult({ certificationCourseId: 123, acquired: false, cleaBadgeKey: cleaBadgeKeyV1 });
+      await _buildPixPlusDroitMaitreResult({ certificationCourseId: 123, acquired: true });
 
-        // when
-        const certificationAttestation = await certificationAttestationRepository.get(123);
+      // when
+      const certificationAttestation = await certificationAttestationRepository.get(123);
 
-        // then
-        const expectedCertificationAttestation =
-          domainBuilder.buildCertificationAttestation(certificationAttestationData);
-        expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-        );
-      });
-
-      it('should only take into account acquired ones', async function () {
-        // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-        mockLearningContent(learningContentObjects);
-        const certificationAttestationData = {
-          id: 123,
-          firstName: 'Sarah Michelle',
-          lastName: 'Gellar',
-          birthdate: '1977-04-14',
-          birthplace: 'Saint-Ouen',
-          isPublished: true,
-          userId: 456,
-          date: new Date('2020-01-01'),
-          verificationCode: 'P-SOMECODE',
-          maxReachableLevelOnCertificationDate: 5,
-          deliveredAt: new Date('2021-05-05'),
-          certificationCenter: 'Centre des poules bien dodues',
-          pixScore: 51,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitMaitrePath,
-          sessionId: 789,
-        };
-        await _buildValidCertificationAttestation(certificationAttestationData);
-        await _buildCleaResult({ certificationCourseId: 123, acquired: false, cleaBadgeKey: cleaBadgeKeyV1 });
-        await _buildPixPlusDroitMaitreResult({ certificationCourseId: 123, acquired: true });
-
-        // when
-        const certificationAttestation = await certificationAttestationRepository.get(123);
-
-        // then
-        const expectedCertificationAttestation =
-          domainBuilder.buildCertificationAttestation(certificationAttestationData);
-        expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-        );
-      });
+      // then
+      const expectedCertificationAttestation =
+        domainBuilder.buildCertificationAttestation(certificationAttestationData);
+      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
+      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+      );
     });
   });
 
@@ -1200,22 +1110,6 @@ async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey 
   databaseBuilder.factory.buildPartnerCertification({
     certificationCourseId,
     partnerKey: 'some-other-badge-c',
-    acquired: true,
-  });
-  await databaseBuilder.commit();
-}
-
-async function _buildPixPlusDroitExpertResult({ certificationCourseId, acquired }) {
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'some-other-badge-e' });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId,
-    partnerKey: pixPlusDroitExpertBadgeKey,
-    acquired,
-  });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId,
-    partnerKey: 'some-other-badge-e',
     acquired: true,
   });
   await databaseBuilder.commit();
