@@ -132,6 +132,36 @@ exports.register = async function (server) {
     },
     {
       method: 'POST',
+      path: '/api/admin/users/{id}/add-authentication-method',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: userController.addPixAuthenticationMethodByEmail,
+        notes: ["- Permet à un administrateur d'ajouter une méthode de connexion Pix à un utilisateur"],
+        tags: ['api', 'administration', 'user'],
+      },
+    },
+    {
+      method: 'POST',
       path: '/api/admin/users/{id}/remove-authentication',
       config: {
         pre: [
