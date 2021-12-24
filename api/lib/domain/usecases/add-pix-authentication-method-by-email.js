@@ -1,8 +1,11 @@
 const { AuthenticationMethodAlreadyExistsError } = require('../errors');
+const AuthenticationMethod = require('../models/AuthenticationMethod');
 
 module.exports = async function addPixAuthenticationMethodByEmail({
   userId,
   email,
+  passwordGenerator,
+  encryptionService,
   userRepository,
   authenticationMethodRepository,
 }) {
@@ -13,6 +16,17 @@ module.exports = async function addPixAuthenticationMethodByEmail({
   if (alreadyHasPixAuthenticationMethod) {
     throw new AuthenticationMethodAlreadyExistsError();
   } else {
-    // TODO
+    const generatedPassword = passwordGenerator.generateComplexPassword();
+    const hashedPassword = await encryptionService.hashPassword(generatedPassword);
+
+    const authenticationMethodFromPix = new AuthenticationMethod({
+      userId,
+      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+        password: hashedPassword,
+        shouldChangePassword: false,
+      }),
+    });
+    await authenticationMethodRepository.create({ authenticationMethod: authenticationMethodFromPix });
   }
 };
