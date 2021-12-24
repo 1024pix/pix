@@ -5,10 +5,22 @@ const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
-  save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return new BookshelfCompetenceEvaluation(_.omit(competenceEvaluation, ['assessment', 'scorecard']))
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
+  async save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    let competenceEvaluationCreated = await _getByCompetenceIdAndUserId({
+      competenceId: competenceEvaluation.competenceId,
+      userId: competenceEvaluation.userId,
+      domainTransaction,
+    });
+    if (competenceEvaluationCreated) {
+      return competenceEvaluationCreated;
+    } else {
+      competenceEvaluationCreated = await new BookshelfCompetenceEvaluation(
+        _.omit(competenceEvaluation, ['assessment', 'scorecard'])
+      )
+        .save(null, { transacting: domainTransaction.knexTransaction })
+        .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
+    }
+    return competenceEvaluationCreated;
   },
 
   updateStatusByAssessmentId({ assessmentId, status }) {
@@ -44,6 +56,7 @@ module.exports = {
 
   getByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation.where({ assessmentId })
+      .orderBy('createdAt', 'asc')
       .fetch({ withRelated: ['assessment'] })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
@@ -54,44 +67,53 @@ module.exports = {
       });
   },
 
-  getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfCompetenceEvaluation.where({ competenceId, userId })
-      .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
-      .catch((bookshelfError) => {
-        if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
-          throw new NotFoundError();
-        }
-        throw bookshelfError;
-      });
+  async getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction });
+    if (competenceEvaluation === null) {
+      throw new NotFoundError();
+    }
+    return competenceEvaluation;
   },
 
   findByUserId(userId) {
     return BookshelfCompetenceEvaluation.where({ userId })
-      .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'asc')
       .fetchAll({ withRelated: ['assessment'] })
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results))
+      .then(_selectOnlyOneCompetenceEvaluationByCompetence);
   },
 
   findByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation.where({ assessmentId })
-      .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'asc')
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
   },
 
   async existsByCompetenceIdAndUserId({ competenceId, userId }) {
-    let isCompetenceEvaluationExists = true;
-    try {
-      await this.getByCompetenceIdAndUserId({ competenceId, userId });
-    } catch (err) {
-      if (err instanceof NotFoundError) {
-        isCompetenceEvaluationExists = false;
-      } else {
-        throw err;
-      }
-    }
-
-    return isCompetenceEvaluationExists;
+    const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId });
+    return competenceEvaluation ? true : false;
   },
 };
+
+async function _getByCompetenceIdAndUserId({
+  competenceId,
+  userId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  return BookshelfCompetenceEvaluation.where({ competenceId, userId })
+    .orderBy('createdAt', 'asc')
+    .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
+    .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
+    .catch((bookshelfError) => {
+      if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
+        return null;
+      }
+      throw bookshelfError;
+    });
+}
+
+function _selectOnlyOneCompetenceEvaluationByCompetence(competenceEvaluations) {
+  const assessmentsGroupedByCompetence = _.groupBy(competenceEvaluations, 'competenceId');
+  return _.map(assessmentsGroupedByCompetence, _.head);
+}
