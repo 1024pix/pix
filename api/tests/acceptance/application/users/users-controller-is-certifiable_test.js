@@ -99,6 +99,10 @@ describe('Acceptance | users-controller-is-certifiable', function () {
               'clea-certification-eligible': false,
               'pix-plus-droit-maitre-certification-eligible': false,
               'pix-plus-droit-expert-certification-eligible': false,
+              'pix-plus-edu-autonome-certification-eligible': false,
+              'pix-plus-edu-avance-certification-eligible': false,
+              'pix-plus-edu-expert-certification-eligible': false,
+              'pix-plus-edu-formateur-certification-eligible': false,
             },
           },
         };
