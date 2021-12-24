@@ -25,7 +25,7 @@ describe('Unit | Utils | get-image-path-by-badge-key', function () {
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, path: '/files/macaron_edu_expert.png' },
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, path: '/files/macaron_edu_formateur.png' },
   ].forEach(({ badge, path }) => {
-    it(`should return the ${path} for the badge ${badge}`, function () {
+    it(`should return the path ${path} for the badge ${badge}`, function () {
       // when
       const result = getImagePathByBadgeKey(badge);
 

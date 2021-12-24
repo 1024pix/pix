@@ -111,7 +111,7 @@ class AttestationViewModel {
       pixPlusEduCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredPixPlusEduCertification());
       pixPlusEduTemporaryBadgeMessage = [
         `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}”`,
-        'dans le cadre, du volet 1 de la certification',
+        'dans le cadre du volet 1 de la certification',
         'Pix+Édu. Votre niveau final sera déterminé',
         'à l’issue du volet 2',
       ];

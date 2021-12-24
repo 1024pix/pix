@@ -148,13 +148,13 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
   context('#getPixPlusEduBadgeDisplayName', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, expectedTemporaryMessage: 'Autonome' },
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedTemporaryMessage: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedTemporaryMessage: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedTemporaryMessage: 'Expert' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, expectedTemporaryMessage: 'Formateur' },
-    ].forEach(({ badgeKey, expectedTemporaryMessage }) => {
-      it(`should return ${expectedTemporaryMessage} for badge key ${badgeKey}`, function () {
+      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, expectedDisplayName: 'Autonome' },
+      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedDisplayName: 'Expert' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, expectedDisplayName: 'Formateur' },
+    ].forEach(({ badgeKey, expectedDisplayName }) => {
+      it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
           acquiredPartnerCertificationKeys: [badgeKey],
@@ -164,7 +164,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
         const result = certificationAttestation.getPixPlusEduBadgeDisplayName();
 
         // then
-        expect(result).to.equal(expectedTemporaryMessage);
+        expect(result).to.equal(expectedDisplayName);
       });
     });
   });
