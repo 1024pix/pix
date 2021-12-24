@@ -155,7 +155,7 @@
       "action": {
         "next": "Aller à la page suivante",
         "previous": "Aller à la page précédente",
-        "select-page-size": "Sélectionner une pagination"
+        "select-page-size": "Nombre d'élément à afficher par page"
       },
       "page-info": "{start, number}-{end, number} sur {total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
       "page-results": "{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
