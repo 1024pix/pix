@@ -302,4 +302,15 @@ module.exports = {
 
     return authenticationMethodsSerializer.serialize(authenticationMethods);
   },
+
+  async addPixAuthenticationMethodByEmail(request, h) {
+    const userId = request.params.id;
+    const email = request.payload.data.attributes.email.trim().toLowerCase();
+
+    const userUpdated = await usecases.addPixAuthenticationMethodByEmail({
+      userId,
+      email,
+    });
+    return h.response(userDetailsForAdminSerializer.serialize(userUpdated)).created();
+  },
 };
