@@ -1,5 +1,6 @@
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/password-generator');
+const randomString = require('randomstring');
 
 describe('Unit | Service | password-generator', function () {
   let generatedPassword;
@@ -30,6 +31,22 @@ describe('Unit | Service | password-generator', function () {
 
       // then
       expect(RegExp('^[a-z]{6}[0-9]{2}$').test(generatedPassword)).to.be.true;
+    });
+  });
+
+  context('#generateComplexPassword', function () {
+    it('should have a length of 32 characters', function () {
+      // given
+      sinon.stub(randomString, 'generate');
+
+      // when
+      generatedPassword = service.generateComplexPassword();
+
+      // then
+      expect(randomString.generate).to.have.been.calledWith({
+        length: 32,
+        charset: 'alphanumeric',
+      });
     });
   });
 });
