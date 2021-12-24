@@ -11,4 +11,11 @@ module.exports = {
     const numberPart = _.padStart(_.random(99), 2, '0');
     return `${letterPart}${numberPart}`;
   },
+
+  generateComplexPassword() {
+    return randomString.generate({
+      length: 32,
+      charset: 'alphanumeric',
+    });
+  },
 };
