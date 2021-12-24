@@ -138,6 +138,7 @@ exports.register = async (server) => {
                 'image-url': Joi.string().uri().empty('').allow(null).optional(),
                 'skills-id': Joi.array().required(),
                 comment: Joi.string().optional().allow(null).max(500).empty(''),
+                description: Joi.string().optional().allow(null).max(500).empty(''),
               },
             },
           }),

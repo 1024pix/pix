@@ -57,8 +57,19 @@
     </div>
 
     <div class="form-field form-group">
+      <label class="form-field__label" for="description">Description : </label>
+      <PixTextarea
+        class="form-control"
+        id="description"
+        @maxlength="500"
+        rows="4"
+        @value={{@targetProfile.description}}
+      />
+    </div>
+
+    <div class="form-field form-group">
       <label class="form-field__label" for="comment">Commentaire (usage interne) : </label>
-      <PixTextarea class="form-control" id="comment" @maxlength="500" row="4" @value={{@targetProfile.comment}} />
+      <PixTextarea class="form-control" id="comment" @maxlength="500" rows="4" @value={{@targetProfile.comment}} />
     </div>
   </section>
 
