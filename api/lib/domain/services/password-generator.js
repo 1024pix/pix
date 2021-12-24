@@ -2,7 +2,7 @@ const randomString = require('randomstring');
 const _ = require('lodash');
 
 module.exports = {
-  generate() {
+  generateSimplePassword() {
     const letterPart = randomString.generate({
       length: 6,
       charset: 'abcdefghjkmnpqrstuvwxyz',

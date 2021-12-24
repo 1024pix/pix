@@ -31,7 +31,7 @@ module.exports = async function updateSchoolingRegistrationDependentUserPassword
     );
   }
 
-  const generatedPassword = passwordGenerator.generate();
+  const generatedPassword = passwordGenerator.generateSimplePassword();
   const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
   await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
