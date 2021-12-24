@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { click, find, render } from '@ember/test-helpers';
+import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Congratulations Certification Banner', function () {
@@ -55,9 +56,7 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     );
 
     // then
-    expect(find('[data-test-eligible-clea]').textContent).to.contains(
-      'Vous êtes également éligible à la certification CléA numérique.'
-    );
+    expect(contains('Vous êtes également éligible à la certification CléA numérique.')).to.exist;
   });
 
   it('renders specific Pix+ Droit Maitre text when eligible Pix+ Droit maitre certification', async function () {
@@ -77,9 +76,7 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     );
 
     // then
-    expect(find('[data-test-eligible-pix-plus-droit-maitre]').textContent).to.contains(
-      'Vous êtes également éligible à la certification Pix+ Droit Maître.'
-    );
+    expect(contains('Vous êtes également éligible à la certification Pix+ Droit Maître.')).to.exist;
   });
 
   it('renders specific Pix+ Droit Expert text when eligible Pix+ Droit expert certification', async function () {
@@ -99,8 +96,6 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     );
 
     // then
-    expect(find('[data-test-eligible-pix-plus-droit-expert]').textContent).to.contains(
-      'Vous êtes également éligible à la certification Pix+ Droit Expert.'
-    );
+    expect(contains('Vous êtes également éligible à la certification Pix+ Droit Expert.')).to.exist;
   });
 });
