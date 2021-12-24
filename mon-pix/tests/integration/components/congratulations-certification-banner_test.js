@@ -98,4 +98,84 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     // then
     expect(contains('Vous êtes également éligible à la certification Pix+ Droit Expert.')).to.exist;
   });
+
+  it('renders specific Pix+ Édu Autonome text when eligible Pix+ Édu Autonome certification', async function () {
+    // given
+    const store = this.owner.lookup('service:store');
+    const certificationEligibility = run(() =>
+      store.createRecord('is-certifiable', {
+        pixPlusEduAutonomeCertificationEligible: true,
+      })
+    );
+    this.set('certificationEligibility', certificationEligibility);
+    this.set('fullName', 'Fifi Brindacier');
+
+    // when
+    await render(
+      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+    );
+
+    // then
+    expect(contains('Vous êtes également éligible à la certification Pix+ Édu Autonome.')).to.exist;
+  });
+
+  it('renders specific Pix+ Édu Avancé text when eligible Pix+ Édu Avancé certification', async function () {
+    // given
+    const store = this.owner.lookup('service:store');
+    const certificationEligibility = run(() =>
+      store.createRecord('is-certifiable', {
+        pixPlusEduAvanceCertificationEligible: true,
+      })
+    );
+    this.set('certificationEligibility', certificationEligibility);
+    this.set('fullName', 'Fifi Brindacier');
+
+    // when
+    await render(
+      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+    );
+
+    // then
+    expect(contains('Vous êtes également éligible à la certification Pix+ Édu Avancé.')).to.exist;
+  });
+
+  it('renders specific Pix+ Édu Expert text when eligible Pix+ Édu Expert certification', async function () {
+    // given
+    const store = this.owner.lookup('service:store');
+    const certificationEligibility = run(() =>
+      store.createRecord('is-certifiable', {
+        pixPlusEduExpertCertificationEligible: true,
+      })
+    );
+    this.set('certificationEligibility', certificationEligibility);
+    this.set('fullName', 'Fifi Brindacier');
+
+    // when
+    await render(
+      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+    );
+
+    // then
+    expect(contains('Vous êtes également éligible à la certification Pix+ Édu Expert.')).to.exist;
+  });
+
+  it('renders specific Pix+ Édu Formateur text when eligible Pix+ Édu Formateur certification', async function () {
+    // given
+    const store = this.owner.lookup('service:store');
+    const certificationEligibility = run(() =>
+      store.createRecord('is-certifiable', {
+        pixPlusEduFormateurCertificationEligible: true,
+      })
+    );
+    this.set('certificationEligibility', certificationEligibility);
+    this.set('fullName', 'Fifi Brindacier');
+
+    // when
+    await render(
+      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+    );
+
+    // then
+    expect(contains('Vous êtes également éligible à la certification Pix+ Édu Formateur.')).to.exist;
+  });
 });
