@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const CertificationEligibility = require('../read-models/CertificationEligibility');
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../models/Badge').keys;
 
 module.exports = async function getUserCertificationEligibility({
   userId,
@@ -15,7 +16,7 @@ module.exports = async function getUserCertificationEligibility({
     certificationBadgesService,
   });
   const { pixPlusDroitMaitreCertificationEligible, pixPlusDroitExpertCertificationEligible } =
-    await _computePixPlusDroitCertificationEligibility({
+    await _computePixPlusCertificationEligibility({
       userId,
       pixCertificationEligible,
       certificationBadgesService,
@@ -50,10 +51,10 @@ async function _computePixPlusDroitCertificationEligibility({
     userId,
   });
   const pixPlusDroitMaitreBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
-    badgeKey: CertificationEligibility.pixPlusDroitMaitreBadgeKey,
+    badgeKey: PIX_DROIT_MAITRE_CERTIF,
   });
   const pixPlusDroitExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
-    badgeKey: CertificationEligibility.pixPlusDroitExpertBadgeKey,
+    badgeKey: PIX_DROIT_EXPERT_CERTIF,
   });
   const pixPlusDroitMaitreCertificationEligible = Boolean(pixPlusDroitMaitreBadgeAcquisition);
   const pixPlusDroitExpertCertificationEligible = Boolean(pixPlusDroitExpertBadgeAcquisition);
