@@ -1,6 +1,14 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const getUserCertificationEligibility = require('../../../../lib/domain/usecases/get-user-certification-eligibility');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
   let clock;
@@ -80,6 +88,26 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   [
     { badgeKey: PIX_DROIT_MAITRE_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitMaitreCertificationEligible' },
     { badgeKey: PIX_DROIT_EXPERT_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitExpertCertificationEligible' },
+    {
+      badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+      certificationEligibilityAttribute: 'pixPlusEduAutonomeCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+      certificationEligibilityAttribute: 'pixPlusEduExpertCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+      certificationEligibilityAttribute: 'pixPlusEduFormateurCertificationEligible',
+    },
   ].forEach(({ badgeKey, certificationEligibilityAttribute }) => {
     context(`when ${badgeKey} badge is not acquired`, function () {
       it(`should return the user certification eligibility with not eligible ${badgeKey}`, async function () {
