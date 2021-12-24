@@ -57,7 +57,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // when
       await visit('/campagnes/1/profils');
-      await fillByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
@@ -70,7 +70,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       const changedPageSize = 10;
 
       await visit('/campagnes/1/profils');
-      await fillByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
@@ -88,7 +88,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // when
       await visit(`/campagnes/1/profils?pageNumber=${startPage}`);
-      await fillByLabel('Sélectionner une pagination', changedPageSize);
+      await fillByLabel("Nombre d'élément à afficher par page", changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
