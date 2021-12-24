@@ -15,6 +15,20 @@ const _DatasourcePrototype = {
     return foundObject;
   },
 
+  async getMany(ids) {
+    const modelObjects = await this.list();
+
+    return ids.map((id) => {
+      const foundObject = _.find(modelObjects, { id });
+
+      if (!foundObject) {
+        throw new LearningContentResourceNotFound();
+      }
+
+      return foundObject;
+    });
+  },
+
   async list() {
     const learningContent = await this._getLearningContent();
     return learningContent[this.modelName];
