@@ -70,6 +70,38 @@ describe('Integration | Repository | Competence Evaluation', function () {
           expect(competenceEvaluationInDb.status).to.equal('started');
         });
     });
+
+    it('should not save the given competence evaluation if it already exists', async function () {
+      // given
+      const competenceEvaluationToSave = new CompetenceEvaluation({
+        assessmentId: assessment.id,
+        competenceId: 'recABCD1234',
+        status: STARTED,
+        userId: assessment.userId,
+      });
+      await DomainTransaction.execute(async (domainTransaction) =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+      );
+
+      // when
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+      );
+
+      // then
+      return knex
+        .select('id', 'assessmentId', 'competenceId', 'userId', 'status')
+        .from('competence-evaluations')
+        .where({ id: savedCompetenceEvaluation.id })
+        .then((result) => {
+          expect(result.length).to.equal(1);
+          expect(result[0].id).to.equal(savedCompetenceEvaluation.id);
+          expect(result[0].assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
+          expect(result[0].competenceId).to.equal(competenceEvaluationToSave.competenceId);
+          expect(result[0].userId).to.equal(competenceEvaluationToSave.userId);
+          expect(result[0].status).to.equal('started');
+        });
+    });
   });
 
   describe('#getByAssessmentId', function () {
@@ -170,6 +202,33 @@ describe('Integration | Repository | Competence Evaluation', function () {
         expect(error).to.be.instanceof(NotFoundError);
       });
     });
+
+    it('should return only one competence evaluation linked to the competence id', async function () {
+      // given
+      const anotherAssessment = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '1',
+        assessmentId: anotherAssessment.id,
+        status: STARTED,
+      });
+
+      // when
+      const result = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
+        competenceId: 1,
+        userId: user.id,
+      });
+
+      // then
+      expect(_.omit(result, ['assessment', 'scorecard'])).to.deep.equal(
+        _.omit(competenceEvaluationExpected, ['assessment'])
+      );
+      expect(result.assessment.id).to.deep.equal(assessmentExpected.id);
+    });
   });
 
   describe('#findByUserId', function () {
@@ -193,6 +252,13 @@ describe('Integration | Repository | Competence Evaluation', function () {
         createdAt: new Date('2018-01-01'),
         status: STARTED,
       });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '1',
+        createdAt: new Date('2018-01-02'),
+        status: STARTED,
+      });
+
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
         competenceId: '2',
