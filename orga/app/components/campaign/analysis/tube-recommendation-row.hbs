@@ -52,7 +52,13 @@
           {{#each @tubeRecommendation.tutorials as |tutorial|}}
             <tr aria-label={{t "pages.campaign-review.sub-table.row-title"}} class="table__row--small">
               <td class="tube-recommendation-tutorial-table__row">
-                <a href={{tutorial.link}} class="link" target="_blank" rel="noopener noreferrer">{{tutorial.title}}</a>
+                <a
+                  href={{tutorial.link}}
+                  class="link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex="{{if this.isOpen "0" "-1"}}"
+                >{{tutorial.title}}</a>
                 <span class="tube-recommendation-tutorial-table__details">
                   <strong>·</strong>
                   {{t "pages.campaign-review.sub-table.column.source.value" source=tutorial.source}}
