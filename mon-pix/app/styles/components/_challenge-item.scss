@@ -40,6 +40,11 @@
     }
   }
 
+  &__instructions {
+    font-size: 1rem;
+    font-weight: $font-normal;
+  }
+
   &__proposal {
     font-size: 1.25rem;
     color: $grey-80;
