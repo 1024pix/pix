@@ -465,6 +465,10 @@
       },
       "parts": {
         "answer-input": "Your answer",
+        "answer-instructions": {
+          "qcm": "Select one or more possible answers",
+          "qcu": "Select the right answer"
+        },
         "feedback": "Report a problem",
         "instruction": "Instructions to answer the question",
         "progress": "Your progression",

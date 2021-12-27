@@ -465,6 +465,10 @@
       },
       "parts": {
         "answer-input": "Votre réponse",
+        "answer-instructions": {
+          "qcm": "Choisissez la ou les réponses possibles.",
+          "qcu": "Choisissez la bonne réponse."
+        },
         "feedback": "Signaler un problème",
         "instruction": "Consigne de l'épreuve",
         "progress": "Votre progression",
