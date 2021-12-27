@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.146.0 (27/12/2021)
+
+
+### :rocket: Enhancement
+- [#3856](https://github.com/1024pix/pix/pull/3856) [FEATURE] Téléchargement des sujets sélectionnés dans la page sur Pix Orga (PIX-3954)
+- [#3869](https://github.com/1024pix/pix/pull/3869) [FEATURE] Afficher le badge Pix+ Édu dans l'attestation PDF pour un candidat ayant obtenu sa certification (PIX-3998).
+- [#3847](https://github.com/1024pix/pix/pull/3847) [FEATURE] Permettre de scorer une certification Pix+ Édu (PIX-3991).
+- [#3870](https://github.com/1024pix/pix/pull/3870) [FEATURE] Ajout de la description du profile cible lors de la création de celui ci (PIX-4032)
+- [#3868](https://github.com/1024pix/pix/pull/3868) [FEATURE] Supprimer l'icone du type de résultat lors de l'affichage des informations sur le profile cible(PIX-4068).
+
+### :building_construction: Tech
+- [#3871](https://github.com/1024pix/pix/pull/3871) [TECH] Étendre la conf eslint des migrations de DB à partir de celle de l'API
+
+### :bug: Bug fix
+- [#3878](https://github.com/1024pix/pix/pull/3878) [BUGFIX] Passer le certificationCourseId au lieu de l'assessmentId pour la page de fin de test (PIX-4075)
+- [#3828](https://github.com/1024pix/pix/pull/3828) [BUGFIX] Ne plus avoir de bug quand l'utilisateur a deux competence-eval(PIX-3944).
+
+### :coffee: Various
+- [#3876](https://github.com/1024pix/pix/pull/3876) [ORGA] Changer le texte de selectionner de la pagination afin qu'il soit plus explicite (PIX-3898)
+
 ## v3.145.0 (23/12/2021)
 
 
