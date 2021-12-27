@@ -1,5 +1,15 @@
 <section>
   <div class="panel">
+    <div class="download-file">
+      <PixButtonLink
+        class="download-file__button"
+        @href={{this.downloadURL}}
+        @isDisabled={{this.haveNoTubeSelected}}
+        download={{t "pages.preselect-target-profile.download-filename"}}
+      >
+        {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
+      </PixButtonLink>
+    </div>
     <table class="table content-text content-text--small">
       <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
       <thead>
@@ -21,7 +31,7 @@
             aria-label={{t "pages.preselect-target-profile.table.row-title"}}
           >
             <td class="table__column--center">
-              <Input id="tube-{{tube.id}}" @type="checkbox" />
+              <Input {{on "input" (fn this.updateSelectedTubes tube.id)}} id="tube-{{tube.id}}" @type="checkbox" />
             </td>
             <td>
               <label for="tube-{{tube.id}}">
