@@ -57,6 +57,29 @@ const checkBadge = (actual, expected) => {
 
 describe('Integration | Repository | Target-profile-with-learning-content', function () {
   describe('#get', function () {
+    it('return target profile category', async function () {
+      // given
+      const skillId = 'skillId';
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ category: 'COMPETENCES' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId });
+
+      const learningContent = {
+        areas: [{ id: 'area1', competenceIds: ['competence1'] }],
+        competences: [{ id: 'competence1', skillIds: [skillId], origin: 'Pix' }],
+        tubes: [{ id: 'tube1', competenceId: 'competence1' }],
+        skills: [{ id: skillId, tubeId: 'tube1', status: 'actif' }],
+      };
+
+      mockLearningContent(learningContent);
+      await databaseBuilder.commit();
+
+      // when
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileId });
+
+      // then
+      expect(targetProfile.category).to.equal('COMPETENCES');
+    });
+
     it('should return target profile with learning content', async function () {
       // given
       const skill1_1_1_2 = domainBuilder.buildTargetedSkill({
