@@ -112,11 +112,11 @@ module('Acceptance | authenticated', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/sessions/liste');
+      const screen = await visitScreen('/sessions/liste');
 
       // then
-      assert.dom('.pix-banner--information').exists();
-      assert.dom('.pix-banner--information').hasText('La certification Pix se déroulera du 29/11/21 au 04/03/22 pour les lycées et du 07/03/22 au 20/05/22 pour les collèges. Les sessions passées hors période ne seront pas traitées. En savoir plus');
+      assert.dom(screen.getByText('La certification Pix se déroulera du 29/11/21 au 07/04/22 pour les lycées et du 07/03/22 au 27/05/22 pour les collèges. Les sessions passées hors période ne seront pas traitées.')).exists();
+      assert.dom(screen.getByRole('link', { name: 'En savoir plus' })).exists();
     });
 
     test('it should not display the banner when User is NOT SCO isManagingStudent', async function(assert) {
@@ -125,10 +125,11 @@ module('Acceptance | authenticated', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit('/sessions/liste');
+      const screen = await visitScreen('/sessions/liste');
 
       // then
-      assert.dom('.pix-banner--information').doesNotExist();
+      const certificationBannerMessage = screen.queryByText('La certification Pix se déroulera du 29/11/21 au 07/04/22 pour les lycées et du 07/03/22 au 27/05/22 pour les collèges. Les sessions passées hors période ne seront pas traitées.');
+      assert.dom(certificationBannerMessage).doesNotExist();
     });
   });
 
