@@ -95,6 +95,7 @@ function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
     id: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     name: 'PIC - Diagnostic Initial',
     isPublic: false,
+    category: 'OTHER',
     ownerOrganizationId: PRO_MED_NUM_ID,
   });
 
@@ -124,6 +125,7 @@ function _buildTargetProfileOnCompetence(databaseBuilder) {
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_classe2.svg',
     isPublic: false,
+    category: 'COMPETENCES',
     ownerOrganizationId: PRO_COMPANY_ID,
     description: 'Ce profil cible permet d\'**évaluer** sur la compétence 5.1. Le résultat est exprimé en ***pourcentage***',
     comment: 'Privé : Contient la ***compétence 5.1***.',
@@ -147,6 +149,7 @@ function _buildTargetProfileWithStagesAndBadges(databaseBuilder) {
     id: TARGET_PROFILE_STAGES_BADGES_ID,
     name: 'Parcours avec paliers & résultats thématiques',
     isPublic: true,
+    category: 'COMPETENCES',
     ownerOrganizationId: null,
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_classe2.svg',
   });
@@ -166,6 +169,7 @@ function _buildTargetProfileWithSimplifiedAccess(databaseBuilder) {
     id: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     name: 'Accès simplifié',
     isPublic: true,
+    category: 'SUBJECT',
     ownerOrganizationId: PRO_MED_NUM_ID,
     isSimplifiedAccess: true,
   });
@@ -182,6 +186,7 @@ function _buildTargetProfilePixEmploiClea(databaseBuilder) {
     id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
     name: 'Pix emploi - Parcours complet',
     isPublic: false,
+    category: 'CUSTOM',
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
@@ -201,6 +206,7 @@ function _buildTargetProfilePixEmploiCleaV2(databaseBuilder) {
     id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
     name: 'Parcours complet CléA numérique (2021)',
     isPublic: false,
+    category: 'CUSTOM',
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
@@ -220,6 +226,7 @@ function _buildTargetProfilePixDroit(databaseBuilder) {
     id: TARGET_PROFILE_PIX_DROIT_ID,
     name: 'Pix+ Droit - Parcours complet',
     isPublic: false,
+    category: 'SUBJECT',
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
@@ -279,6 +286,7 @@ function _buildTargetProfilePixEduFormationInitiale(databaseBuilder) {
     id: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
     name: 'Pix+ Édu - Formation Initiale 2nd degré',
     isPublic: false,
+    category: 'SUBJECT',
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
@@ -306,6 +314,7 @@ function _buildTargetProfilePixEduFormationContinue(databaseBuilder) {
     id: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
     name: 'Pix+ Édu - Formation Continue 2nd degré',
     isPublic: false,
+    category: 'DISCIPLINE',
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 

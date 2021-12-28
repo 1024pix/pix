@@ -21,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         competences: [{ id: 'rec3', name: 'Comprendre', areaId: 'rec4', index: '1.1' }],
         areas: [{ id: 'rec4', title: 'Connaître', color: 'blue' }],
         organizations: [{ id: 42 }],
+        category: 'OTHER',
       });
 
       const expectedTargetProfile = {
@@ -35,6 +36,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             'is-public': targetProfileWithLearningContent.isPublic,
             'owner-organization-id': targetProfileWithLearningContent.ownerOrganizationId,
             'image-url': targetProfileWithLearningContent.imageUrl,
+            category: targetProfileWithLearningContent.category,
             'created-at': targetProfileWithLearningContent.createdAt,
           },
           relationships: {
