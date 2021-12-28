@@ -61,12 +61,27 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     await click('[data-icon="chevron-down"]');
 
     // then
-    assert.dom('[aria-hidden="false"]').containsText('1 tuto recommandé par la communauté Pix');
-    assert.dom('[aria-label="Tutoriel"]:first-child').containsText('tutorial1');
+    assert.dom('tr[aria-hidden="false"]').containsText('1 tuto recommandé par la communauté Pix');
+    assert.dom('a[tabindex="0"]:first-child').containsText('tutorial1');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Vidéo');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('10 minutes');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Par Youtube');
-    assert.dom('[aria-expanded="true"]').exists();
+    assert.dom('button[aria-expanded="true"]').exists();
+    assert.contains('Tube Desc A');
+  });
+
+  test('it should hide element to screen reader', async function (assert) {
+    // given
+    this.tubeRecommendation.tutorials = [tutorial1];
+
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
+      @tubeRecommendation={{tubeRecommendation}}
+    />`);
+
+    // then
+    assert.dom('tr[aria-hidden="true"]').containsText('1 tuto recommandé par la communauté Pix');
+    assert.dom('a[tabindex="-1"]:first-child').containsText('tutorial1');
+    assert.dom('button[aria-expanded="false"]').exists();
     assert.contains('Tube Desc A');
   });
 
