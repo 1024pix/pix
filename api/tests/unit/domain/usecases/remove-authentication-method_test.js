@@ -19,7 +19,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     };
   });
 
-  function buildPIXAndGARAndPoleEmploiAuthenticationMethod(userId) {
+  function _buildPIXAndGARAndPoleEmploiAuthenticationMethod(userId) {
     return [
       domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
@@ -28,32 +28,61 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   }
 
   context('When type is EMAIL', function () {
-    const type = 'EMAIL';
-
     it('should set the email to null', async function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+      const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type: 'EMAIL',
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(userRepository.updateEmail).to.have.been.calledWith({ id: user.id, email: null });
     });
 
     context('When user does not have a username', function () {
-      it('should remove PIX authentication method', async function () {
+      it('should NOT remove PIX authentication method', async function () {
         // given
         const user = domainBuilder.buildUser({ username: null });
         userRepository.get.resolves(user);
-        const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+        const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
         authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
         // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type: 'EMAIL',
+          userRepository,
+          authenticationMethodRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.not.have.been.called;
+      });
+    });
+
+    context('When user has a username', function () {
+      it('should remove PIX authentication method', async function () {
+        // given
+        const user = domainBuilder.buildUser({ username: 'john.doe0101' });
+        userRepository.get.resolves(user);
+        const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+        authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
+
+        // when
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type: 'EMAIL',
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
@@ -62,51 +91,64 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         });
       });
     });
-
-    context('When user has a username', function () {
-      it('should not remove PIX authentication method', async function () {
-        // given
-        const user = domainBuilder.buildUser({ username: 'john.doe0101' });
-        userRepository.get.resolves(user);
-        const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
-        authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
-
-        // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
-
-        // then
-        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.not.have.been.called;
-      });
-    });
   });
 
   context('When type is USERNAME', function () {
-    const type = 'USERNAME';
-
     it('should set the username to null', async function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+      const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type: 'USERNAME',
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(userRepository.updateUsername).to.have.been.calledWith({ id: user.id, username: null });
     });
 
     context('When user does not have an email', function () {
-      it('should remove PIX authentication method', async function () {
+      it('should NOT remove PIX authentication method', async function () {
         // given
         const user = domainBuilder.buildUser({ email: null });
         userRepository.get.resolves(user);
-        const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+        const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
         authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
         // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type: 'USERNAME',
+          userRepository,
+          authenticationMethodRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.not.have.been.called;
+      });
+    });
+
+    context('When user has an email', function () {
+      it('should remove PIX authentication method', async function () {
+        // given
+        const user = domainBuilder.buildUser({ email: 'john.doe@example.net' });
+        userRepository.get.resolves(user);
+        const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+        authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
+
+        // when
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type: 'USERNAME',
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
@@ -115,36 +157,23 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         });
       });
     });
-
-    context('When user has an email', function () {
-      it('should not remove PIX authentication method', async function () {
-        // given
-        const user = domainBuilder.buildUser({ email: 'john.doe@example.net' });
-        userRepository.get.resolves(user);
-        const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
-        authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
-
-        // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
-
-        // then
-        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.not.have.been.called;
-      });
-    });
   });
 
   context('When type is GAR', function () {
-    const type = 'GAR';
-
     it('should remove GAR authentication method', async function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+      const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type: 'GAR',
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
@@ -155,17 +184,20 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   });
 
   context('When type is POLE_EMPLOI', function () {
-    const type = 'POLE_EMPLOI';
-
     it('should remove POLE_EMPLOI authentication method', async function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
+      const authenticationMethods = _buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type: 'POLE_EMPLOI',
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
@@ -178,7 +210,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   context('When there is only one remaining authentication method', function () {
     it('should throw a UserNotAuthorizedToRemoveAuthenticationMethod', async function () {
       // given
-      const user = domainBuilder.buildUser();
+      const user = domainBuilder.buildUser({ email: 'toto@example.net', username: null });
       userRepository.get.resolves(user);
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId: user.id,

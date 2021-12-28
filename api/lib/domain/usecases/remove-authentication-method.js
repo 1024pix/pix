@@ -9,8 +9,13 @@ module.exports = async function removeAuthenticationMethod({
 }) {
   const user = await userRepository.get(userId);
 
+  const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
+  if (authenticationMethods.length === 1) {
+    throw new UserNotAuthorizedToRemoveAuthenticationMethod();
+  }
+
   if (type === 'EMAIL') {
-    if (!user.username) {
+    if (user.username) {
       await _removeAuthenticationMethod(
         userId,
         AuthenticationMethod.identityProviders.PIX,
@@ -21,7 +26,7 @@ module.exports = async function removeAuthenticationMethod({
   }
 
   if (type === 'USERNAME') {
-    if (!user.email) {
+    if (user.email) {
       await _removeAuthenticationMethod(
         userId,
         AuthenticationMethod.identityProviders.PIX,
@@ -49,11 +54,5 @@ module.exports = async function removeAuthenticationMethod({
 };
 
 async function _removeAuthenticationMethod(userId, identityProvider, authenticationMethodRepository) {
-  const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
-
-  if (authenticationMethods.length === 1) {
-    throw new UserNotAuthorizedToRemoveAuthenticationMethod();
-  }
-
   await authenticationMethodRepository.removeByUserIdAndIdentityProvider({ userId, identityProvider });
 }

@@ -9,46 +9,60 @@ const createServer = require('../../../../server');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Acceptance | Controller | users-controller-remove-authentication-method', function () {
-  let server;
-  let user;
-  let options;
+  describe.only('POST /admin/users/:id/remove-authentication', function () {
+    it('should return 204', async function () {
+      // given
+      const server = await createServer();
+      const user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: 'john.doe@example.net' });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId: user.id,
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
+      const pixMaster = await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
 
-  beforeEach(async function () {
-    server = await createServer();
-    user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: null });
-    databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-      userId: user.id,
-    });
-    databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
-
-    const pixMaster = await insertUserWithRolePixMaster();
-    options = {
-      method: 'POST',
-      url: `/api/admin/users/${user.id}/remove-authentication`,
-      payload: {
-        data: {
-          attributes: {
-            type: 'USERNAME',
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: `/api/admin/users/${user.id}/remove-authentication`,
+        payload: {
+          data: {
+            attributes: {
+              type: 'USERNAME',
+            },
           },
         },
-      },
-      headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
-    };
-    return databaseBuilder.commit();
-  });
-
-  describe('POST /admin/users/:id/remove-authentication', function () {
-    it('should return 204', async function () {
-      // when
-      const response = await server.inject(options);
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+      });
 
       // then
       expect(response.statusCode).to.equal(204);
     });
 
     it('should set the username to null', async function () {
+      // given
+      const server = await createServer();
+      const user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: 'john.doe@example.net' });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId: user.id,
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
+      const pixMaster = await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
+
       // when
-      await server.inject(options);
+      await server.inject({
+        method: 'POST',
+        url: `/api/admin/users/${user.id}/remove-authentication`,
+        payload: {
+          data: {
+            attributes: {
+              type: 'USERNAME',
+            },
+          },
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+      });
 
       // then
       const updatedUser = await knex('users').where({ id: user.id }).first();
@@ -56,8 +70,29 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
     });
 
     it('should remove PIX authenticationMethod', async function () {
+      // given
+      const server = await createServer();
+      const user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: 'john.doe@example.net' });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId: user.id,
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
+      const pixMaster = await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
+
       // when
-      await server.inject(options);
+      await server.inject({
+        method: 'POST',
+        url: `/api/admin/users/${user.id}/remove-authentication`,
+        payload: {
+          data: {
+            attributes: {
+              type: 'USERNAME',
+            },
+          },
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+      });
 
       // then
       const pixAuthenticationMethod = await knex('authentication-methods')
