@@ -112,7 +112,7 @@ module('Acceptance | User details personal information', function (hooks) {
       assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec GAR")).exists();
       assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi")).exists();
-      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail ")).exists();
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
     });
   });
 
@@ -151,8 +151,8 @@ module('Acceptance | User details personal information', function (hooks) {
       await click('.modal-dialog .btn-primary');
 
       // then
-      assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__uncheck');
-      assert.dom('div[data-test-email] > div > button[data-test-remove-email]').notExists;
+      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
+      assert.dom('button[data-test-remove-email]').notExists;
     });
   });
 });
