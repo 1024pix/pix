@@ -22,6 +22,10 @@ export default class User extends Model {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  get hasPixAuthenticationMethod() {
+    return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX');
+  }
+
   get hasEmailAuthenticationMethod() {
     return (
       this.email &&

@@ -26,31 +26,59 @@ module('Unit | Model | user', function (hooks) {
     });
   });
 
-  module('#hasEmailAuthenticationMethod', function () {
-    test('it should return true when email is defined and user has PIX authentication method', function (assert) {
-      // given
-      const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
-      const user = store.createRecord('user', {
-        email: 'john.doe@example.net',
-        authenticationMethods: [authenticationMethod],
+  module('Pix authentication method', function () {
+    module('#hasPixAuthenticationMethod', function () {
+      test('it should return true when user has a Pix authentication method', function (assert) {
+        // given
+        const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
+        const user = store.createRecord('user', {
+          email: 'john.doe@example.net',
+          authenticationMethods: [authenticationMethod],
+        });
+
+        // then
+        assert.true(user.hasPixAuthenticationMethod);
       });
 
-      // then
-      assert.true(user.hasEmailAuthenticationMethod);
+      test('it should return false when user has an other authentication method', function (assert) {
+        // given
+        const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'GAR' });
+        const user = store.createRecord('user', {
+          email: 'john.doe@example.net',
+          authenticationMethods: [authenticationMethod],
+        });
+
+        // then
+        assert.false(user.hasPixAuthenticationMethod);
+      });
     });
-  });
 
-  module('#hasUsernameAuthenticationMethod', function () {
-    test('it should return true when username is defined and user has PIX authentication method', function (assert) {
-      // given
-      const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
-      const user = store.createRecord('user', {
-        username: 'john.doe0101',
-        authenticationMethods: [authenticationMethod],
+    module('#hasEmailAuthenticationMethod', function () {
+      test('it should return true when email is defined and user has PIX authentication method', function (assert) {
+        // given
+        const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
+        const user = store.createRecord('user', {
+          email: 'john.doe@example.net',
+          authenticationMethods: [authenticationMethod],
+        });
+
+        // then
+        assert.true(user.hasEmailAuthenticationMethod);
       });
+    });
 
-      // then
-      assert.true(user.hasUsernameAuthenticationMethod);
+    module('#hasUsernameAuthenticationMethod', function () {
+      test('it should return true when username is defined and user has PIX authentication method', function (assert) {
+        // given
+        const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
+        const user = store.createRecord('user', {
+          username: 'john.doe0101',
+          authenticationMethods: [authenticationMethod],
+        });
+
+        // then
+        assert.true(user.hasUsernameAuthenticationMethod);
+      });
     });
   });
 

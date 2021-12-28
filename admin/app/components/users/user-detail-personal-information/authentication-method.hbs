@@ -36,7 +36,9 @@
         {{/if}}
       </td>
       <td>
-        <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">Ajouter une adresse e-mail</PixButton>
+        {{#if (and @user.hasOnlyOneAuthenticationMethod (not @user.hasPixAuthenticationMethod))}}
+          <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">Ajouter une adresse e-mail</PixButton>
+        {{/if}}
       </td>
     </tr>
 
