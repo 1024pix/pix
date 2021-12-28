@@ -1,0 +1,28 @@
+.authentication-method {
+
+  &__caption {
+    display: none;
+  }
+
+  &__remove-button.pix-button {
+    background-color: transparent;
+    color: $error;
+    font-size: 0.75rem;
+    border: none;
+    padding: 0 0 0 10px;
+
+    &:hover {
+      background-color: transparent;
+      box-shadow: none;
+      color: $dark-error;
+    }
+  }
+
+  &__check {
+    color: $success;
+  }
+
+  &__uncheck {
+    color: $grey-30;
+  }
+}

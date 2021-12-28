@@ -1,95 +1,122 @@
 <header class="page-section__header">
   <h2 class="page-section__title">Méthodes de connexion</h2>
 </header>
-<div class="user-authentication-method__item" data-test-email>
-  <div class="user-authentication-method-item__label">
-    <span>Adresse e-mail</span>
-    {{#if @user.hasEmailAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon
-        @icon="times-circle"
-        aria-label="L'utilisateur n'a pas de méthode de connexion avec adresse e-mail "
-        class="user-authentication-method-item__uncheck"
-      />
-    {{/if}}
-  </div>
-  {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-    <PixButton
-      class="user-authentication-method__remove-button"
-      @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
-      data-test-remove-email
-    >
-      SUPPRIMER
-    </PixButton>
-  {{/if}}
-</div>
-<div class="user-authentication-method__item" data-test-username>
-  <div class="user-authentication-method-item__label">
-    <span>Identifiant</span>
-    {{#if @user.hasUsernameAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon
-        @icon="times-circle"
-        aria-label="L'utilisateur n'a pas de méthode de connexion avec identifiant"
-        class="user-authentication-method-item__uncheck"
-      />
-    {{/if}}
-  </div>
-  {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-    <PixButton
-      class="user-authentication-method__remove-button"
-      @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
-      data-test-remove-username
-    >
-      SUPPRIMER
-    </PixButton>
-  {{/if}}
-</div>
-<div class="user-authentication-method__item" data-test-pole-emploi>
-  <div class="user-authentication-method-item__label">
-    <span>Pôle Emploi</span>
-    {{#if @user.hasPoleEmploiAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon
-        @icon="times-circle"
-        aria-label="L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi"
-        class="user-authentication-method-item__uncheck"
-      />
-    {{/if}}
-  </div>
-  {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-    <PixButton
-      class="user-authentication-method__remove-button"
-      @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
-      data-test-remove-pole-emploi
-    >
-      SUPPRIMER
-    </PixButton>
-  {{/if}}
-</div>
-<div class="user-authentication-method__item" data-test-mediacentre>
-  <div class="user-authentication-method-item__label">
-    <span>Médiacentre</span>
-    {{#if @user.hasGARAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon
-        @icon="times-circle"
-        aria-label="L'utilisateur n'a pas de méthode de connexion avec GAR"
-        class="user-authentication-method-item__uncheck"
-      />
-    {{/if}}
-  </div>
-  {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
-    <PixButton
-      class="user-authentication-method__remove-button"
-      @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
-      data-test-remove-mediacentre
-    >
-      SUPPRIMER
-    </PixButton>
-  {{/if}}
-</div>
+
+<table>
+
+  <caption class="authentication-method__caption">Méthodes de connexion</caption>
+
+  <tbody>
+    <tr data-test-email>
+      <td>Adresse e-mail</td>
+      <td>
+        {{#if @user.hasEmailAuthenticationMethod}}
+          <FaIcon
+            @icon="check-circle"
+            aria-label="L'utilisateur a une méthode de connexion avec adresse e-mail"
+            class="authentication-method__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="times-circle"
+            aria-label="L'utilisateur n'a pas de méthode de connexion avec adresse e-mail"
+            class="authentication-method__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+          <PixButton
+            class="user-authentication-method__remove-button"
+            @size="small"
+            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
+            data-test-remove-email
+          >SUPPRIMER</PixButton>
+        {{/if}}
+      </td>
+    </tr>
+
+    <tr data-test-username>
+      <td>Identifiant</td>
+      <td>
+        {{#if @user.hasUsernameAuthenticationMethod}}
+          <FaIcon
+            @icon="check-circle"
+            aria-label="L'utilisateur a une méthode de connexion avec identifiant"
+            class="authentication-method__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="times-circle"
+            aria-label="L'utilisateur n'a pas de méthode de connexion avec identifiant"
+            class="authentication-method__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+          <PixButton
+            class="user-authentication-method__remove-button"
+            @size="small"
+            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
+            data-test-remove-username
+          >SUPPRIMER</PixButton>
+        {{/if}}
+      </td>
+    </tr>
+
+    <tr data-test-pole-emploi>
+      <td>Pôle emploi</td>
+      <td>
+        {{#if @user.hasPoleEmploiAuthenticationMethod}}
+          <FaIcon
+            @icon="check-circle"
+            aria-label="L'utilisateur a une méthode de connexion avec Pôle Emploi"
+            class="authentication-method__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="times-circle"
+            aria-label="L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi"
+            class="authentication-method__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+          <PixButton
+            class="user-authentication-method__remove-button"
+            @size="small"
+            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
+            data-test-remove-pole-emploi
+          >SUPPRIMER</PixButton>
+        {{/if}}
+      </td>
+    </tr>
+
+    <tr data-test-gar>
+      <td>Médiacentre</td>
+      <td>
+        {{#if @user.hasGARAuthenticationMethod}}
+          <FaIcon @icon="check-circle" class="authentication-method__check" />
+        {{else}}
+          <FaIcon
+            @icon="times-circle"
+            aria-label="L'utilisateur n'a pas de méthode de connexion avec GAR"
+            class="authentication-method__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+          <PixButton
+            class="user-authentication-method__remove-button"
+            @size="small"
+            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
+            data-test-remove-mediacentre
+          >SUPPRIMER</PixButton>
+        {{/if}}
+      </td>
+    </tr>
+  </tbody>
+</table>
