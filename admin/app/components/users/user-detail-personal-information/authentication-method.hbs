@@ -2,13 +2,13 @@
   <h2 class="page-section__title">Méthodes de connexion</h2>
 </header>
 
-<table>
+<table class="authentication-method">
 
   <caption class="authentication-method__caption">Méthodes de connexion</caption>
 
   <tbody>
     <tr data-test-email>
-      <td>Adresse e-mail</td>
+      <td class="authentication-method__name-column">Adresse e-mail</td>
       <td>
         {{#if @user.hasEmailAuthenticationMethod}}
           <FaIcon
@@ -29,15 +29,19 @@
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
+            @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
             data-test-remove-email
           >SUPPRIMER</PixButton>
         {{/if}}
       </td>
+      <td>
+        <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">Ajouter une adresse e-mail</PixButton>
+      </td>
     </tr>
 
     <tr data-test-username>
-      <td>Identifiant</td>
+      <td class="authentication-method__name-column">Identifiant</td>
       <td>
         {{#if @user.hasUsernameAuthenticationMethod}}
           <FaIcon
@@ -58,6 +62,7 @@
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
+            @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
             data-test-remove-username
           >SUPPRIMER</PixButton>
@@ -66,7 +71,7 @@
     </tr>
 
     <tr data-test-pole-emploi>
-      <td>Pôle emploi</td>
+      <td class="authentication-method__name-column">Pôle emploi</td>
       <td>
         {{#if @user.hasPoleEmploiAuthenticationMethod}}
           <FaIcon
@@ -87,6 +92,7 @@
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
+            @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
             data-test-remove-pole-emploi
           >SUPPRIMER</PixButton>
@@ -95,7 +101,7 @@
     </tr>
 
     <tr data-test-gar>
-      <td>Médiacentre</td>
+      <td class="authentication-method__name-column">Médiacentre</td>
       <td>
         {{#if @user.hasGARAuthenticationMethod}}
           <FaIcon @icon="check-circle" class="authentication-method__check" />
@@ -112,6 +118,7 @@
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
+            @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
             data-test-remove-mediacentre
           >SUPPRIMER</PixButton>
@@ -120,3 +127,10 @@
     </tr>
   </tbody>
 </table>
+
+<Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
+  @showAddAuthenticationMethodModal={{this.showAddAuthenticationMethodModal}}
+  @newEmail={{this.newEmail}}
+  @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
+  @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
+/>
