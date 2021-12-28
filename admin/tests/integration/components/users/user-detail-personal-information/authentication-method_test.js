@@ -88,6 +88,42 @@ module('Integration | Component | users | user-detail-personal-information/authe
         // then
         assert.notOk(find('.user-authentication-method__remove-button'));
       });
+
+      module('When user does not have PIX authentication method', function () {
+        test('it should display add authentication method button', async function (assert) {
+          // given
+          this.set('toggleDisplayRemoveAuthenticationMethodModal', sinon.spy());
+          this.set('user', { hasOnlyOneAuthenticationMethod: true, hasPixAuthenticationMethod: false });
+
+          // when
+          await render(hbs`
+          <Users::UserDetailPersonalInformation::AuthenticationMethod
+            @user={{this.user}}
+            @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+          />`);
+
+          // then
+          assert.contains('Ajouter une adresse e-mail');
+        });
+      });
+
+      module('When user has a PIX authentication method', function () {
+        test('it should NOT display add authentication method button', async function (assert) {
+          // given
+          this.set('toggleDisplayRemoveAuthenticationMethodModal', sinon.spy());
+          this.set('user', { hasOnlyOneAuthenticationMethod: true, hasPixAuthenticationMethod: true });
+
+          // when
+          await render(hbs`
+          <Users::UserDetailPersonalInformation::AuthenticationMethod
+            @user={{this.user}}
+            @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+          />`);
+
+          // then
+          assert.notContains('Ajouter une adresse e-mail');
+        });
+      });
     });
   });
 });
