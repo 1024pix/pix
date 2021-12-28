@@ -1,7 +1,12 @@
 .authentication-method {
+  width: inherit;
 
   &__caption {
     display: none;
+  }
+
+  &__name-column {
+    min-width: 200px;
   }
 
   &__remove-button.pix-button {
@@ -20,9 +25,11 @@
 
   &__check {
     color: $success;
+    margin: 0 20px;
   }
 
   &__uncheck {
     color: $grey-30;
+    margin: 0 20px;
   }
 }
