@@ -1,3 +1,12 @@
+const categories = {
+  OTHER: 'OTHER',
+  COMPETENCES: 'COMPETENCES',
+  SUBJECT: 'SUBJECT',
+  DISCPLINE: 'DISCPLINE',
+  CUSTOM: 'CUSTOM',
+  PREDEFINED: 'PREDEFINED',
+};
+
 class TargetProfile {
   constructor({
     id,
@@ -69,5 +78,7 @@ function _addUniqueOrganization(organizations) {
     }
   };
 }
+
+TargetProfile.categories = categories;
 
 module.exports = TargetProfile;
