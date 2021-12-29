@@ -23,6 +23,10 @@ export default class TubeList extends Component {
     return URL.createObjectURL(this.file);
   }
 
+  get sortedAreas() {
+    return this.args.areas.sortBy('code');
+  }
+
   @action
   toggleInput(event) {
     const checkbox = event.currentTarget.querySelector('input');
