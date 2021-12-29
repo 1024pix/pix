@@ -253,7 +253,7 @@
       "text": "To have your profile certified, you need to have reached at least level 1 in 5 competences."
     },
     "certification-results": {
-      "title": "Certification progress",
+      "title": "Certification test finished",
       "action": {
         "confirm": "Confirm",
         "logout": "Log out"
@@ -268,6 +268,21 @@
         "title": "You’ve almost finished",
         "supervisor": "Call the invigilator: '<br>'They must see this screen to be able to finalise your certification.",
         "warning-text": "The invigilator has seen this screen."
+      }
+    },
+    "certification-ender": {
+      "candidate": {
+        "title": "Test terminé !",
+        "ended-by-supervisor": "Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.",
+        "disconnect": "Déconnecter mon compte",
+        "disconnect-tip": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.",
+        "test-completed-alt": "test terminé"
+      },
+      "results": {
+        "disclaimer": "Your results, pending validation by the Pix team, will soon be available on your Pix account",
+        "title": "How can I view and share my certification results?",
+        "step-1": "Once logged in to your Pix account, you will be able to view your results in your profile under \"My certifications\" (accessible by clicking on your first name in the top right corner of the screen).",
+        "step-2": "You will be able to download and share your certificate of achievement or provide the verification code to be used on the Pix website."
       }
     },
     "certification-start": {
