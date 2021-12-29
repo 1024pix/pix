@@ -12,6 +12,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
+          category: 'OTHER',
           save: sinon.stub(),
           rollbackAttributes: sinon.stub(),
         },
@@ -23,6 +24,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.form.name = 'Edited name';
       component.args.model = {
         name: 'Karam',
+        category: 'OTHER',
         save: sinon.stub(),
         rollbackAttributes: sinon.stub(),
       };
@@ -40,6 +42,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
+          category: 'OTHER',
           save: sinon.stub(),
           rollbackAttributes: sinon.stub(),
         },
@@ -50,6 +53,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.form.name = 'Edited name';
       component.args.model = {
         name: 'Karam',
+        category: 'OTHER',
         save: sinon.stub(),
         rollbackAttributes: sinon.stub(),
       };
@@ -68,6 +72,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
+          category: 'OTHER',
           description: null,
           save: sinon.stub(),
           rollbackAttributes: sinon.stub(),
@@ -79,6 +84,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.form.description = 'Edited description';
       component.args.model = {
         name: 'Karam',
+        category: 'OTHER',
         description: null,
         save: sinon.stub(),
         rollbackAttributes: sinon.stub(),
@@ -96,6 +102,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
+          category: 'OTHER',
           comment: null,
           save: sinon.stub(),
           rollbackAttributes: sinon.stub(),
@@ -107,6 +114,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       component.form.comment = 'Edited comment';
       component.args.model = {
         name: 'Karam',
+        category: 'OTHER',
         comment: null,
         save: sinon.stub(),
         rollbackAttributes: sinon.stub(),
@@ -124,6 +132,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
+          category: 'OTHER',
           save: sinon.stub(),
           rollbackAttributes: sinon.stub(),
         },
@@ -146,6 +155,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       const component = createGlimmerComponent('component:target-profiles/update-target-profile', {
         model: {
           name: 'Karam',
+          category: 'OTHER',
           save: sinon.stub(),
           rollbackAttributes: sinon.stub(),
         },

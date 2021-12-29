@@ -472,6 +472,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             name: 'test',
             description: 'description changée.',
             comment: 'commentaire changé.',
+            category: 'OTHER',
           },
         },
       };
@@ -564,6 +565,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             name: 'Not Pix Admin',
             description: null,
             comment: null,
+            category: 'OTHER',
           },
         },
       };

@@ -116,6 +116,7 @@ const dependencies = {
   tagRepository: require('../../infrastructure/repositories/tag-repository'),
   TargetProfileForSpecifierRepository: require('../../infrastructure/repositories/campaign/target-profile-for-specifier-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
+  targetProfileForUpdateRepository: require('../../infrastructure/repositories/target-profile-for-update-repository'),
   targetProfileShareRepository: require('../../infrastructure/repositories/target-profile-share-repository'),
   targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   tokenService: require('../../domain/services/token-service'),
