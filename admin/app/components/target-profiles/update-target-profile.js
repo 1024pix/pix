@@ -36,12 +36,20 @@ const Validations = buildValidations({
       }),
     ],
   },
+  category: {
+    validators: [
+      validator('presence', {
+        presence: true,
+      }),
+    ],
+  },
 });
 
 class Form extends Object.extend(Validations) {
   @tracked name;
   @tracked description;
   @tracked comment;
+  @tracked category;
 }
 
 export default class UpdateTargetProfile extends Component {
@@ -53,6 +61,34 @@ export default class UpdateTargetProfile extends Component {
     this.form.name = this.args.model.name;
     this.form.description = this.args.model.description || null;
     this.form.comment = this.args.model.comment || null;
+    this.form.category = this.args.model.category || null;
+
+    this.optionsList = [
+      {
+        value: 'COMPETENCES',
+        label: 'Compétences Pix',
+      },
+      {
+        value: 'CUSTOM',
+        label: 'Sur-mesure',
+      },
+      {
+        value: 'DISCIPLINE',
+        label: 'Disciplinaire',
+      },
+      {
+        value: 'OTHER',
+        label: 'Autre',
+      },
+      {
+        value: 'PREDEFINED',
+        label: 'Prédéfini',
+      },
+      {
+        value: 'SUBJECT',
+        label: 'Thématique',
+      },
+    ];
   }
 
   async _checkFormValidation() {
@@ -60,11 +96,18 @@ export default class UpdateTargetProfile extends Component {
     return validations.isValid;
   }
 
+  @action
+  onCategoryChange(event) {
+    this.form.category = event.target.value;
+  }
+
   async _updateTargetProfile() {
     const model = this.args.model;
     model.name = this.form.name.trim();
     model.description = this.form.description ? this.form.description.trim() : null;
     model.comment = this.form.comment ? this.form.comment.trim() : null;
+    model.category = this.form.category;
+
     try {
       await model.save();
       await this.notifications.success('Le profil cible a bien été mis à jour.');

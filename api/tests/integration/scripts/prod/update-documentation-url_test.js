@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const { updateDocumentationUrl, URL } = require('../../../../scripts/prod/update-documentation-url');
 
-describe.only('updateDocumentationUrl', function () {
+describe('updateDocumentationUrl', function () {
   context('when the organization is PRO', function () {
     it('uses the PRO documentation', async function () {
       databaseBuilder.factory.buildOrganization({ type: 'PRO' });
