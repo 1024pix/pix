@@ -54,6 +54,7 @@ describe('Unit | Application | Controller | Campaign', function () {
         organizationId: 456,
         targetProfileId: 123,
         creatorId: 1,
+        ownerId: 1,
         multipleSendings: true,
       };
 
@@ -510,6 +511,7 @@ describe('Unit | Application | Controller | Campaign', function () {
       expect(response).to.be.equal(serializedCampaign);
     });
   });
+
   describe('#findParticipantsActivity', function () {
     let serializedParticipantsActivities;
     let participantsActivities;
