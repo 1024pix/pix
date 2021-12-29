@@ -441,7 +441,8 @@ export default function () {
     return new Response(204);
   });
 
-  this.get('/framework/tubes', (schema) => {
-    return schema.tubes.all();
+  this.get('/frameworks/pix/areas', (schema, request) => {
+    request.queryParams.include = ['competences.thematics', 'competences.thematics.tubes'].join(',');
+    return schema.areas.all();
   });
 }
