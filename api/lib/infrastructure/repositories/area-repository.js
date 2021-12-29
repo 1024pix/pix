@@ -16,15 +16,11 @@ async function list() {
   });
 }
 
-async function listWithPixCompetencesOnly() {
-  const areas = await Promise.all([list(), competenceRepository.listPixCompetencesOnly()]).then(
-    ([areas, competences]) => {
-      areas.forEach((area) => {
-        area.competences = _.filter(competences, { area: { id: area.id } });
-      });
-      return areas;
-    }
-  );
+async function listWithPixCompetencesOnly({ locale } = {}) {
+  const [areas, competences] = await Promise.all([list(), competenceRepository.listPixCompetencesOnly({ locale })]);
+  areas.forEach((area) => {
+    area.competences = _.filter(competences, { area: { id: area.id } });
+  });
   return _.filter(areas, ({ competences }) => !_.isEmpty(competences));
 }
 
