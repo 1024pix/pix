@@ -31,7 +31,34 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
     await clickByLabel("Enregistrer l'email");
 
     // then
+    assert.notContains('Nouvelle adresse e-mail');
     assert.contains(`nouvel-email@example.net a bien été rajouté aux méthodes de connexion de l'utilisateur`);
     assert.dom('tr[data-test-email] svg.authentication-method__check').exists();
+  });
+
+  test('should stay on modal if email already existing for an other user', async function (assert) {
+    // given
+    const currentUser = server.create('user');
+    await createAuthenticateSession({ userId: currentUser.id });
+
+    const firstName = 'Alice';
+    const lastName = 'Merveille';
+    const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+    const userToAddNewEmail = server.create('user', {
+      firstName,
+      lastName,
+      authenticationMethods: [garAuthenticationMethod],
+    });
+    server.create('user', { email: 'nouvel-email@example.net' });
+
+    // when
+    await visit(`/users/${userToAddNewEmail.id}`);
+    await clickByLabel('Ajouter une adresse e-mail');
+    await fillInByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
+    await clickByLabel("Enregistrer l'email");
+
+    // then
+    assert.contains('Nouvelle adresse e-mail');
+    assert.contains('Cet email est déjà utilisé');
   });
 });

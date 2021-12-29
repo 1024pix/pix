@@ -8,6 +8,7 @@ export default class AuthenticationMethod extends Component {
 
   @tracked showAddAuthenticationMethodModal = false;
   @tracked newEmail = '';
+  @tracked showAlreadyExistingEmailError = false;
 
   @action
   toggleAddAuthenticationMethodModal() {
@@ -21,11 +22,23 @@ export default class AuthenticationMethod extends Component {
     try {
       await this.args.addPixAuthenticationMethod(this.newEmail);
       this.notifications.success(`${this.newEmail} a bien été rajouté aux méthodes de connexion de l'utilisateur`);
-    } catch (response) {
-      this.notifications.error('Une erreur est survenue, veuillez réessayer.');
-    } finally {
-      this.showAddAuthenticationMethodModal = false;
       this.newEmail = '';
+      this.showAddAuthenticationMethodModal = false;
+      this.showAlreadyExistingEmailError = false;
+    } catch (response) {
+      const errors = response.errors;
+      const emailAlreadyExistingError = errors.any(
+        (error) => error.status === '400' && error.code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS'
+      );
+
+      if (emailAlreadyExistingError) {
+        this.showAlreadyExistingEmailError = true;
+      } else {
+        this.showAddAuthenticationMethodModal = false;
+        this.notifications.error('Une erreur est survenue, veuillez réessayer.');
+        this.newEmail = '';
+        this.showAlreadyExistingEmailError = false;
+      }
     }
   }
 }

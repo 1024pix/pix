@@ -4,11 +4,12 @@
   @close={{@toggleAddAuthenticationMethodModal}}
 >
   <form {{on "submit" @submitAddingPixAuthenticationMethod}}>
-    <Modal::Body>
+    <Modal::Body class="add-authentication-method-modal__form-body">
       <PixInput
         @id="new-email-for-adding-authentication-method"
         @label="Nouvelle adresse e-mail"
         @value={{@newEmail}}
+        @errorMessage="{{if @showAlreadyExistingEmailError "Cet email est déjà utilisé" ""}}"
         type="email"
         required
       />
