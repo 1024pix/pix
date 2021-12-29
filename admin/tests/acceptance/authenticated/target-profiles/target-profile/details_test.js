@@ -185,6 +185,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         isPublic: true,
         outdated: false,
         ownerOrganizationId: 456,
+        category: 'OTHER',
       });
 
       // when
@@ -195,6 +196,28 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
       // then
       assert.contains('Profil Cible Fantastix Edited');
+      assert.dom('Enregistrer').doesNotExist();
+    });
+
+    test('it should edit target profile category', async function (assert) {
+      // given
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Fantastix',
+        isPublic: true,
+        outdated: false,
+        ownerOrganizationId: 456,
+        category: 'OTHER',
+      });
+
+      // when
+      await visit('/target-profiles/1');
+      await click('button[type=button]');
+      await fillIn('#targetProfileCategory', 'CUSTOM');
+      await click('button[type=submit]');
+
+      // then
+      assert.contains('Sur-mesure');
       assert.dom('Enregistrer').doesNotExist();
     });
   });

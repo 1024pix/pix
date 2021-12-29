@@ -21,6 +21,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       ownerOrganizationId: '',
       isPublic: false,
       comment: '',
+      category: 'OTHER',
     };
 
     isFileInvalid = false;
