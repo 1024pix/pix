@@ -274,6 +274,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
               name: 'CoolPixer',
               description: 'Amazing description',
               comment: 'Amazing comment',
+              category: 'OTHER',
             },
           },
         },

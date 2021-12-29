@@ -228,6 +228,7 @@ exports.register = async (server) => {
                 name: Joi.string().required().min(1),
                 description: Joi.string().required().allow(null).max(500),
                 comment: Joi.string().required().allow(null).max(500),
+                category: Joi.string().required(),
               },
             },
           }).options({ allowUnknown: true }),
