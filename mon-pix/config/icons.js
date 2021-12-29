@@ -27,6 +27,7 @@ module.exports = function () {
       'times-circle',
       'chevron-down',
       'user',
+      'user-circle',
       'link',
       'globe',
     ],

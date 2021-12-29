@@ -253,7 +253,7 @@
       "text": "Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum."
     },
     "certification-results": {
-      "title": "Avancement de votre certification",
+      "title": "Test terminé",
       "action": {
         "confirm": "Je confirme",
         "logout": "Se déconnecter"
@@ -268,6 +268,21 @@
         "title": "Vous avez presque terminé",
         "supervisor": "Appelez le surveillant : '<br>'Il doit impérativement voir cet écran pour finaliser votre certification.",
         "warning-text": "Le surveillant a bien vu cet écran."
+      }
+    },
+    "certification-ender": {
+      "candidate": {
+        "title": "Test terminé !",
+        "ended-by-supervisor": "Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.",
+        "disconnect": "Déconnecter mon compte",
+        "disconnect-tip": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.",
+        "test-completed-alt": "test terminé"
+      },
+      "results": {
+        "disclaimer": "Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles depuis votre compte Pix",
+        "title": "Consulter et partager mes résultats de certification ?",
+        "step-1": "Il vous suffit de vous connecter à votre compte Pix, vous pourrez retrouver vos résultats dans votre profil, rubrique \"Mes certifications\" (accessible en cliquant sur votre prénom en haut à droite de l'écran).",
+        "step-2": "Vous pourrez télécharger votre attestation de certification et la partager, ou encore communiquer le code de vérification à utiliser sur le site de Pix."
       }
     },
     "certification-start": {

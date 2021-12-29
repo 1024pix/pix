@@ -1,0 +1,42 @@
+<CertificationBanner @certificationNumber={{@certificationNumber}} />
+
+<div class="certification-ender rounded-panel result-content">
+
+  <div class="certification-ender__finished-test">
+    <img
+      src="/images/illustrations/certification-ender/test-completed.svg"
+      alt=""
+      role="presentation"
+      class="certification-ender__image"
+    />
+    <div class="certification-ender__candidate">
+      <div class="certification-ender__candidate-name">
+        <span><FaIcon @icon="user-circle" /></span>
+        {{this.currentUser.user.fullName}}
+      </div>
+      <div class="certification-ender__candidate-title">{{t "pages.certification-ender.candidate.title"}}</div>
+      <PixButtonLink @route="logout" @backgroundColor="blue" class="certification-ender__candidate-action-disconnect">
+        {{t "pages.certification-ender.candidate.disconnect"}}
+      </PixButtonLink>
+      <div class="certification-ender__candidate-disconnect-tip">
+        {{t "pages.certification-ender.candidate.disconnect-tip"}}
+      </div>
+    </div>
+  </div>
+  <div class="certification-ender__results">
+    <img
+      src="/images/illustrations/certification-ender/results-example.svg"
+      alt=""
+      role="presentation"
+      class="certification-ender__results-example"
+    />
+    <div class="certification-ender__results-instructions">
+      <div class="certification-ender__results-disclaimer">{{t "pages.certification-ender.results.disclaimer"}}</div>
+      <div class="certification-ender__results-title">
+        {{t "pages.certification-ender.results.title"}}
+      </div>
+      <div class="certification-ender__results-steps">{{t "pages.certification-ender.results.step-1"}}</div>
+      <div class="certification-ender__results-steps">{{t "pages.certification-ender.results.step-2"}}</div>
+    </div>
+  </div>
+</div>
