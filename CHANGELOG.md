@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.147.0 (29/12/2021)
+
+
+### :rocket: Enhancement
+- [#3884](https://github.com/1024pix/pix/pull/3884) [FEATURE] Créer un script pour migrer les URL de documentations (PIX-3974).
+- [#3882](https://github.com/1024pix/pix/pull/3882) [FEATURE] Changer les dates d'ouverture des certifications dans la bannière d'informations pour les SCO (PIX-4081)
+- [#3873](https://github.com/1024pix/pix/pull/3873) [FEATURE] Ajouter la catégorie d'un profil cible dans PixAdmin (PIX-3756).
+
+### :coffee: Various
+- [#3877](https://github.com/1024pix/pix/pull/3877) [ORGA] Rendre non lisible les liens des tutoriels via lecteur d'écran lorsque le menu déroulant n'est pas afficher (PIX-3897)
+
 ## v3.146.0 (27/12/2021)
 
 
