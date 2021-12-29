@@ -470,18 +470,14 @@ describe('Integration | Repository | Campaign-Report', function () {
       });
 
       context('when some campaigns names match the "name" search pattern', function () {
-        // given
-        const filter = { name: 'matH' };
-
-        beforeEach(function () {
+        it('should return these campaigns only', async function () {
+          // given
+          const filter = { name: 'matH' };
           _.each([{ name: 'Maths L1' }, { name: 'Maths L2' }, { name: 'Chimie' }], (campaign) => {
             databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
           });
+          await databaseBuilder.commit();
 
-          return databaseBuilder.commit();
-        });
-
-        it('should return these campaigns only', async function () {
           // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
@@ -492,14 +488,11 @@ describe('Integration | Repository | Campaign-Report', function () {
       });
 
       context('when some campaigns creator firstName match the given creatorName searched', function () {
-        let filter;
-
-        beforeEach(function () {
+        it('should return the matching campaigns', async function () {
+          // given
           const creator1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
           const creator2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
-
-          filter = { creatorName: creator1.firstName.toUpperCase() };
-
+          const filter = { creatorName: creator1.firstName.toUpperCase() };
           _.each(
             [
               { name: 'Maths L1', creatorId: creator1.id },
@@ -511,26 +504,24 @@ describe('Integration | Repository | Campaign-Report', function () {
             }
           );
 
-          return databaseBuilder.commit();
-        });
+          await databaseBuilder.commit();
 
-        it('should return the matching campaigns', async function () {
+          // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
+          // then
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
       context('when some campaigns creator lastName match the given creatorName searched', function () {
-        let filter;
-
-        beforeEach(function () {
+        it('should return the matching campaigns', async function () {
+          // given
           const creator1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
           const creator2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
 
-          filter = { creatorName: creator1.lastName.toUpperCase() };
-
+          const filter = { creatorName: creator1.lastName.toUpperCase() };
           _.each(
             [
               { name: 'Maths L1', creatorId: creator1.id },
@@ -542,28 +533,25 @@ describe('Integration | Repository | Campaign-Report', function () {
             }
           );
 
-          return databaseBuilder.commit();
-        });
+          await databaseBuilder.commit();
 
-        it('should return the matching campaigns', async function () {
+          // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
+          // then
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
       context('when the given filter search property is not searchable', function () {
-        // given
-        const filter = { code: 'FAKECODE' };
-        const page = { number: 1, size: 10 };
-
-        beforeEach(function () {
-          databaseBuilder.factory.buildCampaign({ organizationId });
-          return databaseBuilder.commit();
-        });
-
         it('should ignore the filter and return all campaigns', async function () {
+          // given
+          const filter = { code: 'FAKECODE' };
+          const page = { number: 1, size: 10 };
+          databaseBuilder.factory.buildCampaign({ organizationId });
+          await databaseBuilder.commit();
+
           // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
@@ -574,16 +562,12 @@ describe('Integration | Repository | Campaign-Report', function () {
       });
 
       context('when campaigns amount exceed page size', function () {
-        // given
-        let expectedPagination;
-
-        beforeEach(function () {
-          _.times(5, () => databaseBuilder.factory.buildCampaign({ organizationId }));
-          expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
-          return databaseBuilder.commit();
-        });
-
         it('should return page size number of campaigns', async function () {
+          // given
+          _.times(5, () => databaseBuilder.factory.buildCampaign({ organizationId }));
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
+          await databaseBuilder.commit();
+
           // when
           const { models: campaignsWithReports, meta: pagination } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
