@@ -26,3 +26,4 @@ rules:
       message: Use only faker.internet.exampleEmail()
   knex/avoid-injections: error
   i18n-json/valid-message-syntax: warn
+  mocha/no-exclusive-tests: error
