@@ -33,3 +33,12 @@
     margin: 0 20px;
   }
 }
+
+.add-authentication-method-modal__form-body {
+  margin-bottom: 16px;
+
+  label[for="new-email-for-adding-authentication-method"] {
+    height: 18px;
+    bottom: calc(-18px - 4px - 6px);
+  }
+}
