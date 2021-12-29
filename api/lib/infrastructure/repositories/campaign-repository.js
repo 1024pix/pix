@@ -46,10 +46,12 @@ module.exports = {
       'idPixLabel',
       'customLandingPageText',
       'creatorId',
+      'ownerId',
       'organizationId',
       'targetProfileId',
       'multipleSendings',
     ]);
+
     const createdCampaign = await new BookshelfCampaign(campaignAttributes).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, createdCampaign);
   },

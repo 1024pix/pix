@@ -26,6 +26,7 @@ module.exports = {
         'targetProfileThematicResultCount',
         'targetProfileHasStage',
         'creatorId',
+        'ownerId',
         'creatorLastName',
         'creatorFirstName',
         'participationsCount',

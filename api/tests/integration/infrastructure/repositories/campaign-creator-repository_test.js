@@ -105,7 +105,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       });
     });
 
-    context('when the user is not a member the organization', function () {
+    context('when the user is not a member of the organization', function () {
       it('throws an error', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationMemberId } = databaseBuilder.factory.buildUser();

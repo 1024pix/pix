@@ -14,6 +14,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
           name: 'campagne utilisateur',
           type: Campaign.types.ASSESSMENT,
           creatorId: 1,
+          ownerId: 1,
           organizationId: 2,
           targetProfileId: 2,
         };
@@ -34,6 +35,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
             name: 'campagne utilisateur',
             type: Campaign.types.ASSESSMENT,
             creatorId: 1,
+            ownerId: 1,
             organizationId: 2,
             targetProfileId: 5,
           };
@@ -54,6 +56,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
             name: 'campagne utilisateur',
             type: Campaign.types.ASSESSMENT,
             creatorId: 1,
+            ownerId: 1,
             organizationId: 2,
             targetProfileId: null,
           };
@@ -77,6 +80,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
             name: 'campagne utilisateur',
             type: Campaign.types.PROFILES_COLLECTION,
             creatorId: 1,
+            ownerId: 1,
             organizationId: 2,
           };
 

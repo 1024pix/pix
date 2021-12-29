@@ -24,6 +24,11 @@ const schema = Joi.object({
     'number.base': 'MISSING_CREATOR',
   }),
 
+  ownerId: Joi.number().integer().required().messages({
+    'any.required': 'MISSING_OWNER',
+    'number.base': 'MISSING_OWNER',
+  }),
+
   organizationId: Joi.number().integer().required().messages({
     'any.required': 'MISSING_ORGANIZATION',
     'number.base': 'MISSING_ORGANIZATION',

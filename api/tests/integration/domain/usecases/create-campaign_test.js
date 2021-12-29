@@ -46,6 +46,7 @@ describe('Integration | UseCases | create-campaign', function () {
       idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello',
       creatorId: userId,
+      ownerId: userId,
       organizationId,
       targetProfileId,
     };
@@ -76,6 +77,7 @@ describe('Integration | UseCases | create-campaign', function () {
       idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello',
       creatorId: userId,
+      ownerId: userId,
       organizationId,
     };
 
