@@ -14,7 +14,6 @@ export default class Campaign extends Model {
   @attr('string') idPixLabel;
   @attr('string') customLandingPageText;
   @attr('string') tokenForCampaignResults;
-  @attr('string') creatorId;
   @attr('string') creatorLastName;
   @attr('string') creatorFirstName;
   @attr('string') ownerId;
