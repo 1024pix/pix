@@ -1,8 +1,9 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import sumBy from 'lodash/sumBy';
 import { TOOLTIP_CONFIG } from '../../ui/chart';
-
+import pattern from 'patternomaly';
 export default class ParticipantsByStatus extends Component {
   @service store;
   @service intl;
@@ -19,12 +20,24 @@ export default class ParticipantsByStatus extends Component {
   }
 
   get data() {
+    const dataInfos = {
+      labels: [],
+      data: [],
+      backgroundColor: [],
+    };
+
+    this.datasets.forEach((data) => {
+      dataInfos.labels.push(data.tooltip);
+      dataInfos.data.push(data.count);
+      dataInfos.backgroundColor.push(data.canvas);
+    });
+
     return {
-      labels: this.datasets.map((data) => data.tooltip),
+      labels: dataInfos.labels,
       datasets: [
         {
-          data: this.datasets.map((data) => data.count),
-          backgroundColor: this.datasets.map((data) => data.color),
+          data: dataInfos.data,
+          backgroundColor: dataInfos.backgroundColor,
         },
       ],
     };
@@ -45,16 +58,31 @@ export default class ParticipantsByStatus extends Component {
     };
   }
 
+  @action
+  setCanvas(element, params) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 14;
+    canvas.height = 14;
+    canvas.className = 'participants-by-status__legend-view';
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = params[0];
+    ctx.fillRect(0, 0, 14, 14);
+
+    element.insertBefore(canvas, element.firstChild);
+  }
+
   getDatasetLabels(key, count, isTypeAssessment) {
     const datasetLabels = isTypeAssessment ? LABELS_ASSESSMENT[key] : LABELS_PROFILE_COLLECTIONS[key];
     const percentage = this.total !== 0 ? count / this.total : 0;
+    const canvas = pattern.draw(datasetLabels.shape, datasetLabels.color);
 
     return {
       tooltip: this.intl.t(datasetLabels.tooltip, { percentage }),
       legend: this.intl.t(datasetLabels.legend, { count }),
       legendTooltip: this.intl.t(datasetLabels.legendTooltip, { count }),
       a11y: this.intl.t(datasetLabels.a11y, { count }),
-      color: datasetLabels.color,
+      canvas,
     };
   }
 }
@@ -65,7 +93,8 @@ const LABELS_ASSESSMENT = {
     legend: 'charts.participants-by-status.labels-legend.started',
     legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#FFBE00',
+    color: '#ffbe00',
+    shape: 'diamond-box',
   },
   completed: {
     tooltip: 'charts.participants-by-status.labels-tooltip.completed-assessment',
@@ -73,6 +102,7 @@ const LABELS_ASSESSMENT = {
     legendTooltip: 'charts.participants-by-status.labels-legend.completed-assessment-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
     color: '#8a49ff',
+    shape: 'zigzag',
   },
   shared: {
     tooltip: 'charts.participants-by-status.labels-tooltip.shared',
@@ -80,6 +110,7 @@ const LABELS_ASSESSMENT = {
     legendTooltip: 'charts.participants-by-status.labels-legend.shared-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared',
     color: '#038a25',
+    shape: 'weave',
   },
 };
 
@@ -89,7 +120,8 @@ const LABELS_PROFILE_COLLECTIONS = {
     legend: 'charts.participants-by-status.labels-legend.started',
     legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#FFBE00',
+    color: '#ffbe00',
+    shape: 'diamond-box',
   },
   completed: {
     tooltip: 'charts.participants-by-status.labels-tooltip.completed-profile',
@@ -97,6 +129,7 @@ const LABELS_PROFILE_COLLECTIONS = {
     legendTooltip: 'charts.participants-by-status.labels-legend.completed-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
     color: '#8a49ff',
+    shape: 'zigzag',
   },
   shared: {
     tooltip: 'charts.participants-by-status.labels-tooltip.shared-profile',
@@ -104,5 +137,6 @@ const LABELS_PROFILE_COLLECTIONS = {
     legendTooltip: 'charts.participants-by-status.labels-legend.shared-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared-profile',
     color: '#038a25',
+    shape: 'weave',
   },
 };
