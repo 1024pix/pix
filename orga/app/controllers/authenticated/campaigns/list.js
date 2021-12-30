@@ -9,7 +9,7 @@ export default class ListController extends Controller {
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
   @tracked name = '';
-  @tracked creatorName = '';
+  @tracked ownerName = '';
   @tracked status = null;
 
   @service currentUser;
