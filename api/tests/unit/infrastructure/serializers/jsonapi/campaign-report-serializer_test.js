@@ -84,7 +84,6 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             type: report.type,
             title: report.title,
             'created-at': report.createdAt,
-            'creator-id': report.creatorId,
             'creator-first-name': report.creatorFirstName,
             'creator-last-name': report.creatorLastName,
             'owner-id': report.ownerId,

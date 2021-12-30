@@ -12,7 +12,6 @@ class CampaignReport {
     customLandingPageText,
     archivedAt,
     type,
-    creatorId,
     creatorLastName,
     creatorFirstName,
     ownerId,
@@ -35,7 +34,6 @@ class CampaignReport {
     this.customLandingPageText = customLandingPageText;
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;
-    this.creatorId = creatorId;
     this.creatorLastName = creatorLastName;
     this.creatorFirstName = creatorFirstName;
     this.ownerId = ownerId;

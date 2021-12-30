@@ -51,7 +51,6 @@ describe('Integration | Repository | Campaign-Report', function () {
           'title',
           'type',
           'customLandingPageText',
-          'creatorId',
           'creatorLastName',
           'creatorFirstName',
           'targetProfileId',
