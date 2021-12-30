@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component |  <%= dasherizedModuleName %>', function(hooks) {
   setupRenderingTest(hooks);
@@ -10,7 +10,7 @@ module('Integration | Component |  <%= dasherizedModuleName %>', function(hooks)
     // given
 
     //  when
-    await render(hbs`<<%= classifiedModuleName %> />`);
+    await renderScreen(hbs`<<%= classifiedModuleName %> />`);
 
     // then
     assert.ok(true);
