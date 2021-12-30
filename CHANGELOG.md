@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.148.0 (30/12/2021)
+
+
+### :rocket: Enhancement
+- [#3886](https://github.com/1024pix/pix/pull/3886) [FEATURE] Ajouter la possibilité de modifier la catégorie d'un profile cible dans Pix Admin(PIX-3759)
+- [#3858](https://github.com/1024pix/pix/pull/3858) [FEATURE]  Créer un 'propriétaire' pour une campagne (PIX-3982)
+
+### :coffee: Various
+- [#3887](https://github.com/1024pix/pix/pull/3887) [TECH Ajouter la règle de lint  mocha/no-exclusive-tests (PIX-4085).
+
 ## v3.147.0 (29/12/2021)
 
 
