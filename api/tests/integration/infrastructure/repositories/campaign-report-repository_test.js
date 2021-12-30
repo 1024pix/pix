@@ -192,13 +192,13 @@ describe('Integration | Repository | Campaign-Report', function () {
 
   describe('#findPaginatedFilteredByOrganizationId', function () {
     let filter, page;
-    let organizationId, targetProfileId, creatorId;
+    let organizationId, targetProfileId, ownerId;
     let campaign;
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
-      creatorId = databaseBuilder.factory.buildUser({}).id;
+      ownerId = databaseBuilder.factory.buildUser({}).id;
       await databaseBuilder.commit();
 
       filter = {};
@@ -234,7 +234,7 @@ describe('Integration | Repository | Campaign-Report', function () {
           code: 'AZERTY789',
           organizationId,
           targetProfileId,
-          creatorId,
+          ownerId,
         });
         await databaseBuilder.commit();
 
@@ -258,9 +258,9 @@ describe('Integration | Repository | Campaign-Report', function () {
             'title',
             'type',
             'customLandingPageText',
-            'creatorId',
-            'creatorLastName',
-            'creatorFirstName',
+            'ownerId',
+            'ownerLastName',
+            'ownerFirstName',
             'targetProfileName',
             'participationsCount',
             'sharedParticipationsCount',
@@ -274,12 +274,12 @@ describe('Integration | Repository | Campaign-Report', function () {
         databaseBuilder.factory.buildCampaign({
           organizationId: organizationId2,
           targetProfileId,
-          creatorId,
+          ownerId,
         });
         databaseBuilder.factory.buildCampaign({
           organizationId,
           targetProfileId,
-          creatorId,
+          ownerId,
         });
         await databaseBuilder.commit();
 
@@ -487,17 +487,17 @@ describe('Integration | Repository | Campaign-Report', function () {
         });
       });
 
-      context('when some campaigns creator firstName match the given creatorName searched', function () {
+      context('when some campaigns owner firstName match the given ownerName searched', function () {
         it('should return the matching campaigns', async function () {
           // given
-          const creator1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
-          const creator2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
-          const filter = { creatorName: creator1.firstName.toUpperCase() };
+          const owner1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
+          const owner2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
+          const filter = { ownerName: owner1.firstName.toUpperCase() };
           _.each(
             [
-              { name: 'Maths L1', creatorId: creator1.id },
-              { name: 'Maths L2', creatorId: creator2.id },
-              { name: 'Chimie', creatorId: creator1.id },
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Maths L2', ownerId: owner2.id },
+              { name: 'Chimie', ownerId: owner1.id },
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
@@ -515,18 +515,18 @@ describe('Integration | Repository | Campaign-Report', function () {
         });
       });
 
-      context('when some campaigns creator lastName match the given creatorName searched', function () {
+      context('when some campaigns owner lastName match the given ownerName searched', function () {
         it('should return the matching campaigns', async function () {
           // given
-          const creator1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
-          const creator2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
+          const owner1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
+          const owner2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
 
-          const filter = { creatorName: creator1.lastName.toUpperCase() };
+          const filter = { ownerName: owner1.lastName.toUpperCase() };
           _.each(
             [
-              { name: 'Maths L1', creatorId: creator1.id },
-              { name: 'Maths L2', creatorId: creator2.id },
-              { name: 'Chimie', creatorId: creator1.id },
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Maths L2', ownerId: owner2.id },
+              { name: 'Chimie', ownerId: owner1.id },
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });

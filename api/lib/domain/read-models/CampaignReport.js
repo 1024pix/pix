@@ -15,6 +15,9 @@ class CampaignReport {
     creatorId,
     creatorLastName,
     creatorFirstName,
+    ownerId,
+    ownerLastName,
+    ownerFirstName,
     targetProfileForSpecifier = {},
     participationsCount,
     sharedParticipationsCount,
@@ -35,6 +38,9 @@ class CampaignReport {
     this.creatorId = creatorId;
     this.creatorLastName = creatorLastName;
     this.creatorFirstName = creatorFirstName;
+    this.ownerId = ownerId;
+    this.ownerLastName = ownerLastName;
+    this.ownerFirstName = ownerFirstName;
     this.participationsCount = participationsCount;
     this.sharedParticipationsCount = sharedParticipationsCount;
     this.averageResult = averageResult;
