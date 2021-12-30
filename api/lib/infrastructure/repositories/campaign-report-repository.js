@@ -11,7 +11,7 @@ const skillDataSource = require('../datasources/learning-content/skill-datasourc
 
 const { SHARED } = CampaignParticipation.statuses;
 
-function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorName }) {
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName }) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
@@ -20,10 +20,10 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorNam
   } else {
     qb.whereNotNull('campaigns.archivedAt');
   }
-  if (creatorName) {
+  if (ownerName) {
     qb.whereRaw('(LOWER("users"."firstName") LIKE ? OR LOWER("users"."lastName") LIKE ?)', [
-      `%${creatorName.toLowerCase()}%`,
-      `%${creatorName.toLowerCase()}%`,
+      `%${ownerName.toLowerCase()}%`,
+      `%${ownerName.toLowerCase()}%`,
     ]);
   }
 }
@@ -100,9 +100,9 @@ module.exports = {
       .distinct('campaigns.id')
       .select(
         'campaigns.*',
-        'users.id AS "creatorId"',
-        'users.firstName AS creatorFirstName',
-        'users.lastName AS creatorLastName',
+        'users.id AS "ownerId"',
+        'users.firstName AS ownerFirstName',
+        'users.lastName AS ownerLastName',
         knex.raw(
           'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'
         ),
@@ -110,7 +110,7 @@ module.exports = {
           'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'
         )
       )
-      .join('users', 'users.id', 'campaigns.creatorId')
+      .join('users', 'users.id', 'campaigns.ownerId')
       .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
       .where('campaigns.organizationId', organizationId)
       .modify(_setSearchFiltersForQueryBuilder, filter)
