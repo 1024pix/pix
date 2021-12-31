@@ -235,6 +235,60 @@ describe('Unit | UseCase | create-user', function () {
         expect(error.invalidAttributes).to.have.lengthOf(3);
       });
     });
+
+    context('when user has accepted terms of service', function () {
+      it('should update the validation date', async function () {
+        // given
+        const user = new User({
+          email: userEmail,
+          cgu: true,
+        });
+
+        // when
+        await createUser({
+          user,
+          password,
+          campaignCode,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          encryptionService,
+          mailService,
+          userService,
+        });
+
+        // then
+        expect(user.lastTermsOfServiceValidatedAt).to.be.an.instanceOf(Date);
+      });
+    });
+
+    context('when user has not accepted terms of service', function () {
+      it('should not update the validation date', async function () {
+        // given
+        const user = new User({
+          email: userEmail,
+          cgu: false,
+        });
+
+        // when
+        await createUser({
+          user,
+          password,
+          campaignCode,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          encryptionService,
+          mailService,
+          userService,
+        });
+
+        // then
+        expect(user.lastTermsOfServiceValidatedAt).not.to.be.an.instanceOf(Date);
+      });
+    });
   });
 
   context("when user's email is not defined", function () {
