@@ -76,7 +76,7 @@ describe('Acceptance | Controller | users-controller', function () {
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.equal('users');
         expect(response.result.data.attributes['recaptcha-token']).to.be.undefined;
-
+        expect(response.result.data.attributes['last-terms-of-service-validated-at']).to.be.instanceOf(Date);
         const userAttributes = pick(response.result.data.attributes, pickedUserAttributes);
         expect(userAttributes).to.deep.equal(expectedAttributes);
       });
