@@ -51,7 +51,6 @@ describe('Integration | Repository | Campaign-Report', function () {
           'title',
           'type',
           'customLandingPageText',
-          'creatorId',
           'creatorLastName',
           'creatorFirstName',
           'targetProfileId',
@@ -192,13 +191,13 @@ describe('Integration | Repository | Campaign-Report', function () {
 
   describe('#findPaginatedFilteredByOrganizationId', function () {
     let filter, page;
-    let organizationId, targetProfileId, creatorId;
+    let organizationId, targetProfileId, ownerId;
     let campaign;
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
-      creatorId = databaseBuilder.factory.buildUser({}).id;
+      ownerId = databaseBuilder.factory.buildUser({}).id;
       await databaseBuilder.commit();
 
       filter = {};
@@ -234,7 +233,7 @@ describe('Integration | Repository | Campaign-Report', function () {
           code: 'AZERTY789',
           organizationId,
           targetProfileId,
-          creatorId,
+          ownerId,
         });
         await databaseBuilder.commit();
 
@@ -258,9 +257,9 @@ describe('Integration | Repository | Campaign-Report', function () {
             'title',
             'type',
             'customLandingPageText',
-            'creatorId',
-            'creatorLastName',
-            'creatorFirstName',
+            'ownerId',
+            'ownerLastName',
+            'ownerFirstName',
             'targetProfileName',
             'participationsCount',
             'sharedParticipationsCount',
@@ -274,12 +273,12 @@ describe('Integration | Repository | Campaign-Report', function () {
         databaseBuilder.factory.buildCampaign({
           organizationId: organizationId2,
           targetProfileId,
-          creatorId,
+          ownerId,
         });
         databaseBuilder.factory.buildCampaign({
           organizationId,
           targetProfileId,
-          creatorId,
+          ownerId,
         });
         await databaseBuilder.commit();
 
@@ -470,18 +469,14 @@ describe('Integration | Repository | Campaign-Report', function () {
       });
 
       context('when some campaigns names match the "name" search pattern', function () {
-        // given
-        const filter = { name: 'matH' };
-
-        beforeEach(function () {
+        it('should return these campaigns only', async function () {
+          // given
+          const filter = { name: 'matH' };
           _.each([{ name: 'Maths L1' }, { name: 'Maths L2' }, { name: 'Chimie' }], (campaign) => {
             databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
           });
+          await databaseBuilder.commit();
 
-          return databaseBuilder.commit();
-        });
-
-        it('should return these campaigns only', async function () {
           // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
@@ -491,79 +486,71 @@ describe('Integration | Repository | Campaign-Report', function () {
         });
       });
 
-      context('when some campaigns creator firstName match the given creatorName searched', function () {
-        let filter;
-
-        beforeEach(function () {
-          const creator1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
-          const creator2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
-
-          filter = { creatorName: creator1.firstName.toUpperCase() };
-
+      context('when some campaigns owner firstName match the given ownerName searched', function () {
+        it('should return the matching campaigns', async function () {
+          // given
+          const owner1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
+          const owner2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
+          const filter = { ownerName: owner1.firstName.toUpperCase() };
           _.each(
             [
-              { name: 'Maths L1', creatorId: creator1.id },
-              { name: 'Maths L2', creatorId: creator2.id },
-              { name: 'Chimie', creatorId: creator1.id },
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Maths L2', ownerId: owner2.id },
+              { name: 'Chimie', ownerId: owner1.id },
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
             }
           );
 
-          return databaseBuilder.commit();
-        });
+          await databaseBuilder.commit();
 
-        it('should return the matching campaigns', async function () {
+          // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
+          // then
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
-      context('when some campaigns creator lastName match the given creatorName searched', function () {
-        let filter;
+      context('when some campaigns owner lastName match the given ownerName searched', function () {
+        it('should return the matching campaigns', async function () {
+          // given
+          const owner1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
+          const owner2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
 
-        beforeEach(function () {
-          const creator1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
-          const creator2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
-
-          filter = { creatorName: creator1.lastName.toUpperCase() };
-
+          const filter = { ownerName: owner1.lastName.toUpperCase() };
           _.each(
             [
-              { name: 'Maths L1', creatorId: creator1.id },
-              { name: 'Maths L2', creatorId: creator2.id },
-              { name: 'Chimie', creatorId: creator1.id },
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Maths L2', ownerId: owner2.id },
+              { name: 'Chimie', ownerId: owner1.id },
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
             }
           );
 
-          return databaseBuilder.commit();
-        });
+          await databaseBuilder.commit();
 
-        it('should return the matching campaigns', async function () {
+          // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
+          // then
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
       context('when the given filter search property is not searchable', function () {
-        // given
-        const filter = { code: 'FAKECODE' };
-        const page = { number: 1, size: 10 };
-
-        beforeEach(function () {
-          databaseBuilder.factory.buildCampaign({ organizationId });
-          return databaseBuilder.commit();
-        });
-
         it('should ignore the filter and return all campaigns', async function () {
+          // given
+          const filter = { code: 'FAKECODE' };
+          const page = { number: 1, size: 10 };
+          databaseBuilder.factory.buildCampaign({ organizationId });
+          await databaseBuilder.commit();
+
           // when
           const { models: actualCampaignsWithReports } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
@@ -574,16 +561,12 @@ describe('Integration | Repository | Campaign-Report', function () {
       });
 
       context('when campaigns amount exceed page size', function () {
-        // given
-        let expectedPagination;
-
-        beforeEach(function () {
-          _.times(5, () => databaseBuilder.factory.buildCampaign({ organizationId }));
-          expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
-          return databaseBuilder.commit();
-        });
-
         it('should return page size number of campaigns', async function () {
+          // given
+          _.times(5, () => databaseBuilder.factory.buildCampaign({ organizationId }));
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
+          await databaseBuilder.commit();
+
           // when
           const { models: campaignsWithReports, meta: pagination } =
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });

@@ -14,9 +14,11 @@ export default class Campaign extends Model {
   @attr('string') idPixLabel;
   @attr('string') customLandingPageText;
   @attr('string') tokenForCampaignResults;
-  @attr('string') creatorId;
   @attr('string') creatorLastName;
   @attr('string') creatorFirstName;
+  @attr('string') ownerId;
+  @attr('string') ownerLastName;
+  @attr('string') ownerFirstName;
   @attr('date') createdAt;
   @attr('string') targetProfileId;
   @attr('string') targetProfileDescription;
@@ -30,6 +32,7 @@ export default class Campaign extends Model {
   @attr('boolean') multipleSendings;
 
   @belongsTo('user') creator;
+  @belongsTo('user') owner;
   @belongsTo('organization') organization;
   @belongsTo('target-profile') targetProfile;
   @belongsTo('campaign-collective-result') campaignCollectiveResult;
@@ -50,6 +53,10 @@ export default class Campaign extends Model {
 
   get creatorFullName() {
     return `${this.creatorFirstName} ${this.creatorLastName}`;
+  }
+
+  get ownerFullName() {
+    return `${this.ownerFirstName} ${this.ownerLastName}`;
   }
 
   get isTypeProfilesCollection() {

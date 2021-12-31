@@ -83,22 +83,20 @@ export default function () {
   this.patch('/memberships/:id');
 
   this.get('/organizations/:id/campaigns', (schema, request) => {
-    const { 'filter[creatorName]': creatorName, 'filter[name]': campaignName } = request.queryParams;
+    const { 'filter[ownerName]': ownerName, 'filter[name]': campaignName } = request.queryParams;
     let results;
-    if (!creatorName && !campaignName) {
+    if (!ownerName && !campaignName) {
       results = schema.campaigns.all();
-    } else if (creatorName && !campaignName) {
+    } else if (ownerName && !campaignName) {
       results = schema.campaigns.where(
-        ({ creatorFirstName, creatorLastName }) =>
-          creatorFirstName.includes(creatorName) || creatorLastName.includes(creatorName)
+        ({ ownerFirstName, ownerLastName }) => ownerFirstName.includes(ownerName) || ownerLastName.includes(ownerName)
       );
-    } else if (!creatorName && campaignName) {
+    } else if (!ownerName && campaignName) {
       results = schema.campaigns.where(({ name }) => name.includes(campaignName));
     } else {
       results = schema.campaigns.where(
-        ({ creatorFirstName, creatorLastName, name }) =>
-          (creatorFirstName.includes(creatorName) || creatorLastName.includes(creatorName)) &&
-          name.includes(campaignName)
+        ({ ownerFirstName, ownerLastName, name }) =>
+          (ownerFirstName.includes(ownerName) || ownerLastName.includes(ownerName)) && name.includes(campaignName)
       );
     }
     const json = this.serializerOrRegistry.serialize(results, request);

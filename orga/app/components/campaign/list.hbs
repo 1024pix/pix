@@ -1,6 +1,6 @@
 <section class="campaign-list">
   <Campaign::Filter::Filters
-    @creatorNameFilter={{@creatorNameFilter}}
+    @ownerNameFilter={{@ownerNameFilter}}
     @nameFilter={{@nameFilter}}
     @onFilter={{@onFilter}}
     @isArchived={{@isArchived}}
@@ -39,7 +39,7 @@
                 {{campaign.name}}
               </LinkTo>
             </td>
-            <td class="table__column--truncated hide-on-mobile">{{campaign.creatorFullName}}</td>
+            <td class="table__column--truncated hide-on-mobile">{{campaign.ownerFullName}}</td>
             <td class="hide-on-mobile">{{moment-format campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
             <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>

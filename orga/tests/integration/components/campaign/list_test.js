@@ -114,16 +114,16 @@ module('Integration | Component | Campaign::List', function (hooks) {
       assert.contains('campagne 2');
     });
 
-    test('it should display the creator of the campaigns', async function (assert) {
+    test('it should display the owner of the campaigns', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
-        creatorFirstName: 'Jean-Michel',
-        creatorLastName: 'Jarre',
+        ownerFirstName: 'Jean-Michel',
+        ownerLastName: 'Jarre',
       });
       const campaign2 = store.createRecord('campaign', {
-        creatorFirstName: 'Mathilde',
-        creatorLastName: 'Bonnin de La Bonninière de Beaumont',
+        ownerFirstName: 'Mathilde',
+        ownerLastName: 'Bonnin de La Bonninière de Beaumont',
       });
       const campaigns = [campaign1, campaign2];
       campaigns.meta = {
@@ -240,7 +240,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       assert.dom('[placeholder="Rechercher une campagne"]').exists();
     });
 
-    test('it should display the placeholder of the filter by creator field', async function (assert) {
+    test('it should display the placeholder of the filter by owner field', async function (assert) {
       // given
       const campaigns = [];
       campaigns.meta = { rowCount: 0 };
