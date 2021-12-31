@@ -70,25 +70,25 @@ module('Acceptance | Campaign List', function (hooks) {
       assert.equal(currentURL(), '/campagnes/1');
     });
 
-    module('When using creator filter', function () {
-      test('it should update URL with creator first name filter', async function (assert) {
+    module('When using owner filter', function () {
+      test('it should update URL with owner first name filter', async function (assert) {
         // given
-        const creator = server.create('user', { firstName: 'Harry', lastName: 'Cojaune' });
-        server.create('campaign', { creatorFirstName: creator.firstName, creatorLastName: creator.lastName });
+        const owner = server.create('user', { firstName: 'Harry', lastName: 'Cojaune' });
+        server.create('campaign', { ownerFirstName: owner.firstName, ownerLastName: owner.lastName });
         await visit('/campagnes');
 
         // when
-        await fillByLabel('Rechercher un créateur', creator.firstName);
+        await fillByLabel('Rechercher un créateur', owner.firstName);
 
         // then
-        assert.equal(currentURL(), `/campagnes?creatorName=${creator.firstName}`);
+        assert.equal(currentURL(), `/campagnes?ownerName=${owner.firstName}`);
       });
 
-      test('it should remove creator filter in URL', async function (assert) {
+      test('it should remove owner filter in URL', async function (assert) {
         // given
-        const creator = server.create('user', { firstName: 'Harry', lastName: 'Jaune' });
-        server.create('campaign', { creatorFirstName: creator.firstName, creatorLastName: creator.lastName });
-        await visit(`/campagnes?creatorName=${creator.firstName}`);
+        const owner = server.create('user', { firstName: 'Harry', lastName: 'Jaune' });
+        server.create('campaign', { ownerFirstName: owner.firstName, ownerLastName: owner.lastName });
+        await visit(`/campagnes?ownerName=${owner.firstName}`);
 
         // when
         await fillByLabel('Rechercher un créateur', '');
@@ -97,24 +97,24 @@ module('Acceptance | Campaign List', function (hooks) {
         assert.equal(currentURL(), '/campagnes');
       });
 
-      test('it should filter campaigns by creator first name or last name', async function (assert) {
+      test('it should filter campaigns by owner first name or last name', async function (assert) {
         // given
-        const creator = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
-        const otherCreator = server.create('user', { firstName: 'Sara', lastName: 'Conte' });
+        const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+        const otherowner = server.create('user', { firstName: 'Sara', lastName: 'Conte' });
         server.create('campaign', {
           name: 'ma super campagne',
-          creatorFirstName: creator.firstName,
-          creatorLastName: creator.lastName,
+          ownerFirstName: owner.firstName,
+          ownerLastName: owner.lastName,
         });
         server.create('campaign', {
           name: 'la campagne de Sara',
-          creatorFirstName: otherCreator.firstName,
-          creatorLastName: otherCreator.lastName,
+          ownerFirstName: otherowner.firstName,
+          ownerLastName: otherowner.lastName,
         });
         await visit('/campagnes');
 
         // when
-        await fillByLabel('Rechercher un créateur', creator.firstName);
+        await fillByLabel('Rechercher un créateur', owner.firstName);
 
         // then
         assert.contains('ma super campagne');
@@ -155,25 +155,25 @@ module('Acceptance | Campaign List', function (hooks) {
       });
     });
 
-    module('When using campaign and creator filters', function () {
+    module('When using campaign and owner filters', function () {
       test('it should filter campaigns', async function (assert) {
         // given
-        const creator = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
-        const otherCreator = server.create('user', { firstName: 'Sara', lastName: 'Conte' });
+        const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+        const otherowner = server.create('user', { firstName: 'Sara', lastName: 'Conte' });
         server.create('campaign', {
           name: 'ma super campagne',
-          creatorFirstName: creator.firstName,
-          creatorLastName: creator.lastName,
+          ownerFirstName: owner.firstName,
+          ownerLastName: owner.lastName,
         });
         server.create('campaign', {
           name: 'Evaluation',
-          creatorFirstName: creator.firstName,
-          creatorLastName: creator.lastName,
+          ownerFirstName: owner.firstName,
+          ownerLastName: owner.lastName,
         });
         server.create('campaign', {
           name: 'la campagne de Sara',
-          creatorFirstName: otherCreator.firstName,
-          creatorLastName: otherCreator.lastName,
+          ownerFirstName: otherowner.firstName,
+          ownerLastName: otherowner.lastName,
         });
         await visit('/campagnes');
 

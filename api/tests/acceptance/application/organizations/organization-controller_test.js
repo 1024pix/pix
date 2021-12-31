@@ -486,12 +486,12 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(_.map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
       });
 
-      it('should return campaigns with its creator', async function () {
+      it('should return campaigns with its owner', async function () {
         // given
         organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        const creatorId = databaseBuilder.factory.buildUser({ firstName: 'Daenerys', lastName: 'Targaryen' }).id;
+        const ownerId = databaseBuilder.factory.buildUser({ firstName: 'Daenerys', lastName: 'Targaryen' }).id;
         databaseBuilder.factory.buildMembership({ organizationId, userId });
-        databaseBuilder.factory.buildCampaign({ organizationId, creatorId });
+        databaseBuilder.factory.buildCampaign({ organizationId, ownerId });
         await databaseBuilder.commit();
         options.url = `/api/organizations/${organizationId}/campaigns`;
 
@@ -500,8 +500,8 @@ describe('Acceptance | Application | organization-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data[0].attributes['creator-first-name']).to.equal('Daenerys');
-        expect(response.result.data[0].attributes['creator-last-name']).to.equal('Targaryen');
+        expect(response.result.data[0].attributes['owner-first-name']).to.equal('Daenerys');
+        expect(response.result.data[0].attributes['owner-last-name']).to.equal('Targaryen');
       });
 
       it('should return archived campaigns', async function () {
