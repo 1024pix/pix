@@ -17,8 +17,9 @@ describe('Acceptance | terms-of-service', function () {
     user = server.create('user', {
       email: 'with-email',
       password: 'pix123',
+      cgu: true,
       mustValidateTermsOfService: true,
-      lastTermsOfServiceValidatedAt: null,
+      lastTermsOfServiceValidatedAt: new Date(),
     });
   });
 
