@@ -3,12 +3,20 @@ const { knex } = require('../../../db/knex-database-connection');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
+const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const {
   badgeKey: pixPlusDroitExpertBadgeKey,
 } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../domain/models/Badge').keys;
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
@@ -93,7 +101,15 @@ async function _getCleaCertificationResult(certificationCourseId) {
 }
 
 async function _getCertifiedBadgeImages(certificationCourseId) {
-  const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
+  const handledBadgeKeys = [
+    pixPlusDroitExpertBadgeKey,
+    pixPlusDroitMaitreBadgeKey,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  ];
   const results = await knex
     .select('partnerKey')
     .from('partner-certifications')
@@ -104,9 +120,45 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   return _.compact(
     _.map(results, (result) => {
       if (result.partnerKey === pixPlusDroitMaitreBadgeKey)
-        return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+          isTemporaryBadge: false,
+        });
       if (result.partnerKey === pixPlusDroitExpertBadgeKey)
-        return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+          isTemporaryBadge: false,
+        });
+      if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME)
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg',
+          isTemporaryBadge: true,
+          levelName: 'Autonome',
+        });
+      if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE)
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+          isTemporaryBadge: true,
+          levelName: 'Avancé',
+        });
+      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE)
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+          isTemporaryBadge: true,
+          levelName: 'Avancé',
+        });
+      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg',
+          isTemporaryBadge: true,
+          levelName: 'Expert',
+        });
+      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR)
+        return new CertifiedBadgeImage({
+          path: 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg',
+          isTemporaryBadge: true,
+          levelName: 'Formateur',
+        });
       return null;
     })
   );
