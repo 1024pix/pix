@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { click, find, render } from '@ember/test-helpers';
+import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Congratulations Certification Banner', function () {
@@ -38,69 +39,50 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     sinon.assert.calledOnce(closeBannerStub);
   });
 
-  it('renders specific Clea text when eligible Clea certification', async function () {
-    // given
-    const store = this.owner.lookup('service:store');
-    const certificationEligibility = run(() =>
-      store.createRecord('is-certifiable', {
-        cleaCertificationEligible: true,
-      })
-    );
-    this.set('certificationEligibility', certificationEligibility);
-    this.set('fullName', 'Fifi Brindacier');
+  [
+    {
+      record: { cleaCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification CléA numérique.',
+    },
+    {
+      record: { pixPlusDroitMaitreCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Droit Maître.',
+    },
+    {
+      record: { pixPlusDroitExpertCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Droit Expert.',
+    },
+    {
+      record: { pixPlusEduAutonomeCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Autonome.',
+    },
+    {
+      record: { pixPlusEduAvanceCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Avancé.',
+    },
+    {
+      record: { pixPlusEduExpertCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Expert.',
+    },
+    {
+      record: { pixPlusEduFormateurCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Formateur.',
+    },
+  ].forEach(({ record, expectedMessage }) => {
+    it(`renders "${expectedMessage}" when ${Object.keys(record)[0]} is ${Object.values(record)[0]}`, async function () {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationEligibility = run(() => store.createRecord('is-certifiable', record));
+      this.set('certificationEligibility', certificationEligibility);
+      this.set('fullName', 'Fifi Brindacier');
 
-    // when
-    await render(
-      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
-    );
+      // when
+      await render(
+        hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
+      );
 
-    // then
-    expect(find('[data-test-eligible-clea]').textContent).to.contains(
-      'Vous êtes également éligible à la certification CléA numérique.'
-    );
-  });
-
-  it('renders specific Pix+ Droit Maitre text when eligible Pix+ Droit maitre certification', async function () {
-    // given
-    const store = this.owner.lookup('service:store');
-    const certificationEligibility = run(() =>
-      store.createRecord('is-certifiable', {
-        pixPlusDroitMaitreCertificationEligible: true,
-      })
-    );
-    this.set('certificationEligibility', certificationEligibility);
-    this.set('fullName', 'Fifi Brindacier');
-
-    // when
-    await render(
-      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
-    );
-
-    // then
-    expect(find('[data-test-eligible-pix-plus-droit-maitre]').textContent).to.contains(
-      'Vous êtes également éligible à la certification Pix+ Droit Maître.'
-    );
-  });
-
-  it('renders specific Pix+ Droit Expert text when eligible Pix+ Droit expert certification', async function () {
-    // given
-    const store = this.owner.lookup('service:store');
-    const certificationEligibility = run(() =>
-      store.createRecord('is-certifiable', {
-        pixPlusDroitExpertCertificationEligible: true,
-      })
-    );
-    this.set('certificationEligibility', certificationEligibility);
-    this.set('fullName', 'Fifi Brindacier');
-
-    // when
-    await render(
-      hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}}/>`
-    );
-
-    // then
-    expect(find('[data-test-eligible-pix-plus-droit-expert]').textContent).to.contains(
-      'Vous êtes également éligible à la certification Pix+ Droit Expert.'
-    );
+      // then
+      expect(contains(expectedMessage)).to.exist;
+    });
   });
 });

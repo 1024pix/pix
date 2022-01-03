@@ -1,16 +1,19 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const getUserCertificationEligibility = require('../../../../lib/domain/usecases/get-user-certification-eligibility');
-const CertificationEligibility = require('../../../../lib/domain/read-models/CertificationEligibility');
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
   let clock;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const pixPlusDroitMaitreBadgeKey = CertificationEligibility.pixPlusDroitMaitreBadgeKey;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const pixPlusDroitExpertBadgeKey = CertificationEligibility.pixPlusDroitExpertBadgeKey;
   const now = new Date(2020, 1, 1);
+
   const placementProfileService = {
     getPlacementProfile: () => undefined,
   };
@@ -81,115 +84,84 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
     });
   });
 
-  context('when pix plus droit maitre badge is not acquired', function () {
-    it('should return the user certification eligibility with not eligible pix plus droit maitre', async function () {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
-      const someOtherBadge = domainBuilder.buildBadge({
-        key: 'someKey',
-      });
-      const someOtherBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: someOtherBadge,
-      });
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([someOtherBadgeAcquisition]);
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  [
+    { badgeKey: PIX_DROIT_MAITRE_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitMaitreCertificationEligible' },
+    { badgeKey: PIX_DROIT_EXPERT_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitExpertCertificationEligible' },
+    {
+      badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+      certificationEligibilityAttribute: 'pixPlusEduAutonomeCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+      certificationEligibilityAttribute: 'pixPlusEduExpertCertificationEligible',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+      certificationEligibilityAttribute: 'pixPlusEduFormateurCertificationEligible',
+    },
+  ].forEach(({ badgeKey, certificationEligibilityAttribute }) => {
+    context(`when ${badgeKey} badge is not acquired`, function () {
+      it(`should return the user certification eligibility with not eligible ${badgeKey}`, async function () {
+        // given
+        const placementProfile = {
+          isCertifiable: () => true,
+        };
+        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+        certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
+        const someOtherBadge = domainBuilder.buildBadge({
+          key: 'someKey',
+        });
+        const someOtherBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          badge: someOtherBadge,
+        });
+        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([someOtherBadgeAcquisition]);
 
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        certificationBadgesService,
-      });
+        // when
+        const certificationEligibility = await getUserCertificationEligibility({
+          userId: 2,
+          placementProfileService,
+          certificationBadgesService,
+        });
 
-      // then
-      expect(certificationEligibility.pixPlusDroitMaitreCertificationEligible).to.be.false;
+        // then
+        expect(certificationEligibility[certificationEligibilityAttribute]).to.be.false;
+      });
     });
-  });
 
-  context('when pix plus droit maitre badge is acquired', function () {
-    it('should return the user certification eligibility with eligible pix plus droit maitre', async function () {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
-      const maitreBadge = domainBuilder.buildBadge({
-        key: pixPlusDroitMaitreBadgeKey,
-      });
-      const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: maitreBadge,
-      });
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([maitreBadgeAcquisition]);
+    context(`when ${badgeKey} badge is acquired`, function () {
+      it(`should return the user certification eligibility with eligible ${badgeKey}`, async function () {
+        // given
+        const placementProfile = {
+          isCertifiable: () => true,
+        };
+        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+        certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
+        const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          badge: domainBuilder.buildBadge({
+            key: badgeKey,
+          }),
+        });
+        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([maitreBadgeAcquisition]);
 
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        certificationBadgesService,
-      });
+        // when
+        const certificationEligibility = await getUserCertificationEligibility({
+          userId: 2,
+          placementProfileService,
+          certificationBadgesService,
+        });
 
-      // then
-      expect(certificationEligibility.pixPlusDroitMaitreCertificationEligible).to.be.true;
-    });
-  });
-
-  context('when pix plus droit expert badge is not acquired', function () {
-    it('should return the user certification eligibility with not eligible pix plus droit expert', async function () {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
-      const someOtherBadge = domainBuilder.buildBadge({
-        key: 'someKey',
+        // then
+        expect(certificationEligibility[certificationEligibilityAttribute]).to.be.true;
       });
-      const someOtherBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: someOtherBadge,
-      });
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([someOtherBadgeAcquisition]);
-
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        certificationBadgesService,
-      });
-
-      // then
-      expect(certificationEligibility.pixPlusDroitExpertCertificationEligible).to.be.false;
-    });
-  });
-
-  context('when pix plus droit expert badge is acquired', function () {
-    it('should return the user certification eligibility with eligible pix plus droit expert', async function () {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
-      const expertBadge = domainBuilder.buildBadge({
-        key: pixPlusDroitExpertBadgeKey,
-      });
-      const expertBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: expertBadge,
-      });
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([expertBadgeAcquisition]);
-
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        certificationBadgesService,
-      });
-
-      // then
-      expect(certificationEligibility.pixPlusDroitExpertCertificationEligible).to.be.true;
     });
   });
 });
