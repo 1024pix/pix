@@ -696,6 +696,10 @@ describe('Unit | Controller | user-controller', function () {
         cleaCertificationEligible: false,
         pixPlusDroitMaitreCertificationEligible: true,
         pixPlusDroitExpertCertificationEligible: false,
+        pixPlusEduAutonomeCertificationEligible: false,
+        pixPlusEduAvanceCertificationEligible: false,
+        pixPlusEduExpertCertificationEligible: true,
+        pixPlusEduFormateurCertificationEligible: false,
       });
       sinon
         .stub(usecases, 'getUserCertificationEligibility')
@@ -722,6 +726,10 @@ describe('Unit | Controller | user-controller', function () {
             'clea-certification-eligible': false,
             'pix-plus-droit-maitre-certification-eligible': true,
             'pix-plus-droit-expert-certification-eligible': false,
+            'pix-plus-edu-autonome-certification-eligible': false,
+            'pix-plus-edu-avance-certification-eligible': false,
+            'pix-plus-edu-expert-certification-eligible': true,
+            'pix-plus-edu-formateur-certification-eligible': false,
           },
         },
       });
