@@ -114,13 +114,14 @@
 
 .navbar {
   display: flex;
-  height: 60px;
+  width: 100%;
+  min-height: 60px;
   border: none;
-  padding: 0 10px;
+  padding: 0 8px;
   display: flex;
 
   &-item {
-    width: 150px;
+    padding: 0 24px;
     align-items: center;
     display: flex;
     justify-content: center;
