@@ -9,7 +9,7 @@
   background-color: $white;
   border-radius: 8px;
   box-shadow: $shadow-base;
-  height: 112px;
+  min-height: 112px;
   padding: 0;
 
   &__icon {
