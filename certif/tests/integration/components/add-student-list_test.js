@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | add-student-list', function(hooks) {
   setupRenderingTest(hooks);
@@ -33,14 +34,13 @@ module('Integration | Component | add-student-list', function(hooks) {
 
   module('when there are students', () => {
 
-    test('it shows students divisons in the multiSelect', async function(assert) {
+    test('it shows students divisions in the multiSelect', async function(assert) {
       // given
       const birthdate = new Date('2018-01-12T09:29:16Z');
       const firstStudent = _buildUnselectedStudent('first', 'last', '3A', birthdate);
       const secondStudent = _buildUnselectedStudent('second', 'lastName', '2B', birthdate);
       const thirdStudent = _buildUnselectedStudent('third', 'lastName', '3A', birthdate);
 
-      const pixMultiSelect = '.pix-multi-select ul li';
       this.set('students', [
         firstStudent,
         secondStudent,
@@ -50,13 +50,17 @@ module('Integration | Component | add-student-list', function(hooks) {
       this.set('divisions', divisions);
 
       // when
-      await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
-      const multiSelectItemsList = document.querySelectorAll(pixMultiSelect);
+      const screen = await render(hbs`
+        <AddStudentList
+          @studentList={{this.students}}
+          @certificationCenterDivisions={{this.divisions}}
+        />
+      `);
+      await click(screen.getByRole('textbox', { name: 'Filtrer Classes' }));
 
       // then
-      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-3A]').includesText(firstStudent.division);
-      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-2B]').includesText(secondStudent.division);
-      assert.equal(multiSelectItemsList.length, divisions.length);
+      assert.dom(screen.getByRole('checkbox', { name: '3A' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: '2B' })).exists();
     });
 
     test('it shows student information in the table', async function(assert) {
