@@ -1,4 +1,4 @@
-const { validate } = require('../validators/target-profile-validator');
+const { validate } = require('../validators/target-profile/base-validation');
 class TargetProfileForUpdate {
   constructor({ id, name, description, comment, category }) {
     this.id = id;
