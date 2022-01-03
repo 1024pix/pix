@@ -27,9 +27,9 @@ export default class NewController extends Controller {
     reader.onload = (evt) => {
       try {
         const json = JSON.parse(evt.target.result);
-        const skillsId = json.flatMap((tube) => tube.skills);
+        const skillIds = json.flatMap((tube) => tube.skills);
         this.isFileInvalid = false;
-        this.model.skillsId = skillsId;
+        this.model.skillIds = skillIds;
       } catch (e) {
         this.isFileInvalid = true;
       }
