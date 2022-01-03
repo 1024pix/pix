@@ -35,7 +35,7 @@ const {
 const computeParticipationsResults = require('../../scripts/prod/compute-participation-results');
 
 const poleEmploisSendingsBuilder = require('./data/pole-emploi-sendings-builder');
-const SEQUENCE_RESTART_AT_NUMBER = 10000000;
+const SEQUENCE_RESTART_AT_NUMBER = 10000;
 
 exports.seed = async (knex) => {
 
@@ -96,9 +96,11 @@ exports.seed = async (knex) => {
  * (time being enough for dev ou review apps - seed are not run on staging or prod)
  */
 async function alterSequenceIfPG(knex) {
+  let sequenceRestartAtNumber = SEQUENCE_RESTART_AT_NUMBER;
   const sequenceNameQueryResult = await knex.raw('SELECT sequence_name FROM information_schema.sequences;');
   const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
   return bluebird.mapSeries(sequenceNames, async (sequenceName) => {
-    await knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`);
+    await knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${sequenceRestartAtNumber};`);
+    sequenceRestartAtNumber += (SEQUENCE_RESTART_AT_NUMBER / 10);
   });
 }
