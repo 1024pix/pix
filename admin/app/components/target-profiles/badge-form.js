@@ -34,8 +34,6 @@ export default class BadgeForm extends Component {
     event.preventDefault();
     try {
       await this._createBadge();
-
-      this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
     } catch (error) {
       console.error(error);
     }
@@ -55,6 +53,7 @@ export default class BadgeForm extends Component {
       });
 
       this.notifications.success('Le résultat thématique a été créé.');
+      this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
       return badge;
     } catch (error) {
       console.error(error);
