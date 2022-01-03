@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { CONNECTION_TYPES } from '../../../models/student';
+import ENV from 'pix-orga/config/environment';
 
 export default class ListController extends Controller {
   @service currentUser;
@@ -12,7 +13,6 @@ export default class ListController extends Controller {
   @service store;
 
   @tracked isLoading = false;
-
   @tracked lastName = null;
   @tracked firstName = null;
   @tracked divisions = [];
@@ -39,22 +39,28 @@ export default class ListController extends Controller {
   async importStudents(files) {
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+    const acceptedFormat = this.currentUser.isAgriculture ? 'csv' : 'xml';
 
     this.isLoading = true;
     this.notifications.clearAll();
     try {
-      await adapter.importStudentsSiecle(organizationId, files, format);
+      await adapter.importStudentsSiecle(organizationId, files, acceptedFormat);
       this.refresh();
       this.isLoading = false;
       this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
     } catch (errorResponse) {
       this.isLoading = false;
-      this._handleError(errorResponse);
+      this._handleError(errorResponse, acceptedFormat);
     }
   }
 
-  _handleError(errorResponse) {
+  _handleError(errorResponse, acceptedFormat) {
+    if (errorResponse.message === ENV.APP.ERRORS.FILE_UPLOAD.FORMAT_NOT_SUPPORTED_ERROR) {
+      return this.notifications.sendError(
+        this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat, htmlSafe: true })
+      );
+    }
+
     const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error', { htmlSafe: true });
     if (!errorResponse.errors) {
       return this.notifications.sendError(globalErrorMessage, {
