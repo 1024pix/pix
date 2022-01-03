@@ -56,7 +56,7 @@ module('Integration | Component | add-student-list', function(hooks) {
           @certificationCenterDivisions={{this.divisions}}
         />
       `);
-      await click(screen.getByRole('textbox', { name: 'Filtrer Classes' }));
+      await click(screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' }));
 
       // then
       assert.dom(screen.getByRole('checkbox', { name: '3A' })).exists();
