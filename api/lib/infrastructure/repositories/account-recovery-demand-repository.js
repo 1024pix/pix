@@ -44,10 +44,11 @@ module.exports = {
     return _toDomain(result[0]);
   },
 
-  async markAsBeingUsed(temporaryKey, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return knex('account-recovery-demands')
-      .transacting(domainTransaction)
+  async markAsBeingUsed(temporaryKey, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const query = knex('account-recovery-demands')
       .where({ temporaryKey })
       .update({ used: true, updatedAt: knex.fn.now() });
+    if (knexTransaction) query.transacting(knexTransaction);
+    return query;
   },
 };

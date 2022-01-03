@@ -183,8 +183,14 @@ module.exports = {
       .then((bookshelfUser) => _toDomain(bookshelfUser));
   },
 
-  updateWithEmailConfirmed({ id, userAttributes, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return knex('users').transacting(domainTransaction).where({ id }).update(userAttributes);
+  updateWithEmailConfirmed({
+    id,
+    userAttributes,
+    domainTransaction: { knexTransaction } = DomainTransaction.emptyTransaction(),
+  }) {
+    const query = knex('users').where({ id }).update(userAttributes);
+    if (knexTransaction) query.transacting(knexTransaction);
+    return query;
   },
 
   checkIfEmailIsAvailable(email) {
