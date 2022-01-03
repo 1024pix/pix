@@ -2,9 +2,9 @@
 
 <div class="add-student-list">
   <div class="add-student-list__filters">
-    <label for="add-student-list__multi-select">Filtrer</label>
+    <span>Filtrer</span>
     <PixMultiSelect
-      @title={{'Classes'}}
+      @title="Filtrer la liste des élèves en cochant la ou les classes souhaitées"
       @emptyMessage={{this.emptyMessage}}
       @id={{'add-student-list__multi-select'}}
       @onSelect={{this.selectDivision}}
