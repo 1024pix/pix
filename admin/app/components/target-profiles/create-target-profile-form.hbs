@@ -14,6 +14,19 @@
       </label>
       <Input class="form-control" required="true" id="targetProfileName" @value={{@targetProfile.name}} />
     </div>
+    <div class="form-field form-group">
+      <PixSelect
+        class="form-control"
+        @id="targetProfileCategory"
+        @label={{"Catégorie :"}}
+        @onChange={{this.onCategoryChange}}
+        @selectedOption={{@targetProfile.category}}
+        @options={{this.optionsList}}
+        @emptyOptionLabel={{"-"}}
+        @emptyOptionNotSelectable={{true}}
+        required={{true}}
+      />
+    </div>
 
     <div class="form-field form-group create-target-profile__checkbox">
       <label class="form-field__label" for="isPublic">Public : </label>
