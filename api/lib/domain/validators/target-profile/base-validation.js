@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { first } = require('lodash');
-const { EntityValidationError } = require('../errors');
-const TargetProfile = require('../models/TargetProfile');
+const { EntityValidationError } = require('../../errors');
+const TargetProfile = require('../../models/TargetProfile');
 
 const categories = TargetProfile.categories;
 
@@ -24,6 +24,7 @@ const schema = Joi.object({
     }),
 
   name: Joi.string().required().messages({
+    'any.required': 'NAME_IS_REQUIRED',
     'string.base': 'NAME_IS_REQUIRED',
     'string.empty': 'NAME_IS_REQUIRED',
   }),
@@ -39,4 +40,5 @@ function validate(targetProfile) {
 
 module.exports = {
   validate,
+  schema,
 };
