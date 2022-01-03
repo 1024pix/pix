@@ -15,6 +15,7 @@ export default class NewController extends Controller {
   @action
   async createCampaign(campaignAttributes) {
     this.notifications.clearAll();
+    this.errors = null;
 
     try {
       this.model.campaign.setProperties(campaignAttributes);
@@ -27,6 +28,7 @@ export default class NewController extends Controller {
       });
       this.errors = this.model.campaign.errors;
     }
+
     if (!this.errors) {
       this.router.transitionTo('authenticated.campaigns.campaign.settings', this.model.campaign.id);
     }
