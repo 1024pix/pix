@@ -18,6 +18,26 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
       });
     });
 
+    context('when course is cancelled', function () {
+      it(`should returns "cancelled" status`, function () {
+        // when
+        const juryCertificationSummary = new JuryCertificationSummary({ isCourseCancelled: true });
+
+        // then
+        expect(juryCertificationSummary.status).equal(JuryCertificationSummary.statuses['CANCELLED']);
+      });
+    });
+
+    context('when assessment is ended by supervisor', function () {
+      it(`should returns "endedBySupervisor" status`, function () {
+        // when
+        const juryCertificationSummary = new JuryCertificationSummary({ isEndedBySupervisor: true });
+
+        // then
+        expect(juryCertificationSummary.status).equal(JuryCertificationSummary.statuses['ENDED_BY_SUPERVISOR']);
+      });
+    });
+
     context('when no status is given', function () {
       it('should return "started"', function () {
         // when
