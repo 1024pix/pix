@@ -237,48 +237,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     });
   });
 
-  module(
-    'when user‘s organization is SCO and is managing student and user is creating an assessment campaign',
-    function () {
-      test('it should display comment for target profile selection', async function (assert) {
-        // given
-        class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: false });
-          isSCOManagingStudents = true;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-        // when
-        await render(
-          hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
-        );
-
-        // then
-        assert.contains(t('pages.campaign-creation.target-profile-informations'));
-      });
-    }
-  );
-
-  module(
-    'when user‘s organization is not (SCO and managing student) user is creating an assessment campaign',
-    function () {
-      test('it should not display comment for target profile selection', async function (assert) {
-        // given
-        class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: false });
-          isSCOManagingStudents = false;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-        // when
-        await render(
-          hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
-        );
-
-        // then
-        assert.notContains(t('pages.campaign-creation.target-profile-informations'));
-      });
-    }
-  );
-
   module('when user has not chosen yet to ask or not an external user ID', function () {
     test('it should not display gdpr footnote', async function (assert) {
       // when

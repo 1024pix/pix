@@ -89,11 +89,6 @@
             {{display-campaign-errors @errors.targetProfile}}
           </div>
         {{/if}}
-        {{#if this.currentUser.isSCOManagingStudents}}
-          <p class="form__comment">
-            {{t "pages.campaign-creation.target-profile-informations" htmlSafe=true}}
-          </p>
-        {{/if}}
       </div>
       {{#if this.targetProfile}}
         <div class="form__field-info" id="target-profile-info">
