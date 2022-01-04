@@ -3,9 +3,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
+  PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
@@ -142,7 +140,7 @@ async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
     CleaCertificationResult.badgeKeyV1,
     CleaCertificationResult.badgeKeyV2,
     PIX_DROIT_EXPERT_CERTIF,
-    pixPlusDroitMaitreBadgeKey,
+    PIX_DROIT_MAITRE_CERTIF,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,

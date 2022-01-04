@@ -14,9 +14,7 @@ const {
 } = require('../../../../lib/domain/models/CleaCertificationResult');
 const _ = require('lodash');
 const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
+  PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
@@ -320,7 +318,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         cleaBadgeKeyV1,
         cleaBadgeKeyV2,
         PIX_DROIT_EXPERT_CERTIF,
-        pixPlusDroitMaitreBadgeKey,
+        PIX_DROIT_MAITRE_CERTIF,
         PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
         PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
         PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
@@ -395,7 +393,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [pixPlusDroitMaitreBadgeKey],
+        acquiredPartnerCertificationKeys: [PIX_DROIT_MAITRE_CERTIF],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -1114,11 +1112,11 @@ async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey 
 }
 
 async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired }) {
-  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
   databaseBuilder.factory.buildBadge({ key: 'some-other-badge-m' });
   databaseBuilder.factory.buildPartnerCertification({
     certificationCourseId,
-    partnerKey: pixPlusDroitMaitreBadgeKey,
+    partnerKey: PIX_DROIT_MAITRE_CERTIF,
     acquired,
   });
   databaseBuilder.factory.buildPartnerCertification({

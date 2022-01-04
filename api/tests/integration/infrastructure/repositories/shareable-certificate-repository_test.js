@@ -12,10 +12,7 @@ const {
   badgeKeyV1: cleaBadgeKeyV1,
   badgeKeyV2: cleaBadgeKeyV2,
 } = require('../../../../lib/domain/models/CleaCertificationResult');
-const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -444,7 +441,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
           shareableCertificateData,
-          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, pixPlusDroitMaitreBadgeKey],
+          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF],
           notAcquiredBadges: [],
         });
 
@@ -490,7 +487,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
           shareableCertificateData,
-          acquiredBadges: [pixPlusDroitExpertBadgeKey],
+          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
           notAcquiredBadges: [],
         });
 
