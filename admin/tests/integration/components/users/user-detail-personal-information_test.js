@@ -197,6 +197,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
         email: 'john.harry@gmail.com',
         username: 'john.harry.1010',
         hasEmailAuthenticationMethod: true,
+        hasPoleEmploiAuthenticationMethod: true,
+        isAllowedToRemoveEmailAuthenticationMethod: true,
       });
 
       this.set('user', user);
@@ -217,6 +219,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
         email: 'john.harry@gmail.com',
         username: 'john.harry.1010',
         hasEmailAuthenticationMethod: true,
+        hasPoleEmploiAuthenticationMethod: true,
+        isAllowedToRemoveEmailAuthenticationMethod: true,
       });
 
       this.set('user', user);
@@ -239,6 +243,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
           email: 'john.harry@gmail.com',
           username: 'john.harry.1010',
           hasEmailAuthenticationMethod: true,
+          hasPoleEmploiAuthenticationMethod: true,
+          isAllowedToRemoveEmailAuthenticationMethod: true,
         });
         this.set('user', user);
         const removeAuthenticationMethodStub = sinon.stub();
@@ -264,6 +270,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
           firstName: 'John',
           email: 'john.harry@gmail.com',
           hasEmailAuthenticationMethod: true,
+          hasPoleEmploiAuthenticationMethod: true,
+          isAllowedToRemoveEmailAuthenticationMethod: true,
         });
         this.set('user', user);
         const removeAuthenticationMethodStub = sinon.stub();

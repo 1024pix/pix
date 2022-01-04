@@ -56,10 +56,10 @@ module('Integration | Component | users | user-detail-personal-information/authe
       assert.dom('tr[data-test-pole-emploi] svg').hasClass('authentication-method__check');
     });
 
-    test('should display user’s GAR authentication method', async function (assert) {
+    test('should display user’s gar authentication method', async function (assert) {
       // given
       this.set('toggleDisplayRemoveAuthenticationMethodModal', sinon.spy());
-      this.set('user', { hasGARAuthenticationMethod: true });
+      this.set('user', { hasGarAuthenticationMethod: true });
 
       // when
       await render(hbs`
@@ -89,11 +89,15 @@ module('Integration | Component | users | user-detail-personal-information/authe
         assert.notOk(find('.user-authentication-method__remove-button'));
       });
 
-      module('When user does not have PIX authentication method', function () {
+      module('When user does not have pix authentication method', function () {
         test('it should display add authentication method button', async function (assert) {
           // given
           this.set('toggleDisplayRemoveAuthenticationMethodModal', sinon.spy());
-          this.set('user', { hasOnlyOneAuthenticationMethod: true, hasPixAuthenticationMethod: false });
+          this.set('user', {
+            isAllowedToAddEmailAuthenticationMethod: true,
+            hasOnlyOneAuthenticationMethod: true,
+            hasPixAuthenticationMethod: false,
+          });
 
           // when
           await render(hbs`
@@ -107,8 +111,8 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      module('When user has a PIX authentication method', function () {
-        test('it should NOT display add authentication method button', async function (assert) {
+      module('When user has a pix authentication method', function () {
+        test('it should not display add authentication method button', async function (assert) {
           // given
           this.set('toggleDisplayRemoveAuthenticationMethodModal', sinon.spy());
           this.set('user', { hasOnlyOneAuthenticationMethod: true, hasPixAuthenticationMethod: true });
