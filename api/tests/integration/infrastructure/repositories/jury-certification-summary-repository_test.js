@@ -3,13 +3,13 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
 const PixPlusDroitMaitreCertificationResult = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const PixPlusDroitExpertCertificationResult = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const {
   CertificationIssueReportCategories,
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {
@@ -435,10 +435,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: true,
         });
         await databaseBuilder.commit();
@@ -459,10 +459,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: false,
         });
         await databaseBuilder.commit();
@@ -517,10 +517,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
           acquired: false,
         });
-        dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: true,
         });
         await databaseBuilder.commit();

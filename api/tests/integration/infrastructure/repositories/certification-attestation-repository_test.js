@@ -17,9 +17,7 @@ const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const {
+  PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
@@ -321,7 +319,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       [
         cleaBadgeKeyV1,
         cleaBadgeKeyV2,
-        pixPlusDroitExpertBadgeKey,
+        PIX_DROIT_EXPERT_CERTIF,
         pixPlusDroitMaitreBadgeKey,
         PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
         PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
