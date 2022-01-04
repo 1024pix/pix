@@ -28,7 +28,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
     await visit(`/users/${userToAddNewEmail.id}`);
     await clickByLabel('Ajouter une adresse e-mail');
     await fillInByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
-    await clickByLabel("Enregistrer l'email");
+    await clickByLabel("Enregistrer l'adresse e-mail");
 
     // then
     assert.notContains('Nouvelle adresse e-mail');
@@ -55,10 +55,10 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
     await visit(`/users/${userToAddNewEmail.id}`);
     await clickByLabel('Ajouter une adresse e-mail');
     await fillInByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
-    await clickByLabel("Enregistrer l'email");
+    await clickByLabel("Enregistrer l'adresse e-mail");
 
     // then
     assert.contains('Nouvelle adresse e-mail');
-    assert.contains('Cet email est déjà utilisé');
+    assert.contains('Cette adresse e-mail est déjà utilisée');
   });
 });

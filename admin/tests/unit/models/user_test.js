@@ -26,9 +26,9 @@ module('Unit | Model | user', function (hooks) {
     });
   });
 
-  module('Pix authentication method', function () {
+  module('pix authentication method', function () {
     module('#hasPixAuthenticationMethod', function () {
-      test('it should return true when user has a Pix authentication method', function (assert) {
+      test('it should return true when user has a pix authentication method', function (assert) {
         // given
         const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
         const user = store.createRecord('user', {
@@ -54,7 +54,7 @@ module('Unit | Model | user', function (hooks) {
     });
 
     module('#hasEmailAuthenticationMethod', function () {
-      test('it should return true when email is defined and user has PIX authentication method', function (assert) {
+      test('it should return true when email is defined and user has pix authentication method', function (assert) {
         // given
         const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
         const user = store.createRecord('user', {
@@ -68,7 +68,7 @@ module('Unit | Model | user', function (hooks) {
     });
 
     module('#hasUsernameAuthenticationMethod', function () {
-      test('it should return true when username is defined and user has PIX authentication method', function (assert) {
+      test('it should return true when username is defined and user has pix authentication method', function (assert) {
         // given
         const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'PIX' });
         const user = store.createRecord('user', {
