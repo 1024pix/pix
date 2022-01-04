@@ -62,6 +62,7 @@ module.exports = {
       'isManagingStudents',
       'canCollectProfiles',
       'createdBy',
+      'documentationUrl',
     ]);
 
     return knex('organizations')
