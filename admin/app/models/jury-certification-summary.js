@@ -6,7 +6,10 @@ import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
 const NOT_TAKEN = 'not_taken';
+export const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
+export const juryCertificationSummaryStatuses = [{ value: ENDED_BY_SUPERVISOR, label: 'Terminée par le surveillant' }];
 
+const statuses = [...certificationStatuses, ...juryCertificationSummaryStatuses];
 export default class JuryCertificationSummary extends Model {
   @attr() firstName;
   @attr() lastName;
@@ -56,10 +59,7 @@ export default class JuryCertificationSummary extends Model {
 
   @computed('status')
   get statusLabel() {
-    const statusWithLabel = find(
-      certificationStatuses,
-      (certificationStatus) => certificationStatus.value === this.status
-    );
+    const statusWithLabel = find(statuses, { value: this.status });
     return statusWithLabel?.label;
   }
 

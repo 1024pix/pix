@@ -9,6 +9,7 @@ const {
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {
@@ -159,6 +160,30 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
         // then
         expect(juryCertificationSummaries[0].status).to.equal('cancelled');
+      });
+    });
+
+    context('when the session has an ended by supervisor assessment', function () {
+      it('should return a JuryCertificationSummary with a endedBySupervisor status', async function () {
+        // given
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        const cancelledCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD', isCancelled: false });
+
+        const assessmentId = dbf.buildAssessment({
+          certificationCourseId: cancelledCertification.id,
+          state: Assessment.states.ENDED_BY_SUPERVISOR,
+        }).id;
+
+        dbf.buildAssessmentResult({ assessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
+
+        await databaseBuilder.commit();
+
+        // when
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+        // then
+        expect(juryCertificationSummaries[0].status).to.equal('endedBySupervisor');
       });
     });
 

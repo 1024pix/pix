@@ -2,6 +2,7 @@ const { status: assessmentResultStatuses } = require('../models/AssessmentResult
 
 const STARTED = 'started';
 const CANCELLED = 'cancelled';
+const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 
 class JuryCertificationSummary {
   constructor({
@@ -15,6 +16,7 @@ class JuryCertificationSummary {
     abortReason,
     isPublished,
     isCourseCancelled,
+    isEndedBySupervisor,
     hasSeenEndTestScreen,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
@@ -24,7 +26,7 @@ class JuryCertificationSummary {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.status = _getStatus(status, isCourseCancelled);
+    this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
     this.cleaCertificationResult = cleaCertificationResult;
@@ -50,9 +52,13 @@ class JuryCertificationSummary {
   }
 }
 
-function _getStatus(status, isCourseCancelled) {
+function _getStatus(status, isCourseCancelled, isEndedBySupervisor) {
   if (isCourseCancelled) {
     return CANCELLED;
+  }
+
+  if (isEndedBySupervisor) {
+    return ENDED_BY_SUPERVISOR;
   }
 
   if (!Object.values(assessmentResultStatuses).includes(status)) {
@@ -63,4 +69,4 @@ function _getStatus(status, isCourseCancelled) {
 }
 
 module.exports = JuryCertificationSummary;
-module.exports.statuses = { ...assessmentResultStatuses, STARTED };
+module.exports.statuses = { ...assessmentResultStatuses, STARTED, ENDED_BY_SUPERVISOR };
