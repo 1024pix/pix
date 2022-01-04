@@ -39,6 +39,7 @@ module.exports = async function createUserFromPoleEmploi({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     cgu: true,
+    lastTermsOfServiceValidatedAt: new Date(),
   });
 
   let createdUserId = null;
