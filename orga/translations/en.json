@@ -311,7 +311,6 @@
         "thematic-results": "Thematic results: {count}",
         "result": "Success rate in "
       },
-      "target-profile-informations": "If you want more information, see <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> the corresponding documentation</a>.",
       "target-profiles-search-placeholder": "Search by name",
       "test-title": {
         "label": "Title of the customised test"
