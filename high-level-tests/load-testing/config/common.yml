@@ -7,3 +7,19 @@ config:
       target: "{{ $processEnvironment.TARGET_DEV_API_URL }}"
     staging:
       target: https://integration.pix.fr
+  plugins:
+    publish-metrics:
+      - type: datadog
+        apiKey: "{{ $processEnvironment.DATADOG_API_KEY }}"
+        apiHost: "api.datadoghq.eu"
+        prefix: 'artillery.'
+        tags:
+          - "reporter:artillery"
+          - "type:load-testing"
+        event:
+          title: "Plugin integration test"
+          priority: high
+          send: true
+          tags:
+            - "reporter:artillery"
+            - "type:load-testing"
