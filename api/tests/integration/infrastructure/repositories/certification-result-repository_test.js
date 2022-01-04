@@ -8,9 +8,7 @@ const {
 const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -210,7 +208,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       },
       {
         complementaryCertificationName: 'PixPlus Droit Expert',
-        badgeKey: pixPlusDroitExpertBadgeKey,
+        badgeKey: PIX_DROIT_EXPERT_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitExpert',
       },
     ].forEach(function (testCase) {
@@ -464,7 +462,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       },
       {
         complementaryCertificationName: 'PixPlus Droit Expert',
-        badgeKey: pixPlusDroitExpertBadgeKey,
+        badgeKey: PIX_DROIT_EXPERT_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitExpert',
       },
     ].forEach(function (testCase) {

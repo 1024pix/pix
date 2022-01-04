@@ -5,12 +5,10 @@ const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const {
+  PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
@@ -102,7 +100,7 @@ async function _getCleaCertificationResult(certificationCourseId) {
 
 async function _getCertifiedBadgeImages(certificationCourseId) {
   const handledBadgeKeys = [
-    pixPlusDroitExpertBadgeKey,
+    PIX_DROIT_EXPERT_CERTIF,
     pixPlusDroitMaitreBadgeKey,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,

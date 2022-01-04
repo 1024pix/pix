@@ -15,9 +15,7 @@ const {
 const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -446,7 +444,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
           shareableCertificateData,
-          acquiredBadges: [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey],
+          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, pixPlusDroitMaitreBadgeKey],
           notAcquiredBadges: [],
         });
 

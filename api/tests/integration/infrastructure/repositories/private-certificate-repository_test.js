@@ -16,10 +16,7 @@ const {
 const {
   badgeKey: pixPlusDroitMaitreBadgeKey,
 } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-
+const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', function () {
@@ -404,7 +401,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
-          acquiredBadges: [pixPlusDroitExpertBadgeKey],
+          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
           notAcquiredBadges: [pixPlusDroitMaitreBadgeKey],
         });
 
@@ -452,7 +449,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
-          acquiredBadges: [pixPlusDroitExpertBadgeKey],
+          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
           notAcquiredBadges: [pixPlusDroitMaitreBadgeKey],
         });
 
