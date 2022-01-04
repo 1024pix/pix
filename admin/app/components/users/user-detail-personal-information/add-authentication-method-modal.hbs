@@ -9,7 +9,7 @@
         @id="new-email-for-adding-authentication-method"
         @label="Nouvelle adresse e-mail"
         @value={{@newEmail}}
-        @errorMessage="{{if @showAlreadyExistingEmailError "Cet email est déjà utilisé" ""}}"
+        @errorMessage="{{if @showAlreadyExistingEmailError "Cette adresse e-mail est déjà utilisée" ""}}"
         type="email"
         required
       />
@@ -21,7 +21,7 @@
         @backgroundColor="transparent-light"
         @triggerAction={{@toggleAddAuthenticationMethodModal}}
       >Annuler</PixButton>
-      <PixButton @type="submit" @size="small">Enregistrer l'email</PixButton>
+      <PixButton @type="submit" @size="small">Enregistrer l'adresse e-mail</PixButton>
     </Modal::Footer>
   </form>
 </Modal::Dialog>
