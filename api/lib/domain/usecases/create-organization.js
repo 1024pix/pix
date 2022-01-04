@@ -8,9 +8,10 @@ module.exports = async function createOrganization({
   name,
   type,
   provinceCode,
+  documentationUrl,
   organizationRepository,
 }) {
-  organizationCreationValidator.validate({ name, type });
-  const organization = new Organization({ createdBy, name, type, logoUrl, externalId, provinceCode });
+  organizationCreationValidator.validate({ name, type, documentationUrl });
+  const organization = new Organization({ createdBy, name, type, logoUrl, externalId, provinceCode, documentationUrl });
   return organizationRepository.create(organization);
 };

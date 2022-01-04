@@ -19,11 +19,13 @@ describe('Integration | UseCases | create-organization', function () {
     const name = 'ACME';
     const provinceCode = 'provinceCode';
     const type = 'PRO';
+    const documentationUrl = 'https://pix.fr';
 
     // when
     const result = await createOrganization({
       createdBy: pixMasterUserId,
       externalId,
+      documentationUrl,
       name,
       provinceCode,
       type,
@@ -37,5 +39,6 @@ describe('Integration | UseCases | create-organization', function () {
     expect(result.name).to.be.equal(name);
     expect(result.provinceCode).to.be.equal(provinceCode);
     expect(result.type).to.be.equal(type);
+    expect(result.documentationUrl).to.be.equal(documentationUrl);
   });
 });
