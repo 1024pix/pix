@@ -1,11 +1,8 @@
 const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
-const {
-  badgeKeyV1: cleaBadgeKeyV1,
-  badgeKeyV2: cleaBadgeKeyV2,
-} = require('../../../../lib/domain/models/CleaCertificationResult');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {
@@ -156,12 +153,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
     [
       {
         complementaryCertificationName: 'CléA V1',
-        badgeKey: cleaBadgeKeyV1,
+        badgeKey: PIX_EMPLOI_CLEA,
         complementaryCertificationResult: 'cleaCertificationResult',
       },
       {
         complementaryCertificationName: 'CléA V2',
-        badgeKey: cleaBadgeKeyV2,
+        badgeKey: PIX_EMPLOI_CLEA_V2,
         complementaryCertificationResult: 'cleaCertificationResult',
       },
       {

@@ -1,11 +1,8 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const {
-  badgeKeyV1: cleaBadgeKeyV1,
-  badgeKeyV2: cleaBadgeKeyV2,
-} = require('../../../../lib/domain/models/CleaCertificationResult');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -196,8 +193,12 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
-      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'CléA V1', badgeKey: PIX_EMPLOI_CLEA, validationFunction: 'hasAcquiredClea' },
+      {
+        complementaryCertificationName: 'CléA V2',
+        badgeKey: PIX_EMPLOI_CLEA_V2,
+        validationFunction: 'hasAcquiredClea',
+      },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
         badgeKey: PIX_DROIT_MAITRE_CERTIF,
@@ -450,8 +451,12 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
-      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'CléA V1', badgeKey: PIX_EMPLOI_CLEA, validationFunction: 'hasAcquiredClea' },
+      {
+        complementaryCertificationName: 'CléA V2',
+        badgeKey: PIX_EMPLOI_CLEA_V2,
+        validationFunction: 'hasAcquiredClea',
+      },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
         badgeKey: PIX_DROIT_MAITRE_CERTIF,
