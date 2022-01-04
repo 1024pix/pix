@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.149.0 (04/01/2022)
+
+
+### :rocket: Enhancement
+- [#3896](https://github.com/1024pix/pix/pull/3896) [FEATURE] Supprime le commentaire spécifique aux organisations SCO (PIX-3871)
+- [#3879](https://github.com/1024pix/pix/pull/3879) [FEATURE] Afficher l'éligibilité d'un candidat aux certifications Pix+ Édu (PIX-3995).
+- [#3872](https://github.com/1024pix/pix/pull/3872) [FEATURE]  Afficher le macaron Pix+ Édu sur le certificat partagé (PIX-4066).
+- [#3890](https://github.com/1024pix/pix/pull/3890) [FEATURE] Afficher le nom et prénom du propriétaire d'une campagne dans la liste de campagnes (PIX-3984)
+
+### :building_construction: Tech
+- [#3861](https://github.com/1024pix/pix/pull/3861) [TECH] Eviter les faux négatifs dus aux séquences de seeds (PIX-4065).
+
+### :bug: Bug fix
+- [#3874](https://github.com/1024pix/pix/pull/3874) [BUGFIX] Bug d'affichage de l'onglet "Détails" et "Neutralisation" (PIX-4078)
+- [#3780](https://github.com/1024pix/pix/pull/3780) [BUGFIX] Interdire l'import des fichiers SIECLE avec un mime-type non autorisé.
+- [#3891](https://github.com/1024pix/pix/pull/3891) [BUGFIX] Retourner sur la page paramètres après avoir créé une campagne (Pix-4089).
+
+### :coffee: Various
+- [#3889](https://github.com/1024pix/pix/pull/3889) [A11Y] Rendre la navigation au niveau de la campagne accessible lors d'une zoom 200% en mode texte sur Firefox (PIX-3895)
+
 ## v3.148.0 (30/12/2021)
 
 
