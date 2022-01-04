@@ -5,13 +5,12 @@ const BookshelfOrganization = require('../orm-models/Organization');
 const Organization = require('../../domain/models/Organization');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
 
-function _toDomain(bookshelfOrganization) {
-  const rawOrganization = bookshelfOrganization.toJSON();
-
+function _toDomain(rawOrganization) {
   const organization = new Organization({
     id: rawOrganization.id,
     name: rawOrganization.name,
@@ -65,7 +64,10 @@ module.exports = {
       'createdBy',
     ]);
 
-    return new BookshelfOrganization().save(organizationRawData).then(_toDomain);
+    return knex('organizations')
+      .insert(organizationRawData)
+      .returning('*')
+      .then(([organization]) => _toDomain(organization));
   },
 
   async batchCreateProOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -106,6 +108,7 @@ module.exports = {
     return new BookshelfOrganization({ id: organization.id })
       .save(organizationRawData, { patch: true })
       .then((model) => model.refresh({ withRelated: 'tags' }))
+      .then((model) => model.toJSON())
       .then(_toDomain);
   },
 
@@ -114,6 +117,7 @@ module.exports = {
       .fetch({
         withRelated: ['targetProfileShares.targetProfile', 'tags'],
       })
+      .then((model) => model.toJSON())
       .then(_toDomain)
       .catch((err) => {
         if (err instanceof BookshelfOrganization.NotFoundError) {
@@ -140,7 +144,7 @@ module.exports = {
     ).fetch({ require: false });
 
     if (organizationBookshelf) {
-      return _toDomain(organizationBookshelf);
+      return _toDomain(organizationBookshelf.toJSON());
     }
     throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
   },
@@ -148,7 +152,7 @@ module.exports = {
   findByExternalIdsFetchingIdsOnly(externalIds) {
     return BookshelfOrganization.where('externalId', 'in', externalIds)
       .fetchAll({ columns: ['id', 'externalId'] })
-      .then((organizations) => organizations.models.map(_toDomain));
+      .then((organizations) => organizations.models.map((model) => _toDomain(model.toJSON())));
   },
 
   findScoOrganizationByUai(uai) {
@@ -156,7 +160,7 @@ module.exports = {
       qb.where({ type: Organization.types.SCO }).whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`)
     )
       .fetchAll({ columns: ['id', 'type', 'externalId', 'email'] })
-      .then((organizations) => organizations.models.map(_toDomain));
+      .then((organizations) => organizations.models.map((model) => _toDomain(model.toJSON())));
   },
 
   findPaginatedFiltered({ filter, page }) {
