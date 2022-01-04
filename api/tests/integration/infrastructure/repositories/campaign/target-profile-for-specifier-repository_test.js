@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, domainBuilder, mockLearningContent } = require('../../../../test-helper');
 const TargetProfileForSpecifierRepository = require('../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository');
 const TargetProfileForSpecifier = require('../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
+const { categories } = require('../../../../../lib/domain/models/TargetProfile');
 
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {
   describe('#availableForOrganization', function () {
@@ -17,11 +18,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         mockLearningContent({ skills: [skill1, skill2] });
         await databaseBuilder.commit();
 
-        const [TargetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
           organizationId
         );
 
-        expect(TargetProfileForSpecifier.tubeCount).to.equal(2);
+        expect(targetProfileForSpecifier.tubeCount).to.equal(2);
       });
 
       it('returns the count of thematic results', async function () {
@@ -37,11 +38,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
-        const [TargetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
           organizationId
         );
 
-        expect(TargetProfileForSpecifier.thematicResultCount).to.equal(1);
+        expect(targetProfileForSpecifier.thematicResultCount).to.equal(1);
       });
 
       it('returns a boolean to know if target profile has stages', async function () {
@@ -53,11 +54,24 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
-        const [TargetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
           organizationId
         );
 
-        expect(TargetProfileForSpecifier.hasStage).to.equal(true);
+        expect(targetProfileForSpecifier.hasStage).to.equal(true);
+      });
+
+      it('returns the target profile category', async function () {
+        databaseBuilder.factory.buildTargetProfile({ category: categories.CUSTOM });
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        mockLearningContent({ skills: [] });
+        await databaseBuilder.commit();
+
+        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+          organizationId
+        );
+
+        expect(targetProfileForSpecifier.category).to.equal('CUSTOM');
       });
 
       it('returns the target profile description', async function () {
@@ -66,11 +80,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
-        const [TargetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
           organizationId
         );
 
-        expect(TargetProfileForSpecifier.description).to.equal('THIS IS SPARTA!');
+        expect(targetProfileForSpecifier.description).to.equal('THIS IS SPARTA!');
       });
     });
 
@@ -96,6 +110,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           thematicResults: [badge],
           hasStage: false,
           description: null,
+          category: 'OTHER',
         });
         const targetProfile2 = new TargetProfileForSpecifier({
           id: targetProfileId2,
@@ -104,6 +119,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           thematicResults: [],
           hasStage: true,
           description: null,
+          category: 'OTHER',
         });
         const availableTargetProfiles = await TargetProfileForSpecifierRepository.availableForOrganization(
           organizationId

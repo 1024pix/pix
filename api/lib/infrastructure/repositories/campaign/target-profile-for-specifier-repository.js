@@ -16,6 +16,7 @@ function _fetchTargetProfiles(organizationId) {
       'target-profiles.id',
       'target-profiles.name',
       'target-profiles.description',
+      'target-profiles.category',
       knex.raw('ARRAY_AGG("skillId") AS "skillIds"'),
       knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
       knex.raw('ARRAY_AGG("stages"."id")  AS "stageIds"'),
@@ -44,6 +45,7 @@ async function _buildTargetProfileForSpecifier(row) {
     thematicResults: thematicResultsIds,
     hasStage,
     description: row.description,
+    category: row.category,
   });
 }
 
