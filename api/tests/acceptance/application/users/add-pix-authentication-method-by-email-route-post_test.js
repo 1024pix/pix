@@ -12,7 +12,7 @@ describe('Acceptance | Route | Users', function () {
     return knex('authentication-methods').delete();
   });
 
-  describe('POST /api/users/{id}/add-authentication-method', function () {
+  describe('POST /api/users/{id}/add-pix-authentication-method', function () {
     it('should return 201 HTTP status code and updated user', async function () {
       // given
       const server = await createServer();
@@ -23,7 +23,7 @@ describe('Acceptance | Route | Users', function () {
       // when
       const response = await server.inject({
         method: 'POST',
-        url: `/api/admin/users/${user.id}/add-authentication-method`,
+        url: `/api/admin/users/${user.id}/add-pix-authentication-method`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
         },

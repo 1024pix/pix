@@ -219,7 +219,7 @@ export default function () {
     return new Response(204);
   });
 
-  this.post('/admin/users/:id/add-authentication-method', (schema, request) => {
+  this.post('/admin/users/:id/add-pix-authentication-method', (schema, request) => {
     const userId = request.params.id;
     const params = JSON.parse(request.requestBody);
     const email = params.data.attributes.email;
