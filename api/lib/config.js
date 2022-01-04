@@ -1,6 +1,7 @@
-const _ = require('lodash');
 const path = require('path');
 const moment = require('moment');
+
+const { getArrayOfStrings } = require('../lib/infrastructure/utils/string-utils');
 
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
@@ -11,10 +12,6 @@ function parseJSONEnv(varName) {
 
 function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
-}
-
-function _getArrayOfStrings(commaSeparatedStrings) {
-  return _(commaSeparatedStrings).split(',').map(_.trim).map(_.toUpper).value();
 }
 
 function _getNumber(numberAsString, defaultIntNumber) {
@@ -153,7 +150,7 @@ module.exports = (function () {
       maxReachableLevel: _getNumber(process.env.MAX_REACHABLE_LEVEL, 5),
       newYearSchoolingRegistrationsImportDate: _getDate(process.env.NEW_YEAR_SCHOOLING_REGISTRATIONS_IMPORT_DATE),
       numberOfChallengesForFlashMethod: _getNumber(process.env.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD),
-      pixCertifScoBlockedAccessWhitelist: _getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
+      pixCertifScoBlockedAccessWhitelist: getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
     },
@@ -162,7 +159,7 @@ module.exports = (function () {
       isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
       isEndTestScreenRemovalEnabled: isFeatureEnabled(process.env.FT_END_TEST_SCREEN_REMOVAL_ENABLED),
-      allowedCertificationCenterIdsForEndTestScreenRemoval: _getArrayOfStrings(
+      allowedCertificationCenterIdsForEndTestScreenRemoval: getArrayOfStrings(
         process.env.FT_ALLOWED_CERTIFICATION_CENTER_IDS_FOR_END_TEST_SCREEN_REMOVAL
       ),
       isComplementaryCertificationSubscriptionEnabled: isFeatureEnabled(
