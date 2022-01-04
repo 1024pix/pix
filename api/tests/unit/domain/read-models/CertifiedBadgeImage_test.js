@@ -1,9 +1,7 @@
 const { expect } = require('../../../test-helper');
 const CertifiedBadgeImage = require('../../../../lib/domain/read-models/CertifiedBadgeImage');
 const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
+  PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
@@ -13,7 +11,7 @@ const {
 } = require('../../../../lib/domain/models/Badge').keys;
 
 const badgeInfos = {
-  [pixPlusDroitMaitreBadgeKey]: {
+  [PIX_DROIT_MAITRE_CERTIF]: {
     path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
     isTemporaryBadge: false,
   },

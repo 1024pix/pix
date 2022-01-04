@@ -5,10 +5,7 @@ const {
   badgeKeyV1: cleaBadgeKeyV1,
   badgeKeyV2: cleaBadgeKeyV2,
 } = require('../../../../lib/domain/models/CleaCertificationResult');
-const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {
@@ -169,7 +166,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
-        badgeKey: pixPlusDroitMaitreBadgeKey,
+        badgeKey: PIX_DROIT_MAITRE_CERTIF,
         complementaryCertificationResult: 'pixPlusDroitMaitreCertificationResult',
       },
       {

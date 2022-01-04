@@ -5,10 +5,7 @@ const {
   badgeKeyV1: cleaBadgeKeyV1,
   badgeKeyV2: cleaBadgeKeyV2,
 } = require('../../../../lib/domain/models/CleaCertificationResult');
-const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -203,7 +200,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
-        badgeKey: pixPlusDroitMaitreBadgeKey,
+        badgeKey: PIX_DROIT_MAITRE_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitMaitre',
       },
       {
@@ -457,7 +454,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
-        badgeKey: pixPlusDroitMaitreBadgeKey,
+        badgeKey: PIX_DROIT_MAITRE_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitMaitre',
       },
       {

@@ -6,7 +6,7 @@ const CleaCertificationResult = require('../../domain/models/CleaCertificationRe
 const PixPlusDroitMaitreCertificationResult = require('../../domain/models/PixPlusDroitMaitreCertificationResult');
 const PixPlusDroitExpertCertificationResult = require('../../domain/models/PixPlusDroitExpertCertificationResult');
 const Assessment = require('../../domain/models/Assessment');
-const { PIX_DROIT_EXPERT_CERTIF } = require('../../domain/models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../domain/models/Badge').keys;
 
 module.exports = {
   async findBySessionId(sessionId) {
@@ -103,7 +103,7 @@ function _getPartnerCertificationsResult(partnerCertificationsSource) {
     _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV1 }) ||
     _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV2 });
   const pixPlusDroitMaitreCertification = _.find(partnerCertifications, {
-    partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+    partnerKey: PIX_DROIT_MAITRE_CERTIF,
   });
   const pixPlusDroitExpertCertification = _.find(partnerCertifications, {
     partnerKey: PIX_DROIT_EXPERT_CERTIF,
