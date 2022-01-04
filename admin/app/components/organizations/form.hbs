@@ -24,7 +24,7 @@
       <label class="form-field__label" for="organizationType">Type : </label>
       <div
         id="organizationTypeSelector"
-        class="form-field__select {{if @organization.errors.type "is-invalid" ""}} organization-form__select-type"
+        class="form-field__select {{if @organization.errors.type " is-invalid" ""}} organization-form__select-type"
       >
         <PowerSelect
           @options={{this.organizationTypes}}
@@ -41,6 +41,24 @@
           {{error.message}}
         </div>
       {{/each}}
+    </div>
+
+    <div class="form-field form-group">
+      <label class="form-field__label" for="documentationUrl">Lien vers la documentation : </label>
+      <Input
+        class={{if
+          @organization.errors.documentationUrl
+          "form-field__text form-control is-invalid"
+          "form-field__text form-control"
+        }}
+        id="documentationUrl"
+        @value={{@organization.documentationUrl}}
+      />
+      {{#if @organization.errors.documentationUrl}}
+        <div class="form-field__error">
+          {{@organization.errors.documentationUrl.0.message}}
+        </div>
+      {{/if}}
     </div>
   </section>
 
