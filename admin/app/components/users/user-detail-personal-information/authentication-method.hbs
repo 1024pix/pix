@@ -25,18 +25,16 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.userHasRightToRemoveEmailAuthenticationMethod}}
+        {{#if @user.isAllowedToRemoveEmailAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
             data-test-remove-email
-          >SUPPRIMER</PixButton>
+          >Supprimer</PixButton>
         {{/if}}
-      </td>
-      <td>
-        {{#if @user.hasRightToAddEmailAuthenticationMethod}}
+        {{#if @user.isAllowedToAddEmailAuthenticationMethod}}
           <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">Ajouter une adresse e-mail</PixButton>
         {{/if}}
       </td>
@@ -60,14 +58,14 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.userHasRightToRemoveUsernameAuthenticationMethod}}
+        {{#if @user.isAllowedToRemoveUsernameAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
             data-test-remove-username
-          >SUPPRIMER</PixButton>
+          >Supprimer</PixButton>
         {{/if}}
       </td>
     </tr>
@@ -90,14 +88,14 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.userHasRightToRemovePoleEmploiAuthenticationMethod}}
+        {{#if @user.isAllowedToRemovePoleEmploiAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
             data-test-remove-pole-emploi
-          >SUPPRIMER</PixButton>
+          >Supprimer</PixButton>
         {{/if}}
       </td>
     </tr>
@@ -116,14 +114,14 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.userHasRightToRemoveGarAuthenticationMethod}}
+        {{#if @user.isAllowedToRemoveGarAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
             data-test-remove-mediacentre
-          >SUPPRIMER</PixButton>
+          >Supprimer</PixButton>
         {{/if}}
       </td>
     </tr>
