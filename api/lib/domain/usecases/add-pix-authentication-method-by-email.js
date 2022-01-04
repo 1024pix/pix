@@ -29,14 +29,6 @@ module.exports = async function addPixAuthenticationMethodByEmail({
     });
     await authenticationMethodRepository.create({ authenticationMethod: authenticationMethodFromPix });
 
-    const user = await userRepository.get(userId);
-    if (user.cgu === false) {
-      return userRepository.updateUserDetailsForAdministration(userId, {
-        email,
-        mustValidateTermsOfService: true,
-      });
-    } else {
-      return userRepository.updateUserDetailsForAdministration(userId, { email });
-    }
+    return userRepository.updateUserDetailsForAdministration(userId, { email });
   }
 };
