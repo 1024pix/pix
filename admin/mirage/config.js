@@ -219,6 +219,37 @@ export default function () {
     return new Response(204);
   });
 
+  this.post('/admin/users/:id/add-pix-authentication-method', (schema, request) => {
+    const userId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const email = params.data.attributes.email;
+
+    const userHowHasAlreadyTheEmail = schema.users.findBy({ email });
+    if (userHowHasAlreadyTheEmail) {
+      return new Response(
+        400,
+        {},
+        {
+          errors: [
+            {
+              status: '400',
+              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
+              title: 'Already existing email error',
+            },
+          ],
+        }
+      );
+    }
+
+    const user = schema.users.findBy({ id: userId });
+    const newAuthenticationMethod = schema.create('authentication-method', { identityProvider: 'PIX' });
+    const authenticationMethods = [...user.authenticationMethods.models, newAuthenticationMethod];
+    user.update({ email: email });
+    user.update({ authenticationMethods });
+
+    return user;
+  });
+
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });

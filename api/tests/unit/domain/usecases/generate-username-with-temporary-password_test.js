@@ -40,7 +40,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     schoolingRegistrationId = schoolingRegistration.id;
 
     passwordGenerator = {
-      generate: sinon.stub().returns(expectedPassword),
+      generateSimplePassword: sinon.stub().returns(expectedPassword),
     };
     encryptionService = {
       hashPassword: sinon.stub().resolves(hashedPassword),

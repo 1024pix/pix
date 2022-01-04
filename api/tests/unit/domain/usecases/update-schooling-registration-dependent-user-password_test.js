@@ -40,7 +40,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     };
 
     passwordGenerator = {
-      generate: sinon.stub().returns(generatedPassword),
+      generateSimplePassword: sinon.stub().returns(generatedPassword),
     };
     encryptionService = {
       hashPassword: sinon.stub().resolves(encryptedPassword),

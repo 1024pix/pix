@@ -29,6 +29,20 @@ export default class UserAdapter extends ApplicationAdapter {
       return this.ajax(url, 'PATCH');
     }
 
+    if (snapshot.adapterOptions && snapshot.adapterOptions.addPixAuthenticationMethod) {
+      const payload = {
+        data: {
+          data: {
+            attributes: {
+              email: snapshot.adapterOptions.newEmail,
+            },
+          },
+        },
+      };
+      const url = this.urlForUpdateRecord(snapshot.id) + '/add-pix-authentication-method';
+      return this.ajax(url, 'POST', payload);
+    }
+
     if (snapshot.adapterOptions && snapshot.adapterOptions.removeAuthenticationMethod) {
       const payload = {
         data: {

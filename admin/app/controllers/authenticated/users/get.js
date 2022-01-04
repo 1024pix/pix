@@ -7,4 +7,9 @@ export default class GetController extends Controller {
     await this.model.save({ adapterOptions: { removeAuthenticationMethod: true, type } });
     this.send('refreshModel');
   }
+
+  @action
+  async addPixAuthenticationMethod(newEmail) {
+    await this.model.save({ adapterOptions: { addPixAuthenticationMethod: true, newEmail } });
+  }
 }

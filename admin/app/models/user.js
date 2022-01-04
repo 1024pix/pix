@@ -22,6 +22,10 @@ export default class User extends Model {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  get hasPixAuthenticationMethod() {
+    return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX');
+  }
+
   get hasEmailAuthenticationMethod() {
     return (
       this.email &&
@@ -42,7 +46,7 @@ export default class User extends Model {
     );
   }
 
-  get hasGARAuthenticationMethod() {
+  get hasGarAuthenticationMethod() {
     return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'GAR');
   }
 
@@ -51,9 +55,29 @@ export default class User extends Model {
       [
         this.hasEmailAuthenticationMethod,
         this.hasUsernameAuthenticationMethod,
-        this.hasGARAuthenticationMethod,
+        this.hasGarAuthenticationMethod,
         this.hasPoleEmploiAuthenticationMethod,
       ].filter((hasAuthenticationMethod) => hasAuthenticationMethod).length === 1
     );
+  }
+
+  get isAllowedToRemoveEmailAuthenticationMethod() {
+    return this.hasEmailAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemoveUsernameAuthenticationMethod() {
+    return this.hasUsernameAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemovePoleEmploiAuthenticationMethod() {
+    return this.hasPoleEmploiAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToRemoveGarAuthenticationMethod() {
+    return this.hasGarAuthenticationMethod && !this.hasOnlyOneAuthenticationMethod;
+  }
+
+  get isAllowedToAddEmailAuthenticationMethod() {
+    return !this.hasPixAuthenticationMethod;
   }
 }

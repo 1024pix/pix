@@ -1,0 +1,44 @@
+.authentication-method {
+  width: inherit;
+
+  &__caption {
+    display: none;
+  }
+
+  &__name-column {
+    min-width: 200px;
+  }
+
+  &__remove-button.pix-button {
+    background-color: transparent;
+    color: $error;
+    font-size: 0.75rem;
+    border: none;
+    padding: 0 0 0 10px;
+
+    &:hover {
+      background-color: transparent;
+      box-shadow: none;
+      color: $dark-error;
+    }
+  }
+
+  &__check {
+    color: $success;
+    margin: 0 20px;
+  }
+
+  &__uncheck {
+    color: $grey-30;
+    margin: 0 20px;
+  }
+}
+
+.add-authentication-method-modal__form-body {
+  margin-bottom: 16px;
+
+  label[for="new-email-for-adding-authentication-method"] {
+    height: 18px;
+    bottom: calc(-18px - 4px - 6px);
+  }
+}
