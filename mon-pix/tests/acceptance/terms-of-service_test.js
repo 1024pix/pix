@@ -11,20 +11,18 @@ describe('Acceptance | terms-of-service', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
-  let user;
-
-  beforeEach(function () {
-    user = server.create('user', {
-      email: 'with-email',
-      password: 'pix123',
-      cgu: true,
-      mustValidateTermsOfService: true,
-      lastTermsOfServiceValidatedAt: new Date(),
-    });
-  });
 
   describe('When user log in and must validate Pix latest terms of service', async function () {
     it('should be redirected to terms-of-services page', async function () {
+      // given
+      const user = server.create('user', {
+        email: 'with-email',
+        password: 'pix123',
+        cgu: true,
+        mustValidateTermsOfService: true,
+        lastTermsOfServiceValidatedAt: new Date(),
+      });
+
       // when
       await authenticateByEmail(user);
 
@@ -36,6 +34,13 @@ describe('Acceptance | terms-of-service', function () {
   describe('when the user has validated terms of service', async function () {
     it('should redirect to default page when user validate the terms of service', async function () {
       // given
+      const user = server.create('user', {
+        email: 'with-email',
+        password: 'pix123',
+        cgu: true,
+        mustValidateTermsOfService: true,
+        lastTermsOfServiceValidatedAt: new Date(),
+      });
       await authenticateByEmail(user);
 
       // when
