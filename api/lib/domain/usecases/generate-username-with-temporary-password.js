@@ -31,7 +31,7 @@ module.exports = async function generateUsernameWithTemporaryPassword({
     const updatedUser = await userRepository.addUsername(studentAccount.id, username);
     return { username: updatedUser.username };
   } else {
-    const generatedPassword = passwordGenerator.generate();
+    const generatedPassword = passwordGenerator.generateSimplePassword();
     const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
     // and Create Password

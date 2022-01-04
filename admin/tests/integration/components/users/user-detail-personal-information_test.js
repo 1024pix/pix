@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find, render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -58,67 +58,6 @@ module('Integration | Component | users | user-detail-personal-information', fun
 
           // then
           assert.dom('[aria-label="Inscription désactivée"]').exists();
-        });
-      });
-    });
-  });
-
-  module('authentication methods', function () {
-    module('When user has authentication methods', function () {
-      test('should display user’s email authentication method', async function (assert) {
-        // given
-        this.set('user', { hasEmailAuthenticationMethod: true });
-
-        // when
-        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__check');
-      });
-
-      test('should display user’s username authentication method', async function (assert) {
-        // given
-        this.set('user', { hasUsernameAuthenticationMethod: true });
-
-        // when
-        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.dom('div[data-test-username] > div > svg').hasClass('user-authentication-method-item__check');
-      });
-
-      test('should display user’s Pole Emploi authentication method', async function (assert) {
-        // given
-        this.set('user', { hasPoleEmploiAuthenticationMethod: true });
-
-        // when
-        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.dom('div[data-test-pole-emploi] > div > svg').hasClass('user-authentication-method-item__check');
-      });
-
-      test('should display user’s GAR authentication method', async function (assert) {
-        // given
-        this.set('user', { hasGARAuthenticationMethod: true });
-
-        // when
-        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.dom('div[data-test-mediacentre] > div > svg').hasClass('user-authentication-method-item__check');
-      });
-
-      module('When user has only one authentication method', function () {
-        test('it should not display a remove authentication method link', async function (assert) {
-          // given
-          this.set('user', { hasOnlyOneAuthenticationMethod: true });
-
-          // when
-          await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.notOk(find('.user-authentication-method__remove-button'));
         });
       });
     });
@@ -258,6 +197,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
         email: 'john.harry@gmail.com',
         username: 'john.harry.1010',
         hasEmailAuthenticationMethod: true,
+        hasPoleEmploiAuthenticationMethod: true,
+        isAllowedToRemoveEmailAuthenticationMethod: true,
       });
 
       this.set('user', user);
@@ -278,6 +219,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
         email: 'john.harry@gmail.com',
         username: 'john.harry.1010',
         hasEmailAuthenticationMethod: true,
+        hasPoleEmploiAuthenticationMethod: true,
+        isAllowedToRemoveEmailAuthenticationMethod: true,
       });
 
       this.set('user', user);
@@ -300,6 +243,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
           email: 'john.harry@gmail.com',
           username: 'john.harry.1010',
           hasEmailAuthenticationMethod: true,
+          hasPoleEmploiAuthenticationMethod: true,
+          isAllowedToRemoveEmailAuthenticationMethod: true,
         });
         this.set('user', user);
         const removeAuthenticationMethodStub = sinon.stub();
@@ -325,6 +270,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
           firstName: 'John',
           email: 'john.harry@gmail.com',
           hasEmailAuthenticationMethod: true,
+          hasPoleEmploiAuthenticationMethod: true,
+          isAllowedToRemoveEmailAuthenticationMethod: true,
         });
         this.set('user', user);
         const removeAuthenticationMethodStub = sinon.stub();

@@ -54,6 +54,12 @@ class AuthenticationMethodNotFoundError extends DomainError {
   }
 }
 
+class AuthenticationMethodAlreadyExistsError extends DomainError {
+  constructor(message = 'Authentication method already exists.') {
+    super(message);
+  }
+}
+
 class NoCertificationAttestationForDivisionError extends DomainError {
   constructor(division) {
     const message = `Aucune attestation de certification pour la classe ${division}.`;
@@ -975,6 +981,7 @@ module.exports = {
   AssessmentNotCompletedError,
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
+  AuthenticationMethodAlreadyExistsError,
   AuthenticationKeyForPoleEmploiTokenExpired,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
