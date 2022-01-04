@@ -13,6 +13,8 @@ export default class AuthenticationMethod extends Component {
   @action
   toggleAddAuthenticationMethodModal() {
     this.showAddAuthenticationMethodModal = !this.showAddAuthenticationMethodModal;
+    this.showAlreadyExistingEmailError = false;
+    this.newEmail = '';
   }
 
   @action

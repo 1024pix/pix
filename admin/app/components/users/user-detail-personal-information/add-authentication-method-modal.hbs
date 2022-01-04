@@ -9,7 +9,7 @@
         @id="new-email-for-adding-authentication-method"
         @label="Nouvelle adresse e-mail"
         @value={{@newEmail}}
-        @errorMessage="{{if @showAlreadyExistingEmailError "Cette adresse e-mail est déjà utilisée" ""}}"
+        @errorMessage={{if @showAlreadyExistingEmailError "Cette adresse e-mail est déjà utilisée" ""}}
         type="email"
         required
       />
