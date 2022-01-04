@@ -39,7 +39,7 @@ export default class UserAdapter extends ApplicationAdapter {
           },
         },
       };
-      const url = this.urlForUpdateRecord(snapshot.id) + '/add-authentication-method';
+      const url = this.urlForUpdateRecord(snapshot.id) + '/add-pix-authentication-method';
       return this.ajax(url, 'POST', payload);
     }
 

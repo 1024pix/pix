@@ -132,7 +132,7 @@ exports.register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/users/{id}/add-authentication-method',
+      path: '/api/admin/users/{id}/add-pix-authentication-method',
       config: {
         pre: [
           {
