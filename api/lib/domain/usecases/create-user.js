@@ -73,6 +73,11 @@ module.exports = async function createUser({
     userRepository,
   });
 
+  const userHasValidatedPixTermsOfService = user.cgu === true;
+  if (userHasValidatedPixTermsOfService) {
+    user.lastTermsOfServiceValidatedAt = new Date();
+  }
+
   if (isValid) {
     const hashedPassword = await encryptionService.hashPassword(password);
 

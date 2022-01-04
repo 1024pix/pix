@@ -27,8 +27,10 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
   let userRepository;
   let authenticationService;
 
+  const now = new Date('2021-01-02');
+
   beforeEach(function () {
-    clock = sinon.useFakeTimers(Date.now());
+    clock = sinon.useFakeTimers(now);
 
     DomainTransaction.execute = (lambda) => {
       return lambda(domainTransaction);
@@ -110,6 +112,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         firstName: decodedUserInfo.firstName,
         lastName: decodedUserInfo.lastName,
         cgu: true,
+        lastTermsOfServiceValidatedAt: now,
       });
 
       const expectedAuthenticationMethod = new AuthenticationMethod({
