@@ -30,6 +30,20 @@
   }
 }
 
+.btn-secondary {
+  background-color: transparent;
+  color: $grey-90;
+  border: 2px solid $grey-50;
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $grey-80;
+    background-color: $grey-15;
+    color: $grey-90;
+  }
+}
+
 .btn-group {
 
   .btn {
