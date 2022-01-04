@@ -9,11 +9,8 @@ const {
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const {
-  badgeKeyV1: cleaBadgeKeyV1,
-  badgeKeyV2: cleaBadgeKeyV2,
-} = require('../../../../lib/domain/models/CleaCertificationResult');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../lib/domain/models/Badge').keys;
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', function () {
@@ -301,10 +298,10 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         userId,
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV1 });
+      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
       databaseBuilder.factory.buildPartnerCertification({
         certificationCourseId: certificateId,
-        partnerKey: cleaBadgeKeyV1,
+        partnerKey: PIX_EMPLOI_CLEA,
         acquired: true,
       });
       await databaseBuilder.commit();
@@ -346,10 +343,10 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
 
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV2 });
+      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
       databaseBuilder.factory.buildPartnerCertification({
         certificationCourseId: certificateId,
-        partnerKey: cleaBadgeKeyV2,
+        partnerKey: PIX_EMPLOI_CLEA_V2,
         acquired: true,
       });
       await databaseBuilder.commit();
@@ -667,10 +664,10 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         userId,
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV1 });
+      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
       databaseBuilder.factory.buildPartnerCertification({
         certificationCourseId: certificateId,
-        partnerKey: cleaBadgeKeyV1,
+        partnerKey: PIX_EMPLOI_CLEA,
         acquired: true,
       });
       await databaseBuilder.commit();

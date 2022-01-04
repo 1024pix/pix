@@ -8,11 +8,8 @@ const {
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
-const {
-  badgeKeyV1: cleaBadgeKeyV1,
-  badgeKeyV2: cleaBadgeKeyV2,
-} = require('../../../../lib/domain/models/CleaCertificationResult');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -353,7 +350,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
-        acquiredBadges: [cleaBadgeKeyV1],
+        acquiredBadges: [PIX_EMPLOI_CLEA],
         notAcquiredBadges: [],
       });
 
@@ -393,7 +390,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
-        acquiredBadges: [cleaBadgeKeyV2],
+        acquiredBadges: [PIX_EMPLOI_CLEA_V2],
         notAcquiredBadges: [],
       });
 
