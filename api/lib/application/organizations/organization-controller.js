@@ -37,12 +37,21 @@ module.exports = {
       'external-id': externalId,
       'province-code': provinceCode,
       'logo-url': logoUrl,
+      'documentation-url': documentationUrl,
     } = request.payload.data.attributes;
 
     const pixMasterUserId = extractUserIdFromRequest(request);
-
     return usecases
-      .createOrganization({ createdBy: pixMasterUserId, name, type, externalId, provinceCode, logoUrl, email })
+      .createOrganization({
+        createdBy: pixMasterUserId,
+        name,
+        type,
+        externalId,
+        provinceCode,
+        logoUrl,
+        email,
+        documentationUrl,
+      })
       .then(organizationSerializer.serialize);
   },
 
