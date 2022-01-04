@@ -16,4 +16,20 @@ describe('Unit | Domain | Service | EndTestScreenRemoval', function () {
       expect(endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledBySessionId).to.be.calledWith(sessionId);
     });
   });
+
+  describe('#isEndTestScreenRemovalEnabledByCandidateId', function () {
+    it('should return value from repository', async function () {
+      // given
+      const candidateId = Symbol('candidateId');
+      sinon.stub(endTestScreenRemovalRepository, 'isEndTestScreenRemovalEnabledByCandidateId');
+      endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledByCandidateId.withArgs(candidateId).resolves(false);
+
+      // when
+      const isEndTestScreenRemovalEnabled =
+        await endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId(candidateId);
+
+      // then
+      expect(isEndTestScreenRemovalEnabled).to.equals(false);
+    });
+  });
 });
