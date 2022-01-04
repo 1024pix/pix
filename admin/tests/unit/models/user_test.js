@@ -93,14 +93,14 @@ module('Unit | Model | user', function (hooks) {
     });
   });
 
-  module('#hasGARAuthenticationMethod', function () {
+  module('#hasGarAuthenticationMethod', function () {
     test('it should return true when user has GAR authentication method', function (assert) {
       // given
       const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'GAR' });
       const user = store.createRecord('user', { authenticationMethods: [authenticationMethod] });
 
       // then
-      assert.true(user.hasGARAuthenticationMethod);
+      assert.true(user.hasGarAuthenticationMethod);
     });
   });
 

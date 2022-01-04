@@ -3,8 +3,7 @@ import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from '../../../helpers/test-init';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 
 module('Acceptance | authenticated/users | authentication-method', function (hooks) {
   setupApplicationTest(hooks);
@@ -26,9 +25,9 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
     // when
     await visit(`/users/${userToAddNewEmail.id}`);
-    await clickByLabel('Ajouter une adresse e-mail');
-    await fillInByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
-    await clickByLabel("Enregistrer l'adresse e-mail");
+    await clickByName('Ajouter une adresse e-mail');
+    await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
+    await clickByName("Enregistrer l'adresse e-mail");
 
     // then
     assert.notContains('Nouvelle adresse e-mail');
@@ -53,9 +52,9 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
     // when
     await visit(`/users/${userToAddNewEmail.id}`);
-    await clickByLabel('Ajouter une adresse e-mail');
-    await fillInByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
-    await clickByLabel("Enregistrer l'adresse e-mail");
+    await clickByName('Ajouter une adresse e-mail');
+    await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
+    await clickByName("Enregistrer l'adresse e-mail");
 
     // then
     assert.contains('Nouvelle adresse e-mail');

@@ -25,7 +25,7 @@
         {{/if}}
       </td>
       <td>
-        {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+        {{#if @user.userHasRightToRemoveEmailAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
@@ -36,7 +36,7 @@
         {{/if}}
       </td>
       <td>
-        {{#if (and @user.hasOnlyOneAuthenticationMethod (not @user.hasPixAuthenticationMethod))}}
+        {{#if @user.hasRightToAddEmailAuthenticationMethod}}
           <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">Ajouter une adresse e-mail</PixButton>
         {{/if}}
       </td>
@@ -60,7 +60,7 @@
         {{/if}}
       </td>
       <td>
-        {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+        {{#if @user.userHasRightToRemoveUsernameAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
@@ -90,7 +90,7 @@
         {{/if}}
       </td>
       <td>
-        {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+        {{#if @user.userHasRightToRemovePoleEmploiAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
@@ -105,7 +105,7 @@
     <tr data-test-gar>
       <td class="authentication-method__name-column">Médiacentre</td>
       <td>
-        {{#if @user.hasGARAuthenticationMethod}}
+        {{#if @user.hasGarAuthenticationMethod}}
           <FaIcon @icon="check-circle" class="authentication-method__check" />
         {{else}}
           <FaIcon
@@ -116,7 +116,7 @@
         {{/if}}
       </td>
       <td>
-        {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+        {{#if @user.userHasRightToRemoveGarAuthenticationMethod}}
           <PixButton
             class="user-authentication-method__remove-button"
             @size="small"
