@@ -51,6 +51,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
       expect(organizationSaved.createdBy).to.equal(organization.createdBy);
+      expect(organizationSaved.documentationUrl).to.equal(organization.documentationUrl);
     });
 
     it('should insert default value for canCollectProfiles (false), credit (0) when not defined', async function () {
