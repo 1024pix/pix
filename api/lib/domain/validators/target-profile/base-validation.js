@@ -10,7 +10,7 @@ const schema = Joi.object({
     .valid(
       categories.COMPETENCES,
       categories.CUSTOM,
-      categories.DISCPLINE,
+      categories.DISCIPLINE,
       categories.OTHER,
       categories.PREDEFINED,
       categories.SUBJECT
