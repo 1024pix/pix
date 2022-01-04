@@ -7,4 +7,9 @@ module.exports = {
     );
     return isEndTestScreenRemovalEnabled;
   },
+  isEndTestScreenRemovalEnabledByCandidateId: async function (candidateId) {
+    const isEndTestScreenRemovalEnabled =
+      await endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledByCandidateId(candidateId);
+    return isEndTestScreenRemovalEnabled;
+  },
 };
