@@ -40,6 +40,14 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     assert.dom('#login-password').exists();
   });
 
+  test('[a11y] it should display a message that all inputs are required', async function (assert) {
+    // when
+    await render(hbs`<Auth::LoginForm/>`);
+
+    // then
+    assert.contains('Tous les champs sont obligatoires.');
+  });
+
   test('it should not display error message', async function (assert) {
     // when
     await render(hbs`<Auth::LoginForm/>`);
