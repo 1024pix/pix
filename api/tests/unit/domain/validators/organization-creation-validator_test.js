@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, catchErr } = require('../../../test-helper');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
@@ -15,7 +15,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
     context('when validation is successful', function () {
       it('should not throw any error', function () {
         // given
-        const organizationCreationParams = { name: 'ACME', type: 'PRO' };
+        const organizationCreationParams = { name: 'ACME', type: 'PRO', documentationUrl: 'https://kingArthur.com' };
 
         // when/then
         expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
@@ -97,6 +97,18 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             // when/then
             return expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
           });
+        });
+      });
+
+      context('on documentationUrl attribute', function () {
+        it('should reject with error when documentationUrl is invalide', async function () {
+          // given
+          const organizationCreationParams = { name: 'ACME', type: 'PRO', documentationUrl: 'invalidUrl' };
+          const error = await catchErr(organizationCreationValidator.validate)(organizationCreationParams);
+
+          // then
+          expect(error.invalidAttributes[0].attribute).to.equal('documentationUrl');
+          expect(error.invalidAttributes[0].message).to.equal('Le lien vers la documentation n’est pas valide.');
         });
       });
 

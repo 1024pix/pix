@@ -80,6 +80,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
                 'external-id': organizationToCreate.externalId,
                 'logo-url': organizationToCreate.logoUrl,
                 'province-code': organizationToCreate.provinceCode,
+                'documentation-url': organizationToCreate.documentationUrl,
               },
             },
           },
@@ -97,6 +98,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
           externalId: organizationToCreate.externalId,
           logoUrl: organizationToCreate.logoUrl,
           provinceCode: organizationToCreate.provinceCode,
+          documentationUrl: organizationToCreate.documentationUrl,
         });
       });
 

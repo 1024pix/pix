@@ -12,6 +12,10 @@ const organizationValidationJoiSchema = Joi.object({
     'string.empty': 'Le type n’est pas renseigné.',
     'any.only': 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
   }),
+
+  documentationUrl: Joi.string().uri().allow(null).messages({
+    'string.uri': 'Le lien vers la documentation n’est pas valide.',
+  }),
 });
 
 module.exports = {

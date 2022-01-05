@@ -37,6 +37,7 @@ describe('Acceptance | Application | organization-controller', function () {
           attributes: {
             name: 'The name of the organization',
             type: 'PRO',
+            'documentation-url': 'https://kingArthur.com',
           },
         },
       };
@@ -69,6 +70,7 @@ describe('Acceptance | Application | organization-controller', function () {
         const createdOrganization = response.result.data.attributes;
         expect(createdOrganization.name).to.equal('The name of the organization');
         expect(createdOrganization.type).to.equal('PRO');
+        expect(createdOrganization['documentation-url']).to.equal('https://kingArthur.com');
       });
 
       it('should save the Pix Master userId creating the Organization', async function () {
