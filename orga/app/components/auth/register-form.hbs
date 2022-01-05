@@ -1,6 +1,6 @@
 <div class="register-form">
   <form {{on "submit" this.register}}>
-
+    <p class="login-form__information">{{t "pages.login-form.mandatory-all-fields"}}</p>
     <div id="register-firstName-container" class="input-container">
       <label for="register-firstName" class="label">{{t
           "pages.login-or-register.register-form.fields.first-name.label"
@@ -11,6 +11,7 @@
         @type="firstName"
         class="input {{if this.validation.firstName.hasError "input--error"}}"
         @value={{this.user.firstName}}
+        required={{true}}
         autocomplete="given-name"
         {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
       />
@@ -33,6 +34,7 @@
         class="input {{if this.validation.lastName.hasError "input--error"}}"
         @value={{this.user.lastName}}
         autocomplete="family-name"
+        required={{true}}
         {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
       />
       {{#if this.validation.lastName.hasError}}
@@ -52,6 +54,7 @@
         class="input {{if this.validation.email.hasError "input--error"}}"
         @value={{this.user.email}}
         autocomplete="email"
+        required={{true}}
         {{on "focusout" (fn this.validateInput "email" this.user.email)}}
       />
       {{#if this.validation.email.hasError}}
@@ -74,6 +77,7 @@
           class="input"
           @value={{this.user.password}}
           autocomplete="current-password"
+          required={{true}}
           {{on "focusout" (fn this.validateInput "password" this.user.password)}}
         />
         <PixIconButton
@@ -98,6 +102,7 @@
           id="register-cgu"
           @type="checkbox"
           @checked={{this.user.cgu}}
+          required={{true}}
           aria-label="{{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}"
           {{on "focusout" (fn this.validateInput "cgu" this.user.cgu)}}
         />

@@ -47,6 +47,14 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     assert.dom('.register-form').exists();
   });
 
+  test('[a11y] it should display a message that all inputs are required', async function (assert) {
+    // when
+    await render(hbs`<Auth::RegisterForm/>`);
+
+    // then
+    assert.contains('Tous les champs sont obligatoires.');
+  });
+
   module('successful cases', function (hooks) {
     hooks.beforeEach(function () {
       this.owner.unregister('service:store');
