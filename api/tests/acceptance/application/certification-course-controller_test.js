@@ -6,11 +6,13 @@ const {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster,
+  sinon,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const { featureToggles } = require('../../../lib/config');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -435,10 +437,12 @@ describe('Acceptance | API | Certification Course', function () {
     let response;
     let userId;
     let sessionId;
+    let certificationCenterId;
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
-      sessionId = databaseBuilder.factory.buildSession({ accessCode: '123' }).id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId }).id;
       const payload = {
         data: {
           attributes: {
@@ -456,7 +460,9 @@ describe('Acceptance | API | Certification Course', function () {
         },
         payload,
       };
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
+
+      sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
     });
 
     context('when the given access code does not correspond to the session', function () {
