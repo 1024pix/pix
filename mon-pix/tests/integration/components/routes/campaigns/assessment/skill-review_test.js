@@ -6,17 +6,11 @@ import hbs from 'htmlbars-inline-precompile';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
-import Service from '@ember/service';
-
-class MockFeatureTogglesService extends Service {
-  featureToggles = { isNetPromoterScoreEnabled: true };
-}
 
 describe('Integration | Component | routes/campaigns/assessment/skill-review', function () {
   let campaign;
   setupIntlRenderingTest();
   beforeEach(function () {
-    this.owner.register('service:feature-toggles', MockFeatureTogglesService);
     campaign = {
       organizationShowNPS: false,
     };
