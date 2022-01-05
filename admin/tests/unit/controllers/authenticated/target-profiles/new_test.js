@@ -62,7 +62,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
 
       onLoadFunction(event);
 
-      assert.deepEqual(controller.model.skillsId, ['skill1', 'skill2']);
+      assert.deepEqual(controller.model.skillIds, ['skill1', 'skill2']);
       assert.false(controller.isFileInvalid);
     });
     test('should cannot parse the file', async function (assert) {

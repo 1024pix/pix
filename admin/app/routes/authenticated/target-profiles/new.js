@@ -5,6 +5,6 @@ export default class NewRoute extends Route {
   @service store;
 
   model() {
-    return this.store.createRecord('target-profile');
+    return this.store.createRecord('target-profile', { category: 'OTHER' });
   }
 }

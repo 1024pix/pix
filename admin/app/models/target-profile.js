@@ -12,7 +12,7 @@ export default class TargetProfile extends Model {
   @attr('string') ownerOrganizationId;
   @attr('string') category;
 
-  @attr('array') skillsId;
+  @attr('array') skillIds;
 
   @hasMany('badge') badges;
   @hasMany('stage') stages;

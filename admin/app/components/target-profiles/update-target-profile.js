@@ -65,24 +65,24 @@ export default class UpdateTargetProfile extends Component {
 
     this.optionsList = [
       {
-        value: 'COMPETENCES',
-        label: 'Compétences Pix',
+        value: 'OTHER',
+        label: 'Autre',
       },
       {
-        value: 'CUSTOM',
-        label: 'Sur-mesure',
+        value: 'COMPETENCES',
+        label: 'Compétences Pix',
       },
       {
         value: 'DISCIPLINE',
         label: 'Disciplinaire',
       },
       {
-        value: 'OTHER',
-        label: 'Autre',
-      },
-      {
         value: 'PREDEFINED',
         label: 'Prédéfini',
+      },
+      {
+        value: 'CUSTOM',
+        label: 'Sur-mesure',
       },
       {
         value: 'SUBJECT',

@@ -82,7 +82,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
               name: 'targetProfileName',
               'is-public': false,
               'owner-organization-id': null,
-              'skills-id': [skillId],
+              'skill-ids': [skillId],
               comment: 'comment',
             },
           },
