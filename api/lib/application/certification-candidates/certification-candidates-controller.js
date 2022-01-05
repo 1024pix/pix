@@ -1,16 +1,20 @@
 const usecases = require('../../domain/usecases');
-const { featureToggles } = require('../../config');
+const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 const { NotFoundError } = require('../http-errors');
 const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer');
 
 module.exports = {
   async authorizeToStart(request, h) {
-    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+    const certificationCandidateForSupervisingId = request.params.id;
+
+    const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId(
+      certificationCandidateForSupervisingId
+    );
+    if (!isEndTestScreenRemovalEnabled) {
       throw new NotFoundError();
     }
 
     const authorizedToStart = request.payload['authorized-to-start'];
-    const certificationCandidateForSupervisingId = request.params.id;
     await usecases.authorizeCertificationCandidateToStart({
       certificationCandidateForSupervisingId,
       authorizedToStart,
@@ -20,11 +24,15 @@ module.exports = {
   },
 
   async authorizeToResume(request, h) {
-    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+    const certificationCandidateId = request.params.id;
+
+    const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId(
+      certificationCandidateId
+    );
+    if (!isEndTestScreenRemovalEnabled) {
       throw new NotFoundError();
     }
 
-    const certificationCandidateId = request.params.id;
     await usecases.authorizeCertificationCandidateToResume({
       certificationCandidateId,
     });
