@@ -320,6 +320,15 @@
         "profiles-collection": "Collect the participants' Pix profiles",
         "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score."
       },
+      "tags": {
+        "COMPETENCES": "Pix Competences",
+        "CUSTOM": "Created for you",
+        "DISCIPLINE": "Schools",
+        "PREDEFINED": "Ready-made",
+        "OTHER": "Other",
+        "SUBJECT": "Subject"
+      },
+      "tags-title": "Filter:",
       "target-profiles-list-label": "What would you like to test?",
       "target-profiles-search-placeholder": "Search by name",
       "test-title": {
