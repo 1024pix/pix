@@ -6,18 +6,24 @@ const ComplementaryCertification = require('../../../../lib/domain/models/Comple
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {
     context('when user is authenticated', function () {
-      describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+      describe('when FT_ALLOWED_CERTIFICATION_CENTER_IDS_FOR_END_TEST_SCREEN_REMOVAL is enabled for the certification center', function () {
         it('should return a 204 status code', async function () {
           // given
-          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
-
           const server = await createServer();
           const userId = databaseBuilder.factory.buildUser().id;
-          const session = databaseBuilder.factory.buildSession({ publishedAt: null });
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+          const session = databaseBuilder.factory.buildSession({
+            publishedAt: null,
+            certificationCenterId: certificationCenter.id,
+          });
           const candidate = databaseBuilder.factory.buildCertificationCandidate({
             sessionId: session.id,
           });
           await databaseBuilder.commit();
+          sinon
+            .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
+            .value([certificationCenter.id]);
+
           const options = {
             method: 'POST',
             url: `/api/certification-candidates/${candidate.id}/authorize-to-start`,
@@ -37,18 +43,24 @@ describe('Acceptance | API | Certifications candidates', function () {
 
   describe('POST /api/certification-candidates/:id/authorize-to-resume', function () {
     context('when user is authenticated', function () {
-      describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+      describe('when FT_ALLOWED_CERTIFICATION_CENTER_IDS_FOR_END_TEST_SCREEN_REMOVAL is enabled for the certification center', function () {
         it('should return a 204 status code', async function () {
           // given
-          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
-
           const server = await createServer();
           const userId = databaseBuilder.factory.buildUser().id;
-          const session = databaseBuilder.factory.buildSession({ publishedAt: null });
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+          const session = databaseBuilder.factory.buildSession({
+            publishedAt: null,
+            certificationCenterId: certificationCenter.id,
+          });
           const candidate = databaseBuilder.factory.buildCertificationCandidate({
             sessionId: session.id,
           });
           await databaseBuilder.commit();
+          sinon
+            .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
+            .value([certificationCenter.id]);
+
           const options = {
             method: 'POST',
             url: `/api/certification-candidates/${candidate.id}/authorize-to-resume`,
@@ -67,15 +79,16 @@ describe('Acceptance | API | Certifications candidates', function () {
 
   describe('PATCH /api/certification-candidates/{id}/end-assessment-by-supervisor', function () {
     context('when user is authenticated', function () {
-      describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+      describe('when FT_ALLOWED_CERTIFICATION_CENTER_IDS_FOR_END_TEST_SCREEN_REMOVAL is enabled for the certification center', function () {
         context('when the user is the supervisor of the session', function () {
           it('should return a 204 status code', async function () {
             // given
-            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
-
             const server = await createServer();
             const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-            const sessionId = databaseBuilder.factory.buildSession().id;
+            const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+            const sessionId = databaseBuilder.factory.buildSession({
+              certificationCenterId: certificationCenter.id,
+            }).id;
             const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
               sessionId,
               userId: candidateUserId,
@@ -97,6 +110,9 @@ describe('Acceptance | API | Certifications candidates', function () {
               userId: supervisorUserId,
               sessionId,
             });
+            sinon
+              .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
+              .value([certificationCenter.id]);
 
             await databaseBuilder.commit();
             const options = {
@@ -115,11 +131,13 @@ describe('Acceptance | API | Certifications candidates', function () {
         describe('when user is not the supervisor of the assessment session', function () {
           it('should return a 401 HTTP status code', async function () {
             // given
-            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
-
             const server = await createServer();
             const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-            const sessionId = databaseBuilder.factory.buildSession().id;
+            const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+            const sessionId = databaseBuilder.factory.buildSession({
+              certificationCenterId: certificationCenter.id,
+            }).id;
+
             const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
               sessionId,
               userId: candidateUserId,
@@ -141,6 +159,10 @@ describe('Acceptance | API | Certifications candidates', function () {
               userId: supervisorUserId,
               sessionId,
             });
+
+            sinon
+              .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
+              .value([certificationCenter.id]);
 
             await databaseBuilder.commit();
             const options = {
@@ -165,8 +187,10 @@ describe('Acceptance | API | Certifications candidates', function () {
       // given
       const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
-
-      const session = databaseBuilder.factory.buildSession();
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      const session = databaseBuilder.factory.buildSession({
+        certificationCenterId: certificationCenter.id,
+      });
       const candidate = databaseBuilder.factory.buildCertificationCandidate({
         sessionId: session.id,
       });
@@ -186,6 +210,10 @@ describe('Acceptance | API | Certifications candidates', function () {
         complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
       });
       await databaseBuilder.commit();
+
+      sinon
+        .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
+        .value([certificationCenter.id]);
 
       const options = {
         method: 'GET',

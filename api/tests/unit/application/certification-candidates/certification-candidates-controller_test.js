@@ -1,15 +1,16 @@
 const { expect, sinon, catchErr, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationCandidateController = require('../../../../lib/application/certification-candidates/certification-candidates-controller');
-const { featureToggles } = require('../../../../lib/config');
+const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 const { NotFoundError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Controller | certifications-candidate-controller', function () {
   describe('#authorizeToStart', function () {
-    describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+    describe('when end screen removal is enabled', function () {
       it('should return a 204 status code', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCandidateId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId.withArgs(99).resolves(true);
         const request = {
           auth: {
             credentials: { userId: '111' },
@@ -36,10 +37,13 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
       });
     });
 
-    describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function () {
+    describe('when end test screen removal is not enabled', function () {
       it('should return a 404 status code', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCandidateId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId
+          //   .withArgs(99)
+          .resolves(false);
 
         const request = {
           auth: {
@@ -53,6 +57,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
 
         // when
         const error = await catchErr(certificationCandidateController.authorizeToStart)(request, hFake);
+        certificationCandidateController.authorizeToStart(request, hFake);
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
@@ -61,10 +66,11 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
   });
 
   describe('#authorizeToResume', function () {
-    describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+    describe('when end test screen removal is enabled', function () {
       it('should return a 204 status code', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCandidateId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId.withArgs(99).resolves(true);
         const request = {
           auth: {
             credentials: { userId: '111' },
@@ -89,10 +95,11 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
       });
     });
 
-    describe('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function () {
+    describe('when end test screen removal is not enabled', function () {
       it('should return a 404 status code', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCandidateId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId.withArgs(99).resolves(false);
 
         const request = {
           auth: {
