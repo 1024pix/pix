@@ -123,6 +123,91 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       assert.notContains(t('pages.campaign-creation.multiple-sendings.info'));
     });
 
+    module('when there are several target profiles associated to the organization', function () {
+      test('it should display the all category tags', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: true });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.targetProfiles = [
+          EmberObject.create({
+            id: '4',
+            name: 'targetProfile4',
+            description: 'description4',
+            category: 'SUBJECT',
+          }),
+          EmberObject.create({
+            id: '5',
+            name: 'targetProfile5',
+            description: 'description7',
+            category: 'OTHER',
+          }),
+        ];
+        // when
+        await renderScreen(
+          hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+        // then
+        assert.contains(t('pages.campaign-creation.tags-title'));
+        assert.contains(t('pages.campaign-creation.tags.SUBJECT'));
+        assert.contains(t('pages.campaign-creation.tags.OTHER'));
+      });
+
+      test('it should display only the target profiles associated to the tag selected', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: true });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.targetProfiles = [
+          EmberObject.create({
+            id: '4',
+            name: 'targetProfile4',
+            description: 'description4',
+            category: 'SUBJECT',
+          }),
+          EmberObject.create({
+            id: '5',
+            name: 'targetProfile5',
+            description: 'description7',
+            category: 'OTHER',
+          }),
+        ];
+        // when
+        await renderScreen(
+          hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+        await clickByName(t('pages.campaign-creation.tags.SUBJECT'));
+        // then
+        const option = document.getElementsByTagName('option');
+        assert.equal(option.length, 1);
+        assert.equal(option[0].label, 'targetProfile4');
+      });
+    });
+
+    module('when there is no target profiles associated to the organization', function () {
+      test('it should not display the category tags', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: true });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.targetProfiles = [];
+        // when
+        await renderScreen(
+          hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+        // then
+        assert.notContains(t('pages.campaign-creation.tags-title'));
+      });
+    });
+
     module('when the user chose a target profile', function () {
       test('it should display informations about target profile', async function (assert) {
         // given

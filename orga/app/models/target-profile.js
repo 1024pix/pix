@@ -6,4 +6,5 @@ export default class TargetProfile extends Model {
   @attr('number') tubeCount;
   @attr('number') thematicResultCount;
   @attr('boolean') hasStage;
+  @attr('string') category;
 }
