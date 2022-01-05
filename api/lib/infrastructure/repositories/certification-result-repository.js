@@ -2,9 +2,6 @@ const { knex } = require('../../../db/knex-database-connection');
 const CertificationResult = require('../../domain/models/CertificationResult');
 const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
   require('../../domain/models/Badge').keys;
-const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
-const PixPlusDroitMaitreCertificationResult = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const PixPlusDroitExpertCertificationResult = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
 module.exports = {
   async findBySessionId({ sessionId }) {
@@ -13,7 +10,7 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    return _toDomainArrayWithComplementaryCertifications(certificationResultDTOs);
+    return certificationResultDTOs.map((certificationResultDTO) => _toDomain({ certificationResultDTO }));
   },
 
   async findByCertificationCandidateIds({ certificationCandidateIds }) {
@@ -27,7 +24,7 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    return _toDomainArrayWithComplementaryCertifications(certificationResultDTOs);
+    return certificationResultDTOs.map((certificationResultDTO) => _toDomain({ certificationResultDTO }));
   },
 };
 
@@ -80,49 +77,8 @@ function _filterMostRecentAssessmentResult(qb) {
   );
 }
 
-async function _toDomainArrayWithComplementaryCertifications(certificationResultDTOs) {
-  return certificationResultDTOs.map((certificationResultDTO) => {
-    const cleaComplementaryCertification = certificationResultDTO.partnerCertifications.find(
-      (complementaryCertification) =>
-        [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(complementaryCertification.partnerKey)
-    );
-    const cleaCertificationResult = cleaComplementaryCertification
-      ? CleaCertificationResult.buildFrom(cleaComplementaryCertification)
-      : CleaCertificationResult.buildNotTaken();
-
-    const pixPlusDroitMaitreComplementaryCertification = certificationResultDTO.partnerCertifications.find(
-      (complementaryCertification) => complementaryCertification.partnerKey === PIX_DROIT_MAITRE_CERTIF
-    );
-    const pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreComplementaryCertification
-      ? PixPlusDroitMaitreCertificationResult.buildFrom(pixPlusDroitMaitreComplementaryCertification)
-      : PixPlusDroitMaitreCertificationResult.buildNotTaken();
-
-    const pixPlusDroitExpertComplementaryCertification = certificationResultDTO.partnerCertifications.find(
-      (complementaryCertification) => complementaryCertification.partnerKey === PIX_DROIT_EXPERT_CERTIF
-    );
-    const pixPlusDroitExpertCertificationResult = pixPlusDroitExpertComplementaryCertification
-      ? PixPlusDroitExpertCertificationResult.buildFrom(pixPlusDroitExpertComplementaryCertification)
-      : PixPlusDroitExpertCertificationResult.buildNotTaken();
-
-    return _toDomain({
-      certificationResultDTO,
-      cleaCertificationResult,
-      pixPlusDroitMaitreCertificationResult,
-      pixPlusDroitExpertCertificationResult,
-    });
-  });
-}
-
-function _toDomain({
-  certificationResultDTO,
-  cleaCertificationResult,
-  pixPlusDroitMaitreCertificationResult,
-  pixPlusDroitExpertCertificationResult,
-}) {
+function _toDomain({ certificationResultDTO }) {
   return CertificationResult.from({
     certificationResultDTO,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
   });
 }

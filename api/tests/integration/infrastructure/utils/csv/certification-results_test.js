@@ -3,6 +3,8 @@ const {
   getSessionCertificationResultsCsv,
   getDivisionCertificationResultsCsv,
 } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
+const { PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {
@@ -33,9 +35,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark1,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [],
         });
         const certifResult2 = domainBuilder.buildCertificationResult.rejected({
           id: 456,
@@ -48,9 +48,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 66,
           commentForOrganization: null,
           competencesWithMark: competencesWithMark2,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
+          partnerCertifications: [],
         });
         const certificationResults = [certifResult1, certifResult2];
 
@@ -86,9 +84,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [],
         });
 
         const certificationResults = [certifResult];
@@ -124,9 +120,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [],
         });
 
         const certificationResults = [certifResult];
@@ -162,9 +156,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -198,9 +192,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -236,9 +230,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.rejected(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -272,9 +266,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.rejected(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -310,9 +304,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: true }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -346,9 +340,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: true }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -384,9 +378,11 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.rejected(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+          partnerCertifications: [
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
+            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: true }),
+          ],
         });
 
         const certificationResults = [certifResult];
@@ -432,9 +428,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark1,
           sessionId: 777,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [],
         });
         const certifResult2 = domainBuilder.buildCertificationResult.rejected({
           id: 456,
@@ -448,9 +442,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           sessionId: 777,
           commentForOrganization: null,
           competencesWithMark: competencesWithMark2,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
+          partnerCertifications: [],
         });
         const certificationResults = [certifResult1, certifResult2];
 
@@ -486,9 +478,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           sessionId: 777,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          partnerCertifications: [],
         });
 
         const certificationResults = [certifResult];
