@@ -4,6 +4,7 @@ const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/d
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
+const moment = require('moment');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };
@@ -112,7 +113,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       `"'${skill2_1_1.name}"\n`;
 
     // when
-    startWritingCampaignAssessmentResultsToStream({
+    const { fileName } = await startWritingCampaignAssessmentResultsToStream({
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
@@ -128,7 +129,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const csv = await csvPromise;
 
     // then
-    expect(csv).to.equal(csvExpected);
+    const expectedFilename = `Resultats-name-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+    expect(fileName).to.equals(expectedFilename);
+    expect(csv).to.deep.equal(csvExpected);
   });
 
   it('should contains idPixLabel in header if any setup in campaign', async function () {
