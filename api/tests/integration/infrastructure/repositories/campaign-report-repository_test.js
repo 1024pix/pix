@@ -143,7 +143,7 @@ describe('Integration | Repository | Campaign-Report', function () {
 
       // then
       expect(result).to.be.instanceOf(Array);
-      expect(result).to.deep.equal([0.1, 0.3]);
+      expect(result).to.have.members([0.1, 0.3]);
     });
 
     it('should only take into account participations not improved', async function () {
