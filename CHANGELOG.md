@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.150.0 (05/01/2022)
+
+
+### :rocket: Enhancement
+- [#3895](https://github.com/1024pix/pix/pull/3895) [FEATURE] Ajouter la date de validation des cgu lors de la création de compte pix  (PIX-1763)
+- [#3880](https://github.com/1024pix/pix/pull/3880) [FEATURE] Permettre d'ajouter une méthode de connexion avec adresse e-mail à un utilisateur sur Pix Admin (PIX-3775).
+
+### :building_construction: Tech
+- [#3893](https://github.com/1024pix/pix/pull/3893) [TECH] Faire échouer la CI sur le set recommended de eslint-mocha sur l'API.
+
+### :bug: Bug fix
+- [#3899](https://github.com/1024pix/pix/pull/3899) [BUGFIX] [A11Y] Ajouter un titre au champ de filtrage sur la page d'ajout d'élèves à une session de certification (PIX-3906)
+
 ## v3.149.0 (04/01/2022)
 
 
