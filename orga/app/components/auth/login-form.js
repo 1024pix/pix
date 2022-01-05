@@ -1,8 +1,10 @@
 import { action } from '@ember/object';
+import isEmpty from 'lodash/isEmpty';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import isEmailValid from '../../utils/email-validator';
 
 export default class LoginForm extends Component {
   @service intl;
@@ -13,16 +15,12 @@ export default class LoginForm extends Component {
   @tracked errorMessage = null;
   @tracked isErrorMessagePresent = false;
   @tracked isLoading = false;
-  @tracked isPasswordVisible = false;
-
-  email = null;
-  password = null;
+  @tracked password = null;
+  @tracked email = null;
+  @tracked passwordValidationMessage = null;
+  @tracked emailValidationMessage = null;
 
   ERROR_MESSAGES;
-
-  get passwordInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
-  }
 
   get displayRecoveryLink() {
     if (this.intl.t('current-lang') === 'en' || !this.url.isFrenchDomainExtension) {
@@ -59,8 +57,26 @@ export default class LoginForm extends Component {
   }
 
   @action
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
+  validatePassword(event) {
+    this.password = event.target.value;
+    const isInvalidInput = isEmpty(this.password);
+    this.passwordValidationMessage = null;
+
+    if (isInvalidInput) {
+      this.passwordValidationMessage = this.intl.t('pages.login-form.errors.empty-password');
+    }
+  }
+
+  @action
+  validateEmail() {
+    this.email = this.email.trim();
+    const isInvalidInput = !isEmailValid(this.email);
+
+    this.emailValidationMessage = null;
+
+    if (isInvalidInput) {
+      this.emailValidationMessage = this.intl.t('pages.login-form.errors.invalid-email');
+    }
   }
 
   async _authenticate(password, email) {

@@ -2,7 +2,7 @@ import { reject, resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -78,7 +78,6 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      assert.dom('.alert-input--error').doesNotExist();
       assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
       assert.equal(sessionServiceObserver.email, 'pix@example.net');
       assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
@@ -117,7 +116,6 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      assert.dom('.alert-input--error').doesNotExist();
       assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
       assert.equal(sessionServiceObserver.email, 'pix@example.net');
       assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
@@ -175,44 +173,6 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     assert.dom('login-form__information').doesNotExist();
   });
 
-  module('when password is hidden', function (hooks) {
-    let showButtonText;
-
-    hooks.beforeEach(async function () {
-      // given
-      showButtonText = this.intl.t('pages.login-form.show-password');
-      await render(hbs`<Auth::LoginForm/>`);
-    });
-
-    test('it should display password when user click', async function (assert) {
-      // when
-      await clickByName(showButtonText);
-
-      // then
-      assert.dom('#login-password').hasAttribute('type', 'text');
-    });
-
-    test('it should change icon when user click on it', async function (assert) {
-      // when
-      await clickByName(showButtonText);
-
-      // then
-      assert.dom('.fa-eye').exists();
-    });
-
-    test('it should not change icon when user keeps typing his password', async function (assert) {
-      // given
-      await fillByLabel(passwordInputLabel, 'début du mot de passe');
-
-      // when
-      await clickByName(showButtonText);
-      await fillByLabel(passwordInputLabel, 'fin du mot de passe');
-
-      // then
-      assert.dom('.fa-eye').exists();
-    });
-  });
-
   module('when domain is pix.org', function () {
     test('should not display recovery link', async function (assert) {
       //given
@@ -246,6 +206,33 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
       // then
       assert.dom('.login-form__recover-access-link').exists();
+    });
+  });
+
+  module('when the user fills inputs with errors', function () {
+    test('should display an invalid email error message when focus-out', async function (assert) {
+      //given
+      const invalidEmail = 'invalidEmail';
+      await render(hbs`<Auth::LoginForm/>`);
+
+      // when
+      await fillByLabel(emailInputLabel, invalidEmail);
+      await triggerEvent('#login-email', 'focusout');
+
+      // then
+      assert.contains(this.intl.t('pages.login-form.errors.invalid-email'));
+    });
+
+    test('should display an empty password error message when focus-out', async function (assert) {
+      //given
+      await render(hbs`<Auth::LoginForm/>`);
+
+      // when
+      await fillByLabel(passwordInputLabel, '');
+      await triggerEvent('#login-password', 'focusout');
+
+      // then
+      assert.contains(this.intl.t('pages.login-form.errors.empty-password'));
     });
   });
 });

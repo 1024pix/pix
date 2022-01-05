@@ -517,6 +517,8 @@
       "active-or-retrieve": "Activate or retrieve your Pix Orga space",
       "email": "Email address",
       "errors": {
+        "invalid-email": "Your email address is invalid.",
+        "empty-password": "Your password can't be empty.",
         "status": {
           "401": "Missing or invalid credentials",
           "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
