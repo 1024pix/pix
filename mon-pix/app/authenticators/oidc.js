@@ -56,7 +56,7 @@ export default OIDCAuthenticator.extend({
         // We must ensure to disconnect the Pix user in order for the session service to fire
         // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
         // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
-        this.session.invalidate();
+        await this.session.invalidate();
       }
     }
 
