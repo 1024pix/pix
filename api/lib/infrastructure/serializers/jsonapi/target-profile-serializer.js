@@ -14,8 +14,9 @@ module.exports = {
       ownerOrganizationId: json.data.attributes['owner-organization-id'],
       isPublic: json.data.attributes['is-public'],
       imageUrl: json.data.attributes['image-url'],
-      skillsId: json.data.attributes['skills-id'],
+      skillIds: json.data.attributes['skill-ids'],
       comment: json.data.attributes['comment'],
+      category: json.data.attributes['category'],
     };
   },
 };

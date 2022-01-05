@@ -1,10 +1,11 @@
 const _ = require('lodash');
 const { expect, databaseBuilder, domainBuilder, catchErr, sinon, knex } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
+const TargetProfileForCreation = require('../../../../lib/domain/models/TargetProfileForCreation');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, ObjectValidationError, TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
+const { NotFoundError, ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -14,39 +15,50 @@ describe('Integration | Repository | Target-profile', function () {
     });
 
     it('should return the created target profile', async function () {
-      const targetProfileData = {
+      const targetProfileForCreation = new TargetProfileForCreation({
         name: 'myFirstTargetProfile',
         imageUrl: 'someUrl',
         isPublic: true,
         ownerOrganizationId: null,
-        skillsId: [],
+        skillIds: [1],
         description: 'public description of target profile',
         comment: 'This is a high level target profile',
-      };
+        category: TargetProfile.categories.SUBJECT,
+      });
       // when
-      const targetProfileId = await targetProfileRepository.create(targetProfileData);
+      const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
 
       const [targetProfile] = await knex('target-profiles')
-        .select(['name', 'imageUrl', 'outdated', 'isPublic', 'ownerOrganizationId', 'comment', 'description'])
+        .select([
+          'name',
+          'imageUrl',
+          'outdated',
+          'isPublic',
+          'ownerOrganizationId',
+          'comment',
+          'description',
+          'category',
+        ])
         .where({ id: targetProfileId });
 
       // then
-      expect(targetProfile.name).to.equal(targetProfileData.name);
-      expect(targetProfile.imageUrl).to.equal(targetProfileData.imageUrl);
+      expect(targetProfile.name).to.equal(targetProfileForCreation.name);
+      expect(targetProfile.imageUrl).to.equal(targetProfileForCreation.imageUrl);
       expect(targetProfile.outdated).to.equal(false);
-      expect(targetProfile.isPublic).to.equal(targetProfileData.isPublic);
-      expect(targetProfile.ownerOrganizationId).to.equal(targetProfileData.ownerOrganizationId);
-      expect(targetProfile.comment).to.equal(targetProfileData.comment);
-      expect(targetProfile.description).to.equal(targetProfileData.description);
+      expect(targetProfile.isPublic).to.equal(targetProfileForCreation.isPublic);
+      expect(targetProfile.ownerOrganizationId).to.equal(targetProfileForCreation.ownerOrganizationId);
+      expect(targetProfile.comment).to.equal(targetProfileForCreation.comment);
+      expect(targetProfile.description).to.equal(targetProfileForCreation.description);
+      expect(targetProfile.category).to.equal(TargetProfile.categories.SUBJECT);
     });
 
     it('should attached each skillId once to target profile', async function () {
-      const targetProfileData = {
+      const targetProfileForCreation = new TargetProfileForCreation({
         name: 'myFirstTargetProfile',
-        skillsId: ['skills1', 'skills2', 'skills2'],
-      };
+        skillIds: ['skills1', 'skills2', 'skills2'],
+      });
       // when
-      const targetProfileId = await targetProfileRepository.create(targetProfileData);
+      const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
 
       const skillsList = await knex('target-profiles_skills')
         .select(['skillId'])
@@ -55,23 +67,6 @@ describe('Integration | Repository | Target-profile', function () {
       const skillsId = skillsList.map((skill) => skill.skillId);
       // then
       expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
-    });
-
-    it('should throw exception given wrong insert', async function () {
-      const targetProfileData = {
-        name: 'myFirstTargetProfile',
-        skillsId: [null],
-      };
-      // when
-      const error = await catchErr(targetProfileRepository.create)(targetProfileData);
-
-      const targetProfileList = await knex('target-profiles');
-      const skillsList = await knex('target-profiles_skills');
-
-      expect(targetProfileList.length).to.be.equal(0);
-      expect(skillsList.length).to.be.equal(0);
-
-      expect(error).to.be.an.instanceOf(TargetProfileCannotBeCreated);
     });
   });
 

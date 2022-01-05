@@ -19,6 +19,7 @@ module.exports = {
       'ownerOrganizationId',
       'comment',
       'description',
+      'category',
     ]);
 
     const trx = await knex.transaction();
@@ -26,7 +27,7 @@ module.exports = {
     try {
       const [targetProfileId] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
 
-      const skillsIdList = _.uniq(targetProfileData.skillsId);
+      const skillsIdList = _.uniq(targetProfileData.skillIds);
 
       const skillToAdd = skillsIdList.map((skillId) => {
         return { targetProfileId, skillId };

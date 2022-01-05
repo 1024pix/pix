@@ -1,17 +1,10 @@
-const { TargetProfileInvalidError } = require('../../../../lib/domain/errors');
-
-const { expect, catchErr, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
+const TargetProfileForCreation = require('../../../../lib/domain/models/TargetProfileForCreation');
 const createTargetProfile = require('../../../../lib/domain/usecases/create-target-profile');
 
 describe('Unit | UseCase | create-target-profile', function () {
   let targetProfileRepositoryStub;
   let targetProfileWithLearningContentRepositoryStub;
-
-  const targetProfileId = 'targetProfileId';
-  const organizationId = null;
-  const name = 'MyTargetProfile';
-  const isPublic = false;
-  const imageUrl = 'myurlsample';
 
   beforeEach(function () {
     targetProfileRepositoryStub = {
@@ -23,82 +16,31 @@ describe('Unit | UseCase | create-target-profile', function () {
     };
   });
 
-  describe('when targetProfile is valid', function () {
-    it('should create target profile with skills given data', async function () {
-      //given
-      const skillsId = ['skill1-tube1', 'skill3-tube1'];
-      const targetProfile = Symbol('ok');
-      const targetProfileData = {
-        isPublic,
-        name,
-        imageUrl,
-        organizationId,
-        skillsId,
-      };
-
-      targetProfileRepositoryStub.create.withArgs(targetProfileData).resolves(targetProfileId);
-      targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
-
-      //when
-      const result = await createTargetProfile({
-        targetProfileData,
-        targetProfileRepository: targetProfileRepositoryStub,
-        targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
-      });
-
-      //then
-      expect(result).to.equal(targetProfile);
-    });
-
-    it('should create target profile with default imageUrl if none is specified', async function () {
-      //given
-      const skillsId = ['skill1-tube1', 'skill3-tube1'];
-      const targetProfile = Symbol('ok');
-      const targetProfileData = {
-        isPublic,
-        name,
-        imageUrl: null,
-        organizationId,
-        skillsId,
-      };
-      targetProfileRepositoryStub.create.resolves(targetProfileId);
-      targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
-
-      //when
-      await createTargetProfile({
-        targetProfileData,
-        targetProfileRepository: targetProfileRepositoryStub,
-        targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
-      });
-
-      //then
-      expect(targetProfileRepositoryStub.create).to.have.been.calledWith({
-        isPublic,
-        name,
-        imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
-        organizationId,
-        skillsId,
-      });
-    });
-  });
-
-  it('should return TargetProfileInvalidError given empty skills', async function () {
-    const skillsId = [];
+  it('should create target profile with skills given data', async function () {
     //given
+    const skillIds = ['skill1-tube1', 'skill3-tube1'];
+    const targetProfileWithLearningContent = Symbol('ok');
     const targetProfileData = {
-      isPublic,
-      name,
-      imageUrl,
-      organizationId,
-      skillsId,
+      isPublic: true,
+      name: 'name',
+      skillIds,
     };
+    const targetProfileId = 12;
+    const targetProfile = new TargetProfileForCreation(targetProfileData);
 
-    const result = await catchErr(createTargetProfile)({
+    targetProfileRepositoryStub.create.withArgs(targetProfile).resolves(targetProfileId);
+    targetProfileWithLearningContentRepositoryStub.get
+      .withArgs({ id: targetProfileId })
+      .resolves(targetProfileWithLearningContent);
+
+    //when
+    const result = await createTargetProfile({
       targetProfileData,
       targetProfileRepository: targetProfileRepositoryStub,
       targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
     });
 
-    expect(result).to.be.instanceOf(TargetProfileInvalidError);
+    //then
+    expect(result).to.equal(targetProfileWithLearningContent);
   });
 });
