@@ -34,11 +34,6 @@
     text-align: left;
   }
 
-  &__button {
-    font-weight: 600;
-    margin-top: 8px;
-  }
-
   &__invitation-error {
     border-radius: 3px;
     color: $error;
@@ -49,7 +44,7 @@
   }
 
   .input-container {
-    margin: 16px 2px;
+    margin: 16px 2px 25px 2px;
   }
 
   form {

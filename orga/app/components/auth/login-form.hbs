@@ -20,43 +20,34 @@
 
   <form {{on "submit" this.authenticate}}>
     <p class="login-form__information">{{t "pages.login-form.mandatory-all-fields"}}</p>
+
     <div class="input-container">
-      <label for="login-email" class="label">{{t "pages.login-form.email"}}</label>
-      <Input
-        id="login-email"
+      <PixInput
+        @id="login-email"
+        @label={{t "pages.login-form.email"}}
+        name="login"
         @type="email"
         @value={{this.email}}
-        name="login"
-        class="input"
-        autocomplete="username"
+        {{on "focusout" this.validateEmail}}
+        @errorMessage={{this.emailValidationMessage}}
         required={{true}}
+        aria-required={{true}}
+        autocomplete="email"
       />
     </div>
 
     <div class="input-container">
-      <label for="login-password" class="label">{{t "pages.login-form.password"}}</label>
-      <div class="input-password">
-        <Input
-          id="login-password"
-          @type={{this.passwordInputType}}
-          @value={{this.password}}
-          name="password"
-          class="input"
-          autocomplete="current-password"
-          required={{true}}
-        />
-        <PixIconButton
-          @icon="{{if this.isPasswordVisible "eye" "eye-slash"}}"
-          aria-label={{if
-            this.isPasswordVisible
-            (t "pages.login-form.hide-password")
-            (t "pages.login-form.show-password")
-          }}
-          @triggerAction={{this.togglePasswordVisibility}}
-          @withBackground={{false}}
-          @color="dark-grey"
-        />
-      </div>
+      <PixInputPassword
+        @id="login-password"
+        name="password"
+        @label={{t "pages.login-form.password"}}
+        autocomplete="current-password"
+        required={{true}}
+        aria-required={{true}}
+        {{on "focusout" this.validatePassword}}
+        {{on "input" this.validatePassword}}
+        @errorMessage={{this.passwordValidationMessage}}
+      />
     </div>
 
     <div class="input-container">
