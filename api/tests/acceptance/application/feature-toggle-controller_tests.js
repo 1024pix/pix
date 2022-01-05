@@ -25,7 +25,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-email-validation-enabled': false,
             'is-end-test-screen-removal-enabled': false,
             'is-complementary-certification-subscription-enabled': false,
-            'is-net-promoter-score-enabled': false,
           },
           type: 'feature-toggles',
         },
