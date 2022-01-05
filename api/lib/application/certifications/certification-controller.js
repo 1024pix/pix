@@ -3,7 +3,7 @@ const events = require('../../domain/events');
 const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
 const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
-const moment = require('moment');
+const dayjs = require('dayjs');
 
 module.exports = {
   async findUserCertifications(request) {
@@ -43,7 +43,7 @@ module.exports = {
       certificates: [attestation],
     });
 
-    const fileName = `attestation-pix-${moment(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
+    const fileName = `attestation-pix-${dayjs(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
     return h
       .response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)

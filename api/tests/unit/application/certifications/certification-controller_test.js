@@ -191,28 +191,22 @@ describe('Unit | Controller | certifications-controller', function () {
   describe('#getCertificationAttestation', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
-    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const attestationPDF = 'binary string';
     const fileName = 'attestation-pix-20181003.pdf';
     const userId = 1;
 
-    const request = {
-      auth: { credentials: { userId } },
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      params: { id: certification.id },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getCertificationAttestation');
-    });
-
     it('should return binary attestation', async function () {
       // given
+      const deliveredAt = new Date('2018-12-04T02:02:02Z');
+      const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree({ deliveredAt });
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: certification.id },
+      };
+      sinon.stub(usecases, 'getCertificationAttestation').resolves(certification);
       sinon
         .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
         .resolves({ buffer: attestationPDF, fileName });
-      usecases.getCertificationAttestation.resolves(certification);
 
       // when
       const response = await certificationController.getPDFAttestation(request, hFake);
@@ -223,7 +217,7 @@ describe('Unit | Controller | certifications-controller', function () {
         certificationId: certification.id,
       });
       expect(response.source).to.deep.equal(attestationPDF);
-      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestation-pix-20181003.pdf');
+      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestation-pix-20181204.pdf');
     });
   });
 

@@ -4,7 +4,9 @@ const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/d
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
-const moment = require('moment');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };
@@ -20,10 +22,17 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
+  let clock;
+  const fakedDate = new Date('2018-07-15T18:01:02Z');
 
   beforeEach(function () {
+    clock = sinon.useFakeTimers(fakedDate);
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
+  });
+
+  afterEach(function () {
+    clock.restore();
   });
 
   it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function () {
@@ -57,7 +66,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
-  it('should return common parts of header with appropriate info', async function () {
+  it('should return common parts of header with appropriate info and filename', async function () {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SUP' });
     const skill1_1_1 = domainBuilder.buildTargetedSkill({ id: 'skill1_1_1', tubeId: 'tube1', name: '@acquis1' });
@@ -129,7 +138,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const csv = await csvPromise;
 
     // then
-    const expectedFilename = `Resultats-name-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+    const expectedFilename = `Resultats-name-${campaign.id}-2018-07-15-0601.csv`;
     expect(fileName).to.equals(expectedFilename);
     expect(csv).to.deep.equal(csvExpected);
   });

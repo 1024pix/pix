@@ -18,7 +18,7 @@ const {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } = require('../../infrastructure/utils/request-response-utils');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
@@ -127,7 +127,7 @@ module.exports = {
       certificates: attestations,
     });
 
-    const now = moment();
+    const now = dayjs();
     const fileName = `${now.format('YYYYMMDD')}_attestations_${division}.pdf`;
 
     return h
@@ -144,7 +144,7 @@ module.exports = {
 
     const csvResult = await certificationResultUtils.getDivisionCertificationResultsCsv({ certificationResults });
 
-    const now = moment();
+    const now = dayjs();
     const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
 
     return h

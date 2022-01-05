@@ -1,4 +1,4 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
 const { BadRequestError, SessionPublicationBatchError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
@@ -148,7 +148,7 @@ module.exports = {
       certificationResults,
     });
 
-    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+    const dateWithTime = dayjs(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
     const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
 
     return h
@@ -169,7 +169,7 @@ module.exports = {
       certificationResults,
     });
 
-    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+    const dateWithTime = dayjs(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
     const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
 
     return h

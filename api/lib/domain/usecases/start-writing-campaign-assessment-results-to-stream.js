@@ -1,5 +1,8 @@
 const _ = require('lodash');
-const moment = require('moment');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
+
 const bluebird = require('bluebird');
 
 const constants = require('../../infrastructure/constants');
@@ -116,7 +119,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
   const fileName = translate('campaign-export.common.file-name', {
     name: campaign.name,
     id: campaign.id,
-    date: moment.utc().format('YYYY-MM-DD-hhmm'),
+    date: dayjs.utc().format('YYYY-MM-DD-hhmm'),
   });
   return { fileName };
 };
