@@ -2,15 +2,16 @@ const { expect, sinon, hFake, domainBuilder, catchErr } = require('../../../test
 const sessionForSupervisingController = require('../../../../lib/application/sessions/session-for-supervising-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const sessionForSupervisingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer');
-const { featureToggles } = require('../../../../lib/config');
 const { NotFoundError } = require('../../../../lib/application/http-errors');
+const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 
 describe('Unit | Controller | session-for-supervising', function () {
   describe('#get', function () {
-    context('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+    context('when end screen removal is enabled', function () {
       it('should return a session for supervising', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledBySessionId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(123).resolves(true);
         const request = {
           params: {
             id: 123,
@@ -34,10 +35,11 @@ describe('Unit | Controller | session-for-supervising', function () {
       });
     });
 
-    context('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
+    context('when end screen removal is disabled', function () {
       it('should throw a NotFoundError', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledBySessionId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(123).resolves(false);
         const request = {
           params: {
             id: 123,
@@ -59,10 +61,11 @@ describe('Unit | Controller | session-for-supervising', function () {
   });
 
   describe('#supervise', function () {
-    context('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+    context('when end screen removal is enabled for the session', function () {
       it('should return a HTTP 204 No Content', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledBySessionId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(123).resolves(true);
         const request = {
           auth: {
             credentials: {
@@ -91,10 +94,11 @@ describe('Unit | Controller | session-for-supervising', function () {
       });
     });
 
-    context('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
+    context('when end screen removal is disabled', function () {
       it('should throw a NotFoundError', async function () {
         // given
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+        sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledBySessionId');
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(123).resolves(false);
         const request = {
           auth: {
             credentials: {
