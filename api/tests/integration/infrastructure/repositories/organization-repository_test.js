@@ -1,7 +1,6 @@
 const { catchErr, expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Organization = require('../../../../lib/domain/models/Organization');
-const BookshelfOrganization = require('../../../../lib/infrastructure/orm-models/Organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const _ = require('lodash');
 
@@ -24,13 +23,13 @@ describe('Integration | Repository | Organization', function () {
 
     it('should add a row in the table "organizations"', async function () {
       // given
-      const nbOrganizationsBeforeCreation = await BookshelfOrganization.count();
+      const { count: nbOrganizationsBeforeCreation } = await knex('organizations').count('*').first();
 
       // when
       await organizationRepository.create(domainBuilder.buildOrganization());
 
       // then
-      const nbOrganizationsAfterCreation = await BookshelfOrganization.count();
+      const { count: nbOrganizationsAfterCreation } = await knex('organizations').count('*').first();
       expect(nbOrganizationsAfterCreation).to.equal(nbOrganizationsBeforeCreation + 1);
     });
 
@@ -52,6 +51,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
       expect(organizationSaved.createdBy).to.equal(organization.createdBy);
+      expect(organizationSaved.documentationUrl).to.equal(organization.documentationUrl);
     });
 
     it('should insert default value for canCollectProfiles (false), credit (0) when not defined', async function () {
@@ -75,13 +75,12 @@ describe('Integration | Repository | Organization', function () {
   describe('#update', function () {
     it('should return an Organization domain object with related tags', async function () {
       // given
-      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
+      const organization = databaseBuilder.factory.buildOrganization({ id: 1 });
       const tagId = databaseBuilder.factory.buildTag().id;
       databaseBuilder.factory.buildOrganizationTag({ organizationId: 1, tagId });
       await databaseBuilder.commit();
 
       // when
-      const organization = domainBuilder.buildOrganization(bookshelfOrganization);
       const organizationSaved = await organizationRepository.update(organization);
 
       // then
@@ -91,27 +90,25 @@ describe('Integration | Repository | Organization', function () {
 
     it('should not add row in table "organizations"', async function () {
       // given
-      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
+      const organization = databaseBuilder.factory.buildOrganization({ id: 1 });
       await databaseBuilder.commit();
-      const nbOrganizationsBeforeUpdate = await BookshelfOrganization.count();
-
-      const organization = domainBuilder.buildOrganization(bookshelfOrganization);
+      const { count: nbOrganizationsBeforeUpdate } = await knex('organizations').count('*').first();
 
       // when
       await organizationRepository.update(organization);
 
       // then
-      const nbOrganizationsAfterUpdate = await BookshelfOrganization.count();
+      const { count: nbOrganizationsAfterUpdate } = await knex('organizations').count('*').first();
       expect(nbOrganizationsAfterUpdate).to.equal(nbOrganizationsBeforeUpdate);
     });
 
     it('should update model in database', async function () {
       // given
-      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
 
       const organization = domainBuilder.buildOrganization({
-        id: bookshelfOrganization.id,
+        id: organizationId,
         name: 'New name',
         type: 'SCO',
         logoUrl: 'http://new.logo.url',
