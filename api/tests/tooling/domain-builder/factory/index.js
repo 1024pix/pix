@@ -73,6 +73,7 @@ module.exports = {
   buildOrganization: require('./build-organization'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildOrganizationTag: require('./build-organization-tag'),
+  buildPartnerCertification: require('./build-partner-certification'),
   buildPixPlusDroitCertificationResult: require('./build-pix-plus-droit-certification-result'),
   buildPixPlusCertificationScoring: require('./build-pix-plus-certification-scoring'),
   buildPixRole: require('./build-pix-role'),

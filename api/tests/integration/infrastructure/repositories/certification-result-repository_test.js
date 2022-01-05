@@ -91,13 +91,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.REJECTED,
         pixScore: 0,
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
@@ -108,13 +106,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.CANCELLED,
         pixScore: null,
         commentForOrganization: null,
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -125,9 +121,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
@@ -142,6 +135,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             assessmentResultId: assessmentResultId1,
           }),
         ],
+        partnerCertifications: [],
       });
       expect(certificationResults).to.deepEqualArray([
         expectedFirstCertificationResult,
@@ -344,13 +338,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.REJECTED,
         pixScore: 0,
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
@@ -361,13 +353,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.CANCELLED,
         pixScore: null,
         commentForOrganization: null,
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -378,9 +368,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
@@ -395,6 +382,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             assessmentResultId: assessmentResultId1,
           }),
         ],
+        partnerCertifications: [],
       });
       expect(certificationResults).to.deepEqualArray([
         expectedFirstCertificationResult,

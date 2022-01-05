@@ -1,5 +1,8 @@
 const _ = require('lodash');
 const CompetenceMark = require('./CompetenceMark');
+const PartnerCertification = require('./PartnerCertification');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('./Badge').keys;
 
 const status = {
   REJECTED: 'rejected',
@@ -23,9 +26,7 @@ class CertificationResult {
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -39,17 +40,10 @@ class CertificationResult {
     this.pixScore = pixScore;
     this.commentForOrganization = commentForOrganization;
     this.competencesWithMark = competencesWithMark;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    this.partnerCertifications = partnerCertifications;
   }
 
-  static from({
-    certificationResultDTO,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
-  }) {
+  static from({ certificationResultDTO }) {
     let certificationStatus;
     if (certificationResultDTO.isCancelled) {
       certificationStatus = status.CANCELLED;
@@ -66,6 +60,9 @@ class CertificationResult {
           competence_code: competenceMarkDTO.competence_code.toString(),
         })
     );
+    const partnerCertifications = certificationResultDTO.partnerCertifications.map(
+      (partnerCertification) => new PartnerCertification(partnerCertification)
+    );
 
     return new CertificationResult({
       id: certificationResultDTO.id,
@@ -80,9 +77,7 @@ class CertificationResult {
       pixScore: certificationResultDTO.pixScore,
       commentForOrganization: certificationResultDTO.commentForOrganization,
       competencesWithMark,
-      cleaCertificationResult,
-      pixPlusDroitMaitreCertificationResult,
-      pixPlusDroitExpertCertificationResult,
+      partnerCertifications,
     });
   }
 
@@ -107,27 +102,42 @@ class CertificationResult {
   }
 
   hasTakenClea() {
-    return this.cleaCertificationResult.isTaken();
+    return this.partnerCertifications.some((partnerCertification) =>
+      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerCertification.partnerKey)
+    );
   }
 
   hasAcquiredClea() {
-    return this.cleaCertificationResult.isAcquired();
+    const cleaPartnerCertification = this.partnerCertifications.find((partnerCertification) =>
+      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerCertification.partnerKey)
+    );
+    return cleaPartnerCertification && cleaPartnerCertification.acquired;
   }
 
   hasTakenPixPlusDroitMaitre() {
-    return this.pixPlusDroitMaitreCertificationResult.isTaken();
+    return this.partnerCertifications.some(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_DROIT_MAITRE_CERTIF
+    );
   }
 
   hasAcquiredPixPlusDroitMaitre() {
-    return this.pixPlusDroitMaitreCertificationResult.isAcquired();
+    const pixPlusDroitMaitrePartnerCertification = this.partnerCertifications.find(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_DROIT_MAITRE_CERTIF
+    );
+    return pixPlusDroitMaitrePartnerCertification && pixPlusDroitMaitrePartnerCertification.acquired;
   }
 
   hasTakenPixPlusDroitExpert() {
-    return this.pixPlusDroitExpertCertificationResult.isTaken();
+    return this.partnerCertifications.some(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_DROIT_EXPERT_CERTIF
+    );
   }
 
   hasAcquiredPixPlusDroitExpert() {
-    return this.pixPlusDroitExpertCertificationResult.isAcquired();
+    const pixPlusDroitExpertPartnerCertification = this.partnerCertifications.find(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_DROIT_EXPERT_CERTIF
+    );
+    return pixPlusDroitExpertPartnerCertification && pixPlusDroitExpertPartnerCertification.acquired;
   }
 }
 
