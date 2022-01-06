@@ -11,7 +11,7 @@
   </div>
 
   {{#if this.currentUser.isAdminInOrganization}}
-    <nav class="panel navbar list-team-page__tabs">
+    <nav class="panel navbar list-team-page__tabs" aria-label={{t "navigation.team-members.aria-label"}}>
       <LinkTo @route="authenticated.team.list.members" class="navbar-item">
         {{t "pages.team-list.tabs.member" count=@model.memberships.meta.rowCount}}
       </LinkTo>

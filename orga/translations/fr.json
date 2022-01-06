@@ -200,6 +200,9 @@
       "team": "Équipe",
       "aria-label": "Navigation principale"
     },
+    "team-members": {
+      "aria-label": "Navigation de la section équipe"
+    },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Se déconnecter",

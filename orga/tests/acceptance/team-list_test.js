@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { clickByName } from '@1024pix/ember-testing-library';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
+
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -26,6 +28,21 @@ module('Acceptance | Team List', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
+    test('[a11y] it should contain accessibility aria-label nav', async function (assert) {
+      // given
+      user = createUserMembershipWithRole('ADMIN');
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+      // when
+      const screen = await visitScreen('/equipe');
+
+      // then
+      assert.dom(screen.getByLabelText('Navigation principale')).exists();
+      assert.dom(screen.getByLabelText('Navigation de la section équipe')).exists();
+      assert.dom(screen.getByLabelText('Navigation de pied de page')).exists();
+    });
+
     module('When prescriber is a member', function () {
       test('it should show title of team page', async function (assert) {
         // given
@@ -35,10 +52,10 @@ module('Acceptance | Team List', function (hooks) {
         await authenticateSession(user.id);
 
         // when
-        await visit('/equipe');
+        const screen = await visitScreen('/equipe');
 
         // then
-        assert.contains('Équipe');
+        assert.dom(screen.getByText('Équipe', { selector: 'h1' })).exists();
       });
 
       test('it should be possible to see only members list', async function (assert) {
@@ -49,14 +66,14 @@ module('Acceptance | Team List', function (hooks) {
         await authenticateSession(user.id);
 
         // when
-        await visit('/equipe');
+        const screen = await visitScreen('/equipe');
 
         // then
         assert.equal(currentURL(), '/equipe/membres');
-        assert.notContains('Membres');
-        assert.notContains('Invitations');
-        assert.notContains('Inviter un membre');
-        assert.contains('Rôle');
+        assert.dom(screen.queryByLabelText('Membres')).isNotVisible();
+        assert.dom(screen.queryByLabelText('Invitations')).isNotVisible();
+        assert.dom(screen.queryByLabelText('Inviter un membre')).isNotVisible();
+        assert.dom(screen.getByText('Rôle')).exists();
       });
     });
 
@@ -83,10 +100,10 @@ module('Acceptance | Team List', function (hooks) {
         await authenticateSession(user.id);
 
         // when
-        await visit('/equipe');
+        const screen = await visitScreen('/equipe');
 
         // then
-        assert.contains('Équipe');
+        assert.dom(screen.getByText('Équipe', { selector: 'h1' })).exists();
       });
 
       test('it should show members list, invitations list and add an invitation button', async function (assert) {
@@ -97,12 +114,12 @@ module('Acceptance | Team List', function (hooks) {
         await authenticateSession(user.id);
 
         // when
-        await visit('/equipe');
+        const screen = await visitScreen('/equipe');
 
         // then
-        assert.contains('Membres');
-        assert.contains('Invitations');
-        assert.contains('Inviter un membre');
+        assert.dom(screen.getByText('Inviter un membre')).exists();
+        assert.dom(screen.getByText('Membres (1)')).exists();
+        assert.dom(screen.getByText('Invitations (-)')).exists();
       });
     });
   });
