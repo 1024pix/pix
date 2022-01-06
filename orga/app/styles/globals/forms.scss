@@ -6,7 +6,7 @@
   &__field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
+    margin: 16px 0;
 
     @include device-is('desktop') {
       width: 500px;
@@ -43,15 +43,13 @@
     border-radius: 8px;
     background: $grey-15;
     height: max-content;
-    margin-bottom: 16px;
     padding: 16px;
     color: $grey-60;
     font-size: 0.875rem;
 
     @include device-is('desktop') {
       position: absolute;
-      margin-left: 16px;
-      margin-bottom: 0;
+      margin: 16px 0 0 16px;
       left: 100%;
       width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
@@ -103,15 +101,21 @@
     input[type=radio] {
       margin-right: 16px;
     }
+    label {
+      font-size: 0.875rem;
+    }
   }
 }
 
 .label {
   display: inline-block;
   color: $grey-70;
-  font-size: 0.94rem;
-  font-weight: 500;
+  font-size: 0.875rem;
   padding-bottom: 5px;
+}
+
+p.label {
+  margin: 0 0 16px;
 }
 
 .input-container {
@@ -143,17 +147,6 @@
   color: red;
   font-family: $roboto;
   font-size: 0.75rem;
-}
-
-.pix-select > select, .pix-select > input, .pix-textarea > textarea {
-  border-radius: 4px;
-  border: 1px solid $grey-40;
-
-  &:focus {
-    border: 1px solid $blue;
-    box-shadow: none;
-    outline: none;
-  }
 }
 
 input[type=radio]::before,
