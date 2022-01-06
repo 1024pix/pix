@@ -404,10 +404,25 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(currentURL()).to.equal('/connexion-pole-emploi');
           });
 
-          it('should begin campaign participation once user is authenticated', async function () {
+          it('should redirect to terms of service Pole Emploi page', async function () {
             // given
             const state = 'state';
+            const session = currentSession();
+            session.set('data.state', state);
 
+            // when
+            await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+
+            // then
+            expect(currentURL()).to.equal(`/cgu-pole-emploi?authenticationKey=key`);
+            expect(find('.terms-of-service-form__conditions').textContent).to.contains(
+              "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
+            );
+          });
+
+          it('should begin campaign participation once user has accepted terms of service', async function () {
+            // given
+            const state = 'state';
             const session = currentSession();
             session.set('data.state', state);
             session.set('data.nextURL', `/campagnes/${campaign.code}/acces`);
@@ -416,44 +431,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             sessionStorage.setItem('campaigns', JSON.stringify(data));
 
             // when
-            await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+            await visit(`/cgu-pole-emploi?authenticationKey=key`);
+            await clickByLabel("J'accepte les conditions d'utilisation et la politique de confidentialité de Pix");
+            await clickByLabel('Je continue');
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
-          });
-
-          context('When user must validate terms of service Pole Emploi', function () {
-            it('should redirect to terms of service Pole Emploi page', async function () {
-              // given
-              const authenticationKey = 'authenticationKey';
-              server.post('/pole-emploi/token', () => {
-                const userAccountNotFoundForPoleEmploiError = {
-                  errors: [
-                    {
-                      status: '401',
-                      code: 'SHOULD_VALIDATE_CGU',
-                      title: 'Unauthorized',
-                      detail: "L'utilisateur n'a pas de compte Pix",
-                      meta: { authenticationKey },
-                    },
-                  ],
-                };
-
-                return new Response(401, {}, userAccountNotFoundForPoleEmploiError);
-              });
-              const state = 'state';
-              const session = currentSession();
-              session.set('data.state', state);
-
-              // when
-              await visit(`/connexion-pole-emploi?code=test&state=${state}`);
-
-              // then
-              expect(currentURL()).to.equal(`/cgu-pole-emploi?authenticationKey=${authenticationKey}`);
-              expect(find('.terms-of-service-form__conditions').textContent).to.contains(
-                "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
-              );
-            });
           });
         });
 
@@ -812,7 +795,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             const session = currentSession();
             session.set('isAuthenticated', true);
             session.set('data.state', state);
-            session.set('data.nextURL', `/campagnes/${campaign.code}/startOrResume`);
+            session.set('data.nextURL', `/campagnes/${campaign.code}/acces`);
             const data = {};
             data[campaign.code] = { landingPageShown: true };
             sessionStorage.setItem('campaigns', JSON.stringify(data));

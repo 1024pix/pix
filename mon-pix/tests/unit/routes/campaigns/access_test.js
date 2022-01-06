@@ -62,7 +62,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        expect(route.authenticationRoute).to.equal('login-pe');
+        sinon.assert.calledWith(route.replaceWith, 'login-pe');
       });
     });
 

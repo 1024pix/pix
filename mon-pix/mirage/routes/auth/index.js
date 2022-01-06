@@ -29,7 +29,11 @@ export default function index(config) {
     return new Response(200, {}, response);
   });
 
-  config.post('/pole-emploi/token', (schema) => {
+  config.post('/pole-emploi/token', (schema, request) => {
+    if (!request.requestHeaders.Authorization) {
+      return new Response(401, {}, { errors: [{ code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key' } }] });
+    }
+
     const createdUser = schema.users.create({
       firstName: 'Paul',
       lastName: 'Emploi',
