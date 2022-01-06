@@ -41,7 +41,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   });
 
   module('#createBadge', function () {
-    test('should send badge creation request to api', async function (assert) {
+    test('should send badge creation with skillset and campaign participation criteria request to api', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const createRecordStub = sinon.stub();
@@ -56,6 +56,10 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       await fillIn('input#badge-key', 'clé_du_badge');
       await fillIn('input#image-name', 'nom_de_limage.svg');
       await fillIn('input#alt-message', 'texte alternatif à l‘image');
+      await fillIn('input#skillSetThreshold', '90');
+      await fillIn('input#skillSetName', 'skill-set-name');
+      await fillIn('#skillSetSkills', 'skillSetId1,skillSetId2');
+      await fillIn('#campaignParticipationThreshold', '50');
       await click('button[data-test="badge-form-submit-button"]');
 
       // then
@@ -65,8 +69,12 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
         imageUrl: 'https://images.pix.fr/badges/nom_de_limage.svg',
         message: '',
         title: '',
+        campaignThreshold: '50',
         isCertifiable: false,
         isAlwaysVisible: false,
+        skillSetName: 'skill-set-name',
+        skillSetSkillsIds: ['skillSetId1', 'skillSetId2'],
+        skillSetThreshold: '90',
       });
       sinon.assert.calledWith(saveStub, {
         adapterOptions: {
@@ -75,78 +83,5 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       });
       assert.ok(true);
     });
-
-    test('should send campaign participation badgeCriteria creation request to api', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const createRecordStub = sinon.stub();
-      const saveStub = sinon.stub();
-      const badge = { id: 'badgeId', save: saveStub };
-      createRecordStub.onFirstCall().returns(badge);
-      createRecordStub.onSecondCall().returns({ save: saveStub });
-      store.createRecord = createRecordStub;
-
-      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
-
-      // when
-      await fillIn('input#badge-key', 'clé_du_badge');
-      await fillIn('input#image-name', 'nom_de_limage.svg');
-      await fillIn('input#alt-message', 'texte alternatif à l‘image');
-      await fillIn('input#campaignParticipationThreshold', '65');
-      await click('button[data-test="badge-form-submit-button"]');
-
-      // then
-      sinon.assert.calledWith(createRecordStub.secondCall, 'badge-criterion', {
-        threshold: '65',
-        scope: 'CampaignParticipation',
-        badge,
-      });
-      sinon.assert.calledWith(saveStub.secondCall);
-      assert.ok(true);
-    });
-  });
-
-  test('should send skillSet and badgeCriteria creation requests to api', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const findStub = sinon.stub();
-    const targetProfile = {};
-    findStub.onFirstCall().returns(targetProfile);
-    const createRecordStub = sinon.stub();
-    const saveStub = sinon.stub();
-    const badge = { id: 'badgeId', save: saveStub };
-    createRecordStub.onFirstCall().returns(badge);
-    const skillSet = { id: 'skillSetId', save: saveStub };
-    createRecordStub.onSecondCall().returns(skillSet);
-    createRecordStub.onThirdCall().returns({ save: saveStub });
-    store.createRecord = createRecordStub;
-    store.find = findStub;
-
-    await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
-
-    // when
-    await fillIn('input#badge-key', 'clé_du_badge');
-    await fillIn('input#image-name', 'nom_de_limage.svg');
-    await fillIn('input#alt-message', 'texte alternatif à l‘image');
-    await fillIn('input#skillSetThreshold', '75');
-    await fillIn('input#skillSetName', 'nom du skill set');
-    await fillIn('textarea#skillSetSkills', 'skillId1, skillId3, skillId4');
-    await click('button[data-test="badge-form-submit-button"]');
-
-    // then
-    sinon.assert.calledWith(createRecordStub.secondCall, 'skill-set', {
-      name: 'nom du skill set',
-      badge,
-      skillIds: ['skillId1', 'skillId3', 'skillId4'],
-    });
-    sinon.assert.calledWith(saveStub.secondCall);
-    sinon.assert.calledWith(createRecordStub.thirdCall, 'badge-criterion', {
-      threshold: '75',
-      scope: 'SkillSet',
-      badge,
-      skillSets: [skillSet],
-    });
-    sinon.assert.calledWith(saveStub.thirdCall);
-    assert.ok(true);
   });
 });

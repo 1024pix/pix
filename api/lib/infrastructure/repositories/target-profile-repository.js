@@ -7,7 +7,12 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { TargetProfileCannotBeCreated, NotFoundError, ObjectValidationError } = require('../../domain/errors');
+const {
+  TargetProfileCannotBeCreated,
+  NotFoundError,
+  ObjectValidationError,
+  InvalidSkillSetError,
+} = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
@@ -188,6 +193,20 @@ module.exports = {
     });
 
     return _createTargetProfileShares(rows, targetProfileId);
+  },
+
+  async hasSkills({ targetProfileId, skillIds }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const result = await (knexTransaction ?? knex)('target-profiles_skills')
+      .select('skillId')
+      .whereIn('skillId', skillIds)
+      .andWhere('targetProfileId', targetProfileId);
+
+    const unknownSkillIds = _.difference(skillIds, _.map(result, 'skillId'));
+    if (unknownSkillIds.length) {
+      throw new InvalidSkillSetError(`Unknown skillIds : ${unknownSkillIds}`);
+    }
+
+    return true;
   },
 };
 

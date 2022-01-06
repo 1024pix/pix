@@ -79,19 +79,19 @@
             @type="number"
             min="1"
             max="100"
-            @value={{this.skillSet.threshold}}
+            @value={{this.badge.skillSetThreshold}}
           />
         </div>
 
         <div class="badge-form-criteria__skill-set">
           <div class="badge-form__text-field">
             <label for="skillSetName">Nom de la liste :</label>
-            <Input id="skillSetName" class="form-control" @type="text" @value={{this.skillSet.name}} />
+            <Input id="skillSetName" class="form-control" @type="text" @value={{this.badge.skillSetName}} />
           </div>
 
           <div class="badge-form__text-field">
             <label for="skillSetSkills">Liste des acquis :</label>
-            <Textarea id="skillSetSkills" class="form-control" @value={{this.skillSet.skills}} rows="4" />
+            <Textarea id="skillSetSkills" class="form-control" @value={{this.skillSetSkills}} rows="4" />
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@
             @type="number"
             min="1"
             max="100"
-            @value={{this.campaignParticipationThreshold}}
+            @value={{this.badge.campaignThreshold}}
           />
         </div>
       </div>

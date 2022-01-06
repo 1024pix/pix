@@ -5,7 +5,7 @@ const TargetProfileForCreation = require('../../../../lib/domain/models/TargetPr
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, ObjectValidationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -809,6 +809,45 @@ describe('Integration | Repository | Target-profile', function () {
         const error = await catchErr(targetProfileRepository.findOrganizationIds)(999);
 
         expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
+
+  describe('#hasSkills', function () {
+    let targetProfileId;
+
+    beforeEach(function () {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill2' });
+
+      return databaseBuilder.commit();
+    });
+
+    context('when all skillIds belong to target profile', function () {
+      it('should return true', async function () {
+        // given
+        const skillIds = ['recSkill1', 'recSkill2'];
+
+        // when
+        const result = await targetProfileRepository.hasSkills({ targetProfileId, skillIds });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context("when at least one skillId doesn't belong to target profile", function () {
+      it('should throw an error', async function () {
+        // given
+        const skillIds = ['recSkill1', 'recSkill666', 'recSkill2'];
+
+        // when
+        const error = await catchErr(targetProfileRepository.hasSkills)({ targetProfileId, skillIds });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidSkillSetError);
+        expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
       });
     });
   });
