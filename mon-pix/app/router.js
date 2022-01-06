@@ -59,7 +59,7 @@ Router.map(function () {
     this.route('join', { path: '/' });
     this.route('start', { path: '/candidat/:certification_candidate_id' });
     this.route('resume', { path: '/:certification_course_id' });
-    this.route('results', { path: '/:certification_number/results' });
+    this.route('results', { path: '/:certification_id/results' });
   });
   this.route('shared-certification', { path: '/partage-certificat/:id' });
   this.route('user-certifications', { path: 'mes-certifications' }, function () {
