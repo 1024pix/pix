@@ -5,9 +5,9 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | get-progression', function () {
-  const progressionId = 'progression-1234';
+describe('Unit | Domain | Use Cases | get-progression', function () {
   const assessmentId = 1234;
+  const progressionId = `progression-${assessmentId}`;
   const userId = 9874;
 
   const campaignParticipationRepository = { get: () => undefined, isRetrying: () => undefined };
@@ -30,36 +30,39 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
   });
 
   describe('#getProgression', function () {
-    context('when the assessment exists and is campaign', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const assessment = domainBuilder.buildAssessment({
-        id: assessmentId,
-        userId,
-        state: 'completed',
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        type: Assessment.types.CAMPAIGN,
-        campaignParticipationId: 456,
-      });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({
-        campaignId: 123,
-      });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const targetProfile = domainBuilder.buildTargetProfile();
+    let assessment, campaignParticipation, targetProfile, flashAssessment;
 
+    context('when the assessment exists and is campaign', function () {
       beforeEach(function () {
+        assessment = domainBuilder.buildAssessment({
+          id: assessmentId,
+          userId,
+          state: 'completed',
+          type: Assessment.types.CAMPAIGN,
+          campaignParticipationId: 456,
+        });
+        campaignParticipation = domainBuilder.buildCampaignParticipation({
+          campaignId: 123,
+        });
+        targetProfile = domainBuilder.buildTargetProfile();
+        flashAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
+          userId,
+          targetProfile: null,
+          method: 'FLASH',
+        });
+
         sandbox
           .stub(assessmentRepository, 'getByAssessmentIdAndUserId')
           .withArgs(assessment.id, userId)
-          .resolves(assessment);
+          .resolves(assessment)
+          .withArgs(flashAssessment.id, userId)
+          .resolves(flashAssessment);
         sandbox
           .stub(campaignParticipationRepository, 'get')
           .withArgs(assessment.campaignParticipationId)
-          .resolves(campaignParticipation);
+          .resolves(campaignParticipation)
+          .withArgs(flashAssessment.campaignParticipationId)
+          .resolves(flashAssessment.campaignParticipation);
         sandbox
           .stub(targetProfileRepository, 'getByCampaignId')
           .withArgs(campaignParticipation.campaignId)
@@ -222,31 +225,53 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
           expect(progression).to.deep.equal(expectedProgression);
         });
       });
+
+      context("campaign's method is flash", function () {
+        it('should return the progression associated to the flash assessment', async function () {
+          // given
+          const flashProgressionId = `progression-${flashAssessment.id}`;
+          const expectedProgression = domainBuilder.buildProgression({
+            id: flashProgressionId,
+            targetedSkills: [],
+            knowledgeElements: [],
+            isProfileCompleted: assessment.isCompleted(),
+          });
+
+          // when
+          const progression = await getProgression({
+            userId,
+            progressionId: flashProgressionId,
+            assessmentRepository,
+            campaignParticipationRepository,
+            competenceEvaluationRepository,
+            knowledgeElementRepository,
+            skillRepository,
+            targetProfileRepository,
+            improvementService,
+          });
+
+          // then
+          expect(progression).to.deep.equal(expectedProgression);
+        });
+      });
     });
 
     context('when the assessment exists and is competence evaluation', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const competenceEvaluationAssessment = domainBuilder.buildAssessment({
-        id: assessmentId,
-        userId,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        type: Assessment.types.COMPETENCE_EVALUATION,
-      });
-
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
-        competenceId: 1,
-        assessmentId,
-        userId,
-      });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const competenceSkills = [domainBuilder.buildSkill()];
+      let competenceEvaluationAssessment, competenceEvaluation, competenceSkills;
 
       beforeEach(function () {
+        competenceEvaluationAssessment = domainBuilder.buildAssessment({
+          id: assessmentId,
+          userId,
+          type: Assessment.types.COMPETENCE_EVALUATION,
+        });
+        competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
+          competenceId: 1,
+          assessmentId,
+          userId,
+        });
+        competenceSkills = [domainBuilder.buildSkill()];
+
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
         sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
         sandbox.stub(skillRepository, 'findActiveByCompetenceId').resolves(competenceSkills);
@@ -364,17 +389,17 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
     });
 
     context('when the assessment does not exist', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const assessment = domainBuilder.buildAssessment({
-        id: assessmentId,
-        userId,
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        type: Assessment.types.CAMPAIGN,
-      });
+      let assessment;
 
       beforeEach(function () {
+        assessment = domainBuilder.buildAssessment({
+          id: assessmentId,
+          userId,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          type: Assessment.types.CAMPAIGN,
+        });
+
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
       });
 
