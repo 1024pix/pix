@@ -346,181 +346,78 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
   });
 
-  context('#hasTakenClea', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].forEach((partnerKey) => {
-      it(`returns true when ${partnerKey} certification has been taken in the certification`, async function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult({
-          partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey })],
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  [
+    { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
+    { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
+    { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
+  ].forEach(({ method, partnerKeys }) => {
+    context(`#${method}`, function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      partnerKeys.forEach((partnerKey) => {
+        it(`returns true when ${partnerKey} certification has been taken in the certification`, async function () {
+          // given
+          const certificationResult = domainBuilder.buildCertificationResult({
+            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey })],
+          });
+
+          // when
+          const hasTaken = certificationResult[method]();
+
+          // then
+          expect(hasTaken).to.be.true;
         });
 
-        // when
-        const hasTakenClea = certificationResult.hasTakenClea();
+        it(`returns false when ${partnerKey} certification has not been taken in the certification`, async function () {
+          // given
+          const certificationResult = domainBuilder.buildCertificationResult({
+            partnerCertifications: [],
+          });
 
-        // then
-        expect(hasTakenClea).to.be.true;
+          // when
+          const hasTaken = certificationResult[method]();
+
+          // then
+          expect(hasTaken).to.be.false;
+        });
       });
-    });
-
-    it('returns false when Clea certification has not been taken in the certification', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [],
-      });
-
-      // when
-      const hasTakenClea = certificationResult.hasTakenClea();
-
-      // then
-      expect(hasTakenClea).to.be.false;
     });
   });
 
-  context('#hasAcquiredClea', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].forEach((partnerKey) => {
-      it(`returns true when ${partnerKey} certification has been acquired`, async function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult({
-          partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: true })],
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  [
+    { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
+    { method: 'hasAcquiredPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
+    { method: 'hasAcquiredPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
+  ].forEach(({ method, partnerKeys }) => {
+    context(`#${method}`, function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      partnerKeys.forEach((partnerKey) => {
+        it(`returns true when ${partnerKey} certification has been acquired`, async function () {
+          // given
+          const certificationResult = domainBuilder.buildCertificationResult({
+            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: true })],
+          });
+
+          // when
+          const hasAcquired = certificationResult[method]();
+
+          // then
+          expect(hasAcquired).to.be.true;
         });
 
-        // when
-        const hasAcquiredClea = certificationResult.hasAcquiredClea();
+        it(`returns false when ${partnerKey} certification has not been acquired`, async function () {
+          // given
+          const certificationResult = domainBuilder.buildCertificationResult({
+            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: false })],
+          });
+          // when
+          const hasAcquired = certificationResult[method]();
 
-        // then
-        expect(hasAcquiredClea).to.be.true;
-      });
-
-      it(`returns false when ${partnerKey} certification has not been acquired`, async function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult({
-          partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: false })],
+          // then
+          expect(hasAcquired).to.be.false;
         });
-        // when
-        const hasAcquiredClea = certificationResult.hasAcquiredClea();
-
-        // then
-        expect(hasAcquiredClea).to.be.false;
       });
-    });
-  });
-
-  context('#hasTakenPixPlusDroitMaitre', function () {
-    it('returns true when PIX_DROIT_MAITRE_CERTIF certification has been taken in the certification', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF })],
-      });
-      // when
-      const hasTakenPixPlusDroitMaitre = certificationResult.hasTakenPixPlusDroitMaitre();
-
-      // then
-      expect(hasTakenPixPlusDroitMaitre).to.be.true;
-    });
-
-    it('returns false when PIX_DROIT_MAITRE_CERTIF certification has not been taken in the certification', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [],
-      });
-
-      // when
-      const hasTakenPixPlusDroitMaitre = certificationResult.hasTakenPixPlusDroitMaitre();
-
-      // then
-      expect(hasTakenPixPlusDroitMaitre).to.be.false;
-    });
-  });
-
-  context('#hasAcquiredPixPlusDroitMaitre', function () {
-    it('returns true when PIX_DROIT_MAITRE_CERTIF certification has been acquired', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: true }),
-        ],
-      });
-
-      // when
-      const hasAcquiredPixPlusDroitMaitre = certificationResult.hasAcquiredPixPlusDroitMaitre();
-
-      // then
-      expect(hasAcquiredPixPlusDroitMaitre).to.be.true;
-    });
-
-    it('returns false when PIX_DROIT_MAITRE_CERTIF certification has not been acquired', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
-        ],
-      });
-      // when
-      const hasAcquiredPixPlusDroitMaitre = certificationResult.hasAcquiredPixPlusDroitMaitre();
-
-      // then
-      expect(hasAcquiredPixPlusDroitMaitre).to.be.false;
-    });
-  });
-
-  context('#hasTakenPixPlusDroitExpert', function () {
-    it('returns true when PIX_DROIT_EXPERT_CERTIF certification has been taken in the certification', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF })],
-      });
-
-      // when
-      const hasTakenPixPlusDroitExpert = certificationResult.hasTakenPixPlusDroitExpert();
-
-      // then
-      expect(hasTakenPixPlusDroitExpert).to.be.true;
-    });
-
-    it('returns false when PIX_DROIT_EXPERT_CERTIF certification has not been taken in the certification', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [],
-      });
-      // when
-      const hasTakenPixPlusDroitExpert = certificationResult.hasTakenPixPlusDroitExpert();
-
-      // then
-      expect(hasTakenPixPlusDroitExpert).to.be.false;
-    });
-  });
-
-  context('#hasAcquiredPixPlusDroitExpert', function () {
-    it('returns true when PIX_DROIT_EXPERT_CERTIF certification has been acquired', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: true }),
-        ],
-      });
-
-      // when
-      const hasAcquiredPixPlusDroitExpert = certificationResult.hasAcquiredPixPlusDroitExpert();
-
-      // then
-      expect(hasAcquiredPixPlusDroitExpert).to.be.true;
-    });
-
-    it('returns false when PIX_DROIT_EXPERT_CERTIF certification has not been acquired', async function () {
-      // given
-      const certificationResult = domainBuilder.buildCertificationResult({
-        partnerCertifications: [
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: false }),
-        ],
-      });
-
-      // when
-      const hasAcquiredPixPlusDroitExpert = certificationResult.hasAcquiredPixPlusDroitExpert();
-
-      // then
-      expect(hasAcquiredPixPlusDroitExpert).to.be.false;
     });
   });
 });
