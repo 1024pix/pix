@@ -375,6 +375,30 @@ describe('Acceptance | Certification | Certification Course', function () {
           expect(contains('Test terminé !')).to.exist;
         });
       });
+
+      context('when test was ended by supervisor', function () {
+        it('should display "Votre surveillant a mis fin…"', async function () {
+          // given
+          server.create('feature-toggle', { id: 0, isEndTestScreenRemovalEnabled: true });
+          const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          const certificationCourse = this.server.create('certification-course');
+          this.server.create('assessment', {
+            certificationCourseId: certificationCourse.id,
+            state: 'endedBySupervisor',
+          });
+
+          // when
+          await authenticateByEmail(user);
+          await visit(`/certifications/${certificationCourse.id}/results`);
+
+          // then
+          expect(
+            contains(
+              'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.'
+            )
+          ).to.exist;
+        });
+      });
     });
   });
 });
