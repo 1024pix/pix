@@ -19,7 +19,7 @@ describe('Unit | Domain | Service | Token Service', function () {
       const userId = 123;
       const source = 'pix';
       settings.authentication.secret = 'a secret';
-      settings.authentication.tokenLifespan = '7d';
+      settings.authentication.accessTokenLifespanMs = 1000;
       sinon.stub(jsonwebtoken, 'sign');
 
       // when
@@ -28,7 +28,7 @@ describe('Unit | Domain | Service | Token Service', function () {
       // then
       const firstParameter = { user_id: userId, source };
       const secondParameter = 'a secret';
-      const thirdParameter = { expiresIn: '7d' };
+      const thirdParameter = { expiresIn: 1 };
       expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
     });
   });
@@ -38,7 +38,7 @@ describe('Unit | Domain | Service | Token Service', function () {
       // given
       const userId = 123;
       settings.authentication.secret = 'a secret';
-      settings.authentication.tokenLifespan = '7d';
+      settings.authentication.accessTokenLifespanMs = 1000;
       sinon.stub(jsonwebtoken, 'sign');
 
       // when
@@ -47,7 +47,7 @@ describe('Unit | Domain | Service | Token Service', function () {
       // then
       const firstParameter = { user_id: userId, source: 'external' };
       const secondParameter = 'a secret';
-      const thirdParameter = { expiresIn: '7d' };
+      const thirdParameter = { expiresIn: 1 };
       expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
     });
   });

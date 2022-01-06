@@ -49,6 +49,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         access_token: accessToken,
         user_id: USER_ID,
         refresh_token: refreshToken,
+        expires_in: 1000,
       };
       expect(response.source).to.deep.equal(expectedResponseResult);
       expect(response.statusCode).to.equal(200);
