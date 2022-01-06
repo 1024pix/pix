@@ -41,6 +41,7 @@ describe('Unit | Serializer | organization-serializer', function () {
             'documentation-url': organization.documentationUrl,
             'show-nps': organization.showNPS,
             'form-nps-url': organization.formNPSUrl,
+            'show-skills': organization.showSkills,
           },
           relationships: {
             memberships: {
