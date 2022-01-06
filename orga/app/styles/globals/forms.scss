@@ -139,42 +139,6 @@
   }
 }
 
-.input-password {
-  display: flex;
-  height: 42px;
-  border-radius: 3px;
-  align-items: center;
-  background-color: $white;
-  border: 1px solid $grey-40;
-
-  &--error {
-    border: 1px solid $error;
-  }
-
-  &:focus-within {
-    border: 1px solid $blue;
-  }
-
-  .input {
-    height: 40px;
-    flex-grow: 1;
-    border: none;
-    border-radius: 3px;
-    outline: none;
-    padding: 0 10px;
-    font-size: 1rem;
-
-    &:focus {
-      outline: 0;
-      border: none;
-    }
-
-    &::-ms-clear, &::-ms-reveal {
-      display: none;
-    }
-  }
-}
-
 .error-message {
   color: red;
   font-family: $roboto;

@@ -12,6 +12,14 @@
   }
 
   .input-container {
-    margin: 16px 2px;
+    margin: 16px 2px 25px 2px;
+
+    &:nth-child(6){
+      padding-top: 20px;
+    }
+  }
+
+  .pix-input-password > .pix-input__error-message {
+    bottom: calc(-18px - 1px - 0.75rem);
   }
 }
