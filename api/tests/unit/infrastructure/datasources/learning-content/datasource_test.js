@@ -5,14 +5,13 @@ const LearningContentResourceNotFound = require('../../../../../lib/infrastructu
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | datasource', function () {
+  let someDatasource;
+
   beforeEach(function () {
     sinon.stub(cache, 'get');
-  });
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const someDatasource = dataSource.extend({
-    modelName: 'learningContentModel',
+    someDatasource = dataSource.extend({
+      modelName: 'learningContentModel',
+    });
   });
 
   describe('#get', function () {
@@ -90,6 +89,42 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
         // then
         return expect(promise).to.have.been.rejectedWith(err);
       });
+    });
+  });
+
+  describe('#getMany', function () {
+    let learningContent;
+
+    beforeEach(function () {
+      cache.get.callsFake((generator) => generator());
+
+      learningContent = {
+        learningContentModel: [
+          { id: 'rec1', property: 'value1' },
+          { id: 'rec2', property: 'value2' },
+          { id: 'rec3', property: 'value3' },
+        ],
+      };
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
+    });
+
+    it('should fetch all records from LCMS API corresponfing to the ids passed', async function () {
+      // when
+      const result = await someDatasource.getMany(['rec1', 'rec2']);
+
+      // then
+      expect(result).to.deep.equal([
+        { id: 'rec1', property: 'value1' },
+        { id: 'rec2', property: 'value2' },
+      ]);
+    });
+
+    it('should throw an LearningContentResourceNotFound if no record was found', function () {
+      // when
+      const promise = someDatasource.getMany(['UNKNOWN_RECORD_ID']);
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(LearningContentResourceNotFound);
     });
   });
 

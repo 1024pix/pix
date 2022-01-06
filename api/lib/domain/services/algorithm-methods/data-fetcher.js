@@ -86,8 +86,19 @@ async function fetchForFlashCampaigns({ assessment, answerRepository, challengeR
   };
 }
 
+async function fetchForFlashLevelEstimation({ assessment, answerRepository, challengeRepository }) {
+  const allAnswers = await answerRepository.findByAssessment(assessment.id);
+  const challenges = await challengeRepository.getMany(allAnswers.map(({ challengeId }) => challengeId));
+
+  return {
+    allAnswers,
+    challenges,
+  };
+}
+
 module.exports = {
   fetchForCampaigns,
   fetchForCompetenceEvaluations,
   fetchForFlashCampaigns,
+  fetchForFlashLevelEstimation,
 };

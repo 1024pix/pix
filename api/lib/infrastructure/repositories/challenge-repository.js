@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const bluebird = require('bluebird');
 const Challenge = require('../../domain/models/Challenge');
 
 const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
@@ -13,10 +12,21 @@ module.exports = {
   async get(id) {
     try {
       const challenge = await challengeDatasource.get(id);
-      const skillDataObjects = await bluebird.mapSeries(challenge.skillIds, (skillId) => {
-        return skillDatasource.get(skillId);
-      });
+      const skillDataObjects = await skillDatasource.getMany(challenge.skillIds);
       return _toDomain({ challengeDataObject: challenge, skillDataObjects });
+    } catch (error) {
+      if (error instanceof LearningContentResourceNotFound) {
+        throw new NotFoundError();
+      }
+      throw error;
+    }
+  },
+
+  async getMany(ids) {
+    try {
+      const challengeDataObjects = await challengeDatasource.getMany(ids);
+      const skills = await skillDatasource.getMany(challengeDataObjects.flatMap(({ skillIds }) => skillIds));
+      return _toDomainCollection({ challengeDataObjects, skills });
     } catch (error) {
       if (error instanceof LearningContentResourceNotFound) {
         throw new NotFoundError();

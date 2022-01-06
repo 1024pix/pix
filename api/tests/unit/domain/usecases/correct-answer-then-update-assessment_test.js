@@ -34,14 +34,19 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const competenceEvaluationRepository = {};
   const targetProfileRepository = { getByCampaignParticipationId: () => undefined };
   const skillRepository = { findActiveByCompetenceId: () => undefined };
+  const flashAssessmentResultRepository = { updateEstimatedLevelAndErrorRate: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
     findUniqByUserIdAndAssessmentId: () => undefined,
   };
+  const flashAlgorithmService = { getEstimatedLevelAndErrorRate: () => undefined };
+  const algorithmDataFetcherService = { fetchForFlashLevelEstimation: () => undefined };
   const nowDate = new Date('2021-03-11T11:00:04Z');
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   nowDate.setMilliseconds(1);
+
+  let dependencies;
 
   beforeEach(function () {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
@@ -50,10 +55,13 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     sinon.stub(challengeRepository, 'get');
     sinon.stub(skillRepository, 'findActiveByCompetenceId');
     sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
+    sinon.stub(flashAssessmentResultRepository, 'updateEstimatedLevelAndErrorRate');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     sinon.stub(dateUtils, 'getNowDate');
+    sinon.stub(flashAlgorithmService, 'getEstimatedLevelAndErrorRate');
+    sinon.stub(algorithmDataFetcherService, 'fetchForFlashLevelEstimation');
 
     const challengeId = 'oneChallengeId';
     assessment = domainBuilder.buildAssessment({ userId, lastQuestionDate: nowDate });
@@ -68,6 +76,20 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     challengeRepository.get.resolves(challenge);
 
     dateUtils.getNowDate.returns(nowDate);
+
+    dependencies = {
+      answerRepository,
+      assessmentRepository,
+      challengeRepository,
+      competenceEvaluationRepository,
+      skillRepository,
+      targetProfileRepository,
+      knowledgeElementRepository,
+      flashAssessmentResultRepository,
+      scorecardService,
+      flashAlgorithmService,
+      algorithmDataFetcherService,
+    };
   });
 
   context('when an answer for that challenge is not for an asked challenge', function () {
@@ -86,12 +108,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       const error = await catchErr(correctAnswerThenUpdateAssessment)({
         answer,
         userId,
-        answerRepository,
-        assessmentRepository,
-        challengeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        scorecardService,
+        ...dependencies,
       });
 
       // then
@@ -112,12 +129,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       const error = await catchErr(correctAnswerThenUpdateAssessment)({
         answer,
         userId,
-        answerRepository,
-        assessmentRepository,
-        challengeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        scorecardService,
+        ...dependencies,
       });
 
       // then
@@ -174,14 +186,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -193,14 +198,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -216,14 +214,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -251,14 +242,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -276,14 +260,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -303,14 +280,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -369,14 +339,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
         // then
         const expectedArgs = [[completedAnswer, [firstKnowledgeElement, secondKnowledgeElement]]];
@@ -388,14 +351,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -408,14 +364,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -428,14 +377,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -457,14 +399,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -491,14 +426,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -517,14 +445,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -544,14 +465,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -570,6 +484,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         challenge,
         skillAlreadyValidated,
         skillNotAlreadyValidated;
+      let flashData;
+      const estimatedLevel = 1.93274982;
+      const errorRate = 0.9127398127;
 
       beforeEach(function () {
         // given
@@ -603,6 +520,13 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         targetProfileRepository.getByCampaignParticipationId.resolves(targetProfile);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
         scorecardService.computeScorecard.resolves(scorecard);
+
+        flashData = Symbol('flashData');
+        algorithmDataFetcherService.fetchForFlashLevelEstimation.returns(flashData);
+        flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
+          estimatedLevel,
+          errorRate,
+        });
       });
 
       it('should call the answer repository to save the answer', async function () {
@@ -610,14 +534,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
         // then
         const expectedArgs = [[completedAnswer, []]];
@@ -629,14 +546,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -648,14 +558,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -668,14 +571,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -689,19 +585,53 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
         const expectedArgument = savedAnswer;
         expect(result).to.deep.equal(expectedArgument);
+      });
+
+      it('should call the algorithm data fetcher for level estimation', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          ...dependencies,
+        });
+
+        expect(algorithmDataFetcherService.fetchForFlashLevelEstimation).to.have.been.calledWith({
+          assessment,
+          answerRepository,
+          challengeRepository,
+        });
+      });
+
+      it('should call the flash algorithm to estimate level and error rate', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          ...dependencies,
+        });
+
+        expect(flashAlgorithmService.getEstimatedLevelAndErrorRate).to.have.been.calledWith(flashData);
+      });
+
+      it('should call the flash assessment result repository to save estimatedLevel and errorRate', async function () {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          ...dependencies,
+        });
+
+        expect(flashAssessmentResultRepository.updateEstimatedLevelAndErrorRate).to.have.been.calledWith({
+          assessmentId: assessment.id,
+          estimatedLevel,
+          errorRate,
+        });
       });
 
       context('when the user responds correctly', function () {
@@ -710,14 +640,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -737,14 +660,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           await correctAnswerThenUpdateAssessment({
             answer,
             userId,
-            answerRepository,
-            assessmentRepository,
-            challengeRepository,
-            competenceEvaluationRepository,
-            skillRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            scorecardService,
+            ...dependencies,
           });
 
           // then
@@ -800,14 +716,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -820,14 +729,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -840,14 +742,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -859,14 +754,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         // then
@@ -891,9 +779,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       const result = correctAnswerThenUpdateAssessment({
         answer,
         userId,
-        answerRepository,
-        assessmentRepository,
-        scorecardService,
+        ...dependencies,
       });
 
       // then
@@ -924,10 +810,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       await correctAnswerThenUpdateAssessment({
         answer,
         userId,
-        answerRepository,
-        assessmentRepository,
-        challengeRepository,
-        scorecardService,
+        ...dependencies,
       });
 
       const expectedAnswer = domainBuilder.buildAnswer(answer);
@@ -953,10 +836,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          scorecardService,
+          ...dependencies,
         });
 
         const expectedAnswer = domainBuilder.buildAnswer(answer);
