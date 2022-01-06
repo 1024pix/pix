@@ -8,6 +8,7 @@ import { decodeToken } from 'mon-pix/helpers/jwt';
 
 import config from 'ember-simple-auth-oidc/config';
 import ENV from 'mon-pix/config/environment';
+import fetch from 'fetch';
 
 const { host, clientId, afterLogoutUri, endSessionEndpoint } = config;
 
