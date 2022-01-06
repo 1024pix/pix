@@ -197,7 +197,8 @@
       "documentation": "Documentation",
       "students-sco": "Students",
       "students-sup": "Students",
-      "team": "Team"
+      "team": "Team",
+      "aria-label": "Main navigation"
     },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
