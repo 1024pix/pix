@@ -76,10 +76,28 @@ function _buildFileHeaders(certificationResults) {
   const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusDroitExpert()
   );
+  const shouldIncludePixPlusEduAutonomeHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEduAutonome()
+  );
+  const shouldIncludePixPlusEduAvanceHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEduAvance()
+  );
+  const shouldIncludePixPlusEduExpertHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEduExpert()
+  );
+  const shouldIncludePixPlusEduFormateurHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEduFormateur()
+  );
 
   const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
   const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
   const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS] : [];
+  const pixPlusEduAutonomeHeader = shouldIncludePixPlusEduAutonomeHeader ? [_headers.PIX_PLUS_EDU_AUTONOME_HEADER] : [];
+  const pixPlusEduAvanceHeader = shouldIncludePixPlusEduAvanceHeader ? [_headers.PIX_PLUS_EDU_AVANCE_HEADER] : [];
+  const pixPlusEduExpertHeader = shouldIncludePixPlusEduExpertHeader ? [_headers.PIX_PLUS_EDU_EXPERT_HEADER] : [];
+  const pixPlusEduFormateurHeader = shouldIncludePixPlusEduFormateurHeader
+    ? [_headers.PIX_PLUS_EDU_FORMATEUR_HEADER]
+    : [];
 
   return _.concat(
     [
@@ -94,6 +112,10 @@ function _buildFileHeaders(certificationResults) {
     pixPlusDroitMaitreHeader,
     pixPlusDroitExpertHeader,
     cleaHeader,
+    pixPlusEduAutonomeHeader,
+    pixPlusEduAvanceHeader,
+    pixPlusEduExpertHeader,
+    pixPlusEduFormateurHeader,
     [_headers.PIX_SCORE],
     _competenceIndexes,
     [
@@ -117,6 +139,10 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult),
     [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult),
     [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult),
+    [_headers.PIX_PLUS_EDU_AUTONOME_HEADER]: _formatPixPlusEduAutonomeCertificationResult(certificationResult),
+    [_headers.PIX_PLUS_EDU_AVANCE_HEADER]: _formatPixPlusEduAvanceCertificationResult(certificationResult),
+    [_headers.PIX_PLUS_EDU_EXPERT_HEADER]: _formatPixPlusEduExpertCertificationResult(certificationResult),
+    [_headers.PIX_PLUS_EDU_FORMATEUR_HEADER]: _formatPixPlusEduFormateurCertificationResult(certificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
     [_headers.SESSION_ID]: session.id,
@@ -144,6 +170,27 @@ function _formatPixPlusDroitExpertCertificationResult(certificationResult) {
   if (!certificationResult.hasTakenPixPlusDroitExpert()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
   return certificationResult.hasAcquiredPixPlusDroitExpert() ? 'Validée' : 'Rejetée';
+}
+
+function _formatPixPlusEduAutonomeCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenPixPlusEduAutonome()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
+  return certificationResult.hasAcquiredPixPlusEduAutonome() ? 'Validée' : 'Rejetée';
+}
+function _formatPixPlusEduAvanceCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenPixPlusEduAvance()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
+  return certificationResult.hasAcquiredPixPlusEduAvance() ? 'Validée' : 'Rejetée';
+}
+function _formatPixPlusEduExpertCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenPixPlusEduExpert()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
+  return certificationResult.hasAcquiredPixPlusEduExpert() ? 'Validée' : 'Rejetée';
+}
+function _formatPixPlusEduFormateurCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenPixPlusEduFormateur()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
+  return certificationResult.hasAcquiredPixPlusEduFormateur() ? 'Validée' : 'Rejetée';
 }
 
 function _formatPixScore(certificationResult) {
@@ -232,6 +279,10 @@ const _headers = {
   CLEA_STATUS: 'Certification CléA numérique',
   PIX_PLUS_DROIT_MAITRE_STATUS: 'Certification Pix+ Droit Maître',
   PIX_PLUS_DROIT_EXPERT_STATUS: 'Certification Pix+ Droit Expert',
+  PIX_PLUS_EDU_AUTONOME_HEADER: 'Certification Pix+ Édu Autonome',
+  PIX_PLUS_EDU_AVANCE_HEADER: 'Certification Pix+ Édu Avancé',
+  PIX_PLUS_EDU_EXPERT_HEADER: 'Certification Pix+ Édu Expert',
+  PIX_PLUS_EDU_FORMATEUR_HEADER: 'Certification Pix+ Édu Formateur',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
