@@ -7,8 +7,9 @@ import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 import setupIntl from '../helpers/setup-intl';
+import { contains } from '../helpers/contains';
 
-describe('Acceptance | Certification | Start Certification Course', function () {
+describe('Acceptance | Certification | Certification Course', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
@@ -286,6 +287,16 @@ describe('Acceptance | Certification | Start Certification Course', function () 
 
                 // then
                 expect(currentURL()).to.equal(`/certifications/${certificationCourse.id}/results`);
+              });
+
+              it('should display the "presque terminé" message', async function () {
+                // when
+                for (let i = 0; i < NB_CHALLENGES; ++i) {
+                  await click('.challenge-actions__action-skip');
+                }
+
+                // then
+                expect(contains('Vous avez presque terminé')).to.exist;
               });
             });
           });
