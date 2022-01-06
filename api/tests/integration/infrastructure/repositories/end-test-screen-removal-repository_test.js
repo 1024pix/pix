@@ -2,6 +2,8 @@ const { expect, databaseBuilder, sinon } = require('../../../test-helper');
 const {
   isEndTestScreenRemovalEnabledBySessionId,
   isEndTestScreenRemovalEnabledByCandidateId,
+  isEndTestScreenRemovalEnabledByCertificationCenterId,
+  isEndTestScreenRemovalEnabledForSomeCertificationCenter,
 } = require('../../../../lib/infrastructure/repositories/end-test-screen-removal-repository');
 const { featureToggles } = require('../../../../lib/config');
 
@@ -88,7 +90,7 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
         it('returns false if feature toggle end screen certification center ids is empty', async function () {
           // given
           const candidateId = 0;
-          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabledCertificationCenterIds').value([]);
+          sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
 
           // when
           const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
@@ -104,7 +106,7 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
           const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
           const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
           await databaseBuilder.commit();
-          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabledCertificationCenterIds').value([]);
+          sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
 
           // when
           const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
@@ -115,7 +117,7 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
       });
     });
 
-    context('isEndTestScreenRemovalEnabledCertificationCenterIds is not empty', function () {
+    context('allowedCertificationCenterIdsForEndTestScreenRemoval is not empty', function () {
       context(
         'the feature is not enabled for the certification center associated with the given candidate id',
         function () {
@@ -130,7 +132,7 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
 
             await databaseBuilder.commit();
             sinon
-              .stub(featureToggles, 'isEndTestScreenRemovalEnabledCertificationCenterIds')
+              .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
               .value([certificationCenterId]);
 
             // when
@@ -144,14 +146,14 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
     });
 
     context('the feature is enabled for the certification center associated with the given session id', function () {
-      it('returns true if isEndTestScreenRemovalEnabledCertificationCenterIds contains the id associated with given session id', async function () {
+      it('returns true if allowedCertificationCenterIdsForEndTestScreenRemoval contains the id associated with given session id', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
         await databaseBuilder.commit();
         sinon
-          .stub(featureToggles, 'isEndTestScreenRemovalEnabledCertificationCenterIds')
+          .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
           .value([certificationCenterId]);
 
         // when
@@ -159,6 +161,62 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
 
         // then
         expect(isEndTestScreenRemovalEnabled).to.be.true;
+      });
+    });
+  });
+
+  describe('#isEndTestScreenRemovalEnabledByCertificationCenterId', function () {
+    context('when allowedCertificationCenterIdsForEndTestScreenRemoval contains the given id', function () {
+      it('returns true', function () {
+        //given
+        sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([9, 99, 999]);
+
+        //when
+        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledByCertificationCenterId(99);
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.true;
+      });
+    });
+
+    context('when allowedCertificationCenterIdsForEndTestScreenRemoval does not contains the given id', function () {
+      it('returns true', function () {
+        //given
+        sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
+
+        //when
+        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledByCertificationCenterId(99);
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.false;
+      });
+    });
+  });
+
+  describe('#isEndTestScreenRemovalEnabledForSomeCertificationCenter', function () {
+    context('when allowedCertificationCenterIdsForEndTestScreenRemoval is not empty', function () {
+      it('returns true', function () {
+        //given
+        sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([9, 99, 999]);
+
+        //when
+        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.true;
+      });
+    });
+
+    context('when allowedCertificationCenterIdsForEndTestScreenRemoval is empty', function () {
+      it('returns false', function () {
+        // given
+        sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
+
+        // when
+        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.false;
       });
     });
   });

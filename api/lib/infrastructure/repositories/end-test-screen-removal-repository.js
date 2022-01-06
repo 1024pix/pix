@@ -1,6 +1,11 @@
 const { featureToggles } = require('../../config');
 const { knex } = require('../../../db/knex-database-connection');
 
+function isEndTestScreenRemovalEnabledByCertificationCenterId(certificationCenterId) {
+  const { allowedCertificationCenterIdsForEndTestScreenRemoval } = featureToggles;
+  return allowedCertificationCenterIdsForEndTestScreenRemoval.includes(certificationCenterId);
+}
+
 async function isEndTestScreenRemovalEnabledBySessionId(sessionId) {
   const { allowedCertificationCenterIdsForEndTestScreenRemoval } = featureToggles;
 
@@ -34,7 +39,14 @@ async function isEndTestScreenRemovalEnabledByCandidateId(certificationCandidate
   return Boolean(count);
 }
 
+function isEndTestScreenRemovalEnabledForSomeCertificationCenter() {
+  const { allowedCertificationCenterIdsForEndTestScreenRemoval } = featureToggles;
+  return allowedCertificationCenterIdsForEndTestScreenRemoval.length > 0;
+}
+
 module.exports = {
   isEndTestScreenRemovalEnabledBySessionId,
   isEndTestScreenRemovalEnabledByCandidateId,
+  isEndTestScreenRemovalEnabledByCertificationCenterId,
+  isEndTestScreenRemovalEnabledForSomeCertificationCenter,
 };

@@ -31,5 +31,38 @@ describe('Unit | Domain | Service | EndTestScreenRemoval', function () {
       // then
       expect(isEndTestScreenRemovalEnabled).to.equals(false);
     });
+
+    describe('#isEndTestScreenRemovalEnabledByCertificationCenterId', function () {
+      it('should return value from repository', async function () {
+        // given
+        const certificationCenterId = Symbol('certificationCenterId');
+        sinon.stub(endTestScreenRemovalRepository, 'isEndTestScreenRemovalEnabledByCertificationCenterId');
+        endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledByCertificationCenterId
+          .withArgs(certificationCenterId)
+          .resolves(false);
+
+        // when
+        const isEndTestScreenRemovalEnabled =
+          await endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCertificationCenterId(certificationCenterId);
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.equals(false);
+      });
+    });
+
+    describe('#isEndTestScreenRemovalEnabledForSomeCertificationCenter', function () {
+      it('should return value from repository', async function () {
+        // given
+        sinon.stub(endTestScreenRemovalRepository, 'isEndTestScreenRemovalEnabledForSomeCertificationCenter');
+        endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(false);
+
+        // when
+        const isEndTestScreenRemovalEnabled =
+          await endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.equals(false);
+      });
+    });
   });
 });
