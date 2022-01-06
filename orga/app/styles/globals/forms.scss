@@ -105,6 +105,19 @@
       font-size: 0.875rem;
     }
   }
+
+  &__mandatory-fields-information {
+    font-size: 0.875rem;
+    margin: 0 0 35px 0;
+    color: $grey-70;
+  }
+
+  abbr.mandatory-mark {
+    cursor: help;
+    color: $pink-alert-dark;
+    text-decoration: none;
+    border: none;
+  }
 }
 
 .label {

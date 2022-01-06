@@ -37,6 +37,16 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom('textarea').hasAttribute('maxLength', '5000');
   });
 
+  test('[a11y] it should display a message that some inputs are required', async function (assert) {
+    // when
+    await render(
+      hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}  @errors={{errors}}/>`
+    );
+
+    // then
+    assert.contains(t('pages.campaign-creation.mandatory-fields'));
+  });
+
   module('when user cannot create campaign of type PROFILES_COLLECTION', function () {
     test('it should display fields for campaign title and target profile by default', async function (assert) {
       // when
@@ -276,12 +286,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   });
 
   test('it should send campaign creation action when submitted', async function (assert) {
+    // given
+    this.targetProfiles = [{ name: 'targetProfile1' }];
     this.createCampaignSpy = sinon.stub();
 
     await render(
-      hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+      hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}} @targetProfiles={{this.targetProfiles}}/>`
     );
     await fillByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
+    await fillByLabel(t('pages.campaign-creation.target-profiles-list-label'), this.targetProfiles[0].name);
 
     // when
     await clickByName(t('pages.campaign-creation.actions.create'));
