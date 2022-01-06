@@ -12,4 +12,12 @@ module.exports = {
       await endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledByCandidateId(candidateId);
     return isEndTestScreenRemovalEnabled;
   },
+
+  isEndTestScreenRemovalEnabledByCertificationCenterId: function (certificationCenterId) {
+    return endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledByCertificationCenterId(certificationCenterId);
+  },
+
+  isEndTestScreenRemovalEnabledForSomeCertificationCenter: function () {
+    return endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+  },
 };

@@ -1,5 +1,4 @@
 const get = require('lodash/get');
-const { featureToggles } = require('../../config');
 
 const {
   ForbiddenAccess,
@@ -9,6 +8,7 @@ const {
 
 const apps = require('../constants');
 const authenticationService = require('../../domain/services/authentication-service');
+const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 
 function _checkUserAccessScope(scope, user) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
@@ -20,7 +20,9 @@ function _checkUserAccessScope(scope, user) {
   }
 
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
-    if (!featureToggles.isEndTestScreenRemovalEnabled) {
+    const isEndTestScreenRemovalEnabled =
+      endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+    if (!isEndTestScreenRemovalEnabled) {
       throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
     }
   }

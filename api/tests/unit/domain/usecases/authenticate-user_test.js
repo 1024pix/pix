@@ -2,7 +2,6 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
-const { featureToggles } = require('../../../../lib/config');
 
 const {
   UserNotFoundError,
@@ -12,6 +11,7 @@ const {
 } = require('../../../../lib/domain/errors');
 
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
+const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 const appMessages = require('../../../../lib/domain/constants');
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
@@ -30,6 +30,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       updateLastLoggedAt: sinon.stub(),
     };
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
+    sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCertificationCenterId');
   });
 
   it('should resolves a valid JWT access token when authentication succeeded', async function () {
@@ -160,12 +161,12 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     });
 
     context('when scope is pix-certif and user is not linked to any certification centers', function () {
-      it('should rejects an error when feature toggle is disabled', async function () {
+      it('should rejects an error when feature toggle is disabled for linked certification center', async function () {
         // given
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
         authenticationService.getUserByUsernameAndPassword.resolves(user);
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCertificationCenterId.returns(true);
 
         const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
 
@@ -188,11 +189,14 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const accessToken = 'jwt.access.token';
         const source = 'pix';
-        const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
+        const user = domainBuilder.buildUser({
+          email: userEmail,
+          certificationCenterMemberships: [Symbol('certificationCenterMembership')],
+        });
 
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCertificationCenterId.returns(true);
         authenticationService.getUserByUsernameAndPassword.resolves(user);
         tokenService.createAccessTokenFromUser.returns(accessToken);
-        sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
 
         // when
         await authenticateUser({
@@ -202,6 +206,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           source,
           tokenService,
           userRepository,
+          endTestScreenRemovalService,
         });
 
         // then
@@ -234,6 +239,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         password,
         tokenService,
         userRepository,
+        endTestScreenRemovalService,
       });
 
       // then
