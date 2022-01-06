@@ -24,12 +24,10 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
     return {
       hasAssessmentEnded: true,
       possibleChallenges: [],
-      estimatedLevel: DEFAULT_ESTIMATED_LEVEL,
-      errorRate: DEFAULT_ERROR_RATE,
     };
   }
 
-  const { estimatedLevel, errorRate } = getEstimatedLevelAndErrorRate({ allAnswers, challenges });
+  const { estimatedLevel } = getEstimatedLevelAndErrorRate({ allAnswers, challenges });
 
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
@@ -52,8 +50,6 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   return {
     hasAssessmentEnded: false,
     possibleChallenges,
-    estimatedLevel,
-    errorRate,
   };
 }
 
