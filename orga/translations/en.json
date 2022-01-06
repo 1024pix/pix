@@ -188,7 +188,8 @@
       "a11y": "Accessibility",
       "copyrights": "©",
       "legal-notice": "Legal notice",
-      "pix": "Pix"
+      "pix": "Pix",
+      "aria-label": "Footer navigation"
     },
     "main": {
       "campaigns": "Campaigns",
