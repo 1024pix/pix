@@ -18,6 +18,7 @@ export default class Organization extends Model {
   @attr() email;
   @attr() createdBy;
   @attr('string') documentationUrl;
+  @attr('boolean') showSkills;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
