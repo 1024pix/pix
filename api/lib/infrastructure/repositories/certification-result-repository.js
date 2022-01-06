@@ -1,7 +1,16 @@
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationResult = require('../../domain/models/CertificationResult');
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('../../domain/models/Badge').keys;
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../domain/models/Badge').keys;
 
 module.exports = {
   async findBySessionId({ sessionId }) {
@@ -60,7 +69,17 @@ function _selectCertificationResults() {
     .leftJoin('partner-certifications', function () {
       this.on('partner-certifications.certificationCourseId', '=', 'certification-courses.id').onIn(
         'partner-certifications.partnerKey',
-        [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF]
+        [
+          PIX_EMPLOI_CLEA,
+          PIX_EMPLOI_CLEA_V2,
+          PIX_DROIT_MAITRE_CERTIF,
+          PIX_DROIT_EXPERT_CERTIF,
+          PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+          PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+          PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+          PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+          PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        ]
       );
     })
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id')
