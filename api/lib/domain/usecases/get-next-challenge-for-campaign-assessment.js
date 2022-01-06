@@ -6,11 +6,9 @@ const dataFetcher = require('../services/algorithm-methods/data-fetcher');
 const hashInt = require('hash-int');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
-  knowledgeElementRepository,
-  targetProfileRepository,
   challengeRepository,
   answerRepository,
-  improvementService,
+  flashAssessmentResultRepository,
   assessment,
   pickChallengeService,
   locale,
@@ -22,6 +20,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       assessment,
       answerRepository,
       challengeRepository,
+      flashAssessmentResultRepository,
       locale,
     });
     algoResult = flash.getPossibleNextChallenges({ ...inputValues });

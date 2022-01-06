@@ -21,4 +21,8 @@ module.exports = {
     if (knexTransaction) query.transacting(knexTransaction);
     return query;
   },
+
+  async getByAssessmentId(assessmentId) {
+    return knex(TABLE_NAME).select().where({ assessmentId }).first();
+  },
 };
