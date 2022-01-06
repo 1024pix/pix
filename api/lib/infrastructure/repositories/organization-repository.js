@@ -26,6 +26,7 @@ function _toDomain(rawOrganization) {
     createdBy: rawOrganization.createdBy,
     showNPS: rawOrganization.showNPS,
     formNPSUrl: rawOrganization.formNPSUrl,
+    showSkills: rawOrganization.showSkills,
   });
 
   organization.targetProfileShares = rawOrganization.targetProfileShares || [];

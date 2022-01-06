@@ -159,6 +159,7 @@ describe('Integration | Repository | Organization', function () {
           createdBy: pixMasterUserId,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
+          showSkills: false,
         });
 
         const expectedAttributes = {
@@ -180,6 +181,7 @@ describe('Integration | Repository | Organization', function () {
           createdBy: insertedOrganization.createdBy,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
+          showSkills: false,
         };
 
         await databaseBuilder.commit();
