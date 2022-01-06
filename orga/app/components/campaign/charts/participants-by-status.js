@@ -93,7 +93,7 @@ const LABELS_ASSESSMENT = {
     legend: 'charts.participants-by-status.labels-legend.started',
     legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#ffbe00',
+    color: '#da7601',
     shape: 'diamond-box',
   },
   completed: {
@@ -120,7 +120,7 @@ const LABELS_PROFILE_COLLECTIONS = {
     legend: 'charts.participants-by-status.labels-legend.started',
     legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#ffbe00',
+    color: '#da7601',
     shape: 'diamond-box',
   },
   completed: {
