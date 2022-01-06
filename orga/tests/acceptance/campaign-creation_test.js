@@ -60,7 +60,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const expectedTargetProfileId = availableTargetProfiles[1].id;
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
-      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Oui');
       await fillByLabel('Libellé de l’identifiant', 'Mail Pro');
@@ -82,9 +82,13 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {
       // given
+      const expectedTargetProfileName = availableTargetProfiles[1].name;
       server.post('/campaigns', {}, 500);
 
       // when
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
+      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
       await clickByName('Créer la campagne');
 
       // then
@@ -108,8 +112,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
       await clickByName('Évaluer les participants');
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
-      await fillByLabel('Nom de la campagne', 'Ma Campagne');
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
 
       // when
@@ -125,7 +129,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
       // given
       await clickByName('Collecter les profils Pix des participants');
-      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
 
       // when
@@ -142,7 +146,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       await clickByName('Évaluer les participants');
       await selectByLabelAndOption('Que souhaitez-vous tester ?', expectedTargetProfileName);
-      await fillByLabel('Nom de la campagne', 'Ma Campagne');
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await fillByLabel('Titre du parcours', 'Savoir rechercher');
       await clickByName('Non');
 
