@@ -360,6 +360,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
     { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
+    { method: 'hasTakenPixPlusEduAutonome', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME] },
+    {
+      method: 'hasTakenPixPlusEduAvance',
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+    },
+    { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasTakenPixPlusEduFormateur', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe

@@ -149,11 +149,25 @@ class CertificationResult {
     return pixPlusDroitExpertPartnerCertification && pixPlusDroitExpertPartnerCertification.acquired;
   }
 
+  hasTakenPixPlusEduAutonome() {
+    return this.partnerCertifications.some(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
+    );
+  }
+
   hasAcquiredPixPlusEduAutonome() {
     const pixPlusEduAutonomePartnerCertification = this.partnerCertifications.find(
       (partnerCertification) => partnerCertification.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
     );
     return pixPlusEduAutonomePartnerCertification && pixPlusEduAutonomePartnerCertification.acquired;
+  }
+
+  hasTakenPixPlusEduAvance() {
+    return this.partnerCertifications.some((partnerCertification) =>
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(
+        partnerCertification.partnerKey
+      )
+    );
   }
 
   hasAcquiredPixPlusEduAvance() {
@@ -165,11 +179,23 @@ class CertificationResult {
     return pixPlusEduAvancePartnerCertification && pixPlusEduAvancePartnerCertification.acquired;
   }
 
+  hasTakenPixPlusEduExpert() {
+    return this.partnerCertifications.some(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    );
+  }
+
   hasAcquiredPixPlusEduExpert() {
     const pixPlusEduExpertPartnerCertification = this.partnerCertifications.find(
       (partnerCertification) => partnerCertification.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
     return pixPlusEduExpertPartnerCertification && pixPlusEduExpertPartnerCertification.acquired;
+  }
+
+  hasTakenPixPlusEduFormateur() {
+    return this.partnerCertifications.some(
+      (partnerCertification) => partnerCertification.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+    );
   }
 
   hasAcquiredPixPlusEduFormateur() {
