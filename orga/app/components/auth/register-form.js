@@ -31,13 +31,8 @@ export default class RegisterForm extends Component {
     cgu: new InputValidator(Boolean, this.intl.t('pages.login-or-register.register-form.fields.cgu.error')),
   };
 
-  user = null;
+  @tracked user = null;
   @tracked isLoading = false;
-  @tracked isPasswordVisible = false;
-
-  get passwordInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
-  }
 
   constructor() {
     super(...arguments);
@@ -76,12 +71,11 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
-
-  @action
   validateInput(key, value) {
+    if (key === 'password') {
+      value = value.target.value;
+      this.user.password = value;
+    }
     this.validation[key].validate({ value, resetServerMessage: true });
   }
 

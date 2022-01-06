@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -100,165 +100,83 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
   });
 
-  module('errors management', function () {
-    module('error display', () => {
-      [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
-        test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-          // given
-          await render(hbs`<Auth::RegisterForm/>`);
+  module('errors management', function (hooks) {
+    let spy;
 
-          // when
-          await fillByLabel(firstNameInputLabel, stringFilledIn);
-          await triggerEvent('#register-firstName', 'focusout');
-
-          // then
-          assert
-            .dom('#register-firstName-container .alert-input--error')
-            .hasText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE));
-          assert.dom('#register-firstName-container .input--error').exists();
-        });
+    hooks.beforeEach(async function () {
+      spy = sinon.spy();
+      this.owner.unregister('service:store');
+      this.owner.register('service:store', StoreStub);
+      StoreStub.prototype.createRecord = sinon.stub().returns({
+        save: spy,
+        unloadRecord: () => {
+          return resolve();
+        },
       });
 
-      [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
-        test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-          // given
-          await render(hbs`<Auth::RegisterForm/>`);
+      await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+    });
 
-          // when
-          await fillByLabel(lastNameInputLabel, stringFilledIn);
-          await triggerEvent('#register-lastName', 'focusout');
+    module('When first name is not valid', () => {
+      test('it should prevent submission and display error message', async function (assert) {
+        // given
+        await fillByLabel(firstNameInputLabel, '');
 
-          // then
-          assert
-            .dom('#register-lastName-container .alert-input--error')
-            .hasText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE));
-          assert.dom('#register-lastName-container .input--error').exists();
-        });
-      });
+        // when
+        await clickByName(registerButtonLabel);
 
-      [{ stringFilledIn: ' ' }, { stringFilledIn: 'a' }, { stringFilledIn: 'shi.fu' }].forEach(function ({
-        stringFilledIn,
-      }) {
-        test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-          // given
-          await render(hbs`<Auth::RegisterForm/>`);
-
-          // when
-          await fillByLabel(emailInputLabel, stringFilledIn);
-          await triggerEvent('#register-email', 'focusout');
-
-          // then
-          assert.dom('#register-email-container .alert-input--error').hasText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE));
-          assert.dom('#register-email-container .input--error').exists();
-        });
-      });
-
-      [
-        { stringFilledIn: ' ' },
-        { stringFilledIn: 'password' },
-        { stringFilledIn: 'password1' },
-        { stringFilledIn: 'Password' },
-      ].forEach(function ({ stringFilledIn }) {
-        test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-          // given
-          await render(hbs`<Auth::RegisterForm/>`);
-
-          // when
-          await fillByLabel(passwordInputLabel, stringFilledIn);
-          await triggerEvent('#register-password', 'focusout');
-
-          // then
-          assert
-            .dom('#register-password-container .alert-input--error')
-            .hasText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE));
-          assert.dom('#register-password-container .input-password--error').exists();
-        });
+        // then
+        assert.equal(spy.callCount, 0);
+        assert.contains(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE));
       });
     });
 
-    module('form submission', (hooks) => {
-      let spy;
-      let validUser;
-
-      const fillForm = async function (user) {
-        await fillByLabel(firstNameInputLabel, user.firstName);
-        await fillByLabel(lastNameInputLabel, user.lastName);
-        await fillByLabel(emailInputLabel, user.email);
-        await fillByLabel(passwordInputLabel, user.password);
-        if (user.cgu) {
-          await clickByName(cguAriaLabel);
-        }
-      };
-
-      hooks.beforeEach(async function () {
-        validUser = {
-          firstName: 'pix',
-          lastName: 'pix',
-          email: 'shi@fu.me',
-          password: 'Mypassword1',
-          cgu: true,
-        };
-
-        spy = sinon.spy();
-        this.owner.unregister('service:store');
-        this.owner.register('service:store', StoreStub);
-        StoreStub.prototype.createRecord = sinon.stub().returns({
-          save: spy,
-          unloadRecord: () => {
-            return resolve();
-          },
-        });
-
-        await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      });
-
-      test('it should prevent submission when firstName is not valid', async function (assert) {
+    module('When last name is not valid', () => {
+      test('it should prevent submission and display error message', async function (assert) {
         // given
-        await fillForm({ ...validUser, ...{ firstName: '' } });
+        await fillByLabel(lastNameInputLabel, '');
 
         // when
         await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
+        assert.contains(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE));
       });
+    });
 
-      test('it should prevent submission when lastName is not valid', async function (assert) {
+    module('When email is not valid', () => {
+      test('it should prevent submission and display error message', async function (assert) {
         // given
-        await fillForm({ ...validUser, ...{ lastName: '' } });
+        await fillByLabel(emailInputLabel, 'email');
 
         // when
         await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
+        assert.contains(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE));
       });
+    });
 
-      test('it should prevent submission when email is not valid', async function (assert) {
+    module('When password is not valid', () => {
+      test('it should prevent submission and display error message', async function (assert) {
         // given
-        await fillForm({ ...validUser, ...{ email: '' } });
+        await fillByLabel(passwordInputLabel, '');
 
         // when
         await clickByName(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
+        assert.contains(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE));
       });
+    });
 
-      test('it should prevent submission when password is not valid', async function (assert) {
+    module('When cgu have not been accepted', () => {
+      test('it should prevent submission', async function (assert) {
         // given
-        await fillForm({ ...validUser, ...{ password: '' } });
-
-        // when
-        await clickByName(registerButtonLabel);
-
-        // then
-        assert.equal(spy.callCount, 0);
-      });
-
-      test('it should prevent submission when cgu have not been accepted', async function (assert) {
-        // given
-        await fillForm({ ...validUser, ...{ cgu: false } });
+        await clickByName(cguAriaLabel);
 
         // when
         await clickByName(registerButtonLabel);
