@@ -200,6 +200,9 @@
       "team": "Team",
       "aria-label": "Main navigation"
     },
+    "team-members": {
+      "aria-label": "Team members navigation"
+    },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Log out",
