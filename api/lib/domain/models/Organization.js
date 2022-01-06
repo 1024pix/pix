@@ -70,20 +70,8 @@ class Organization {
     return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AGRICULTURE));
   }
 
-  get isAEFE() {
-    return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AEFE));
-  }
-
-  get isMLF() {
-    return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.MLF));
-  }
-
   get isPoleEmploi() {
     return Boolean(this.tags.find((tag) => tag.name === Tag.POLE_EMPLOI));
-  }
-
-  get isMediationNumerique() {
-    return Boolean(this.tags.find((tag) => this.isPro && tag.name === Tag.MEDIATION_NUMERIQUE));
   }
 
   get isScoAndManagingStudents() {
