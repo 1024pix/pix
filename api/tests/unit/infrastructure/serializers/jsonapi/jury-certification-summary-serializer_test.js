@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
+const { PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF } = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {
   describe('#serialize()', function () {
@@ -13,11 +14,6 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         description: 'someComment',
         resolvedAt: null,
       });
-      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const pixPlusDroitMaitreCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-      const pixPlusDroitExpertCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
@@ -30,9 +26,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
         isFlaggedAborted: false,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
+        partnerCertifications: [
+          domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
+        ],
       });
 
       expectedJsonApi = {
