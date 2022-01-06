@@ -189,4 +189,44 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       expect(data.challenges).to.deep.equal(challenges);
     });
   });
+
+  describe('#fetchForFlashLevelEstimation', function () {
+    let answerRepository;
+    let challengeRepository;
+
+    beforeEach(function () {
+      answerRepository = {
+        findByAssessment: sinon.stub(),
+      };
+      challengeRepository = {
+        getMany: sinon.stub(),
+      };
+    });
+
+    it('fetches answers and challenges', async function () {
+      // given
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
+        state: 'started',
+        method: 'FLASH',
+        campaignParticipationId: 1,
+        userId: 5678899,
+      });
+      const answer = Symbol('answer');
+      const challenges = Symbol('challenge');
+
+      answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
+      challengeRepository.getMany.withArgs().resolves(challenges);
+
+      // when
+      const data = await dataFetcher.fetchForFlashLevelEstimation({
+        assessment,
+        answerRepository,
+        challengeRepository,
+      });
+
+      // then
+      expect(data.allAnswers).to.deep.equal([answer]);
+      expect(data.challenges).to.deep.equal(challenges);
+    });
+  });
 });

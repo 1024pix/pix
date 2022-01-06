@@ -1,5 +1,6 @@
 const dependencies = {
   accountRecoveryDemandRepository: require('../../infrastructure/repositories/account-recovery-demand-repository'),
+  algorithmDataFetcherService: require('../../domain/services/algorithm-methods/data-fetcher'),
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
@@ -65,6 +66,8 @@ const dependencies = {
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   divisionRepository: require('../../infrastructure/repositories/division-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
+  flashAssessmentResultRepository: require('../../infrastructure/repositories/flash-assessment-result-repository'),
+  flashAlgorithmService: require('../../domain/services/algorithm-methods/flash'),
   getCompetenceLevel: require('../../domain/services/get-competence-level'),
   groupRepository: require('../../infrastructure/repositories/group-repository'),
   finalizedSessionRepository: require('../../infrastructure/repositories/sessions/finalized-session-repository'),
