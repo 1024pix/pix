@@ -12,7 +12,6 @@ export default class SkillReview extends Component {
   @service currentUser;
   @service url;
   @service store;
-  @service featureToggles;
 
   @tracked displayErrorMessage = false;
 
@@ -123,11 +122,7 @@ export default class SkillReview extends Component {
   }
 
   get showNPS() {
-    return (
-      this.featureToggles.featureToggles.isNetPromoterScoreEnabled &&
-      this.args.model.campaign.organizationShowNPS &&
-      this.isShared
-    );
+    return this.args.model.campaign.organizationShowNPS && this.isShared;
   }
 
   _buildUrl(baseUrl, params) {

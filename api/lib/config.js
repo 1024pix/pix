@@ -165,7 +165,6 @@ module.exports = (function () {
       isComplementaryCertificationSubscriptionEnabled: isFeatureEnabled(
         process.env.FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED
       ),
-      isNetPromoterScoreEnabled: isFeatureEnabled(process.env.FT_NET_PROMOTER_SCORE_ENABLED),
     },
 
     infra: {
