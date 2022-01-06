@@ -103,6 +103,7 @@ export function createUserMembershipWithRole(organizationRole) {
 
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
+    documentationUrl: 'https://pix.fr',
   });
 
   const memberships = server.create('membership', {
@@ -215,6 +216,7 @@ export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
     name: 'BRO & Evil Associates',
     type,
     isManagingStudents: true,
+    documentationUrl: 'https://pix.fr',
   });
 
   const memberships = server.create('membership', {
