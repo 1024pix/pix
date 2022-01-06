@@ -13,9 +13,6 @@ module.exports = {
           organization: {
             ...recordWithoutClass.userOrgaSettings.currentOrganization,
             isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization.isAgriculture,
-            isAEFE: recordWithoutClass.userOrgaSettings.currentOrganization.isAEFE,
-            isMLF: recordWithoutClass.userOrgaSettings.currentOrganization.isMLF,
-            isMediationNumerique: recordWithoutClass.userOrgaSettings.currentOrganization.isMediationNumerique,
           },
         };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
@@ -52,9 +49,6 @@ module.exports = {
             'isManagingStudents',
             'canCollectProfiles',
             'isAgriculture',
-            'isAEFE',
-            'isMLF',
-            'isMediationNumerique',
             'targetProfiles',
             'memberships',
             'students',
