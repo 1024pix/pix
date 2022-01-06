@@ -16,16 +16,14 @@ export default class BadgeForm extends Component {
     title: '',
     isCertifiable: false,
     isAlwaysVisible: false,
+    campaignThreshold: null,
+    skillSetThreshold: null,
+    skillSetName: '',
   };
 
   imageName = '';
-  campaignParticipationThreshold = null;
 
-  skillSet = {
-    threshold: null,
-    name: '',
-    skills: '',
-  };
+  skillSetSkills = '';
 
   constructor(...args) {
     super(...args);
@@ -35,17 +33,7 @@ export default class BadgeForm extends Component {
   async createBadgeAndCriteria(event) {
     event.preventDefault();
     try {
-      const badge = await this._createBadge();
-
-      if (this.campaignParticipationThreshold) {
-        await this._createThresholdBadgeCriterion(badge);
-      }
-
-      if (this.skillSet.threshold) {
-        await this._createSkillSetAndBadgeCriterion(badge);
-      }
-
-      this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
+      await this._createBadge();
     } catch (error) {
       console.error(error);
     }
@@ -56,63 +44,26 @@ export default class BadgeForm extends Component {
       const badgeWithFormattedImageUrl = {
         ...this.badge,
         imageUrl: this.BASE_URL + this.imageName,
+        skillSetSkillsIds: this._skillIds,
       };
       const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
+
       await badge.save({
         adapterOptions: { targetProfileId: this.args.targetProfileId },
       });
 
       this.notifications.success('Le résultat thématique a été créé.');
+      this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
       return badge;
     } catch (error) {
       console.error(error);
-      this.notifications.error('Erreur lors de la création du résultat thématique.');
+      this.notifications.error(`${error.errors[0].detail}`);
     }
   }
 
-  async _createThresholdBadgeCriterion(badge) {
-    try {
-      if (this.threshold < 0 || this.threshold > 100) {
-        this.notifications.error('Le taux de réussite doit être compris entre 0 et 100.');
-        return;
-      }
-      const badgeCriterion = this.store.createRecord('badge-criterion', {
-        scope: 'CampaignParticipation',
-        threshold: this.campaignParticipationThreshold,
-        badge,
-      });
-      await badgeCriterion.save();
-      this.notifications.success('Le critère du résultat thématique a été créé.');
-    } catch (error) {
-      console.error(error);
-      this.notifications.error('Erreur lors de la création du critère du résultat thématique.');
-    }
-  }
-
-  async _createSkillSetAndBadgeCriterion(badge) {
-    try {
-      if (this.skillSet.threshold < 0 || this.skillSet.threshold > 100) {
-        this.notifications.error('Le taux de réussite doit être compris entre 0 et 100.');
-        return;
-      }
-      const skillIds = this.skillSet.skills.replace(/\s/g, '').split(',');
-      const skillSet = this.store.createRecord('skill-set', {
-        badge,
-        name: this.skillSet.name,
-        skillIds,
-      });
-      await skillSet.save();
-      const badgeCriterion = this.store.createRecord('badge-criterion', {
-        scope: 'SkillSet',
-        threshold: this.skillSet.threshold,
-        skillSets: [skillSet],
-        badge,
-      });
-      await badgeCriterion.save();
-      this.notifications.success('Le critère du résultat thématique a été créé.');
-    } catch (error) {
-      console.error(error);
-      this.notifications.error('Erreur lors de la création du critère du résultat thématique');
-    }
+  get _skillIds() {
+    const skillIds = this.skillSetSkills.replace(/\s/g, '');
+    if (skillIds === '') return null;
+    return skillIds.split(',');
   }
 }

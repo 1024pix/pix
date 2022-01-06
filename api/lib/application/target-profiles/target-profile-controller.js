@@ -4,6 +4,7 @@ const targetProfileWithLearningContentSerializer = require('../../infrastructure
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
+const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
@@ -89,9 +90,9 @@ module.exports = {
 
   async createBadge(request, h) {
     const targetProfileId = request.params.id;
-    const badge = badgeSerializer.deserialize(request.payload);
+    const badgeCreation = await badgeCreationSerializer.deserialize(request.payload);
 
-    const createdBadge = await usecases.createBadge({ targetProfileId, badge });
+    const createdBadge = await usecases.createBadge({ targetProfileId, badgeCreation });
 
     return h.response(badgeSerializer.serialize(createdBadge)).created();
   },
