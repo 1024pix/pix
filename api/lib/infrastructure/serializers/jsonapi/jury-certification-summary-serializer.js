@@ -19,6 +19,12 @@ module.exports = {
           juryCertificationSummary.getPixPlusDroitMaitreCertificationStatus();
         result.pixPlusDroitExpertCertificationStatus =
           juryCertificationSummary.getPixPlusDroitExpertCertificationStatus();
+        result.pixPlusEduAutonomeCertificationStatus =
+          juryCertificationSummary.getPixPlusEduAutonomeCertificationStatus();
+        result.pixPlusEduAvanceCertificationStatus = juryCertificationSummary.getPixPlusEduAvanceCertificationStatus();
+        result.pixPlusEduExpertCertificationStatus = juryCertificationSummary.getPixPlusEduExpertCertificationStatus();
+        result.pixPlusEduFormateurCertificationStatus =
+          juryCertificationSummary.getPixPlusEduFormateurCertificationStatus();
         return result;
       },
       attributes: [
@@ -37,6 +43,10 @@ module.exports = {
         'cleaCertificationStatus',
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',
+        'pixPlusEduAutonomeCertificationStatus',
+        'pixPlusEduAvanceCertificationStatus',
+        'pixPlusEduExpertCertificationStatus',
+        'pixPlusEduFormateurCertificationStatus',
       ],
     }).serialize(juryCertificationSummary);
   },
