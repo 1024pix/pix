@@ -26,9 +26,7 @@ describe('Unit | Route | Certifications | Results', function () {
       const model = await route.model({ certification_id: 1 });
 
       // then
-      expect(model).to.equal(certificationCourse);
-      sinon.assert.calledWith(findRecordStub, 'certification-course', 1);
-      sinon.assert.called(reloadStub);
+      expect(model).to.deep.equal(certificationCourse);
     });
   });
 });
