@@ -11,7 +11,7 @@ module.exports = {
       .with('certifications_every_assess_results', (qb) => {
         qb.select('certification-courses.*', 'assessment-results.pixScore')
           .select({
-            assesmentResultStatus: 'assessment-results.status',
+            assessmentResultStatus: 'assessment-results.status',
             assessmentState: 'assessments.state',
           })
           .select(
@@ -82,7 +82,7 @@ function _toDomain(juryCertificationSummaryDTO) {
   );
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
-    status: juryCertificationSummaryDTO.assesmentResultStatus,
+    status: juryCertificationSummaryDTO.assessmentResultStatus,
     isCourseCancelled: juryCertificationSummaryDTO.isCancelled,
     isEndedBySupervisor: juryCertificationSummaryDTO.assessmentState === Assessment.states.ENDED_BY_SUPERVISOR,
     certificationIssueReports,
