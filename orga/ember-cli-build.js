@@ -37,5 +37,9 @@ module.exports = function (defaults) {
     using: [{ transformation: 'amd', as: 'chartjs-adapter-date-fns.js' }],
   });
 
+  app.import('node_modules/patternomaly/dist/patternomaly.js', {
+    using: [{ transformation: 'amd', as: 'patternomaly.js' }],
+  });
+
   return app.toTree();
 };
