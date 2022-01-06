@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.151.0 (06/01/2022)
+
+
+### :rocket: Enhancement
+- [#3867](https://github.com/1024pix/pix/pull/3867) [FEATURE] Algo flash : Enregistrer le niveau estimé et le taux d'erreur (PIX-4039)
+- [#3906](https://github.com/1024pix/pix/pull/3906) [FEATURE] Supprime le feature toggle du Net Promoter Score (PIX-4096)
+- [#3910](https://github.com/1024pix/pix/pull/3910) [FEATURE] Enlever le dégradé du menu dans pix Orga (PIX-4053).
+- [#3903](https://github.com/1024pix/pix/pull/3903) [FEATURE] Ajout de l'url de documentation lors de la création d'une orga (Pix-3975).
+- [#3900](https://github.com/1024pix/pix/pull/3900) [FEATURE] Permettre de choisir un catégorie pour un profile cible lors de sa création (PIX-3872).
+
+### :bug: Bug fix
+- [#3905](https://github.com/1024pix/pix/pull/3905) [BUGFIX] Corriger le test flaky sur l'api remontant les données de resultat d'une campagne (PIX-4102)
+
+### :coffee: Various
+- [#3892](https://github.com/1024pix/pix/pull/3892) [A11Y] Ajouter des formes dans les repartitions du graphique camembert sur la page Activité de Pix Orga (PIX-3893)
+- [#3881](https://github.com/1024pix/pix/pull/3881) [A11Y] Ajout d'instructions pour les QCU et QCM (PIX-3916).
+- [#3226](https://github.com/1024pix/pix/pull/3226) [DOC] Choisir une nouvelle librairie de gestion du temps.
+
 ## v3.150.0 (05/01/2022)
 
 
