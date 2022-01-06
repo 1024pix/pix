@@ -326,6 +326,55 @@ describe('Acceptance | Certification | Certification Course', function () {
           });
         });
       });
+
+      context('when is isEndTestScreenRemovalEnabled is true', function () {
+        it('should display "Test terminé !"', async function () {
+          this.timeout(5000);
+          // given
+          server.create('feature-toggle', { id: 0, isEndTestScreenRemovalEnabled: true });
+
+          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+
+          const NB_CHALLENGES = 3;
+          for (let i = 0; i < NB_CHALLENGES; ++i) {
+            server.create('challenge', 'forCertification');
+          }
+          this.server.create('certification-course', {
+            accessCode: 'ABCD12',
+            sessionId: 1,
+            nbChallenges: NB_CHALLENGES,
+            firstName: 'Laura',
+            lastName: 'Bravo',
+          });
+          this.server.create('certification-candidate-subscription', {
+            id: 2,
+            sessionId: 1,
+            eligibleSubscriptions: [],
+            nonEligibleSubscriptions: [],
+          });
+
+          await authenticateByEmail(user);
+          await visit('/certifications');
+          await fillCertificationJoiner({
+            sessionId: '1',
+            firstName: 'Laura',
+            lastName: 'Bravo',
+            dayOfBirth: '04',
+            monthOfBirth: '01',
+            yearOfBirth: '1990',
+            intl: this.intl,
+          });
+          await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
+          // when
+          for (let i = 0; i < NB_CHALLENGES; ++i) {
+            await click('.challenge-actions__action-skip');
+          }
+
+          // then
+          expect(contains('Test terminé !')).to.exist;
+        });
+      });
     });
   });
 });
