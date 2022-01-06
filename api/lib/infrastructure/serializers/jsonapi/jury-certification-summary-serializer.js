@@ -14,9 +14,11 @@ module.exports = {
           juryCertificationSummary.certificationIssueReports.filter(
             (issueReport) => issueReport.isImpactful && issueReport.resolvedAt === null
           ).length;
-        result.cleaCertificationStatus = result.cleaCertificationResult.status;
-        result.pixPlusDroitMaitreCertificationStatus = result.pixPlusDroitMaitreCertificationResult.status;
-        result.pixPlusDroitExpertCertificationStatus = result.pixPlusDroitExpertCertificationResult.status;
+        result.cleaCertificationStatus = juryCertificationSummary.getCleaCertificationStatus();
+        result.pixPlusDroitMaitreCertificationStatus =
+          juryCertificationSummary.getPixPlusDroitMaitreCertificationStatus();
+        result.pixPlusDroitExpertCertificationStatus =
+          juryCertificationSummary.getPixPlusDroitExpertCertificationStatus();
         return result;
       },
       attributes: [

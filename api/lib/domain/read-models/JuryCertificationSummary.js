@@ -1,8 +1,16 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../models/Badge').keys;
 
 const STARTED = 'started';
 const CANCELLED = 'cancelled';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
+
+const partnerCertificationStatus = {
+  ACQUIRED: 'acquired',
+  REJECTED: 'rejected',
+  NOT_TAKEN: 'not_taken',
+};
 
 class JuryCertificationSummary {
   constructor({
@@ -18,9 +26,7 @@ class JuryCertificationSummary {
     isCourseCancelled,
     isEndedBySupervisor,
     hasSeenEndTestScreen,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
     certificationIssueReports,
   } = {}) {
     this.id = id;
@@ -29,9 +35,7 @@ class JuryCertificationSummary {
     this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    this.partnerCertifications = partnerCertifications;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
@@ -49,6 +53,34 @@ class JuryCertificationSummary {
 
   hasCompletedAssessment() {
     return this.status !== JuryCertificationSummary.statuses.STARTED;
+  }
+
+  getCleaCertificationStatus() {
+    const cleaPartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
+    );
+    return this._getStatusFromPartnerCertification(cleaPartnerCertification);
+  }
+
+  getPixPlusDroitMaitreCertificationStatus() {
+    const pixPlusDroitMaitrePartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF
+    );
+    return this._getStatusFromPartnerCertification(pixPlusDroitMaitrePartnerCertification);
+  }
+
+  getPixPlusDroitExpertCertificationStatus() {
+    const pixPlusDroitExpertPartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_DROIT_EXPERT_CERTIF
+    );
+    return this._getStatusFromPartnerCertification(pixPlusDroitExpertPartnerCertification);
+  }
+
+  _getStatusFromPartnerCertification(partnerCertification) {
+    if (!partnerCertification) {
+      return partnerCertificationStatus.NOT_TAKEN;
+    }
+    return partnerCertification.acquired ? partnerCertificationStatus.ACQUIRED : partnerCertificationStatus.REJECTED;
   }
 }
 
