@@ -7,8 +7,17 @@ const {
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('../../../../lib/domain/models/Badge').keys;
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {
@@ -253,6 +262,14 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       { partnerKey: PIX_EMPLOI_CLEA_V2, method: 'getCleaCertificationStatus' },
       { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, method: 'getPixPlusEduAutonomeCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, method: 'getPixPlusEduExpertCertificationStatus' },
+      {
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        method: 'getPixPlusEduFormateurCertificationStatus',
+      },
     ].forEach(({ partnerKey, method }) => {
       context(`when a summary has a ${partnerKey} certification`, function () {
         it(`should have the status acquired when ${partnerKey} certification is acquired`, async function () {

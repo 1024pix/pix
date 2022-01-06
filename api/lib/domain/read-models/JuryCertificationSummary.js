@@ -1,6 +1,15 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('../models/Badge').keys;
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../models/Badge').keys;
 
 const STARTED = 'started';
 const CANCELLED = 'cancelled';
@@ -74,6 +83,34 @@ class JuryCertificationSummary {
       ({ partnerKey }) => partnerKey === PIX_DROIT_EXPERT_CERTIF
     );
     return this._getStatusFromPartnerCertification(pixPlusDroitExpertPartnerCertification);
+  }
+
+  getPixPlusEduAutonomeCertificationStatus() {
+    const pixPlusEduAutonomePartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
+    );
+    return this._getStatusFromPartnerCertification(pixPlusEduAutonomePartnerCertification);
+  }
+
+  getPixPlusEduAvanceCertificationStatus() {
+    const pixPlusEduAvancePartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
+    );
+    return this._getStatusFromPartnerCertification(pixPlusEduAvancePartnerCertification);
+  }
+
+  getPixPlusEduExpertCertificationStatus() {
+    const pixPlusEduExpertPartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    );
+    return this._getStatusFromPartnerCertification(pixPlusEduExpertPartnerCertification);
+  }
+
+  getPixPlusEduFormateurCertificationStatus() {
+    const pixPlusEduFormateurPartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+    );
+    return this._getStatusFromPartnerCertification(pixPlusEduFormateurPartnerCertification);
   }
 
   _getStatusFromPartnerCertification(partnerCertification) {
