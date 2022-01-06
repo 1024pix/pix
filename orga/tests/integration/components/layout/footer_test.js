@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Layout::Footer', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -13,10 +13,10 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const expectedYear = date.getFullYear().toString();
 
     // when
-    await render(hbs`<Layout::Footer />}`);
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.contains(`© ${expectedYear} Pix`);
+    assert.dom(screen.getByText(`© ${expectedYear} Pix`)).exists();
   });
 
   test('should display legal notice link', async function (assert) {
@@ -25,10 +25,10 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
     // when
-    await render(hbs`<Layout::Footer />}`);
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.contains('Mentions légales');
+    assert.dom(screen.getByText('Mentions légales')).exists();
     assert.dom('a[href="https://pix.fr/mentions-legales"]').exists();
   });
 
@@ -38,10 +38,10 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
     // when
-    await render(hbs`<Layout::Footer />}`);
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.contains('Accessibilité : non conforme');
+    assert.dom(screen.getByText('Accessibilité : non conforme')).exists();
     assert.dom('a[href="https://pix.fr/accessibilite-pix-orga"]').exists();
   });
 });
