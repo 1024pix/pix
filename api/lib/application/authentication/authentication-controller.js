@@ -1,7 +1,6 @@
 const get = require('lodash/get');
-
 const { UnauthorizedError, BadRequestError } = require('../http-errors');
-
+const settings = require('../../config');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
@@ -11,7 +10,7 @@ module.exports = {
    */
   async createToken(request, h) {
     let accessToken, refreshToken;
-
+    const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
     if (request.payload.grant_type === 'refresh_token') {
       // TODO Renvoyer un nouveau refresh token ici: refreshTokenService.createRefreshTokenFromUserId();
       refreshToken = request.payload.refresh_token;
@@ -33,6 +32,7 @@ module.exports = {
         access_token: accessToken,
         user_id: tokenService.extractUserId(accessToken),
         refresh_token: refreshToken,
+        expires_in: expirationDelaySeconds,
       })
       .code(200)
       .header('Content-Type', 'application/json;charset=UTF-8')
