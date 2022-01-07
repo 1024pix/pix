@@ -19,7 +19,7 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    return certificationResultDTOs.map((certificationResultDTO) => _toDomain({ certificationResultDTO }));
+    return certificationResultDTOs.map(_toDomain);
   },
 
   async findByCertificationCandidateIds({ certificationCandidateIds }) {
@@ -33,7 +33,7 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    return certificationResultDTOs.map((certificationResultDTO) => _toDomain({ certificationResultDTO }));
+    return certificationResultDTOs.map(_toDomain);
   },
 };
 
@@ -59,7 +59,7 @@ function _selectCertificationResults() {
     )
     .select(
       knex.raw(`
-        COALESCE(json_agg("partner-certifications".*) filter (where "partner-certifications"."partnerKey" is not null), '[]') as "partnerCertifications"`)
+        json_agg("partner-certifications".*) as "partnerCertifications"`)
     )
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -96,7 +96,7 @@ function _filterMostRecentAssessmentResult(qb) {
   );
 }
 
-function _toDomain({ certificationResultDTO }) {
+function _toDomain(certificationResultDTO) {
   return CertificationResult.from({
     certificationResultDTO,
   });
