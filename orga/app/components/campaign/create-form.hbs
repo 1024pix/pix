@@ -192,6 +192,7 @@
       <PixInput
         @id="external-id-label"
         @name="external-id-label"
+        @information={{t "pages.campaign-creation.external-id-label.suggestion"}}
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
         @value={{this.campaign.idPixLabel}}
@@ -201,9 +202,6 @@
           {{display-campaign-errors @errors.idPixLabel}}
         </div>
       {{/if}}
-      <div class="form__information help-text">
-        {{t "pages.campaign-creation.external-id-label.suggestion"}}
-      </div>
     </div>
   {{/if}}
 
