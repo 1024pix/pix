@@ -1,5 +1,5 @@
 <div class="panel participant-tabs">
-  <nav class="navbar">
+  <nav class="navbar" aria-label={{t "navigation.assessment-individual-results.aria-label"}}>
     <LinkTo
       @route="authenticated.campaigns.participant-assessment.results"
       @models={{array @campaignId @participationId}}

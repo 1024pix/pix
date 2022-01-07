@@ -206,6 +206,9 @@
     "campaign-page": {
       "aria-label": "Navigation de la section détails d'une campagne"
     },
+    "assessment-individual-results": {
+      "aria-label": "Navigation de la section résultat d'une évaluation individuelle"
+    },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Se déconnecter",
