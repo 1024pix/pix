@@ -141,51 +141,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .whereIn('partnerKey', handledBadgeKeys)
     .orderBy('partnerKey');
 
-  return _.compact(
-    _.map(results, (result) => {
-      if (result.partnerKey === pixPlusDroitMaitreBadgeKey)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
-          isTemporaryBadge: false,
-        });
-      if (result.partnerKey === pixPlusDroitExpertBadgeKey)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-          isTemporaryBadge: false,
-        });
-      if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg',
-          isTemporaryBadge: true,
-          levelName: 'Autonome',
-        });
-      if (result.partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
-          isTemporaryBadge: true,
-          levelName: 'Avancé',
-        });
-      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
-          isTemporaryBadge: true,
-          levelName: 'Avancé',
-        });
-      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg',
-          isTemporaryBadge: true,
-          levelName: 'Expert',
-        });
-      if (result.partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR)
-        return new CertifiedBadgeImage({
-          path: 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg',
-          isTemporaryBadge: true,
-          levelName: 'Formateur',
-        });
-      return null;
-    })
-  );
+  return _.compact(_.map(results, ({ partnerKey }) => CertifiedBadgeImage.fromPartnerKey(partnerKey)));
 }
 
 function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages }) {
