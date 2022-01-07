@@ -1,0 +1,165 @@
+.certification-ender {
+  max-width: 990px;
+  width: calc(100% - 16px);
+  margin: -150px auto;
+  line-height: 1.875rem;
+  background-color: $white;
+  padding-top: 10px;
+  overflow: hidden;
+
+  &__image {
+    display: block;
+    height: 168px;
+    margin: auto;
+  }
+
+  &__finished-test {
+    margin-bottom: 40px;
+  }
+
+  &__candidate {
+    margin: 32px 16px 0;
+    text-align: center;
+  }
+
+  &__candidate-name {
+    color: $grey-60;
+    display: block;
+    font-family: $font-open-sans;
+    font-weight: normal;
+    font-size: 1.25rem;
+    line-height: 45px;
+  }
+
+  &__candidate-title {
+    color: $green;
+    display: block;
+    font-family: $font-open-sans;
+    font-size: 2rem;
+    line-height: 64px;
+  }
+
+  &__candidate-message {
+    color: $grey-50;
+    display: block;
+    font-family: $font-roboto;
+    font-size: 1rem;
+    line-height: 22px;
+    margin: 16px auto auto;
+    width: 272px;
+  }
+
+  .pix-button {
+    display: inline-flex;
+  }
+
+  &__candidate-action-disconnect {
+    margin: 16px 0;
+  }
+
+  &__candidate-disconnect-tip {
+    color: $grey-50;
+    display: block;
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    line-height: 22px;
+    margin: auto;
+    width: 272px;
+  }
+
+  &__results {
+    background-color: $grey-10;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+    margin: 8px;
+    padding: 16px 24px;
+  }
+
+  &__results-disclaimer {
+    color: $green;
+    font-family: $font-open-sans;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 23px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  &__results-title {
+    color: $grey-90;
+    display: block;
+    font-family: $font-open-sans;
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  &__results-steps {
+    color: $grey-60;
+    display: block;
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    line-height: 22px;
+  }
+}
+
+@include device-is('tablet') {
+
+  .certification-ender {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    &__finished-test {
+      align-items: center;
+      display: flex;
+      width: 100%;
+    }
+
+    &__image {
+      height: 250px;
+      margin: 0;
+      order: 2;
+    }
+
+    &__candidate {
+      margin: 64px 56px 16px;
+      order: 1;
+      width: 55%;
+      text-align: left;
+    }
+
+    &__candidate-message {
+      width: auto;
+    }
+
+    &__candidate-disconnect-tip {
+      width: auto;
+    }
+
+    &__candidate-name {
+      font-size: 1.5rem;
+    }
+
+    &__candidate-title {
+      font-size: 3rem;
+    }
+
+    &__results {
+      display: flex;
+      flex-direction: row;
+      padding: 24px 48px;
+    }
+
+    &__results-example {
+      align-items: center;
+      display: flex;
+      padding-right: 45px;
+      width: 40%;
+    }
+
+    &__results-instructions {
+      width: 60%;
+    }
+  }
+}

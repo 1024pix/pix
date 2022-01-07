@@ -10,13 +10,31 @@
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
     color: $white;
   }
+
+  &__title {
+    display: none;
+  }
+}
+
+@include device-is('tablet') {
+
+  .assessment-banner {
+
+    &__title {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 250px;
+    }
+  }
 }
 
 .certification-number {
   margin-left: auto;
   text-align: right;
   color: $white;
-  width: 150px;
+  width: 170px;
 
   &__label {
     opacity: 0.5;
