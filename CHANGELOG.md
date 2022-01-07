@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.152.0 (07/01/2022)
+
+
+### :rocket: Enhancement
+- [#3888](https://github.com/1024pix/pix/pull/3888) [FEATURE] Modifier la page de fin de test de certification (PIX-4069)
+- [#3836](https://github.com/1024pix/pix/pull/3836) [FEATURE] Vérifier que les acquis sont valides lors de la création d'un badge (PIX-4023)
+
+### :building_construction: Tech
+- [#3901](https://github.com/1024pix/pix/pull/3901) [TECH] Factoriser la création des images de badge
+- [#3907](https://github.com/1024pix/pix/pull/3907) [TECH] Assurer que l'utilisateur créateur de la campagne est bien renseigné.
+- [#3902](https://github.com/1024pix/pix/pull/3902) [TECH] Disposer du résultat des tests de charge dans Datadog.
+- [#3848](https://github.com/1024pix/pix/pull/3848) [TECH] Générer des tests conformes aux conventions avec le CLI Ember.
+
+### :bug: Bug fix
+- [#3918](https://github.com/1024pix/pix/pull/3918) [BUGFIX] Accepter les fichiers SIECLE csv avec le mime type `text/plain` (PIX-4111)
+- [#3897](https://github.com/1024pix/pix/pull/3897) [BUGFIX] Corriger les repositories effectuant des opérations hors transaction à tort
+
+### :coffee: Various
+- [#3913](https://github.com/1024pix/pix/pull/3913) [A11Y] Changer la couleur du graphique ayant un contraste insuffisant pour l'accessibilité (PIX-4052)
+
 ## v3.151.0 (06/01/2022)
 
 
