@@ -3,15 +3,15 @@
   <table>
     <thead>
       <tr>
-        <th>
+        <Table::Header @size="wide">
           {{t "pages.profiles-individual-results.table.column.skill"}}
-        </th>
-        <th class="table__column table__column--center">
-          {{t "pages.profiles-individual-results.table.column.level"}}
-        </th>
-        <th class="table__column table__column--center">
-          {{t "pages.profiles-individual-results.table.column.pix-score"}}
-        </th>
+        </Table::Header>
+        <Table::Header @size="small" @align="center">{{t
+            "pages.profiles-individual-results.table.column.level"
+          }}</Table::Header>
+        <Table::Header @size="small" @align="center">{{t
+            "pages.profiles-individual-results.table.column.pix-score"
+          }}</Table::Header>
       </tr>
     </thead>
     <tbody>

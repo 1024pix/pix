@@ -4,11 +4,13 @@
   <table class="content-text content-text--small">
     <thead>
       <tr>
-        <th class="table__column--wide">{{t
+        <Table::Header @size="wide">{{t
             "pages.assessment-individual-results.table.column.competences"
             count=@results.sortedCompetenceResults.length
-          }}</th>
-        <th class="table__column--wide">{{t "pages.assessment-individual-results.table.column.results.label"}}</th>
+          }}</Table::Header>
+        <Table::Header @size="wide">{{t
+            "pages.assessment-individual-results.table.column.results.label"
+          }}</Table::Header>
       </tr>
     </thead>
 
