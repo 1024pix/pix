@@ -2,15 +2,20 @@
   <table>
     <thead>
       <tr>
-        <th>{{t "pages.team-invitations.table.column.email-address"}}</th>
-        <th class="hide-on-mobile">{{t "pages.team-invitations.table.column.pending-invitation"}}</th>
+        <Table::Header @size="wide">{{t "pages.team-invitations.table.column.email-address"}}</Table::Header>
+        <Table::Header @size="x-wide" class="hide-on-mobile">{{t
+            "pages.team-invitations.table.column.pending-invitation"
+          }}</Table::Header>
+        <Table::Header @size="wide" class="hide-on-mobile">
+          <span class="sr-only">{{t "common.actions.global"}}</span>
+        </Table::Header>
       </tr>
     </thead>
     <tbody>
       {{#each @invitations as |invitation|}}
         <tr aria-label="{{t "pages.team-invitations.table.row.aria-label"}}">
           <td>{{invitation.email}}</td>
-          <td class="hide-on-mobile" colspan="3">
+          <td class="hide-on-mobile">
             {{t "pages.team-invitations.table.row.message"}}
             {{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
           </td>

@@ -17,14 +17,14 @@
     <table class="table content-text content-text--small">
       <thead>
         <tr>
-          <th>{{t "pages.campaign-results.table.column.last-name"}}</th>
-          <th>{{t "pages.campaign-results.table.column.first-name"}}</th>
+          <Table::Header>{{t "pages.campaign-results.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-results.table.column.first-name"}}</Table::Header>
           {{#if @campaign.idPixLabel}}
-            <th>{{@campaign.idPixLabel}}</th>
+            <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
           {{/if}}
-          <th>{{t "pages.campaign-results.table.column.results.label"}}</th>
+          <Table::Header>{{t "pages.campaign-results.table.column.results.label"}}</Table::Header>
           {{#if @campaign.hasBadges}}
-            <th>{{t "pages.campaign-results.table.column.badges"}}</th>
+            <Table::Header>{{t "pages.campaign-results.table.column.badges"}}</Table::Header>
           {{/if}}
         </tr>
       </thead>
