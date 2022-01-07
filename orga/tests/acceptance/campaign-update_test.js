@@ -25,7 +25,7 @@ module('Acceptance | Campaign Update', function (hooks) {
     const newText = 'New text';
 
     await visit(`/campagnes/${campaign.id}/modification`);
-    await fillByLabel('Nom de la campagne', newName);
+    await fillByLabel('* Nom de la campagne', newName);
     await fillByLabel("Texte de la page d'accueil", newText);
 
     // when

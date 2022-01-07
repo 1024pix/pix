@@ -1,11 +1,14 @@
 <form class="form" {{on "submit" @onSubmit}}>
+  <p class="form__mandatory-fields-information">{{t "pages.campaign-modification.mandatory-fields" htmlSafe=true}}</p>
   <div class="form__field">
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @label={{t "pages.campaign-modification.campaign-name"}}
+      @label={{t "pages.campaign-modification.campaign-name" htmlSafe=true}}
       maxlength="255"
       @value={{@campaign.name}}
+      required={{true}}
+      aria-required={{true}}
     />
   </div>
 
