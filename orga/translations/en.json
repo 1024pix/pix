@@ -203,6 +203,9 @@
     "team-members": {
       "aria-label": "Team members navigation"
     },
+    "campaign-page": {
+      "aria-label": "Campaign navigation"
+    },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Log out",
