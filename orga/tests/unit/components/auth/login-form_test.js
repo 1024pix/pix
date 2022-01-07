@@ -11,6 +11,12 @@ module('Unit | Component | Routes | login-form', (hooks) => {
 
   hooks.beforeEach(function () {
     component = createGlimmerComponent('component:auth/login-form');
+    component.session = {
+      authenticate: sinon.stub(),
+    };
+    component.store = {
+      createRecord: sinon.stub(),
+    };
   });
 
   module('#authenticate', () => {
@@ -29,6 +35,66 @@ module('Unit | Component | Routes | login-form', (hooks) => {
 
       // then
       assert.ok(_authenticateStub.calledWith(sinon.match.any, expectedEmail));
+    });
+
+    module('When there is no invitation', () => {
+      test('should not accept organization invitation when parameters are invalid', function (assert) {
+        // given
+        component.email = '';
+        component.password = 'pix123';
+        component.args.isWithInvitation = true;
+
+        component._acceptOrganizationInvitation = sinon.stub().resolves();
+
+        // when
+        component.authenticate(new Event('stub'));
+
+        // then
+        assert.ok(component._acceptOrganizationInvitation.notCalled);
+      });
+
+      test('should accept organization invitation when parameters are valid', function (assert) {
+        // given
+        component.email = 'sco.admin@example.net';
+        component.password = 'pix123';
+        component.args.isWithInvitation = true;
+
+        component._acceptOrganizationInvitation = sinon.stub().resolves();
+
+        // when
+        component.authenticate(new Event('stub'));
+
+        // then
+        assert.ok(component._acceptOrganizationInvitation.called);
+      });
+    });
+
+    module('When there is an invitation', () => {
+      test('should not call authenticate session when parameters are invalid', function (assert) {
+        // given
+        component.email = '';
+        component.password = 'pix123';
+        component.args.isWithInvitation = false;
+
+        // when
+        component.authenticate(new Event('stub'));
+
+        // then
+        assert.ok(component.session.authenticate.notCalled);
+      });
+
+      test('should call authenticate session when parameters are valid', function (assert) {
+        // given
+        component.email = 'sco.admin@example.net';
+        component.password = 'pix123';
+        component.args.isWithInvitation = false;
+
+        // when
+        component.authenticate(new Event('stub'));
+
+        // then
+        assert.ok(component.session.authenticate.called);
+      });
     });
   });
 });
