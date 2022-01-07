@@ -5,12 +5,10 @@ const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
@@ -91,7 +89,7 @@ async function _getCleaCertificationResult(certificationCourseId) {
     .select('acquired')
     .from('partner-certifications')
     .where({ certificationCourseId })
-    .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
+    .whereIn('partnerKey', [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2])
     .first();
 
   if (!result) {
@@ -102,8 +100,8 @@ async function _getCleaCertificationResult(certificationCourseId) {
 
 async function _getCertifiedBadgeImages(certificationCourseId) {
   const handledBadgeKeys = [
-    pixPlusDroitExpertBadgeKey,
-    pixPlusDroitMaitreBadgeKey,
+    PIX_DROIT_EXPERT_CERTIF,
+    PIX_DROIT_MAITRE_CERTIF,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,

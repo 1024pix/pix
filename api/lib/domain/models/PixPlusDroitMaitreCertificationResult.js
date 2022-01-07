@@ -4,8 +4,6 @@ const statuses = {
   NOT_TAKEN: 'not_taken',
 };
 
-const badgeKey = 'PIX_DROIT_MAITRE_CERTIF';
-
 class PixPlusDroitMaitreCertificationResult {
   constructor({ status } = {}) {
     this.status = status;
@@ -33,5 +31,4 @@ class PixPlusDroitMaitreCertificationResult {
 }
 
 PixPlusDroitMaitreCertificationResult.statuses = statuses;
-PixPlusDroitMaitreCertificationResult.badgeKey = badgeKey;
 module.exports = PixPlusDroitMaitreCertificationResult;
