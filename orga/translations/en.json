@@ -352,11 +352,12 @@
       "title": "Review for {firstName} {lastName}"
     },
     "campaign-modification": {
+      "mandatory-fields": "'<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' indicates a mandatory field",
       "title": "Edit a campaign",
       "actions": {
         "edit": "Edit"
       },
-      "campaign-name": "Name of the campaign",
+      "campaign-name": "<abbr title=\"required\" class=\"mandatory-mark\", aria-hidden=true>*</abbr> Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the personalised test"
     },

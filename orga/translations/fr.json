@@ -352,11 +352,12 @@
       "title": "Analyse pour {firstName} {lastName}"
     },
     "campaign-modification": {
+      "mandatory-fields": "'<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' indique un champ obligatoire",
       "title": "Modification d'une campagne",
       "actions": {
         "edit": "Modifier"
       },
-      "campaign-name": "Nom de la campagne",
+      "campaign-name": "<abbr title=\"obligatoire\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Nom de la campagne",
       "landing-page-text": "Texte de la page d'accueil",
       "personalised-test-title": "Titre du parcours"
     },
