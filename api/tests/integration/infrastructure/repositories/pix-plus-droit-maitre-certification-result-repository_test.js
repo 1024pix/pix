@@ -1,6 +1,6 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const pixPlusDroitMaitreCertificationResultRepository = require('../../../../lib/infrastructure/repositories/pix-plus-droit-maitre-certification-result-repository');
-const PixPlusDroitMaitreCertificationResult = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const { PIX_DROIT_MAITRE_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-certification-result-repository', function () {
   describe('#get', function () {
@@ -26,11 +26,11 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
       function () {
         it('should return a acquired result', async function () {
           // given
-          databaseBuilder.factory.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
+          databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           databaseBuilder.factory.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+            partnerKey: PIX_DROIT_MAITRE_CERTIF,
             acquired: true,
           });
           await databaseBuilder.commit();
@@ -53,11 +53,11 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
       function () {
         it('should return a rejected result', async function () {
           // given
-          databaseBuilder.factory.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
+          databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           databaseBuilder.factory.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+            partnerKey: PIX_DROIT_MAITRE_CERTIF,
             acquired: false,
           });
           await databaseBuilder.commit();

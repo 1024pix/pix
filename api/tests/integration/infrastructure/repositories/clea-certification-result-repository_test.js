@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const cleaCertificationResultRepository = require('../../../../lib/infrastructure/repositories/clea-certification-result-repository');
 const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repositories | clea-certification-result-repository', function () {
   describe('#get', function () {
@@ -24,11 +25,11 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
       context('V1', function () {
         it('should return a acquired result', async function () {
           // given
-          databaseBuilder.factory.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+          databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           databaseBuilder.factory.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: CleaCertificationResult.badgeKeyV1,
+            partnerKey: PIX_EMPLOI_CLEA,
             acquired: true,
           });
           await databaseBuilder.commit();
@@ -45,11 +46,11 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
         context('when there is a rejected clea certification result for a given certification id', function () {
           it('should return a rejected result', async function () {
             // given
-            databaseBuilder.factory.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+            databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
             const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
             databaseBuilder.factory.buildPartnerCertification({
               certificationCourseId,
-              partnerKey: CleaCertificationResult.badgeKeyV1,
+              partnerKey: PIX_EMPLOI_CLEA,
               acquired: false,
             });
             await databaseBuilder.commit();
@@ -68,11 +69,11 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
       context('V2', function () {
         it('should return a acquired result', async function () {
           // given
-          databaseBuilder.factory.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
+          databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           databaseBuilder.factory.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: CleaCertificationResult.badgeKeyV2,
+            partnerKey: PIX_EMPLOI_CLEA_V2,
             acquired: true,
           });
           await databaseBuilder.commit();
@@ -89,11 +90,11 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
         context('when there is a rejected clea certification result for a given certification id', function () {
           it('should return a rejected result', async function () {
             // given
-            databaseBuilder.factory.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
+            databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
             const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
             databaseBuilder.factory.buildPartnerCertification({
               certificationCourseId,
-              partnerKey: CleaCertificationResult.badgeKeyV2,
+              partnerKey: PIX_EMPLOI_CLEA_V2,
               acquired: false,
             });
             await databaseBuilder.commit();

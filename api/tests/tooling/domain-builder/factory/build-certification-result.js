@@ -1,6 +1,4 @@
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const buildCleaCertificationResult = require('./build-clea-certification-result');
-const buildPixPlusDroitCertificationResult = require('./build-pix-plus-droit-certification-result');
 
 const buildCertificationResult = function ({
   id = 123,
@@ -15,9 +13,7 @@ const buildCertificationResult = function ({
   pixScore = 0,
   commentForOrganization = 'comment organization',
   competencesWithMark = [],
-  cleaCertificationResult = buildCleaCertificationResult.notTaken(),
-  pixPlusDroitMaitreCertificationResult = buildPixPlusDroitCertificationResult.maitre.notTaken(),
-  pixPlusDroitExpertCertificationResult = buildPixPlusDroitCertificationResult.expert.notTaken(),
+  partnerCertifications = [],
 } = {}) {
   return new CertificationResult({
     id,
@@ -32,9 +28,7 @@ const buildCertificationResult = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   });
 };
 
@@ -50,9 +44,7 @@ buildCertificationResult.validated = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  cleaCertificationResult,
-  pixPlusDroitMaitreCertificationResult,
-  pixPlusDroitExpertCertificationResult,
+  partnerCertifications,
 }) {
   return buildCertificationResult({
     id,
@@ -67,9 +59,7 @@ buildCertificationResult.validated = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   });
 };
 
@@ -85,9 +75,7 @@ buildCertificationResult.rejected = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  cleaCertificationResult,
-  pixPlusDroitMaitreCertificationResult,
-  pixPlusDroitExpertCertificationResult,
+  partnerCertifications,
 }) {
   return buildCertificationResult({
     id,
@@ -102,9 +90,7 @@ buildCertificationResult.rejected = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   });
 };
 
@@ -120,9 +106,7 @@ buildCertificationResult.cancelled = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  cleaCertificationResult,
-  pixPlusDroitMaitreCertificationResult,
-  pixPlusDroitExpertCertificationResult,
+  partnerCertifications,
 }) {
   return buildCertificationResult({
     id,
@@ -137,9 +121,7 @@ buildCertificationResult.cancelled = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   });
 };
 
@@ -155,9 +137,7 @@ buildCertificationResult.error = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  cleaCertificationResult,
-  pixPlusDroitMaitreCertificationResult,
-  pixPlusDroitExpertCertificationResult,
+  partnerCertifications,
 }) {
   return buildCertificationResult({
     id,
@@ -172,9 +152,7 @@ buildCertificationResult.error = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   });
 };
 

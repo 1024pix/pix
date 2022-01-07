@@ -1,6 +1,6 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const pixPlusDroitExpertCertificationResultRepository = require('../../../../lib/infrastructure/repositories/pix-plus-droit-expert-certification-result-repository');
-const PixPlusDroitExpertCertificationResult = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const { PIX_DROIT_EXPERT_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-certification-result-repository', function () {
   describe('#get', function () {
@@ -26,11 +26,11 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
       function () {
         it('should return a acquired result', async function () {
           // given
-          databaseBuilder.factory.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+          databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           databaseBuilder.factory.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+            partnerKey: PIX_DROIT_EXPERT_CERTIF,
             acquired: true,
           });
           await databaseBuilder.commit();
@@ -53,11 +53,11 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
       function () {
         it('should return a rejected result', async function () {
           // given
-          databaseBuilder.factory.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+          databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           databaseBuilder.factory.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+            partnerKey: PIX_DROIT_EXPERT_CERTIF,
             acquired: false,
           });
           await databaseBuilder.commit();

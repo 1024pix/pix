@@ -1,14 +1,11 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
-const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
@@ -141,10 +138,10 @@ function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
 
 async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
   const handledBadgeKeys = [
-    CleaCertificationResult.badgeKeyV1,
-    CleaCertificationResult.badgeKeyV2,
-    pixPlusDroitExpertBadgeKey,
-    pixPlusDroitMaitreBadgeKey,
+    PIX_EMPLOI_CLEA,
+    PIX_EMPLOI_CLEA_V2,
+    PIX_DROIT_EXPERT_CERTIF,
+    PIX_DROIT_MAITRE_CERTIF,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,

@@ -1,15 +1,14 @@
 const { databaseBuilder, expect, domainBuilder } = require('../../../test-helper');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
-const PixPlusDroitMaitreCertificationResult = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const PixPlusDroitExpertCertificationResult = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const {
   CertificationIssueReportCategories,
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {
@@ -254,10 +253,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+          dbf.buildBadge({ key: PIX_EMPLOI_CLEA });
           dbf.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: CleaCertificationResult.badgeKeyV1,
+            partnerKey: PIX_EMPLOI_CLEA,
             acquired: true,
           });
           await databaseBuilder.commit();
@@ -276,10 +275,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+          dbf.buildBadge({ key: PIX_EMPLOI_CLEA });
           dbf.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: CleaCertificationResult.badgeKeyV1,
+            partnerKey: PIX_EMPLOI_CLEA,
             acquired: false,
           });
           await databaseBuilder.commit();
@@ -300,10 +299,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
+          dbf.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
           dbf.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: CleaCertificationResult.badgeKeyV2,
+            partnerKey: PIX_EMPLOI_CLEA_V2,
             acquired: true,
           });
           await databaseBuilder.commit();
@@ -322,10 +321,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
+          dbf.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
           dbf.buildPartnerCertification({
             certificationCourseId,
-            partnerKey: CleaCertificationResult.badgeKeyV2,
+            partnerKey: PIX_EMPLOI_CLEA_V2,
             acquired: false,
           });
           await databaseBuilder.commit();
@@ -365,10 +364,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_MAITRE_CERTIF,
           acquired: true,
         });
         await databaseBuilder.commit();
@@ -389,10 +388,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_MAITRE_CERTIF,
           acquired: false,
         });
         await databaseBuilder.commit();
@@ -435,10 +434,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: true,
         });
         await databaseBuilder.commit();
@@ -459,10 +458,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: false,
         });
         await databaseBuilder.commit();
@@ -505,22 +504,22 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+        dbf.buildBadge({ key: PIX_EMPLOI_CLEA });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: CleaCertificationResult.badgeKeyV1,
+          partnerKey: PIX_EMPLOI_CLEA,
           acquired: true,
         });
-        dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_MAITRE_CERTIF,
           acquired: false,
         });
-        dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
+        dbf.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
         dbf.buildPartnerCertification({
           certificationCourseId,
-          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: true,
         });
         await databaseBuilder.commit();

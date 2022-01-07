@@ -2,15 +2,16 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const {
-  badgeKeyV1: cleaBadgeKeyV1,
-  badgeKeyV2: cleaBadgeKeyV2,
-} = require('../../../../lib/domain/models/CleaCertificationResult');
-const {
-  badgeKey: pixPlusDroitMaitreBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const {
-  badgeKey: pixPlusDroitExpertBadgeKey,
-} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -99,13 +100,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.REJECTED,
         pixScore: 0,
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
@@ -116,13 +115,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.CANCELLED,
         pixScore: null,
         commentForOrganization: null,
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -133,9 +130,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
@@ -150,6 +144,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             assessmentResultId: assessmentResultId1,
           }),
         ],
+        partnerCertifications: [],
       });
       expect(certificationResults).to.deepEqualArray([
         expectedFirstCertificationResult,
@@ -201,17 +196,46 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
-      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'CléA V1', badgeKey: PIX_EMPLOI_CLEA, validationFunction: 'hasAcquiredClea' },
+      {
+        complementaryCertificationName: 'CléA V2',
+        badgeKey: PIX_EMPLOI_CLEA_V2,
+        validationFunction: 'hasAcquiredClea',
+      },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
-        badgeKey: pixPlusDroitMaitreBadgeKey,
+        badgeKey: PIX_DROIT_MAITRE_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitMaitre',
       },
       {
         complementaryCertificationName: 'PixPlus Droit Expert',
-        badgeKey: pixPlusDroitExpertBadgeKey,
+        badgeKey: PIX_DROIT_EXPERT_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitExpert',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Autonome',
+        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        validationFunction: 'hasAcquiredPixPlusEduAutonome',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Avancé',
+        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+        validationFunction: 'hasAcquiredPixPlusEduAvance',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Avancé',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        validationFunction: 'hasAcquiredPixPlusEduAvance',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Expert',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+        validationFunction: 'hasAcquiredPixPlusEduExpert',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Formateur',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        validationFunction: 'hasAcquiredPixPlusEduFormateur',
       },
     ].forEach(function (testCase) {
       it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {
@@ -348,13 +372,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.REJECTED,
         pixScore: 0,
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
@@ -365,13 +387,11 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.CANCELLED,
         pixScore: null,
         commentForOrganization: null,
         competencesWithMark: [],
+        partnerCertifications: [],
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -382,9 +402,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
@@ -399,6 +416,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             assessmentResultId: assessmentResultId1,
           }),
         ],
+        partnerCertifications: [],
       });
       expect(certificationResults).to.deepEqualArray([
         expectedFirstCertificationResult,
@@ -455,17 +473,46 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
-      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'CléA V1', badgeKey: PIX_EMPLOI_CLEA, validationFunction: 'hasAcquiredClea' },
+      {
+        complementaryCertificationName: 'CléA V2',
+        badgeKey: PIX_EMPLOI_CLEA_V2,
+        validationFunction: 'hasAcquiredClea',
+      },
       {
         complementaryCertificationName: 'PixPlus Droit Maître',
-        badgeKey: pixPlusDroitMaitreBadgeKey,
+        badgeKey: PIX_DROIT_MAITRE_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitMaitre',
       },
       {
         complementaryCertificationName: 'PixPlus Droit Expert',
-        badgeKey: pixPlusDroitExpertBadgeKey,
+        badgeKey: PIX_DROIT_EXPERT_CERTIF,
         validationFunction: 'hasAcquiredPixPlusDroitExpert',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Autonome',
+        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        validationFunction: 'hasAcquiredPixPlusEduAutonome',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Avancé',
+        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+        validationFunction: 'hasAcquiredPixPlusEduAvance',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Avancé',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        validationFunction: 'hasAcquiredPixPlusEduAvance',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Expert',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+        validationFunction: 'hasAcquiredPixPlusEduExpert',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Formateur',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        validationFunction: 'hasAcquiredPixPlusEduFormateur',
       },
     ].forEach(function (testCase) {
       it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {

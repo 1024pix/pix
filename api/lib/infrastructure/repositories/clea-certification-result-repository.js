@@ -1,5 +1,6 @@
 const { knex } = require('../bookshelf');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } = require('../../domain/models/Badge').keys;
 
 module.exports = {
   async get({ certificationCourseId }) {
@@ -7,7 +8,7 @@ module.exports = {
       .select('acquired')
       .from('partner-certifications')
       .where({ certificationCourseId })
-      .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
+      .whereIn('partnerKey', [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2])
       .first();
 
     if (!result) {

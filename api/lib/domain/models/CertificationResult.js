@@ -1,5 +1,17 @@
 const _ = require('lodash');
 const CompetenceMark = require('./CompetenceMark');
+const PartnerCertification = require('./PartnerCertification');
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('./Badge').keys;
 
 const status = {
   REJECTED: 'rejected',
@@ -23,9 +35,7 @@ class CertificationResult {
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -39,17 +49,10 @@ class CertificationResult {
     this.pixScore = pixScore;
     this.commentForOrganization = commentForOrganization;
     this.competencesWithMark = competencesWithMark;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    this.partnerCertifications = partnerCertifications;
   }
 
-  static from({
-    certificationResultDTO,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
-  }) {
+  static from({ certificationResultDTO }) {
     let certificationStatus;
     if (certificationResultDTO.isCancelled) {
       certificationStatus = status.CANCELLED;
@@ -66,6 +69,9 @@ class CertificationResult {
           competence_code: competenceMarkDTO.competence_code.toString(),
         })
     );
+    const partnerCertifications = _.compact(certificationResultDTO.partnerCertifications).map(
+      (partnerCertification) => new PartnerCertification(partnerCertification)
+    );
 
     return new CertificationResult({
       id: certificationResultDTO.id,
@@ -80,9 +86,7 @@ class CertificationResult {
       pixScore: certificationResultDTO.pixScore,
       commentForOrganization: certificationResultDTO.commentForOrganization,
       competencesWithMark,
-      cleaCertificationResult,
-      pixPlusDroitMaitreCertificationResult,
-      pixPlusDroitExpertCertificationResult,
+      partnerCertifications,
     });
   }
 
@@ -107,27 +111,90 @@ class CertificationResult {
   }
 
   hasTakenClea() {
-    return this.cleaCertificationResult.isTaken();
+    return this.partnerCertifications.some(({ partnerKey }) =>
+      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
+    );
   }
 
   hasAcquiredClea() {
-    return this.cleaCertificationResult.isAcquired();
+    const cleaPartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
+    );
+    return Boolean(cleaPartnerCertification?.acquired);
   }
 
   hasTakenPixPlusDroitMaitre() {
-    return this.pixPlusDroitMaitreCertificationResult.isTaken();
+    return this.partnerCertifications.some(({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF);
   }
 
   hasAcquiredPixPlusDroitMaitre() {
-    return this.pixPlusDroitMaitreCertificationResult.isAcquired();
+    const pixPlusDroitMaitrePartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF
+    );
+    return Boolean(pixPlusDroitMaitrePartnerCertification?.acquired);
   }
 
   hasTakenPixPlusDroitExpert() {
-    return this.pixPlusDroitExpertCertificationResult.isTaken();
+    return this.partnerCertifications.some(({ partnerKey }) => partnerKey === PIX_DROIT_EXPERT_CERTIF);
   }
 
   hasAcquiredPixPlusDroitExpert() {
-    return this.pixPlusDroitExpertCertificationResult.isAcquired();
+    const pixPlusDroitExpertPartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_DROIT_EXPERT_CERTIF
+    );
+    return Boolean(pixPlusDroitExpertPartnerCertification?.acquired);
+  }
+
+  hasTakenPixPlusEduAutonome() {
+    return this.partnerCertifications.some(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
+    );
+  }
+
+  hasAcquiredPixPlusEduAutonome() {
+    const pixPlusEduAutonomePartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
+    );
+    return Boolean(pixPlusEduAutonomePartnerCertification?.acquired);
+  }
+
+  hasTakenPixPlusEduAvance() {
+    return this.partnerCertifications.some(({ partnerKey }) =>
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
+    );
+  }
+
+  hasAcquiredPixPlusEduAvance() {
+    const pixPlusEduAvancePartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
+    );
+    return Boolean(pixPlusEduAvancePartnerCertification?.acquired);
+  }
+
+  hasTakenPixPlusEduExpert() {
+    return this.partnerCertifications.some(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    );
+  }
+
+  hasAcquiredPixPlusEduExpert() {
+    const pixPlusEduExpertPartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    );
+    return Boolean(pixPlusEduExpertPartnerCertification?.acquired);
+  }
+
+  hasTakenPixPlusEduFormateur() {
+    return this.partnerCertifications.some(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+    );
+  }
+
+  hasAcquiredPixPlusEduFormateur() {
+    const pixPlusEduFormateurPartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+    );
+    return Boolean(pixPlusEduFormateurPartnerCertification?.acquired);
   }
 }
 
