@@ -39,25 +39,30 @@ export default class ListController extends Controller {
   async importStudents(files) {
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
-    const acceptedFormat = this.currentUser.isAgriculture ? 'csv' : 'xml';
+    const acceptedFormatName = this.currentUser.isAgriculture ? 'csv' : 'xml';
+
+    // Fregata sets `text/plain` mime type on csv files
+    // They know about it and we are waiting for the patch
+    // Until then we have to accept the `text/plain` mime type for csv files
+    const acceptedFormatMimeTypes = this.currentUser.isAgriculture ? ['text/plain', 'csv'] : ['xml'];
 
     this.isLoading = true;
     this.notifications.clearAll();
     try {
-      await adapter.importStudentsSiecle(organizationId, files, acceptedFormat);
+      await adapter.importStudentsSiecle(organizationId, files, acceptedFormatName, acceptedFormatMimeTypes);
       this.refresh();
       this.isLoading = false;
       this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
     } catch (errorResponse) {
       this.isLoading = false;
-      this._handleError(errorResponse, acceptedFormat);
+      this._handleError(errorResponse, acceptedFormatName);
     }
   }
 
-  _handleError(errorResponse, acceptedFormat) {
+  _handleError(errorResponse, acceptedFormatName) {
     if (errorResponse.message === ENV.APP.ERRORS.FILE_UPLOAD.FORMAT_NOT_SUPPORTED_ERROR) {
       return this.notifications.sendError(
-        this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormat, htmlSafe: true })
+        this.intl.t('pages.students-sco.import.invalid-mimetype', { format: acceptedFormatName, htmlSafe: true })
       );
     }
 

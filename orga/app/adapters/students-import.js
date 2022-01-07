@@ -16,16 +16,20 @@ export default class StudentImportsAdapter extends ApplicationAdapter {
     return this.ajax(url, 'POST', { data: files[0] });
   }
 
-  importStudentsSiecle(organizationId, files, acceptedFormat) {
+  importStudentsSiecle(organizationId, files, acceptedFormatName, acceptedFormatMimeTypes) {
     if (!files || files.length === 0) return;
 
     const fileToUpload = files[0];
     const fileToUploadMimeType = fileToUpload.type;
-    if (!fileToUploadMimeType?.includes(acceptedFormat)) {
+    const isFormatSupported =
+      acceptedFormatMimeTypes.find((acceptedFormatMimeType) =>
+        fileToUploadMimeType?.includes(acceptedFormatMimeType)
+      ) !== undefined;
+    if (!isFormatSupported) {
       throw new Error(ENV.APP.ERRORS.FILE_UPLOAD.FORMAT_NOT_SUPPORTED_ERROR);
     }
 
-    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registrations/import-siecle?format=${acceptedFormat}`;
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registrations/import-siecle?format=${acceptedFormatName}`;
     return this.ajax(url, 'POST', { data: fileToUpload });
   }
 }

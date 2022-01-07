@@ -9,6 +9,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
   let importStudentStub;
   const filesWithXmlMimeType = [{ type: 'text/xml' }];
   const filesWithCsvMimeType = [{ type: 'text/csv' }];
+  const filesWithTextPlainMimeType = [{ type: 'text/plain' }];
 
   hooks.beforeEach(function () {
     this.owner.lookup('service:intl').setLocale('fr');
@@ -28,7 +29,17 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
 
         await controller.importStudents(filesWithCsvMimeType);
 
-        assert.ok(importStudentStub.calledWith(1, filesWithCsvMimeType, 'csv'));
+        assert.ok(importStudentStub.calledWith(1, filesWithCsvMimeType, 'csv', ['text/plain', 'csv']));
+      });
+    });
+
+    module('when file is text/plain', function () {
+      test('it sends the chosen csv file to the API', async function (assert) {
+        currentUser.isAgriculture = true;
+
+        await controller.importStudents(filesWithTextPlainMimeType);
+
+        assert.ok(importStudentStub.calledWith(1, filesWithTextPlainMimeType, 'csv', ['text/plain', 'csv']));
       });
     });
 
@@ -38,7 +49,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
 
         await controller.importStudents(filesWithXmlMimeType);
 
-        assert.ok(importStudentStub.calledWith(1, filesWithXmlMimeType, 'xml'));
+        assert.ok(importStudentStub.calledWith(1, filesWithXmlMimeType, 'xml', ['xml']));
       });
     });
 
