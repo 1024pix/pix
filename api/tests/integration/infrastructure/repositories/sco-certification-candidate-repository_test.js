@@ -63,8 +63,9 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       const candidates = await knex('certification-candidates').select();
       const actualCandidates = candidatesToBeCompared(candidates);
       const expectedCandidates = candidatesToBeCompared(scoCandidates);
-      expect(actualCandidates).to.deep.equal(expectedCandidates);
+      expect(actualCandidates).to.exactlyContain(expectedCandidates);
     });
+
     it('does nothing when no candidate is given', async function () {
       // when
       await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
