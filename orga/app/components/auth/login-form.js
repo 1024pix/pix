@@ -37,6 +37,11 @@ export default class LoginForm extends Component {
     const email = this.email ? this.email.trim() : '';
     const password = this.password;
 
+    if (!this.isFormValid) {
+      this.isLoading = false;
+      return;
+    }
+
     if (this.args.isWithInvitation) {
       try {
         await this._acceptOrganizationInvitation(
@@ -79,6 +84,10 @@ export default class LoginForm extends Component {
     }
   }
 
+  get isFormValid() {
+    return isEmailValid(this.email) && !isEmpty(this.password);
+  }
+
   async _authenticate(password, email) {
     const scope = 'pix-orga';
 
@@ -86,7 +95,6 @@ export default class LoginForm extends Component {
     this.errorMessage = '';
 
     this._initErrorMessages();
-
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
     } catch (errorResponse) {
