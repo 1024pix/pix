@@ -203,6 +203,9 @@
     "team-members": {
       "aria-label": "Navigation de la section équipe"
     },
+    "campaign-page": {
+      "aria-label": "Navigation de la section détails d'une campagne"
+    },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Se déconnecter",
