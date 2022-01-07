@@ -275,7 +275,7 @@
       }
     },
     "campaign-creation": {
-      "mandatory-fields": "'<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' indicates a mandatory field",
+      "mandatory-fields": "'<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' indicates a required field",
       "title": "Create a campaign",
       "actions": {
         "create": "Create a campaign"
@@ -352,7 +352,7 @@
       "title": "Review for {firstName} {lastName}"
     },
     "campaign-modification": {
-      "mandatory-fields": "'<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' indicates a mandatory field",
+      "mandatory-fields": "'<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' indicates a required field",
       "title": "Edit a campaign",
       "actions": {
         "edit": "Edit"
