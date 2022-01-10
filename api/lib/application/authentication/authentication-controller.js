@@ -12,7 +12,6 @@ module.exports = {
     let accessToken, refreshToken;
     const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
     if (request.payload.grant_type === 'refresh_token') {
-      // TODO Renvoyer un nouveau refresh token ici: refreshTokenService.createRefreshTokenFromUserId();
       refreshToken = request.payload.refresh_token;
       accessToken = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
     } else if (request.payload.grant_type === 'password') {
