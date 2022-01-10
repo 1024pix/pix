@@ -21,6 +21,7 @@ describe('Unit | Application | Controller | Authentication', function () {
      */
     it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
       // given
+      const expirationDelaySeconds = 6666;
       const refreshToken = 'refresh.token';
       const request = {
         headers: {
@@ -37,7 +38,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       sinon
         .stub(usecases, 'authenticateUser')
         .withArgs({ username, password, scope, source })
-        .resolves({ accessToken, refreshToken });
+        .resolves({ accessToken, refreshToken, expirationDelaySeconds });
       sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
 
       // when
@@ -49,7 +50,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         access_token: accessToken,
         user_id: USER_ID,
         refresh_token: refreshToken,
-        expires_in: 1000,
+        expires_in: expirationDelaySeconds,
       };
       expect(response.source).to.deep.equal(expectedResponseResult);
       expect(response.statusCode).to.equal(200);

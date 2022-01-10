@@ -8,10 +8,11 @@ const {
 const settings = require('../../config');
 
 function createAccessTokenFromUser(userId, source) {
-  const accessTokenLifespanMsInSeconds = settings.authentication.accessTokenLifespanMs / 1000;
-  return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
-    expiresIn: accessTokenLifespanMsInSeconds,
+  const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
+  const accessToken = jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
+    expiresIn: expirationDelaySeconds,
   });
+  return { accessToken, expirationDelaySeconds };
 }
 
 function createAccessTokenFromExternalUser(userId) {

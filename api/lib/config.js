@@ -269,7 +269,6 @@ module.exports = (function () {
     config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
 
     config.authentication.secret = 'test-jwt-key';
-    config.authentication.accessTokenLifespanMs = 1e6;
 
     config.temporaryKey.secret = 'test-jwt-key';
 
