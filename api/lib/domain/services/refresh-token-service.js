@@ -2,6 +2,7 @@ const settings = require('../../config');
 const temporaryStorage = require('../../infrastructure/temporary-storage');
 const tokenService = require('./token-service');
 const ms = require('ms');
+const { UnauthorizedError } = require('../../application/http-errors');
 
 async function createRefreshTokenFromUserId({ userId, source }) {
   const expirationDelaySeconds = ms(settings.authentication.refreshTokenLifespan) / 1000;
@@ -13,7 +14,7 @@ async function createRefreshTokenFromUserId({ userId, source }) {
 
 async function createAccessTokenFromRefreshToken({ refreshToken }) {
   const { userId, source } = (await temporaryStorage.get(refreshToken)) || {};
-  if (!userId) return null;
+  if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
   return tokenService.createAccessTokenFromUser(userId, source);
 }
 

@@ -1,9 +1,10 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
 const ms = require('ms');
 const temporaryStorage = require('../../../../lib/infrastructure/temporary-storage');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
+const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Domain | Service | Refresh Token Service', function () {
   describe('#createRefreshTokenFromUserId', function () {
@@ -49,18 +50,20 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
     });
 
     context('when refresh token has expired or has been revoked', function () {
-      it('should return null', async function () {
+      it('should throw an UnauthorizedError with specific code and message', async function () {
         // given
         const revokedRefreshToken = 'revoked-refresh-token';
         sinon.stub(temporaryStorage, 'get').withArgs(revokedRefreshToken).resolves();
 
         // when
-        const result = await refreshTokenService.createAccessTokenFromRefreshToken({
+        const error = await catchErr(refreshTokenService.createAccessTokenFromRefreshToken)({
           refreshToken: revokedRefreshToken,
         });
 
         // then
-        expect(result).to.equal(null);
+        expect(error).to.be.instanceOf(UnauthorizedError);
+        expect(error.code).to.be.equal('INVALID_REFRESH_TOKEN');
+        expect(error.message).to.be.equal('Refresh token is invalid');
       });
     });
   });
