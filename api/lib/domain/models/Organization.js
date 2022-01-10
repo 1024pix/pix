@@ -31,6 +31,7 @@ class Organization {
     createdBy,
     showNPS,
     formNPSUrl,
+    showSkills,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -50,6 +51,7 @@ class Organization {
     this.createdBy = createdBy;
     this.showNPS = showNPS;
     this.formNPSUrl = formNPSUrl;
+    this.showSkills = showSkills;
   }
 
   get isSup() {
