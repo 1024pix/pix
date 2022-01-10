@@ -49,7 +49,7 @@ module('Acceptance | authenticated', function (hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    module('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+    module('when end test screen removal is enabled', function () {
       test('it should show a "Espace surveillant" button', async function (assert) {
         // given
         server.create('feature-toggle', {
@@ -84,7 +84,7 @@ module('Acceptance | authenticated', function (hooks) {
       });
     });
 
-    module('when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function () {
+    module('when end test screen removal is not enabled', function () {
       test('it should not show a "Espace surveillant" button', async function (assert) {
         // given
         server.create('feature-toggle', {
