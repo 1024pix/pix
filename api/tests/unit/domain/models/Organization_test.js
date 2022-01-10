@@ -11,6 +11,7 @@ describe('Unit | Domain | Models | Organization', function () {
         name: 'Lycée Jean Rostand',
         type: 'SCO',
         email: 'jr@lycee.fr',
+        showSkills: false,
       };
 
       // when
@@ -20,6 +21,7 @@ describe('Unit | Domain | Models | Organization', function () {
       expect(organization.id).to.equal(1);
       expect(organization.type).to.equal('SCO');
       expect(organization.name).to.equal('Lycée Jean Rostand');
+      expect(organization.showSkills).to.equal(false);
     });
 
     it('should build an Organization with targetProfile related', function () {

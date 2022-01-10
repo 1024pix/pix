@@ -648,6 +648,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'documentation-url': organization.documentationUrl,
               'show-nps': organization.showNPS,
               'form-nps-url': organization.formNPSUrl,
+              'show-skills': false,
             },
             id: organization.id.toString(),
             relationships: {

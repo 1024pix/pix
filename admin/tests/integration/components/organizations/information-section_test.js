@@ -43,6 +43,32 @@ module('Integration | Component | organizations/information-section', function (
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
   });
 
+  module('Displaying whether or not the items of this campaign will be exported in results', function () {
+    test("it should display 'Oui' when showskills set to true", async function (assert) {
+      // given
+      const organization = EmberObject.create({ type: 'SUP', showSkills: true });
+      this.set('organization', organization);
+
+      // when
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+      // then
+      assert.dom('.organization__showSkills').hasText('Oui');
+    });
+
+    test("it should display 'Non' when showskills set to false", async function (assert) {
+      // given
+      const organization = EmberObject.create({ type: 'SCO', showSkills: false });
+      this.set('organization', organization);
+
+      // when
+      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+      // then
+      assert.dom('.organization__showSkills').hasText('Non');
+    });
+  });
+
   test('it should display documentation url', async function (assert) {
     // given
     const organization = EmberObject.create({ documentationUrl: 'https://pix.fr' });

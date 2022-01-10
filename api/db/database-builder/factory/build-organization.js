@@ -17,6 +17,7 @@ const buildOrganization = function buildOrganization({
   createdBy,
   showNPS = false,
   formNPSUrl = null,
+  showSkills = false,
 } = {}) {
   const values = {
     id,
@@ -35,6 +36,7 @@ const buildOrganization = function buildOrganization({
     updatedAt,
     showNPS,
     formNPSUrl,
+    showSkills,
   };
 
   return databaseBuffer.pushInsertable({

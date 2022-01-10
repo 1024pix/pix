@@ -23,6 +23,7 @@ module.exports = {
         'documentationUrl',
         'showNPS',
         'formNPSUrl',
+        'showSkills',
       ],
       memberships: {
         ref: 'id',
