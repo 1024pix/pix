@@ -153,6 +153,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
   describe('#fetchForFlashCampaigns', function () {
     let answerRepository;
     let challengeRepository;
+    let flashAssessmentResultRepository;
 
     beforeEach(function () {
       answerRepository = {
@@ -160,6 +161,9 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       };
       challengeRepository = {
         findFlashCompatible: sinon.stub(),
+      };
+      flashAssessmentResultRepository = {
+        getByAssessmentId: sinon.stub(),
       };
     });
 
@@ -173,20 +177,24 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       });
       const answer = Symbol('answer');
       const challenges = Symbol('challenge');
+      const estimatedLevel = Symbol('estimatedLevel');
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       challengeRepository.findFlashCompatible.withArgs().resolves(challenges);
+      flashAssessmentResultRepository.getByAssessmentId.withArgs(assessment.id).resolves({ estimatedLevel });
 
       // when
       const data = await dataFetcher.fetchForFlashCampaigns({
         assessment,
         answerRepository,
         challengeRepository,
+        flashAssessmentResultRepository,
       });
 
       // then
       expect(data.allAnswers).to.deep.equal([answer]);
       expect(data.challenges).to.deep.equal(challenges);
+      expect(data.estimatedLevel).to.equal(estimatedLevel);
     });
   });
 

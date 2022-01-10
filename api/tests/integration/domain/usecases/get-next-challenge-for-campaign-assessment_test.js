@@ -160,12 +160,14 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       challengeRepository,
       challenges,
       campaignParticipationRepository,
+      flashAssessmentResultRepository,
       actualNextChallenge,
       improvementService,
       challengeWeb21,
       challengeWeb22,
       possibleChallenges,
-      locale;
+      locale,
+      estimatedLevel;
 
     beforeEach(async function () {
       userId = 'dummyUserId';
@@ -185,6 +187,11 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         isImproving: false,
         method: 'FLASH',
       });
+
+      estimatedLevel = Symbol('estimatedLevel');
+      flashAssessmentResultRepository = {
+        getByAssessmentId: sinon.stub().withArgs(assessmentId).resolves({ estimatedLevel }),
+      };
 
       const web2 = domainBuilder.buildSkill({ name: '@web2' });
       challengeWeb21 = domainBuilder.buildChallenge({ id: 'challenge_web2_1' });
@@ -214,6 +221,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         answerRepository,
         challengeRepository,
         campaignParticipationRepository,
+        flashAssessmentResultRepository,
         improvementService,
         locale,
       });
@@ -232,6 +240,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       expect(flash.getPossibleNextChallenges).to.have.been.calledWithExactly({
         allAnswers,
         challenges,
+        estimatedLevel,
       });
     });
 

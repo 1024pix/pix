@@ -11,6 +11,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
     let targetProfileRepository;
     let challengeRepository;
     let answerRepository;
+    let flashAssessmentResultRepository;
     let pickChallengeService;
 
     let assessment;
@@ -26,6 +27,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       challengeRepository = { get: sinon.stub() };
       challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
+      flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
       pickChallengeService = { pickChallenge: sinon.stub() };
     });
 
@@ -42,6 +44,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         targetProfileRepository,
         challengeRepository,
         answerRepository,
+        flashAssessmentResultRepository,
         pickChallengeService,
         assessment,
       });
@@ -63,6 +66,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           targetProfileRepository,
           challengeRepository,
           answerRepository,
+          flashAssessmentResultRepository,
           pickChallengeService,
           assessment,
           locale,
@@ -74,6 +78,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           assessment,
           answerRepository,
           challengeRepository,
+          flashAssessmentResultRepository,
           locale,
         });
       });
