@@ -97,8 +97,8 @@ module.exports = (function () {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '30s'),
-      refreshTokenLifespan: process.env.REFRESH_TOKEN_LIFESPAN || '30s',
+      accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '20m'),
+      refreshTokenLifespan: process.env.REFRESH_TOKEN_LIFESPAN || '7d',
       tokenForCampaignResultLifespan: '1h',
       tokenForStudentReconciliationLifespan: '1h',
     },

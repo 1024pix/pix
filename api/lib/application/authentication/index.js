@@ -31,6 +31,10 @@ exports.register = async (server) => {
         },
         handler: AuthenticationController.createToken,
         tags: ['api'],
+        notes: [
+          "Cette route permet d'obtenir un refresh token et access token à partir d'un couple identifiant / mot de passe" +
+            " ou un access token à partir d'un refresh token valide.",
+        ],
       },
     },
     {
