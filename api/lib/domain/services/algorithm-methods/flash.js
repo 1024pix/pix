@@ -15,21 +15,18 @@ module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getNonAnsweredChallenges,
+  DEFAULT_ESTIMATED_LEVEL,
 };
 
-function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
+function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel } = {}) {
   const nonAnsweredChallenges = getNonAnsweredChallenges({ allAnswers, challenges });
 
   if (nonAnsweredChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
     return {
       hasAssessmentEnded: true,
       possibleChallenges: [],
-      estimatedLevel: DEFAULT_ESTIMATED_LEVEL,
-      errorRate: DEFAULT_ERROR_RATE,
     };
   }
-
-  const { estimatedLevel, errorRate } = getEstimatedLevelAndErrorRate({ allAnswers, challenges });
 
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
@@ -52,8 +49,6 @@ function getPossibleNextChallenges({ allAnswers, challenges } = {}) {
   return {
     hasAssessmentEnded: false,
     possibleChallenges,
-    estimatedLevel,
-    errorRate,
   };
 }
 
