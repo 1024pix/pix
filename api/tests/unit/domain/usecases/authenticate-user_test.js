@@ -15,7 +15,6 @@ const endTestScreenRemovalService = require('../../../../lib/domain/services/end
 const appMessages = require('../../../../lib/domain/constants');
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
-  let tokenService;
   let refreshTokenService;
   let userRepository;
 
@@ -23,11 +22,9 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
   const password = 'Password1234';
 
   beforeEach(function () {
-    tokenService = {
-      createAccessTokenFromUser: sinon.stub(),
-    };
     refreshTokenService = {
       createRefreshTokenFromUserId: sinon.stub(),
+      createAccessTokenFromRefreshToken: sinon.stub(),
     };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
@@ -42,18 +39,25 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     const accessToken = 'jwt.access.token';
     const refreshToken = 'jwt.refresh.token';
     const source = 'pix';
+    const expirationDelaySeconds = 1;
     const user = domainBuilder.buildUser({ email: userEmail });
 
     authenticationService.getUserByUsernameAndPassword.resolves(user);
-    tokenService.createAccessTokenFromUser.returns(accessToken);
-    refreshTokenService.createRefreshTokenFromUserId.returns(refreshToken);
+    refreshTokenService.createRefreshTokenFromUserId
+      .withArgs({
+        userId: user.id,
+        source,
+      })
+      .returns(refreshToken);
+    refreshTokenService.createAccessTokenFromRefreshToken
+      .withArgs({ refreshToken })
+      .resolves({ accessToken, expirationDelaySeconds });
 
     // when
     const result = await authenticateUser({
       username: userEmail,
       password,
       source,
-      tokenService,
       refreshTokenService,
       userRepository,
     });
@@ -64,29 +68,24 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       password,
       userRepository,
     });
-    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user.id, source);
-    expect(refreshTokenService.createRefreshTokenFromUserId).to.have.been.calledWithExactly({
-      userId: user.id,
-      source,
-    });
-    expect(result).to.deep.equal({ accessToken, refreshToken });
+    expect(result).to.deep.equal({ accessToken, refreshToken, expirationDelaySeconds });
   });
 
   it('should save the last date of login when authentication succeeded', async function () {
     // given
     const accessToken = 'jwt.access.token';
     const source = 'pix';
+    const expirationDelaySeconds = 1;
     const user = domainBuilder.buildUser({ email: userEmail });
 
     authenticationService.getUserByUsernameAndPassword.resolves(user);
-    tokenService.createAccessTokenFromUser.returns(accessToken);
+    refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
 
     // when
     await authenticateUser({
       username: userEmail,
       password,
       source,
-      tokenService,
       refreshTokenService,
       userRepository,
     });
@@ -104,7 +103,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     const error = await catchErr(authenticateUser)({
       username: unknownUserEmail,
       password,
-      tokenService,
       userRepository,
     });
 
@@ -120,7 +118,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     const error = await catchErr(authenticateUser)({
       username: userEmail,
       password,
-      tokenService,
       userRepository,
     });
 
@@ -142,7 +139,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         username: userEmail,
         password,
         scope,
-        tokenService,
         userRepository,
       });
 
@@ -164,7 +160,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         username: userEmail,
         password,
         scope,
-        tokenService,
         userRepository,
       });
 
@@ -187,7 +182,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           username: userEmail,
           password,
           scope,
-          tokenService,
           userRepository,
         });
 
@@ -200,6 +194,8 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         // given
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const accessToken = 'jwt.access.token';
+        const refreshToken = 'jwt.refresh.token';
+        const expirationDelaySeconds = 1;
         const source = 'pix';
         const user = domainBuilder.buildUser({
           email: userEmail,
@@ -208,7 +204,15 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
 
         endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.returns(true);
         authenticationService.getUserByUsernameAndPassword.resolves(user);
-        tokenService.createAccessTokenFromUser.returns(accessToken);
+        refreshTokenService.createRefreshTokenFromUserId
+          .withArgs({
+            userId: user.id,
+            source,
+          })
+          .returns(refreshToken);
+        refreshTokenService.createAccessTokenFromRefreshToken
+          .withArgs({ refreshToken })
+          .resolves({ accessToken, expirationDelaySeconds });
 
         // when
         await authenticateUser({
@@ -216,7 +220,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           password,
           scope,
           source,
-          tokenService,
           refreshTokenService,
           userRepository,
           endTestScreenRemovalService,
@@ -228,7 +231,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           password,
           userRepository,
         });
-        expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user.id, source);
       });
     });
   });
@@ -250,7 +252,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       const error = await catchErr(authenticateUser)({
         username: userEmail,
         password,
-        tokenService,
         userRepository,
         endTestScreenRemovalService,
       });

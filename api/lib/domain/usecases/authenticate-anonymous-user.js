@@ -24,6 +24,6 @@ module.exports = async function authenticateAnonymousUser({
     }),
   });
 
-  const accessToken = tokenService.createAccessTokenFromUser(newUser.id, 'pix');
+  const accessToken = tokenService.createAccessTokenFromUser(newUser.id, 'pix').accessToken;
   return accessToken;
 };

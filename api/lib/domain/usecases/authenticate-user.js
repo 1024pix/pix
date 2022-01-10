@@ -34,7 +34,6 @@ module.exports = async function authenticateUser({
   source,
   username,
   refreshTokenService,
-  tokenService,
   userRepository,
 }) {
   try {
@@ -51,11 +50,13 @@ module.exports = async function authenticateUser({
 
     if (!shouldChangePassword) {
       _checkUserAccessScope(scope, foundUser);
-      const accessToken = tokenService.createAccessTokenFromUser(foundUser.id, source);
       const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
+      const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
+        refreshToken,
+      });
 
       await userRepository.updateLastLoggedAt({ userId: foundUser.id });
-      return { accessToken, refreshToken };
+      return { accessToken, refreshToken, expirationDelaySeconds };
     } else {
       throw new UserShouldChangePasswordError();
     }

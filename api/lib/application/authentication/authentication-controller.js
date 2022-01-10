@@ -1,6 +1,5 @@
 const get = require('lodash/get');
 const { UnauthorizedError, BadRequestError } = require('../http-errors');
-const settings = require('../../config');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
@@ -10,17 +9,21 @@ module.exports = {
    */
   async createToken(request, h) {
     let accessToken, refreshToken;
-    const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
+    let expirationDelaySeconds;
+
     if (request.payload.grant_type === 'refresh_token') {
       refreshToken = request.payload.refresh_token;
-      accessToken = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
+      const accessTokenAndExpirationDelaySeconds = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
+      accessToken = accessTokenAndExpirationDelaySeconds.accessToken;
+      expirationDelaySeconds = accessTokenAndExpirationDelaySeconds.expirationDelaySeconds;
     } else if (request.payload.grant_type === 'password') {
       const { username, password, scope } = request.payload;
 
       const source = 'pix';
-      const tokens = await usecases.authenticateUser({ username, password, scope, source });
-      accessToken = tokens.accessToken;
-      refreshToken = tokens.refreshToken;
+      const tokensAndExpirationDelaySeconds = await usecases.authenticateUser({ username, password, scope, source });
+      accessToken = tokensAndExpirationDelaySeconds.accessToken;
+      refreshToken = tokensAndExpirationDelaySeconds.refreshToken;
+      expirationDelaySeconds = tokensAndExpirationDelaySeconds.expirationDelaySeconds;
     } else {
       throw new BadRequestError('Invalid grant type');
     }

@@ -32,20 +32,24 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
 
   describe('#createAccessTokenFromRefreshToken', function () {
     context('when refresh token is valid', function () {
-      it('should create access token with user id and source', async function () {
+      it('should create access token with user id and source and return it with expiration delay in seconds', async function () {
         // given
         const userId = 123;
         const source = 'pix';
         const refreshToken = 'valid-refresh-token';
-        const validAccessToken = 'valid-access-token';
+        const accessToken = 'valid-access-token';
+        const expirationDelaySeconds = 1;
         sinon.stub(temporaryStorage, 'get').withArgs(refreshToken).resolves({ userId, source });
-        sinon.stub(tokenService, 'createAccessTokenFromUser').withArgs(userId, source).resolves(validAccessToken);
+        sinon
+          .stub(tokenService, 'createAccessTokenFromUser')
+          .withArgs(userId, source)
+          .resolves({ accessToken, expirationDelaySeconds });
 
         // when
         const result = await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
 
         // then
-        expect(result).to.equal(validAccessToken);
+        expect(result).to.be.deep.equal({ accessToken, expirationDelaySeconds });
       });
     });
 
