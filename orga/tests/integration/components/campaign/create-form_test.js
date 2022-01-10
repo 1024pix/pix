@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import sinon from 'sinon';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -26,7 +25,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
   test('it should contain inputs, attributes and validation button', async function (assert) {
     // when
-    await render(
+    await renderScreen(
       hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}  @errors={{errors}}/>`
     );
 
@@ -39,18 +38,18 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
   test('[a11y] it should display a message that some inputs are required', async function (assert) {
     // when
-    await render(
+    const screen = await renderScreen(
       hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}  @errors={{errors}}/>`
     );
 
     // then
-    assert.contains(t('pages.campaign-creation.mandatory-fields'));
+    assert.dom(screen.getByText(t('pages.campaign-creation.mandatory-fields'))).exists();
   });
 
   module('when user cannot create campaign of type PROFILES_COLLECTION', function () {
     test('it should display fields for campaign title and target profile by default', async function (assert) {
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
 
@@ -61,7 +60,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     test('it should not contain field to select campaign type', async function (assert) {
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
 
@@ -79,7 +78,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       }
       this.owner.register('service:current-user', CurrentUserStub);
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -98,7 +97,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       this.campaign = EmberObject.create({});
 
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -110,7 +109,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     test('it should not display multiple sendings field', async function (assert) {
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
 
@@ -145,7 +144,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           }),
         ];
         // when
-        await render(
+        await renderScreen(
           hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -181,7 +180,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           }),
         ];
         // when
-        await render(
+        await renderScreen(
           hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -201,7 +200,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       }
       this.owner.register('service:current-user', CurrentUserStub);
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -218,7 +217,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       }
       this.owner.register('service:current-user', CurrentUserStub);
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -236,7 +235,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       this.campaign = EmberObject.create({});
 
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -250,7 +249,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   module('when user has not chosen yet to ask or not an external user ID', function () {
     test('it should not display gdpr footnote', async function (assert) {
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
 
@@ -262,7 +261,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   module('when user choose not to ask an external user ID', function () {
     test('it should not display gdpr footnote either', async function (assert) {
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.no'));
@@ -275,7 +274,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   module('when user choose to ask an external user ID', function () {
     test('it should display gdpr footnote', async function (assert) {
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.yes'));
@@ -290,7 +289,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     this.targetProfiles = [{ name: 'targetProfile1' }];
     this.createCampaignSpy = sinon.stub();
 
-    await render(
+    await renderScreen(
       hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}} @targetProfiles={{this.targetProfiles}}/>`
     );
     await fillByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
@@ -334,7 +333,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       this.errors = campaign.errors;
 
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
       await clickByName(t('pages.campaign-creation.yes'));
@@ -359,7 +358,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       this.errors = campaign.errors;
 
       // when
-      await render(
+      await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
 

@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
-import { render } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -41,7 +40,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
   test('it renders', async function (assert) {
     // when
-    await render(hbs`<Auth::RegisterForm/>`);
+    await renderScreen(hbs`<Auth::RegisterForm/>`);
 
     //then
     assert.dom('.register-form').exists();
@@ -49,10 +48,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
   test('[a11y] it should display a message that all inputs are required', async function (assert) {
     // when
-    await render(hbs`<Auth::RegisterForm/>`);
+    const screen = await renderScreen(hbs`<Auth::RegisterForm/>`);
 
     // then
-    assert.contains('Tous les champs sont obligatoires.');
+    assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
   });
 
   module('successful cases', function (hooks) {
@@ -81,7 +80,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await renderScreen(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillByLabel(firstNameInputLabel, 'pix');
       await fillByLabel(lastNameInputLabel, 'pix');
       await fillByLabel(emailInputLabel, 'shi@fu.me');
@@ -101,7 +100,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
   });
 
   module('errors management', function (hooks) {
-    let spy;
+    let spy, screen;
 
     hooks.beforeEach(async function () {
       spy = sinon.spy();
@@ -114,7 +113,9 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         },
       });
 
-      await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      screen = await renderScreen(
+        hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`
+      );
     });
 
     module('When first name is not valid', () => {
@@ -127,7 +128,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.equal(spy.callCount, 0);
-        assert.contains(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE));
+        assert.dom(screen.getByText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -141,7 +142,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.equal(spy.callCount, 0);
-        assert.contains(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE));
+        assert.dom(screen.getByText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -155,7 +156,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.equal(spy.callCount, 0);
-        assert.contains(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE));
+        assert.dom(screen.getByText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -169,7 +170,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.equal(spy.callCount, 0);
-        assert.contains(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE));
+        assert.dom(screen.getByText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
       });
     });
 
