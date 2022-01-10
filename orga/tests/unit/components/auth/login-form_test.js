@@ -24,6 +24,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
       // given
       const emailWithSpaces = '    user@example.net  ';
       component.email = emailWithSpaces;
+      component.password = 'pix123';
 
       const _authenticateStub = sinon.stub().resolves();
       component._authenticate = _authenticateStub;
@@ -37,8 +38,8 @@ module('Unit | Component | Routes | login-form', (hooks) => {
       assert.ok(_authenticateStub.calledWith(sinon.match.any, expectedEmail));
     });
 
-    module('When there is no invitation', () => {
-      test('should not accept organization invitation when parameters are invalid', function (assert) {
+    module('When there is an invitation', () => {
+      test('should not accept organization invitation when form is invalid', function (assert) {
         // given
         component.email = '';
         component.password = 'pix123';
@@ -53,7 +54,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
         assert.ok(component._acceptOrganizationInvitation.notCalled);
       });
 
-      test('should accept organization invitation when parameters are valid', function (assert) {
+      test('should accept organization invitation when form is valid', function (assert) {
         // given
         component.email = 'sco.admin@example.net';
         component.password = 'pix123';
@@ -65,12 +66,12 @@ module('Unit | Component | Routes | login-form', (hooks) => {
         component.authenticate(new Event('stub'));
 
         // then
-        assert.ok(component._acceptOrganizationInvitation.called);
+        assert.ok(component._acceptOrganizationInvitation.calledOnce);
       });
     });
 
-    module('When there is an invitation', () => {
-      test('should not call authenticate session when parameters are invalid', function (assert) {
+    module('When there is no invitation', () => {
+      test('should not call authenticate session when form is invalid', function (assert) {
         // given
         component.email = '';
         component.password = 'pix123';
@@ -83,7 +84,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
         assert.ok(component.session.authenticate.notCalled);
       });
 
-      test('should call authenticate session when parameters are valid', function (assert) {
+      test('should call authenticate session when form is valid', function (assert) {
         // given
         component.email = 'sco.admin@example.net';
         component.password = 'pix123';
@@ -93,7 +94,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
         component.authenticate(new Event('stub'));
 
         // then
-        assert.ok(component.session.authenticate.called);
+        assert.ok(component.session.authenticate.calledOnce);
       });
     });
   });
