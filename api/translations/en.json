@@ -158,7 +158,7 @@
     "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
     "STAGE_THRESHOLD_IS_REQUIRED": "The threshold is required",
     "STAGE_TITLE_IS_REQUIRED": "The title is required",
-    "TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
+    "STAGE_TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
     "WRONG_EMAIL_FORMAT": "The email address format is invalid."
   },
   "organization-invitation-email": {
