@@ -384,7 +384,7 @@
             "empty": "All statuses"
           },
           "stages": "Success rate",
-          "groups": {
+          "groups":  {
             "title": "Groups",
             "empty": "No group"
           }
@@ -646,7 +646,6 @@
       "import": {
         "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
         "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a>.</div>",
-        "invalid-mimetype": "<div>Import has failed.<br/><strong>The file type is not allowed, please upload a {format} file.</strong>",
         "global-success": "The list has been successfully imported."
       },
       "manage-authentication-method-modal": {
