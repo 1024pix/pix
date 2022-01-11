@@ -83,6 +83,13 @@ const Validations = buildValidations({
       }),
     ],
   },
+  showSkills: {
+    validators: [
+      validator('inclusion', {
+        in: [true, false],
+      }),
+    ],
+  },
 });
 
 class Form extends Object.extend(Validations) {
@@ -94,6 +101,7 @@ class Form extends Object.extend(Validations) {
   @tracked isManagingStudents;
   @tracked canCollectProfiles;
   @tracked documentationUrl;
+  @tracked showSkills;
 }
 
 export default class OrganizationInformationSection extends Component {
@@ -146,6 +154,7 @@ export default class OrganizationInformationSection extends Component {
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
     this.args.organization.set('canCollectProfiles', this.form.canCollectProfiles);
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
+    this.args.organization.set('showSkills', this.form.showSkills);
 
     this.isEditMode = false;
     return this.args.onSubmit();
@@ -160,5 +169,6 @@ export default class OrganizationInformationSection extends Component {
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.canCollectProfiles = this.args.organization.canCollectProfiles;
     this.form.documentationUrl = this.args.organization.documentationUrl;
+    this.form.showSkills = this.args.organization.showSkills;
   }
 }

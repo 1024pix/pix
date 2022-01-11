@@ -128,6 +128,7 @@ module('Integration | Component | organizations/information-section', function (
         isManagingStudents: false,
         credit: 0,
         documentationUrl: 'https://pix.fr/',
+        showSkills: false,
       });
       this.set('organization', organization);
     });
@@ -167,6 +168,7 @@ module('Integration | Component | organizations/information-section', function (
       assert.dom('input#canCollectProfiles').isNotChecked();
       assert.dom('input#isManagingStudents').isNotChecked();
       assert.dom('input#documentationUrl').hasValue(organization.documentationUrl);
+      assert.dom('input#showSkills').isNotChecked();
     });
 
     test("it should show error message if organization's name is empty", async function (assert) {
@@ -288,6 +290,7 @@ module('Integration | Component | organizations/information-section', function (
       await clickByLabel('Gestion d’élèves/étudiants');
       await clickByLabel('Collecte de profils');
       await fillIn('input#documentationUrl', 'new documentationUrl');
+      await clickByLabel("Affichage des acquis dans l'export de résultats");
 
       // when
       await clickByLabel('Annuler');
@@ -299,6 +302,7 @@ module('Integration | Component | organizations/information-section', function (
       assert.dom('.organization__isManagingStudents').hasText('Non');
       assert.dom('.organization__canCollectProfiles').hasText('Non');
       assert.contains(organization.documentationUrl);
+      assert.dom('.organization__showSkills').hasText('Non');
     });
 
     test('it should submit the form if there is no error', async function (assert) {
