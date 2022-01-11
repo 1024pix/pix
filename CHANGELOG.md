@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.153.0 (11/01/2022)
+
+
+### :rocket: Enhancement
+- [#3885](https://github.com/1024pix/pix/pull/3885) [FEATURE] Ajout des Thématiques, Compétences et Domaines dans la sélection des sujets (PIX-3948)
+- [#3917](https://github.com/1024pix/pix/pull/3917) [FEATURE]  Afficher le flag permettant d'afficher ou non les acquis dans l'export de résultats d'une campagne (Pix 4104). 
+- [#3914](https://github.com/1024pix/pix/pull/3914) [FEATURE] Afficher les résultats de la certification Pix+ Edu dans le csv des résultats (PIX-4080).
+
+### :building_construction: Tech
+- [#3912](https://github.com/1024pix/pix/pull/3912) [TECH] Algo flash : Réutiliser le niveau estimé enregistré pour trouver le prochain challenge
+
+### :bug: Bug fix
+- [#3926](https://github.com/1024pix/pix/pull/3926) [BUGFIX] Ne pas valider les mime types sur les imports de fichiers SIECLE (PIX-4111)
+
+### :coffee: Various
+- [#3911](https://github.com/1024pix/pix/pull/3911)  [TECH] Supprimer la gestion de la documentation en fonction des tags dans PixOrga (PIX-3976).
+- [#3916](https://github.com/1024pix/pix/pull/3916) [DOC] Expliciter la structure d'un ADR.
+
 ## v3.152.0 (07/01/2022)
 
 
