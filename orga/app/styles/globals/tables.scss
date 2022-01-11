@@ -54,6 +54,11 @@ tbody {
     }
   }
 
+  .row--not-clickable {
+    cursor: auto;
+    background-color: white;
+  }
+
   td {
     font-family: $roboto;
     font-size: 0.875rem;

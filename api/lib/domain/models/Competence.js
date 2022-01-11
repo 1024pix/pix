@@ -1,5 +1,5 @@
 class Competence {
-  constructor({ id, area, name, index, description, origin, skillIds = [] } = {}) {
+  constructor({ id, area, name, index, description, origin, skillIds = [], thematicIds = [] } = {}) {
     this.id = id;
     this.area = area;
     this.name = name;
@@ -8,6 +8,7 @@ class Competence {
     this.origin = origin;
     this.level = -1;
     this.skillIds = skillIds;
+    this.thematicIds = thematicIds;
   }
 
   get reference() {
