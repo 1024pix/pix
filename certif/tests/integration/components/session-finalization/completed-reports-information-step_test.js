@@ -208,4 +208,58 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     // then
     assert.dom(screen.getByRole('table', { name: 'Certification(s) terminée(s)' })).exists();
   });
+
+  module('when isEndTestScreenRemovalEnabled feature toggle is disabled', function() {
+    test('it shows the "Écran de fin de test vu" column', async function(assert) {
+      // given
+      this.certificationReports = [run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: null,
+        certificationCourseId: 1,
+      }))];
+      this.issueReportDescriptionMaxLength = 500;
+      this.toggleCertificationReportHasSeenEndTestScreen = sinon.stub().returns();
+      this.toggleAllCertificationReportsHasSeenEndTestScreen = sinon.stub().returns();
+      this.shouldDisplayHasSeenEndTestScreenCheckbox = true;
+
+      // when
+      await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+          @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+        />
+      `);
+
+      // then
+      assert.dom('[data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"]').exists();
+      assert.dom('[data-test-id="finalization-report-has-seen-end-test-screen_1"]').exists();
+    });
+  });
+
+  module('when isEndTestScreenRemovalEnabled feature toggle is enabled', function() {
+    test('it hides the "Écran de fin de test vu" column', async function(assert) {
+      // given
+      this.certificationReports = [run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: null,
+        certificationCourseId: 1,
+      }))];
+      this.issueReportDescriptionMaxLength = 500;
+      this.shouldDisplayHasSeenEndTestScreenCheckbox = false;
+
+      // when
+      await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+        />
+      `);
+
+      // then
+      assert.dom('[data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"]').doesNotExist();
+      assert.dom('[data-test-id="finalization-report-has-seen-end-test-screen_1"]').doesNotExist();
+    });
+  });
 });
