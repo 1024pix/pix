@@ -4,12 +4,10 @@ import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
   setupTest(hooks);
+  const files = Symbol('files');
   const currentUser = { organization: { id: 1 } };
   let controller;
   let importStudentStub;
-  const filesWithXmlMimeType = [{ type: 'text/xml' }];
-  const filesWithCsvMimeType = [{ type: 'text/csv' }];
-  const filesWithTextPlainMimeType = [{ type: 'text/plain' }];
 
   hooks.beforeEach(function () {
     this.owner.lookup('service:intl').setLocale('fr');
@@ -27,19 +25,9 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
       test('it sends the chosen csv file to the API', async function (assert) {
         currentUser.isAgriculture = true;
 
-        await controller.importStudents(filesWithCsvMimeType);
+        await controller.importStudents(files);
 
-        assert.ok(importStudentStub.calledWith(1, filesWithCsvMimeType, 'csv', ['text/plain', 'csv']));
-      });
-    });
-
-    module('when file is text/plain', function () {
-      test('it sends the chosen csv file to the API', async function (assert) {
-        currentUser.isAgriculture = true;
-
-        await controller.importStudents(filesWithTextPlainMimeType);
-
-        assert.ok(importStudentStub.calledWith(1, filesWithTextPlainMimeType, 'csv', ['text/plain', 'csv']));
+        assert.ok(importStudentStub.calledWith(1, files, 'csv'));
       });
     });
 
@@ -47,9 +35,9 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
       test('it sends the chosen xml file to the API', async function (assert) {
         currentUser.isAgriculture = false;
 
-        await controller.importStudents(filesWithXmlMimeType);
+        await controller.importStudents(files);
 
-        assert.ok(importStudentStub.calledWith(1, filesWithXmlMimeType, 'xml', ['xml']));
+        assert.ok(importStudentStub.calledWith(1, files, 'xml'));
       });
     });
 
@@ -62,7 +50,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         importStudentStub.rejects({ errors: [{ status: '401' }] });
 
         // when
-        await controller.importStudents(filesWithXmlMimeType);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -76,7 +64,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         importStudentStub.rejects({ errors: [{ status: '412', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(filesWithXmlMimeType);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -90,7 +78,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         importStudentStub.rejects({ errors: [{ status: '413', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(filesWithXmlMimeType);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -104,7 +92,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         importStudentStub.rejects({ errors: [{ status: '422', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(filesWithXmlMimeType);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;

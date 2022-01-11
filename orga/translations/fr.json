@@ -639,7 +639,6 @@
       "import": {
         "error-wrapper": "<div>Aucun élève n’a été importé.<br/><strong>{message}</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>",
         "global-error": "<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a>.</div>",
-        "invalid-mimetype": "<div>Aucun élève n’a été importé.<br/><strong>Le type de fichier n'est pas accepté, veuillez importer un fichier {format}.</strong>",
         "global-success": "La liste a été importée avec succès."
       },
       "manage-authentication-method-modal": {

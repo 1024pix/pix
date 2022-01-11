@@ -45,11 +45,6 @@ module.exports = function (environment) {
         minValue: 1,
       }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      ERRORS: {
-        FILE_UPLOAD: {
-          FORMAT_NOT_SUPPORTED_ERROR: 'format-not-supported-error',
-        },
-      },
     },
 
     googleFonts: [
