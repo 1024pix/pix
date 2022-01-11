@@ -260,9 +260,13 @@ module.exports = {
     );
   },
 
-  findOneByUserIdAndOrganizationId({ userId, organizationId }) {
+  findOneByUserIdAndOrganizationId({
+    userId,
+    organizationId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
     return BookshelfSchoolingRegistration.where({ userId, organizationId })
-      .fetch({ require: false })
+      .fetch({ require: false, transacting: domainTransaction.knexTransaction })
       .then((schoolingRegistration) =>
         bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
       );

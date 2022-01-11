@@ -9,6 +9,7 @@ module.exports = async function startCampaignParticipation({
   campaignParticipationRepository,
   assessmentRepository,
   campaignToJoinRepository,
+  schoolingRegistrationRepository,
   domainTransaction,
 }) {
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
@@ -57,6 +58,7 @@ module.exports = async function startCampaignParticipation({
       userId,
       campaignToJoin,
       campaignParticipationRepository,
+      schoolingRegistrationRepository,
       domainTransaction
     );
     if (campaignToJoin.isAssessment) {
@@ -73,6 +75,7 @@ module.exports = async function startCampaignParticipation({
       userId,
       campaignToJoin,
       campaignParticipationRepository,
+      schoolingRegistrationRepository,
       domainTransaction
     );
     if (campaignToJoin.isAssessment) {
@@ -96,9 +99,20 @@ async function _saveCampaignParticipation(
   userId,
   campaign,
   campaignParticipationRepository,
+  schoolingRegistrationRepository,
   domainTransaction
 ) {
-  const userParticipation = CampaignParticipation.start({ ...campaignParticipation, campaign, userId });
+  const schoolingRegistration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
+    organizationId: campaign.organizationId,
+    userId,
+    domainTransaction,
+  });
+  const userParticipation = CampaignParticipation.start({
+    ...campaignParticipation,
+    campaign,
+    userId,
+    schoolingRegistrationId: schoolingRegistration?.id,
+  });
 
   return campaignParticipationRepository.save(userParticipation, domainTransaction);
 }

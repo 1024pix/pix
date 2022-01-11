@@ -13,6 +13,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
   let domainTransaction;
   let campaignToJoinRepository;
   let campaignParticipationRepository;
+  let schoolingRegistrationRepository;
   let assessmentRepository;
 
   beforeEach(function () {
@@ -25,6 +26,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       markPreviousParticipationsAsImproved: () => {},
     };
     assessmentRepository = { save: () => undefined };
+    schoolingRegistrationRepository = {
+      findOneByUserIdAndOrganizationId: () => {},
+    };
 
     sinon.stub(campaignToJoinRepository, 'get');
     sinon.stub(campaignToJoinRepository, 'checkCampaignIsJoinableByUser');
@@ -33,6 +37,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     sinon.stub(campaignParticipationRepository, 'hasAlreadyParticipated');
     sinon.stub(campaignParticipationRepository, 'markPreviousParticipationsAsImproved');
     sinon.stub(assessmentRepository, 'save');
+    sinon.stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId');
   });
 
   it('should return CampaignParticipationStarted event', async function () {
@@ -57,11 +62,60 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       campaignParticipationRepository,
       assessmentRepository,
       campaignToJoinRepository,
+      schoolingRegistrationRepository,
       domainTransaction,
     });
 
     // then
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
+  });
+
+  context('when the user is linked to a schoolingRegistration', function () {
+    const schoolingRegistrationId = 1;
+    const organizationId = 2;
+    let campaignToJoin;
+    let campaignParticipation;
+    beforeEach(function () {
+      campaignParticipation = domainBuilder.buildCampaignParticipation({
+        status: STARTED,
+        userId,
+        schoolingRegistrationId,
+      });
+      campaignToJoin = domainBuilder.buildCampaignToJoin({
+        id: campaignParticipation.campaignId,
+        organizationId,
+      });
+      campaignToJoinRepository.get
+        .withArgs(campaignParticipation.campaignId, domainTransaction)
+        .resolves(campaignToJoin);
+      campaignParticipation.campaign = campaignToJoin;
+    });
+
+    it('should link campaign participation to user schooling registration if it exists', async function () {
+      // given
+      assessmentRepository.save.resolves();
+
+      const savedCampaignParticipation = Symbol('savedCampaignParticipation');
+      campaignParticipationRepository.save.withArgs(campaignParticipation).resolves(savedCampaignParticipation);
+      schoolingRegistrationRepository.findOneByUserIdAndOrganizationId
+        .withArgs({ organizationId, userId, domainTransaction })
+        .resolves({ id: schoolingRegistrationId });
+      campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId).resolves(false);
+
+      // when
+      const { campaignParticipation: actualSavedCampaignParticipation } = await usecases.startCampaignParticipation({
+        campaignParticipation,
+        userId,
+        campaignParticipationRepository,
+        schoolingRegistrationRepository,
+        assessmentRepository,
+        campaignToJoinRepository,
+        domainTransaction,
+      });
+
+      // then
+      expect(actualSavedCampaignParticipation).to.deep.equal(savedCampaignParticipation);
+    });
   });
 
   context('when campaign is of type ASSESSMENT', function () {
@@ -97,6 +151,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
         domainTransaction,
       });
 
@@ -122,6 +177,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
 
@@ -160,6 +216,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
 
@@ -214,6 +271,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
         domainTransaction,
       });
 
@@ -245,6 +303,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
         domainTransaction,
       });
 
@@ -264,6 +323,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
 
@@ -284,6 +344,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
 

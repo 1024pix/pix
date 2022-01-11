@@ -45,12 +45,17 @@ class CampaignParticipation {
   }
 
   static start(campaignParticipation) {
+    const { schoolingRegistrationId = null } = campaignParticipation;
     const { isAssessment } = campaignParticipation.campaign;
     const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
 
     const status = isAssessment ? STARTED : TO_SHARE;
 
-    return new CampaignParticipation({ ...campaignParticipation, status });
+    return new CampaignParticipation({
+      ...campaignParticipation,
+      status,
+      schoolingRegistrationId,
+    });
   }
 
   get isShared() {
