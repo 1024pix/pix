@@ -1,10 +1,16 @@
 <form class="form" {{on "submit" @onSubmit}}>
-  <p class="form__mandatory-fields-information">{{t "pages.campaign-modification.mandatory-fields" htmlSafe=true}}</p>
+  <p class="form__mandatory-fields-information" aria-hidden="true">
+    <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
+    {{t "common.form.mandatory-fields"}}
+  </p>
   <div class="form__field">
+    <label class="label" for="campaign-name">
+      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+      {{t "pages.campaign-modification.campaign-name"}}
+    </label>
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @label={{t "pages.campaign-modification.campaign-name" htmlSafe=true}}
       maxlength="255"
       @value={{@campaign.name}}
       required={{true}}
