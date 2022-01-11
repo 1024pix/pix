@@ -82,7 +82,7 @@ describe('Unit | Domain | Validators | stage-validator', function () {
         // given
         const expectedError = {
           attribute: 'targetProfileId',
-          message: 'TARGET_PROFILE_IS_REQUIRED',
+          message: 'STAGE_TARGET_PROFILE_IS_REQUIRED',
         };
         stage.targetProfileId = MISSING_VALUE;
 
