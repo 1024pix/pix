@@ -275,8 +275,7 @@
         "title": "Your test is finished!",
         "ended-by-supervisor": "Your invigilator has marked your certification test as completed. You cannot continue to answer questions.",
         "disconnect": "Log out of my account",
-        "disconnect-tip": "If this is not your computer, please remember to log out.",
-        "test-completed-alt": "test terminé"
+        "disconnect-tip": "If this is not your computer, please remember to log out."
       },
       "results": {
         "disclaimer": "Your results, pending validation by the Pix team, will soon be available on your Pix account",

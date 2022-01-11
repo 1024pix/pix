@@ -275,8 +275,7 @@
         "title": "Test terminé !",
         "ended-by-supervisor": "Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.",
         "disconnect": "Déconnecter mon compte",
-        "disconnect-tip": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.",
-        "test-completed-alt": "test terminé"
+        "disconnect-tip": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter."
       },
       "results": {
         "disclaimer": "Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles depuis votre compte Pix",
