@@ -327,7 +327,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
           // then
           assert.equal(actions.length, 2);
-          assert.contains('Attention : cette action entraine la fin de son test de certification et est irréversible.');
+          assert.contains('Attention : cette action entraîne la fin de son test de certification et est irréversible.');
           assert.contains('Terminer le test de Drax The Destroyer ?');
         });
 
