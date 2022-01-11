@@ -272,10 +272,10 @@
     },
     "certification-ender": {
       "candidate": {
-        "title": "Test terminé !",
-        "ended-by-supervisor": "Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.",
-        "disconnect": "Déconnecter mon compte",
-        "disconnect-tip": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.",
+        "title": "Your test is finished!",
+        "ended-by-supervisor": "Your invigilator has marked your certification test as completed. You cannot continue to answer questions.",
+        "disconnect": "Log out of my account",
+        "disconnect-tip": "If this is not your computer, please remember to log out.",
         "test-completed-alt": "test terminé"
       },
       "results": {
