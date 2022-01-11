@@ -26,6 +26,7 @@ class CampaignParticipation {
     userId,
     validatedSkillsCount,
     pixScore,
+    schoolingRegistrationId,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -40,6 +41,7 @@ class CampaignParticipation {
     this.status = status;
     this.validatedSkillsCount = validatedSkillsCount;
     this.pixScore = pixScore;
+    this.schoolingRegistrationId = schoolingRegistrationId;
   }
 
   static start(campaignParticipation) {

@@ -269,6 +269,7 @@ function _adaptModelToDb(campaignParticipation) {
     participantExternalId: campaignParticipation.participantExternalId,
     userId: campaignParticipation.userId,
     status: campaignParticipation.status,
+    schoolingRegistrationId: campaignParticipation.schoolingRegistrationId,
   };
 }
 
