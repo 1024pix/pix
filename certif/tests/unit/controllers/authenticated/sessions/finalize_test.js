@@ -17,6 +17,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           isManageUncompletedCertifEnabled: false,
         };
       }
+
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -40,6 +41,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           isManageUncompletedCertifEnabled: false,
         };
       }
+
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -80,6 +82,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           isManageUncompletedCertifEnabled: false,
         };
       }
+
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -113,6 +116,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           isManageUncompletedCertifEnabled: false,
         };
       }
+
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -137,6 +141,72 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 
       // then
       assert.true(hasUncheckedHasSeenEndTestScreen);
+    });
+  });
+
+  module('#computed shouldDisplayHasSeenEndTestScreenCheckbox', function () {
+    test('it should return false if certification center has access to supervisor space', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 123,
+          name: 'Test certification center',
+          type: 'NOT_SCO',
+          hasEndTestScreenRemovalEnabled: true,
+        })
+      );
+
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      controller.model = run(() =>
+        store.createRecord('session', {
+          certificationReports: [],
+        })
+      );
+
+      // when
+      const result = controller.shouldDisplayHasSeenEndTestScreenCheckbox;
+
+      // then
+      assert.false(result);
+    });
+
+    test('it should return true if certification center has access to supervisor space', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 123,
+          name: 'Test certification center',
+          type: 'NOT_SCO',
+          hasEndTestScreenRemovalEnabled: false,
+        })
+      );
+
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      controller.model = run(() =>
+        store.createRecord('session', {
+          certificationReports: [],
+        })
+      );
+
+      // when
+      const result = controller.shouldDisplayHasSeenEndTestScreenCheckbox;
+
+      // then
+      assert.true(result);
     });
   });
 

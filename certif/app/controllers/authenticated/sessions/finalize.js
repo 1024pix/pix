@@ -11,6 +11,7 @@ import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
   @service featureToggles;
+  @service currentUser;
 
   @service notifications;
 
@@ -26,6 +27,10 @@ export default class SessionsFinalizeController extends Controller {
 
   get isManageUncompletedCertifEnabled() {
     return this.featureToggles.featureToggles.isManageUncompletedCertifEnabled;
+  }
+
+  get shouldDisplayHasSeenEndTestScreenCheckbox() {
+    return !this.currentUser.currentAllowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled;
   }
 
   get uncheckedHasSeenEndTestScreenCount() {
