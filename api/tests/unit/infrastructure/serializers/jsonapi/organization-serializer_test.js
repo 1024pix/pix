@@ -124,6 +124,7 @@ describe('Unit | Serializer | organization-serializer', function () {
         canCollectProfiles: true,
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
+        showSkills: false,
       };
       const jsonApiOrganization = {
         data: {
@@ -141,6 +142,7 @@ describe('Unit | Serializer | organization-serializer', function () {
             'can-collect-profiles': organizationAttributes.canCollectProfiles,
             'created-by': organizationAttributes.createdBy,
             'documentation-url': organizationAttributes.documentationUrl,
+            'show-skills': organizationAttributes.showSkills,
           },
         },
       };
@@ -162,6 +164,7 @@ describe('Unit | Serializer | organization-serializer', function () {
         canCollectProfiles: organizationAttributes.canCollectProfiles,
         createdBy: organizationAttributes.createdBy,
         documentationUrl: organizationAttributes.documentationUrl,
+        showSkills: organizationAttributes.showSkills,
       });
       expect(organization).to.be.instanceOf(Organization);
       expect(organization).to.deep.equal(expectedOrganization);

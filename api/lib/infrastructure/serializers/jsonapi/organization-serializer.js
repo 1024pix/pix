@@ -85,6 +85,7 @@ module.exports = {
       canCollectProfiles: attributes['can-collect-profiles'],
       createdBy: attributes['created-by'],
       documentationUrl: attributes['documentation-url'],
+      showSkills: attributes['show-skills'],
       tags,
     });
 
