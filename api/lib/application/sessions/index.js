@@ -6,6 +6,7 @@ const finalizedSessionController = require('./finalized-session-controller');
 const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
+const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
 
 exports.register = async (server) => {
   server.route([
@@ -354,6 +355,12 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
+        pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyBySessionId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
+        ],
         handler: sessionForSupervisingController.get,
         tags: ['api', 'sessions', 'supervising'],
         notes: [
@@ -381,6 +388,12 @@ exports.register = async (server) => {
             return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
+        pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyBySessionId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
+        ],
         handler: sessionForSupervisingController.supervise,
         tags: ['api', 'sessions', 'supervising'],
         notes: [

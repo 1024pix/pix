@@ -153,15 +153,13 @@ module.exports = (function () {
       pixCertifScoBlockedAccessWhitelist: getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
+      endTestScreenRemovalWhiteList: getArrayOfStrings(process.env.END_TEST_SCREEN_REMOVAL_WHITELIST),
     },
 
     featureToggles: {
       isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
       isEndTestScreenRemovalEnabled: isFeatureEnabled(process.env.FT_END_TEST_SCREEN_REMOVAL_ENABLED),
-      allowedCertificationCenterIdsForEndTestScreenRemoval: getArrayOfStrings(
-        process.env.FT_ALLOWED_CERTIFICATION_CENTER_IDS_FOR_END_TEST_SCREEN_REMOVAL
-      ),
       isComplementaryCertificationSubscriptionEnabled: isFeatureEnabled(
         process.env.FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED
       ),

@@ -24,7 +24,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-manage-uncompleted-certif-enabled': false,
             'is-email-validation-enabled': false,
             'is-end-test-screen-removal-enabled': false,
-            'allowed-certification-center-ids-for-end-test-screen-removal': [],
             'is-complementary-certification-subscription-enabled': false,
           },
           type: 'feature-toggles',

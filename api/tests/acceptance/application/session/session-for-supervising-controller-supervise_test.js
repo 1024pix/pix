@@ -7,7 +7,7 @@ const {
   knex,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { featureToggles } = require('../../../../lib/config');
+const { features } = require('../../../../lib/config');
 
 describe('Acceptance | Controller | session-for-supervising-controller-supervise', function () {
   let server;
@@ -31,9 +31,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-supervise
     databaseBuilder.factory.buildSession(session);
     await databaseBuilder.commit();
 
-    sinon
-      .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
-      .value([0, certificationCenter.id, 1]);
+    sinon.stub(features, 'endTestScreenRemovalWhiteList').value([0, certificationCenter.id, 1]);
     const headers = { authorization: generateValidRequestAuthorizationHeader(3456, 'pix-certif') };
 
     const options = {
