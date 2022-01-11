@@ -2,12 +2,8 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const CleaCertificationResult = require('../../domain/models/CleaCertificationResult');
-const PixPlusDroitMaitreCertificationResult = require('../../domain/models/PixPlusDroitMaitreCertificationResult');
-const PixPlusDroitExpertCertificationResult = require('../../domain/models/PixPlusDroitExpertCertificationResult');
+const PartnerCertification = require('../../domain/models/PartnerCertification');
 const Assessment = require('../../domain/models/Assessment');
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('../../domain/models/Badge').keys;
 
 module.exports = {
   async findBySessionId(sessionId) {
@@ -15,7 +11,7 @@ module.exports = {
       .with('certifications_every_assess_results', (qb) => {
         qb.select('certification-courses.*', 'assessment-results.pixScore')
           .select({
-            assesmentResultStatus: 'assessment-results.status',
+            assessmentResultStatus: 'assessment-results.status',
             assessmentState: 'assessments.state',
           })
           .select(
@@ -25,12 +21,9 @@ module.exports = {
             ])
           )
           .select(
-            knex.raw(`
-        json_agg(
-          json_build_object('acquired', "partner-certifications".acquired, 'partnerKey', "partner-certifications"."partnerKey")
-
-        ) over (partition by "certification-courses".id)
-         as "partnerCertifications"`)
+            knex.raw(
+              `json_agg("partner-certifications".*) over (partition by "certification-courses".id) as "partnerCertifications"`
+            )
           )
           .from('certification-courses')
           .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -84,41 +77,16 @@ function _toDomain(juryCertificationSummaryDTO) {
     }
   );
 
-  const { cleaCertificationResult, pixPlusDroitMaitreCertificationResult, pixPlusDroitExpertCertificationResult } =
-    _getPartnerCertificationsResult(juryCertificationSummaryDTO.partnerCertifications);
+  const partnerCertifications = _.compact(juryCertificationSummaryDTO.partnerCertifications).map(
+    PartnerCertification.from
+  );
+
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
-    status: juryCertificationSummaryDTO.assesmentResultStatus,
+    status: juryCertificationSummaryDTO.assessmentResultStatus,
     isCourseCancelled: juryCertificationSummaryDTO.isCancelled,
     isEndedBySupervisor: juryCertificationSummaryDTO.assessmentState === Assessment.states.ENDED_BY_SUPERVISOR,
     certificationIssueReports,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
   });
-}
-
-function _getPartnerCertificationsResult(partnerCertificationsSource) {
-  const partnerCertifications = _.compact(partnerCertificationsSource);
-  const cleaCertificationCertification =
-    _.find(partnerCertifications, { partnerKey: PIX_EMPLOI_CLEA }) ||
-    _.find(partnerCertifications, { partnerKey: PIX_EMPLOI_CLEA_V2 });
-  const pixPlusDroitMaitreCertification = _.find(partnerCertifications, {
-    partnerKey: PIX_DROIT_MAITRE_CERTIF,
-  });
-  const pixPlusDroitExpertCertification = _.find(partnerCertifications, {
-    partnerKey: PIX_DROIT_EXPERT_CERTIF,
-  });
-
-  return {
-    cleaCertificationResult: cleaCertificationCertification
-      ? CleaCertificationResult.buildFrom(cleaCertificationCertification)
-      : CleaCertificationResult.buildNotTaken(),
-    pixPlusDroitMaitreCertificationResult: pixPlusDroitMaitreCertification
-      ? PixPlusDroitMaitreCertificationResult.buildFrom(pixPlusDroitMaitreCertification)
-      : PixPlusDroitMaitreCertificationResult.buildNotTaken(),
-    pixPlusDroitExpertCertificationResult: pixPlusDroitExpertCertification
-      ? PixPlusDroitExpertCertificationResult.buildFrom(pixPlusDroitExpertCertification)
-      : PixPlusDroitExpertCertificationResult.buildNotTaken(),
-  };
 }

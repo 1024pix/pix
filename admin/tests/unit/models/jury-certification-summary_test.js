@@ -101,6 +101,10 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           cleaCertificationStatus: 'not_taken',
           pixPlusDroitMaitreCertificationStatus: 'not_taken',
           pixPlusDroitExpertCertificationStatus: 'not_taken',
+          pixPlusEduAutonomeCertificationStatus: 'not_taken',
+          pixPlusEduInitieCertificationStatus: 'not_taken',
+          pixPlusEduExpertCertificationStatus: 'not_taken',
+          pixPlusEduFormateurCertificationStatus: 'not_taken',
         });
       });
 
@@ -111,55 +115,36 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       assert.equal(complementaryCertificationsLabel, '');
     });
 
-    test('it returns CléA Numérique when Clea has been taken as complementary certification', function (assert) {
-      // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          cleaCertificationStatus: 'taken',
-          pixPlusDroitMaitreCertificationStatus: 'not_taken',
-          pixPlusDroitExpertCertificationStatus: 'not_taken',
+    [
+      { attribute: 'cleaCertificationStatus', expectedMessage: 'CléA Numérique' },
+      { attribute: 'pixPlusDroitMaitreCertificationStatus', expectedMessage: 'Pix+ Droit Maître' },
+      { attribute: 'pixPlusDroitExpertCertificationStatus', expectedMessage: 'Pix+ Droit Expert' },
+      { attribute: 'pixPlusEduAutonomeCertificationStatus', expectedMessage: 'Pix+ Édu Autonome' },
+      { attribute: 'pixPlusEduInitieCertificationStatus', expectedMessage: 'Pix+ Édu Initié' },
+      { attribute: 'pixPlusEduExpertCertificationStatus', expectedMessage: 'Pix+ Édu Expert' },
+      { attribute: 'pixPlusEduFormateurCertificationStatus', expectedMessage: 'Pix+ Édu Formateur' },
+    ].forEach(({ attribute, expectedMessage }) => {
+      test(`it returns ${expectedMessage} when ${attribute} is not equal to 'not_taken`, function (assert) {
+        // given
+        const juryCertificationSummaryProcessed = run(() => {
+          return store.createRecord('jury-certification-summary', {
+            cleaCertificationStatus: 'not_taken',
+            pixPlusDroitMaitreCertificationStatus: 'not_taken',
+            pixPlusDroitExpertCertificationStatus: 'not_taken',
+            pixPlusEduAutonomeCertificationStatus: 'not_taken',
+            pixPlusEduInitieCertificationStatus: 'not_taken',
+            pixPlusEduExpertCertificationStatus: 'not_taken',
+            pixPlusEduFormateurCertificationStatus: 'not_taken',
+          });
         });
+        juryCertificationSummaryProcessed[attribute] = 'not_equal_to_not_taken';
+
+        // when
+        const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
+
+        // then
+        assert.equal(complementaryCertificationsLabel, expectedMessage);
       });
-
-      // when
-      const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-      // then
-      assert.equal(complementaryCertificationsLabel, 'CléA Numérique');
-    });
-
-    test('it returns Pix+ Droit Maître when pix+ droit maitre has been taken as complementary certification', function (assert) {
-      // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          cleaCertificationStatus: 'not_taken',
-          pixPlusDroitMaitreCertificationStatus: 'taken',
-          pixPlusDroitExpertCertificationStatus: 'not_taken',
-        });
-      });
-
-      // when
-      const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-      // then
-      assert.equal(complementaryCertificationsLabel, 'Pix+ Droit Maître');
-    });
-
-    test('it returns Pix+ Droit Expert when pix+ droit expert has been taken as complementary certification', function (assert) {
-      // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          cleaCertificationStatus: 'not_taken',
-          pixPlusDroitMaitreCertificationStatus: 'not_taken',
-          pixPlusDroitExpertCertificationStatus: 'taken',
-        });
-      });
-
-      // when
-      const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-      // then
-      assert.equal(complementaryCertificationsLabel, 'Pix+ Droit Expert');
     });
 
     test('it returns all complementary certifications taken separated by carriage return where there are some', function (assert) {
@@ -169,6 +154,10 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           cleaCertificationStatus: 'taken',
           pixPlusDroitMaitreCertificationStatus: 'not_taken',
           pixPlusDroitExpertCertificationStatus: 'taken',
+          pixPlusEduAutonomeCertificationStatus: 'not_taken',
+          pixPlusEduInitieCertificationStatus: 'not_taken',
+          pixPlusEduExpertCertificationStatus: 'not_taken',
+          pixPlusEduFormateurCertificationStatus: 'not_taken',
         });
       });
 

@@ -14,9 +14,17 @@ module.exports = {
           juryCertificationSummary.certificationIssueReports.filter(
             (issueReport) => issueReport.isImpactful && issueReport.resolvedAt === null
           ).length;
-        result.cleaCertificationStatus = result.cleaCertificationResult.status;
-        result.pixPlusDroitMaitreCertificationStatus = result.pixPlusDroitMaitreCertificationResult.status;
-        result.pixPlusDroitExpertCertificationStatus = result.pixPlusDroitExpertCertificationResult.status;
+        result.cleaCertificationStatus = juryCertificationSummary.getCleaCertificationStatus();
+        result.pixPlusDroitMaitreCertificationStatus =
+          juryCertificationSummary.getPixPlusDroitMaitreCertificationStatus();
+        result.pixPlusDroitExpertCertificationStatus =
+          juryCertificationSummary.getPixPlusDroitExpertCertificationStatus();
+        result.pixPlusEduAutonomeCertificationStatus =
+          juryCertificationSummary.getPixPlusEduAutonomeCertificationStatus();
+        result.pixPlusEduInitieCertificationStatus = juryCertificationSummary.getPixPlusEduInitieCertificationStatus();
+        result.pixPlusEduExpertCertificationStatus = juryCertificationSummary.getPixPlusEduExpertCertificationStatus();
+        result.pixPlusEduFormateurCertificationStatus =
+          juryCertificationSummary.getPixPlusEduFormateurCertificationStatus();
         return result;
       },
       attributes: [
@@ -35,6 +43,10 @@ module.exports = {
         'cleaCertificationStatus',
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',
+        'pixPlusEduAutonomeCertificationStatus',
+        'pixPlusEduInitieCertificationStatus',
+        'pixPlusEduExpertCertificationStatus',
+        'pixPlusEduFormateurCertificationStatus',
       ],
     }).serialize(juryCertificationSummary);
   },

@@ -1,6 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
+const { PIX_EMPLOI_CLEA, PIX_DROIT_MAITRE_CERTIF, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT } =
+  require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {
   describe('#serialize()', function () {
@@ -13,11 +15,6 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         description: 'someComment',
         resolvedAt: null,
       });
-      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const pixPlusDroitMaitreCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-      const pixPlusDroitExpertCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
@@ -30,9 +27,14 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
         isFlaggedAborted: false,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
+        partnerCertifications: [
+          domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
+          domainBuilder.buildPartnerCertification({
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+            acquired: true,
+          }),
+        ],
       });
 
       expectedJsonApi = {
@@ -55,6 +57,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
             'clea-certification-status': 'acquired',
             'pix-plus-droit-maitre-certification-status': 'rejected',
             'pix-plus-droit-expert-certification-status': 'not_taken',
+            'pix-plus-edu-autonome-certification-status': 'not_taken',
+            'pix-plus-edu-initie-certification-status': 'not_taken',
+            'pix-plus-edu-expert-certification-status': 'acquired',
+            'pix-plus-edu-formateur-certification-status': 'not_taken',
           },
         },
       };
