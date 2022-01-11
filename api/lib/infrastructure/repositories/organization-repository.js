@@ -106,6 +106,7 @@ module.exports = {
       'email',
       'credit',
       'documentationUrl',
+      'showSkills',
     ]);
 
     return new BookshelfOrganization({ id: organization.id })
