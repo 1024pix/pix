@@ -338,7 +338,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       // given
       const options = {
         method: 'GET',
-        url: '/api/framework/tubes',
+        url: '/api/frameworks/pix/areas',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
 

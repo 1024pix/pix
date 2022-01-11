@@ -1,48 +1,64 @@
 <section>
-  <div class="panel">
-    <div class="download-file">
-      <PixButtonLink
-        class="download-file__button"
-        @href={{this.downloadURL}}
-        @isDisabled={{this.haveNoTubeSelected}}
-        download={{t "pages.preselect-target-profile.download-filename"}}
-      >
-        {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
-      </PixButtonLink>
-    </div>
-    <table class="table content-text content-text--small">
-      <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
-      <thead>
-        <tr>
-          <Table::Header @size="x-small" @align="center" scope="col">
-            {{t "pages.preselect-target-profile.table.column.action"}}
-          </Table::Header>
-          <Table::Header @size="wide" scope="col">
-            {{t "pages.preselect-target-profile.table.column.name"}}
-          </Table::Header>
-        </tr>
-      </thead>
-
-      <tbody>
-        {{#each @tubes as |tube|}}
-          <tr
-            {{on "click" this.toggleInput}}
-            class="row-tube tr--clickable"
-            aria-label={{t "pages.preselect-target-profile.table.row-title"}}
-          >
-            <td class="table__column--center">
-              <Input {{on "input" (fn this.updateSelectedTubes tube.id)}} id="tube-{{tube.id}}" @type="checkbox" />
-            </td>
-            <td>
-              <label for="tube-{{tube.id}}">
-                {{tube.practicalTitle}}
-                :
-                {{tube.practicalDescription}}
-              </label>
-            </td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+  <div class="download-file">
+    <PixButtonLink
+      class="download-file__button"
+      @href={{this.downloadURL}}
+      @isDisabled={{this.haveNoTubeSelected}}
+      download={{t "pages.preselect-target-profile.download-filename"}}
+    >
+      {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
+    </PixButtonLink>
   </div>
+  {{#each this.sortedAreas as |area|}}
+    <h2>{{area.code}} {{area.title}}</h2>
+    {{#each area.sortedCompetences as |competence|}}
+      <h3>{{competence.index}} {{competence.name}}</h3>
+      <div class="panel">
+        <table class="table content-text content-text--small">
+          <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
+          <thead>
+            <tr>
+              <Table::Header @size="small" @align="center" scope="col" />
+              <Table::Header @size="x-small" @align="center" scope="col">
+                {{t "pages.preselect-target-profile.table.column.action"}}
+              </Table::Header>
+              <Table::Header @size="wide" scope="col">
+                {{t "pages.preselect-target-profile.table.column.name"}}
+              </Table::Header>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each competence.sortedThematics as |thematic|}}
+              {{#each thematic.tubes as |tube index|}}
+                <tr
+                  {{on "click" this.toggleInput}}
+                  class="row-tube tr--clickable"
+                  aria-label={{t "pages.preselect-target-profile.table.row-title"}}
+                >
+                  {{#if (eq index 0)}}
+                    <th class="row--not-clickable" scope="row" rowspan={{thematic.tubes.length}}>{{thematic.name}}</th>
+                  {{/if}}
+                  <td class="table__column--center">
+                    <Input
+                      {{on "input" (fn this.updateSelectedTubes tube.id)}}
+                      id="tube-{{tube.id}}"
+                      @type="checkbox"
+                    />
+                  </td>
+                  <td>
+                    <label for="tube-{{tube.id}}">
+                      {{tube.practicalTitle}}
+                      :
+                      {{tube.practicalDescription}}
+                    </label>
+                  </td>
+                </tr>
+              {{/each}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{/each}}
+  {{/each}}
 </section>

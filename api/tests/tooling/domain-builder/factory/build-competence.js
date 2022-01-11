@@ -8,6 +8,7 @@ module.exports = function buildCompetence({
   description = 'Teste les qualités de mangeage de fruits',
   area = buildArea(),
   skillIds = [],
+  thematicIds = [],
   origin = 'Pix',
 } = {}) {
   return new Competence({
@@ -18,5 +19,6 @@ module.exports = function buildCompetence({
     origin,
     area,
     skillIds,
+    thematicIds,
   });
 };
