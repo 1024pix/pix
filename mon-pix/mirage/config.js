@@ -115,4 +115,6 @@ export default function () {
     const certificationCandidateId = request.params.id;
     return schema.certificationCandidateSubscriptions.find(certificationCandidateId);
   });
+
+  this.get('/certification-courses/:id');
 }

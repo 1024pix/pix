@@ -1,7 +1,10 @@
 {{page-title (t "pages.certification-results.title")}}
 
 {{#if this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled}}
-  <Certifications::CertificationEnder @certificationNumber={{@model}} />
+  <Certifications::CertificationEnder
+    @certificationNumber={{@model.id}}
+    @isEndedBySupervisor={{this.isEndedBySupervisor}}
+  />
 {{else}}
-  <CertificationResultsPage @certificationNumber={{@model}} />
+  <CertificationResultsPage @certificationNumber={{@model.id}} />
 {{/if}}
