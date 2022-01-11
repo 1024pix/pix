@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
 
-const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
-const OPERATIVE_CHALLENGES = [...VALIDATED_CHALLENGES, 'archivé'];
+const VALIDATED_CHALLENGE = 'validé';
+const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
 module.exports = datasource.extend({
   modelName: 'challenges',
@@ -32,14 +32,14 @@ module.exports = datasource.extend({
 
   async findValidated() {
     const challenges = await this.list();
-    return challenges.filter((challengeData) => _.includes(VALIDATED_CHALLENGES, challengeData.status));
+    return challenges.filter((challengeData) => challengeData.status === VALIDATED_CHALLENGE);
   },
 
   async findFlashCompatible(locale) {
     const challenges = await this.list();
     return challenges.filter(
       (challengeData) =>
-        _.includes(VALIDATED_CHALLENGES, challengeData.status) &&
+        challengeData.status === VALIDATED_CHALLENGE &&
         !_.isEmpty(challengeData.skillIds) &&
         _.includes(challengeData.locales, locale) &&
         challengeData.alpha != null &&
