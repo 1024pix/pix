@@ -4,11 +4,20 @@
   &__cgu {
     font-family: $roboto;
     font-size: 0.875rem;
-    font-weight: 300;
   }
 
-  &__cgu-label input[type=checkbox] {
-    margin: 2px 6px 0 0;
+  &__cgu-label {
+    display: flex;
+    align-items: center;
+
+    input[type=checkbox] {
+      margin: 0 6px 0 0;
+    }
+  }
+
+  &__cgu-error {
+    color: $red;
+    font-size: 0.75em;
   }
 
   .input-container {

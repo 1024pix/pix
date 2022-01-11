@@ -7,9 +7,9 @@
         @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
         name="firstName"
         @type="firstName"
-        @value={{this.user.firstName}}
-        {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
-        @errorMessage={{if this.validation.firstName.hasError this.validation.firstName.message}}
+        @value={{this.firstName}}
+        {{on "focusout" this.validateFirstName}}
+        @errorMessage={{this.firstNameValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
@@ -22,9 +22,9 @@
         @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
         name="lastName"
         @type="lastName"
-        @value={{this.user.lastName}}
-        {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
-        @errorMessage={{if this.validation.lastName.hasError this.validation.lastName.message}}
+        @value={{this.lastName}}
+        {{on "focusout" this.validateLastName}}
+        @errorMessage={{this.lastNameValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
@@ -37,9 +37,9 @@
         @label={{t "pages.login-or-register.register-form.fields.email.label"}}
         name="email"
         @type="email"
-        @value={{this.user.email}}
-        {{on "focusout" (fn this.validateInput "email" this.user.email)}}
-        @errorMessage={{if this.validation.email.hasError this.validation.email.message}}
+        @value={{this.email}}
+        {{on "focusout" this.validateEmail}}
+        @errorMessage={{this.emailValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
@@ -54,8 +54,9 @@
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
-        {{on "focusout" (fn this.validateInput "password")}}
-        @errorMessage={{if this.validation.password.hasError this.validation.password.message}}
+        {{on "input" this.validatePassword}}
+        {{on "focusout" this.validatePassword}}
+        @errorMessage={{this.passwordValidationMessage}}
       />
     </div>
 
@@ -64,11 +65,11 @@
         <Input
           id="register-cgu"
           @type="checkbox"
-          @checked={{this.user.cgu}}
+          @checked={{this.cgu}}
           required={{true}}
           aria-required={{true}}
           aria-label="{{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}"
-          {{on "focusout" (fn this.validateInput "cgu" this.user.cgu)}}
+          {{on "focusout" this.validateCgu}}
         />
         <span class="register-form__cgu">
           {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
@@ -82,10 +83,16 @@
           </a>
         </span>
       </label>
-      {{#if this.validation.cgu.hasError}}
-        <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.cgu.message}}</div>
+      {{#if this.cguValidationMessage}}
+        <div class="register-form__cgu-error" role="alert">{{this.cguValidationMessage}}</div>
       {{/if}}
     </div>
+
+    {{#if this.errorMessage}}
+      <PixMessage @type="alert">
+        {{this.errorMessage}}
+      </PixMessage>
+    {{/if}}
 
     <div class="input-container">
       <PixButton @type="submit" @isLoading={{this.isLoading}}>
