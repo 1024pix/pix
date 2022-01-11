@@ -77,7 +77,7 @@ When('je reviens en arrière', () => {
 });
 
 When(`je saisis {string} dans le champ {string}`, (value, label) => {
-  cy.contains(label).parent().within(() => cy.get('input').type(value));
+  cy.contains(label).type(value);
 });
 
 When(`je sélectionne {string} dans le champ {string}`, (value, label) => {
