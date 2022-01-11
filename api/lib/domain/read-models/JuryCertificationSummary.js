@@ -1,8 +1,25 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+} = require('../models/Badge').keys;
 
 const STARTED = 'started';
 const CANCELLED = 'cancelled';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
+
+const partnerCertificationStatus = {
+  ACQUIRED: 'acquired',
+  REJECTED: 'rejected',
+  NOT_TAKEN: 'not_taken',
+};
 
 class JuryCertificationSummary {
   constructor({
@@ -18,9 +35,7 @@ class JuryCertificationSummary {
     isCourseCancelled,
     isEndedBySupervisor,
     hasSeenEndTestScreen,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    partnerCertifications,
     certificationIssueReports,
   } = {}) {
     this.id = id;
@@ -29,9 +44,7 @@ class JuryCertificationSummary {
     this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    this.partnerCertifications = partnerCertifications;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
@@ -49,6 +62,47 @@ class JuryCertificationSummary {
 
   hasCompletedAssessment() {
     return this.status !== JuryCertificationSummary.statuses.STARTED;
+  }
+
+  getCleaCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
+  }
+
+  getPixPlusDroitMaitreCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_DROIT_MAITRE_CERTIF]);
+  }
+
+  getPixPlusDroitExpertCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
+  }
+
+  getPixPlusEduAutonomeCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME]);
+  }
+
+  getPixPlusEduInitieCertificationStatus() {
+    return this._getStatusFromPartnerCertification([
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+    ]);
+  }
+
+  getPixPlusEduExpertCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
+  }
+
+  getPixPlusEduFormateurCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR]);
+  }
+
+  _getStatusFromPartnerCertification(partnerCertificationKeys) {
+    const partnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      partnerCertificationKeys.includes(partnerKey)
+    );
+    if (!partnerCertification) {
+      return partnerCertificationStatus.NOT_TAKEN;
+    }
+    return partnerCertification.acquired ? partnerCertificationStatus.ACQUIRED : partnerCertificationStatus.REJECTED;
   }
 }
 
