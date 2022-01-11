@@ -2,8 +2,9 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 
 export default class ResultsRoute extends Route.extend(SecuredRouteMixin) {
-  model(params) {
-    // FIXME certification number is a domain attribute and should not be queried as a technical id
-    return params.certification_number;
+  async model(params) {
+    const certificationCourse = await this.store.findRecord('certification-course', params.certification_id);
+    await certificationCourse.assessment.reload();
+    return certificationCourse;
   }
 }
