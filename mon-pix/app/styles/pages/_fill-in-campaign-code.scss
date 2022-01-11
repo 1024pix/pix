@@ -7,6 +7,7 @@
     padding-bottom: 30px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
 
     @include device-is('tablet') {
@@ -27,6 +28,7 @@
     text-align: center;
     font-weight: $font-light;
     margin-bottom: 16px;
+    max-width: 390px;
   }
 
   &__form-field {

@@ -710,7 +710,7 @@
     },
     "fill-in-campaign-code": {
       "title": "I have a code",
-      "description": "This code can be used to start a customised test'<br>'or to submit your profile to an organisation",
+      "description": "This code can be used to start a customised test or to submit your profile to an organisation",
       "errors": {
         "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
         "missing-code": "Please enter a code.",
