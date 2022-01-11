@@ -36,7 +36,7 @@
         @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
         @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
-          @shouldDisplayHasSeenEndTestScreenCheckbox={{true}}
+        @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
       />
     {{/if}}
   </SessionFinalizationStepContainer>
