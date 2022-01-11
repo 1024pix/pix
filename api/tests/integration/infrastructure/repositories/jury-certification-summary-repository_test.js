@@ -263,8 +263,8 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, method: 'getPixPlusEduAutonomeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduInitieCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduInitieCertificationStatus' },
       { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, method: 'getPixPlusEduExpertCertificationStatus' },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,

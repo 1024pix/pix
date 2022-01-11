@@ -24,7 +24,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() pixPlusDroitMaitreCertificationStatus;
   @attr() pixPlusDroitExpertCertificationStatus;
   @attr() pixPlusEduAutonomeCertificationStatus;
-  @attr() pixPlusEduAvanceCertificationStatus;
+  @attr() pixPlusEduInitieCertificationStatus;
   @attr() pixPlusEduExpertCertificationStatus;
   @attr() pixPlusEduFormateurCertificationStatus;
   @attr() numberOfCertificationIssueReports;
@@ -47,7 +47,7 @@ export default class JuryCertificationSummary extends Model {
     if (this.pixPlusDroitMaitreCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Maître');
     if (this.pixPlusDroitExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Expert');
     if (this.pixPlusEduAutonomeCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Autonome');
-    if (this.pixPlusEduAvanceCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Avancé');
+    if (this.pixPlusEduInitieCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Initié');
     if (this.pixPlusEduExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Expert');
     if (this.pixPlusEduFormateurCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Formateur');
     return certifications.join('\n');

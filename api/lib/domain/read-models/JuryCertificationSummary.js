@@ -65,55 +65,40 @@ class JuryCertificationSummary {
   }
 
   getCleaCertificationStatus() {
-    const cleaPartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
-      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
-    );
-    return this._getStatusFromPartnerCertification(cleaPartnerCertification);
+    return this._getStatusFromPartnerCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
   }
 
   getPixPlusDroitMaitreCertificationStatus() {
-    const pixPlusDroitMaitrePartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF
-    );
-    return this._getStatusFromPartnerCertification(pixPlusDroitMaitrePartnerCertification);
+    return this._getStatusFromPartnerCertification([PIX_DROIT_MAITRE_CERTIF]);
   }
 
   getPixPlusDroitExpertCertificationStatus() {
-    const pixPlusDroitExpertPartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_DROIT_EXPERT_CERTIF
-    );
-    return this._getStatusFromPartnerCertification(pixPlusDroitExpertPartnerCertification);
+    return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
   }
 
   getPixPlusEduAutonomeCertificationStatus() {
-    const pixPlusEduAutonomePartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
-    );
-    return this._getStatusFromPartnerCertification(pixPlusEduAutonomePartnerCertification);
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME]);
   }
 
-  getPixPlusEduAvanceCertificationStatus() {
-    const pixPlusEduAvancePartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
-      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
-    );
-    return this._getStatusFromPartnerCertification(pixPlusEduAvancePartnerCertification);
+  getPixPlusEduInitieCertificationStatus() {
+    return this._getStatusFromPartnerCertification([
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+    ]);
   }
 
   getPixPlusEduExpertCertificationStatus() {
-    const pixPlusEduExpertPartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
-    );
-    return this._getStatusFromPartnerCertification(pixPlusEduExpertPartnerCertification);
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
   }
 
   getPixPlusEduFormateurCertificationStatus() {
-    const pixPlusEduFormateurPartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
-    );
-    return this._getStatusFromPartnerCertification(pixPlusEduFormateurPartnerCertification);
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR]);
   }
 
-  _getStatusFromPartnerCertification(partnerCertification) {
+  _getStatusFromPartnerCertification(partnerCertificationKeys) {
+    const partnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      partnerCertificationKeys.includes(partnerKey)
+    );
     if (!partnerCertification) {
       return partnerCertificationStatus.NOT_TAKEN;
     }

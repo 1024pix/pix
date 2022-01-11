@@ -78,8 +78,9 @@ function _toDomain(juryCertificationSummaryDTO) {
   );
 
   const partnerCertifications = _.compact(juryCertificationSummaryDTO.partnerCertifications).map(
-    (partnerCertification) => new PartnerCertification(partnerCertification)
+    PartnerCertification.from
   );
+
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
     status: juryCertificationSummaryDTO.assessmentResultStatus,

@@ -102,7 +102,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           pixPlusDroitMaitreCertificationStatus: 'not_taken',
           pixPlusDroitExpertCertificationStatus: 'not_taken',
           pixPlusEduAutonomeCertificationStatus: 'not_taken',
-          pixPlusEduAvanceCertificationStatus: 'not_taken',
+          pixPlusEduInitieCertificationStatus: 'not_taken',
           pixPlusEduExpertCertificationStatus: 'not_taken',
           pixPlusEduFormateurCertificationStatus: 'not_taken',
         });
@@ -120,7 +120,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       { attribute: 'pixPlusDroitMaitreCertificationStatus', expectedMessage: 'Pix+ Droit Maître' },
       { attribute: 'pixPlusDroitExpertCertificationStatus', expectedMessage: 'Pix+ Droit Expert' },
       { attribute: 'pixPlusEduAutonomeCertificationStatus', expectedMessage: 'Pix+ Édu Autonome' },
-      { attribute: 'pixPlusEduAvanceCertificationStatus', expectedMessage: 'Pix+ Édu Avancé' },
+      { attribute: 'pixPlusEduInitieCertificationStatus', expectedMessage: 'Pix+ Édu Initié' },
       { attribute: 'pixPlusEduExpertCertificationStatus', expectedMessage: 'Pix+ Édu Expert' },
       { attribute: 'pixPlusEduFormateurCertificationStatus', expectedMessage: 'Pix+ Édu Formateur' },
     ].forEach(({ attribute, expectedMessage }) => {
@@ -132,7 +132,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
             pixPlusDroitMaitreCertificationStatus: 'not_taken',
             pixPlusDroitExpertCertificationStatus: 'not_taken',
             pixPlusEduAutonomeCertificationStatus: 'not_taken',
-            pixPlusEduAvanceCertificationStatus: 'not_taken',
+            pixPlusEduInitieCertificationStatus: 'not_taken',
             pixPlusEduExpertCertificationStatus: 'not_taken',
             pixPlusEduFormateurCertificationStatus: 'not_taken',
           });
@@ -155,7 +155,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           pixPlusDroitMaitreCertificationStatus: 'not_taken',
           pixPlusDroitExpertCertificationStatus: 'taken',
           pixPlusEduAutonomeCertificationStatus: 'not_taken',
-          pixPlusEduAvanceCertificationStatus: 'not_taken',
+          pixPlusEduInitieCertificationStatus: 'not_taken',
           pixPlusEduExpertCertificationStatus: 'not_taken',
           pixPlusEduFormateurCertificationStatus: 'not_taken',
         });

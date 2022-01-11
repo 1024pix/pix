@@ -21,7 +21,7 @@ module.exports = {
           juryCertificationSummary.getPixPlusDroitExpertCertificationStatus();
         result.pixPlusEduAutonomeCertificationStatus =
           juryCertificationSummary.getPixPlusEduAutonomeCertificationStatus();
-        result.pixPlusEduAvanceCertificationStatus = juryCertificationSummary.getPixPlusEduAvanceCertificationStatus();
+        result.pixPlusEduInitieCertificationStatus = juryCertificationSummary.getPixPlusEduInitieCertificationStatus();
         result.pixPlusEduExpertCertificationStatus = juryCertificationSummary.getPixPlusEduExpertCertificationStatus();
         result.pixPlusEduFormateurCertificationStatus =
           juryCertificationSummary.getPixPlusEduFormateurCertificationStatus();
@@ -44,7 +44,7 @@ module.exports = {
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',
         'pixPlusEduAutonomeCertificationStatus',
-        'pixPlusEduAvanceCertificationStatus',
+        'pixPlusEduInitieCertificationStatus',
         'pixPlusEduExpertCertificationStatus',
         'pixPlusEduFormateurCertificationStatus',
       ],
