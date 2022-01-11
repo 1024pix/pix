@@ -149,6 +149,11 @@
         "empty": "Aucune classe"
       }
     },
+    "form": {
+      "mandatory-all-fields": "Tous les champs sont obligatoires.",
+      "mandatory-fields": " indique un champ obligatoire",
+      "mandatory-fields-title": "obligatoire"
+    },
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Page d'accueil de Pix Orga",
     "loading": "Chargement en cours",
@@ -275,14 +280,13 @@
       }
     },
     "campaign-creation": {
-      "mandatory-fields": "'<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' indique un champ obligatoire",
       "title": "Création d'une campagne",
       "actions": {
         "create": "Créer la campagne"
       },
       "external-id-label": {
         "label": "Libellé de l’identifiant",
-        "question-label": "<abbr title=\"obligatoire\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Souhaitez-vous demander un identifiant externe ?",
+        "question-label": "Souhaitez-vous demander un identifiant externe ?",
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
       "landing-page-text": {
@@ -290,22 +294,22 @@
       },
       "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
       "multiple-sendings": {
-        "question-label": "<abbr title=\"obligatoire\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Souhaitez-vous permettre aux participants d'envoyer plusieurs fois leur profil ?",
+        "question-label": "Souhaitez-vous permettre aux participants d'envoyer plusieurs fois leur profil ?",
         "info": "Si vous choisissez l’envoi multiple, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.",
         "info-title": "Envoi multiple"
       },
       "name": {
-        "label": "<abbr title=\"obligatoire\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Nom de la campagne"
+        "label": "Nom de la campagne"
       },
       "no": "Non",
       "purpose": {
         "assessment": "Évaluer les participants",
         "assessment-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis.",
-        "label": "<abbr title=\"obligatoire\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Quel est l'objectif de votre campagne ?",
+        "label": "Quel est l'objectif de votre campagne ?",
         "profiles-collection": "Collecter les profils Pix des participants",
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix."
       },
-      "target-profiles-list-label": "<abbr title=\"required\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Que souhaitez-vous tester ?",
+      "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
       "test-title": {
         "label": "Titre du parcours"
@@ -352,12 +356,11 @@
       "title": "Analyse pour {firstName} {lastName}"
     },
     "campaign-modification": {
-      "mandatory-fields": "'<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' indique un champ obligatoire",
       "title": "Modification d'une campagne",
       "actions": {
         "edit": "Modifier"
       },
-      "campaign-name": "<abbr title=\"obligatoire\" class=\"mandatory-mark\" aria-hidden=true>*</abbr> Nom de la campagne",
+      "campaign-name": "Nom de la campagne",
       "landing-page-text": "Texte de la page d'accueil",
       "personalised-test-title": "Titre du parcours"
     },
@@ -527,10 +530,7 @@
       "is-only-accessible": "L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.",
       "login": "Je me connecte",
       "only-for-admin": "Réservé aux personnels de direction des établissements scolaires publics et privés sous contrat.",
-      "password": "Mot de passe",
-      "show-password": "Afficher le mot de passe",
-      "hide-password": "Masquer le mot de passe",
-      "mandatory-all-fields": "Tous les champs sont obligatoires."
+      "password": "Mot de passe"
     },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}",
