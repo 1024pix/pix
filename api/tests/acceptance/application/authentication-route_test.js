@@ -18,7 +18,7 @@ const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
 
 const createServer = require('../../../server');
-const { featureToggles } = require('../../../lib/config');
+const { features } = require('../../../lib/config');
 
 describe('Acceptance | Controller | authentication-controller', function () {
   const orgaRoleInDB = { id: 1, name: 'ADMIN' };
@@ -98,11 +98,11 @@ describe('Acceptance | Controller | authentication-controller', function () {
     });
 
     context('when scope is pix-certif', function () {
-      context('when FT allowedCertificationCenterIdsForEndTestScreenRemoval is not empty', function () {
+      context('when FT endTestScreenRemovalWhiteList is not empty', function () {
         it('should return http code 200 with accessToken when authentication is ok', async function () {
           //given
           const options = _getOptions({ scope: 'pix-certif', username: userEmailAddress, password: userPassword });
-          sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([1]);
+          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([1]);
 
           await databaseBuilder.commit();
           // when
@@ -118,7 +118,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
       });
 
-      context('when FT allowedCertificationCenterIdsForEndTestScreenRemoval is empty', function () {
+      context('when FT endTestScreenRemovalWhiteList is empty', function () {
         it('should return http code 403 ', async function () {
           //given
           databaseBuilder.factory.buildUser.withRawPassword({
@@ -130,7 +130,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           await databaseBuilder.commit();
           const options = _getOptions({ scope: 'pix-certif', username: 'email@without.mb', password: userPassword });
 
-          sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
+          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
 
           // when
           const { statusCode } = await server.inject(options);

@@ -4,39 +4,82 @@ const endTestScreenRemovalService = require('../../../../lib/domain/services/end
 
 describe('Unit | Pre-handler | end test screen removal', function () {
   describe('#verifyBySessionId', function () {
-    const request = {
-      params: {
-        id: 8,
-      },
-    };
-
     beforeEach(function () {
       sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledBySessionId');
     });
 
-    describe('When session certification center is in the whitelist', function () {
-      it('should return true', async function () {
-        // given
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(8).resolves(true);
+    context('When POST', function () {
+      describe('When session certification center is in the whitelist', function () {
+        it('should return true', async function () {
+          // given
+          const request = {
+            payload: {
+              data: { attributes: { 'session-id': 8 } },
+            },
+          };
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(8).resolves(true);
 
-        // when
-        const response = await endTestScreenRemovalEnabled.verifyBySessionId(request, hFake);
+          // when
+          const response = await endTestScreenRemovalEnabled.verifyBySessionId(request, hFake);
 
-        // then
-        expect(response).to.be.true;
+          // then
+          expect(response).to.be.true;
+        });
+      });
+
+      describe('When session certification center is not in the whitelist', function () {
+        it('should return a 404 status code', async function () {
+          // given
+          const request = {
+            payload: {
+              data: { attributes: { 'session-id': 8 } },
+            },
+          };
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(8).resolves(false);
+
+          // when
+          const response = await endTestScreenRemovalEnabled.verifyBySessionId(request, hFake);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
       });
     });
+    context('When GET', function () {
+      describe('When session certification center is in the whitelist', function () {
+        it('should return true', async function () {
+          // given
+          const request = {
+            params: {
+              id: 8,
+            },
+          };
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(8).resolves(true);
 
-    describe('When session certification center is not in the whitelist', function () {
-      it('should return a 404 status code', async function () {
-        // given
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(8).resolves(false);
+          // when
+          const response = await endTestScreenRemovalEnabled.verifyBySessionId(request, hFake);
 
-        // when
-        const response = await endTestScreenRemovalEnabled.verifyBySessionId(request, hFake);
+          // then
+          expect(response).to.be.true;
+        });
+      });
 
-        // then
-        expect(response.statusCode).to.equal(404);
+      describe('When session certification center is not in the whitelist', function () {
+        it('should return a 404 status code', async function () {
+          // given
+          const request = {
+            params: {
+              id: 8,
+            },
+          };
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(8).resolves(false);
+
+          // when
+          const response = await endTestScreenRemovalEnabled.verifyBySessionId(request, hFake);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
       });
     });
   });

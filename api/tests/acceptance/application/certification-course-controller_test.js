@@ -12,7 +12,7 @@ const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const { featureToggles } = require('../../../lib/config');
+const { features } = require('../../../lib/config');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -462,7 +462,7 @@ describe('Acceptance | API | Certification Course', function () {
       };
       await databaseBuilder.commit();
 
-      sinon.stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval').value([]);
+      sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
     });
 
     context('when the given access code does not correspond to the session', function () {

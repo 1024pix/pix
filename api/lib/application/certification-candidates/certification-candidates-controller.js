@@ -1,18 +1,9 @@
 const usecases = require('../../domain/usecases');
-const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
-const { NotFoundError } = require('../http-errors');
 const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer');
 
 module.exports = {
   async authorizeToStart(request, h) {
     const certificationCandidateForSupervisingId = request.params.id;
-
-    const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId(
-      certificationCandidateForSupervisingId
-    );
-    if (!isEndTestScreenRemovalEnabled) {
-      throw new NotFoundError();
-    }
 
     const authorizedToStart = request.payload['authorized-to-start'];
     await usecases.authorizeCertificationCandidateToStart({
@@ -25,13 +16,6 @@ module.exports = {
 
   async authorizeToResume(request, h) {
     const certificationCandidateId = request.params.id;
-
-    const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId(
-      certificationCandidateId
-    );
-    if (!isEndTestScreenRemovalEnabled) {
-      throw new NotFoundError();
-    }
 
     await usecases.authorizeCertificationCandidateToResume({
       certificationCandidateId,

@@ -1,6 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, sinon } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { featureToggles } = require('../../../../lib/config');
+const { features } = require('../../../../lib/config');
 const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Acceptance | API | Certifications candidates', function () {
@@ -20,9 +20,7 @@ describe('Acceptance | API | Certifications candidates', function () {
             sessionId: session.id,
           });
           await databaseBuilder.commit();
-          sinon
-            .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
-            .value([certificationCenter.id]);
+          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenter.id]);
 
           const options = {
             method: 'POST',
@@ -57,9 +55,7 @@ describe('Acceptance | API | Certifications candidates', function () {
             sessionId: session.id,
           });
           await databaseBuilder.commit();
-          sinon
-            .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
-            .value([certificationCenter.id]);
+          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenter.id]);
 
           const options = {
             method: 'POST',
@@ -110,9 +106,7 @@ describe('Acceptance | API | Certifications candidates', function () {
               userId: supervisorUserId,
               sessionId,
             });
-            sinon
-              .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
-              .value([certificationCenter.id]);
+            sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenter.id]);
 
             await databaseBuilder.commit();
             const options = {
@@ -128,6 +122,7 @@ describe('Acceptance | API | Certifications candidates', function () {
             expect(response.statusCode).to.equal(204);
           });
         });
+
         describe('when user is not the supervisor of the assessment session', function () {
           it('should return a 401 HTTP status code', async function () {
             // given
@@ -160,9 +155,7 @@ describe('Acceptance | API | Certifications candidates', function () {
               sessionId,
             });
 
-            sinon
-              .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
-              .value([certificationCenter.id]);
+            sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenter.id]);
 
             await databaseBuilder.commit();
             const options = {
@@ -210,10 +203,6 @@ describe('Acceptance | API | Certifications candidates', function () {
         complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
       });
       await databaseBuilder.commit();
-
-      sinon
-        .stub(featureToggles, 'allowedCertificationCenterIdsForEndTestScreenRemoval')
-        .value([certificationCenter.id]);
 
       const options = {
         method: 'GET',

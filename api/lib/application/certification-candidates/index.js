@@ -1,5 +1,6 @@
 const certificationCandidatesController = require('./certification-candidates-controller');
 const assessmentSupervisorAuthorization = require('../preHandlers/assessment-supervisor-authorization');
+const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
@@ -17,6 +18,12 @@ exports.register = async function (server) {
             'authorized-to-start': Joi.boolean().required(),
           }),
         },
+        pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
+        ],
         handler: certificationCandidatesController.authorizeToStart,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -34,6 +41,12 @@ exports.register = async function (server) {
             id: identifiersType.certificationCandidateId,
           }),
         },
+        pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
+        ],
         handler: certificationCandidatesController.authorizeToResume,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -48,6 +61,10 @@ exports.register = async function (server) {
       config: {
         auth: false,
         pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
           {
             method: assessmentSupervisorAuthorization.verify,
             assign: 'authorizationCheck',
