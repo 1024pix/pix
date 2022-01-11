@@ -14,7 +14,7 @@ const stageValidationJoiSchema = Joi.object({
   }),
 
   targetProfileId: Joi.number().required().integer().messages({
-    'number.base': 'TARGET_PROFILE_IS_REQUIRED',
+    'number.base': 'STAGE_TARGET_PROFILE_IS_REQUIRED',
   }),
 });
 

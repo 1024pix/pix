@@ -170,7 +170,7 @@
     "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
     "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
     "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
-    "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
+    "STAGE_TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
     "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect."
   },
   "organization-invitation-email": {
