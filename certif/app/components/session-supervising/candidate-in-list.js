@@ -50,7 +50,7 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToConfirmTestEnd() {
-    this.modalDescriptionText = 'Attention : cette action entraine la fin de son test de certification et est irréversible.';
+    this.modalDescriptionText = 'Attention : cette action entraîne la fin de son test de certification et est irréversible.';
     this.modalCancelText = 'Annuler';
     this.modalConfirmationText = 'Terminer le test';
     this.modalInstructionText = `Terminer le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} ?`;
