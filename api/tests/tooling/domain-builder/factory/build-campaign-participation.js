@@ -13,6 +13,7 @@ module.exports = function buildCampaignParticipation({
   userId = 123,
   status = SHARED,
   validatedSkillsCount,
+  schoolingRegistrationId = null,
 } = {}) {
   const isShared = status === SHARED;
   return new CampaignParticipation({
@@ -26,5 +27,6 @@ module.exports = function buildCampaignParticipation({
     assessments,
     userId,
     validatedSkillsCount,
+    schoolingRegistrationId,
   });
 };

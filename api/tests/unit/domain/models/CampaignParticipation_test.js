@@ -185,6 +185,23 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
       expect(campaignParticipation instanceof CampaignParticipation).to.be.true;
     });
 
+    context('schoolingRegistrationId', function () {
+      it('it should set schoolingRegistrationId', function () {
+        const schoolingRegistrationId = 1;
+        const campaign = domainBuilder.buildCampaignToJoin();
+        const campaignParticipation = CampaignParticipation.start({ campaign, schoolingRegistrationId });
+
+        expect(campaignParticipation.schoolingRegistrationId).to.be.equal(schoolingRegistrationId);
+      });
+
+      it('it should set schoolingRegistrationId to null if it is not provided', function () {
+        const campaign = domainBuilder.buildCampaignToJoin();
+        const campaignParticipation = CampaignParticipation.start({ campaign });
+
+        expect(campaignParticipation.schoolingRegistrationId).to.be.equal(null);
+      });
+    });
+
     context('status', function () {
       context('when the campaign as the type PROFILES_COLLECTION', function () {
         it('status to TO_SHARE', function () {
