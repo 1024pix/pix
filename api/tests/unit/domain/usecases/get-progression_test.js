@@ -389,22 +389,14 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
     });
 
     context('when the assessment does not exist', function () {
-      let assessment;
-
-      beforeEach(function () {
-        assessment = domainBuilder.buildAssessment({
-          id: assessmentId,
-          userId,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          type: Assessment.types.CAMPAIGN,
-        });
-
-        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
-      });
-
       it('should transfer the errors', async function () {
         // given
+        const assessment = domainBuilder.buildAssessment({
+          id: assessmentId,
+          userId,
+          type: Assessment.types.CAMPAIGN,
+        });
+        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
         assessmentRepository.getByAssessmentIdAndUserId.rejects(new NotFoundError('No found Assessment for ID 1234'));
 
         // when
