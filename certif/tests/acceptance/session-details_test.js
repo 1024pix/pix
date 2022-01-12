@@ -79,13 +79,10 @@ module('Acceptance | Session Details', function (hooks) {
       server.createList('certification-candidate', 4, { sessionId: session.id });
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // then
-      const candidateTabSelector = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
-      const expectedTabContent = 'Candidats (4)';
-      const candidateTabElement = document.querySelector(candidateTabSelector);
-      assert.equal(candidateTabElement.innerHTML.trim(), expectedTabContent);
+      assert.dom(screen.getByRole('link', { name: 'Candidats (4)' })).exists();
     });
 
     module('when looking at the header', function () {
