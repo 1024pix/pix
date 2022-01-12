@@ -16,7 +16,7 @@ describe('Unit | Component | Challenge item QROC', function () {
       });
 
       component = createGlimmerComponent('component:challenge-item-qroc', { challenge });
-      component.embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io'];
+      component.embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io', 'https://*.review.pix.fr'];
     });
 
     context('when the event message is from Pix', function () {
@@ -64,6 +64,7 @@ describe('Unit | Component | Challenge item QROC', function () {
         // then
         expect(component.autoReplyAnswer).to.deep.equal(answer);
       });
+
       it('should set the autoreply answer from a object', function () {
         // given
         const answer = 'magicWord';
@@ -85,6 +86,21 @@ describe('Unit | Component | Challenge item QROC', function () {
         const event = {
           data: { answer, from: 'pix' },
           origin: 'https://1024pix.github.io',
+        };
+
+        // when
+        component._receiveEmbedMessage(event);
+
+        // then
+        expect(component.autoReplyAnswer).to.deep.equal(answer);
+      });
+
+      it('should set the autoreply answer from a object when the origin is allowed via a wildcard', function () {
+        // given
+        const answer = 'magicWord';
+        const event = {
+          data: { answer, from: 'pix' },
+          origin: 'https://test-pr14.review.pix.fr',
         };
 
         // when
