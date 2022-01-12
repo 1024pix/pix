@@ -444,6 +444,51 @@ describe('Integration | Repository | Badge', function () {
     });
   });
 
+  describe('#update', function () {
+    it('should update the badge', async function () {
+      // given
+      const targetProfileId = targetProfileWithSeveralBadges.id;
+      const badge = databaseBuilder.factory.buildBadge({
+        id: 1,
+        altMessage: 'You won the Toto badge!',
+        imageUrl: 'data:,',
+        message: 'Congrats, you won the Toto badge!',
+        key: 'TOTO2',
+        targetProfileId,
+      });
+      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
+      await databaseBuilder.commit();
+
+      const updatedData = {
+        id: 1,
+        altMessage: 'You won the Updated badge!',
+        imageUrl: 'Updated URL',
+        message: 'Congrats, you won the Updated badge!',
+        key: 'TOTO_UPDATED',
+      };
+
+      const expectedBadge = {
+        id: 1,
+        altMessage: 'You won the Updated badge!',
+        imageUrl: 'Updated URL',
+        message: 'Congrats, you won the Updated badge!',
+        title: 'title',
+        key: 'TOTO_UPDATED',
+        isCertifiable: false,
+        badgeCriteria: [],
+        skillSets: [],
+        targetProfileId,
+        isAlwaysVisible: false,
+      };
+
+      // when
+      const updatedBadge = await badgeRepository.update(updatedData);
+
+      // then
+      expect(updatedBadge).to.deep.equal(expectedBadge);
+    });
+  });
+
   describe('#isKeyAvailable', function () {
     it('should return true', async function () {
       // given
