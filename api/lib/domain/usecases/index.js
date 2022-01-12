@@ -348,6 +348,7 @@ module.exports = injectDependencies(
     superviseSession: require('./supervise-session'),
     unarchiveCampaign: require('./unarchive-campaign'),
     unpublishSession: require('./unpublish-session'),
+    updateBadge: require('./update-badge'),
     updateCampaign: require('./update-campaign'),
     updateCampaignDetailsManagement: require('./update-campaign-details-management'),
     updateCertificationCenter: require('./update-certification-center'),
