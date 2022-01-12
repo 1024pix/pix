@@ -1,12 +1,14 @@
 <fieldset class="candidate-information-change-certification-issue-report-fields">
   <div class="candidate-information-change-certification-issue-report-fields__radio-button">
     <input
-            id="input-radio-for-category-candidate-information-change"
-            type="radio"
-            name="candidate-information-change"
-            checked={{@candidateInformationChangeCategory.isChecked}}
-      {{on 'click' (fn @toggleOnCategory @candidateInformationChangeCategory)}} />
-    <label for="input-radio-for-category-candidate-information-change"><span>{{@candidateInformationChangeCategory.categoryCode}}&nbsp;</span>{{@candidateInformationChangeCategory.categoryLabel}}</label>
+      id="input-radio-for-category-candidate-information-change"
+      type="radio"
+      name="candidate-information-change"
+      checked={{@candidateInformationChangeCategory.isChecked}}
+      {{on "click" (fn @toggleOnCategory @candidateInformationChangeCategory)}}
+    />
+    <label for="input-radio-for-category-candidate-information-change"><span
+      >{{@candidateInformationChangeCategory.categoryCode}}&nbsp;</span>{{@candidateInformationChangeCategory.categoryLabel}}</label>
   </div>
   {{#if @candidateInformationChangeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
@@ -22,7 +24,8 @@
         @id="text-area-for-category-candidate-information-change"
         @value={{@candidateInformationChangeCategory.description}}
         @maxlength={{@maxlength}}
-        required="true" />
+        required="true"
+      />
     </div>
   {{/if}}
 </fieldset>

@@ -5,8 +5,10 @@
       type="radio"
       name="other"
       checked={{@otherCategory.isChecked}}
-      {{on 'click' (fn @toggleOnCategory @otherCategory)}} />
-    <label for="input-radio-for-category-other"><span>{{@otherCategory.categoryCode}}&nbsp;</span>{{@otherCategory.categoryLabel}}</label>
+      {{on "click" (fn @toggleOnCategory @otherCategory)}}
+    />
+    <label for="input-radio-for-category-other"><span
+      >{{@otherCategory.categoryCode}}&nbsp;</span>{{@otherCategory.categoryLabel}}</label>
   </div>
   {{#if @otherCategory.isChecked}}
     <div class="other-certification-issue-report-fields__details">
@@ -15,7 +17,8 @@
         id="text-area-for-category-other"
         @value={{@otherCategory.description}}
         @maxlength={{@maxlength}}
-        required="true" />
+        required="true"
+      />
     </div>
   {{/if}}
 </fieldset>

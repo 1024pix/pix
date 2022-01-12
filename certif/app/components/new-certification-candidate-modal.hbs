@@ -3,7 +3,7 @@
     <div class="pix-modal__close-button">
       <button aria-label="Fermer la fenêtre d'ajout d'un candidat" type="button" {{on "click" @closeModal}}>
         Fermer
-        <img src="/icons/icon-close-modal.svg" alt="" role="presentation" width="24" height="24">
+        <img src="/icons/icon-close-modal.svg" alt="" role="presentation" width="24" height="24" />
       </button>
     </div>
 
@@ -17,68 +17,75 @@
         <form
           id="new-certification-candidate-form"
           class="new-certification-candidate-details-modal__form"
-          {{on "submit" (fn this.onFormSubmit)}}
+          {{on "submit" this.onFormSubmit}}
         >
 
           <p class="new-certification-candidate-details-modal__form__required-fields-mention">
-            Les champs marqués de <span class="required-field-indicator">*</span> sont obligatoires.
+            Les champs marqués de
+            <span class="required-field-indicator">*</span>
+            sont obligatoires.
           </p>
 
-          <div class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
+          <div
+            class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+          >
             <label for="last-name" class="label">
               <span class="required-field-indicator">*</span>
               Nom de famille
             </label>
             <Input
-              @id="last-name"
+              id="last-name"
               @type="text"
-              @class="input"
+              class="input"
               @value={{@candidateData.lastName}}
-              {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}}
-              {{ did-insert this.focus }}
+              {{on "input" (fn @updateCandidateData @candidateData "lastName")}}
+              {{did-insert this.focus}}
               required
             />
           </div>
 
-          <div class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
+          <div
+            class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+          >
             <label for="first-name" class="label">
               <span class="required-field-indicator">*</span>
               Prénom
             </label>
             <Input
-              @id="first-name"
+              id="first-name"
               @type="text"
-              @class="input"
+              class="input"
               @value={{@candidateData.firstName}}
-              {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}}
+              {{on "input" (fn @updateCandidateData @candidateData "firstName")}}
               required
             />
           </div>
 
           <div class="new-certification-candidate-details-modal__form__field">
             <fieldset>
-            <legend class="label">
-              <span class="required-field-indicator">*</span> Sexe
-            </legend>
-            <div class="radio-button-container">
-              <input
-                type="radio"
-                id="female"
-                value="F"
-                name="sex"
-                required
-                {{on 'click' (fn @updateCandidateData @candidateData 'sex')}}
-                >
-              <label class="radio-button-label" for="female">Femme</label>
-              <input
-                type="radio"
-                id="male"
-                value="M"
-                name="sex"
-                {{on 'click' (fn @updateCandidateData @candidateData 'sex')}}
-                >
-              <label class="radio-button-label" for="male">Homme</label>
-            </div>
+              <legend class="label">
+                <span class="required-field-indicator">*</span>
+                Sexe
+              </legend>
+              <div class="radio-button-container">
+                <input
+                  type="radio"
+                  id="female"
+                  value="F"
+                  name="sex"
+                  required
+                  {{on "click" (fn @updateCandidateData @candidateData "sex")}}
+                />
+                <label class="radio-button-label" for="female">Femme</label>
+                <input
+                  type="radio"
+                  id="male"
+                  value="M"
+                  name="sex"
+                  {{on "click" (fn @updateCandidateData @candidateData "sex")}}
+                />
+                <label class="radio-button-label" for="male">Homme</label>
+              </div>
             </fieldset>
           </div>
 
@@ -89,8 +96,8 @@
             </label>
             <OneWayDateMask
               required
-              @placeholder='dd/mm/yyyy'
-              @options={{hash inputFormat='dd/mm/yyyy' outputFormat='dd/mm/yyyy'}}
+              @placeholder="dd/mm/yyyy"
+              @options={{hash inputFormat="dd/mm/yyyy" outputFormat="dd/mm/yyyy"}}
               class="input"
               id="birthdate"
               @value={{this.maskedBirthdate}}
@@ -116,29 +123,30 @@
           {{#if this.isBirthGeoCodeRequired}}
             <div class="new-certification-candidate-details-modal__form__field">
               <fieldset>
-              <legend class="label">
-                <span class="required-field-indicator">*</span> Code géographique de naissance
-              </legend>
-              <div class="radio-button-container">
-                <input
-                  type="radio"
-                  id="insee-code-choice"
-                  name="birth-geo-code-option"
-                  value="insee"
-                  checked="checked"
-                  {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
-                  required
-                >
-                <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
-                <input
-                  type="radio"
-                  id="postal-code-choice"
-                  name="birth-geo-code-option"
-                  value="postal"
-                  {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
-                >
-                <label class="radio-button-label" for="postal-code-choice">Code postal</label>
-              </div>
+                <legend class="label">
+                  <span class="required-field-indicator">*</span>
+                  Code géographique de naissance
+                </legend>
+                <div class="radio-button-container">
+                  <input
+                    type="radio"
+                    id="insee-code-choice"
+                    name="birth-geo-code-option"
+                    value="insee"
+                    checked="checked"
+                    {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
+                    required
+                  />
+                  <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
+                  <input
+                    type="radio"
+                    id="postal-code-choice"
+                    name="birth-geo-code-option"
+                    value="postal"
+                    {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
+                  />
+                  <label class="radio-button-label" for="postal-code-choice">Code postal</label>
+                </div>
               </fieldset>
             </div>
           {{/if}}
@@ -150,48 +158,52 @@
                 Code INSEE de naissance
               </label>
               <Input
-                @id="birth-insee-code"
+                id="birth-insee-code"
                 @type="text"
-                maxlength='5'
-                @class="input"
+                maxlength="5"
+                class="input"
                 @value={{@candidateData.birthInseeCode}}
                 required
-                {{on 'input' (fn @updateCandidateData @candidateData 'birthInseeCode')}}
+                {{on "input" (fn @updateCandidateData @candidateData "birthInseeCode")}}
               />
             </div>
           {{/if}}
 
           {{#if this.isBirthPostalCodeRequired}}
-            <div class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
+            <div
+              class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+            >
               <label for="birth-postal-code" class="label">
                 <span class="required-field-indicator">*</span>
                 Code postal de naissance
               </label>
               <Input
-                @id="birth-postal-code"
+                id="birth-postal-code"
                 @type="text"
-                maxlength='5'
-                @class="input"
+                maxlength="5"
+                class="input"
                 @value={{@candidateData.birthPostalCode}}
                 required
-                {{on 'input' (fn @updateCandidateData @candidateData 'birthPostalCode')}}
+                {{on "input" (fn @updateCandidateData @candidateData "birthPostalCode")}}
               />
             </div>
           {{/if}}
 
           {{#if this.isBirthCityRequired}}
-            <div class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
+            <div
+              class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+            >
               <label for="birth-city" class="label">
                 <span class="required-field-indicator">*</span>
                 Commune de naissance
               </label>
               <Input
-                @id="birth-city"
+                id="birth-city"
                 @type="text"
-                @class="input"
+                class="input"
                 @value={{@candidateData.birthCity}}
                 required
-                {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}}
+                {{on "input" (fn @updateCandidateData @candidateData "birthCity")}}
               />
             </div>
           {{/if}}
@@ -199,44 +211,51 @@
           <div class="new-certification-candidate-details-modal__form__field">
             <label for="external-id" class="label">Identifiant externe</label>
             <Input
-              @id="external-id"
+              id="external-id"
               @type="text"
-              @class="input"
+              class="input"
               @value={{@candidateData.externalId}}
-              {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}}
+              {{on "input" (fn @updateCandidateData @candidateData "externalId")}}
             />
           </div>
 
           <div class="new-certification-candidate-details-modal__form__field">
             <label for="extra-time-percentage" class="label">Temps majoré (%)</label>
             <Input
-              @id="extra-time-percentage"
+              id="extra-time-percentage"
               @type="number"
-              @class="input {{if this.validation.email.hasError 'input--error'}}"
+              class="input {{if this.validation.email.hasError 'input--error'}}"
               @value={{@candidateData.extraTimePercentage}}
-              {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}}
+              {{on "input" (fn @updateCandidateData @candidateData "extraTimePercentage")}}
             />
           </div>
 
-          <div id="recipient-email-container" class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
-            <label for="result-recipient-email" class="label">E-mail du destinataire des résultats (formateur, enseignant...)</label>
+          <div
+            id="recipient-email-container"
+            class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+          >
+            <label for="result-recipient-email" class="label">E-mail du destinataire des résultats (formateur,
+              enseignant...)</label>
             <Input
-              @id="result-recipient-email"
+              id="result-recipient-email"
               @type="email"
-              @class="input"
+              class="input"
               @value={{@candidateData.resultRecipientEmail}}
-              {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}}
+              {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
             />
           </div>
 
-          <div id="email-container" class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
+          <div
+            id="email-container"
+            class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+          >
             <label for="email" class="label">E-mail de convocation</label>
             <Input
-              @id="email"
+              id="email"
               @type="email"
-              @class="input"
+              class="input"
               @value={{@candidateData.email}}
-              {{on 'input' (fn @updateCandidateData @candidateData 'email')}}
+              {{on "input" (fn @updateCandidateData @candidateData "email")}}
             />
           </div>
 
@@ -263,7 +282,7 @@
           {{/if}}
 
           <div class="new-certification-candidate-details-modal__actions">
-            <PixButton @triggerAction={{fn @closeModal}} @backgroundColor="transparent-light">
+            <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">
               Fermer
             </PixButton>
             <PixButton @type="submit">Ajouter le candidat</PixButton>
