@@ -54,7 +54,10 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
 
   _getMessageFromEventData(event) {
     let data = null;
-    if (this.embedOrigins.includes(event.origin)) {
+    const isAllowedOrigin = this.allowedOriginWithRegExp.some((allowedOrigin) => {
+      return event.origin.match(allowedOrigin);
+    });
+    if (isAllowedOrigin) {
       if (this._isNumeric(event.data)) {
         data = this._transformToObjectMessage(event.data);
       } else if (typeof event.data === 'string') {
@@ -106,5 +109,11 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
     const answerIfExist = this.args.answer && this.args.answer.value;
     const answer = answerIfExist || '';
     return answer.indexOf('#ABAND#') > -1 ? '' : answer;
+  }
+
+  get allowedOriginWithRegExp() {
+    return this.embedOrigins.map((allowedOrigin) => {
+      return new RegExp(allowedOrigin.replace('*', '[\\w-]+'));
+    });
   }
 }
