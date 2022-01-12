@@ -424,7 +424,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
               // then
               sinon.assert.calledOnce(this.endAssessmentForCandidate);
-              assert.contains('Succès ! Le test de  Yondu Undonta est terminé.');
+              assert.contains('Succès ! Le test de Yondu Undonta est terminé.');
             });
           });
 
