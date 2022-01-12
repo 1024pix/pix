@@ -11,10 +11,10 @@ import {
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | issue-reports-modal', function(hooks) {
+module('Integration | Component | issue-reports-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it show candidate informations in title', async function(assert) {
+  test('it show candidate informations in title', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -42,7 +42,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
     assert.dom(reportModalTitleSelector).hasText('Lisa Monpud');
   });
 
-  test('it should close modal onclick "Ajouter un signalement"', async function(assert) {
+  test('it should close modal onclick "Ajouter un signalement"', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -70,7 +70,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
     assert.ok(onClickIssueReportStub.calledOnceWith(report));
   });
 
-  test('it should show Mes signalements (2)', async function(assert) {
+  test('it should show Mes signalements (2)', async function (assert) {
     // given
     const issue1 = EmberObject.create({
       category: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
@@ -106,7 +106,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
     assert.contains('Mes signalements (2)');
   });
 
-  test('it should list existing issue reports with subcategory', async function(assert) {
+  test('it should list existing issue reports with subcategory', async function (assert) {
     // given
     const issue1 = EmberObject.create({
       category: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,

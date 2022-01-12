@@ -7,18 +7,20 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
-module('Integration | Component | new-certification-candidate-modal', function(hooks) {
+module('Integration | Component | new-certification-candidate-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     const store = this.owner.lookup('service:store');
     class CurrentUserStub extends Service {
-      currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', { habilitations: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }] });
+      currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        habilitations: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+      });
     }
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('it shows candidate form', async function(assert) {
+  test('it shows candidate form', async function (assert) {
     // given
     const closeModalStub = sinon.stub();
     const updateCandidateStub = sinon.stub();
@@ -27,11 +29,22 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     this.set('updateCandidateStub', updateCandidateStub);
     this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
     this.set('countries', []);
-    this.set('candidateData', [{
-      firstName: '', lastName: '', birthdate: '', birthCity: '',
-      birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-      birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
-    }]);
+    this.set('candidateData', [
+      {
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
+      },
+    ]);
 
     // when
     const screen = await renderScreen(hbs`
@@ -63,7 +76,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
   });
 
-  test('it shows a countries list with France selected as default', async function(assert) {
+  test('it shows a countries list with France selected as default', async function (assert) {
     // given
     const closeModalStub = sinon.stub();
     const updateCandidateStub = sinon.stub();
@@ -71,11 +84,22 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     this.set('closeModal', closeModalStub);
     this.set('updateCandidateStub', updateCandidateStub);
     this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-    this.set('candidateData', [{
-      firstName: '', lastName: '', birthdate: '', birthCity: '',
-      birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-      birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
-    }]);
+    this.set('candidateData', [
+      {
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
+      },
+    ]);
     this.set('countries', [
       { id: 1, code: '99123', name: 'Syldavie' },
       { id: 2, code: '99100', name: 'France' },
@@ -101,7 +125,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when close button cross icon is clicked', () => {
-    test('it closes candidate details modal', async function(assert) {
+    test('it closes candidate details modal', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
       const updateCandidateWithEventStub = sinon.stub();
@@ -110,9 +134,18 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
       this.set('countries', []);
       this.set('candidateData', {
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
       });
 
       // when
@@ -126,7 +159,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
         />
       `);
 
-      await clickByLabel('Fermer la fenêtre d\'ajout d\'un candidat');
+      await clickByLabel("Fermer la fenêtre d'ajout d'un candidat");
 
       // then
       sinon.assert.calledOnce(closeModalStub);
@@ -135,7 +168,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when close bottom button is clicked', () => {
-    test('it closes candidate details modal ', async function(assert) {
+    test('it closes candidate details modal ', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
       const updateCandidateWithEventStub = sinon.stub();
@@ -144,9 +177,18 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
       this.set('countries', []);
       this.set('candidateData', {
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
       });
 
       // when
@@ -169,7 +211,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when a foreign country is selected', () => {
-    test('it shows city field and hides insee code and postal code fields', async function(assert) {
+    test('it shows city field and hides insee code and postal code fields', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
@@ -178,9 +220,18 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
       this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
       this.set('candidateData', {
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
       });
 
       // when
@@ -204,7 +255,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when the insee code option is selected', () => {
-    test('it shows insee code field and hides postal code and city fields', async function(assert) {
+    test('it shows insee code field and hides postal code and city fields', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
@@ -213,9 +264,18 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
       this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
       this.set('candidateData', {
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
       });
 
       // when
@@ -239,7 +299,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when the postal code option is selected', () => {
-    test('it shows postal code and city fields and hides insee code field', async function(assert) {
+    test('it shows postal code and city fields and hides insee code field', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
@@ -248,9 +308,18 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
       this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
       this.set('candidateData', {
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
       });
 
       // when
@@ -274,7 +343,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when the form is filled', () => {
-    test('it should submit a student', async function(assert) {
+    test('it should submit a student', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
@@ -286,9 +355,18 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
       this.set('saveCandidate', saveCandidateStub);
       this.set('candidateData', {
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: '', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '',
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
       });
       this.set('countries', [{ code: '99100', name: 'FRANCE' }]);
 
@@ -313,7 +391,10 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
       await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
       await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
-      await fillIn(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'), 'guybrush.threepwood@example.net');
+      await fillIn(
+        screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+        'guybrush.threepwood@example.net'
+      );
       await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
       await clickByLabel('Ajouter le candidat');

@@ -10,11 +10,10 @@ class FeatureTogglesStub extends Service {
   load = sinon.stub().resolves();
 }
 
-module('Unit | Route | application', function(hooks) {
-
+module('Unit | Route | application', function (hooks) {
   setupTest(hooks);
 
-  test('it should load the current user', async function(assert) {
+  test('it should load the current user', async function (assert) {
     // given
     this.owner.register('service:current-user', CurrentUserStub);
     this.owner.register('service:feature-toggles', FeatureTogglesStub);

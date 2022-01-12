@@ -12,10 +12,10 @@ import {
   subcategoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
-module('Unit | Model | certification issue report', function(hooks) {
+module('Unit | Model | certification issue report', function (hooks) {
   setupTest(hooks);
 
-  test('it should return the right label for the category', function(assert) {
+  test('it should return the right label for the category', function (assert) {
     assert.expect(7);
     // given
     const store = this.owner.lookup('service:store');
@@ -30,7 +30,7 @@ module('Unit | Model | certification issue report', function(hooks) {
     }
   });
 
-  test('it should return the right label for the subcategory', function(assert) {
+  test('it should return the right label for the subcategory', function (assert) {
     assert.expect(11);
     // given
     const store = this.owner.lookup('service:store');
@@ -45,7 +45,7 @@ module('Unit | Model | certification issue report', function(hooks) {
     }
   });
 
-  test('it should return the right code for the category', function(assert) {
+  test('it should return the right code for the category', function (assert) {
     assert.expect(7);
     // given
     const store = this.owner.lookup('service:store');
@@ -60,7 +60,7 @@ module('Unit | Model | certification issue report', function(hooks) {
     }
   });
 
-  test('it should return the right code for the subcategory', function(assert) {
+  test('it should return the right code for the subcategory', function (assert) {
     assert.expect(11);
     // given
     const store = this.owner.lookup('service:store');
@@ -75,7 +75,7 @@ module('Unit | Model | certification issue report', function(hooks) {
     }
   });
 
-  test('it should return an empty string label when subcategory is null', function(assert) {
+  test('it should return an empty string label when subcategory is null', function (assert) {
     // given
     const store = this.owner.lookup('service:store');
 
@@ -84,5 +84,4 @@ module('Unit | Model | certification issue report', function(hooks) {
     // when / then
     assert.equal(model.subcategoryLabel, '');
   });
-
 });

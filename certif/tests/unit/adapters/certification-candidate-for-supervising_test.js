@@ -2,22 +2,20 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapters | certification-candidate-for-supervising', function(hooks) {
+module('Unit | Adapters | certification-candidate-for-supervising', function (hooks) {
   setupTest(hooks);
 
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:certification-candidate-for-supervising');
     const ajaxStub = () => resolve();
     adapter.ajax = ajaxStub;
   });
 
-  module('#buildUrl', function() {
-
-    module('when request type is updateAuthorizedToStart', function() {
-
-      test('should build url', async function(assert) {
+  module('#buildUrl', function () {
+    module('when request type is updateAuthorizedToStart', function () {
+      test('should build url', async function (assert) {
         // when
         const url = await adapter.buildURL(undefined, 2, undefined, 'updateAuthorizedToStart', undefined);
 
@@ -26,9 +24,8 @@ module('Unit | Adapters | certification-candidate-for-supervising', function(hoo
       });
     });
 
-    module('when request type is authorizeToResume', function() {
-
-      test('should build url', async function(assert) {
+    module('when request type is authorizeToResume', function () {
+      test('should build url', async function (assert) {
         // when
         const url = await adapter.buildURL(undefined, 2, undefined, 'authorizeToResume', undefined);
 
@@ -37,9 +34,8 @@ module('Unit | Adapters | certification-candidate-for-supervising', function(hoo
       });
     });
 
-    module('when request type is endAssessmentBySupervisor', function() {
-
-      test('should build url', async function(assert) {
+    module('when request type is endAssessmentBySupervisor', function () {
+      test('should build url', async function (assert) {
         // when
         const url = await adapter.buildURL(undefined, 2, undefined, 'endAssessmentBySupervisor', undefined);
 

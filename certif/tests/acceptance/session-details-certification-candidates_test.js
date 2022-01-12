@@ -7,19 +7,17 @@ import { upload } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
-module('Acceptance | Session Details Certification Candidates', function(hooks) {
-
+module('Acceptance | Session Details Certification Candidates', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
   });
 
-  module('When certificationPointOfContact is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
+  module('When certificationPointOfContact is not logged in', function () {
+    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       const session = server.create('session');
 
       // when
@@ -30,8 +28,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     });
   });
 
-  module('when certificationPointOfContact is logged in', function(hooks) {
-
+  module('when certificationPointOfContact is logged in', function (hooks) {
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;
     let session;
@@ -53,9 +50,8 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       await authenticateSession(certificationPointOfContact.id);
     });
 
-    module('when current certification center is blocked', function() {
-
-      test('should redirect to espace-ferme URL', async function(assert) {
+    module('when current certification center is blocked', function () {
+      test('should redirect to espace-ferme URL', async function (assert) {
         // given
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
@@ -67,9 +63,8 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    module('when there is no candidates yet', function() {
-
-      test('it should display a download button and upload button', async function(assert) {
+    module('when there is no candidates yet', function () {
+      test('it should display a download button and upload button', async function (assert) {
         // when
         await visit(`/sessions/${session.id}/candidats`);
 
@@ -78,7 +73,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         assert.contains('Importer (.ods)');
       });
 
-      test('it should display a sentence when there is no certification candidates yet', async function(assert) {
+      test('it should display a sentence when there is no certification candidates yet', async function (assert) {
         // when
         await visit(`/sessions/${session.id}/candidats`);
 
@@ -88,17 +83,22 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    module('when there are some candidates', function(hooks) {
-
+    module('when there are some candidates', function (hooks) {
       let sessionWithCandidates;
       let candidates;
 
-      hooks.beforeEach(function() {
-        sessionWithCandidates = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
-        candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false, resultRecipientEmail: 'recipient@example.com' });
+      hooks.beforeEach(function () {
+        sessionWithCandidates = server.create('session', {
+          certificationCenterId: allowedCertificationCenterAccess.id,
+        });
+        candidates = server.createList('certification-candidate', 3, {
+          sessionId: sessionWithCandidates.id,
+          isLinked: false,
+          resultRecipientEmail: 'recipient@example.com',
+        });
       });
 
-      test('it should display details modal button', async function(assert) {
+      test('it should display details modal button', async function (assert) {
         // when
         await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
@@ -106,7 +106,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         assert.contains('Voir le détail');
       });
 
-      test('it should display the list of certification candidates ', async function(assert) {
+      test('it should display the list of certification candidates ', async function (assert) {
         // given
         const aCandidate = candidates[0];
 
@@ -122,14 +122,16 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         assert.contains(`${aCandidate.externalId}`);
       });
 
-      module('when the details button is clicked', function() {
-        test('it should display the candidate details modal', async function(assert) {
+      module('when the details button is clicked', function () {
+        test('it should display the candidate details modal', async function (assert) {
           // given
           const aCandidate = candidates[0];
 
           // when
           const screen = await visitScreen(`/sessions/${sessionWithCandidates.id}/candidats`);
-          await click(screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`));
+          await click(
+            screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`)
+          );
 
           // then
           assert.contains('Détail du candidat');
@@ -139,9 +141,8 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         });
       });
 
-      module('on import', function() {
-
-        test('it should replace the candidates list with the imported ones', async function(assert) {
+      module('on import', function () {
+        test('it should replace the candidates list with the imported ones', async function (assert) {
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], `${sessionWithCandidates.id}.addTwoCandidates`);
@@ -153,7 +154,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           assert.dom('table tbody tr').exists({ count: 2 });
         });
 
-        test('it should display a success message when uploading a valid file', async function(assert) {
+        test('it should display a success message when uploading a valid file', async function (assert) {
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], 'valid-file');
@@ -162,10 +163,12 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="success"]').hasText('La liste des candidats a été importée avec succès.');
+          assert
+            .dom('[data-test-notification-message="success"]')
+            .hasText('La liste des candidats a été importée avec succès.');
         });
 
-        test('it should display the error message when uploading an invalid file', async function(assert) {
+        test('it should display the error message when uploading an invalid file', async function (assert) {
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], 'invalid-file');
@@ -174,10 +177,14 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
+          assert
+            .dom('[data-test-notification-message="error"]')
+            .hasText(
+              "Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau."
+            );
         });
 
-        test('it should display the error message when uploading a file with validation error', async function(assert) {
+        test('it should display the error message when uploading a file with validation error', async function (assert) {
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], 'validation-error');
@@ -186,10 +193,12 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
+          assert
+            .dom('[data-test-notification-message="error"]')
+            .hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
         });
 
-        test('it should display a specific error message when importing is forbidden', async function(assert) {
+        test('it should display a specific error message when importing is forbidden', async function (assert) {
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], 'forbidden-import');
@@ -198,11 +207,12 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]')
-            .hasText('La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
+          assert
+            .dom('[data-test-notification-message="error"]')
+            .hasText("La session a débuté, il n'est plus possible de modifier la liste des candidats.");
         });
 
-        test('it should display a warning when the import is not allowed', async function(assert) {
+        test('it should display a warning when the import is not allowed', async function (assert) {
           // given
           server.create('certification-candidate', { sessionId: sessionWithCandidates.id, isLinked: true });
 
@@ -210,13 +220,16 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
           // then
-          assert.dom('.panel-actions__warning').hasText(
-            'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.');
+          assert
+            .dom('.panel-actions__warning')
+            .hasText(
+              'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.'
+            );
         });
       });
     });
 
-    test('it should redirect to the default candidates detail view', async function(assert) {
+    test('it should redirect to the default candidates detail view', async function (assert) {
       // given
       const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
       const connectedcertificationPointOfContactId = certificationPointOfContact.id;
@@ -230,10 +243,12 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
-    module('when the addCandidate button is clicked', function() {
-      test('it should open the new Certification Candidate Modal', async function(assert) {
+    module('when the addCandidate button is clicked', function () {
+      test('it should open the new Certification Candidate Modal', async function (assert) {
         // given
-        const sessionWithoutCandidates = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+        const sessionWithoutCandidates = server.create('session', {
+          certificationCenterId: allowedCertificationCenterAccess.id,
+        });
         server.create('country', []);
 
         // when
@@ -244,19 +259,24 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         assert.contains('Ajouter le candidat');
       });
 
-      module('when the new candidate form is submitted', function() {
-
-        test('it should display the error message when the submitted form data is incorrect', async function(assert) {
+      module('when the new candidate form is submitted', function () {
+        test('it should display the error message when the submitted form data is incorrect', async function (assert) {
           // given
           const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
           server.createList('country', 2, { code: '99100' });
 
-          this.server.post('/sessions/:id/certification-candidates', () => ({
-            errors: [{
-              status: '422',
-              detail: 'An error message',
-            }],
-          }), 422);
+          this.server.post(
+            '/sessions/:id/certification-candidates',
+            () => ({
+              errors: [
+                {
+                  status: '422',
+                  detail: 'An error message',
+                },
+              ],
+            }),
+            422
+          );
 
           // when
           const screen = await visitScreen(`/sessions/${session.id}/candidats`);
@@ -268,14 +288,13 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           assert.dom('[data-test-notification-message="error"]').hasText('An error message');
         });
 
-        module('when candidate data is valid', function(hooks) {
-
-          hooks.beforeEach(async function() {
+        module('when candidate data is valid', function (hooks) {
+          hooks.beforeEach(async function () {
             server.createList('country', 2, { code: '99100' });
             session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
           });
 
-          test('it should display a success notification', async function(assert) {
+          test('it should display a success notification', async function (assert) {
             // when
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
@@ -286,7 +305,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
             assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
           });
 
-          test('it should add a new candidate', async function(assert) {
+          test('it should add a new candidate', async function (assert) {
             // when
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
@@ -297,7 +316,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
             assert.dom('table tbody tr').exists({ count: 1 });
           });
 
-          test('it should display the attendance sheet download button', async function(assert) {
+          test('it should display the attendance sheet download button', async function (assert) {
             // when
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
@@ -305,7 +324,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
             await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
 
             // then
-            assert.contains('Feuille d\'émargement');
+            assert.contains("Feuille d'émargement");
           });
         });
       });
@@ -322,7 +341,10 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
     await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
     await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
-    await fillIn(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'), 'guybrush.threepwood@example.net');
+    await fillIn(
+      screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+      'guybrush.threepwood@example.net'
+    );
     await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
   }
 });

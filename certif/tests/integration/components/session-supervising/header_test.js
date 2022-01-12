@@ -3,16 +3,16 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | SessionSupervising::Header', function(hooks) {
+module('Integration | Component | SessionSupervising::Header', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
   });
 
-  test('it renders the session information', async function(assert) {
+  test('it renders the session information', async function (assert) {
     // given
     const sesionForSupervising = store.createRecord('session-for-supervising', {
       id: 12345,

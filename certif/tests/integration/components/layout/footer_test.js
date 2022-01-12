@@ -3,10 +3,10 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Component | Layout::Footer', function(hooks) {
+module('Integration | Component | Layout::Footer', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('should display copyright with current year', async function(assert) {
+  test('should display copyright with current year', async function (assert) {
     //given
     const date = new Date();
     const expectedYear = date.getFullYear().toString();
@@ -18,7 +18,7 @@ module('Integration | Component | Layout::Footer', function(hooks) {
     assert.contains(`© ${expectedYear} Pix`);
   });
 
-  test('should display legal notice link', async function(assert) {
+  test('should display legal notice link', async function (assert) {
     // when
     await render(hbs`<Layout::Footer />}`);
 
@@ -27,7 +27,7 @@ module('Integration | Component | Layout::Footer', function(hooks) {
     assert.dom('a[href="https://pix.fr/mentions-legales/"]').exists();
   });
 
-  test('should display accessibility link', async function(assert) {
+  test('should display accessibility link', async function (assert) {
     // when
     await render(hbs`<Layout::Footer />}`);
 

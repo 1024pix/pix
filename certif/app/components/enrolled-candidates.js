@@ -6,7 +6,6 @@ import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
 
 export default class EnrolledCandidates extends Component {
-
   @service store;
   @service notifications;
   @tracked candidatesInStaging = [];
@@ -24,7 +23,7 @@ export default class EnrolledCandidates extends Component {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
       this.notifications.success('Le candidat a été supprimé avec succès.');
     } catch (err) {
-      let errorText = 'Une erreur s\'est produite lors de la suppression du candidat';
+      let errorText = "Une erreur s'est produite lors de la suppression du candidat";
       if (get(err, 'errors[0].code') === 403) {
         errorText = 'Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.';
       }
@@ -35,9 +34,19 @@ export default class EnrolledCandidates extends Component {
   @action
   addCertificationCandidateInStaging() {
     this.newCandidate = EmberObject.create({
-      firstName: '', lastName: '', birthdate: '', birthCity: '',
-      birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
-      birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthCountry: 'FRANCE',
+      email: '',
+      externalId: '',
+      resultRecipientEmail: '',
+      birthPostalCode: '',
+      birthInseeCode: '',
+      sex: '',
+      extraTimePercentage: '',
+    });
   }
 
   @action
@@ -84,8 +93,9 @@ export default class EnrolledCandidates extends Component {
     }
 
     try {
-      await certificationCandidate
-        .save({ adapterOptions: { registerToSession: true, sessionId: this.args.sessionId } });
+      await certificationCandidate.save({
+        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
+      });
       this.args.reloadCertificationCandidate();
       this.notifications.success('Le candidat a été ajouté avec succès.');
       return true;
@@ -145,12 +155,12 @@ export default class EnrolledCandidates extends Component {
   }
 
   _handleDuplicateError(certificationCandidate) {
-    const errorText = 'Ce candidat est déjà dans la liste, vous ne pouvez pas l\'ajouter à nouveau.';
+    const errorText = "Ce candidat est déjà dans la liste, vous ne pouvez pas l'ajouter à nouveau.";
     this._handleSavingError(errorText, certificationCandidate);
   }
 
   _handleUnknownSavingError(certificationCandidate) {
-    const errorText = 'Une erreur s\'est produite lors de l\'ajout du candidat.';
+    const errorText = "Une erreur s'est produite lors de l'ajout du candidat.";
     this._handleSavingError(errorText, certificationCandidate);
   }
 
@@ -177,15 +187,18 @@ export default class EnrolledCandidates extends Component {
     const currentLastName = certificationCandidate.lastName;
     const currentBirthdate = certificationCandidate.birthdate;
 
-    return this.args.certificationCandidates.find(({ lastName, firstName, birthdate }) =>
-      lastName.toLowerCase() === currentLastName.toLowerCase() &&
-      firstName.toLowerCase() === currentFirstName.toLowerCase() &&
-      birthdate === currentBirthdate) !== undefined;
+    return (
+      this.args.certificationCandidates.find(
+        ({ lastName, firstName, birthdate }) =>
+          lastName.toLowerCase() === currentLastName.toLowerCase() &&
+          firstName.toLowerCase() === currentFirstName.toLowerCase() &&
+          birthdate === currentBirthdate
+      ) !== undefined
+    );
   }
 
   _fromPercentageStringToDecimal(value) {
-    return value ?
-      toNumber(value) / 100 : value;
+    return value ? toNumber(value) / 100 : value;
   }
 
   _trimOrUndefinedIfFalsy(str) {

@@ -5,26 +5,22 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import times from 'lodash/times';
 
-module('Unit | Component | add-student-list', function(hooks) {
+module('Unit | Component | add-student-list', function (hooks) {
   setupTest(hooks);
 
   let component;
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:add-student-list');
     store = this.owner.lookup('service:store');
   });
 
-  module('#computed hasCheckedSomething', function() {
-
-    test('it should be false if has no checked student', function(assert) {
+  module('#computed hasCheckedSomething', function () {
+    test('it should be false if has no checked student', function (assert) {
       // given
       const studentList = ArrayProxy.create({
-        content: [
-          { isSelected: false },
-          { isSelected: false },
-        ],
+        content: [{ isSelected: false }, { isSelected: false }],
       });
       component.args.studentList = studentList;
 
@@ -35,13 +31,10 @@ module('Unit | Component | add-student-list', function(hooks) {
       assert.false(hasCheckedSomething);
     });
 
-    test('it should be true if at least one checked student', function(assert) {
+    test('it should be true if at least one checked student', function (assert) {
       // given
       const studentList = ArrayProxy.create({
-        content: [
-          { isSelected: false },
-          { isSelected: true },
-        ],
+        content: [{ isSelected: false }, { isSelected: true }],
       });
       component.args.studentList = studentList;
 
@@ -53,15 +46,11 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#computed hasCheckedEverything', function() {
-
-    test('it should be false if they are not all checked', function(assert) {
+  module('#computed hasCheckedEverything', function () {
+    test('it should be false if they are not all checked', function (assert) {
       // given
       const studentList = ArrayProxy.create({
-        content: [
-          { isSelected: false },
-          { isSelected: true },
-        ],
+        content: [{ isSelected: false }, { isSelected: true }],
       });
       component.args.studentList = studentList;
 
@@ -72,13 +61,10 @@ module('Unit | Component | add-student-list', function(hooks) {
       assert.false(hasCheckedEverything);
     });
 
-    test('it should be true if they are all checked', function(assert) {
+    test('it should be true if they are all checked', function (assert) {
       // given
       const studentList = ArrayProxy.create({
-        content: [
-          { isSelected: true },
-          { isSelected: true },
-        ],
+        content: [{ isSelected: true }, { isSelected: true }],
       });
       component.args.studentList = studentList;
 
@@ -90,9 +76,8 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#action toggleItem', function() {
-
-    test('it should toggle the isSelected attribute of the student', function(assert) {
+  module('#action toggleItem', function () {
+    test('it should toggle the isSelected attribute of the student', function (assert) {
       // given
       const initialValue = true;
       const student = { isSelected: initialValue };
@@ -105,11 +90,13 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#action enrollStudents', function() {
-    test('it should save only selected students via the session', async function(assert) {
+  module('#action enrollStudents', function () {
+    test('it should save only selected students via the session', async function (assert) {
       // given
       const sessionId = 1;
-      const unselectedStudents = times(3, () => { return { isSelected: false }; });
+      const unselectedStudents = times(3, () => {
+        return { isSelected: false };
+      });
       const selectedStudents = [{ isSelected: true }];
       component.args.studentList = [...unselectedStudents, ...selectedStudents];
       component.args.session = { id: sessionId, save: sinon.stub().resolves() };
@@ -120,12 +107,14 @@ module('Unit | Component | add-student-list', function(hooks) {
       await component.enrollStudents();
 
       // then
-      sinon.assert.calledWith(component.args.session.save, { adapterOptions: { sessionId, studentListToAdd: selectedStudents } });
+      sinon.assert.calledWith(component.args.session.save, {
+        adapterOptions: { sessionId, studentListToAdd: selectedStudents },
+      });
       sinon.assert.calledWith(component.args.returnToSessionCandidates, sessionId);
       assert.ok(component);
     });
 
-    test('it should send error notification when save is not working', async function(assert) {
+    test('it should send error notification when save is not working', async function (assert) {
       // given
       const sessionId = 1;
       component.args.studentList = [{ isSelected: true }];

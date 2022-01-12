@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
 export default class LoginSessionSupervisorForm extends Component {
-
   @tracked sessionId;
   @tracked supervisorPassword;
   @tracked errorMessage = null;

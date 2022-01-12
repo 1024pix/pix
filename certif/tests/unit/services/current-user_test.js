@@ -4,13 +4,11 @@ import { resolve } from 'rsvp';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Unit | Service | current-user', function(hooks) {
-
+module('Unit | Service | current-user', function (hooks) {
   setupTest(hooks);
 
-  module('user is authenticated', function() {
-
-    test('should load the current certification point of contact', async function(assert) {
+  module('user is authenticated', function () {
+    test('should load the current certification point of contact', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const allowedCertificationCenterAccesseA = store.createRecord('allowed-certification-center-access', {
@@ -21,9 +19,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
       const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
         id: 124,
-        allowedCertificationCenterAccesses: [
-          allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB,
-        ],
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB],
       });
       sinon.stub(store, 'queryRecord').resolves(certificationPointOfContact);
 
@@ -43,9 +39,8 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user is not authenticated', function() {
-
-    test('should do nothing', async function(assert) {
+  module('user is not authenticated', function () {
+    test('should do nothing', async function (assert) {
       // given
       class SessionStub extends Service {
         isAuthenticated = false;
@@ -61,9 +56,8 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user token is expired', function() {
-
-    test('should redirect to login', async function(assert) {
+  module('user token is expired', function () {
+    test('should redirect to login', async function (assert) {
       // Given
 
       const store = this.owner.lookup('service:store');
@@ -85,9 +79,8 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('#checkRestrictedAccess', function() {
-
-    test('should redirect to restricted access route when current certification center has restricted access', async function(assert) {
+  module('#checkRestrictedAccess', function () {
+    test('should redirect to restricted access route when current certification center has restricted access', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
@@ -113,7 +106,7 @@ module('Unit | Service | current-user', function(hooks) {
       assert.true(true);
     });
 
-    test('should not redirect to restricted access route when current certification center has no restricted access', async function(assert) {
+    test('should not redirect to restricted access route when current certification center has no restricted access', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
@@ -143,17 +136,21 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('#updateCurrentCertificationCenter', function() {
-
-    test('should modify the current allowed certification center access', function(assert) {
+  module('#updateCurrentCertificationCenter', function () {
+    test('should modify the current allowed certification center access', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', { id: 111 });
-      const newAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', { id: 222 });
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 111,
+      });
+      const newAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 222,
+      });
       const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
         id: 124,
         allowedCertificationCenterAccesses: [
-          currentAllowedCertificationCenterAccess, newAllowedCertificationCenterAccess,
+          currentAllowedCertificationCenterAccess,
+          newAllowedCertificationCenterAccess,
         ],
       });
 
@@ -169,4 +166,3 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 });
-

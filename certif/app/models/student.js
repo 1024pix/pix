@@ -15,5 +15,4 @@ export default class StudentModel extends Model {
 
     this.isSelected = newState;
   }
-
 }

@@ -2,22 +2,22 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/update', function(hooks) {
+module('Unit | Route | authenticated/sessions/update', function (hooks) {
   setupTest(hooks);
   let route;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sessions/update');
   });
 
-  module('#model', function(hooks) {
+  module('#model', function (hooks) {
     const session_id = 1;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       route.store.findRecord = sinon.stub().withArgs('session', session_id).resolves({});
     });
 
-    test('it should return session with time', async function(assert) {
+    test('it should return session with time', async function (assert) {
       // when
       const actualSession = await route.model({ session_id });
 
@@ -27,13 +27,12 @@ module('Unit | Route | authenticated/sessions/update', function(hooks) {
     });
   });
 
-  module('#deactivate', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('#deactivate', function (hooks) {
+    hooks.beforeEach(function () {
       route.controller = { model: { rollbackAttributes: sinon.stub().returns() } };
     });
 
-    test('it should call rollback on controller model', function(assert) {
+    test('it should call rollback on controller model', function (assert) {
       // when
       route.deactivate();
 

@@ -1,28 +1,24 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import {
-  authenticateSession,
-} from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 import { visit } from '@1024pix/ember-testing-library';
 
 import config from 'pix-certif/config/environment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details', function(hooks) {
-
+module('Acceptance | Session Details', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
   });
 
-  module('when certificationPointOfContact is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
+  module('when certificationPointOfContact is not logged in', function () {
+    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // given
       const session = server.create('session');
 
@@ -34,7 +30,7 @@ module('Acceptance | Session Details', function(hooks) {
     });
   });
 
-  module('when certificationPointOfContact is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', function (hooks) {
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;
     let session;
@@ -56,9 +52,8 @@ module('Acceptance | Session Details', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
     });
 
-    module('when current certification center is blocked', function() {
-
-      test('should redirect to espace-ferme URL', async function(assert) {
+    module('when current certification center is blocked', function () {
+      test('should redirect to espace-ferme URL', async function (assert) {
         // given
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
@@ -70,7 +65,7 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    test('it should redirect to session list on click on return button', async function(assert) {
+    test('it should redirect to session list on click on return button', async function (assert) {
       // when
       await visit(`/sessions/${session.id}`);
       await click('.session-details-content__return-button');
@@ -79,7 +74,7 @@ module('Acceptance | Session Details', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    test('it should show the number of candidates on tab', async function(assert) {
+    test('it should show the number of candidates on tab', async function (assert) {
       // given
       server.createList('certification-candidate', 4, { sessionId: session.id });
 
@@ -93,9 +88,8 @@ module('Acceptance | Session Details', function(hooks) {
       assert.equal(candidateTabElement.innerHTML.trim(), expectedTabContent);
     });
 
-    module('when looking at the header', function() {
-
-      test('it should display session details', async function(assert) {
+    module('when looking at the header', function () {
+      test('it should display session details', async function (assert) {
         // given
         server.create('session', {
           id: 123,
@@ -120,10 +114,9 @@ module('Acceptance | Session Details', function(hooks) {
         assert.contains('14:00');
       });
 
-      module('when FT_REPORTS_CATEGORISATION is on', function() {
-
-        test('it should show issue report sheet download button', async function(assert) {
-        // given
+      module('when FT_REPORTS_CATEGORISATION is on', function () {
+        test('it should show issue report sheet download button', async function (assert) {
+          // given
           const sessionWithCandidates = server.create('session');
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
           server.create('feature-toggle', { id: 0, reportsCategorization: true });
@@ -132,12 +125,11 @@ module('Acceptance | Session Details', function(hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('[aria-label="Télécharger le pv d\'incident"]').hasText('PV d\'incident\u00a0');
+          assert.dom('[aria-label="Télécharger le pv d\'incident"]').hasText("PV d'incident\u00a0");
         });
       });
 
-      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', function(hooks) {
-
+      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', function (hooks) {
         const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
         hooks.before(() => {
@@ -148,7 +140,7 @@ module('Acceptance | Session Details', function(hooks) {
           config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
         });
 
-        test('it should show attendance sheet download button when there is one or more candidate', async function(assert) {
+        test('it should show attendance sheet download button when there is one or more candidate', async function (assert) {
           // given
           const sessionWithCandidates = server.create('session');
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionWithCandidates.id });
@@ -157,10 +149,10 @@ module('Acceptance | Session Details', function(hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').hasText('Feuille d\'émargement\u00a0');
+          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').hasText("Feuille d'émargement\u00a0");
         });
 
-        test('it should not show download attendance sheet button where there is no candidate', async function(assert) {
+        test('it should not show download attendance sheet button where there is no candidate', async function (assert) {
           // given
           const sessionWithoutCandidate = server.create('session');
 
@@ -172,8 +164,7 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
 
-      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is off', function(hooks) {
-
+      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is off', function (hooks) {
         const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
         hooks.before(() => {
@@ -184,7 +175,7 @@ module('Acceptance | Session Details', function(hooks) {
           config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
         });
 
-        test('it should not show download attendance sheet button', async function(assert) {
+        test('it should not show download attendance sheet button', async function (assert) {
           // given
           const sessionWithCandidates = server.create('session');
           server.createList('certification-candidate', 3, { isLinked: true });

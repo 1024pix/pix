@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | country', function(hooks) {
+module('Unit | Model | country', function (hooks) {
   setupTest(hooks);
 
-  test('it creates a Country', function(assert) {
+  test('it creates a Country', function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const data = {

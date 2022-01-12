@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | certification-candidate', function(hooks) {
+module('Unit | Model | certification-candidate', function (hooks) {
   setupTest(hooks);
 
-  test('it creates a CertificationCandidate', function(assert) {
+  test('it creates a CertificationCandidate', function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const data = {
@@ -29,7 +29,7 @@ module('Unit | Model | certification-candidate', function(hooks) {
   });
 
   module('#get sexLabel', () => {
-    test('it get "Homme" for sex code "M"', function(assert) {
+    test('it get "Homme" for sex code "M"', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {
@@ -41,7 +41,7 @@ module('Unit | Model | certification-candidate', function(hooks) {
       assert.equal(model.sexLabel, 'Homme');
     });
 
-    test('it get "Femme" for sex code "F"', function(assert) {
+    test('it get "Femme" for sex code "F"', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {
@@ -53,7 +53,7 @@ module('Unit | Model | certification-candidate', function(hooks) {
       assert.equal(model.sexLabel, 'Femme');
     });
 
-    test('it get nothing if no sex code', function(assert) {
+    test('it get nothing if no sex code', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {};
@@ -65,7 +65,7 @@ module('Unit | Model | certification-candidate', function(hooks) {
   });
 
   module('#get complementaryCertificationsList', () => {
-    test('returns the complementary certification names as a string', function(assert) {
+    test('returns the complementary certification names as a string', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {

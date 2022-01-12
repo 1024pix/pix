@@ -40,9 +40,10 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToConfirmTestResume() {
-    this.modalDescriptionText = 'Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d\'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l\'endroit où il l\'avait quitté.';
+    this.modalDescriptionText =
+      "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.";
     this.modalCancelText = 'Fermer';
-    this.modalConfirmationText = 'Je confirme l\'autorisation';
+    this.modalConfirmationText = "Je confirme l'autorisation";
     this.modalInstructionText = `Autoriser ${this.args.candidate.firstName} ${this.args.candidate.lastName} à reprendre son test ?`;
     set(this, 'actionOnConfirmation', this.authorizeTestResume);
     this.isConfirmationModalDisplayed = true;
@@ -50,7 +51,8 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToConfirmTestEnd() {
-    this.modalDescriptionText = 'Attention : cette action entraîne la fin de son test de certification et est irréversible.';
+    this.modalDescriptionText =
+      'Attention : cette action entraîne la fin de son test de certification et est irréversible.';
     this.modalCancelText = 'Annuler';
     this.modalConfirmationText = 'Terminer le test';
     this.modalInstructionText = `Terminer le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} ?`;
@@ -69,11 +71,11 @@ export default class CandidateInList extends Component {
     try {
       await this.args.onCandidateTestResumeAuthorization(this.args.candidate);
       this.notifications.success(
-        `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`,
+        `Succès ! ${this.args.candidate.firstName} ${this.args.candidate.lastName} peut reprendre son test de certification.`
       );
     } catch (error) {
       this.notifications.error(
-        `Une erreur est survenue, ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a a pu être autorisé à reprendre son test.`,
+        `Une erreur est survenue, ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a a pu être autorisé à reprendre son test.`
       );
     }
   }
@@ -84,11 +86,11 @@ export default class CandidateInList extends Component {
     try {
       await this.args.onSupervisorEndAssessment(this.args.candidate);
       this.notifications.success(
-        `Succès ! Le test de  ${this.args.candidate.firstName} ${this.args.candidate.lastName} est terminé.`,
+        `Succès ! Le test de  ${this.args.candidate.firstName} ${this.args.candidate.lastName} est terminé.`
       );
     } catch (error) {
       this.notifications.error(
-        `Une erreur est survenue, le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a pas pu être terminé`,
+        `Une erreur est survenue, le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a pas pu être terminé`
       );
     }
   }

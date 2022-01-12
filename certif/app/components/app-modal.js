@@ -1,13 +1,9 @@
 /* eslint-disable ember/require-tagless-components,ember/no-component-lifecycle-hooks,ember/no-actions-hash*/
 import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
-import {
-  EKMixin as EmberKeyboardMixin,
-  keyUp,
-} from 'ember-keyboard';
+import { EKMixin as EmberKeyboardMixin, keyUp } from 'ember-keyboard';
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
-
   translucentOverlay: true,
   targetAttachment: 'none',
   wrapperClass: 'centered-scrolling-wrapper',
@@ -36,7 +32,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     document.body.style.overflowY = '';
   },
 
-  closeOnEsc: on(keyUp('Escape'), function() {
+  closeOnEsc: on(keyUp('Escape'), function () {
     this.onClose();
   }),
 
@@ -57,5 +53,4 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
       }
     },
   },
-
 });

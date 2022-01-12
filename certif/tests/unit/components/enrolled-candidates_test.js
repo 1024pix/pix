@@ -4,24 +4,24 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | enrolled-candidates', function(hooks) {
+module('Unit | Component | enrolled-candidates', function (hooks) {
   setupTest(hooks);
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:enrolled-candidates');
   });
 
-  module('#saveCertificationCandidate', function() {
-
-    test('should save certification candidate on saveCertificationCandidate action with appropriate adapter options', async function(assert) {
+  module('#saveCertificationCandidate', function () {
+    test('should save certification candidate on saveCertificationCandidate action with appropriate adapter options', async function (assert) {
       // given
       const sessionId = 'sessionId';
       const certificationCandidateData = _buildCandidate({});
       const savableCandidate = _buildCandidate(
         { ...certificationCandidateData },
-        { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() });
+        { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() }
+      );
       const store = { createRecord: sinon.stub().returns(savableCandidate) };
 
       component.store = store;
@@ -45,20 +45,23 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       assert.ok(true);
     });
 
-    test('should throw an exception when the student is already added', async function(assert) {
+    test('should throw an exception when the student is already added', async function (assert) {
       // given
       const sessionId = 'sessionId';
       const certificationCandidateData = _buildCandidate({});
       const savableCandidate = _buildCandidate(
         { ...certificationCandidateData },
-        { save: sinon.stub().resolves(), deleteRecord: sinon.stub() });
+        { save: sinon.stub().resolves(), deleteRecord: sinon.stub() }
+      );
       const store = { createRecord: sinon.stub().returns(savableCandidate) };
 
       component.store = store;
       component.args = {
-        certificationCandidates: [_buildCandidate({
-          ...certificationCandidateData,
-        })],
+        certificationCandidates: [
+          _buildCandidate({
+            ...certificationCandidateData,
+          }),
+        ],
         sessionId,
       };
 
@@ -71,13 +74,22 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       assert.equal(component.args.certificationCandidates.length, 1);
     });
   });
-  module('#addCertificationCandidateInStaging', function() {
-
-    test('should add an empty new candidate', async function(assert) {
+  module('#addCertificationCandidateInStaging', function () {
+    test('should add an empty new candidate', async function (assert) {
       const newCandidate = EmberObject.create({
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: 'FRANCE',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
+      });
 
       // when
       await component.addCertificationCandidateInStaging();
@@ -87,9 +99,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#deleteCertificationCandidate', function() {
-
-    test('should delete the candidate action with appropriate adapter options', async function(assert) {
+  module('#deleteCertificationCandidate', function () {
+    test('should delete the candidate action with appropriate adapter options', async function (assert) {
       // given
       const sessionId = 'sessionId';
       const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
@@ -111,8 +122,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#openCertificationCandidateDetailsModal', function() {
-    test('should open the candidate details modal', async function(assert) {
+  module('#openCertificationCandidateDetailsModal', function () {
+    test('should open the candidate details modal', async function (assert) {
       // given
       const sessionId = 'sessionId';
       const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
@@ -130,8 +141,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#closeCertificationCandidateDetailsModal', function() {
-    test('should close the candidate details modal', async function(assert) {
+  module('#closeCertificationCandidateDetailsModal', function () {
+    test('should close the candidate details modal', async function (assert) {
       // given
       const sessionId = 'sessionId';
       const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
@@ -151,8 +162,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#openNewCertificationCandidateModal', function() {
-    test('should open the new certification candidate modal', async function(assert) {
+  module('#openNewCertificationCandidateModal', function () {
+    test('should open the new certification candidate modal', async function (assert) {
       // given
       const sessionId = 'sessionId';
       component.showNewCertificationCandidateModal = false;
@@ -169,8 +180,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#closeNewCertificationCandidateModal', function() {
-    test('should close the new certification candidate modal', async function(assert) {
+  module('#closeNewCertificationCandidateModal', function () {
+    test('should close the new certification candidate modal', async function (assert) {
       // given
       const sessionId = 'sessionId';
       component.showNewCertificationCandidateModal = true;
@@ -187,11 +198,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  function _buildCandidate({
-    firstName = 'Georges',
-    lastName = 'Brassens',
-    birthdate = '2010-04-04',
-  }, otherProps) {
+  function _buildCandidate({ firstName = 'Georges', lastName = 'Brassens', birthdate = '2010-04-04' }, otherProps) {
     return {
       firstName,
       lastName,
@@ -206,5 +213,4 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       ...otherProps,
     };
   }
-
 });

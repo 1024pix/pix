@@ -38,14 +38,19 @@ export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Modification des prénom/nom/date de naissance',
   [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Ajout/modification du temps majoré',
   [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Écran de fin de test non vu',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
-  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'L\'image ne s\'affiche pas',
-  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'Le simulateur/l\'application ne s\'affiche pas',
-  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'Le fichier à télécharger ne s\'ouvre pas',
-  [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'Le site à visiter est indisponible/en maintenance/inaccessible',
-  [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'Le site est bloqué par les restrictions réseau de l\'établissement (réseaux sociaux par ex.)',
-  [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'Le candidat bénéficie d\'un temps majoré et n\'a pas pu répondre à la question dans le temps imparti',
-  [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'Le logiciel installé sur l\'ordinateur n\'a pas fonctionné',
+  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]:
+    'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
+  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: "L'image ne s'affiche pas",
+  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: "Le simulateur/l'application ne s'affiche pas",
+  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: "Le fichier à télécharger ne s'ouvre pas",
+  [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]:
+    'Le site à visiter est indisponible/en maintenance/inaccessible',
+  [certificationIssueReportSubcategories.WEBSITE_BLOCKED]:
+    "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+  [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]:
+    "Le candidat bénéficie d'un temps majoré et n'a pas pu répondre à la question dans le temps imparti",
+  [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]:
+    "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
 };
 
 export const categoryToCode = {
