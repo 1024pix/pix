@@ -480,7 +480,7 @@
       "parts": {
         "answer-input": "Votre réponse",
         "answer-instructions": {
-          "qcm": "Choisissez la ou les réponses possibles.",
+          "qcm": "Choisissez les bonnes réponses.",
           "qcu": "Choisissez la bonne réponse."
         },
         "feedback": "Signaler un problème",
