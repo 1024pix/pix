@@ -22,6 +22,7 @@
       <LinkTo
         aria-label="Aller à la page précédente"
         @query={{hash pageNumber=this.previousPage}}
+        {{! template-lint-disable no-unknown-arguments-for-builtin-components }}
         @disabledWhen={{eq this.currentPage 1}}
         @replace={{true}}
         class="icon-button"
@@ -43,6 +44,7 @@
       <LinkTo
         aria-label="Aller à la page suivante"
         @query={{hash pageNumber=this.nextPage}}
+        {{! template-lint-disable no-unknown-arguments-for-builtin-components }}
         @disabledWhen={{eq this.currentPage this.pageCount}}
         @replace={{true}}
         class="icon-button"

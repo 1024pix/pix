@@ -26,6 +26,7 @@
       <div class="session-details-content__clipboard" {{on "mouseout" this.removeAccessCodeTooltip}}>
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
+          {{! template-lint-disable no-duplicate-id }}
           <PixTooltip @id="tooltip-clipboard-button" @text={{this.accessCodeTooltipText}} @isInline={{true}}>
             <CopyButton
               @clipboardText={{this.session.accessCode}}
@@ -50,6 +51,7 @@
           <span class="content-text content-text--bold session-details-content__text">
             C-{{this.session.supervisorPassword}}
           </span>
+          {{! template-lint-disable no-duplicate-id }}
           {{#if (is-clipboard-supported)}}
             <PixTooltip @id="tooltip-clipboard-button" @text={{this.supervisorPasswordTooltipText}} @isInline={{true}}>
               <CopyButton
