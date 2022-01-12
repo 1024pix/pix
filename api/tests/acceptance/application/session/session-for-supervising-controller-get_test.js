@@ -38,7 +38,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-get', fun
   });
 
   context('when end test screen removal is not enabled', function () {
-    it('should return 404 HTTP status code ', async function () {
+    it('should return 401 HTTP status code ', async function () {
       const options = {
         method: 'GET',
         url: '/api/sessions/121/supervising',
@@ -51,7 +51,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-get', fun
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(404);
+      expect(response.statusCode).to.equal(401);
     });
   });
 });

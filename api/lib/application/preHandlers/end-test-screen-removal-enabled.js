@@ -2,7 +2,7 @@ const { SupervisorAccessNotAuthorizedError } = require('../../domain/errors');
 const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 
 module.exports = {
-  async verifyBySessionId(request, h) {
+  async verifyBySessionId(request) {
     let sessionId = request.params?.id;
     if (!sessionId) {
       sessionId = request.payload.data.attributes['session-id'];
