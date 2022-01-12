@@ -73,6 +73,7 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
               'is-related-to-managing-students-organization': false,
               'related-organization-tags': [],
               habilitations: [],
+              'has-end-test-screen-removal-enabled': false,
             },
           },
         ],

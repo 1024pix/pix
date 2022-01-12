@@ -69,6 +69,10 @@ class AllowedCertificationCenterAccess {
   isInWhitelist() {
     return features.pixCertifScoBlockedAccessWhitelist.includes(this.externalId.toUpperCase());
   }
+
+  hasEndTestScreenRemovalEnabled() {
+    return features.endTestScreenRemovalWhiteList.includes(this.id.toString());
+  }
 }
 
 module.exports = AllowedCertificationCenterAccess;
