@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { render, find, fillIn, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import sinon from 'sinon';
 
 module('Integration | Component | Badges::Badge', function (hooks) {
   let badge;
@@ -62,5 +63,31 @@ module('Integration | Component | Badges::Badge', function (hooks) {
     assert.contains('Competence');
     assert.contains('@skill2');
     assert.contains('Mon tube');
+  });
+
+  module('#updateBadge', function () {
+    test('should send badge update request to api', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const findRecordStub = sinon.stub();
+      const saveStub = sinon.stub().resolves();
+      findRecordStub.returns({ save: saveStub });
+      store.findRecord = findRecordStub;
+
+      await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
+
+      // when
+      await click('button[type="button"]');
+      await fillIn('input#title', 'mon titre mis à jour');
+      await fillIn('input#key', 'ma clef mise à jour');
+      await fillIn('input#message', 'mon message mis à jour');
+      await fillIn('input#altMessage', 'mon message alternatif mis à jour');
+      await click('button[type="submit"]');
+
+      // then
+      sinon.assert.calledWith(findRecordStub, 'badge', badge.id);
+      sinon.assert.calledOnce(saveStub);
+      assert.ok(true);
+    });
   });
 });

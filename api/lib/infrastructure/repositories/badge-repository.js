@@ -72,6 +72,11 @@ module.exports = {
     }
   },
 
+  async update(badge) {
+    const [updatedBadge] = await knex(TABLE_NAME).update(_adaptModelToDb(badge)).where({ id: badge.id }).returning('*');
+    return new Badge({ ...badge, ...updatedBadge });
+  },
+
   async isKeyAvailable(key, { knexTransaction } = DomainTransaction.emptyTransaction()) {
     const result = await (knexTransaction ?? knex)(TABLE_NAME).select('key').where('key', key);
     if (result.length) {

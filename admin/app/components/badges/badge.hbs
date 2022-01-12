@@ -13,19 +13,71 @@
       <div class="badge-data__image">
         <img src={{@badge.imageUrl}} alt="" role="presentation" width="90px" /><br />
       </div>
-      <div class="page-section__details">
-        ID :
-        {{@badge.id}}<br />
-        Titre :
-        {{@badge.title}}<br />
-        Clé :
-        {{@badge.key}}<br />
-        Message :
-        {{@badge.message}}<br />
-        Message alternatif :
-        {{@badge.altMessage}}<br />
-        <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br />
-      </div>
+      {{#if this.editMode}}
+        <div class="badge-edit-form">
+          <form class="form" {{on "submit" this.updateBadge}}>
+            <div class="badge-edit-form__field">
+              <label for="title" class="badge-edit-form-field__label">
+                Titre :
+              </label>
+              <Input id="title" @type="text" class="form-control" @value={{this.form.title}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="key" class="badge-edit-form-field__label">
+                Clé :
+              </label>
+              <Input id="key" @type="text" class="form-control" @value={{this.form.key}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="message" class="badge-edit-form-field__label">
+                Message :
+              </label>
+              <Input id="message" @type="text" class="form-control" @value={{this.form.message}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="altMessage" class="badge-edit-form-field__label">
+                Message Alternatif :
+              </label>
+              <Input
+                id="altMessage"
+                @type="text"
+                class="form-control"
+                @value={{this.form.altMessage}}
+                required={{true}}
+              />
+            </div>
+            <div class="badge-edit-form__actions">
+              <PixButton
+                @size="small"
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @triggerAction={{this.cancel}}
+              >Annuler</PixButton>
+              <PixButton @type="submit" @size="small" @backgroundColor="green">Enregistrer</PixButton>
+            </div>
+          </form>
+        </div>
+      {{else}}
+        <div class="page-section__details">
+          ID :
+          {{@badge.id}}<br />
+          Titre :
+          {{@badge.title}}<br />
+          Clé :
+          {{@badge.key}}<br />
+          Message :
+          {{@badge.message}}<br />
+          Message alternatif :
+          {{@badge.altMessage}}<br />
+          <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br />
+          <PixButton
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @size="small"
+            @triggerAction={{this.toggleEditMode}}
+          >Editer</PixButton>
+        </div>
+      {{/if}}
     </div>
   </section>
 

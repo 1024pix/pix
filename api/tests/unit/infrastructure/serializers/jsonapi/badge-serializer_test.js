@@ -124,4 +124,40 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
   });
+
+  describe('#deserialize', function () {
+    it('should convert JSON API data into a Badge model object', async function () {
+      // given
+      const jsonBadge = {
+        data: {
+          type: 'badge-update',
+          attributes: {
+            key: 'BADGE_KEY',
+            'alt-message': 'alt-message',
+            'image-url': 'https://example.net/image.svg',
+            message: 'message',
+            title: 'title',
+            'is-certifiable': false,
+            'is-always-visible': true,
+            'campaign-threshold': 99,
+            'skill-set-threshold': 66,
+            'skill-set-name': "le nom du lot d'acquis",
+            'skill-set-skills-ids': ['skillId1', 'skillId2', 'skillId4'],
+          },
+        },
+      };
+
+      // when
+      const badge = await serializer.deserialize(jsonBadge);
+
+      // then
+      const expectedBadge = {
+        key: 'BADGE_KEY',
+        altMessage: 'alt-message',
+        message: 'message',
+        title: 'title',
+      };
+      expect(badge).to.deep.equal(expectedBadge);
+    });
+  });
 });
