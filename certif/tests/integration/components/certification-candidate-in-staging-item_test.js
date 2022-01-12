@@ -14,7 +14,7 @@ async function renderComponent() {
                 @updateCandidateData={{this.updateDataStub}} />`);
 }
 
-module('Integration | Component | certification-candidate-in-staging-item', function(hooks) {
+module('Integration | Component | certification-candidate-in-staging-item', function (hooks) {
   setupRenderingTest(hooks);
 
   let saveStub;
@@ -23,15 +23,22 @@ module('Integration | Component | certification-candidate-in-staging-item', func
   let updateDataStub;
   let candidateInStaging;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     saveStub = sinon.stub().returns();
     cancelStub = sinon.stub().returns();
     updateBirthdateStub = sinon.stub().returns();
     updateDataStub = sinon.stub().returns();
     candidateInStaging = Object.create({
-      firstName: '', lastName: '', birthdate: '', birthCity: '',
-      birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
-      extraTimePercentage: '' });
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthProvinceCode: '',
+      birthCountry: '',
+      email: '',
+      externalId: '',
+      extraTimePercentage: '',
+    });
     this.set('candidateInStaging', candidateInStaging);
     this.set('saveStub', saveStub);
     this.set('cancelStub', cancelStub);
@@ -39,7 +46,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
     this.set('updateDataStub', updateDataStub);
   });
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // when
     await renderComponent();
 
@@ -57,7 +64,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
     assert.dom('[data-test-id="panel-candidate__action__cancel"]').exists();
   });
 
-  test('it render a disabled saved button', async function(assert) {
+  test('it render a disabled saved button', async function (assert) {
     // when
     await renderComponent();
 
@@ -66,7 +73,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
     assert.dom('[data-test-id="panel-candidate__action__save"]').isDisabled();
   });
 
-  test('it calls appropriate method when cancel clicked', async function(assert) {
+  test('it calls appropriate method when cancel clicked', async function (assert) {
     // when
     await renderComponent();
     await click('[data-test-id="panel-candidate__action__cancel"]');
@@ -75,7 +82,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
     assert.true(cancelStub.calledWith(candidateInStaging));
   });
 
-  module('when filling the line with sufficient correct data', function(hooks) {
+  module('when filling the line with sufficient correct data', function (hooks) {
     hooks.beforeEach(async () => {
       candidateInStaging.set('firstName', 'Salut');
       candidateInStaging.set('lastName', 'Salut');
@@ -85,7 +92,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
       candidateInStaging.set('birthdate', '1990-01-04');
     });
 
-    test('it render a clickable save button', async function(assert) {
+    test('it render a clickable save button', async function (assert) {
       // when
       await renderComponent();
 
@@ -93,7 +100,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
       assert.dom('[data-test-id="panel-candidate__action__save"]').isNotDisabled();
     });
 
-    test('it calls appropriate method when save clicked', async function(assert) {
+    test('it calls appropriate method when save clicked', async function (assert) {
       // when
       await renderComponent();
       await click('[data-test-id="panel-candidate__action__save"]');
@@ -101,10 +108,9 @@ module('Integration | Component | certification-candidate-in-staging-item', func
       // then
       assert.true(saveStub.calledWith(candidateInStaging));
     });
-
   });
 
-  module('when filling the line with incorrect ', function(hooks) {
+  module('when filling the line with incorrect ', function (hooks) {
     hooks.beforeEach(async () => {
       candidateInStaging.set('firstName', 'Salut');
       candidateInStaging.set('lastName', 'Salut');
@@ -118,7 +124,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
       { name: 'birthProvinceCode', value: 'AAAAA' },
       { name: 'birthdate', value: '1899-12-30' },
     ].forEach(({ name, value }) =>
-      test(`${name} it disable the save button`, async function(assert) {
+      test(`${name} it disable the save button`, async function (assert) {
         // given
         candidateInStaging.set(name, value);
 
@@ -127,8 +133,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
 
         // then
         assert.dom('[data-test-id="panel-candidate__action__save"]').isDisabled();
-      }),
+      })
     );
   });
-
 });

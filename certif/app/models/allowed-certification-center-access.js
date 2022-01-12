@@ -21,7 +21,9 @@ export default class AllowedCertificationCenterAccess extends Model {
   }
 
   get isAccessRestricted() {
-    return this.isAccessBlockedCollege || this.isAccessBlockedLycee || this.isAccessBlockedAEFE || this.isAccessBlockedAgri;
+    return (
+      this.isAccessBlockedCollege || this.isAccessBlockedLycee || this.isAccessBlockedAEFE || this.isAccessBlockedAgri
+    );
   }
 
   get hasHabilitations() {

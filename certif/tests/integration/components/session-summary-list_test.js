@@ -5,15 +5,15 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Integration | Component | session-summary-list', function(hooks) {
+module('Integration | Component | session-summary-list', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.set('goToSessionDetailsSpy', () => {});
   });
 
-  module('When there are no sessions to display', function() {
-    test('it should display an empty list message', async function(assert) {
+  module('When there are no sessions to display', function () {
+    test('it should display an empty list message', async function (assert) {
       // given
       const sessionSummaries = [];
       sessionSummaries.meta = { rowCount: 0 };
@@ -29,17 +29,20 @@ module('Integration | Component | session-summary-list', function(hooks) {
     });
   });
 
-  module('When there are sessions to display', function() {
-
-    test('it should display a list of sessions', async function(assert) {
+  module('When there are sessions to display', function () {
+    test('it should display a list of sessions', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const sessionSummary1 = run(() => store.createRecord('session-summary', {
-        id: 123,
-      }));
-      const sessionSummary2 = run(() => store.createRecord('session-summary', {
-        id: 456,
-      }));
+      const sessionSummary1 = run(() =>
+        store.createRecord('session-summary', {
+          id: 123,
+        })
+      );
+      const sessionSummary2 = run(() =>
+        store.createRecord('session-summary', {
+          id: 456,
+        })
+      );
       const sessionSummaries = [sessionSummary1, sessionSummary2];
       sessionSummaries.meta = {
         rowCount: 2,
@@ -56,20 +59,22 @@ module('Integration | Component | session-summary-list', function(hooks) {
       assert.dom('[aria-label="Session de certification"]').exists({ count: 2 });
     });
 
-    test('it should display all the attributes of the session summary in the row', async function(assert) {
+    test('it should display all the attributes of the session summary in the row', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const sessionSummary = run(() => store.createRecord('session-summary', {
-        id: 123,
-        address: 'TicTac',
-        room: 'Jambon',
-        date: '2020-12-01',
-        time: '15:00:00',
-        examiner: 'Bibiche',
-        enrolledCandidatesCount: 3,
-        effectiveCandidatesCount: 2,
-        status: 'finalized',
-      }));
+      const sessionSummary = run(() =>
+        store.createRecord('session-summary', {
+          id: 123,
+          address: 'TicTac',
+          room: 'Jambon',
+          date: '2020-12-01',
+          time: '15:00:00',
+          examiner: 'Bibiche',
+          enrolledCandidatesCount: 3,
+          effectiveCandidatesCount: 2,
+          status: 'finalized',
+        })
+      );
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
         rowCount: 1,
@@ -93,13 +98,15 @@ module('Integration | Component | session-summary-list', function(hooks) {
       assert.contains('Finalisée');
     });
 
-    test('it should call goToSessionDetails function with session Id when clicking on a row', async function(assert) {
+    test('it should call goToSessionDetails function with session Id when clicking on a row', async function (assert) {
       // given
       this.goToSessionDetailsSpy = sinon.stub();
       const store = this.owner.lookup('service:store');
-      const sessionSummary = run(() => store.createRecord('session-summary', {
-        id: 123,
-      }));
+      const sessionSummary = run(() =>
+        store.createRecord('session-summary', {
+          id: 123,
+        })
+      );
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
         rowCount: 1,
@@ -117,13 +124,15 @@ module('Integration | Component | session-summary-list', function(hooks) {
       assert.ok(true);
     });
 
-    test('it should display a link to access session detail', async function(assert) {
+    test('it should display a link to access session detail', async function (assert) {
       // given
       this.goToSessionDetailsSpy = sinon.stub();
       const store = this.owner.lookup('service:store');
-      const sessionSummary = run(() => store.createRecord('session-summary', {
-        id: 123,
-      }));
+      const sessionSummary = run(() =>
+        store.createRecord('session-summary', {
+          id: 123,
+        })
+      );
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
         rowCount: 1,

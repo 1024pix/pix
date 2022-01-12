@@ -3,11 +3,10 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Route | authenticated/sessions', function(hooks) {
-
+module('Unit | Route | authenticated/sessions', function (hooks) {
   setupTest(hooks);
 
-  test('it should redirects to authenticated.sessions.list', async function(assert) {
+  test('it should redirects to authenticated.sessions.list', async function (assert) {
     // given
     class RouterStub extends Service {
       replaceWith = sinon.stub().resolves();

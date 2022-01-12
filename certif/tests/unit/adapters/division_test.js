@@ -2,21 +2,20 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapters | division', function(hooks) {
+module('Unit | Adapters | division', function (hooks) {
   setupTest(hooks);
 
   let adapter;
   const certificationCenterId = 2;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:division');
     const ajaxStub = () => resolve();
     adapter.ajax = ajaxStub;
   });
 
-  module('#urlForQuery', function() {
-
-    test('should build url from certificationCenterId', async function(assert) {
+  module('#urlForQuery', function () {
+    test('should build url from certificationCenterId', async function (assert) {
       // when
       const query = { certificationCenterId };
       const url = await adapter.urlForQuery(query);

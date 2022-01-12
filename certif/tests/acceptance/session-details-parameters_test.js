@@ -1,9 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import {
-  authenticateSession,
-} from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
 
@@ -11,18 +9,16 @@ import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details Parameters', function(hooks) {
-
+module('Acceptance | Session Details Parameters', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
   });
 
-  module('when certificationPointOfContact is logged in', function(hooks) {
-
+  module('when certificationPointOfContact is logged in', function (hooks) {
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;
 
@@ -42,9 +38,8 @@ module('Acceptance | Session Details Parameters', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
     });
 
-    module('when current certification center is blocked', function() {
-
-      test('should redirect to espace-ferme URL', async function(assert) {
+    module('when current certification center is blocked', function () {
+      test('should redirect to espace-ferme URL', async function (assert) {
         // given
         const sessionCreated = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
@@ -57,13 +52,10 @@ module('Acceptance | Session Details Parameters', function(hooks) {
       });
     });
 
-    module('when looking at the session details', function() {
-
-      module('when the session is not finalized', function() {
-
-        module('when the session is CREATED', function() {
-
-          test('it should not display the finalize button if no candidate has joined the session', async function(assert) {
+    module('when looking at the session details', function () {
+      module('when the session is not finalized', function () {
+        module('when the session is CREATED', function () {
+          test('it should not display the finalize button if no candidate has joined the session', async function (assert) {
             // given
             const sessionCreated = server.create('session', { status: CREATED });
             server.createList('certification-candidate', 2, { isLinked: false, sessionId: sessionCreated.id });
@@ -75,7 +67,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
             assert.notContains('Finaliser la session');
           });
 
-          test('it should redirect to finalize page on click on finalize button', async function(assert) {
+          test('it should redirect to finalize page on click on finalize button', async function (assert) {
             // given
             const sessionCreatedAndStarted = server.create('session', { status: CREATED });
             server.createList('certification-candidate', 2, { isLinked: true, sessionId: sessionCreatedAndStarted.id });
@@ -88,8 +80,8 @@ module('Acceptance | Session Details Parameters', function(hooks) {
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
-          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function() {
-            test('it should not display supervisor password', async function(assert) {
+          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
+            test('it should not display supervisor password', async function (assert) {
               // given
               server.create('feature-toggle', {
                 id: 0,
@@ -109,8 +101,8 @@ module('Acceptance | Session Details Parameters', function(hooks) {
             });
           });
 
-          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function() {
-            test('it should display supervisor password', async function(assert) {
+          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+            test('it should display supervisor password', async function (assert) {
               // given
               server.create('feature-toggle', {
                 id: 0,
@@ -132,16 +124,15 @@ module('Acceptance | Session Details Parameters', function(hooks) {
         });
       });
 
-      module('when the session is finalized', function(hooks) {
-
+      module('when the session is finalized', function (hooks) {
         let sessionFinalized;
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(function () {
           sessionFinalized = server.create('session', { status: FINALIZED });
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
         });
 
-        test('it should not redirect to finalize page on click on finalize button', async function(assert) {
+        test('it should not redirect to finalize page on click on finalize button', async function (assert) {
           // when
           await visit(`/sessions/${sessionFinalized.id}`);
           await clickByLabel('Finaliser la session');
@@ -150,7 +141,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
           assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
         });
 
-        test('it should throw an error on visiting /finalisation url', async function(assert) {
+        test('it should throw an error on visiting /finalisation url', async function (assert) {
           // when
           await visit(`/sessions/${sessionFinalized.id}`);
           const transitionError = new Error('TransitionAborted');
@@ -159,7 +150,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
           assert.rejects(
             visit(`/sessions/${sessionFinalized.id}/finalisation`),
             transitionError,
-            'error raised when visiting finalisation route',
+            'error raised when visiting finalisation route'
           );
         });
       });

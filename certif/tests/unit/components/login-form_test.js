@@ -6,7 +6,6 @@ import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | login-form', (hooks) => {
-
   setupTest(hooks);
 
   const authenticateStub = sinon.stub().resolves();
@@ -15,7 +14,7 @@ module('Unit | Component | login-form', (hooks) => {
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     const sessionStub = Service.create({
       authenticate: authenticateStub,
     });
@@ -25,8 +24,7 @@ module('Unit | Component | login-form', (hooks) => {
   });
 
   module('#authenticate', () => {
-
-    test('should authenticate user with trimmed email', async function(assert) {
+    test('should authenticate user with trimmed email', async function (assert) {
       // given
       const emailWithSpaces = '  email@example.net  ';
       component.email = emailWithSpaces;
@@ -37,12 +35,7 @@ module('Unit | Component | login-form', (hooks) => {
       await component.authenticate(eventStub);
 
       // then
-      assert.ok(authenticateStub.calledWith(expectedAuthenticator,
-        expectedEmail,
-        sinon.match.any, sinon.match.any,
-      ));
+      assert.ok(authenticateStub.calledWith(expectedAuthenticator, expectedEmail, sinon.match.any, sinon.match.any));
     });
   });
-
 });
-

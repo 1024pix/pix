@@ -5,7 +5,6 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
-
   @service currentUser;
 
   queryParams = {
@@ -30,19 +29,17 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
 
     const DEFAULT_PAGE_SIZE = 50;
     const FIRST_PAGE_NUMBER = 1;
-    const students = await this.store.query('student',
-      {
-        page: {
-          number: params.pageNumber || FIRST_PAGE_NUMBER,
-          size: params.pageSize || DEFAULT_PAGE_SIZE,
-        },
-        filter: {
-          certificationCenterId,
-          sessionId: session.id,
-          divisions: params.divisions,
-        },
+    const students = await this.store.query('student', {
+      page: {
+        number: params.pageNumber || FIRST_PAGE_NUMBER,
+        size: params.pageSize || DEFAULT_PAGE_SIZE,
       },
-    );
+      filter: {
+        certificationCenterId,
+        sessionId: session.id,
+        divisions: params.divisions,
+      },
+    });
 
     return {
       session,
@@ -60,9 +57,8 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
 
-    this.controllerFor('authenticated.sessions.add-student').set(
-      'returnToSessionCandidates',
-      (sessionId) => this.transitionTo('authenticated.sessions.details.certification-candidates', sessionId),
+    this.controllerFor('authenticated.sessions.add-student').set('returnToSessionCandidates', (sessionId) =>
+      this.transitionTo('authenticated.sessions.details.certification-candidates', sessionId)
     );
   }
 

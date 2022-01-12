@@ -3,10 +3,10 @@ import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
-module('Unit | Adapter | certification issue report', function(hooks) {
+module('Unit | Adapter | certification issue report', function (hooks) {
   setupTest(hooks);
 
-  test('it exists', async function(assert) {
+  test('it exists', async function (assert) {
     // given
     const modelName = 'certification-issue-report';
     const certificationCourseId = 1;

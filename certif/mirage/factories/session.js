@@ -4,7 +4,6 @@ import moment from 'moment';
 import { CREATED } from 'pix-certif/models/session';
 
 export default Factory.extend({
-
   address() {
     return faker.address.streetName();
   },
@@ -30,8 +29,11 @@ export default Factory.extend({
   },
 
   time() {
-    return faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
-    ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0');
+    return (
+      faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
+      ':' +
+      faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0')
+    );
   },
 
   status() {

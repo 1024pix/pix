@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class CompletedReportsInformationStep extends Component {
-
   @tracked reportToEdit = null;
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
@@ -49,5 +48,4 @@ export default class CompletedReportsInformationStep extends Component {
   closeIssueReportsModal() {
     this.showIssueReportsModal = false;
   }
-
 }

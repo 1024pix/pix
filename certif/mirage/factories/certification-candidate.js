@@ -3,7 +3,6 @@ import faker from 'faker';
 import moment from 'moment';
 
 export default Factory.extend({
-
   firstName() {
     return faker.name.firstName();
   },

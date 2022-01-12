@@ -6,10 +6,10 @@ import sinon from 'sinon';
 
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | login-session-supervisor-form', function(hooks) {
+module('Integration | Component | login-session-supervisor-form', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should render supervisor login form', async function(assert) {
+  test('it should render supervisor login form', async function (assert) {
     // when
     this.onFormSubmit = sinon.stub();
     const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);
@@ -20,8 +20,8 @@ module('Integration | Component | login-session-supervisor-form', function(hooks
     assert.dom(screen.getByText('Surveiller la session')).exists();
   });
 
-  module('On click on supervise button', function() {
-    test('it should display an error message when the session id is empty', async function(assert) {
+  module('On click on supervise button', function () {
+    test('it should display an error message when the session id is empty', async function (assert) {
       // given
       this.onFormSubmit = sinon.stub();
       const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);
@@ -34,7 +34,7 @@ module('Integration | Component | login-session-supervisor-form', function(hooks
       assert.contains('Les champs "Numéro de la session" et "Mot de passe de session" sont obligatoires.');
     });
 
-    test('it should display an error message when the supervisor password is empty', async function(assert) {
+    test('it should display an error message when the supervisor password is empty', async function (assert) {
       // given
       this.onFormSubmit = sinon.stub();
       const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);
@@ -47,7 +47,7 @@ module('Integration | Component | login-session-supervisor-form', function(hooks
       assert.contains('Les champs "Numéro de la session" et "Mot de passe de session" sont obligatoires.');
     });
 
-    test('it should call onFormSubmit when all the fields are filled', async function(assert) {
+    test('it should call onFormSubmit when all the fields are filled', async function (assert) {
       // given
       this.onFormSubmit = sinon.stub();
       const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);

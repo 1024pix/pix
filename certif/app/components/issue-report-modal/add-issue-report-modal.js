@@ -104,7 +104,7 @@ export class RadioButtonCategoryWithSubcategoryAndQuestionNumber extends RadioBu
 }
 
 export default class AddIssueReportModal extends Component {
-  @service store
+  @service store;
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });
   @tracked lateOrLeavingCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
@@ -156,7 +156,10 @@ export default class AddIssueReportModal extends Component {
       this.showCategoryMissingError = true;
       return;
     }
-    const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
+    const issueReportToSave = this.store.createRecord(
+      'certification-issue-report',
+      categoryToAdd.issueReport(this.args.report)
+    );
     try {
       await issueReportToSave.save();
       this.args.closeModal();

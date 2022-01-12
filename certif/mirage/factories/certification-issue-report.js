@@ -1,7 +1,6 @@
 import { Factory } from 'ember-cli-mirage';
 
 export default Factory.extend({
-
   category() {
     return 'Issue report category';
   },

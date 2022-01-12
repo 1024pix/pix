@@ -2,7 +2,6 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
 export default class ListRoute extends Route {
-
   queryParams = {
     pageNumber: {
       refreshModel: true,
@@ -19,12 +18,16 @@ export default class ListRoute extends Route {
   }
 
   model(params) {
-    return this.store.query('session-summary', {
-      page: {
-        number: params.pageNumber,
-        size: params.pageSize,
+    return this.store.query(
+      'session-summary',
+      {
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
       },
-    }, { reload: true });
+      { reload: true }
+    );
   }
 
   resetController(controller, isExiting) {

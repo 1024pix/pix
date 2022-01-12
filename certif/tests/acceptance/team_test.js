@@ -9,13 +9,12 @@ import {
 } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authenticated | team', function(hooks) {
-
+module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('when user go to members list', function() {
-    test('it should be possible to see members list', async function(assert) {
+  module('when user go to members list', function () {
+    test('it should be possible to see members list', async function (assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
       server.create('member', { firstName: 'Lili', lastName: 'Dupont' });
@@ -30,8 +29,8 @@ module('Acceptance | authenticated | team', function(hooks) {
       assert.contains('Dupont');
     });
 
-    module('when user switch to see another certification center', function() {
-      test('it should be possible to the other members list', async function(assert) {
+    module('when user switch to see another certification center', function () {
+      test('it should be possible to the other members list', async function (assert) {
         // given
         const certificationCenterName = 'Centre de certif des Anne-atole';
         const otherCertificationCenterName = 'Centre de certif de 7 Anne-néla';

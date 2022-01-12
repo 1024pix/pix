@@ -4,19 +4,17 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | import-candidates', function(hooks) {
+module('Integration | Component | import-candidates', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders texts about Feuille émargement', async function(assert) {
+  test('it renders texts about Feuille émargement', async function (assert) {
     // given
     const certificationCandidate = EmberObject.create({
       firstName: 'Julie',
       lastName: 'Abba',
     });
     this.set('session', {
-      certificationCandidates: [
-        certificationCandidate,
-      ],
+      certificationCandidates: [certificationCandidate],
     });
     this.set('importAllowed', true);
 

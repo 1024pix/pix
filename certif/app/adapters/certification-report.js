@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationReportAdapter extends ApplicationAdapter {
-
   urlForCreateRecord(modelName, { adapterOptions }) {
     const url = super.urlForCreateRecord(...arguments);
 
@@ -15,23 +14,11 @@ export default class CertificationReportAdapter extends ApplicationAdapter {
     return url;
   }
 
-  buildURL(
-    modelName,
-    id,
-    snapshot,
-    requestType,
-    query,
-  ) {
+  buildURL(modelName, id, snapshot, requestType, query) {
     if (requestType === 'abort-certification') {
       return `${this.host}/${this.namespace}/certification-reports/${snapshot.record.certificationCourseId}/abort`;
     } else {
-      return super.buildURL(
-        modelName,
-        id,
-        snapshot,
-        requestType,
-        query,
-      );
+      return super.buildURL(modelName, id, snapshot, requestType, query);
     }
   }
 }

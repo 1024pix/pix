@@ -6,9 +6,22 @@ import times from 'lodash/times';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false, certificationCenterCount = 1) {
-  const allowedCertificationCenterAccesses = _createCertificationCenters(certificationCenterCount, { certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
-  return createCertificationPointOfContactWithCustomCenters({ pixCertifTermsOfServiceAccepted, allowedCertificationCenterAccesses });
+export function createCertificationPointOfContact(
+  pixCertifTermsOfServiceAccepted = false,
+  certificationCenterType,
+  certificationCenterName = 'Centre de certification du pix',
+  isRelatedOrganizationManagingStudents = false,
+  certificationCenterCount = 1
+) {
+  const allowedCertificationCenterAccesses = _createCertificationCenters(certificationCenterCount, {
+    certificationCenterName,
+    certificationCenterType,
+    isRelatedOrganizationManagingStudents,
+  });
+  return createCertificationPointOfContactWithCustomCenters({
+    pixCertifTermsOfServiceAccepted,
+    allowedCertificationCenterAccesses,
+  });
 }
 
 export function createCertificationPointOfContactWithCustomCenters({
@@ -33,7 +46,11 @@ function _createCertificationCenters(certificationCenterCount, certificationCent
   return certificationCenters;
 }
 
-export function createAllowedCertificationCenterAccess({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
+export function createAllowedCertificationCenterAccess({
+  certificationCenterName,
+  certificationCenterType,
+  isRelatedOrganizationManagingStudents,
+}) {
   return server.create('allowed-certification-center-access', {
     name: certificationCenterName,
     type: certificationCenterType,
@@ -50,8 +67,17 @@ export function createScoIsManagingStudentsCertificationPointOfContactWithTermsO
   return createCertificationPointOfContactWithTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix', true);
 }
 
-export function createCertificationPointOfContactWithTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false) {
-  return createCertificationPointOfContact(true, certificationCenterType, certificationCenterName, isRelatedOrganizationManagingStudents);
+export function createCertificationPointOfContactWithTermsOfServiceAccepted(
+  certificationCenterType = undefined,
+  certificationCenterName = 'Centre de certification du pix',
+  isRelatedOrganizationManagingStudents = false
+) {
+  return createCertificationPointOfContact(
+    true,
+    certificationCenterType,
+    certificationCenterName,
+    isRelatedOrganizationManagingStudents
+  );
 }
 
 export function createCertificationPointOfContactWithTermsOfServiceNotAccepted() {

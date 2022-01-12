@@ -4,10 +4,10 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | members-list', function(hooks) {
+module('Integration | Component | members-list', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should show members firstName and lastName', async function(assert) {
+  test('it should show members firstName and lastName', async function (assert) {
     // given
     const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré' });
     const certifMember2 = EmberObject.create({ firstName: 'John', lastName: 'Williams' });

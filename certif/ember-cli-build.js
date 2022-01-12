@@ -4,7 +4,7 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const environment = process.env.environment;
 const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : [];
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sourcemaps: { enabled: true },
     babel: {
@@ -23,9 +23,7 @@ module.exports = function(defaults) {
       testGenerator: 'qunit',
     },
     sassOptions: {
-      includePaths: [
-        'node_modules/pix-ui/addon/styles',
-      ],
+      includePaths: ['node_modules/pix-ui/addon/styles'],
     },
   });
 

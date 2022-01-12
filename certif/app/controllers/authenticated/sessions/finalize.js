@@ -10,7 +10,6 @@ import isEmpty from 'lodash/isEmpty';
 import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
-
   @service featureToggles;
 
   @service notifications;
@@ -30,9 +29,8 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   get uncheckedHasSeenEndTestScreenCount() {
-    return sumBy(
-      this.session.completedCertificationReports.toArray(),
-      (reports) => Number(!reports.hasSeenEndTestScreen),
+    return sumBy(this.session.completedCertificationReports.toArray(), (reports) =>
+      Number(!reports.hasSeenEndTestScreen)
     );
   }
 
@@ -50,7 +48,6 @@ export default class SessionsFinalizeController extends Controller {
 
   @action
   async abort(certificationReport, event) {
-
     const { value: abortReason } = event.target;
 
     try {
@@ -58,7 +55,6 @@ export default class SessionsFinalizeController extends Controller {
 
       certificationReport.abortReason = abortReason;
     } catch (error) {
-
       const select = document.getElementById(`finalization-report-abort-reason__select${certificationReport.id}`);
 
       if (certificationReport.abortReason) {
@@ -72,11 +68,10 @@ export default class SessionsFinalizeController extends Controller {
   @action
   async finalizeSession() {
     try {
-
       await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
-      (err.errors && err.errors[0] && err.errors[0].status === '400')
+      err.errors && err.errors[0] && err.errors[0].status === '400'
         ? this.showErrorNotification('Cette session a déjà été finalisée.')
         : this.showErrorNotification('Erreur lors de la finalisation de session.');
     }
@@ -130,17 +125,22 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   isValid() {
-    const invalidCertificationReports = this.session.certificationReports
-      .filter((certificationReport) => !certificationReport.isCompleted && certificationReport.abortReason === null);
+    const invalidCertificationReports = this.session.certificationReports.filter(
+      (certificationReport) => !certificationReport.isCompleted && certificationReport.abortReason === null
+    );
 
     if (invalidCertificationReports.length) {
-      const select = document.getElementById(`finalization-report-abort-reason__select${invalidCertificationReports.firstObject.id}`);
+      const select = document.getElementById(
+        `finalization-report-abort-reason__select${invalidCertificationReports.firstObject.id}`
+      );
 
-      this.showErrorNotification('Une ou plusieurs certification(s) non terminée(s) n\'ont pas de motif d\'abandon. Veuillez les renseigner.', { autoClear: true });
+      this.showErrorNotification(
+        "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'abandon. Veuillez les renseigner.",
+        { autoClear: true }
+      );
       select.scrollIntoView();
     }
 
     return invalidCertificationReports.length === 0;
   }
-
 }

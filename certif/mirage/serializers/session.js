@@ -3,10 +3,10 @@ import ApplicationSerializer from './application';
 export default ApplicationSerializer.extend({
   links(session) {
     return {
-      'certificationCandidates': {
+      certificationCandidates: {
         related: `/api/sessions/${session.id}/certification-candidates`,
       },
-      'certificationReports': {
+      certificationReports: {
         related: `/api/sessions/${session.id}/certification-reports`,
       },
     };
