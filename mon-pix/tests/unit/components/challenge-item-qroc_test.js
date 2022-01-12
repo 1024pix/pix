@@ -16,6 +16,7 @@ describe('Unit | Component | Challenge item QROC', function () {
       });
 
       component = createGlimmerComponent('component:challenge-item-qroc', { challenge });
+      component.embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io'];
     });
 
     context('when the event message is from Pix', function () {
