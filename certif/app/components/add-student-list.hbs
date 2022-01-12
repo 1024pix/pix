@@ -1,106 +1,107 @@
 {{#if @studentList}}
 
-<div class="add-student-list">
-  <div class="add-student-list__filters">
-    <span>Filtrer</span>
-    <PixMultiSelect
-      @title="Filtrer la liste des élèves en cochant la ou les classes souhaitées"
-      @emptyMessage={{this.emptyMessage}}
-      @id={{'add-student-list__multi-select'}}
-      @onSelect={{this.selectDivision}}
-      @placeholder={{"Chercher une classe ..."}}
-      @isSearchable={{true}}
-      @showOptionsOnInput={{true}}
-      @selected={{this.selectedDivisions}}
-      @options={{@certificationCenterDivisions}} as |option|>
-      {{option.label}}
-    </PixMultiSelect>
-  </div>
-
-  <div class="table">
-    <table>
-      <thead>
-        <tr>
-          <th>
-            <CertifCheckbox
-              class="add-student-list__checker"
-              @state={{this.headerCheckboxStatus}}
-              {{on 'click' this.toggleAllItems}}>
-            </CertifCheckbox>
-          </th>
-          <th>Classe</th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th class="add-student-list__column-birthdate">Date de naissance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each @studentList as |student|}}
-          {{#if student.isEnrolled}}
-            <tr class="add-student-list__row add-student-list__row--disabled">
-              <td class="add-student-list__column-checkbox">
-                <CertifCheckbox
-                        @state='checked'
-                        class='button--disabled'
-                />
-              </td>
-              <td>{{student.division}}</td>
-              <td>{{student.lastName}}</td>
-              <td>{{student.firstName}}</td>
-              <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
-            </tr>
-          {{else}}
-            <tr class="add-student-list__row" {{on 'click' (fn this.toggleItem student)}}>
-              <td class="add-student-list__column-checkbox">
-                  <CertifCheckbox
-                    @state={{if student.isSelected 'checked' 'unchecked'}}
-                  />
-              </td>
-              <td>{{student.division}}</td>
-              <td>{{student.lastName}}</td>
-              <td>{{student.firstName}}</td>
-              <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
-            </tr>
-            {{/if}}
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-
-  <PaginationControl @pagination={{@studentList.meta}}/>
-
-  {{#if this.showStickyBar}}
-    <div class="add-student-list__bottom-action-bar">
-
-      <div class="bottom-action-bar__informations">
-        <p class="bottom-action-bar__informations--candidates-selected">
-          {{#if this.numberOfStudentsSelected}}
-            {{this.numberOfStudentsSelected}} candidat(s) sélectionné(s)
-          {{else}}
-            Aucun candidat sélectionné
-          {{/if}}
-        </p>
-        <span class="bottom-action-bar__seperator"></span>
-        <p class="bottom-action-bar__informations--candidates-already-added">
-          {{this.numberOfStudentsAlreadyCandidate}} candidat(s) déjà ajouté(s) à la session
-        </p>
-      </div>
-
-      <div class="bottom-action-bar__actions">
-        <PixButtonLink
-          @backgroundColor="transparent-light"
-          @route='authenticated.sessions.details.certification-candidates'
-          @model={{@session.id}}>
-          Annuler
-        </PixButtonLink>
-        <PixButton
-          @triggerAction={{this.enrollStudents}}
-          type="button"
-          class="bottom-action-bar__actions--add-button {{if this.shouldEnableAddButton "" "button--disabled"}}">
-          Ajouter
-        </PixButton>
-      </div>
+  <div class="add-student-list">
+    <div class="add-student-list__filters">
+      <span>Filtrer</span>
+      <PixMultiSelect
+        @title="Filtrer la liste des élèves en cochant la ou les classes souhaitées"
+        @emptyMessage={{this.emptyMessage}}
+        @id={{"add-student-list__multi-select"}}
+        @onSelect={{this.selectDivision}}
+        @placeholder={{"Chercher une classe ..."}}
+        @isSearchable={{true}}
+        @showOptionsOnInput={{true}}
+        @selected={{this.selectedDivisions}}
+        @options={{@certificationCenterDivisions}}
+        as |option|
+      >
+        {{option.label}}
+      </PixMultiSelect>
     </div>
-  {{/if}}
-</div>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <CertifCheckbox
+                class="add-student-list__checker"
+                @state={{this.headerCheckboxStatus}}
+                {{on "click" this.toggleAllItems}}
+              />
+            </th>
+            <th>Classe</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th class="add-student-list__column-birthdate">Date de naissance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @studentList as |student|}}
+            {{#if student.isEnrolled}}
+              <tr class="add-student-list__row add-student-list__row--disabled">
+                <td class="add-student-list__column-checkbox">
+                  <CertifCheckbox @state="checked" class="button--disabled" />
+                </td>
+                <td>{{student.division}}</td>
+                <td>{{student.lastName}}</td>
+                <td>{{student.firstName}}</td>
+                <td class="add-student-list__column-birthdate">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+              </tr>
+            {{else}}
+              <tr class="add-student-list__row" {{on "click" (fn this.toggleItem student)}}>
+                <td class="add-student-list__column-checkbox">
+                  <CertifCheckbox @state={{if student.isSelected "checked" "unchecked"}} />
+                </td>
+                <td>{{student.division}}</td>
+                <td>{{student.lastName}}</td>
+                <td>{{student.firstName}}</td>
+                <td class="add-student-list__column-birthdate">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+              </tr>
+            {{/if}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    <PaginationControl @pagination={{@studentList.meta}} />
+
+    {{#if this.showStickyBar}}
+      <div class="add-student-list__bottom-action-bar">
+
+        <div class="bottom-action-bar__informations">
+          <p class="bottom-action-bar__informations--candidates-selected">
+            {{#if this.numberOfStudentsSelected}}
+              {{this.numberOfStudentsSelected}}
+              candidat(s) sélectionné(s)
+            {{else}}
+              Aucun candidat sélectionné
+            {{/if}}
+          </p>
+          <span class="bottom-action-bar__seperator"></span>
+          <p class="bottom-action-bar__informations--candidates-already-added">
+            {{this.numberOfStudentsAlreadyCandidate}}
+            candidat(s) déjà ajouté(s) à la session
+          </p>
+        </div>
+
+        <div class="bottom-action-bar__actions">
+          <PixButtonLink
+            @backgroundColor="transparent-light"
+            @route="authenticated.sessions.details.certification-candidates"
+            @model={{@session.id}}
+          >
+            Annuler
+          </PixButtonLink>
+          <PixButton
+            @triggerAction={{this.enrollStudents}}
+            type="button"
+            class="bottom-action-bar__actions--add-button {{if this.shouldEnableAddButton '' 'button--disabled'}}"
+          >
+            Ajouter
+          </PixButton>
+        </div>
+      </div>
+    {{/if}}
+  </div>
 {{/if}}

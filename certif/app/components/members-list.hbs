@@ -10,12 +10,12 @@
         </thead>
 
         <tbody>
-        {{#each @members as |member|}}
-          <tr aria-label="Membres du centre de certification">
-            <td>{{member.lastName}}</td>
-            <td>{{member.firstName}}</td>
-          </tr>
-        {{/each}}
+          {{#each @members as |member|}}
+            <tr aria-label="Membres du centre de certification">
+              <td>{{member.lastName}}</td>
+              <td>{{member.firstName}}</td>
+            </tr>
+          {{/each}}
         </tbody>
       </table>
     </div>

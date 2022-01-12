@@ -8,7 +8,7 @@
 
     {{#if this.shouldDisplayResultRecipientInfoMessage}}
       <PixMessage @withIcon={{true}}>
-        Vous pouvez maintenant renseigner l'adresse email du destinataire des résultats (exemple : formateur).<br>
+        Vous pouvez maintenant renseigner l'adresse email du destinataire des résultats (exemple : formateur).<br />
         Pensez à bien renseigner ce champ lors de l'inscription des candidats.
         <a href="https://cloud.pix.fr/s/gTwmp4GKWNJtdn5" target="_blank" rel="noreferrer noopener">
           Plus d'informations ici.
@@ -20,13 +20,10 @@
       <div class="session-list__header">
         <PixButtonLink @route="authenticated.sessions.new">
           Créer une session&nbsp;
-          <FaIcon @icon='plus'/>
+          <FaIcon @icon="plus" />
         </PixButtonLink>
       </div>
     </div>
-    <SessionSummaryList
-            @sessionSummaries={{@model}}
-            @goToSessionDetails={{this.goToSessionDetails}}
-    />
+    <SessionSummaryList @sessionSummaries={{@model}} @goToSessionDetails={{this.goToSessionDetails}} />
   {{/if}}
 </div>

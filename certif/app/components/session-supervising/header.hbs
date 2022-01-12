@@ -11,8 +11,9 @@
   </PixButtonLink>
   <h1 class="session-supervising-header__title">Session {{@session.id}}</h1>
   <time class="session-supervising-header__date">
-    {{moment-format @session.date "DD/MM/YYYY"}} ·
-    {{moment-format @session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}
+    {{moment-format @session.date "DD/MM/YYYY"}}
+    ·
+    {{moment-format @session.time "HH:mm" "HH:mm:ss" allow-empty=true}}
   </time>
 
   <div>

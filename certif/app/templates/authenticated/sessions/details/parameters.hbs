@@ -2,21 +2,17 @@
   <div class="session-details-row">
     <div class="session-details-content session-details-content--multiple session-details-content--copyable">
       <h4 class="label-text session-details-content__label">Numéro de session</h4>
-      <div class="session-details-content__clipboard" {{on 'mouseout' this.removeSessionNumberTooltip}}>
+      <div class="session-details-content__clipboard" {{on "mouseout" this.removeSessionNumberTooltip}}>
         <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
         {{#if (is-clipboard-supported)}}
-          <PixTooltip
-            @id="tooltip-clipboard-button"
-            @text={{this.sessionNumberTooltipText}}
-            @isInline={{true}}
-          >
+          <PixTooltip @id="tooltip-clipboard-button" @text={{this.sessionNumberTooltipText}} @isInline={{true}}>
             <CopyButton
               @clipboardText={{this.session.id}}
               @success={{this.showSessionIdTooltip}}
               @classNames="icon-button session-details-content__clipboard-button"
               aria-label="Copier le code d'accès"
             >
-              <FaIcon @icon='copy' prefix='fas' />
+              <FaIcon @icon="copy" prefix="fas" />
             </CopyButton>
           </PixTooltip>
         {{/if}}
@@ -27,21 +23,17 @@
       <h4 class="label-text session-details-content__label">Code d'accès
         <div class="session-details-content__sub-label">Candidat</div>
       </h4>
-      <div class="session-details-content__clipboard" {{on 'mouseout' this.removeAccessCodeTooltip}}>
+      <div class="session-details-content__clipboard" {{on "mouseout" this.removeAccessCodeTooltip}}>
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
-          <PixTooltip
-            @id="tooltip-clipboard-button"
-            @text={{this.accessCodeTooltipText}}
-            @isInline={{true}}
-          >
+          <PixTooltip @id="tooltip-clipboard-button" @text={{this.accessCodeTooltipText}} @isInline={{true}}>
             <CopyButton
               @clipboardText={{this.session.accessCode}}
               @success={{this.showAccessCodeTooltip}}
               @classNames="icon-button session-details-content__clipboard-button"
               aria-label="Copier le code d'accès"
             >
-              <FaIcon @icon='copy' prefix='fas' />
+              <FaIcon @icon="copy" prefix="fas" />
             </CopyButton>
           </PixTooltip>
         {{/if}}
@@ -54,23 +46,19 @@
           Mot de passe de session
           <div class="session-details-content__sub-label">Surveillant</div>
         </h4>
-        <div class="session-details-content__clipboard" {{on 'mouseout' this.removeSupervisorPasswordTooltip}}>
+        <div class="session-details-content__clipboard" {{on "mouseout" this.removeSupervisorPasswordTooltip}}>
           <span class="content-text content-text--bold session-details-content__text">
             C-{{this.session.supervisorPassword}}
           </span>
           {{#if (is-clipboard-supported)}}
-            <PixTooltip
-              @id="tooltip-clipboard-button"
-              @text={{this.supervisorPasswordTooltipText}}
-              @isInline={{true}}
-            >
+            <PixTooltip @id="tooltip-clipboard-button" @text={{this.supervisorPasswordTooltipText}} @isInline={{true}}>
               <CopyButton
                 @clipboardText={{this.session.supervisorPassword}}
                 @success={{this.showSupervisorPasswordTooltip}}
                 @classNames="icon-button session-details-content__clipboard-button"
                 aria-label="Copier le code d'accès"
               >
-                <FaIcon @icon='copy' prefix='fas' />
+                <FaIcon @icon="copy" prefix="fas" />
               </CopyButton>
             </PixTooltip>
           {{/if}}
@@ -93,7 +81,6 @@
       <span class="content-text session-details-content__text">{{this.session.examiner}}</span>
     </div>
 
-
   </div>
 
   <div class="session-details-row">
@@ -108,21 +95,16 @@
   <div class="session-details-row">
     {{#if this.sessionHasStarted}}
       <div class="session-details-buttons">
-        <PixButtonLink
-          @route="authenticated.sessions.update"
-          @model={{this.session.id}}
-          @backgroundColor="grey"
-        >
-            Modifier
+        <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
+          Modifier
         </PixButtonLink>
       </div>
-      <div class="session-details-buttons session-details-buttons--push-right {{if this.session.isFinalized "button--disabled"}}">
-        <PixButtonLink
-          @route="authenticated.sessions.finalize"
-          @model={{this.session.id}}
-          class="push-right"
-        >
-            Finaliser la session
+      <div
+        class="session-details-buttons session-details-buttons--push-right
+          {{if this.session.isFinalized 'button--disabled'}}"
+      >
+        <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
+          Finaliser la session
         </PixButtonLink>
       </div>
     {{else}}
