@@ -139,7 +139,8 @@
     "actions": {
       "back": "Back",
       "cancel": "Cancel",
-      "close": "Close"
+      "close": "Close",
+      "global": "Actions"
     },
     "filters": {
       "loading": "Loading...",

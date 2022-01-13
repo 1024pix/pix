@@ -15,12 +15,12 @@
     <table class="table content-text content-text--small">
       <thead>
         <tr>
-          <th>{{t "pages.campaign-activity.table.column.last-name"}}</th>
-          <th>{{t "pages.campaign-activity.table.column.first-name"}}</th>
+          <Table::Header @size="wide">{{t "pages.campaign-activity.table.column.last-name"}}</Table::Header>
+          <Table::Header @size="wide">{{t "pages.campaign-activity.table.column.first-name"}}</Table::Header>
           {{#if @campaign.idPixLabel}}
-            <th>{{@campaign.idPixLabel}}</th>
+            <Table::Header @size="wide">{{@campaign.idPixLabel}}</Table::Header>
           {{/if}}
-          <th>{{t "pages.campaign-activity.table.column.status"}}</th>
+          <Table::Header @size="wide">{{t "pages.campaign-activity.table.column.status"}}</Table::Header>
         </tr>
       </thead>
 
