@@ -1,6 +1,7 @@
 const sortBy = require('lodash/sortBy');
 const moment = require('moment');
 const getImagePathByBadgeKey = require('./get-image-path-by-badge-key');
+const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils');
 
 class AttestationViewModel {
   constructor({
@@ -109,12 +110,10 @@ class AttestationViewModel {
     if (certificate.getAcquiredPixPlusEduCertification()) {
       hasAcquiredPixPlusEduCertification = true;
       pixPlusEduCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredPixPlusEduCertification());
-      pixPlusEduTemporaryBadgeMessage = [
-        `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}”`,
-        'dans le cadre du volet 1 de la certification',
-        'Pix+Édu. Votre niveau final sera déterminé',
-        'à l’issue du volet 2',
-      ];
+      pixPlusEduTemporaryBadgeMessage = toArrayOfFixedLengthStringsConservingWords(
+        `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
+        45
+      );
     }
 
     const sortedCompetenceTree = sortBy(certificate.resultCompetenceTree.areas, 'code');
