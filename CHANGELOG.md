@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.154.0 (13/01/2022)
+
+
+### :rocket: Enhancement
+- [#3909](https://github.com/1024pix/pix/pull/3909) [FEATURE][A11Y] Indiquer que la saisie des champs est obligatoire sur Pix Orga (PIX-3891).
+- [#3936](https://github.com/1024pix/pix/pull/3936) [FEATURE] Autorise l'utilisation d'un wildcard dans les URLs autorisées a avoir un embed (PIX-4132)
+- [#3898](https://github.com/1024pix/pix/pull/3898) [FEATURE] Mise à jour des RT dans Pix-Admin (PIX-3960).
+- [#3915](https://github.com/1024pix/pix/pull/3915) [FEATURE] Afficher le message de certification terminée par le surveillant sur la page de fin de test (PIX-4110)
+- [#3920](https://github.com/1024pix/pix/pull/3920) [FEATURE] Afficher les certifications Pix+ Édu dans le tableau listant les certifications dans Pix Admin (PIX-3992).
+- [#3929](https://github.com/1024pix/pix/pull/3929) [FEATURE] Ajouter les traductions manquantes à la nouvelle page de fin de test (PIX-4121)
+
+### :building_construction: Tech
+- [#3938](https://github.com/1024pix/pix/pull/3938) [TECH] Retour du thème par défaut pour le template de pull request.
+- [#3923](https://github.com/1024pix/pix/pull/3923) [TECH] Suppression de paramètres inutilisés
+- [#3904](https://github.com/1024pix/pix/pull/3904) [TECH] Campagne FLASH1234 sans profile cible (PIX-3823)
+
+### :bug: Bug fix
+- [#3927](https://github.com/1024pix/pix/pull/3927) [BUGFIX] Affiche le message d'erreur lorsqu'une campagne n'a pas de profil cible (PIX-4091).
+
+### :coffee: Various
+- [#3919](https://github.com/1024pix/pix/pull/3919) [A11Y] Ajouter un role "columnheader" a tous les tableaux dans Pix Orga (Pix-4115)
+
 ## v3.153.0 (11/01/2022)
 
 
