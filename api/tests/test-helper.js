@@ -155,12 +155,6 @@ function catchErr(promiseFn, ctx) {
   };
 }
 
-function compareDatabaseObject(evaluatedObject, expectedObject) {
-  return expect(_.omit(evaluatedObject, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(
-    _.omit(expectedObject, ['id', 'createdAt', 'updatedAt'])
-  );
-}
-
 chai.use(function (chai) {
   const Assertion = chai.Assertion;
 
@@ -232,7 +226,6 @@ module.exports = {
   streamToPromise,
   catchErr,
   testErr: new Error('Fake Error'),
-  compareDatabaseObject,
   mockLearningContent,
   learningContentBuilder,
 };
