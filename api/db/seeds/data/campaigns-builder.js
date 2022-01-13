@@ -383,7 +383,7 @@ __Plus d'infos :)__
     code: 'FLASH1234',
     type: 'ASSESSMENT',
     organizationId: PRO_COMPANY_ID,
-    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    targetProfileId: null,
     creatorId: 2,
     ownerId: 2,
     idPixLabel: null,

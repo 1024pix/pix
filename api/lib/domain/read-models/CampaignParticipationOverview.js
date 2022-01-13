@@ -20,7 +20,7 @@ class CampaignParticipationOverview {
     this.createdAt = createdAt;
     this.isShared = status === SHARED;
     this.sharedAt = sharedAt;
-    this.targetProfileId = targetProfile.id;
+    this.targetProfileId = targetProfile?.id;
     this.organizationName = organizationName;
     this.status = status;
     this.campaignCode = campaignCode;
@@ -31,18 +31,18 @@ class CampaignParticipationOverview {
   }
 
   get validatedStagesCount() {
-    if (_.isEmpty(this.targetProfile.stages) || !this.isShared) return null;
+    if (_.isEmpty(this.targetProfile?.stages) || !this.isShared) return null;
 
     const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= this.masteryRate * 100);
     return validatedStages.length;
   }
 
   get totalStagesCount() {
-    return this._getReachableStages().length;
+    return this._getReachableStages()?.length ?? 0;
   }
 
   _getReachableStages() {
-    return this.targetProfile.stages.filter((stage) => stage.threshold > 0);
+    return this.targetProfile?.stages.filter((stage) => stage.threshold > 0);
   }
 }
 
