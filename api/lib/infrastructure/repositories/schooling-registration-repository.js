@@ -260,16 +260,17 @@ module.exports = {
     );
   },
 
-  findOneByUserIdAndOrganizationId({
+  async findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    return BookshelfSchoolingRegistration.where({ userId, organizationId })
-      .fetch({ require: false, transacting: domainTransaction.knexTransaction })
-      .then((schoolingRegistration) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
-      );
+    const schoolingRegistration = await knex('schooling-registrations')
+      .transacting(domainTransaction)
+      .first('*')
+      .where({ userId, organizationId });
+    if (!schoolingRegistration) return null;
+    return new SchoolingRegistration(schoolingRegistration);
   },
 
   async updateStudentNumber(studentId, studentNumber) {
