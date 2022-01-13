@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -16,7 +15,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
   test('it should contain inputs, attributes and validation button', async function (assert) {
     // when
-    await render(
+    await renderScreen(
       hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
     );
 
@@ -26,9 +25,19 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', '5000');
   });
 
+  test('[a11y] it should display a message that some inputs are required', async function (assert) {
+    // when
+    const screen = await renderScreen(
+      hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+    );
+
+    // then
+    assert.dom(screen.getByText('indique un champ obligatoire')).exists();
+  });
+
   test('it should send campaign update action when submitted', async function (assert) {
     // when
-    await render(
+    await renderScreen(
       hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
     );
 
@@ -43,7 +52,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     test('it should display campaign title input', async function (assert) {
       this.campaign = EmberObject.create({ isTypeAssessment: true });
 
-      await render(
+      await renderScreen(
         hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
       );
 
@@ -56,7 +65,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     test('it should not display campaign title input', async function (assert) {
       this.campaign = EmberObject.create({ isTypeAssessment: false });
 
-      await render(
+      await renderScreen(
         hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
       );
 

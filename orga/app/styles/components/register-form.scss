@@ -4,14 +4,31 @@
   &__cgu {
     font-family: $roboto;
     font-size: 0.875rem;
-    font-weight: 300;
   }
 
-  &__cgu-label input[type=checkbox] {
-    margin: 2px 6px 0 0;
+  &__cgu-label {
+    display: flex;
+    align-items: center;
+
+    input[type=checkbox] {
+      margin: 0 6px 0 0;
+    }
+  }
+
+  &__cgu-error {
+    color: $red;
+    font-size: 0.75em;
   }
 
   .input-container {
-    margin: 16px 2px;
+    margin: 16px 2px 25px 2px;
+
+    &:nth-child(6){
+      padding-top: 20px;
+    }
+  }
+
+  .pix-input-password > .pix-input__error-message {
+    bottom: calc(-18px - 1px - 0.75rem);
   }
 }

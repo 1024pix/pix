@@ -149,6 +149,11 @@
         "empty": "Aucune classe"
       }
     },
+    "form": {
+      "mandatory-all-fields": "Tous les champs sont obligatoires.",
+      "mandatory-fields": " indique un champ obligatoire",
+      "mandatory-fields-title": "obligatoire"
+    },
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Page d'accueil de Pix Orga",
     "loading": "Chargement en cours",
@@ -510,6 +515,8 @@
       "active-or-retrieve": "Activez ou récupérez votre espace Pix Orga",
       "email": "Adresse e-mail",
       "errors": {
+        "invalid-email": "Votre adresse e-mail n’est pas valide.",
+        "empty-password": "Le champ mot de passe est obligatoire.",
         "status": {
           "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
           "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
@@ -523,10 +530,7 @@
       "is-only-accessible": "L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.",
       "login": "Je me connecte",
       "only-for-admin": "Réservé aux personnels de direction des établissements scolaires publics et privés sous contrat.",
-      "password": "Mot de passe",
-      "show-password": "Afficher le mot de passe",
-      "hide-password": "Masquer le mot de passe",
-      "mandatory-all-fields": "Tous les champs sont obligatoires."
+      "password": "Mot de passe"
     },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}",
@@ -565,7 +569,11 @@
             "label": "Mot de passe"
           }
         },
-        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « Informatique et Libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr."
+        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « Informatique et Libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr.",
+        "errors": {
+          "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+          "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
+        }
       }
     },
     "preselect-target-profile": {

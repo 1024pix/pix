@@ -1,95 +1,63 @@
 <div class="register-form">
   <form {{on "submit" this.register}}>
-
-    <div id="register-firstName-container" class="input-container">
-      <label for="register-firstName" class="label">{{t
-          "pages.login-or-register.register-form.fields.first-name.label"
-        }}</label>
-      <Input
-        id="register-firstName"
+    <p class="login-form__information">{{t "common.form.mandatory-all-fields"}}</p>
+    <div class="input-container">
+      <PixInput
+        @id="register-firstName"
+        @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
         name="firstName"
         @type="firstName"
-        class="input {{if this.validation.firstName.hasError "input--error"}}"
-        @value={{this.user.firstName}}
+        @value={{this.firstName}}
+        {{on "focusout" this.validateFirstName}}
+        @errorMessage={{this.firstNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
         autocomplete="given-name"
-        {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
       />
-      {{#if this.validation.firstName.hasError}}
-        <div
-          class="alert-input alert-input--error alert-input--left"
-          role="alert"
-        >{{this.validation.firstName.message}}</div>
-      {{/if}}
     </div>
 
-    <div id="register-lastName-container" class="input-container">
-      <label for="register-lastName" class="label">{{t
-          "pages.login-or-register.register-form.fields.last-name.label"
-        }}</label>
-      <Input
-        id="register-lastName"
+    <div class="input-container">
+      <PixInput
+        @id="register-lastName"
+        @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
         name="lastName"
         @type="lastName"
-        class="input {{if this.validation.lastName.hasError "input--error"}}"
-        @value={{this.user.lastName}}
+        @value={{this.lastName}}
+        {{on "focusout" this.validateLastName}}
+        @errorMessage={{this.lastNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
         autocomplete="family-name"
-        {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
       />
-      {{#if this.validation.lastName.hasError}}
-        <div
-          class="alert-input alert-input--error alert-input--left"
-          role="alert"
-        >{{this.validation.lastName.message}}</div>
-      {{/if}}
     </div>
 
-    <div id="register-email-container" class="input-container">
-      <label for="register-email" class="label">{{t "pages.login-or-register.register-form.fields.email.label"}}</label>
-      <Input
-        id="register-email"
+    <div class="input-container">
+      <PixInput
+        @id="register-email"
+        @label={{t "pages.login-or-register.register-form.fields.email.label"}}
         name="email"
         @type="email"
-        class="input {{if this.validation.email.hasError "input--error"}}"
-        @value={{this.user.email}}
+        @value={{this.email}}
+        {{on "focusout" this.validateEmail}}
+        @errorMessage={{this.emailValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
         autocomplete="email"
-        {{on "focusout" (fn this.validateInput "email" this.user.email)}}
       />
-      {{#if this.validation.email.hasError}}
-        <div
-          class="alert-input alert-input--error alert-input--left"
-          role="alert"
-        >{{this.validation.email.message}}</div>
-      {{/if}}
     </div>
 
-    <div id="register-password-container" class="input-container">
-      <label for="register-password" class="label">{{t
-          "pages.login-or-register.register-form.fields.password.label"
-        }}</label>
-      <div class="input-password {{if this.validation.password.hasError "input-password--error"}}">
-        <Input
-          id="register-password"
-          name="password"
-          @type={{this.passwordInputType}}
-          class="input"
-          @value={{this.user.password}}
-          autocomplete="current-password"
-          {{on "focusout" (fn this.validateInput "password" this.user.password)}}
-        />
-        <PixIconButton
-          @icon="{{if this.isPasswordVisible "eye" "eye-slash"}}"
-          aria-label="rendre le mot de passe lisible"
-          @triggerAction={{this.togglePasswordVisibility}}
-          @withBackground={{false}}
-          @color="dark-grey"
-        />
-      </div>
-      {{#if this.validation.password.hasError}}
-        <div
-          class="alert-input alert-input--error alert-input--left"
-          role="alert"
-        >{{this.validation.password.message}}</div>
-      {{/if}}
+    <div class="input-container">
+      <PixInputPassword
+        @id="register-password"
+        name="password"
+        @label={{t "pages.login-or-register.register-form.fields.password.label"}}
+        autocomplete="current-password"
+        required={{true}}
+        aria-required={{true}}
+        {{on "input" this.validatePassword}}
+        {{on "focusout" this.validatePassword}}
+        @errorMessage={{this.passwordValidationMessage}}
+      />
     </div>
 
     <div id="register-cgu-container" class="input-container">
@@ -97,9 +65,11 @@
         <Input
           id="register-cgu"
           @type="checkbox"
-          @checked={{this.user.cgu}}
+          @checked={{this.cgu}}
+          required={{true}}
+          aria-required={{true}}
           aria-label="{{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}"
-          {{on "focusout" (fn this.validateInput "cgu" this.user.cgu)}}
+          {{on "focusout" this.validateCgu}}
         />
         <span class="register-form__cgu">
           {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
@@ -113,10 +83,16 @@
           </a>
         </span>
       </label>
-      {{#if this.validation.cgu.hasError}}
-        <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.cgu.message}}</div>
+      {{#if this.cguValidationMessage}}
+        <div class="register-form__cgu-error" role="alert">{{this.cguValidationMessage}}</div>
       {{/if}}
     </div>
+
+    {{#if this.errorMessage}}
+      <PixMessage @type="alert">
+        {{this.errorMessage}}
+      </PixMessage>
+    {{/if}}
 
     <div class="input-container">
       <PixButton @type="submit" @isLoading={{this.isLoading}}>
