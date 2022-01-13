@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const hashInt = require('hash-int');
 
 const config = require('../../../config');
 
@@ -15,6 +16,7 @@ module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getNonAnsweredChallenges,
+  pickRandomChallenge,
 };
 
 function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
@@ -119,6 +121,10 @@ function getNonAnsweredChallenges({ allAnswers, challenges }) {
   const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenges);
 
   return nonAnsweredChallenges;
+}
+
+function pickRandomChallenge(challenges, seed) {
+  return challenges[Math.abs(hashInt(seed)) % challenges.length];
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {

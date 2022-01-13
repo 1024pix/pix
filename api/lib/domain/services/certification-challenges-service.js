@@ -15,6 +15,8 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const targetProfileWithLearningContentRepository = require('../../infrastructure/repositories/target-profile-with-learning-content-repository');
 const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
+const flash = require('../services/algorithm-methods/flash');
+const flashDataFetcher = require('../services/algorithm-methods/data-fetcher');
 
 module.exports = {
   async pickCertificationChallenges(placementProfile, locale) {
@@ -59,6 +61,25 @@ module.exports = {
       targetProfileWithLearningContent,
       certifiableBadge.key
     );
+  },
+
+  async pickFirstCertificationChallengeForFlash(userId, locale, domainTransaction) {
+    const flashData = await flashDataFetcher.fetchForFlashCertification({
+      answerRepository,
+      challengeRepository,
+      locale,
+      domainTransaction,
+    });
+    const algoResult = flash.getPossibleNextChallenges(flashData);
+    // FIXME use another seed?
+    const firstChallenge = flash.pickRandomChallenge(algoResult.possibleChallenges, userId);
+
+    return CertificationChallenge.createForPixCertification({
+      challengeId: firstChallenge.id,
+      competenceId: firstChallenge.competenceId,
+      associatedSkillId: firstChallenge.skills[0].id,
+      associatedSkillName: firstChallenge.skills[0].name,
+    });
   },
 };
 

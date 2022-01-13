@@ -104,9 +104,28 @@ async function fetchForFlashLevelEstimation({ assessment, answerRepository, chal
   };
 }
 
+async function fetchForFlashCertification({
+  assessment,
+  answerRepository,
+  challengeRepository,
+  locale,
+  domainTransaction,
+}) {
+  const [allAnswers, challenges] = await Promise.all([
+    assessment != null ? answerRepository.findByAssessment(assessment.id, domainTransaction) : [],
+    challengeRepository.findFlashCompatible(locale),
+  ]);
+
+  return {
+    allAnswers,
+    challenges,
+  };
+}
+
 module.exports = {
   fetchForCampaigns,
   fetchForCompetenceEvaluations,
   fetchForFlashCampaigns,
   fetchForFlashLevelEstimation,
+  fetchForFlashCertification,
 };

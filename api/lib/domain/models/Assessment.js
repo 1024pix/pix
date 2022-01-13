@@ -1,4 +1,3 @@
-const hashInt = require('hash-int');
 const { ObjectValidationError } = require('../errors');
 
 const courseIdMessage = {
@@ -141,10 +140,6 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
-  chooseNextFlashChallenge(challenges) {
-    return challenges[Math.abs(hashInt(this.id)) % challenges.length];
-  }
-
   static computeMethodFromType(type) {
     switch (type) {
       case Assessment.types.CERTIFICATION:
@@ -158,14 +153,14 @@ class Assessment {
     }
   }
 
-  static createForCertificationCourse({ userId, certificationCourseId }) {
+  static createForCertificationCourse({ userId, certificationCourseId, method = methods.CERTIFICATION_DETERMINED }) {
     return new Assessment({
       userId,
       certificationCourseId,
       state: Assessment.states.STARTED,
       type: Assessment.types.CERTIFICATION,
       isImproving: false,
-      method: methods.CERTIFICATION_DETERMINED,
+      method,
     });
   }
 

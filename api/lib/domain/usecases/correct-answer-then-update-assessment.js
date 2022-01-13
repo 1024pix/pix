@@ -20,6 +20,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   flashAssessmentResultRepository,
   flashAlgorithmService,
   algorithmDataFetcherService,
+  certificationChallengeRepository,
 } = {}) {
   const assessment = await assessmentRepository.get(answer.assessmentId);
   if (assessment.userId !== userId) {
@@ -86,11 +87,22 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   });
 
   if (assessment.isFlash()) {
-    const flashData = await algorithmDataFetcherService.fetchForFlashLevelEstimation({
-      assessment,
-      answerRepository,
-      challengeRepository,
-    });
+    let flashData;
+
+    if (assessment.isCertification()) {
+      flashData = await algorithmDataFetcherService.fetchForFlashCertification({
+        assessment,
+        answerRepository,
+        challengeRepository,
+        locale,
+      });
+    } else {
+      flashData = await algorithmDataFetcherService.fetchForFlashLevelEstimation({
+        assessment,
+        answerRepository,
+        challengeRepository,
+      });
+    }
 
     const { estimatedLevel, errorRate } = flashAlgorithmService.getEstimatedLevelAndErrorRate(flashData);
 
@@ -99,6 +111,24 @@ module.exports = async function correctAnswerThenUpdateAssessment({
       estimatedLevel,
       errorRate,
     });
+
+    if (assessment.isCertification()) {
+      const algoResult = flashAlgorithmService.getPossibleNextChallenges({ ...flashData, estimatedLevel });
+
+      if (!algoResult.hasAssessmentEnded) {
+        const nextChallenge = flashAlgorithmService.pickRandomChallenge(algoResult.possibleChallenges, assessment.id);
+
+        await certificationChallengeRepository.save({
+          certificationChallenge: {
+            courseId: assessment.certificationCourseId,
+            challengeId: nextChallenge.id,
+            competenceId: nextChallenge.competenceId,
+            associatedSkillId: nextChallenge.skills[0].id,
+            associatedSkillName: nextChallenge.skills[0].name,
+          },
+        });
+      }
+    }
   }
   return answerSaved;
 };

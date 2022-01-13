@@ -10,6 +10,7 @@ const {
   CandidateNotAuthorizedToResumeCertificationTestError,
 } = require('../errors');
 const { features, featureToggles } = require('../../config');
+const { methods } = require('../models/Assessment');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -29,6 +30,11 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   certificationBadgesService,
   verifyCertificateCodeService,
   endTestScreenRemovalService,
+  flashAlgorithmService,
+  certificationChallengeRepository,
+  algorithmDataFetcherService,
+  answerRepository,
+  challengeRepository,
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -80,6 +86,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     userId,
     certificationCandidate,
     locale,
+    session,
     assessmentRepository,
     competenceRepository,
     certificationCourseRepository,
@@ -89,6 +96,11 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     verifyCertificateCodeService,
     complementaryCertificationRepository,
     certificationBadgesService,
+    flashAlgorithmService,
+    certificationChallengeRepository,
+    algorithmDataFetcherService,
+    answerRepository,
+    challengeRepository,
   });
 };
 
@@ -98,6 +110,7 @@ async function _startNewCertification({
   userId,
   certificationCandidate,
   locale,
+  session,
   assessmentRepository,
   certificationCourseRepository,
   certificationCenterRepository,
@@ -109,13 +122,24 @@ async function _startNewCertification({
 }) {
   const challengesForCertification = [];
 
-  const challengesForPixCertification = await _createPixCertification(
-    placementProfileService,
-    certificationChallengesService,
-    userId,
-    locale
-  );
-  challengesForCertification.push(...challengesForPixCertification);
+  // FIXME use a new field
+  if (session.examiner === 'FLASH') {
+    const firstFlashChallege = await certificationChallengesService.pickFirstCertificationChallengeForFlash(
+      userId,
+      locale,
+      domainTransaction
+    );
+
+    challengesForCertification.push(firstFlashChallege);
+  } else {
+    const challengesForPixCertification = await _createPixCertification(
+      placementProfileService,
+      certificationChallengesService,
+      userId,
+      locale
+    );
+    challengesForCertification.push(...challengesForPixCertification);
+  }
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -193,6 +217,7 @@ async function _startNewCertification({
   }
 
   return _createCertificationCourse({
+    session,
     certificationCandidate,
     certificationCourseRepository,
     assessmentRepository,
@@ -229,6 +254,7 @@ async function _createPixCertification(placementProfileService, certificationCha
 }
 
 async function _createCertificationCourse({
+  session,
   certificationCandidate,
   certificationCourseRepository,
   assessmentRepository,
@@ -258,6 +284,7 @@ async function _createCertificationCourse({
   const newAssessment = Assessment.createForCertificationCourse({
     userId,
     certificationCourseId: savedCertificationCourse.getId(),
+    method: session.examiner === 'FLASH' ? methods.FLASH : methods.CERTIFICATION_DETERMINED,
   });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
 

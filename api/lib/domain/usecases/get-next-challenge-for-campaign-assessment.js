@@ -27,7 +27,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       throw new AssessmentEndedError();
     }
 
-    return assessment.chooseNextFlashChallenge(algoResult.possibleChallenges);
+    return flash.pickRandomChallenge(algoResult.possibleChallenges, assessment.id);
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });

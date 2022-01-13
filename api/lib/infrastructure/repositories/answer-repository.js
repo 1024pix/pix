@@ -4,6 +4,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
+const DomainTransaction = require('../DomainTransaction');
 
 function _adaptAnswerToDb(answer) {
   return {
@@ -80,8 +81,12 @@ module.exports = {
     return _toDomain(answerDTO);
   },
 
-  async findByAssessment(assessmentId) {
-    const answerDTOs = await knex.select(COLUMNS).from('answers').where({ assessmentId }).orderBy('createdAt');
+  async findByAssessment(assessmentId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const findByAssessmentQuery = knex.select(COLUMNS).from('answers').where({ assessmentId }).orderBy('createdAt');
+    if (knexTransaction) {
+      findByAssessmentQuery.transacting(knexTransaction);
+    }
+    const answerDTOs = await findByAssessmentQuery;
     const answerDTOsWithoutDuplicate = _.uniqBy(answerDTOs, 'challengeId');
 
     return _toDomainArray(answerDTOsWithoutDuplicate);
