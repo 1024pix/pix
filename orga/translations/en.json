@@ -149,6 +149,11 @@
         "empty": "No class"
       }
     },
+    "form": {
+      "mandatory-all-fields": "All fields are required.",
+      "mandatory-fields": " indicates a required field",
+      "mandatory-fields-title": "required"
+    },
     "help-form": "https://pix.org/en-gb/contact-form",
     "home-page": "Pix Orga home page",
     "loading": "Loading",
@@ -304,14 +309,7 @@
         "profiles-collection": "Collect the participants' Pix profiles",
         "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score."
       },
-      "target-profiles-list": {
-        "label": "What would you like to test?",
-        "percentage": "percentage",
-        "star": "star",
-        "tube": "Topics: {count}",
-        "thematic-results": "Thematic results: {count}",
-        "result": "Success rate in "
-      },
+      "target-profiles-list-label": "What would you like to test?",
       "target-profiles-search-placeholder": "Search by name",
       "test-title": {
         "label": "Title of the customised test"
@@ -517,6 +515,8 @@
       "active-or-retrieve": "Activate or retrieve your Pix Orga space",
       "email": "Email address",
       "errors": {
+        "invalid-email": "Your email address is invalid.",
+        "empty-password": "Your password can't be empty.",
         "status": {
           "401": "Missing or invalid credentials",
           "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
@@ -530,10 +530,7 @@
       "is-only-accessible": "Pix Orga is only accessible to invited members. Please contact your Pix Orga administrator in order to be invited.",
       "login": "Log in",
       "only-for-admin": "only for school administrations",
-      "password": "Password",
-      "show-password": "Show password",
-      "hide-password": "Hide password",
-      "mandatory-all-fields": "All fields are required."
+      "password": "Password"
     },
     "login-or-register": {
       "title": "You have been invited to join the organisation {organizationName}",
@@ -572,7 +569,11 @@
             "label": "Password"
           }
         },
-        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
+        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
+        "errors": {
+          "default": "The service is temporarily unavailable. Please try again later.",
+          "email-already-exists": "This email address is already registered, please login."
+        }
       }
     },
     "preselect-target-profile": {

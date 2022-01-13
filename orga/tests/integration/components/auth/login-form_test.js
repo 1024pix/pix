@@ -1,13 +1,10 @@
 import { reject, resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
-
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
-
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { triggerEvent } from '@ember/test-helpers';
+import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -33,16 +30,24 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
   test('it should ask for email and password', async function (assert) {
     // when
-    await render(hbs`<Auth::LoginForm/>`);
+    await renderScreen(hbs`<Auth::LoginForm/>`);
 
     // then
     assert.dom('#login-email').exists();
     assert.dom('#login-password').exists();
   });
 
+  test('[a11y] it should display a message that all inputs are required', async function (assert) {
+    // when
+    const screen = await renderScreen(hbs`<Auth::LoginForm/>`);
+
+    // then
+    assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
+  });
+
   test('it should not display error message', async function (assert) {
     // when
-    await render(hbs`<Auth::LoginForm/>`);
+    await renderScreen(hbs`<Auth::LoginForm/>`);
 
     // then
     assert.dom('#login-form-error-message').doesNotExist();
@@ -62,7 +67,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     test('it should call authentication service with appropriate parameters', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`<Auth::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await renderScreen(hbs`<Auth::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillByLabel(emailInputLabel, 'pix@example.net');
       await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
@@ -70,7 +75,6 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      assert.dom('.alert-input--error').doesNotExist();
       assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
       assert.equal(sessionServiceObserver.email, 'pix@example.net');
       assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
@@ -99,7 +103,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     test('it should be ok and call authentication service with appropriate parameters', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(
+      await renderScreen(
         hbs`<Auth::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`
       );
       await fillByLabel(emailInputLabel, 'pix@example.net');
@@ -109,7 +113,6 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      assert.dom('.alert-input--error').doesNotExist();
       assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
       assert.equal(sessionServiceObserver.email, 'pix@example.net');
       assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
@@ -128,7 +131,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
-    await render(hbs`<Auth::LoginForm/>`);
+    await renderScreen(hbs`<Auth::LoginForm/>`);
     await fillByLabel(emailInputLabel, 'pix@example.net');
     await fillByLabel(passwordInputLabel, 'Mauvais mot de passe');
 
@@ -151,7 +154,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
-    await render(hbs`<Auth::LoginForm/>`);
+    await renderScreen(hbs`<Auth::LoginForm/>`);
     await fillByLabel(emailInputLabel, 'pix@example.net');
     await fillByLabel(passwordInputLabel, 'pix123');
 
@@ -167,44 +170,6 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     assert.dom('login-form__information').doesNotExist();
   });
 
-  module('when password is hidden', function (hooks) {
-    let showButtonText;
-
-    hooks.beforeEach(async function () {
-      // given
-      showButtonText = this.intl.t('pages.login-form.show-password');
-      await render(hbs`<Auth::LoginForm/>`);
-    });
-
-    test('it should display password when user click', async function (assert) {
-      // when
-      await clickByName(showButtonText);
-
-      // then
-      assert.dom('#login-password').hasAttribute('type', 'text');
-    });
-
-    test('it should change icon when user click on it', async function (assert) {
-      // when
-      await clickByName(showButtonText);
-
-      // then
-      assert.dom('.fa-eye').exists();
-    });
-
-    test('it should not change icon when user keeps typing his password', async function (assert) {
-      // given
-      await fillByLabel(passwordInputLabel, 'début du mot de passe');
-
-      // when
-      await clickByName(showButtonText);
-      await fillByLabel(passwordInputLabel, 'fin du mot de passe');
-
-      // then
-      assert.dom('.fa-eye').exists();
-    });
-  });
-
   module('when domain is pix.org', function () {
     test('should not display recovery link', async function (assert) {
       //given
@@ -216,7 +181,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       this.owner.register('service:url', UrlStub);
 
       // when
-      await render(hbs`<Auth::LoginForm/>`);
+      await renderScreen(hbs`<Auth::LoginForm/>`);
 
       // then
       assert.dom('.login-form__recover-access-link').doesNotExist();
@@ -234,10 +199,37 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       this.owner.register('service:url', UrlStub);
 
       // when
-      await render(hbs`<Auth::LoginForm/>`);
+      await renderScreen(hbs`<Auth::LoginForm/>`);
 
       // then
       assert.dom('.login-form__recover-access-link').exists();
+    });
+  });
+
+  module('when the user fills inputs with errors', function () {
+    test('should display an invalid email error message when focus-out', async function (assert) {
+      //given
+      const invalidEmail = 'invalidEmail';
+      const screen = await renderScreen(hbs`<Auth::LoginForm/>`);
+
+      // when
+      await fillByLabel(emailInputLabel, invalidEmail);
+      await triggerEvent('#login-email', 'focusout');
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.login-form.errors.invalid-email'))).exists();
+    });
+
+    test('should display an empty password error message when focus-out', async function (assert) {
+      //given
+      const screen = await renderScreen(hbs`<Auth::LoginForm/>`);
+
+      // when
+      await fillByLabel(passwordInputLabel, '');
+      await triggerEvent('#login-password', 'focusout');
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.login-form.errors.empty-password'))).exists();
     });
   });
 });

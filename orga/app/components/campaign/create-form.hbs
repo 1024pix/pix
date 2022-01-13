@@ -1,14 +1,23 @@
 <form {{on "submit" this.onSubmit}} class="form">
+  <p class="form__mandatory-fields-information" aria-hidden="true">
+    <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
+    {{t "common.form.mandatory-fields"}}
+  </p>
 
   <div class="form__field">
+    <label class="label" for="campaign-name">
+      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+      {{t "pages.campaign-creation.name.label"}}
+    </label>
     <PixInput
       @id="campaign-name"
-      @label={{t "pages.campaign-creation.name.label"}}
       @name="campaign-name"
       @type="text"
       class="input"
       maxlength="255"
       @value={{this.campaign.name}}
+      required={{true}}
+      aria-required={{true}}
     />
 
     {{#if @errors.name}}
@@ -21,7 +30,10 @@
   {{#if this.currentUser.organization.canCollectProfiles}}
     <div class="form__field-with-info">
       <div class="form__field" role="radiogroup" aria-labelledby="collect-profiles-label">
-        <p id="collect-profiles-label" class="label">{{t "pages.campaign-creation.purpose.label"}}</p>
+        <p id="collect-profiles-label" class="label">
+          <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+          {{t "pages.campaign-creation.purpose.label"}}
+        </p>
         <div class="form__radio-button">
           <input
             type="radio"
@@ -30,6 +42,8 @@
             value="assess-participants"
             aria-describedby="campaign-goal-assessment-info"
             {{on "change" this.setCampaignGoal}}
+            required={{true}}
+            aria-required={{true}}
           />
           <label for="assess-participants">{{t "pages.campaign-creation.purpose.assessment"}}</label>
         </div>
@@ -74,15 +88,20 @@
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field-with-info form__field-with-info--small">
       <div class="form__field form__field--wide">
+        <label class="label" for="campaign-target-profile">
+          <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+          {{t "pages.campaign-creation.target-profiles-list-label"}}
+        </label>
         <PixSelect
           @id="campaign-target-profile"
-          @label={{t "pages.campaign-creation.target-profiles-list-label"}}
           @onChange={{this.selectTargetProfile}}
           @options={{this.targetProfilesOptions}}
           @emptyOptionLabel=""
           aria-describedby="target-profile-info"
           placeholder={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
           @isSearchable={{true}}
+          required={{true}}
+          aria-required={{true}}
         />
         {{#if @errors.targetProfile}}
           <div class="form__error error-message">
@@ -114,6 +133,7 @@
     <div class="form__field-with-info">
       <div class="form__field" aria-labelledby="multiple-sendings-label" role="radiogroup">
         <p id="multiple-sendings-label" class="label">
+          <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
           {{t "pages.campaign-creation.multiple-sendings.question-label"}}
         </p>
         <div class="form__radio-button">
@@ -151,7 +171,10 @@
   {{/if}}
 
   <div class="form__field" aria-labelledby="external-ids-label" role="radiogroup">
-    <p id="external-ids-label" class="label">{{t "pages.campaign-creation.external-id-label.question-label"}}</p>
+    <p id="external-ids-label" class="label">
+      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+      {{t "pages.campaign-creation.external-id-label.question-label"}}
+    </p>
     <div class="form__radio-button">
       <input
         type="radio"
@@ -159,6 +182,8 @@
         id="no-external-id"
         name="external-id-label"
         {{on "change" this.doNotAskLabelIdPix}}
+        required={{true}}
+        aria-required={{true}}
       />
       <label for="no-external-id">{{t "pages.campaign-creation.no"}}</label>
     </div>
@@ -179,9 +204,9 @@
       <PixInput
         @id="external-id-label"
         @name="external-id-label"
+        @information={{t "pages.campaign-creation.external-id-label.suggestion"}}
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
-        aria-required="true"
         @value={{this.campaign.idPixLabel}}
       />
       {{#if @errors.idPixLabel}}
@@ -189,9 +214,6 @@
           {{display-campaign-errors @errors.idPixLabel}}
         </div>
       {{/if}}
-      <div class="form__information help-text">
-        {{t "pages.campaign-creation.external-id-label.suggestion"}}
-      </div>
     </div>
   {{/if}}
 
