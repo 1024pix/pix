@@ -93,7 +93,10 @@ function _filterByStates(queryBuilder, states) {
 
 function _toReadModel(campaignParticipationOverviews) {
   return bluebird.mapSeries(campaignParticipationOverviews, async (data) => {
-    const targetProfile = await targetProfileWithLearningContentRepository.get({ id: data.targetProfileId });
+    let targetProfile;
+    if (data.targetProfileId) {
+      targetProfile = await targetProfileWithLearningContentRepository.get({ id: data.targetProfileId });
+    }
 
     return new CampaignParticipationOverview({
       ...data,

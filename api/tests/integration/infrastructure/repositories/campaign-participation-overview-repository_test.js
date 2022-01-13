@@ -475,5 +475,53 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         expect(campaignParticipationOverviews).to.deep.equal([]);
       });
     });
+
+    context('when there is at least one flash campaign', function () {
+      it('should not fetch targetProfile', async function () {
+        // given
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          title: 'Campaign FLASH',
+          code: 'FLASH',
+          organizationId,
+          assessmentMethod: 'FLASH',
+          targetProfileId: null,
+        });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+        });
+        databaseBuilder.factory.buildAssessment({
+          userId,
+          campaignParticipationId,
+          method: 'FLASH',
+          type: Assessment.types.CAMPAIGN,
+          targetProfile: null,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipationOverviews } =
+          await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        // then
+        expect(campaignParticipationOverviews).to.deep.equal([
+          {
+            campaignArchivedAt: null,
+            campaignCode: 'FLASH',
+            campaignTitle: 'Campaign FLASH',
+            createdAt: new Date('2020-01-01T00:00:00Z'),
+            id: campaignParticipationId,
+            isShared: true,
+            masteryRate: null,
+            organizationName: 'Organization ABCD',
+            sharedAt: new Date('2020-01-02T00:00:00Z'),
+            status: 'SHARED',
+            targetProfile: undefined,
+            targetProfileId: undefined,
+          },
+        ]);
+      });
+    });
   });
 });

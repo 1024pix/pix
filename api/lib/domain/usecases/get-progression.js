@@ -18,7 +18,10 @@ module.exports = async function getProgression({
 
   if (assessment.isForCampaign()) {
     const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
-    const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
+    let targetProfile;
+    if (!assessment.isFlash()) {
+      targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
+    }
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({
       userId,
       limitDate: campaignParticipation.sharedAt,
@@ -35,7 +38,7 @@ module.exports = async function getProgression({
 
     progression = new Progression({
       id: progressionId,
-      targetedSkills: targetProfile.skills,
+      targetedSkills: targetProfile?.skills,
       knowledgeElements: knowledgeElementsForProgression,
       isProfileCompleted: assessment.isCompleted(),
     });
