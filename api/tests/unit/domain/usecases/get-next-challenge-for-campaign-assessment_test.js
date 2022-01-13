@@ -7,8 +7,6 @@ const dataFetcher = require('../../../../lib/domain/services/algorithm-methods/d
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {
-    let knowledgeElementRepository;
-    let targetProfileRepository;
     let challengeRepository;
     let answerRepository;
     let flashAssessmentResultRepository;
@@ -40,8 +38,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
       // when
       await getNextChallengeForCampaignAssessment({
-        knowledgeElementRepository,
-        targetProfileRepository,
         challengeRepository,
         answerRepository,
         flashAssessmentResultRepository,
@@ -62,8 +58,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         const locale = 'fr-fr';
         // when
         await getNextChallengeForCampaignAssessment({
-          knowledgeElementRepository,
-          targetProfileRepository,
           challengeRepository,
           answerRepository,
           flashAssessmentResultRepository,
