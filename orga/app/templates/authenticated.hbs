@@ -2,9 +2,10 @@
   <Layout::Sidebar />
 
   <div class="main-content">
-    <Layout::Topbar />
-
-    <Banner::Information />
+    <header>
+      <Layout::Topbar />
+      <Banner::Information />
+    </header>
 
     <main class="main-content__body page">
       {{outlet}}
