@@ -27,4 +27,16 @@ module('Unit |  Component | Badges | badge', function (hooks) {
       assert.equal(component.isCertifiableText, 'Non certifiable');
     });
   });
+
+  module('isAlwaysVisible', function () {
+    test.only('returns color and text when is always visible', function (assert) {
+      const component = createComponent('component:badges/badge');
+      component.args = {
+        badge: { isAlwaysVisible: true },
+      };
+
+      assert.equal(component.isAlwaysVisibleColor, 'green');
+      assert.equal(component.isAlwaysVisibleText, 'Lacunes');
+    });
+  });
 });

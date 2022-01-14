@@ -100,6 +100,10 @@
           Message alternatif :
           {{@badge.altMessage}}<br />
           <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br />
+          {{#if @badge.isAlwaysVisible}}
+            <PixTag @color={{this.isAlwaysVisibleColor}} class="badge-data__tags">
+              {{this.isAlwaysVisibleText}}</PixTag><br />
+          {{/if}}
           <PixButton
             @backgroundColor="transparent-light"
             @isBorderVisible={{true}}

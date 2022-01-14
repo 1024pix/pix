@@ -19,6 +19,7 @@ module.exports = {
         'key',
         'title',
         'isCertifiable',
+        'isAlwaysVisible',
         'badgeCriteria',
         'skillSets',
         'badgePartnerCompetences',
