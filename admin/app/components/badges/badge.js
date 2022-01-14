@@ -14,6 +14,8 @@ export default class Badge extends Component {
   @tracked editMode = false;
   @tracked form = {};
 
+  IMAGE_BASE_URL = 'https://images.pix.fr/badges/';
+
   get isCertifiableColor() {
     return this.args.badge.isCertifiable ? 'green' : 'yellow';
   }
@@ -28,6 +30,10 @@ export default class Badge extends Component {
 
   get isAlwaysVisibleText() {
     return this.args.badge.isAlwaysVisible ? 'Lacunes' : null;
+  }
+
+  get imageName() {
+    return this.args.badge.imageUrl.slice(this.IMAGE_BASE_URL.length);
   }
 
   get badgeCriteria() {
@@ -84,7 +90,7 @@ export default class Badge extends Component {
     badge.altMessage = this.form.altMessage;
     badge.isCertifiable = this.form.isCertifiable;
     badge.isAlwaysVisible = this.form.isAlwaysVisible;
-    badge.imageUrl = this.form.imageUrl;
+    badge.imageUrl = this.IMAGE_BASE_URL + this.form.imageName;
     return badge;
   }
 
@@ -108,6 +114,6 @@ export default class Badge extends Component {
     this.form.altMessage = this.args.badge.altMessage;
     this.form.isCertifiable = this.args.badge.isCertifiable;
     this.form.isAlwaysVisible = this.args.badge.isAlwaysVisible;
-    this.form.imageUrl = this.args.badge.imageUrl;
+    this.form.imageName = this.imageName;
   }
 }
