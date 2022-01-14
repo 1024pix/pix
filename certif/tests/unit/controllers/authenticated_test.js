@@ -243,13 +243,15 @@ module('Unit | Controller | authenticated', function (hooks) {
   module('#get isEndTestScreenRemovalEnabled', function () {
     test('should return true when end test screen removal is enabled', function (assert) {
       // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = {
-          isEndTestScreenRemovalEnabled: true,
-        };
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        hasEndTestScreenRemovalEnabled: true,
+      });
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      this.owner.register('service:current-user', CurrentUserStub);
 
       const controller = this.owner.lookup('controller:authenticated');
 
@@ -261,14 +263,15 @@ module('Unit | Controller | authenticated', function (hooks) {
     });
 
     test('should return false when end test screen removal is not enabled', function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = {
-          isEndTestScreenRemovalEnabled: false,
-        };
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        hasEndTestScreenRemovalEnabled: false,
+      });
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      this.owner.register('service:current-user', CurrentUserStub);
 
       const controller = this.owner.lookup('controller:authenticated');
 

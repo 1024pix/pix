@@ -52,11 +52,17 @@ module('Acceptance | authenticated', function (hooks) {
     module('when end test screen removal is enabled', function () {
       test('it should show a "Espace surveillant" button', async function (assert) {
         // given
-        server.create('feature-toggle', {
-          id: 0,
-          isEndTestScreenRemovalEnabled: true,
+        const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+          name: 'Bibiche',
+          externalId: 'ABC123',
+          hasEndTestScreenRemovalEnabled: true,
         });
-        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        const certificationPointOfContact = server.create('certification-point-of-contact', {
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          pixCertifTermsOfServiceAccepted: true,
+          allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
+        });
         await authenticateSession(certificationPointOfContact.id);
 
         // when
@@ -68,11 +74,17 @@ module('Acceptance | authenticated', function (hooks) {
 
       test('it should redirect to the login session supervisor', async function (assert) {
         // given
-        server.create('feature-toggle', {
-          id: 0,
-          isEndTestScreenRemovalEnabled: true,
+        const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+          name: 'Bibiche',
+          externalId: 'ABC123',
+          hasEndTestScreenRemovalEnabled: true,
         });
-        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        const certificationPointOfContact = server.create('certification-point-of-contact', {
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          pixCertifTermsOfServiceAccepted: true,
+          allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
+        });
         await authenticateSession(certificationPointOfContact.id);
 
         // when
@@ -87,11 +99,17 @@ module('Acceptance | authenticated', function (hooks) {
     module('when end test screen removal is not enabled', function () {
       test('it should not show a "Espace surveillant" button', async function (assert) {
         // given
-        server.create('feature-toggle', {
-          id: 0,
-          isEndTestScreenRemovalEnabled: false,
+        const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+          name: 'Bibiche',
+          externalId: 'ABC123',
+          hasEndTestScreenRemovalEnabled: false,
         });
-        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        const certificationPointOfContact = server.create('certification-point-of-contact', {
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          pixCertifTermsOfServiceAccepted: true,
+          allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
+        });
         await authenticateSession(certificationPointOfContact.id);
 
         // when
