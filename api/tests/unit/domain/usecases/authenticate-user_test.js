@@ -30,7 +30,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       updateLastLoggedAt: sinon.stub(),
     };
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
-    sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCertificationCenterId');
+    sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledForSomeCertificationCenter');
   });
 
   it('should resolves a valid JWT access token when authentication succeeded', async function () {
@@ -161,15 +161,14 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     });
 
     context('when scope is pix-certif and user is not linked to any certification centers', function () {
-      it('should rejects an error when feature toggle is disabled for linked certification center', async function () {
+      it('should rejects an error when feature toggle is disabled for all certification center', async function () {
         // given
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
         authenticationService.getUserByUsernameAndPassword.resolves(user);
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCertificationCenterId.returns(true);
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.returns(false);
 
         const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
-
         // when
         const error = await catchErr(authenticateUser)({
           username: userEmail,
@@ -194,7 +193,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           certificationCenterMemberships: [Symbol('certificationCenterMembership')],
         });
 
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCertificationCenterId.returns(true);
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.returns(true);
         authenticationService.getUserByUsernameAndPassword.resolves(user);
         tokenService.createAccessTokenFromUser.returns(accessToken);
 

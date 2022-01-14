@@ -688,4 +688,30 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       expect(isScoManagingStudents).to.be.true;
     });
   });
+
+  context('#hasEndTestScreenRemovalEnabled', function () {
+    it('should return true when whitelisted', function () {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({ id: 1 });
+      settings.features.endTestScreenRemovalWhiteList = ['1'];
+
+      // when
+      const result = allowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled();
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when not whitelisted', function () {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({ id: 1 });
+      settings.features.endTestScreenRemovalWhiteList = ['2'];
+
+      // when
+      const result = allowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled();
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
 });

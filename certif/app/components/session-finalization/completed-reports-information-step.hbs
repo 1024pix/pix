@@ -14,17 +14,22 @@
         <th>Prénom</th>
         <th>N° de certification</th>
         <th>Signalement</th>
-        <th>
-          <div class="session-finalization-reports-information-step__row">
-            <div
-              class="session-finalization-reports-information-step__checker"
-              {{on "click" (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}
-            >
-              <CertifCheckbox @state={{this.headerCheckboxStatus}} />
+        {{#if @shouldDisplayHasSeenEndTestScreenCheckbox}}
+          <th>
+            <div class="session-finalization-reports-information-step__row">
+              <div
+                class="session-finalization-reports-information-step__checker"
+                {{on "click" (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}
+              >
+                <CertifCheckbox
+                  data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"
+                  @state={{this.headerCheckboxStatus}}
+                />
+              </div>
+              Écran de fin du test vu
             </div>
-            Écran de fin du test vu
-          </div>
-        </th>
+          </th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -64,13 +69,15 @@
               {{/if}}
             </div>
           </td>
-          <td>
-            <CertifCheckbox
-              data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
-              @state={{if report.hasSeenEndTestScreen "checked" "unchecked"}}
-              {{on "click" (fn @onHasSeenEndTestScreenCheckboxClicked report)}}
-            />
-          </td>
+          {{#if @shouldDisplayHasSeenEndTestScreenCheckbox}}
+            <td>
+              <CertifCheckbox
+                data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
+                @state={{if report.hasSeenEndTestScreen "checked" "unchecked"}}
+                {{on "click" (fn @onHasSeenEndTestScreenCheckboxClicked report)}}
+              />
+            </td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>
