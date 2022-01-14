@@ -1,10 +1,14 @@
 const { knex } = require('../../../db/knex-database-connection');
 const { NotFoundError } = require('../../domain/errors');
+const _ = require('lodash');
 const JuryCertification = require('../../domain/models/JuryCertification');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const cleaCertificationResultRepository = require('./clea-certification-result-repository');
-const pixPlusDroitMaitreCertificationResultRepository = require('./pix-plus-droit-maitre-certification-result-repository');
-const pixPlusDroitExpertCertificationResultRepository = require('./pix-plus-droit-expert-certification-result-repository');
+const PartnerCertification = require('../../domain/models/PartnerCertification');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../../domain/models/Badge').keys;
+const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
+const PixPlusDroitMaitreCertificationResult = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const PixPlusDroitExpertCertificationResult = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
 module.exports = {
   async get(certificationCourseId) {
@@ -50,12 +54,14 @@ function _selectJuryCertifications() {
       commentForOrganization: 'assessment-results.commentForOrganization',
       commentForJury: 'assessment-results.commentForJury',
       competenceMarks: knex.raw('json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)'),
+      partnerCertifications: knex.raw('json_agg("partner-certifications".*)'),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
+    .leftJoin('partner-certifications', 'partner-certifications.certificationCourseId', 'certification-courses.id')
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
 }
 
@@ -84,15 +90,28 @@ async function _toDomainWithComplementaryCertifications({ juryCertificationDTO, 
       })
   );
 
-  const cleaCertificationResult = await cleaCertificationResultRepository.get({
-    certificationCourseId: juryCertificationDTO.certificationCourseId,
-  });
-  const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({
-    certificationCourseId: juryCertificationDTO.certificationCourseId,
-  });
-  const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({
-    certificationCourseId: juryCertificationDTO.certificationCourseId,
-  });
+  const partnerCertifications = _.compact(juryCertificationDTO.partnerCertifications).map(PartnerCertification.from);
+
+  const cleaPartnerCertification = partnerCertifications.find(({ partnerKey }) =>
+    [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
+  );
+  const cleaCertificationResult = cleaPartnerCertification
+    ? CleaCertificationResult.buildFrom(cleaPartnerCertification)
+    : CleaCertificationResult.buildNotTaken();
+
+  const pixPlusDroitMaitrePartnerCertification = partnerCertifications.find(
+    ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF
+  );
+  const pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitrePartnerCertification
+    ? PixPlusDroitMaitreCertificationResult.buildFrom(pixPlusDroitMaitrePartnerCertification)
+    : PixPlusDroitMaitreCertificationResult.buildNotTaken();
+
+  const pixPlusDroitExpertPartnerCertification = partnerCertifications.find(
+    ({ partnerKey }) => partnerKey === PIX_DROIT_EXPERT_CERTIF
+  );
+  const pixPlusDroitExpertCertificationResult = pixPlusDroitExpertPartnerCertification
+    ? PixPlusDroitExpertCertificationResult.buildFrom(pixPlusDroitExpertPartnerCertification)
+    : PixPlusDroitExpertCertificationResult.buildNotTaken();
 
   return JuryCertification.from({
     juryCertificationDTO,
