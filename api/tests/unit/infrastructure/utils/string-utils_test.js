@@ -2,6 +2,7 @@ const { expect } = require('../../../test-helper');
 const {
   isNumeric,
   cleanStringAndParseFloat,
+  getArrayOfStrings,
   splitIntoWordsAndRemoveBackspaces,
   normalizeAndSortChars,
   normalize,
@@ -10,7 +11,7 @@ const {
 describe('Unit | Utils | string-utils', function () {
   const zeroWidthSpaceChar = '​';
 
-  describe('isNumeric', function () {
+  describe('#isNumeric', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'abc', expectedResult: false },
@@ -35,7 +36,7 @@ describe('Unit | Utils | string-utils', function () {
     });
   });
 
-  describe('cleanStringAndParseFloat', function () {
+  describe('#cleanStringAndParseFloat', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: '0123', expectedResult: 123 },
@@ -55,7 +56,7 @@ describe('Unit | Utils | string-utils', function () {
     });
   });
 
-  describe('splitIntoWordsAndRemoveBackspaces', function () {
+  describe('#splitIntoWordsAndRemoveBackspaces', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'abc', expectedResult: ['abc'] },
@@ -82,6 +83,38 @@ describe('Unit | Utils | string-utils', function () {
   describe('#normalize', function () {
     it(`should normalize chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, function () {
       expect(normalize("Féd '. 4àBç - 2 (îHg)K​J")).to.equal('FED4ABC2IHGKJ');
+    });
+  });
+
+  describe('#getArrayOfStrings', function () {
+    context('given value is undefined', function () {
+      it('should return an empty array', function () {
+        // when
+        const array = getArrayOfStrings(undefined);
+
+        // then
+        expect(array).to.be.empty;
+      });
+    });
+
+    context('given value has only one string', function () {
+      it('should return array of 1', function () {
+        // when
+        const array = getArrayOfStrings('un');
+
+        // then
+        expect(array).to.deep.equal(['UN']);
+      });
+    });
+
+    context('given value has more than one string', function () {
+      it('should return an array containing the strings, trimmed and uppercase', function () {
+        // when
+        const array = getArrayOfStrings('un, dos');
+
+        // then
+        expect(array).to.deep.equal(['UN', 'DOS']);
+      });
     });
   });
 });

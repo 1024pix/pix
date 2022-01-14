@@ -241,7 +241,7 @@ module('Unit | Controller | authenticated', function (hooks) {
   });
 
   module('#get isEndTestScreenRemovalEnabled', function () {
-    test('should return true when FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function (assert) {
+    test('should return true when end test screen removal is enabled', function (assert) {
       // given
       class FeatureTogglesStub extends Service {
         featureToggles = {
@@ -260,7 +260,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       assert.true(isEndTestScreenRemovalEnabled);
     });
 
-    test('should return false when FT_END_TEST_SCREEN_REMOVAL_ENABLED is not enbaled', function (assert) {
+    test('should return false when end test screen removal is not enabled', function (assert) {
       // given
       class FeatureTogglesStub extends Service {
         featureToggles = {

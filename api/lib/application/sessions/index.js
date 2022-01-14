@@ -1,11 +1,12 @@
 const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
-const sessionForMonitoringController = require('./session-for-supervising-controller');
+const sessionForSupervisingController = require('./session-for-supervising-controller');
 const finalizedSessionController = require('./finalized-session-controller');
 const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
+const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
 
 exports.register = async (server) => {
   server.route([
@@ -354,7 +355,13 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        handler: sessionForMonitoringController.get,
+        pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyBySessionId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
+        ],
+        handler: sessionForSupervisingController.get,
         tags: ['api', 'sessions', 'supervising'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
@@ -381,7 +388,13 @@ exports.register = async (server) => {
             return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
-        handler: sessionForMonitoringController.supervise,
+        pre: [
+          {
+            method: endTestScreenRemovalEnabled.verifyBySessionId,
+            assign: 'endTestScreenRemovalEnabledCheck',
+          },
+        ],
+        handler: sessionForSupervisingController.supervise,
         tags: ['api', 'sessions', 'supervising'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',

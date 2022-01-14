@@ -351,6 +351,14 @@ class CertificationEndedBySupervisorError extends DomainError {
   }
 }
 
+class SupervisorAccessNotAuthorizedError extends DomainError {
+  constructor(
+    message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix."
+  ) {
+    super(message);
+  }
+}
+
 class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
   constructor(message = 'Ce candidat de certification a déjà été lié à un utilisateur.') {
     super(message);
@@ -1072,6 +1080,7 @@ module.exports = {
   SessionAlreadyPublishedError,
   SessionNotAccessible,
   SiecleXmlImportError,
+  SupervisorAccessNotAuthorizedError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   TooManyRows,

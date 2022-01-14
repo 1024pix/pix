@@ -1,9 +1,8 @@
-const { expect, EMPTY_BLANK_AND_NULL, sinon } = require('../../../../test-helper');
+const { expect, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../../lib/domain/models/Session');
-const { featureToggles } = require('../../../../../lib/config');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function () {
   describe('#serialize()', function () {
@@ -63,31 +62,18 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
     });
 
     context('when session does not have a link to an existing certification center', function () {
-      context('when feature toggle FT_IS_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
-        it('should convert a Session model object into JSON API data without supervisor password', function () {
-          // when
-          const json = serializer.serialize(modelSession);
+      it('should convert a Session model object into JSON API data including supervisor password', function () {
+        // given
+        const expectedJsonApiIncludingSupervisorPassword = {
+          ...expectedJsonApi,
+        };
+        expectedJsonApiIncludingSupervisorPassword.data.attributes['supervisor-password'] = 'SOWHAT';
 
-          // then
-          expect(json).to.deep.equal(expectedJsonApi);
-        });
-      });
+        // when
+        const json = serializer.serialize(modelSession);
 
-      context('when feature toggle FT_IS_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
-        it('should convert a Session model object into JSON API data including supervisor password', function () {
-          // given
-          sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
-          const expectedJsonApiIncludingSupervisorPassword = {
-            ...expectedJsonApi,
-          };
-          expectedJsonApiIncludingSupervisorPassword.data.attributes['supervisor-password'] = 'SOWHAT';
-
-          // when
-          const json = serializer.serialize(modelSession);
-
-          // then
-          expect(json).to.deep.equal(expectedJsonApiIncludingSupervisorPassword);
-        });
+        // then
+        expect(json).to.deep.equal(expectedJsonApiIncludingSupervisorPassword);
       });
     });
   });

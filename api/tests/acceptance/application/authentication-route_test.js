@@ -18,6 +18,7 @@ const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
 
 const createServer = require('../../../server');
+const { features } = require('../../../lib/config');
 
 describe('Acceptance | Controller | authentication-controller', function () {
   const orgaRoleInDB = { id: 1, name: 'ADMIN' };
@@ -41,31 +42,15 @@ describe('Acceptance | Controller | authentication-controller', function () {
   });
 
   describe('POST /api/token', function () {
-    let options;
-
     beforeEach(async function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
-
-      options = {
-        method: 'POST',
-        url: '/api/token',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-        payload: querystring.stringify({
-          grant_type: 'password',
-          username: userEmailAddress,
-          password: userPassword,
-          scope: 'pix-orga',
-        }),
-      };
-
       await databaseBuilder.commit();
     });
 
     it('should return an 200 with accessToken when authentication is ok', async function () {
       // when
+      const options = _getOptions({ scope: 'pix-orga', username: userEmailAddress, password: userPassword });
       const response = await server.inject(options);
 
       // then
@@ -81,6 +66,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
       // given
       const username = 'username123';
       const shouldChangePassword = true;
+
+      const options = _getOptions({ scope: 'pix-orga', username, password: userPassword });
 
       databaseBuilder.factory.buildUser.withRawPassword({
         username,
@@ -100,12 +87,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
         ],
       };
 
-      options.payload = querystring.stringify({
-        grant_type: 'password',
-        username,
-        password: userPassword,
-      });
-
       await databaseBuilder.commit();
 
       // when
@@ -114,6 +95,50 @@ describe('Acceptance | Controller | authentication-controller', function () {
       // then
       expect(response.statusCode).to.equal(401);
       expect(response.result).to.deep.equal(expectedResponseError);
+    });
+
+    context('when scope is pix-certif', function () {
+      context('when FT endTestScreenRemovalWhiteList is not empty', function () {
+        it('should return http code 200 with accessToken when authentication is ok', async function () {
+          //given
+          const options = _getOptions({ scope: 'pix-certif', username: userEmailAddress, password: userPassword });
+          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([1]);
+
+          await databaseBuilder.commit();
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+
+          const result = response.result;
+          expect(result.token_type).to.equal('bearer');
+          expect(result.access_token).to.exist;
+          expect(result.user_id).to.equal(userId);
+        });
+      });
+
+      context('when FT endTestScreenRemovalWhiteList is empty', function () {
+        it('should return http code 403 ', async function () {
+          //given
+          databaseBuilder.factory.buildUser.withRawPassword({
+            email: 'email@without.mb',
+            rawPassword: userPassword,
+            cgu: true,
+          });
+
+          await databaseBuilder.commit();
+          const options = _getOptions({ scope: 'pix-certif', username: 'email@without.mb', password: userPassword });
+
+          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
+
+          // when
+          const { statusCode } = await server.inject(options);
+
+          // then
+          expect(statusCode).to.equal(403);
+        });
+      });
     });
   });
 
@@ -717,4 +742,20 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
     });
   });
+
+  function _getOptions({ scope, password, username }) {
+    return {
+      method: 'POST',
+      url: '/api/token',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      payload: querystring.stringify({
+        grant_type: 'password',
+        username,
+        password,
+        scope,
+      }),
+    };
+  }
 });

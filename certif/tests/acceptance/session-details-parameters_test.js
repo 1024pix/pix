@@ -80,15 +80,11 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
-          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is disabled', function () {
+          module('when the the supervisorPassword is unset meaning the FT is disabled for this session', function () {
             test('it should not display supervisor password', async function (assert) {
               // given
-              server.create('feature-toggle', {
-                id: 0,
-                isEndTestScreenRemovalEnabled: false,
-              });
               const sessionWithSupervisorPassword = server.create('session', {
-                supervisorPassword: 'SOWHAT',
+                supervisorPassword: undefined,
                 status: CREATED,
               });
 
@@ -96,7 +92,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
               const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
 
               // then
-              const supervisorPasswordElement = screen.queryByText('C-SOWHAT');
+              const supervisorPasswordElement = screen.queryByText('Mot de passe de session');
               assert.dom(supervisorPasswordElement).doesNotExist();
             });
           });
