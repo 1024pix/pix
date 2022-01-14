@@ -131,10 +131,8 @@ describe('Unit | Controller | certification-course-controller', function () {
         commentForOrganization: 'comment organization',
         commentForJury: 'comment jury',
         competenceMarks: [],
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         certificationIssueReports: [],
+        partnerCertifications: [],
       });
       sinon.stub(usecases, 'getJuryCertification').withArgs({ certificationCourseId }).resolves(juryCertification);
 

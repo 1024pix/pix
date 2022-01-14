@@ -1,8 +1,16 @@
 const _ = require('lodash');
 const CompetenceMark = require('./CompetenceMark');
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
+  require('../models/Badge').keys;
 
 const status = {
   CANCELLED: 'cancelled',
+};
+
+const partnerCertificationStatus = {
+  ACQUIRED: 'acquired',
+  REJECTED: 'rejected',
+  NOT_TAKEN: 'not_taken',
 };
 
 class JuryCertification {
@@ -29,10 +37,8 @@ class JuryCertification {
     commentForCandidate,
     commentForOrganization,
     commentForJury,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
     certificationIssueReports,
+    partnerCertifications,
   }) {
     this.certificationCourseId = certificationCourseId;
     this.sessionId = sessionId;
@@ -56,19 +62,11 @@ class JuryCertification {
     this.commentForCandidate = commentForCandidate;
     this.commentForOrganization = commentForOrganization;
     this.commentForJury = commentForJury;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
     this.certificationIssueReports = certificationIssueReports;
+    this.partnerCertifications = partnerCertifications;
   }
 
-  static from({
-    juryCertificationDTO,
-    certificationIssueReports,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
-  }) {
+  static from({ juryCertificationDTO, certificationIssueReports, partnerCertifications }) {
     const competenceMarkDTOs = _.compact(juryCertificationDTO.competenceMarks).map(
       (competenceMarkDTO) =>
         new CompetenceMark({
@@ -99,11 +97,31 @@ class JuryCertification {
       commentForCandidate: juryCertificationDTO.commentForCandidate,
       commentForOrganization: juryCertificationDTO.commentForOrganization,
       commentForJury: juryCertificationDTO.commentForJury,
-      cleaCertificationResult,
-      pixPlusDroitMaitreCertificationResult,
-      pixPlusDroitExpertCertificationResult,
       certificationIssueReports,
+      partnerCertifications,
     });
+  }
+
+  getCleaCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
+  }
+
+  getPixPlusDroitMaitreCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_DROIT_MAITRE_CERTIF]);
+  }
+
+  getPixPlusDroitExpertCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
+  }
+
+  _getStatusFromPartnerCertification(partnerCertificationKeys) {
+    const partnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+      partnerCertificationKeys.includes(partnerKey)
+    );
+    if (!partnerCertification) {
+      return partnerCertificationStatus.NOT_TAKEN;
+    }
+    return partnerCertification.acquired ? partnerCertificationStatus.ACQUIRED : partnerCertificationStatus.REJECTED;
   }
 }
 
