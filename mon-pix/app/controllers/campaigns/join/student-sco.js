@@ -3,16 +3,13 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class LoginOrRegisterToAccessRoute extends Controller {
+export default class StudentScoController extends Controller {
   @service currentUser;
   @service campaignStorage;
   @service session;
   @service store;
-  @service router;
 
   @tracked displayRegisterForm = true;
-
-  queryParams = ['displayRegisterForm'];
 
   @action
   toggleFormsVisibility() {
@@ -31,7 +28,6 @@ export default class LoginOrRegisterToAccessRoute extends Controller {
     await this._reconcileUser();
 
     this.campaignStorage.set(this.model.code, 'associationDone', true);
-    this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 
   _reconcileUser() {
