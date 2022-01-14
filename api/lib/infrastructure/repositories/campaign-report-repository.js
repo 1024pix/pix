@@ -41,9 +41,9 @@ module.exports = {
         customLandingPageText: 'campaigns.customLandingPageText',
         archivedAt: 'campaigns.archivedAt',
         type: 'campaigns.type',
-        creatorId: 'users.id',
-        creatorLastName: 'users.lastName',
-        creatorFirstName: 'users.firstName',
+        ownerId: 'users.id',
+        ownerLastName: 'users.lastName',
+        ownerFirstName: 'users.firstName',
         targetProfileId: 'target-profiles.id',
         targetProfileDescription: 'target-profiles.description',
         targetProfileName: 'target-profiles.name',
@@ -59,7 +59,7 @@ module.exports = {
           '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) AS "sharedParticipationsCount"'
         )
       )
-      .join('users', 'users.id', 'campaigns.creatorId')
+      .join('users', 'users.id', 'campaigns.ownerId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
       .leftJoin('stages', 'stages.targetProfileId', 'target-profiles.id')
