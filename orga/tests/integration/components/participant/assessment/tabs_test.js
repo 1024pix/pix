@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Participant::Assessment::Tabs', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -16,12 +16,26 @@ module('Integration | Component | Participant::Assessment::Tabs', function (hook
     this.participationId = 2;
 
     // when
-    await render(
+    const screen = await renderScreen(
       hbs`<Participant::Assessment::Tabs @campaignId={{campaignId}} @participationId={{participationId}} />`
     );
 
     // then
-    assert.dom('a[href="/campagnes/1/evaluations/2/resultats"]').hasText('Résultats');
-    assert.dom('a[href="/campagnes/1/evaluations/2/analyse"]').hasText('Analyse');
+    assert.dom(screen.getByText('Résultats')).exists();
+    assert.dom(screen.getByText('Analyse')).exists();
+  });
+
+  test('[A11Y] it should contain accessibility aria-label nav', async function (assert) {
+    // given
+    this.campaignId = 1;
+    this.participationId = 2;
+
+    // when
+    const screen = await renderScreen(
+      hbs`<Participant::Assessment::Tabs @campaignId={{campaignId}} @participationId={{participationId}} />`
+    );
+
+    // then
+    assert.dom(screen.getByLabelText("Navigation de la section résultat d'une évaluation individuelle")).exists();
   });
 });

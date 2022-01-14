@@ -188,7 +188,8 @@
       "a11y": "Accessibilité : non conforme",
       "copyrights": "©",
       "legal-notice": "Mentions légales",
-      "pix": "Pix"
+      "pix": "Pix",
+      "aria-label": "Navigation de pied de page"
     },
     "main": {
       "campaigns": "Campagnes",
@@ -196,7 +197,17 @@
       "documentation": "Documentation",
       "students-sco": "Élèves",
       "students-sup": "Étudiants",
-      "team": "Équipe"
+      "team": "Équipe",
+      "aria-label": "Navigation principale"
+    },
+    "team-members": {
+      "aria-label": "Navigation de la section équipe"
+    },
+    "campaign-page": {
+      "aria-label": "Navigation de la section détails d'une campagne"
+    },
+    "assessment-individual-results": {
+      "aria-label": "Navigation de la section résultat d'une évaluation individuelle"
     },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
