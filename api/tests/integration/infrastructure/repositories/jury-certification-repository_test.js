@@ -101,10 +101,8 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForCandidate: 'Un commentaire candidat',
         commentForJury: 'Un commentaire jury',
         competenceMarks: [expectedCompetenceMark],
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         certificationIssueReports: [],
+        partnerCertifications: [],
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
@@ -151,34 +149,18 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      {
-        complementaryCertificationName: 'CléA V1',
-        badgeKey: PIX_EMPLOI_CLEA,
-        complementaryCertificationResult: 'cleaCertificationResult',
-      },
-      {
-        complementaryCertificationName: 'CléA V2',
-        badgeKey: PIX_EMPLOI_CLEA_V2,
-        complementaryCertificationResult: 'cleaCertificationResult',
-      },
-      {
-        complementaryCertificationName: 'PixPlus Droit Maître',
-        badgeKey: PIX_DROIT_MAITRE_CERTIF,
-        complementaryCertificationResult: 'pixPlusDroitMaitreCertificationResult',
-      },
-      {
-        complementaryCertificationName: 'PixPlus Droit Expert',
-        badgeKey: PIX_DROIT_EXPERT_CERTIF,
-        complementaryCertificationResult: 'pixPlusDroitExpertCertificationResult',
-      },
-    ].forEach(function (testCase) {
-      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {
+      { partnerKey: PIX_EMPLOI_CLEA, method: 'getCleaCertificationStatus' },
+      { partnerKey: PIX_EMPLOI_CLEA_V2, method: 'getCleaCertificationStatus' },
+      { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
+      { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
+    ].forEach(function ({ partnerKey, method }) {
+      it(`should have the status acquired when ${partnerKey} certification is acquired`, async function () {
         // given
         await _buildJuryCertification(1);
-        databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
+        databaseBuilder.factory.buildBadge({ key: partnerKey });
         databaseBuilder.factory.buildPartnerCertification({
           certificationCourseId: 1,
-          partnerKey: testCase.badgeKey,
+          partnerKey,
           acquired: true,
         });
         await databaseBuilder.commit();
@@ -187,7 +169,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         const juryCertification = await juryCertificationRepository.get(1);
 
         // then
-        expect(juryCertification[testCase.complementaryCertificationResult].status).to.equal('acquired');
+        expect(juryCertification[method]()).to.equal('acquired');
       });
     });
   });

@@ -8,9 +8,9 @@ module.exports = {
           id: juryCertification.certificationCourseId,
           ...juryCertification,
           competencesWithMark: juryCertification.competenceMarks,
-          cleaCertificationStatus: juryCertification.cleaCertificationResult.status,
-          pixPlusDroitMaitreCertificationStatus: juryCertification.pixPlusDroitMaitreCertificationResult.status,
-          pixPlusDroitExpertCertificationStatus: juryCertification.pixPlusDroitExpertCertificationResult.status,
+          cleaCertificationStatus: juryCertification.getCleaCertificationStatus(),
+          pixPlusDroitMaitreCertificationStatus: juryCertification.getPixPlusDroitMaitreCertificationStatus(),
+          pixPlusDroitExpertCertificationStatus: juryCertification.getPixPlusDroitExpertCertificationStatus(),
         };
       },
       attributes: [
