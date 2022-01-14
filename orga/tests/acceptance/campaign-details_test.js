@@ -27,7 +27,7 @@ module('Acceptance | Campaign Details', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
-    test('it should redirect to update page on click on return button', async function (assert) {
+    test('it should redirect to campaign list on click on return button', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
@@ -44,7 +44,7 @@ module('Acceptance | Campaign Details', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes');
+      assert.equal(currentURL(), '/campagnes/les-miennes');
     });
 
     test('[A11Y] it should contain accessibility aria-label nav', async function (assert) {

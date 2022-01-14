@@ -42,7 +42,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes');
+      assert.equal(currentURL(), '/campagnes/les-miennes');
     });
 
     test('it should not be possible to visit another page if cgu are not accepted', async function (assert) {
@@ -73,7 +73,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes');
+      assert.equal(currentURL(), '/campagnes/les-miennes');
     });
   });
 });

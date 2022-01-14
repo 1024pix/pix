@@ -47,7 +47,7 @@ module('Acceptance | authentication', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes');
+      assert.equal(currentURL(), '/campagnes/les-miennes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
   });
@@ -117,7 +117,7 @@ module('Acceptance | authentication', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes');
+      assert.equal(currentURL(), '/campagnes/les-miennes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
@@ -193,7 +193,7 @@ module('Acceptance | authentication', function (hooks) {
         // then
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes');
+        assert.equal(currentURL(), '/campagnes/les-miennes');
       });
     });
 
@@ -382,7 +382,7 @@ module('Acceptance | authentication', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes');
+      assert.equal(currentURL(), '/campagnes/les-miennes');
     });
   });
 });
