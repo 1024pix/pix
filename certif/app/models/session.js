@@ -35,9 +35,7 @@ export default class Session extends Model {
 
   @computed('status')
   get isFinalized() {
-    return this.status === FINALIZED
-        || this.status === IN_PROCESS
-        || this.status === PROCESSED;
+    return this.status === FINALIZED || this.status === IN_PROCESS || this.status === PROCESSED;
   }
 
   @computed('id', 'session.data.authenticated.access_token')
@@ -66,7 +64,6 @@ export default class Session extends Model {
 
   get completedCertificationReports() {
     if (this.featureToggles.featureToggles.isManageUncompletedCertifEnabled) {
-
       return this.certificationReports.filter((certificationReport) => certificationReport.isCompleted);
     }
 

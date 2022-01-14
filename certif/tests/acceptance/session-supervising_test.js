@@ -6,12 +6,11 @@ import { authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session supervising', function(hooks) {
-
+module('Acceptance | Session supervising', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     const certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
       lastName: 'Summers',
@@ -21,8 +20,8 @@ module('Acceptance | Session supervising', function(hooks) {
     await authenticateSession(certificationPointOfContact.id);
   });
 
-  module('When there are candidates on the session', function() {
-    test('it should display candidates entries', async function(assert) {
+  module('When there are candidates on the session', function () {
+    test('it should display candidates entries', async function (assert) {
       // given
       const sessionId = 12345;
       this.sessionForSupervising = server.create('session-for-supervising', {
@@ -60,7 +59,7 @@ module('Acceptance | Session supervising', function(hooks) {
     });
   });
 
-  test('when supervisor checks the candidate, it should update authorizedToStart', async function(assert) {
+  test('when supervisor checks the candidate, it should update authorizedToStart', async function (assert) {
     // given
     const sessionId = 12345;
     this.sessionForSupervising = server.create('session-for-supervising', {
@@ -93,7 +92,7 @@ module('Acceptance | Session supervising', function(hooks) {
     assert.true(find('input[type="checkbox"]').checked);
   });
 
-  test('when supervisor allow to resume test, it should display a success notification', async function(assert) {
+  test('when supervisor allow to resume test, it should display a success notification', async function (assert) {
     // given
     const sessionId = 12345;
     this.sessionForSupervising = server.create('session-for-supervising', {
@@ -119,10 +118,9 @@ module('Acceptance | Session supervising', function(hooks) {
     // when
     await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
     await click(firstVisit.getByRole('button', { name: 'Autoriser la reprise du test' }));
-    await click(firstVisit.getByRole('button', { name: 'Je confirme l\'autorisation' }));
+    await click(firstVisit.getByRole('button', { name: "Je confirme l'autorisation" }));
 
     // then
     assert.contains('Succès ! John Doe peut reprendre son test de certification.');
-
   });
 });

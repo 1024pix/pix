@@ -1,10 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import {
-  currentSession,
-  invalidateSession,
-} from 'ember-simple-auth/test-support';
+import { currentSession, invalidateSession } from 'ember-simple-auth/test-support';
 import {
   createCertificationPointOfContactWithTermsOfServiceNotAccepted,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
@@ -13,16 +10,14 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authentication', function(hooks) {
-
+module('Acceptance | authentication', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let certificationPointOfContact;
 
-  module('When certificationPointOfContact is not logged in', function() {
-
-    test('it should redirect certificationPointOfContact to login page', async function(assert) {
+  module('When certificationPointOfContact is not logged in', function () {
+    test('it should redirect certificationPointOfContact to login page', async function (assert) {
       // given
       await invalidateSession();
 
@@ -31,13 +26,15 @@ module('Acceptance | authentication', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/connexion');
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is still unauthenticated');
+      assert.notOk(
+        currentSession(this.application).get('isAuthenticated'),
+        'The certificationPointOfContact is still unauthenticated'
+      );
     });
   });
 
-  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', function() {
-
-    test('it should redirect certificationPointOfContact to the terms-of-service page', async function(assert) {
+  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', function () {
+    test('it should redirect certificationPointOfContact to the terms-of-service page', async function (assert) {
       // given
       await invalidateSession();
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
@@ -51,10 +48,13 @@ module('Acceptance | authentication', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/cgu');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
+      assert.ok(
+        currentSession(this.application).get('isAuthenticated'),
+        'The certificationPointOfContact is authenticated'
+      );
     });
 
-    test('it should not show menu nor top bar', async function(assert) {
+    test('it should not show menu nor top bar', async function (assert) {
       // given
       await invalidateSession();
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
@@ -67,16 +67,18 @@ module('Acceptance | authentication', function(hooks) {
       await click('button[type=submit]');
 
       // then
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
+      assert.ok(
+        currentSession(this.application).get('isAuthenticated'),
+        'The certificationPointOfContact is authenticated'
+      );
 
       assert.dom('.app__sidebar').doesNotExist();
       assert.dom('.main-content__topbar').doesNotExist();
     });
   });
 
-  module('When certificationPointOfContact is logging in and has accepted terms of service', function() {
-
-    test('it should redirect certificationPointOfContact to the session list', async function(assert) {
+  module('When certificationPointOfContact is logging in and has accepted terms of service', function () {
+    test('it should redirect certificationPointOfContact to the session list', async function (assert) {
       // given
       await invalidateSession();
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
@@ -90,10 +92,13 @@ module('Acceptance | authentication', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
+      assert.ok(
+        currentSession(this.application).get('isAuthenticated'),
+        'The certificationPointOfContact is authenticated'
+      );
     });
 
-    test('it should show certificationPointOfContact name', async function(assert) {
+    test('it should show certificationPointOfContact name', async function (assert) {
       // given
       await invalidateSession();
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
@@ -106,14 +111,16 @@ module('Acceptance | authentication', function(hooks) {
       await click('button[type=submit]');
 
       // then
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
+      assert.ok(
+        currentSession(this.application).get('isAuthenticated'),
+        'The certificationPointOfContact is authenticated'
+      );
       assert.dom('.logged-user-summary__name').hasText('Harry Cover');
     });
   });
 
-  module('When certificationPointOfContact is already authenticated and has accepted terms of service', function() {
-
-    test('it should let certificationPointOfContact access requested page', async function(assert) {
+  module('When certificationPointOfContact is already authenticated and has accepted terms of service', function () {
+    test('it should let certificationPointOfContact access requested page', async function (assert) {
       // given
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
       await authenticateSession(certificationPointOfContact.id);
@@ -123,10 +130,13 @@ module('Acceptance | authentication', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
+      assert.ok(
+        currentSession(this.application).get('isAuthenticated'),
+        'The certificationPointOfContact is authenticated'
+      );
     });
 
-    test('it should show the name and externalId of certification center', async function(assert) {
+    test('it should show the name and externalId of certification center', async function (assert) {
       // given
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
       await authenticateSession(certificationPointOfContact.id);
@@ -138,7 +148,7 @@ module('Acceptance | authentication', function(hooks) {
       assert.dom('.logged-user-summary__certification-center').hasText('Centre de certification du pix (ABC123)');
     });
 
-    test('it should redirect certificationPointOfContact to the session list on root url', async function(assert) {
+    test('it should redirect certificationPointOfContact to the session list on root url', async function (assert) {
       // given
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
       await authenticateSession(certificationPointOfContact.id);

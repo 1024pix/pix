@@ -4,12 +4,13 @@
   <PixReturnTo
     @route="authenticated.sessions.details.certification-candidates"
     @model={{@model.session.id}}
-    class="add-student__return-to">Retour à la session</PixReturnTo>
+    class="add-student__return-to"
+  >Retour à la session</PixReturnTo>
 
   <h1 class="add-student__title">Ajouter des candidats</h1>
-  <PixMessage @type='info' @withIcon={{true}} class="add-student__info-message">
-    Si certain(e)s élèves n’apparaissent pas dans cette liste,
-    merci de ré-importer le fichier élèves dans Pix Orga.<br />
+  <PixMessage @type="info" @withIcon={{true}} class="add-student__info-message">
+    Si certain(e)s élèves n’apparaissent pas dans cette liste, merci de ré-importer le fichier élèves dans Pix Orga.<br
+    />
     Si malgré tout des élèves ne sont pas visibles, merci de contacter
     <a href="https://support.pix.fr" target="_blank" rel="noopener noreferrer">support.pix.fr</a>.
   </PixMessage>

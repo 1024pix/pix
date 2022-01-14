@@ -2,11 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapters | ApplicationAdapter', function(hooks) {
-
+module('Unit | Adapters | ApplicationAdapter', function (hooks) {
   setupTest(hooks);
 
-  test('should specify /api as the root url', function(assert) {
+  test('should specify /api as the root url', function (assert) {
     // Given
     const applicationAdapter = this.owner.lookup('adapter:application');
 
@@ -14,9 +13,8 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
     assert.equal(applicationAdapter.namespace, 'api');
   });
 
-  module('#get headers()', function() {
-
-    test('should add header with authentication token when the session is authenticated', function(assert) {
+  module('#get headers()', function () {
+    test('should add header with authentication token when the session is authenticated', function (assert) {
       // Given
       const access_token = '23456789';
       const applicationAdapter = this.owner.lookup('adapter:application');
@@ -28,7 +26,7 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       assert.equal(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
     });
 
-    test('should not add header authentication token when the session is not authenticated', function(assert) {
+    test('should not add header authentication token when the session is not authenticated', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
 
@@ -40,9 +38,8 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
     });
   });
 
-  module('#ajax()', function() {
-
-    test('should queue ajax calls', function(assert) {
+  module('#ajax()', function () {
+    test('should queue ajax calls', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
       applicationAdapter.ajaxQueue = { add: sinon.stub().resolves() };

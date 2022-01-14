@@ -138,7 +138,7 @@ export default class NewCertificationCandidateModal extends Component {
 
   _formatDate(date) {
     const [day, month, year] = date.split('/');
-    return `${year}-${month}-${day}` ;
+    return `${year}-${month}-${day}`;
   }
 
   _getCountryName() {

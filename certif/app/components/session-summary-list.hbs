@@ -35,28 +35,32 @@
         </thead>
 
         <tbody>
-        {{#each @sessionSummaries as |sessionSummary|}}
-          <tr aria-label="Session de certification" {{on 'click' (fn @goToSessionDetails sessionSummary.id)}} class="tr--clickable">
-            <td>
-              <LinkTo
-                @route="authenticated.sessions.details"
-                @model={{sessionSummary.id}}
-                class="session-summary-list__link"
-                aria-label="Session {{sessionSummary.id}}"
-              >
-                {{sessionSummary.id}}
-              </LinkTo>
-            </td>
-            <td>{{sessionSummary.address}}</td>
-            <td>{{sessionSummary.room}}</td>
-            <td>{{moment-format sessionSummary.date 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td>{{moment-format sessionSummary.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}</td>
-            <td>{{sessionSummary.examiner}}</td>
-            <td>{{sessionSummary.enrolledCandidatesCount}}</td>
-            <td>{{sessionSummary.effectiveCandidatesCount}}</td>
-            <td>{{sessionSummary.statusLabel}}</td>
-          </tr>
-        {{/each}}
+          {{#each @sessionSummaries as |sessionSummary|}}
+            <tr
+              aria-label="Session de certification"
+              {{on "click" (fn @goToSessionDetails sessionSummary.id)}}
+              class="tr--clickable"
+            >
+              <td>
+                <LinkTo
+                  @route="authenticated.sessions.details"
+                  @model={{sessionSummary.id}}
+                  class="session-summary-list__link"
+                  aria-label="Session {{sessionSummary.id}}"
+                >
+                  {{sessionSummary.id}}
+                </LinkTo>
+              </td>
+              <td>{{sessionSummary.address}}</td>
+              <td>{{sessionSummary.room}}</td>
+              <td>{{moment-format sessionSummary.date "DD/MM/YYYY" allow-empty=true}}</td>
+              <td>{{moment-format sessionSummary.time "HH:mm" "HH:mm:ss" allow-empty=true}}</td>
+              <td>{{sessionSummary.examiner}}</td>
+              <td>{{sessionSummary.enrolledCandidatesCount}}</td>
+              <td>{{sessionSummary.effectiveCandidatesCount}}</td>
+              <td>{{sessionSummary.statusLabel}}</td>
+            </tr>
+          {{/each}}
         </tbody>
       </table>
       {{#if (eq @sessionSummaries.length 0)}}
@@ -68,4 +72,4 @@
   </div>
 </div>
 
-<PaginationControl @pagination={{@sessionSummaries.meta}}/>
+<PaginationControl @pagination={{@sessionSummaries.meta}} />

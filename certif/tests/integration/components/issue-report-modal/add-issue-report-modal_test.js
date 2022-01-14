@@ -10,10 +10,10 @@ import {
   categoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | add-issue-report-modal', function(hooks) {
+module('Integration | Component | add-issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it show candidate informations in title', async function(assert) {
+  test('it show candidate informations in title', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -40,7 +40,7 @@ module('Integration | Component | add-issue-report-modal', function(hooks) {
     assert.contains('Lisa Monpud');
   });
 
-  test('it should show all categories code & label', async function(assert) {
+  test('it should show all categories code & label', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -68,7 +68,7 @@ module('Integration | Component | add-issue-report-modal', function(hooks) {
     }
   });
 
-  test('it should show an error when trying to submit without selecting a category', async function(assert) {
+  test('it should show an error when trying to submit without selecting a category', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,

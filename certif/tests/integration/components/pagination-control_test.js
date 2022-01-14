@@ -17,10 +17,10 @@ function getMetaForPage(pageNumber) {
   };
 }
 
-module('Integration | Component | pagination-control', function(hooks) {
+module('Integration | Component | pagination-control', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should disable previous button when user is on first page', async function(assert) {
+  test('it should disable previous button when user is on first page', async function (assert) {
     // given
     this.meta = getMetaForPage(1);
 
@@ -32,7 +32,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     assert.dom('.page-navigation__arrow--previous .icon-button').hasClass('disabled');
   });
 
-  test('it should disable next button when user is on last page', async function(assert) {
+  test('it should disable next button when user is on last page', async function (assert) {
     // given
     this.meta = getMetaForPage(2);
 
@@ -44,7 +44,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     assert.dom('.page-navigation__arrow--next .icon-button').hasClass('disabled');
   });
 
-  test('it should enable previous button when user is on second page', async function(assert) {
+  test('it should enable previous button when user is on second page', async function (assert) {
     // given
     this.meta = getMetaForPage(2);
 
@@ -56,7 +56,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     assert.dom('.page-navigation__arrow--previous .icon-button').hasNoClass('disabled');
   });
 
-  test('it should re-route to page with changed page size', async function(assert) {
+  test('it should re-route to page with changed page size', async function (assert) {
     const replaceWithStub = sinon.stub();
     class RouterStub extends Service {
       replaceWith = replaceWithStub;
@@ -66,7 +66,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     const screen = await renderScreen(hbs`<PaginationControl @pagination={{meta}}/>`);
 
     // when
-    await fillIn(screen.getByLabelText('Nombre d\'éléments par page'), '25');
+    await fillIn(screen.getByLabelText("Nombre d'éléments par page"), '25');
 
     // then
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '25', pageNumber: 1 } }));

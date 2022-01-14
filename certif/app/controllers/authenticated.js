@@ -7,7 +7,6 @@ const LINK_SCO = 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS';
 const LINK_OTHER = 'http://cloud.pix.fr/s/fLSG4mYCcX7GDRF';
 
 export default class AuthenticatedController extends Controller {
-
   @tracked isBannerVisible = true;
   @service router;
   @service currentUser;
@@ -15,10 +14,12 @@ export default class AuthenticatedController extends Controller {
 
   get showBanner() {
     const isOnFinalizationPage = this.router.currentRouteName === 'authenticated.sessions.finalize';
-    return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents
-      && this.isBannerVisible
-      && !isOnFinalizationPage
-      && !this.currentUser.currentAllowedCertificationCenterAccess.isAccessRestricted;
+    return (
+      this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents &&
+      this.isBannerVisible &&
+      !isOnFinalizationPage &&
+      !this.currentUser.currentAllowedCertificationCenterAccess.isAccessRestricted
+    );
   }
 
   get documentationLink() {

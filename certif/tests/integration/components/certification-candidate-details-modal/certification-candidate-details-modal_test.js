@@ -7,11 +7,11 @@ import EmberObject from '@ember/object';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
-module('Integration | Component | certification-candidate-details-modal', function(hooks) {
+module('Integration | Component | certification-candidate-details-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is enabled', function() {
-    test('it shows candidate details with complementary certification', async function(assert) {
+  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is enabled', function () {
+    test('it shows candidate details with complementary certification', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const candidate = store.createRecord('certification-candidate', {
@@ -23,7 +23,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         resultRecipientEmail: 'suric@animal.fr',
         externalId: '12345',
         birthdate: '2000-12-25',
-        extraTimePercentage: 0.10,
+        extraTimePercentage: 0.1,
         birthInseeCode: 76255,
         birthPostalCode: 76260,
         sex: 'F',
@@ -71,7 +71,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     });
 
     module('when candidate has missing data', () => {
-      test('it displays a dash', async function(assert) {
+      test('it displays a dash', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const candidate = store.createRecord('certification-candidate', {
@@ -119,8 +119,8 @@ module('Integration | Component | certification-candidate-details-modal', functi
     });
   });
 
-  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is disabled', function() {
-    test('it shows candidate details without complementary certifications', async function(assert) {
+  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is disabled', function () {
+    test('it shows candidate details without complementary certifications', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const candidate = store.createRecord('certification-candidate', {
@@ -132,7 +132,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         resultRecipientEmail: 'suric@animal.fr',
         externalId: '12345',
         birthdate: '2000-12-25',
-        extraTimePercentage: 0.10,
+        extraTimePercentage: 0.1,
         birthInseeCode: 76255,
         birthPostalCode: 76260,
         sex: 'F',
@@ -181,7 +181,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
   });
 
   module('when top close button is clicked', () => {
-    test('it closes candidate details modal', async function(assert) {
+    test('it closes candidate details modal', async function (assert) {
       // given
       const candidate = EmberObject.create({});
       const closeModalStub = sinon.stub();
@@ -204,7 +204,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
   });
 
   module('when bottom close button is clicked', () => {
-    test('it also closes candidate details modal', async function(assert) {
+    test('it also closes candidate details modal', async function (assert) {
       // given
       const candidate = EmberObject.create({});
       const closeModalStub = sinon.stub();

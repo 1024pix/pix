@@ -5,14 +5,14 @@ import { authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Update', function(hooks) {
+module('Acceptance | Session Update', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let allowedCertificationCenterAccess;
   let certificationPointOfContact;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       isAccessBlockedCollege: false,
       isAccessBlockedLycee: false,
@@ -28,9 +28,8 @@ module('Acceptance | Session Update', function(hooks) {
     await authenticateSession(certificationPointOfContact.id);
   });
 
-  module('when current certification center is blocked', function() {
-
-    test('should redirect to espace-ferme URL', async function(assert) {
+  module('when current certification center is blocked', function () {
+    test('should redirect to espace-ferme URL', async function (assert) {
       // given
       const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
       allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
@@ -43,7 +42,7 @@ module('Acceptance | Session Update', function(hooks) {
     });
   });
 
-  test('it should fill the updating form with the current values of the session', async function(assert) {
+  test('it should fill the updating form with the current values of the session', async function (assert) {
     // given
     const session = server.create('session');
 
@@ -59,7 +58,7 @@ module('Acceptance | Session Update', function(hooks) {
     assert.dom('#session-time').hasValue(session.time);
   });
 
-  test('it should allow to update a session and redirect to the session details', async function(assert) {
+  test('it should allow to update a session and redirect to the session details', async function (assert) {
     // given
     const session = server.create('session', { room: 'beforeRoom', examiner: 'beforeExaminer' });
     const newRoom = 'New room';
@@ -79,7 +78,7 @@ module('Acceptance | Session Update', function(hooks) {
     assert.equal(currentURL(), `/sessions/${session.id}`);
   });
 
-  test('it should not update a session when cancel button is clicked and redirect to the session #1 details', async function(assert) {
+  test('it should not update a session when cancel button is clicked and redirect to the session #1 details', async function (assert) {
     // given
     const session = server.create('session', { room: 'beforeRoom', examiner: 'beforeExaminer' });
     const newRoom = 'New room';

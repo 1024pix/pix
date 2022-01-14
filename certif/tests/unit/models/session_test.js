@@ -5,22 +5,25 @@ import config from '../../../config/environment';
 import Service from '@ember/service';
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
-module('Unit | Model | session', function(hooks) {
+module('Unit | Model | session', function (hooks) {
   setupTest(hooks);
 
-  module('#displayStatus', function() {
-
-    test('it should return the correct displayName', function(assert) {
+  module('#displayStatus', function () {
+    test('it should return the correct displayName', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model1 = run(() => store.createRecord('session', {
-        id: 123,
-        status: CREATED,
-      }));
-      const model2 = run(() => store.createRecord('session', {
-        id: 1234,
-        status: FINALIZED,
-      }));
+      const model1 = run(() =>
+        store.createRecord('session', {
+          id: 123,
+          status: CREATED,
+        })
+      );
+      const model2 = run(() =>
+        store.createRecord('session', {
+          id: 1234,
+          status: FINALIZED,
+        })
+      );
 
       // when/then
       assert.equal(model1.displayStatus, 'Créée');
@@ -28,8 +31,8 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#urlToUpload', function() {
-    test('it should return the correct urlToUpload', function(assert) {
+  module('#urlToUpload', function () {
+    test('it should return the correct urlToUpload', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const model = run(() => store.createRecord('session', { id: 1 }));
@@ -39,8 +42,8 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#urlToDownloadAttendanceSheet', function() {
-    test('it should return the correct urlToDownloadAttendanceSheet', function(assert) {
+  module('#urlToDownloadAttendanceSheet', function () {
+    test('it should return the correct urlToDownloadAttendanceSheet', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       class SessionStub extends Service {
@@ -55,12 +58,15 @@ module('Unit | Model | session', function(hooks) {
       this.owner.register('service:session', SessionStub);
 
       // when/then
-      assert.equal(model.urlToDownloadAttendanceSheet, `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`);
+      assert.equal(
+        model.urlToDownloadAttendanceSheet,
+        `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`
+      );
     });
   });
 
-  module('#urlToDownloadSessionIssueReportSheet', function() {
-    test('it should return the correct urlToDownloadSessionIssueReportSheet', function(assert) {
+  module('#urlToDownloadSessionIssueReportSheet', function () {
+    test('it should return the correct urlToDownloadSessionIssueReportSheet', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       class SessionStub extends Service {
@@ -79,8 +85,8 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#uncompletedCertificationReports', function() {
-    test('it should return the uncomplete certification reports', function(assert) {
+  module('#uncompletedCertificationReports', function () {
+    test('it should return the uncomplete certification reports', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
 
@@ -92,18 +98,16 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#completedCertificationReports', function() {
-
-    module('when isManageUncompletedCertifEnabled is enabled', function() {
-
-      test('it should return the complete certification reports', function(assert) {
+  module('#completedCertificationReports', function () {
+    module('when isManageUncompletedCertifEnabled is enabled', function () {
+      test('it should return the complete certification reports', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
 
         class FeatureToggleStub extends Service {
-          featureToggles= {
+          featureToggles = {
             isManageUncompletedCertifEnabled: true,
-          }
+          };
         }
 
         this.owner.register('service:featureToggles', FeatureToggleStub);
@@ -114,20 +118,18 @@ module('Unit | Model | session', function(hooks) {
         assert.equal(model.completedCertificationReports.length, 2);
         assert.equal(model.completedCertificationReports[0].id, 2);
         assert.equal(model.completedCertificationReports[1].id, 3);
-
       });
     });
 
-    module('when isManageUncompletedCertifEnabled is not enabled', function() {
-
-      test('it should return the all certification reports', function(assert) {
+    module('when isManageUncompletedCertifEnabled is not enabled', function () {
+      test('it should return the all certification reports', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
 
         class FeatureToggleStub extends Service {
-          featureToggles= {
+          featureToggles = {
             isManageUncompletedCertifEnabled: false,
-          }
+          };
         }
 
         this.owner.register('service:featureToggles', FeatureToggleStub);
@@ -141,9 +143,14 @@ module('Unit | Model | session', function(hooks) {
 });
 
 function _createTwoCompleteAndOneUncompleteCertificationReports(store) {
-  return run(() => store.createRecord('session', { id: 1, certificationReports: [
-    store.createRecord('certification-report', { id: 1, isCompleted: false }),
-    store.createRecord('certification-report', { id: 2, isCompleted: true }),
-    store.createRecord('certification-report', { id: 3, isCompleted: true }),
-  ] }));
+  return run(() =>
+    store.createRecord('session', {
+      id: 1,
+      certificationReports: [
+        store.createRecord('certification-report', { id: 1, isCompleted: false }),
+        store.createRecord('certification-report', { id: 2, isCompleted: true }),
+        store.createRecord('certification-report', { id: 3, isCompleted: true }),
+      ],
+    })
+  );
 }

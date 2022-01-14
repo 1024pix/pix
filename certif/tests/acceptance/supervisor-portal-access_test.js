@@ -6,12 +6,11 @@ import { authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Supervisor Portal', function(hooks) {
-
+module('Acceptance | Supervisor Portal', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     const certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
       lastName: 'Summers',
@@ -23,8 +22,8 @@ module('Acceptance | Supervisor Portal', function(hooks) {
     server.create('session-for-supervising', { id: 12345 });
   });
 
-  module('When supervisor authentication is successful', function() {
-    test('it should redirect to supervising page', async function(assert) {
+  module('When supervisor authentication is successful', function () {
+    test('it should redirect to supervising page', async function (assert) {
       // given
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
@@ -38,9 +37,9 @@ module('Acceptance | Supervisor Portal', function(hooks) {
     });
   });
 
-  module('When supervisor is supervising a session', function() {
-    module('When quit button is clicked', function() {
-      test('it should redirect to the supervisor authentication page', async function(assert) {
+  module('When supervisor is supervising a session', function () {
+    module('When quit button is clicked', function () {
+      test('it should redirect to the supervisor authentication page', async function (assert) {
         // given
         const screen = await visitScreen('/connexion-espace-surveillant');
         await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');

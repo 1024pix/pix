@@ -1,7 +1,11 @@
 {{page-title this.pageTitle replace=true}}
 <div class="page__title finalize">
   <div class="finalize__title">
-    <PixReturnTo @route="authenticated.sessions.details" @model={{this.session.id}} class="session-details-content__return-button" />
+    <PixReturnTo
+      @route="authenticated.sessions.details"
+      @model={{this.session.id}}
+      class="session-details-content__return-button"
+    />
     <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
   </div>
   <div class="finalize__subtitle">
@@ -9,56 +13,56 @@
   </div>
 
   <SessionFinalizationStepContainer
-      @number="1"
-      @title="Renseigner les informations de vos candidats"
-      @icon="/icons/session-finalization-user.svg"
-      @iconAlt="">
+    @number="1"
+    @title="Renseigner les informations de vos candidats"
+    @icon="/icons/session-finalization-user.svg"
+    @iconAlt=""
+  >
     {{#if this.isManageUncompletedCertifEnabled}}
       {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
-      <SessionFinalization::UncompletedReportsInformationStep
-        @certificationReports={{this.session.uncompletedCertificationReports}}
-        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
-        @onChangeAbortReason={{this.abort}}
-      />
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.session.uncompletedCertificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+          @onChangeAbortReason={{this.abort}}
+        />
       {{/if}}
     {{/if}}
     {{#if (gt this.session.completedCertificationReports.length 0)}}
       <SessionFinalization::CompletedReportsInformationStep
-          @session={{this.session}}
-          @certificationReports={{this.session.completedCertificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-          @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+        @session={{this.session}}
+        @certificationReports={{this.session.completedCertificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+        @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
       />
     {{/if}}
   </SessionFinalizationStepContainer>
 
   <SessionFinalizationStepContainer
-          @number="2"
-          @title="Transmettre des documents (facultatif)"
-          @icon="/icons/session-finalization-send.svg"
-          @iconAlt="">
-      <SessionFinalization::FormbuilderLinkStep/>
+    @number="2"
+    @title="Transmettre des documents (facultatif)"
+    @icon="/icons/session-finalization-send.svg"
+    @iconAlt=""
+  >
+    <SessionFinalization::FormbuilderLinkStep />
   </SessionFinalizationStepContainer>
 
   <SessionFinalizationStepContainer
-          @number="3"
-          @title="Commenter la session (facultatif)"
-          @icon="/icons/session-finalization-edit.svg"
-          @iconAlt="">
-      <SessionFinalization::ExaminerGlobalCommentStep
-              @session={{this.session}}
-              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}
-              @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}} />
+    @number="3"
+    @title="Commenter la session (facultatif)"
+    @icon="/icons/session-finalization-edit.svg"
+    @iconAlt=""
+  >
+    <SessionFinalization::ExaminerGlobalCommentStep
+      @session={{this.session}}
+      @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}
+      @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}}
+    />
   </SessionFinalizationStepContainer>
 
-  <PixButton
-    class="finalize__button"
-    data-test-id="finalize__button"
-    @triggerAction={{this.openModal}}
-  >
+  <PixButton class="finalize__button" data-test-id="finalize__button" @triggerAction={{this.openModal}}>
     Finaliser
   </PixButton>
 </div>
@@ -68,7 +72,7 @@
 
     <div class="pix-modal__close-button">
       <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" this.closeModal}}>Fermer
-        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
+        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24" />
       </button>
     </div>
 
@@ -77,7 +81,9 @@
         <div class="app-modal-body__attention">Vous êtes sur le point de finaliser cette session.</div>
         <div class="app-modal-body__warning">
           {{#if this.hasUncheckedHasSeenEndTestScreen}}
-          <p class="app-modal-body__contextual"> La case "Écran de fin du test vu" n'est pas cochée pour {{ this.uncheckedHasSeenEndTestScreenCount }} candidat(s)</p>
+            <p class="app-modal-body__contextual">La case "Écran de fin du test vu" n'est pas cochée pour
+              {{this.uncheckedHasSeenEndTestScreenCount}}
+              candidat(s)</p>
           {{/if}}
           <p>Attention : il ne vous sera plus possible de modifier ces informations par la suite.</p>
         </div>
@@ -91,10 +97,7 @@
         >
           Annuler
         </PixButton>
-        <PixButton
-          data-test-id="finalize-session-modal__confirm-button"
-          @triggerAction={{this.finalizeSession}}
-        >
+        <PixButton data-test-id="finalize-session-modal__confirm-button" @triggerAction={{this.finalizeSession}}>
           Confirmer
         </PixButton>
       </div>

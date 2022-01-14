@@ -4,7 +4,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class UserLoggedMenu extends Component {
-
   @service currentUser;
   @service router;
 
@@ -25,7 +24,8 @@ export default class UserLoggedMenu extends Component {
   }
 
   get eligibleCertificationCenterAccesses() {
-    const allowedCertificationCenterAccesses = this.currentUser.certificationPointOfContact.allowedCertificationCenterAccesses;
+    const allowedCertificationCenterAccesses =
+      this.currentUser.certificationPointOfContact.allowedCertificationCenterAccesses;
 
     if (!allowedCertificationCenterAccesses) {
       return [];

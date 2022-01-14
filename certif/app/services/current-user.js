@@ -13,7 +13,9 @@ export default class CurrentUserService extends Service {
     if (this.session.isAuthenticated) {
       try {
         this.certificationPointOfContact = await this.store.queryRecord('certification-point-of-contact', {});
-        this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact.hasMany('allowedCertificationCenterAccesses').value().firstObject;
+        this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact
+          .hasMany('allowedCertificationCenterAccesses')
+          .value().firstObject;
       } catch (error) {
         this.certificationPointOfContact = null;
         this.currentAllowedCertificationCenterAccess = null;
@@ -23,16 +25,18 @@ export default class CurrentUserService extends Service {
   }
 
   checkRestrictedAccess() {
-    if (this.certificationPointOfContact.isMemberOfACertificationCenter
-      && this.currentAllowedCertificationCenterAccess.isAccessRestricted) {
+    if (
+      this.certificationPointOfContact.isMemberOfACertificationCenter &&
+      this.currentAllowedCertificationCenterAccess.isAccessRestricted
+    ) {
       return this.router.replaceWith('authenticated.restricted-access');
     }
   }
 
   updateCurrentCertificationCenter(certificationCenterId) {
     if (this.currentAllowedCertificationCenterAccess.id !== String(certificationCenterId)) {
-      this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact.allowedCertificationCenterAccesses
-        .findBy('id', String(certificationCenterId));
+      this.currentAllowedCertificationCenterAccess =
+        this.certificationPointOfContact.allowedCertificationCenterAccesses.findBy('id', String(certificationCenterId));
     }
   }
 }

@@ -21,8 +21,7 @@ export default class CertificationCandidateForSupervising extends Model {
   }
 
   get hasCompleted() {
-    return [assessmentStates.COMPLETED, assessmentStates.ENDED_BY_SUPERVISOR]
-      .includes(this.assessmentStatus);
+    return [assessmentStates.COMPLETED, assessmentStates.ENDED_BY_SUPERVISOR].includes(this.assessmentStatus);
   }
 
   updateAuthorizedToStart = memberAction({

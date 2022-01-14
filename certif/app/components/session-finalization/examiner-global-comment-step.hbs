@@ -9,8 +9,8 @@
           checked="true"
           aria-label="Ne déclarer aucun incident"
           {{on "change" (fn this.toggleDisplayExaminerGlobalCommentTextArea false)}}
-        >
-          Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1.
+        />
+        Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1.
       </label>
     </div>
 
@@ -22,7 +22,7 @@
           name="session-finalization-examiner-global-comment"
           aria-label="Signaler un incident"
           {{on "change" (fn this.toggleDisplayExaminerGlobalCommentTextArea true)}}
-        >
+        />
         Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble
       </label>
     </div>
@@ -30,9 +30,10 @@
   {{#if this.displayExaminerGlobalCommentTextArea}}
     <PixTextarea
       @id="examiner-global-comment"
-      {{on 'input' @onExaminerGlobalCommentChange}}
+      {{on "input" @onExaminerGlobalCommentChange}}
       @value={{@session.examinerGlobalComment}}
       @maxlength={{@examinerGlobalCommentMaxLength}}
-      class="session-finalization-examiner-global-comment-step__textarea" />
+      class="session-finalization-examiner-global-comment-step__textarea"
+    />
   {{/if}}
 </div>

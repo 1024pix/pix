@@ -4,7 +4,6 @@ import { htmlSafe } from '@ember/template';
 import { action } from '@ember/object';
 
 export default class ImportCandidates extends Component {
-
   @service session;
   @service notifications;
 
@@ -20,8 +19,7 @@ export default class ImportCandidates extends Component {
       });
       this.args.reloadCertificationCandidate();
       this.notifications.success('La liste des candidats a été importée avec succès.');
-    }
-    catch (err) {
+    } catch (err) {
       const errorPrefix = 'Aucun candidat n’a été importé. <br>';
       let errorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
       if (err.body.errors) {
@@ -32,18 +30,16 @@ export default class ImportCandidates extends Component {
               <p>
                 ${errorPrefix}<b>${error.detail}</b><br>
                 Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.
-              </p>`,
-              );
+              </p>`);
             } else {
               errorMessage = htmlSafe(`
               <p>
                 ${errorPrefix}<b>${error.detail}</b>
-              </p>`,
-              );
+              </p>`);
             }
           }
           if (error.status === '403' && error.detail === 'At least one candidate is already linked to a user') {
-            errorMessage = 'La session a débuté, il n\'est plus possible de modifier la liste des candidats.';
+            errorMessage = "La session a débuté, il n'est plus possible de modifier la liste des candidats.";
           }
         });
       }

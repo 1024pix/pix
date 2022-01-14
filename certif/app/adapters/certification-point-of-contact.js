@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationPointOfContactAdapter extends ApplicationAdapter {
-
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
 

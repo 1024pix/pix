@@ -3,23 +3,22 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | new-certification-candidate-modal', function(hooks) {
-
+module('Unit | Component | new-certification-candidate-modal', function (hooks) {
   setupTest(hooks);
 
   let modal;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     modal = createGlimmerComponent('component:new-certification-candidate-modal');
   });
 
-  module('#selectBirthGeoCodeOption', function() {
-    module('when birth geo code option is postal', function(hooks) {
-      hooks.beforeEach(function() {
+  module('#selectBirthGeoCodeOption', function () {
+    module('when birth geo code option is postal', function (hooks) {
+      hooks.beforeEach(function () {
         modal.selectedBirthGeoCodeOption = 'postal';
       });
 
-      test('should set the birth geo code option to insee', async function(assert) {
+      test('should set the birth geo code option to insee', async function (assert) {
         // given
         modal.args.updateCandidateDataFromValue = sinon.stub();
 
@@ -30,7 +29,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         assert.equal(modal.selectedBirthGeoCodeOption, 'insee');
       });
 
-      test('should reset the birth city', async function(assert) {
+      test('should reset the birth city', async function (assert) {
         // given
         modal.args.updateCandidateDataFromValue = sinon.stub();
         modal.args.candidateData = { birthCity: 'Saint Malo' };
@@ -43,7 +42,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         assert.ok(true);
       });
 
-      test('should reset the birth postal code', async function(assert) {
+      test('should reset the birth postal code', async function (assert) {
         // given
         modal.args.updateCandidateDataFromValue = sinon.stub();
         modal.args.candidateData = { birthPostalCode: '35400' };
@@ -52,17 +51,22 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         await modal.selectBirthGeoCodeOption('insee');
 
         // then
-        sinon.assert.calledWith(modal.args.updateCandidateDataFromValue, modal.args.candidateData, 'birthPostalCode', '');
+        sinon.assert.calledWith(
+          modal.args.updateCandidateDataFromValue,
+          modal.args.candidateData,
+          'birthPostalCode',
+          ''
+        );
         assert.ok(true);
       });
     });
 
-    module('when birth geo code is insee', function(hooks) {
-      hooks.beforeEach(function() {
+    module('when birth geo code is insee', function (hooks) {
+      hooks.beforeEach(function () {
         modal.selectedBirthGeoCodeOption = 'insee';
       });
 
-      test('should set the birth geo code option to postal', async function(assert) {
+      test('should set the birth geo code option to postal', async function (assert) {
         // given
         modal.args.updateCandidateDataFromValue = sinon.stub();
 
@@ -73,7 +77,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         assert.equal(modal.selectedBirthGeoCodeOption, 'postal');
       });
 
-      test('should reset the birth insee code', async function(assert) {
+      test('should reset the birth insee code', async function (assert) {
         // given
         modal.args.candidateData = { birthInseeCode: '35288' };
         modal.args.updateCandidateDataFromValue = sinon.stub();
@@ -82,22 +86,26 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         await modal.selectBirthGeoCodeOption('postal');
 
         // then
-        sinon.assert.calledWith(modal.args.updateCandidateDataFromValue, modal.args.candidateData, 'birthInseeCode', '');
+        sinon.assert.calledWith(
+          modal.args.updateCandidateDataFromValue,
+          modal.args.candidateData,
+          'birthInseeCode',
+          ''
+        );
         assert.ok(true);
       });
     });
   });
 
-  module('#selectBirthCountry', function() {
-
+  module('#selectBirthCountry', function () {
     const FRANCE_INSEE_CODE = '99100';
 
-    module('when selected country is France', function(hooks) {
-      hooks.beforeEach(function() {
+    module('when selected country is France', function (hooks) {
+      hooks.beforeEach(function () {
         modal.selectedCountryInseeCode = FRANCE_INSEE_CODE;
       });
 
-      test('should set the birthInseeCode to 99', async function(assert) {
+      test('should set the birthInseeCode to 99', async function (assert) {
         // given
         modal.args.countries = [
           {
@@ -116,15 +124,20 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         await modal.selectBirthCountry(event);
 
         // then
-        sinon.assert.calledWith(modal.args.updateCandidateDataFromValue, modal.args.candidateData, 'birthInseeCode', '99');
+        sinon.assert.calledWith(
+          modal.args.updateCandidateDataFromValue,
+          modal.args.candidateData,
+          'birthInseeCode',
+          '99'
+        );
         assert.ok(true);
       });
     });
   });
 
-  module('#isBirthGeoCodeQuired', function() {
-    module('when selected country is Italy', function() {
-      test('should return false for Italy', async function(assert) {
+  module('#isBirthGeoCodeQuired', function () {
+    module('when selected country is Italy', function () {
+      test('should return false for Italy', async function (assert) {
         // when
         modal.selectedCountryInseeCode = '99127';
 
@@ -133,8 +146,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       });
     });
 
-    module('when selected country is France', function() {
-      test('should return true for France', function(assert) {
+    module('when selected country is France', function () {
+      test('should return true for France', function (assert) {
         // when
         modal.selectedCountryInseeCode = '99100';
 
@@ -144,8 +157,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#isInseeCodeOptionSelected', function() {
-    test('should return true if selected code option is insee', async function(assert) {
+  module('#isInseeCodeOptionSelected', function () {
+    test('should return true if selected code option is insee', async function (assert) {
       // given
       modal.args.updateCandidateDataFromValue = sinon.stub();
 
@@ -157,8 +170,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#isPostalCodeOptionSelected', function() {
-    test('should return true if selected code option is postal', async function(assert) {
+  module('#isPostalCodeOptionSelected', function () {
+    test('should return true if selected code option is postal', async function (assert) {
       // given
       modal.args.updateCandidateDataFromValue = sinon.stub();
 
@@ -170,9 +183,9 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#isBirthInseeCodeRequired', function() {
-    module('when selected country is other than France', function() {
-      test('should return false for other than France', async function(assert) {
+  module('#isBirthInseeCodeRequired', function () {
+    module('when selected country is other than France', function () {
+      test('should return false for other than France', async function (assert) {
         // when
         modal.selectedCountryInseeCode = '99123';
 
@@ -181,8 +194,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       });
     });
 
-    module('when selected country is France', function() {
-      test('should return true for insee code option', async function(assert) {
+    module('when selected country is France', function () {
+      test('should return true for insee code option', async function (assert) {
         // when
         modal.selectedCountryInseeCode = '99100';
         modal.selectedBirthGeoCodeOption = 'insee';
@@ -191,7 +204,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         assert.true(modal.isBirthInseeCodeRequired);
       });
 
-      test('should return false for postal code option', async function(assert) {
+      test('should return false for postal code option', async function (assert) {
         // when
         modal.selectedCountryInseeCode = '99100';
         modal.selectedBirthGeoCodeOption = 'postal';
@@ -202,8 +215,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#isBirthPostalCodeRequired', function() {
-    test('should return true for postal code option', async function(assert) {
+  module('#isBirthPostalCodeRequired', function () {
+    test('should return true for postal code option', async function (assert) {
       // when
       modal.selectedBirthGeoCodeOption = 'postal';
 
@@ -211,7 +224,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.true(modal.isBirthPostalCodeRequired);
     });
 
-    test('should return false for insee code option', async function(assert) {
+    test('should return false for insee code option', async function (assert) {
       // when
       modal.selectedBirthGeoCodeOption = 'insee';
 
@@ -220,8 +233,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#isBirthCityRequired', function() {
-    test('should return true when country is not France', async function(assert) {
+  module('#isBirthCityRequired', function () {
+    test('should return true when country is not France', async function (assert) {
       // when
       modal.selectedCountryInseeCode = '99123';
 
@@ -229,7 +242,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.true(modal.isBirthCityRequired);
     });
 
-    test('should return true if country is France and postal code option is selected', async function(assert) {
+    test('should return true if country is France and postal code option is selected', async function (assert) {
       // when
       modal.selectedCountryInseeCode = '99100';
       modal.selectedBirthGeoCodeOption = 'postal';
@@ -238,7 +251,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.true(modal.isBirthCityRequired);
     });
 
-    test('should return false if country is France and insee code option is selected', async function(assert) {
+    test('should return false if country is France and insee code option is selected', async function (assert) {
       // when
       modal.selectedCountryInseeCode = '99100';
       modal.selectedBirthGeoCodeOption = 'insee';
@@ -248,8 +261,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#countryOptions', function() {
-    test('should return a list of countries', async function(assert) {
+  module('#countryOptions', function () {
+    test('should return a list of countries', async function (assert) {
       // when
       modal.args.countries = [
         { name: 'Wakanda', code: '99817' },
@@ -264,8 +277,8 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
   });
 
-  module('#updateComplementaryCertifications', function() {
-    test('it should add the complementary certification to the candidate data', function(assert) {
+  module('#updateComplementaryCertifications', function () {
+    test('it should add the complementary certification to the candidate data', function (assert) {
       // given
       modal.args.candidateData = {};
       const complementaryCertification = Symbol('complementaryCertification');
@@ -277,7 +290,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.deepEqual(modal.args.candidateData.complementaryCertifications, [complementaryCertification]);
     });
 
-    test('it should remove the complementary certification if it is already present', function(assert) {
+    test('it should remove the complementary certification if it is already present', function (assert) {
       // given
       const complementaryCertificationToRemove = Symbol('complementaryCertification');
       const anotherComplementaryCertification = Symbol('complementaryCertification');

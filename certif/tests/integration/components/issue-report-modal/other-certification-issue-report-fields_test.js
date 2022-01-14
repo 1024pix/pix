@@ -4,12 +4,12 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-module('Integration | Component | other-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | other-certification-issue-report-fields', function (hooks) {
   setupRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-other';
 
-  test('it should call toggle function on click radio button', async function(assert) {
+  test('it should call toggle function on click radio button', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
     const otherCategory = { isChecked: false };
@@ -29,7 +29,7 @@ module('Integration | Component | other-certification-issue-report-fields', func
     assert.ok(toggleOnCategory.calledOnceWith(otherCategory));
   });
 
-  test('it should show textarea if category is checked', async function(assert) {
+  test('it should show textarea if category is checked', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
     const otherCategory = { isChecked: true };
