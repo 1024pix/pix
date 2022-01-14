@@ -16,8 +16,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
     await createAuthenticateSession({ userId: currentUser.id });
 
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
-    this.server.create('badge', { id: 100, title: 'My badge' });
-    this.server.create('badge', { id: 101, title: 'My badge 2' });
+    this.server.create('badge', { id: 100, title: 'My badge', imageUrl: 'http://images.pix.fr/badges/ag2r.svg' });
+    this.server.create('badge', { id: 101, title: 'My badge 2', imageUrl: 'http://images.pix.fr/badges/ag2r.svg' });
 
     this.server.create('stage', { title: 'My stage' });
   });

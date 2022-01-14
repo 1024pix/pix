@@ -74,6 +74,9 @@ export default class Badge extends Component {
     badge.key = this.form.key;
     badge.message = this.form.message;
     badge.altMessage = this.form.altMessage;
+    badge.isCertifiable = this.form.isCertifiable;
+    badge.isAlwaysVisible = this.form.isAlwaysVisible;
+    badge.imageUrl = this.form.imageUrl;
     return badge;
   }
 
@@ -95,5 +98,8 @@ export default class Badge extends Component {
     this.form.key = this.args.badge.key;
     this.form.message = this.args.badge.message;
     this.form.altMessage = this.args.badge.altMessage;
+    this.form.isCertifiable = this.args.badge.isCertifiable;
+    this.form.isAlwaysVisible = this.args.badge.isAlwaysVisible;
+    this.form.imageUrl = this.args.badge.imageUrl;
   }
 }
