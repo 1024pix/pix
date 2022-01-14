@@ -32,19 +32,13 @@
               <label for="message" class="badge-edit-form-field__label">
                 Message :
               </label>
-              <Input id="message" @type="text" class="form-control" @value={{this.form.message}} required={{true}} />
+              <Textarea id="message" class="form-control" @value={{this.form.message}} rows="4" />
             </div>
             <div class="badge-edit-form__field">
               <label for="imageUrl" class="badge-edit-form-field__label">
                 Nom de l'image (svg) :
               </label>
-              <Input
-                id="imageUrl"
-                @type="text"
-                class="form-control"
-                @value={{this.form.imageName}}
-                required={{true}}
-              />
+              <Input id="imageUrl" @type="text" class="form-control" @value={{this.form.imageName}} required={{true}} />
             </div>
             <div class="badge-edit-form__field">
               <label for="altMessage" class="badge-edit-form-field__label">
