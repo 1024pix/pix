@@ -4,16 +4,19 @@ const endTestScreenRemovalService = require('../../../../lib/domain/services/end
 
 describe('Unit | Domain | Service | EndTestScreenRemoval', function () {
   describe('#isEndTestScreenRemovalEnabledBySessionId', function () {
-    it('should call repository with sessionId', async function () {
+    it('should return value from repository', async function () {
       // given
       const sessionId = Symbol('sessionId');
-      sinon.spy(endTestScreenRemovalRepository, 'isEndTestScreenRemovalEnabledBySessionId');
+      sinon.stub(endTestScreenRemovalRepository, 'isEndTestScreenRemovalEnabledBySessionId');
+      endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(false);
 
       // when
-      await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(sessionId);
+      const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
+        sessionId
+      );
 
       // then
-      expect(endTestScreenRemovalRepository.isEndTestScreenRemovalEnabledBySessionId).to.be.calledWith(sessionId);
+      expect(isEndTestScreenRemovalEnabled).to.equals(false);
     });
   });
 
