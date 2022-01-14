@@ -11,6 +11,7 @@ export default class AllowedCertificationCenterAccess extends Model {
   @attr() isAccessBlockedAgri;
   @attr() relatedOrganizationTags;
   @attr() habilitations;
+  @attr() hasEndTestScreenRemovalEnabled;
 
   get isSco() {
     return this.type === 'SCO';

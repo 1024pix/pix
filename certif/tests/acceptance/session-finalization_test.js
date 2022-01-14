@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -22,6 +23,7 @@ module('Acceptance | Session Finalization', function (hooks) {
       isAccessBlockedLycee: false,
       isAccessBlockedAEFE: false,
       isAccessBlockedAgri: false,
+      hasEndTestScreenRemovalEnabled: false,
     });
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
@@ -76,6 +78,15 @@ module('Acceptance | Session Finalization', function (hooks) {
 
       // then
       assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
+    });
+
+    test('it should display the end screen column when the center has no access to the supervisor space', async function (assert) {
+      // when
+      server.create('feature-toggle', { isEndTestScreenRemovalEnabled: true });
+      const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+      // then
+      assert.dom(screen.queryByText('Écran de fin du test vu')).exists();
     });
 
     module('When certificationPointOfContact click on "Finaliser" button', function () {
