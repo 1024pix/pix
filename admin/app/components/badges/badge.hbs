@@ -35,6 +35,18 @@
               <Input id="message" @type="text" class="form-control" @value={{this.form.message}} required={{true}} />
             </div>
             <div class="badge-edit-form__field">
+              <label for="imageUrl" class="badge-edit-form-field__label">
+                Nom de l'image (svg) :
+              </label>
+              <Input
+                id="imageUrl"
+                @type="text"
+                class="form-control"
+                @value={{this.form.imageUrl}}
+                required={{true}}
+              />
+            </div>
+            <div class="badge-edit-form__field">
               <label for="altMessage" class="badge-edit-form-field__label">
                 Message Alternatif :
               </label>
@@ -44,6 +56,24 @@
                 class="form-control"
                 @value={{this.form.altMessage}}
                 required={{true}}
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isCertifiable">Certifiable : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isCertifiable}}
+                id="isCertifiable"
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isAlwaysVisible">Lacunes : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isAlwaysVisible}}
+                id="isAlwaysVisible"
               />
             </div>
             <div class="badge-edit-form__actions">
