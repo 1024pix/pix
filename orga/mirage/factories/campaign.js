@@ -14,6 +14,14 @@ export default Factory.extend({
     return faker.date.recent();
   },
 
+  ownerLastName() {
+    return 'Adit';
+  },
+
+  ownerFirstName() {
+    return 'Jack';
+  },
+
   ofTypeAssessment: trait({
     afterCreate(campaign) {
       campaign.update({

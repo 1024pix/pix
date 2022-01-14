@@ -1,14 +1,7 @@
-<section class="no-campaign-panel">
-  <img src="{{this.rootURL}}/icons/icon-campagne-start.svg" alt="" role="none" />
-  <h1 class="page-title">
-    {{t "pages.campaigns-list.no-campaign.title"}}
-  </h1>
+<section class="no-campaign-panel panel">
+  <img src="https://orga-pr3921.review.pix.fr/images/empty-state.svg" alt="" role="none" />
 
-  <p class="no-campaign-panel__information-text information-text">
-    {{t "pages.campaigns-list.no-campaign.description"}}
+  <p class="no-campaign-panel__information-text hide-on-mobile">
+    {{t "pages.campaigns-list.no-campaign"}}
   </p>
-
-  <PixButtonLink @route="authenticated.campaigns.new">
-    {{t "pages.campaigns-list.action.create"}}
-  </PixButtonLink>
 </section>

@@ -38,7 +38,10 @@ Router.map(function () {
       this.route('new', { path: '/creation' });
     });
     this.route('campaigns', { path: '/campagnes' }, function () {
-      this.route('list', { path: '/' });
+      this.route('list', { path: '/' }, function () {
+        this.route('my-campaigns', { path: '/les-miennes' });
+        this.route('all-campaigns', { path: '/toutes' });
+      });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:campaign_id/modification' });
       this.route(

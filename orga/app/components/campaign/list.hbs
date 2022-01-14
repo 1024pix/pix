@@ -6,6 +6,7 @@
     @isArchived={{@isArchived}}
     @onClickStatusFilter={{@onClickStatusFilter}}
     @numResults={{@campaigns.meta.rowCount}}
+    @listOnlyCampaignsOfCurrentUser={{@listOnlyCampaignsOfCurrentUser}}
   />
   <div class="panel">
     <table class="table content-text content-text--small">
@@ -19,7 +20,9 @@
       <thead>
         <tr>
           <Table::Header>{{t "pages.campaigns-list.table.column.campaign"}}</Table::Header>
-          <Table::Header class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-by"}}</Table::Header>
+          {{#unless @listOnlyCampaignsOfCurrentUser}}
+            <Table::Header class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-by"}}</Table::Header>
+          {{/unless}}
           <Table::Header class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-on"}}</Table::Header>
           <Table::Header class="hide-on-mobile">{{t "pages.campaigns-list.table.column.participants"}}</Table::Header>
           <Table::Header class="hide-on-mobile">{{t "pages.campaigns-list.table.column.results"}}</Table::Header>
@@ -38,7 +41,9 @@
                 {{campaign.name}}
               </LinkTo>
             </td>
-            <td class="table__column--truncated hide-on-mobile">{{campaign.ownerFullName}}</td>
+            {{#unless @listOnlyCampaignsOfCurrentUser}}
+              <td class="table__column--truncated hide-on-mobile">{{campaign.ownerFullName}}</td>
+            {{/unless}}
             <td class="hide-on-mobile">{{moment-format campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
             <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>

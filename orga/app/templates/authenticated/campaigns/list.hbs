@@ -1,18 +1,4 @@
-{{page-title this.pageTitle}}
-
 <article class="list-campaigns-page">
-  {{#if @model.meta.hasCampaigns}}
-    <Campaign::ListHeader @title={{this.pageTitle}} />
-    <Campaign::List
-      @campaigns={{@model}}
-      @nameFilter={{this.name}}
-      @ownerNameFilter={{this.ownerName}}
-      @onFilter={{this.triggerFiltering}}
-      @onClickCampaign={{this.goToCampaignPage}}
-      @isArchived={{this.isArchived}}
-      @onClickStatusFilter={{this.updateCampaignStatus}}
-    />
-  {{else}}
-    <Campaign::NoCampaignPanel />
-  {{/if}}
+  <Campaign::ListHeader />
+  {{outlet}}
 </article>
