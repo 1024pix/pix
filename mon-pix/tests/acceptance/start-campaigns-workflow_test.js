@@ -211,7 +211,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
           });
 
           it('should not alter inputs(username,password,email) when email already exists', async function () {
@@ -266,7 +266,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await fillIn('#password', 'pix123');
             await click('#submit-registration');
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#firstName').value).to.equal(prescritUser.firstName);
             expect(find('#email').value).to.equal(prescritUser.email);
             expect(find('#password').value).to.equal('pix123');
@@ -281,7 +281,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
 
             // when
             await click('#login-button');
@@ -297,7 +297,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
 
             await click('#login-button');
             await fillIn('#login', prescritUser.email);
@@ -404,56 +404,39 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             expect(currentURL()).to.equal('/connexion-pole-emploi');
           });
 
-          it('should begin campaign participation once user is authenticated', async function () {
+          it('should redirect to terms of service Pole Emploi page', async function () {
             // given
             const state = 'state';
-
             const session = currentSession();
             session.set('data.state', state);
-            session.set('data.nextURL', `/campagnes/${campaign.code}/startOrResume`);
-            const data = {};
-            data[campaign.code] = { landingPageShown: true };
-            sessionStorage.setItem('campaigns', JSON.stringify(data));
 
             // when
             await visit(`/connexion-pole-emploi?code=test&state=${state}`);
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            expect(currentURL()).to.equal(`/cgu-pole-emploi?authenticationKey=key`);
+            expect(find('.terms-of-service-form__conditions').textContent).to.contains(
+              "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
+            );
           });
 
-          context('When user must validate terms of service Pole Emploi', function () {
-            it('should redirect to terms of service Pole Emploi page', async function () {
-              // given
-              const authenticationKey = 'authenticationKey';
-              server.post('/pole-emploi/token', () => {
-                const userAccountNotFoundForPoleEmploiError = {
-                  errors: [
-                    {
-                      status: '401',
-                      code: 'SHOULD_VALIDATE_CGU',
-                      title: 'Unauthorized',
-                      detail: "L'utilisateur n'a pas de compte Pix",
-                      meta: { authenticationKey },
-                    },
-                  ],
-                };
+          it('should begin campaign participation once user has accepted terms of service', async function () {
+            // given
+            const state = 'state';
+            const session = currentSession();
+            session.set('data.state', state);
+            session.set('data.nextURL', `/campagnes/${campaign.code}/acces`);
+            const data = {};
+            data[campaign.code] = { landingPageShown: true };
+            sessionStorage.setItem('campaigns', JSON.stringify(data));
 
-                return new Response(401, {}, userAccountNotFoundForPoleEmploiError);
-              });
-              const state = 'state';
-              const session = currentSession();
-              session.set('data.state', state);
+            // when
+            await visit(`/cgu-pole-emploi?authenticationKey=key`);
+            await clickByLabel("J'accepte les conditions d'utilisation et la politique de confidentialité de Pix");
+            await clickByLabel('Je continue');
 
-              // when
-              await visit(`/connexion-pole-emploi?code=test&state=${state}`);
-
-              // then
-              expect(currentURL()).to.equal(`/cgu-pole-emploi?authenticationKey=${authenticationKey}`);
-              expect(find('.terms-of-service-form__conditions').textContent).to.contains(
-                "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
-              );
-            });
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
@@ -734,6 +717,98 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
         });
       });
 
+      context('When campaign belongs to Pole Emploi organization', function () {
+        let replaceLocationStub;
+
+        beforeEach(function () {
+          replaceLocationStub = sinon.stub().resolves();
+          this.owner.register(
+            'service:location',
+            Service.extend({
+              replace: replaceLocationStub,
+            })
+          );
+          campaign = server.create('campaign', { organizationIsPoleEmploi: true });
+        });
+
+        context('When user is logged in with Pole emploi', function () {
+          beforeEach(function () {
+            const session = currentSession();
+            session.set('data.authenticated.source', 'pole_emploi_connect');
+          });
+
+          it('should redirect to landing page', async function () {
+            // given
+            await visit('/campagnes');
+
+            // when
+            await fillIn('#campaign-code', campaign.code);
+            await clickByLabel('Commencer');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should begin campaign participation', async function () {
+            // given
+            await visit('/campagnes');
+            await fillIn('#campaign-code', campaign.code);
+            await clickByLabel('Commencer');
+
+            // when
+            await clickByLabel('Je commence');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          });
+        });
+
+        context('When user is logged in with another authentication method', function () {
+          it('should redirect to landing page', async function () {
+            // given
+            await visit('/campagnes');
+
+            // when
+            await fillIn('#campaign-code', campaign.code);
+            await clickByLabel('Commencer');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to Pole Emploi authentication form when landing page has been seen', async function () {
+            // given
+            await visit(`/campagnes/${campaign.code}`);
+
+            // when
+            await clickByLabel('Je commence');
+
+            // then
+            sinon.assert.called(replaceLocationStub);
+            expect(currentURL()).to.equal('/connexion-pole-emploi');
+          });
+
+          it('should begin campaign participation once user is authenticated', async function () {
+            // given
+            const state = 'state';
+
+            const session = currentSession();
+            session.set('isAuthenticated', true);
+            session.set('data.state', state);
+            session.set('data.nextURL', `/campagnes/${campaign.code}/acces`);
+            const data = {};
+            data[campaign.code] = { landingPageShown: true };
+            sessionStorage.setItem('campaigns', JSON.stringify(data));
+
+            // when
+            await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          });
+        });
+      });
+
       context('When campaign has external id', function () {
         context('When participant external id is not set in the url', function () {
           beforeEach(async function () {
@@ -899,7 +974,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre-depuis-mediacentre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/mediacentre`);
           });
 
           it('should set by default firstName and lastName', async function () {
@@ -1059,7 +1134,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
 
@@ -1099,7 +1174,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(
               expectedErrorMessage + expectedObfuscatedConnectionMethod
             );
@@ -1127,7 +1202,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
 
