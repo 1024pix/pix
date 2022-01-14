@@ -34,7 +34,7 @@ jobs:
           transition: "Move to 'Deployed in Integration'"
 
       - name: Notify team on config file change
-        uses: 1024pix/notify-team-on-config-file-change@v1.0.1
+        uses: 1024pix/notify-team-on-config-file-change@v1.0.2
         with:
           GITHUB_TOKEN: ${{ github.token }}
           SLACK_BOT_TOKEN: ${{ secrets.PIX_BOT_RUN_SLACK_TOKEN }}
