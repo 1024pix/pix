@@ -18,8 +18,16 @@ export default class Badge extends Component {
     return this.args.badge.isCertifiable ? 'green' : 'yellow';
   }
 
+  get isAlwaysVisibleColor() {
+    return this.args.badge.isAlwaysVisible ? 'green' : null;
+  }
+
   get isCertifiableText() {
     return this.args.badge.isCertifiable ? 'Certifiable' : 'Non certifiable';
+  }
+
+  get isAlwaysVisibleText() {
+    return this.args.badge.isAlwaysVisible ? 'Lacunes' : null;
   }
 
   get badgeCriteria() {
