@@ -14,6 +14,9 @@ module.exports = {
       altMessage: json.data.attributes['alt-message'],
       message: json.data.attributes['message'],
       title: json.data.attributes['title'],
+      isCertifiable: json.data.attributes['is-certifiable'],
+      isAlwaysVisible: json.data.attributes['is-always-visible'],
+      imageUrl: json.data.attributes['image-url'],
     };
   },
 };
