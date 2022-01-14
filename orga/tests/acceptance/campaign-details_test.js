@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
@@ -24,16 +24,14 @@ module('Acceptance | Campaign Details', function (hooks) {
     });
   });
 
-  module('When prescriber is logged in', function (hooks) {
-    hooks.beforeEach(async () => {
+  module('When prescriber is logged in', function () {
+    test('it should redirect to update page on click on return button', async function (assert) {
+      // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
       await authenticateSession(user.id);
-    });
 
-    test('it should redirect to update page on click on return button', async function (assert) {
-      // given
       server.create('campaign', { id: 1 });
       server.create('campaign-participant-activity', { firstName: 'toto' });
       await visit('/campagnes/1');
@@ -43,6 +41,25 @@ module('Acceptance | Campaign Details', function (hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes');
+    });
+
+    test('[A11Y] it should contain accessibility aria-label nav', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+
+      server.create('campaign', { id: 1 });
+      server.create('campaign-participant-activity', { firstName: 'toto' });
+
+      // when
+      const screen = await visitScreen('/campagnes/1');
+
+      // then
+      assert.dom(screen.getByLabelText('Navigation principale')).exists();
+      assert.dom(screen.getByLabelText("Navigation de la section détails d'une campagne")).exists();
+      assert.dom(screen.getByLabelText('Navigation de pied de page')).exists();
     });
   });
 });

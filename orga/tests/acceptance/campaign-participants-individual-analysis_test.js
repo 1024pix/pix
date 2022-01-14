@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Campaign Participants Individual Analysis', function (hooks) {
   setupApplicationTest(hooks);
@@ -21,16 +21,30 @@ module('Acceptance | Campaign Participants Individual Analysis', function (hooks
     await authenticateSession(user.id);
   });
 
+  test('[a11y] it should contain accessibility aria-label nav', async function (assert) {
+    // given
+    campaignAnalysis = server.create('campaign-analysis', 'withTubeRecommendations', { id: 1, campaignId: 1 });
+    server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAnalysis });
+
+    // when
+    const screen = await visitScreen('/campagnes/1/evaluations/1/analyse');
+
+    // then
+    assert.dom(screen.getByLabelText('Navigation principale')).exists();
+    assert.dom(screen.getByLabelText("Navigation de la section résultat d'une évaluation individuelle")).exists();
+    assert.dom(screen.getByLabelText('Navigation de pied de page')).exists();
+  });
+
   test('it should display individual analysis', async function (assert) {
     // given
     campaignAnalysis = server.create('campaign-analysis', 'withTubeRecommendations', { id: 1, campaignId: 1 });
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAnalysis });
 
     // when
-    await visit('/campagnes/1/evaluations/1/analyse');
+    const screen = await visitScreen('/campagnes/1/evaluations/1/analyse');
 
     // then
-    assert.dom('[aria-label="Analyse par sujet"]').containsText('Sujets (2)');
+    assert.dom(screen.getByText('Sujets (2)')).exists();
   });
 
   test('it should not display individual analysis when tube recommendations are empty', async function (assert) {
@@ -39,9 +53,9 @@ module('Acceptance | Campaign Participants Individual Analysis', function (hooks
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAnalysis });
 
     // when
-    await visit('/campagnes/1/evaluations/1/analyse');
+    const screen = await visitScreen('/campagnes/1/evaluations/1/analyse');
 
     // then
-    assert.dom('[aria-label="Analyse par sujet"]').containsText('Sujets (-)');
+    assert.dom(screen.getByText('Sujets (-)')).exists();
   });
 });

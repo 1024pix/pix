@@ -188,7 +188,8 @@
       "a11y": "Accessibility",
       "copyrights": "©",
       "legal-notice": "Legal notice",
-      "pix": "Pix"
+      "pix": "Pix",
+      "aria-label": "Footer navigation"
     },
     "main": {
       "campaigns": "Campaigns",
@@ -196,7 +197,17 @@
       "documentation": "Documentation",
       "students-sco": "Students",
       "students-sup": "Students",
-      "team": "Team"
+      "team": "Team",
+      "aria-label": "Main navigation"
+    },
+    "team-members": {
+      "aria-label": "Team members navigation"
+    },
+    "campaign-page": {
+      "aria-label": "Campaign navigation"
+    },
+    "assessment-individual-results": {
+      "aria-label": "Individual assessment resultas navigation"
     },
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
