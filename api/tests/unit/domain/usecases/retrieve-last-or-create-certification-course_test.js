@@ -31,6 +31,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const placementProfileService = {};
   const verifyCertificateCodeService = {};
   const complementaryCertificationRepository = {};
+  const endTestScreenRemovalService = {};
 
   const injectables = {
     assessmentRepository,
@@ -45,6 +46,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     placementProfileService,
     verifyCertificateCodeService,
     complementaryCertificationRepository,
+    endTestScreenRemovalService,
   };
 
   beforeEach(function () {
@@ -66,6 +68,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     certificationCourseRepository.save = sinon.stub();
     sessionRepository.get = sinon.stub();
     placementProfileService.getPlacementProfile = sinon.stub();
+    endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId = sinon.stub();
+
     verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub().resolves(verificationCode);
     certificationCenterRepository.getBySessionId = sinon.stub();
     complementaryCertificationRepository.findAll = sinon.stub();
@@ -124,10 +128,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
     context('when session is accessible', function () {
       context(
-        'when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is active and the candidate IS NOT authorized',
+        'when FT_END_TEST_SCREEN_REMOVAL_ENABLED_CERTIFICATION_CENTER_IDS is enabled for the session and the candidate IS NOT authorized',
         function () {
           beforeEach(function () {
-            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(1).resolves(true);
           });
 
           context('when the user joins the session', function () {
@@ -163,10 +167,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
       );
 
       context(
-        'when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is active and when the certification candidate is authorized',
+        'when FT_END_TEST_SCREEN_REMOVAL_ENABLED_CERTIFICATION_CENTER_IDS is enabled for the session and when the certification candidate is authorized',
         function () {
           beforeEach(function () {
-            sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(1).resolves(true);
           });
 
           context('when a certification course with provided userId and sessionId already exists', function () {

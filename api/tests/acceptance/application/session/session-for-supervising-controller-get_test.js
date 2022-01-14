@@ -1,6 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { featureToggles } = require('../../../../lib/config');
+const { features } = require('../../../../lib/config');
 
 describe('Acceptance | Controller | session-for-supervising-controller-get', function () {
   let server;
@@ -9,10 +9,10 @@ describe('Acceptance | Controller | session-for-supervising-controller-get', fun
     server = await createServer();
   });
 
-  context('when FT_IS_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+  context('when en test screen removal is enabled', function () {
     it('should return OK and a sessionForSupervisings type', async function () {
       // given
-      sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(true);
+      sinon.stub(features, 'endTestScreenRemovalWhiteList').value([345]);
       databaseBuilder.factory.buildCertificationCenter({ id: 345 });
       databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
       databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
@@ -37,21 +37,21 @@ describe('Acceptance | Controller | session-for-supervising-controller-get', fun
     });
   });
 
-  context('when FT_IS_END_TEST_SCREEN_REMOVAL_ENABLED is not enabled', function () {
-    it('should return 404 HTTP status code ', async function () {
+  context('when end test screen removal is not enabled', function () {
+    it('should return 401 HTTP status code ', async function () {
       const options = {
         method: 'GET',
         url: '/api/sessions/121/supervising',
         payload: {},
       };
       options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
-      sinon.stub(featureToggles, 'isEndTestScreenRemovalEnabled').value(false);
+      sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
 
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(404);
+      expect(response.statusCode).to.equal(401);
     });
   });
 });

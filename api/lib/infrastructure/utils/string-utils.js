@@ -1,5 +1,10 @@
 const _ = require('../../infrastructure/utils/lodash-utils');
 
+function getArrayOfStrings(commaSeparatedStrings) {
+  if (!commaSeparatedStrings) return [];
+  return _(commaSeparatedStrings).split(',').map(_.trim).map(_.toUpper).value();
+}
+
 function isNumeric(string) {
   if (typeof string != 'string') {
     return false;
@@ -47,6 +52,7 @@ module.exports = {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
+  getArrayOfStrings,
   normalizeAndSortChars,
   normalize,
 };

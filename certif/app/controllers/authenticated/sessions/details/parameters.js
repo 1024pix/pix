@@ -21,7 +21,7 @@ export default class SessionParametersController extends Controller {
   }
 
   get supervisorPasswordShouldBeDisplayed() {
-    return this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled;
+    return Boolean(this.session.supervisorPassword);
   }
 
   @action

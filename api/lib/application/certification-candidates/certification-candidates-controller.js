@@ -1,16 +1,11 @@
 const usecases = require('../../domain/usecases');
-const { featureToggles } = require('../../config');
-const { NotFoundError } = require('../http-errors');
 const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer');
 
 module.exports = {
   async authorizeToStart(request, h) {
-    if (!featureToggles.isEndTestScreenRemovalEnabled) {
-      throw new NotFoundError();
-    }
+    const certificationCandidateForSupervisingId = request.params.id;
 
     const authorizedToStart = request.payload['authorized-to-start'];
-    const certificationCandidateForSupervisingId = request.params.id;
     await usecases.authorizeCertificationCandidateToStart({
       certificationCandidateForSupervisingId,
       authorizedToStart,
@@ -20,11 +15,8 @@ module.exports = {
   },
 
   async authorizeToResume(request, h) {
-    if (!featureToggles.isEndTestScreenRemovalEnabled) {
-      throw new NotFoundError();
-    }
-
     const certificationCandidateId = request.params.id;
+
     await usecases.authorizeCertificationCandidateToResume({
       certificationCandidateId,
     });

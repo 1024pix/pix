@@ -67,6 +67,7 @@ const dependencies = {
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   divisionRepository: require('../../infrastructure/repositories/division-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
+  endTestScreenRemovalService: require('../services/end-test-screen-removal-service'),
   flashAssessmentResultRepository: require('../../infrastructure/repositories/flash-assessment-result-repository'),
   flashAlgorithmService: require('../../domain/services/algorithm-methods/flash'),
   getCompetenceLevel: require('../../domain/services/get-competence-level'),
