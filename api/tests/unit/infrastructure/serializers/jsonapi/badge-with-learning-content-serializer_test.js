@@ -79,6 +79,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
+        isAlwaysVisible: false,
       });
 
       const skills = [
@@ -96,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
             'is-certifiable': false,
+            'is-always-visible': false,
             message: 'Congrats, you won a banana badge',
             title: 'Banana',
             key: 'BANANA',
@@ -337,6 +339,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
+        isAlwaysVisible: false,
       });
 
       const skills = [domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', tubeId: 'recTUB123' })];
@@ -351,6 +354,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
             'is-certifiable': false,
+            'is-always-visible': false,
             message: 'Congrats, you won a banana badge',
             title: 'Banana',
             key: 'BANANA',
