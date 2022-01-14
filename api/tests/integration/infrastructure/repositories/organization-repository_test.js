@@ -967,5 +967,34 @@ describe('Integration | Repository | Organization', function () {
       const foundOrganizations = await knex('organizations').select();
       expect(foundOrganizations.length).to.equal(2);
     });
+
+    it('should save organization attributes', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      const organization = domainBuilder.buildOrganization({
+        id: null,
+        externalId: '1237457A',
+        name: 'Orga 1',
+        provinceCode: '12',
+        canCollectProfiles: true,
+        credit: 100,
+        createdBy: userId,
+        documentationUrl: 'http://example.net/',
+      });
+
+      // when
+      await organizationRepository.batchCreateProOrganizations([organization]);
+
+      // then
+      const foundOrganizations = await knex('organizations').select();
+      expect(foundOrganizations[0].id).to.not.be.undefined;
+      expect(foundOrganizations[0].name).to.equal(organization.name);
+      expect(foundOrganizations[0].externalId).to.equal(organization.externalId);
+      expect(foundOrganizations[0].provinceCode).to.equal(organization.provinceCode);
+      expect(foundOrganizations[0].createdBy).to.equal(organization.createdBy);
+      expect(foundOrganizations[0].documentationUrl).to.equal(organization.documentationUrl);
+    });
   });
 });
