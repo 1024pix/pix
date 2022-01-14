@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import { ACQUIRED, REJECTED, NOT_TAKEN } from 'pix-admin/models/certification';
 
 module('Unit | Model | certification', function (hooks) {
@@ -22,11 +21,9 @@ module('Unit | Model | certification', function (hooks) {
       module(`when cleaCertificationStatus is ${cleaStatus}`, function () {
         test(`cleaCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
           // given
-          const certification = run(() =>
-            store.createRecord('certification', {
-              cleaCertificationStatus: cleaStatus,
-            })
-          );
+          const certification = store.createRecord('certification', {
+            cleaCertificationStatus: cleaStatus,
+          });
 
           // when
           const label = certification.cleaCertificationStatusLabel;
@@ -48,11 +45,9 @@ module('Unit | Model | certification', function (hooks) {
       module(`when pixPlusDroitMaitreCertificationStatus is ${pixPlusDroitMaitreCertificationStatus}`, function () {
         test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
           // given
-          const certification = run(() =>
-            store.createRecord('certification', {
-              pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
-            })
-          );
+          const certification = store.createRecord('certification', {
+            pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
+          });
 
           // when
           const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
@@ -74,11 +69,9 @@ module('Unit | Model | certification', function (hooks) {
       module(`when pixPlusDroitExpertCertificationStatus is ${pixPlusDroitExpertCertificationStatus}`, function () {
         test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
           // given
-          const certification = run(() =>
-            store.createRecord('certification', {
-              pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
-            })
-          );
+          const certification = store.createRecord('certification', {
+            pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
+          });
 
           // when
           const label = certification.pixPlusDroitExpertCertificationStatusLabel;
@@ -90,14 +83,114 @@ module('Unit | Model | certification', function (hooks) {
     });
   });
 
+  module('#pixPlusEduAutonomeCertificationStatusLabel', function () {
+    const pixPlusEduAutonomeStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
+    ]);
+    pixPlusEduAutonomeStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduAutonomeCertificationStatus) => {
+      module(
+        `when pixPlusEduAutonomeCertificationStatusLabel is ${pixPlusEduAutonomeCertificationStatus}`,
+        function () {
+          test(`pixPlusEduAutonomeCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+            // given
+            const certification = store.createRecord('certification', {
+              pixPlusEduAutonomeCertificationStatus,
+            });
+
+            // when
+            const label = certification.pixPlusEduAutonomeCertificationStatusLabel;
+
+            // then
+            assert.equal(label, expectedLabel);
+          });
+        }
+      );
+    });
+  });
+
+  module('#pixPlusEduAvanceCertificationStatusLabel', function () {
+    const pixPlusEduAvanceStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
+    ]);
+    pixPlusEduAvanceStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduAvanceCertificationStatus) => {
+      module(`when pixPlusEduAvanceCertificationStatusLabel is ${pixPlusEduAvanceCertificationStatus}`, function () {
+        test(`pixPlusEduAvanceCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+          // given
+          const certification = store.createRecord('certification', {
+            pixPlusEduAvanceCertificationStatus,
+          });
+
+          // when
+          const label = certification.pixPlusEduAvanceCertificationStatusLabel;
+
+          // then
+          assert.equal(label, expectedLabel);
+        });
+      });
+    });
+  });
+
+  module('#pixPlusEduExpertCertificationStatusLabel', function () {
+    const pixPlusEduExpertStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
+    ]);
+    pixPlusEduExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduExpertCertificationStatus) => {
+      module(`when pixPlusEduExpertCertificationStatusLabel is ${pixPlusEduExpertCertificationStatus}`, function () {
+        test(`pixPlusEduExpertCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+          // given
+          const certification = store.createRecord('certification', {
+            pixPlusEduExpertCertificationStatus,
+          });
+
+          // when
+          const label = certification.pixPlusEduExpertCertificationStatusLabel;
+
+          // then
+          assert.equal(label, expectedLabel);
+        });
+      });
+    });
+  });
+
+  module('#pixPlusEduFormateurCertificationStatusLabel', function () {
+    const pixPlusEduFormateurStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
+    ]);
+    pixPlusEduFormateurStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduFormateurCertificationStatus) => {
+      module(
+        `when pixPlusEduFormateurCertificationStatusLabel is ${pixPlusEduFormateurCertificationStatus}`,
+        function () {
+          test(`pixPlusEduFormateurCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+            // given
+            const certification = store.createRecord('certification', {
+              pixPlusEduFormateurCertificationStatus,
+            });
+
+            // when
+            const label = certification.pixPlusEduFormateurCertificationStatusLabel;
+
+            // then
+            assert.equal(label, expectedLabel);
+          });
+        }
+      );
+    });
+  });
+
   module('#publishedText', function () {
     test('it should return "oui" when isPublished is true', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          isPublished: true,
-        })
-      );
+      const certification = store.createRecord('certification', {
+        isPublished: true,
+      });
 
       // when
       const isPublishedLabel = certification.publishedText;
@@ -108,11 +201,9 @@ module('Unit | Model | certification', function (hooks) {
 
     test('it should return "non" when isPublished is false', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          isPublished: false,
-        })
-      );
+      const certification = store.createRecord('certification', {
+        isPublished: false,
+      });
 
       // when
       const isPublishedLabel = certification.publishedText;
@@ -125,30 +216,28 @@ module('Unit | Model | certification', function (hooks) {
   module('#indexedCompetences', function () {
     test('it should return the indexedCompetences from the competencesWithMark', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          competencesWithMark: [
-            {
-              id: 1,
-              area_code: '1',
-              competence_code: '1.1',
-              competenceId: 'rec11',
-              level: 4,
-              score: 39,
-              assessmentResultId: 123,
-            },
-            {
-              id: 2,
-              area_code: '2',
-              competence_code: '2.1',
-              competenceId: 'rec21',
-              level: 5,
-              score: 20,
-              assessmentResultId: 123,
-            },
-          ],
-        })
-      );
+      const certification = store.createRecord('certification', {
+        competencesWithMark: [
+          {
+            id: 1,
+            area_code: '1',
+            competence_code: '1.1',
+            competenceId: 'rec11',
+            level: 4,
+            score: 39,
+            assessmentResultId: 123,
+          },
+          {
+            id: 2,
+            area_code: '2',
+            competence_code: '2.1',
+            competenceId: 'rec21',
+            level: 5,
+            score: 20,
+            assessmentResultId: 123,
+          },
+        ],
+      });
 
       // when
       const indexedCompetences = certification.indexedCompetences;
@@ -172,30 +261,28 @@ module('Unit | Model | certification', function (hooks) {
   module('#competences', function () {
     test('it should return the competences from the indexedCompetences', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          competencesWithMark: [
-            {
-              id: 1,
-              area_code: '1',
-              competence_code: '1.1',
-              competenceId: 'rec11',
-              level: 4,
-              score: 39,
-              assessmentResultId: 123,
-            },
-            {
-              id: 2,
-              area_code: '2',
-              competence_code: '2.1',
-              competenceId: 'rec21',
-              level: 5,
-              score: 20,
-              assessmentResultId: 123,
-            },
-          ],
-        })
-      );
+      const certification = store.createRecord('certification', {
+        competencesWithMark: [
+          {
+            id: 1,
+            area_code: '1',
+            competence_code: '1.1',
+            competenceId: 'rec11',
+            level: 4,
+            score: 39,
+            assessmentResultId: 123,
+          },
+          {
+            id: 2,
+            area_code: '2',
+            competence_code: '2.1',
+            competenceId: 'rec21',
+            level: 5,
+            score: 20,
+            assessmentResultId: 123,
+          },
+        ],
+      });
 
       // when
       const competences = certification.competences;
@@ -226,11 +313,9 @@ module('Unit | Model | certification', function (hooks) {
     ].forEach((certificationStatus) => {
       test('it should return the right pair of label and value', function (assert) {
         // given
-        const certification = run(() =>
-          store.createRecord('certification', {
-            status: certificationStatus.value,
-          })
-        );
+        const certification = store.createRecord('certification', {
+          status: certificationStatus.value,
+        });
 
         // then
         assert.deepEqual(certification.statusLabelAndValue, {
@@ -249,11 +334,9 @@ module('Unit | Model | certification', function (hooks) {
     ].forEach(({ value, label }) => {
       test(`it should return true when sex value is ${label}`, function (assert) {
         // given
-        const certification = run(() =>
-          store.createRecord('certification', {
-            sex: value,
-          })
-        );
+        const certification = store.createRecord('certification', {
+          sex: value,
+        });
 
         // then
         assert.true(certification.wasRegisteredBeforeCPF);
@@ -262,11 +345,9 @@ module('Unit | Model | certification', function (hooks) {
 
     test('should return false when sex is defined', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          sex: 'M',
-        })
-      );
+      const certification = store.createRecord('certification', {
+        sex: 'M',
+      });
 
       // then
       assert.false(certification.wasRegisteredBeforeCPF);
@@ -276,9 +357,7 @@ module('Unit | Model | certification', function (hooks) {
   module('#get completionDate', function () {
     test('it should return null if completedAt is null', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('certification', { completedAt: null });
-      });
+      const juryCertificationSummary = store.createRecord('certification', { completedAt: null });
 
       // then
       assert.equal(juryCertificationSummary.completionDate, null);
@@ -286,9 +365,7 @@ module('Unit | Model | certification', function (hooks) {
 
     test('it should a formatted date when completedAt is defined', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
-      });
+      const juryCertificationSummary = store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
 
       // then
       assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
@@ -298,18 +375,16 @@ module('Unit | Model | certification', function (hooks) {
   module('#getInformation', function () {
     test('it should return the certification candidate information', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          birthdate: '1981-01-19',
-          birthplace: 'Torreilles',
-          sex: 'F',
-          birthInseeCode: '66212',
-          birthPostalCode: null,
-          birthCountry: 'FRANCE',
-        })
-      );
+      const certification = store.createRecord('certification', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        sex: 'F',
+        birthInseeCode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'FRANCE',
+      });
 
       // when
       const information = certification.getInformation();
@@ -331,18 +406,16 @@ module('Unit | Model | certification', function (hooks) {
   module('#updateInformation', function () {
     test('it should update the certification candidate information', function (assert) {
       // given
-      const certification = run(() =>
-        store.createRecord('certification', {
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          birthdate: '1981-01-19',
-          birthplace: 'Torreilles',
-          sex: 'F',
-          birthInseeCode: '66212',
-          birthPostalCode: null,
-          birthCountry: 'FRANCE',
-        })
-      );
+      const certification = store.createRecord('certification', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        sex: 'F',
+        birthInseeCode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'FRANCE',
+      });
 
       // when
       certification.updateInformation({
@@ -373,7 +446,7 @@ module('Unit | Model | certification', function (hooks) {
   module('#wasBornInFrance', function () {
     test('it should return true when candidate was born in France', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', { birthCountry: 'FRANCE' }));
+      const certification = store.createRecord('certification', { birthCountry: 'FRANCE' });
 
       // when
       const wasBornInFrance = certification.wasBornInFrance();
@@ -384,7 +457,7 @@ module('Unit | Model | certification', function (hooks) {
 
     test('it should return false when candidate was not born in France', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', { birthCountry: 'OTHER_COUNTRY' }));
+      const certification = store.createRecord('certification', { birthCountry: 'OTHER_COUNTRY' });
 
       // when
       const wasBornInFrance = certification.wasBornInFrance();
