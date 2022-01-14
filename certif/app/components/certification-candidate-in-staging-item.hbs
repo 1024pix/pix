@@ -1,108 +1,126 @@
 <tr>
-  <td data-test-id='panel-candidate__lastName__add-staging'>
+  <td data-test-id="panel-candidate__lastName__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         required
         value="{{@candidateData.lastName}}"
         class="certification-candidates-input {{if this.lastNameFocused 'focused'}}"
-        {{on 'focus' this.focusLastName}}
-        {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}} >
+        {{on "focus" this.focusLastName}}
+        {{on "input" (fn @updateCandidateData @candidateData "lastName")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__firstName__add-staging'>
+  <td data-test-id="panel-candidate__firstName__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         required
         value="{{@candidateData.firstName}}"
         class="certification-candidates-input {{if this.firstNameFocused 'focused'}}"
-        {{on 'focus' this.focusFirstName}}
-        {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}} >
+        {{on "focus" this.focusFirstName}}
+        {{on "input" (fn @updateCandidateData @candidateData "firstName")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__birthdate__add-staging'>
+  <td data-test-id="panel-candidate__birthdate__add-staging">
     <div class="certification-candidates-input-wrapper">
       <OneWayDateMask
-          required
-          @placeholder='dd/mm/yyyy'
-          @options={{hash inputFormat='dd/mm/yyyy' outputFormat='dd/mm/yyyy'}}
-          @class="certification-candidates-input {{if this.birthdateFocused 'focused'}}"
-          id="certification-candidates-input-birthdate"
-          {{on 'focus' this.focusBirthdate}}
-          @value={{this.maskedBirthdate}}
-          @update={{this.updateCandidateDataBirthdate}}>
-      </OneWayDateMask>
+        required
+        @placeholder="dd/mm/yyyy"
+        @options={{hash inputFormat="dd/mm/yyyy" outputFormat="dd/mm/yyyy"}}
+        @class="certification-candidates-input {{if this.birthdateFocused 'focused'}}"
+        id="certification-candidates-input-birthdate"
+        {{on "focus" this.focusBirthdate}}
+        @value={{this.maskedBirthdate}}
+        @update={{this.updateCandidateDataBirthdate}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__birthCity__add-staging'>
+  <td data-test-id="panel-candidate__birthCity__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         required
         value="{{@candidateData.birthCity}}"
         class="certification-candidates-input {{if this.birthCityFocused 'focused'}}"
-        {{on 'focus' this.focusBirthCity}}
-        {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}} >
+        {{on "focus" this.focusBirthCity}}
+        {{on "input" (fn @updateCandidateData @candidateData "birthCity")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__birthProvinceCode__add-staging'>
+  <td data-test-id="panel-candidate__birthProvinceCode__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         pattern="{{this.birthProvinceCodePattern}}"
         required
         title="Exemples: 75 pour Paris, 972 pour la Martinique, 2A pour la Corse-du-Sud... Veuillez mettre 99 si le pays de naissance n'est pas la France."
         value="{{@candidateData.birthProvinceCode}}"
         class="certification-candidates-input {{if this.birthProvinceCodeFocused 'focused'}}"
-        {{on 'focus' this.focusBirthProvinceCode}}
-        {{on 'input' (fn @updateCandidateData @candidateData 'birthProvinceCode')}} >
+        {{on "focus" this.focusBirthProvinceCode}}
+        {{on "input" (fn @updateCandidateData @candidateData "birthProvinceCode")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__birthCountry__add-staging'>
+  <td data-test-id="panel-candidate__birthCountry__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         required
-        {{on 'focus' this.focusBirthCountry}}
+        {{on "focus" this.focusBirthCountry}}
         value="{{@candidateData.birthCountry}}"
         class="certification-candidates-input {{if this.birthCountryFocused 'focused'}}"
-        {{on 'input' (fn @updateCandidateData @candidateData 'birthCountry')}} >
+        {{on "input" (fn @updateCandidateData @candidateData "birthCountry")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__result-recipient-email__add-staging'>
+  <td data-test-id="panel-candidate__result-recipient-email__add-staging">
     <div class="certification-candidates-input-wrapper">
-        <input
-          type="email"
-          value="{{@candidateData.resultRecipientEmail}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}} >
+      {{! template-lint-disable require-input-label }}
+      <input
+        type="email"
+        value="{{@candidateData.resultRecipientEmail}}"
+        class="certification-candidates-input"
+        {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__email__add-staging'>
+  <td data-test-id="panel-candidate__email__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="email"
         value="{{@candidateData.email}}"
         class="certification-candidates-input"
-        {{on 'input' (fn @updateCandidateData @candidateData 'email')}} >
+        {{on "input" (fn @updateCandidateData @candidateData "email")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__externalId__add-staging'>
+  <td data-test-id="panel-candidate__externalId__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         value="{{@candidateData.externalId}}"
         class="certification-candidates-input"
-        {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}} >
+        {{on "input" (fn @updateCandidateData @candidateData "externalId")}}
+      />
     </div>
   </td>
-  <td data-test-id='panel-candidate__extraTimePercentage__add-staging'>
+  <td data-test-id="panel-candidate__extraTimePercentage__add-staging">
     <div class="certification-candidates-input-wrapper">
+      {{! template-lint-disable require-input-label }}
       <input
         type="text"
         value="{{@candidateData.extraTimePercentage}}"
         class="certification-candidates-input"
-        {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}} >
+        {{on "input" (fn @updateCandidateData @candidateData "extraTimePercentage")}}
+      />
       <span class="certification-candidates-percentage">
         %
       </span>
@@ -111,7 +129,7 @@
   <td>
     <div class="certification-candidates-input-wrapper certification-candidates-row-actions">
       <PixButton
-        data-test-id='panel-candidate__action__save'
+        data-test-id="panel-candidate__action__save"
         @isDisabled={{this.isDisabled}}
         class="button--row-item"
         @triggerAction={{fn @onClickSave @candidateData}}
@@ -119,7 +137,7 @@
         Enregistrer
       </PixButton>
       <PixIconButton
-        @icon='times'
+        @icon="times"
         class="certification-candidates-row-actions__close"
         @triggerAction={{this.cancel}}
         data-test-id="panel-candidate__action__cancel"

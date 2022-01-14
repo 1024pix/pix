@@ -11,7 +11,9 @@ export default class SessionsNewRoute extends Route {
   }
 
   model() {
-    return this.store.createRecord('session', { certificationCenterId: parseInt(this.currentUser.currentAllowedCertificationCenterAccess.id) });
+    return this.store.createRecord('session', {
+      certificationCenterId: parseInt(this.currentUser.currentAllowedCertificationCenterAccess.id),
+    });
   }
 
   deactivate() {

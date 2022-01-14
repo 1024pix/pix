@@ -5,8 +5,10 @@
       type="radio"
       name="late-or-leaving"
       checked={{@lateOrLeavingCategory.isChecked}}
-      {{on 'click' (fn @toggleOnCategory @lateOrLeavingCategory)}} />
-    <label for="input-radio-for-category-late-or-leaving"><span>{{@lateOrLeavingCategory.categoryCode}}&nbsp;</span>{{@lateOrLeavingCategory.categoryLabel}}</label>
+      {{on "click" (fn @toggleOnCategory @lateOrLeavingCategory)}}
+    />
+    <label for="input-radio-for-category-late-or-leaving"><span
+      >{{@lateOrLeavingCategory.categoryCode}}&nbsp;</span>{{@lateOrLeavingCategory.categoryLabel}}</label>
   </div>
   {{#if @lateOrLeavingCategory.isChecked}}
     <div class="late-or-leaving-certification-issue-report-fields__details">
@@ -22,7 +24,8 @@
         @id="text-area-for-category-late-or-leaving"
         @value={{@lateOrLeavingCategory.description}}
         @maxlength={{@maxlength}}
-        required="true" />
+        required="true"
+      />
     </div>
   {{/if}}
 </fieldset>

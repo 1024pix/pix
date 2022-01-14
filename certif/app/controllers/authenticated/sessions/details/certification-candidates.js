@@ -8,7 +8,6 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class CertificationCandidatesController extends Controller {
-
   @service featureToggles;
   @service currentUser;
 
@@ -44,6 +43,9 @@ export default class CertificationCandidatesController extends Controller {
   }
 
   get shouldDisplayComplementaryCertifications() {
-    return this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled && this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations;
+    return (
+      this.featureToggles.featureToggles.isComplementaryCertificationSubscriptionEnabled &&
+      this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations
+    );
   }
 }

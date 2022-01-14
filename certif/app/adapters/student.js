@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class StudentAdapter extends ApplicationAdapter {
-
   urlForQuery(query) {
     const { sessionId, certificationCenterId } = query.filter;
     if (sessionId && certificationCenterId) {

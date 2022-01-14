@@ -7,7 +7,9 @@ export default class TermsOfServiceController extends Controller {
 
   @action
   async submit() {
-    await this.currentUser.certificationPointOfContact.save({ adapterOptions: { acceptPixCertifTermsOfService: true } });
+    await this.currentUser.certificationPointOfContact.save({
+      adapterOptions: { acceptPixCertifTermsOfService: true },
+    });
     this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted = true;
     return this.transitionToRoute('authenticated.sessions.list');
   }

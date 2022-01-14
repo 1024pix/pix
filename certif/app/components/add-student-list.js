@@ -6,7 +6,6 @@ import some from 'lodash/some';
 import { tracked } from '@glimmer/tracking';
 
 export default class AddStudentList extends Component {
-
   @service notifications;
   @service store;
   @service router;
@@ -16,9 +15,7 @@ export default class AddStudentList extends Component {
   @tracked selectedDivisions = this.args.selectedDivisions;
 
   get headerCheckboxStatus() {
-    return this.hasCheckedEverything
-      ? 'checked'
-      : this.hasCheckedSomething ? 'partial' : 'unchecked';
+    return this.hasCheckedEverything ? 'checked' : this.hasCheckedSomething ? 'partial' : 'unchecked';
   }
 
   get hasCheckedSomething() {
@@ -65,8 +62,7 @@ export default class AddStudentList extends Component {
     if (state === 'checked') {
       newState = false;
     }
-    this.args.studentList
-      .forEach((student) => student.setSelected(newState));
+    this.args.studentList.forEach((student) => student.setSelected(newState));
   }
 
   @action
@@ -80,8 +76,7 @@ export default class AddStudentList extends Component {
       this.notifications.success('Le(s) candidat(s) ont été ajouté(s) avec succès.');
     } catch (error) {
       let errorMessage = 'Une erreur est survenue au moment d‘enregistrer les candidats...';
-      if (error.errors?.[0]?.status === '422')
-        errorMessage = error.errors?.[0]?.detail;
+      if (error.errors?.[0]?.status === '422') errorMessage = error.errors?.[0]?.detail;
       this.notifications.error(errorMessage);
     }
   }

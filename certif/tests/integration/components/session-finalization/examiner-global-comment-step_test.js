@@ -5,10 +5,10 @@ import { render, fillIn, click } from '@ember/test-helpers';
 import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | SessionFinalization::ExaminerGlobalCommentStep', function(hooks) {
+module('Integration | Component | SessionFinalization::ExaminerGlobalCommentStep', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders the radio buttons', async function(assert) {
+  test('it renders the radio buttons', async function (assert) {
     // given
     const updateExaminerGlobalCommentStub = sinon.stub();
     this.set('examinerGlobalCommentMaxLength', 500);
@@ -21,11 +21,13 @@ module('Integration | Component | SessionFinalization::ExaminerGlobalCommentStep
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
 
     // then
-    assert.contains('Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l\'étape 1.');
+    assert.contains(
+      "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+    );
     assert.contains('Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble');
   });
 
-  test('it should display a text area to declare some incident when the appropriate choice is selected', async function(assert) {
+  test('it should display a text area to declare some incident when the appropriate choice is selected', async function (assert) {
     // given
     const updateExaminerGlobalCommentStub = sinon.stub();
     this.set('examinerGlobalCommentMaxLength', 500);
@@ -42,7 +44,7 @@ module('Integration | Component | SessionFinalization::ExaminerGlobalCommentStep
     assert.dom('textarea').exists();
   });
 
-  test('it should call the appropriate callback function when typing in the text area when declaring an incident', async function(assert) {
+  test('it should call the appropriate callback function when typing in the text area when declaring an incident', async function (assert) {
     // given
     const updateExaminerGlobalCommentStub = sinon.stub();
     this.set('examinerGlobalCommentMaxLength', 500);

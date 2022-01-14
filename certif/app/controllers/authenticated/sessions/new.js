@@ -5,11 +5,10 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default class SessionsNewController extends Controller {
-
   @alias('model') session;
 
   get pageTitle() {
-    return 'Planification d\'une session | Pix Certif';
+    return "Planification d'une session | Pix Certif";
   }
 
   @action

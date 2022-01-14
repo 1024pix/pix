@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 
 export default class AuthenticatedRoute extends Route {
-
   @service currentUser;
   @service router;
   @service session;
@@ -19,7 +18,10 @@ export default class AuthenticatedRoute extends Route {
       this.router.replaceWith('login-session-supervisor');
     }
 
-    const pixCertifTermsOfServiceAccepted = get(this.currentUser, 'certificationPointOfContact.pixCertifTermsOfServiceAccepted');
+    const pixCertifTermsOfServiceAccepted = get(
+      this.currentUser,
+      'certificationPointOfContact.pixCertifTermsOfServiceAccepted'
+    );
     if (!pixCertifTermsOfServiceAccepted) {
       this.router.replaceWith('terms-of-service');
     }

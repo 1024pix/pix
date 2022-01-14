@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class SessionAdapter extends ApplicationAdapter {
-
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
     if (adapterOptions && adapterOptions.finalization) {
@@ -21,14 +20,13 @@ export default class SessionAdapter extends ApplicationAdapter {
             attributes: {
               'examiner-global-comment': model.examinerGlobalComment,
             },
-            included: model.certificationReports
-              .map((certificationReport) => {
-                return {
-                  type: 'certification-reports',
-                  id: certificationReport.get('id'),
-                  attributes: { ...certificationReport.toJSON() },
-                };
-              }),
+            included: model.certificationReports.map((certificationReport) => {
+              return {
+                type: 'certification-reports',
+                id: certificationReport.get('id'),
+                attributes: { ...certificationReport.toJSON() },
+              };
+            }),
           },
         };
         return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });

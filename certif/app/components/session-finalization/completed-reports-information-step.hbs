@@ -16,8 +16,11 @@
         <th>Signalement</th>
         <th>
           <div class="session-finalization-reports-information-step__row">
-            <div class="session-finalization-reports-information-step__checker" {{on 'click' (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}>
-              <CertifCheckbox @state={{this.headerCheckboxStatus}}></CertifCheckbox>
+            <div
+              class="session-finalization-reports-information-step__checker"
+              {{on "click" (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}
+            >
+              <CertifCheckbox @state={{this.headerCheckboxStatus}} />
             </div>
             Écran de fin du test vu
           </div>
@@ -29,22 +32,33 @@
         <tr>
           <td data-test-id="finalization-report-last-name_{{report.certificationCourseId}}">{{report.lastName}}</td>
           <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
-          <td data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}">{{report.certificationCourseId}}</td>
+          <td
+            data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}"
+          >{{report.certificationCourseId}}</td>
           <td data-test-id="finalization-report-certification-issue-reports_{{report.certificationCourseId}}">
             <div class="finalization-report-examiner-comment">
               {{#if report.certificationIssueReports}}
-                <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openIssueReportsModal report)}}>
+                <button
+                  type="button"
+                  class="button--showed-as-link add-button"
+                  {{on "click" (fn this.openIssueReportsModal report)}}
+                >
                   Ajouter / modifier
                 </button>
                 <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
                   {{#if (gt report.certificationIssueReports.length 1)}}
-                    {{report.certificationIssueReports.length}} signalements
+                    {{report.certificationIssueReports.length}}
+                    signalements
                   {{else}}
                     1 signalement
                   {{/if}}
                 </p>
               {{else}}
-                <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openAddIssueReportModal report)}}>
+                <button
+                  type="button"
+                  class="button--showed-as-link add-button"
+                  {{on "click" (fn this.openAddIssueReportModal report)}}
+                >
                   Ajouter ?
                 </button>
               {{/if}}
@@ -52,10 +66,10 @@
           </td>
           <td>
             <CertifCheckbox
-                    data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
-                    @state={{if report.hasSeenEndTestScreen 'checked' 'unchecked'}}
-              {{on 'click' (fn @onHasSeenEndTestScreenCheckboxClicked report)}}>
-            </CertifCheckbox>
+              data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
+              @state={{if report.hasSeenEndTestScreen "checked" "unchecked"}}
+              {{on "click" (fn @onHasSeenEndTestScreenCheckboxClicked report)}}
+            />
           </td>
         </tr>
       {{/each}}
@@ -66,7 +80,7 @@
       @closeModal={{this.closeAddIssueReportModal}}
       @report={{this.reportToEdit}}
       @maxlength={{@issueReportDescriptionMaxLength}}
-      />
+    />
   {{/if}}
   {{#if this.showIssueReportsModal}}
     <IssueReportModal::IssueReportsModal
@@ -74,6 +88,6 @@
       @onClickIssueReport={{this.openAddIssueReportModal}}
       @onClickDeleteIssueReport={{@onIssueReportDeleteButtonClicked}}
       @report={{this.reportToEdit}}
-      />
+    />
   {{/if}}
 </div>

@@ -4,17 +4,17 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | SessionSupervising::CandidateList', function(hooks) {
+module('Integration | Component | SessionSupervising::CandidateList', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
   });
 
-  module('when there are candidates', function() {
-    test('it renders the candidates information', async function(assert) {
+  module('when there are candidates', function () {
+    test('it renders the candidates information', async function (assert) {
       // given
       this.sessionForSupervising = store.createRecord('session-for-supervising', {
         certificationCandidates: [
@@ -49,7 +49,9 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
       });
 
       // when
-      await renderScreen(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}}  />`);
+      await renderScreen(
+        hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}}  />`
+      );
 
       // then
       assert.contains('Zen Whoberi Ben Titan Gamora');
@@ -57,15 +59,17 @@ module('Integration | Component | SessionSupervising::CandidateList', function(h
       assert.contains('Racoon Rocket');
     });
 
-    module('when there is no candidate', function() {
-      test('it renders a message', async function(assert) {
+    module('when there is no candidate', function () {
+      test('it renders a message', async function (assert) {
         // given
         this.sessionForSupervising = store.createRecord('session-for-supervising', {
           certificationCandidates: [],
         });
 
         // when
-        await renderScreen(hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}} />`);
+        await renderScreen(
+          hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}} />`
+        );
 
         // then
         assert.contains('Aucun candidat inscrit à cette session');

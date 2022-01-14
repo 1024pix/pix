@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 export default class UncompletedReportsInformationStep extends Component {
-
   @tracked reportToEdit = null;
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
@@ -45,4 +44,3 @@ export default class UncompletedReportsInformationStep extends Component {
     this.showIssueReportsModal = false;
   }
 }
-

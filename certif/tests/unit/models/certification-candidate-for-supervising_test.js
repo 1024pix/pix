@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | certification-candidate-for-supervising', function(hooks) {
+module('Unit | Model | certification-candidate-for-supervising', function (hooks) {
   setupTest(hooks);
 
-  test('it creates a CertificationCandidateForSupervising', function(assert) {
+  test('it creates a CertificationCandidateForSupervising', function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const data = {
@@ -25,7 +25,7 @@ module('Unit | Model | certification-candidate-for-supervising', function(hooks)
   });
 
   module('#get hasStarted', () => {
-    test('returns false if assessmentStatus is not started', function(assert) {
+    test('returns false if assessmentStatus is not started', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = { assessmentStatus: null };
@@ -37,7 +37,7 @@ module('Unit | Model | certification-candidate-for-supervising', function(hooks)
       assert.false(model.hasStarted);
     });
 
-    test('returns true if assessmentStatus is started', function(assert) {
+    test('returns true if assessmentStatus is started', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = { assessmentStatus: 'started' };
@@ -51,7 +51,7 @@ module('Unit | Model | certification-candidate-for-supervising', function(hooks)
   });
 
   module('#get hasCompleted', () => {
-    test('returns false if assessmentStatus is started', function(assert) {
+    test('returns false if assessmentStatus is started', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = { assessmentStatus: 'started' };
@@ -63,7 +63,7 @@ module('Unit | Model | certification-candidate-for-supervising', function(hooks)
       assert.false(model.hasCompleted);
     });
 
-    test('returns true if assessmentStatus is completed', function(assert) {
+    test('returns true if assessmentStatus is completed', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = { assessmentStatus: 'completed' };
@@ -75,7 +75,7 @@ module('Unit | Model | certification-candidate-for-supervising', function(hooks)
       assert.true(model.hasCompleted);
     });
 
-    test('returns true if assessmentStatus is endedBySupervisor', function(assert) {
+    test('returns true if assessmentStatus is endedBySupervisor', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = { assessmentStatus: 'endedBySupervisor' };

@@ -4,25 +4,25 @@ import EmberObject from '@ember/object';
 import pick from 'lodash/pick';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/details/certification-candidates', function(hooks) {
+module('Unit | Route | authenticated/sessions/details/certification-candidates', function (hooks) {
   setupTest(hooks);
   let route;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sessions/details/certification-candidates');
   });
 
-  module('#model', function(hooks) {
+  module('#model', function (hooks) {
     const session = Symbol('session');
     const countries = Symbol('countries');
     const details = EmberObject.create({ session });
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       route.modelFor = sinon.stub().returns(details);
       route.store.findAll = sinon.stub().returns(countries);
     });
 
-    test('it should return the expectedModel', async function(assert) {
+    test('it should return the expectedModel', async function (assert) {
       // given
       const expectedModel = { session, countries };
 

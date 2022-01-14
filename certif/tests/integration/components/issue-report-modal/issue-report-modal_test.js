@@ -6,10 +6,10 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
-module('Integration | Component | issue-report-modal', function(hooks) {
+module('Integration | Component | issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it show candidate informations in title', async function(assert) {
+  test('it show candidate informations in title', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -36,7 +36,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
     assert.contains('Lisa Monpud');
   });
 
-  test('it shows the number of issue reports', async function(assert) {
+  test('it shows the number of issue reports', async function (assert) {
     // given
     const issue1 = EmberObject.create({
       description: 'issue1',
@@ -52,7 +52,6 @@ module('Integration | Component | issue-report-modal', function(hooks) {
       lastName: 'Monpud',
       hasSeenEndTestScreen: false,
       certificationIssueReports: [issue1, issue2],
-
     });
     this.set('report', report);
     this.set('closeModal', sinon.stub());
@@ -73,7 +72,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
     assert.contains('Mes signalements (2)');
   });
 
-  test('it shows a list of issue reports', async function(assert) {
+  test('it shows a list of issue reports', async function (assert) {
     // given
     const issue1 = EmberObject.create({
       categoryLabel: 'categoryLabel1',
@@ -91,7 +90,6 @@ module('Integration | Component | issue-report-modal', function(hooks) {
       lastName: 'Monpud',
       hasSeenEndTestScreen: false,
       certificationIssueReports: [issue1, issue2],
-
     });
     this.set('report', report);
     this.set('closeModal', sinon.stub());
@@ -115,7 +113,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
     assert.contains('subcategoryLabel2');
   });
 
-  test('it calls a function linked to the close button', async function(assert) {
+  test('it calls a function linked to the close button', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -148,7 +146,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
     assert.ok(true);
   });
 
-  test('it calls a function linked to the add button', async function(assert) {
+  test('it calls a function linked to the add button', async function (assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -180,7 +178,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
     assert.ok(true);
   });
 
-  test('it calls a function linked to the delete button', async function(assert) {
+  test('it calls a function linked to the delete button', async function (assert) {
     // given
     const issue = EmberObject.create({
       categoryLabel: 'categoryLabel1',

@@ -6,16 +6,16 @@ import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | SessionSupervising::CandidateInList', function(hooks) {
+module('Integration | Component | SessionSupervising::CandidateInList', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
   });
 
-  test('it renders the candidates information with an unchecked checkbox', async function(assert) {
+  test('it renders the candidates information with an unchecked checkbox', async function (assert) {
     // given
     this.candidate = store.createRecord('certification-candidate-for-supervising', {
       id: 123,
@@ -33,12 +33,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     `);
 
     // then
-    assert.dom('.session-supervising-candidate-in-list').hasText('Zen Whoberi Ben Titan Gamora 28/05/1984 · Temps majoré : 8%');
+    assert
+      .dom('.session-supervising-candidate-in-list')
+      .hasText('Zen Whoberi Ben Titan Gamora 28/05/1984 · Temps majoré : 8%');
     assert.dom(screen.getByRole('checkbox', { name: 'Zen Whoberi Ben Titan Gamora' })).isNotChecked();
   });
 
-  module('when the candidate is authorized to start', function() {
-    test('it renders the checkbox checked', async function(assert) {
+  module('when the candidate is authorized to start', function () {
+    test('it renders the checkbox checked', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 456,
@@ -59,7 +61,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom('.session-supervising-candidate-in-list').hasText('Lord Star 28/06/1983 · Temps majoré : 12%');
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isChecked();
     });
-    test('it does not display neither "en cours" label nor the options menu button', async function(assert) {
+    test('it does not display neither "en cours" label nor the options menu button', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 789,
@@ -82,8 +84,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
-  module('when the candidate has started the test', function() {
-    test('it displays the "en cours" label and the options menu button', async function(assert) {
+  module('when the candidate has started the test', function () {
+    test('it displays the "en cours" label and the options menu button', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 789,
@@ -106,8 +108,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
     });
 
-    module('when the candidate options button is clicked', function() {
-      test('it displays the "autoriser la reprise" option', async function(assert) {
+    module('when the candidate options button is clicked', function () {
+      test('it displays the "autoriser la reprise" option', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 1123,
@@ -130,7 +132,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         assert.dom(screen.getByRole('button', { name: 'Autoriser la reprise du test' })).exists();
       });
 
-      test('it displays the "Terminer le test" option', async function(assert) {
+      test('it displays the "Terminer le test" option', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 1123,
@@ -156,8 +158,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         assert.dom(screen.getByRole('button', { name: 'Terminer le test' })).exists();
       });
 
-      module('when the "autoriser la reprise" option is clicked', function() {
-        test('it displays a confirmation modal', async function(assert) {
+      module('when the "autoriser la reprise" option is clicked', function () {
+        test('it displays a confirmation modal', async function (assert) {
           // given
           this.candidate = store.createRecord('certification-candidate-for-supervising', {
             id: 1123,
@@ -178,13 +180,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
 
           // then
-          assert.dom(screen.getByRole('button', { name: 'Je confirme l\'autorisation' })).exists();
+          assert.dom(screen.getByRole('button', { name: "Je confirme l'autorisation" })).exists();
           assert.contains('Autoriser Drax The Destroyer à reprendre son test ?');
-          assert.contains('Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d\'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l\'endroit où il l\'avait quitté.');
+          assert.contains(
+            "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté."
+          );
         });
 
-        module('when the confirmation modal "Annuler" button is clicked', function() {
-          test('it closes the confirmation modal', async function(assert) {
+        module('when the confirmation modal "Annuler" button is clicked', function () {
+          test('it closes the confirmation modal', async function (assert) {
             // given
             this.candidate = store.createRecord('certification-candidate-for-supervising', {
               id: 1123,
@@ -206,12 +210,12 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             await click(screen.getByRole('button', { name: 'Annuler et fermer la fenêtre de confirmation' }));
 
             // then
-            assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+            assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
           });
         });
 
-        module('when the confirmation modal "Fermer" button is clicked', function() {
-          test('it closes the confirmation modal', async function(assert) {
+        module('when the confirmation modal "Fermer" button is clicked', function () {
+          test('it closes the confirmation modal', async function (assert) {
             // given
             this.candidate = store.createRecord('certification-candidate-for-supervising', {
               id: 1123,
@@ -233,13 +237,13 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             await click(screen.getByRole('button', { name: 'Fermer la fenêtre de confirmation' }));
 
             // then
-            assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+            assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
           });
         });
 
-        module('when the confirmation modal "Je confirme…" button is clicked', function() {
-          module('when the authorization succeeds', function() {
-            test('it closes the modal and displays a success notification', async function(assert) {
+        module('when the confirmation modal "Je confirme…" button is clicked', function () {
+          module('when the authorization succeeds', function () {
+            test('it closes the modal and displays a success notification', async function (assert) {
               // given
               this.candidate = store.createRecord('certification-candidate-for-supervising', {
                 firstName: 'Yondu',
@@ -259,17 +263,17 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // when
               await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
               await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
-              await click(screen.getByRole('button', { name: 'Je confirme l\'autorisation' }));
+              await click(screen.getByRole('button', { name: "Je confirme l'autorisation" }));
 
               // then
               sinon.assert.calledOnce(this.authorizeTestResume);
-              assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
+              assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
               assert.contains('Succès ! Yondu Undonta peut reprendre son test de certification.');
             });
           });
 
-          module('when the authorization fails', function() {
-            test('it closes the modal and displays an error notification', async function(assert) {
+          module('when the authorization fails', function () {
+            test('it closes the modal and displays an error notification', async function (assert) {
               // given
               this.candidate = store.createRecord('certification-candidate-for-supervising', {
                 firstName: 'Vance',
@@ -289,19 +293,19 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // when
               await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
               await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
-              await click(screen.getByRole('button', { name: 'Je confirme l\'autorisation' }));
+              await click(screen.getByRole('button', { name: "Je confirme l'autorisation" }));
 
               // then
               sinon.assert.calledOnce(this.authorizeTestResume);
-              assert.dom(screen.queryByRole('button', { name: 'Je confirme l\'autorisation' })).doesNotExist();
-              assert.contains('Une erreur est survenue, Vance Astro n\'a a pu être autorisé à reprendre son test.');
+              assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
+              assert.contains("Une erreur est survenue, Vance Astro n'a a pu être autorisé à reprendre son test.");
             });
           });
         });
       });
 
-      module('when the "Terminer le test" option is clicked', function() {
-        test('it displays a confirmation modal', async function(assert) {
+      module('when the "Terminer le test" option is clicked', function () {
+        test('it displays a confirmation modal', async function (assert) {
           // given
           this.candidate = store.createRecord('certification-candidate-for-supervising', {
             id: 1123,
@@ -331,8 +335,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           assert.contains('Terminer le test de Drax The Destroyer ?');
         });
 
-        module('when the confirmation modal "Annuler" button is clicked', function() {
-          test('it closes the confirmation modal', async function(assert) {
+        module('when the confirmation modal "Annuler" button is clicked', function () {
+          test('it closes the confirmation modal', async function (assert) {
             // given
             this.candidate = store.createRecord('certification-candidate-for-supervising', {
               id: 1123,
@@ -361,8 +365,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           });
         });
 
-        module('when the confirmation modal "Fermer" button is clicked', function() {
-          test('it closes the confirmation modal', async function(assert) {
+        module('when the confirmation modal "Fermer" button is clicked', function () {
+          test('it closes the confirmation modal', async function (assert) {
             // given
             this.candidate = store.createRecord('certification-candidate-for-supervising', {
               id: 1123,
@@ -391,9 +395,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           });
         });
 
-        module('when the confirmation modal "Terminer le test" button is clicked', function() {
-          module('when the end by supervisors succeeds', function() {
-            test('it closes the end test modal and displays a success notification', async function(assert) {
+        module('when the confirmation modal "Terminer le test" button is clicked', function () {
+          module('when the end by supervisors succeeds', function () {
+            test('it closes the end test modal and displays a success notification', async function (assert) {
               // given
               this.candidate = store.createRecord('certification-candidate-for-supervising', {
                 firstName: 'Yondu',
@@ -420,12 +424,12 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
               // then
               sinon.assert.calledOnce(this.endAssessmentForCandidate);
-              assert.contains('Succès ! Le test de  Yondu Undonta est terminé.');
+              assert.contains('Succès ! Le test de Yondu Undonta est terminé.');
             });
           });
 
-          module('when the end by supervisor fails', function() {
-            test('it closes the end test modal and displays an error notification', async function(assert) {
+          module('when the end by supervisor fails', function () {
+            test('it closes the end test modal and displays an error notification', async function (assert) {
               // given
               this.candidate = store.createRecord('certification-candidate-for-supervising', {
                 firstName: 'Vance',
@@ -453,7 +457,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // then
               sinon.assert.calledOnce(this.endAssessmentBySupervisor);
               assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
-              assert.contains('Une erreur est survenue, le test de Vance Astro n\'a pas pu être terminé');
+              assert.contains("Une erreur est survenue, le test de Vance Astro n'a pas pu être terminé");
             });
           });
         });
@@ -461,12 +465,12 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
-  module('when the candidate has completed the test', function() {
-    test('it displays the "terminé" label and no options menu', async function(assert) {
+  module('when the candidate has completed the test', function () {
+    test('it displays the "terminé" label and no options menu', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         firstName: 'Martinex',
-        lastName: 'T\'Naga',
+        lastName: "T'Naga",
         birthdate: '1979-08-27',
         extraTimePercentage: null,
         authorizedToStart: true,
@@ -479,14 +483,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       `);
 
       // then
-      assert.dom('.session-supervising-candidate-in-list').hasText('T\'Naga Martinex 27/08/1979 Terminé');
-      assert.dom(screen.queryByRole('checkbox', { name: 'T\'Naga Martinex' })).doesNotExist();
+      assert.dom('.session-supervising-candidate-in-list').hasText("T'Naga Martinex 27/08/1979 Terminé");
+      assert.dom(screen.queryByRole('checkbox', { name: "T'Naga Martinex" })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
     });
   });
 
-  module('when the candidate\'s test has been ended by supervisor', function() {
-    test('it displays the "terminé" label and no options menu', async function(assert) {
+  module("when the candidate's test has been ended by supervisor", function () {
+    test('it displays the "terminé" label and no options menu', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         firstName: 'Stakar',
@@ -509,9 +513,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
-  module('when the checkbox is clicked', function() {
-    module('when the candidate is already authorized', function() {
-      test('it calls the argument callback with candidate and false', async function(assert) {
+  module('when the checkbox is clicked', function () {
+    module('when the candidate is already authorized', function () {
+      test('it calls the argument callback with candidate and false', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 123,
@@ -528,8 +532,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           <SessionSupervising::CandidateInList
             @candidate={{this.candidate}}
             @toggleCandidate={{this.toggleCandidate}}
-          />`,
-        );
+          />`);
         const checkbox = screen.getByRole('checkbox');
 
         // when
@@ -541,8 +544,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
     });
 
-    module('when the candidate is not authorized', function() {
-      test('it calls the argument callback with candidate', async function(assert) {
+    module('when the candidate is not authorized', function () {
+      test('it calls the argument callback with candidate', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 123,

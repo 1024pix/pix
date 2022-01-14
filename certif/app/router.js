@@ -13,20 +13,20 @@ export default class Router extends EmberRouter {
   }
 }
 
-Router.map(function() {
+Router.map(function () {
   this.route('login', { path: 'connexion' });
 
   this.route('terms-of-service', { path: '/cgu' });
   this.route('login-session-supervisor', { path: '/connexion-espace-surveillant' });
   this.route('session-supervising', { path: '/sessions/:session_id/surveiller' });
-  this.route('authenticated', { path: '' }, function() {
+  this.route('authenticated', { path: '' }, function () {
     this.route('restricted-access', { path: '/espace-ferme' });
-    this.route('sessions', function() {
+    this.route('sessions', function () {
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:session_id/modification' });
       this.route('finalize', { path: '/:session_id/finalisation' });
-      this.route('details', { path: '/:session_id' }, function() {
+      this.route('details', { path: '/:session_id' }, function () {
         this.route('parameters', { path: '/' });
         this.route('certification-candidates', { path: '/candidats' });
       });

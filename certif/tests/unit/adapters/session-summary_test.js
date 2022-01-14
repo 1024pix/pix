@@ -3,18 +3,19 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import Service from '@ember/service';
 
-module('Unit | Adapters | session-summary', function(hooks) {
+module('Unit | Adapters | session-summary', function (hooks) {
   setupTest(hooks);
 
-  module('#urlForQuery', function() {
-
-    test('it should return the modified URL using the current certification center of the logged user', async function(assert) {
+  module('#urlForQuery', function () {
+    test('it should return the modified URL using the current certification center of the logged user', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        certificationCenterName: 'Sunnydale',
-      }));
+      const currentAllowedCertificationCenterAccess = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 123,
+          certificationCenterName: 'Sunnydale',
+        })
+      );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }

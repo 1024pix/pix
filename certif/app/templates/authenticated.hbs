@@ -2,24 +2,39 @@
 
   <aside class="app__sidebar sidebar">
     <header class="sidebar__logo">
-        <LinkTo @route="authenticated" type="button" aria-hidden="true">
-          <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="Pix Certif">
-        </LinkTo>
+      <LinkTo @route="authenticated" type="button" aria-hidden="true">
+        <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="Pix Certif" />
+      </LinkTo>
     </header>
 
     <nav class="sidebar-menu">
       <ul>
         {{#if this.showLinkToSessions}}
           <li>
-            <LinkTo @route="authenticated.sessions.list" class="sidebar-menu__item" type="button" aria-label="Sessions de certification">
-              <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="presentation" class="sidebar-menu__item-icon">
+            <LinkTo
+              @route="authenticated.sessions.list"
+              class="sidebar-menu__item"
+              type="button"
+              aria-label="Sessions de certification"
+            >
+              <img
+                src="{{this.rootURL}}/icons/chevron-square-right.svg"
+                alt=""
+                role="presentation"
+                class="sidebar-menu__item-icon"
+              />
               Sessions
             </LinkTo>
           </li>
           {{#if this.isEndTestScreenRemovalEnabled}}
             <li>
-              <LinkTo @route="login-session-supervisor" class="sidebar-menu__item" type="button" aria-label="Espace surveillant">
-                <FaIcon @icon='eye' @class="sidebar-menu__item-icon" />
+              <LinkTo
+                @route="login-session-supervisor"
+                class="sidebar-menu__item"
+                type="button"
+                aria-label="Espace surveillant"
+              >
+                <FaIcon @icon="eye" @class="sidebar-menu__item-icon" />
                 Espace surveillant
               </LinkTo>
             </li>
@@ -27,13 +42,13 @@
         {{/if}}
         <li>
           <LinkTo @route="authenticated.team" class="sidebar-menu__item" type="button" aria-label="Équipe">
-            <FaIcon @icon='users' @class="sidebar-menu__item-icon" />
+            <FaIcon @icon="users" @class="sidebar-menu__item-icon" />
             Équipe
           </LinkTo>
         </li>
         <li>
           <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
-            <FaIcon @icon='book' @class="sidebar-menu__item-icon" />
+            <FaIcon @icon="book" @class="sidebar-menu__item-icon" />
             Documentation
           </a>
         </li>
@@ -45,14 +60,15 @@
   <div class="app__main-content main-content">
 
     <div class="main-content__topbar topbar">
-      <div class="topbar__user-logged-menu"><UserLoggedMenu @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}}/></div>
+      <div class="topbar__user-logged-menu"><UserLoggedMenu
+          @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}}
+        /></div>
     </div>
 
     {{#if this.showBanner}}
-        <PixBanner
-        @actionLabel= "En savoir plus"
-        @actionUrl= "https://view.genial.ly/6077017b8b37870d98620200"
-      >La certification Pix se déroulera du 29/11/21 au 07/04/22 pour les lycées et du 07/03/22 au 27/05/22 pour les collèges. Les sessions passées hors période ne seront pas traitées.</PixBanner>
+      <PixBanner @actionLabel="En savoir plus" @actionUrl="https://view.genial.ly/6077017b8b37870d98620200">La
+        certification Pix se déroulera du 29/11/21 au 07/04/22 pour les lycées et du 07/03/22 au 27/05/22 pour les
+        collèges. Les sessions passées hors période ne seront pas traitées.</PixBanner>
 
     {{/if}}
 
@@ -64,6 +80,5 @@
   </div>
 
   <NotificationContainer @position="bottom-right" />
-
 
 </div>

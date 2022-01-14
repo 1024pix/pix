@@ -8,7 +8,8 @@ export default class CurrentSessionService extends SessionService {
 
   async handleAuthentication() {
     await this.currentUser.load();
-    const isCurrentUserMemberOfACertificationCenter = this.currentUser.certificationPointOfContact.isMemberOfACertificationCenter;
+    const isCurrentUserMemberOfACertificationCenter =
+      this.currentUser.certificationPointOfContact.isMemberOfACertificationCenter;
     const routeAfterAuthentication = isCurrentUserMemberOfACertificationCenter
       ? 'authenticated'
       : 'login-session-supervisor';

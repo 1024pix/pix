@@ -7,23 +7,26 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | user-logged-menu', function(hooks) {
-
+module('Integration | Component | user-logged-menu', function (hooks) {
   setupRenderingTest(hooks);
   let store;
   let certificationPointOfContact;
   let currentAllowedCertificationCenterAccess;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
-    currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
-      id: 123,
-      name: 'Sunnydale',
-    }));
-    certificationPointOfContact = run(() => store.createRecord('certification-point-of-contact', {
-      firstName: 'Buffy',
-      lastName: 'Summers',
-    }));
+    currentAllowedCertificationCenterAccess = run(() =>
+      store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        name: 'Sunnydale',
+      })
+    );
+    certificationPointOfContact = run(() =>
+      store.createRecord('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+      })
+    );
     class CurrentUserStub extends Service {
       certificationPointOfContact = certificationPointOfContact;
       currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -31,7 +34,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('should display user\'s firstName and lastName', async function(assert) {
+  test("should display user's firstName and lastName", async function (assert) {
     // when
     await render(hbs`<UserLoggedMenu/>`);
 
@@ -39,9 +42,8 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     assert.contains('Buffy Summers');
   });
 
-  module('when certification center doesn\'t have an externalId', function() {
-
-    test('should display the user certification center name only', async function(assert) {
+  module("when certification center doesn't have an externalId", function () {
+    test('should display the user certification center name only', async function (assert) {
       // given
       currentAllowedCertificationCenterAccess.externalId = '';
 
@@ -54,9 +56,8 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when certification center does have an externalId', function() {
-
-    test('should display the user certification center name and certification center externalId', async function(assert) {
+  module('when certification center does have an externalId', function () {
+    test('should display the user certification center name and certification center externalId', async function (assert) {
       // given
       currentAllowedCertificationCenterAccess.externalId = 'GILES123';
 
@@ -68,9 +69,8 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when menu is closed', function() {
-
-    test('should display the chevron-down icon', async function(assert) {
+  module('when menu is closed', function () {
+    test('should display the chevron-down icon', async function (assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
 
@@ -79,7 +79,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       assert.dom('.fa-chevron-up').doesNotExist();
     });
 
-    test('should hide the disconnect link', async function(assert) {
+    test('should hide the disconnect link', async function (assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
       await clickByLabel('Buffy Summers Sunnydale');
@@ -90,9 +90,8 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when menu is open', function() {
-
-    test('should display the chevron-up icon', async function(assert) {
+  module('when menu is open', function () {
+    test('should display the chevron-up icon', async function (assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
       await clickByLabel('Buffy Summers Sunnydale');
@@ -102,7 +101,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       assert.dom('.fa-chevron-down').doesNotExist();
     });
 
-    test('should display the disconnect link', async function(assert) {
+    test('should display the disconnect link', async function (assert) {
       // when
       await render(hbs`<UserLoggedMenu/>`);
       await clickByLabel('Buffy Summers Sunnydale');
@@ -112,18 +111,22 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       assert.contains('Se déconnecter');
     });
 
-    test('should display the certification centers name and externalId of all allowed ones of the user', async function(assert) {
+    test('should display the certification centers name and externalId of all allowed ones of the user', async function (assert) {
       // given
-      const allowedCertificationCenterAccessA = run(() => store.createRecord('allowed-certification-center-access', {
-        id: 456,
-        name: 'Torreilles',
-        externalId: 'externalId1',
-      }));
-      const allowedCertificationCenterAccessB = run(() => store.createRecord('allowed-certification-center-access', {
-        id: 789,
-        name: 'Paris',
-        externalId: 'ILPlEUT',
-      }));
+      const allowedCertificationCenterAccessA = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 456,
+          name: 'Torreilles',
+          externalId: 'externalId1',
+        })
+      );
+      const allowedCertificationCenterAccessB = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 789,
+          name: 'Paris',
+          externalId: 'ILPlEUT',
+        })
+      );
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
         allowedCertificationCenterAccessA,
@@ -142,15 +145,16 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when clicking on a menu item', function() {
-
-    test('should close the menu', async function(assert) {
+  module('when clicking on a menu item', function () {
+    test('should close the menu', async function (assert) {
       // given
-      const allowedCertificationCenterAccessA = run(() => store.createRecord('allowed-certification-center-access', {
-        id: 456,
-        name: 'Torreilles',
-        externalId: 'externalId1',
-      }));
+      const allowedCertificationCenterAccessA = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 456,
+          name: 'Torreilles',
+          externalId: 'externalId1',
+        })
+      );
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
         allowedCertificationCenterAccessA,
@@ -158,7 +162,9 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       this.onCertificationAccessChangedStub = sinon.stub();
 
       // when
-      await render(hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`);
+      await render(
+        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
+      );
       await clickByLabel('Buffy Summers Sunnydale');
       await clickByLabel('Torreilles (externalId1)');
 
@@ -167,13 +173,15 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       assert.dom('.fa-chevron-up').doesNotExist();
     });
 
-    test('should call the "onCertificationCenterAccessChanged" function', async function(assert) {
+    test('should call the "onCertificationCenterAccessChanged" function', async function (assert) {
       // given
-      const allowedCertificationCenterAccessA = run(() => store.createRecord('allowed-certification-center-access', {
-        id: 456,
-        name: 'Torreilles',
-        externalId: 'externalId1',
-      }));
+      const allowedCertificationCenterAccessA = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 456,
+          name: 'Torreilles',
+          externalId: 'externalId1',
+        })
+      );
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
         allowedCertificationCenterAccessA,
@@ -181,7 +189,9 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       this.onCertificationAccessChangedStub = sinon.stub();
 
       // when
-      await render(hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`);
+      await render(
+        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
+      );
       await clickByLabel('Buffy Summers Sunnydale');
       await clickByLabel('Torreilles (externalId1)');
 

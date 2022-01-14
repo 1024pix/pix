@@ -2,21 +2,21 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 
-module('Unit | Controller | authenticated/sessions/details/certification-candidates', function(hooks) {
+module('Unit | Controller | authenticated/sessions/details/certification-candidates', function (hooks) {
   setupTest(hooks);
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  module('#computed hasOneOrMoreCandidates()', function() {
-    test('It should return true when has one or more candidates', function(assert) {
+  module('#computed hasOneOrMoreCandidates()', function () {
+    test('It should return true when has one or more candidates', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
-      controller.model = { certificationCandidates: ['certifCandidate1', 'certifCanddate2'] } ;
+      controller.model = { certificationCandidates: ['certifCandidate1', 'certifCanddate2'] };
 
       const shouldDisplayStudentList = controller.hasOneOrMoreCandidates;
 
@@ -24,12 +24,12 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       assert.true(shouldDisplayStudentList);
     });
 
-    test('It should return false when has no candidate', function(assert) {
+    test('It should return false when has no candidate', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
-      controller.model = { certificationCandidates: [] } ;
+      controller.model = { certificationCandidates: [] };
 
       const shouldDisplayStudentList = controller.hasOneOrMoreCandidates;
 
@@ -38,8 +38,8 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     });
   });
 
-  module('#get shouldDisplayComplementaryCertifications', function() {
-    test('should return false if feature toggle is false and center has complementary certifications', function(assert) {
+  module('#get shouldDisplayComplementaryCertifications', function () {
+    test('should return false if feature toggle is false and center has complementary certifications', function (assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', false);
       _stubCurrentCenterHabilitations(this, store, ['Pix+Droit']);
@@ -52,7 +52,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       assert.false(shouldDisplayComplementaryCertifications);
     });
 
-    test('should return false if feature toggle is true and center has no complementary certifications', function(assert) {
+    test('should return false if feature toggle is true and center has no complementary certifications', function (assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', true);
       _stubCurrentCenterHabilitations(this, store, []);
@@ -65,7 +65,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       assert.false(shouldDisplayComplementaryCertifications);
     });
 
-    test('should return true if feature toggle is true and center has complementary certifications', function(assert) {
+    test('should return true if feature toggle is true and center has complementary certifications', function (assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', true);
       _stubCurrentCenterHabilitations(this, store, ['Pix+Edu']);

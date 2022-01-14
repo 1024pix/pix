@@ -7,7 +7,9 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   if (!isNaN(number) && number >= minValue) {
     return number;
   }
-  throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
+  throw new Error(
+    `Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`
+  );
 }
 
 function _isFeatureEnabled(environmentVariable) {
@@ -16,7 +18,7 @@ function _isFeatureEnabled(environmentVariable) {
 
 const ACTIVE_FEATURE_TOGGLES = [];
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-certif',
@@ -50,11 +52,15 @@ module.exports = function(environment) {
           CODE: '504',
           MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.',
         },
-        UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
+        UNAUTHORIZED: { CODE: '401', MESSAGE: "L'adresse e-mail et/ou le mot de passe saisis sont incorrects." },
         FORBIDDEN: '403',
         NOT_FOUND: '404',
       },
-      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
+      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS',
+        defaultValue: 8,
+        minValue: 1,
+      }),
     },
 
     googleFonts: [
@@ -70,13 +76,13 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
-      'default-src': '\'none\'',
-      'script-src': '\'self\' www.google-analytics.com \'unsafe-inline\' \'unsafe-eval\' cdn.ravenjs.com',
-      'font-src': '\'self\' fonts.gstatic.com',
-      'connect-src': '\'self\' www.google-analytics.com app.getsentry.com',
-      'img-src': '\'self\' app.getsentry.com',
-      'style-src': '\'self\' fonts.googleapis.com',
-      'media-src': '\'self\'',
+      'default-src': "'none'",
+      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' www.google-analytics.com app.getsentry.com",
+      'img-src': "'self' app.getsentry.com",
+      'style-src': "'self' fonts.googleapis.com",
+      'media-src': "'self'",
     },
 
     matomo: {},

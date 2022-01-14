@@ -2,7 +2,8 @@
   {{#if @candidates}}
     <div class="session-supervising-candidate-list">
       <h1 class="session-supervising-candidate-list__title">Candidats</h1>
-      <span class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.</span>
+      <span class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test
+        pour l'autoriser à commencer son test de certification.</span>
       <ul class="session-supervising-candidate-list__candidates">
         {{#each @candidates as |candidate|}}
           <SessionSupervising::CandidateInList
@@ -15,7 +16,12 @@
       </ul>
     </div>
   {{else}}
-    <img src="/session-supervising-empty-candidate-list.svg" class="session-supervising-candidate-list__empty-image" alt="" role="presentation">
+    <img
+      src="/session-supervising-empty-candidate-list.svg"
+      class="session-supervising-candidate-list__empty-image"
+      alt=""
+      role="presentation"
+    />
     <p class="session-supervising-candidate-list__empty-message">Aucun candidat inscrit à cette session</p>
   {{/if}}
 </div>
