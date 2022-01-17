@@ -11,6 +11,7 @@ export default class Assessment extends Model {
   @attr('string') title;
   @attr('string') type;
   @attr('string') lastQuestionState;
+  @attr('string') method;
 
   // references
   @attr('string') competenceId;
@@ -27,6 +28,8 @@ export default class Assessment extends Model {
   @equal('type', 'DEMO') isDemo;
   @equal('type', 'PREVIEW') isPreview;
   @equal('type', 'CAMPAIGN') isForCampaign;
+
+  @equal('method', 'FLASH') isFlash;
 
   @equal('state', 'aborted') isAborted;
   @equal('state', 'completed') isCompleted;
