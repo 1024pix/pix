@@ -85,6 +85,7 @@ module.exports = {
         'canCollectProfiles',
         'credit',
         'createdBy',
+        'documentationUrl',
       ])
     );
     return Bookshelf.knex
