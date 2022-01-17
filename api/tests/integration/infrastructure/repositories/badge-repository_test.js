@@ -455,6 +455,8 @@ describe('Integration | Repository | Badge', function () {
         message: 'Congrats, you won the Toto badge!',
         key: 'TOTO2',
         targetProfileId,
+        isAlwaysVisible: true,
+        isCertifiable: false,
       });
       databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
       await databaseBuilder.commit();
@@ -465,6 +467,8 @@ describe('Integration | Repository | Badge', function () {
         imageUrl: 'Updated URL',
         message: 'Congrats, you won the Updated badge!',
         key: 'TOTO_UPDATED',
+        isAlwaysVisible: false,
+        isCertifiable: true,
       };
 
       const expectedBadge = {
@@ -474,7 +478,7 @@ describe('Integration | Repository | Badge', function () {
         message: 'Congrats, you won the Updated badge!',
         title: 'title',
         key: 'TOTO_UPDATED',
-        isCertifiable: false,
+        isCertifiable: true,
         badgeCriteria: [],
         skillSets: [],
         targetProfileId,

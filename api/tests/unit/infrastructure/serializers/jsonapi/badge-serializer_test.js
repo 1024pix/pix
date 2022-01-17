@@ -156,6 +156,9 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
         altMessage: 'alt-message',
         message: 'message',
         title: 'title',
+        isCertifiable: false,
+        isAlwaysVisible: true,
+        imageUrl: 'https://example.net/image.svg',
       };
       expect(badge).to.deep.equal(expectedBadge);
     });

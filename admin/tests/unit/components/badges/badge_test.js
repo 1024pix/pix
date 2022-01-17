@@ -16,15 +16,17 @@ module('Unit |  Component | Badges | badge', function (hooks) {
       assert.equal(component.isCertifiableColor, 'green');
       assert.equal(component.isCertifiableText, 'Certifiable');
     });
+  });
 
-    test('returns color and text when is not certifiable', function (assert) {
+  module('isAlwaysVisible', function () {
+    test.only('returns color and text when is always visible', function (assert) {
       const component = createComponent('component:badges/badge');
       component.args = {
-        badge: { isCertifiable: false },
+        badge: { isAlwaysVisible: true },
       };
 
-      assert.equal(component.isCertifiableColor, 'yellow');
-      assert.equal(component.isCertifiableText, 'Non certifiable');
+      assert.equal(component.isAlwaysVisibleColor, 'green');
+      assert.equal(component.isAlwaysVisibleText, 'Lacunes');
     });
   });
 });

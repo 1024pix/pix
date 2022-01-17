@@ -32,7 +32,13 @@
               <label for="message" class="badge-edit-form-field__label">
                 Message :
               </label>
-              <Input id="message" @type="text" class="form-control" @value={{this.form.message}} required={{true}} />
+              <Textarea id="message" class="form-control" @value={{this.form.message}} rows="4" />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="imageUrl" class="badge-edit-form-field__label">
+                Nom de l'image (svg) :
+              </label>
+              <Input id="imageUrl" @type="text" class="form-control" @value={{this.form.imageName}} required={{true}} />
             </div>
             <div class="badge-edit-form__field">
               <label for="altMessage" class="badge-edit-form-field__label">
@@ -44,6 +50,24 @@
                 class="form-control"
                 @value={{this.form.altMessage}}
                 required={{true}}
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isCertifiable">Certifiable : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isCertifiable}}
+                id="isCertifiable"
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isAlwaysVisible">Lacunes : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isAlwaysVisible}}
+                id="isAlwaysVisible"
               />
             </div>
             <div class="badge-edit-form__actions">
@@ -61,17 +85,27 @@
         <div class="page-section__details">
           ID :
           {{@badge.id}}<br />
-          Titre :
+          Nom du badge :
           {{@badge.title}}<br />
+          Nom de l'image :
+          {{this.imageName}}<br />
           Clé :
           {{@badge.key}}<br />
           Message :
           {{@badge.message}}<br />
           Message alternatif :
           {{@badge.altMessage}}<br />
-          <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br />
+          {{#if @badge.isCertifiable}}
+            <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br
+            />
+          {{/if}}
+          {{#if @badge.isAlwaysVisible}}
+            <PixTag @color={{this.isAlwaysVisibleColor}} class="badge-data__tags">
+              {{this.isAlwaysVisibleText}}</PixTag><br />
+          {{/if}}
           <PixButton
             @backgroundColor="transparent-light"
+            class="badge-data__action"
             @isBorderVisible={{true}}
             @size="small"
             @triggerAction={{this.toggleEditMode}}

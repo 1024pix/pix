@@ -78,10 +78,13 @@ module('Integration | Component | Badges::Badge', function (hooks) {
 
       // when
       await click('button[type="button"]');
-      await fillIn('input#title', 'mon titre mis à jour');
-      await fillIn('input#key', 'ma clef mise à jour');
-      await fillIn('input#message', 'mon message mis à jour');
-      await fillIn('input#altMessage', 'mon message alternatif mis à jour');
+      await fillIn('#title', 'mon titre mis à jour');
+      await fillIn('#key', 'ma clef mise à jour');
+      await fillIn('#message', 'mon message mis à jour');
+      await fillIn('#altMessage', 'mon message alternatif mis à jour');
+      await fillIn('#imageUrl', 'mon url image mise à jour');
+      await fillIn('#isCertifiable', 'false');
+      await fillIn('#isAlwaysVisible', 'true');
       await click('button[type="submit"]');
 
       // then
