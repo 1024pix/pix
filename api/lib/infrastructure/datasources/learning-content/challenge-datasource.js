@@ -35,6 +35,11 @@ module.exports = datasource.extend({
     return challenges.filter((challengeData) => challengeData.status === VALIDATED_CHALLENGE);
   },
 
+  async findValidatedBySkillId(id) {
+    const validatedChallenges = await this.findValidated();
+    return validatedChallenges.filter((challenge) => challenge.skillIds.includes(id));
+  },
+
   async findFlashCompatible(locale) {
     const challenges = await this.list();
     return challenges.filter(
