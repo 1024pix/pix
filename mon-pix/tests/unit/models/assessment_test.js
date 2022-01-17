@@ -180,4 +180,27 @@ describe('Unit | Model | Assessment', function () {
       expect(model.isPreview).to.be.false;
     });
   });
+
+  describe('#isFlash', function () {
+    it('should return true when the assessment method is FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.method = 'FLASH';
+
+      //then
+      expect(model.isFlash).to.be.true;
+    });
+    it('should return false when the assessment method is not FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.method = '_';
+
+      //then
+      expect(model.isFlash).to.be.false;
+    });
+  });
 });

@@ -74,6 +74,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'certification-number': null,
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           'competence-id': 'recCompetenceId',
+          method: Assessment.methods.CHOSEN,
         },
         relationships: {
           course: {
@@ -198,6 +199,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'certification-number': null,
           'competence-id': 'recCompetenceId',
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
+          method: Assessment.methods.CHOSEN,
         },
         relationships: {
           course: { data: { type: 'courses', id: courseId } },
@@ -295,6 +297,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'code-campaign': 'TESTCODE',
           'competence-id': 'recCompetenceId',
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
+          method: Assessment.methods.SMART_RANDOM,
         },
         relationships: {
           course: { data: { type: 'courses', id: 'anyFromLearningContent' } },
