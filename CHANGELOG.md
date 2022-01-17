@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.155.0 (17/01/2022)
+
+
+### :rocket: Enhancement
+- [#3937](https://github.com/1024pix/pix/pull/3937) [FEATURE] Changement de la consigne des QCM (PIX-4131).
+- [#3931](https://github.com/1024pix/pix/pull/3931) [FEATURE] Afficher la colonne "Écran de fin de test vu" sur la page de finalisation de session si le centre de certification n'utilise pas le portail surveillant (PIX-3748)
+- [#3875](https://github.com/1024pix/pix/pull/3875) [FEATURE] Ne donner accès à l'espace surveillant qu'à certains centres de certification (PIX-3770).
+- [#3925](https://github.com/1024pix/pix/pull/3925) [FEATURE][A11Y] Amélioration de l'accessibilité de la navigation sur Pix Orga (PIX-3892).
+
+### :building_construction: Tech
+- [#3946](https://github.com/1024pix/pix/pull/3946) [TECH] Mise à jour des channels de notification Slack 
+- [#3922](https://github.com/1024pix/pix/pull/3922) [TECH] Création d'une brique Accès V2 au flux de campagne et annihilation du start-or-resume (Pix-4054).
+- [#3935](https://github.com/1024pix/pix/pull/3935) [TECH] Formater le code de pix-certif avec Prettier.
+- [#3940](https://github.com/1024pix/pix/pull/3940) [TECH] Suppression d'une méthode non utilisée
+
 ## v3.154.0 (13/01/2022)
 
 
