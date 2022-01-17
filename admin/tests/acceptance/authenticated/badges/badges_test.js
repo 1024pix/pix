@@ -39,6 +39,9 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
     badge = this.server.create('badge', {
       id: 1,
       title: 'My badge',
+      imageUrl: 'https://images.pix/fr/badges/AG2R.svg',
+      isCertifiable: true,
+      isAlwaysVisible: true,
       badgeCriteria: [criterionCampaignParticipation, criterionEverySkillSet],
       skillSets: [skillSet],
     });
@@ -51,7 +54,10 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
     assert.ok(badgeElement.textContent.match(badge.title));
     assert.contains('20');
     assert.contains('Internet for dummies');
+    assert.contains('AG2R.svg');
     assert.contains('@skill2');
+    assert.contains('Certifiable');
+    assert.contains('Lacunes');
     assert.contains('Practical title of tube');
   });
 });

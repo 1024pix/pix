@@ -59,6 +59,7 @@ describe('Acceptance | API | Badges', function () {
         title: 'titre du badge',
         key: 'clef du badge',
         isCertifiable: false,
+        isAlwaysVisible: true,
       });
       badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
       skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
@@ -80,6 +81,7 @@ describe('Acceptance | API | Badges', function () {
           attributes: {
             'alt-message': 'Message alternatif',
             'is-certifiable': false,
+            'is-always-visible': true,
             'image-url': 'url_image',
             message: 'Bravo',
             title: 'titre du badge',
