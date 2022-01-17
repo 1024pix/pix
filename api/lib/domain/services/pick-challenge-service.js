@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const hashInt = require('hash-int');
 const NON_EXISTING_ITEM = null;
-const VALIDATED_STATUSES = ['validé', 'validé sans test', 'pré-validé'];
+const VALIDATED_STATUS = 'validé';
 
 module.exports = {
   pickChallenge({ skills, randomSeed, locale }) {
@@ -27,8 +27,6 @@ function _pickChallengeAtIndex(challenges, index) {
 }
 
 function _findPreferablyValidatedChallenges(localeChallenges) {
-  const validatedChallenges = _.filter(localeChallenges, (challenge) =>
-    _.includes(VALIDATED_STATUSES, challenge.status)
-  );
+  const validatedChallenges = _.filter(localeChallenges, (challenge) => challenge.status === VALIDATED_STATUS);
   return validatedChallenges.length > 0 ? validatedChallenges : localeChallenges;
 }
