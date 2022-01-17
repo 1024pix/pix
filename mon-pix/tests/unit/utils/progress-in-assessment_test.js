@@ -50,6 +50,30 @@ describe('Unit | Utility | progress-in-assessment', function () {
       expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
     });
 
+    describe('when assessment has flash method', function () {
+      it('should return the maximum number of challenges', function () {
+        // given
+        const assessment = EmberObject.create({ isFlash: true });
+
+        // when
+        const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
+
+        // then
+        expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
+      });
+
+      it('when assessment is certification, should return the maximum number of challenges', function () {
+        // given
+        const assessment = EmberObject.create({ isFlash: true, isCertification: true });
+
+        // when
+        const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
+
+        // then
+        expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
+      });
+    });
+
     it('when assessment is certification, should return the number of challenges in certification', function () {
       // given
       const nbChallenges = 23;

@@ -1,7 +1,7 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { equal, or } from '@ember/object/computed';
+import { equal, or, not, and } from '@ember/object/computed';
 import ENV from 'mon-pix/config/environment';
 export default class Assessment extends Model {
   // attributes
@@ -30,6 +30,8 @@ export default class Assessment extends Model {
   @equal('type', 'CAMPAIGN') isForCampaign;
 
   @equal('method', 'FLASH') isFlash;
+  @not('isFlash') isNotFlash;
+  @and('isForCampaign', 'isNotFlash') isForNotFlashCampaign;
 
   @equal('state', 'aborted') isAborted;
   @equal('state', 'completed') isCompleted;
@@ -38,9 +40,9 @@ export default class Assessment extends Model {
   @equal('lastQuestionState', 'timeout') hasTimeoutChallenge;
   @equal('lastQuestionState', 'focusedout') hasFocusedOutChallenge;
 
-  @or('isCompetenceEvaluation', 'isForCampaign') hasCheckpoints;
-  @or('isCompetenceEvaluation', 'isForCampaign') showLevelup;
-  @or('isCompetenceEvaluation', 'isForCampaign', 'isDemo') showProgressBar;
+  @or('isCompetenceEvaluation', 'isForNotFlashCampaign') hasCheckpoints;
+  @or('isCompetenceEvaluation', 'isForNotFlashCampaign') showLevelup;
+  @or('isCompetenceEvaluation', 'isForNotFlashCampaign', 'isDemo') showProgressBar;
 
   get answersSinceLastCheckpoints() {
     const answers = this.answers.toArray();
