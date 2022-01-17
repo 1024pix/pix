@@ -96,11 +96,12 @@ describe('Integration | Repository | Campaign Participation', function () {
   });
 
   describe('#save', function () {
-    let campaignId, userId;
+    let campaignId, userId, schoolingRegistrationId;
     beforeEach(async function () {
       await knex('campaign-participations').delete();
       userId = databaseBuilder.factory.buildUser({}).id;
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId }).id;
 
       await databaseBuilder.commit();
     });
@@ -161,6 +162,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       const campaignParticipationToSave = new CampaignParticipation({
         campaignId,
         userId,
+        schoolingRegistrationId,
         participantExternalId: '034516273645RET',
       });
 
@@ -169,12 +171,13 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       const campaignParticipationInDB = await knex
-        .select('id', 'campaignId', 'participantExternalId', 'userId')
+        .select('id', 'campaignId', 'participantExternalId', 'userId', 'schoolingRegistrationId')
         .from('campaign-participations')
         .where({ id: savedCampaignParticipation.id });
       expect(campaignParticipationInDB).to.have.length(1);
       expect(campaignParticipationInDB[0].id).to.equal(savedCampaignParticipation.id);
       expect(campaignParticipationInDB[0].campaignId).to.equal(campaignParticipationToSave.campaignId);
+      expect(campaignParticipationInDB[0].schoolingRegistrationId).to.equal(schoolingRegistrationId);
       expect(campaignParticipationInDB[0].participantExternalId).to.equal(
         savedCampaignParticipation.participantExternalId
       );
