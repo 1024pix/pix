@@ -17,7 +17,7 @@ export default class Badge extends Component {
   IMAGE_BASE_URL = 'https://images.pix.fr/badges/';
 
   get isCertifiableColor() {
-    return this.args.badge.isCertifiable ? 'green' : 'yellow';
+    return this.args.badge.isCertifiable ? 'green' : null;
   }
 
   get isAlwaysVisibleColor() {
