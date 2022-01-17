@@ -12,6 +12,7 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
+const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
@@ -33,6 +34,70 @@ describe('Integration | UseCases | start-campaign-participation', function () {
   afterEach(async function () {
     await knex('assessments').delete();
     await knex('campaign-participations').delete();
+    await knex('schooling-registrations').delete();
+  });
+
+  context('when user has a schooling registration', function () {
+    let schoolingRegistrationId;
+    beforeEach(async function () {
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId,
+        userId,
+      }).id;
+      await databaseBuilder.commit();
+    });
+    it('should save a campaign participation of type ASSESSMENT with a schoolingRegistrationId', async function () {
+      // given
+      campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT, organizationId }).id;
+      await databaseBuilder.commit();
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await startCampaignParticipation({
+          campaignParticipation,
+          userId,
+          campaignParticipationRepository,
+          assessmentRepository,
+          campaignToJoinRepository,
+          schoolingRegistrationRepository,
+          domainTransaction,
+        });
+      });
+
+      // then
+      const campaignParticipations = await knex('campaign-participations');
+      expect(campaignParticipations).to.have.lengthOf(1);
+      expect(campaignParticipations[0].schoolingRegistrationId).to.equal(schoolingRegistrationId);
+    });
+
+    it('should save a campaign participation of type PROFILES_COLLECTION with a schoolingRegistrationId', async function () {
+      // given
+      campaignId = databaseBuilder.factory.buildCampaign({
+        type: Campaign.types.PROFILES_COLLECTION,
+        organizationId,
+      }).id;
+      await databaseBuilder.commit();
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await startCampaignParticipation({
+          campaignParticipation,
+          userId,
+          campaignParticipationRepository,
+          assessmentRepository,
+          campaignToJoinRepository,
+          schoolingRegistrationRepository,
+          domainTransaction,
+        });
+      });
+
+      // then
+      const campaignParticipations = await knex('campaign-participations');
+      expect(campaignParticipations).to.have.lengthOf(1);
+      expect(campaignParticipations[0].schoolingRegistrationId).to.equal(schoolingRegistrationId);
+    });
   });
 
   it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async function () {
@@ -49,6 +114,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
         domainTransaction,
       });
     });
@@ -75,6 +141,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
         domainTransaction,
       });
     });
@@ -102,6 +169,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
         throw new Error('an error occurs within the domain transaction');
@@ -139,6 +207,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
       });
@@ -165,6 +234,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
           campaignParticipationRepository,
           assessmentRepository,
           campaignToJoinRepository,
+          schoolingRegistrationRepository,
           domainTransaction,
         });
       });
@@ -190,6 +260,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
       });
 
       expect(error).to.be.instanceOf(EntityValidationError);
@@ -206,6 +277,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
         campaignParticipationRepository,
         assessmentRepository,
         campaignToJoinRepository,
+        schoolingRegistrationRepository,
       });
 
       const campaignParticipations = await knex('campaign-participations');
@@ -232,6 +304,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
             campaignParticipationRepository,
             assessmentRepository,
             campaignToJoinRepository,
+            schoolingRegistrationRepository,
           });
 
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -248,6 +321,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
             campaignParticipationRepository,
             assessmentRepository,
             campaignToJoinRepository,
+            schoolingRegistrationRepository,
           });
 
           const campaignParticipations = await knex('campaign-participations');
@@ -270,6 +344,7 @@ describe('Integration | UseCases | start-campaign-participation', function () {
               campaignParticipationRepository,
               assessmentRepository,
               campaignToJoinRepository,
+              schoolingRegistrationRepository,
               domainTransaction,
             });
           });
