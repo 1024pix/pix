@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.156.0 (17/01/2022)
+
+
+### :rocket: Enhancement
+- [#3945](https://github.com/1024pix/pix/pull/3945) [FEATURE] Supprimer la case de fin de test pour les sessions dont le centre est autorisé (PIX-4141)
+- [#3933](https://github.com/1024pix/pix/pull/3933) [FEATURE] Pouvoir éditer le flag "Affichage acquis dans l'export résultats" d'une orga dans Pix Admin (PIX-4103).
+- [#3943](https://github.com/1024pix/pix/pull/3943) [FEATURE] Ajout de champs éditables supplémentaires sur les RT dans Pix-Admin (PIX-4129).
+- [#3947](https://github.com/1024pix/pix/pull/3947) [FEATURE] Permettre l'ajout de l'url de documentation dans le script de création d'organisations PRO (PIX-4118).
+- [#3932](https://github.com/1024pix/pix/pull/3932) [FEATURE] Enregistre le prescrit dans la participation lors de la création de la participation (PIX-4114)
+
+### :coffee: Various
+- [#3934](https://github.com/1024pix/pix/pull/3934) [CLEANUP] Mise à jour des états possible "validé" des épreuves (PIX-4126)
+
 ## v3.155.0 (17/01/2022)
 
 
