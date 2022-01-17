@@ -3,6 +3,9 @@ import { setupApplicationTest } from 'ember-qunit';
 import { click, fillIn, find } from '@ember/test-helpers';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
+import sinon from 'sinon';
+import { later } from '@ember/runloop';
+import ENV from 'pix-certif/config/environment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -56,6 +59,51 @@ module('Acceptance | Session supervising', function (hooks) {
       // then
       assert.dom(screen.getByRole('checkbox', { name: 'Doe John' })).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).exists();
+    });
+
+    test('should refresh the candidate list periodically', async function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'sessionSupervisingPollingRate').value(100);
+
+      const sessionForSupervising = server.create('session-for-supervising', {
+        id: 12345,
+        certificationCandidates: [
+          server.create('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'John',
+            lastName: 'Doe',
+            birthdate: '1984-05-28',
+            extraTimePercentage: '8',
+            authorizedToStart: true,
+          }),
+          server.create('certification-candidate-for-supervising', {
+            id: 456,
+            firstName: 'Star',
+            lastName: 'Lord',
+            birthdate: '1983-06-28',
+            extraTimePercentage: '12',
+            authorizedToStart: false,
+          }),
+        ],
+      });
+
+      let getSessionForSupervisingCount = 0;
+      server.get('/sessions/:id/supervising', () => {
+        getSessionForSupervisingCount++;
+        return sessionForSupervising;
+      });
+
+      // when
+      const screen = await visitScreen('/connexion-espace-surveillant');
+      await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+      await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+      await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+
+      // then
+      assert.expect(1);
+      later(() => {
+        assert.deepEqual(getSessionForSupervisingCount, 4);
+      }, 300);
     });
   });
 
