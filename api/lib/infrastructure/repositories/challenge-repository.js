@@ -121,5 +121,6 @@ function _toDomain({ challengeDataObject, skillDataObjects }) {
     focused: challengeDataObject.focusable,
     discriminant: challengeDataObject.alpha,
     difficulty: challengeDataObject.delta,
+    responsive: challengeDataObject.responsive,
   });
 }
