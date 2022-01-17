@@ -16,7 +16,7 @@ function createAccessTokenFromUser(userId, source) {
 }
 
 function createAccessTokenFromExternalUser(userId) {
-  return createAccessTokenFromUser(userId, 'external');
+  return createAccessTokenFromUser(userId, 'external').accessToken;
 }
 
 function createAccessTokenFromApplication(

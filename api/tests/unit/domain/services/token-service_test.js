@@ -112,7 +112,7 @@ describe('Unit | Domain | Service | Token Service', function () {
     it('should return userId if the accessToken is valid', function () {
       // given
       const userId = 123;
-      const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
+      const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix').accessToken;
 
       // when
       const result = tokenService.extractUserId(accessToken);

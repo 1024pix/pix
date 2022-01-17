@@ -1,6 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
-const ms = require('ms');
 const temporaryStorage = require('../../../../lib/infrastructure/temporary-storage');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
@@ -18,7 +17,7 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
         userId,
         source,
       };
-      const expirationDelaySeconds = ms(settings.authentication.refreshTokenLifespan) / 1000;
+      const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
 
       sinon.stub(temporaryStorage, 'save').withArgs({ value, expirationDelaySeconds }).resolves(validRefreshToken);
 

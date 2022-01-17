@@ -93,6 +93,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
+      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
       // when
       await authenticatePoleEmploiUser({
@@ -120,6 +121,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should call get pole emploi user info with id token parameter', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
+      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
       // when
       await authenticatePoleEmploiUser({
@@ -144,6 +146,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       // given
       const user = new User({ id: 1, firstName: 'Tuck', lastName: 'Morris' });
       user.externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
       _fakePoleEmploiAPI({ authenticationService });
       userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
@@ -170,11 +173,14 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should return accessToken and idToken', async function () {
       // given
       const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenFromUser.returns('pixAccessToken');
+      const authenticatedUserId = 1;
+      tokenService.createAccessTokenFromUser
+        .withArgs(authenticatedUserId, 'pole_emploi_connect')
+        .returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
       // when
       const result = await authenticatePoleEmploiUser({
-        authenticatedUserId: 1,
+        authenticatedUserId,
         clientId: 'clientId',
         code: 'code',
         redirectUri: 'redirectUri',
@@ -189,7 +195,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
       // then
       const expectedResult = {
-        pixAccessToken: 'pixAccessToken',
+        pixAccessToken: 'access-token',
         poleEmploiTokens,
       };
       expect(result).to.deep.equal(expectedResult);
@@ -198,7 +204,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should save last logged at date', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenFromUser.returns('pixAccessToken');
+      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
       // when
       await authenticatePoleEmploiUser({
@@ -224,6 +230,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
         const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
+        tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
         // when
         await authenticatePoleEmploiUser({
@@ -258,6 +265,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 123 });
         _fakePoleEmploiAPI({ authenticationService });
+        tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
         // when
         await authenticatePoleEmploiUser({
@@ -285,6 +293,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           // given
           const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
           userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
+          tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
           // when
           await authenticatePoleEmploiUser({
@@ -327,6 +336,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
             })
           );
+          tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
 
           // when
           await authenticatePoleEmploiUser({

@@ -37,6 +37,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
       lang: lang,
     });
     userRepository.create.resolves({ id: 1 });
+    tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 123 });
 
     // when
     await authenticateAnonymousUser({ campaignCode, lang, campaignToJoinRepository, userRepository, tokenService });
