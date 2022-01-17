@@ -268,6 +268,28 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
     });
 
+    it('should allow to update the organization showSkills flag', async function () {
+      // given
+      const newShowSkills = true;
+      const organizationId = 7;
+      const givenOrganization = _buildOrganizationWithNullAttributes({
+        id: organizationId,
+        showSkills: newShowSkills,
+      });
+      const originalOrganization = _buildOriginalOrganization(organizationId);
+
+      organizationRepository.get.resolves(originalOrganization);
+
+      // when
+      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
+
+      // then
+      expect(organizationRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        showSkills: newShowSkills,
+      });
+    });
+
     context('when updating tags', function () {
       it('should allow to assign a tag to organization', async function () {
         // given
@@ -372,6 +394,7 @@ function _buildOrganizationWithNullAttributes(attributes) {
     credit: attributes.credit,
     tags: attributes.tags,
     documentationUrl: attributes.documentationUrl,
+    showSkills: attributes.showSkills,
   });
 }
 

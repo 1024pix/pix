@@ -136,6 +136,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationSaved.credit).to.equal(organization.credit);
       expect(organizationSaved.email).to.equal(organization.email);
       expect(organizationSaved.documentationUrl).to.equal('https://pix.fr/');
+      expect(organizationSaved.showSkills).to.equal(organization.showSkills);
     });
   });
 

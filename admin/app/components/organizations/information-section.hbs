@@ -140,6 +140,20 @@
               @checked={{this.form.canCollectProfiles}}
             />
           </div>
+          <div class="form-field organization-edit-form__checkbox">
+            <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
+            {{#if (v-get this.form "showSkills" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "showSkills" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="showSkills"
+              @type="checkbox"
+              class={{if (v-get this.form "showSkills" "isInvalid") "form-control is-invalid" "form-control"}}
+              @checked={{this.form.showSkills}}
+            />
+          </div>
           <div class="form-actions">
             <PixButton
               @size="small"
