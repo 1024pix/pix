@@ -14,6 +14,7 @@ export default class SessionParametersController extends Controller {
   @tracked accessCodeTooltipText = '';
   @tracked supervisorPasswordTooltipText = '';
   @service featureToggles;
+  @service currentUser;
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
@@ -21,7 +22,7 @@ export default class SessionParametersController extends Controller {
   }
 
   get supervisorPasswordShouldBeDisplayed() {
-    return Boolean(this.session.supervisorPassword);
+    return this.currentUser.currentAllowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled;
   }
 
   @action
