@@ -38,7 +38,7 @@ after(function () {
 });
 
 function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
-  const accessToken = tokenService.createAccessTokenFromUser(userId, source);
+  const accessToken = tokenService.createAccessTokenFromUser(userId, source).accessToken;
   return `Bearer ${accessToken}`;
 }
 

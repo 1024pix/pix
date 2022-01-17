@@ -207,7 +207,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           access_id: userId,
         },
         settings.authentication.secret,
-        { expiresIn: settings.authentication.tokenLifespan }
+        { expiresIn: settings.authentication.accessTokenLifespanMs }
       );
     }
 
@@ -287,7 +287,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           access_id: userId,
         },
         settings.authentication.secret,
-        { expiresIn: settings.authentication.tokenLifespan }
+        { expiresIn: settings.authentication.accessTokenLifespanMs }
       );
     }
 

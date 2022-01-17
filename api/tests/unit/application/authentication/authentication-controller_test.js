@@ -8,18 +8,22 @@ const { UnauthorizedError } = require('../../../../lib/application/http-errors')
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 describe('Unit | Application | Controller | Authentication', function () {
-  describe('#authenticateUser', function () {
+  describe('#createToken', function () {
     const accessToken = 'jwt.access.token';
-
-    let request;
     const USER_ID = 1;
     const username = 'user@email.com';
     const password = 'user_password';
     const scope = 'pix-orga';
     const source = 'pix';
 
-    beforeEach(function () {
-      request = {
+    /**
+     * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
+     */
+    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
+      // given
+      const expirationDelaySeconds = 6666;
+      const refreshToken = 'refresh.token';
+      const request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
         },
@@ -30,24 +34,23 @@ describe('Unit | Application | Controller | Authentication', function () {
           scope,
         },
       };
-      sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
-    });
 
-    /**
-     * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
-     */
-    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
-      // given
-      sinon.stub(usecases, 'authenticateUser').withArgs({ username, password, scope, source }).resolves(accessToken);
+      sinon
+        .stub(usecases, 'authenticateUser')
+        .withArgs({ username, password, scope, source })
+        .resolves({ accessToken, refreshToken, expirationDelaySeconds });
+      sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
 
       // when
-      const response = await authenticationController.authenticateUser(request, hFake);
+      const response = await authenticationController.createToken(request, hFake);
 
       // then
       const expectedResponseResult = {
         token_type: 'bearer',
         access_token: accessToken,
         user_id: USER_ID,
+        refresh_token: refreshToken,
+        expires_in: expirationDelaySeconds,
       };
       expect(response.source).to.deep.equal(expectedResponseResult);
       expect(response.statusCode).to.equal(200);
@@ -188,21 +191,14 @@ describe('Unit | Application | Controller | Authentication', function () {
   });
 
   describe('#authenticateApplication', function () {
-    const access_token = 'jwt.access.token';
+    it('should return an OAuth 2 token response', async function () {
+      // given
+      const access_token = 'jwt.access.token';
+      const client_id = Symbol('clientId');
+      const client_secret = Symbol('clientSecret');
+      const scope = Symbol('scope');
 
-    let request;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const client_id = Symbol('clientId');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const client_secret = Symbol('clientSecret');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const scope = Symbol('scope');
-
-    beforeEach(function () {
-      request = {
+      const request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
         },
@@ -214,10 +210,6 @@ describe('Unit | Application | Controller | Authentication', function () {
         },
       };
       sinon.stub(tokenService, 'extractClientId').returns(client_id);
-    });
-
-    it('should return an OAuth 2 token response', async function () {
-      // given
       sinon
         .stub(usecases, 'authenticateApplication')
         .withArgs({ clientId: client_id, clientSecret: client_secret, scope })
@@ -239,6 +231,50 @@ describe('Unit | Application | Controller | Authentication', function () {
         'Cache-Control': 'no-store',
         Pragma: 'no-cache',
       });
+    });
+  });
+
+  describe('#revokeToken', function () {
+    it('should return 204', async function () {
+      // given
+      const token = 'jwt.refresh.token';
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: {
+          token,
+        },
+      };
+      sinon.stub(usecases, 'revokeRefreshToken').resolves();
+
+      // when
+      const response = await authenticationController.revokeToken(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      sinon.assert.calledWith(usecases.revokeRefreshToken, { refreshToken: token });
+    });
+
+    it('should return null when token hint is of type access token', async function () {
+      // given
+      const token = 'jwt.refresh.token';
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: {
+          token,
+          token_type_hint: 'access_token',
+        },
+      };
+      sinon.stub(usecases, 'revokeRefreshToken').resolves();
+
+      // when
+      const response = await authenticationController.revokeToken(request, hFake);
+
+      // then
+      expect(response).to.be.null;
     });
   });
 });

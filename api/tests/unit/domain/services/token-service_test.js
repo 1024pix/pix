@@ -10,7 +10,6 @@ const {
   InvalidSessionResultError,
 } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
-
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Domain | Service | Token Service', function () {
@@ -20,17 +19,19 @@ describe('Unit | Domain | Service | Token Service', function () {
       const userId = 123;
       const source = 'pix';
       settings.authentication.secret = 'a secret';
-      settings.authentication.tokenLifespan = '7d';
-      sinon.stub(jsonwebtoken, 'sign');
-
-      // when
-      tokenService.createAccessTokenFromUser(userId, source);
-
-      // then
+      settings.authentication.accessTokenLifespanMs = 1000;
+      const accessToken = 'valid access token';
+      const expirationDelaySeconds = 1;
       const firstParameter = { user_id: userId, source };
       const secondParameter = 'a secret';
-      const thirdParameter = { expiresIn: '7d' };
-      expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
+      const thirdParameter = { expiresIn: 1 };
+      sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
+
+      // when
+      const result = tokenService.createAccessTokenFromUser(userId, source);
+
+      // then
+      expect(result).to.be.deep.equal({ accessToken, expirationDelaySeconds });
     });
   });
 
@@ -39,7 +40,7 @@ describe('Unit | Domain | Service | Token Service', function () {
       // given
       const userId = 123;
       settings.authentication.secret = 'a secret';
-      settings.authentication.tokenLifespan = '7d';
+      settings.authentication.accessTokenLifespanMs = 1000;
       sinon.stub(jsonwebtoken, 'sign');
 
       // when
@@ -48,7 +49,7 @@ describe('Unit | Domain | Service | Token Service', function () {
       // then
       const firstParameter = { user_id: userId, source: 'external' };
       const secondParameter = 'a secret';
-      const thirdParameter = { expiresIn: '7d' };
+      const thirdParameter = { expiresIn: 1 };
       expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
     });
   });
@@ -111,7 +112,7 @@ describe('Unit | Domain | Service | Token Service', function () {
     it('should return userId if the accessToken is valid', function () {
       // given
       const userId = 123;
-      const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
+      const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix').accessToken;
 
       // when
       const result = tokenService.extractUserId(accessToken);

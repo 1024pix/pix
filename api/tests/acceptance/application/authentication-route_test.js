@@ -31,13 +31,11 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
   beforeEach(async function () {
     server = await createServer();
-
     userId = databaseBuilder.factory.buildUser.withRawPassword({
       email: userEmailAddress,
       rawPassword: userPassword,
       cgu: true,
     }).id;
-
     await databaseBuilder.commit();
   });
 
@@ -48,26 +46,52 @@ describe('Acceptance | Controller | authentication-controller', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 with accessToken when authentication is ok', async function () {
-      // when
-      const options = _getOptions({ scope: 'pix-orga', username: userEmailAddress, password: userPassword });
-      const response = await server.inject(options);
+    it('should return a 200 with an access token and a refresh token when authentication is ok', async function () {
+      // given / when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username: userEmailAddress,
+          password: userPassword,
+          scope: 'pix-orga',
+        }),
+      });
 
       // then
-      expect(response.statusCode).to.equal(200);
-
       const result = response.result;
+      expect(response.statusCode).to.equal(200);
       expect(result.token_type).to.equal('bearer');
       expect(result.access_token).to.exist;
       expect(result.user_id).to.equal(userId);
+      expect(result.refresh_token).to.exist;
+    });
+
+    it('should return a 400 if grant type is invalid', async function () {
+      // when
+      const errorResponse = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'appleSauce',
+        }),
+      });
+
+      // then
+      expect(errorResponse.statusCode).to.equal(400);
     });
 
     it('should return http code 401 when user should change password', async function () {
       // given
       const username = 'username123';
       const shouldChangePassword = true;
-
-      const options = _getOptions({ scope: 'pix-orga', username, password: userPassword });
 
       databaseBuilder.factory.buildUser.withRawPassword({
         username,
@@ -90,7 +114,19 @@ describe('Acceptance | Controller | authentication-controller', function () {
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username,
+          password: userPassword,
+          scope: 'pix-orga',
+        }),
+      });
 
       // then
       expect(response.statusCode).to.equal(401);

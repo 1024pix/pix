@@ -185,28 +185,22 @@ describe('Acceptance | Controller | saml-controller', function () {
     const lastName = 'Jackson';
     const samlId = 'IDO-for-saml-jackson';
 
-    let options;
-    let validSamlResponse;
-
-    beforeEach(async function () {
-      validSamlResponse = await buildLoginResponse({
+    it('should return externalUser idToken if the user does not a have an account yet', async function () {
+      // given
+      const validSamlResponse = await buildLoginResponse({
         IDO: samlId,
         NOM: lastName,
         PRE: firstName,
       });
 
-      options = {
+      // when
+      const firstVisitResponse = await server.inject({
         method: 'POST',
         url: '/api/saml/assert',
         payload: {
           SAMLResponse: validSamlResponse.context,
         },
-      };
-    });
-
-    it('should return externalUser idToken if the user does not a have an account yet', async function () {
-      // when
-      const firstVisitResponse = await server.inject(options);
+      });
 
       // then
       expect(firstVisitResponse.statusCode).to.equal(302);
@@ -215,6 +209,11 @@ describe('Acceptance | Controller | saml-controller', function () {
 
     it('should return an accessToken if the user already exists', async function () {
       // given
+      const validSamlResponse = await buildLoginResponse({
+        IDO: samlId,
+        NOM: lastName,
+        PRE: firstName,
+      });
       const userId = databaseBuilder.factory.buildUser({
         firstName,
         lastName,
@@ -228,7 +227,13 @@ describe('Acceptance | Controller | saml-controller', function () {
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/saml/assert',
+        payload: {
+          SAMLResponse: validSamlResponse.context,
+        },
+      });
 
       // then
       expect(response.statusCode).to.equal(302);

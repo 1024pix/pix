@@ -10,6 +10,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
     clientStub = {
       get: sinon.stub(),
       set: sinon.stub(),
+      del: sinon.stub(),
     };
 
     sinon.stub(RedisTemporaryStorage, 'createClient').withArgs(REDIS_URL).returns(clientStub);
@@ -102,6 +103,21 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       // then
       expect(clientStub.get).to.have.been.called;
       expect(result).to.deep.equal(value);
+    });
+  });
+
+  describe('#delete', function () {
+    it('should call client set and delete value', async function () {
+      // given
+      const key = 'valueKey';
+      clientStub.del.withArgs(key).resolves();
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.delete(key);
+
+      // then
+      expect(clientStub.del).to.have.been.called;
     });
   });
 });
