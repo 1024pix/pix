@@ -102,11 +102,6 @@ exports.register = async (server) => {
         tags: ['api'],
       },
     },
-
-    /**
-     * This endpoint does nothing and exists only because it is required by
-     * Ember Simple Auth addon, for OAuth 2 "Password Grant" strategy.
-     */
     {
       method: 'POST',
       path: '/api/revoke',
@@ -130,6 +125,7 @@ exports.register = async (server) => {
           },
         },
         handler: AuthenticationController.revokeToken,
+        notes: ['- Cette route permet de supprimer le refresh token du temporary storage'],
         tags: ['api'],
       },
     },
