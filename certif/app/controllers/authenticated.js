@@ -34,7 +34,7 @@ export default class AuthenticatedController extends Controller {
   }
 
   get isEndTestScreenRemovalEnabled() {
-    return this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled;
+    return this.currentUser.currentAllowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled;
   }
 
   @action

@@ -20,7 +20,6 @@ const fillCandidatesImportSheet = require('../../infrastructure/files/candidates
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 const logger = require('../../infrastructure/logger');
-const endTestScreenRemovalEnabled = require('../../domain/services/end-test-screen-removal-service');
 
 module.exports = {
   async findPaginatedFilteredJurySessions(request) {
@@ -44,12 +43,6 @@ module.exports = {
   async get(request) {
     const sessionId = request.params.id;
     const session = await usecases.getSession({ sessionId });
-    const isEndTestScreenRemovalEnabled = await endTestScreenRemovalEnabled.isEndTestScreenRemovalEnabledBySessionId(
-      sessionId
-    );
-    if (!isEndTestScreenRemovalEnabled) {
-      session.supervisorPassword = undefined;
-    }
     return sessionSerializer.serialize(session, true);
   },
 

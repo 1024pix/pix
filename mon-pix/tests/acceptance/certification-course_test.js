@@ -331,8 +331,6 @@ describe('Acceptance | Certification | Certification Course', function () {
         it('should display "Test terminé !"', async function () {
           this.timeout(5000);
           // given
-          server.create('feature-toggle', { id: 0, isEndTestScreenRemovalEnabled: true });
-
           user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
 
           const NB_CHALLENGES = 3;
@@ -345,6 +343,7 @@ describe('Acceptance | Certification | Certification Course', function () {
             nbChallenges: NB_CHALLENGES,
             firstName: 'Laura',
             lastName: 'Bravo',
+            isEndTestScreenRemovalEnabled: true,
           });
           this.server.create('certification-candidate-subscription', {
             id: 2,
@@ -379,9 +378,10 @@ describe('Acceptance | Certification | Certification Course', function () {
       context('when test was ended by supervisor', function () {
         it('should display "Votre surveillant a mis fin…"', async function () {
           // given
-          server.create('feature-toggle', { id: 0, isEndTestScreenRemovalEnabled: true });
           const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
-          const certificationCourse = this.server.create('certification-course');
+          const certificationCourse = this.server.create('certification-course', {
+            isEndTestScreenRemovalEnabled: true,
+          });
           this.server.create('assessment', {
             certificationCourseId: certificationCourse.id,
             state: 'endedBySupervisor',

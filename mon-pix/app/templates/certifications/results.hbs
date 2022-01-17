@@ -1,6 +1,6 @@
 {{page-title (t "pages.certification-results.title")}}
 
-{{#if this.featureToggles.featureToggles.isEndTestScreenRemovalEnabled}}
+{{#if @model.isEndTestScreenRemovalEnabled}}
   <Certifications::CertificationEnder
     @certificationNumber={{@model.id}}
     @isEndedBySupervisor={{this.isEndedBySupervisor}}

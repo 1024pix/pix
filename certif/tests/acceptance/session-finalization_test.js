@@ -177,6 +177,52 @@ module('Acceptance | Session Finalization', function (hooks) {
         });
       });
 
+      module('when there is completed report', function () {
+        module('when end test screen has been seen', function () {
+          test('it should not display end test screen warning', async function (assert) {
+            // given
+            const certificationReport = server.create('certification-report', {
+              hasSeenEndTestScreen: true,
+              isCompleted: true,
+              abortReason: 'technical',
+            });
+            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+
+            session.update({ certificationReports: [certificationReport] });
+
+            // when
+            await visit(`/sessions/${session.id}/finalisation`);
+            await clickByLabel('Finaliser');
+
+            // then
+            assert.contains(CONFIRMATION_TEXT);
+            assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+          });
+        });
+
+        module('when end test screen has not been seen', function () {
+          test('it should display end test screen warning', async function (assert) {
+            // given
+            const certificationReport = server.create('certification-report', {
+              hasSeenEndTestScreen: false,
+              isCompleted: true,
+              abortReason: 'technical',
+            });
+            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+
+            session.update({ certificationReports: [certificationReport] });
+
+            // when
+            await visit(`/sessions/${session.id}/finalisation`);
+            await clickByLabel('Finaliser');
+
+            // then
+            assert.contains(CONFIRMATION_TEXT);
+            assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+          });
+        });
+      });
+
       module('when there is no uncompleted report', function () {
         test('it should not show the uncompleted reports table', async function (assert) {
           // given
@@ -192,25 +238,55 @@ module('Acceptance | Session Finalization', function (hooks) {
         });
       });
 
-      module('when there are no completed report', function () {
-        test('it should not display end test screen warning', async function (assert) {
-          // given
-          const certificationReport = server.create('certification-report', {
-            hasSeenEndTestScreen: false,
-            isCompleted: false,
-            abortReason: 'technical',
+      module('when there are uncompleted reports', function () {
+        module('when end test screen has not been seen', function () {
+          module('when certification center is not in the whitelist', function () {
+            test('it should display end test screen warning', async function (assert) {
+              // given
+              const certificationReport = server.create('certification-report', {
+                hasSeenEndTestScreen: false,
+                isCompleted: true,
+                abortReason: 'technical',
+              });
+              server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+
+              session.update({ certificationReports: [certificationReport] });
+
+              // when
+              await visit(`/sessions/${session.id}/finalisation`);
+              await clickByLabel('Finaliser');
+
+              // then
+              assert.contains(CONFIRMATION_TEXT);
+              assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+            });
           });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
-          session.update({ certificationReports: [certificationReport] });
+          module('when certification center is in the whitelist', function () {
+            test('it should not display end test screen warning', async function (assert) {
+              // given
+              const certificationReport = server.create('certification-report', {
+                hasSeenEndTestScreen: false,
+                isCompleted: true,
+                abortReason: 'technical',
+              });
+              server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
-          // when
-          await visit(`/sessions/${session.id}/finalisation`);
-          await clickByLabel('Finaliser');
+              allowedCertificationCenterAccess.update({
+                hasEndTestScreenRemovalEnabled: true,
+              });
 
-          // then
-          assert.contains(CONFIRMATION_TEXT);
-          assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+              session.update({ certificationReports: [certificationReport] });
+
+              // when
+              await visit(`/sessions/${session.id}/finalisation`);
+              await clickByLabel('Finaliser');
+
+              // then
+              assert.contains(CONFIRMATION_TEXT);
+              assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+            });
+          });
         });
 
         test('it should not show the completed reports table', async function (assert) {
@@ -226,9 +302,7 @@ module('Acceptance | Session Finalization', function (hooks) {
           assert.notContains('Certification(s) terminée(s)\n');
           assert.notContains('Écran de fin du test vu\n');
         });
-      });
 
-      module('when there are uncompleted reports', function () {
         test('it should show the uncompleted reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false });
