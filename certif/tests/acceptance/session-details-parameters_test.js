@@ -28,6 +28,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
+        hasEndTestScreenRemovalEnabled: false,
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Buffy',
@@ -80,11 +81,11 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
-          module('when the the supervisorPassword is unset meaning the FT is disabled for this session', function () {
+          module('when the certification center is not in the end test screen removal whitelist', function () {
             test('it should not display supervisor password', async function (assert) {
               // given
               const sessionWithSupervisorPassword = server.create('session', {
-                supervisorPassword: undefined,
+                supervisorPassword: 'SOWHAT',
                 status: CREATED,
               });
 
@@ -97,13 +98,10 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             });
           });
 
-          module('when the feature toggle FT_END_TEST_SCREEN_REMOVAL_ENABLED is enabled', function () {
+          module('when the certification center is in the end test screen removal whitelist', function () {
             test('it should display supervisor password', async function (assert) {
               // given
-              server.create('feature-toggle', {
-                id: 0,
-                isEndTestScreenRemovalEnabled: true,
-              });
+              allowedCertificationCenterAccess.update({ hasEndTestScreenRemovalEnabled: true });
               const sessionWithSupervisorPassword = server.create('session', {
                 supervisorPassword: 'SOWHAT',
                 status: CREATED,

@@ -149,18 +149,6 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onTogglePublishConfirm() {
-    const state = this.certification.isPublished;
-    if (state) {
-      this.confirmMessage = 'Souhaitez-vous dépublier cette certification ?';
-    } else {
-      this.confirmMessage = 'Souhaitez-vous publier cette certification ?';
-    }
-    this.confirmAction = 'onTogglePublish';
-    this.displayConfirm = true;
-  }
-
-  @action
   onCheckMarks() {
     if (this._markStore.hasState()) {
       const state = this._markStore.getState();

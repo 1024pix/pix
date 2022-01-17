@@ -365,9 +365,11 @@ describe('Acceptance | API | Certification Course', function () {
 
     beforeEach(function () {
       otherUserId = databaseBuilder.factory.buildUser().id;
-
+      const certifiationCenter = databaseBuilder.factory.buildCertificationCenter({ id: 99 });
+      const session = databaseBuilder.factory.buildSession({ certificationCenterId: certifiationCenter.id });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         hasSeenEndTestScreen: false,
+        sessionId: session.id,
       });
       userId = certificationCourse.userId;
       databaseBuilder.factory.buildCertificationIssueReport({
@@ -393,6 +395,7 @@ describe('Acceptance | API | Certification Course', function () {
           'nb-challenges': 0,
           'first-name': certificationCourse.firstName,
           'last-name': certificationCourse.lastName,
+          'is-end-test-screen-removal-enabled': true,
         },
         relationships: {
           assessment: {
@@ -423,6 +426,7 @@ describe('Acceptance | API | Certification Course', function () {
     it('should return the certification course', async function () {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      sinon.stub(features, 'endTestScreenRemovalWhiteList').value([99]);
 
       // when
       const response = await server.inject(options);

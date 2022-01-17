@@ -8,6 +8,7 @@ const usecases = require('../../domain/usecases');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const { isEndTestScreenRemovalEnabledBySessionId } = require('../../domain/services/end-test-screen-removal-service');
 
 module.exports = {
   async getCertificationDetails(request) {
@@ -65,8 +66,8 @@ module.exports = {
     const userId = request.auth.credentials.userId;
 
     const certificationCourse = await usecases.getCertificationCourse({ userId, certificationCourseId });
-
-    return certificationCourseSerializer.serialize(certificationCourse);
+    const isEndScreenRemoveEnabled = await isEndTestScreenRemovalEnabledBySessionId(certificationCourse.getSessionId());
+    return certificationCourseSerializer.serialize(certificationCourse, isEndScreenRemoveEnabled);
   },
 
   async getCertifiedProfile(request) {

@@ -81,7 +81,7 @@
       <div class="pix-modal-body pix-modal-body--with-padding">
         <div class="app-modal-body__attention">Vous êtes sur le point de finaliser cette session.</div>
         <div class="app-modal-body__warning">
-          {{#if this.hasUncheckedHasSeenEndTestScreen}}
+          {{#if (and this.hasUncheckedHasSeenEndTestScreen this.shouldDisplayHasSeenEndTestScreenCheckbox)}}
             <p class="app-modal-body__contextual">La case "Écran de fin du test vu" n'est pas cochée pour
               {{this.uncheckedHasSeenEndTestScreenCount}}
               candidat(s)</p>
