@@ -34,6 +34,11 @@ export default Factory.extend({
     type: 'CAMPAIGN',
   }),
 
+  ofFlashCampaignType: trait({
+    type: 'CAMPAIGN',
+    method: 'FLASH',
+  }),
+
   withCurrentChallengeTimeout: trait({
     lastQuestionState: 'timeout',
   }),

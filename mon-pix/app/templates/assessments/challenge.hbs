@@ -34,7 +34,6 @@
   </div>
 
   <main class="challenge__content rounded-panel--over-background-banner">
-    {{log @model.assessment.isFlash}}
     <ProgressBar @assessment={{@model.assessment}} @currentChallengeNumber={{@model.currentChallengeNumber}} />
 
     {{#if this.displayTimedChallengeInstructions}}
