@@ -15,15 +15,26 @@ exports.register = async (server) => {
           allow: 'application/x-www-form-urlencoded',
         },
         validate: {
-          payload: Joi.object().required().keys({
-            grant_type: 'password',
-            username: Joi.string().required(),
-            password: Joi.string().required(),
-            scope: Joi.string(),
-          }),
+          payload: Joi.alternatives().try(
+            Joi.object().required().keys({
+              grant_type: 'password',
+              username: Joi.string().required(),
+              password: Joi.string().required(),
+              scope: Joi.string(),
+            }),
+            Joi.object().required().keys({
+              grant_type: 'refresh_token',
+              refresh_token: Joi.string(),
+              scope: Joi.string(),
+            })
+          ),
         },
-        handler: AuthenticationController.authenticateUser,
+        handler: AuthenticationController.createToken,
         tags: ['api'],
+        notes: [
+          "Cette route permet d'obtenir un refresh token et access token à partir d'un couple identifiant / mot de passe" +
+            " ou un access token à partir d'un refresh token valide.",
+        ],
       },
     },
     {
@@ -91,11 +102,6 @@ exports.register = async (server) => {
         tags: ['api'],
       },
     },
-
-    /**
-     * This endpoint does nothing and exists only because it is required by
-     * Ember Simple Auth addon, for OAuth 2 "Password Grant" strategy.
-     */
     {
       method: 'POST',
       path: '/api/revoke',
@@ -105,10 +111,12 @@ exports.register = async (server) => {
           allow: 'application/x-www-form-urlencoded',
         },
         validate: {
-          payload: Joi.object().required().keys({
-            token: Joi.string().required(),
-            token_type_hint: 'access_token',
-          }),
+          payload: Joi.object()
+            .required()
+            .keys({
+              token: Joi.string().required(),
+              token_type_hint: ['access_token', 'refresh_token'],
+            }),
           failAction: (request, h) => {
             return sendJsonApiError(
               new BadRequestError('The server could not understand the request due to invalid token.'),
@@ -116,7 +124,8 @@ exports.register = async (server) => {
             );
           },
         },
-        handler: (request, h) => h.response(),
+        handler: AuthenticationController.revokeToken,
+        notes: ['- Cette route permet de supprimer le refresh token du temporary storage'],
         tags: ['api'],
       },
     },

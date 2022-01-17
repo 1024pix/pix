@@ -27,6 +27,10 @@ class RedisTemporaryStorage extends TemporaryStorage {
     const value = await this._client.get(key);
     return JSON.parse(value);
   }
+
+  async delete(key) {
+    await this._client.del(key);
+  }
 }
 
 module.exports = RedisTemporaryStorage;

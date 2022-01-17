@@ -1,13 +1,23 @@
 const jsonwebtoken = require('jsonwebtoken');
 const compareSnapshotCommand = require('cypress-visual-regression/dist/command');
 
+function getLoginBody(username, password) {
+  return {
+    username,
+    password,
+    grant_type: "password",
+  }
+}
+
 function setEmberSimpleAuthSession(response) {
   window.localStorage.setItem('ember_simple_auth-session', JSON.stringify({
     authenticated: {
       authenticator: 'authenticator:oauth2',
       token_type: 'bearer',
       access_token: response.body.access_token,
-      user_id: response.body.user_id
+      user_id: response.body.user_id,
+      refresh_token: response.body.refresh_token,
+      expires_in: 1000,
     }
   }));
 }
@@ -19,10 +29,7 @@ Cypress.Commands.add('login', (username, password) => {
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
     form: true,
-    body: {
-      username,
-      password,
-    }
+    body: getLoginBody(username, password)
   }).then(setEmberSimpleAuthSession);
   cy.wait(['@getCurrentUser']);
 });
@@ -34,10 +41,7 @@ Cypress.Commands.add('loginOrga', (username, password) => {
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
     form: true,
-    body: {
-      username,
-      password,
-    }
+    body: getLoginBody(username, password)
   }).then(setEmberSimpleAuthSession);
   cy.wait(['@getCurrentUser']);
 });
@@ -49,10 +53,7 @@ Cypress.Commands.add('loginCertif', (username, password) => {
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
     form: true,
-    body: {
-      username,
-      password,
-    }
+    body: getLoginBody(username, password)
   }).then(setEmberSimpleAuthSession);
   cy.wait(['@getCurrentUser']);
 });
@@ -64,10 +65,7 @@ Cypress.Commands.add('loginAdmin', (username, password) => {
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
     form: true,
-    body: {
-      username,
-      password,
-    }
+    body: getLoginBody(username, password)
   }).then((response) => {
     window.localStorage.setItem('ember_simple_auth-session', JSON.stringify({
       authenticated: {

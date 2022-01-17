@@ -17,6 +17,10 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
   get(key) {
     return this._client.get(key);
   }
+
+  delete(key) {
+    return this._client.del(key);
+  }
 }
 
 module.exports = InMemoryTemporaryStorage;

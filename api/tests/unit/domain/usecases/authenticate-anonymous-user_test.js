@@ -37,6 +37,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
       lang: lang,
     });
     userRepository.create.resolves({ id: 1 });
+    tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 123 });
 
     // when
     await authenticateAnonymousUser({ campaignCode, lang, campaignToJoinRepository, userRepository, tokenService });
@@ -46,17 +47,26 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     expect(userRepository.create).to.have.been.calledWith({ user: expectedUser });
   });
 
-  it('should create an access token', async function () {
+  it('should create and return an access token', async function () {
     // given
     const userId = 1;
+    const accessToken = 'access.token';
 
     userRepository.create.resolves({ id: userId });
+    tokenService.createAccessTokenFromUser
+      .withArgs(userId, 'pix')
+      .returns({ accessToken, expirationDelaySeconds: 1000 });
 
     // when
-    await authenticateAnonymousUser({ campaignCode, campaignToJoinRepository, userRepository, tokenService });
+    const result = await authenticateAnonymousUser({
+      campaignCode,
+      campaignToJoinRepository,
+      userRepository,
+      tokenService,
+    });
 
     // then
-    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(userId, 'pix');
+    expect(result).to.equal(accessToken);
   });
 
   it('should throw a UserCantBeCreatedError', async function () {

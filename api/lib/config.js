@@ -1,5 +1,6 @@
 const path = require('path');
 const moment = require('moment');
+const ms = require('ms');
 
 const { getArrayOfStrings } = require('../lib/infrastructure/utils/string-utils');
 
@@ -96,7 +97,8 @@ module.exports = (function () {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: process.env.TOKEN_LIFE_SPAN || '7d',
+      accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '7d'),
+      refreshTokenLifespanMs: ms(process.env.REFRESH_TOKEN_LIFESPAN || '7d'),
       tokenForCampaignResultLifespan: '1h',
       tokenForStudentReconciliationLifespan: '1h',
     },
@@ -267,7 +269,6 @@ module.exports = (function () {
     config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
 
     config.authentication.secret = 'test-jwt-key';
-    config.authentication.tokenLifespan = '1d';
 
     config.temporaryKey.secret = 'test-jwt-key';
 

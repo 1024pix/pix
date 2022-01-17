@@ -74,5 +74,29 @@ describe('Unit | Controller | pole-emplois-controller', function () {
       //then
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 7 });
     });
+
+    it('should return access token and id token', async function () {
+      // given
+      const request = { query: { 'authentication-key': 'abcde' } };
+      const userId = 7;
+      const idToken = 1;
+      const accessToken = 'access.token';
+      sinon
+        .stub(usecases, 'createUserFromPoleEmploi')
+        .withArgs({ authenticationKey: 'abcde' })
+        .resolves({ userId, idToken });
+      sinon.stub(userRepository, 'updateLastLoggedAt');
+      sinon
+        .stub(tokenService, 'createAccessTokenFromUser')
+        .withArgs(userId, 'pole_emploi_connect')
+        .returns({ accessToken, expirationDelaySeconds: 1000 });
+
+      // when
+      const result = await poleEmploiController.createUser(request, hFake);
+
+      //then
+      expect(result.source.access_token).to.equal(accessToken);
+      expect(result.source.id_token).to.equal(idToken);
+    });
   });
 });
