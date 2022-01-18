@@ -214,10 +214,10 @@
           "url": "https://support.pix.org/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
         },
         "message": "Well done, {fullName},'<br>'your profile can now be certified.",
-        "pix-plus-edu-autonome-eligibility": "You are also eligible for the Pix+ Édu Autonome certification.",
         "pix-plus-edu-avance-eligibility": "You are also eligible for the Pix+ Édu Avancé certification.",
+        "pix-plus-edu-confirme-eligibility": "You are also eligible for the Pix+ Édu Confirmé certification.",
         "pix-plus-edu-expert-eligibility": "You are also eligible for the Pix+ Édu Expert certification.",
-        "pix-plus-edu-formateur-eligibility": "You are also eligible for the Pix+ Édu Formateur certification.",
+        "pix-plus-edu-initie-eligibility": "You are also eligible for the Pix+ Édu Initié (entrée dans le métier) certification.",
         "pix-plus-droit-expert-eligibility": "You are also eligible for the Pix+ Droit Expert certification.",
         "pix-plus-droit-maitre-eligibility": "You are also eligible for the Pix+ Droit Maître certification."
       },

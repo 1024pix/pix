@@ -6,10 +6,10 @@ module.exports = function buildCertificationEligibility({
   cleaCertificationEligible = false,
   pixPlusDroitMaitreCertificationEligible = false,
   pixPlusDroitExpertCertificationEligible = true,
-  pixPlusEduAutonomeCertificationEligible = false,
+  pixPlusEduInitieCertificationEligible = false,
+  pixPlusEduConfirmeCertificationEligible = false,
   pixPlusEduAvanceCertificationEligible = false,
   pixPlusEduExpertCertificationEligible = false,
-  pixPlusEduFormateurCertificationEligible = false,
 } = {}) {
   return new CertificationEligibility({
     id,
@@ -17,9 +17,9 @@ module.exports = function buildCertificationEligibility({
     cleaCertificationEligible,
     pixPlusDroitMaitreCertificationEligible,
     pixPlusDroitExpertCertificationEligible,
-    pixPlusEduAutonomeCertificationEligible,
+    pixPlusEduInitieCertificationEligible,
+    pixPlusEduConfirmeCertificationEligible,
     pixPlusEduAvanceCertificationEligible,
     pixPlusEduExpertCertificationEligible,
-    pixPlusEduFormateurCertificationEligible,
   });
 };
