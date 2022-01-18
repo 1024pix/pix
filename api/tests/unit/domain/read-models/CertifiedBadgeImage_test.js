@@ -20,27 +20,27 @@ const badgeInfos = {
     isTemporaryBadge: false,
   },
   [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME]: {
-    path: 'https://images.pix.fr/badges-certifies/pix-edu/autonome.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Autonome',
   },
   [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE]: {
-    path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Avancé',
   },
   [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]: {
-    path: 'https://images.pix.fr/badges-certifies/pix-edu/avance.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Avancé',
   },
   [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]: {
-    path: 'https://images.pix.fr/badges-certifies/pix-edu/expert.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Expert',
   },
   [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR]: {
-    path: 'https://images.pix.fr/badges-certifies/pix-edu/formateur.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Formateur',
   },
