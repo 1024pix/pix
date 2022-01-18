@@ -81,20 +81,20 @@ class CertificationAttestation {
     }
 
     if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME) {
-      return 'Autonome';
+      return 'Initié (entrée dans le métier)';
     }
     if (
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(
         acquiredPixPlusEduCertification
       )
     ) {
-      return 'Avancé';
+      return 'Confirmé';
     }
     if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
-      return 'Expert';
+      return 'Avancé';
     }
     if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
-      return 'Formateur';
+      return 'Expert';
     }
   }
 

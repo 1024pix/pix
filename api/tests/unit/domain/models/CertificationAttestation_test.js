@@ -148,11 +148,14 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
   context('#getPixPlusEduBadgeDisplayName', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, expectedDisplayName: 'Autonome' },
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedDisplayName: 'Expert' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, expectedDisplayName: 'Formateur' },
+      {
+        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        expectedDisplayName: 'Initié (entrée dans le métier)',
+      },
+      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Confirmé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Confirmé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedDisplayName: 'Avancé' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, expectedDisplayName: 'Expert' },
     ].forEach(({ badgeKey, expectedDisplayName }) => {
       it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
         // given
