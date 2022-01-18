@@ -55,6 +55,12 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         tubeId: 'tubeId',
       },
     ],
+    challenges: [
+      {
+        id: 'challengeId',
+        skillIds: ['skillId'],
+      },
+    ],
   };
 
   beforeEach(async function () {
@@ -114,6 +120,8 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               attributes: {
                 'practical-title': 'Titre pratique',
                 'practical-description': 'description pratique',
+                mobile: false,
+                tablet: false,
               },
             },
 
