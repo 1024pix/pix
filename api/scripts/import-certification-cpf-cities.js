@@ -13,6 +13,27 @@ const POSTAL_CODE_COLUMN_NAME = 'code_postal';
 const INSEE_CODE_COLUMN_NAME = 'code_commune_insee';
 const ALTERNATE_CITY_COLUMN_NAME = 'ligne_5';
 
+const specificCities = [
+  {
+    name: 'PARIS',
+    postalCode: 75000,
+    INSEECode: 75056,
+    isActualName: true,
+  },
+  {
+    name: 'LYON',
+    postalCode: 69000,
+    INSEECode: 69123,
+    isActualName: true,
+  },
+  {
+    name: 'MARSEILLE',
+    postalCode: 13000,
+    INSEECode: 13055,
+    isActualName: true,
+  },
+];
+
 function buildCities({ csvData }) {
   const citiesWithAlternates = csvData.flatMap((data) => {
     const result = [];
@@ -47,7 +68,7 @@ async function main(filePath) {
     console.log('✅');
 
     console.log('Retrieving postal code, INSEE code and city name... ');
-    const cities = buildCities({ csvData });
+    const cities = buildCities({ csvData }).concat(specificCities);
     console.log('✅');
 
     console.log('Inserting cities in database... ');
@@ -57,8 +78,8 @@ async function main(filePath) {
     const insertedLines = _getInsertedLineNumber(batchInfo);
     console.log('✅');
     trx.commit();
-    console.log(`Added lines: ${insertedLines}`);
-    console.log('\nDone.');
+    console.log(`Added lines: ${insertedLines} (${specificCities.length} exception cases)`);
+    console.log('Done.');
   } catch (error) {
     if (trx) {
       trx.rollback();
