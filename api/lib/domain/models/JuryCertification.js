@@ -123,22 +123,22 @@ class JuryCertification {
     return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
   }
 
-  getPixPlusEduAutonomeCertificationStatus() {
+  getPixPlusEduInitieCertificationStatus() {
     return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME]);
   }
 
-  getPixPlusEduAvanceCertificationStatus() {
+  getPixPlusEduConfirmeCertificationStatus() {
     return this._getStatusFromPartnerCertification([
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
     ]);
   }
 
-  getPixPlusEduExpertCertificationStatus() {
+  getPixPlusEduAvanceCertificationStatus() {
     return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
   }
 
-  getPixPlusEduFormateurCertificationStatus() {
+  getPixPlusEduExpertCertificationStatus() {
     return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR]);
   }
 

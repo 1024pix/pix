@@ -90,10 +90,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             'clea-certification-status': 'not_taken',
             'pix-plus-droit-maitre-certification-status': 'acquired',
             'pix-plus-droit-expert-certification-status': 'rejected',
-            'pix-plus-edu-autonome-certification-status': 'not_taken',
-            'pix-plus-edu-avance-certification-status': 'acquired',
-            'pix-plus-edu-expert-certification-status': 'rejected',
-            'pix-plus-edu-formateur-certification-status': 'not_taken',
+            'pix-plus-edu-initie-certification-status': 'not_taken',
+            'pix-plus-edu-confirme-certification-status': 'acquired',
+            'pix-plus-edu-avance-certification-status': 'rejected',
+            'pix-plus-edu-expert-certification-status': 'not_taken',
           },
           relationships: {
             'certification-issue-reports': {
