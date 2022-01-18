@@ -46,10 +46,10 @@ export default class Certification extends Model {
   @attr() cleaCertificationStatus;
   @attr() pixPlusDroitMaitreCertificationStatus;
   @attr() pixPlusDroitExpertCertificationStatus;
-  @attr() pixPlusEduAutonomeCertificationStatus;
+  @attr() pixPlusEduInitieCertificationStatus;
+  @attr() pixPlusEduConfirmeCertificationStatus;
   @attr() pixPlusEduAvanceCertificationStatus;
   @attr() pixPlusEduExpertCertificationStatus;
-  @attr() pixPlusEduFormateurCertificationStatus;
 
   @hasMany('certification-issue-report') certificationIssueReports;
 
@@ -109,9 +109,13 @@ export default class Certification extends Model {
     return partnerCertificationStatusToDisplayName[this.pixPlusDroitExpertCertificationStatus];
   }
 
-  @computed('pixPlusEduAutonomeCertificationStatus')
-  get pixPlusEduAutonomeCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduAutonomeCertificationStatus];
+  @computed('pixPlusEduInitieCertificationStatus')
+  get pixPlusEduInitieCertificationStatusLabel() {
+    return partnerCertificationStatusToDisplayName[this.pixPlusEduInitieCertificationStatus];
+  }
+  @computed('pixPlusEduConfirmeCertificationStatus')
+  get pixPlusEduConfirmeCertificationStatusLabel() {
+    return partnerCertificationStatusToDisplayName[this.pixPlusEduConfirmeCertificationStatus];
   }
   @computed('pixPlusEduAvanceCertificationStatus')
   get pixPlusEduAvanceCertificationStatusLabel() {
@@ -120,10 +124,6 @@ export default class Certification extends Model {
   @computed('pixPlusEduExpertCertificationStatus')
   get pixPlusEduExpertCertificationStatusLabel() {
     return partnerCertificationStatusToDisplayName[this.pixPlusEduExpertCertificationStatus];
-  }
-  @computed('pixPlusEduFormateurCertificationStatus')
-  get pixPlusEduFormateurCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduFormateurCertificationStatus];
   }
 
   get wasRegisteredBeforeCPF() {

@@ -11,10 +11,10 @@ module.exports = {
           cleaCertificationStatus: juryCertification.getCleaCertificationStatus(),
           pixPlusDroitMaitreCertificationStatus: juryCertification.getPixPlusDroitMaitreCertificationStatus(),
           pixPlusDroitExpertCertificationStatus: juryCertification.getPixPlusDroitExpertCertificationStatus(),
-          pixPlusEduAutonomeCertificationStatus: juryCertification.getPixPlusEduAutonomeCertificationStatus(),
+          pixPlusEduInitieCertificationStatus: juryCertification.getPixPlusEduInitieCertificationStatus(),
+          pixPlusEduConfirmeCertificationStatus: juryCertification.getPixPlusEduConfirmeCertificationStatus(),
           pixPlusEduAvanceCertificationStatus: juryCertification.getPixPlusEduAvanceCertificationStatus(),
           pixPlusEduExpertCertificationStatus: juryCertification.getPixPlusEduExpertCertificationStatus(),
-          pixPlusEduFormateurCertificationStatus: juryCertification.getPixPlusEduFormateurCertificationStatus(),
         };
       },
       attributes: [
@@ -42,10 +42,10 @@ module.exports = {
         'cleaCertificationStatus',
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',
-        'pixPlusEduAutonomeCertificationStatus',
+        'pixPlusEduInitieCertificationStatus',
+        'pixPlusEduConfirmeCertificationStatus',
         'pixPlusEduAvanceCertificationStatus',
         'pixPlusEduExpertCertificationStatus',
-        'pixPlusEduFormateurCertificationStatus',
         'certificationIssueReports',
       ],
       certificationIssueReports: {

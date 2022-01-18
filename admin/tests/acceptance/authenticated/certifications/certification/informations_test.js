@@ -44,10 +44,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       cleaCertificationStatus: 'not_taken',
       pixPlusDroitMaitreCertificationStatus: 'not_taken',
       pixPlusDroitExpertCertificationStatus: 'not_taken',
-      pixPlusEduAutonomeCertificationStatus: 'not_taken',
+      pixPlusEduInitieCertificationStatus: 'not_taken',
+      pixPlusEduConfirmeCertificationStatus: 'not_taken',
       pixPlusEduAvanceCertificationStatus: 'not_taken',
       pixPlusEduExpertCertificationStatus: 'not_taken',
-      pixPlusEduFormateurCertificationStatus: 'not_taken',
     });
   });
 
@@ -67,10 +67,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.contains('Certification CléA numérique : Non passée');
     assert.contains('Certification Pix+ Droit Maître : Non passée');
     assert.contains('Certification Pix+ Droit Expert : Non passée');
-    assert.contains('Certification Pix+ Édu Autonome : Non passée');
+    assert.contains('Certification Pix+ Édu Initié (entrée dans le métier) : Non passée');
+    assert.contains('Certification Pix+ Édu Confirmé : Non passée');
     assert.contains('Certification Pix+ Édu Avancé : Non passée');
     assert.contains('Certification Pix+ Édu Expert : Non passée');
-    assert.contains('Certification Pix+ Édu Formateur : Non passée');
   });
 
   module('Candidate information edition', function () {
