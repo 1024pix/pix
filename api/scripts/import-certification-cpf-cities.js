@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-
-// Usage: node import-certification-cpf-cities path/file.csv
+require('dotenv').config();
+const logger = require('../lib/infrastructure/logger');
+// Usage: node scripts/import-certification-cpf-cities path/file.csv
 // File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
 
-'use strict';
+('use strict');
 const { parseCsv, checkCsvHeader } = require('./helpers/csvHelpers');
 const { knex } = require('../lib/infrastructure/bookshelf');
 const uniqBy = require('lodash/uniqBy');
@@ -33,7 +34,7 @@ const specificCities = [
 const headers = {
   cityName: 'nom_de_la_commune',
   postalCode: 'code_postal',
-  INSEECode: 'code_commune_insee',
+  inseeCode: 'code_commune_insee',
   cityAlternateName: 'ligne_5',
 };
 
@@ -43,7 +44,7 @@ function buildCities({ csvData }) {
     result.push({
       name: data[headers.cityName],
       postalCode: data[headers.postalCode],
-      INSEECode: data[headers.INSEECode],
+      INSEECode: data[headers.inseeCode],
       isActualName: true,
     });
 
@@ -51,7 +52,7 @@ function buildCities({ csvData }) {
       result.push({
         name: data[headers.cityAlternateName],
         postalCode: data[headers.postalCode],
-        INSEECode: data[headers.INSEECode],
+        INSEECode: data[headers.inseeCode],
         isActualName: false,
       });
     }
@@ -62,36 +63,36 @@ function buildCities({ csvData }) {
 }
 
 async function main(filePath) {
-  console.log('Starting script import-certification-cpf-cities');
+  logger.info('Starting script import-certification-cpf-cities');
 
   let trx;
   try {
-    console.log(`Checking ${filePath} data file...`);
+    logger.info(`Checking ${filePath} data file...`);
     await checkCsvHeader({ filePath, requiredFieldNames: values(headers) });
-    console.log('✅');
+    logger.info('✅ ');
 
-    console.log('Reading and parsing csv data file... ');
+    logger.info('Reading and parsing csv data file... ');
     const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
-    console.log('✅');
+    logger.info('✅ ');
 
-    console.log('Retrieving postal code, INSEE code and city name... ');
+    logger.info('Retrieving postal code, INSEE code and city name... ');
     const cities = buildCities({ csvData }).concat(specificCities);
-    console.log('✅');
+    logger.info('✅ ');
 
-    console.log('Inserting cities in database... ');
+    logger.info('Inserting cities in database... ');
     trx = await knex.transaction();
     await trx('certification-cpf-cities').del();
     const batchInfo = await trx.batchInsert('certification-cpf-cities', cities);
     const insertedLines = _getInsertedLineNumber(batchInfo);
-    console.log('✅');
+    logger.info('✅ ');
     trx.commit();
-    console.log(`Added lines: ${insertedLines} (${specificCities.length} exception cases)`);
-    console.log('Done.');
+    logger.info(`Added lines: ${insertedLines} (${specificCities.length} exception cases)`);
+    logger.info('Done.');
   } catch (error) {
     if (trx) {
       trx.rollback();
     }
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   }
 }
@@ -101,7 +102,7 @@ if (require.main === module) {
   main(filePath).then(
     () => process.exit(0),
     (err) => {
-      console.error(err);
+      logger.error(err);
       process.exit(1);
     }
   );
