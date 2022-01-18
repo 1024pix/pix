@@ -14,8 +14,6 @@ export default class Campaign extends Model {
   @attr('string') idPixLabel;
   @attr('string') customLandingPageText;
   @attr('string') tokenForCampaignResults;
-  @attr('string') creatorLastName;
-  @attr('string') creatorFirstName;
   @attr('string') ownerId;
   @attr('string') ownerLastName;
   @attr('string') ownerFirstName;
@@ -31,7 +29,6 @@ export default class Campaign extends Model {
   @attr('number') averageResult;
   @attr('boolean') multipleSendings;
 
-  @belongsTo('user') creator;
   @belongsTo('user') owner;
   @belongsTo('organization') organization;
   @belongsTo('target-profile') targetProfile;
@@ -49,10 +46,6 @@ export default class Campaign extends Model {
 
   get hasStages() {
     return this.targetProfileHasStage;
-  }
-
-  get creatorFullName() {
-    return `${this.creatorFirstName} ${this.creatorLastName}`;
   }
 
   get ownerFullName() {

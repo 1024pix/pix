@@ -108,12 +108,12 @@ module('Unit | Model | campaign', function (hooks) {
     });
   });
 
-  module('#creatorFullName', function () {
+  module('#ownerFullName', function () {
     test('it should return the fullname, combination of last and first name', function (assert) {
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('campaign', { creatorFirstName: 'Jean-Baptiste', creatorLastName: 'Poquelin' });
+      const model = store.createRecord('campaign', { ownerFirstName: 'Jean-Baptiste', ownerLastName: 'Poquelin' });
 
-      assert.equal(model.creatorFullName, 'Jean-Baptiste Poquelin');
+      assert.equal(model.ownerFullName, 'Jean-Baptiste Poquelin');
     });
   });
 });
