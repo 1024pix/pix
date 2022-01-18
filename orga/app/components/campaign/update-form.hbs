@@ -1,4 +1,4 @@
-<form class="form" {{on "submit" @onSubmit}}>
+<form class="form" {{on "submit" this.onSubmit}}>
   <p class="form__mandatory-fields-information" aria-hidden="true">
     <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
     {{t "common.form.mandatory-fields"}}
@@ -11,12 +11,18 @@
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
+      class="form-control"
       maxlength="255"
-      value={{@campaign.name}}
-      {{on "change" this.onChangeCampaignName}}
-      required={{true}}
       aria-required={{true}}
+      required={{true}}
+      @value={{this.name}}
+      {{on "change" this.onChangeCampaignName}}
     />
+    {{#if @campaign.errors.name}}
+      <div class="form__error error-message">
+        {{display-campaign-errors @campaign.errors.name}}
+      </div>
+    {{/if}}
   </div>
 
   <div class="form__field-with-info form__field">
@@ -55,11 +61,17 @@
       <PixInput
         @id="campaign-title"
         @name="campaign-title"
+        class="form-control"
         @label={{t "pages.campaign-modification.personalised-test-title"}}
         maxlength="50"
-        @value={{@campaign.title}}
+        @value={{this.title}}
         {{on "change" this.onChangeCampaignTitle}}
       />
+      {{#if @campaign.errors.title}}
+        <div class="form__error error-message">
+          {{display-campaign-errors @campaign.errors.title}}
+        </div>
+      {{/if}}
     </div>
   {{/if}}
 
@@ -67,10 +79,17 @@
     <PixTextarea
       @id="campaign-custom-landing-page-text"
       @label={{t "pages.campaign-modification.landing-page-text"}}
+      class="form-control"
       @maxlength={{5000}}
-      @value={{@campaign.customLandingPageText}}
+      @value={{this.customLandingPageText}}
+      {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows={{8}}
     />
+    {{#if @campaign.errors.customLandingPageText}}
+      <div class="form__error error-message">
+        {{display-campaign-errors @campaign.errors.customLandingPageText}}
+      </div>
+    {{/if}}
   </div>
 
   <div class="form__validation">

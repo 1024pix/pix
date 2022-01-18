@@ -393,6 +393,7 @@
         "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
       },
       "campaign-name": "Name of the campaign",
+      "campaign-modification-success-message": "The changes have been successfully saved.",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the personalised test"
     },
