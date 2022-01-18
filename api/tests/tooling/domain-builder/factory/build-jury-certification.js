@@ -1,6 +1,4 @@
 const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
-const buildCleaCertificationResult = require('./build-clea-certification-result');
-const buildPixPlusDroitCertificationResult = require('./build-pix-plus-droit-certification-result');
 const buildCertificationIssueReport = require('./build-certification-issue-report');
 const buildCompetenceMark = require('./build-competence-mark');
 
@@ -27,10 +25,8 @@ const buildJuryCertification = function ({
   commentForOrganization = 'comment organization',
   commentForJury = 'comment jury',
   competenceMarks = [buildCompetenceMark()],
-  cleaCertificationResult = buildCleaCertificationResult.notTaken(),
-  pixPlusDroitMaitreCertificationResult = buildPixPlusDroitCertificationResult.maitre.notTaken(),
-  pixPlusDroitExpertCertificationResult = buildPixPlusDroitCertificationResult.expert.notTaken(),
   certificationIssueReports = [buildCertificationIssueReport()],
+  partnerCertifications = [],
 } = {}) {
   return new JuryCertification({
     certificationCourseId,
@@ -55,10 +51,8 @@ const buildJuryCertification = function ({
     commentForOrganization,
     commentForJury,
     competenceMarks,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
     certificationIssueReports,
+    partnerCertifications,
   });
 };
 

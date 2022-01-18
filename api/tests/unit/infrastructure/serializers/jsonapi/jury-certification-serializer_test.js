@@ -1,5 +1,11 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+} = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
   describe('#serialize', function () {
@@ -13,11 +19,6 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
       });
       const certificationIssueReports = [certificationIssueReport];
       const competenceMarks = [domainBuilder.buildCompetenceMark()];
-      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-      const pixPlusDroitMaitreCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
-      const pixPlusDroitExpertCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
       const juryCertification = domainBuilder.buildJuryCertification({
         certificationCourseId,
         sessionId: 11,
@@ -41,10 +42,19 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commentForOrganization: 'comment',
         commentForJury: 'ça va',
         competenceMarks,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
         certificationIssueReports,
+        partnerCertifications: [
+          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: true }),
+          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: false }),
+          domainBuilder.buildPartnerCertification({
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+            acquired: true,
+          }),
+          domainBuilder.buildPartnerCertification({
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+            acquired: false,
+          }),
+        ],
       });
 
       // when
@@ -80,6 +90,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             'clea-certification-status': 'not_taken',
             'pix-plus-droit-maitre-certification-status': 'acquired',
             'pix-plus-droit-expert-certification-status': 'rejected',
+            'pix-plus-edu-autonome-certification-status': 'not_taken',
+            'pix-plus-edu-avance-certification-status': 'acquired',
+            'pix-plus-edu-expert-certification-status': 'rejected',
+            'pix-plus-edu-formateur-certification-status': 'not_taken',
           },
           relationships: {
             'certification-issue-reports': {

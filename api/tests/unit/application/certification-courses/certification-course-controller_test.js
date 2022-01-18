@@ -131,10 +131,8 @@ describe('Unit | Controller | certification-course-controller', function () {
         commentForOrganization: 'comment organization',
         commentForJury: 'comment jury',
         competenceMarks: [],
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
         certificationIssueReports: [],
+        partnerCertifications: [],
       });
       sinon.stub(usecases, 'getJuryCertification').withArgs({ certificationCourseId }).resolves(juryCertification);
 
@@ -170,6 +168,10 @@ describe('Unit | Controller | certification-course-controller', function () {
           'clea-certification-status': 'not_taken',
           'pix-plus-droit-expert-certification-status': 'not_taken',
           'pix-plus-droit-maitre-certification-status': 'not_taken',
+          'pix-plus-edu-autonome-certification-status': 'not_taken',
+          'pix-plus-edu-avance-certification-status': 'not_taken',
+          'pix-plus-edu-expert-certification-status': 'not_taken',
+          'pix-plus-edu-formateur-certification-status': 'not_taken',
         },
         relationships: {
           'certification-issue-reports': {

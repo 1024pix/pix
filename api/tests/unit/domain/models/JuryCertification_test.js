@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
+const { PIX_EMPLOI_CLEA } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {
@@ -49,20 +50,16 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         ...juryCertificationBaseDTO,
         isCancelled: false,
       };
-      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const pixPlusDroitMaitreCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-      const pixPlusDroitExpertCertificationResult =
-        domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       const certificationIssueReports = [certificationIssueReport];
+      const partnerCertifications = [
+        domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+      ];
 
       // when
       const juryCertification = JuryCertification.from({
         juryCertificationDTO,
         certificationIssueReports,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
+        partnerCertifications,
       });
 
       // then
@@ -99,9 +96,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForJury: 'ça va',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
+        partnerCertifications,
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
@@ -114,19 +109,12 @@ describe('Unit | Domain | Models | JuryCertification', function () {
           isCancelled: true,
           assessmentResultStatus: 'WHATEVERIWANT',
         };
-        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-        const pixPlusDroitMaitreCertificationResult =
-          domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-        const pixPlusDroitExpertCertificationResult =
-          domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
 
         // when
         const juryCertification = JuryCertification.from({
           juryCertificationDTO,
           certificationIssueReports: [],
-          cleaCertificationResult,
-          pixPlusDroitMaitreCertificationResult,
-          pixPlusDroitExpertCertificationResult,
+          partnerCertifications: [],
         });
 
         // then
@@ -140,19 +128,12 @@ describe('Unit | Domain | Models | JuryCertification', function () {
           isCancelled: false,
           assessmentResultStatus: 'WHATEVERIWANT',
         };
-        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-        const pixPlusDroitMaitreCertificationResult =
-          domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-        const pixPlusDroitExpertCertificationResult =
-          domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
 
         // when
         const juryCertification = JuryCertification.from({
           juryCertificationDTO,
           certificationIssueReports: [],
-          cleaCertificationResult,
-          pixPlusDroitMaitreCertificationResult,
-          pixPlusDroitExpertCertificationResult,
+          partnerCertifications: [],
         });
 
         // then
