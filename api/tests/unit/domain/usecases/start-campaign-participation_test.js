@@ -5,6 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const { AlreadyExistingCampaignParticipationError } = require('../../../../lib/domain/errors');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const buildCampaign = require('../../../tooling/domain-builder/factory/build-campaign');
 
 const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
 
@@ -22,6 +23,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     campaignParticipationRepository = {
       save: () => undefined,
       findOneByCampaignIdAndUserId: () => undefined,
+      findParticipantExternalId: () => undefined,
       hasAlreadyParticipated: () => {},
       markPreviousParticipationsAsImproved: () => {},
     };
@@ -34,6 +36,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     sinon.stub(campaignToJoinRepository, 'checkCampaignIsJoinableByUser');
     sinon.stub(campaignParticipationRepository, 'save');
     sinon.stub(campaignParticipationRepository, 'findOneByCampaignIdAndUserId');
+    sinon.stub(campaignParticipationRepository, 'findParticipantExternalId');
     sinon.stub(campaignParticipationRepository, 'hasAlreadyParticipated');
     sinon.stub(campaignParticipationRepository, 'markPreviousParticipationsAsImproved');
     sinon.stub(assessmentRepository, 'save');
@@ -76,19 +79,19 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let campaignToJoin;
     let campaignParticipation;
     beforeEach(function () {
-      campaignParticipation = domainBuilder.buildCampaignParticipation({
+      campaignToJoin = domainBuilder.buildCampaignToJoin({
+        organizationId,
+        idPixLabel: null,
+      });
+      campaignParticipation = {
         status: STARTED,
         userId,
         schoolingRegistrationId,
-      });
-      campaignToJoin = domainBuilder.buildCampaignToJoin({
-        id: campaignParticipation.campaignId,
-        organizationId,
-      });
+        campaignId: campaignToJoin.id,
+      };
       campaignToJoinRepository.get
         .withArgs(campaignParticipation.campaignId, domainTransaction)
         .resolves(campaignToJoin);
-      campaignParticipation.campaign = campaignToJoin;
     });
 
     it('should link campaign participation to user schooling registration if it exists', async function () {
@@ -96,7 +99,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       assessmentRepository.save.resolves();
 
       const savedCampaignParticipation = Symbol('savedCampaignParticipation');
-      campaignParticipationRepository.save.withArgs(campaignParticipation).resolves(savedCampaignParticipation);
+      campaignParticipationRepository.save
+        .withArgs(sinon.match(campaignParticipation))
+        .resolves(savedCampaignParticipation);
       schoolingRegistrationRepository.findOneByUserIdAndOrganizationId
         .withArgs({ organizationId, userId, domainTransaction })
         .resolves({ id: schoolingRegistrationId });
@@ -123,17 +128,20 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let campaignParticipation;
 
     beforeEach(function () {
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ status: STARTED, userId });
       campaignToJoin = domainBuilder.buildCampaignToJoin({
-        id: campaignParticipation.campaignId,
+        idPixLabel: null,
         organizationIsManagingStudents: false,
         type: Campaign.types.ASSESSMENT,
         assessmentMethod: Assessment.methods.FLASH,
       });
+      campaignParticipation = campaignParticipation = {
+        status: STARTED,
+        userId,
+        campaignId: campaignToJoin.id,
+      };
       campaignToJoinRepository.get
         .withArgs(campaignParticipation.campaignId, domainTransaction)
         .resolves(campaignToJoin);
-      campaignParticipation.campaign = campaignToJoin;
     });
 
     it('should return the saved campaign participation', async function () {
@@ -141,7 +149,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       assessmentRepository.save.resolves();
 
       const savedCampaignParticipation = Symbol('savedCampaignParticipation');
-      campaignParticipationRepository.save.withArgs(campaignParticipation).resolves(savedCampaignParticipation);
+      campaignParticipationRepository.save
+        .withArgs(sinon.match(campaignParticipation))
+        .resolves(savedCampaignParticipation);
       campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId).resolves(false);
 
       // when
@@ -193,10 +203,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
     context('when the campaign allows retry', function () {
       it('should create an improving assessment', async function () {
-        campaignToJoin = domainBuilder.buildCampaignToJoin({
-          id: campaignParticipation.campaignId,
-          multipleSendings: true,
-        });
+        campaignToJoin.multipleSendings = true;
         campaignToJoinRepository.get
           .withArgs(campaignParticipation.campaignId, domainTransaction)
           .resolves(campaignToJoin);
@@ -241,16 +248,19 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let campaignParticipation;
 
     beforeEach(function () {
-      campaignParticipation = domainBuilder.buildCampaignParticipation({ status: TO_SHARE, userId });
       campaignToJoin = domainBuilder.buildCampaignToJoin({
-        id: campaignParticipation.campaignId,
+        idPixLabel: null,
         organizationIsManagingStudents: false,
         type: Campaign.types.PROFILES_COLLECTION,
       });
+      campaignParticipation = {
+        status: TO_SHARE,
+        userId,
+        campaignId: campaignToJoin.id,
+      };
       campaignToJoinRepository.get
         .withArgs(campaignParticipation.campaignId, domainTransaction)
         .resolves(campaignToJoin);
-      campaignParticipation.campaign = campaignToJoin;
     });
 
     it('should return the saved campaign participation', async function () {
@@ -258,7 +268,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       assessmentRepository.save.resolves();
 
       const savedCampaignParticipation = Symbol('savedCampaignParticipation');
-      campaignParticipationRepository.save.withArgs(campaignParticipation).resolves(savedCampaignParticipation);
+      campaignParticipationRepository.save
+        .withArgs(sinon.match(campaignParticipation))
+        .resolves(savedCampaignParticipation);
       campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId).resolves(false);
       campaignToJoinRepository.get
         .withArgs(campaignParticipation.campaignId, domainTransaction)
@@ -286,10 +298,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
     it('should throw an error if user try to participate again to a campaign which is not multiple sendings', async function () {
       // given
-      campaignToJoin = domainBuilder.buildCampaignToJoin({
-        id: campaignParticipation.campaignId,
-        multipleSendings: false,
-      });
+      campaignToJoin.multipleSendings = false;
       campaignToJoinRepository.get
         .withArgs(campaignParticipation.campaignId, domainTransaction)
         .resolves(campaignToJoin);
