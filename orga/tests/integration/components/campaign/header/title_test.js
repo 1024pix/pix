@@ -12,7 +12,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
       name: 'campagne 1',
       code: '1234PixTest',
       createdAt: new Date('2021-04-14'),
-      creatorFullName: 'Mulan Fa',
+      ownerFullName: 'Mulan Fa',
     };
 
     // when
