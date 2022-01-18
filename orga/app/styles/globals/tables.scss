@@ -97,6 +97,10 @@ th::first-letter {
 .table__column {
   width: 16%;
 
+  col {
+    min-width: 100px;
+  }
+
   &--center {
     text-align: center;
   }
@@ -108,6 +112,7 @@ th::first-letter {
 
   &--small {
     width: 6%;
+    max-width: 150px;
   }
 
   &--wide {
@@ -146,7 +151,6 @@ th::first-letter {
 
 @media (max-width: 768px) {
   .table {
-    display: block;
     width: 100%;
     overflow-x: auto;
   }

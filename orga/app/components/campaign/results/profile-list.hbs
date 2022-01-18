@@ -13,6 +13,17 @@
 
   <div class="panel">
     <table class="table content-text content-text--small">
+      <colgroup class="table__column">
+        <col />
+        <col />
+        {{#if @campaign.idPixLabel}}
+          <col />
+        {{/if}}
+        <col />
+        <col />
+        <col class="hide-on-mobile" />
+        <col class="hide-on-mobile" />
+      </colgroup>
       <thead>
         <tr>
           <Table::Header>{{t "pages.profiles-list.table.column.last-name"}}</Table::Header>
