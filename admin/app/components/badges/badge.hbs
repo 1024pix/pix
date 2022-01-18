@@ -18,12 +18,14 @@
           <form class="form" {{on "submit" this.updateBadge}}>
             <div class="badge-edit-form__field">
               <label for="title" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
                 Titre :
               </label>
               <Input id="title" @type="text" class="form-control" @value={{this.form.title}} required={{true}} />
             </div>
             <div class="badge-edit-form__field">
               <label for="key" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
                 Clé :
               </label>
               <Input id="key" @type="text" class="form-control" @value={{this.form.key}} required={{true}} />
@@ -36,12 +38,14 @@
             </div>
             <div class="badge-edit-form__field">
               <label for="imageUrl" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
                 Nom de l'image (svg) :
               </label>
               <Input id="imageUrl" @type="text" class="form-control" @value={{this.form.imageName}} required={{true}} />
             </div>
             <div class="badge-edit-form__field">
               <label for="altMessage" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
                 Message Alternatif :
               </label>
               <Input
