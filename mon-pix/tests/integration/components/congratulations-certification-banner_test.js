@@ -1,4 +1,3 @@
-import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
@@ -53,8 +52,12 @@ describe('Integration | Component | Congratulations Certification Banner', funct
       expectedMessage: 'Vous êtes également éligible à la certification Pix+ Droit Expert.',
     },
     {
-      record: { pixPlusEduAutonomeCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Autonome.',
+      record: { pixPlusEduInitieCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Initié (entrée dans le métier).',
+    },
+    {
+      record: { pixPlusEduConfirmeCertificationEligible: true },
+      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Confirmé.',
     },
     {
       record: { pixPlusEduAvanceCertificationEligible: true },
@@ -64,15 +67,11 @@ describe('Integration | Component | Congratulations Certification Banner', funct
       record: { pixPlusEduExpertCertificationEligible: true },
       expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Expert.',
     },
-    {
-      record: { pixPlusEduFormateurCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Formateur.',
-    },
   ].forEach(({ record, expectedMessage }) => {
     it(`renders "${expectedMessage}" when ${Object.keys(record)[0]} is ${Object.values(record)[0]}`, async function () {
       // given
       const store = this.owner.lookup('service:store');
-      const certificationEligibility = run(() => store.createRecord('is-certifiable', record));
+      const certificationEligibility = store.createRecord('is-certifiable', record);
       this.set('certificationEligibility', certificationEligibility);
       this.set('fullName', 'Fifi Brindacier');
 

@@ -34,7 +34,7 @@ class CertifiedBadgeImage {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
         isTemporaryBadge: true,
-        levelName: 'Autonome',
+        levelName: 'Initié (entrée dans le métier)',
       });
     }
 
@@ -42,7 +42,7 @@ class CertifiedBadgeImage {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
         isTemporaryBadge: true,
-        levelName: 'Avancé',
+        levelName: 'Confirmé',
       });
     }
 
@@ -50,7 +50,7 @@ class CertifiedBadgeImage {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
         isTemporaryBadge: true,
-        levelName: 'Avancé',
+        levelName: 'Confirmé',
       });
     }
 
@@ -58,7 +58,7 @@ class CertifiedBadgeImage {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
         isTemporaryBadge: true,
-        levelName: 'Expert',
+        levelName: 'Avancé',
       });
     }
 
@@ -66,7 +66,7 @@ class CertifiedBadgeImage {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
         isTemporaryBadge: true,
-        levelName: 'Formateur',
+        levelName: 'Expert',
       });
     }
   }

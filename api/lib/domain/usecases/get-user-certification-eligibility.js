@@ -26,10 +26,10 @@ module.exports = async function getUserCertificationEligibility({
   const {
     pixPlusDroitMaitreCertificationEligible,
     pixPlusDroitExpertCertificationEligible,
-    pixPlusEduAutonomeCertificationEligible,
+    pixPlusEduInitieCertificationEligible,
+    pixPlusEduConfirmeCertificationEligible,
     pixPlusEduAvanceCertificationEligible,
     pixPlusEduExpertCertificationEligible,
-    pixPlusEduFormateurCertificationEligible,
   } = await _computePixPlusCertificationEligibility({
     userId,
     pixCertificationEligible,
@@ -42,10 +42,10 @@ module.exports = async function getUserCertificationEligibility({
     cleaCertificationEligible,
     pixPlusDroitMaitreCertificationEligible,
     pixPlusDroitExpertCertificationEligible,
-    pixPlusEduAutonomeCertificationEligible,
+    pixPlusEduInitieCertificationEligible,
+    pixPlusEduConfirmeCertificationEligible,
     pixPlusEduAvanceCertificationEligible,
     pixPlusEduExpertCertificationEligible,
-    pixPlusEduFormateurCertificationEligible,
   });
 };
 
@@ -63,10 +63,10 @@ async function _computePixPlusCertificationEligibility({
     return {
       pixPlusDroitMaitreCertificationEligible: false,
       pixPlusDroitExpertCertificationEligible: false,
-      pixPlusEduAutonomeCertificationEligible: false,
+      pixPlusEduInitieCertificationEligible: false,
       pixPlusEduAvanceCertificationEligible: false,
+      pixPlusEduConfirmeCertificationEligible: false,
       pixPlusEduExpertCertificationEligible: false,
-      pixPlusEduFormateurCertificationEligible: false,
     };
   }
   const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
@@ -78,34 +78,34 @@ async function _computePixPlusCertificationEligibility({
   const pixPlusDroitExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
     badgeKey: PIX_DROIT_EXPERT_CERTIF,
   });
-  const pixPlusEduAutonomeBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
+  const pixPlusEduInitieBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
     badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
   });
-  const pixPlusEduAvanceBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, (badgeAcquisition) => {
+  const pixPlusEduConfirmeBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, (badgeAcquisition) => {
     return (
       badgeAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE ||
       badgeAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
   });
-  const pixPlusEduExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
+  const pixPlusEduAvanceBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
     badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   });
-  const pixPlusEduFormateurBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
+  const pixPlusEduExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
     badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
   });
 
   const pixPlusDroitMaitreCertificationEligible = Boolean(pixPlusDroitMaitreBadgeAcquisition);
   const pixPlusDroitExpertCertificationEligible = Boolean(pixPlusDroitExpertBadgeAcquisition);
-  const pixPlusEduAutonomeCertificationEligible = Boolean(pixPlusEduAutonomeBadgeAcquisition);
+  const pixPlusEduInitieCertificationEligible = Boolean(pixPlusEduInitieBadgeAcquisition);
+  const pixPlusEduConfirmeCertificationEligible = Boolean(pixPlusEduConfirmeBadgeAcquisition);
   const pixPlusEduAvanceCertificationEligible = Boolean(pixPlusEduAvanceBadgeAcquisition);
   const pixPlusEduExpertCertificationEligible = Boolean(pixPlusEduExpertBadgeAcquisition);
-  const pixPlusEduFormateurCertificationEligible = Boolean(pixPlusEduFormateurBadgeAcquisition);
   return {
     pixPlusDroitMaitreCertificationEligible,
     pixPlusDroitExpertCertificationEligible,
-    pixPlusEduAutonomeCertificationEligible,
+    pixPlusEduInitieCertificationEligible,
+    pixPlusEduConfirmeCertificationEligible,
     pixPlusEduAvanceCertificationEligible,
     pixPlusEduExpertCertificationEligible,
-    pixPlusEduFormateurCertificationEligible,
   };
 }

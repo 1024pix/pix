@@ -5,8 +5,8 @@ export default class IsCertifiable extends Model {
   @attr() cleaCertificationEligible;
   @attr() pixPlusDroitMaitreCertificationEligible;
   @attr() pixPlusDroitExpertCertificationEligible;
-  @attr() pixPlusEduAutonomeCertificationEligible;
+  @attr() pixPlusEduInitieCertificationEligible;
+  @attr() pixPlusEduConfirmeCertificationEligible;
   @attr() pixPlusEduAvanceCertificationEligible;
   @attr() pixPlusEduExpertCertificationEligible;
-  @attr() pixPlusEduFormateurCertificationEligible;
 }

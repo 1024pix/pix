@@ -90,23 +90,23 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
     { badgeKey: PIX_DROIT_EXPERT_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitExpertCertificationEligible' },
     {
       badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-      certificationEligibilityAttribute: 'pixPlusEduAutonomeCertificationEligible',
+      certificationEligibilityAttribute: 'pixPlusEduInitieCertificationEligible',
     },
     {
       badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
-      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+      certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+      certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-      certificationEligibilityAttribute: 'pixPlusEduExpertCertificationEligible',
+      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
-      certificationEligibilityAttribute: 'pixPlusEduFormateurCertificationEligible',
+      certificationEligibilityAttribute: 'pixPlusEduExpertCertificationEligible',
     },
   ].forEach(({ badgeKey, certificationEligibilityAttribute }) => {
     context(`when ${badgeKey} badge is not acquired`, function () {

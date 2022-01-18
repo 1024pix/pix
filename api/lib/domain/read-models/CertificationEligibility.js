@@ -5,20 +5,20 @@ class CertificationEligibility {
     cleaCertificationEligible,
     pixPlusDroitMaitreCertificationEligible,
     pixPlusDroitExpertCertificationEligible,
-    pixPlusEduAutonomeCertificationEligible,
+    pixPlusEduInitieCertificationEligible,
+    pixPlusEduConfirmeCertificationEligible,
     pixPlusEduAvanceCertificationEligible,
     pixPlusEduExpertCertificationEligible,
-    pixPlusEduFormateurCertificationEligible,
   }) {
     this.id = id;
     this.pixCertificationEligible = pixCertificationEligible;
     this.cleaCertificationEligible = cleaCertificationEligible;
     this.pixPlusDroitMaitreCertificationEligible = pixPlusDroitMaitreCertificationEligible;
     this.pixPlusDroitExpertCertificationEligible = pixPlusDroitExpertCertificationEligible;
-    this.pixPlusEduAutonomeCertificationEligible = pixPlusEduAutonomeCertificationEligible;
+    this.pixPlusEduInitieCertificationEligible = pixPlusEduInitieCertificationEligible;
+    this.pixPlusEduConfirmeCertificationEligible = pixPlusEduConfirmeCertificationEligible;
     this.pixPlusEduAvanceCertificationEligible = pixPlusEduAvanceCertificationEligible;
     this.pixPlusEduExpertCertificationEligible = pixPlusEduExpertCertificationEligible;
-    this.pixPlusEduFormateurCertificationEligible = pixPlusEduFormateurCertificationEligible;
   }
 }
 
