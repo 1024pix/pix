@@ -111,10 +111,10 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           cleaCertificationStatus: 'not_taken',
           pixPlusDroitMaitreCertificationStatus: 'not_taken',
           pixPlusDroitExpertCertificationStatus: 'not_taken',
-          pixPlusEduAutonomeCertificationStatus: 'not_taken',
           pixPlusEduInitieCertificationStatus: 'not_taken',
+          pixPlusEduConfirmeCertificationStatus: 'not_taken',
+          pixPlusEduAvanceCertificationStatus: 'not_taken',
           pixPlusEduExpertCertificationStatus: 'not_taken',
-          pixPlusEduFormateurCertificationStatus: 'not_taken',
         });
       });
 
@@ -131,10 +131,13 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       { attribute: 'cleaCertificationStatus', expectedMessage: 'CléA Numérique' },
       { attribute: 'pixPlusDroitMaitreCertificationStatus', expectedMessage: 'Pix+ Droit Maître' },
       { attribute: 'pixPlusDroitExpertCertificationStatus', expectedMessage: 'Pix+ Droit Expert' },
-      { attribute: 'pixPlusEduAutonomeCertificationStatus', expectedMessage: 'Pix+ Édu Autonome' },
-      { attribute: 'pixPlusEduInitieCertificationStatus', expectedMessage: 'Pix+ Édu Initié' },
+      {
+        attribute: 'pixPlusEduInitieCertificationStatus',
+        expectedMessage: 'Pix+ Édu Initié (entrée dans le métier)',
+      },
+      { attribute: 'pixPlusEduConfirmeCertificationStatus', expectedMessage: 'Pix+ Édu Confirmé' },
+      { attribute: 'pixPlusEduAvanceCertificationStatus', expectedMessage: 'Pix+ Édu Avancé' },
       { attribute: 'pixPlusEduExpertCertificationStatus', expectedMessage: 'Pix+ Édu Expert' },
-      { attribute: 'pixPlusEduFormateurCertificationStatus', expectedMessage: 'Pix+ Édu Formateur' },
     ].forEach(({ attribute, expectedMessage }) => {
       test(`it returns ${expectedMessage} when ${attribute} is not equal to 'not_taken`, function (assert) {
         // given
@@ -143,10 +146,10 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
             cleaCertificationStatus: 'not_taken',
             pixPlusDroitMaitreCertificationStatus: 'not_taken',
             pixPlusDroitExpertCertificationStatus: 'not_taken',
-            pixPlusEduAutonomeCertificationStatus: 'not_taken',
             pixPlusEduInitieCertificationStatus: 'not_taken',
+            pixPlusEduConfirmeCertificationStatus: 'not_taken',
+            pixPlusEduAvanceCertificationStatus: 'not_taken',
             pixPlusEduExpertCertificationStatus: 'not_taken',
-            pixPlusEduFormateurCertificationStatus: 'not_taken',
           });
         });
         juryCertificationSummaryProcessed[attribute] = 'not_equal_to_not_taken';
@@ -168,10 +171,10 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           cleaCertificationStatus: 'taken',
           pixPlusDroitMaitreCertificationStatus: 'not_taken',
           pixPlusDroitExpertCertificationStatus: 'taken',
-          pixPlusEduAutonomeCertificationStatus: 'not_taken',
           pixPlusEduInitieCertificationStatus: 'not_taken',
+          pixPlusEduConfirmeCertificationStatus: 'not_taken',
+          pixPlusEduAvanceCertificationStatus: 'not_taken',
           pixPlusEduExpertCertificationStatus: 'not_taken',
-          pixPlusEduFormateurCertificationStatus: 'not_taken',
         });
       });
 

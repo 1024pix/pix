@@ -19,12 +19,11 @@ module.exports = {
           juryCertificationSummary.getPixPlusDroitMaitreCertificationStatus();
         result.pixPlusDroitExpertCertificationStatus =
           juryCertificationSummary.getPixPlusDroitExpertCertificationStatus();
-        result.pixPlusEduAutonomeCertificationStatus =
-          juryCertificationSummary.getPixPlusEduAutonomeCertificationStatus();
         result.pixPlusEduInitieCertificationStatus = juryCertificationSummary.getPixPlusEduInitieCertificationStatus();
+        result.pixPlusEduConfirmeCertificationStatus =
+          juryCertificationSummary.getPixPlusEduConfirmeCertificationStatus();
+        result.pixPlusEduAvanceCertificationStatus = juryCertificationSummary.getPixPlusEduAvanceCertificationStatus();
         result.pixPlusEduExpertCertificationStatus = juryCertificationSummary.getPixPlusEduExpertCertificationStatus();
-        result.pixPlusEduFormateurCertificationStatus =
-          juryCertificationSummary.getPixPlusEduFormateurCertificationStatus();
         return result;
       },
       attributes: [
@@ -43,10 +42,10 @@ module.exports = {
         'cleaCertificationStatus',
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',
-        'pixPlusEduAutonomeCertificationStatus',
         'pixPlusEduInitieCertificationStatus',
+        'pixPlusEduConfirmeCertificationStatus',
+        'pixPlusEduAvanceCertificationStatus',
         'pixPlusEduExpertCertificationStatus',
-        'pixPlusEduFormateurCertificationStatus',
       ],
     }).serialize(juryCertificationSummary);
   },
