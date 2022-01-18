@@ -310,4 +310,18 @@ module.exports = {
     });
     return h.response(userDetailsForAdminSerializer.serialize(userUpdated)).created();
   },
+
+  async reassignAuthenticationMethods(request, h) {
+    const originUserId = request.params.userId;
+    const targetUserId = request.payload.data.attributes['user-id'];
+    const identityProvider = request.payload.data.attributes['identity-provider'];
+
+    if (identityProvider === 'GAR') {
+      await usecases.reassignGarAuthenticationMethod({
+        originUserId,
+        targetUserId,
+      });
+      return h.response().code(204);
+    }
+  },
 };
