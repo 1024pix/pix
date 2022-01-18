@@ -59,6 +59,7 @@ const campaignValidationJoiSchema = Joi.object({
 
   title: Joi.string()
     .allow(null)
+    .max(50)
     .when('type', {
       is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
       then: Joi.valid(null),
@@ -70,6 +71,7 @@ const campaignValidationJoiSchema = Joi.object({
 
   customResultPageText: Joi.string()
     .allow(null)
+    .max(5000)
     .when('type', {
       is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
       then: Joi.valid(null),

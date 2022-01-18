@@ -1,20 +1,18 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 export default class UpdateController extends Controller {
-  @tracked campaignName;
-
+  @service router;
   @action
-  update(event) {
-    event.preventDefault();
+  update() {
     return this.model.campaign
       .save()
-      .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign.settings', campaign.id));
+      .then((campaign) => this.router.transitionTo('authenticated.campaigns.campaign.settings', campaign.id));
   }
 
   @action
   cancel(campaignId) {
-    this.transitionToRoute('authenticated.campaigns.campaign.settings', campaignId);
+    this.router.transitionTo('authenticated.campaigns.campaign.settings', campaignId);
   }
 }

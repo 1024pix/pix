@@ -26,4 +26,10 @@ export default class UpdateRoute extends Route {
     super.setupController(controller, model);
     controller.campaignName = model.campaign.name;
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.get('model').campaign.rollbackAttributes();
+    }
+  }
 }
