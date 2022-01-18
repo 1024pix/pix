@@ -353,6 +353,7 @@ module.exports = injectDependencies(
     superviseSession: require('./supervise-session'),
     unarchiveCampaign: require('./unarchive-campaign'),
     unpublishSession: require('./unpublish-session'),
+    reassignGarAuthenticationMethod: require('./reassign-gar-authentication-method'),
     updateBadge: require('./update-badge'),
     updateCampaign: require('./update-campaign'),
     updateCampaignDetailsManagement: require('./update-campaign-details-management'),
