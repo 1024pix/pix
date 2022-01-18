@@ -6,6 +6,7 @@ const {
   splitIntoWordsAndRemoveBackspaces,
   normalizeAndSortChars,
   normalize,
+  toArrayOfFixedLengthStringsConservingWords,
 } = require('../../../../lib/infrastructure/utils/string-utils');
 
 describe('Unit | Utils | string-utils', function () {
@@ -115,6 +116,50 @@ describe('Unit | Utils | string-utils', function () {
         // then
         expect(array).to.deep.equal(['UN', 'DOS']);
       });
+    });
+  });
+
+  describe('#toArrayOfFixedLengthStringsConservingWords', function () {
+    it('should return an array containing an empty string when string parameter is empty', function () {
+      // given
+      const stringToSplit = '';
+
+      // when
+      const result = toArrayOfFixedLengthStringsConservingWords(stringToSplit, 10);
+
+      // then
+      expect(result).to.deep.equal(['']);
+    });
+
+    it('should return an array containing the string parameter when maxLength is lower or equal to string length', function () {
+      // given
+      const stringToSplit = 'Ceci est un test';
+
+      // when
+      const result = toArrayOfFixedLengthStringsConservingWords(stringToSplit, 16);
+
+      // then
+      expect(result).to.deep.equal(['Ceci est un test']);
+    });
+
+    it('should return an array of limited length strings conserving word', function () {
+      // given
+      const stringToSplit = 'Ceci est une chaîne de caractère permettant de tester la fonction.';
+
+      // when
+      const result = toArrayOfFixedLengthStringsConservingWords(stringToSplit, 10);
+
+      // then
+      expect(result).to.deep.equal([
+        'Ceci est',
+        'une chaîne',
+        'de',
+        'caractère',
+        'permettant',
+        'de tester',
+        'la',
+        'fonction.',
+      ]);
     });
   });
 });
