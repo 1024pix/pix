@@ -900,4 +900,38 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       expect(authenticationMethods).to.be.empty;
     });
   });
+
+  describe('#updateAuthenticationMethodUserId', function () {
+    let clock;
+    const now = new Date('2022-02-16');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    it('should update authentication method user id', async function () {
+      // given
+      const originUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: originUserId });
+
+      const targetUserId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.updateAuthenticationMethodUserId({
+        originUserId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        targetUserId,
+      });
+
+      // then
+      const authenticationMethodUpdated = await knex('authentication-methods').select();
+      expect(authenticationMethodUpdated[0].userId).to.equal(targetUserId);
+      expect(authenticationMethodUpdated[0].updatedAt).to.deep.equal(now);
+    });
+  });
 });
