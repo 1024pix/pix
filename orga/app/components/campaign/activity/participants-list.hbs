@@ -13,14 +13,22 @@
 <section ...attributes>
   <div class="panel">
     <table class="table content-text content-text--small">
+      <colgroup class="table__column">
+        <col class="table__column--wide" />
+        <col class="table__column--wide" />
+        {{#if @campaign.idPixLabel}}
+          <col class="table__column--wide" />
+        {{/if}}
+        <col class="table__column--wide" />
+      </colgroup>
       <thead>
         <tr>
-          <Table::Header @size="wide">{{t "pages.campaign-activity.table.column.last-name"}}</Table::Header>
-          <Table::Header @size="wide">{{t "pages.campaign-activity.table.column.first-name"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-activity.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-activity.table.column.first-name"}}</Table::Header>
           {{#if @campaign.idPixLabel}}
-            <Table::Header @size="wide">{{@campaign.idPixLabel}}</Table::Header>
+            <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
           {{/if}}
-          <Table::Header @size="wide">{{t "pages.campaign-activity.table.column.status"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-activity.table.column.status"}}</Table::Header>
         </tr>
       </thead>
 
