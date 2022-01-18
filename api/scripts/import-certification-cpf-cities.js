@@ -4,14 +4,10 @@
 // File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
 
 'use strict';
-const { parseCsv } = require('./helpers/csvHelpers');
+const { parseCsv, checkCsvHeader } = require('./helpers/csvHelpers');
 const { knex } = require('../lib/infrastructure/bookshelf');
 const uniqBy = require('lodash/uniqBy');
-
-const CITY_COLUMN_NAME = 'nom_de_la_commune';
-const POSTAL_CODE_COLUMN_NAME = 'code_postal';
-const INSEE_CODE_COLUMN_NAME = 'code_commune_insee';
-const ALTERNATE_CITY_COLUMN_NAME = 'ligne_5';
+const values = require('lodash/values');
 
 const specificCities = [
   {
@@ -34,21 +30,28 @@ const specificCities = [
   },
 ];
 
+const headers = {
+  cityName: 'nom_de_la_commune',
+  postalCode: 'code_postal',
+  INSEECode: 'code_commune_insee',
+  cityAlternateName: 'ligne_5',
+};
+
 function buildCities({ csvData }) {
   const citiesWithAlternates = csvData.flatMap((data) => {
     const result = [];
     result.push({
-      name: data[CITY_COLUMN_NAME],
-      postalCode: data[POSTAL_CODE_COLUMN_NAME],
-      INSEECode: data[INSEE_CODE_COLUMN_NAME],
+      name: data[headers.cityName],
+      postalCode: data[headers.postalCode],
+      INSEECode: data[headers.INSEECode],
       isActualName: true,
     });
 
-    if (data[ALTERNATE_CITY_COLUMN_NAME]) {
+    if (data[headers.cityAlternateName]) {
       result.push({
-        name: data[ALTERNATE_CITY_COLUMN_NAME],
-        postalCode: data[POSTAL_CODE_COLUMN_NAME],
-        INSEECode: data[INSEE_CODE_COLUMN_NAME],
+        name: data[headers.cityAlternateName],
+        postalCode: data[headers.postalCode],
+        INSEECode: data[headers.INSEECode],
         isActualName: false,
       });
     }
@@ -63,6 +66,10 @@ async function main(filePath) {
 
   let trx;
   try {
+    console.log(`Checking ${filePath} data file...`);
+    await checkCsvHeader({ filePath, requiredFieldNames: values(headers) });
+    console.log('✅');
+
     console.log('Reading and parsing csv data file... ');
     const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
     console.log('✅');
