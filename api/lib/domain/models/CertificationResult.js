@@ -7,7 +7,7 @@ const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
@@ -160,13 +160,13 @@ class CertificationResult {
 
   hasTakenPixPlusEduConfirme() {
     return this.partnerCertifications.some(({ partnerKey }) =>
-      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
     );
   }
 
   hasAcquiredPixPlusEduConfirme() {
     const pixPlusEduConfirmePartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
-      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
     );
     return Boolean(pixPlusEduConfirmePartnerCertification?.acquired);
   }

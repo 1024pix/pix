@@ -4,7 +4,7 @@ const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
@@ -83,7 +83,7 @@ async function _computePixPlusCertificationEligibility({
   });
   const pixPlusEduConfirmeBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, (badgeAcquisition) => {
     return (
-      badgeAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE ||
+      badgeAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
       badgeAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
   });
