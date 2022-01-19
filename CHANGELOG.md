@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.157.0 (19/01/2022)
+
+
+### :rocket: Enhancement
+- [#3951](https://github.com/1024pix/pix/pull/3951) [FEATURE] Suppression de la barre de progression dans les campagnes FLASH (PIX-3934).
+- [#3939](https://github.com/1024pix/pix/pull/3939) [FEATURE] Améliorer la gestion de l'affichage du message spécifique aux badges Pix+ Édu dans le certificat pdf (PIX-4139).
+- [#3948](https://github.com/1024pix/pix/pull/3948) [FEATURE] Afficher le statut des certifications Pix+ Édu dans la page de détail d'une certification dans Pix Admin (PIX-3993).
+- [#3942](https://github.com/1024pix/pix/pull/3942) [FEATURE] Afficher le nom du propriétaire dans la page de détail d'une campagne sur Pix Orga (PIX-4074).
+- [#3865](https://github.com/1024pix/pix/pull/3865) [FEATURE] Ajouter le refresh token (PIX-4017).
+
 ## v3.156.0 (17/01/2022)
 
 
