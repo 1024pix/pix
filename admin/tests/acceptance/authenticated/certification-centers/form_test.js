@@ -40,6 +40,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Ajouter' }));
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/certification-centers/99');
     assert.contains(name);
     assert.contains(type.label);

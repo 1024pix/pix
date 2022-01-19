@@ -17,6 +17,8 @@ module('Unit | Model | with required action session', function (hooks) {
       const printableDateAndTime = sessionWithRequiredAction.printableDateAndTime;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(printableDateAndTime, '01/02/2020 à 14:30');
     });
   });
@@ -33,6 +35,8 @@ module('Unit | Model | with required action session', function (hooks) {
       const printableFinalizationDate = sessionWithRequiredAction.printableFinalizationDate;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(printableFinalizationDate, '01/02/2020');
     });
   });

@@ -427,6 +427,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await clickByLabel("Voir les détails de l'utilisateur");
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/users/888');
     });
   });

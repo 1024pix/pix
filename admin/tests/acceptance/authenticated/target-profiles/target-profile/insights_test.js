@@ -39,6 +39,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
       await click('.insights__section:nth-child(1) a');
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/badges/100');
     });
 
@@ -47,6 +49,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
       await click('[data-test="badges-creation-redirect"]');
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
     });
 
@@ -58,6 +62,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await click('[data-test="badge-form-cancel-button"]');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
     });
 
@@ -73,6 +79,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await click('[data-test="badge-form-submit-button"]');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
     });
   });
@@ -82,6 +90,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
 
       assert.notContains('Enregistrer');
@@ -91,6 +101,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       assert.contains('Enregistrer');
       assert.contains('Annuler');
       const newTableRowCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(newTableRowCount, 2);
 
       fillIn('.insights__section:nth-child(2) tbody tr td:nth-child(3) input', '0');
@@ -101,6 +113,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       assert.notContains('Enregistrer');
 
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(newStageCount, 2);
     });
 
@@ -108,12 +122,16 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       // when
       await visit(`/target-profiles/${targetProfile.id}/insights`);
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
       await click("button[data-test='Nouveau palier']");
       await click('button[data-test="form-action-cancel"]');
 
       // then
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(newStageCount, 1);
     });
 
@@ -121,6 +139,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       // when
       await visit(`/target-profiles/${targetProfile.id}/insights`);
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
       await click("button[data-test='Nouveau palier']");
       await click("button[data-test='Nouveau palier']");
@@ -128,6 +148,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
       // then
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(newStageCount, 2);
     });
   });

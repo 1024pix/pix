@@ -29,6 +29,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/certification-centers/1');
   });
 

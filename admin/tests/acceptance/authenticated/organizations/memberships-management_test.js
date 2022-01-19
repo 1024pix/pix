@@ -24,6 +24,8 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     await visit(`/organizations/${organization.id}`);
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/organizations/${organization.id}/team`);
   });
 
@@ -103,6 +105,8 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByLabel('Ajouter un membre');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
       assert.contains('Denise');
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
@@ -122,6 +126,8 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByLabel('Ajouter un membre');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
       assert.contains('Erica');
       assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
@@ -144,6 +150,8 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByLabel('Enregistrer');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(membership.organizationRole, 'MEMBER');
       assert.contains('Le rôle du membre a été mis à jour avec succès.');
     });

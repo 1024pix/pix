@@ -15,6 +15,8 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       await visit('/sessions/list/with-required-action');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -31,6 +33,8 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       await visit('/sessions/list/with-required-action');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/list/with-required-action');
     });
 

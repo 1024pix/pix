@@ -109,6 +109,8 @@ module('Integration | Component | certifications/details-answer', function (hook
       answer: answerData,
       onUpdateRate: () => {
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(answerData.jury, 'ok');
         return resolve();
       },
@@ -132,6 +134,8 @@ module('Integration | Component | certifications/details-answer', function (hook
     await selectChoose('.answer-result', 'Succès partiel');
 
     // Then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(answerData.jury, null);
   });
 

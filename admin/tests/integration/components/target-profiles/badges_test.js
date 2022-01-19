@@ -33,9 +33,15 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     assert.contains('Message');
     assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:first-child').textContent, '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('alt'), 'My alt message');
     assert.contains('My key');
     assert.contains('My title');

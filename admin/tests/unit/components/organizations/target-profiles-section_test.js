@@ -38,6 +38,8 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         assert.ok(
           component.args.organization.attachTargetProfiles.calledWith({ 'target-profiles-to-attach': ['1', '2'] })
         );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.organizationsToAttach, null);
         assert.ok(
           component.notifications.success.calledWith('Profil(s) cible(s) rattaché(s) avec succès.', {
@@ -123,6 +125,8 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
 
           await component.attachTargetProfiles(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.targetProfilesToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed 2'));
@@ -142,6 +146,8 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
 
           await component.attachTargetProfiles(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.targetProfilesToAttach, '1,1,5,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed too 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed too 2'));
@@ -161,7 +167,11 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
 
           await component.attachTargetProfiles(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.targetProfilesToAttach, '1,1,2,3,3');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
       });
@@ -176,6 +186,8 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
 
           await component.attachTargetProfiles(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.targetProfilesToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('Une erreur est survenue.'));
         });

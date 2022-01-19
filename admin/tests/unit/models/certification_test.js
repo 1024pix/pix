@@ -29,6 +29,8 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.cleaCertificationStatusLabel;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(label, expectedLabel);
         });
       });
@@ -53,6 +55,8 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(label, expectedLabel);
         });
       });
@@ -77,6 +81,8 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusDroitExpertCertificationStatusLabel;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(label, expectedLabel);
         });
       });
@@ -103,6 +109,8 @@ module('Unit | Model | certification', function (hooks) {
             const label = certification.pixPlusEduAutonomeCertificationStatusLabel;
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(label, expectedLabel);
           });
         }
@@ -128,6 +136,8 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusEduAvanceCertificationStatusLabel;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(label, expectedLabel);
         });
       });
@@ -152,6 +162,8 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusEduExpertCertificationStatusLabel;
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(label, expectedLabel);
         });
       });
@@ -178,6 +190,8 @@ module('Unit | Model | certification', function (hooks) {
             const label = certification.pixPlusEduFormateurCertificationStatusLabel;
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(label, expectedLabel);
           });
         }
@@ -196,6 +210,8 @@ module('Unit | Model | certification', function (hooks) {
       const isPublishedLabel = certification.publishedText;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(isPublishedLabel, 'Oui');
     });
 
@@ -209,6 +225,8 @@ module('Unit | Model | certification', function (hooks) {
       const isPublishedLabel = certification.publishedText;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(isPublishedLabel, 'Non');
     });
   });
@@ -360,6 +378,8 @@ module('Unit | Model | certification', function (hooks) {
       const juryCertificationSummary = store.createRecord('certification', { completedAt: null });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(juryCertificationSummary.completionDate, null);
     });
 
@@ -368,6 +388,8 @@ module('Unit | Model | certification', function (hooks) {
       const juryCertificationSummary = store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
     });
   });

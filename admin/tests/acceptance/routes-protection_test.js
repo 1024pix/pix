@@ -15,6 +15,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/about');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/about');
     });
   });
@@ -25,6 +27,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/organizations/new');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
 
@@ -37,6 +41,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/organizations/new');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/organizations/new');
     });
   });
@@ -47,6 +53,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/organizations/list');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -57,6 +65,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/certifications');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -67,6 +77,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/certifications/single');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -77,6 +89,8 @@ module('Acceptance | routes protection', function (hooks) {
       await visit('/sessions');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });

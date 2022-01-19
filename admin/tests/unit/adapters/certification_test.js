@@ -117,6 +117,8 @@ module('Unit | Adapter | certification', function (hooks) {
       const url = adapter.buildURL('not_used', 123, 'not_used', 'cancel', 'not_used');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/cancel');
     });
 
@@ -125,6 +127,8 @@ module('Unit | Adapter | certification', function (hooks) {
       const url = adapter.buildURL('not_used', 123, 'not_used', 'uncancel', 'not_used');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/uncancel');
     });
   });

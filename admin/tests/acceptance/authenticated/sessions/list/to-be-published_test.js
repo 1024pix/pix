@@ -18,6 +18,8 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -34,6 +36,8 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
     });
 
