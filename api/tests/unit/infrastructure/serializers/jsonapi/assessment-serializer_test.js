@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             title: assessment.courseId.toString(),
             'competence-id': assessment.competenceId,
             'last-question-state': Assessment.statesOfLastQuestion.ASKED,
+            method: Assessment.methods.CERTIFICATION_DETERMINED,
           },
           relationships: {
             answers: {
@@ -115,6 +116,33 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
       expect(json.data.attributes['certification-number']).to.be.null;
       expect(json.data.attributes['code-campaign']).to.equal('Konami');
+    });
+
+    it('should convert an Assessment model object with type CAMPAIGN and method FLASH into JSON API data', function () {
+      //given
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.CAMPAIGN,
+        method: Assessment.methods.FLASH,
+        campaignParticipation: { campaign: { code: 'Konami' } },
+      });
+      const expectedProgressionJson = {
+        data: {
+          id: `progression-${assessment.id}`,
+          type: 'progressions',
+        },
+        links: {
+          related: `/api/progressions/progression-${assessment.id}`,
+        },
+      };
+
+      // when
+      const json = serializer.serialize(assessment);
+
+      // then
+      expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
+      expect(json.data.attributes['certification-number']).to.be.null;
+      expect(json.data.attributes['code-campaign']).to.equal('Konami');
+      expect(json.data.attributes['method']).to.equal(Assessment.methods.FLASH);
     });
 
     it('should convert an Assessment model object without course into JSON API data', function () {

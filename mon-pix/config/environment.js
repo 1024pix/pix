@@ -111,6 +111,11 @@ module.exports = function (environment) {
       },
       AUTHENTICATED_SOURCE_FROM_MEDIACENTRE: 'external',
       AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI: 'pole_emploi_connect',
+      NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD',
+        defaultValue: 48,
+        minValue: 1,
+      }),
     },
 
     googleFonts: [

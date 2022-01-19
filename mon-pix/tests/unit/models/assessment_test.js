@@ -180,4 +180,213 @@ describe('Unit | Model | Assessment', function () {
       expect(model.isPreview).to.be.false;
     });
   });
+
+  describe('#isFlash', function () {
+    it('should return true when the assessment method is FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.method = 'FLASH';
+
+      //then
+      expect(model.isFlash).to.be.true;
+    });
+
+    it('should return false when the assessment method is not FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.method = '_';
+
+      //then
+      expect(model.isFlash).to.be.false;
+    });
+  });
+
+  describe('#hasCheckpoints', function () {
+    it('should return false when the assessment type is CERTIFICATION', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CERTIFICATION';
+
+      //then
+      expect(model.hasCheckpoints).to.be.false;
+    });
+
+    it('should return false when the assessment type is PREVIEW', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'PREVIEW';
+
+      //then
+      expect(model.hasCheckpoints).to.be.false;
+    });
+
+    it('should return true when the assessment type is COMPETENCE_EVALUATION', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'COMPETENCE_EVALUATION';
+
+      //then
+      expect(model.hasCheckpoints).to.be.true;
+    });
+
+    it('should return true when the assessment type is CAMPAIGN and method is not FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CAMPAIGN';
+
+      //then
+      expect(model.hasCheckpoints).to.be.true;
+    });
+
+    it('should return false when the assessment type is CAMPAIGN and method is FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CAMPAIGN';
+      model.method = 'FLASH';
+
+      //then
+      expect(model.hasCheckpoints).to.be.false;
+    });
+  });
+
+  describe('#showLevelup', function () {
+    it('should return false when the assessment type is CERTIFICATION', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CERTIFICATION';
+
+      //then
+      expect(model.showLevelup).to.be.false;
+    });
+
+    it('should return false when the assessment type is PREVIEW', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'PREVIEW';
+
+      //then
+      expect(model.showLevelup).to.be.false;
+    });
+
+    it('should return true when the assessment type is COMPETENCE_EVALUATION', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'COMPETENCE_EVALUATION';
+
+      //then
+      expect(model.showLevelup).to.be.true;
+    });
+
+    it('should return true when the assessment type is CAMPAIGN and method is not FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CAMPAIGN';
+
+      //then
+      expect(model.showLevelup).to.be.true;
+    });
+
+    it('should return false when the assessment type is CAMPAIGN and method is FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CAMPAIGN';
+      model.method = 'FLASH';
+
+      //then
+      expect(model.showLevelup).to.be.false;
+    });
+  });
+
+  describe('#showProgressBar', function () {
+    it('should return false when the assessment type is CERTIFICATION', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CERTIFICATION';
+
+      //then
+      expect(model.showProgressBar).to.be.false;
+    });
+
+    it('should return false when the assessment type is PREVIEW', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'PREVIEW';
+
+      //then
+      expect(model.showProgressBar).to.be.false;
+    });
+
+    it('should return true when the assessment type is COMPETENCE_EVALUATION', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'COMPETENCE_EVALUATION';
+
+      //then
+      expect(model.showProgressBar).to.be.true;
+    });
+
+    it('should return true when the assessment type is CAMPAIGN and method is not FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CAMPAIGN';
+
+      //then
+      expect(model.showProgressBar).to.be.true;
+    });
+
+    it('should return false when the assessment type is CAMPAIGN and method is FLASH', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'CAMPAIGN';
+      model.method = 'FLASH';
+
+      //then
+      expect(model.showProgressBar).to.be.false;
+    });
+
+    it('should return true when the assessment type is DEMO', function () {
+      // given
+      const model = store.createRecord('assessment');
+
+      // when
+      model.type = 'DEMO';
+
+      //then
+      expect(model.showProgressBar).to.be.true;
+    });
+  });
 });
