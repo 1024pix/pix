@@ -80,7 +80,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
   });
 
   describe('#findIdsByOrganizationIdAndDivision', function () {
-    it('retrieves no candidates when no one belongs to organisation', async function () {
+    it('retrieves no candidates when no one belongs to organization', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -105,17 +105,28 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       expect(candidatesIds).to.be.empty;
     });
 
-    it('retrieves the candidates that belong to the organisation and division', async function () {
+    it('retrieves the non disabled candidates that belong to the organization and division', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      const nonDisabledSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: anOrganizationId,
         division: '3ème A',
+        isDisabled: false,
       }).id;
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      const nonDisabledCandidateId = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId,
+        schoolingRegistrationId: nonDisabledSchoolingRegistrationId,
+      }).id;
+
+      const disabledSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: anOrganizationId,
+        division: '3ème A',
+        isDisabled: true,
+      }).id;
+      databaseBuilder.factory.buildCertificationCandidate({
+        sessionId,
+        schoolingRegistrationId: disabledSchoolingRegistrationId,
       }).id;
       await databaseBuilder.commit();
 
@@ -126,7 +137,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       });
 
       // then
-      expect(candidatesIds).to.deep.equal([candidateId]);
+      expect(candidatesIds).to.deep.equal([nonDisabledCandidateId]);
     });
 
     it('retrieves only the candidates that belongs to the given division', async function () {
