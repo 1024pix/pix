@@ -507,7 +507,7 @@ function _createPixEduBadges(databaseBuilder) {
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Confirmé',
     title: 'Pix+ Édu 2nd degré - Confirmé',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme.svg',
-    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE',
+    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
     message: 'avez validé le badge Pix+ Édu 2nd degré - Confirmé',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
