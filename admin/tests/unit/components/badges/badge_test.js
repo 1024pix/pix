@@ -23,7 +23,7 @@ module('Unit |  Component | Badges | badge', function (hooks) {
   });
 
   module('isAlwaysVisible', function () {
-    test.only('returns color and text when is always visible', function (assert) {
+    test('returns color and text when is always visible', function (assert) {
       const component = createComponent('component:badges/badge');
       component.args = {
         badge: { isAlwaysVisible: true },
