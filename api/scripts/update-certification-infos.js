@@ -46,6 +46,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
   logger.info('Updating data in database... ');
 
   const trx = await knex.transaction();
+  const info = { success: 0, failure: 0 };
 
   try {
     await bluebird.mapSeries(
@@ -60,6 +61,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
 
         if (!certificationCourse) {
           logger.warn(`Certification for external id ${externalId} not found`);
+          info.failure++;
           return;
         }
 
@@ -86,11 +88,14 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
             birthCountry,
           })
           .where({ externalId, userId });
+
+        info.success++;
       }
     );
 
     trx.commit();
     logger.info('✅ ');
+    logger.info(`Certifications mises à jour: ${info.success}/${csvData.length} (${info.failure})`);
   } catch (error) {
     if (trx) {
       trx.rollback();
@@ -104,7 +109,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
 
 if (require.main === module) {
   const dataFilePath = process.argv[2];
-  const sessionIdsFilePath = process.argv[2];
+  const sessionIdsFilePath = process.argv[3];
   updateCertificationInfos(dataFilePath, sessionIdsFilePath).then(
     () => process.exit(0),
     (err) => {
