@@ -7,7 +7,7 @@ const {
   PIX_EMPLOI_CLEA,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
 const { addRandomSuffix } = require('pdf-lib/cjs/utils');
@@ -56,7 +56,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredPartnerCertificationKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME],
+      acquiredPartnerCertificationKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu.pdf';
 

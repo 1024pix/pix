@@ -5,7 +5,7 @@ const {
   PIX_EMPLOI_CLEA_V2,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
@@ -360,7 +360,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
     { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasTakenPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME] },
+    { method: 'hasTakenPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
       method: 'hasTakenPixPlusEduConfirme',
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
@@ -405,7 +405,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
     { method: 'hasAcquiredPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasAcquiredPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasAcquiredPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME] },
+    { method: 'hasAcquiredPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
       method: 'hasAcquiredPixPlusEduConfirme',
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],

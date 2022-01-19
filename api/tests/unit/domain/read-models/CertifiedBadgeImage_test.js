@@ -3,7 +3,7 @@ const CertifiedBadgeImage = require('../../../../lib/domain/read-models/Certifie
 const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
@@ -19,7 +19,7 @@ const badgeInfos = {
     path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
     isTemporaryBadge: false,
   },
-  [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME]: {
+  [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Initié (entrée dans le métier)',
