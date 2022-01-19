@@ -5,6 +5,9 @@ function getMaxStepsNumber(assessment) {
   if (assessment.isPreview) {
     return ONE_STEP;
   }
+  if (assessment.isFlash) {
+    return ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD;
+  }
   if (assessment.isCertification) {
     return assessment.get('certificationCourse.nbChallenges');
   }
