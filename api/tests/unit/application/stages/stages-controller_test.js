@@ -54,6 +54,9 @@ describe('Unit | Controller | stages-controller', function () {
         payload: {
           data: {
             attributes: {
+              title: "c'est cool",
+              message: "ça va aller t'inquiète pas",
+              threshold: 64,
               'prescriber-title': 'palier bof',
               'prescriber-description': 'tu es moyen',
             },
@@ -70,6 +73,9 @@ describe('Unit | Controller | stages-controller', function () {
         // then
         expect(response.statusCode).to.equal(204);
         expect(usecases.updateStage).to.have.been.calledWithMatch({
+          title: "c'est cool",
+          message: "ça va aller t'inquiète pas",
+          threshold: 64,
           prescriberDescription: 'tu es moyen',
           prescriberTitle: 'palier bof',
           stageId: 44,

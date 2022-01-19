@@ -10,9 +10,14 @@ module.exports = {
 
   async updateStage(request, h) {
     const stageId = request.params.id;
-    const prescriberTitle = request.payload.data.attributes['prescriber-title'];
-    const prescriberDescription = request.payload.data.attributes['prescriber-description'];
-    await usecases.updateStage({ stageId, prescriberTitle, prescriberDescription });
+    const {
+      title,
+      message,
+      threshold,
+      'prescriber-title': prescriberTitle,
+      'prescriber-description': prescriberDescription,
+    } = request.payload.data.attributes;
+    await usecases.updateStage({ stageId, title, message, threshold, prescriberTitle, prescriberDescription });
     return h.response({}).code(204);
   },
 
