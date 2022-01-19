@@ -4,7 +4,7 @@ const {
   PIX_EMPLOI_CLEA_V2,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
@@ -149,7 +149,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
-        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
         expectedDisplayName: 'Initié (entrée dans le métier)',
       },
       { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Confirmé' },

@@ -478,7 +478,7 @@ function _createPixEduBadges(databaseBuilder) {
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Initié (entrée dans le métier)',
     title: 'Pix+ Édu 2nd degré - Initié (entrée dans le métier)',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie.svg',
-    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME',
+    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
     message: 'avez validé le badge Pix+ Édu 2nd degré - Initié (entrée dans le métier)',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,

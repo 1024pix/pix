@@ -7,7 +7,7 @@ const {
   PIX_EMPLOI_CLEA,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
@@ -150,7 +150,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
       { partnerKey: PIX_DROIT_MAITRE_CERTIF, expectedHeader: 'Certification Pix+ Droit Maître' },
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, expectedHeader: 'Certification Pix+ Droit Expert' },
       {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
         expectedHeader: 'Certification Pix+ Édu Initié (entrée dans le métier)',
       },
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, expectedHeader: 'Certification Pix+ Édu Confirmé' },
@@ -255,7 +255,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
             domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
             domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: true }),
             domainBuilder.buildPartnerCertification({
-              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
+              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
               acquired: true,
             }),
             domainBuilder.buildPartnerCertification({
