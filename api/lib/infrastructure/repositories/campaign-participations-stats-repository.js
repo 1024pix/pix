@@ -24,7 +24,6 @@ const CampaignParticipationsStatsRepository = {
 };
 
 async function _getCumulativeParticipationCountsByDay(campaignId, column) {
-  // eslint-disable-next-line knex/avoid-injections
   const { rows: data } = await knex.raw(
     `
     SELECT CAST(:column: AS DATE) AS "day", SUM(COUNT(*)) OVER (ORDER BY CAST(:column: AS DATE)) AS "count"

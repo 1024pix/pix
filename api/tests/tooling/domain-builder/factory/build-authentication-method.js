@@ -1,4 +1,3 @@
-/* eslint-disable no-sync */
 const isUndefined = require('lodash/isUndefined');
 
 const encrypt = require('../../../../lib/domain/services/encryption-service');
@@ -45,6 +44,7 @@ buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword = function ({
   createdAt,
   updatedAt,
 } = {}) {
+  // eslint-disable-next-line no-sync
   const password = encrypt.hashPasswordSync(rawPassword);
   userId = isUndefined(userId) ? _buildUser().id : userId;
 

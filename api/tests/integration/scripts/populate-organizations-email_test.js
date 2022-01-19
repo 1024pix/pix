@@ -10,7 +10,7 @@ describe('Integration | Scripts | populate-organizations-email.js', function () 
     beforeEach(async function () {
       databaseBuilder.factory.buildOrganization({ externalId: externalId1, email: 'first.last@example.net' });
       databaseBuilder.factory.buildOrganization({ externalId: externalId2 });
-      // eslint-disable-next-line no-console
+
       sinon.stub(console, 'error');
 
       await databaseBuilder.commit();

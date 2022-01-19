@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Usage: node add-tags-to-organizations.js path/file.csv
 // To use on file with columns |organizationId, tagName|
 

@@ -242,6 +242,8 @@ async function checkUserIsMemberOfAnOrganization(request, h) {
   return _replyForbiddenError(h);
 }
 
+/* eslint-enable no-restricted-syntax */
+
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationOrHasRolePixMaster,

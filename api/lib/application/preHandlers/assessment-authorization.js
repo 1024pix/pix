@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
@@ -7,6 +5,7 @@ const { extractUserIdFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   verify(request, h) {
     const userId = extractUserIdFromRequest(request);
+    // eslint-disable-next-line no-restricted-syntax
     const assessmentId = parseInt(request.params.id);
 
     return assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId).catch(() => {

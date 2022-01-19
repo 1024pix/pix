@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node update-sco-organizations-with-is-managing-students-to-true.js path/file.csv
 // To use on file with columns |externalId|
 

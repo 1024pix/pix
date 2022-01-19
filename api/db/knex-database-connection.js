@@ -97,7 +97,7 @@ async function emptyAllTables() {
   const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
 
   const query = _dbSpecificQueries.emptyTableQuery;
-  // eslint-disable-next-line knex/avoid-injections,no-restricted-syntax
+  // eslint-disable-next-line knex/avoid-injections
   return knex.raw(`${query}${tables}`);
 }
 

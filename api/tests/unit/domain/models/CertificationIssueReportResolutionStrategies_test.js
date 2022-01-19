@@ -1295,79 +1295,78 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
   context('#resolve', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // eslint-disable-next-line mocha/no-setup-in-describe
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
         strategyToBeApplied: 'doNotResolve',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
         strategyToBeApplied: 'doNotResolve',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
         strategyToBeApplied: 'doNotResolve',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
         strategyToBeApplied: 'doNotResolve',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         strategyToBeApplied: 'neutralizeIfImage',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.LINK_NOT_WORKING,
         strategyToBeApplied: 'doNotResolve',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
         strategyToBeApplied: 'neutralizeIfEmbed',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
         strategyToBeApplied: 'neutralizeIfAttachment',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
         strategyToBeApplied: 'neutralizeIfTimedChallenge',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
-      // eslint-disable-next-line mocha/no-setup-in-describe
+
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.OTHER,

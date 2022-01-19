@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/algorithm-methods/smart-random');
 const flash = require('../services/algorithm-methods/flash');

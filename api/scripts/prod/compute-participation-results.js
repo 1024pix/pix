@@ -1,5 +1,5 @@
 // Usage: node compute-participation-results.js
-/* eslint-disable no-restricted-syntax */
+
 require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const knowlegeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
