@@ -71,6 +71,9 @@ describe('Unit | Router | stages-router', function () {
       const payload = {
         data: {
           attributes: {
+            threshold: 42,
+            title: 'titre',
+            message: 'message',
             'prescriber-title': 'test',
             'prescriber-description': 'bidule',
           },
@@ -96,6 +99,9 @@ describe('Unit | Router | stages-router', function () {
       const payload = {
         data: {
           attributes: {
+            threshold: 42,
+            title: 'titre',
+            message: null,
             'prescriber-title': null,
             'prescriber-description': 'bidule',
           },
