@@ -1,5 +1,3 @@
-/* eslint-disable ember/classic-decorator-hooks */
-
 import EmberRouter from '@ember/routing/router';
 import config from 'pix-admin/config/environment';
 
@@ -7,6 +5,7 @@ class Router extends EmberRouter {
   location = config.locationType;
   rootURL = config.rootURL;
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     super.init(...arguments);
     this.on('routeDidChange', () => {

@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';

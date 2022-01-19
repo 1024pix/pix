@@ -1,5 +1,3 @@
-/* eslint-disable ember/classic-decorator-no-classic-methods */
-
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
@@ -52,6 +50,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
     this.pendingFilters[fieldName] = value;
     yield timeout(debounceDuration);
 
+    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
     this.setProperties(this.pendingFilters);
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;

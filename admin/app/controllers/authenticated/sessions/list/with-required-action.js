@@ -1,8 +1,7 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes */
-
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 
 export default class AuthenticatedSessionsWithRequiredActionListController extends Controller {
