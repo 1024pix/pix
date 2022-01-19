@@ -33,6 +33,8 @@ module('Acceptance | Supervisor Portal', function (hooks) {
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/12345/surveiller');
     });
   });
@@ -50,6 +52,8 @@ module('Acceptance | Supervisor Portal', function (hooks) {
         await click(screen.getByText('Quitter'));
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/connexion-espace-surveillant');
       });
     });

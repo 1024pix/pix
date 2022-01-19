@@ -26,7 +26,11 @@ module('Unit | Model | session', function (hooks) {
       );
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model1.displayStatus, 'Créée');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model2.displayStatus, 'Finalisée');
     });
   });
@@ -38,6 +42,8 @@ module('Unit | Model | session', function (hooks) {
       const model = run(() => store.createRecord('session', { id: 1 }));
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.urlToUpload, `${config.APP.API_HOST}/api/sessions/1/certification-candidates/import`);
     });
   });
@@ -58,6 +64,8 @@ module('Unit | Model | session', function (hooks) {
       this.owner.register('service:session', SessionStub);
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(
         model.urlToDownloadAttendanceSheet,
         `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`
@@ -81,6 +89,8 @@ module('Unit | Model | session', function (hooks) {
       this.owner.register('service:session', SessionStub);
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.urlToDownloadSessionIssueReportSheet, config.urlToDownloadSessionIssueReportSheet);
     });
   });
@@ -93,7 +103,11 @@ module('Unit | Model | session', function (hooks) {
       const model = _createTwoCompleteAndOneUncompleteCertificationReports(store);
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.uncompletedCertificationReports.length, 1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.uncompletedCertificationReports[0].id, 1);
     });
   });
@@ -115,8 +129,14 @@ module('Unit | Model | session', function (hooks) {
         const model = _createTwoCompleteAndOneUncompleteCertificationReports(store);
 
         // when/then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(model.completedCertificationReports.length, 2);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(model.completedCertificationReports[0].id, 2);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(model.completedCertificationReports[1].id, 3);
       });
     });
@@ -136,6 +156,8 @@ module('Unit | Model | session', function (hooks) {
 
         const model = _createTwoCompleteAndOneUncompleteCertificationReports(store);
         // when/then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(model.completedCertificationReports.length, 3);
       });
     });

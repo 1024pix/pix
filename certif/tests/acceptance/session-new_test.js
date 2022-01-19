@@ -15,6 +15,8 @@ module('Acceptance | Session creation', function (hooks) {
     await visit('/sessions/creation');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/connexion');
   });
 
@@ -47,6 +49,8 @@ module('Acceptance | Session creation', function (hooks) {
         await visit('/sessions/creation');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/espace-ferme');
       });
     });
@@ -77,12 +81,26 @@ module('Acceptance | Session creation', function (hooks) {
 
       // then
       const session = server.schema.sessions.findBy({ date: sessionDate });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.address, 'My address');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.room, 'My room');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.examiner, 'My examiner');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.description, 'My description');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.date, sessionDate);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.time, '13:45');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/sessions/${session.id}`);
     });
 
@@ -96,7 +114,11 @@ module('Acceptance | Session creation', function (hooks) {
 
       // then
       const actualSessionsCount = server.schema.sessions.all().length;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(previousSessionsCount, actualSessionsCount);
     });
   });

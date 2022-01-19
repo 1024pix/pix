@@ -14,6 +14,8 @@ module('Acceptance | Restricted access', function (hooks) {
       await visit('/espace-ferme');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -47,6 +49,8 @@ module('Acceptance | Restricted access', function (hooks) {
         await visit('/espace-ferme');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/sessions/liste');
       });
     });

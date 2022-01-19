@@ -400,7 +400,11 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await clickByLabel('Ajouter le candidat');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(updateCandidateFromValueStub.callCount, 7);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(updateCandidateFromEventStub.callCount, 8);
       sinon.assert.calledOnce(saveCandidateStub);
     });
