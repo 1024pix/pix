@@ -1,5 +1,3 @@
-/* eslint-disable ember/classic-decorator-no-classic-methods*/
-
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import EmberObject from '@ember/object';
@@ -24,6 +22,7 @@ export default class SessionsDetailsRoute extends Route {
       certificationCandidates,
       async reloadCertificationCandidate() {
         const certificationCandidates = await loadCertificationCandidates();
+        // eslint-disable-next-line ember/classic-decorator-no-classic-methods
         this.set('certificationCandidates', certificationCandidates);
       },
     });

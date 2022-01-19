@@ -1,5 +1,3 @@
-/* eslint-disable ember/no-classic-classes,ember/require-tagless-components*/
-
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { fillIn, render } from '@ember/test-helpers';
@@ -20,6 +18,7 @@ module('Integration | Component | login-form', function (hooks) {
   let sessionStub;
 
   hooks.beforeEach(function () {
+    // eslint-disable-next-line ember/no-classic-classes, ember/require-tagless-components
     sessionStub = Service.extend({});
     this.owner.register('service:session', sessionStub);
   });

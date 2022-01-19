@@ -1,5 +1,3 @@
-/* eslint-disable ember/no-controller-access-in-routes*/
-
 import Route from '@ember/routing/route';
 import moment from 'moment';
 import { inject as service } from '@ember/service';
@@ -22,6 +20,7 @@ export default class SessionsUpdateRoute extends Route {
   }
 
   deactivate() {
+    // eslint-disable-next-line ember/no-controller-access-in-routes
     this.controller.model.rollbackAttributes();
   }
 }

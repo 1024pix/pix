@@ -1,9 +1,9 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
 import Controller from '@ember/controller';
-import { alias } from '@ember/object/computed';
 import every from 'lodash/every';
+/* eslint-disable ember/no-computed-properties-in-native-classes*/
+import { alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
+/* eslint-enable ember/no-computed-properties-in-native-classes*/
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
