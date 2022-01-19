@@ -65,8 +65,8 @@ describe('Unit | Domain | Models | PixEduBadgeAcquisitionOrderer', function () {
       });
 
       context('when there is no PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT badge acquisition', function () {
-        context('when there is a PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE badge acquisition', function () {
-          it('should return the PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE badge acquisition', function () {
+        context('when there is a PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME badge acquisition', function () {
+          it('should return the PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME badge acquisition', function () {
             // given
             const badgesAcquisitions = [
               domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome(),
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | PixEduBadgeAcquisitionOrderer', function () {
           });
         });
 
-        context('when there is no PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE badge acquisition', function () {
+        context('when there is no PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME badge acquisition', function () {
           context('when there is a PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME badge acquisition', function () {
             it('should return the PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_FORMATEUR badge acquisition', function () {
               // given

@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
@@ -47,7 +47,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
           domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: true }),
           domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: false }),
           domainBuilder.buildPartnerCertification({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
             acquired: true,
           }),
           domainBuilder.buildPartnerCertification({
