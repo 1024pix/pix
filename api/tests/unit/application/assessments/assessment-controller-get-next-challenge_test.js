@@ -295,7 +295,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
             courseId: 'courseId',
             userId: 5,
             // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line mocha/no-setup-in-describe
+
             type: Assessment.types.COMPETENCE_EVALUATION,
             state: 'completed',
           });

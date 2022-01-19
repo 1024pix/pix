@@ -19,7 +19,6 @@
  * My awesome commit -> [pi-123] My awesome commit
  */
 
-/* eslint-disable no-console */
 module.exports = function getNextCommitSubject(messageTitle, branchName) {
   const startsWithBraces = (str) => str.match(/^\[[^\]]/);
   const startsWithMergeBranch = (str) => str.indexOf('Merge branch') === 0;

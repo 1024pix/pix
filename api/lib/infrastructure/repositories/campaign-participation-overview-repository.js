@@ -56,7 +56,6 @@ function _findByUserId({ userId }) {
 }
 
 function _computeCampaignParticipationState() {
-  // eslint-disable-next-line no-restricted-syntax
   return knex.raw(
     `
   CASE

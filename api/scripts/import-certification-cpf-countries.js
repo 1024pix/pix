@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable no-console */
 // Usage: node import-certification-cpf-countries.js path/file.csv
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/

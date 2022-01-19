@@ -1,16 +1,10 @@
-/* eslint-disable no-unused-vars */
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } = require('../errors');
 
 const smartRandom = require('../services/algorithm-methods/smart-random');
 const dataFetcher = require('../services/algorithm-methods/data-fetcher');
 
 module.exports = async function getNextChallengeForCompetenceEvaluation({
-  knowledgeElementRepository,
-  challengeRepository,
-  answerRepository,
-  skillRepository,
   pickChallengeService,
-  improvementService,
   assessment,
   userId,
   locale,
