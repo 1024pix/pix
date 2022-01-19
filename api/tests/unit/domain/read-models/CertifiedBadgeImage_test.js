@@ -5,7 +5,7 @@ const {
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
@@ -29,7 +29,7 @@ const badgeInfos = {
     isTemporaryBadge: true,
     levelName: 'Confirmé',
   },
-  [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]: {
+  [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
     isTemporaryBadge: true,
     levelName: 'Confirmé',

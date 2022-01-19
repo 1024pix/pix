@@ -7,7 +7,7 @@ const {
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
@@ -363,7 +363,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasTakenPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
       method: 'hasTakenPixPlusEduConfirme',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
     { method: 'hasTakenPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
     { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
@@ -408,7 +408,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasAcquiredPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
       method: 'hasAcquiredPixPlusEduConfirme',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
     { method: 'hasAcquiredPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
     { method: 'hasAcquiredPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
