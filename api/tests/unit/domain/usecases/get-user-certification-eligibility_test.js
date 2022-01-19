@@ -6,7 +6,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
 
@@ -101,7 +101,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
     },
     {
-      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
       certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
     },
     {

@@ -8,7 +8,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
 
@@ -365,7 +365,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       method: 'hasTakenPixPlusEduConfirme',
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
-    { method: 'hasTakenPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasTakenPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
     { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
@@ -410,7 +410,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       method: 'hasAcquiredPixPlusEduConfirme',
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
-    { method: 'hasAcquiredPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasAcquiredPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
     { method: 'hasAcquiredPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {

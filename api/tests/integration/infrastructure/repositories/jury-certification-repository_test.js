@@ -9,7 +9,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
 
@@ -165,7 +165,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, method: 'getPixPlusEduInitieCertificationStatus' },
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
       { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, method: 'getPixPlusEduAvanceCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
         method: 'getPixPlusEduExpertCertificationStatus',
