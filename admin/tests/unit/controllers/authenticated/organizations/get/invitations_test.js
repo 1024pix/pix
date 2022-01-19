@@ -46,6 +46,8 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.userEmailToInviteError, 'Ce champ est requis.');
     });
 
@@ -57,6 +59,8 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.userEmailToInviteError, 'Ce champ est requis.');
     });
 
@@ -68,6 +72,8 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.userEmailToInviteError, "L'adresse e-mail saisie n'est pas valide.");
     });
   });

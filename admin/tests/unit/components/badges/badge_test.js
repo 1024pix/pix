@@ -13,7 +13,11 @@ module('Unit |  Component | Badges | badge', function (hooks) {
         badge: { isCertifiable: true },
       };
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.isCertifiableColor, 'green');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.isCertifiableText, 'Certifiable');
     });
   });
@@ -24,8 +28,11 @@ module('Unit |  Component | Badges | badge', function (hooks) {
       component.args = {
         badge: { isAlwaysVisible: true },
       };
-
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.isAlwaysVisibleColor, 'green');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.isAlwaysVisibleText, 'Lacunes');
     });
   });

@@ -152,7 +152,11 @@ module('Integration | Component | certifications/certified-profile', function (h
       const iconSkill1 = find('[aria-label="skill1"]').getAttribute('data-icon');
       const iconSkill2 = find('[aria-label="skill2"]').getAttribute('data-icon');
       assert.contains('tube1');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(iconSkill1, 'check-double');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(iconSkill2, 'check');
     });
   });

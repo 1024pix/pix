@@ -58,6 +58,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       controller.send('updateEmailErrorMessage');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.errorMessage, controller.EMAIL_INVALID_ERROR_MESSAGE);
     });
 
@@ -70,6 +72,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       controller.send('updateEmailErrorMessage');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.errorMessage, null);
     });
   });
@@ -114,6 +118,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
         await controller.addCertificationCenterMembership(event);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.errorMessage, null);
       });
 
@@ -150,6 +156,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
         await controller.addCertificationCenterMembership(event);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.errorMessage, controller.EMAIL_REQUIRED_ERROR_MESSAGE);
       });
 
@@ -161,6 +169,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
         await controller.addCertificationCenterMembership(event);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.errorMessage, controller.EMAIL_INVALID_ERROR_MESSAGE);
       });
     });

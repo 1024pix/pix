@@ -17,6 +17,8 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
       await visit('/sessions/1');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -34,6 +36,8 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
       await visit('/sessions/1');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/1');
     });
 

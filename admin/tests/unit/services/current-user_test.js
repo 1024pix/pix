@@ -27,6 +27,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.user, connectedUser);
     });
   });
@@ -44,6 +46,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.user, null);
     });
   });
@@ -68,6 +72,8 @@ module('Unit | Service | current-user', function (hooks) {
       const result = await currentUser.load();
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, 'invalidate');
     });
   });

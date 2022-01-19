@@ -21,6 +21,8 @@ module('Unit | Validator | absolute-url', function (hooks) {
 
     const message = await validator.validate(badUrl, options);
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(message, options.message);
   });
 
@@ -48,6 +50,8 @@ module('Unit | Validator | absolute-url', function (hooks) {
 
     const message = await validator.validate(badUrl, options);
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(message, options.message);
   });
 });

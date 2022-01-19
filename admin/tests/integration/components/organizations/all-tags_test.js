@@ -89,6 +89,8 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
 
         // then
         assert.ok(save.called);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.model.organization.tags.length, 1);
       });
     });
@@ -108,6 +110,8 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
 
         // then
         assert.ok(save.called);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.model.organization.tags.length, 0);
       });
     });

@@ -15,6 +15,8 @@ module('Acceptance | Campaign Page', function (hooks) {
       await visit('/campaigns/1');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -32,6 +34,8 @@ module('Acceptance | Campaign Page', function (hooks) {
       await visit('/campaigns/1');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campaigns/1');
       assert.contains('Campaign name');
     });

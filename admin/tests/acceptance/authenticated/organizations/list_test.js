@@ -15,6 +15,8 @@ module('Acceptance | Organizations | List', function (hooks) {
       await visit('/organizations/list');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -30,6 +32,8 @@ module('Acceptance | Organizations | List', function (hooks) {
       await visit('/organizations/list');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/organizations/list');
     });
 
@@ -83,6 +87,8 @@ module('Acceptance | Organizations | List', function (hooks) {
       await click('[data-test-orga="1"]');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/organizations/1/team');
     });
   });

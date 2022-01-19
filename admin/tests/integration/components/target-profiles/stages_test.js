@@ -34,12 +34,24 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     assert.contains('Description prescripteur');
     assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:first-child').textContent.trim(), '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(3)').textContent.trim(), '100');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(4)').textContent.trim(), 'My title');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(5)').textContent.trim(), 'My message');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(8)').textContent.trim(), 'Voir détail');
     assert.notContains('Aucun résultat thématique associé');
   });

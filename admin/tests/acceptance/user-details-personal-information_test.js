@@ -36,6 +36,8 @@ module('Acceptance | User details personal information', function (hooks) {
     await visit(`/users/${user.id}`);
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/users/${user.id}`);
   });
 
@@ -135,6 +137,8 @@ module('Acceptance | User details personal information', function (hooks) {
       await clickByLabel('Oui, je dissocie');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/users/${user.id}`);
       assert.notContains(organizationName);
     });

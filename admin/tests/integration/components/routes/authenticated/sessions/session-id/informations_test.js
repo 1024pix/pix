@@ -28,6 +28,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/sessions/${session.id}`);
       assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
       assert
@@ -55,7 +57,11 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), undefined);
     });
 
@@ -126,6 +132,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
     });
 
@@ -141,6 +149,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         const buttonSendResultsToCandidates = this.element.querySelector(
           '.session-info__actions .row button:nth-child(3)'
         );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
     });
