@@ -18,7 +18,7 @@ const headers = {
   birthCountry: 'birthCountry',
 };
 
-async function main(filePath) {
+async function updateCertificationInfos(filePath) {
   logger.info('Starting script update-certifications-infos');
 
   logger.trace(`Checking ${filePath} data file...`);
@@ -44,7 +44,7 @@ async function main(filePath) {
           .first();
 
         if (!certificationCourse) {
-          logger.error(`Certification for external id ${externalId} not found`);
+          logger.warn(`Certification for external id ${externalId} not found`);
           return;
         }
 
@@ -89,7 +89,7 @@ async function main(filePath) {
 
 if (require.main === module) {
   const filePath = process.argv[2];
-  main(filePath).then(
+  updateCertificationInfos(filePath).then(
     () => process.exit(0),
     (err) => {
       logger.error(err);
@@ -97,3 +97,8 @@ if (require.main === module) {
     }
   );
 }
+
+module.exports = {
+  updateCertificationInfos,
+  headers,
+};
