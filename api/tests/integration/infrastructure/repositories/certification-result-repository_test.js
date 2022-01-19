@@ -213,29 +213,29 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         validationFunction: 'hasAcquiredPixPlusDroitExpert',
       },
       {
-        complementaryCertificationName: 'PixPlus Édu Autonome',
+        complementaryCertificationName: 'PixPlus Édu Initié',
         badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-        validationFunction: 'hasAcquiredPixPlusEduAutonome',
+        validationFunction: 'hasAcquiredPixPlusEduInitie',
       },
       {
-        complementaryCertificationName: 'PixPlus Édu Avancé',
+        complementaryCertificationName: 'PixPlus Édu Confirmé',
         badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
-        validationFunction: 'hasAcquiredPixPlusEduAvance',
+        validationFunction: 'hasAcquiredPixPlusEduConfirme',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Confirmé',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        validationFunction: 'hasAcquiredPixPlusEduConfirme',
       },
       {
         complementaryCertificationName: 'PixPlus Édu Avancé',
-        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
         validationFunction: 'hasAcquiredPixPlusEduAvance',
       },
       {
         complementaryCertificationName: 'PixPlus Édu Expert',
-        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        validationFunction: 'hasAcquiredPixPlusEduExpert',
-      },
-      {
-        complementaryCertificationName: 'PixPlus Édu Formateur',
         badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
-        validationFunction: 'hasAcquiredPixPlusEduFormateur',
+        validationFunction: 'hasAcquiredPixPlusEduExpert',
       },
     ].forEach(function (testCase) {
       it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {
@@ -490,29 +490,29 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         validationFunction: 'hasAcquiredPixPlusDroitExpert',
       },
       {
-        complementaryCertificationName: 'PixPlus Édu Autonome',
+        complementaryCertificationName: 'PixPlus Édu Initié',
         badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-        validationFunction: 'hasAcquiredPixPlusEduAutonome',
+        validationFunction: 'hasAcquiredPixPlusEduInitie',
       },
       {
-        complementaryCertificationName: 'PixPlus Édu Avancé',
+        complementaryCertificationName: 'PixPlus Édu Confirmé',
         badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
-        validationFunction: 'hasAcquiredPixPlusEduAvance',
+        validationFunction: 'hasAcquiredPixPlusEduConfirme',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Édu Confirmé',
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        validationFunction: 'hasAcquiredPixPlusEduConfirme',
       },
       {
         complementaryCertificationName: 'PixPlus Édu Avancé',
-        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
         validationFunction: 'hasAcquiredPixPlusEduAvance',
       },
       {
         complementaryCertificationName: 'PixPlus Édu Expert',
-        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        validationFunction: 'hasAcquiredPixPlusEduExpert',
-      },
-      {
-        complementaryCertificationName: 'PixPlus Édu Formateur',
         badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
-        validationFunction: 'hasAcquiredPixPlusEduFormateur',
+        validationFunction: 'hasAcquiredPixPlusEduExpert',
       },
     ].forEach(function (testCase) {
       it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {

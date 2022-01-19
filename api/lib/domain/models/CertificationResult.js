@@ -145,56 +145,56 @@ class CertificationResult {
     return Boolean(pixPlusDroitExpertPartnerCertification?.acquired);
   }
 
-  hasTakenPixPlusEduAutonome() {
+  hasTakenPixPlusEduInitie() {
     return this.partnerCertifications.some(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
     );
   }
 
-  hasAcquiredPixPlusEduAutonome() {
-    const pixPlusEduAutonomePartnerCertification = this.partnerCertifications.find(
+  hasAcquiredPixPlusEduInitie() {
+    const pixPlusEduInitiePartnerCertification = this.partnerCertifications.find(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
     );
-    return Boolean(pixPlusEduAutonomePartnerCertification?.acquired);
+    return Boolean(pixPlusEduInitiePartnerCertification?.acquired);
   }
 
-  hasTakenPixPlusEduAvance() {
+  hasTakenPixPlusEduConfirme() {
     return this.partnerCertifications.some(({ partnerKey }) =>
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
     );
   }
 
-  hasAcquiredPixPlusEduAvance() {
-    const pixPlusEduAvancePartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
+  hasAcquiredPixPlusEduConfirme() {
+    const pixPlusEduConfirmePartnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
+    );
+    return Boolean(pixPlusEduConfirmePartnerCertification?.acquired);
+  }
+
+  hasTakenPixPlusEduAvance() {
+    return this.partnerCertifications.some(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    );
+  }
+
+  hasAcquiredPixPlusEduAvance() {
+    const pixPlusEduAvancePartnerCertification = this.partnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
     return Boolean(pixPlusEduAvancePartnerCertification?.acquired);
   }
 
   hasTakenPixPlusEduExpert() {
     return this.partnerCertifications.some(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
     );
   }
 
   hasAcquiredPixPlusEduExpert() {
     const pixPlusEduExpertPartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
     );
     return Boolean(pixPlusEduExpertPartnerCertification?.acquired);
-  }
-
-  hasTakenPixPlusEduFormateur() {
-    return this.partnerCertifications.some(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
-    );
-  }
-
-  hasAcquiredPixPlusEduFormateur() {
-    const pixPlusEduFormateurPartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
-    );
-    return Boolean(pixPlusEduFormateurPartnerCertification?.acquired);
   }
 }
 
