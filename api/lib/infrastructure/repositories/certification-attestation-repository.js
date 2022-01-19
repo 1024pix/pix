@@ -10,7 +10,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../domain/models/Badge').keys;
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
@@ -149,7 +149,7 @@ async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
   const partnerCertifications = await knex
     .select('partnerKey')

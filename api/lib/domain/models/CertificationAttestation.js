@@ -7,7 +7,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('./Badge').keys;
 
 const PIX_COUNT_BY_LEVEL = 8;
@@ -70,7 +70,7 @@ class CertificationAttestation {
         key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
         key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
         key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
   }
 
@@ -93,7 +93,7 @@ class CertificationAttestation {
     if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
       return 'Avancé';
     }
-    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
       return 'Expert';
     }
   }

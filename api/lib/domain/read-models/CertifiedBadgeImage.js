@@ -5,7 +5,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../domain/models/Badge').keys;
 
 class CertifiedBadgeImage {
@@ -62,7 +62,7 @@ class CertifiedBadgeImage {
       });
     }
 
-    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
+    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
         isTemporaryBadge: true,

@@ -14,7 +14,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../models/Badge').keys;
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
@@ -35,7 +35,7 @@ async function _isAllowedToBeScored({
       certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
       certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
       certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     ) {
       return true;
     }

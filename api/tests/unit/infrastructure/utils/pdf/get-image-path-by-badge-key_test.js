@@ -9,7 +9,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Utils | get-image-path-by-badge-key', function () {
@@ -23,7 +23,7 @@ describe('Unit | Utils | get-image-path-by-badge-key', function () {
     { badge: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, path: '/files/macaron_edu_confirme.png' },
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, path: '/files/macaron_edu_confirme.png' },
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, path: '/files/macaron_edu_avance.png' },
-    { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, path: '/files/macaron_edu_expert.png' },
+    { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, path: '/files/macaron_edu_expert.png' },
   ].forEach(({ badge, path }) => {
     it(`should return the path ${path} for the badge ${badge}`, function () {
       // when

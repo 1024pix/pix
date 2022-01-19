@@ -10,7 +10,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('./Badge').keys;
 
 const status = {
@@ -190,13 +190,13 @@ class CertificationResult {
 
   hasTakenPixPlusEduExpert() {
     return this.partnerCertifications.some(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
   }
 
   hasAcquiredPixPlusEduExpert() {
     const pixPlusEduExpertPartnerCertification = this.partnerCertifications.find(
-      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+      ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
     return Boolean(pixPlusEduExpertPartnerCertification?.acquired);
   }

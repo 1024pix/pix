@@ -6,7 +6,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | BadgeAcquisition', function () {
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
     ].forEach((badgeKey) => {
       it(`should return true for badge ${badgeKey}`, function () {
         // given

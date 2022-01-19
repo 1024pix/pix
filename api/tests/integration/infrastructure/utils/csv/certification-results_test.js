@@ -10,7 +10,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
@@ -156,7 +156,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, expectedHeader: 'Certification Pix+ Édu Confirmé' },
       { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedHeader: 'Certification Pix+ Édu Avancé' },
       {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
         expectedHeader: 'Certification Pix+ Édu Expert',
       },
     ].forEach(({ partnerKey, expectedHeader }) => {
@@ -267,7 +267,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
               acquired: true,
             }),
             domainBuilder.buildPartnerCertification({
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+              partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
               acquired: false,
             }),
           ],
