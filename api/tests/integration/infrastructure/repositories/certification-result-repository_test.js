@@ -10,7 +10,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
@@ -234,7 +234,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       },
       {
         complementaryCertificationName: 'PixPlus Édu Expert',
-        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
         validationFunction: 'hasAcquiredPixPlusEduExpert',
       },
     ].forEach(function (testCase) {
@@ -511,7 +511,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       },
       {
         complementaryCertificationName: 'PixPlus Édu Expert',
-        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
         validationFunction: 'hasAcquiredPixPlusEduExpert',
       },
     ].forEach(function (testCase) {

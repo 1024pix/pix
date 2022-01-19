@@ -7,7 +7,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../domain/models/Badge').keys;
 
 const macaronCleaPath = `${__dirname}/files/macaron_clea.png`;
@@ -39,7 +39,7 @@ module.exports = function getImagePathByBadgeKey(badgeKey) {
   if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
     return macaronPixPlusEduAvancePath;
   }
-  if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
+  if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
     return macaronPixPlusEduExpertPath;
   }
 };

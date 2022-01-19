@@ -580,7 +580,7 @@ function _createPixEduBadges(databaseBuilder) {
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Expert',
     title: 'Pix+ Édu 2nd degré - Expert',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert.svg',
-    key: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR',
+    key: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT',
     message: 'avez validé le badge Pix+ Édu 2nd degré - Expert',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
@@ -783,5 +783,5 @@ module.exports = {
   PIX_DROIT_MAITRE_BADGE_ID,
   PIX_DROIT_EXPERT_BADGE_ID,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME_BADGE_ID,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT_BADGE_ID,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
 };

@@ -9,7 +9,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../models/Badge').keys;
 
 const status = {
@@ -139,7 +139,7 @@ class JuryCertification {
   }
 
   getPixPlusEduExpertCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR]);
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
   }
 
   _getStatusFromPartnerCertification(partnerCertificationKeys) {

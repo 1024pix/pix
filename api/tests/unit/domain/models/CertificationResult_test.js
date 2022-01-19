@@ -9,7 +9,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
@@ -366,7 +366,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
     { method: 'hasTakenPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
-    { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
+    { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -411,7 +411,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
     { method: 'hasAcquiredPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
-    { method: 'hasAcquiredPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
+    { method: 'hasAcquiredPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe

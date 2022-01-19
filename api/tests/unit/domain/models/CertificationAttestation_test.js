@@ -8,7 +8,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | CertificationAttestation', function () {
@@ -115,7 +115,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
     ].forEach((badgeKey) => {
       it(`should return the acquired ${badgeKey} badge`, function () {
         // given
@@ -155,7 +155,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, expectedDisplayName: 'Confirmé' },
       { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, expectedDisplayName: 'Confirmé' },
       { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR, expectedDisplayName: 'Expert' },
+      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedDisplayName: 'Expert' },
     ].forEach(({ badgeKey, expectedDisplayName }) => {
       it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
         // given

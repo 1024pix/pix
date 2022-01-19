@@ -18,7 +18,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
 
@@ -321,7 +321,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
         PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
       ].forEach((badgeKey) => {
         it(`should get the certified badge ${badgeKey} when acquired`, async function () {
           // given
