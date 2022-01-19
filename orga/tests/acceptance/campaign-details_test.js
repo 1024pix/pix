@@ -20,6 +20,8 @@ module('Acceptance | Campaign Details', function (hooks) {
       await visit('/campagnes/1');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -40,6 +42,8 @@ module('Acceptance | Campaign Details', function (hooks) {
       await clickByName('Retour');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
     });
 

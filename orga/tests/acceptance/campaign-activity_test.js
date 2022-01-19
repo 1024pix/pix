@@ -41,6 +41,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
         await clickByName('Bacri');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
       });
     });
@@ -59,6 +61,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
         await clickByName('Bacri');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes/2/profils/1');
       });
     });
@@ -69,6 +73,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
       await clickByName('Retour');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1');
     });
   });
@@ -82,6 +88,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
       await clickByName('Effacer les filtres');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(screen.getByLabelText('Statut').value, '');
     });
   });

@@ -19,6 +19,8 @@ module('Acceptance | terms-of-service', function (hooks) {
     await visit('/cgu');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/connexion');
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
   });
@@ -38,6 +40,8 @@ module('Acceptance | terms-of-service', function (hooks) {
       await clickByName('J’accepte les conditions d’utilisation');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
     });
 
@@ -49,6 +53,8 @@ module('Acceptance | terms-of-service', function (hooks) {
       await visit('/campagnes');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/cgu');
     });
   });
@@ -65,6 +71,8 @@ module('Acceptance | terms-of-service', function (hooks) {
       await visit('/cgu');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
     });
   });

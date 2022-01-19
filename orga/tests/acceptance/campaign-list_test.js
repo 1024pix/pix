@@ -17,6 +17,8 @@ module('Acceptance | Campaign List', function (hooks) {
       await visit('/campagnes');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -36,6 +38,8 @@ module('Acceptance | Campaign List', function (hooks) {
       await visit('/campagnes');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
     });
 
@@ -67,6 +71,8 @@ module('Acceptance | Campaign List', function (hooks) {
       await clickByName('CampagneEtPrairie');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1');
     });
 
@@ -81,6 +87,8 @@ module('Acceptance | Campaign List', function (hooks) {
         await fillByLabel('Rechercher un créateur', owner.firstName);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/campagnes?ownerName=${owner.firstName}`);
       });
 
@@ -94,6 +102,8 @@ module('Acceptance | Campaign List', function (hooks) {
         await fillByLabel('Rechercher un créateur', '');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes');
       });
 
@@ -151,6 +161,8 @@ module('Acceptance | Campaign List', function (hooks) {
         await fillByLabel('Rechercher une campagne', campaignName);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), `/campagnes?name=${campaignName}`);
       });
     });

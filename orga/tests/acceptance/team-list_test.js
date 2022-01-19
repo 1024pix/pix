@@ -23,6 +23,8 @@ module('Acceptance | Team List', function (hooks) {
       await visit('/equipe');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -69,6 +71,8 @@ module('Acceptance | Team List', function (hooks) {
         const screen = await visitScreen('/equipe');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/equipe/membres');
         assert.dom(screen.queryByLabelText('Membres')).isNotVisible();
         assert.dom(screen.queryByLabelText('Invitations')).isNotVisible();
@@ -89,6 +93,8 @@ module('Acceptance | Team List', function (hooks) {
         await visit('/equipe/membres');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/equipe/membres');
       });
 
@@ -145,6 +151,8 @@ module('Acceptance | Team List', function (hooks) {
       await clickByName('Équipe');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/equipe/membres');
     });
   });

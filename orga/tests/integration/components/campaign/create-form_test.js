@@ -184,7 +184,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         await clickByName(t('pages.campaign-creation.tags.SUBJECT'));
         // then
         const option = document.getElementsByTagName('option');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(option.length, 1);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(option[0].label, 'targetProfile4');
       });
     });

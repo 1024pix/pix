@@ -32,6 +32,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
     await visit('/campagnes/creation');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/connexion');
   });
 
@@ -51,6 +53,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should be accessible for an authenticated prescriber', async function (assert) {
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/creation');
       assert.contains("Création d'une campagne");
     });
@@ -72,11 +76,23 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       // then
       const firstCampaign = server.db.campaigns[0];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.name, 'Ma Campagne');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.title, 'Savoir rechercher');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.targetProfileId, expectedTargetProfileId);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.customLandingPageText, 'Texte personnalisé');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.idPixLabel, 'Mail Pro');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
 
@@ -92,6 +108,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByName('Créer la campagne');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/creation');
       assert.contains('Une erreur est survenue. Veuillez réessayer ultérieurement.');
     });
@@ -121,8 +139,14 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       // then
       const firstCampaign = server.db.campaigns[0];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.name, 'Ma Campagne');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstCampaign.targetProfileId, expectedTargetProfileId);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
 
@@ -136,7 +160,11 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByName('Créer la campagne');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
 
@@ -154,7 +182,11 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByName('Créer la campagne');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
   });
