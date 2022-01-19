@@ -43,6 +43,8 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       // when
       const computedOrganizationName = component.organizationNameAndExternalId;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(computedOrganizationName, expectedOrganizationName);
     });
 
@@ -56,6 +58,8 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       // when
       const computedOrganizationName = component.organizationNameAndExternalId;
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(computedOrganizationName, `${expectedOrganizationName} (${expectedExternalId})`);
     });
   });

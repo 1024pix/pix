@@ -18,7 +18,11 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     const unacquiredStars = this.element.querySelectorAll('.pix-stars__unacquired');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(acquiredStars.length, 1);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(unacquiredStars.length, 1);
   });
 
@@ -34,7 +38,11 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     const unacquiredStars = this.element.querySelectorAll('.pix-stars__unacquired');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(acquiredStars.length, 1);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(unacquiredStars.length, 1);
   });
 
@@ -49,6 +57,8 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     const srOnly = this.element.querySelector('.sr-only');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(srOnly.textContent.trim(), '1 étoiles sur 2');
   });
 

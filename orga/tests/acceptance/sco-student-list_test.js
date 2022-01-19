@@ -24,6 +24,8 @@ module('Acceptance | Sco Student List', function (hooks) {
       await visit('/eleves');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -49,6 +51,8 @@ module('Acceptance | Sco Student List', function (hooks) {
         await visit('/eleves');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes');
       });
     });
@@ -66,6 +70,8 @@ module('Acceptance | Sco Student List', function (hooks) {
         await visit('/eleves');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/eleves');
       });
 
@@ -121,6 +127,8 @@ module('Acceptance | Sco Student List', function (hooks) {
           await visit('/eleves');
           await fillByLabel('Entrer un nom', 'ambo');
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/eleves?lastName=ambo');
           assert.contains('Rambo');
           assert.notContains('Norris');
@@ -132,6 +140,8 @@ module('Acceptance | Sco Student List', function (hooks) {
           await fillByLabel('Entrer un prénom', 'Jo');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/eleves?firstName=Jo');
           assert.contains('Rambo');
           assert.notContains('Norris');
@@ -143,6 +153,8 @@ module('Acceptance | Sco Student List', function (hooks) {
           await fillByLabel('Rechercher par méthode de connexion', 'email');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/eleves?connexionType=email');
           assert.contains('Rambo');
           assert.notContains('Norris');

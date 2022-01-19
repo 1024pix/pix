@@ -43,6 +43,8 @@ module('Unit | Service | url', function (hooks) {
       const campaignsRootUrl = service.campaignsRootUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(campaignsRootUrl, service.definedCampaignsRootUrl);
     });
 
@@ -57,6 +59,8 @@ module('Unit | Service | url', function (hooks) {
       const campaignsRootUrl = service.campaignsRootUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(campaignsRootUrl, expectedCampaignsRootUrl);
     });
   });
@@ -86,6 +90,8 @@ module('Unit | Service | url', function (hooks) {
       const homeUrl = service.homeUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(homeUrl, expectedHomeUrl);
     });
   });
@@ -101,6 +107,8 @@ module('Unit | Service | url', function (hooks) {
       const url = service.legalNoticeUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
 
@@ -115,6 +123,8 @@ module('Unit | Service | url', function (hooks) {
       const url = service.legalNoticeUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
 
@@ -129,6 +139,8 @@ module('Unit | Service | url', function (hooks) {
       const url = service.legalNoticeUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
   });
@@ -144,6 +156,8 @@ module('Unit | Service | url', function (hooks) {
       const url = service.accessibilityUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
 
@@ -158,6 +172,8 @@ module('Unit | Service | url', function (hooks) {
       const url = service.accessibilityUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
 
@@ -172,6 +188,8 @@ module('Unit | Service | url', function (hooks) {
       const url = service.accessibilityUrl;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
   });

@@ -30,7 +30,11 @@ module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
     });
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(component.total, 3);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(component.shared, 1);
     assert.deepEqual(component.participantCountByStatus, [
       ['started', 1],

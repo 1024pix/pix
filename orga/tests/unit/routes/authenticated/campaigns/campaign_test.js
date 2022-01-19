@@ -28,6 +28,8 @@ module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
     // then
     const expectedRedirection = 'not-found';
     route.replaceWith = (redirection) => {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(redirection, expectedRedirection, `expect transition to ${expectedRedirection}, got ${redirection}`);
     };
 

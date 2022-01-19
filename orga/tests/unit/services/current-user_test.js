@@ -45,6 +45,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUserService.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUserService.prescriber, connectedUser);
     });
 
@@ -64,6 +66,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUserService.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUserService.memberships, memberships);
     });
 
@@ -77,6 +81,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUserService.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUserService.organization, organization);
     });
 
@@ -247,6 +253,8 @@ module('Unit | Service | current-user', function (hooks) {
         await currentUserService.load();
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentUserService.organization.id, organization2.id);
       });
     });
@@ -265,6 +273,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.prescriber, null);
     });
   });
@@ -289,6 +299,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.prescriber, null);
     });
   });
@@ -313,6 +325,8 @@ module('Unit | Service | current-user', function (hooks) {
       const result = await currentUser.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, 'invalidate');
     });
   });
