@@ -1,8 +1,14 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
 const bluebird = require('bluebird');
+const { readFile } = require('fs/promises');
 const logger = require('../lib/infrastructure/logger');
-// Usage: node scripts/update-certifications-infos path/file.csv
+// Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
+// data.csv
+// #externalId,birthdate,birthINSEECode,birthPostalCode,birthCity,birthCountry
+// #EXTERNAL_ID,2000-01-01,NULL,75550, paris,FRANCE
+// sessionsId.csv
+// 1,12,30
 
 ('use strict');
 const { parseCsv, checkCsvHeader } = require('./helpers/csvHelpers');
@@ -18,15 +24,23 @@ const headers = {
   birthCountry: 'birthCountry',
 };
 
-async function updateCertificationInfos(filePath) {
+async function _getSessionIds(sessionIdsFilePath) {
+  const csvData = await readFile(sessionIdsFilePath, 'utf8');
+  return csvData.split(',').map((id) => parseInt(id, 10));
+}
+
+async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
   logger.info('Starting script update-certifications-infos');
 
-  logger.trace(`Checking ${filePath} data file...`);
-  await checkCsvHeader({ filePath, requiredFieldNames: values(headers) });
+  logger.trace(`Checking ${dataFilePath} data file...`);
+  await checkCsvHeader({ filePath: dataFilePath, requiredFieldNames: values(headers) });
   logger.info('✅ ');
 
   logger.info('Reading and parsing csv data file... ');
-  const csvData = await parseCsv(filePath, { header: true, delimiter: ',', skipEmptyLines: true });
+  const csvData = await parseCsv(dataFilePath, { header: true, delimiter: ',', skipEmptyLines: true });
+  logger.info('✅ ');
+  logger.info('Reading and csv session ids file... ');
+  const sessionIds = await _getSessionIds(sessionIdsFilePath);
   logger.info('✅ ');
 
   logger.info('Updating data in database... ');
@@ -41,6 +55,7 @@ async function updateCertificationInfos(filePath) {
           .select('id', 'userId')
           .from('certification-courses')
           .where({ externalId })
+          .whereInArray('sessionId', sessionIds)
           .first();
 
         if (!certificationCourse) {
@@ -88,8 +103,9 @@ async function updateCertificationInfos(filePath) {
 }
 
 if (require.main === module) {
-  const filePath = process.argv[2];
-  updateCertificationInfos(filePath).then(
+  const dataFilePath = process.argv[2];
+  const sessionIdsFilePath = process.argv[2];
+  updateCertificationInfos(dataFilePath, sessionIdsFilePath).then(
     () => process.exit(0),
     (err) => {
       logger.error(err);
