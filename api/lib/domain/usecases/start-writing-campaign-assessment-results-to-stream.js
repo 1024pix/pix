@@ -172,6 +172,6 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) 
       translate('campaign-export.assessment.competence-area.items-successfully-completed', { name: area.title }),
     ]),
 
-    ...(organization.isSco ? [] : targetProfile.skillNames),
+    ...(organization.showSkills ? targetProfile.skillNames : []),
   ];
 }

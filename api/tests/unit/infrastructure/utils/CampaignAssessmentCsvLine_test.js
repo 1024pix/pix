@@ -250,11 +250,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
       });
     });
 
-    context('when organization type is not SCO', function () {
+    context('when organization showSkills is true', function () {
       context('when participation is shared', function () {
         it('should show details for each competence, area and skills', function () {
           // given
-          const organization = domainBuilder.buildOrganization({ type: 'SUP' });
+          const organization = domainBuilder.buildOrganization({ showSkills: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({
             sharedAt: new Date('2020-01-01'),
@@ -382,7 +382,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
       context('when participation is not shared', function () {
         it('should show NA for each competence, area and skills', function () {
           // given
-          const organization = domainBuilder.buildOrganization({ type: 'SUP' });
+          const organization = domainBuilder.buildOrganization({ showSkills: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: null });
           const skill1_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
@@ -571,11 +571,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
       });
     });
 
-    context('when organization type is SCO', function () {
+    context('when organization showSkills is false', function () {
       context('when participation is shared', function () {
         it('should show details for each competence and area but not skills', function () {
           // given
-          const organization = domainBuilder.buildOrganization({ type: 'SCO' });
+          const organization = domainBuilder.buildOrganization({ showSkills: false });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({
             sharedAt: new Date('2020-01-01'),

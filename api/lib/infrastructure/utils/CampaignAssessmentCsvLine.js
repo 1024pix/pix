@@ -118,9 +118,9 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ...(this.organization.isSco
-        ? []
-        : _.map(this.targetProfileWithLearningContent.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill))),
+      ...(this.organization.showSkills
+        ? _.map(this.targetProfileWithLearningContent.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill))
+        : []),
     ];
   }
 
@@ -132,7 +132,9 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeEmptyColumns(this.targetProfileWithLearningContent.competences.length * STATS_COLUMNS_COUNT),
       ...this._makeEmptyColumns(this.targetProfileWithLearningContent.areas.length * STATS_COLUMNS_COUNT),
-      ...(this.organization.isSco ? [] : this._makeEmptyColumns(this.targetProfileWithLearningContent.skills.length)),
+      ...(this.organization.showSkills
+        ? this._makeEmptyColumns(this.targetProfileWithLearningContent.skills.length)
+        : []),
     ];
   }
 
