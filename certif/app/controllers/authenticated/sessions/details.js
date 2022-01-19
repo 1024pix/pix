@@ -1,9 +1,9 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+/* eslint-disable ember/no-computed-properties-in-native-classes*/
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+/* eslint-enable ember/no-computed-properties-in-native-classes*/
 
 export default class SessionsDetailsController extends Controller {
   @service currentUser;
