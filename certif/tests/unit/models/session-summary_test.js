@@ -17,6 +17,8 @@ module('Unit | Model | session-summary', function (hooks) {
       );
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionSummary.statusLabel, 'Finalisée');
     });
 
@@ -31,6 +33,8 @@ module('Unit | Model | session-summary', function (hooks) {
       );
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionSummary.statusLabel, 'Résultats transmis par Pix');
     });
 
@@ -45,6 +49,8 @@ module('Unit | Model | session-summary', function (hooks) {
       );
 
       // when/then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionSummary.statusLabel, 'Créée');
     });
   });

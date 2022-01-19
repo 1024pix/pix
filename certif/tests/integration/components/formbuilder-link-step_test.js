@@ -22,6 +22,8 @@ module('Integration | Component | SessionFinalization::FormbuilderLinkStep', fun
     assert.contains(
       "Il n'est plus obligatoire de nous transmettre la feuille d'émargement et le PV d'incident scannés. En revanche, ces deux documents doivent être conservés par votre établissement pendant une durée de 2 ans et pouvoir être fournis à Pix en cas de besoin."
     );
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(this.element.querySelector('a').getAttribute('href'), formBuilderLinkUrl);
   });
 });

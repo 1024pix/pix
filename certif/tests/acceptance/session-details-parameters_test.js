@@ -49,6 +49,8 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         await visit(`/sessions/${sessionCreated.id}`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/espace-ferme');
       });
     });
@@ -78,6 +80,8 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             await clickByLabel('Finaliser la session');
 
             // then
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
@@ -132,6 +136,8 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           await clickByLabel('Finaliser la session');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
         });
 
