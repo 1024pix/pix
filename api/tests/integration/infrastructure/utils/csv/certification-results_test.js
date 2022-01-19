@@ -9,7 +9,7 @@ const {
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
@@ -154,7 +154,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         expectedHeader: 'Certification Pix+ Édu Initié (entrée dans le métier)',
       },
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, expectedHeader: 'Certification Pix+ Édu Confirmé' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedHeader: 'Certification Pix+ Édu Avancé' },
+      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedHeader: 'Certification Pix+ Édu Avancé' },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
         expectedHeader: 'Certification Pix+ Édu Expert',
@@ -263,7 +263,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
               acquired: false,
             }),
             domainBuilder.buildPartnerCertification({
-              partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+              partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
               acquired: true,
             }),
             domainBuilder.buildPartnerCertification({

@@ -4,7 +4,7 @@ const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
@@ -51,7 +51,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             acquired: true,
           }),
           domainBuilder.buildPartnerCertification({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
             acquired: false,
           }),
         ],
