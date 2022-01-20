@@ -35,25 +35,6 @@ describe('Unit | Domain | Service | Token Service', function () {
     });
   });
 
-  describe('#createAccessTokenFromExternalUser', function () {
-    it('should create access token with user id and source', function () {
-      // given
-      const userId = 123;
-      settings.authentication.secret = 'a secret';
-      settings.authentication.accessTokenLifespanMs = 1000;
-      sinon.stub(jsonwebtoken, 'sign');
-
-      // when
-      tokenService.createAccessTokenFromExternalUser(userId);
-
-      // then
-      const firstParameter = { user_id: userId, source: 'external' };
-      const secondParameter = 'a secret';
-      const thirdParameter = { expiresIn: 1 };
-      expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
-    });
-  });
-
   describe('#createIdTokenForUserReconciliation', function () {
     it('should return a valid idToken with firstName, lastName, samlId', function () {
       // given
