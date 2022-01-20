@@ -277,8 +277,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       const firstRowContent = document.querySelector('tr:nth-child(1) td:nth-child(2)').innerText;
       const secondRowContent = document.querySelector('tr:nth-child(2) td:nth-child(2)').innerText;
       const thirdRowContent = document.querySelector('tr:nth-child(3) td:nth-child(2)').innerText;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(firstRowContent, 'recCGEqqWBQnzD3NZ');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(secondRowContent, 'recABCEdeef1234');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(thirdRowContent, 'recZXYW4321');
     });
   });

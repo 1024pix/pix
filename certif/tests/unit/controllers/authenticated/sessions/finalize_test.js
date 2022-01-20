@@ -31,6 +31,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(uncheckedHasSeenEndTestScreenCount, 0);
     });
 
@@ -70,6 +72,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(uncheckedHasSeenEndTestScreenCount, 2);
     });
   });
@@ -223,6 +227,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('updateExaminerGlobalComment', { target: { value: 'MoreThan5Characters' } });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.examinerGlobalComment, initialValue);
     });
 
@@ -238,6 +244,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.examinerGlobalComment, newValue);
     });
 
@@ -253,6 +261,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(session.examinerGlobalComment, null);
     });
   });
@@ -268,6 +278,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('toggleCertificationReportHasSeenEndTestScreen', certifReport);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(certifReport.hasSeenEndTestScreen, !initialValue);
     });
   });
@@ -295,7 +307,11 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(session.certificationReports[1].hasSeenEndTestScreen, expectedState);
       })
     );

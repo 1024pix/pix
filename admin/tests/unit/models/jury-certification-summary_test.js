@@ -25,6 +25,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           const statusLabel = juryCertificationSummaryProcessed.get('statusLabel');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(statusLabel, label);
         });
       });
@@ -42,6 +44,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const hasSeenEndTestScreenLabel = juryCertificationSummaryProcessed.hasSeenEndTestScreenLabel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(hasSeenEndTestScreenLabel, '');
     });
 
@@ -55,6 +59,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const hasSeenEndTestScreenLabel = juryCertificationSummaryProcessed.hasSeenEndTestScreenLabel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(hasSeenEndTestScreenLabel, 'non');
     });
   });
@@ -73,6 +79,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
         juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(numberOfCertificationIssueReportsWithRequiredActionLabel, '');
     });
 
@@ -89,6 +97,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
         juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(numberOfCertificationIssueReportsWithRequiredActionLabel, 4);
     });
   });
@@ -112,6 +122,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(complementaryCertificationsLabel, '');
     });
 
@@ -143,6 +155,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
         const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(complementaryCertificationsLabel, expectedMessage);
       });
     });
@@ -165,6 +179,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(complementaryCertificationsLabel, 'CléA Numérique\nPix+ Droit Expert');
     });
   });
@@ -311,6 +327,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(juryCertificationSummary.completionDate, null);
     });
 
@@ -321,6 +339,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
     });
   });

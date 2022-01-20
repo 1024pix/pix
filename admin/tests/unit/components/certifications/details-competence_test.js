@@ -60,7 +60,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -91,7 +95,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -107,7 +115,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -123,7 +135,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -139,7 +155,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -155,7 +175,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -171,7 +195,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 17);
     });
 
@@ -187,7 +215,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 17);
     });
 
@@ -203,7 +235,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 17);
     });
 
@@ -219,7 +255,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 17);
     });
 
@@ -235,7 +275,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, -1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 0);
     });
 
@@ -251,7 +295,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, -1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 0);
     });
 
@@ -267,7 +315,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -283,7 +335,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -299,7 +355,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 3);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 25);
     });
 
@@ -315,7 +375,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, 2);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 17);
     });
 
@@ -331,7 +395,11 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.level, -1);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(actual.score, 0);
     });
   });
@@ -345,8 +413,14 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
     };
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(component.positionedWidth.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(component.certifiedWidth.toString(), htmlSafe('width:' + Math.round((2 / 8) * 100) + '%'));
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(component.competenceJury.width.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
   });
 

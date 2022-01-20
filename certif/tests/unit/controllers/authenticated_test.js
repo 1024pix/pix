@@ -27,6 +27,8 @@ module('Unit | Controller | authenticated', function (hooks) {
       const documentationLink = controller.documentationLink;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(documentationLink, 'http://cloud.pix.fr/s/fLSG4mYCcX7GDRF');
     });
 
@@ -51,6 +53,8 @@ module('Unit | Controller | authenticated', function (hooks) {
       const documentationLink = controller.documentationLink;
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(documentationLink, 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS');
     });
   });

@@ -61,6 +61,8 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.notContains('Enregistrer');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.membership.organizationRole, 'MEMBER');
       assert.ok(this.updateMembership.called);
     });

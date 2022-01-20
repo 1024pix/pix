@@ -21,6 +21,8 @@ module('Acceptance | Session List', function (hooks) {
       await visit('/sessions/liste');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -55,6 +57,8 @@ module('Acceptance | Session List', function (hooks) {
         await visit('/sessions/liste');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/espace-ferme');
       });
     });
@@ -64,6 +68,8 @@ module('Acceptance | Session List', function (hooks) {
       await visit('/sessions/liste');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
     });
 
@@ -109,6 +115,8 @@ module('Acceptance | Session List', function (hooks) {
         await click('[aria-label="Session de certification"]');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/sessions/123');
       });
 

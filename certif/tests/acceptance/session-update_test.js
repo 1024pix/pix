@@ -38,6 +38,8 @@ module('Acceptance | Session Update', function (hooks) {
       await visit(`/sessions/${session.id}/modification`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/espace-ferme');
     });
   });
@@ -73,8 +75,14 @@ module('Acceptance | Session Update', function (hooks) {
 
     // then
     session.reload();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(session.room, newRoom);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(session.examiner, newExaminer);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/sessions/${session.id}`);
   });
 
@@ -93,8 +101,14 @@ module('Acceptance | Session Update', function (hooks) {
 
     // then
     session.reload();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(session.room, 'beforeRoom');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(session.examiner, 'beforeExaminer');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/sessions/${session.id}`);
   });
 });

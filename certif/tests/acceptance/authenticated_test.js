@@ -28,6 +28,8 @@ module('Acceptance | authenticated', function (hooks) {
       await click('.sidebar__logo a');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
     });
   });
@@ -46,6 +48,8 @@ module('Acceptance | authenticated', function (hooks) {
       await clickByLabel('Sessions de certification');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
     });
 
@@ -92,6 +96,8 @@ module('Acceptance | authenticated', function (hooks) {
         await clickByLabel('Espace surveillant');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/connexion-espace-surveillant');
       });
     });
@@ -222,6 +228,8 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
     });
 
@@ -259,6 +267,8 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/espace-ferme');
     });
 
@@ -296,6 +306,8 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
     });
   });

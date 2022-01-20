@@ -36,6 +36,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', { htmlContent: true })
@@ -61,6 +63,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1] }));
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
@@ -89,6 +93,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
@@ -119,6 +125,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.organizationsToAttach, '');
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
@@ -142,6 +150,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
 
           await component.attachOrganizations(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.organizationsToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed 2'));
@@ -161,6 +171,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
 
           await component.attachOrganizations(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.organizationsToAttach, '1,1,5,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed too 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed too 2'));
@@ -180,7 +192,11 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
 
           await component.attachOrganizations(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.organizationsToAttach, '1,1,2,3,3');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
       });
@@ -195,6 +211,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
 
           await component.attachOrganizations(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.organizationsToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('Une erreur est survenue.'));
         });
@@ -224,6 +242,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
             'target-profile-id': 1,
           })
         );
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.existingTargetProfile, '');
         assert.ok(component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
         assert.ok(
@@ -290,6 +310,8 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
 
           await component.attachOrganizationsFromExistingTargetProfile(event);
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
       });

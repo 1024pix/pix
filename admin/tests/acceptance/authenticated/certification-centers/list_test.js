@@ -16,6 +16,8 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await visit('/certification-centers/list');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -31,6 +33,8 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await visit('/certification-centers/list');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/certification-centers/list');
     });
 
@@ -67,6 +71,8 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await click('[data-test-certification="1"]');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/certification-centers/1');
     });
   });

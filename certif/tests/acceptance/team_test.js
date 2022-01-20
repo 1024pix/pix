@@ -24,6 +24,8 @@ module('Acceptance | authenticated | team', function (hooks) {
       await visit('/equipe');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/equipe');
       assert.contains('Lili');
       assert.contains('Dupont');

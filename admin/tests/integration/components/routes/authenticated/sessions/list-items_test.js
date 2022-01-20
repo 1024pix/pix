@@ -127,6 +127,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
       // then
       const elementOptions = this.element.querySelectorAll('#certificationCenterType > option');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(elementOptions.length, 4);
       elementOptions.forEach((elementOption, index) => {
         const expectedOption = expectedOptions[index];
@@ -147,6 +149,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await fillIn('#certificationCenterType', 'PRO');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.certificationCenterType, 'PRO');
     });
   });
@@ -167,6 +171,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
       // then
       const elementOptions = this.element.querySelectorAll('#status > option');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(elementOptions.length, 5);
       elementOptions.forEach((elementOption, index) => {
         const expectedOption = expectedOptions[index];
@@ -187,6 +193,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await fillIn('#status', 'created');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.status, 'created');
     });
   });
@@ -205,6 +213,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
       // then
       const elementOptions = this.element.querySelectorAll('#resultsSentToPrescriberAt > option');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(elementOptions.length, 3);
       elementOptions.forEach((elementOption, index) => {
         const expectedOption = expectedOptions[index];
@@ -227,6 +237,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await fillIn('#resultsSentToPrescriberAt', 'false');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.resultsSentToPrescriberAt, 'false');
     });
   });

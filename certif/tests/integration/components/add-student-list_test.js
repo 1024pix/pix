@@ -237,6 +237,8 @@ module('Integration | Component | add-student-list', function (hooks) {
         await click(addCandidateButton);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(this.students, studentList);
         sinon.assert.calledWith(save, {
           adapterOptions: {

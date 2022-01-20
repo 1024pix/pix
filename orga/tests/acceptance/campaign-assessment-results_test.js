@@ -69,6 +69,8 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       await clickByName('AAAAAAAA_IAM_FIRST');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
     });
   });

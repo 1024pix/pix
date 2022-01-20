@@ -25,6 +25,8 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
@@ -43,6 +45,8 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/connexion');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
@@ -66,6 +70,8 @@ module('Acceptance | authentication', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/cgu');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
@@ -109,6 +115,8 @@ module('Acceptance | authentication', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
@@ -164,6 +172,8 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/campagnes/creation');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes/creation');
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
@@ -181,6 +191,8 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/campagnes');
       });
     });
@@ -368,6 +380,8 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/certifications');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/campagnes');
     });
   });

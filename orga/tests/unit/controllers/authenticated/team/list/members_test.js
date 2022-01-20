@@ -25,6 +25,8 @@ module('Unit | Controller | authenticated/team/list/members', function (hooks) {
       await controller.removeMembership(membership);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(membership.organization, currentUser.organization);
     });
 

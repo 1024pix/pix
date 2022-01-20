@@ -49,6 +49,8 @@ module('Integration | Component | certifications/status-select', function (hooks
 
         // then
         const elementOptions = this.element.querySelectorAll('#certification-status-selector > option');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(elementOptions.length, 4);
         elementOptions.forEach((elementOption, index) => {
           const expectedOption = expectedOptions[index];
@@ -69,6 +71,8 @@ module('Integration | Component | certifications/status-select', function (hooks
         await fillIn('#certification-status-selector', 'validated');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(certification.status, 'validated');
       });
     });

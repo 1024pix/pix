@@ -92,9 +92,17 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionServiceObserver.email, 'shi@fu.me');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionServiceObserver.password, 'Mypassword1');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(sessionServiceObserver.scope, 'pix-orga');
     });
   });
@@ -127,6 +135,8 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
       });
@@ -141,6 +151,8 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
       });
@@ -155,6 +167,8 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
       });
@@ -169,6 +183,8 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
       });
@@ -183,6 +199,8 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(spy.callCount, 0);
       });
     });

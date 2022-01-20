@@ -52,8 +52,12 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED', groups: ['L3'] });
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.pageNumber, null);
       assert.deepEqual(controller.divisions, ['A1']);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(controller.status, 'STARTED');
       assert.deepEqual(controller.groups, ['L3']);
     });
@@ -69,8 +73,12 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { status: 'COMPLETED' });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageNumber, null);
         assert.deepEqual(controller.divisions, ['A2']);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.status, 'COMPLETED');
       });
     });
@@ -86,8 +94,12 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { status: 'COMPLETED' });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageNumber, null);
         assert.deepEqual(controller.groups, ['A2']);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.status, 'COMPLETED');
       });
     });
@@ -103,8 +115,12 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { divisions: ['A1'] });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageNumber, null);
         assert.deepEqual(controller.divisions, ['A1']);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.status, 'SHARED');
       });
     });
@@ -119,6 +135,8 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { status: '' });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.status, '');
       });
     });

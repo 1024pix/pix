@@ -18,7 +18,11 @@ module('Unit | Adapters | campaign-profile', function (hooks) {
       const url = await adapter.urlForQueryRecord(query);
 
       assert.ok(url.endsWith('/api/campaigns/campaignId1/profiles-collection-participations/campaignParticipationId1'));
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(query.campaignId, undefined);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(query.campaignParticipationId, undefined);
     });
   });

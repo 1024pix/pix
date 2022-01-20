@@ -32,15 +32,23 @@ module('Integration | Component | UpdateStage', function (hooks) {
     // when
     await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(
       this.element.querySelector('label[for="prescriberTitle"]').textContent.trim(),
       'Titre pour le prescripteur'
     );
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(
       this.element.querySelector('label[for="prescriberDescription"]').textContent.trim(),
       'Description pour le prescripteur'
     );
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(this.element.querySelector('#prescriberTitle').value, 'Ceci est un titre');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(this.element.querySelector('#prescriberDescription').value, 'Ceci est une description');
     assert.contains('Annuler');
     assert.contains('Enregistrer');

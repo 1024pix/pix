@@ -38,6 +38,8 @@ module('Unit | Model | certification-candidate', function (hooks) {
       // when
       const model = store.createRecord('certification-candidate', data);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.sexLabel, 'Homme');
     });
 
@@ -50,6 +52,8 @@ module('Unit | Model | certification-candidate', function (hooks) {
       // when
       const model = store.createRecord('certification-candidate', data);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.sexLabel, 'Femme');
     });
 
@@ -60,6 +64,8 @@ module('Unit | Model | certification-candidate', function (hooks) {
       // when
       const model = store.createRecord('certification-candidate', data);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.sexLabel, null);
     });
   });
@@ -83,6 +89,8 @@ module('Unit | Model | certification-candidate', function (hooks) {
       // when
       const model = store.createRecord('certification-candidate', data);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.complementaryCertificationsList, 'Pix+Edu, Pix+Droit');
     });
   });

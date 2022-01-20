@@ -24,6 +24,8 @@ module('Unit | Utils | input validator', function (hooks) {
     // when
     validator.validate({ value: false, resetServerMessage: true });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(validator.serverMessage, null);
   });
 
@@ -35,6 +37,8 @@ module('Unit | Utils | input validator', function (hooks) {
     validator.serverMessage = 'serverMessage';
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(validator.message, 'serverMessage');
   });
 });
