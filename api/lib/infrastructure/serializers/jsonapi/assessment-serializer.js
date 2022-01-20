@@ -48,6 +48,7 @@ module.exports = {
         'competenceId',
         'lastQuestionState',
         'method',
+        'estimatedFlashLevel',
       ],
       answers: {
         ref: 'id',

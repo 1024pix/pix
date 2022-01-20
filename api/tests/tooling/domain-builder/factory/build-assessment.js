@@ -26,6 +26,7 @@ function buildAssessment({
   lastChallengeId = null,
   lastQuestionState = Assessment.statesOfLastQuestion.ASKED,
   method,
+  estimatedFlashLevel,
 } = {}) {
   return new Assessment({
     // attributes
@@ -43,11 +44,12 @@ function buildAssessment({
     lastQuestionDate,
     lastChallengeId,
     lastQuestionState,
+    method,
+    estimatedFlashLevel,
     // relationships
     answers,
     course,
     campaignParticipation,
-    method,
   });
 }
 
@@ -70,6 +72,7 @@ buildAssessment.ofTypeCampaign = function ({
   campaignParticipationId = null,
   title = 'campaignTitle',
   method,
+  estimatedFlashLevel,
 } = {}) {
   if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
     campaignParticipationId = campaignParticipation.id;
@@ -98,12 +101,13 @@ buildAssessment.ofTypeCampaign = function ({
     lastQuestionDate,
     lastChallengeId,
     lastQuestionState,
+    method,
+    estimatedFlashLevel,
     // relationships
     answers,
     course,
     targetProfile,
     campaignParticipation,
-    method,
   });
 };
 

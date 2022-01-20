@@ -75,6 +75,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           'competence-id': 'recCompetenceId',
           method: Assessment.methods.CHOSEN,
+          'estimated-flash-level': undefined,
         },
         relationships: {
           course: {
@@ -200,6 +201,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'competence-id': 'recCompetenceId',
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           method: Assessment.methods.CHOSEN,
+          'estimated-flash-level': undefined,
         },
         relationships: {
           course: { data: { type: 'courses', id: courseId } },
@@ -298,6 +300,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'competence-id': 'recCompetenceId',
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           method: Assessment.methods.SMART_RANDOM,
+          'estimated-flash-level': undefined,
         },
         relationships: {
           course: { data: { type: 'courses', id: 'anyFromLearningContent' } },
