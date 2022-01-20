@@ -126,6 +126,7 @@ module.exports = (function () {
         firstName: 'PRE',
         lastName: 'NOM',
       },
+      accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '4h'),
     },
 
     temporaryKey: {
@@ -276,6 +277,8 @@ module.exports = (function () {
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
+
+    config.saml.accessTokenLifespanMs = 1000;
 
     config.graviteeRegisterApplicationsCredentials = [
       {
