@@ -32,8 +32,14 @@ module('Acceptance | Campaign Update', function (hooks) {
     await clickByName('Modifier');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(server.db.campaigns.find(1).name, newName);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(server.db.campaigns.find(1).customLandingPageText, newText);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/campagnes/1/parametres');
   });
 });

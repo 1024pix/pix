@@ -26,6 +26,8 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.categoryLabel, categoryToLabel[model.category]);
     }
   });
@@ -41,6 +43,8 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.subcategoryLabel, subcategoryToLabel[model.subcategory]);
     }
   });
@@ -56,6 +60,8 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.categoryCode, categoryToCode[model.category]);
     }
   });
@@ -71,6 +77,8 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(model.subcategoryCode, subcategoryToCode[model.subcategory]);
     }
   });
@@ -82,6 +90,8 @@ module('Unit | Model | certification issue report', function (hooks) {
     const model = run(() => store.createRecord('certification-issue-report', { subcategory: null }));
 
     // when / then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(model.subcategoryLabel, '');
   });
 });

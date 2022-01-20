@@ -22,6 +22,8 @@ module('Unit | Adapter | schooling-registration', function (hooks) {
       const url = adapter.urlForDeleteRecord(schoolingRegistration.id);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(url, expectedUrl);
     });
   });

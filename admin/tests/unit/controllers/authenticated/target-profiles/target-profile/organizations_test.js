@@ -20,6 +20,8 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         await controller.updateFilters({ name: expectedValue });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.name, expectedValue);
       });
     });
@@ -34,6 +36,8 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         await controller.updateFilters({ type: expectedValue });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.type, expectedValue);
       });
     });
@@ -48,6 +52,8 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         await controller.updateFilters({ externalId: expectedValue });
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.externalId, expectedValue);
       });
     });

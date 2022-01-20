@@ -19,6 +19,8 @@ module('Acceptance | Session pages', function (hooks) {
       await visit('/sessions/session');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/login');
     });
   });
@@ -48,6 +50,8 @@ module('Acceptance | Session pages', function (hooks) {
 
       test('it should be accessible for an authenticated user', function (assert) {
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/sessions/1');
       });
 
@@ -55,6 +59,8 @@ module('Acceptance | Session pages', function (hooks) {
         test('it should show a header with title and sessionId search', function (assert) {
           // then
           assert.dom('.page-title').hasText('Sessions de certification');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(document.querySelector('.page-actions form input').value, '1');
         });
 
@@ -65,8 +71,12 @@ module('Acceptance | Session pages', function (hooks) {
           await click('.navbar-item:first-child');
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(sessionIdInput.value, '2');
           assert.dom('.page-actions form button').hasText('Charger');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/sessions/1');
         });
       });
@@ -78,6 +88,8 @@ module('Acceptance | Session pages', function (hooks) {
 
           // then
           assert.dom('.navbar-item:first-child').hasText('Informations');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/sessions/1');
         });
 
@@ -87,6 +99,8 @@ module('Acceptance | Session pages', function (hooks) {
 
           // then
           assert.dom('.navbar-item:last-child').hasText('Certifications');
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/sessions/1/certifications');
         });
       });
@@ -107,6 +121,8 @@ module('Acceptance | Session pages', function (hooks) {
           await clickByLabel(session.certificationCenterName);
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(currentURL(), '/certification-centers/1234');
         });
       });
@@ -161,6 +177,8 @@ module('Acceptance | Session pages', function (hooks) {
           );
           assert.contains(juryCertificationSummary.firstName);
           assert.contains(juryCertificationSummary.lastName);
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(circle.attributes.fill.value, '#39B97A');
         });
       });

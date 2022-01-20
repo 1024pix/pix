@@ -35,6 +35,8 @@ module('Integration | Component | organizations/form', function (hooks) {
       await selectChoose('#organizationTypeSelector', 'Établissement scolaire');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.organization.type, 'SCO');
       assert.dom('.ember-power-select-selected-item').hasText('Établissement scolaire');
     });

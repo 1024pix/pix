@@ -20,11 +20,21 @@ module('Unit | Model | certification report', function (hooks) {
     );
 
     // when / then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(model.id, 123);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(model.firstName, 'Clément');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(model.lastName, 'Tine');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(model.certificationCourseId, 987);
     assert.false(model.hasSeenEndTestScreen);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(model.firstIssueReportDescription, '');
   });
 
@@ -48,6 +58,8 @@ module('Unit | Model | certification report', function (hooks) {
       );
 
       // when / then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(certificationReport.firstIssueReportDescription, description);
     });
   });

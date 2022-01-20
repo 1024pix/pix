@@ -34,7 +34,11 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.certificationPointOfContact, certificationPointOfContact);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.currentAllowedCertificationCenterAccess, allowedCertificationCenterAccesseA);
     });
   });
@@ -52,6 +56,8 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.certificationPointOfContact, null);
     });
   });
@@ -75,6 +81,8 @@ module('Unit | Service | current-user', function (hooks) {
       const result = await currentUser.load();
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, 'invalidate');
     });
   });
@@ -162,6 +170,8 @@ module('Unit | Service | current-user', function (hooks) {
       currentUser.updateCurrentCertificationCenter(222);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentUser.currentAllowedCertificationCenterAccess, newAllowedCertificationCenterAccess);
     });
   });

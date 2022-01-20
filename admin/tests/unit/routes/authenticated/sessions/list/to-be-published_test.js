@@ -33,6 +33,8 @@ module('Unit | Route | authenticated/sessions/list/to-be-published', function (h
       const result = await route.model();
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(result, toBePublishedSessions);
     });
   });

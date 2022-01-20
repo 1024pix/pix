@@ -198,6 +198,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         const returnedSessions = await route.model({});
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(returnedSessions, 'someSessions');
       });
     });
@@ -224,12 +226,26 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         route.resetController(controller, true);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageNumber, 1);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageSize, 10);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.id, null);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.certificationCenterName, null);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.certificationCenterType, null);
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.status, 'finalized');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.resultsSentToPrescriberAt, null);
       });
     });
@@ -240,12 +256,26 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         route.resetController(controller, false);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageNumber, 'somePageNumber');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.pageSize, 'somePageSize');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.id, 'someId');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.certificationCenterName, 'someName');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.status, 'someStatus');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.certificationCenterType, 'someType');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.resultsSentToPrescriberAt, 'someValue');
       });
     });

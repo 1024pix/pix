@@ -40,11 +40,23 @@ module('Unit | Component | Campaigns | update', function (hooks) {
       // then
       assert.ok(event.preventDefault.called);
       assert.ok(component.args.campaign.save.called);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.form.name, 'some name');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.form.title, 'some title');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.form.customLandingPageText, 'some text');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.form.customResultPageText, 'some text again');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.form.customResultPageButtonText, 'some button text');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.form.customResultPageButtonUrl, 'google.com');
     });
 
@@ -69,6 +81,8 @@ module('Unit | Component | Campaigns | update', function (hooks) {
 
       // then
       assert.ok(component.args.campaign.save.called);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.campaign.title, null);
     });
 

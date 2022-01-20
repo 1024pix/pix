@@ -10,6 +10,8 @@ module('Unit | Helpers | formatDate', function () {
     const value = formatDate([date]);
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(value, null);
   });
 
@@ -21,6 +23,8 @@ module('Unit | Helpers | formatDate', function () {
     const value = formatDate([date]);
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(value, '14/08/2020');
   });
 });

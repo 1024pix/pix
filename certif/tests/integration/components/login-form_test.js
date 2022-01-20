@@ -58,9 +58,17 @@ module('Integration | Component | login-form', function (hooks) {
     await clickByLabel('Je me connecte');
 
     // then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sessionServiceObserver.email, 'pix@example.net');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sessionServiceObserver.scope, 'pix-certif');
   });
 

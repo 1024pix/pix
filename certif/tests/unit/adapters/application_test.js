@@ -10,6 +10,8 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // Then
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(applicationAdapter.namespace, 'api');
   });
 
@@ -23,6 +25,8 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       applicationAdapter.session = { isAuthenticated: true, data: { authenticated: { access_token } } };
 
       // Then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
     });
 

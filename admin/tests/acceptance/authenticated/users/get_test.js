@@ -17,6 +17,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
   test('User detail page can be accessed by URL /users/:id', async function (assert) {
     await visit(`/users/${currentUser.id}`);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/users/${currentUser.id}`);
   });
 
@@ -40,13 +42,19 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     // when
     await visit('/users/list?email=userpix1example.net');
     await click('tbody > tr:nth-child(1) > td:nth-child(1) > a');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/users/${currentUser.id}`);
   });
 
   test('Should redirect to list users page when click page title', async function (assert) {
     await visit(`/users/${currentUser.id}`);
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), `/users/${currentUser.id}`);
     await click('#link-to-users-page');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/users/list');
   });
 });

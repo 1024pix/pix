@@ -26,6 +26,8 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
         await modal.selectBirthGeoCodeOption('insee');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(modal.selectedBirthGeoCodeOption, 'insee');
       });
 
@@ -74,6 +76,8 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
         await modal.selectBirthGeoCodeOption('postal');
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(modal.selectedBirthGeoCodeOption, 'postal');
       });
 

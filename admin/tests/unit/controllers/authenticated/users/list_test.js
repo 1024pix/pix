@@ -18,6 +18,8 @@ module('Unit | Controller | authenticated/users/list', function (hooks) {
         // when
         await controller.updateFilters({ firstName: expectedValue });
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.firstName, expectedValue);
       });
     });
@@ -30,6 +32,8 @@ module('Unit | Controller | authenticated/users/list', function (hooks) {
         // when
         await controller.updateFilters({ lastName: expectedValue });
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.lastName, expectedValue);
       });
     });
@@ -42,6 +46,8 @@ module('Unit | Controller | authenticated/users/list', function (hooks) {
         // when
         await controller.updateFilters({ email: expectedValue });
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.email, expectedValue);
       });
     });

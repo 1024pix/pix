@@ -24,6 +24,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await visit(`/sessions/${session.id}/candidats`);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
     });
   });
@@ -59,6 +61,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         await visit(`/sessions/${session.id}/candidats`);
 
         // then
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(currentURL(), '/espace-ferme');
       });
     });
@@ -240,6 +244,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await click(linkToCandidate);
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
     });
 

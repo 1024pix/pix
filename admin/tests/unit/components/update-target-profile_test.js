@@ -64,6 +64,8 @@ module('Unit | Component | update-target-profile', function (hooks) {
 
       // then
       assert.ok(event.preventDefault.called);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.name, 'Edited name');
     });
 
@@ -94,6 +96,8 @@ module('Unit | Component | update-target-profile', function (hooks) {
       // when
       await component.updateProfile(event);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.description, 'Edited description');
     });
 
@@ -124,6 +128,8 @@ module('Unit | Component | update-target-profile', function (hooks) {
       // when
       await component.updateProfile(event);
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.comment, 'Edited comment');
     });
 

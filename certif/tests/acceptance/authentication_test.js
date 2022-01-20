@@ -25,6 +25,8 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/connexion');
       assert.notOk(
         currentSession(this.application).get('isAuthenticated'),
@@ -47,6 +49,8 @@ module('Acceptance | authentication', function (hooks) {
       await click('button[type=submit]');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/cgu');
       assert.ok(
         currentSession(this.application).get('isAuthenticated'),
@@ -91,6 +95,8 @@ module('Acceptance | authentication', function (hooks) {
       await click('button[type=submit]');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
       assert.ok(
         currentSession(this.application).get('isAuthenticated'),
@@ -129,6 +135,8 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/sessions/liste');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
       assert.ok(
         currentSession(this.application).get('isAuthenticated'),
@@ -157,6 +165,8 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/');
 
       // then
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/liste');
     });
   });

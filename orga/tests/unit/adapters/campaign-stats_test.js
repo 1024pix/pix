@@ -23,6 +23,8 @@ module('Unit | Adapter | campaign-stats', function (hooks) {
       ajaxStub.withArgs(url, 'GET').resolves(expectedStats);
       const stats = await adapter.getParticipationsByStage(campaignId);
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stats, expectedStats);
     });
   });
@@ -35,6 +37,8 @@ module('Unit | Adapter | campaign-stats', function (hooks) {
       ajaxStub.withArgs(url, 'GET').resolves(expectedStats);
       const stats = await adapter.getParticipationsByStatus(campaignId);
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stats, expectedStats);
     });
   });
@@ -47,6 +51,8 @@ module('Unit | Adapter | campaign-stats', function (hooks) {
       ajaxStub.withArgs(url, 'GET').resolves(expectedStats);
       const stats = await adapter.getParticipationsByDay(campaignId);
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stats, expectedStats);
     });
   });
@@ -59,6 +65,8 @@ module('Unit | Adapter | campaign-stats', function (hooks) {
       ajaxStub.withArgs(url, 'GET').resolves(expectedStats);
       const stats = await adapter.getParticipationsByMasteryRate(campaignId);
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stats, expectedStats);
     });
   });

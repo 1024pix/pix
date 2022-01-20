@@ -32,7 +32,11 @@ module('Unit | Component | update-stage', function (hooks) {
       // then
       assert.ok(event.preventDefault.called);
       assert.ok(component.args.model.save.called);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.prescriberTitle, 'palier intermédiaire');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.prescriberDescription, 'le niveau est moyen');
     });
 
@@ -58,7 +62,11 @@ module('Unit | Component | update-stage', function (hooks) {
 
       // then
       assert.ok(component.args.model.save.called);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.prescriberDescription, 'Ceci est une description');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.prescriberTitle, null);
     });
 

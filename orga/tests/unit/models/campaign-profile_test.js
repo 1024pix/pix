@@ -18,9 +18,17 @@ module('Unit | Model | campaign-profile', function (hooks) {
 
     const sortedCompetences = model.get('sortedCompetences');
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sortedCompetences[0].index, '1.1');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sortedCompetences[1].index, '1.1.1');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sortedCompetences[2].index, '1.2');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(sortedCompetences[3].index, '2.1');
   });
 });

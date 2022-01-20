@@ -21,7 +21,7 @@ module('Unit | Adapters | CampaignAssessmentResultMinimal', function (hooks) {
 
       // then
       assert.true(url.endsWith(`/campaigns/${1}/assessment-results`));
-      assert.true(query.campaignId === undefined);
+      assert.strictEqual(query.campaignId, undefined);
     });
   });
 });

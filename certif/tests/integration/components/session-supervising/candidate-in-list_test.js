@@ -330,6 +330,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           const actions = screen.getAllByRole('button', { name: 'Terminer le test' });
 
           // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(actions.length, 2);
           assert.contains('Attention : cette action entraîne la fin de son test de certification et est irréversible.');
           assert.contains('Terminer le test de Drax The Destroyer ?');
