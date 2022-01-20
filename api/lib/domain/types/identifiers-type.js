@@ -25,6 +25,7 @@ function _assignValueToExport(array, implementationType) {
 const typesPositiveInteger32bits = [
   'answerId',
   'assessmentId',
+  'authenticationMethodId',
   'badgeId',
   'badgeCriterionId',
   'campaignId',
