@@ -46,6 +46,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
       competenceRepository,
       competenceEvaluationRepository,
       knowledgeElementRepository,
+      locale,
     });
   }
 
