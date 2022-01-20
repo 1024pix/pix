@@ -136,7 +136,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
           assessmentResultStatus: CertificationResult.status.ERROR,
           validationFunction: 'isInError',
         },
-        // eslint-disable-next-line mocha/no-setup-in-describe
+
         { statusName: 'started', isCancelled: false, assessmentResultStatus: null, validationFunction: 'isStarted' },
       ].forEach(function (testCase) {
         it(`should build a ${testCase.statusName} CertificationResult`, async function () {

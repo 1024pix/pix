@@ -1,5 +1,3 @@
-/* eslint-disable no-sync */
-
 const each = require('lodash/each');
 const map = require('lodash/map');
 const times = require('lodash/times');

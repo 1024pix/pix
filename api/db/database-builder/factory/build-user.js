@@ -1,5 +1,3 @@
-/* eslint-disable no-sync */
-
 const isNil = require('lodash/isNil');
 const isUndefined = require('lodash/isUndefined');
 
@@ -26,6 +24,7 @@ function _buildPixAuthenticationMethod({
   createdAt,
   updatedAt,
 } = {}) {
+  // eslint-disable-next-line no-sync
   const hashedPassword = encrypt.hashPasswordSync(rawPassword);
 
   const values = {

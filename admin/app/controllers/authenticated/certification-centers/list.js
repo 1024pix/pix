@@ -1,5 +1,3 @@
-/* eslint-disable ember/classic-decorator-no-classic-methods */
-
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
@@ -23,6 +21,7 @@ export default class ListController extends Controller {
     const value = event.target.value;
     this.pendingFilters[fieldName] = value;
     yield timeout(this.DEBOUNCE_MS);
+    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
     this.setProperties(this.pendingFilters);
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;

@@ -18,7 +18,6 @@ export default class Router extends EmberRouter {
   }
 }
 
-/* eslint-disable max-statements */
 Router.map(function () {
   this.route('index', { path: '/' });
   this.route('inscription');

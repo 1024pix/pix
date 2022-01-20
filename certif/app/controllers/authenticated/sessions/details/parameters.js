@@ -1,10 +1,10 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+/* eslint-disable ember/no-computed-properties-in-native-classes*/
 import { alias } from '@ember/object/computed';
-import { tracked } from '@glimmer/tracking';
 import { computed } from '@ember/object';
+/* eslint-enable ember/no-computed-properties-in-native-classes*/
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 export default class SessionParametersController extends Controller {

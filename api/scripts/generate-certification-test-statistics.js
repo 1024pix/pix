@@ -28,7 +28,6 @@ function makeRefDataFaster() {
 makeRefDataFaster();
 
 async function _retrieveUserIds() {
-  // eslint-disable-next-line no-restricted-syntax
   const result = await knex.raw(
     `
     SELECT "users"."id"
