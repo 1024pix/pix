@@ -32,7 +32,6 @@
     }
 
     @include device-is('desktop') {
-      flex-direction: row;
       max-width: 500px;
     }
   }
@@ -69,6 +68,27 @@
     &-message {
       font-size: 0.8125rem;
       color: $grey-60;
+    }
+  }
+  
+  &__field-filters {
+    margin-bottom: 16px;
+    border: 0;
+    padding: 0;
+
+    > legend {
+      font-size: 0.875rem;
+      color: $grey-50;
+      margin-bottom: 2px;
+    }
+
+    .pix-selectable-tag {
+      margin-top: 8px;
+      margin-inline-end: 8px;
+    }
+
+    @include device-is('desktop') {
+      max-width: 500px;
     }
   }
 
@@ -118,6 +138,11 @@
     text-decoration: none;
     border: none;
   }
+}
+
+.pix-select {
+  margin-top: 16px;
+  margin-bottom: 12px;
 }
 
 .label {

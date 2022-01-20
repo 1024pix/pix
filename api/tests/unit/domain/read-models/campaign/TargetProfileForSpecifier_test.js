@@ -100,4 +100,20 @@ describe('TargetProfileForSpecifier', function () {
       expect(targetProfile.description).to.equal('description');
     });
   });
+
+  describe('#category', function () {
+    it('returns the category', function () {
+      const targetProfile = new TargetProfileForSpecifier({
+        id: 1,
+        name: 'name',
+        skills: [],
+        thematicResults: [],
+        hasStage: false,
+        description: 'description',
+        category: 'SUBJECT',
+      });
+
+      expect(targetProfile.category).to.equal('SUBJECT');
+    });
+  });
 });

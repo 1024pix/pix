@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer'
         thematicResults,
         hasStage: true,
         description: 'description',
+        category: 'SUBJECT',
       });
 
       const meta = { some: 'meta' };
@@ -29,6 +30,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer'
             'thematic-result-count': 1,
             'has-stage': true,
             description: 'description',
+            category: 'SUBJECT',
           },
         },
         meta,
