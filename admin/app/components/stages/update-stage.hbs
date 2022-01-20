@@ -1,6 +1,24 @@
 <section class="page-section mb_10">
   <form class="form" {{on "submit" this.updateStage}}>
     <div class="form-field">
+      <label for="threshold" class="form-field__label">
+        Seuil
+      </label>
+      <Input id="threshold" @type="number" class="form-control" @value={{this.form.threshold}} min="0" max="100" />
+      <br />
+
+      <label for="title" class="form-field__label">
+        Titre
+      </label>
+      <Input id="title" @type="text" class="form-control" @value={{this.form.title}} />
+      <br />
+
+      <label for="message" class="form-field__label">
+        Message
+      </label>
+      <Input id="message" @type="text" class="form-control" @value={{this.form.message}} />
+      <br />
+
       <label for="prescriberTitle" class="form-field__label">
         Titre pour le prescripteur
       </label>

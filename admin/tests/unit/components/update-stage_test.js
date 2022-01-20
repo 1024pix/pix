@@ -11,6 +11,9 @@ module('Unit | Component | update-stage', function (hooks) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', {
         model: {
+          threshold: 50,
+          title: 'titre originel',
+          message: 'message originel',
           prescriberTitle: '',
           prescriberDescription: '',
           save: sinon.stub(),
@@ -21,6 +24,9 @@ module('Unit | Component | update-stage', function (hooks) {
       const event = {
         preventDefault: sinon.stub(),
       };
+      component.form.threshold = 42;
+      component.form.title = 'titre modifié';
+      component.form.message = 'message modifié';
       component.form.prescriberTitle = 'palier intermédiaire';
       component.form.prescriberDescription = 'le niveau est moyen';
 
@@ -34,6 +40,15 @@ module('Unit | Component | update-stage', function (hooks) {
       assert.ok(component.args.model.save.called);
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.args.model.threshold, 42);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.args.model.title, 'titre modifié');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.args.model.message, 'message modifié');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.prescriberTitle, 'palier intermédiaire');
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
@@ -44,6 +59,9 @@ module('Unit | Component | update-stage', function (hooks) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', {
         model: {
+          threshold: 50,
+          title: 'titre du palier',
+          message: '',
           prescriberTitle: 'palier intermédiaire',
           prescriberDescription: '',
           save: sinon.stub(),
@@ -54,6 +72,9 @@ module('Unit | Component | update-stage', function (hooks) {
       const event = {
         preventDefault: sinon.stub(),
       };
+      component.threshold = 50;
+      component.title = 'titre du palier';
+      component.form.message = '';
       component.form.prescriberDescription = 'Ceci est une description';
       component.form.prescriberTitle = '';
 
@@ -62,6 +83,15 @@ module('Unit | Component | update-stage', function (hooks) {
 
       // then
       assert.ok(component.args.model.save.called);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.args.model.threshold, 50);
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.args.model.title, 'titre du palier');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line qunit/no-assert-equal
+      assert.equal(component.args.model.message, null);
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(component.args.model.prescriberDescription, 'Ceci est une description');
@@ -74,6 +104,9 @@ module('Unit | Component | update-stage', function (hooks) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', {
         model: {
+          threshold: 50,
+          title: '',
+          message: '',
           prescriberTitle: '',
           prescriberDescription: '',
           save: sinon.stub(),
@@ -84,6 +117,9 @@ module('Unit | Component | update-stage', function (hooks) {
       const event = {
         preventDefault: sinon.stub(),
       };
+      component.form.threshold = 50;
+      component.form.title = '';
+      component.form.message = '';
       component.form.prescriberTitle = 'palier intermédiaire';
       component.form.prescriberDescription = 'le niveau est moyen';
 
