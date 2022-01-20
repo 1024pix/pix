@@ -61,6 +61,7 @@ module.exports = function (environment) {
         defaultValue: 8,
         minValue: 1,
       }),
+      sessionSupervisingPollingRate: process.env.SESSION_SUPERVISING_POLLING_RATE ?? 5000,
     },
 
     googleFonts: [
