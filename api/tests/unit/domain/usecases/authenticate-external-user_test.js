@@ -22,7 +22,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
   beforeEach(function () {
     tokenService = {
-      createAccessTokenFromExternalUser: sinon.stub(),
+      createAccessTokenForSaml: sinon.stub(),
       extractSamlId: sinon.stub(),
     };
     authenticationService = {
@@ -61,7 +61,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       });
 
       const expectedToken = 'expected returned token';
-      tokenService.createAccessTokenFromExternalUser.withArgs(user.id).resolves(expectedToken);
+      tokenService.createAccessTokenForSaml.withArgs(user.id).resolves(expectedToken);
 
       // when
       const token = await authenticateExternalUser({
@@ -99,7 +99,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       });
 
       const expectedToken = 'expected returned token';
-      tokenService.createAccessTokenFromExternalUser.withArgs(user.id).resolves(expectedToken);
+      tokenService.createAccessTokenForSaml.withArgs(user.id).resolves(expectedToken);
 
       // when
       await authenticateExternalUser({

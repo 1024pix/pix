@@ -19,7 +19,7 @@ function createAccessTokenFromUser(userId, source) {
   return { accessToken, expirationDelaySeconds };
 }
 
-function createAccessTokenFromExternalUser(userId) {
+function createAccessTokenForSaml(userId) {
   const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
 }
@@ -185,7 +185,7 @@ async function extractPayloadFromPoleEmploiIdToken(idToken) {
 
 module.exports = {
   createAccessTokenFromUser,
-  createAccessTokenFromExternalUser,
+  createAccessTokenForSaml,
   createAccessTokenFromApplication,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,

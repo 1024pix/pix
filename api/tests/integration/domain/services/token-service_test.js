@@ -3,13 +3,13 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
 
 describe('Integration | Domain | Services | TokenService', function () {
-  describe('#createAccessTokenFromExternalUser', function () {
+  describe('#createAccessTokenForSaml', function () {
     it('should return a valid json web token', function () {
       // given
       const userId = 123;
 
       // when
-      const result = tokenService.createAccessTokenFromExternalUser(userId);
+      const result = tokenService.createAccessTokenForSaml(userId);
 
       // then
       const token = tokenService.getDecodedToken(result);

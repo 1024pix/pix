@@ -91,7 +91,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     }
   }
   const tokenUserId = userWithSamlId ? userWithSamlId.id : userId;
-  const accessToken = tokenService.createAccessTokenFromExternalUser(tokenUserId);
+  const accessToken = tokenService.createAccessTokenForSaml(tokenUserId);
   await userRepository.updateLastLoggedAt({ userId: tokenUserId });
   return accessToken;
 };
