@@ -15,7 +15,7 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
   const user = await userRepository.getBySamlId(externalUser.samlId);
 
   if (user) {
-    const token = tokenService.createAccessTokenFromExternalUser(user.id);
+    const token = tokenService.createAccessTokenForSaml(user.id);
     await userRepository.updateLastLoggedAt({ userId: user.id });
     return `/?token=${encodeURIComponent(token)}&user-id=${user.id}`;
   } else {

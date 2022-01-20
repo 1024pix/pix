@@ -97,7 +97,7 @@ module.exports = (function () {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '7d'),
+      accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '20m'),
       refreshTokenLifespanMs: ms(process.env.REFRESH_TOKEN_LIFESPAN || '7d'),
       tokenForCampaignResultLifespan: '1h',
       tokenForStudentReconciliationLifespan: '1h',
@@ -126,7 +126,7 @@ module.exports = (function () {
         firstName: 'PRE',
         lastName: 'NOM',
       },
-      accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '4h'),
+      accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
 
     temporaryKey: {
