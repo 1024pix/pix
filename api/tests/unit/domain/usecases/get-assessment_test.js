@@ -4,6 +4,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const flashAssessmentResultRepository = require('../../../../lib/infrastructure/repositories/flash-assessment-result-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -14,6 +15,7 @@ describe('Unit | UseCase | get-assessment', function () {
   let campaignParticipation;
   let competence;
   let course;
+  let flashAssessmentResult;
   const certificationCourseId = 1;
 
   const expectedCampaignName = 'Campagne Il';
@@ -33,10 +35,13 @@ describe('Unit | UseCase | get-assessment', function () {
       certificationCourseId,
     });
 
+    flashAssessmentResult = domainBuilder.buildFlashAssessmentResult({ assessmentId: assessment.id });
+
     sinon.stub(assessmentRepository, 'getWithAnswersAndCampaignParticipation');
     sinon.stub(campaignRepository, 'get');
     sinon.stub(competenceRepository, 'getCompetenceName');
     sinon.stub(courseRepository, 'getCourseName');
+    sinon.stub(flashAssessmentResultRepository, 'getByAssessmentId');
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async function () {
@@ -164,6 +169,30 @@ describe('Unit | UseCase | get-assessment', function () {
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal('Preview');
+  });
+
+  describe('when assessment is for completed flash campaign', function () {
+    it('should resolve the Assessment domain object with flash estimated level matching the given assessment ID', async function () {
+      // given
+      assessment.type = Assessment.types.CAMPAIGN;
+      assessment.method = Assessment.methods.FLASH;
+      assessment.state = Assessment.states.COMPLETED;
+      assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
+      flashAssessmentResultRepository.getByAssessmentId.withArgs(assessment.id).resolves(flashAssessmentResult);
+
+      // when
+      const result = await getAssessment({
+        assessmentId: assessment.id,
+        assessmentRepository,
+        campaignRepository,
+        flashAssessmentResultRepository,
+      });
+
+      // then
+      expect(result).to.be.an.instanceOf(Assessment);
+      expect(result.id).to.equal(assessment.id);
+      expect(result.estimatedFlashLevel).to.equal(flashAssessmentResult.estimatedLevel);
+    });
   });
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', function () {
