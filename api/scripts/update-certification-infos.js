@@ -55,7 +55,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
         const certificationCourse = await trx
           .select('id', 'userId')
           .from('certification-courses')
-          .where({ externalId })
+          .where({ externalId: `${externalId}` })
           .whereInArray('sessionId', sessionIds)
           .first();
 
