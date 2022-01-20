@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import _sortBy from 'lodash/sortBy';
 import _find from 'lodash/find';
 import _pull from 'lodash/pull';
+import _uniq from 'lodash/uniq';
 
 export default class CreateForm extends Component {
   @service currentUser;
@@ -34,7 +35,7 @@ export default class CreateForm extends Component {
 
   get categories() {
     if (!this.args.targetProfiles) return [];
-    let allCategories = this.args.targetProfiles.map((targetProfile) => targetProfile.category);
+    let allCategories = _uniq(this.args.targetProfiles.map((targetProfile) => targetProfile.category));
 
     const otherCategoryIsPresents = allCategories.includes('OTHER');
     allCategories = allCategories.map((category) => {
