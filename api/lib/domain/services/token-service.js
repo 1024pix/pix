@@ -7,16 +7,21 @@ const {
 } = require('../../domain/errors');
 const settings = require('../../config');
 
-function createAccessTokenFromUser(userId, source) {
-  const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
-  const accessToken = jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
+function _createAccessToken({ userId, source, expirationDelaySeconds }) {
+  return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
     expiresIn: expirationDelaySeconds,
   });
+}
+
+function createAccessTokenFromUser(userId, source) {
+  const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
+  const accessToken = _createAccessToken({ userId, source, expirationDelaySeconds });
   return { accessToken, expirationDelaySeconds };
 }
 
-function createAccessTokenFromExternalUser(userId) {
-  return createAccessTokenFromUser(userId, 'external').accessToken;
+function createAccessTokenForSaml(userId) {
+  const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
+  return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
 }
 
 function createAccessTokenFromApplication(
@@ -180,7 +185,7 @@ async function extractPayloadFromPoleEmploiIdToken(idToken) {
 
 module.exports = {
   createAccessTokenFromUser,
-  createAccessTokenFromExternalUser,
+  createAccessTokenForSaml,
   createAccessTokenFromApplication,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,

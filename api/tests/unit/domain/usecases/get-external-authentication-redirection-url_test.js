@@ -14,7 +14,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
 
     tokenService = {
       createIdTokenForUserReconciliation: sinon.stub(),
-      createAccessTokenFromExternalUser: sinon.stub(),
+      createAccessTokenForSaml: sinon.stub(),
     };
   });
 
@@ -77,7 +77,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       });
 
       userRepository.getBySamlId.withArgs('saml-id-for-adele').resolves(expectedUser);
-      tokenService.createAccessTokenFromExternalUser.returns('access-token');
+      tokenService.createAccessTokenForSaml.returns('access-token');
 
       // when
       const result = await getExternalAuthenticationRedirectionUrl({
