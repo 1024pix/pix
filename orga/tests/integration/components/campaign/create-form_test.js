@@ -156,6 +156,43 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         assert.contains(t('pages.campaign-creation.tags.OTHER'));
       });
 
+      test('it should display each category tags once', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: true });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.targetProfiles = [
+          EmberObject.create({
+            id: '4',
+            name: 'targetProfile4',
+            description: 'description4',
+            category: 'SUBJECT',
+          }),
+          EmberObject.create({
+            id: '4',
+            name: 'targetProfile6',
+            description: 'description6',
+            category: 'SUBJECT',
+          }),
+          EmberObject.create({
+            id: '5',
+            name: 'targetProfile5',
+            description: 'description7',
+            category: 'OTHER',
+          }),
+        ];
+        // when
+        await renderScreen(
+          hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+        // then
+        assert.contains(t('pages.campaign-creation.tags-title'));
+        assert.dom('label[for="SUBJECT"]').exists({ count: 1 });
+        assert.contains(t('pages.campaign-creation.tags.OTHER'));
+      });
+
       test('it should display only the target profiles associated to the tag selected', async function (assert) {
         // given
         class CurrentUserStub extends Service {
