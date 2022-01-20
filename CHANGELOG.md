@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.158.1 (20/01/2022)
+
+
+### :bug: Bug fix
+- [#3966](https://github.com/1024pix/pix/pull/3966) [BUGFIX] Afficher qu'une seule fois un même tag dans le formulaire de création de campagne (PIX-4187)
+
 ## v3.158.0 (20/01/2022)
 
 
