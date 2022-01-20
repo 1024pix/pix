@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.158.0 (20/01/2022)
+
+
+### :rocket: Enhancement
+- [#3961](https://github.com/1024pix/pix/pull/3961) [FEATURE] Script pour corriger les infos persos des d'étudiants d'une université  (PIX-4160)
+- [#3964](https://github.com/1024pix/pix/pull/3964) [FEATURE] Réduire la durée de l'access token (PIX-4166).
+- [#3950](https://github.com/1024pix/pix/pull/3950) [FEATURE] Rafraîchir l'affichage de l'espace surveillant périodiquement (PIX-3660).
+- [#3930](https://github.com/1024pix/pix/pull/3930) [FEATURE] Permettre de filtrer les profils cibles avec les tags Catégories (PIX-3764).
+
+### :building_construction: Tech
+- [#3959](https://github.com/1024pix/pix/pull/3959) [TECH] Prévenir les tests Qunit exclusifs (.only). 
+- [#3960](https://github.com/1024pix/pix/pull/3960) [TECH] Détecter et interdire les eslint-disable inutiles
+
 ## v3.157.0 (19/01/2022)
 
 
