@@ -1,6 +1,5 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
 import Model, { attr, hasMany } from '@ember-data/model';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';

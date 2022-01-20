@@ -1,6 +1,5 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes */
-
 import Model, { hasMany, attr } from '@ember-data/model';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 
 export default class User extends Model {

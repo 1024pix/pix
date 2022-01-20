@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Usage: scalingo scalingo --region osc-secnum-fr1 -a pix-api-production run --file file.csv node scripts/create-or-update-sco-agri-organizations.js /tmp/uploads/file.csv
 // To use on file with columns |externalId, name, email| (email is optional)
 

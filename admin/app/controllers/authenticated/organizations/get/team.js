@@ -1,5 +1,3 @@
-/* eslint-disable ember/classic-decorator-no-classic-methods */
-
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -26,6 +24,7 @@ export default class GetTeamController extends Controller {
   @service notifications;
 
   updateFilters() {
+    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
     this.setProperties(this.pendingFilters);
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;

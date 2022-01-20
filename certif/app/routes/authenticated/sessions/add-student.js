@@ -1,5 +1,3 @@
-/* eslint-disable ember/no-controller-access-in-routes*/
-
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -57,6 +55,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
 
+    // eslint-disable-next-line ember/no-controller-access-in-routes
     this.controllerFor('authenticated.sessions.add-student').set('returnToSessionCandidates', (sessionId) =>
       this.transitionTo('authenticated.sessions.details.certification-candidates', sessionId)
     );

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable no-console */
 // Usage: node import-certification-cpf-cities path/file.csv
 // File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
 

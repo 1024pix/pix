@@ -1,5 +1,5 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes */
 import Component from '@glimmer/component';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import Object, { action, computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { validator, buildValidations } from 'ember-cp-validations';

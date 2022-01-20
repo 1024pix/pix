@@ -1,5 +1,3 @@
-/* eslint-disable mocha/no-exports, mocha/no-top-level-hooks */
-
 const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;
@@ -26,6 +24,7 @@ const tokenService = require('../lib/domain/services/token-service');
 const Membership = require('../lib/domain/models/Membership');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
+/* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
   sinon.restore();
   cache.flushAll();
@@ -36,6 +35,7 @@ afterEach(function () {
 after(function () {
   return disconnect();
 });
+/* eslint-enable mocha/no-top-level-hooks */
 
 function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
   const accessToken = tokenService.createAccessTokenFromUser(userId, source).accessToken;
@@ -208,6 +208,7 @@ global.chaiErr = function globalErr(fn, val) {
   throw new chai.AssertionError('Expected an error');
 };
 
+// eslint-disable-next-line mocha/no-exports
 module.exports = {
   EMPTY_BLANK_AND_NULL,
   expect,

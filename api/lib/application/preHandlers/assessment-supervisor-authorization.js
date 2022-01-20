@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository');
@@ -9,6 +7,7 @@ const { extractUserIdFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   async verify(request, h) {
     const userId = extractUserIdFromRequest(request);
+    // eslint-disable-next-line no-restricted-syntax
     const candidateId = parseInt(request.params.id);
     const assessment = await assessmentRepository.getByCertificationCandidateId(candidateId);
     const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);

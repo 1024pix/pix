@@ -1,9 +1,9 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes */
-
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
+/* eslint-disable ember/no-computed-properties-in-native-classes */
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+/* eslint-enable ember/no-computed-properties-in-native-classes */
 import { inject as service } from '@ember/service';
 import { schedule } from '@ember/runloop';
 import cloneDeep from 'lodash/cloneDeep';

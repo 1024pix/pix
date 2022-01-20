@@ -1,8 +1,6 @@
-/* eslint-disable ember/classic-decorator-no-classic-methods */
-/* eslint-disable ember/no-computed-properties-in-native-classes */
-
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { schedule } from '@ember/runloop';
@@ -28,11 +26,14 @@ export default class CertificationDetailsController extends Controller {
     const competences = this.details.competences;
     const { good, count, jury } = _getCertificationResultsAfterJuryUpdate(competences);
 
+    /* eslint-disable ember/classic-decorator-no-classic-methods */
     if (jury) {
       this.set('juryRate', Math.round((good * 10000) / count) / 100);
     } else {
       this.set('juryRate', false);
     }
+    /* eslint-enable ember/classic-decorator-no-classic-methods */
+
     // TODO: find a better way
     schedule('afterRender', this, () => {
       const score = this.score;
@@ -42,11 +43,13 @@ export default class CertificationDetailsController extends Controller {
         value += isJuryScoreCorrect ? competence.juryScore : competence.obtainedScore;
         return value;
       }, 0);
+      /* eslint-disable ember/classic-decorator-no-classic-methods */
       if (newScore !== score) {
         this.set('juryScore', newScore);
       } else {
         this.set('juryScore', false);
       }
+      /* eslint-enable ember/classic-decorator-no-classic-methods */
     });
   }
 

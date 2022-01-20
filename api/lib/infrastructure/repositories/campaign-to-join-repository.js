@@ -47,7 +47,7 @@ module.exports = {
         targetProfileImageUrl: 'target-profiles.imageUrl',
         targetProfileIsSimplifiedAccess: 'target-profiles.isSimplifiedAccess',
       })
-      // eslint-disable-next-line no-restricted-syntax
+
       .select(
         knex.raw(`EXISTS(SELECT true FROM "organization-tags"
         JOIN tags ON "organization-tags"."tagId" = "tags".id

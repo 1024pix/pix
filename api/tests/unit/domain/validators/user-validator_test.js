@@ -1,4 +1,3 @@
-/* eslint-disable mocha/no-identical-title */
 const { expect, catchErr } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');

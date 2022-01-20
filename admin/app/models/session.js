@@ -1,11 +1,10 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes */
-
 import isEmpty from 'lodash/isEmpty';
 import sumBy from 'lodash/sumBy';
 import some from 'lodash/some';
 import trim from 'lodash/trim';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import { memberAction } from 'ember-api-actions';
 

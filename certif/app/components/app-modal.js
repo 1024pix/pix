@@ -1,8 +1,8 @@
-/* eslint-disable ember/require-tagless-components,ember/no-component-lifecycle-hooks,ember/no-actions-hash*/
 import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 import { EKMixin as EmberKeyboardMixin, keyUp } from 'ember-keyboard';
 
+// eslint-disable-next-line ember/require-tagless-components
 export default ModalDialog.extend(EmberKeyboardMixin, {
   translucentOverlay: true,
   targetAttachment: 'none',
@@ -18,6 +18,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     this.set('keyboardActivated', true);
   },
 
+  // eslint-disable-next-line ember/no-component-lifecycle-hooks
   didRender() {
     this._super(...arguments);
     document.querySelector('#modal-overlays').classList.add('active');
@@ -25,6 +26,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     document.body.style.overflowY = 'hidden';
   },
 
+  // eslint-disable-next-line ember/no-component-lifecycle-hooks
   willDestroyElement() {
     document.querySelector('#modal-overlays').classList.remove('active');
     document.body.classList.remove('centered-modal-showing');
@@ -43,6 +45,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
   // We can remove it after upgrading to a stable version of ember-modal-dialog (> v3.0.0-beta.3)
   //
   // cf. https://github.com/yapplabs/ember-modal-dialog/blob/26b3a89bab37bc584c3a3e9a221f1de4bb9ff979/addon/components/modal-dialog.js#L107-L114
+  // eslint-disable-next-line ember/no-actions-hash
   actions: {
     onClickOverlay(e) {
       e.preventDefault();

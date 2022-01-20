@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Usage: node add-target-profile-shares-to-organizations.js path/file.csv
 // To use on file with columns |externalId, targetProfileId-targetProfileId-targetProfileId|
 
