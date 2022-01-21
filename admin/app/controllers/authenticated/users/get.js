@@ -12,4 +12,9 @@ export default class GetController extends Controller {
   async addPixAuthenticationMethod(newEmail) {
     await this.model.save({ adapterOptions: { addPixAuthenticationMethod: true, newEmail } });
   }
+
+  @action
+  async reassignGarAuthenticationMethod(targetUserId) {
+    await this.model.save({ adapterOptions: { reassignGarAuthenticationMethod: true, targetUserId } });
+  }
 }

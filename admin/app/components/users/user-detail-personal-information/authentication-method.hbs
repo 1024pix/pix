@@ -124,6 +124,13 @@
           >Supprimer</PixButton>
         {{/if}}
       </td>
+      <td>
+        {{#if @user.hasGarAuthenticationMethod}}
+          <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
+            Déplacer cette méthode de connexion
+          </PixButton>
+        {{/if}}
+      </td>
     </tr>
   </tbody>
 </table>
@@ -134,4 +141,11 @@
   @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
   @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
   @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
+/>
+
+<Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
+  @showReassignGarAuthenticationMethodModal={{this.showReassignGarAuthenticationMethodModal}}
+  @targetUserId={{this.targetUserId}}
+  @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
+  @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
 />

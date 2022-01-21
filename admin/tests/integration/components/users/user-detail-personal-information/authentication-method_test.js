@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | users | user-detail-personal-information/authentication-method', function (hooks) {
   setupRenderingTest(hooks);
@@ -127,6 +128,24 @@ module('Integration | Component | users | user-detail-personal-information/authe
           // then
           assert.notContains('Ajouter une adresse e-mail');
         });
+      });
+    });
+
+    module('When user has gar authentication method', function () {
+      test('it should display reassign authentication method button', async function (assert) {
+        // given
+        this.set('user', {
+          hasGarAuthenticationMethod: true,
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+          <Users::UserDetailPersonalInformation::AuthenticationMethod
+            @user={{this.user}}
+          />`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
       });
     });
   });
