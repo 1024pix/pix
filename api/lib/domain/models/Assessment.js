@@ -58,7 +58,6 @@ class Assessment {
     competenceId,
     campaignParticipationId,
     method,
-    estimatedFlashLevel,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -80,7 +79,6 @@ class Assessment {
     this.competenceId = competenceId;
     this.campaignParticipationId = campaignParticipationId;
     this.method = method || Assessment.computeMethodFromType(this.type);
-    this.estimatedFlashLevel = estimatedFlashLevel;
   }
 
   isCompleted() {
