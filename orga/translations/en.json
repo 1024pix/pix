@@ -603,9 +603,13 @@
         "caption": "Topic selection",
         "column" : {
           "action": "Select",
-          "name": "Topic name"
+          "name": "Topic name",
+          "mobile": "Mobile compliant",
+          "tablet": "Tablet compliant"
         },
-        "row-title": "Topic"
+        "row-title": "Topic",
+        "is-responsive": "yes",
+        "not-responsive": "no"
       }
     },
     "profiles-individual-results": {
