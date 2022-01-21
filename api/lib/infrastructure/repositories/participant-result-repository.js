@@ -5,6 +5,7 @@ const AssessmentResult = require('../../domain/read-models/participant-results/A
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const competenceRepository = require('./competence-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
+const flashAssessmentResultRepository = require('./flash-assessment-result-repository');
 const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
@@ -21,12 +22,23 @@ const ParticipantResultRepository = {
 };
 
 async function _getParticipationResults(userId, campaignId) {
-  const { isCompleted, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate } =
-    await _getParticipationAttributes(userId, campaignId);
+  const {
+    isCompleted,
+    campaignParticipationId,
+    sharedAt,
+    assessmentCreatedAt,
+    participantExternalId,
+    masteryRate,
+    isFlash,
+    assessmentId,
+  } = await _getParticipationAttributes(userId, campaignId);
 
   const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
 
   const acquiredBadgeIds = await _getAcquiredBadgeIds(userId, campaignParticipationId);
+
+  let estimatedFlashLevel;
+  if (isFlash) estimatedFlashLevel = await _getEstimatedFlashLevel(assessmentId);
 
   return {
     campaignParticipationId,
@@ -37,6 +49,7 @@ async function _getParticipationResults(userId, campaignId) {
     knowledgeElements,
     masteryRate,
     acquiredBadgeIds: acquiredBadgeIds.map(({ badgeId }) => badgeId),
+    estimatedFlashLevel,
   };
 }
 
@@ -49,6 +62,8 @@ async function _getParticipationAttributes(userId, campaignId) {
       'assessments.createdAt AS assessmentCreatedAt',
       'participantExternalId',
       knex.raw('CAST("masteryRate" AS FLOAT)'),
+      'method',
+      'assessments.id AS assessmentId',
     ])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
@@ -61,8 +76,17 @@ async function _getParticipationAttributes(userId, campaignId) {
     throw new NotFoundError(`Participation not found for user ${userId} and campaign ${campaignId}`);
   }
 
-  const { state, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate } =
-    participationAttributes;
+  const {
+    state,
+    campaignParticipationId,
+    sharedAt,
+    assessmentCreatedAt,
+    participantExternalId,
+    masteryRate,
+    method,
+    assessmentId,
+  } = participationAttributes;
+
   return {
     isCompleted: state === Assessment.states.COMPLETED,
     campaignParticipationId,
@@ -70,6 +94,8 @@ async function _getParticipationAttributes(userId, campaignId) {
     assessmentCreatedAt,
     participantExternalId,
     masteryRate,
+    isFlash: method === Assessment.methods.FLASH,
+    assessmentId,
   };
 }
 
@@ -168,6 +194,11 @@ async function _isRegistrationActive(userId, campaignId) {
     .andWhere({ 'schooling-registrations.userId': userId })
     .first();
   return !registration?.isDisabled;
+}
+
+async function _getEstimatedFlashLevel(assessmentId) {
+  const flashAssessmentResult = await flashAssessmentResultRepository.getByAssessmentId(assessmentId);
+  return flashAssessmentResult?.estimatedLevel;
 }
 
 module.exports = ParticipantResultRepository;
