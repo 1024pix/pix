@@ -31,6 +31,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         acquiredBadgeIds: [3],
         participantExternalId: 'greg@lafleche.fr',
         masteryRate: 0.5,
+        estimatedFlashLevel: -2.4672347856,
       };
 
       const competences = [
@@ -85,6 +86,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'can-retry': true,
             'can-improve': false,
             'participant-external-id': 'greg@lafleche.fr',
+            'estimated-flash-level': -2.4672347856,
           },
           id: '1',
           relationships: {

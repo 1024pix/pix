@@ -217,6 +217,5 @@ function _adaptModelToDb(assessment) {
     'campaign',
     'campaignParticipation',
     'title',
-    'estimatedFlashLevel',
   ]);
 }

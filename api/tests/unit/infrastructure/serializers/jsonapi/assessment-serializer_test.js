@@ -20,7 +20,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             'competence-id': assessment.competenceId,
             'last-question-state': Assessment.statesOfLastQuestion.ASKED,
             method: Assessment.methods.CERTIFICATION_DETERMINED,
-            'estimated-flash-level': undefined,
           },
           relationships: {
             answers: {
@@ -121,10 +120,10 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
     it('should convert an Assessment model object with type CAMPAIGN and method FLASH into JSON API data', function () {
       //given
-      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.CAMPAIGN,
         method: Assessment.methods.FLASH,
         campaignParticipation: { campaign: { code: 'Konami' } },
-        estimatedFlashLevel: -2.4672347856,
       });
       const expectedProgressionJson = {
         data: {
@@ -144,8 +143,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       expect(json.data.attributes['certification-number']).to.be.null;
       expect(json.data.attributes['code-campaign']).to.equal('Konami');
       expect(json.data.attributes['method']).to.equal(Assessment.methods.FLASH);
-      expect(json.data.attributes['state']).to.equal(Assessment.states.COMPLETED);
-      expect(json.data.attributes['estimated-flash-level']).to.equal(-2.4672347856);
     });
 
     it('should convert an Assessment model object without course into JSON API data', function () {
