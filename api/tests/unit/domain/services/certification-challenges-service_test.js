@@ -824,6 +824,203 @@ describe('Unit | Service | Certification Challenge Service', function () {
       // then
       expect(certificationChallenges).to.deep.equal([]);
     });
+
+    it('should avoid skills of same tube if there is same level challenge alternative', async function () {
+      // given
+      const toto6 = domainBuilder.buildSkill({
+        id: 'toto6',
+        name: '@toto6',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const toto5 = domainBuilder.buildSkill({
+        id: 'toto5',
+        name: '@toto5',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const toto4 = domainBuilder.buildSkill({
+        id: 'toto4',
+        name: '@toto4',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const zaza4 = domainBuilder.buildSkill({
+        id: 'zaza4',
+        name: '@zaza4',
+        tubeId: 'zazaId',
+        competenceId: 'competenceId',
+      });
+      const userCompetence = new UserCompetence({
+        id: 'competenceId',
+        index: '1.2',
+        area: { code: '1' },
+        name: '1.2 Adopter un dauphin',
+        pixScore: 23,
+        estimatedLevel: 2,
+      });
+      placementProfile.userCompetences = [
+        new UserCompetence({
+          ...userCompetence,
+          skills: [toto6, toto5, toto4, zaza4],
+        }),
+      ];
+
+      challengeRepository.findOperativeHavingLocale
+        .withArgs(locale)
+        .resolves([
+          _createChallenge('challengeToto6', 'competenceId', [toto6], '@toto6'),
+          _createChallenge('challengeToto5', 'competenceId', [toto5], '@toto5'),
+          _createChallenge('challengeToto4', 'competenceId', [toto4], '@toto4'),
+          _createChallenge('challengeZaza4', 'competenceId', [zaza4], '@zaza4'),
+        ]);
+      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
+        .withArgs({ userId, limitDate: 'limitDate' })
+        .resolves([
+          domainBuilder.buildKnowledgeElement({
+            answerId: 123,
+            competenceId: 'competenceId',
+            skillId: toto6.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 456,
+            competenceId: 'competenceId',
+            skillId: toto5.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 789,
+            competenceId: 'competenceId',
+            skillId: toto4.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 257,
+            competenceId: 'competenceId',
+            skillId: zaza4.id,
+          }),
+        ]);
+      answerRepository.findChallengeIdsFromAnswerIds
+        .withArgs([123, 456, 789, 257])
+        .resolves(['challengeToto6', 'challengeToto5', 'challengeToto4', 'challengeZaza4']);
+
+      // when
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
+        placementProfile,
+        locale
+      );
+
+      // then
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge('challengeToto6', toto6),
+        _createCertificationChallenge('challengeToto5', toto5),
+        _createCertificationChallenge('challengeZaza4', zaza4),
+      ];
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
+    });
+
+    it('should not avoid skills of same tube if there is no challenge alternative', async function () {
+      // given
+      const toto6 = domainBuilder.buildSkill({
+        id: 'toto6',
+        name: '@toto6',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const toto5 = domainBuilder.buildSkill({
+        id: 'toto5',
+        name: '@toto5',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const mama5 = domainBuilder.buildSkill({
+        id: 'mama5',
+        name: '@mama5',
+        tubeId: 'mamaId',
+        competenceId: 'competenceId',
+      });
+      const toto4 = domainBuilder.buildSkill({
+        id: 'toto4',
+        name: '@toto4',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const zaza4 = domainBuilder.buildSkill({
+        id: 'zaza4',
+        name: '@zaza4',
+        tubeId: 'zazaId',
+        competenceId: 'competenceId',
+      });
+
+      const userCompetence = new UserCompetence({
+        id: 'competenceId',
+        index: '1.2',
+        area: { code: '1' },
+        name: '1.2 Adopter un dauphin',
+        pixScore: 23,
+        estimatedLevel: 2,
+      });
+      placementProfile.userCompetences = [
+        new UserCompetence({
+          ...userCompetence,
+          skills: [toto6, toto5, toto4, mama5, zaza4],
+        }),
+      ];
+
+      challengeRepository.findOperativeHavingLocale
+        .withArgs(locale)
+        .resolves([
+          _createChallenge('challengeToto6', 'competenceId', [toto6], '@toto6'),
+          _createChallenge('challengeToto5', 'competenceId', [toto5], '@toto5'),
+          _createChallenge('challengeToto4', 'competenceId', [toto4], '@toto4'),
+          _createChallenge('challengeZaza4', 'competenceId', [zaza4], '@zaza4'),
+          _createChallenge('challengeMama5', 'competenceId', [mama5], '@mama5'),
+        ]);
+      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
+        .withArgs({ userId, limitDate: 'limitDate' })
+        .resolves([
+          domainBuilder.buildKnowledgeElement({
+            answerId: 123,
+            competenceId: 'competenceId',
+            skillId: toto6.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 456,
+            competenceId: 'competenceId',
+            skillId: toto5.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 789,
+            competenceId: 'competenceId',
+            skillId: toto4.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 257,
+            competenceId: 'competenceId',
+            skillId: zaza4.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 245,
+            competenceId: 'competenceId',
+            skillId: mama5.id,
+          }),
+        ]);
+      answerRepository.findChallengeIdsFromAnswerIds
+        .withArgs([123, 456, 789, 257, 245])
+        .resolves(['challengeToto6', 'challengeToto5', 'challengeToto4', 'challengeZaza4', 'challengeMama5']);
+
+      // when
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
+        placementProfile,
+        locale
+      );
+
+      // then
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge('challengeToto6', toto6),
+        _createCertificationChallenge('challengeMama5', mama5),
+        _createCertificationChallenge('challengeToto5', toto5),
+      ];
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
+    });
   });
 
   describe('#pickCertificationChallengesForPixPlus', function () {
