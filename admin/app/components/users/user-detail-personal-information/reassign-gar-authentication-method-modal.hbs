@@ -1,0 +1,31 @@
+<Modal::Dialog
+  @title="Déplacer la méthode de connexion"
+  @display={{@showReassignGarAuthenticationMethodModal}}
+  @close={{@toggleReassignGarAuthenticationMethodModal}}
+>
+  <form {{on "submit" @submitReassignGarAuthenticationMethod}}>
+    <Modal::Body class="reassign-gar-authentication-method-modal__form-body">
+      <p class="reassign-gar-authentication-method-modal__form-body__information">
+        Vous vous apprêtez à déplacer la méthode Médiacentre sur un autre utilisateur. Cela signifie qu'elle n'existera
+        plus pour cet utilisateur.
+      </p>
+      <PixInput
+        @id="user-id-for-reassign-authentication-method"
+        @label="Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion"
+        @value={{@targetUserId}}
+        type="number"
+        required
+      />
+    </Modal::Body>
+
+    <Modal::Footer>
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{@toggleReassignGarAuthenticationMethodModal}}
+      >Annuler</PixButton>
+      <PixButton @type="submit" @size="small">Valider le déplacement</PixButton>
+    </Modal::Footer>
+  </form>
+</Modal::Dialog>
