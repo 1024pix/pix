@@ -773,6 +773,110 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       );
     });
 
+    it('should ignore disabled shooling-registrations', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+      databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
+      await databaseBuilder.commit();
+      const certificationAttestationDataA = {
+        id: 456,
+        firstName: 'James',
+        lastName: 'Marsters',
+        birthdate: '1962-08-20',
+        birthplace: 'Trouville',
+        isPublished: true,
+        userId: 111,
+        date: new Date('2020-05-01'),
+        verificationCode: 'P-SOMEOTHERCODE',
+        maxReachableLevelOnCertificationDate: 6,
+        deliveredAt: new Date('2021-07-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 23,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+        sessionId: 777,
+      };
+      const certificationAttestationDataB = {
+        id: 123,
+        firstName: 'Laura',
+        lastName: 'Gellar',
+        birthdate: '1990-01-04',
+        birthplace: 'Torreilles',
+        isPublished: true,
+        userId: 333,
+        date: new Date('2019-01-01'),
+        verificationCode: 'P-YETANOTHERCODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2020-05-05'),
+        certificationCenter: 'Centre Catalan',
+        pixScore: 150,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+        sessionId: 999,
+      };
+      const certificationAttestationDataC = {
+        id: 789,
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId: 222,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+        sessionId: 888,
+      };
+      await _buildValidCertificationAttestation(certificationAttestationDataA);
+      await _buildValidCertificationAttestation(certificationAttestationDataB);
+      await _buildValidCertificationAttestation(certificationAttestationDataC);
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataA,
+        organizationId: 123,
+        division: '3emeB',
+      });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataB,
+        organizationId: 123,
+        division: '3emeB',
+      });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataC,
+        organizationId: 123,
+        division: '3emeB',
+        isDisabled: true,
+      });
+
+      // when
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
+
+      // then
+      const expectedCertificationAttestationA =
+        domainBuilder.buildCertificationAttestation(certificationAttestationDataA);
+      const expectedCertificationAttestationB =
+        domainBuilder.buildCertificationAttestation(certificationAttestationDataB);
+
+      expect(certificationAttestations).to.have.length(2);
+      expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestationB, [
+        'resultCompetenceTree',
+      ]);
+
+      expect(certificationAttestations[1]).to.be.instanceOf(CertificationAttestation);
+      expect(certificationAttestations[1]).to.deepEqualInstanceOmitting(expectedCertificationAttestationA, [
+        'resultCompetenceTree',
+      ]);
+    });
+
     it('should take into account the latest validated assessment result of a certification', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
@@ -1130,6 +1234,7 @@ async function _linkCertificationAttestationToOrganization({
   organizationId,
   division,
   schoolingRegistrationId = null,
+  isDisabled = false,
 }) {
   const srId =
     schoolingRegistrationId ||
@@ -1137,6 +1242,7 @@ async function _linkCertificationAttestationToOrganization({
       organizationId,
       userId: certificationAttestationData.userId,
       division,
+      isDisabled,
     }).id;
   databaseBuilder.factory.buildCertificationCandidate({
     userId: certificationAttestationData.userId,
