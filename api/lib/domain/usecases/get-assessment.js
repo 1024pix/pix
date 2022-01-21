@@ -7,7 +7,6 @@ module.exports = async function getAssessment({
   assessmentRepository,
   competenceRepository,
   courseRepository,
-  flashAssessmentResultRepository,
 }) {
   const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
   if (!assessment) {
@@ -20,11 +19,6 @@ module.exports = async function getAssessment({
     competenceRepository,
     courseRepository,
   });
-
-  if (assessment.isFlash() && assessment.isCompleted()) {
-    const { estimatedLevel } = await flashAssessmentResultRepository.getByAssessmentId(assessmentId);
-    assessment.estimatedFlashLevel = estimatedLevel;
-  }
 
   return assessment;
 };
