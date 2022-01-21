@@ -7,7 +7,9 @@ export default class AuthenticationMethod extends Component {
   @service notifications;
 
   @tracked showAddAuthenticationMethodModal = false;
+  @tracked showReassignGarAuthenticationMethodModal = false;
   @tracked newEmail = '';
+  @tracked targetUserId = '';
   @tracked showAlreadyExistingEmailError = false;
 
   @action
@@ -18,9 +20,14 @@ export default class AuthenticationMethod extends Component {
   }
 
   @action
+  toggleReassignGarAuthenticationMethodModal() {
+    this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
+    this.targetUserId = '';
+  }
+
+  @action
   async submitAddingPixAuthenticationMethod(event) {
     event.preventDefault();
-
     try {
       await this.args.addPixAuthenticationMethod(this.newEmail);
       this.notifications.success(`${this.newEmail} a bien été rajouté aux méthodes de connexion de l'utilisateur`);
@@ -41,6 +48,18 @@ export default class AuthenticationMethod extends Component {
         this.newEmail = '';
         this.showAlreadyExistingEmailError = false;
       }
+    }
+  }
+
+  @action
+  async submitReassignGarAuthenticationMethod(event) {
+    event.preventDefault();
+    try {
+      await this.args.reassignGarAuthenticationMethod(this.targetUserId);
+      this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${this.targetUserId}`);
+      this.showReassignGarAuthenticationMethodModal = false;
+    } catch (response) {
+      console.log(response.errors);
     }
   }
 }

@@ -57,6 +57,23 @@ export default class UserAdapter extends ApplicationAdapter {
       return this.ajax(url, 'POST', payload);
     }
 
+    if (snapshot.adapterOptions && snapshot.adapterOptions.reassignGarAuthenticationMethod) {
+      const payload = {
+        data: {
+          data: {
+            attributes: {
+              'user-id': snapshot.adapterOptions.targetUserId,
+              'identity-provider': 'GAR',
+            },
+          },
+        },
+      };
+      const url =
+        this.urlForUpdateRecord(snapshot.id) +
+        `/authentication-methods/${snapshot.adapterOptions.targetUserId}/reassign`;
+      return this.ajax(url, 'PUT', payload);
+    }
+
     return super.updateRecord(...arguments);
   }
 }

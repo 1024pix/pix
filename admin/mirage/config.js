@@ -250,6 +250,13 @@ export default function () {
     return user;
   });
 
+  this.put('/admin/users/:userId/authentication-methods/:id/reassign', (schema, request) => {
+    const userId = request.params.userId;
+    const user = schema.users.findBy({ id: userId });
+    user.update({ authenticationMethods: [] });
+    return user;
+  });
+
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
