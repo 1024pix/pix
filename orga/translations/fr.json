@@ -603,9 +603,13 @@
         "caption": "Sélection des sujets",
         "column": {
           "action": "Sélection",
-          "name": "Nom du sujet"
+          "name": "Nom du sujet",
+          "mobile": "Compatible smartphone",
+          "tablet": "Compatible tablette"
         },
-        "row-title": "Sujet"
+        "row-title": "Sujet",
+        "is-responsive": "oui",
+        "not-responsive": "non"
       }
     },
     "profiles-individual-results": {
