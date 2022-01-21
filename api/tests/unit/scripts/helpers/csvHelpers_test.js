@@ -1,6 +1,11 @@
 const { expect, catchErr } = require('../../../test-helper');
 const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
-const { checkCsvExtensionFile, parseCsv, parseCsvWithHeader } = require('../../../../scripts/helpers/csvHelpers');
+const {
+  checkCsvExtensionFile,
+  parseCsv,
+  parseCsvWithHeader,
+  checkCsvHeader,
+} = require('../../../../scripts/helpers/csvHelpers');
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.file';
@@ -81,6 +86,32 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       // then
       expect(items.length).to.equal(3);
       expect(items).to.have.deep.members(expectedItems);
+    });
+  });
+
+  describe('#checkCsvHeader', function () {
+    it('should throw if headers does not match', async function () {
+      // given
+      const headers = ['uai', 'Name'];
+
+      // when
+      const error = await catchErr(checkCsvHeader)({ filePath: withHeaderFilePath, requiredFieldNames: headers });
+
+      // then
+      expect(error).to.be.instanceOf(FileValidationError);
+      expect(error.code).to.equal('MISSING_REQUIRED_FIELD_NAMES');
+      expect(error.meta).to.equal('Header are required: uai,Name');
+    });
+
+    it('should not throw if headers match', async function () {
+      // given
+      const headers = ['uai', 'name'];
+
+      // when
+      const error = await catchErr(checkCsvHeader)({ filePath: withHeaderFilePath, requiredFieldNames: headers });
+
+      // then
+      expect(error).to.be.equal('should have thrown an error');
     });
   });
 });
