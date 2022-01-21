@@ -12,28 +12,28 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
       it('should return n+1 lines for the city', function () {
         const csvData = [
           {
-            Code_commune_INSEE: '30288',
-            Nom_commune: 'ST NAZAIRE',
-            Code_postal: '30200',
-            Ligne_5: null,
+            code_commune_insee: '30288',
+            nom_de_la_commune: 'ST NAZAIRE',
+            code_postal: '30200',
+            ligne_5: null,
           },
           {
-            Code_commune_INSEE: '44184',
-            Nom_commune: 'ST NAZAIRE',
-            Code_postal: '44600',
-            Ligne_5: 'ST MARC SUR MER',
+            code_commune_insee: '44184',
+            nom_de_la_commune: 'ST NAZAIRE',
+            code_postal: '44600',
+            ligne_5: 'ST MARC SUR MER',
           },
           {
-            Code_commune_INSEE: '66186',
-            Nom_commune: 'ST NAZAIRE',
-            Code_postal: '66570',
-            Ligne_5: null,
+            code_commune_insee: '66186',
+            nom_de_la_commune: 'ST NAZAIRE',
+            code_postal: '66570',
+            ligne_5: null,
           },
           {
-            Code_commune_INSEE: '44184',
-            Nom_commune: 'ST NAZAIRE',
-            Code_postal: '44600',
-            Ligne_5: null,
+            code_commune_insee: '44184',
+            nom_de_la_commune: 'ST NAZAIRE',
+            code_postal: '44600',
+            ligne_5: null,
           },
         ];
 
@@ -75,9 +75,9 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
         // given
         const csvData = [
           {
-            Code_commune_INSEE: '00001',
-            Nom_commune: 'GOTHAM CITY',
-            Code_postal: '09966',
+            code_commune_insee: '00001',
+            nom_de_la_commune: 'GOTHAM CITY',
+            code_postal: '09966',
           },
         ];
 
