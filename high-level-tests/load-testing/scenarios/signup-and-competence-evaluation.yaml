@@ -12,6 +12,7 @@ scenarios:
   - name: "Inscription et évaluation"
     flow:
       - function: "setupSignupFormData"
+      - function: "generateLengthyValue"
 
       ### ---------------------- ###
       ### From page /inscription ###
@@ -79,7 +80,7 @@ scenarios:
           capture:
             json: "$.data.relationships.assessment.data.id"
             as: "assessmentId"
-          expect: 
+          expect:
             - statusCode: 201
 
 
@@ -123,7 +124,7 @@ scenarios:
               json:
                 data:
                   attributes:
-                    value: "#ABAND#"
+                    value: "{{ lengthyValue }}"
                   relationships:
                     assessment:
                       data:

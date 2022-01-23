@@ -6,6 +6,7 @@ module.exports = {
   foundNextChallenge,
   handleResponseForChallengeId,
   setupSignupFormData,
+  generateLengthyValue,
 };
 
 function foundNextChallenge(context, next) {
@@ -24,5 +25,11 @@ function setupSignupFormData(context, events, done) {
   context.vars['lastName'] = faker.name.lastName();
   context.vars['email'] = `${faker.datatype.uuid().slice(19)}@example.net`;
   context.vars['password'] = 'Password123';
+  return done();
+}
+
+function generateLengthyValue(context, events, done) {
+  const oneMillion = 1000000;
+  context.vars['lengthyValue'] = 'X'.repeat(oneMillion);
   return done();
 }
