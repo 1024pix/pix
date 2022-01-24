@@ -37,7 +37,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     const i18n = getI18n();
 
     beforeEach(async function () {
-      organization = databaseBuilder.factory.buildOrganization();
+      organization = databaseBuilder.factory.buildOrganization({ showSkills: true });
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
       const skillWeb1 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1' });
