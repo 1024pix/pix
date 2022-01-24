@@ -1,20 +1,23 @@
 const { unlink, writeFile } = require('fs').promises;
 const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../../test-helper');
+const { expect, databaseBuilder, sinon } = require('../../../../test-helper');
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
 const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
+const endTestScreenRemovalService = require('../../../../../lib/domain/services/end-test-screen-removal-service');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
+const { features } = require('../../../../../lib/config');
 
 describe('Integration | UseCases | getAttendanceSheet', function () {
   describe('when certification center is not sco', function () {
     let userId;
     let sessionId;
+    let certificationCenterId;
 
     beforeEach(async function () {
       const certificationCenterName = 'Centre de certification';
       databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
         type: 'SUP',
         externalId: 'EXT1234',
@@ -79,38 +82,70 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
       await databaseBuilder.commit();
     });
 
-    const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target.ods`;
-    const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual.tmp.ods`;
+    context('when certification center is not in the end test screen whitelist', function () {
+      const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target_with_fdt.ods`;
+      const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual_with_fdt.tmp.ods`;
 
-    afterEach(async function () {
-      await unlink(actualOdsFilePath);
+      afterEach(async function () {
+        await unlink(actualOdsFilePath);
+      });
+
+      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+        // when
+        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
+        const updatedOdsFileBuffer = await getAttendanceSheet({
+          userId,
+          sessionId,
+          endTestScreenRemovalService,
+          sessionRepository,
+          sessionForAttendanceSheetRepository,
+        });
+        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+
+        // then
+        expect(actualResult).to.deep.equal(expectedResult);
+      });
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
-      // when
-      const updatedOdsFileBuffer = await getAttendanceSheet({
-        userId,
-        sessionId,
-        sessionRepository,
-        sessionForAttendanceSheetRepository,
-      });
-      await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-      const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-      const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+    context('when certification center is in the end test screen whitelist', function () {
+      const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target.ods`;
+      const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual.tmp.ods`;
 
-      // then
-      expect(actualResult).to.deep.equal(expectedResult);
+      afterEach(async function () {
+        await unlink(actualOdsFilePath);
+      });
+
+      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+        // when
+        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenterId]);
+        const updatedOdsFileBuffer = await getAttendanceSheet({
+          userId,
+          sessionId,
+          endTestScreenRemovalService,
+          sessionRepository,
+          sessionForAttendanceSheetRepository,
+        });
+        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+
+        // then
+        expect(actualResult).to.deep.equal(expectedResult);
+      });
     });
   });
 
   describe('when certification center is sco and managing students', function () {
     let userId;
     let sessionId;
+    let certificationCenterId;
 
     beforeEach(async function () {
       const certificationCenterName = 'Centre de certification';
       databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
         type: 'SCO',
         externalId: 'EXT1234',
@@ -176,27 +211,58 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
       await databaseBuilder.commit();
     });
 
-    const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target.ods`;
-    const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual.tmp.ods`;
+    context('when certification center is not in the end test screen whitelist', function () {
+      const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target_with_fdt.ods`;
+      const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual_with_fdt.tmp.ods`;
 
-    afterEach(async function () {
-      await unlink(actualOdsFilePath);
+      afterEach(async function () {
+        await unlink(actualOdsFilePath);
+      });
+
+      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+        // when
+        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
+        const updatedOdsFileBuffer = await getAttendanceSheet({
+          userId,
+          sessionId,
+          endTestScreenRemovalService,
+          sessionRepository,
+          sessionForAttendanceSheetRepository,
+        });
+        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+
+        // then
+        expect(actualResult).to.deep.equal(expectedResult);
+      });
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
-      // when
-      const updatedOdsFileBuffer = await getAttendanceSheet({
-        userId,
-        sessionId,
-        sessionRepository,
-        sessionForAttendanceSheetRepository,
-      });
-      await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-      const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-      const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+    context('when certification center is in the end test screen whitelist', function () {
+      const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target.ods`;
+      const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual.tmp.ods`;
 
-      // then
-      expect(actualResult).to.deep.equal(expectedResult);
+      afterEach(async function () {
+        await unlink(actualOdsFilePath);
+      });
+
+      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+        // when
+        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenterId]);
+        const updatedOdsFileBuffer = await getAttendanceSheet({
+          userId,
+          sessionId,
+          endTestScreenRemovalService,
+          sessionRepository,
+          sessionForAttendanceSheetRepository,
+        });
+        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+
+        // then
+        expect(actualResult).to.deep.equal(expectedResult);
+      });
     });
   });
 });

@@ -24,6 +24,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
           const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
           const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
           const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
+          const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(false);
           sessionForAttendanceSheetRepository.getWithCertificationCandidates
             .withArgs(sessionId)
             .resolves(_buildSessionWithCandidate('SUP', false));
@@ -35,7 +37,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
             .withArgs({
               stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
-              odsFilePath: sinon.match('non_sco_attendance_sheet_template.ods'),
+              odsFilePath: sinon.match('non_sco_attendance_sheet_template_with_fdt.ods'),
             })
             .resolves(odsBuffer);
           sinon
@@ -60,11 +62,68 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             userId,
             sessionId,
             sessionRepository,
+            endTestScreenRemovalService,
             sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository,
           });
 
           // then
           expect(result).to.deep.equal(odsBuffer);
+        });
+
+        context("when session's center is in the end test screen removal whitelist", function () {
+          it('should return the attendance sheet without end test column', async function () {
+            // given
+            const userId = 'dummyUserId';
+            const sessionId = 'dummySessionId';
+            const stringifiedXml = '<xml>Some xml</xml>';
+            const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
+            const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+            const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(true);
+            const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
+            sessionForAttendanceSheetRepository.getWithCertificationCandidates
+              .withArgs(sessionId)
+              .resolves(_buildSessionWithCandidate('SUP', true));
+            const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+            sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+            const odsBuffer = Buffer.from('some ods file');
+            sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+            sinon
+              .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+              .withArgs({
+                stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+                odsFilePath: sinon.match('attendance_sheet_template.ods'),
+              })
+              .resolves(odsBuffer);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+              .withArgs({
+                stringifiedXml,
+                sessionData: _buildAttendanceSheetSessionData('SUP', true),
+                sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionUpdatedXml);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+              .withArgs({
+                stringifiedXml: stringifiedSessionUpdatedXml,
+                candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
+                candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionAndCandidatesUpdatedXml);
+
+            // when
+            const result = await getAttendanceSheet({
+              userId,
+              sessionId,
+              endTestScreenRemovalService,
+              sessionRepository,
+              sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository,
+            });
+
+            // then
+            expect(result).to.deep.equal(odsBuffer);
+          });
         });
       });
 
@@ -76,6 +135,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
           const stringifiedXml = '<xml>Some xml</xml>';
           const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
           const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+          const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(false);
           const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
           sessionForAttendanceSheetRepository.getWithCertificationCandidates
             .withArgs(sessionId)
@@ -88,7 +149,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
             .withArgs({
               stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
-              odsFilePath: sinon.match('sco_attendance_sheet_template.ods'),
+              odsFilePath: sinon.match('sco_attendance_sheet_template_with_fdt.ods'),
             })
             .resolves(odsBuffer);
           sinon
@@ -112,12 +173,69 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
           const result = await getAttendanceSheet({
             userId,
             sessionId,
+            endTestScreenRemovalService,
             sessionRepository,
             sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository,
           });
 
           // then
           expect(result).to.deep.equal(odsBuffer);
+        });
+
+        context("when session's center is in the end test screen removal whitelist", function () {
+          it('should return the sco attendance sheet without end test column', async function () {
+            // given
+            const userId = 'dummyUserId';
+            const sessionId = 'dummySessionId';
+            const stringifiedXml = '<xml>Some xml</xml>';
+            const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
+            const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+            const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(true);
+            const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
+            sessionForAttendanceSheetRepository.getWithCertificationCandidates
+              .withArgs(sessionId)
+              .resolves(_buildSessionWithCandidate('SCO', true));
+            const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+            sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+            const odsBuffer = Buffer.from('some ods file');
+            sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+            sinon
+              .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+              .withArgs({
+                stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+                odsFilePath: sinon.match('sco_attendance_sheet_template.ods'),
+              })
+              .resolves(odsBuffer);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+              .withArgs({
+                stringifiedXml,
+                sessionData: _buildAttendanceSheetSessionData('SCO', true),
+                sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionUpdatedXml);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+              .withArgs({
+                stringifiedXml: stringifiedSessionUpdatedXml,
+                candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
+                candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionAndCandidatesUpdatedXml);
+
+            // when
+            const result = await getAttendanceSheet({
+              userId,
+              sessionId,
+              endTestScreenRemovalService,
+              sessionRepository,
+              sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository,
+            });
+
+            // then
+            expect(result).to.deep.equal(odsBuffer);
+          });
         });
       });
     });

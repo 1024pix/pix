@@ -123,7 +123,7 @@ function _getAttendanceSheetTemplatePath(
   isOrganizationManagingStudents,
   isEndTestScreenRemovalEnabled
 ) {
-  const suffix = isEndTestScreenRemovalEnabled ? '_fdt' : '';
+  const suffix = isEndTestScreenRemovalEnabled ? '' : '_with_fdt';
   const templatePath = __dirname + '/../../infrastructure/files/attendance-sheet';
   if (certificationCenterType === 'SCO' && isOrganizationManagingStudents) {
     return `${templatePath}/sco_attendance_sheet_template${suffix}.ods`;
