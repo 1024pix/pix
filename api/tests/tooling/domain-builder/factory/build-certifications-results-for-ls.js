@@ -11,8 +11,8 @@ function buildUser() {
   return databaseBuilder.factory.buildUser();
 }
 
-function buildSchoolingRegistration({ userId, organizationId }) {
-  return databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId });
+function buildSchoolingRegistration({ userId, organizationId, isDisabled }) {
+  return databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled });
 }
 
 function _createCertificationCenter() {

@@ -30,7 +30,10 @@ module.exports = {
       .select(['certification-candidates.id'])
       .from('certification-candidates')
       .join('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
-      .where('schooling-registrations.organizationId', '=', organizationId)
+      .where({
+        'schooling-registrations.organizationId': organizationId,
+        'schooling-registrations.isDisabled': false,
+      })
       .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
       .orderBy('certification-candidates.lastName', 'ASC')
       .orderBy('certification-candidates.firstName', 'ASC');

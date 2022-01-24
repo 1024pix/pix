@@ -93,12 +93,12 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
       }
     );
 
-    trx.commit();
+    await trx.commit();
     logger.info('✅ ');
     logger.info(`Certifications mises à jour: ${info.success}/${csvData.length} (${info.failure})`);
   } catch (error) {
     if (trx) {
-      trx.rollback();
+      await trx.rollback();
     }
     logger.error(error);
     process.exit(1);
