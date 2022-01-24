@@ -217,6 +217,7 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
     .insert({
       name: `Campaign_${organizationId}_${targetProfileId}`,
       code: 'FAKECODE',
+      ownerId: 1,
       organizationId,
       creatorId: adminMemberId,
       targetProfileId,
