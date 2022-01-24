@@ -49,7 +49,10 @@ module.exports = {
         'certification-candidates.schoolingRegistrationId'
       )
       .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
-      .where('schooling-registrations.organizationId', '=', organizationId)
+      .where({
+        'schooling-registrations.organizationId': organizationId,
+        'schooling-registrations.isDisabled': false,
+      })
       .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
