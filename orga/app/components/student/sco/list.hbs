@@ -58,8 +58,8 @@
       <tbody>
         {{#each @students as |student|}}
           <tr aria-label={{t "pages.students-sco.table.row-title"}}>
-            <td>{{student.lastName}}</td>
-            <td>{{student.firstName}}</td>
+            <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
+            <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
             <td>{{student.division}}</td>
             <td class="list-students-page__authentication-methods">
