@@ -47,7 +47,8 @@ module.exports = {
           .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
       )
 
-      .where('certification-courses.isCancelled', '=', false)
+      .where({ 'certification-courses.isCancelled': false })
+      .where({ 'schooling-registrations.isDisabled': false })
       .where(
         'schooling-registrations.organizationId',
         '=',
