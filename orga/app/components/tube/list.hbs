@@ -1,13 +1,18 @@
 <section>
   <div class="download-file">
-    <PixButtonLink
-      class="download-file__button"
-      @href={{this.downloadURL}}
-      @isDisabled={{this.haveNoTubeSelected}}
-      download={{t "pages.preselect-target-profile.download-filename"}}
-    >
-      {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
-    </PixButtonLink>
+    {{#if this.haveNoTubeSelected}}
+      <PixButton class="download-file__button" @isDisabled={{this.haveNoTubeSelected}}>
+        {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
+      </PixButton>
+    {{else}}
+      <PixButtonLink
+        class="download-file__button"
+        @href={{this.downloadURL}}
+        download={{t "pages.preselect-target-profile.download-filename"}}
+      >
+        {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
+      </PixButtonLink>
+    {{/if}}
   </div>
   {{#each this.sortedAreas as |area|}}
     <h2>{{area.code}} {{area.title}}</h2>
