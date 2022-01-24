@@ -91,6 +91,33 @@ describe('Integration | Repository | Certification-ls ', function () {
       expect(certificationResults).to.deep.equal([expected]);
     });
 
+    it('should not return disabled schooling registration certification results for a given UAI', async function () {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id,
+        organizationId,
+        isDisabled: true,
+      });
+
+      buildValidatedPublishedCertificationData({
+        user,
+        schoolingRegistration,
+        verificationCode,
+        pixScore,
+        competenceMarks,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResults).to.deep.equal([]);
+    });
+
     it('should not return cancelled certification for a given UAI', async function () {
       // given
       const organizationId = buildOrganization(uai).id;
