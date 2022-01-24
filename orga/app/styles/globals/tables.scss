@@ -66,6 +66,11 @@ tbody {
     color: $grey-80;
     position: relative;
 
+    &.ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     > a {
       color: $grey-80;
       text-decoration: none;
