@@ -41,12 +41,24 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
       test('it should only list the campaigns of the current user', async function (assert) {
         // given
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
+        const otherUser = server.create('user');
         createPrescriberByUser(user);
         await authenticateSession(user.id);
 
-        server.create('campaign', { ownerLastName: 'Dupuis', ownerFirstName: 'Mathilde' });
-        server.create('campaign', { ownerLastName: user.lastName, ownerFirstName: user.firstName });
-        server.create('campaign', { ownerLastName: user.lastName, ownerFirstName: user.firstName });
+        server.create('campaign', {
+          ownerLastName: otherUser.lastName,
+          ownerFirstName: otherUser.firstName,
+        });
+        server.create('campaign', {
+          ownerId: user.id,
+          ownerLastName: user.lastName,
+          ownerFirstName: user.firstName,
+        });
+        server.create('campaign', {
+          ownerId: user.id,
+          ownerLastName: user.lastName,
+          ownerFirstName: user.firstName,
+        });
 
         // when
         const screen = await visitScreen('/campagnes');
@@ -64,6 +76,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         server.create('campaign', {
           id: 1,
           name: 'CampagneEtPrairie',
+          ownerId: user.id,
           ownerLastName: user.lastName,
           ownerFirstName: user.firstName,
         });
@@ -85,11 +98,13 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
 
           server.create('campaign', {
             name: 'ma super campagne',
+            ownerId: user.id,
             ownerLastName: user.lastName,
             ownerFirstName: user.firstName,
           });
           server.create('campaign', {
             name: 'la campagne de Sara',
+            ownerId: user.id,
             ownerLastName: user.lastName,
             ownerFirstName: user.firstName,
           });
@@ -112,6 +127,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
           const campaignName = 'CampagneV2';
           server.create('campaign', {
             name: campaignName,
+            ownerId: user.id,
             ownerLastName: user.lastName,
             ownerFirstName: user.firstName,
           });

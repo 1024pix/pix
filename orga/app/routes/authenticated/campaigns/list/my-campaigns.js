@@ -30,7 +30,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
           organizationId: this.currentUser.organization.id,
           name: params.name,
           status: params.status,
-          ownerName: this.currentUser.prescriber.lastName,
+          isOwnedByMe: true,
         },
         page: {
           number: params.pageNumber,

@@ -576,6 +576,68 @@ describe('Integration | Repository | Campaign-Report', function () {
           expect(pagination).to.include(expectedPagination);
         });
       });
+
+      context('when user requests their campaigns', function () {
+        it('should return the owner campaigns only', async function () {
+          // given
+          const filter = { isOwnedByMe: true };
+          _.each([{ name: 'Maths L1' }, { name: 'Maths L2' }], (campaign) => {
+            databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          });
+          _.each(
+            [
+              { name: 'Ma campagne', ownerId },
+              { name: 'Ma campagne 2', ownerId },
+            ],
+            (campaign) => {
+              databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+            }
+          );
+          await databaseBuilder.commit();
+
+          // when
+          const { models: actualCampaignsWithReports } =
+            await campaignReportRepository.findPaginatedFilteredByOrganizationId({
+              organizationId,
+              filter,
+              page,
+              userId: ownerId,
+            });
+
+          // then
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Ma campagne', 'Ma campagne 2']);
+        });
+
+        it('should return the campaigns matching the given campaign name', async function () {
+          // given
+          const filters = { isOwnedByMe: true, name: '2' };
+          _.each([{ name: 'Maths L1' }, { name: 'Maths L2' }], (campaign) => {
+            databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          });
+          _.each(
+            [
+              { name: 'Ma campagne', ownerId },
+              { name: 'Ma campagne 2', ownerId },
+            ],
+            (campaign) => {
+              databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+            }
+          );
+          await databaseBuilder.commit();
+
+          // when
+          const { models: actualCampaignsWithReports } =
+            await campaignReportRepository.findPaginatedFilteredByOrganizationId({
+              organizationId,
+              filter: filters,
+              page,
+              userId: ownerId,
+            });
+
+          // then
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Ma campagne 2']);
+        });
+      });
     });
   });
 });
