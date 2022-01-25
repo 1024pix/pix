@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.159.0 (25/01/2022)
+
+
+### :rocket: Enhancement
+- [#3928](https://github.com/1024pix/pix/pull/3928) [FEATURE] Mettre à jour les libellés et macarons des badges Pix+ Édu (PIX-4117).
+- [#3954](https://github.com/1024pix/pix/pull/3954) [FEATURE] Améliorer l'affichage des colonnes des tableaux sur Pix Orga (PIX-4149).
+- [#3968](https://github.com/1024pix/pix/pull/3968) [FEATURE] Déplacer le bouton "Télécharger la sélection des sujets" à droite (PIX-4168).
+- [#3955](https://github.com/1024pix/pix/pull/3955) [FEATURE] Afficher les acquis dans les export CSV en fonction du flag showSkills (PIX-4105)
+- [#3952](https://github.com/1024pix/pix/pull/3952) [FEATURE]  Créer des codes INSEE génériques pour Paris, Lyon et Marseille (PIX-4159)
+
+### :bug: Bug fix
+- [#3957](https://github.com/1024pix/pix/pull/3957) [BUGFIX] Ne pas afficher les résultats/attestations des élèves désactivés dans Pix Orga (PIX-4176)
+
 ## v3.158.1 (20/01/2022)
 
 
