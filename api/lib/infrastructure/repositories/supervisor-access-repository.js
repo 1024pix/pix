@@ -9,4 +9,14 @@ module.exports = {
     const result = await knex.select(1).from('supervisor-accesses').where({ sessionId, userId }).first();
     return Boolean(result);
   },
+
+  async isUserSupervisorForSessionCandidate({ supervisorId, certificationCandidateId }) {
+    const result = await knex
+      .select(1)
+      .from('supervisor-accesses')
+      .innerJoin('certification-candidates', 'supervisor-accesses.sessionId', 'certification-candidates.sessionId')
+      .where({ 'certification-candidates.id': certificationCandidateId, 'supervisor-accesses.userId': supervisorId })
+      .first();
+    return Boolean(result);
+  },
 };
