@@ -8,9 +8,12 @@ const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
+const sessionForSupervisingController = require('../../../../lib/application/sessions/session-for-supervising-controller');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const authorization = require('../../../../lib/application/preHandlers/authorization');
 const moduleUnderTest = require('../../../../lib/application/sessions');
+const endTestScreenRemovalEnabled = require('../../../../lib/application/preHandlers/end-test-screen-removal-enabled');
+const sessionSupervisorAuthorization = require('../../../../lib/application/preHandlers/session-supervisor-authorization');
 
 describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/sessions/{id}', function () {
@@ -298,6 +301,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
   describe('PATCH /api/admin/sessions/{id}/unpublish', function () {
     it('should exist', async function () {
       // given
@@ -699,6 +703,60 @@ describe('Unit | Application | Sessions | Routes', function () {
       // then
       expect(securityPreHandlers.checkUserHasRolePixMaster).to.be.calledOnce;
       expect(sessionController.deleteJuryComment).to.be.calledOnce;
+    });
+  });
+
+  describe('GET /api/sessions/{id}/supervising', function () {
+    it('should return 200 if the user is a supervisor of the session and certification center is in the whitelist', async function () {
+      //given
+      sinon.stub(endTestScreenRemovalEnabled, 'verifyBySessionId').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionSupervisorAuthorization, 'verifyBySessionId').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionForSupervisingController, 'get').returns('ok');
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/3/supervising');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 401 if the user is not a supervisor of the session', async function () {
+      //given
+      sinon.stub(endTestScreenRemovalEnabled, 'verifyBySessionId').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(sessionSupervisorAuthorization, 'verifyBySessionId')
+        .callsFake((request, h) => h.response().code(401).takeover());
+      sinon.stub(sessionForSupervisingController, 'get').returns('ok');
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/3/supervising');
+
+      // then
+      expect(response.statusCode).to.equal(401);
+    });
+
+    it('should return 404 if the certification center is not in the whitelist', async function () {
+      //given
+      sinon
+        .stub(endTestScreenRemovalEnabled, 'verifyBySessionId')
+        .callsFake((request, h) => h.response().code(404).takeover());
+      sinon.stub(sessionSupervisorAuthorization, 'verifyBySessionId').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionForSupervisingController, 'get').returns('ok');
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/3/supervising');
+
+      // then
+      expect(response.statusCode).to.equal(404);
     });
   });
 });
