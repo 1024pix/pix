@@ -10,11 +10,11 @@ const { featureToggles } = require('../../config');
 const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../models/Badge').keys;
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
@@ -31,11 +31,11 @@ async function _isAllowedToBeScored({
         complementaryCertificationName: PIX_PLUS_DROIT,
       });
     } else if (
-      certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE ||
+      certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
+      certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
+      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
       certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     ) {
       return true;
     }

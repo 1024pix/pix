@@ -1,7 +1,7 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handlePixPlusCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const { PIX_PLUS_DROIT } = require('../../../../lib/domain/models/ComplementaryCertification');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE } =
+const { PIX_DROIT_MAITRE_CERTIF, PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME } =
   require('../../../../lib/domain/models/Badge').keys;
 const { featureToggles } = require('../../../../lib/config');
 
@@ -182,7 +182,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
       createdAt: new Date('2020-01-01'),
       certificationChallenges: [
         domainBuilder.buildCertificationChallengeWithType({
-          certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+          certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
           challengeId: 'chal1',
         }),
       ],
@@ -202,7 +202,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', func
     // then
     const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusCertificationScoring({
       certificationCourseId: 123,
-      certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
       reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
       hasAcquiredPixCertification: true,
     });

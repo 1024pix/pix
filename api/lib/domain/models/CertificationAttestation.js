@@ -3,11 +3,11 @@ const {
   PIX_EMPLOI_CLEA_V2,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('./Badge').keys;
 
 const PIX_COUNT_BY_LEVEL = 8;
@@ -66,11 +66,11 @@ class CertificationAttestation {
   getAcquiredPixPlusEduCertification() {
     return this.acquiredPartnerCertificationKeys.find(
       (key) =>
-        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME ||
-        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE ||
+        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
+        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
         key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT ||
-        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
+        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
   }
 
@@ -80,21 +80,21 @@ class CertificationAttestation {
       return null;
     }
 
-    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME) {
-      return 'Autonome';
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
+      return 'Initié (entrée dans le métier)';
     }
     if (
-      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
         acquiredPixPlusEduCertification
       )
     ) {
+      return 'Confirmé';
+    }
+    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
       return 'Avancé';
     }
     if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
       return 'Expert';
-    }
-    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR) {
-      return 'Formateur';
     }
   }
 

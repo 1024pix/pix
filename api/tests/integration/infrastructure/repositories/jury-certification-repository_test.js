@@ -6,11 +6,11 @@ const {
   PIX_EMPLOI_CLEA_V2,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
@@ -162,13 +162,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       { partnerKey: PIX_EMPLOI_CLEA_V2, method: 'getCleaCertificationStatus' },
       { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME, method: 'getPixPlusEduAutonomeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, method: 'getPixPlusEduInitieCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
+      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
       { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, method: 'getPixPlusEduExpertCertificationStatus' },
       {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
-        method: 'getPixPlusEduFormateurCertificationStatus',
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+        method: 'getPixPlusEduExpertCertificationStatus',
       },
     ].forEach(function ({ partnerKey, method }) {
       it(`should have the status acquired when ${partnerKey} certification is acquired`, async function () {

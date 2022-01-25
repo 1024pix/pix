@@ -3,8 +3,8 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
@@ -47,11 +47,11 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
           domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: true }),
           domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: false }),
           domainBuilder.buildPartnerCertification({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
             acquired: true,
           }),
           domainBuilder.buildPartnerCertification({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
             acquired: false,
           }),
         ],
@@ -90,10 +90,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             'clea-certification-status': 'not_taken',
             'pix-plus-droit-maitre-certification-status': 'acquired',
             'pix-plus-droit-expert-certification-status': 'rejected',
-            'pix-plus-edu-autonome-certification-status': 'not_taken',
-            'pix-plus-edu-avance-certification-status': 'acquired',
-            'pix-plus-edu-expert-certification-status': 'rejected',
-            'pix-plus-edu-formateur-certification-status': 'not_taken',
+            'pix-plus-edu-initie-certification-status': 'not_taken',
+            'pix-plus-edu-confirme-certification-status': 'acquired',
+            'pix-plus-edu-avance-certification-status': 'rejected',
+            'pix-plus-edu-expert-certification-status': 'not_taken',
           },
           relationships: {
             'certification-issue-reports': {

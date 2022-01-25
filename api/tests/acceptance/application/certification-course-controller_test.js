@@ -242,10 +242,10 @@ describe('Acceptance | API | Certification Course', function () {
           'clea-certification-status': 'not_taken',
           'pix-plus-droit-expert-certification-status': 'not_taken',
           'pix-plus-droit-maitre-certification-status': 'not_taken',
-          'pix-plus-edu-autonome-certification-status': 'not_taken',
+          'pix-plus-edu-initie-certification-status': 'not_taken',
+          'pix-plus-edu-confirme-certification-status': 'not_taken',
           'pix-plus-edu-avance-certification-status': 'not_taken',
           'pix-plus-edu-expert-certification-status': 'not_taken',
-          'pix-plus-edu-formateur-certification-status': 'not_taken',
         },
         relationships: {
           'certification-issue-reports': {

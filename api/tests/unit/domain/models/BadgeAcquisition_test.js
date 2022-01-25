@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | BadgeAcquisition', function () {
@@ -58,11 +58,11 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
   describe('#isPixEdu', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
     ].forEach((badgeKey) => {
       it(`should return true for badge ${badgeKey}`, function () {
         // given

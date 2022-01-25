@@ -5,11 +5,11 @@ const {
   PIX_EMPLOI_CLEA_V2,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
@@ -360,13 +360,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
     { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasTakenPixPlusEduAutonome', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME] },
+    { method: 'hasTakenPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
-      method: 'hasTakenPixPlusEduAvance',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+      method: 'hasTakenPixPlusEduConfirme',
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
+    { method: 'hasTakenPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
     { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
-    { method: 'hasTakenPixPlusEduFormateur', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -405,13 +405,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
     { method: 'hasAcquiredPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasAcquiredPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasAcquiredPixPlusEduAutonome', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME] },
+    { method: 'hasAcquiredPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
-      method: 'hasAcquiredPixPlusEduAvance',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE],
+      method: 'hasAcquiredPixPlusEduConfirme',
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
+    { method: 'hasAcquiredPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
     { method: 'hasAcquiredPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
-    { method: 'hasAcquiredPixPlusEduFormateur', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe

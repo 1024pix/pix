@@ -4,11 +4,11 @@ const {
   PIX_EMPLOI_CLEA_V2,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('../models/Badge').keys;
 
 const STARTED = 'started';
@@ -76,23 +76,23 @@ class JuryCertificationSummary {
     return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
   }
 
-  getPixPlusEduAutonomeCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME]);
+  getPixPlusEduInitieCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
   }
 
-  getPixPlusEduInitieCertificationStatus() {
+  getPixPlusEduConfirmeCertificationStatus() {
     return this._getStatusFromPartnerCertification([
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
     ]);
+  }
+
+  getPixPlusEduAvanceCertificationStatus() {
+    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
   }
 
   getPixPlusEduExpertCertificationStatus() {
     return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
-  }
-
-  getPixPlusEduFormateurCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR]);
   }
 
   _getStatusFromPartnerCertification(partnerCertificationKeys) {
