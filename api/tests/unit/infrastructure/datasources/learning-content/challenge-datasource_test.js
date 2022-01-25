@@ -16,6 +16,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     challenge_competence2,
     challenge_web1,
     challenge_web1_notValidated,
+    challenge_web1_archived,
     challenge_web2_en,
     challenge_web3,
     challenge_web3_archived;
@@ -72,6 +73,14 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       id: 'challenge-web1-notValidated',
       skillIds: [web1.id],
       status: 'proposé',
+      locales: ['fr', 'fr-fr'],
+      alpha: -1.9,
+      delta: 2.34,
+    };
+    challenge_web1_archived = {
+      id: 'challenge_web1_archived',
+      skillIds: [web1.id],
+      status: 'archivé',
       locales: ['fr', 'fr-fr'],
       alpha: -1.9,
       delta: 2.34,
@@ -223,6 +232,21 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1', 'challenge-competence2', 'challenge-web3']);
+    });
+  });
+
+  describe('#findValidatedBySkillId', function () {
+    beforeEach(function () {
+      sinon.stub(lcms, 'getLatestRelease').resolves({
+        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web1_archived, challenge_competence2],
+      });
+    });
+    it('should resolve an array of validated challenge of a skill from learning content ', async function () {
+      // when
+      const result = await challengeDatasource.findValidatedBySkillId('skill-web1');
+      // then
+      expect(lcms.getLatestRelease).to.have.been.called;
+      expect(result).to.deep.equal([challenge_web1, challenge_competence2]);
     });
   });
 });

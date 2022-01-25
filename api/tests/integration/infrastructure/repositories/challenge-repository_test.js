@@ -365,4 +365,37 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
   });
+
+  describe('#findValidatedBySkillId', function () {
+    it('should return validated challenges of a skill', async function () {
+      // given
+      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const challenge1 = domainBuilder.buildChallenge({
+        id: 'recChallenge1',
+        skills: [skill],
+        status: 'validé',
+      });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'recChallenge2', skills: [skill], status: 'archivé' });
+      const challenge3 = domainBuilder.buildChallenge({ id: 'recChallenge3', skills: [skill], status: 'périmé' });
+
+      const learningContent = {
+        skills: [{ ...skill, status: 'actif' }],
+        challenges: [
+          { ...challenge1, skillIds: ['recSkill1'], alpha: 0, delta: 0 },
+          { ...challenge2, skillIds: ['recSkill1'] },
+          { ...challenge3, skillIds: ['recSkill1'] },
+        ],
+      };
+
+      mockLearningContent(learningContent);
+
+      // when
+      const validatedChallenges = await challengeRepository.findValidatedBySkillId(skill.id);
+
+      // then
+      expect(validatedChallenges).to.have.lengthOf(1);
+      expect(validatedChallenges[0]).to.be.instanceOf(Challenge);
+      expect(_.omit(validatedChallenges[0], 'validator')).to.deep.equal(_.omit(challenge1, 'validator'));
+    });
+  });
 });
