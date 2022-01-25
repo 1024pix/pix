@@ -22,6 +22,7 @@ describe('Integration | Repository | supervisor-access-repository', function () 
       expect(supervisorAccessInDB.userId).to.equal(userId);
     });
   });
+
   describe('#isUserSupervisorForSession', function () {
     afterEach(function () {
       return knex('supervisor-accesses').delete();
@@ -55,6 +56,48 @@ describe('Integration | Repository | supervisor-access-repository', function () 
       const isUserSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSession({
         sessionId: 123,
         userId: 456,
+      });
+
+      // then
+      expect(isUserSupervisorForSession).to.be.false;
+    });
+  });
+
+  describe('#isUserSupervisorForSessionCandidate', function () {
+    afterEach(function () {
+      return knex('supervisor-accesses').delete();
+    });
+
+    it("should return true if the user is supervising the candidate's session", async function () {
+      // given
+      const supervisorId = databaseBuilder.factory.buildUser().id;
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      databaseBuilder.factory.buildSupervisorAccess({ sessionId, userId: supervisorId });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const isUserSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSessionCandidate({
+        certificationCandidateId,
+        supervisorId,
+      });
+
+      // then
+      expect(isUserSupervisorForSession).to.be.true;
+    });
+
+    it("should return false if the user is not supervising the candidate's session", async function () {
+      // given
+      const supervisorId = databaseBuilder.factory.buildUser().id;
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      databaseBuilder.factory.buildSupervisorAccess({ sessionId, userId: supervisorId });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate().id;
+      await databaseBuilder.commit();
+
+      // when
+      const isUserSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSessionCandidate({
+        certificationCandidateId,
+        supervisorId,
       });
 
       // then
