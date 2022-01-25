@@ -30,6 +30,7 @@ module.exports = class FinalizedSession {
     sessionTime,
     hasExaminerGlobalComment,
     juryCertificationSummaries,
+    hasSupervisorAccess,
   }) {
     return new FinalizedSession({
       sessionId,
@@ -42,7 +43,7 @@ module.exports = class FinalizedSession {
         _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) &&
         _isNotFlaggedAsAborted(juryCertificationSummaries) &&
         _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) &&
-        _hasExaminerSeenAllEndScreens(juryCertificationSummaries),
+        (hasSupervisorAccess || _hasExaminerSeenAllEndScreens(juryCertificationSummaries)),
       publishedAt: null,
     });
   }
