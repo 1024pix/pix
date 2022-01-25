@@ -11,10 +11,10 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
         cleaCertificationEligible: true,
         pixPlusDroitMaitreCertificationEligible: false,
         pixPlusDroitExpertCertificationEligible: true,
-        pixPlusEduAutonomeCertificationEligible: false,
-        pixPlusEduAvanceCertificationEligible: false,
-        pixPlusEduExpertCertificationEligible: true,
-        pixPlusEduFormateurCertificationEligible: false,
+        pixPlusEduInitieCertificationEligible: false,
+        pixPlusEduConfirmeCertificationEligible: false,
+        pixPlusEduAvanceCertificationEligible: true,
+        pixPlusEduExpertCertificationEligible: false,
       });
 
       // when
@@ -30,10 +30,10 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
             'clea-certification-eligible': true,
             'pix-plus-droit-maitre-certification-eligible': false,
             'pix-plus-droit-expert-certification-eligible': true,
-            'pix-plus-edu-autonome-certification-eligible': false,
-            'pix-plus-edu-avance-certification-eligible': false,
-            'pix-plus-edu-expert-certification-eligible': true,
-            'pix-plus-edu-formateur-certification-eligible': false,
+            'pix-plus-edu-initie-certification-eligible': false,
+            'pix-plus-edu-confirme-certification-eligible': false,
+            'pix-plus-edu-avance-certification-eligible': true,
+            'pix-plus-edu-expert-certification-eligible': false,
           },
         },
       });

@@ -22,10 +22,10 @@ export default class JuryCertificationSummary extends Model {
   @attr() cleaCertificationStatus;
   @attr() pixPlusDroitMaitreCertificationStatus;
   @attr() pixPlusDroitExpertCertificationStatus;
-  @attr() pixPlusEduAutonomeCertificationStatus;
   @attr() pixPlusEduInitieCertificationStatus;
+  @attr() pixPlusEduConfirmeCertificationStatus;
+  @attr() pixPlusEduAvanceCertificationStatus;
   @attr() pixPlusEduExpertCertificationStatus;
-  @attr() pixPlusEduFormateurCertificationStatus;
   @attr() numberOfCertificationIssueReports;
   @attr() isFlaggedAborted;
   @attr() numberOfCertificationIssueReportsWithRequiredAction;
@@ -45,10 +45,11 @@ export default class JuryCertificationSummary extends Model {
     if (this.cleaCertificationStatus !== NOT_TAKEN) certifications.push('CléA Numérique');
     if (this.pixPlusDroitMaitreCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Maître');
     if (this.pixPlusDroitExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Expert');
-    if (this.pixPlusEduAutonomeCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Autonome');
-    if (this.pixPlusEduInitieCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Initié');
+    if (this.pixPlusEduInitieCertificationStatus !== NOT_TAKEN)
+      certifications.push('Pix+ Édu Initié (entrée dans le métier)');
+    if (this.pixPlusEduConfirmeCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Confirmé');
+    if (this.pixPlusEduAvanceCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Avancé');
     if (this.pixPlusEduExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Expert');
-    if (this.pixPlusEduFormateurCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Formateur');
     return certifications.join('\n');
   }
 

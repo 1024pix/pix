@@ -1,9 +1,9 @@
 const {
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR,
 } = require('./Badge').keys;
 
 class PixEduBadgeAcquisitionOrderer {
@@ -13,19 +13,19 @@ class PixEduBadgeAcquisitionOrderer {
 
   getHighestBadge() {
     const formateurFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_FORMATEUR
-    );
-    const expertFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
-    const avanceFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+    const expertFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
+    const avanceFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME
+    );
     const avanceFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME
     );
     const autonomeFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
-      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AUTONOME
+      (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE
     );
     return (
       formateurFormationContinueBadgeAcquisition ||

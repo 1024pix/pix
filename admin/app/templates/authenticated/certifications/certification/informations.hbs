@@ -76,10 +76,16 @@
               @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitExpertCertificationStatus}}"
             />
             <Certifications::InfoField
-              @value={{this.certification.pixPlusEduAutonomeCertificationStatusLabel}}
+              @value={{this.certification.pixPlusEduInitieCertificationStatusLabel}}
               @edition={{false}}
-              @label="Certification Pix+ Édu Autonome :"
-              @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduAutonomeCertificationStatus}}"
+              @label="Certification Pix+ Édu Initié (entrée dans le métier) :"
+              @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduInitieCertificationStatus}}"
+            />
+            <Certifications::InfoField
+              @value={{this.certification.pixPlusEduConfirmeCertificationStatusLabel}}
+              @edition={{false}}
+              @label="Certification Pix+ Édu Confirmé :"
+              @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduConfirmeCertificationStatus}}"
             />
             <Certifications::InfoField
               @value={{this.certification.pixPlusEduAvanceCertificationStatusLabel}}
@@ -92,12 +98,6 @@
               @edition={{false}}
               @label="Certification Pix+ Édu Expert :"
               @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduExpertCertificationStatus}}"
-            />
-            <Certifications::InfoField
-              @value={{this.certification.pixPlusEduFormateurCertificationStatusLabel}}
-              @edition={{false}}
-              @label="Certification Pix+ Édu Formateur :"
-              @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduFormateurCertificationStatus}}"
             />
           </div>
         </div>
