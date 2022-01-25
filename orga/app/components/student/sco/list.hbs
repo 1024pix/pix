@@ -1,5 +1,13 @@
 <div class="panel">
   <table class="table content-text content-text--small">
+    <colgroup class="table__column">
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+      <col class="table__column--small hide-on-mobile" />
+    </colgroup>
     <thead>
       <tr>
         <Table::Header>{{t "pages.students-sco.table.column.last-name"}}</Table::Header>
@@ -7,7 +15,7 @@
         <Table::Header>{{t "pages.students-sco.table.column.date-of-birth"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.division"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
-        <Table::Header @size="small" class="hide-on-mobile" />
+        <Table::Header class="hide-on-mobile" />
       </tr>
       <tr class="hide-on-mobile">
         <Table::HeaderFilterInput
@@ -50,8 +58,8 @@
       <tbody>
         {{#each @students as |student|}}
           <tr aria-label={{t "pages.students-sco.table.row-title"}}>
-            <td>{{student.lastName}}</td>
-            <td>{{student.firstName}}</td>
+            <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
+            <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
             <td>{{student.division}}</td>
             <td class="list-students-page__authentication-methods">
