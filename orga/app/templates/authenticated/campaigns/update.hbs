@@ -5,5 +5,10 @@
   <h1 class="page__title page-title">{{t "pages.campaign-modification.title"}}</h1>
   <h2 class="page-sub-title">{{this.campaignName}}</h2>
 
-  <Campaign::UpdateForm @campaign={{@model}} @onSubmit={{this.update}} @onCancel={{this.cancel}} />
+  <Campaign::UpdateForm
+    @campaign={{@model.campaign}}
+    @onSubmit={{this.update}}
+    @onCancel={{this.cancel}}
+    @membersSortedByFullName={{@model.membersSortedByFullName}}
+  />
 </div>

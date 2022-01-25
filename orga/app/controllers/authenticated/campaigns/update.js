@@ -8,7 +8,7 @@ export default class UpdateController extends Controller {
   @action
   update(event) {
     event.preventDefault();
-    return this.model
+    return this.model.campaign
       .save()
       .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign.settings', campaign.id));
   }
