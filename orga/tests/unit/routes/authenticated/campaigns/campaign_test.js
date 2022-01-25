@@ -6,23 +6,17 @@ import Service from '@ember/service';
 module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
   setupTest(hooks);
 
-  let route, params;
-  let findRecordStub;
+  test('should redirect to not-found page', async function (assert) {
+    assert.expect(1);
+    // given
+    const route = this.owner.lookup('route:authenticated/campaigns/campaign');
+    const params = { campaign_id: 'liste' };
 
-  hooks.beforeEach(function () {
-    route = this.owner.lookup('route:authenticated/campaigns/campaign');
-    params = { campaign_id: 'liste' };
-
-    findRecordStub = sinon.stub();
+    const findRecordStub = sinon.stub();
     const storeStub = Service.create({
       findRecord: findRecordStub,
     });
     route.set('store', storeStub);
-  });
-
-  test('should redirect to not-found page', async function (assert) {
-    assert.expect(1);
-    // given
     findRecordStub.rejects({ errors: [{ status: '400' }] });
 
     // then
@@ -35,5 +29,19 @@ module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
 
     // when
     await route.model(params);
+  });
+
+  test('should set up isComingFromAllCampaignPage to true if transition is from all campaign page', async function (assert) {
+    // given
+    const route = this.owner.lookup('route:authenticated/campaigns/campaign');
+    const controller = { set: sinon.stub() };
+    const model = {};
+    const transition = { from: { name: 'authenticated.campaigns.list.all-campaigns' } };
+
+    // then
+    route.setupController(controller, model, transition);
+
+    // then
+    assert.ok(controller.set.calledWith('isComingFromAllCampaignPage', true));
   });
 });

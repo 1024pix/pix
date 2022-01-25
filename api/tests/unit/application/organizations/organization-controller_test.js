@@ -420,6 +420,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: expectedFilter,
         page: expectedPage,
+        userId: request.auth.credentials.userId,
       });
     });
 

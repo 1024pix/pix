@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -255,6 +256,33 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // then
       assert.dom('[placeholder="Rechercher un créateur"]').exists();
+    });
+
+    module('when showing current user campaign list', function () {
+      test('it should not show created by column and value', async function (assert) {
+        // given
+        const campaigns = [
+          { name: 'campagne 1', code: 'AAAAAA111', ownerFullName: 'Dupont Alice' },
+          { name: 'campagne 2', code: 'BBBBBB222', ownerFullName: 'Dupont Alice' },
+        ];
+        campaigns.meta = {
+          rowCount: 2,
+        };
+        this.set('campaigns', campaigns);
+        this.set('listOnlyCampaignsOfCurrentUser', true);
+
+        // when
+        const screen = await renderScreen(hbs`<Campaign::List
+                    @campaigns={{this.campaigns}}
+                    @onFilter={{this.triggerFilteringSpy}}
+                    @onClickCampaign={{this.goToCampaignPageSpy}}
+                    @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+                    @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} />`);
+
+        // then
+        assert.dom(screen.queryByLabelText(this.intl.t('pages.campaigns-list.table.column.created-by'))).doesNotExist();
+        assert.dom(screen.queryByLabelText('Dupont Alice')).doesNotExist();
+      });
     });
   });
 });

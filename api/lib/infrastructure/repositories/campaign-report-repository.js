@@ -11,7 +11,7 @@ const skillDataSource = require('../datasources/learning-content/skill-datasourc
 
 const { SHARED } = CampaignParticipation.statuses;
 
-function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName }) {
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName, isOwnedByMe }, userId) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
@@ -25,6 +25,9 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName 
       `%${ownerName.toLowerCase()}%`,
       `%${ownerName.toLowerCase()}%`,
     ]);
+  }
+  if (isOwnedByMe) {
+    qb.where('users.id', '=', userId);
   }
 }
 
@@ -95,7 +98,7 @@ module.exports = {
     return results.map((result) => Number(result.masteryRate));
   },
 
-  async findPaginatedFilteredByOrganizationId({ organizationId, filter, page }) {
+  async findPaginatedFilteredByOrganizationId({ organizationId, filter, page, userId }) {
     const query = knex('campaigns')
       .distinct('campaigns.id')
       .select(
@@ -113,7 +116,7 @@ module.exports = {
       .join('users', 'users.id', 'campaigns.ownerId')
       .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
       .where('campaigns.organizationId', organizationId)
-      .modify(_setSearchFiltersForQueryBuilder, filter)
+      .modify(_setSearchFiltersForQueryBuilder, filter, userId)
       .orderBy('campaigns.createdAt', 'DESC');
 
     const { results, pagination } = await fetchPage(query, page);

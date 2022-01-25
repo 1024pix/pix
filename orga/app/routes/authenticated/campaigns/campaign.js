@@ -9,4 +9,10 @@ export default class CampaignRoute extends Route {
       this.send('error', error, this.replaceWith('not-found', params.campaign_id));
     }
   }
+
+  setupController(controller, model, transition) {
+    if (transition?.from?.name === 'authenticated.campaigns.list.all-campaigns') {
+      controller.set('isComingFromAllCampaignPage', true);
+    }
+  }
 }

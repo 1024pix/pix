@@ -477,9 +477,11 @@
       }
     },
     "campaigns-list": {
-      "title": {
-        "active": "Active campaigns",
-        "archived": "Archived campaigns"
+      "title":  "Campaigns",
+      "navigation": "Navigation in the Campaign section",
+      "tabs": {
+        "all-campaigns": "All the campaigns",
+        "my-campaigns": "My campaigns"
       },
       "action": {
         "archived": {
@@ -490,10 +492,7 @@
           "label": "Ongoing"
         }
       },
-      "no-campaign": {
-        "title": "Create your first campaign",
-        "description": "Set up and launch your first campaign. Then, invite your users to join this customised test."
-      },
+      "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
       "filter": {
         "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du créateur. Des boutons permettent de filtrer les campagnes actives et archivées.",
         "title": "Filters",
