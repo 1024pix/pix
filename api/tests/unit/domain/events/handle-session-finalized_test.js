@@ -9,19 +9,14 @@ const {
 const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
+const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
+const finalizedSessionRepository = { save: sinon.stub() };
+const dependencies = {
+  juryCertificationSummaryRepository,
+  finalizedSessionRepository,
+};
+
 describe('Unit | Domain | Events | handle-session-finalized', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const finalizedSessionRepository = { save: sinon.stub() };
-
-  const dependencies = {
-    juryCertificationSummaryRepository,
-    finalizedSessionRepository,
-  };
-
   it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
