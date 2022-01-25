@@ -38,15 +38,11 @@ class CertifiedBadgeImage {
       });
     }
 
-    if (partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME) {
-      return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
-        isTemporaryBadge: true,
-        levelName: 'Confirmé',
-      });
-    }
-
-    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME) {
+    if (
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
+        partnerKey
+      )
+    ) {
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
         isTemporaryBadge: true,
