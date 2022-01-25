@@ -24,7 +24,7 @@ module.exports = {
           tubes: {
             include: true,
             ref: 'id',
-            attributes: ['practicalTitle', 'practicalDescription'],
+            attributes: ['practicalTitle', 'practicalDescription', 'mobile', 'tablet'],
           },
         },
       },

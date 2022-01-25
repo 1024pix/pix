@@ -40,6 +40,7 @@ describe('Unit | Domain | Models | Challenge', function () {
         focused: false,
         discriminant: 0.75,
         difficulty: -0.23,
+        responsive: 'Smartphone',
       };
 
       // when
