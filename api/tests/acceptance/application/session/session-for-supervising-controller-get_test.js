@@ -16,9 +16,10 @@ describe('Acceptance | Controller | session-for-supervising-controller-get', fun
       databaseBuilder.factory.buildCertificationCenter({ id: 345 });
       databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
       databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
       await databaseBuilder.commit();
 
-      const userId = databaseBuilder.factory.buildUser().id;
       const headers = { authorization: generateValidRequestAuthorizationHeader(userId, 'pix-certif') };
 
       const options = {
