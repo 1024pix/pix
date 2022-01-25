@@ -4,9 +4,13 @@
   flex-grow: 1;
   align-items: center;
   text-align: center;
-  margin: 5%;
+  padding: 60px 30px;
+
+  .page-title {
+    font-size: 2rem;
+  }
 
   &__information-text {
-    margin: 0 30% 30px 30%;
+    color: $grey-60;
   }
 }

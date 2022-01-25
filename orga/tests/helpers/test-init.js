@@ -75,6 +75,7 @@ export function createUserWithMembership() {
 
 export function createUserWithMembershipAndTermsOfServiceAccepted() {
   const user = server.create('user', {
+    id: 7,
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',

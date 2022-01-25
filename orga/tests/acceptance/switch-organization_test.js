@@ -87,7 +87,7 @@ module('Acceptance | Switch Organization', function (hooks) {
       module('When prescriber is on campaign page with pagination', function () {
         test('it should reset the queryParams when redirecting', async function (assert) {
           // given
-          await visit('/campagnes?pageNumber=2&pageSize=10&name=test&status=archived');
+          await visit('/campagnes/les-miennes?pageNumber=2&pageSize=10&name=test&status=archived');
 
           // when
           await clickByName('Ouvrir le menu utilisateur');
@@ -96,7 +96,7 @@ module('Acceptance | Switch Organization', function (hooks) {
           // then
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/campagnes');
+          assert.equal(currentURL(), '/campagnes/les-miennes');
         });
       });
 

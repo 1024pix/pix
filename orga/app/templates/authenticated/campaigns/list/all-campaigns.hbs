@@ -1,0 +1,15 @@
+{{page-title (t "pages.campaigns-list.tabs.all-campaigns") replace=true}}
+
+{{#if @model.meta.hasCampaigns}}
+  <Campaign::List
+    @campaigns={{@model}}
+    @nameFilter={{this.name}}
+    @ownerNameFilter={{this.ownerName}}
+    @onFilter={{this.triggerFiltering}}
+    @onClickCampaign={{this.goToCampaignPage}}
+    @isArchived={{this.isArchived}}
+    @onClickStatusFilter={{this.updateCampaignStatus}}
+  />
+{{else}}
+  <Campaign::NoCampaignPanel />
+{{/if}}

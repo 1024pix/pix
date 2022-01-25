@@ -1,7 +1,7 @@
-import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default class ListRoute extends Route {
+export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
   queryParams = {
     pageNumber: {
       refreshModel: true,
@@ -30,7 +30,7 @@ export default class ListRoute extends Route {
           organizationId: this.currentUser.organization.id,
           name: params.name,
           status: params.status,
-          ownerName: params.ownerName,
+          isOwnedByMe: true,
         },
         page: {
           number: params.pageNumber,

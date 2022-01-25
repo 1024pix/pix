@@ -83,9 +83,14 @@ export default function () {
   this.patch('/memberships/:id');
 
   this.get('/organizations/:id/campaigns', (schema, request) => {
-    const { 'filter[ownerName]': ownerName, 'filter[name]': campaignName } = request.queryParams;
+    const {
+      'filter[ownerName]': ownerName,
+      'filter[name]': campaignName,
+      'filter[isOwnedByMe]': isOwnedByMe,
+    } = request.queryParams;
     let results;
-    if (!ownerName && !campaignName) {
+
+    if (!ownerName && !campaignName && !isOwnedByMe) {
       results = schema.campaigns.all();
     } else if (ownerName && !campaignName) {
       results = schema.campaigns.where(
@@ -93,6 +98,12 @@ export default function () {
       );
     } else if (!ownerName && campaignName) {
       results = schema.campaigns.where(({ name }) => name.includes(campaignName));
+    } else if (isOwnedByMe && !campaignName) {
+      // choix arbitraire car on ne peux pas aller chercher l'userId dans la requête
+      // voir createUserWithMembershipAndTermsOfServiceAccepted()
+      results = schema.campaigns.where({ ownerId: 7 });
+    } else if (isOwnedByMe && campaignName) {
+      results = schema.campaigns.where(({ name, ownerId }) => name.includes(campaignName) && ownerId === 7);
     } else {
       results = schema.campaigns.where(
         ({ ownerFirstName, ownerLastName, name }) =>

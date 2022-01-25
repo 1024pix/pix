@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Unit | Controller | authenticated/campaigns/list', function (hooks) {
+module('Unit | Controller | authenticated/campaigns/list/all-campaigns', function (hooks) {
   setupIntlRenderingTest(hooks);
   let controller;
 
@@ -12,7 +12,7 @@ module('Unit | Controller | authenticated/campaigns/list', function (hooks) {
   };
 
   hooks.beforeEach(function () {
-    controller = this.owner.lookup('controller:authenticated/campaigns/list');
+    controller = this.owner.lookup('controller:authenticated/campaigns/list/all-campaigns');
   });
 
   module('#get isArchived', function () {
@@ -27,24 +27,6 @@ module('Unit | Controller | authenticated/campaigns/list', function (hooks) {
         // then
         assert.true(isArchived);
       });
-
-      test('it should display page title as archived', async function (assert) {
-        // given
-        const pageTitle = 'Campagnes archivées';
-
-        controller.model = {
-          query: {
-            filter: {
-              status: 'archived',
-            },
-          },
-        };
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageTitle, pageTitle);
-      });
     });
 
     module('when status is not archived', function () {
@@ -57,24 +39,6 @@ module('Unit | Controller | authenticated/campaigns/list', function (hooks) {
 
         // then
         assert.false(isArchived);
-      });
-
-      test('it should display page title as active', async function (assert) {
-        // given
-        const pageTitle = 'Campagnes actives';
-
-        controller.model = {
-          query: {
-            filter: {
-              status: null,
-            },
-          },
-        };
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageTitle, pageTitle);
       });
     });
   });

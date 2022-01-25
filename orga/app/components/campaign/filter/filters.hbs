@@ -9,13 +9,15 @@
       @ariaLabel={{t "pages.campaigns-list.filter.by-name"}}
       @triggerFiltering={{@onFilter}}
     />
-    <Campaign::Filter::SearchInputFilter
-      @field="ownerName"
-      @value={{@ownerNameFilter}}
-      @placeholder={{t "pages.campaigns-list.filter.by-owner"}}
-      @ariaLabel={{t "pages.campaigns-list.filter.by-owner"}}
-      @triggerFiltering={{@onFilter}}
-    />
+    {{#unless @listOnlyCampaignsOfCurrentUser}}
+      <Campaign::Filter::SearchInputFilter
+        @field="ownerName"
+        @value={{@ownerNameFilter}}
+        @placeholder={{t "pages.campaigns-list.filter.by-owner"}}
+        @ariaLabel={{t "pages.campaigns-list.filter.by-owner"}}
+        @triggerFiltering={{@onFilter}}
+      />
+    {{/unless}}
     <div role="radiogroup" class="campaign-filters__type">
       <input
         id="ongoing-campaigns"

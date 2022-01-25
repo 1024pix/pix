@@ -29,6 +29,22 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     assert.contains('1 campagne');
   });
 
+  module('when showing current user campaign list', function () {
+    test('it should not show creator input', async function (assert) {
+      // given / when
+      const screen = await renderScreen(
+        hbs`<Campaign::Filter::Filters
+        @onFilter={{this.triggerFilteringSpy}}
+        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @numResults={{1}}
+        @listOnlyCampaignsOfCurrentUser={{true}} />`
+      );
+
+      // then
+      assert.dom(screen.queryByLabelText('Rechercher un créateur')).doesNotExist();
+    });
+  });
+
   test('[A11Y] it should make filters container accessible', async function (assert) {
     // when
     const screen = await renderScreen(

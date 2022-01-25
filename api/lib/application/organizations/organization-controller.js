@@ -77,6 +77,7 @@ module.exports = {
   async findPaginatedFilteredCampaigns(request) {
     const organizationId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
+    const userId = request.auth.credentials.userId;
 
     if (options.filter.status === 'archived') {
       options.filter.ongoing = false;
@@ -86,6 +87,7 @@ module.exports = {
       organizationId,
       filter: options.filter,
       page: options.page,
+      userId,
     });
     return campaignReportSerializer.serialize(campaigns, meta);
   },
