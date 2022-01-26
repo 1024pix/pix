@@ -1226,6 +1226,7 @@
         "result-by-skill": "Your results for the competence",
         "percentage": "{rate, number, ::percent}"
       },
+      "error": "Oops, an error occurred!",
       "improve": {
         "title": "Want to improve your results?",
         "description": "You can retake some of the questions"

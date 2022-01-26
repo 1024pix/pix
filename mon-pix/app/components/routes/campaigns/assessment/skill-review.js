@@ -13,7 +13,8 @@ export default class SkillReview extends Component {
   @service url;
   @service store;
 
-  @tracked displayErrorMessage = false;
+  @tracked showNotFinishedYetMessage = false;
+  @tracked showGlobalErrorMessage = false;
   @tracked isShareButtonClicked = false;
 
   get showCleaCompetences() {
@@ -144,16 +145,28 @@ export default class SkillReview extends Component {
 
   @action
   async shareCampaignParticipation() {
-    this.displayErrorMessage = false;
+    this.showNotFinishedYetMessage = false;
+    this.showGlobalErrorMessage = false;
     this.isShareButtonClicked = true;
     const campaignParticipationResult = this.args.model.campaignParticipationResult;
 
     const adapter = this.store.adapterFor('campaign-participation-result');
     try {
       await adapter.share(campaignParticipationResult.id);
-    } catch (err) {
-      this.displayErrorMessage = true;
-      return;
+    } catch (errorResponse) {
+      if (!errorResponse?.errors) {
+        this.showGlobalErrorMessage = true;
+        throw errorResponse;
+      }
+      errorResponse.errors.forEach((error) => {
+        if (error.status === '409') {
+          this.showNotFinishedYetMessage = true;
+        } else {
+          this.isShareButtonClicked = false;
+          this.showGlobalErrorMessage = true;
+          throw error;
+        }
+      });
     }
 
     campaignParticipationResult.isShared = true;

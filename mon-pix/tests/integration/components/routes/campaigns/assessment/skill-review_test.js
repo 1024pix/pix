@@ -17,19 +17,19 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   });
 
   context('When user want to share his/her results', function () {
+    it('should see the button to share', async function () {
+      // Given
+      const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [] };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+      // Then
+      expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.exist;
+    });
+
     context('when a skill has been reset after campaign completion and before sending results', function () {
-      it('should see the button to share', async function () {
-        // Given
-        const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [] };
-        this.set('model', { campaign, campaignParticipationResult });
-
-        // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
-
-        // Then
-        expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.exist;
-      });
-
       it('displays an error message and a resume button on share', async function () {
         // Given
         const campaignParticipationResult = {
@@ -40,7 +40,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
         const store = this.owner.lookup('service:store');
         const adapter = store.adapterFor('campaign-participation-result');
-        adapter.share = sinon.stub().rejects();
+        adapter.share = sinon.stub().rejects({ errors: [{ status: '409' }] });
 
         // When
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
@@ -50,6 +50,29 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         expect(contains(this.intl.t('pages.skill-review.not-finished'))).to.exist;
         expect(contains(this.intl.t('pages.profile.resume-campaign-banner.accessibility.resume'))).to.exist;
         expect(contains(this.intl.t('pages.profile.resume-campaign-banner.actions.resume'))).to.exist;
+      });
+    });
+
+    context('when an error occurred during share', function () {
+      it('displays an error message and a go home button', async function () {
+        // Given
+        const campaignParticipationResult = {
+          isShared: false,
+          campaignParticipationBadges: [],
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        const store = this.owner.lookup('service:store');
+        const adapter = store.adapterFor('campaign-participation-result');
+        adapter.share = sinon.stub().rejects({ errors: [{ status: '412' }] });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.error'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
       });
     });
   });
@@ -374,6 +397,52 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       it('should not display improve block', function () {
         // Then
         expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
+      });
+    });
+
+    context('when share button has been pressed but a skill has been reset', function () {
+      beforeEach(async function () {
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          canImprove: true,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        const store = this.owner.lookup('service:store');
+        const adapter = store.adapterFor('campaign-participation-result');
+        adapter.share = sinon.stub().rejects({ errors: [{ status: '409' }] });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+      });
+
+      it('should not display improve block', function () {
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
+      });
+    });
+
+    context('when share button has been pressed but a global error occurred', function () {
+      beforeEach(async function () {
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          canImprove: true,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        const store = this.owner.lookup('service:store');
+        const adapter = store.adapterFor('campaign-participation-result');
+        adapter.share = sinon.stub().rejects({ errors: [{ status: '412' }] });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+      });
+
+      it('should not display improve block', function () {
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.exist;
       });
     });
   });

@@ -3,7 +3,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 
 describe('Unit | component | Campaigns | Evaluation | Skill Review', function () {
@@ -23,7 +23,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
 
     const store = this.owner.lookup('service:store');
     adapter = store.adapterFor('campaign-participation-result');
-    sinon.stub(adapter, 'share').rejects();
+    sinon.stub(adapter, 'share').resolves();
     sinon.stub(adapter, 'beginImprovement').resolves();
 
     component.router.transitionTo = sinon.stub();
@@ -68,22 +68,38 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       });
     });
 
-    context('when an error occured during share', function () {
+    context('when an error occurred during share', function () {
       it('should keep isShared to false', async function () {
         component.args.model.campaignParticipationResult.isShared = false;
         adapter.share.rejects();
 
-        await component.actions.shareCampaignParticipation.call(component);
-
-        expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
+        try {
+          await component.actions.shareCampaignParticipation.call(component);
+        } catch (err) {
+          expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
+          return;
+        }
+        sinon.assert.fail('shareCampaignParticipation should have throw an error.');
       });
 
-      it('should display error message', async function () {
-        adapter.share.rejects();
+      it('should display not-finished-yet message if status is 409', async function () {
+        adapter.share.rejects({ errors: [{ status: '409' }] });
 
         await component.actions.shareCampaignParticipation.call(component);
 
-        expect(component.displayErrorMessage).to.equal(true);
+        expect(component.showNotFinishedYetMessage).to.equal(true);
+      });
+
+      it('should display global error message if status is not 409', async function () {
+        adapter.share.rejects({ errors: [{ status: '412' }] });
+
+        try {
+          await component.actions.shareCampaignParticipation.call(component);
+        } catch (err) {
+          expect(component.showGlobalErrorMessage).to.equal(true);
+          return;
+        }
+        sinon.assert.fail('shareCampaignParticipation should have throw an error.');
       });
     });
   });
