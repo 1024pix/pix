@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.160.0 (26/01/2022)
+
+
+### :rocket: Enhancement
+- [#3962](https://github.com/1024pix/pix/pull/3962) [FEATURE] Récupérer la liste des membres d'une organisation dans la création et la modification d'une campagne sur Pix Orga (PIX-4147).
+- [#3972](https://github.com/1024pix/pix/pull/3972) [FEATURE] Ajouter l'information responsive sur les sujets de la page de sélection de sujets (PIX-4083)
+- [#3921](https://github.com/1024pix/pix/pull/3921) [FEATURE] Ajout des onglets de 'Mes campagnes' et 'Toutes les campagnes' sur Pix Orga (PIX-4087)
+
+### :building_construction: Tech
+- [#3944](https://github.com/1024pix/pix/pull/3944) [TECH] Empêcher l'accès aux routes API de l'espace surveillant pour un utilisateur non autorisé (PIX-3731)
+
+### :bug: Bug fix
+- [#3973](https://github.com/1024pix/pix/pull/3973) [BUGFIX] Empêcher le téléchargement quand le bouton est désactivé sur la page de sélection de sujets.
+
+### :coffee: Various
+- [#3956](https://github.com/1024pix/pix/pull/3956) [A11Y] Suppression d'une partie du texte des aria-label dans les QROC (PIX-4174).
+
 ## v3.159.0 (25/01/2022)
 
 
