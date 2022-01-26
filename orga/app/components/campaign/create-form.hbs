@@ -12,10 +12,10 @@
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @type="text"
-      class="input"
+      type="text"
+      class="input pix-input--wide"
       maxlength="255"
-      @value={{this.campaign.name}}
+      {{on "change" this.onChangeCampaignName}}
       required={{true}}
       aria-required={{true}}
     />
@@ -221,7 +221,8 @@
         @information={{t "pages.campaign-creation.external-id-label.suggestion"}}
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
-        @value={{this.campaign.idPixLabel}}
+        class="pix-input--wide"
+        {{on "change" this.onChangeExternalIdLabel}}
       />
       {{#if @errors.idPixLabel}}
         <div class="form__error error-message">
@@ -238,7 +239,8 @@
         @id="campaign-title"
         @name="campaign-title"
         maxlength="50"
-        @value={{this.campaign.title}}
+        class="pix-input--wide"
+        {{on "change" this.onChangeCampaignTitle}}
       />
     </div>
   {{/if}}

@@ -73,8 +73,8 @@ export default class LoginForm extends Component {
   }
 
   @action
-  validateEmail() {
-    this.email = this.email.trim();
+  validateEmail(event) {
+    this.email = event.target.value?.trim();
     const isInvalidInput = !isEmailValid(this.email);
 
     this.emailValidationMessage = null;

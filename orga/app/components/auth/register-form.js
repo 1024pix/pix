@@ -76,9 +76,9 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  validateEmail() {
+  validateEmail(event) {
     this.emailValidationMessage = null;
-    this.email = this.email.trim();
+    this.email = event.target.value?.trim();
     const isInvalidInput = !isEmailValid(this.email);
 
     if (isInvalidInput) {
@@ -87,9 +87,9 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  validateFirstName() {
+  validateFirstName(event) {
     this.firstNameValidationMessage = null;
-    this.firstName = this.firstName.trim();
+    this.firstName = event.target.value?.trim();
     const isInvalidInput = isEmpty(this.firstName);
 
     if (isInvalidInput) {
@@ -98,9 +98,9 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  validateLastName() {
+  validateLastName(event) {
     this.lastNameValidationMessage = null;
-    this.lastName = this.lastName.trim();
+    this.lastName = event.target.value?.trim();
     const isInvalidInput = isEmpty(this.lastName);
 
     if (isInvalidInput) {
