@@ -29,6 +29,7 @@ const dependencies = {
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
+  supervisorAccessRepository: require('../../infrastructure/repositories/supervisor-access-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
