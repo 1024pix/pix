@@ -15,7 +15,7 @@ describe('Integration | Component | QROCm proposal', function () {
 
   describe('When block type is select', function () {
     beforeEach(function () {
-      this.set('proposals', '${potato#samurai options=["salad", "tomato", "onion"]}');
+      this.set('proposals', '${potato§La patate#samurai options=["salad", "tomato", "onion"]}');
     });
 
     it('should display a selector with related options', async function () {
@@ -32,6 +32,7 @@ describe('Integration | Component | QROCm proposal', function () {
       const optionValues = options.map((option) => option.value);
 
       expect(selector.tagName).to.equal('SELECT');
+      expect(selector.getAttribute('aria-label')).to.equal('La patate');
       expect(optionValues).to.deep.equal(expectedOptionValues);
     });
 
