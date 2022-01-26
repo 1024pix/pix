@@ -26,13 +26,13 @@
         @id="login-email"
         @label={{t "pages.login-form.email"}}
         name="login"
-        @type="email"
-        @value={{this.email}}
+        type="email"
         {{on "focusout" this.validateEmail}}
         @errorMessage={{this.emailValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
+        class="pix-input--wide"
       />
     </div>
 
