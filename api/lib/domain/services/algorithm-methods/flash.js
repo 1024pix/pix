@@ -15,10 +15,9 @@ module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getNonAnsweredChallenges,
-  DEFAULT_ESTIMATED_LEVEL,
 };
 
-function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel } = {}) {
+function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
   const nonAnsweredChallenges = getNonAnsweredChallenges({ allAnswers, challenges });
 
   if (nonAnsweredChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
