@@ -38,6 +38,23 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       sinon.assert.calledWithExactly(adapter.share, 12345);
     });
 
+    context('before share', function () {
+      it('isShareButtonClicked should be false', async function () {
+        // then
+        expect(component.isShareButtonClicked).to.equal(false);
+      });
+    });
+
+    context('when share is not yet effective but button is pressed', function () {
+      it('should set isShareButtonClicked to true', async function () {
+        // when
+        await component.actions.shareCampaignParticipation.call(component);
+
+        // then
+        expect(component.isShareButtonClicked).to.equal(true);
+      });
+    });
+
     context('when share is effective', function () {
       it('should set isShared to true', async function () {
         // given
@@ -472,6 +489,41 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       component.args.model.campaign.customResultPageButtonUrl = null;
       // when
       const result = component.displayPixLink;
+
+      // then
+      expect(result).to.be.true;
+    });
+  });
+
+  describe('#showImproveButton', function () {
+    it('should return false when canImprove is false', function () {
+      // given
+      component.args.model.campaignParticipationResult.canImprove = false;
+      component.isShareButtonClicked = false;
+      // when
+      const result = component.showImproveButton;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when isShareButtonClicked is true', function () {
+      // given
+      component.args.model.campaignParticipationResult.canImprove = true;
+      component.isShareButtonClicked = true;
+      // when
+      const result = component.showImproveButton;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true when canImprove is true and isShareButtonClicked is false', function () {
+      // given
+      component.args.model.campaignParticipationResult.canImprove = true;
+      component.isShareButtonClicked = false;
+      // when
+      const result = component.showImproveButton;
 
       // then
       expect(result).to.be.true;
