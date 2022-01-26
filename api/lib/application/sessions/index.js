@@ -7,6 +7,7 @@ const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
 const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
+const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization');
 
 exports.register = async (server) => {
   server.route([
@@ -359,6 +360,10 @@ exports.register = async (server) => {
           {
             method: endTestScreenRemovalEnabled.verifyBySessionId,
             assign: 'endTestScreenRemovalEnabledCheck',
+          },
+          {
+            method: assessmentSupervisorAuthorization.verifyBySessionId,
+            assign: 'isSupervisorForSession',
           },
         ],
         handler: sessionForSupervisingController.get,
