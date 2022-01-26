@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -21,14 +20,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      const screen = await renderScreen(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
                   @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
-      assert.contains('Aucune campagne');
+      assert.dom(screen.getByText('Aucune campagne')).exists();
     });
   });
 
@@ -45,14 +44,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      const screen = await renderScreen(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
                   @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
-      assert.notContains('Aucune campagne');
+      assert.dom(screen.queryByLabelText('Aucune campagne')).doesNotExist();
       assert.dom('[aria-label="Campagne"]').exists({ count: 2 });
     });
 
@@ -74,7 +73,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      await renderScreen(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
@@ -105,14 +104,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      const screen = await renderScreen(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
                   @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
       // then
-      assert.contains('campagne 1');
-      assert.contains('campagne 2');
+      assert.dom(screen.getByText('campagne 1')).exists();
+      assert.dom(screen.getByText('campagne 2')).exists();
     });
 
     test('it should display the owner of the campaigns', async function (assert) {
@@ -133,7 +132,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      await renderScreen(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
@@ -166,14 +165,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      const screen = await renderScreen(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
                   @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
-      assert.contains('02/02/2020');
+      assert.dom(screen.getByText('02/02/2020')).exists();
     });
 
     test('it should display the participations count', async function (assert) {
@@ -190,7 +189,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      await renderScreen(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
@@ -214,7 +213,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      await renderScreen(hbs`<Campaign::List
                   @campaigns={{campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
@@ -231,14 +230,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      const screen = await renderScreen(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
                   @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
-      assert.dom('[placeholder="Rechercher une campagne"]').exists();
+      assert.dom(screen.getByPlaceholderText('Rechercher une campagne')).exists();
     });
 
     test('it should display the placeholder of the filter by owner field', async function (assert) {
@@ -248,14 +247,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Campaign::List
+      const screen = await renderScreen(hbs`<Campaign::List
                   @campaigns={{this.campaigns}}
                   @onFilter={{this.triggerFilteringSpy}}
                   @onClickCampaign={{this.goToCampaignPageSpy}}
                   @onClickStatusFilter={{this.onClickStatusFilterSpy}} />`);
 
       // then
-      assert.dom('[placeholder="Rechercher un créateur"]').exists();
+      assert.dom(screen.getByPlaceholderText('Rechercher un propriétaire')).exists();
     });
 
     module('when showing current user campaign list', function () {
