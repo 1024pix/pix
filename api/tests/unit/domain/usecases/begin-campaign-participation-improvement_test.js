@@ -8,8 +8,6 @@ const {
 } = require('../../../../lib/domain/errors');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
-const { STARTED } = CampaignParticipation.statuses;
-
 describe('Unit | Usecase | begin-campaign-participation-improvement', function () {
   let dependencies;
   let campaignParticipationRepository;
@@ -54,6 +52,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
+      status: CampaignParticipation.statuses.SHARED,
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
@@ -72,11 +71,16 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const ongoingAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
+    const ongoingAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
+      userId,
+      campaignParticipationId,
+      isImproving: true,
+      state: Assessment.states.STARTED,
+    });
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: STARTED,
+      status: CampaignParticipation.statuses.STARTED,
       assessments: [ongoingAssessment],
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
@@ -92,12 +96,16 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
-    latestAssessment.state = Assessment.states.COMPLETED;
+    const latestAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
+      userId,
+      campaignParticipationId,
+      isImproving: true,
+      state: Assessment.states.COMPLETED,
+    });
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: STARTED,
+      status: CampaignParticipation.statuses.STARTED,
       assessments: [latestAssessment],
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
@@ -115,6 +123,6 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     expect(assessmentToSave.userId).to.equal(userId);
     expect(assessmentToSave.courseId).to.equal('[NOT USED] Campaign Assessment CourseId Not Used');
     expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipationId);
-    expect(assessmentToSave.isImproving).to.be.ok;
+    expect(assessmentToSave.isImproving).to.be.true;
   });
 });
