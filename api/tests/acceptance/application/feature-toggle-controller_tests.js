@@ -21,6 +21,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
         data: {
           id: '0',
           attributes: {
+            'is-certification-billing-enabled': false,
             'is-manage-uncompleted-certif-enabled': false,
             'is-email-validation-enabled': false,
             'is-end-test-screen-removal-enabled': false,
