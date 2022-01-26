@@ -76,6 +76,14 @@ export default class CreateForm extends Component {
     });
   }
 
+  get campaignOwnerOptions() {
+    if (!this.args.membersSortedByFullName) return [];
+
+    return this.args.membersSortedByFullName.map((member) => {
+      return { value: member.get('id'), label: member.get('fullName') };
+    });
+  }
+
   @action
   toggleCategory(category, isChecked) {
     if (isChecked) {
