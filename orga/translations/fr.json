@@ -380,6 +380,12 @@
       "actions": {
         "edit": "Modifier"
       },
+      "owner": {
+        "label": "Propriétaire de la campagne",
+        "placeholder": "Nom et prénom du propriétaire",
+        "title": "Propriétaire de la campagne",
+        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier et archiver cette campagne."
+      },
       "campaign-name": "Nom de la campagne",
       "landing-page-text": "Texte de la page d'accueil",
       "personalised-test-title": "Titre du parcours"
