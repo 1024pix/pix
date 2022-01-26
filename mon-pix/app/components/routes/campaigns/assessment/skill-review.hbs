@@ -167,7 +167,7 @@
     </div>
   {{/if}}
 
-  {{#if @model.campaignParticipationResult.canImprove}}
+  {{#if this.showImproveButton}}
     <SkillReviewImprove @improve={{this.improve}} />
   {{/if}}
 

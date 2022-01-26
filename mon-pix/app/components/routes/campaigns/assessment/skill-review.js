@@ -14,6 +14,7 @@ export default class SkillReview extends Component {
   @service store;
 
   @tracked displayErrorMessage = false;
+  @tracked isShareButtonClicked = false;
 
   get showCleaCompetences() {
     const cleaBadge = this.args.model.campaignParticipationResult.cleaBadge;
@@ -125,6 +126,10 @@ export default class SkillReview extends Component {
     return this.args.model.campaign.organizationShowNPS && this.isShared;
   }
 
+  get showImproveButton() {
+    return this.args.model.campaignParticipationResult.canImprove && !this.isShareButtonClicked;
+  }
+
   _buildUrl(baseUrl, params) {
     const Url = new URL(baseUrl);
     const urlParams = new URLSearchParams(Url.search);
@@ -140,6 +145,7 @@ export default class SkillReview extends Component {
   @action
   async shareCampaignParticipation() {
     this.displayErrorMessage = false;
+    this.isShareButtonClicked = true;
     const campaignParticipationResult = this.args.model.campaignParticipationResult;
 
     const adapter = this.store.adapterFor('campaign-participation-result');
