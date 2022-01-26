@@ -13,16 +13,20 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     this.set('cancelSpy', () => {});
   });
 
-  test('it should contain inputs, attributes and validation button', async function (assert) {
+  test('it should contain inputs, attributes, information block, and validation button', async function (assert) {
     // when
-    await renderScreen(
+    const screen = await renderScreen(
       hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
     );
 
     // then
-    assert.dom('#campaign-custom-landing-page-text').exists();
-    assert.dom('button[type="submit"]').exists();
-    assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', '5000');
+    assert.dom(screen.getByLabelText('* Nom de la campagne')).exists();
+    assert.dom(screen.getByLabelText('* Propriétaire de la campagne')).exists();
+    assert.dom(screen.getByText('Propriétaire de la campagne', { selector: 'span' })).exists();
+    assert.dom(screen.getByLabelText('Titre du parcours')).exists();
+    assert.dom(screen.getByLabelText("Texte de la page d'accueil")).exists();
+    assert.dom(screen.getByLabelText("Texte de la page d'accueil")).hasAttribute('maxLength', '5000');
+    assert.dom(screen.getByText('Modifier')).exists();
   });
 
   test('[a11y] it should display a message that some inputs are required', async function (assert) {
