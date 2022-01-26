@@ -1,5 +1,5 @@
 const certificationCandidatesController = require('./certification-candidates-controller');
-const assessmentSupervisorAuthorization = require('../preHandlers/assessment-supervisor-authorization');
+const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization');
 const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
@@ -22,6 +22,10 @@ exports.register = async function (server) {
           {
             method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
             assign: 'endTestScreenRemovalEnabledCheck',
+          },
+          {
+            method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
+            assign: 'authorizationCheck',
           },
         ],
         handler: certificationCandidatesController.authorizeToStart,
@@ -46,6 +50,10 @@ exports.register = async function (server) {
             method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
             assign: 'endTestScreenRemovalEnabledCheck',
           },
+          {
+            method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
+            assign: 'authorizationCheck',
+          },
         ],
         handler: certificationCandidatesController.authorizeToResume,
         notes: [
@@ -59,14 +67,13 @@ exports.register = async function (server) {
       method: 'PATCH',
       path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
       config: {
-        auth: false,
         pre: [
           {
             method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
             assign: 'endTestScreenRemovalEnabledCheck',
           },
           {
-            method: assessmentSupervisorAuthorization.verify,
+            method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
             assign: 'authorizationCheck',
           },
         ],
