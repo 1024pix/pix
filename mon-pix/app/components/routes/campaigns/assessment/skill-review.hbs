@@ -54,7 +54,7 @@
           class="skill-review-result-abstract__share-container
             {{if this.showStages "skill-review-result-abstract__share-container--left"}}"
         >
-          {{#if this.displayErrorMessage}}
+          {{#if this.showNotFinishedYetMessage}}
             <div class="skill-review-share__error-container">
               <div class="skill-review-share-error__message" aria-live="polite">
                 {{t "pages.skill-review.not-finished"}}
@@ -62,10 +62,18 @@
               <LinkTo
                 @route="campaigns.entry-point"
                 @model={{@model.campaign.code}}
-                class="skill-review-share-error__resume-button button button--big button--link"
+                class="skill-review-share-error__button button button--big button--link"
               ><span class="sr-only">{{t "pages.profile.resume-campaign-banner.accessibility.resume"}}</span>{{t
                   "pages.profile.resume-campaign-banner.actions.resume"
                 }}</LinkTo>
+            </div>
+          {{else if this.showGlobalErrorMessage}}
+            <div class="skill-review-share__error-container">
+              <div class="skill-review-share-error__message" aria-live="polite">
+                {{t "pages.skill-review.error"}}
+              </div>
+              <LinkTo @route="login" class="skill-review-share-error__button button button--big button--link">
+                {{t "navigation.back-to-homepage"}}</LinkTo>
             </div>
           {{else}}
             {{#if @model.campaign.isForAbsoluteNovice}}
