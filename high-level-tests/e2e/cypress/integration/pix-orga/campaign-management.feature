@@ -46,7 +46,8 @@ Fonctionnalité: Gestion des Campagnes
   Scénario: Je créé une campagne d'évaluation
     Étant donné que je suis connecté à Pix Orga
     Lorsque je clique sur "Créer une campagne"
-    Et je saisis "Campagne du Nord" dans le champ "Nom de la campagne"
+    Alors je suis redirigé vers la page "creation"
+    Lorsque je saisis "Campagne du Nord" dans le champ "Nom de la campagne"
     Et je clique sur "Évaluer les participants"
     Et je saisis "Compétences pour un Mestre" dans le champ "Que souhaitez-vous tester ?"
     Et je clique sur "Non"
@@ -56,7 +57,8 @@ Fonctionnalité: Gestion des Campagnes
   Scénario: Je créé une campagne de collecte de profils
     Étant donné que je suis connecté à Pix Orga
     Lorsque je clique sur "Créer une campagne"
-    Et je saisis "Campagne de l'Ouest" dans le champ "Nom de la campagne"
+    Alors je suis redirigé vers la page "creation"
+    Lorsque je saisis "Campagne de l'Ouest" dans le champ "Nom de la campagne"
     Et je clique sur "Collecter les profils Pix des participants"
     Et je clique sur "Non"
     Et je clique sur "Créer la campagne"
@@ -82,7 +84,8 @@ Fonctionnalité: Gestion des Campagnes
     Et je clique sur "Campagne du Mur"
     Et je clique sur "Paramètres"
     Lorsque je clique sur "Modifier"
-    Et que je saisis "Parcours pour les marcheurs blancs" dans le champ "Titre du parcours"
+    Alors je suis redirigé vers la page "modification"
+    Lorsque je saisis "Parcours pour les marcheurs blancs" dans le champ "Titre du parcours"
     Et que je clique sur "Modifier"
     Et que je clique sur "Paramètres"
     Alors je vois le détail de la campagne "Campagne du Mur"
