@@ -1,5 +1,5 @@
 <section class="page-section mb_10">
-  <form class="form" {{on "submit" this.updateStage}}>
+  <form class="form stage-form" {{on "submit" this.updateStage}}>
     <div class="form-field">
       <label for="threshold" class="form-field__label">
         Seuil
@@ -16,7 +16,7 @@
       <label for="message" class="form-field__label">
         Message
       </label>
-      <Input id="message" @type="text" class="form-control" @value={{this.form.message}} />
+      <Textarea id="message" class="form-control" @value={{this.form.message}} rows="4" />
       <br />
 
       <label for="prescriberTitle" class="form-field__label">
@@ -39,11 +39,11 @@
       <label for="prescriberDescription" class="form-field__label">
         Description pour le prescripteur
       </label>
-      <Input
+      <Textarea
         id="prescriberDescription"
-        @type="text"
         class="form-control {{if (v-get this.form "prescriberDescription" "isInvalid") "is-invalid"}}"
         @value={{this.form.prescriberDescription}}
+        rows="4"
       />
     </div>
     <div class="form-actions">
