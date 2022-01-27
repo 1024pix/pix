@@ -23,29 +23,17 @@ function getUpdatedXmlWithCertificationCandidatesData({ stringifiedXml, candidat
   });
 }
 
-function addAdditionalTableHeaders({ stringifiedXml, certificationCenterHabilitations }) {
+function addComplementaryCertificationColumns({ stringifiedXml, certificationCenterHabilitations }) {
   const habilitationColumnNames = certificationCenterHabilitations.map((habilitation) => habilitation.name);
 
-  stringifiedXml = _addComplementaryCertificationHeader({
+  stringifiedXml = _addComplementaryCertificationOverallHeader({
     stringifiedXml,
     numberOfColumns: habilitationColumnNames.length,
   });
 
-  habilitationColumnNames.forEach((habilitationColumnName) => {
-    stringifiedXml = writeOdsUtils.addCellToEndOfLineWithStyleOfCellLabelled({
-      stringifiedXml,
-      lineNumber: TABLE_HEADER_ROW,
-      cellToCopyLabel: 'Temps majoré ?',
-      addedCellOption: new AddedCellOption({ labels: [habilitationColumnName, '("oui" ou laisser vide)'] }),
-    });
-
-    stringifiedXml = writeOdsUtils.addCellToEndOfLineWithStyleOfCellLabelled({
-      stringifiedXml,
-      lineNumber: TABLE_FIRST_ROW,
-      cellToCopyLabel: 'EXTERNAL_ID',
-      addedCellOption: new AddedCellOption({ labels: [habilitationColumnName] }),
-    });
-  });
+  stringifiedXml = habilitationColumnNames.reduce((stringifiedXml, habilitationColumnName) => {
+    return _addComplementaryCertificationColumn(stringifiedXml, habilitationColumnName);
+  }, stringifiedXml);
 
   return writeOdsUtils.incrementRowsColumnSpan({
     stringifiedXml,
@@ -55,7 +43,7 @@ function addAdditionalTableHeaders({ stringifiedXml, certificationCenterHabilita
   });
 }
 
-function _addComplementaryCertificationHeader({ stringifiedXml, numberOfColumns }) {
+function _addComplementaryCertificationOverallHeader({ stringifiedXml, numberOfColumns }) {
   let addedCellOption = new AddedCellOption({
     labels: ['Certification(s) complémentaire(s)'],
     rowspan: 3,
@@ -81,8 +69,24 @@ function _addComplementaryCertificationHeader({ stringifiedXml, numberOfColumns 
   return stringifiedXml;
 }
 
+function _addComplementaryCertificationColumn(stringifiedXml, habilitationColumnName) {
+  stringifiedXml = writeOdsUtils.addCellToEndOfLineWithStyleOfCellLabelled({
+    stringifiedXml,
+    lineNumber: TABLE_HEADER_ROW,
+    cellToCopyLabel: 'Temps majoré ?',
+    addedCellOption: new AddedCellOption({ labels: [habilitationColumnName, '("oui" ou laisser vide)'] }),
+  });
+
+  return writeOdsUtils.addCellToEndOfLineWithStyleOfCellLabelled({
+    stringifiedXml,
+    lineNumber: TABLE_FIRST_ROW,
+    cellToCopyLabel: 'EXTERNAL_ID',
+    addedCellOption: new AddedCellOption({ labels: [habilitationColumnName] }),
+  });
+}
+
 module.exports = {
   getUpdatedXmlWithSessionData,
   getUpdatedXmlWithCertificationCandidatesData,
-  addAdditionalTableHeaders,
+  addComplementaryCertificationColumns,
 };

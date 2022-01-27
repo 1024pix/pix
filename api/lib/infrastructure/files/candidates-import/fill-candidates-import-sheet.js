@@ -40,7 +40,7 @@ function _updateXml(stringifiedXml, sessionData, candidatesData, certificationCe
 
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
     if (!_.isEmpty(certificationCenterHabilitations)) {
-      updatedStringifiedXml = sessionXmlService.addAdditionalTableHeaders({
+      updatedStringifiedXml = sessionXmlService.addComplementaryCertificationColumns({
         stringifiedXml: updatedStringifiedXml,
         certificationCenterHabilitations,
       });
