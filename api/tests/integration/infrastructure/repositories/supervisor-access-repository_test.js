@@ -24,10 +24,6 @@ describe('Integration | Repository | supervisor-access-repository', function () 
   });
 
   describe('#isUserSupervisorForSession', function () {
-    afterEach(function () {
-      return knex('supervisor-accesses').delete();
-    });
-
     it('should return true if user is supervising the session', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
@@ -64,10 +60,6 @@ describe('Integration | Repository | supervisor-access-repository', function () 
   });
 
   describe('#isUserSupervisorForSessionCandidate', function () {
-    afterEach(function () {
-      return knex('supervisor-accesses').delete();
-    });
-
     it("should return true if the user is supervising the candidate's session", async function () {
       // given
       const supervisorId = databaseBuilder.factory.buildUser().id;
@@ -106,10 +98,6 @@ describe('Integration | Repository | supervisor-access-repository', function () 
   });
 
   describe('#sessionHasSupervisorAccess', function () {
-    afterEach(function () {
-      return knex('supervisor-accesses').delete();
-    });
-
     it('should return true if session has at least one supervisor access', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
