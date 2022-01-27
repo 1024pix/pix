@@ -22,6 +22,7 @@ describe('Unit | UseCase | get-pix-framework', function () {
 
     challengeRepository = {
       findValidatedBySkillId: sinon.stub().resolves(expectedChallengeResult),
+      findValidatedPrototypeBySkillId: sinon.stub().resolves(expectedChallengeResult),
     };
 
     skillRepository = {
@@ -58,56 +59,84 @@ describe('Unit | UseCase | get-pix-framework', function () {
     });
     expect(tubeRepository.findActivesFromPixFramework).to.have.been.calledWithExactly('fr');
     expect(skillRepository.findActiveByTubeId).to.have.been.called;
-    expect(challengeRepository.findValidatedBySkillId).to.have.been.called;
+    expect(challengeRepository.findValidatedPrototypeBySkillId).to.have.been.called;
   });
 
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     {
-      challengeResult: {
-        id: 'challengeId1',
-        responsive: 'Tablette/Smartphone',
-      },
+      challengeResult: [
+        {
+          id: 'challengeId1',
+          responsive: 'Tablette/Smartphone',
+        },
+      ],
       expectedResult: {
         mobile: true,
         tablet: true,
       },
     },
     {
-      challengeResult: {
-        id: 'challengeId1',
-        responsive: 'Tablette',
-      },
+      challengeResult: [
+        {
+          id: 'challengeId1',
+          responsive: 'Tablette/Smartphone',
+        },
+        {
+          id: 'challengeId2',
+          responsive: 'Tablette',
+        },
+      ],
       expectedResult: {
         mobile: false,
         tablet: true,
       },
     },
     {
-      challengeResult: {
-        id: 'challengeId1',
-        responsive: 'Smartphone',
-      },
+      challengeResult: [
+        {
+          id: 'challengeId1',
+          responsive: 'Tablette/Smartphone',
+        },
+        {
+          id: 'challengeId2',
+          responsive: 'Smartphone',
+        },
+      ],
       expectedResult: {
         mobile: true,
         tablet: false,
       },
     },
     {
-      challengeResult: {
-        id: 'challengeId1',
-        responsive: 'Non',
-      },
+      challengeResult: [
+        {
+          id: 'challengeId1',
+          responsive: 'Tablette/Smartphone',
+        },
+        {
+          id: 'challengeId2',
+          responsive: 'Non',
+        },
+      ],
       expectedResult: {
         mobile: false,
         tablet: false,
       },
     },
     {
-      challengeResult: {
-        id: 'challengeId1',
-        responsive: '',
+      challengeResult: [],
+      expectedResult: {
+        mobile: false,
+        tablet: false,
       },
+    },
+    {
+      challengeResult: [
+        {
+          id: 'challengeId2',
+        },
+      ],
       expectedResult: {
         mobile: false,
         tablet: false,
@@ -118,6 +147,7 @@ describe('Unit | UseCase | get-pix-framework', function () {
       // given
       challengeRepository = {
         findValidatedBySkillId: sinon.stub().resolves(challengeResult),
+        findValidatedPrototypeBySkillId: sinon.stub().resolves(challengeResult),
       };
 
       // when

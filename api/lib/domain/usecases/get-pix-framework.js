@@ -15,7 +15,7 @@ module.exports = async function getPixFramework({
   const tubesWithResponsiveStatus = await bluebird.mapSeries(tubes, async (tube) => {
     const skills = skillRepository.findActiveByTubeId(tube.id);
     let validatedChallenges = await bluebird.mapSeries(skills, ({ id }) => {
-      return challengeRepository.findValidatedBySkillId(id);
+      return challengeRepository.findValidatedPrototypeBySkillId(id);
     });
     validatedChallenges = validatedChallenges.flat();
 
@@ -27,13 +27,19 @@ module.exports = async function getPixFramework({
 };
 
 function _isResponsiveForMobile(challenges) {
-  return _.some(challenges, (challenge) => {
-    return challenge.responsive?.includes('Smartphone');
-  });
+  return (
+    challenges.length > 0 &&
+    _.every(challenges, (challenge) => {
+      return challenge.responsive?.includes('Smartphone');
+    })
+  );
 }
 
 function _isResponsiveForTablet(challenges) {
-  return _.some(challenges, (challenge) => {
-    return challenge.responsive?.includes('Tablette');
-  });
+  return (
+    challenges.length > 0 &&
+    _.every(challenges, (challenge) => {
+      return challenge.responsive?.includes('Tablette');
+    })
+  );
 }
