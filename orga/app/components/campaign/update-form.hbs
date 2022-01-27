@@ -12,7 +12,8 @@
       @id="campaign-name"
       @name="campaign-name"
       maxlength="255"
-      @value={{@campaign.name}}
+      value={{@campaign.name}}
+      {{on "change" this.onChangeCampaignName}}
       required={{true}}
       aria-required={{true}}
     />
@@ -26,6 +27,7 @@
         @label={{t "pages.campaign-modification.personalised-test-title"}}
         maxlength="50"
         @value={{@campaign.title}}
+        {{on "change" this.onChangeCampaignTitle}}
       />
     </div>
   {{/if}}
