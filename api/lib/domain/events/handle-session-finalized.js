@@ -4,9 +4,18 @@ const AutoJuryDone = require('./AutoJuryDone');
 
 const eventTypes = [AutoJuryDone];
 
-async function handleSessionFinalized({ event, juryCertificationSummaryRepository, finalizedSessionRepository }) {
+async function handleSessionFinalized({
+  event,
+  juryCertificationSummaryRepository,
+  finalizedSessionRepository,
+  supervisorAccessRepository,
+}) {
   checkEventTypes(event, eventTypes);
   const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(event.sessionId);
+
+  const hasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({
+    sessionId: event.sessionId,
+  });
 
   const finalizedSession = FinalizedSession.from({
     sessionId: event.sessionId,
@@ -15,6 +24,7 @@ async function handleSessionFinalized({ event, juryCertificationSummaryRepositor
     sessionDate: event.sessionDate,
     sessionTime: event.sessionTime,
     hasExaminerGlobalComment: event.hasExaminerGlobalComment,
+    hasSupervisorAccess,
     juryCertificationSummaries,
   });
 
