@@ -60,6 +60,7 @@
     "lint:json": "run-p --print-label lint:api:json lint:mon-pix:json lint:orga:json",
     "lint:yaml": "eslint --ext .yml .circleci && eslint --ext .yml .github",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
+    "local:trigger-lint-on-commit": "husky install",
     "preinstall": "npx check-engine",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:certif start:admin",
     "start:admin": "cd admin && npm start",
@@ -96,6 +97,8 @@
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-yml": "^0.10.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.2",
     "mocha": "^8.3.0"
   },
   "peerDependencies": {
