@@ -596,7 +596,8 @@
       }
     },
     "preselect-target-profile": {
-      "download": "Download topics selection (JSON, { fileSize }kb)",
+      "no-tube-selected": "Download topics selection (JSON, { fileSize }kb)",
+      "download": "Download topics selection ({ numberOfTubesSelected }) (JSON, { fileSize }kb)",
       "download-filename": "topic-selection.json",
       "title": "Topic selection",
       "table": {
