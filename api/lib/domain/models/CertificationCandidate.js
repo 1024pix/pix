@@ -45,6 +45,8 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   userId: Joi.any().allow(null).optional(),
   schoolingRegistrationId: Joi.any().allow(null).optional(),
   complementaryCertifications: Joi.array(),
+  billingMode: Joi.string().allow(null).optional(),
+  prepaymentCode: Joi.string().allow(null).optional(),
 });
 
 class CertificationCandidate {
@@ -69,6 +71,8 @@ class CertificationCandidate {
     userId,
     schoolingRegistrationId = null,
     complementaryCertifications = [],
+    billingMode = null,
+    prepaymentCode = null,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -90,6 +94,8 @@ class CertificationCandidate {
     this.userId = userId;
     this.schoolingRegistrationId = schoolingRegistrationId;
     this.complementaryCertifications = complementaryCertifications;
+    this.billingMode = billingMode;
+    this.prepaymentCode = prepaymentCode;
   }
 
   validate() {
@@ -135,6 +141,16 @@ class CertificationCandidate {
   isGrantedCleA() {
     return this.complementaryCertifications.find((comp) => comp.name === CLEA);
   }
+
+  isBillingModePrepaid() {
+    return this.billingMode === CertificationCandidate.BILLING_MODES.PREPAID;
+  }
 }
+
+CertificationCandidate.BILLING_MODES = {
+  FREE: 'FREE',
+  PAID: 'PAID',
+  PREPAID: 'PREPAID',
+};
 
 module.exports = CertificationCandidate;

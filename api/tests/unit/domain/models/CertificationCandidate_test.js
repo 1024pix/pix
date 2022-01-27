@@ -389,4 +389,26 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(certificationCandidate.isAuthorizedToStart()).to.be.true;
     });
   });
+
+  describe('isBillingModePrepaid', function () {
+    it('should return false when billingMode is not prepaid', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+      });
+
+      // then
+      expect(certificationCandidate.isBillingModePrepaid()).to.be.false;
+    });
+
+    it('should return true when billingMode is prepaid', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+      });
+
+      // then
+      expect(certificationCandidate.isBillingModePrepaid()).to.be.true;
+    });
+  });
 });
