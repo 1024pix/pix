@@ -226,7 +226,3 @@ input[type=radio]:hover::before {
 input[type=radio]:active::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }
-
-.pix-input--wide {
-  width: 100%; // should be in pix-ui
-}
