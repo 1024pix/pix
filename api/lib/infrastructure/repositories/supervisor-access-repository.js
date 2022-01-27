@@ -10,6 +10,11 @@ module.exports = {
     return Boolean(result);
   },
 
+  async sessionHasSupervisorAccess({ sessionId }) {
+    const result = await knex.select(1).from('supervisor-accesses').where({ sessionId }).first();
+    return Boolean(result);
+  },
+
   async isUserSupervisorForSessionCandidate({ supervisorId, certificationCandidateId }) {
     const result = await knex
       .select(1)
