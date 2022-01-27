@@ -3,12 +3,7 @@ const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { PIX_ORIGIN } = require('../../../../lib/domain/constants');
 
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Competence = require('../../../../lib/domain/models/Competence');
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-const Skill = require('../../../../lib/domain/models/Skill');
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 
@@ -22,36 +17,6 @@ const certifiableProfileForLearningContentRepository = require('../../../../lib/
 describe('Unit | Service | Certification Challenge Service', function () {
   const userId = 63731;
   const locale = 'fr-fr';
-
-  function _createCompetence(id, index, name, areaCode) {
-    const competence = new Competence();
-    competence.id = id;
-    competence.index = index;
-    competence.name = name;
-    competence.area = { code: areaCode };
-
-    return competence;
-  }
-
-  function _createChallenge(id, competence, skills, testedSkill) {
-    const challenge = new Challenge();
-    challenge.id = id;
-    challenge.skills = skills;
-    challenge.competenceId = competence;
-    challenge.testedSkill = testedSkill;
-    return challenge;
-  }
-
-  function _createCertificationChallenge(challengeId, skill, certifiableBadgeKey = null) {
-    return new CertificationChallenge({
-      challengeId,
-      associatedSkillName: skill.name,
-      associatedSkillId: skill.id,
-      competenceId: skill.competenceId,
-      isNeutralized: false,
-      certifiableBadgeKey,
-    });
-  }
 
   let competenceFlipper;
   let competenceRemplir;
@@ -88,6 +53,27 @@ describe('Unit | Service | Certification Challenge Service', function () {
   let challengeForSkillRequin5;
   let challengeForSkillRequin8;
 
+  function _createCertificationChallenge(challengeId, skill, certifiableBadgeKey = null) {
+    if (certifiableBadgeKey) {
+      return domainBuilder.buildCertificationChallenge.forPixPlusCertification({
+        challengeId,
+        associatedSkillName: skill.name,
+        associatedSkillId: skill.id,
+        competenceId: skill.competenceId,
+        isNeutralized: false,
+        certifiableBadgeKey,
+      });
+    }
+    return domainBuilder.buildCertificationChallenge.forPixCertification({
+      challengeId,
+      associatedSkillName: skill.name,
+      associatedSkillId: skill.id,
+      competenceId: skill.competenceId,
+      isNeutralized: false,
+      certifiableBadgeKey,
+    });
+  }
+
   function findOperativeByIds(skillIds) {
     const skills = [
       skillCitation4,
@@ -108,101 +94,135 @@ describe('Unit | Service | Certification Challenge Service', function () {
   }
 
   beforeEach(function () {
-    competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper', '1');
-    competenceRemplir = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
-    competenceRequin = _createCompetence('competenceRecordIdThree', '1.3', '1.3 Se faire manger par un requin', '1');
-    competenceKoala = _createCompetence('competenceRecordIdKoala', '1.3', '1.3 Se faire manger par un koala', '1');
+    competenceFlipper = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdOne',
+      index: '1.1',
+      name: '1.1 Construire un flipper',
+      area: '1',
+    });
+    competenceRemplir = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdTwo',
+      index: '1.2',
+      name: '1.2 Adopter un dauphin',
+      area: '1',
+    });
+    competenceRequin = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdThree',
+      index: '1.3',
+      name: '1.3 Se faire manger par un requin',
+      area: '1',
+    });
+    competenceKoala = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdKoala',
+      index: '1.3',
+      name: '1.3 Se faire manger par un koala',
+      area: '1',
+    });
 
-    skillCitation4 = new Skill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
-    skillCollaborer4 = new Skill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
-    skillMoteur3 = new Skill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
-    skillRecherche4 = new Skill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
-    skillRemplir2 = new Skill({ id: 50, name: '@remplir2', competenceId: competenceRemplir.id, version: 1 });
-    skillRemplir2Focus = new Skill({ id: 1789, name: '@remplir2', competenceId: competenceRemplir.id, version: 2 });
-    skillRemplir4 = new Skill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
-    skillUrl3 = new Skill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
-    skillWeb1 = new Skill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
-    skillRequin5 = new Skill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
-    skillRequin8 = new Skill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
-    skillKoala1 = new Skill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
-    skillKoala2 = new Skill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
+    skillCitation4 = domainBuilder.buildSkill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
+    skillCollaborer4 = domainBuilder.buildSkill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
+    skillMoteur3 = domainBuilder.buildSkill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
+    skillRecherche4 = domainBuilder.buildSkill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
+    skillRemplir2 = domainBuilder.buildSkill({
+      id: 50,
+      name: '@remplir2',
+      competenceId: competenceRemplir.id,
+      version: 1,
+    });
+    skillRemplir2Focus = domainBuilder.buildSkill({
+      id: 1789,
+      name: '@remplir2',
+      competenceId: competenceRemplir.id,
+      version: 2,
+    });
+    skillRemplir4 = domainBuilder.buildSkill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
+    skillUrl3 = domainBuilder.buildSkill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
+    skillWeb1 = domainBuilder.buildSkill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
+    skillRequin5 = domainBuilder.buildSkill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
+    skillRequin8 = domainBuilder.buildSkill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
+    skillKoala1 = domainBuilder.buildSkill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
+    skillKoala2 = domainBuilder.buildSkill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
 
-    challengeForSkillCollaborer4 = _createChallenge(
-      'challengeRecordIdThree',
-      'competenceRecordIdThatDoesNotExistAnymore',
-      [skillCollaborer4],
-      '@collaborer4'
-    );
-    challengeForSkillCitation4 = _createChallenge(
-      'challengeRecordIdOne',
-      competenceFlipper.id,
-      [skillCitation4],
-      '@citation4'
-    );
-    challengeForSkillCitation4AndMoteur3 = _createChallenge(
-      'challengeRecordIdTwo',
-      competenceFlipper.id,
-      [skillCitation4, skillMoteur3],
-      '@citation4'
-    );
-    challengeForSkillRecherche4 = _createChallenge(
-      'challengeRecordIdFour',
-      competenceFlipper.id,
-      [skillRecherche4],
-      '@recherche4'
-    );
-    challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
-    anotherChallengeForSkillCitation4 = _createChallenge(
-      'challengeRecordIdTen',
-      competenceFlipper.id,
-      [skillCitation4],
-      '@citation4'
-    );
-    challengeForSkillKoala1 = _createChallenge(
-      'challengeRecordIdKoala1',
-      competenceKoala.id,
-      [skillKoala1],
-      skillKoala1.name
-    );
-    challengeForSkillKoala2 = _createChallenge(
-      'challengeRecordIdKoala2',
-      competenceKoala.id,
-      [skillKoala2],
-      skillKoala2.name
-    );
-    challengeForSkillRemplir2 = _createChallenge(
-      'challengeRecordIdFive',
-      competenceRemplir.id,
-      [skillRemplir2],
-      '@remplir2'
-    );
-    challengeForSkillRemplir2Focus = _createChallenge(
-      'challengeRecordIdFiveFocus',
-      competenceRemplir.id,
-      [skillRemplir2Focus],
-      '@remplir2'
-    );
-    _createChallenge('anotherChallengeForSkillRemplir2', competenceRemplir.id, [skillRemplir2], '@remplir2');
-    challengeForSkillRemplir4 = _createChallenge(
-      'challengeRecordIdSix',
-      competenceRemplir.id,
-      [skillRemplir4],
-      '@remplir4'
-    );
-    challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceRemplir.id, [skillUrl3], '@url3');
-    challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceRemplir.id, [skillWeb1], '@web1');
-    challengeForSkillRequin5 = _createChallenge(
-      'challengeRecordIdNine',
-      competenceRequin.id,
-      [skillRequin5],
-      '@requin5'
-    );
-    challengeForSkillRequin8 = _createChallenge(
-      'challengeRecordIdTen',
-      competenceRequin.id,
-      [skillRequin8],
-      '@requin8'
-    );
+    challengeForSkillCollaborer4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdThree',
+      competenceId: 'competenceRecordIdThatDoesNotExistAnymore',
+      skills: [skillCollaborer4],
+    });
+    challengeForSkillCitation4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdOne',
+      competenceId: competenceFlipper.id,
+      skills: [skillCitation4],
+    });
+    challengeForSkillCitation4AndMoteur3 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdTwo',
+      competenceId: competenceFlipper.id,
+      skills: [skillCitation4, skillMoteur3],
+    });
+    challengeForSkillRecherche4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdFour',
+      competenceId: competenceFlipper.id,
+      skills: [skillRecherche4],
+    });
+    challengeRecordWithoutSkills = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdNine',
+      competenceId: competenceFlipper.id,
+      skills: [],
+    });
+    anotherChallengeForSkillCitation4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdTen',
+      competenceId: competenceFlipper.id,
+      skills: [skillCitation4],
+    });
+    challengeForSkillKoala1 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdKoala1',
+      competenceId: competenceKoala.id,
+      skills: [skillKoala1],
+    });
+    challengeForSkillKoala2 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdKoala2',
+      competenceId: competenceKoala.id,
+      skills: [skillKoala2],
+    });
+    challengeForSkillRemplir2 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdFive',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir2],
+    });
+    challengeForSkillRemplir2Focus = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdFiveFocus',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir2Focus],
+    });
+    domainBuilder.buildChallenge({
+      id: 'anotherChallengeForSkillRemplir2',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir2],
+    });
+    challengeForSkillRemplir4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdSix',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir4],
+    });
+    challengeForSkillUrl3 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdSeven',
+      competenceId: competenceRemplir.id,
+      skills: [skillUrl3],
+    });
+    challengeForSkillWeb1 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdEight',
+      competenceId: competenceRemplir.id,
+      skills: [skillWeb1],
+    });
+    challengeForSkillRequin5 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdNine',
+      competenceId: competenceRequin.id,
+      skills: [skillRequin5],
+    });
+    challengeForSkillRequin8 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdTen',
+      competenceId: competenceRequin.id,
+      skills: [skillRequin8],
+    });
   });
 
   describe('#pickCertificationChallenges', function () {
@@ -232,7 +252,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           challengeForSkillKoala2,
         ]);
       sinon.stub(skillRepository, 'findOperativeByIds').callsFake(findOperativeByIds);
-      userCompetence1 = new UserCompetence({
+      userCompetence1 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdOne',
         index: '1.1',
         area: { code: '1' },
@@ -240,7 +260,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         pixScore: 12,
         estimatedLevel: 1,
       });
-      userCompetence2 = new UserCompetence({
+      userCompetence2 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdTwo',
         index: '1.2',
         area: { code: '1' },
@@ -263,7 +283,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
     it('should assign skill to related competence', async function () {
       // given
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2],
         }),
@@ -347,7 +367,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       it('should select an unanswered challenge', async function () {
         // given
         placementProfile.userCompetences = [
-          new UserCompetence({
+          domainBuilder.buildUserCompetence({
             ...userCompetence1,
             skills: [skillCitation4],
           }),
@@ -376,7 +396,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       it('should select a challenge for every skill', async function () {
         // given
         placementProfile.userCompetences = [
-          new UserCompetence({
+          domainBuilder.buildUserCompetence({
             ...userCompetence1,
             skills: [skillRecherche4, skillCitation4, skillMoteur3],
           }),
@@ -419,7 +439,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       it('should return at most one challenge per skill', async function () {
         // given
         placementProfile.userCompetences = [
-          new UserCompetence({
+          domainBuilder.buildUserCompetence({
             ...userCompetence1,
             skills: [skillRecherche4, skillCitation4, skillMoteur3],
           }),
@@ -463,11 +483,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
     it('should group skills by competence', async function () {
       // given
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence1,
           skills: [skillRecherche4],
         }),
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillUrl3],
         }),
@@ -514,7 +534,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillUrl3, skillRemplir4],
         }),
@@ -560,10 +580,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
     it('should return the three most difficult skills sorted in desc grouped by competence', async function () {
       // given
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence1,
         }),
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillRemplir4, skillUrl3, skillWeb1],
         }),
@@ -620,7 +640,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2],
         }),
@@ -660,7 +680,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       expect(skillRemplir2Focus.version).to.deep.equal(2);
       placementProfile.userCompetences = [
         userCompetence1,
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillRemplir2Focus],
         }),
@@ -711,7 +731,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       ];
       challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(onlyOneChallengeForCitation4AndMoteur3);
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence1,
           skills: [skillCitation4, skillMoteur3],
         }),
@@ -801,7 +821,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         tubeId: 'zazaId',
         competenceId: 'competenceId',
       });
-      const userCompetence = new UserCompetence({
+      const userCompetence = domainBuilder.buildUserCompetence({
         id: 'competenceId',
         index: '1.2',
         area: { code: '1' },
@@ -810,7 +830,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         estimatedLevel: 2,
       });
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence,
           skills: [toto6, toto5, toto4, zaza4],
         }),
@@ -819,10 +839,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challengeRepository.findOperativeHavingLocale
         .withArgs(locale)
         .resolves([
-          _createChallenge('challengeToto6', 'competenceId', [toto6], '@toto6'),
-          _createChallenge('challengeToto5', 'competenceId', [toto5], '@toto5'),
-          _createChallenge('challengeToto4', 'competenceId', [toto4], '@toto4'),
-          _createChallenge('challengeZaza4', 'competenceId', [zaza4], '@zaza4'),
+          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skills: [toto6] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skills: [toto5] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skills: [toto4] }),
+          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skills: [zaza4] }),
         ]);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
         .withArgs({ userId, limitDate: 'limitDate' })
@@ -900,7 +920,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         competenceId: 'competenceId',
       });
 
-      const userCompetence = new UserCompetence({
+      const userCompetence = domainBuilder.buildUserCompetence({
         id: 'competenceId',
         index: '1.2',
         area: { code: '1' },
@@ -909,7 +929,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         estimatedLevel: 2,
       });
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence,
           skills: [toto6, toto5, toto4, mama5, zaza4],
         }),
@@ -918,11 +938,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challengeRepository.findOperativeHavingLocale
         .withArgs(locale)
         .resolves([
-          _createChallenge('challengeToto6', 'competenceId', [toto6], '@toto6'),
-          _createChallenge('challengeToto5', 'competenceId', [toto5], '@toto5'),
-          _createChallenge('challengeToto4', 'competenceId', [toto4], '@toto4'),
-          _createChallenge('challengeZaza4', 'competenceId', [zaza4], '@zaza4'),
-          _createChallenge('challengeMama5', 'competenceId', [mama5], '@mama5'),
+          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skills: [toto6] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skills: [toto5] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skills: [toto4] }),
+          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skills: [zaza4] }),
+          domainBuilder.buildChallenge({ id: 'challengeMama5', competenceId: 'competenceId', skills: [mama5] }),
         ]);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
         .withArgs({ userId, limitDate: 'limitDate' })
