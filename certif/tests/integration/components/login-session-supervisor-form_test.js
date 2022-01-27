@@ -12,12 +12,16 @@ module('Integration | Component | login-session-supervisor-form', function (hook
   test('it should render supervisor login form', async function (assert) {
     // when
     this.onFormSubmit = sinon.stub();
-    const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);
+    this.currentUserEmail = 'toto@example.net';
+    const screen = await renderScreen(
+      hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} @currentUserEmail={{this.currentUserEmail}}/>`
+    );
 
     // then
     assert.dom(screen.getByLabelText('Numéro de la session')).exists();
     assert.dom(screen.getByLabelText('Mot de passe de la session')).exists();
     assert.dom(screen.getByText('Surveiller la session')).exists();
+    assert.dom(screen.getByText('toto@example.net')).exists();
   });
 
   module('On click on supervise button', function () {
