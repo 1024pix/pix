@@ -6,8 +6,7 @@
         @id="register-firstName"
         @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
         name="firstName"
-        @type="firstName"
-        @value={{this.firstName}}
+        type="firstName"
         {{on "focusout" this.validateFirstName}}
         @errorMessage={{this.firstNameValidationMessage}}
         required={{true}}
@@ -21,8 +20,7 @@
         @id="register-lastName"
         @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
         name="lastName"
-        @type="lastName"
-        @value={{this.lastName}}
+        type="lastName"
         {{on "focusout" this.validateLastName}}
         @errorMessage={{this.lastNameValidationMessage}}
         required={{true}}
@@ -36,8 +34,7 @@
         @id="register-email"
         @label={{t "pages.login-or-register.register-form.fields.email.label"}}
         name="email"
-        @type="email"
-        @value={{this.email}}
+        type="email"
         {{on "focusout" this.validateEmail}}
         @errorMessage={{this.emailValidationMessage}}
         required={{true}}
