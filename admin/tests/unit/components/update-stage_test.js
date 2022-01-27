@@ -38,21 +38,11 @@ module('Unit | Component | update-stage', function (hooks) {
       // then
       assert.ok(event.preventDefault.called);
       assert.ok(component.args.model.save.called);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.threshold, 42);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.title, 'titre modifié');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.message, 'message modifié');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.prescriberTitle, 'palier intermédiaire');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.prescriberDescription, 'le niveau est moyen');
+      assert.strictEqual(component.args.model.threshold, 42);
+      assert.strictEqual(component.args.model.title, 'titre modifié');
+      assert.strictEqual(component.args.model.message, 'message modifié');
+      assert.strictEqual(component.args.model.prescriberTitle, 'palier intermédiaire');
+      assert.strictEqual(component.args.model.prescriberDescription, 'le niveau est moyen');
     });
 
     test('it should update stage field even if a field is empty', async function (assert) {
@@ -83,21 +73,11 @@ module('Unit | Component | update-stage', function (hooks) {
 
       // then
       assert.ok(component.args.model.save.called);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.threshold, 50);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.title, 'titre du palier');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.message, null);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.prescriberDescription, 'Ceci est une description');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.prescriberTitle, null);
+      assert.strictEqual(component.args.model.threshold, 50);
+      assert.strictEqual(component.args.model.title, 'titre du palier');
+      assert.strictEqual(component.args.model.message, null);
+      assert.strictEqual(component.args.model.prescriberDescription, 'Ceci est une description');
+      assert.strictEqual(component.args.model.prescriberTitle, null);
     });
 
     test('it should display a success notification when model has been saved', async function (assert) {

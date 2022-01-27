@@ -35,42 +35,22 @@ module('Integration | Component | UpdateStage', function (hooks) {
     // when
     await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('label[for="threshold"]').textContent.trim(), 'Seuil');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('label[for="title"]').textContent.trim(), 'Titre');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('label[for="message"]').textContent.trim(), 'Message');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(
+    assert.strictEqual(this.element.querySelector('label[for="threshold"]').textContent.trim(), 'Seuil');
+    assert.strictEqual(this.element.querySelector('label[for="title"]').textContent.trim(), 'Titre');
+    assert.strictEqual(this.element.querySelector('label[for="message"]').textContent.trim(), 'Message');
+    assert.strictEqual(
       this.element.querySelector('label[for="prescriberTitle"]').textContent.trim(),
       'Titre pour le prescripteur'
     );
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(
+    assert.strictEqual(
       this.element.querySelector('label[for="prescriberDescription"]').textContent.trim(),
       'Description pour le prescripteur'
     );
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('#threshold').value, '50');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('#title').value, 'Titre du palier');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('#message').value, 'Ceci est un message');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('#prescriberTitle').value, 'Ceci est un titre');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('#prescriberDescription').value, 'Ceci est une description');
+    assert.strictEqual(this.element.querySelector('#threshold').value, '50');
+    assert.strictEqual(this.element.querySelector('#title').value, 'Titre du palier');
+    assert.strictEqual(this.element.querySelector('#message').value, 'Ceci est un message');
+    assert.strictEqual(this.element.querySelector('#prescriberTitle').value, 'Ceci est un titre');
+    assert.strictEqual(this.element.querySelector('#prescriberDescription').value, 'Ceci est une description');
     assert.contains('Annuler');
     assert.contains('Enregistrer');
   });
