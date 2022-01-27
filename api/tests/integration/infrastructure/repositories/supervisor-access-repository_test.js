@@ -24,10 +24,6 @@ describe('Integration | Repository | supervisor-access-repository', function () 
   });
 
   describe('#isUserSupervisorForSession', function () {
-    afterEach(function () {
-      return knex('supervisor-accesses').delete();
-    });
-
     it('should return true if user is supervising the session', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
@@ -64,10 +60,6 @@ describe('Integration | Repository | supervisor-access-repository', function () 
   });
 
   describe('#isUserSupervisorForSessionCandidate', function () {
-    afterEach(function () {
-      return knex('supervisor-accesses').delete();
-    });
-
     it("should return true if the user is supervising the candidate's session", async function () {
       // given
       const supervisorId = databaseBuilder.factory.buildUser().id;
@@ -102,6 +94,41 @@ describe('Integration | Repository | supervisor-access-repository', function () 
 
       // then
       expect(isUserSupervisorForSession).to.be.false;
+    });
+  });
+
+  describe('#sessionHasSupervisorAccess', function () {
+    it('should return true if session has at least one supervisor access', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildSupervisorAccess({ sessionId, userId });
+      await databaseBuilder.commit();
+
+      // when
+      const sessionHasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({
+        sessionId,
+      });
+
+      // then
+      expect(sessionHasSupervisorAccess).to.be.true;
+    });
+
+    it('should return false if session has no supervisor access', async function () {
+      // given
+      const sessionWithSupervisor = databaseBuilder.factory.buildSession();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildSupervisorAccess({ sessionId: sessionWithSupervisor.id, userId });
+      const sessionWithoutSupervisor = databaseBuilder.factory.buildSession();
+      await databaseBuilder.commit();
+
+      // when
+      const sessionHasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({
+        sessionId: sessionWithoutSupervisor.id,
+      });
+
+      // then
+      expect(sessionHasSupervisorAccess).to.be.false;
     });
   });
 });

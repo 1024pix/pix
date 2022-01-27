@@ -9,19 +9,16 @@ const {
 const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
+const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
+const finalizedSessionRepository = { save: sinon.stub() };
+const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
+const dependencies = {
+  juryCertificationSummaryRepository,
+  finalizedSessionRepository,
+  supervisorAccessRepository,
+};
+
 describe('Unit | Domain | Events | handle-session-finalized', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const finalizedSessionRepository = { save: sinon.stub() };
-
-  const dependencies = {
-    juryCertificationSummaryRepository,
-    finalizedSessionRepository,
-  };
-
   it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
@@ -43,32 +40,46 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
       sessionDate: '2021-01-29',
       sessionTime: '14:00',
     });
-    juryCertificationSummaryRepository.findBySessionId.withArgs(1234).resolves([
-      new JuryCertificationSummary({
-        id: 1,
-        firstName: 'firstName',
-        lastName: 'lastName',
-        status: assessmentResultStatuses.VALIDATED,
-        pixScore: 120,
-        createdAt: new Date(),
-        completedAt: new Date(),
-        isPublished: false,
-        hasSeenEndTestScreen: true,
-        cleaCertificationStatus: 'not_passed',
-        certificationIssueReports: [
-          domainBuilder.buildCertificationIssueReport({
-            category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-            subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
-          }),
-        ],
-      }),
-    ]);
+    const juryCertificationSummary = new JuryCertificationSummary({
+      id: 1,
+      firstName: 'firstName',
+      lastName: 'lastName',
+      status: assessmentResultStatuses.VALIDATED,
+      pixScore: 120,
+      createdAt: new Date(),
+      completedAt: new Date(),
+      isPublished: false,
+      hasSeenEndTestScreen: true,
+      cleaCertificationStatus: 'not_passed',
+      certificationIssueReports: [
+        domainBuilder.buildCertificationIssueReport({
+          category: CertificationIssueReportCategories.LATE_OR_LEAVING,
+          subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+        }),
+      ],
+    });
+    juryCertificationSummaryRepository.findBySessionId.withArgs(1234).resolves([juryCertificationSummary]);
     finalizedSessionRepository.save.resolves();
+    supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
+    const finalizedSessionFromSpy = sinon.spy(FinalizedSession, 'from');
 
     // when
     await handleFinalizedSession({ event, ...dependencies });
 
     // then
+    expect(supervisorAccessRepository.sessionHasSupervisorAccess).to.have.been.calledOnceWithExactly({
+      sessionId: 1234,
+    });
+    expect(finalizedSessionFromSpy).to.have.been.calledOnceWithExactly({
+      sessionId: event.sessionId,
+      finalizedAt: event.finalizedAt,
+      certificationCenterName: event.certificationCenterName,
+      sessionDate: event.sessionDate,
+      sessionTime: event.sessionTime,
+      hasExaminerGlobalComment: false,
+      hasSupervisorAccess: true,
+      juryCertificationSummaries: [juryCertificationSummary],
+    });
     expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(
       new FinalizedSession({
         sessionId: event.sessionId,
@@ -77,6 +88,7 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
         sessionDate: event.sessionDate,
         sessionTime: event.sessionTime,
         isPublishable: true,
+        hasSupervisorAccess: true,
         publishedAt: null,
       })
     );
