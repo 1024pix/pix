@@ -39,7 +39,11 @@
   </p>
 
   <div class="login-session-supervisor-form__current-user-email">
-    <span><FaIcon @icon="user-circle" /></span>
-    {{@currentUserEmail}}
+    <span><FaIcon @icon="user-circle" />
+      {{@currentUserEmail}}
+    </span>
+    <LinkTo class="login-session-supervisor-form__logout" @route="logout">
+      Changer de compte
+    </LinkTo>
   </div>
 </div>

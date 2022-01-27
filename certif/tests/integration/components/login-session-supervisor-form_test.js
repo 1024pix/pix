@@ -22,6 +22,7 @@ module('Integration | Component | login-session-supervisor-form', function (hook
     assert.dom(screen.getByLabelText('Mot de passe de la session')).exists();
     assert.dom(screen.getByText('Surveiller la session')).exists();
     assert.dom(screen.getByText('toto@example.net')).exists();
+    assert.dom(screen.getByText('Changer de compte')).exists();
   });
 
   module('On click on supervise button', function () {

@@ -65,9 +65,10 @@
 
   &__current-user-email {
     display: flex;
+    flex-direction: column;
     position: absolute;
-    border-radius: 0px 0px 10px 10px;
-    bottom: 0px;
+    border-radius: 0 0 10px 10px;
+    bottom: 0;
     background: $grey-10;
     align-items: center;
     justify-content: center;
@@ -80,8 +81,13 @@
     letter-spacing: 0.15px;
     line-height: 22px;
 
-    span {
+    svg {
       margin-right: 8px;
     }
+  }
+
+  &__logout {
+    margin-top: 4px;
+    color: $blue-zodiac;
   }
 }
