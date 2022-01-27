@@ -18,25 +18,49 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: true,
         juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatus(),
+        hasSupervisorAccess: false,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
       // then
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one test end screen has not been seen', function () {
-      // given / when
-      const finalizedSession = FinalizedSession.from({
-        sessionId: 1234,
-        certificationCenterName: 'a certification center',
-        sessionDate: '2021-01-29',
-        sessionTime: '16:00',
-        hasExaminerGlobalComment: false,
-        juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatusButEndScreenNotSeen(),
-        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+    context('when supervisor space was not used', function () {
+      it('is not publishable when at least one test end screen has not been seen', function () {
+        // given / when
+        const finalizedSession = FinalizedSession.from({
+          sessionId: 1234,
+          certificationCenterName: 'a certification center',
+          sessionDate: '2021-01-29',
+          sessionTime: '16:00',
+          hasExaminerGlobalComment: false,
+          juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatusButEndScreenNotSeen(),
+          hasSupervisorAccess: false,
+          finalizedAt: new Date('2020-01-01T00:00:00Z'),
+        });
+
+        // then
+        expect(finalizedSession.isPublishable).to.be.false;
       });
-      // then
-      expect(finalizedSession.isPublishable).to.be.false;
+    });
+
+    context('when supervisor space was used', function () {
+      it('is publishable even if an test end screen has not been seen', function () {
+        // when
+        const finalizedSession = FinalizedSession.from({
+          sessionId: 1234,
+          certificationCenterName: 'a certification center',
+          sessionDate: '2021-01-29',
+          sessionTime: '16:00',
+          hasExaminerGlobalComment: false,
+          juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatusButEndScreenNotSeen(),
+          hasSupervisorAccess: true,
+          finalizedAt: new Date('2020-01-01T00:00:00Z'),
+        });
+
+        // then
+        expect(finalizedSession.isPublishable).to.be.true;
+      });
     });
 
     it('is not publishable when at least one test is not completed and has an abort reason', function () {
@@ -48,6 +72,7 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
         juryCertificationSummaries: _someWhichAreFlaggedAborted(),
+        hasSupervisorAccess: false,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
       // then
@@ -63,6 +88,7 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
         juryCertificationSummaries: _someWithUnresolvedRequiredActionButNoErrorOrStartedStatus(),
+        hasSupervisorAccess: false,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
       // then
@@ -78,6 +104,7 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
         juryCertificationSummaries: _noneWithRequiredActionButSomeErrorStatus(),
+        hasSupervisorAccess: false,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
 
@@ -94,6 +121,7 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
         juryCertificationSummaries: _noneWithRequiredActionButSomeStartedStatus(),
+        hasSupervisorAccess: false,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
 
@@ -110,6 +138,24 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
         juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatus(),
+        hasSupervisorAccess: false,
+        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+      });
+
+      // then
+      expect(finalizedSession.isPublishable).to.be.true;
+    });
+
+    it('is publishable when session has no global comment, no started or error status, no issue report requiring action and supervisor was used', function () {
+      // given / when
+      const finalizedSession = FinalizedSession.from({
+        sessionId: 1234,
+        certificationCenterName: 'a certification center',
+        sessionDate: '2021-01-29',
+        sessionTime: '16:00',
+        hasExaminerGlobalComment: false,
+        juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatus(),
+        hasSupervisorAccess: true,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
 
@@ -126,6 +172,7 @@ describe('Unit | Domain | Models | FinalizedSession', function () {
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
         juryCertificationSummaries: _someWithResolvedRequiredActionButNoErrorOrStartedStatus(),
+        hasSupervisorAccess: false,
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
       // then
