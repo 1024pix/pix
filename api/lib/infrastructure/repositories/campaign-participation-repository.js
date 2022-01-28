@@ -29,16 +29,9 @@ const ATTRIBUTES_TO_SAVE = [
 ];
 
 module.exports = {
-  async get(id, options = {}, domainTransaction = DomainTransaction.emptyTransaction()) {
-    if (options.include) {
-      options.withRelated = _.union(options.include, ['assessments']);
-    } else {
-      options.withRelated = ['assessments'];
-    }
-
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const campaignParticipation = await BookshelfCampaignParticipation.where({ id }).fetch({
-      ...options,
-      require: false,
+      withRelated: ['campaign', 'assessments'],
       transacting: domainTransaction.knexTransaction,
     });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);

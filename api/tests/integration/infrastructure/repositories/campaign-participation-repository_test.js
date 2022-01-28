@@ -80,13 +80,21 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(assessmentIds).to.exactlyContain(expectedAssessmentIds);
     });
 
+    it('returns the campaign of campaignParticipation', async function () {
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+
+      // then
+      expect(foundCampaignParticipation.campaign.id).to.equal(campaignId);
+    });
+
     it('returns the assessments of campaignParticipation using the transaction', async function () {
       //given
       const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
 
       // when
       const foundCampaignParticipation = await DomainTransaction.execute((domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationId, {}, domainTransaction);
+        return campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
       });
       const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
 

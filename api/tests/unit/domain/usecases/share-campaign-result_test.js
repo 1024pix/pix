@@ -43,7 +43,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
       sinon.stub(campaignParticipation, 'share');
       campaignParticipationRepository.get
-        .withArgs(campaignParticipationId, { include: ['campaign'] }, domainTransaction)
+        .withArgs(campaignParticipationId, domainTransaction)
         .resolves(campaignParticipation);
 
       // when
