@@ -31,7 +31,10 @@ module('Acceptance | Session Finalization', function (hooks) {
       allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
       pixCertifTermsOfServiceAccepted: true,
     });
-    const certificationReports = server.createList('certification-report', 2, { hasSeenEndTestScreen: false });
+    const certificationReports = server.createList('certification-report', 2, {
+      hasSeenEndTestScreen: false,
+      isCompleted: true,
+    });
     session = server.create('session', {
       certificationCenterId: allowedCertificationCenterAccess.id,
       certificationReports,
@@ -186,7 +189,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: true,
               abortReason: 'technical',
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
             session.update({ certificationReports: [certificationReport] });
 
@@ -208,7 +210,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: true,
               abortReason: 'technical',
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
             session.update({ certificationReports: [certificationReport] });
 
@@ -227,7 +228,6 @@ module('Acceptance | Session Finalization', function (hooks) {
         test('it should not show the uncompleted reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: true });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -248,7 +248,6 @@ module('Acceptance | Session Finalization', function (hooks) {
                 isCompleted: true,
                 abortReason: 'technical',
               });
-              server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
               session.update({ certificationReports: [certificationReport] });
 
@@ -270,7 +269,6 @@ module('Acceptance | Session Finalization', function (hooks) {
                 isCompleted: true,
                 abortReason: 'technical',
               });
-              server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
               allowedCertificationCenterAccess.update({
                 hasEndTestScreenRemovalEnabled: true,
@@ -292,7 +290,6 @@ module('Acceptance | Session Finalization', function (hooks) {
         test('it should not show the completed reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: null });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -306,7 +303,6 @@ module('Acceptance | Session Finalization', function (hooks) {
         test('it should show the uncompleted reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -323,7 +319,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: false,
               abortReason: null,
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
             session.update({ certificationReports: [certificationReport] });
 
             // when
@@ -343,7 +338,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: false,
               abortReason: 'technical',
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
             session.update({ certificationReports: [certificationReport] });
 
             // when

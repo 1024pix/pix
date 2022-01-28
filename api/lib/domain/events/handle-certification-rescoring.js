@@ -7,7 +7,6 @@ const ChallengeNeutralized = require('./ChallengeNeutralized');
 const ChallengeDeneutralized = require('./ChallengeDeneutralized');
 const CertificationJuryDone = require('./CertificationJuryDone');
 const { checkEventTypes } = require('./check-event-types');
-const { featureToggles } = require('../../config');
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 const EMITTER = 'PIX-ALGO-NEUTRALIZATION';
@@ -41,14 +40,12 @@ async function handleCertificationRescoring({
 
     await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
-    if (featureToggles.isManageUncompletedCertifEnabled) {
-      await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
-        certificationCourseId: certificationAssessment.certificationCourseId,
-        hasEnoughNonNeutralizedChallengesToBeTrusted:
-          certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
-        certificationCourseRepository,
-      });
-    }
+    await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
+      certificationCourseId: certificationAssessment.certificationCourseId,
+      hasEnoughNonNeutralizedChallengesToBeTrusted:
+        certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
+      certificationCourseRepository,
+    });
 
     return new CertificationRescoringCompleted({
       userId: certificationAssessment.userId,
@@ -105,10 +102,7 @@ async function _saveAssessmentResult(
   assessmentResultRepository
 ) {
   let assessmentResult;
-  if (
-    !certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted &&
-    featureToggles.isManageUncompletedCertifEnabled
-  ) {
+  if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
     assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       status: certificationAssessmentScore.status,

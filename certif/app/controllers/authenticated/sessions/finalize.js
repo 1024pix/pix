@@ -24,10 +24,6 @@ export default class SessionsFinalizeController extends Controller {
     return `Finalisation | Session ${this.session.id} | Pix Certif`;
   }
 
-  get isManageUncompletedCertifEnabled() {
-    return this.featureToggles.featureToggles.isManageUncompletedCertifEnabled;
-  }
-
   get shouldDisplayHasSeenEndTestScreenCheckbox() {
     return !this.currentUser.currentAllowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled;
   }

@@ -62,11 +62,7 @@ export default class Session extends Model {
   }
 
   get completedCertificationReports() {
-    if (this.featureToggles.featureToggles.isManageUncompletedCertifEnabled) {
-      return this.certificationReports.filter((certificationReport) => certificationReport.isCompleted);
-    }
-
-    return this.certificationReports;
+    return this.certificationReports.filter((certificationReport) => certificationReport.isCompleted);
   }
 
   get uncompletedCertificationReports() {
