@@ -8,6 +8,7 @@ module.exports = async function updateCampaign({
   name,
   title,
   customLandingPageText,
+  ownerId,
   userRepository,
   campaignRepository,
 }) {
@@ -26,6 +27,7 @@ module.exports = async function updateCampaign({
   if (name !== undefined) campaign.name = name;
   if (title !== undefined) campaign.title = title;
   if (customLandingPageText !== undefined) campaign.customLandingPageText = customLandingPageText;
+  if (ownerId !== undefined) campaign.ownerId = ownerId;
 
   const rawCampaign = {
     ...campaign,
