@@ -158,6 +158,17 @@ export default class CreateForm extends Component {
   }
 
   @action
+  onChangeCampaignOwner(event) {
+    const newOwnerFullName = event.target.value;
+    const selectedMember = this.args.membersSortedByFullName.find(
+      (member) => newOwnerFullName === member.get('fullName')
+    );
+    if (selectedMember) {
+      this.campaign.ownerId = selectedMember.get('id');
+    }
+  }
+
+  @action
   onSubmit(event) {
     event.preventDefault();
     this.args.onSubmit(this.campaign);
