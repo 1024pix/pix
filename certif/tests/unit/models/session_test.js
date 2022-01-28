@@ -93,45 +93,16 @@ module('Unit | Model | session', function (hooks) {
   });
 
   module('#completedCertificationReports', function () {
-    module('when isManageUncompletedCertifEnabled is enabled', function () {
-      test('it should return the complete certification reports', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
+    test('it should return the complete certification reports', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
 
-        class FeatureToggleStub extends Service {
-          featureToggles = {
-            isManageUncompletedCertifEnabled: true,
-          };
-        }
+      const model = _createTwoCompleteAndOneUncompleteCertificationReports(store);
 
-        this.owner.register('service:featureToggles', FeatureToggleStub);
-
-        const model = _createTwoCompleteAndOneUncompleteCertificationReports(store);
-
-        // when/then
+      // when/then
       assert.strictEqual(model.completedCertificationReports.length, 2);
       assert.notPropEqual(model.completedCertificationReports[0].id, 2);
       assert.notPropEqual(model.completedCertificationReports[1].id, 3);
-      });
-    });
-
-    module('when isManageUncompletedCertifEnabled is not enabled', function () {
-      test('it should return the all certification reports', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-
-        class FeatureToggleStub extends Service {
-          featureToggles = {
-            isManageUncompletedCertifEnabled: false,
-          };
-        }
-
-        this.owner.register('service:featureToggles', FeatureToggleStub);
-
-        const model = _createTwoCompleteAndOneUncompleteCertificationReports(store);
-        // when/then
-        assert.strictEqual(model.completedCertificationReports.length, 3);
-      });
     });
   });
 });

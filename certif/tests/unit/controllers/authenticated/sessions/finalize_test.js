@@ -11,13 +11,6 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   module('#computed uncheckedHasSeenEndTestScreenCount', function () {
     test('it should count no unchecked box if no report', function (assert) {
       // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = {
-          isManageUncompletedCertifEnabled: false,
-        };
-      }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       controller.model = store.createRecord('session', {
@@ -33,24 +26,20 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 
     test('it should count unchecked boxes', function (assert) {
       // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = {
-          isManageUncompletedCertifEnabled: false,
-        };
-      }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
-      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const certificationReportA = store.createRecord('certification-report', {
         hasSeenEndTestScreen: true,
+        isCompleted: true,
       });
       const certificationReportB = store.createRecord('certification-report', {
         hasSeenEndTestScreen: false,
+        isCompleted: true,
       });
       const certificationReportC = store.createRecord('certification-report', {
         hasSeenEndTestScreen: false,
+        isCompleted: true,
       });
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       controller.model = store.createRecord('session', {
         certificationReports: [certificationReportA, certificationReportB, certificationReportC],
       });
@@ -66,21 +55,16 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   module('#computed hasUncheckedHasSeenEndTestScreen', function () {
     test('it should be false if no unchecked certification reports', function (assert) {
       // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = {
-          isManageUncompletedCertifEnabled: false,
-        };
-      }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
-      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const certificationReportA = store.createRecord('certification-report', {
         hasSeenEndTestScreen: true,
+        isCompleted: true,
       });
       const certificationReportB = store.createRecord('certification-report', {
         hasSeenEndTestScreen: true,
+        isCompleted: true,
       });
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       controller.model = store.createRecord('session', {
         certificationReports: [certificationReportA, certificationReportB],
       });
@@ -94,20 +78,15 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 
     test('it should be true if at least one unchecked certification reports', function (assert) {
       // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = {
-          isManageUncompletedCertifEnabled: false,
-        };
-      }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const certificationReportA = store.createRecord('certification-report', {
         hasSeenEndTestScreen: true,
+        isCompleted: true,
       });
       const certificationReportB = store.createRecord('certification-report', {
         hasSeenEndTestScreen: false,
+        isCompleted: true,
       });
       controller.model = store.createRecord('session', {
         certificationReports: [certificationReportA, certificationReportB],
