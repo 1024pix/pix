@@ -100,6 +100,30 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     });
   });
 
+  context('when campaign is FLASH', function () {
+    const estimatedFlashLevel = -4.98279852;
+
+    beforeEach(async function () {
+      // Given
+      campaign = { isFlash: true };
+      const campaignParticipationResult = { estimatedFlashLevel };
+      this.set('model', { campaign, campaignParticipationResult });
+
+      // When
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+    });
+
+    it('should congratulate the user', function () {
+      // Then
+      expect(contains(this.intl.t('pages.skill-review.flash.abstract'))).to.exist;
+    });
+
+    it("should display the user's flash estimated level", function () {
+      // Then
+      expect(contains(this.intl.t('pages.skill-review.flash.estimatedLevel', { level: estimatedFlashLevel }))).to.exist;
+    });
+  });
+
   describe('The block of the organisation message', function () {
     context('When the campaign is shared', function () {
       context('when the organization has a message', function () {

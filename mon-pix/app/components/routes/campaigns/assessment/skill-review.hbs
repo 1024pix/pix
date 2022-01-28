@@ -33,7 +33,6 @@
       {{/if}}
 
       <div class="skill-review__share">
-
         {{#if this.showStages}}
           <div class="skill-review-share__stage-congrats">
             <div class="stage-congrats__title">
@@ -44,10 +43,20 @@
             </div>
           </div>
         {{else}}
-          <p class="rounded-panel-title skill-review-result-abstract__text">
-            {{t "pages.skill-review.abstract" rate=this.masteryRate htmlSafe=true}}
-          </p>
+          {{#if this.isFlashCampaign}}
+            <p class="rounded-panel-title skill-review-result-abstract__text">
+              {{t "pages.skill-review.flash.abstract"}}
+            </p>
+            <p class="rounded-panel-title skill-review-result-abstract__subtext">
+              {{t "pages.skill-review.flash.estimatedLevel" level=this.estimatedFlashLevel}}
+            </p>
+          {{else}}
+            <p class="rounded-panel-title skill-review-result-abstract__text">
+              {{t "pages.skill-review.abstract" rate=this.masteryRate htmlSafe=true}}
+            </p>
+          {{/if}}
         {{/if}}
+
         <h2 class="sr-only">{{t "pages.skill-review.send-title"}}</h2>
 
         <div
@@ -113,6 +122,7 @@
     {{/if}}
   </PixBlock>
 {{/if}}
+
 {{#if this.displayOrganizationCustomMessage}}
   <PixBlock class="skill-review__organization-message">
     {{#if @model.campaign.organizationLogoUrl}}
