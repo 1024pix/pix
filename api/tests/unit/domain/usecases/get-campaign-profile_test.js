@@ -20,8 +20,9 @@ describe('Unit | UseCase | get-campaign-profile', function () {
   context('when user has access to organization that owns campaign', function () {
     beforeEach(function () {
       userId = domainBuilder.buildUser().id;
-      campaignId = domainBuilder.buildCampaign().id;
-      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
+      const campaign = domainBuilder.buildCampaign();
+      campaignId = campaign.id;
+      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaign, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
     });
 
@@ -50,8 +51,9 @@ describe('Unit | UseCase | get-campaign-profile', function () {
   context('when user does not have access to organization that owns campaign', function () {
     beforeEach(function () {
       userId = domainBuilder.buildUser().id;
-      campaignId = domainBuilder.buildCampaign().id;
-      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
+      const campaign = domainBuilder.buildCampaign();
+      campaignId = campaign.id;
+      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaign, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 

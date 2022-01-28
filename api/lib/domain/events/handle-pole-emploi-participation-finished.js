@@ -8,8 +8,8 @@ const eventTypes = [AssessmentCompleted];
 async function handlePoleEmploiParticipationFinished({
   event,
   assessmentRepository,
-  campaignParticipationRepository,
   campaignRepository,
+  campaignParticipationRepository,
   organizationRepository,
   poleEmploiSendingRepository,
   targetProfileRepository,

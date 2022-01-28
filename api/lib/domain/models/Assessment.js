@@ -173,7 +173,6 @@ class Assessment {
       courseId: Assessment.courseIdMessage.CAMPAIGN,
       isImproving: false,
       method,
-      createdAt: new Date('2020-01-01'),
     });
   }
 

@@ -11,11 +11,7 @@ module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipationRepository,
   domainTransaction,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(
-    campaignParticipationId,
-    { include: ['campaign'] },
-    domainTransaction
-  );
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntityError();
   }

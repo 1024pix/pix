@@ -213,8 +213,11 @@ module.exports = {
   resetScorecard(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
+    const locale = extractLocaleFromRequest(request);
 
-    return usecases.resetScorecard({ userId: authenticatedUserId, competenceId }).then(scorecardSerializer.serialize);
+    return usecases
+      .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
+      .then(scorecardSerializer.serialize);
   },
 
   getUserCampaignParticipationToCampaign(request) {

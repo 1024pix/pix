@@ -2,7 +2,6 @@ const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipat
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const Assessment = require('../../domain/models/Assessment');
-const Skill = require('../../domain/models/Skill');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
@@ -29,16 +28,9 @@ const ATTRIBUTES_TO_SAVE = [
 ];
 
 module.exports = {
-  async get(id, options = {}, domainTransaction = DomainTransaction.emptyTransaction()) {
-    if (options.include) {
-      options.withRelated = _.union(options.include, ['assessments']);
-    } else {
-      options.withRelated = ['assessments'];
-    }
-
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const campaignParticipation = await BookshelfCampaignParticipation.where({ id }).fetch({
-      ...options,
-      require: false,
+      withRelated: ['campaign', 'assessments'],
       transacting: domainTransaction.knexTransaction,
     });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
@@ -152,21 +144,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
-  findOneByAssessmentIdWithSkillIds(assessmentId) {
-    return BookshelfCampaignParticipation.query((qb) => {
-      qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
-      qb.innerJoin('target-profiles', 'campaigns.targetProfileId', 'target-profiles.id');
-      qb.innerJoin('target-profiles_skills', 'target-profiles.id', 'target-profiles_skills.targetProfileId');
-      qb.innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
-      qb.where('assessments.id', '=', assessmentId);
-    })
-      .fetch({
-        require: false,
-        withRelated: ['campaign.targetProfile.skillIds', 'assessments'],
-      })
-      .then(_convertToDomainWithSkills);
-  },
-
   async updateWithSnapshot(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
     await this.update(campaignParticipation, domainTransaction);
 
@@ -271,35 +248,6 @@ function _adaptModelToDb(campaignParticipation) {
     status: campaignParticipation.status,
     schoolingRegistrationId: campaignParticipation.schoolingRegistrationId,
   };
-}
-
-function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
-  if (!bookshelfCampaignParticipation) {
-    return null;
-  }
-
-  // in database, the attribute is skillsIds in target-profiles_skills,
-  // but in domain, the attribute is skills in class TargetProfile (TargetProfileSkills does not exists)
-  bookshelfCampaignParticipation.attributes.assessmentId =
-    _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation);
-
-  const skillsObjects = bookshelfCampaignParticipation
-    .related('campaign')
-    .related('targetProfile')
-    .related('skillIds')
-    .map((bookshelfSkillId) => new Skill({ id: bookshelfSkillId.get('skillId') }));
-  bookshelfCampaignParticipation.related('campaign').related('targetProfile').set('skills', skillsObjects);
-
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfCampaignParticipation);
-}
-
-function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation) {
-  const assessmentModels = bookshelfCampaignParticipation.related('assessments').models;
-  if (assessmentModels.length) {
-    const sortedAssessments = _.orderBy(assessmentModels, 'attributes.createdAt', 'desc');
-    return sortedAssessments[0].attributes.id;
-  }
-  return null;
 }
 
 function _rowToResult(row) {
