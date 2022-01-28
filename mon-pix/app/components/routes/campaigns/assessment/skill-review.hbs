@@ -155,59 +155,61 @@
   </PixBlock>
 {{/if}}
 
-<PixBlock @shadow="heavy" class="skill-review__result-detail-container">
-  {{#if this.showBadges}}
-    {{#unless this.hideBadgesTitle}}
-      <h2 class="skill-review-result-detail__badge-subtitle">
-        {{t "pages.skill-review.badges-title"}}
-      </h2>
-    {{/unless}}
-    <div class="badge-container">
-      {{#each this.orderedBadges as |badge|}}
-        <BadgeCard
-          @title={{badge.title}}
-          @message={{badge.message}}
-          @imageUrl={{badge.imageUrl}}
-          @altMessage={{badge.altMessage}}
-          @isAcquired={{badge.isAcquired}}
-        />
-      {{/each}}
-    </div>
-  {{/if}}
-
-  {{#if this.showImproveButton}}
-    <SkillReviewImprove @improve={{this.improve}} />
-  {{/if}}
-
-  {{#unless @model.campaign.isForAbsoluteNovice}}
-
-    <main class="skill-review-result-detail__content">
-      <div class="skill-review-result-detail__table-header">
-        <h2 class="skill-review-result-detail__subtitle">
-          {{t "pages.skill-review.details.title"}}
+{{#if this.showDetail}}
+  <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
+    {{#if this.showBadges}}
+      {{#unless this.hideBadgesTitle}}
+        <h2 class="skill-review-result-detail__badge-subtitle">
+          {{t "pages.skill-review.badges-title"}}
         </h2>
-        <CircleChart @value={{this.masteryPercentage}}>
-          <span
-            aria-label="{{t "pages.skill-review.details.result"}}"
-            class="skill-review-table-header__circle-chart-value"
-          >
-            {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
-          </span>
-        </CircleChart>
+      {{/unless}}
+      <div class="badge-container">
+        {{#each this.orderedBadges as |badge|}}
+          <BadgeCard
+            @title={{badge.title}}
+            @message={{badge.message}}
+            @imageUrl={{badge.imageUrl}}
+            @altMessage={{badge.altMessage}}
+            @isAcquired={{badge.isAcquired}}
+          />
+        {{/each}}
       </div>
+    {{/if}}
 
-      <CampaignSkillReviewCompetenceResult
-        @showCleaCompetences={{this.showCleaCompetences}}
-        @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-        @skillSetResults={{@model.campaignParticipationResult.cleaBadge.skillSetResults}}
-      />
-    </main>
+    {{#if this.showImproveButton}}
+      <SkillReviewImprove @improve={{this.improve}} />
+    {{/if}}
 
-    <div class="skill-review-result-detail__information">
-      <FaIcon @icon="info-circle" class="skill-review-information__info-icon" aria-hidden="true" />
-      <div class="skill-review-information__text">
-        {{t "pages.skill-review.information"}}
+    {{#unless @model.campaign.isForAbsoluteNovice}}
+
+      <main class="skill-review-result-detail__content">
+        <div class="skill-review-result-detail__table-header">
+          <h2 class="skill-review-result-detail__subtitle">
+            {{t "pages.skill-review.details.title"}}
+          </h2>
+          <CircleChart @value={{this.masteryPercentage}}>
+            <span
+              aria-label="{{t "pages.skill-review.details.result"}}"
+              class="skill-review-table-header__circle-chart-value"
+            >
+              {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
+            </span>
+          </CircleChart>
+        </div>
+
+        <CampaignSkillReviewCompetenceResult
+          @showCleaCompetences={{this.showCleaCompetences}}
+          @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+          @skillSetResults={{@model.campaignParticipationResult.cleaBadge.skillSetResults}}
+        />
+      </main>
+
+      <div class="skill-review-result-detail__information">
+        <FaIcon @icon="info-circle" class="skill-review-information__info-icon" aria-hidden="true" />
+        <div class="skill-review-information__text">
+          {{t "pages.skill-review.information"}}
+        </div>
       </div>
-    </div>
-  {{/unless}}
-</PixBlock>
+    {{/unless}}
+  </PixBlock>
+{{/if}}
