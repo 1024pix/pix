@@ -1,6 +1,6 @@
-const _ = require('lodash');
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
+const Campaign = require('../../../domain/models/Campaign');
 const CampaignParticipation = require('../../../domain/models/CampaignParticipation');
 
 module.exports = {
@@ -33,9 +33,12 @@ module.exports = {
 
   deserialize(json) {
     return new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(json).then((campaignParticipation) => {
-      campaignParticipation.campaignId = _.get(json.data, ['relationships', 'campaign', 'data', 'id']);
+      let campaign;
+      if (json.data?.relationships?.campaign) {
+        campaign = new Campaign({ id: json.data.relationships.campaign.data.id });
+      }
 
-      return new CampaignParticipation(campaignParticipation);
+      return new CampaignParticipation({ ...campaignParticipation, campaign });
     });
   },
 };

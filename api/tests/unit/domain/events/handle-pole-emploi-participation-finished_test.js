@@ -1,88 +1,68 @@
-const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', function () {
-  let event;
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessmentRepository = { get: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const campaignRepository = { get: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const campaignParticipationRepository = { get: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const organizationRepository = { get: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const targetProfileRepository = { get: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const userRepository = { get: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const poleEmploiNotifier = { notify: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const poleEmploiSendingRepository = { create: _.noop() };
-
-  const dependencies = {
+  let event, dependencies, expectedResults;
+  let assessmentRepository,
     campaignRepository,
-    assessmentRepository,
     campaignParticipationRepository,
     organizationRepository,
     targetProfileRepository,
     userRepository,
     poleEmploiNotifier,
-    poleEmploiSendingRepository,
-  };
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const expectedResults = JSON.stringify({
-    campagne: {
-      nom: 'Campagne Pôle Emploi',
-      dateDebut: '2020-01-01T00:00:00.000Z',
-      dateFin: '2020-02-01T00:00:00.000Z',
-      type: 'EVALUATION',
-      codeCampagne: 'CODEPE123',
-      urlCampagne: 'https://app.pix.fr/campagnes/CODEPE123',
-      nomOrganisme: 'Pix',
-      typeOrganisme: 'externe',
-    },
-    individu: {
-      nom: 'Bonneau',
-      prenom: 'Jean',
-    },
-    test: {
-      etat: 3,
-      progression: 100,
-      typeTest: 'DI',
-      referenceExterne: 55667788,
-      dateDebut: '2020-01-02T00:00:00.000Z',
-      dateProgression: '2020-01-03T00:00:00.000Z',
-      dateValidation: null,
-      evaluation: null,
-      uniteEvaluation: 'A',
-      elementsEvalues: [],
-    },
-  });
+    poleEmploiSendingRepository;
 
   beforeEach(function () {
-    assessmentRepository.get = sinon.stub();
-    campaignRepository.get = sinon.stub();
-    campaignParticipationRepository.get = sinon.stub();
-    organizationRepository.get = sinon.stub();
-    targetProfileRepository.get = sinon.stub();
-    userRepository.get = sinon.stub();
-    poleEmploiNotifier.notify = sinon.stub();
-    poleEmploiSendingRepository.create = sinon.stub();
+    assessmentRepository = { get: sinon.stub() };
+    campaignRepository = { get: sinon.stub() };
+    campaignParticipationRepository = { get: sinon.stub() };
+    organizationRepository = { get: sinon.stub() };
+    targetProfileRepository = { get: sinon.stub() };
+    userRepository = { get: sinon.stub() };
+    poleEmploiNotifier = { notify: sinon.stub() };
+    poleEmploiSendingRepository = { create: sinon.stub() };
+
+    dependencies = {
+      assessmentRepository,
+      campaignRepository,
+      campaignParticipationRepository,
+      organizationRepository,
+      targetProfileRepository,
+      userRepository,
+      poleEmploiNotifier,
+      poleEmploiSendingRepository,
+    };
+
+    expectedResults = JSON.stringify({
+      campagne: {
+        nom: 'Campagne Pôle Emploi',
+        dateDebut: '2020-01-01T00:00:00.000Z',
+        dateFin: '2020-02-01T00:00:00.000Z',
+        type: 'EVALUATION',
+        codeCampagne: 'CODEPE123',
+        urlCampagne: 'https://app.pix.fr/campagnes/CODEPE123',
+        nomOrganisme: 'Pix',
+        typeOrganisme: 'externe',
+      },
+      individu: {
+        nom: 'Bonneau',
+        prenom: 'Jean',
+      },
+      test: {
+        etat: 3,
+        progression: 100,
+        typeTest: 'DI',
+        referenceExterne: 55667788,
+        dateDebut: '2020-01-02T00:00:00.000Z',
+        dateProgression: '2020-01-03T00:00:00.000Z',
+        dateValidation: null,
+        evaluation: null,
+        uniteEvaluation: 'A',
+        elementsEvalues: [],
+      },
+    });
   });
 
   afterEach(function () {
@@ -100,25 +80,31 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
   });
 
   context('#handlePoleEmploiParticipationFinished', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const campaignId = Symbol('campaignId');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const userId = Symbol('userId');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const organizationId = Symbol('organizationId');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const assessmentId = Symbol('assessmentId');
+    let campaignId, userId, organizationId, assessmentId;
+
+    beforeEach(function () {
+      campaignId = Symbol('campaignId');
+      userId = Symbol('userId');
+      organizationId = Symbol('organizationId');
+      assessmentId = Symbol('assessmentId');
+    });
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function () {
       beforeEach(function () {
+        const campaign = domainBuilder.buildCampaign({
+          id: campaignId,
+          name: 'Campagne Pôle Emploi',
+          code: 'CODEPE123',
+          createdAt: new Date('2020-01-01'),
+          archivedAt: new Date('2020-02-01'),
+          type: 'ASSESSMENT',
+          targetProfile: { id: 'targetProfileId1' },
+          organization: { id: organizationId },
+        });
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
-          campaignId,
+          campaign,
           assessments: [domainBuilder.buildAssessment({ id: assessmentId })],
           createdAt: new Date('2020-01-02'),
         });
@@ -134,18 +120,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         userRepository.get
           .withArgs(userId)
           .resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
-        campaignRepository.get.withArgs(campaignId).resolves(
-          domainBuilder.buildCampaign({
-            id: 11223344,
-            name: 'Campagne Pôle Emploi',
-            code: 'CODEPE123',
-            createdAt: new Date('2020-01-01'),
-            archivedAt: new Date('2020-02-01'),
-            type: 'ASSESSMENT',
-            targetProfile: { id: 'targetProfileId1' },
-            organization: { id: organizationId },
-          })
-        );
+        campaignRepository.get.withArgs(campaignId).resolves(campaign);
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
       });
 
@@ -178,18 +153,21 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function () {
       beforeEach(function () {
+        const campaign = domainBuilder.buildCampaign({
+          id: campaignId,
+          type: 'ASSESSMENT',
+          organization: { id: organizationId },
+        });
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
-          campaignId,
+          campaign,
           createdAt: new Date('2020-01-02'),
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get
-          .withArgs(campaignId)
-          .resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign(campaign));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
       });
 
@@ -207,18 +185,21 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
 
     context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', function () {
       beforeEach(function () {
+        const campaign = domainBuilder.buildCampaign({
+          id: campaignId,
+          type: 'PROFILES_COLLECTION',
+          organization: { id: organizationId },
+        });
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
-          campaignId,
+          campaign,
           createdAt: new Date('2020-01-02'),
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get
-          .withArgs(campaignId)
-          .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign(campaign));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
       });
 

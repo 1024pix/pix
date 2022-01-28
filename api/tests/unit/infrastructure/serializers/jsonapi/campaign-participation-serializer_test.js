@@ -146,7 +146,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       return expect(promise).to.be.fulfilled.then((campaignParticipation) => {
         expect(campaignParticipation).to.be.instanceOf(CampaignParticipation);
         expect(campaignParticipation.participantExternalId).to.equal(jsonAnswer.data.attributes.participantExternalId);
-        expect(campaignParticipation.campaignId).to.equal(campaignId);
+        expect(campaignParticipation.campaign.id).to.equal(campaignId);
       });
     });
   });

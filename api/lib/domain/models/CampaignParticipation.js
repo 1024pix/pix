@@ -22,7 +22,6 @@ class CampaignParticipation {
     assessments,
     campaign,
     user,
-    campaignId,
     userId,
     validatedSkillsCount,
     pixScore,
@@ -36,7 +35,6 @@ class CampaignParticipation {
     this.campaign = campaign;
     this.user = user;
     this.assessments = assessments;
-    this.campaignId = campaignId;
     this.userId = userId;
     this.status = status;
     this.validatedSkillsCount = validatedSkillsCount;
@@ -68,6 +66,10 @@ class CampaignParticipation {
 
   getTargetProfileId() {
     return _.get(this, 'campaign.targetProfileId', null);
+  }
+
+  get campaignId() {
+    return _.get(this, 'campaign.id', null);
   }
 
   share() {

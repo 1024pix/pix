@@ -4,7 +4,7 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 
 describe('Unit | UseCase | get-campaign-assessment-participation-result', function () {
   let campaignRepository, campaignAssessmentParticipationResultRepository;
-  let userId, campaignId, campaignParticipationId;
+  let userId, campaignId, campaign, campaignParticipationId;
   const locale = 'fr';
 
   beforeEach(function () {
@@ -19,8 +19,9 @@ describe('Unit | UseCase | get-campaign-assessment-participation-result', functi
   context('when user has access to organization that owns campaign', function () {
     beforeEach(function () {
       userId = domainBuilder.buildUser().id;
-      campaignId = domainBuilder.buildCampaign().id;
-      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
+      campaign = domainBuilder.buildCampaign();
+      campaignId = campaign.id;
+      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaign, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
     });
 
@@ -49,8 +50,9 @@ describe('Unit | UseCase | get-campaign-assessment-participation-result', functi
   context('when user does not have access to organization that owns campaign', function () {
     beforeEach(function () {
       userId = domainBuilder.buildUser().id;
-      campaignId = domainBuilder.buildCampaign().id;
-      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
+      campaign = domainBuilder.buildCampaign();
+      campaignId = campaign.id;
+      campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaign, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
