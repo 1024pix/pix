@@ -35,6 +35,8 @@
     <PixSelect
       class="create-campaign__select"
       @id="campaign-owner"
+      @onChange={{this.onChangeCampaignOwner}}
+      @options={{this.campaignOwnerOptions}}
       placeholder={{t "pages.campaign-creation.owner.placeholder"}}
       @isSearchable={{true}}
       value={{this.currentUserFullName}}
