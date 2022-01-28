@@ -10,6 +10,10 @@ export default class TubeList extends Component {
     return this.tubesSelected.length === 0;
   }
 
+  get numberOfTubesSelected() {
+    return this.tubesSelected.length;
+  }
+
   get file() {
     const json = JSON.stringify(this.tubesSelected);
     return new Blob([json], { type: 'application/json' });
