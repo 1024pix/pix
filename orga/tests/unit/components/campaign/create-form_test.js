@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Unit | Component | Campaign::CreateForm', (hooks) => {
   setupTest(hooks);
@@ -111,6 +112,32 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         ];
         assert.deepEqual(allCategories, expectedOrder);
       });
+    });
+  });
+
+  module('#onChangeCampaignOwner', function () {
+    test('should set new owner id', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        organization = { canCollectProfiles: true };
+        prescriber = { id: 1 };
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const getStub1 = sinon.stub();
+      getStub1.withArgs('fullName').returns('Remy Fasol');
+      getStub1.withArgs('id').returns(1);
+      const getStub2 = sinon.stub();
+      getStub2.withArgs('fullName').returns('Thierry Golo');
+      getStub2.withArgs('id').returns(7);
+      const membersSortedByFullName = [{ get: getStub1 }, { get: getStub2 }];
+      const component = await createGlimmerComponent('component:campaign/create-form', { membersSortedByFullName });
+      const event = { target: { value: 'Thierry Golo' } };
+
+      //when
+      await component.onChangeCampaignOwner(event);
+
+      //then
+      assert.deepEqual(component.campaign.ownerId, 7);
     });
   });
 });
