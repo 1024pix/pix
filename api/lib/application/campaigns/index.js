@@ -149,6 +149,7 @@ exports.register = async function (server) {
             data: {
               type: 'campaigns',
               attributes: {
+                'owner-id': identifiersType.ownerId,
                 name: Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 title: Joi.string().required().allow(null),
                 'custom-landing-page-text': Joi.string().required().allow(null).max(5000),
