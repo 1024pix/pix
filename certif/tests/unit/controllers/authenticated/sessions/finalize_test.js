@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
@@ -21,19 +20,15 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = run(() =>
-        store.createRecord('session', {
-          certificationReports: [],
-        })
-      );
+      controller.model = store.createRecord('session', {
+        certificationReports: [],
+      });
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(uncheckedHasSeenEndTestScreenCount, 0);
+      assert.strictEqual(uncheckedHasSeenEndTestScreenCount, 0);
     });
 
     test('it should count unchecked boxes', function (assert) {
@@ -47,34 +42,24 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certificationReportA = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: true,
-        })
-      );
-      const certificationReportB = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: false,
-        })
-      );
-      const certificationReportC = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: false,
-        })
-      );
-      controller.model = run(() =>
-        store.createRecord('session', {
-          certificationReports: [certificationReportA, certificationReportB, certificationReportC],
-        })
-      );
+      const certificationReportA = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      });
+      const certificationReportB = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: false,
+      });
+      const certificationReportC = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: false,
+      });
+      controller.model = store.createRecord('session', {
+        certificationReports: [certificationReportA, certificationReportB, certificationReportC],
+      });
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(uncheckedHasSeenEndTestScreenCount, 2);
+      assert.strictEqual(uncheckedHasSeenEndTestScreenCount, 2);
     });
   });
 
@@ -90,21 +75,15 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certificationReportA = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: true,
-        })
-      );
-      const certificationReportB = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: true,
-        })
-      );
-      controller.model = run(() =>
-        store.createRecord('session', {
-          certificationReports: [certificationReportA, certificationReportB],
-        })
-      );
+      const certificationReportA = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      });
+      const certificationReportB = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      });
+      controller.model = store.createRecord('session', {
+        certificationReports: [certificationReportA, certificationReportB],
+      });
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -124,21 +103,15 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certificationReportA = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: true,
-        })
-      );
-      const certificationReportB = run(() =>
-        store.createRecord('certification-report', {
-          hasSeenEndTestScreen: false,
-        })
-      );
-      controller.model = run(() =>
-        store.createRecord('session', {
-          certificationReports: [certificationReportA, certificationReportB],
-        })
-      );
+      const certificationReportA = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      });
+      const certificationReportB = store.createRecord('certification-report', {
+        hasSeenEndTestScreen: false,
+      });
+      controller.model = store.createRecord('session', {
+        certificationReports: [certificationReportA, certificationReportB],
+      });
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -152,14 +125,12 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     test('it should return false if certification center has access to supervisor space', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = run(() =>
-        store.createRecord('allowed-certification-center-access', {
-          id: 123,
-          name: 'Test certification center',
-          type: 'NOT_SCO',
-          hasEndTestScreenRemovalEnabled: true,
-        })
-      );
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        name: 'Test certification center',
+        type: 'NOT_SCO',
+        hasEndTestScreenRemovalEnabled: true,
+      });
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -168,11 +139,9 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = run(() =>
-        store.createRecord('session', {
-          certificationReports: [],
-        })
-      );
+      controller.model = store.createRecord('session', {
+        certificationReports: [],
+      });
 
       // when
       const result = controller.shouldDisplayHasSeenEndTestScreenCheckbox;
@@ -184,14 +153,12 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     test('it should return true if certification center has access to supervisor space', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = run(() =>
-        store.createRecord('allowed-certification-center-access', {
-          id: 123,
-          name: 'Test certification center',
-          type: 'NOT_SCO',
-          hasEndTestScreenRemovalEnabled: false,
-        })
-      );
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        name: 'Test certification center',
+        type: 'NOT_SCO',
+        hasEndTestScreenRemovalEnabled: false,
+      });
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -200,11 +167,9 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = run(() =>
-        store.createRecord('session', {
-          certificationReports: [],
-        })
-      );
+      controller.model = store.createRecord('session', {
+        certificationReports: [],
+      });
 
       // when
       const result = controller.shouldDisplayHasSeenEndTestScreenCheckbox;
@@ -227,9 +192,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('updateExaminerGlobalComment', { target: { value: 'MoreThan5Characters' } });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.examinerGlobalComment, initialValue);
+      assert.strictEqual(session.examinerGlobalComment, initialValue);
     });
 
     test('it should update session examiner global comment if input value is not exceeding max size', function (assert) {
@@ -244,9 +207,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.examinerGlobalComment, newValue);
+      assert.strictEqual(session.examinerGlobalComment, newValue);
     });
 
     test('it should update session examiner global comment to null if trimmed input value is still empty', function (assert) {
@@ -261,9 +222,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.examinerGlobalComment, null);
+      assert.strictEqual(session.examinerGlobalComment, null);
     });
   });
 
@@ -278,9 +237,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.send('toggleCertificationReportHasSeenEndTestScreen', certifReport);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(certifReport.hasSeenEndTestScreen, !initialValue);
+      assert.strictEqual(certifReport.hasSeenEndTestScreen, !initialValue);
     });
   });
 
@@ -307,12 +264,8 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(session.certificationReports[1].hasSeenEndTestScreen, expectedState);
+        assert.strictEqual(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
+        assert.strictEqual(session.certificationReports[1].hasSeenEndTestScreen, expectedState);
       })
     );
 
