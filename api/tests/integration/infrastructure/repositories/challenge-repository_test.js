@@ -398,4 +398,55 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(_.omit(validatedChallenges[0], 'validator')).to.deep.equal(_.omit(challenge1, 'validator'));
     });
   });
+
+  describe('#findValidatedPrototypeBySkillId', function () {
+    it('should return validated prototype challenges of a skill', async function () {
+      // given
+      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const challenge1 = domainBuilder.buildChallenge({
+        id: 'recChallenge1',
+        skills: [skill],
+        status: 'validé',
+        genealogy: 'Prototype 1',
+      });
+      const challenge2 = domainBuilder.buildChallenge({
+        id: 'recChallenge2',
+        skills: [skill],
+        status: 'archivé',
+        genealogy: 'Declinaison 1',
+      });
+      const challenge3 = domainBuilder.buildChallenge({
+        id: 'recChallenge3',
+        skills: [skill],
+        status: 'périmé',
+        genealogy: 'Declinaison 1',
+      });
+      const challenge4 = domainBuilder.buildChallenge({
+        id: 'recChallenge1',
+        skills: [skill],
+        status: 'validé',
+        genealogy: 'Declinaison 1',
+      });
+
+      const learningContent = {
+        skills: [{ ...skill, status: 'actif' }],
+        challenges: [
+          { ...challenge1, skillIds: ['recSkill1'], alpha: 0, delta: 0 },
+          { ...challenge2, skillIds: ['recSkill1'] },
+          { ...challenge3, skillIds: ['recSkill1'] },
+          { ...challenge4, skillIds: ['recSkill1'] },
+        ],
+      };
+
+      mockLearningContent(learningContent);
+
+      // when
+      const validatedChallenges = await challengeRepository.findValidatedPrototypeBySkillId(skill.id);
+
+      // then
+      expect(validatedChallenges).to.have.lengthOf(1);
+      expect(validatedChallenges[0]).to.be.instanceOf(Challenge);
+      expect(_.omit(validatedChallenges[0], 'validator')).to.deep.equal(_.omit(challenge1, 'validator'));
+    });
+  });
 });
