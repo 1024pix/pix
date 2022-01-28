@@ -596,4 +596,22 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function ()
       sinon.assert.called(event.preventDefault);
     });
   });
+
+  describe('#showDetail', function () {
+    it('should be true when campaign is not FLASH', async function () {
+      // given
+      component.args.model.campaign.isFlash = false;
+
+      // then
+      expect(component.showDetail).to.be.true;
+    });
+
+    it('should be false when campaign is FLASH', async function () {
+      // given
+      component.args.model.campaign.isFlash = true;
+
+      // then
+      expect(component.showDetail).to.be.false;
+    });
+  });
 });
