@@ -57,7 +57,7 @@ module.exports = {
   },
 
   async update(campaign) {
-    const editedAttributes = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt']);
+    const editedAttributes = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt', 'ownerId']);
     const bookshelfCampaign = await BookshelfCampaign.where({ id: campaign.id }).fetch();
     await bookshelfCampaign.save(editedAttributes, { method: 'update', patch: true });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
