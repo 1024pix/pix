@@ -96,6 +96,25 @@ module('Acceptance | Campaign Creation', function (hooks) {
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
 
+    test('it should allow to create a campaign of with current user as owner by default', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+      const screen = await visit('/campagnes/creation');
+
+      const targetProfileName = availableTargetProfiles[1].name;
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', targetProfileName);
+
+      // when
+      await clickByName('Créer la campagne');
+
+      // then
+      assert.dom(screen.getByText('Harry Cover', { selector: 'dd' })).exists();
+    });
+
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {
       // given
       const expectedTargetProfileName = availableTargetProfiles[1].name;
