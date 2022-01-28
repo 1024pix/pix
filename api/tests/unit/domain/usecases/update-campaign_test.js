@@ -29,6 +29,7 @@ describe('Unit | UseCase | update-campaign', function () {
         customLandingPageText: 'Old text',
         targetProfile: { id: 1 },
         creator: { id: creatorId },
+        ownerId: domainBuilder.buildUser({ id: 10 }).id,
         organization: { id: organizationId },
       });
       userWithMembership = {
@@ -125,6 +126,28 @@ describe('Unit | UseCase | update-campaign', function () {
       expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
       expect(resultCampaign.name).to.equal(updatedCampaign.name);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
+    });
+
+    it('should update the campaign ownerId only', async function () {
+      // given
+      const updatedCampaign = domainBuilder.buildCampaign({
+        ...originalCampaign,
+        ownerId: domainBuilder.buildUser({ id: 50 }).id,
+      });
+
+      // when
+      const resultCampaign = await updateCampaign({
+        userId: userWithMembership.id,
+        campaignId: updatedCampaign.id,
+        name: originalCampaign.name,
+        title: originalCampaign.title,
+        ownerId: updatedCampaign.ownerId,
+        userRepository,
+        campaignRepository,
+      });
+
+      // then
+      expect(resultCampaign.ownerId).to.equal(updatedCampaign.ownerId);
     });
 
     it('should not update the campaign name if campaign name is undefined', async function () {
