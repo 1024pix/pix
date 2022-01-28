@@ -137,24 +137,18 @@ describe('Integration | Component | QROCm ind solution panel', function () {
       this.set('challenge', challenge);
     });
 
-    [
-      { format: 'petit', expectedSize: '11' },
-      { format: 'mots', expectedSize: '20' },
-      { format: 'unreferenced_format', expectedSize: '20' },
-    ].forEach((data) => {
-      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function () {
-        //given
-        this.challenge.set('format', data.format);
+    it(`should display a disabled input with expected size`, async function () {
+      //given
+      const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
+      //when
+      await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+      //then
 
-        //when
-        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
-        //then
-        expect(find(PARAGRAPH)).to.not.exist;
-        expect(find(INPUT).tagName).to.equal('INPUT');
-        expect(find(INPUT).getAttribute('size')).to.equal(data.expectedSize);
-        expect(find(INPUT).hasAttribute('disabled')).to.be.true;
-      });
+      expect(find(PARAGRAPH)).to.not.exist;
+      expect(find(INPUT).tagName).to.equal('INPUT');
+      expect(find(INPUT).value).to.equal(EMPTY_DEFAULT_MESSAGE);
+      expect(find(INPUT).getAttribute('size')).to.equal(EMPTY_DEFAULT_MESSAGE.length.toString());
+      expect(find(INPUT).hasAttribute('disabled')).to.be.true;
     });
   });
 

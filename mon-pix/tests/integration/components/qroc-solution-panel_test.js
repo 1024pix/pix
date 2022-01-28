@@ -123,12 +123,10 @@ describe('Integration | Component | QROC solution panel', function () {
 
           it('should display the solution with an arrow and the solution in bold green', function () {
             const blockSolution = find('.comparison-window-solution');
-            const arrowImg = find('.comparison-window-solution__img');
             const solutionText = find('.comparison-window-solution__text');
 
             // then
             expect(blockSolution).to.exist;
-            expect(arrowImg).to.exist;
             expect(solutionText).to.exist;
           });
         });
