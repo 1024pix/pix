@@ -34,9 +34,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       userId: userId + 1,
       id: campaignParticipationId,
     });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, { include: ['campaign'] })
-      .resolves(campaignParticipation);
+    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
     // when
     const error = await catchErr(beginCampaignParticipationImprovement)({
@@ -57,9 +55,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       userId,
       id: campaignParticipationId,
     });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, { include: ['campaign'] })
-      .resolves(campaignParticipation);
+    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
     // when
     const error = await catchErr(beginCampaignParticipationImprovement)({
@@ -83,9 +79,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       status: STARTED,
       assessments: [ongoingAssessment],
     });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, { include: ['campaign'] })
-      .resolves(campaignParticipation);
+    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
     // when
     await beginCampaignParticipationImprovement({ campaignParticipationId, userId, ...dependencies });
@@ -106,9 +100,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       status: STARTED,
       assessments: [latestAssessment],
     });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, { include: ['campaign'] })
-      .resolves(campaignParticipation);
+    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
     assessmentRepository.save.resolves({});
 
     // when
