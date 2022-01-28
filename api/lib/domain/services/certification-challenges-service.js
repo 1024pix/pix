@@ -91,6 +91,10 @@ function _pickCertificationChallengesForCertifiableCompetences(
   return pickedCertificationChallenges;
 }
 
+function _getTubeName(certificationChallengeInResult) {
+  return certificationChallengeInResult.associatedSkillName.slice(0, -1);
+}
+
 function _pick3CertificationChallengesForCompetence(
   userCompetence,
   alreadyAnsweredChallengeIds,
@@ -100,33 +104,52 @@ function _pick3CertificationChallengesForCompetence(
   const result = [];
   const alreadySelectedChallengeIds = _.map(certificationChallengesPickedForOtherCompetences, 'challengeId');
 
-  const orderedSkills = _.orderBy(userCompetence.getSkillsAtLatestVersion(), 'difficulty', 'desc');
-  for (const skill of orderedSkills) {
+  const groupedByDifficultySkills = _(userCompetence.getSkillsAtLatestVersion())
+    .orderBy('difficulty', 'desc')
+    .groupBy('difficulty')
+    .value();
+
+  const groupedByDescDifficultySkills = _.reverse(Object.keys(groupedByDifficultySkills).sort());
+  for (const difficulty of groupedByDescDifficultySkills) {
+    const skills = groupedByDifficultySkills[difficulty];
+    const certificationChallengesForDifficulty = [];
+    for (const skill of skills) {
+      const challenge = _pickChallengeForSkill({
+        skill,
+        allChallenges,
+        alreadyAnsweredChallengeIds,
+        alreadySelectedChallengeIds,
+      });
+
+      if (challenge) {
+        const certificationChallenge = CertificationChallenge.createForPixCertification({
+          challengeId: challenge.id,
+          competenceId: userCompetence.id,
+          associatedSkillName: skill.name,
+          associatedSkillId: skill.id,
+        });
+
+        alreadySelectedChallengeIds.push(certificationChallenge.challengeId);
+        certificationChallengesForDifficulty.push(certificationChallenge);
+      }
+    }
+
+    const [certificationChallengesWithTubeAlreadyAdded, certificationChallengesWithTubeNotAlreadyAdded] = _.partition(
+      certificationChallengesForDifficulty,
+      (certificationChallenge) =>
+        result.some(
+          (certificationChallengeInResult) =>
+            _getTubeName(certificationChallenge) === _getTubeName(certificationChallengeInResult)
+        )
+    );
+
+    result.push(...certificationChallengesWithTubeNotAlreadyAdded, ...certificationChallengesWithTubeAlreadyAdded);
+
     if (_haveEnoughCertificationChallenges(result, MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION)) {
       break;
     }
-
-    const challenge = _pickChallengeForSkill({
-      skill,
-      allChallenges,
-      alreadyAnsweredChallengeIds,
-      alreadySelectedChallengeIds,
-    });
-
-    if (challenge) {
-      const certificationChallenge = CertificationChallenge.createForPixCertification({
-        challengeId: challenge.id,
-        competenceId: userCompetence.id,
-        associatedSkillName: skill.name,
-        associatedSkillId: skill.id,
-      });
-
-      alreadySelectedChallengeIds.push(certificationChallenge.challengeId);
-      result.push(certificationChallenge);
-    }
   }
-
-  return result;
+  return _keepOnly3Challenges(result);
 }
 
 function _pickCertificationChallengesForAllAreas(
@@ -196,6 +219,10 @@ function _pick4CertificationChallengesForArea(
 
 function _haveEnoughCertificationChallenges(certificationChallenges, limitCount) {
   return certificationChallenges.length >= limitCount;
+}
+
+function _keepOnly3Challenges(result) {
+  return result.slice(0, MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION);
 }
 
 function _pickChallengeForSkill({ skill, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds }) {

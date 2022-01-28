@@ -1,7 +1,7 @@
 const buildSkill = require('./build-skill');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-module.exports = function buildCertificationChallenge({
+const buildCertificationChallenge = function ({
   id = 123,
   challengeId = 'recCHAL',
   competenceId = 'recCOMP',
@@ -22,3 +22,42 @@ module.exports = function buildCertificationChallenge({
     certifiableBadgeKey,
   });
 };
+
+buildCertificationChallenge.forPixCertification = function ({
+  challengeId = 'recCHAL',
+  competenceId = 'recCOMP',
+  associatedSkillId = buildSkill().id,
+  associatedSkillName = buildSkill().name,
+} = {}) {
+  return new CertificationChallenge({
+    id: undefined,
+    courseId: undefined,
+    associatedSkillName,
+    associatedSkillId,
+    challengeId,
+    competenceId,
+    isNeutralized: false,
+    certifiableBadgeKey: null,
+  });
+};
+
+buildCertificationChallenge.forPixPlusCertification = function ({
+  challengeId = 'recCHAL',
+  competenceId = 'recCOMP',
+  associatedSkillId = buildSkill().id,
+  associatedSkillName = buildSkill().name,
+  certifiableBadgeKey = 'certifiableBadgeKey',
+} = {}) {
+  return new CertificationChallenge({
+    id: undefined,
+    courseId: undefined,
+    associatedSkillName,
+    associatedSkillId,
+    challengeId,
+    competenceId,
+    isNeutralized: false,
+    certifiableBadgeKey,
+  });
+};
+
+module.exports = buildCertificationChallenge;
