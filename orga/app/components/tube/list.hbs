@@ -2,7 +2,7 @@
   <div class="download-file">
     {{#if this.haveNoTubeSelected}}
       <PixButton class="download-file__button" @isDisabled={{this.haveNoTubeSelected}}>
-        {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
+        {{t "pages.preselect-target-profile.no-tube-selected" fileSize=this.fileSize}}
       </PixButton>
     {{else}}
       <PixButtonLink
@@ -10,7 +10,11 @@
         @href={{this.downloadURL}}
         download={{t "pages.preselect-target-profile.download-filename"}}
       >
-        {{t "pages.preselect-target-profile.download" fileSize=this.fileSize}}
+        {{t
+          "pages.preselect-target-profile.download"
+          fileSize=this.fileSize
+          numberOfTubesSelected=this.numberOfTubesSelected
+        }}
       </PixButtonLink>
     {{/if}}
   </div>
