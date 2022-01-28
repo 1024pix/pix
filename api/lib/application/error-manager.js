@@ -393,6 +393,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError(error.message);
   }
 
+  if (error instanceof DomainErrors.CandidateNotAuthorizedToResumeCertificationTestError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
