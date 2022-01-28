@@ -11,6 +11,7 @@ export default class CampaignParticipationResult extends Model {
   @attr('boolean') canImprove;
   @attr('boolean') isShared;
   @attr('string') participantExternalId;
+  @attr('number') estimatedFlashLevel;
 
   // includes
   @hasMany('campaignParticipationBadges') campaignParticipationBadges;
