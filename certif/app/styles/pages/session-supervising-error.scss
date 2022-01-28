@@ -1,0 +1,46 @@
+.session-supervising-error-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100px;
+  min-height: 100vh;
+  background: $pix-certif-gradient;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.session-supervising-error-page__panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  margin: 8px;
+  max-width: 463px;
+  padding: 32px 8px 16px;
+
+  @include device-is('tablet') {
+    padding: 40px 60px;
+    margin: auto;
+  }
+
+  &__title {
+    color: $grey-80;
+    font-family: $open-sans;
+    font-weight: normal;
+    font-size: 1.75rem;
+  }
+
+  &__subtitle {
+    color: $grey-30;
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin: 8px 0;
+    text-align: center;
+  }
+
+  &__button {
+    margin-top: 16px;
+  }
+}
