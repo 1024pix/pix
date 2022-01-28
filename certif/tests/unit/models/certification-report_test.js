@@ -41,5 +41,61 @@ module('Unit | Model | certification report', function (hooks) {
       // when / then
       assert.deepEqual(certificationReport.firstIssueReportDescription, description);
     });
+
+    module('#isInvalid', function () {
+      module('when the certification is incomplete', function () {
+        module('when the certification has no abort reason', function () {
+          test('it should return true', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: false,
+              abortReason: null,
+            });
+            // when / then
+            assert.true(certificationReport.isInvalid);
+          });
+        });
+        module('when the certification has abort reasons', function () {
+          test('it should return false', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: false,
+              abortReason: 'technical',
+            });
+            // when / then
+            assert.false(certificationReport.isInvalid);
+          });
+        });
+      });
+
+      module('when the certification is complete ', function () {
+        module('when the certification has no abort reasons', function () {
+          test('it should return false', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: true,
+              abortReason: null,
+            });
+            // when / then
+            assert.false(certificationReport.isInvalid);
+          });
+        });
+        module('when the certification has abort reasons', function () {
+          test('it should return false', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: true,
+              abortReason: 'technical',
+            });
+            // when / then
+            assert.false(certificationReport.isInvalid);
+          });
+        });
+      });
+    });
   });
 });
