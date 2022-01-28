@@ -33,6 +33,10 @@ export default class CreateForm extends Component {
     }
   }
 
+  get currentUserFullName() {
+    return this.currentUser.prescriber.fullName;
+  }
+
   get categories() {
     if (!this.args.targetProfiles) return [];
     let allCategories = _uniq(this.args.targetProfiles.map((targetProfile) => targetProfile.category));

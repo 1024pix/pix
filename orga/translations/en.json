@@ -292,6 +292,9 @@
     },
     "campaign-creation": {
       "title": "Create a campaign",
+      "owner": {
+        "label": "Owner of the campaign"
+      },
       "actions": {
         "create": "Create a campaign"
       },
