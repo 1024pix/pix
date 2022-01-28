@@ -173,36 +173,16 @@ export function createPrescriberForOrganization(userAttributes = {}, organizatio
   return user;
 }
 
-export function createAdminMembershipWithNbMembers(countMembers) {
-  const organization = server.create('organization', {
-    name: 'BRO & Evil Associates',
+export function createMembershipByOrganizationIdAndUser(organizationId, user, role = 'MEMBER') {
+  const membership = server.create('membership', {
+    userId: user.id,
+    organizationId,
+    role,
   });
 
-  const admin = server.create('user', {
-    firstName: 'Harry',
-    lastName: 'Cover',
-    email: 'harry@cover.com',
-    pixOrgaTermsOfServiceAccepted: true,
-  });
+  user.memberships = [membership];
 
-  const adminMemberships = server.create('membership', {
-    userId: admin.id,
-    organizationId: organization.id,
-    organizationRole: 'ADMIN',
-  });
-
-  admin.userOrgaSettings = server.create('user-orga-setting', { user: admin, organization });
-  admin.memberships = [adminMemberships];
-
-  server.createList('user', countMembers).forEach((user) => {
-    server.create('membership', {
-      userId: user.id,
-      organizationId: organization.id,
-      organizationRole: 'MEMBER',
-    });
-  });
-
-  return admin;
+  return user;
 }
 
 export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
