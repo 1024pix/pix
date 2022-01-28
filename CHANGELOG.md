@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.161.0 (28/01/2022)
+
+
+### :rocket: Enhancement
+- [#3986](https://github.com/1024pix/pix/pull/3986) [FEATURE] Afficher le nombre de sujets sélectionnés dans le bouton de téléchargement (PIX-4167)
+- [#3974](https://github.com/1024pix/pix/pull/3974) [FEATURE] Ignorer les écrans de FDT non renseignés dans les critères des sessions "à traiter" (PIX-4171)
+
+### :building_construction: Tech
+- [#3965](https://github.com/1024pix/pix/pull/3965) [TECH] Nettoyage de la duplication de `campaignId` et `campaign` dans `campaign-participations`.
+- [#3979](https://github.com/1024pix/pix/pull/3979) [TECH] Mettre à jour Pix-UI sur Pix Orga
+
+### :bug: Bug fix
+- [#3978](https://github.com/1024pix/pix/pull/3978) [BUGFIX] Empêcher l'envoi des résultats de campagne ET dans le même temps de retenter (Pix-4238).
+
 ## v3.160.0 (26/01/2022)
 
 
