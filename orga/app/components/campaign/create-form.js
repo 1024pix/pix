@@ -31,6 +31,7 @@ export default class CreateForm extends Component {
       this.isCampaignGoalAssessment = true;
       this.campaign.type = 'ASSESSMENT';
     }
+    this.campaign.ownerId = this.currentUser.prescriber.id;
   }
 
   get currentUserFullName() {

@@ -24,7 +24,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     this.errors = {};
     class CurrentUserStub extends Service {
       organization = EmberObject.create({ canCollectProfiles: false });
-      prescriber = EmberObject.create({ fullName: 'Adam Troisjour' });
+      prescriber = EmberObject.create({ fullName: 'Adam Troisjour', id: 1 });
     }
     this.owner.register('service:current-user', CurrentUserStub);
   });
@@ -91,8 +91,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
+        prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
+
       // when
       await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
@@ -108,6 +110,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
+        prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
@@ -139,6 +142,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // given
         class CurrentUserStub extends Service {
           organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
         this.targetProfiles = [
@@ -171,6 +175,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // given
         class CurrentUserStub extends Service {
           organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
         this.targetProfiles = [
@@ -208,6 +213,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // given
         class CurrentUserStub extends Service {
           organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
         this.targetProfiles = [
@@ -246,6 +252,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // given
         class CurrentUserStub extends Service {
           organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
         this.targetProfiles = [];
@@ -265,6 +272,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // given
         class CurrentUserStub extends Service {
           organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
         this.targetProfiles = [
@@ -302,6 +310,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // given
         class CurrentUserStub extends Service {
           organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
         this.targetProfiles = [
@@ -340,6 +349,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
+        prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
       // when
@@ -357,6 +367,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
+        prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
       // when
@@ -373,6 +384,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
+        prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
@@ -451,6 +463,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
+        prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const campaign = EmberObject.create({

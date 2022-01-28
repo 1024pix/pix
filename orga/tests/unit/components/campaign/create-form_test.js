@@ -26,6 +26,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         ];
         class CurrentUserStub extends Service {
           organization = { canCollectProfiles: true };
+          prescriber = { id: 1 };
         }
         this.owner.lookup('service:intl').setLocale('fr');
         this.owner.register('service:current-user', CurrentUserStub);
@@ -59,6 +60,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         // given
         class CurrentUserStub extends Service {
           organization = { canCollectProfiles: true };
+          prescriber = { id: 1 };
         }
         this.owner.lookup('service:intl').setLocale('fr');
         this.owner.register('service:current-user', CurrentUserStub);
