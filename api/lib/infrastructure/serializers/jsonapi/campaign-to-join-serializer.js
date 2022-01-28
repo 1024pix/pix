@@ -27,6 +27,7 @@ module.exports = {
         'customResultPageButtonText',
         'customResultPageButtonUrl',
         'multipleSendings',
+        'isFlash',
       ],
     }).serialize(campaignsToJoin);
   },
