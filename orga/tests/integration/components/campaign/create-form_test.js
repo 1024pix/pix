@@ -24,6 +24,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     this.errors = {};
     class CurrentUserStub extends Service {
       organization = EmberObject.create({ canCollectProfiles: false });
+      prescriber = EmberObject.create({ fullName: 'Adam Troisjour' });
     }
     this.owner.register('service:current-user', CurrentUserStub);
   });
@@ -39,6 +40,16 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom('button[type="submit"]').exists();
     assert.dom('input[type=text]').hasAttribute('maxLength', '255');
     assert.dom('textarea').hasAttribute('maxLength', '5000');
+  });
+
+  test('it should auto complete owner field by current user full name', async function (assert) {
+    // when
+    const screen = await renderScreen(
+      hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+    );
+
+    // then
+    assert.dom(screen.getByLabelText('* ' + t('pages.campaign-creation.owner.label'))).hasValue('Adam Troisjour');
   });
 
   test('[a11y] it should display a message that some inputs are required', async function (assert) {

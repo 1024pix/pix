@@ -27,6 +27,22 @@
     {{/if}}
   </div>
 
+  <div class="form__field-with-info form__field">
+    <label class="label" for="campaign-owner">
+      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+      {{t "pages.campaign-creation.owner.label"}}
+    </label>
+    <PixSelect
+      class="create-campaign__select"
+      @id="campaign-owner"
+      placeholder={{t "pages.campaign-creation.owner.placeholder"}}
+      @isSearchable={{true}}
+      value={{this.currentUserFullName}}
+      required={{true}}
+      aria-required={{true}}
+    />
+  </div>
+
   {{#if this.currentUser.organization.canCollectProfiles}}
     <div class="form__field" role="radiogroup" aria-labelledby="collect-profiles-label">
       <p id="collect-profiles-label" class="label">
