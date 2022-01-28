@@ -298,10 +298,9 @@ describe('Unit | Application | Controller | Campaign', function () {
   });
 
   describe('#update', function () {
-    let request, updatedCampaign, updateCampaignArgs;
-
-    beforeEach(function () {
-      request = {
+    it('should return the updated campaign', async function () {
+      // given
+      const request = {
         auth: { credentials: { userId: 1 } },
         params: { id: 1 },
         payload: {
@@ -310,40 +309,39 @@ describe('Unit | Application | Controller | Campaign', function () {
               name: 'New name',
               title: 'New title',
               'custom-landing-page-text': 'New text',
+              'owner-id': 5,
             },
           },
         },
       };
 
-      updatedCampaign = {
+      const updatedCampaign = {
         id: request.params.id,
         name: request.payload.data.attributes.name,
         title: request.payload.data.attributes.title,
         customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
+        ownerId: request.payload.data.attributes['owner-id'],
       };
 
-      updateCampaignArgs = {
+      const updateCampaignArgs = {
         userId: request.auth.credentials.userId,
         campaignId: updatedCampaign.id,
         name: updatedCampaign.name,
         title: updatedCampaign.title,
         customLandingPageText: updatedCampaign.customLandingPageText,
+        ownerId: updatedCampaign.ownerId,
       };
 
-      sinon.stub(usecases, 'updateCampaign');
-      sinon.stub(campaignReportSerializer, 'serialize');
-    });
+      const updatedCampaignSerialized = Symbol('campaign serialized');
 
-    it('should return the updated campaign', async function () {
-      // given
-      usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
-      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
+      sinon.stub(usecases, 'updateCampaign').withArgs(updateCampaignArgs).resolves(updatedCampaign);
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).returns(updatedCampaignSerialized);
 
       // when
       const response = await campaignController.update(request, hFake);
 
       // then
-      expect(response).to.deep.equal(updatedCampaign);
+      expect(response).to.deep.equal(updatedCampaignSerialized);
     });
   });
 
