@@ -126,7 +126,7 @@ export default class SessionsFinalizeController extends Controller {
 
   isValid() {
     const invalidCertificationReports = this.session.certificationReports.filter(
-      (certificationReport) => !certificationReport.isCompleted && certificationReport.abortReason === null
+      (certificationReport) => certificationReport.isInvalid
     );
 
     if (invalidCertificationReports.length) {

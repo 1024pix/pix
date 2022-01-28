@@ -19,6 +19,10 @@ export default class CertificationReport extends Model {
     return firstIssueReport ? firstIssueReport.description : '';
   }
 
+  get isInvalid() {
+    return !this.isCompleted && this.abortReason === null;
+  }
+
   abort = memberAction({
     type: 'post',
     urlType: 'abort-certification',
