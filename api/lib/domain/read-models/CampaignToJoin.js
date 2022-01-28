@@ -1,3 +1,4 @@
+const Assessment = require('../models/Assessment');
 const { types } = require('../models/Campaign');
 
 class CampaignToJoin {
@@ -67,6 +68,10 @@ class CampaignToJoin {
 
   get isArchived() {
     return Boolean(this.archivedAt);
+  }
+
+  get isFlash() {
+    return this.assessmentMethod === Assessment.methods.FLASH;
   }
 }
 
