@@ -12,7 +12,9 @@
     <table class="table content-text content-text--small">
       <colgroup class="table__column">
         <col class="table__column--wide" />
-        <col class="table__column--wide hide-on-mobile" />
+        {{#unless @listOnlyCampaignsOfCurrentUser}}
+          <col class="table__column--wide hide-on-mobile" />
+        {{/unless}}
         <col class="table__column--small hide-on-mobile" />
         <col class="table__column--small hide-on-mobile" />
         <col class="table__column--small hide-on-mobile" />
