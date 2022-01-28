@@ -3,12 +3,7 @@ const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { PIX_ORIGIN } = require('../../../../lib/domain/constants');
 
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Competence = require('../../../../lib/domain/models/Competence');
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-const Skill = require('../../../../lib/domain/models/Skill');
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 
@@ -23,27 +18,53 @@ describe('Unit | Service | Certification Challenge Service', function () {
   const userId = 63731;
   const locale = 'fr-fr';
 
-  function _createCompetence(id, index, name, areaCode) {
-    const competence = new Competence();
-    competence.id = id;
-    competence.index = index;
-    competence.name = name;
-    competence.area = { code: areaCode };
+  let competenceFlipper;
+  let competenceRemplir;
+  let competenceRequin;
+  let competenceKoala;
 
-    return competence;
-  }
+  let skillCitation4;
+  let skillCollaborer4;
+  let skillMoteur3;
+  let skillRecherche4;
+  let skillRemplir2;
+  let skillRemplir2Focus;
+  let skillRemplir4;
+  let skillUrl3;
+  let skillWeb1;
+  let skillRequin5;
+  let skillRequin8;
+  let skillKoala1;
+  let skillKoala2;
 
-  function _createChallenge(id, competence, skills, testedSkill) {
-    const challenge = new Challenge();
-    challenge.id = id;
-    challenge.skills = skills;
-    challenge.competenceId = competence;
-    challenge.testedSkill = testedSkill;
-    return challenge;
-  }
+  let challengeForSkillCollaborer4;
+  let challengeForSkillCitation4;
+  let challengeForSkillCitation4AndMoteur3;
+  let challengeForSkillRecherche4;
+  let challengeRecordWithoutSkills;
+  let anotherChallengeForSkillCitation4;
+  let challengeForSkillKoala1;
+  let challengeForSkillKoala2;
+  let challengeForSkillRemplir2;
+  let challengeForSkillRemplir2Focus;
+  let challengeForSkillRemplir4;
+  let challengeForSkillUrl3;
+  let challengeForSkillWeb1;
+  let challengeForSkillRequin5;
+  let challengeForSkillRequin8;
 
   function _createCertificationChallenge(challengeId, skill, certifiableBadgeKey = null) {
-    return new CertificationChallenge({
+    if (certifiableBadgeKey) {
+      return domainBuilder.buildCertificationChallenge.forPixPlusCertification({
+        challengeId,
+        associatedSkillName: skill.name,
+        associatedSkillId: skill.id,
+        competenceId: skill.competenceId,
+        isNeutralized: false,
+        certifiableBadgeKey,
+      });
+    }
+    return domainBuilder.buildCertificationChallenge.forPixCertification({
       challengeId,
       associatedSkillName: skill.name,
       associatedSkillId: skill.id,
@@ -52,64 +73,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
       certifiableBadgeKey,
     });
   }
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper', '1');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceRemplir = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceRequin = _createCompetence(
-    'competenceRecordIdThree',
-    '1.3',
-    '1.3 Se faire manger par un requin',
-    '1'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceKoala = _createCompetence('competenceRecordIdKoala', '1.3', '1.3 Se faire manger par un koala', '1');
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillCitation4 = new Skill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillCollaborer4 = new Skill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillMoteur3 = new Skill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRecherche4 = new Skill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRemplir2 = new Skill({ id: 50, name: '@remplir2', competenceId: competenceRemplir.id, version: 1 });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRemplir2Focus = new Skill({ id: 1789, name: '@remplir2', competenceId: competenceRemplir.id, version: 2 });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRemplir4 = new Skill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillUrl3 = new Skill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillWeb1 = new Skill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRequin5 = new Skill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillRequin8 = new Skill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillKoala1 = new Skill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const skillKoala2 = new Skill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
 
   function findOperativeByIds(skillIds) {
     const skills = [
@@ -130,130 +93,137 @@ describe('Unit | Service | Certification Challenge Service', function () {
     return skills.filter((skill) => skillIds.includes(skill.id));
   }
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillCollaborer4 = _createChallenge(
-    'challengeRecordIdThree',
-    'competenceRecordIdThatDoesNotExistAnymore',
-    [skillCollaborer4],
-    '@collaborer4'
-  );
+  beforeEach(function () {
+    competenceFlipper = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdOne',
+      index: '1.1',
+      name: '1.1 Construire un flipper',
+      area: '1',
+    });
+    competenceRemplir = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdTwo',
+      index: '1.2',
+      name: '1.2 Adopter un dauphin',
+      area: '1',
+    });
+    competenceRequin = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdThree',
+      index: '1.3',
+      name: '1.3 Se faire manger par un requin',
+      area: '1',
+    });
+    competenceKoala = domainBuilder.buildCompetence({
+      id: 'competenceRecordIdKoala',
+      index: '1.3',
+      name: '1.3 Se faire manger par un koala',
+      area: '1',
+    });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillCitation4 = _createChallenge(
-    'challengeRecordIdOne',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceFlipper.id,
-    [skillCitation4],
-    '@citation4'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillCitation4AndMoteur3 = _createChallenge(
-    'challengeRecordIdTwo',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceFlipper.id,
-    [skillCitation4, skillMoteur3],
-    '@citation4'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillRecherche4 = _createChallenge(
-    'challengeRecordIdFour',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceFlipper.id,
-    [skillRecherche4],
-    '@recherche4'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const anotherChallengeForSkillCitation4 = _createChallenge(
-    'challengeRecordIdTen',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceFlipper.id,
-    [skillCitation4],
-    '@citation4'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillKoala1 = _createChallenge(
-    'challengeRecordIdKoala1',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceKoala.id,
-    [skillKoala1],
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    skillKoala1.name
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillKoala2 = _createChallenge(
-    'challengeRecordIdKoala2',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceKoala.id,
-    [skillKoala2],
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    skillKoala2.name
-  );
+    skillCitation4 = domainBuilder.buildSkill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
+    skillCollaborer4 = domainBuilder.buildSkill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
+    skillMoteur3 = domainBuilder.buildSkill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
+    skillRecherche4 = domainBuilder.buildSkill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
+    skillRemplir2 = domainBuilder.buildSkill({
+      id: 50,
+      name: '@remplir2',
+      competenceId: competenceRemplir.id,
+      version: 1,
+    });
+    skillRemplir2Focus = domainBuilder.buildSkill({
+      id: 1789,
+      name: '@remplir2',
+      competenceId: competenceRemplir.id,
+      version: 2,
+    });
+    skillRemplir4 = domainBuilder.buildSkill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
+    skillUrl3 = domainBuilder.buildSkill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
+    skillWeb1 = domainBuilder.buildSkill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
+    skillRequin5 = domainBuilder.buildSkill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
+    skillRequin8 = domainBuilder.buildSkill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
+    skillKoala1 = domainBuilder.buildSkill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
+    skillKoala2 = domainBuilder.buildSkill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillRemplir2 = _createChallenge(
-    'challengeRecordIdFive',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceRemplir.id,
-    [skillRemplir2],
-    '@remplir2'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillRemplir2Focus = _createChallenge(
-    'challengeRecordIdFiveFocus',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceRemplir.id,
-    [skillRemplir2Focus],
-    '@remplir2'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  _createChallenge('anotherChallengeForSkillRemplir2', competenceRemplir.id, [skillRemplir2], '@remplir2');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillRemplir4 = _createChallenge(
-    'challengeRecordIdSix',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceRemplir.id,
-    [skillRemplir4],
-    '@remplir4'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceRemplir.id, [skillUrl3], '@url3');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceRemplir.id, [skillWeb1], '@web1');
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillRequin5 = _createChallenge(
-    'challengeRecordIdNine',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceRequin.id,
-    [skillRequin5],
-    '@requin5'
-  );
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const challengeForSkillRequin8 = _createChallenge(
-    'challengeRecordIdTen',
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    competenceRequin.id,
-    [skillRequin8],
-    '@requin8'
-  );
+    challengeForSkillCollaborer4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdThree',
+      competenceId: 'competenceRecordIdThatDoesNotExistAnymore',
+      skills: [skillCollaborer4],
+    });
+    challengeForSkillCitation4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdOne',
+      competenceId: competenceFlipper.id,
+      skills: [skillCitation4],
+    });
+    challengeForSkillCitation4AndMoteur3 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdTwo',
+      competenceId: competenceFlipper.id,
+      skills: [skillCitation4, skillMoteur3],
+    });
+    challengeForSkillRecherche4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdFour',
+      competenceId: competenceFlipper.id,
+      skills: [skillRecherche4],
+    });
+    challengeRecordWithoutSkills = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdNine',
+      competenceId: competenceFlipper.id,
+      skills: [],
+    });
+    anotherChallengeForSkillCitation4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdTen',
+      competenceId: competenceFlipper.id,
+      skills: [skillCitation4],
+    });
+    challengeForSkillKoala1 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdKoala1',
+      competenceId: competenceKoala.id,
+      skills: [skillKoala1],
+    });
+    challengeForSkillKoala2 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdKoala2',
+      competenceId: competenceKoala.id,
+      skills: [skillKoala2],
+    });
+    challengeForSkillRemplir2 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdFive',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir2],
+    });
+    challengeForSkillRemplir2Focus = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdFiveFocus',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir2Focus],
+    });
+    domainBuilder.buildChallenge({
+      id: 'anotherChallengeForSkillRemplir2',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir2],
+    });
+    challengeForSkillRemplir4 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdSix',
+      competenceId: competenceRemplir.id,
+      skills: [skillRemplir4],
+    });
+    challengeForSkillUrl3 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdSeven',
+      competenceId: competenceRemplir.id,
+      skills: [skillUrl3],
+    });
+    challengeForSkillWeb1 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdEight',
+      competenceId: competenceRemplir.id,
+      skills: [skillWeb1],
+    });
+    challengeForSkillRequin5 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdNine',
+      competenceId: competenceRequin.id,
+      skills: [skillRequin5],
+    });
+    challengeForSkillRequin8 = domainBuilder.buildChallenge({
+      id: 'challengeRecordIdTen',
+      competenceId: competenceRequin.id,
+      skills: [skillRequin8],
+    });
+  });
 
   describe('#pickCertificationChallenges', function () {
     let placementProfile;
@@ -282,7 +252,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           challengeForSkillKoala2,
         ]);
       sinon.stub(skillRepository, 'findOperativeByIds').callsFake(findOperativeByIds);
-      userCompetence1 = new UserCompetence({
+      userCompetence1 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdOne',
         index: '1.1',
         area: { code: '1' },
@@ -290,7 +260,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         pixScore: 12,
         estimatedLevel: 1,
       });
-      userCompetence2 = new UserCompetence({
+      userCompetence2 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdTwo',
         index: '1.2',
         area: { code: '1' },
@@ -313,7 +283,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
     it('should assign skill to related competence', async function () {
       // given
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2],
         }),
@@ -397,7 +367,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       it('should select an unanswered challenge', async function () {
         // given
         placementProfile.userCompetences = [
-          new UserCompetence({
+          domainBuilder.buildUserCompetence({
             ...userCompetence1,
             skills: [skillCitation4],
           }),
@@ -426,7 +396,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       it('should select a challenge for every skill', async function () {
         // given
         placementProfile.userCompetences = [
-          new UserCompetence({
+          domainBuilder.buildUserCompetence({
             ...userCompetence1,
             skills: [skillRecherche4, skillCitation4, skillMoteur3],
           }),
@@ -469,7 +439,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       it('should return at most one challenge per skill', async function () {
         // given
         placementProfile.userCompetences = [
-          new UserCompetence({
+          domainBuilder.buildUserCompetence({
             ...userCompetence1,
             skills: [skillRecherche4, skillCitation4, skillMoteur3],
           }),
@@ -513,11 +483,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
     it('should group skills by competence', async function () {
       // given
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence1,
           skills: [skillRecherche4],
         }),
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillUrl3],
         }),
@@ -564,7 +534,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillUrl3, skillRemplir4],
         }),
@@ -610,10 +580,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
     it('should return the three most difficult skills sorted in desc grouped by competence', async function () {
       // given
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence1,
         }),
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillRemplir4, skillUrl3, skillWeb1],
         }),
@@ -670,7 +640,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2],
         }),
@@ -710,7 +680,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       expect(skillRemplir2Focus.version).to.deep.equal(2);
       placementProfile.userCompetences = [
         userCompetence1,
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence2,
           skills: [skillRemplir2, skillRemplir2Focus],
         }),
@@ -761,7 +731,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       ];
       challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(onlyOneChallengeForCitation4AndMoteur3);
       placementProfile.userCompetences = [
-        new UserCompetence({
+        domainBuilder.buildUserCompetence({
           ...userCompetence1,
           skills: [skillCitation4, skillMoteur3],
         }),
@@ -823,6 +793,203 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
       // then
       expect(certificationChallenges).to.deep.equal([]);
+    });
+
+    it('should avoid skills of same tube if there is same level challenge alternative', async function () {
+      // given
+      const toto6 = domainBuilder.buildSkill({
+        id: 'toto6',
+        name: '@toto6',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const toto5 = domainBuilder.buildSkill({
+        id: 'toto5',
+        name: '@toto5',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const toto4 = domainBuilder.buildSkill({
+        id: 'toto4',
+        name: '@toto4',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const zaza4 = domainBuilder.buildSkill({
+        id: 'zaza4',
+        name: '@zaza4',
+        tubeId: 'zazaId',
+        competenceId: 'competenceId',
+      });
+      const userCompetence = domainBuilder.buildUserCompetence({
+        id: 'competenceId',
+        index: '1.2',
+        area: { code: '1' },
+        name: '1.2 Adopter un dauphin',
+        pixScore: 23,
+        estimatedLevel: 2,
+      });
+      placementProfile.userCompetences = [
+        domainBuilder.buildUserCompetence({
+          ...userCompetence,
+          skills: [toto6, toto5, toto4, zaza4],
+        }),
+      ];
+
+      challengeRepository.findOperativeHavingLocale
+        .withArgs(locale)
+        .resolves([
+          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skills: [toto6] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skills: [toto5] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skills: [toto4] }),
+          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skills: [zaza4] }),
+        ]);
+      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
+        .withArgs({ userId, limitDate: 'limitDate' })
+        .resolves([
+          domainBuilder.buildKnowledgeElement({
+            answerId: 123,
+            competenceId: 'competenceId',
+            skillId: toto6.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 456,
+            competenceId: 'competenceId',
+            skillId: toto5.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 789,
+            competenceId: 'competenceId',
+            skillId: toto4.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 257,
+            competenceId: 'competenceId',
+            skillId: zaza4.id,
+          }),
+        ]);
+      answerRepository.findChallengeIdsFromAnswerIds
+        .withArgs([123, 456, 789, 257])
+        .resolves(['challengeToto6', 'challengeToto5', 'challengeToto4', 'challengeZaza4']);
+
+      // when
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
+        placementProfile,
+        locale
+      );
+
+      // then
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge('challengeToto6', toto6),
+        _createCertificationChallenge('challengeToto5', toto5),
+        _createCertificationChallenge('challengeZaza4', zaza4),
+      ];
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
+    });
+
+    it('should not avoid skills of same tube if there is no challenge alternative', async function () {
+      // given
+      const toto6 = domainBuilder.buildSkill({
+        id: 'toto6',
+        name: '@toto6',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const toto5 = domainBuilder.buildSkill({
+        id: 'toto5',
+        name: '@toto5',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const mama5 = domainBuilder.buildSkill({
+        id: 'mama5',
+        name: '@mama5',
+        tubeId: 'mamaId',
+        competenceId: 'competenceId',
+      });
+      const toto4 = domainBuilder.buildSkill({
+        id: 'toto4',
+        name: '@toto4',
+        tubeId: 'totoId',
+        competenceId: 'competenceId',
+      });
+      const zaza4 = domainBuilder.buildSkill({
+        id: 'zaza4',
+        name: '@zaza4',
+        tubeId: 'zazaId',
+        competenceId: 'competenceId',
+      });
+
+      const userCompetence = domainBuilder.buildUserCompetence({
+        id: 'competenceId',
+        index: '1.2',
+        area: { code: '1' },
+        name: '1.2 Adopter un dauphin',
+        pixScore: 23,
+        estimatedLevel: 2,
+      });
+      placementProfile.userCompetences = [
+        domainBuilder.buildUserCompetence({
+          ...userCompetence,
+          skills: [toto6, toto5, toto4, mama5, zaza4],
+        }),
+      ];
+
+      challengeRepository.findOperativeHavingLocale
+        .withArgs(locale)
+        .resolves([
+          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skills: [toto6] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skills: [toto5] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skills: [toto4] }),
+          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skills: [zaza4] }),
+          domainBuilder.buildChallenge({ id: 'challengeMama5', competenceId: 'competenceId', skills: [mama5] }),
+        ]);
+      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
+        .withArgs({ userId, limitDate: 'limitDate' })
+        .resolves([
+          domainBuilder.buildKnowledgeElement({
+            answerId: 123,
+            competenceId: 'competenceId',
+            skillId: toto6.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 456,
+            competenceId: 'competenceId',
+            skillId: toto5.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 789,
+            competenceId: 'competenceId',
+            skillId: toto4.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 257,
+            competenceId: 'competenceId',
+            skillId: zaza4.id,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            answerId: 245,
+            competenceId: 'competenceId',
+            skillId: mama5.id,
+          }),
+        ]);
+      answerRepository.findChallengeIdsFromAnswerIds
+        .withArgs([123, 456, 789, 257, 245])
+        .resolves(['challengeToto6', 'challengeToto5', 'challengeToto4', 'challengeZaza4', 'challengeMama5']);
+
+      // when
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
+        placementProfile,
+        locale
+      );
+
+      // then
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge('challengeToto6', toto6),
+        _createCertificationChallenge('challengeMama5', mama5),
+        _createCertificationChallenge('challengeToto5', toto5),
+      ];
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
   });
 
