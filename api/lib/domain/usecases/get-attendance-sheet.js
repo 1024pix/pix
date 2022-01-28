@@ -16,28 +16,32 @@ module.exports = async function getAttendanceSheet({
   sessionId,
   sessionRepository,
   sessionForAttendanceSheetRepository,
+  endTestScreenRemovalService,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
+  const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
+    sessionId
+  );
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
+  const odsFilePath = _getAttendanceSheetTemplatePath(
+    session.certificationCenterType,
+    session.isOrganizationManagingStudents,
+    isEndTestScreenRemovalEnabled
+  );
+
   const stringifiedXml = await readOdsUtils.getContentXml({
-    odsFilePath: _getAttendanceSheetTemplatePath(
-      session.certificationCenterType,
-      session.isOrganizationManagingStudents
-    ),
+    odsFilePath,
   });
 
   const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({
     stringifiedXml: updatedStringifiedXml,
-    odsFilePath: _getAttendanceSheetTemplatePath(
-      session.certificationCenterType,
-      session.isOrganizationManagingStudents
-    ),
+    odsFilePath,
   });
 };
 
@@ -114,9 +118,15 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
   }
 }
 
-function _getAttendanceSheetTemplatePath(certificationCenterType, isOrganizationManagingStudents) {
+function _getAttendanceSheetTemplatePath(
+  certificationCenterType,
+  isOrganizationManagingStudents,
+  isEndTestScreenRemovalEnabled
+) {
+  const suffix = isEndTestScreenRemovalEnabled ? '' : '_with_fdt';
+  const templatePath = __dirname + '/../../infrastructure/files/attendance-sheet';
   if (certificationCenterType === 'SCO' && isOrganizationManagingStudents) {
-    return __dirname + '/../../infrastructure/files/attendance-sheet/sco_attendance_sheet_template.ods';
+    return `${templatePath}/sco_attendance_sheet_template${suffix}.ods`;
   }
-  return __dirname + '/../../infrastructure/files/attendance-sheet/non_sco_attendance_sheet_template.ods';
+  return `${templatePath}/non_sco_attendance_sheet_template${suffix}.ods`;
 }
