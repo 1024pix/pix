@@ -177,10 +177,7 @@ describe('Integration | Component | comparison-window', function () {
         );
 
         // then
-        expect(find('.comparison-windows-content-body__default-message-container')).to.exist;
         expect(find('.comparison-windows-content-body-default-message-container__default-message-title')).to.exist;
-        expect(find('div.comparison-windows-content-body__default-message-container div')).to.exist;
-        expect(find('div.comparison-windows-content-body__default-message-container img')).to.exist;
       });
     });
 
