@@ -7,6 +7,7 @@ const {
   NotFoundError,
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
+  CandidateNotAuthorizedToResumeCertificationTestError,
 } = require('../errors');
 const { features, featureToggles } = require('../../config');
 
@@ -45,13 +46,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   const isEndTestRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
     session.id
   );
-  if (isEndTestRemovalEnabled) {
-    if (!certificationCandidate.isAuthorizedToStart()) {
-      throw new CandidateNotAuthorizedToJoinSessionError();
-    }
-    certificationCandidate.authorizedToStart = false;
-    certificationCandidateRepository.update(certificationCandidate);
-  }
 
   const existingCertificationCourse =
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
@@ -59,6 +53,20 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
       sessionId,
       domainTransaction,
     });
+
+  if (isEndTestRemovalEnabled && !certificationCandidate.isAuthorizedToStart()) {
+    if (existingCertificationCourse) {
+      throw new CandidateNotAuthorizedToResumeCertificationTestError();
+    } else {
+      throw new CandidateNotAuthorizedToJoinSessionError();
+    }
+  }
+
+  if (isEndTestRemovalEnabled) {
+    certificationCandidate.authorizedToStart = false;
+    certificationCandidateRepository.update(certificationCandidate);
+  }
+
   if (existingCertificationCourse) {
     return {
       created: false,
