@@ -103,19 +103,9 @@
 
         {{#if @answer.isResultNotOk}}
           {{#if @answer.correction.noHintsNorTutorialsAtAll}}
-            <div class="comparison-windows-content-body__default-message-container">
-              <div>
-                <img
-                  src="{{this.rootURL}}/images/icons/comparison-window/icon-tuto.svg"
-                  alt=""
-                  role="none"
-                  data-test-id="comparison-windows__default-message-picto"
-                />
-              </div>
-              <div class="comparison-windows-content-body-default-message-container__default-message-title">{{t
-                  "pages.comparison-window.upcoming-tutorials"
-                }}</div>
-            </div>
+            <p class="comparison-windows-content-body-default-message-container__default-message-title">{{t
+                "pages.comparison-window.upcoming-tutorials"
+              }}</p>
           {{else}}
             <TutorialPanel @hint={{@answer.correction.hint}} @tutorials={{@answer.correction.tutorials}} />
           {{/if}}

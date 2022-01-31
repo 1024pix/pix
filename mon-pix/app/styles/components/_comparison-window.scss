@@ -120,10 +120,9 @@
     text-align: center;
     color: $grey-200;
     font-weight: $font-semi-bold;
-    margin-top: 10.2px;
+    margin: 10px 25px 40px 25px;
 
     @include device-is('desktop') {
-      font-size: 1.375rem;
       line-height: 26px;
     }
   }
