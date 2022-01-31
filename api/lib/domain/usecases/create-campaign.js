@@ -2,7 +2,10 @@ const campaignCodeGenerator = require('../services/campaigns/campaign-code-gener
 
 module.exports = async function createCampaign({ campaign, campaignRepository, campaignCreatorRepository }) {
   const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
-  const campaignCreator = await campaignCreatorRepository.get(campaign.creatorId, campaign.organizationId);
+  const campaignCreator = await campaignCreatorRepository.get({
+    userId: campaign.creatorId,
+    organizationId: campaign.organizationId,
+  });
 
   const campaignForCreation = campaignCreator.createCampaign({ ...campaign, code: generatedCampaignCode });
 
