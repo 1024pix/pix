@@ -622,6 +622,43 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         }
       });
     });
+
+    context('when there is a previous answer', function () {
+      it('should return the correct estimatedLevel and errorRate', function () {
+        // given
+        const FirstSkill = domainBuilder.buildSkill({ id: 'First' });
+        const SecondSkill = domainBuilder.buildSkill({ id: 'Second' });
+        const worstNextChallenge = domainBuilder.buildChallenge({
+          id: 'recCHAL1',
+          difficulty: -5,
+          discriminant: -5,
+          skills: [FirstSkill],
+        });
+        const answeredBestNextChallenge = domainBuilder.buildChallenge({
+          id: 'recCHAL2',
+          difficulty: 1,
+          discriminant: 5,
+          skills: [SecondSkill],
+        });
+        const nonAnsweredBestNextChallenge = domainBuilder.buildChallenge({
+          id: 'recCHAL3',
+          difficulty: 1,
+          discriminant: 5,
+          skills: [FirstSkill],
+        });
+        const challenges = [worstNextChallenge, answeredBestNextChallenge, nonAnsweredBestNextChallenge];
+        const allAnswers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: answeredBestNextChallenge.id }),
+        ];
+
+        // when
+        const result = flash.getEstimatedLevelAndErrorRate({ challenges, allAnswers });
+
+        // then
+        expect(result.estimatedLevel).to.be.closeTo(1.591314116163755, 0.000000001);
+        expect(result.errorRate).to.be.closeTo(0.6586651581894388, 0.000000001);
+      });
+    });
   });
 
   describe('#getNonAnsweredChallenges', function () {
