@@ -6,13 +6,11 @@ const {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster,
-  sinon,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const { features } = require('../../../lib/config');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -369,8 +367,11 @@ describe('Acceptance | API | Certification Course', function () {
 
     beforeEach(function () {
       otherUserId = databaseBuilder.factory.buildUser().id;
-      const certifiationCenter = databaseBuilder.factory.buildCertificationCenter({ id: 99 });
-      const session = databaseBuilder.factory.buildSession({ certificationCenterId: certifiationCenter.id });
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+        id: 99,
+        isSupervisorAccessEnabled: true,
+      });
+      const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         hasSeenEndTestScreen: false,
         sessionId: session.id,
@@ -430,7 +431,6 @@ describe('Acceptance | API | Certification Course', function () {
     it('should return the certification course', async function () {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-      sinon.stub(features, 'endTestScreenRemovalWhiteList').value([99]);
 
       // when
       const response = await server.inject(options);
@@ -449,7 +449,7 @@ describe('Acceptance | API | Certification Course', function () {
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isSupervisorAccessEnabled: false }).id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId }).id;
       const payload = {
         data: {
@@ -469,8 +469,6 @@ describe('Acceptance | API | Certification Course', function () {
         payload,
       };
       await databaseBuilder.commit();
-
-      sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
     });
 
     context('when the given access code does not correspond to the session', function () {

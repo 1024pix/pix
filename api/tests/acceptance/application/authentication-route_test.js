@@ -18,7 +18,6 @@ const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
 
 const createServer = require('../../../server');
-const { features } = require('../../../lib/config');
 
 describe('Acceptance | Controller | authentication-controller', function () {
   const orgaRoleInDB = { id: 1, name: 'ADMIN' };
@@ -134,11 +133,16 @@ describe('Acceptance | Controller | authentication-controller', function () {
     });
 
     context('when scope is pix-certif', function () {
-      context('when FT endTestScreenRemovalWhiteList is not empty', function () {
+      context('when certification center has the supervisor access enabled', function () {
         it('should return http code 200 with accessToken when authentication is ok', async function () {
           //given
+          databaseBuilder.factory.buildCertificationCenter({ id: 345, isSupervisorAccessEnabled: true });
+          databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
+          databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
+          await databaseBuilder.commit();
+
           const options = _getOptions({ scope: 'pix-certif', username: userEmailAddress, password: userPassword });
-          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([1]);
 
           await databaseBuilder.commit();
           // when
@@ -154,7 +158,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
       });
 
-      context('when FT endTestScreenRemovalWhiteList is empty', function () {
+      context('when certification center does not have the supervisor access enabled', function () {
         it('should return http code 403 ', async function () {
           //given
           databaseBuilder.factory.buildUser.withRawPassword({
@@ -162,11 +166,13 @@ describe('Acceptance | Controller | authentication-controller', function () {
             rawPassword: userPassword,
             cgu: true,
           });
+          databaseBuilder.factory.buildCertificationCenter({ id: 345, isSupervisorAccessEnabled: false });
+          databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
+          databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
 
           await databaseBuilder.commit();
           const options = _getOptions({ scope: 'pix-certif', username: 'email@without.mb', password: userPassword });
-
-          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
 
           // when
           const { statusCode } = await server.inject(options);
