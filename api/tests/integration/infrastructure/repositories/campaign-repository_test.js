@@ -82,13 +82,13 @@ describe('Integration | Repository | Campaign', function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       const creatorId = user.id;
-      const ownerId = user.id;
+      const ownerId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       await databaseBuilder.commit();
 
-      const campaignAttributes = {
+      const campaignToSave = {
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
@@ -96,9 +96,6 @@ describe('Integration | Repository | Campaign', function () {
         ownerId,
         organizationId,
         multipleSendings: true,
-      };
-      const campaignToSave = {
-        ...campaignAttributes,
         type: Campaign.types.ASSESSMENT,
         targetProfileId,
         title: 'Parcours recherche internet',
@@ -122,6 +119,7 @@ describe('Integration | Repository | Campaign', function () {
           'organization',
           'targetProfile',
           'multipleSendings',
+          'ownerId',
         ])
       );
     });
@@ -130,7 +128,7 @@ describe('Integration | Repository | Campaign', function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       const creatorId = user.id;
-      const ownerId = user.id;
+      const ownerId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
       await databaseBuilder.commit();
@@ -164,6 +162,7 @@ describe('Integration | Repository | Campaign', function () {
           'creator',
           'organization',
           'multipleSendings',
+          'ownerId',
         ])
       );
     });

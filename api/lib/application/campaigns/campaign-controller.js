@@ -28,6 +28,7 @@ module.exports = {
       'multiple-sendings': multipleSendings,
       'id-pix-label': idPixLabel,
       'custom-landing-page-text': customLandingPageText,
+      'owner-id': ownerId,
     } = request.payload.data.attributes;
     // eslint-disable-next-line no-restricted-syntax
     const targetProfileId = parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
@@ -41,7 +42,7 @@ module.exports = {
       idPixLabel,
       customLandingPageText,
       creatorId: userId,
-      ownerId: userId,
+      ownerId,
       organizationId,
       targetProfileId,
       multipleSendings,

@@ -33,7 +33,7 @@ describe('Unit | UseCase | create-campaign', function () {
     const campaignForCreation = new CampaignForCreation({ ...campaignData, code });
 
     const campaignCreator = new CampaignCreator([targetProfileId], false);
-    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId }).resolves(campaignCreator);
+    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
 
     campaignCodeGenerator.generate.resolves(code);
     campaignRepository.save.resolves();
@@ -65,7 +65,7 @@ describe('Unit | UseCase | create-campaign', function () {
       organizationId,
     };
     const campaignCreator = new CampaignCreator([targetProfileId], false);
-    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId }).resolves(campaignCreator);
+    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
 
     campaignCodeGenerator.generate.resolves(code);
     const savedCampaign = Symbol('a saved campaign');
