@@ -28,6 +28,7 @@
         name="login"
         type="email"
         {{on "focusout" this.validateEmail}}
+        {{on "input" this.updateEmail}}
         @errorMessage={{this.emailValidationMessage}}
         required={{true}}
         aria-required={{true}}
