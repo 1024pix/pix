@@ -13,7 +13,7 @@ module.exports = {
       title: json.data.attributes.title,
       message: json.data.attributes.message,
       threshold: json.data.attributes.threshold,
-      targetProfileId: json.data.relationships['target-profile'].data.id,
+      targetProfileId: json.data.relationships?.['target-profile']?.data.id,
       prescriberTitle: json.data.attributes['prescriber-title'],
       prescriberDescription: json.data.attributes['prescriber-description'],
     });
