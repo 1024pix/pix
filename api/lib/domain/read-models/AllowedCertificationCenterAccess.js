@@ -72,7 +72,7 @@ class AllowedCertificationCenterAccess {
     return features.pixCertifScoBlockedAccessWhitelist.includes(this.externalId.toUpperCase());
   }
 
-  hasEndTestScreenRemovalEnabled() {
+  isEndTestScreenRemovalEnabled() {
     return this.isSupervisorAccessEnabled;
   }
 }

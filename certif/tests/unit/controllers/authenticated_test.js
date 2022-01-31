@@ -250,7 +250,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
-        hasEndTestScreenRemovalEnabled: true,
+        isEndTestScreenRemovalEnabled: true,
       });
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -270,7 +270,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
-        hasEndTestScreenRemovalEnabled: false,
+        isEndTestScreenRemovalEnabled: false,
       });
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;

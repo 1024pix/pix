@@ -59,7 +59,7 @@ module('Acceptance | authenticated', function (hooks) {
         const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
           name: 'Bibiche',
           externalId: 'ABC123',
-          hasEndTestScreenRemovalEnabled: true,
+          isEndTestScreenRemovalEnabled: true,
         });
         const certificationPointOfContact = server.create('certification-point-of-contact', {
           firstName: 'Buffy',
@@ -81,7 +81,7 @@ module('Acceptance | authenticated', function (hooks) {
         const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
           name: 'Bibiche',
           externalId: 'ABC123',
-          hasEndTestScreenRemovalEnabled: true,
+          isEndTestScreenRemovalEnabled: true,
         });
         const certificationPointOfContact = server.create('certification-point-of-contact', {
           firstName: 'Buffy',
@@ -108,7 +108,7 @@ module('Acceptance | authenticated', function (hooks) {
         const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
           name: 'Bibiche',
           externalId: 'ABC123',
-          hasEndTestScreenRemovalEnabled: false,
+          isEndTestScreenRemovalEnabled: false,
         });
         const certificationPointOfContact = server.create('certification-point-of-contact', {
           firstName: 'Buffy',
