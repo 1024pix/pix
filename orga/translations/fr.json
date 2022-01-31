@@ -296,7 +296,7 @@
         "label": "Propriétaire de la campagne",
         "placeholder": "Nom et prénom du propriétaire",
         "title": "Propriétaire de la campagne",
-        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier et archiver cette campagne."
+        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne."
       },
       "actions": {
         "create": "Créer la campagne"
