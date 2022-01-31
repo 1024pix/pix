@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { Decimal } = require('decimal.js');
 
 const config = require('../../../config');
 
@@ -9,7 +10,7 @@ const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
 const samples = _.range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
 const DEFAULT_PROBABILITY_TO_ANSWER = 1;
 const DEFAULT_ERROR_RATE = 5;
-const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
+const ERROR_RATE_CLASS_INTERVAL = new Decimal(9 / 80);
 
 module.exports = {
   getPossibleNextChallenges,
@@ -31,16 +32,20 @@ function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel } = 
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
       challenge,
-      reward: _getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
+      reward: _getReward({
+        estimatedLevel: new Decimal(estimatedLevel),
+        discriminant: new Decimal(challenge.discriminant),
+        difficulty: new Decimal(challenge.difficulty),
+      }),
     };
   });
 
-  let maxReward = 0;
+  let maxReward = new Decimal(0);
   const possibleChallenges = challengesWithReward.reduce((acc, challengesWithReward) => {
-    if (challengesWithReward.reward > maxReward) {
+    if (challengesWithReward.reward.greaterThan(maxReward)) {
       acc = [challengesWithReward.challenge];
       maxReward = challengesWithReward.reward;
-    } else if (challengesWithReward.reward === maxReward) {
+    } else if (challengesWithReward.reward.equals(maxReward)) {
       acc.push(challengesWithReward.challenge);
     }
     return acc;
@@ -57,12 +62,12 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
     return { estimatedLevel: DEFAULT_ESTIMATED_LEVEL, errorRate: DEFAULT_ERROR_RATE };
   }
 
-  let latestEstimatedLevel = DEFAULT_ESTIMATED_LEVEL;
+  let latestEstimatedLevel = new Decimal(DEFAULT_ESTIMATED_LEVEL);
 
   const samplesWithResults = samples.map((sample) => ({
-    sample,
+    sample: new Decimal(sample),
     gaussian: null,
-    probabilityToAnswer: DEFAULT_PROBABILITY_TO_ANSWER,
+    probabilityToAnswer: new Decimal(DEFAULT_PROBABILITY_TO_ANSWER),
     probability: null,
   }));
 
@@ -77,35 +82,35 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
 
       let probability = _getProbability({
         estimatedLevel: sampleWithResults.sample,
-        discriminant: answeredChallenge.discriminant,
-        difficulty: answeredChallenge.difficulty,
+        discriminant: new Decimal(answeredChallenge.discriminant),
+        difficulty: new Decimal(answeredChallenge.difficulty),
       });
-      probability = answer.isOk() ? probability : 1 - probability;
-      sampleWithResults.probabilityToAnswer *= probability;
+      probability = answer.isOk() ? probability : Decimal.sub(1, probability);
+      sampleWithResults.probabilityToAnswer = sampleWithResults.probabilityToAnswer.times(probability);
     }
 
     _normalizeFieldDistribution(samplesWithResults, 'gaussian');
 
     for (const sampleWithResults of samplesWithResults) {
-      sampleWithResults.probability = sampleWithResults.probabilityToAnswer * sampleWithResults.gaussian;
+      sampleWithResults.probability = sampleWithResults.probabilityToAnswer.times(sampleWithResults.gaussian);
     }
 
     _normalizeFieldDistribution(samplesWithResults, 'probability');
 
     latestEstimatedLevel = samplesWithResults.reduce(
-      (estimatedLevel, { sample, probability }) => estimatedLevel + sample * probability,
-      0
+      (estimatedLevel, { sample, probability }) => sample.times(probability).plus(estimatedLevel),
+      new Decimal(0)
     );
   }
 
   const rawErrorRate = samplesWithResults.reduce(
-    (acc, { sample, probability }) => acc + probability * (sample - latestEstimatedLevel) ** 2,
-    0
+    (acc, { sample, probability }) => sample.minus(latestEstimatedLevel).toPower(2).times(probability).plus(acc),
+    new Decimal(0)
   );
 
-  const correctedErrorRate = Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
+  const correctedErrorRate = rawErrorRate.minus(ERROR_RATE_CLASS_INTERVAL.toPower(2).dividedBy(12)).squareRoot();
 
-  return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
+  return { estimatedLevel: latestEstimatedLevel.toNumber(), errorRate: correctedErrorRate.toNumber() };
 }
 
 function getNonAnsweredChallenges({ allAnswers, challenges }) {
@@ -124,21 +129,28 @@ function getNonAnsweredChallenges({ allAnswers, challenges }) {
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {
   const probability = _getProbability({ estimatedLevel, discriminant, difficulty });
-  return probability * (1 - probability) * Math.pow(discriminant, 2);
+  return Decimal.sub(1, probability).times(probability).times(discriminant.toPower(2));
 }
 
 function _getProbability({ estimatedLevel, discriminant, difficulty }) {
-  return 1 / (1 + Math.exp(discriminant * (difficulty - estimatedLevel)));
+  return discriminant.times(difficulty.minus(estimatedLevel)).naturalExponential().plus(1).pow(-1);
 }
 
+const _gaussianValueVariance = 1.5;
+const _pi = Decimal.acos(-1);
+const _gaussianValueDivider = Decimal.sqrt(_gaussianValueVariance).times(_pi.times(2).squareRoot());
 function _getGaussianValue({ gaussianMean, value }) {
-  const variance = 1.5;
-  return Math.exp(Math.pow(value - gaussianMean, 2) / (-2 * variance)) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI));
+  return value
+    .minus(gaussianMean)
+    .toPower(2)
+    .dividedBy(-2 * _gaussianValueVariance)
+    .naturalExponential()
+    .dividedBy(_gaussianValueDivider);
 }
 
 function _normalizeFieldDistribution(data, field) {
-  const sum = _.sumBy(data, field);
+  const sum = Decimal.sum(...data.map((item) => item[field]));
   for (const item of data) {
-    item[field] /= sum;
+    item[field] = item[field].dividedBy(sum);
   }
 }
