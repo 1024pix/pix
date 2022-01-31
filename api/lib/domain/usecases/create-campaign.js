@@ -5,6 +5,7 @@ module.exports = async function createCampaign({ campaign, campaignRepository, c
   const campaignCreator = await campaignCreatorRepository.get({
     userId: campaign.creatorId,
     organizationId: campaign.organizationId,
+    ownerId: campaign.ownerId,
   });
 
   const campaignForCreation = campaignCreator.createCampaign({ ...campaign, code: generatedCampaignCode });

@@ -549,6 +549,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           attributes: {
             name: 'Campagne collège',
             type: 'ASSESSMENT',
+            'owner-id': userId,
           },
           relationships: {
             'target-profile': {
@@ -579,6 +580,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.attributes.name).to.equal('Campagne collège');
+      expect(response.result.data.attributes['owner-id']).to.equal(userId);
       expect(response.result.data.attributes.type).to.equal('ASSESSMENT');
     });
 
@@ -622,6 +624,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           attributes: {
             name: 'Campagne lycée',
             type: 'PROFILES_COLLECTION',
+            'owner-id': userId,
           },
           relationships: {
             'target-profile': {
@@ -652,6 +655,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.attributes.name).to.equal('Campagne lycée');
+      expect(response.result.data.attributes['owner-id']).to.equal(userId);
       expect(response.result.data.attributes.type).to.equal('PROFILES_COLLECTION');
     });
 
@@ -696,6 +700,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           attributes: {
             name: 'Campagne collège',
             type: 'ASSESSMENT',
+            'owner-id': userId,
           },
           relationships: {
             'target-profile': {
