@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.162.0 (31/01/2022)
+
+
+### :rocket: Enhancement
+- [#3991](https://github.com/1024pix/pix/pull/3991) [FEATURE] Permettre d'activer la facturation des certifications via FT (PIX-4262).
+- [#3984](https://github.com/1024pix/pix/pull/3984) [FEATURE] Envoyer une erreur quand un candidat tente de reprendre son test sans autorisation (PIX-3875)
+- [#3981](https://github.com/1024pix/pix/pull/3981) [FEATURE] Eviter d'avoir plusieurs épreuves du même tube pour une compétence en certification (PIX-4178).
+- [#3976](https://github.com/1024pix/pix/pull/3976) [FEATURE] Retire la case de fin de test sur les fiches d'émargement (pix-3746)
+
+### :building_construction: Tech
+- [#4001](https://github.com/1024pix/pix/pull/4001) [TECH] Corriger la connexion avec une auto completion du formulaire de connexion (PIX-4283)
+- [#3998](https://github.com/1024pix/pix/pull/3998) [TECH] Corriger le flaky test sur Pix Certif
+
+### :coffee: Various
+- [#3988](https://github.com/1024pix/pix/pull/3988) [STYLE] Suppression de l'icone de tuto dans la fenêtre de comparaison de résultats (PIX-4266).
+- [#3993](https://github.com/1024pix/pix/pull/3993) [A11Y] Utiliser la même couleur pour le status des participations dans le tableau que celle utilisé sur le graphique des status dans Pix Orga (PIX-4205)
+
 ## v3.161.0 (28/01/2022)
 
 
