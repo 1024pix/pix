@@ -98,4 +98,19 @@ module('Unit | Component | Routes | login-form', (hooks) => {
       });
     });
   });
+
+  module('#updateEmail', () => {
+    test('should update email without spaces', function (assert) {
+      // given
+      const emailWithSpaces = '    user@example.net  ';
+      const event = { target: { value: emailWithSpaces } };
+
+      // when
+      component.updateEmail(event);
+
+      // then
+      const expectedEmail = emailWithSpaces.trim();
+      assert.strictEqual(component.email, expectedEmail);
+    });
+  });
 });

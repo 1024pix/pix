@@ -84,6 +84,11 @@ export default class LoginForm extends Component {
     }
   }
 
+  @action
+  updateEmail(event) {
+    this.email = event.target.value?.trim();
+  }
+
   get isFormValid() {
     return isEmailValid(this.email) && !isEmpty(this.password);
   }
