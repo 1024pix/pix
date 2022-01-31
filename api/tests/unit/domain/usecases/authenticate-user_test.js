@@ -174,7 +174,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
         authenticationService.getUserByUsernameAndPassword.resolves(user);
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.returns(false);
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(false);
 
         const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
         // when
@@ -202,7 +202,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           certificationCenterMemberships: [Symbol('certificationCenterMembership')],
         });
 
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.returns(true);
+        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(true);
         authenticationService.getUserByUsernameAndPassword.resolves(user);
         refreshTokenService.createRefreshTokenFromUserId
           .withArgs({

@@ -1,45 +1,42 @@
-const { features } = require('../../config');
 const { knex } = require('../../../db/knex-database-connection');
 
-function isEndTestScreenRemovalEnabledByCertificationCenterId(certificationCenterId) {
-  const { endTestScreenRemovalWhiteList } = features;
-  return endTestScreenRemovalWhiteList.includes(certificationCenterId);
+async function isEndTestScreenRemovalEnabledByCertificationCenterId(certificationCenterId) {
+  const result = await knex
+    .select(1)
+    .from('certification-centers')
+    .where({ id: certificationCenterId, isSupervisorAccessEnabled: true })
+    .first();
+
+  return Boolean(result);
 }
 
 async function isEndTestScreenRemovalEnabledBySessionId(sessionId) {
-  const { endTestScreenRemovalWhiteList } = features;
-
-  if (endTestScreenRemovalWhiteList.length === 0) return false;
-
-  const [{ count }] = await knex
+  const result = await knex
     .select(1)
     .from('sessions')
-    .where({ id: sessionId })
-    .whereIn('certificationCenterId', endTestScreenRemovalWhiteList)
-    .count();
+    .where({ 'sessions.id': sessionId, isSupervisorAccessEnabled: true })
+    .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .first();
 
-  return Boolean(count);
+  return Boolean(result);
 }
 
 async function isEndTestScreenRemovalEnabledByCandidateId(certificationCandidateId) {
-  const { endTestScreenRemovalWhiteList } = features;
-
-  if (endTestScreenRemovalWhiteList.length === 0) return false;
-
-  const [{ count }] = await knex
+  const result = await knex
     .select(1)
-    .from('sessions')
-    .innerJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-    .where({ 'certification-candidates.id': certificationCandidateId })
-    .whereIn('sessions.certificationCenterId', endTestScreenRemovalWhiteList)
-    .count();
+    .from('certification-candidates')
+    .where({ 'certification-candidates.id': certificationCandidateId, isSupervisorAccessEnabled: true })
+    .innerJoin('sessions', 'sessions.id', 'certification-candidates.sessionId')
+    .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .first();
 
-  return Boolean(count);
+  return Boolean(result);
 }
 
-function isEndTestScreenRemovalEnabledForSomeCertificationCenter() {
-  const { endTestScreenRemovalWhiteList } = features;
-  return endTestScreenRemovalWhiteList.length > 0;
+async function isEndTestScreenRemovalEnabledForSomeCertificationCenter() {
+  const result = await knex.select(1).from('certification-centers').where({ isSupervisorAccessEnabled: true }).first();
+
+  return Boolean(result);
 }
 
 module.exports = {

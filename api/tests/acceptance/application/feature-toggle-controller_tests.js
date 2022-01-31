@@ -23,7 +23,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           attributes: {
             'is-certification-billing-enabled': false,
             'is-email-validation-enabled': false,
-            'is-end-test-screen-removal-enabled': false,
             'is-complementary-certification-subscription-enabled': false,
           },
           type: 'feature-toggles',
