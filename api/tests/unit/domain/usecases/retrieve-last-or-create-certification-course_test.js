@@ -5,6 +5,7 @@ const {
   NotFoundError,
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
+  CandidateNotAuthorizedToResumeCertificationTestError,
 } = require('../../../../lib/domain/errors');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -134,7 +135,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(1).resolves(true);
           });
 
-          context('when the user joins the session', function () {
+          context('when the user tries to join the session for the first time', function () {
             it('should throw a CandidateNotAuthorizedToJoinSessionError', async function () {
               // given
               const foundSession = domainBuilder.buildSession.created({ id: 1, accessCode: 'accessCode' });
@@ -161,6 +162,42 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
               // then
               expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToJoinSessionError);
+            });
+          });
+
+          context('when the user tries to go back to the session without authorization', function () {
+            it('should throw a CandidateNotAuthorizedToResumeCertificationTestError', async function () {
+              // given
+              const domainTransaction = Symbol('someDomainTransaction');
+              const foundSession = domainBuilder.buildSession.created({ id: 1, accessCode: 'accessCode' });
+              sessionRepository.get.withArgs(1).resolves(foundSession);
+
+              const candidateNotAuthorizedToStart = domainBuilder.buildCertificationCandidate({
+                userId: 2,
+                sessionId: 1,
+                authorizedToStart: false,
+              });
+              certificationCandidateRepository.getBySessionIdAndUserId
+                .withArgs({ sessionId: 1, userId: 2 })
+                .resolves(candidateNotAuthorizedToStart);
+
+              const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId: 2, sessionId: 1 });
+              certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                .resolves(existingCertificationCourse);
+
+              // when
+              const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+                domainTransaction,
+                sessionId: 1,
+                accessCode: 'accessCode',
+                userId: 2,
+                locale: 'fr',
+                ...injectables,
+              });
+
+              // then
+              expect(error).to.be.an.instanceOf(CandidateNotAuthorizedToResumeCertificationTestError);
             });
           });
         }

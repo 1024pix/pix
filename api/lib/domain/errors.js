@@ -968,6 +968,12 @@ class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   }
 }
 
+class CandidateNotAuthorizedToResumeCertificationTestError extends DomainError {
+  constructor(message = "Merci de contacter votre surveillant afin qu'il autorise la reprise de votre test.") {
+    super(message);
+  }
+}
+
 class InvalidSkillSetError extends DomainError {
   constructor(message = 'Acquis non valide') {
     super(message);
@@ -1001,6 +1007,7 @@ module.exports = {
   CampaignCodeError,
   CancelledOrganizationInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
+  CandidateNotAuthorizedToResumeCertificationTestError,
   CertificateVerificationCodeGenerationTooManyTrials,
   NoCertificationAttestationForDivisionError,
   CertificationCandidateForbiddenDeletionError,
