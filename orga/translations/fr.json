@@ -623,6 +623,7 @@
         "caption": "Sélection des sujets",
         "column": {
           "action": "Sélection",
+          "theme-name": "Nom de la thématique",
           "name": "Nom du sujet",
           "mobile": "Compatible smartphone",
           "tablet": "Compatible tablette"
