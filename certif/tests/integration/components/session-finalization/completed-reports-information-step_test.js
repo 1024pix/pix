@@ -184,7 +184,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     assert.dom(screen.getByRole('table', { name: 'Certification(s) terminée(s)' })).exists();
   });
 
-  module('when isEndTestScreenRemovalEnabled feature toggle is disabled', function () {
+  module('when the end test screen removal feature is disabled', function () {
     test('it shows the "Écran de fin de test vu" column', async function (assert) {
       // given
       this.certificationReports = [
@@ -215,7 +215,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     });
   });
 
-  module('when isEndTestScreenRemovalEnabled feature toggle is enabled', function () {
+  module('when the end test screen removal feature is enabled', function () {
     test('it hides the "Écran de fin de test vu" column', async function (assert) {
       // given
       this.certificationReports = [
