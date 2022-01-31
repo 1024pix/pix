@@ -43,6 +43,14 @@
       required={{true}}
       aria-required={{true}}
     />
+
+    <div class="form__field-info">
+      <span class="form__field-info-title">
+        <FaIcon @icon="info-circle" class="form__field-info-icon" />
+        <span>{{t "pages.campaign-creation.owner.title"}}</span>
+      </span>
+      <span class="form__field-info-message">{{t "pages.campaign-creation.owner.info"}}</span>
+    </div>
   </div>
 
   {{#if this.currentUser.organization.canCollectProfiles}}
