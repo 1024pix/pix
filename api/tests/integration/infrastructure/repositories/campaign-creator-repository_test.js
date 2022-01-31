@@ -12,7 +12,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       databaseBuilder.factory.buildMembership({ organizationId: otherOrganizationId, userId });
       await databaseBuilder.commit();
 
-      const creator = await campaignCreatorRepository.get(userId, organizationId);
+      const creator = await campaignCreatorRepository.get({ userId, organizationId });
 
       expect(creator.notAllowedToCreateProfileCollectionCampaign).to.equal(false);
     });
@@ -31,7 +31,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
           await databaseBuilder.commit();
 
-          const creator = await campaignCreatorRepository.get(userId, organizationId);
+          const creator = await campaignCreatorRepository.get({ userId, organizationId });
           expect(creator.availableTargetProfileIds).to.exactlyContain([targetProfilePublicId]);
         });
       });
@@ -54,7 +54,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
           await databaseBuilder.commit();
 
-          const creator = await campaignCreatorRepository.get(userId, organizationId);
+          const creator = await campaignCreatorRepository.get({ userId, organizationId });
           expect(creator.availableTargetProfileIds).to.exactlyContain([targetProfileSharedId]);
         });
 
@@ -71,7 +71,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
           await databaseBuilder.commit();
 
-          const creator = await campaignCreatorRepository.get(userId, organizationId);
+          const creator = await campaignCreatorRepository.get({ userId, organizationId });
           expect(creator.availableTargetProfileIds).to.exactlyContain([organizationTargetProfileId]);
         });
       });
@@ -99,7 +99,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
           await databaseBuilder.commit();
 
-          const creator = await campaignCreatorRepository.get(userId, organizationId);
+          const creator = await campaignCreatorRepository.get({ userId, organizationId });
           expect(creator.availableTargetProfileIds).to.be.empty;
         });
       });
@@ -114,7 +114,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
         await databaseBuilder.commit();
 
-        const error = await catchErr(campaignCreatorRepository.get)(userId, organizationId);
+        const error = await catchErr(campaignCreatorRepository.get)({ userId, organizationId });
 
         expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
         expect(error.message).to.equal(`User does not have an access to the organization ${organizationId}`);
