@@ -23,7 +23,7 @@ module('Acceptance | Session Finalization', function (hooks) {
       isAccessBlockedLycee: false,
       isAccessBlockedAEFE: false,
       isAccessBlockedAgri: false,
-      hasEndTestScreenRemovalEnabled: false,
+      isEndTestScreenRemovalEnabled: false,
     });
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
@@ -278,7 +278,7 @@ module('Acceptance | Session Finalization', function (hooks) {
               server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
               allowedCertificationCenterAccess.update({
-                hasEndTestScreenRemovalEnabled: true,
+                isEndTestScreenRemovalEnabled: true,
               });
 
               session.update({ certificationReports: [certificationReport] });

@@ -29,7 +29,7 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   get shouldDisplayHasSeenEndTestScreenCheckbox() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled;
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isEndTestScreenRemovalEnabled;
   }
 
   get uncheckedHasSeenEndTestScreenCount() {

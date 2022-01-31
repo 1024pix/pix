@@ -22,7 +22,7 @@ export default class SessionParametersController extends Controller {
   }
 
   get supervisorPasswordShouldBeDisplayed() {
-    return this.currentUser.currentAllowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled;
+    return this.currentUser.currentAllowedCertificationCenterAccess.isEndTestScreenRemovalEnabled;
   }
 
   @action

@@ -157,7 +157,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           id: 123,
           name: 'Test certification center',
           type: 'NOT_SCO',
-          hasEndTestScreenRemovalEnabled: true,
+          isEndTestScreenRemovalEnabled: true,
         })
       );
 
@@ -189,7 +189,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           id: 123,
           name: 'Test certification center',
           type: 'NOT_SCO',
-          hasEndTestScreenRemovalEnabled: false,
+          isEndTestScreenRemovalEnabled: false,
         })
       );
 
