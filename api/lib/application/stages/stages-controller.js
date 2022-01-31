@@ -10,14 +10,8 @@ module.exports = {
 
   async updateStage(request, h) {
     const stageId = request.params.id;
-    const {
-      title,
-      message,
-      threshold,
-      'prescriber-title': prescriberTitle,
-      'prescriber-description': prescriberDescription,
-    } = request.payload.data.attributes;
-    await usecases.updateStage({ stageId, title, message, threshold, prescriberTitle, prescriberDescription });
+    const stage = stageSerializer.deserialize(request.payload);
+    await usecases.updateStage({ ...stage, stageId });
     return h.response({}).code(204);
   },
 
