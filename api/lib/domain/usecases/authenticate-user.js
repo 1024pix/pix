@@ -10,7 +10,7 @@ const apps = require('../constants');
 const authenticationService = require('../../domain/services/authentication-service');
 const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 
-function _checkUserAccessScope(scope, user) {
+async function _checkUserAccessScope(scope, user) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
     throw new ForbiddenAccess(apps.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
   }
@@ -21,7 +21,7 @@ function _checkUserAccessScope(scope, user) {
 
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
     const isEndTestScreenRemovalEnabled =
-      endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+      await endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter();
     if (!isEndTestScreenRemovalEnabled) {
       throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
     }
@@ -49,7 +49,7 @@ module.exports = async function authenticateUser({
     );
 
     if (!shouldChangePassword) {
-      _checkUserAccessScope(scope, foundUser);
+      await _checkUserAccessScope(scope, foundUser);
       const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
       const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
         refreshToken,

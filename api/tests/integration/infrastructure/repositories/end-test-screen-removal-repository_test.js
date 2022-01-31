@@ -1,152 +1,112 @@
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder } = require('../../../test-helper');
 const {
   isEndTestScreenRemovalEnabledBySessionId,
   isEndTestScreenRemovalEnabledByCandidateId,
   isEndTestScreenRemovalEnabledByCertificationCenterId,
   isEndTestScreenRemovalEnabledForSomeCertificationCenter,
 } = require('../../../../lib/infrastructure/repositories/end-test-screen-removal-repository');
-const { features } = require('../../../../lib/config');
 
 describe('Integration | Repository | EndTestScreenRemovalRepository', function () {
   describe('#isEndTestScreenRemovalEnabledBySessionId', function () {
-    context('endTestScreenRemovalWhiteList is empty', function () {
-      context('the given session does not exist', function () {
-        it('returns false if feature toggle end screen certification center ids is empty', async function () {
-          // given
-          const sessionId = 0;
-          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
-
-          // when
-          const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledBySessionId(sessionId);
-
-          // then
-          expect(isEndTestScreenRemovalEnabled).to.be.false;
-        });
-      });
-      context('the given session does exist', function () {
-        it('returns false', async function () {
-          // given
-          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-          const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-          await databaseBuilder.commit();
-          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
-
-          // when
-          const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledBySessionId(sessionId);
-
-          // then
-          expect(isEndTestScreenRemovalEnabled).to.be.false;
-        });
-      });
-    });
-
-    context('endTestScreenRemovalWhiteList is not empty', function () {
-      context(
-        'the feature is not enabled for the certification center associated with the given session id',
-        function () {
-          it('returns false', async function () {
-            // given
-            const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-            const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-            const sessionId = databaseBuilder.factory.buildSession({
-              certificationCenterId: otherCertificationCenterId,
-            }).id;
-            await databaseBuilder.commit();
-            sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenterId]);
-
-            // when
-            const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledBySessionId(sessionId);
-
-            // then
-            expect(isEndTestScreenRemovalEnabled).to.be.false;
-          });
-        }
-      );
-    });
-
-    context('the feature is enabled for the certification center associated with the given session id', function () {
-      it('returns true if endTestScreenRemovalWhiteList contains the id associated with given session id', async function () {
+    context('the given session does not exist', function () {
+      it('returns false', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-        await databaseBuilder.commit();
-        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenterId]);
+        const sessionId = 0;
 
         // when
         const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledBySessionId(sessionId);
 
         // then
-        expect(isEndTestScreenRemovalEnabled).to.be.true;
+        expect(isEndTestScreenRemovalEnabled).to.be.false;
+      });
+    });
+    context('the given session does exist', function () {
+      context('when the certification center has not the supervisor access enabled', function () {
+        it('returns false', async function () {
+          // given
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+            isSupervisorAccessEnabled: false,
+          }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+          }).id;
+          await databaseBuilder.commit();
+
+          // when
+          const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledBySessionId(sessionId);
+
+          // then
+          expect(isEndTestScreenRemovalEnabled).to.be.false;
+        });
+      });
+
+      context('when the certification center has the supervisor access enabled', function () {
+        it('returns true', async function () {
+          // given
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+            isSupervisorAccessEnabled: true,
+          }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+          }).id;
+          await databaseBuilder.commit();
+
+          // when
+          const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledBySessionId(sessionId);
+
+          // then
+          expect(isEndTestScreenRemovalEnabled).to.be.true;
+        });
       });
     });
   });
+
   describe('#isEndTestScreenRemovalEnabledByCandidatesId', function () {
-    context('isEndTestScreenRemovalEnabledCertificationCenterIds is empty', function () {
-      context('the given candidates does not exist', function () {
-        it('returns false if feature toggle end screen certification center ids is empty', async function () {
-          // given
-          const candidateId = 0;
-          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
-
-          // when
-          const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
-
-          // then
-          expect(isEndTestScreenRemovalEnabled).to.be.false;
-        });
-      });
-      context('the given candidate does exist', function () {
-        it('returns false', async function () {
-          // given
-          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-          const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-          const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
-          await databaseBuilder.commit();
-          sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
-
-          // when
-          const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
-
-          // then
-          expect(isEndTestScreenRemovalEnabled).to.be.false;
-        });
-      });
-    });
-
-    context('endTestScreenRemovalWhiteList is not empty', function () {
-      context(
-        'the feature is not enabled for the certification center associated with the given candidate id',
-        function () {
-          it('returns false', async function () {
-            // given
-            const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-            const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-            const sessionId = databaseBuilder.factory.buildSession({
-              certificationCenterId: otherCertificationCenterId,
-            }).id;
-            const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
-
-            await databaseBuilder.commit();
-            sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenterId]);
-
-            // when
-            const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
-
-            // then
-            expect(isEndTestScreenRemovalEnabled).to.be.false;
-          });
-        }
-      );
-    });
-
-    context('the feature is enabled for the certification center associated with the given session id', function () {
-      it("returns true if the session's certification center is whitelisted", async function () {
+    context('the given candidates does not exist', function () {
+      it('returns false', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const candidateId = 0;
+
+        // when
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.false;
+      });
+    });
+  });
+
+  context('the given candidate does exist', function () {
+    context('when the certification center has not the supervisor access enabled', function () {
+      it('returns false', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: false,
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+        }).id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.false;
+      });
+    });
+
+    context('when the certification center has the supervisor access enabled', function () {
+      it('returns true', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: true,
+        }).id;
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
         await databaseBuilder.commit();
-        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([certificationCenterId]);
 
         // when
         const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCandidateId(candidateId);
@@ -158,26 +118,36 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
   });
 
   describe('#isEndTestScreenRemovalEnabledByCertificationCenterId', function () {
-    context('when endTestScreenRemovalWhiteList contains the given id', function () {
-      it('returns true', function () {
+    context('when the certification center has the supervisor access enabled', function () {
+      it('returns true', async function () {
         //given
-        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([9, 99, 999]);
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: true,
+        }).id;
+        await databaseBuilder.commit();
 
         //when
-        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledByCertificationCenterId(99);
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCertificationCenterId(
+          certificationCenterId
+        );
 
         // then
         expect(isEndTestScreenRemovalEnabled).to.be.true;
       });
     });
 
-    context('when endTestScreenRemovalWhiteList does not contains the given id', function () {
-      it('returns true', function () {
+    context('when the certification center has not the supervisor access enabled', function () {
+      it('returns false', async function () {
         //given
-        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: false,
+        }).id;
+        await databaseBuilder.commit();
 
         //when
-        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledByCertificationCenterId(99);
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledByCertificationCenterId(
+          certificationCenterId
+        );
 
         // then
         expect(isEndTestScreenRemovalEnabled).to.be.false;
@@ -186,26 +156,57 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
   });
 
   describe('#isEndTestScreenRemovalEnabledForSomeCertificationCenter', function () {
-    context('when endTestScreenRemovalWhiteList is not empty', function () {
-      it('returns true', function () {
+    context('when all the certification center are enabled', function () {
+      it('returns true', async function () {
         //given
-        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([9, 99, 999]);
+        databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: true,
+        }).id;
+        databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: true,
+        }).id;
+        await databaseBuilder.commit();
 
         //when
-        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledForSomeCertificationCenter();
 
         // then
         expect(isEndTestScreenRemovalEnabled).to.be.true;
       });
     });
 
-    context('when endTestScreenRemovalWhiteList is empty', function () {
-      it('returns false', function () {
+    context('when some certification center are enabled', function () {
+      it('returns true', async function () {
         // given
-        sinon.stub(features, 'endTestScreenRemovalWhiteList').value([]);
+        databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: true,
+        }).id;
+        databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: false,
+        }).id;
+        await databaseBuilder.commit();
 
         // when
-        const isEndTestScreenRemovalEnabled = isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledForSomeCertificationCenter();
+
+        // then
+        expect(isEndTestScreenRemovalEnabled).to.be.true;
+      });
+    });
+
+    context('when no certification center is enabled', function () {
+      it('returns false', async function () {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: false,
+        }).id;
+        databaseBuilder.factory.buildCertificationCenter({
+          isSupervisorAccessEnabled: false,
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const isEndTestScreenRemovalEnabled = await isEndTestScreenRemovalEnabledForSomeCertificationCenter();
 
         // then
         expect(isEndTestScreenRemovalEnabled).to.be.false;
