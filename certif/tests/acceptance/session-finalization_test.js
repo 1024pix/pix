@@ -88,7 +88,6 @@ module('Acceptance | Session Finalization', function (hooks) {
 
     test('it should display the end screen column when the center has no access to the supervisor space', async function (assert) {
       // when
-      server.create('feature-toggle', { isEndTestScreenRemovalEnabled: true });
       const screen = await visit(`/sessions/${session.id}/finalisation`);
 
       // then

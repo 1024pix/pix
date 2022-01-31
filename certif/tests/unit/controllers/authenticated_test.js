@@ -245,7 +245,7 @@ module('Unit | Controller | authenticated', function (hooks) {
   });
 
   module('#get isEndTestScreenRemovalEnabled', function () {
-    test('should return true when end test screen removal is enabled', function (assert) {
+    test('should return true when current allowed certification center has end test screen removal enabled', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
@@ -266,7 +266,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       assert.true(isEndTestScreenRemovalEnabled);
     });
 
-    test('should return false when end test screen removal is not enabled', function (assert) {
+    test('should return true when current allowed certification center has end test screen removal disabled', function (assert) {
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
