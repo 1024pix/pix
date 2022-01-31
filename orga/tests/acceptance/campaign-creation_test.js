@@ -104,7 +104,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
 
-    test('it should allow to create a campaign of with current user as owner by default', async function (assert) {
+    test('it should set the current user as owner by default when creating a campaign', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);

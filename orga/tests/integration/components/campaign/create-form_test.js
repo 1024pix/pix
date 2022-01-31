@@ -53,7 +53,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom(screen.getByText(t('pages.campaign-creation.owner.title'))).exists();
   });
 
-  test('it should auto complete owner field by current user full name', async function (assert) {
+  test("it should auto complete owner field with current user's full name", async function (assert) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
