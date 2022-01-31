@@ -166,6 +166,7 @@ module.exports = (function () {
       isComplementaryCertificationSubscriptionEnabled: isFeatureEnabled(
         process.env.FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED
       ),
+      isCertificationBillingEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_BILLING),
     },
 
     infra: {
