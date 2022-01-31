@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByName } from '@1024pix/ember-testing-library';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | tube:list', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let areas;
 
   hooks.beforeEach(() => {
@@ -31,6 +32,8 @@ module('Integration | Component | tube:list', function (hooks) {
     ];
     areas = [
       {
+        title: 'Titre domaine',
+        code: 1,
         get sortedCompetences() {
           return competences;
         },
@@ -67,6 +70,7 @@ module('Integration | Component | tube:list', function (hooks) {
 
     // when
     await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    await clickByName('1 · Titre domaine');
     await clickByName('Titre 1 : Description 1');
 
     // then

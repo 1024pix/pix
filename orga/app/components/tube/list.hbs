@@ -19,89 +19,97 @@
     {{/if}}
   </div>
   {{#each this.sortedAreas as |area|}}
-    <h2>{{area.code}} {{area.title}}</h2>
-    {{#each area.sortedCompetences as |competence|}}
-      <h3>{{competence.index}} {{competence.name}}</h3>
-      <div class="panel">
-        <table class="table content-text content-text--small preselect-tube-table">
-          <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
-          <thead>
-            <tr>
-              <Table::Header @size="small" @align="center" scope="col" />
-              <Table::Header @size="small" @align="center" scope="col">
-                {{t "pages.preselect-target-profile.table.column.action"}}
-              </Table::Header>
-              <Table::Header @size="wide" scope="col">
-                {{t "pages.preselect-target-profile.table.column.name"}}
-              </Table::Header>
-              <Table::Header @size="small" @align="center" scope="col">
-                {{t "pages.preselect-target-profile.table.column.mobile"}}
-              </Table::Header>
-              <Table::Header @size="small" @align="center" scope="col">
-                {{t "pages.preselect-target-profile.table.column.tablet"}}
-              </Table::Header>
-            </tr>
-          </thead>
+    <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}}">
+      {{#each area.sortedCompetences as |competence|}}
+        <h2>{{competence.index}} {{competence.name}}</h2>
+        <div class="panel">
+          <table class="table content-text content-text--small preselect-tube-table">
+            <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
+            <thead>
+              <tr>
+                <Table::Header @size="small" @align="center" scope="col">
+                  {{t "pages.preselect-target-profile.table.column.theme-name"}}
+                </Table::Header>
+                <Table::Header @size="small" @align="center" scope="col">
+                  {{t "pages.preselect-target-profile.table.column.action"}}
+                </Table::Header>
+                <Table::Header @size="wide" scope="col">
+                  {{t "pages.preselect-target-profile.table.column.name"}}
+                </Table::Header>
+                <Table::Header @size="small" @align="center" scope="col">
+                  {{t "pages.preselect-target-profile.table.column.mobile"}}
+                </Table::Header>
+                <Table::Header @size="small" @align="center" scope="col">
+                  {{t "pages.preselect-target-profile.table.column.tablet"}}
+                </Table::Header>
+              </tr>
+            </thead>
 
-          <tbody>
-            {{#each competence.sortedThematics as |thematic|}}
-              {{#each thematic.tubes as |tube index|}}
-                <tr
-                  {{on "click" this.toggleInput}}
-                  class="row-tube tr--clickable"
-                  aria-label={{t "pages.preselect-target-profile.table.row-title"}}
-                >
-                  {{#if (eq index 0)}}
-                    <th class="row--not-clickable" scope="row" rowspan={{thematic.tubes.length}}>{{thematic.name}}</th>
-                  {{/if}}
-                  <td class="table__column--center">
-                    <Input
-                      {{on "input" (fn this.updateSelectedTubes tube.id)}}
-                      id="tube-{{tube.id}}"
-                      @type="checkbox"
-                    />
-                  </td>
-                  <td>
-                    <label for="tube-{{tube.id}}">
-                      {{tube.practicalTitle}}
-                      :
-                      {{tube.practicalDescription}}
-                    </label>
-                  </td>
-                  <td class="table__column--center">
-                    <div
-                      aria-label="{{if
-                        tube.mobile
-                        (t "pages.preselect-target-profile.table.is-responsive")
-                        (t "pages.preselect-target-profile.table.not-responsive")
-                      }}"
-                    >
-                      <FaIcon @icon="mobile-alt" class="fa-2x {{if tube.mobile "is-responsive"}}" />
-                      {{#unless tube.mobile}}
-                        <FaIcon @icon="slash" class="fa-2x not-responsive" />
-                      {{/unless}}
-                    </div>
-                  </td>
-                  <td class="table__column--center">
-                    <div
-                      aria-label="{{if
-                        tube.tablet
-                        (t "pages.preselect-target-profile.table.is-responsive")
-                        (t "pages.preselect-target-profile.table.not-responsive")
-                      }}"
-                    >
-                      <FaIcon @icon="tablet-alt" class="fa-2x {{if tube.tablet "is-responsive"}}" />
-                      {{#unless tube.tablet}}
-                        <FaIcon @icon="slash" class="fa-2x not-responsive" />
-                      {{/unless}}
-                    </div>
-                  </td>
-                </tr>
+            <tbody>
+              {{#each competence.sortedThematics as |thematic|}}
+                {{#each thematic.tubes as |tube index|}}
+                  <tr
+                    {{on "click" this.toggleInput}}
+                    class="row-tube"
+                    aria-label={{t "pages.preselect-target-profile.table.row-title"}}
+                  >
+                    {{#if (eq index 0)}}
+                      <th
+                        class="row--not-clickable"
+                        scope="row"
+                        rowspan={{thematic.tubes.length}}
+                      >{{thematic.name}}</th>
+                    {{/if}}
+                    <td class="table__column--center">
+                      <Input
+                        {{on "input" (fn this.updateSelectedTubes tube.id)}}
+                        id="tube-{{tube.id}}"
+                        @type="checkbox"
+                      />
+                    </td>
+                    <td>
+                      <label for="tube-{{tube.id}}">
+                        {{tube.practicalTitle}}
+                        :
+                        {{tube.practicalDescription}}
+                      </label>
+                    </td>
+                    <td class="table__column--center">
+                      <div
+                        aria-label="{{if
+                          tube.mobile
+                          (t "pages.preselect-target-profile.table.is-responsive")
+                          (t "pages.preselect-target-profile.table.not-responsive")
+                        }}"
+                      >
+                        <FaIcon @icon="mobile-alt" class="fa-2x {{if tube.mobile "is-responsive"}}" />
+                        {{#unless tube.mobile}}
+                          <FaIcon @icon="slash" class="fa-2x not-responsive" />
+                        {{/unless}}
+                      </div>
+                    </td>
+                    <td class="table__column--center">
+                      <div
+                        aria-label="{{if
+                          tube.tablet
+                          (t "pages.preselect-target-profile.table.is-responsive")
+                          (t "pages.preselect-target-profile.table.not-responsive")
+                        }}"
+                      >
+                        <FaIcon @icon="tablet-alt" class="fa-2x {{if tube.tablet "is-responsive"}}" />
+                        {{#unless tube.tablet}}
+                          <FaIcon @icon="slash" class="fa-2x not-responsive" />
+                        {{/unless}}
+                      </div>
+                    </td>
+                  </tr>
+                {{/each}}
               {{/each}}
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
-    {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{/each}}
+    </PixCollapsible>
+
   {{/each}}
 </section>
