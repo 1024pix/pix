@@ -14,6 +14,7 @@ module('Acceptance | Session supervising', function (hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
+    sinon.stub(ENV.APP, 'sessionSupervisingPollingRate').value(10000);
     const certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
       lastName: 'Summers',
