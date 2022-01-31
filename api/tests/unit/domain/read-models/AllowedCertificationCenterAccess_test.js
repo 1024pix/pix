@@ -689,7 +689,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     });
   });
 
-  context('#hasEndTestScreenRemovalEnabled', function () {
+  context('#isEndTestScreenRemovalEnabled', function () {
     it('should return true when whitelisted', function () {
       // given
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
@@ -698,7 +698,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       });
 
       // when
-      const result = allowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled();
+      const result = allowedCertificationCenterAccess.isEndTestScreenRemovalEnabled();
 
       // then
       expect(result).to.be.true;
@@ -712,7 +712,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       });
 
       // when
-      const result = allowedCertificationCenterAccess.hasEndTestScreenRemovalEnabled();
+      const result = allowedCertificationCenterAccess.isEndTestScreenRemovalEnabled();
 
       // then
       expect(result).to.be.false;

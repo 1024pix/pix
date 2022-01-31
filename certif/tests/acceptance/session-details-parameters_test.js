@@ -28,7 +28,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
-        hasEndTestScreenRemovalEnabled: false,
+        isEndTestScreenRemovalEnabled: false,
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Buffy',
@@ -105,7 +105,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           module('when the certification center is in the end test screen removal whitelist', function () {
             test('it should display supervisor password', async function (assert) {
               // given
-              allowedCertificationCenterAccess.update({ hasEndTestScreenRemovalEnabled: true });
+              allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: true });
               const sessionWithSupervisorPassword = server.create('session', {
                 supervisorPassword: 'SOWHAT',
                 status: CREATED,
