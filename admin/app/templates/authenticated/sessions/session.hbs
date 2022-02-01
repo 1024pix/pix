@@ -1,0 +1,23 @@
+{{! template-lint-disable require-input-label }}
+{{page-title "Session " @model.id}}
+<header class="page-header">
+  <div class="page-title">Sessions de certification</div>
+  <div class="page-actions">
+    <form class="form-inline" {{on "submit" this.loadSession}}>
+      <Input placeholder="Identifiant" @type="text" @value={{this.inputId}} />
+      <PixButton @size="small" @type="submit">Charger</PixButton>
+    </form>
+  </div>
+</header>
+
+<main class="page-body">
+  <nav class="navbar">
+    <LinkTo @route="authenticated.sessions.session.informations" @model={{@model.id}} class="navbar-item">
+      Informations
+    </LinkTo>
+    <LinkTo @route="authenticated.sessions.session.certifications" @model={{@model.id}} class="navbar-item">
+      Certifications
+    </LinkTo>
+  </nav>
+  {{outlet}}
+</main>

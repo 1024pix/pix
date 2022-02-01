@@ -1,0 +1,28 @@
+.alert {
+  outline: none;
+  border-radius: 0.195em;
+  padding: 9px;
+  margin-bottom: 11px;
+  color: $white;
+  text-shadow: none;
+  font-size: 0.875rem;
+  font-weight: $font-normal;
+  letter-spacing: 0.009rem;
+  line-height: 1.375rem;
+  display: flex;
+  align-items: center;
+
+  &--danger {
+    border: 1px solid $dark-error;
+    background-color: $dark-error;
+  }
+}
+
+.challenge-response + .alert {
+  margin: 0 5px;
+}
+
+abbr.mandatory-mark {
+  cursor: help;
+  color: $dark-error;
+}

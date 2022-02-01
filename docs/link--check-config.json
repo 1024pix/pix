@@ -1,0 +1,13 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://github.com/1024pix/pix-editor/pull/"
+    },
+    {
+      "pattern": "^https://martinfowler.com/"
+    },
+    {
+      "pattern": "^https://peconnect.pole-emploi.fr/"
+    }
+  ]
+}

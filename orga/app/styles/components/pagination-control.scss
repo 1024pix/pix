@@ -1,0 +1,42 @@
+.pagination-control {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  color: $grey-60;
+  font-family: $roboto;
+  font-size: 0.875rem;
+}
+
+.page-size {
+  display: flex;
+  align-items: center;
+  padding: 0;
+
+  &__label {
+    margin-right: 16px;
+  }
+}
+
+select.page-size__choice {
+  height: 36px;
+  font-size: 0.8rem;
+  padding-left: 8px;
+  padding-right: 24px;
+}
+
+.page-navigation {
+  display: flex;
+  align-items: center;
+  padding: 0;
+
+  &__arrow {
+    &--previous {
+      margin: 0 8px;
+    }
+
+    &--next {
+      margin-left: 8px;
+    }
+  }
+}
+

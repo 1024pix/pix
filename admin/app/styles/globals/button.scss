@@ -1,0 +1,64 @@
+.btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+
+  label {
+    margin: 0;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.btn-thin {
+  line-height: 28px;
+}
+
+.btn-primary {
+  text-align: center;
+  background-color: $blue;
+  color: $white;
+  transition: background-color 0.2s ease;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($blue, 10%);
+  }
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: $grey-90;
+  border: 2px solid $grey-50;
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $grey-80;
+    background-color: $grey-15;
+    color: $grey-90;
+  }
+}
+
+.btn-group {
+
+  .btn {
+    min-width: 43.5px;
+  }
+}
+
+.loader-in-button {
+  display: flex;
+  background: url('/images/loader-white.svg') no-repeat center;
+  background-size: 50px;
+}
+
+.btn-disabled {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+  pointer-events: visible;
+}

@@ -1,0 +1,33 @@
+<div class="tutorial-panel">
+
+  {{#if this.shouldDisplayHintOrTuto}}
+    <div class="tutorial-panel__hint-container">
+      <h3 class="tutorial-panel__hint-title"><span>{{t "pages.tutorial-panel.title"}}</span></h3>
+
+      {{#if this.shouldDisplayHint}}
+        <div class="tutorial-panel__hint-container-body">
+          <div class="tutorial-panel__hint-picto-container">
+            <img
+              src="{{this.rootURL}}/images/icons/comparison-window/icon-lampe.svg"
+              alt=""
+              role="presentation"
+              class="tutorial-panel__hint-picto"
+            />
+          </div>
+          <MarkdownToHtml @class="tutorial-panel__hint-content" @markdown={{@hint}} />
+        </div>
+      {{/if}}
+
+      {{#if this.shouldDisplayTutorial}}
+        <div class="tutorial-panel__tutorials-container">
+          {{#each this.limitedTutorials as |tutorial|}}
+            <TutorialItem @tutorial={{tutorial}} />
+          {{/each}}
+        </div>
+        <div class="tutorial-panel__tutorial-info">{{t "pages.tutorial-panel.info"}}</div>
+      {{/if}}
+
+    </div>
+
+  {{/if}}
+</div>

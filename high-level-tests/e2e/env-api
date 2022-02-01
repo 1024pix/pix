@@ -1,0 +1,230 @@
+# This file is the minimal confuguration file used by Dotenv to define the
+# environment variables on localhost.
+#
+# Instructions:
+#   1. copy this file as `.env`
+#   2. edit the `.env` file with working values
+#   3. uncomment the lines to activate or configure associated features
+#
+# Sections (displayed in sorted in alphabtic order):
+#   - caching
+#   - databases
+#   - emailing
+#   - learning content
+#   - logging
+#   - security
+#
+# Line size max: 80 characters.
+#
+
+# =======
+# CACHING
+# =======
+
+# URL of the Redis server used for caching learning content from LCMS.
+#
+# If not present, only the in-memory cache will be active and the learning
+# content will be re-fetched from LCMS at each restart of the API.
+#
+# presence: optionnal
+# type: Url
+# default: none
+REDIS_URL=redis://redis:6379
+
+# =========
+# DATABASES
+# =========
+
+# URL of the PostgreSQL databse used for storing users data (filled-in or
+# generated).
+#
+# If not present, the application will crash during API boostrap.
+#
+# presence: required
+# type: Url
+# default: none
+DATABASE_URL=postgresql://postgres@postgres/pix
+
+# URL of the PostgreSQL databse used for API local testing.
+#
+# If not present, the tests will fail.
+#
+# presence: required
+# type: Url
+# default: none
+TEST_DATABASE_URL=postgresql://postgres@postgres/pix_test
+
+# ========
+# EMAILING
+# ========
+
+# Enable or disable the sending of e-mails.
+#
+# presence: optionnal
+# type: Boolean
+# default: `false`
+# MAILING_ENABLED=true
+
+# Select the emailing service provider. Availaible providers supported  are
+# Sendinblue (value="sendinblue").
+#
+# presence: required only if emailing is enabled
+# type: String
+# default: "sendinblue"
+# MAILING_PROVIDER=sendinblue
+
+# Sendinblue
+# ----------
+
+## API key required to call the Sendinblue API.
+#
+# presence: required if emailing is enabled and provider is Sendinblue
+# type: String
+# default: none
+# SENDINBLUE_API_KEY=
+
+# ID of the template used for generating the e-mail when an account is created.
+#
+# If not present when required, the e-mail will not be sent and an error will
+# be thrown.
+#
+# presence: required only if emailing is enabled and provider is Sendinblue
+# type: Number
+# default: none
+# SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID=
+
+# ID of the template used for generating the e-mail when a user is invited to
+# join an organization.
+#
+# If not present when required, the e-mail will not be sent and an error will
+# be thrown.
+#
+# presence: required only if emailing is enabled and provider is Sendinblue
+# type: Number
+# default: none
+# SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID=
+
+# ID of the template used for generating the e-mail when a user want to
+# join a SCO organization.
+#
+# If not present when required, the e-mail will not be sent and an error will
+# be thrown.
+#
+# presence: required only if emailing is enabled and provider is Sendinblue
+# type: Number
+# default: none
+# SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID=
+
+# ID of the template used for generating the e-mail when a user want to
+# generate a new password.
+#
+# If not present when required, the e-mail will not be sent and an error will
+# be thrown.
+#
+# presence: required only if emailing is enabled and provider is Sendinblue
+# type: Number
+# default: none
+# SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID=
+
+# ID of the template used to notify the user its email has been changed
+#
+# If not present when required, the e-mail will not be sent and an error will
+# be thrown.
+#
+# presence: required only if emailing is enabled and provider is Sendinblue
+# type: Number
+# default: none
+# SENDINBLUE_EMAIL_CHANGE_TEMPLATE_ID=
+
+# String for links in emails redirect to a specific domain when user comes from french domain
+#
+# presence: optional
+# type: String
+# default: '.fr'
+# TLD_FR=
+
+# String for links in emails redirect to a specific domain when user comes from international domain
+#
+# presence: optional
+# type: String
+# default: '.org'
+# TLD_ORG=
+
+# String for links in emails to build url with Pix domain
+#
+# presence: optional
+# type: String
+# default: 'pix'
+# DOMAIN_PIX=
+
+# String for links in emails to build url with Pix App domain
+#
+# presence: optional
+# type: String
+# default: 'app.pix'
+# DOMAIN_PIX_APP=
+
+# String for links in emails to build url with Pix Orga domain
+#
+# presence: optional
+# type: String
+# default: 'orga.pix'
+# DOMAIN_PIX_ORGA=
+
+# ================
+# LEARNING CONTENT
+# ================
+
+# API key provided by learning content management system.
+#
+# If not present and if the Redis cache were not enabled/preloaded, the
+# application will crash during data fetching.
+#
+# presence: required
+# type: String
+# default: none
+LCMS_API_KEY=e5d7b101-d0bd-4a3b-86c9-61edd5d39e8d
+
+# Learning content API URL.
+#
+# If not present and if the Redis cache were not enabled/preloaded, the
+# application will crash during data fetching.
+#
+# presence: required
+# type: String
+# default: none
+LCMS_API_URL=https://lcms.minimal.pix.fr/api
+
+# =======
+# LOGGING
+# =======
+
+# Enable or disable the logging of the API.
+#
+# presence: optionnal
+# type: Boolean
+# default: `false`
+LOG_ENABLED=true
+
+# Enable or disable the logging of the API.
+#
+# presence: optionnal
+# type: String
+# default: "info"
+# LOG_LEVEL=debug
+
+# ========
+# SECURITY
+# ========
+
+# Secret salt value used in JWT token generation.
+#
+# If not present, the application will crash during bootstrap.
+#
+# presence: required
+# type: String
+# default: none
+AUTH_SECRET=Change me!
+
+# Allow email change in API
+

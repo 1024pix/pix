@@ -1,0 +1,118 @@
+<div class="panel">
+  <table class="table content-text content-text--small">
+    <colgroup class="table__column">
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+      <col class="table__column--small hide-on-mobile" />
+    </colgroup>
+    <thead>
+      <tr>
+        <Table::Header>{{t "pages.students-sco.table.column.last-name"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sco.table.column.first-name"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sco.table.column.date-of-birth"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sco.table.column.division"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
+        <Table::Header class="hide-on-mobile" />
+      </tr>
+      <tr class="hide-on-mobile">
+        <Table::HeaderFilterInput
+          @field="lastName"
+          @value={{@lastNameFilter}}
+          @placeholder={{t "pages.students-sco.table.filter.last-name.label"}}
+          @ariaLabel={{t "pages.students-sco.table.filter.last-name.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::HeaderFilterInput
+          @field="firstName"
+          @value={{@firstNameFilter}}
+          @placeholder={{t "pages.students-sco.table.filter.first-name.label"}}
+          @ariaLabel={{t "pages.students-sco.table.filter.first-name.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::Header />
+        <Table::Header>
+          <Ui::DivisionsFilter
+            @model={{this.currentUser.organization}}
+            @selected={{@divisionsFilter}}
+            @onSelect={{this.onSearchDivisions}}
+            @placeholder={{t "pages.students-sco.table.filter.division.placeholder"}}
+            class="list-students-page__divisions-filter"
+          />
+        </Table::Header>
+        <Table::HeaderFilterSelect
+          @field="connexionType"
+          @options={{@connectionTypesOptions}}
+          @selectedOption={{@connexionTypeFilter}}
+          @triggerFiltering={{@onFilter}}
+          @ariaLabel={{t "pages.students-sco.table.filter.login-method.aria-label"}}
+          @emptyOptionLabel={{t "pages.students-sco.table.filter.login-method.empty-option"}}
+        />
+        <Table::Header />
+      </tr>
+    </thead>
+
+    {{#if @students}}
+      <tbody>
+        {{#each @students as |student|}}
+          <tr aria-label={{t "pages.students-sco.table.row-title"}}>
+            <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
+            <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td>{{student.division}}</td>
+            <td class="list-students-page__authentication-methods">
+              {{#each student.authenticationMethods as |authenticationMethod|}}
+                <p>{{t authenticationMethod}}</p>
+              {{/each}}
+            </td>
+            <td class="list-students-page__actions hide-on-mobile">
+              {{#if student.isStudentAssociated}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-v"
+                  @dropdownButtonClass="list-students-page__dropdown-button"
+                  @dropdownContentClass="list-students-page__dropdown-content"
+                  @ariaLabel={{t "pages.students-sco.actions.show-actions"}}
+                >
+                  <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
+                    {{t "pages.students-sco.actions.manage-account"}}
+                  </Dropdown::Item>
+                  {{#if this.currentUser.isAdminInOrganization}}
+                    {{#if this.isDissociateButtonEnabled}}
+                      <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
+                        Dissocier le compte
+                      </Dropdown::Item>
+                    {{/if}}
+                  {{/if}}
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @students}}
+    <div class="table__empty content-text">
+      {{t "pages.students-sco.table.empty"}}
+    </div>
+  {{/unless}}
+</div>
+
+<Student::Sco::ManageAuthenticationMethodModal
+  @organizationId={{this.currentUser.organization.id}}
+  @student={{this.student}}
+  @display={{this.isShowingAuthenticationMethodModal}}
+  @onClose={{this.closeAuthenticationMethodModal}}
+/>
+<Student::Sco::DissociateUserModal
+  @student={{this.student}}
+  @display={{this.isShowingDissociateModal}}
+  @onClose={{this.closeDissociateModal}}
+  @onSubmit={{@onDissociateUser}}
+/>
+
+<Table::PaginationControl @pagination={{@students.meta}} />

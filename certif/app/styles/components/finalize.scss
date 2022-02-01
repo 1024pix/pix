@@ -1,0 +1,54 @@
+.finalize {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.finalize__title {
+  display: flex;
+  align-items: center;
+}
+
+.finalize__subtitle {
+  margin: 20px 0 32px 0;
+}
+
+.finalize__button {
+  margin-left: auto;
+}
+
+.app-modal-body {
+
+  &__attention {
+    color: $grey-100;
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+
+  &__warning {
+    color: $grey-90;
+    font-weight: 300;
+    font-size: 1em;
+  }
+
+  &__contextual {
+    border: 2px solid $grey-20;
+    background-color: $grey-20;
+    border-radius: 4px;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: $grey-80;
+    outline: 0;
+  }
+}
+
+.finalization-report-abort-reason {
+
+  select:invalid {
+    border: $red 1px solid;
+  }
+
+  .pix-select {
+    max-width: 210px;
+  }
+}

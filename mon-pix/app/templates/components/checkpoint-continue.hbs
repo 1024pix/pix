@@ -1,0 +1,12 @@
+<div class="checkpoint__continue">
+  <PixButtonLink
+    @route="assessments.resume"
+    @model={{@assessmentId}}
+    @query={{hash hasSeenCheckpoint=true assessmentHasNoMoreQuestions=@finalCheckpoint}}
+    @backgroundColor="yellow"
+    class="checkpoint__continue-button"
+  >
+    {{@nextPageButtonText}}
+    <FaIcon @icon="long-arrow-alt-right" />
+  </PixButtonLink>
+</div>

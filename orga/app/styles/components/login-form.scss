@@ -1,0 +1,60 @@
+.login-form {
+  max-width: 450px;
+
+  &__information {
+    text-align: center;
+    margin-bottom: 25px;
+    color: $grey-90;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    letter-spacing: 0.009375rem;
+    line-height: 1.5rem;
+  }
+
+  &__error-message {
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__forgotten-password {
+    font-size: 0.875rem;
+    text-align: left;
+    margin-bottom: 8px;
+  }
+
+  &__recover-access-link {
+    font-size: 0.875rem;
+    text-align: left;
+    line-height: 1.375rem;
+  }
+
+  &__recover-access-message {
+    font-size: 0.875rem;
+    text-align: left;
+  }
+
+  &__invitation-error {
+    border-radius: 3px;
+    color: $error;
+    font-size: 0.875rem;
+    margin: 10px 0 16px 0;
+    padding: 9px;
+    text-align: center;
+  }
+
+  .input-container {
+    margin: 16px 2px 25px 2px;
+  }
+
+  form {
+    max-width: 430px;
+    margin: auto;
+
+    .input {
+      padding-left: 16px;
+    }
+  }
+}
+
+

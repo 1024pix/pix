@@ -1,0 +1,87 @@
+<section class="page-section mb_10">
+  <div class="target-profile__edit-form">
+    <form class="form" {{on "submit" this.updateProfile}}>
+
+      <span class="form__instructions">
+        Les champs marqués de
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        sont obligatoires.
+      </span>
+
+      <div class="form-field">
+        <label for="targetProfileName" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Nom
+        </label>
+        {{#if (v-get this.form "name" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "name" "message"}}
+          </div>
+        {{/if}}
+        <Input
+          id="targetProfileName"
+          @type="text"
+          class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
+          @value={{this.form.name}}
+          required={{true}}
+        />
+
+        <PixSelect
+          class="form-control"
+          @id="targetProfileCategory"
+          @label={{"Catégorie :"}}
+          @onChange={{this.onCategoryChange}}
+          @selectedOption={{@model.category}}
+          @options={{this.optionsList}}
+          @emptyOptionLabel={{"-"}}
+          @emptyOptionNotSelectable={{true}}
+          required={{true}}
+        />
+
+        <label for="targetProfileDescription" class="form-field__label">
+          Description
+        </label>
+        {{#if (v-get this.form "description" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "description" "message"}}
+          </div>
+        {{/if}}
+        <PixTextarea
+          id="targetProfileDescription"
+          rows="4"
+          @maxlength="500"
+          class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
+          @value={{this.form.description}}
+        />
+        <label for="targetProfileComment" class="form-field__label">
+          Commentaire (usage interne)
+        </label>
+        {{#if (v-get this.form "comment" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "comment" "message"}}
+          </div>
+        {{/if}}
+        <PixTextarea
+          id="targetProfileComment"
+          rows="4"
+          @maxlength="500"
+          class={{if (v-get this.form "comment" "isInvalid") "form-control is-invalid" "form-control"}}
+          @value={{this.form.comment}}
+        />
+      </div>
+      <div class="form-actions">
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @size="small"
+          @triggerAction={{@toggleEditMode}}
+        >
+          Annuler
+        </PixButton>
+        <PixButton @backgroundColor="green" @size="small" @type="submit">
+          Enregistrer
+        </PixButton>
+      </div>
+    </form>
+  </div>
+</section>

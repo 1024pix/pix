@@ -1,0 +1,44 @@
+.menu-bar {
+  width: 100%;
+  color: $white;
+
+  .menu-bar__entries {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+
+    .menu-bar__entry {
+      margin: 10px 0 0;
+      padding: 0 15px;
+
+      .menu-bar__link {
+        width: 50px;
+        position: relative;
+        color: $grey-22;
+        display: block;
+        line-height: 50px;
+        padding: 0;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 1.25rem;
+
+        i.fa {
+          margin: 0 10px;
+          width: 32px;
+        }
+
+        &:hover {
+          text-decoration: none;
+          color: $white;
+        }
+
+        &.active {
+          font-weight: 600;
+          background-color: $grey-40;
+          color: $white;
+        }
+      }
+    }
+  }
+}

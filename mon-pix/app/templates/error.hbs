@@ -1,0 +1,26 @@
+{{page-title (t "navigation.error")}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @burger={{burger}} />
+
+    <div class="error-page">
+      <div class="rounded-panel rounded-panel--strong error-page__body-section">
+        <div class="error-page__main-content">
+          <h1 class="error-page-main-content__title">{{t "pages.error.first-title"}}</h1>
+          {{t "pages.error.content-text" htmlSafe=true}}
+          <LinkTo @route="login" class="button button--extra-big button--link error-page__index-link">
+            {{t "navigation.back-to-homepage"}}</LinkTo>
+        </div>
+        <div class="error-page__error">
+          <p class="error-page__error-title">{{this.errorTitle}}</p>
+          <p>{{this.errorStatus}}</p>
+          <p>{{this.errorMessage}}</p>
+          <p>{{this.errorDetail}}</p>
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+  </burger.outlet>
+</BurgerMenu>

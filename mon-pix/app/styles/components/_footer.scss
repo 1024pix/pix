@@ -1,0 +1,142 @@
+.main {
+  min-height: calc(100vh - 101px - 100px);
+}
+
+.footer {
+  padding: 18px 16px;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    max-width: 1280px;
+    width: 100%;
+    margin: auto;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      padding-top: 18px;
+    }
+  }
+
+  @include device-is('tablet') {
+    height: 100px;
+  }
+}
+
+.footer-container {
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      border: none;
+    }
+  }
+
+  &__logos {
+    display: flex;
+    align-items: center;
+    padding-bottom: 16px;
+
+    @include device-is('tablet') {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.footer-container-content {
+
+  &__navigation {
+    @include device-is('tablet') {
+      padding: 0 15px;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      margin: 0;
+
+      @include device-is('tablet') {
+        flex-direction: row;
+        align-self: center;
+      }
+    }
+  }
+
+  &__copyrights {
+    color: $grey-50;
+    font-size: 0.75rem;
+    letter-spacing: 0.008rem;
+    font-family: $font-roboto;
+    padding-top: 16px;
+
+    @include device-is('tablet') {
+      padding-top: 0;
+    }
+  }
+}
+
+.footer-navigation {
+
+  &__item {
+    margin: 3px 0;
+    color: $grey-60;
+    font-size: 0.8125rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.009rem;
+    line-height: 1.375rem;
+
+    &--internal-link {
+
+      &:visited {
+        color: $grey-60;
+      }
+    }
+
+    @include device-is('tablet') {
+      margin: 0 12px;
+    }
+
+    &.active {
+      text-decoration: none;
+      color: $blue;
+    }
+
+    &:focus {
+      text-decoration: none;
+      color: $grey-50;
+    }
+
+    &:hover {
+      text-decoration: none;
+      cursor: pointer;
+      color: $blue;
+    }
+  }
+}
+
+.footer-logos {
+  display: flex;
+
+  &__french-government {
+
+    > img {
+      height: 45px;
+      margin-right: 24px;
+
+      @include device-is('tablet') {
+        height: 54px;
+      }
+    }
+  }
+}

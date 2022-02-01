@@ -1,0 +1,41 @@
+.certification-details-card {
+  padding: 5px 10px;
+}
+
+.certification-details-answer {
+
+  .certification-details-answer-skill {
+    font-size: 0.875rem;
+  }
+
+  .certification-details-answer-challenge {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 0.875rem;
+  }
+
+  .certification-details-answer-challenge-link {
+    display: flex;
+    font-size: 0.875rem;
+  }
+
+  .certification-details-answer-order {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .certification-details-answer-value {
+    font-size: 0.875rem;
+  }
+
+  .jury select {
+    color: $error;
+  }
+
+  .answer-result {
+    display: flex;
+    justify-content: center;
+  }
+}

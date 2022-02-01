@@ -1,0 +1,170 @@
+@charset "utf-8";
+
+/* 3rd-party */
+@import 'ember-burger-menu/variables';
+@import 'ember-burger-menu/structure';
+@import 'ember-burger-menu/animations/push';
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+
+/* globals */
+@import 'globals/a11y';
+@import 'globals/colors';
+@import 'globals/fonts';
+@import 'globals/breakpoints';
+@import 'globals/alert';
+@import 'globals/dimension';
+@import 'globals/inputs';
+@import 'globals/loading';
+@import 'globals/redesign-inputs';
+@import 'globals/pix-modal';
+@import 'globals/buttons';
+@import 'globals/tables';
+@import 'globals/text';
+@import 'globals/titles';
+@import 'globals/layout';
+
+/* components */
+@import 'components/assessment-banner';
+@import 'components/background-banner';
+@import 'components/badge-card';
+@import 'components/campaign-participation-overview/card';
+@import 'components/campaign-participation-overview/grid';
+@import 'components/certification-starter';
+@import 'components/certification-joiner';
+@import 'components/certification-banner';
+@import 'components/certification-not-certifiable';
+@import 'components/certification-result';
+@import 'components/certifications-list';
+@import 'components/certifications-list-item';
+@import 'components/certifications/certification-ender';
+@import 'components/congratulations-certification-banner';
+@import 'components/challenge-actions';
+@import 'components/challenge-illustration';
+@import 'components/challenge-item';
+@import 'components/challenge-statement';
+@import 'components/checkpoint';
+@import 'components/circle-chart';
+@import 'components/comparison-window';
+
+/* we need this to be before competence-card-default because of a mix
+of an adaptative/mobile-first approach — refactoring is welcome here */
+@import 'components/competence-card-mobile';
+@import 'components/competence-card-default';
+@import 'components/competence-card/list';
+@import 'components/dashboard/content';
+@import 'components/feedback-panel';
+@import 'components/footer';
+@import 'components/form-textfield';
+@import 'components/hexagon-score';
+@import 'components/learning-more-tutorial-panel';
+@import 'components/levelup-notif';
+@import 'components/login-form';
+@import 'components/login-or-register';
+@import 'components/navbar-burger-menu';
+@import 'components/navbar-desktop-menu';
+@import 'components/navbar-desktop-header';
+@import 'components/navbar-header';
+@import 'components/navbar-mobile-header';
+@import 'components/no-certification-panel';
+@import 'components/new-information';
+@import 'components/panel';
+@import 'components/password-reset-demand-form';
+@import 'components/pix-logo';
+@import 'components/progress-bar';
+@import 'components/qcm-solution-panel';
+@import 'components/qcu-proposals';
+@import 'components/qcu-solution-panel';
+@import 'components/qrocm-proposals';
+@import 'components/qroc-solution-panel';
+@import 'components/qrocm-solution-panel';
+@import 'components/reached-stage';
+@import 'components/account-recovery/student-information-form';
+@import 'components/account-recovery/confirmation-step';
+@import 'components/account-recovery/update-sco-record-form';
+@import 'components/register-form';
+@import 'components/reset-password-form';
+@import 'components/result-item';
+@import 'components/rounded-panel';
+@import 'components/scorecard-details';
+@import 'components/signup-form';
+@import 'components/sitemap/content';
+@import 'components/timed-challenge-instructions';
+@import 'components/timeout-gauge';
+@import 'components/tooltip';
+@import 'components/tutorial-item';
+@import 'components/tutorial-panel';
+@import 'components/user-account';
+@import 'components/user-account/update-email-with-validation';
+@import 'components/user-account/email-verification-code';
+@import 'components/user-account-update-email';
+@import 'components/user-certifications-detail-competences-list';
+@import 'components/user-certifications-detail-competence';
+@import 'components/user-certifications-detail-header';
+@import 'components/user-certification-hexagon-score';
+@import 'components/user-certifications-detail-result';
+@import 'components/user-logged-menu';
+@import 'components/communication-banner';
+@import 'components/pix-toggle';
+@import 'components/skip-link';
+
+/* pages */
+@import 'pages/assessment-results';
+@import 'pages/campaign-landing-page';
+@import 'pages/campaign-tutorial';
+@import 'pages/challenge';
+@import 'pages/competence-results';
+@import 'pages/course-preview';
+@import 'pages/error';
+@import 'pages/fill-in-campaign-code';
+@import 'pages/fill-in-certificate-verification-code';
+@import 'pages/fill-in-participant-external-id';
+@import 'pages/join-restricted-campaign';
+@import 'pages/student-sco';
+@import 'pages/not-connected';
+@import 'pages/profile';
+@import 'pages/profile-already-shared';
+@import 'pages/account-recovery';
+@import 'pages/send-profile';
+@import 'pages/sign-form';
+@import 'pages/skill-review';
+@import 'pages/terms-of-service';
+@import 'pages/update-expired-password-form';
+@import 'pages/user-certifications';
+@import 'pages/user-certifications-get';
+@import 'pages/user-tutorials';
+@import 'pages/user-tests';
+@import 'pages/personal-information';
+@import 'pages/connection-methods';
+@import 'pages/language';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-roboto;
+  background-color: $grey-10;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+input {
+  font-size: 0.875rem;
+  font-family: $font-roboto;
+}
+
+input[type='radio'] {
+  margin: 0 5px 0 0;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+a {
+  text-decoration: none;
+}

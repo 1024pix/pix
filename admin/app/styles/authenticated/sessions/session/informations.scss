@@ -1,0 +1,94 @@
+.session-info {
+  padding: 20px;
+
+  .pix-button svg {
+    margin-right: 6px;
+  }
+
+  .row--btn {
+    margin: inherit;
+    margin-right: -20px;
+  }
+
+  &__certification-officer-assigned {
+    display: flex;
+    justify-content: flex-end;
+
+    span {
+      color: $content-dark;
+      font-style: italic;
+    }
+  }
+
+  &__stats {
+    padding-top: 40px;
+  }
+
+  &__actions {
+    padding-top: 32px;
+  }
+
+  &__copy-button {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-right: 20px;
+    margin-left: auto;
+
+    p {
+      background-color: $black;
+      border-radius: 6px;
+      color: $white;
+      padding: 5px 10px;
+      position: absolute;
+      top: calc(-23px + -10px + -10px);
+
+      &::before {
+        content: "";
+        position: absolute;
+        border-width: 5px;
+        border-style: solid;
+        border-color: $black transparent transparent transparent;
+        bottom: -10px;
+        left: calc(50% - 5px);
+      }
+    }
+  }
+}
+
+.ember-modal-dialog {
+  padding: 0;
+  margin: 0;
+  min-width: 35vw;
+
+  .ember-modal-dialog--title {
+    border-bottom: 1px solid $grey-20;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+
+    & > * {
+      font-size: 1.25rem;
+    }
+
+    span { color: $grey-40; }
+
+    span:hover {
+      cursor: pointer;
+      color: $black;
+    }
+  }
+
+  p { padding: 1rem; }
+
+  .ember-modal-dialog--actions {
+    border-top: 1px solid $grey-20;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin: 0 4px;
+    }
+  }
+}

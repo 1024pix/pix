@@ -1,0 +1,20 @@
+.certification-details {
+  padding: 20px;
+
+  &__info {
+    margin-bottom: 20px;
+  }
+
+  .certificate {
+    color: $information-light;
+  }
+
+  .jury {
+    color: $error;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+  }
+}

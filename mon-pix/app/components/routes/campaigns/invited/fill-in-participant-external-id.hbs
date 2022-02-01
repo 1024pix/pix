@@ -1,0 +1,45 @@
+{{! template-lint-disable no-action require-input-label no-unknown-arguments-for-builtin-components }}
+<main
+  class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner fill-in-participant-external-id__container"
+>
+  <h1 class="fill-in-participant-external-id-text fill-in-participant-external-id-text__title">{{t
+      "pages.fill-in-participant-external-id.first-title"
+    }}</h1>
+  <p class="fill-in-participant-external-id-text fill-in-participant-external-id-text__announcement">
+    {{t "pages.fill-in-participant-external-id.announcement"}}
+  </p>
+
+  <form {{on "submit" this.submit}} class="fill-in-participant-external-id__form">
+    <div class="fill-in-participant-external-id-form__section">
+      <div class="fill-in-participant-external-id__form-field">
+        <label for="id-pix-label">{{@campaign.idPixLabel}}</label>
+        <Input required @id="id-pix-label" @value={{this.participantExternalId}} />
+      </div>
+
+      <PixButton @type="submit" class="fill-in-participant-external-id__button">
+        {{t "pages.fill-in-participant-external-id.buttons.continue"}}
+      </PixButton>
+      {{#if this.errorMessage}}
+        <div class="fill-in-participant-external-id__form__error-message">{{this.errorMessage}}</div>
+      {{/if}}
+    </div>
+
+    {{#if @campaign.externalIdHelpImageUrl}}
+      <img
+        class="fill-in-participant-external-id__help"
+        src={{@campaign.externalIdHelpImageUrl}}
+        alt={{@campaign.alternativeTextToExternalIdHelpImage}}
+      />
+    {{/if}}
+
+    <PixButton
+      @backgroundColor="transparent-light"
+      @triggerAction={{this.cancel}}
+      @size="big"
+      @loadingColor="white"
+      class="fill-in-participant-external-id__cancel-button"
+    >
+      {{t "pages.fill-in-participant-external-id.buttons.cancel"}}
+    </PixButton>
+  </form>
+</main>

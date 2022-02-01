@@ -1,0 +1,93 @@
+.terms-of-service-page {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  min-height: 100vh;
+  background: $default-gradient;
+  align-items: center;
+}
+
+.terms-of-service-form {
+  margin: auto;
+  padding: 40px 32px;
+  background: white;
+  border-radius: 8px;
+  max-width: 581px;
+  width: 100%;
+
+  &__logo {
+    margin-bottom: 24px;
+
+    & img {
+      display: flex;
+      margin: auto;
+      height: 75px;
+    }
+  }
+
+  &__title,
+  &__description,
+  &__conditions {
+    margin-bottom: 32px;
+    text-align: center;
+    color: $grey-80;
+    font-family: $font-roboto;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
+  &__title {
+    font-weight: 300;
+    font-size: 2.125rem;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    margin-bottom: 40px;
+  }
+
+  &__conditions {
+    font-weight: normal;
+    font-size: 1rem;
+    letter-spacing: 0.009rem;
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.terms-of-service-form-conditions {
+
+  &__check {
+    margin-right: 8px;
+  }
+
+  &__validation-error {
+    color: $error;
+    font-weight: normal;
+    margin-top: 16px;
+  }
+}
+
+.terms-of-service-form-actions {
+
+  &__submit {
+    margin-left: 8px;
+    border-radius: 4px;
+    padding: 14px 21px;
+    font-weight: 400;
+  }
+
+  &__cancel {
+    background-color: $grey-50;
+    border-radius: 4px;
+    font-weight: 400;
+
+    &:hover {
+      background-color: darken($grey-50, 4%);
+    }
+  }
+}

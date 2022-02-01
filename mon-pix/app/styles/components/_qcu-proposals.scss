@@ -1,0 +1,35 @@
+.qcu-proposals {
+
+  a {
+    text-decoration: underline;
+    color: $blue;
+
+    @include device-is('tablet') {
+      display: inline-block;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $blue-hover;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  & > input[type=radio] {
+    flex-shrink: 0;
+    margin: auto 0;
+  }
+
+  &__label {
+    display: inline-block;
+    padding-left: 20px;
+    line-height: 21px;
+    position: relative;
+    cursor: pointer;
+    font-weight: $font-normal;
+  }
+}

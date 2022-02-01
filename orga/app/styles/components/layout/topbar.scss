@@ -1,0 +1,12 @@
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: $white;
+  height: 60px;
+
+  &__organization-credit-info {
+    padding: 0 30px;
+  }
+}

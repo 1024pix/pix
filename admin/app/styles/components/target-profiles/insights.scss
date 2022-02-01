@@ -1,0 +1,33 @@
+.insights {
+
+  &__section {
+    padding: 0;
+    margin-bottom: 30px;
+  }
+}
+
+.insights-section {
+
+  &__title {
+    font-size: 1.4rem;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    display: inline-block;
+    margin: 10px 0;
+
+    a:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}
+
+.insights-section-button {
+
+  &__icon {
+    margin-right: 4px;
+  }
+}

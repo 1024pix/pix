@@ -1,0 +1,14 @@
+<div class="previous-page-button">
+  <PixIconButton
+    @icon="arrow-left"
+    aria-label={{@backButtonAriaLabel}}
+    class="previous-page-button__return-button hide-on-mobile"
+    @triggerAction={{this.goToPage}}
+    @withBackground={{false}}
+    @size="small"
+    @color="dark-grey"
+  />
+  <h1 class="back-title" ...attributes>
+    {{yield}}
+  </h1>
+</div>

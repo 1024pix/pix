@@ -1,0 +1,158 @@
+const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+
+const usecases = require('../../../../lib/domain/usecases');
+const scoOrganizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
+const moduleUnderTest = require('../../../../lib/application/organization-invitations');
+
+const {
+  AlreadyExistingOrganizationInvitationError,
+  NotFoundError,
+  UserNotFoundError,
+  OrganizationWithoutEmailError,
+  OrganizationNotFoundError,
+  ManyOrganizationsFoundError,
+} = require('../../../../lib/domain/errors');
+
+describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {
+  let sandbox;
+  let httpTestServer;
+
+  beforeEach(async function () {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(usecases, 'acceptOrganizationInvitation');
+    sandbox.stub(usecases, 'sendScoInvitation');
+    sandbox.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember');
+    sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
+
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
+  });
+
+  afterEach(function () {
+    sandbox.restore();
+  });
+
+  describe('#acceptOrganizationInvitation', function () {
+    const payload = {
+      data: {
+        id: '100047_DZWMP7L5UM',
+        type: 'organization-invitation-responses',
+        attributes: {
+          code: 'DZWMP7L5UM',
+          email: 'user@example.net',
+        },
+      },
+    };
+
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 204', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.resolves();
+        usecases.createCertificationCenterMembershipForScoOrganizationMember.resolves();
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(412);
+      });
+
+      it('should respond an HTTP response with status code 404 when NotFoundError', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.rejects(new NotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.rejects(new UserNotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+  });
+
+  describe('#sendScoInvitation', function () {
+    const uai = '1234567A';
+    const payload = {
+      data: {
+        type: 'sco-organization-invitations',
+        attributes: {
+          uai,
+          'first-name': 'john',
+          'last-name': 'harry',
+        },
+      },
+    };
+
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 201', async function () {
+        // given
+        usecases.sendScoInvitation.resolves();
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/sco', payload);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 404 when OrganizationNotFoundError', async function () {
+        // given
+        usecases.sendScoInvitation.rejects(new OrganizationNotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/sco', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond an HTTP response with status code 409 when OrganizationWithoutEmailError', async function () {
+        // given
+        usecases.sendScoInvitation.rejects(new OrganizationWithoutEmailError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/sco', payload);
+
+        // then
+        expect(response.statusCode).to.equal(412);
+      });
+
+      it('should respond an HTTP response with status code 409 when ManyOrganizationsFoundError', async function () {
+        // given
+        usecases.sendScoInvitation.rejects(new ManyOrganizationsFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/sco', payload);
+
+        // then
+        expect(response.statusCode).to.equal(409);
+      });
+    });
+  });
+});

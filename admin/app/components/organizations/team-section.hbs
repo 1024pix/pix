@@ -1,0 +1,88 @@
+{{! template-lint-disable require-input-label }}
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+  </header>
+  <div data-test-id="member-list" class="content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--id">ID Membre</th>
+            <th class="table__column table__column--wide">Prénom</th>
+            <th class="table__column table__column--wide">Nom</th>
+            <th class="table__column table__column--wide">Adresse e-mail</th>
+            <th class="table__column">Rôle</th>
+            <th class="table__column">Actions</th>
+          </tr>
+          <tr>
+            <td class="table__column"></td>
+            <td class="table__column table__column--wide">
+              <input
+                id="firstName"
+                type="text"
+                aria-label="Rechercher par prénom"
+                value={{@firstName}}
+                oninput={{fn @triggerFiltering "firstName"}}
+                class="table-admin-input form-control"
+              />
+            </td>
+            <td class="table__column table__column--wide">
+              <input
+                id="lastName"
+                type="text"
+                aria-label="Rechercher par nom"
+                value={{@lastName}}
+                oninput={{fn @triggerFiltering "lastName"}}
+                class="table-admin-input form-control"
+              />
+            </td>
+            <td class="table__column table__column--wide">
+              <input
+                id="email"
+                type="text"
+                aria-label="Rechercher par adresse e-mail"
+                value={{@email}}
+                oninput={{fn @triggerFiltering "email"}}
+                class="table-admin-input form-control"
+              />
+            </td>
+            <th class="table__column">
+              <PixSelect
+                id="organizationRole"
+                @options={{this.options}}
+                @selectedOption={{@organizationRole}}
+                @onChange={{this.selectRole}}
+                @emptyOptionLabel="Tous"
+                aria-label="Rechercher par rôle"
+              />
+            </th>
+            <td class="table__column"></td>
+          </tr>
+        </thead>
+
+        {{#if @memberships}}
+          <tbody>
+            {{#each @memberships as |membership|}}
+              <tr aria-label="Membre">
+                <MemberItem
+                  @membership={{membership}}
+                  @updateMembership={{@updateMembership}}
+                  @disableMembership={{@disableMembership}}
+                />
+              </tr>
+            {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @memberships}}
+        <div class="table__empty content-text">Aucun résultat</div>
+      {{/unless}}
+    </div>
+
+    {{#if @memberships}}
+      <PaginationControl @pagination={{@memberships.meta}} />
+    {{/if}}
+  </div>
+</section>

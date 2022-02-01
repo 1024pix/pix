@@ -1,0 +1,30 @@
+{{page-title (t "pages.account-recovery.find-sco-record.title")}}
+
+<div class="account-recovery">
+  <div class="account-recovery__content">
+    <PixLogo />
+    <div class="account-recovery__content--image">
+      <img alt="" role="none" src="{{rootURL}}/images/illustrations/account-recovery/illustration.svg" />
+    </div>
+
+    <div class="account-recovery__content--step">
+      <div class="account-recovery__content--step--content">
+        {{#if this.errorMessage}}
+          <AccountRecovery::RecoveryErrors
+            @title={{t "pages.account-recovery.errors.title"}}
+            @message={{this.errorMessage}}
+            @showRenewLink={{this.showRenewLink}}
+            @showBackToHomeButton={{this.showBackToHomeButton}}
+          />
+        {{else}}
+          <AccountRecovery::UpdateScoRecordForm
+            @firstName={{@model.firstName}}
+            @email={{@model.email}}
+            @updateRecord={{this.updateRecord}}
+            @isLoading={{this.isLoading}}
+          />
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

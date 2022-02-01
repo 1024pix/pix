@@ -1,0 +1,23 @@
+{{! template-lint-disable no-implicit-this  }}
+<div {{did-update this.resetLevelUp}}>
+  {{#unless this.closeLevelup}}
+    <div class="levelup">
+      <img src="{{rootURL}}/images/levelup.svg" alt="" role="none" />
+      <div class="levelup__icon-card-level">{{@level}}</div>
+      <div class="levelup__competence">
+        <div class="levelup-competence__level">{{t "pages.levelup-notif.obtained-level" level=@level}}</div>
+        <div class="levelup-competence__name">{{@competenceName}}</div>
+      </div>
+      <button
+        role="button"
+        class="levelup__close"
+        aria-labelledby="button-label"
+        {{on "click" this.close}}
+        type="button"
+      >
+        <span id="button-label" hidden>{{t "common.actions.close"}}</span>
+        <FaIcon @icon="times" />
+      </button>
+    </div>
+  {{/unless}}
+</div>

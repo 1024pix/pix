@@ -1,0 +1,26 @@
+.stage-stars {
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &--wide {
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__container {
+    display: inline-flex;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__info-icon {
+    color: $grey-30;
+    margin: 0 8px;
+  }
+}

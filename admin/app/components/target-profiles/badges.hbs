@@ -1,0 +1,43 @@
+<div class="content-text content-text--small">
+  {{#if this.hasBadges}}
+    <table class="table-admin" data-test="badges-table">
+      <thead>
+        <tr>
+          <th class="table__column table__column--id">ID</th>
+          <th class="badges-table__image">Image</th>
+          <th class="badges-table__key">Clé</th>
+          <th class="badges-table__name">Nom</th>
+          <th>Message</th>
+          <th class="badges-table__shortcoming">Lacune</th>
+          <th class="badges-table__actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @badges as |badge|}}
+          <tr>
+            <td class="table__column table__column--id">{{badge.id}}</td>
+            <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
+            <td>{{badge.key}}</td>
+            <td>{{badge.title}}</td>
+            <td>{{badge.message}}</td>
+            <td>
+              <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
+            </td>
+            <td>
+              <PixButtonLink
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @route="authenticated.badges.badge"
+                @size="small"
+                @model={{badge.id}}
+                class="pix-button__secondary"
+              >Voir détail</PixButtonLink>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div class="table__empty content-text">Aucun résultat thématique associé</div>
+  {{/if}}
+</div>

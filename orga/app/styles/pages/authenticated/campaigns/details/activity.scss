@@ -1,0 +1,15 @@
+.activity__dashboard {
+  margin-bottom: 24px;
+  padding: 0;
+}
+
+.activity__participants-list {
+  margin-bottom: 24px;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .activity__dashboard {
+    margin-bottom: 12px;
+  }
+}

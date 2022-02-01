@@ -1,0 +1,90 @@
+{{! template-lint-disable require-input-label }}
+<h1 class="join-restricted-campaign__sco-title">{{t
+    "pages.join.sco.first-title"
+    organizationName=@organizationName
+  }}</h1>
+<div class="join-restricted-campaign__subtitle">{{t "pages.join.sco.subtitle"}}</div>
+<form onSubmit={{this.validateForm}}>
+  <div class="join-restricted-campaign__row">
+    <label for="firstName" class="join-restricted-campaign__label">{{t "pages.join.fields.firstname.label"}}</label>
+    <Input
+      id="firstName"
+      @type="text"
+      @value={{this.firstName}}
+      placeholder={{t "pages.join.fields.firstname.label"}}
+      readonly={{@areNamesDisabled}}
+      disabled={{@areNamesDisabled}}
+      class={{if this.validation.firstName "input--error"}}
+      {{on "focusout" (fn this.triggerInputStringValidation "firstName" this.firstName)}}
+    />
+    <div class={{if this.validation.firstName "join-restricted-campaign__field-error"}} role="alert">
+      {{this.validation.firstName}}
+    </div>
+  </div>
+
+  <div class="join-restricted-campaign__row">
+    <label for="lastName" class="join-restricted-campaign__label">{{t "pages.join.fields.lastname.label"}}</label>
+    <Input
+      id="lastName"
+      @type="text"
+      @value={{this.lastName}}
+      placeholder={{t "pages.join.fields.lastname.label"}}
+      readonly={{@areNamesDisabled}}
+      disabled={{@areNamesDisabled}}
+      class={{if this.validation.lastName "input--error"}}
+      {{on "focusout" (fn this.triggerInputStringValidation "lastName" this.lastName)}}
+    />
+    <div class={{if this.validation.lastName "join-restricted-campaign__field-error"}} role="alert">
+      {{this.validation.lastName}}
+    </div>
+  </div>
+
+  <div class="join-restricted-campaign__row">
+    <p class="join-restricted-campaign__label">{{t "pages.join.fields.birthdate.label"}}</p>
+    <div class="join-restricted-campaign__birthdate">
+      <Input
+        id="dayOfBirth"
+        @type="text"
+        @value={{this.dayOfBirth}}
+        placeholder={{t "pages.join.fields.birthdate.day-format"}}
+        class={{if this.validation.dayOfBirth "input--error"}}
+        aria-label={{t "pages.join.fields.birthdate.day-label"}}
+        {{on "focusout" (fn this.triggerInputDayValidation "dayOfBirth" this.dayOfBirth)}}
+      />
+      <Input
+        id="monthOfBirth"
+        @type="text"
+        @value={{this.monthOfBirth}}
+        placeholder={{t "pages.join.fields.birthdate.month-format"}}
+        class={{if this.validation.monthOfBirth "input--error"}}
+        {{on "focusout" (fn this.triggerInputMonthValidation "monthOfBirth" this.monthOfBirth)}}
+        aria-label={{t "pages.join.fields.birthdate.month-label"}}
+      />
+      <Input
+        id="yearOfBirth"
+        @type="text"
+        @value={{this.yearOfBirth}}
+        placeholder={{t "pages.join.fields.birthdate.year-format"}}
+        class={{if this.validation.yearOfBirth "input--error"}}
+        {{on "focusout" (fn this.triggerInputYearValidation "yearOfBirth" this.yearOfBirth)}}
+        aria-label={{t "pages.join.fields.birthdate.year-label"}}
+      />
+    </div>
+    <div class={{if this.validation.dayOfBirth "join-restricted-campaign__field-error"}} role="alert">
+      {{this.validation.dayOfBirth}}
+    </div>
+    <div class={{if this.validation.monthOfBirth "join-restricted-campaign__field-error"}} role="alert">
+      {{this.validation.monthOfBirth}}
+    </div>
+    <div class={{if this.validation.yearOfBirth "join-restricted-campaign__field-error"}} role="alert">
+      {{this.validation.yearOfBirth}}
+    </div>
+  </div>
+
+  {{#if @errorMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{@errorMessage}}</div>
+  {{/if}}
+  <div class="join-restricted-campaign__actions">
+    <PixButton @type="submit">{{t "pages.join.button"}}</PixButton>
+  </div>
+</form>

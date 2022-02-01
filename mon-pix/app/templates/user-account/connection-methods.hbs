@@ -1,0 +1,78 @@
+<div class="user-account__connection-methods">
+  {{#if this.isEmailEditionMode}}
+    {{#if this.featureToggles.featureToggles.isEmailValidationEnabled}}
+      <UserAccount::UpdateEmailWithValidation
+        @disableEmailEditionMode={{this.disableEmailEditionMode}}
+        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+      />
+    {{else}}
+      <UserAccount::UpdateEmail
+        @saveNewEmail={{this.saveNewEmail}}
+        @disableEmailEditionMode={{this.disableEmailEditionMode}}
+      />
+    {{/if}}
+  {{else}}
+    {{#if this.shouldShowPixAuthenticationMethod}}
+      {{#if this.shouldShowEmail}}
+        <div class="user-account-panel__item{{if this.showEmailUpdatedMessage " with-success-message"}}">
+          <div class="user-account-panel-item__text">
+            <p class="form-textfield__label user-account-panel-item__label">
+              {{t "pages.user-account.connexion-methods.email"}}
+            </p>
+            <p class="user-account-panel-item__value" data-test-email>{{@model.user.email}}</p>
+          </div>
+          <PixButton
+            class="user-account-panel-item__button"
+            @triggerAction={{this.enableEmailEditionMode}}
+            @size="small"
+          >
+            {{t "pages.user-account.connexion-methods.edit-button"}}
+          </PixButton>
+        </div>
+
+        {{#if this.showEmailUpdatedMessage}}
+          <PixMessage @type="success" @withIcon={{true}} class="user-account-panel__success-message">
+            {{t "pages.user-account.email-verification.update-successful"}}
+          </PixMessage>
+        {{/if}}
+      {{/if}}
+
+      {{#if this.shouldShowUsername}}
+        <div class="user-account-panel__item">
+          <div class="user-account-panel-item__text">
+            <p class="form-textfield__label user-account-panel-item__label">
+              {{t "pages.user-account.connexion-methods.username"}}
+            </p>
+            <p class="user-account-panel-item__value" data-test-username>{{@model.user.username}}</p>
+          </div>
+        </div>
+      {{/if}}
+    {{/if}}
+
+    {{#if this.shouldShowGarAuthenticationMethod}}
+      <div class="user-account-panel__item">
+        <div class="user-account-panel-item__text">
+          <p class="form-textfield__label user-account-panel-item__label">{{t
+              "pages.user-account.connexion-methods.authentication-methods.label"
+            }}</p>
+          <p class="user-account-panel-item__value">
+            {{t "pages.user-account.connexion-methods.authentication-methods.gar"}}
+          </p>
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if this.shouldShowPoleEmploiAuthenticationMethod}}
+      <div class="user-account-panel__item">
+        <div class="user-account-panel-item__text">
+          <p class="form-textfield__label user-account-panel-item__label">
+            {{t "pages.user-account.connexion-methods.authentication-methods.label"}}
+          </p>
+          <p class="user-account-panel-item__value">
+            {{t "pages.user-account.connexion-methods.authentication-methods.pole-emploi"}}
+          </p>
+        </div>
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

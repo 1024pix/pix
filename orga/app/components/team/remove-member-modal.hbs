@@ -1,0 +1,26 @@
+<Modal::Dialog
+  class="remove-member-modal"
+  @title="{{t "pages.team-members.remove-membership-modal.title"}}"
+  @display={{@isOpen}}
+  @close={{@onClose}}
+  @additionalContainerClass="modal-dialog__large"
+>
+  <Modal::Body class="remove-member-modal__content">
+    <p class="content-text">
+      {{t
+        "pages.team-members.remove-membership-modal.message"
+        memberFirstName=@firstName
+        memberLastName=@lastName
+        htmlSafe=true
+      }}
+    </p>
+  </Modal::Body>
+  <Modal::Footer class="remove-member-modal__actions">
+    <PixButton @triggerAction={{@onClose}} @backgroundColor="grey">
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    <PixButton data-test-modal-remove-button @triggerAction={{@onSubmit}} @backgroundColor="red">
+      {{t "pages.team-members.remove-membership-modal.actions.remove"}}
+    </PixButton>
+  </Modal::Footer>
+</Modal::Dialog>

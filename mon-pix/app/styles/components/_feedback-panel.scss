@@ -1,0 +1,163 @@
+.feedback-panel {
+  color: $grey-60;
+  font-size: 0.938rem;
+  margin-top: 16px;
+  z-index: 1;
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px 15px;
+}
+
+/* "Link" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__open-button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: $grey-50;
+  font-family: $font-roboto;
+  font-weight: $font-medium;
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+
+.feedback-panel__open-button:hover,
+.feedback-panel__open-button:focus,
+.feedback-panel__open-button:active {
+  color: $grey-80;
+}
+
+/* "Form" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__form-description {
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+
+  & .link {
+    color: $dark-blue-pro;
+
+    &:hover {
+      color: $dark-blue-pro;
+    }
+  }
+}
+
+.feedback-panel__form-description p {
+  margin: 0;
+  font-size: 0.938rem;
+  font-family: $font-open-sans;
+}
+
+.feedback-panel__form-wrapper {
+  display: flex;
+}
+
+.feedback-panel__form {
+  width: 100%;
+}
+
+.feedback-panel__group {
+  margin-bottom: 10px;
+}
+
+.feedback-panel__field {
+  width: 100%;
+  border-radius: 3px;
+  background-color: $white;
+  border: solid 1px $grey-20;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 0.875rem;
+}
+
+.feedback-panel__category-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-panel__dropdown {
+  font-family: $font-roboto;
+  font-size: 0.938rem;
+  color: $grey-80;
+  margin: 5px 0;
+  width: 100%;
+
+  @include device-is('desktop') {
+    width: 40%;
+  }
+}
+
+.feedback-panel__quick-help {
+  font-size: 0.938rem;
+  margin-top: 20px;
+  font-weight: bold;
+  word-break: break-word;
+  background-color: $white;
+  padding: 20px;
+  border: dashed $grey-70;
+
+  & .tuto-icon {
+    width: 15px;
+
+    &__warning {
+      float: left;
+      width: 20px;
+      height: 20px;
+      color: $warning;
+    }
+  }
+
+  & p {
+    margin: 0 0 0 35px;
+  }
+}
+
+.feedback-panel__button {
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  background-color: $grey-20;
+  border: 1px solid $grey-40;
+  margin: 0 10px 20px 0;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
+}
+
+.feedback-panel__button--send {
+  background-color: $grey-50;
+  color: white;
+
+  &:hover,
+  &:focus {
+    background-color: $grey-70;
+  }
+}
+
+.feedback-panel__form-legal-notice {
+  padding-top: 15px;
+  border-top: 1px solid $grey-20;
+
+  & p {
+    font-size: 0.75rem;
+  }
+
+  & a {
+    color: $blue-hover;
+  }
+}
+
+/* "Mercix" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__view--mercix {
+  text-align: center;
+  font-size: 1.125rem;
+  color: $grey-80;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}

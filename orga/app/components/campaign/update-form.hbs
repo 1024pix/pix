@@ -1,0 +1,53 @@
+<form class="form" {{on "submit" @onSubmit}}>
+  <p class="form__mandatory-fields-information" aria-hidden="true">
+    <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
+    {{t "common.form.mandatory-fields"}}
+  </p>
+  <div class="form__field">
+    <label class="label" for="campaign-name">
+      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+      {{t "pages.campaign-modification.campaign-name"}}
+    </label>
+    <PixInput
+      @id="campaign-name"
+      @name="campaign-name"
+      maxlength="255"
+      value={{@campaign.name}}
+      {{on "change" this.onChangeCampaignName}}
+      required={{true}}
+      aria-required={{true}}
+    />
+  </div>
+
+  {{#if @campaign.isTypeAssessment}}
+    <div class="form__field">
+      <PixInput
+        @id="campaign-title"
+        @name="campaign-title"
+        @label={{t "pages.campaign-modification.personalised-test-title"}}
+        maxlength="50"
+        @value={{@campaign.title}}
+        {{on "change" this.onChangeCampaignTitle}}
+      />
+    </div>
+  {{/if}}
+
+  <div class="form__field">
+    <PixTextarea
+      @id="campaign-custom-landing-page-text"
+      @label={{t "pages.campaign-modification.landing-page-text"}}
+      @maxlength={{5000}}
+      @value={{@campaign.customLandingPageText}}
+      rows={{8}}
+    />
+  </div>
+
+  <div class="form__validation">
+    <PixButton @triggerAction={{fn @onCancel @campaign.id}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    <PixButton @type="submit">
+      {{t "pages.campaign-modification.actions.edit"}}
+    </PixButton>
+  </div>
+</form>

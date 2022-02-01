@@ -1,0 +1,153 @@
+<main id="main" class="page-container dashboard-content">
+  <h1 class="sr-only">{{t "pages.dashboard.title"}}</h1>
+
+  {{#if this.hasNewInformationToShow}}
+    <section class="dashboard-content__banner" data-test-new-dashboard-info>
+      {{#unless this.hasUserSeenNewDashboardInfo}}
+        <NewInformation
+          @information="{{t "pages.dashboard.presentation.message" firstname=this.userFirstname}}"
+          @image="/images/illustrations/discovery_TDB_pix.svg"
+          @backgroundColorClass="new-information--blue-gradient-background"
+          @textColorClass="new-information--white-text"
+          @linkText="{{this.newDashboardInfoLink.text}}"
+          @linkTo="{{this.newDashboardInfoLink.url}}"
+          @closeaction={{this.closeInformationAboutNewDashboard}}
+        />
+      {{/unless}}
+      {{#if this.profileCollectionCampaignParticipationCode}}
+        <NewInformation
+          @information="{{t "pages.dashboard.campaigns.resume.text"}}"
+          @image="/images/profile_collect_TDB_pix.svg"
+          @backgroundColorClass="new-information--yellow-gradient-background"
+          @textColorClass="new-information--black-text"
+          @linkDisplayType="button"
+          @linkText="{{t "pages.dashboard.campaigns.resume.action"}}"
+          @linkTo="campaigns.profiles-collection.start-or-resume"
+          @code={{this.profileCollectionCampaignParticipationCode}}
+        />
+      {{/if}}
+    </section>
+  {{/if}}
+
+  <section class="dashboard-content__score">
+    <div class="dashboard-content-score__wrapper">
+      <HexagonScore @pixScore={{this.userScore}} />
+      <LinkTo @route="profile" class="dashboard-content-score-wrapper__button">{{t
+          "pages.dashboard.score.profile-link"
+        }}</LinkTo>
+    </div>
+  </section>
+
+  <section class="dashboard-content__main">
+    {{#if this.hasNewInformationToShow}}
+      <section class="dashboard-content-main__banner">
+        {{#unless this.hasUserSeenNewDashboardInfo}}
+          <NewInformation
+            @information="{{t "pages.dashboard.presentation.message" firstname=this.userFirstname}}"
+            @image="/images/illustrations/discovery_TDB_pix.svg"
+            @backgroundColorClass="new-information--blue-gradient-background"
+            @textColorClass="new-information--white-text"
+            @linkText="{{this.newDashboardInfoLink.text}}"
+            @linkTo="{{this.newDashboardInfoLink.url}}"
+            @closeaction={{this.closeInformationAboutNewDashboard}}
+          />
+        {{/unless}}
+        {{#if this.profileCollectionCampaignParticipationCode}}
+          <NewInformation
+            @information="{{t "pages.dashboard.campaigns.resume.text"}}"
+            @image="/images/profile_collect_TDB_pix.svg"
+            @backgroundColorClass="new-information--yellow-gradient-background"
+            @textColorClass="new-information--black-text"
+            @linkDisplayType="button"
+            @linkText="{{t "pages.dashboard.campaigns.resume.action"}}"
+            @linkTo="campaigns.entry-point"
+            @code={{this.profileCollectionCampaignParticipationCode}}
+          />
+        {{/if}}
+      </section>
+    {{/if}}
+
+    {{#if this.hasNothingToShow}}
+      <section data-test-empty-dashboard>
+        <div>
+          <NewInformation
+            @information="{{t "pages.dashboard.empty-dashboard.message"}}"
+            @image="/images/illustrations/fusee.png"
+            @backgroundColorClass="new-information--yellow-background"
+            @linkText={{t "pages.dashboard.empty-dashboard.link-to-competences"}}
+            @linkTo="profile"
+            @linkDisplayType="button"
+            @textColorClass="new-information--black-text"
+          />
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if this.hasCampaignParticipationOverviews}}
+      <section class="dashboard-content-main__section" data-test-campaign-participation-overviews>
+        <div class="dashboard-content-main-section--with-button">
+          <div>
+            <h2 class="dashboard-content-main-section__title">{{t "pages.dashboard.campaigns.title"}}</h2>
+            <p class="dashboard-content-main-section__subtitle">{{t "pages.dashboard.campaigns.subtitle"}}</p>
+          </div>
+          <LinkTo @route="user-tests" class="dashboard-content-main-section__button">{{t
+              "pages.dashboard.campaigns.tests-link"
+            }}</LinkTo>
+        </div>
+
+        <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}} />
+      </section>
+    {{/if}}
+
+    {{#if this.hasStartedCompetences}}
+      <section class="dashboard-content-main__section" data-test-started-competences>
+        <h2 class="dashboard-content-main-section__title">{{t "pages.dashboard.started-competences.title"}}</h2>
+        <p class="dashboard-content-main-section__subtitle">{{t "pages.dashboard.started-competences.subtitle"}}</p>
+
+        <CompetenceCard::List @scorecards={{this.startedCompetences}} />
+      </section>
+    {{/if}}
+
+    {{#if this.hasRecommendedCompetences}}
+      <section class="dashboard-content-main__section" data-test-recommended-competences>
+        <div class="dashboard-content-main-section--with-button">
+          <div>
+            <h2 class="dashboard-content-main-section__title">{{t "pages.dashboard.recommended-competences.title"}}</h2>
+            <p class="dashboard-content-main-section__subtitle">{{t
+                "pages.dashboard.recommended-competences.subtitle"
+              }}</p>
+          </div>
+          <LinkTo @route="profile" class="dashboard-content-main-section__button">{{t
+              "pages.dashboard.recommended-competences.profile-link"
+            }}</LinkTo>
+        </div>
+
+        <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
+      </section>
+    {{/if}}
+
+    {{#if this.hasImprovableCompetences}}
+      <section class="dashboard-content-main__section">
+        <div class="dashboard-content-main-section--with-button">
+          <div>
+            <h2 class="dashboard-content-main-section__title">{{t "pages.dashboard.improvable-competences.title"}}</h2>
+            <p class="dashboard-content-main-section__subtitle">{{t
+                "pages.dashboard.improvable-competences.subtitle"
+              }}</p>
+          </div>
+          <LinkTo @route="profile" class="dashboard-content-main-section__button">{{t
+              "pages.dashboard.improvable-competences.profile-link"
+            }}</LinkTo>
+        </div>
+
+        <CompetenceCard::List @scorecards={{this.improvableScorecards}} />
+      </section>
+    {{/if}}
+  </section>
+
+  <section class="dashboard-content__certif">
+    <!-- Rajout du bloc certif ultérieurement -->
+    <!-- Div ajoutée afin de créer le layout Grid CSS -->
+  </section>
+
+</main>

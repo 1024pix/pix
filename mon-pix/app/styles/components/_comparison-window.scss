@@ -1,0 +1,155 @@
+.comparison-window {
+  padding: 0;
+  margin: auto;
+
+  @include device-is('desktop') {
+    padding: 0;
+  }
+
+  &__header {
+    background: white;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 1070px;
+    min-height: 70px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  &__content {
+    border-radius: 5px;
+  }
+
+  &__feedback-panel {
+    background-color: $grey-20;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 20px 40px;
+  }
+}
+
+.comparison-window-header {
+
+  &__result-item-icon {
+    margin-left: 10px;
+    font-size: 1.375rem;
+
+    @include device-is('tablet') {
+      margin-left: 20px;
+    }
+
+    &--green {
+      color: $green;
+    }
+
+    &--orange {
+      color: $information-light;
+    }
+
+    &--red {
+      color: $error;
+    }
+
+    &--grey {
+      color: $grey-60;
+    }
+  }
+
+  &__title {
+    display: flex;
+    margin-left: 9px;
+    max-width: 618.5px;
+    font-family: $font-open-sans;
+    font-size: 1.125rem;
+    font-weight: $font-heavy;
+    color: $grey-80;
+  }
+}
+
+.comparison-window-content {
+
+  &__body {
+    background-color: $grey-10;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.comparison-window-content-body {
+
+  &__instruction {
+    margin: 15px;
+    font-size: 1rem;
+
+    @include device-is('desktop') {
+      margin: 20px 40px 0 40px;
+    }
+  }
+
+  &__corrected-answers {
+    margin: 0 15px;
+
+    @include device-is('desktop') {
+      margin: 0 40px;
+    }
+  }
+
+  &__default-message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1.3px dashed $grey-40;
+    max-width: 991px;
+    border-radius: 5px;
+    padding: 36px 0 28px;
+    margin: 0 15px 15px;
+
+    @include device-is('desktop') {
+      margin: 0 40px 20px;
+    }
+  }
+}
+
+.comparison-windows-content-body-default-message-container {
+
+  &__default-message-title {
+    font-family: $font-open-sans;
+    font-size: 1.063rem;
+    text-align: center;
+    color: $grey-200;
+    font-weight: $font-semi-bold;
+    margin: 10px 25px 40px 25px;
+
+    @include device-is('desktop') {
+      line-height: 26px;
+    }
+  }
+}
+
+.comparison-window-solution {
+  display: flex;
+  align-items: stretch;
+  margin-top: 5px;
+
+  &__text {
+    font-size: 1rem;
+    font-weight: $font-bold;
+    color: $green;
+    display: flex;
+    margin-left: 7px;
+    position: relative;
+    bottom: 3px;
+    overflow-wrap: break-word;
+  }
+
+  &__img {
+    width: 18px;
+    height: 18px;
+  }
+
+  &--with-margin {
+    margin: 0 0 20px 20px;
+  }
+}

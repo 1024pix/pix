@@ -1,0 +1,114 @@
+#organizations-get-page {
+
+  .organization__information {
+    display: flex;
+
+    .organization__logo {
+      margin-right: 20px;
+
+      .organization__logo-figure {
+        padding: 3px;
+        border: 2px solid $grey-15;
+        border-radius: 4px;
+        margin: 0;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        > img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+
+        > .file-upload {
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: transparent;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .organization__data {
+      max-width: 100%;
+      overflow: hidden;
+
+      .organization__name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .organization-tags-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+
+        &__tag {
+          margin-right: 6px;
+        }
+      }
+    }
+
+    .organization__edit-form {
+      width: 500px;
+
+      .organization-edit-form__checkbox {
+        display: flex;
+        align-items: center;
+
+        & > input[type=checkbox] {
+          margin: 0 8px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .page-section__header {
+    justify-content: space-around;
+  }
+
+  .organization__forms-section {
+    display: flex;
+    justify-content: space-around;
+
+    h2 {
+      font-size: 1.125rem;
+    }
+
+    .organization__sub-form {
+      display: flex;
+      align-items: flex-end;
+
+      .organization-sub-form__input {
+        width: 280px;
+        margin-right: 6px;
+
+        &__error {
+          border-right: 1px solid $error;
+          border-color: $error;
+        }
+      }
+
+      .organization-sub-form__validate-button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    .organization-sub-form__error-message {
+      color: $error;
+      font-size: 0.85rem;
+    }
+  }
+}

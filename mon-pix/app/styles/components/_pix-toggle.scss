@@ -1,0 +1,33 @@
+.pix-toggle {
+  font-family: $font-roboto;
+  font-size: 1rem;
+  font-weight: $font-medium;
+  letter-spacing: 0.45px;
+  color: $grey-60;
+  border: 2px solid $grey-20;
+  height: 44px;
+  width: 359px;
+  display: flex;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+
+  span {
+    width: 50%;
+    vertical-align: middle;
+    line-height: 2.75rem;
+    border-radius: 10px;
+  }
+
+  &__on {
+    background-color: $grey-60;
+    color: white;
+  }
+
+  &__off {
+
+    &:hover {
+      color: $grey-70;
+    }
+  }
+}

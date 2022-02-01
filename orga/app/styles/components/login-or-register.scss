@@ -1,0 +1,94 @@
+.login-or-register {
+  margin: 20px 0;
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+    align-items: center;
+    padding: 20px 2px;
+    
+    @include device-is('tablet') {
+      padding: 20px;
+    }
+
+    @include device-is('large-screen') {
+      padding: 40px 100px;
+    }
+  }
+}
+
+.login-or-register-panel {
+  &__logo {
+    display: flex;
+    margin: auto;
+  }
+
+  &__invitation {
+    font-family: $roboto;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: $grey-100;
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  &__forms-container {
+    display: flex;
+    margin-top: 10px;
+    min-height: 500px;
+    flex-flow: row;
+    justify-content: space-around;
+
+    @include device-is('large-screen') {
+      flex-flow: row;
+      justify-content: space-between;
+    }
+
+    @include device-is('mobile') {
+      flex-direction: column;
+      margin: 10px 20px 0 20px;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    @include device-is('tablet') {
+      min-width: 360px;
+    }
+  }
+
+  &__divider {
+    margin-top: 30px;
+    border-left: 1px solid $grey-30;
+
+    @include device-is('tablet') {
+      margin: 30px;
+      margin-bottom: 0;
+    }
+
+    @include device-is('large-screen') {
+      margin: 30px 60px 0 60px;
+    }
+  }
+}
+
+.login-or-register-panel-form {
+  &__expandable {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    overflow-y: hidden;
+    -webkit-transition: max-height .4s ease-in-out;
+    -moz-transition: max-height .4s ease-in-out;
+    -o-transition: max-height .4s ease-in-out;
+    transition: max-height .4s ease-in-out;
+
+    &--expanded {
+      max-height: 720px;
+    }
+  }
+}

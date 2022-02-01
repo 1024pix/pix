@@ -1,0 +1,31 @@
+{{#if this.displayNewYearSchoolingRegistrationsImportBanner}}
+  <PixBanner @type="information">
+    <Ui::TranslateExtended
+      @key="banners.import.message"
+      @options={{hash
+        faIcon=(component "fa-icon" icon="external-link-alt")
+        linkTo=(component
+          "link-to"
+          (t "banners.import.link-to")
+          "authenticated.sco-students"
+          class="link link--banner link--bold link--underlined"
+        )
+        middleSchoolDocumentationLink=this.importMiddleSchoolDocumentationLink
+        highSchoolDocumentationLink=this.importHighSchoolDocumentationLink
+        externalLinkClasses='"link link--banner link--bold link--underlined"'
+      }}
+    />
+  </PixBanner>
+{{else if this.displayNewYearCampaignsBanner}}
+  <PixBanner @type="information">
+    <Ui::TranslateExtended
+      @key="banners.campaigns.message"
+      @options={{hash
+        faIcon=(component "fa-icon" icon="external-link-alt")
+        middleSchoolDocumentationLink=this.campaignMiddleSchoolDocumentationLink
+        highSchoolDocumentationLink=this.campaignHighSchoolDocumentationLink
+        externalLinkClasses='"link link--banner link--bold link--underlined"'
+      }}
+    />
+  </PixBanner>
+{{/if}}

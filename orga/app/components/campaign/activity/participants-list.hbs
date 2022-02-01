@@ -1,0 +1,80 @@
+<Campaign::Filter::ParticipationFilters
+  @campaign={{@campaign}}
+  @selectedDivisions={{@selectedDivisions}}
+  @selectedStatus={{@selectedStatus}}
+  @selectedGroups={{@selectedGroups}}
+  @rowCount={{@rowCount}}
+  @isHiddenStages={{true}}
+  @isHiddenBadges={{true}}
+  @onFilter={{@onFilter}}
+  @onResetFilter={{@onResetFilter}}
+/>
+
+<section ...attributes>
+  <div class="panel">
+    <table class="table content-text content-text--small">
+      <colgroup class="table__column">
+        <col class="table__column--wide" />
+        <col class="table__column--wide" />
+        {{#if @campaign.idPixLabel}}
+          <col class="table__column--wide" />
+        {{/if}}
+        <col class="table__column--wide" />
+      </colgroup>
+      <thead>
+        <tr>
+          <Table::Header>{{t "pages.campaign-activity.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-activity.table.column.first-name"}}</Table::Header>
+          {{#if @campaign.idPixLabel}}
+            <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
+          {{/if}}
+          <Table::Header>{{t "pages.campaign-activity.table.column.status"}}</Table::Header>
+        </tr>
+      </thead>
+
+      {{#if @participations}}
+        <tbody>
+          {{#each @participations as |participation|}}
+            <tr
+              aria-label={{t "pages.campaign-activity.table.row-title"}}
+              role="button"
+              {{on "click" (fn @onClickParticipant @campaign.id participation.id)}}
+              class="tr--clickable"
+            >
+              <td>
+                <LinkTo
+                  @route={{if
+                    @campaign.isTypeAssessment
+                    "authenticated.campaigns.participant-assessment"
+                    "authenticated.campaigns.participant-profile"
+                  }}
+                  @models={{array @campaign.id participation.id}}
+                >
+                  {{participation.lastName}}
+                </LinkTo>
+              </td>
+              <td>{{participation.firstName}}</td>
+              {{#if @campaign.idPixLabel}}
+                <td>{{participation.participantExternalId}}</td>
+              {{/if}}
+              <td>
+                <Campaign::Activity::ParticipationStatus
+                  @status={{participation.status}}
+                  @isTypeAssessment={{@campaign.isTypeAssessment}}
+                />
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @participations}}
+      <p class="table__empty content-text">{{t "pages.campaign-activity.table.empty"}}</p>
+    {{/unless}}
+  </div>
+
+  {{#if @participations}}
+    <Table::PaginationControl @pagination={{@participations.meta}} />
+  {{/if}}
+</section>

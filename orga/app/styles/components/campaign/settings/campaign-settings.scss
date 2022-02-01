@@ -1,0 +1,103 @@
+.campaign-settings {
+  display: flex;
+  flex-direction: column;
+
+  > dl {
+    margin:0
+  }
+}
+
+.campaign-settings-row {
+  justify-content: space-between;
+  display: flex;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $grey-20;
+  }
+}
+
+.campaign-settings-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+
+  &--single {
+    flex-basis: 100%;
+    border-left: none;
+
+    &:first-child {
+      width: 55%;
+    }
+  }
+
+  &:not(:first-child) {
+    border-left: 1px solid $grey-20;
+  }
+
+  &__label {
+    margin: 0 0 4px;
+
+    &--with-tooltip {
+      display: flex;
+
+      & > :last-child {
+        margin-left: 8px;
+      }
+    }
+
+  }
+
+  &__text {
+    margin: 0;
+
+    &--with-tooltip {
+      display: flex;
+
+      & > :last-child {
+        margin-left: 8px;
+      }
+    }
+    
+    & p {
+      margin: 0;
+    }
+  }
+
+  &__clipboard {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.campaign-settings-content__tooltip-icon {
+  color: $grey-30;
+  margin: 0 0 4px 0;
+}
+
+.campaign-settings-buttons {
+  display: flex;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+
+  > *:first-child {
+    margin-right: 32px;
+  }
+}
+
+@include device-is('mobile') {
+  .campaign-settings {
+    width: initial;
+  }
+
+  .campaign-settings-row {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .campaign-settings-content {
+    border-left: none;
+  }
+}

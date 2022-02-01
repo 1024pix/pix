@@ -1,0 +1,22 @@
+{{page-title (t "pages.students-sco.title")}}
+
+<div class="list-students-page">
+  <Student::Sco::HeaderActions @onImportStudents={{this.importStudents}} />
+
+  <Student::Sco::List
+    @students={{@model}}
+    @connectionTypesOptions={{this.connectionTypesOptions}}
+    @lastNameFilter={{this.lastName}}
+    @firstNameFilter={{this.firstName}}
+    @divisionsFilter={{this.divisions}}
+    @connexionTypeFilter={{this.connexionType}}
+    @onFilter={{this.triggerFiltering}}
+    @onDissociateUser={{this.refresh}}
+  />
+
+  {{#if this.isLoading}}
+    <ModalDialog @translucentOverlay={{true}} @containerClass="modal__translucent">
+      <Ui::PixLoader />
+    </ModalDialog>
+  {{/if}}
+</div>

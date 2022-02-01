@@ -1,0 +1,22 @@
+.session-finalization-step-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+
+  &__title {
+    display: flex;
+    background: $grey-10;
+    margin: 8px;
+    color: $grey-50;
+    font-weight: bold;
+    padding: 20px 0 19px 24px;
+  }
+
+  &__icon {
+    margin-right: 12px;
+  }
+
+  &__border {
+    border-top: 1px solid $grey-20;
+  }
+}

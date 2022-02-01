@@ -1,0 +1,26 @@
+<div class="reached-stage">
+  <div class="reached-stage__score">
+    <div class="reached-stage-score__stars">
+      {{#if this.firstStar}}
+        <img
+          data-test-status="{{this.firstStar.status}}"
+          src="{{this.rootURL}}/images/{{this.firstStar.imageSrc}}"
+          alt="{{t
+            "pages.skill-review.stage.starsAcquired"
+            acquired=this.acquiredStarsCount
+            total=this.totalStarsCount
+          }}"
+        />
+        {{#each this.otherStars as |star|}}
+          <img data-test-status="{{star.status}}" src="{{this.rootURL}}/images/{{star.imageSrc}}" alt="" role="none" />
+        {{/each}}
+      {{/if}}
+    </div>
+    <div class="reached-stage-score__percentage-text">
+      {{t "pages.skill-review.stage.masteryPercentage" rate=@masteryRate}}
+    </div>
+  </div>
+  {{#if @imageUrl}}
+    <img class="reached-stage__image" src={{@imageUrl}} alt="" role="none" />
+  {{/if}}
+</div>

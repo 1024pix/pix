@@ -1,0 +1,70 @@
+.import-students-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 16px;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 350px;
+    height: 230px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px 0 rgba($black, 0.05);
+    background-color: $white;
+    padding: 16px;
+    margin: 16px;
+  }
+}
+
+.import-students-page-header {
+  &__title {
+    margin: 8px;
+  }
+
+  &__details {
+    color: $grey-50;
+    font-family: $roboto;
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 8px;
+
+    &--small {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.import-students-page-section {
+  &__title {
+    color: $grey-90;
+    font-family: $open-sans;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 8px;
+  }
+
+  &__details {
+    color: $grey-50;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    text-align: center;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+    margin: 16px;
+  }
+}
+
+.import-type-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

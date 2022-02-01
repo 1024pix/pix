@@ -1,0 +1,31 @@
+<div class="user-certifications-detail-result">
+  {{#if @certification.commentForCandidate}}
+    <h2>{{t "pages.certificate.jury-title"}}</h2>
+    <PixBlock class="user-certifications-detail-result__jury">
+      <p class="user-certifications-detail-result__jury__comment">
+        {{@certification.commentForCandidate}}
+      </p>
+      <p class="user-certifications-detail-result__jury__info">
+        <FaIcon @icon="info-circle" />
+        {{t "pages.certificate.jury-info"}}
+      </p>
+    </PixBlock>
+  {{/if}}
+
+  <h2>{{t "pages.certificate.complementary.title"}}</h2>
+  <PixBlock>
+    {{#if @certification.hasCleaCertif}}
+      <div class="user-certifications-detail-result__complementary-certification">
+        <img src="https://images.pix.fr/badges/CleA_Num_certif.svg" alt="{{t "pages.certificate.clea.alternative"}}" />
+      </div>
+    {{/if}}
+    {{#each @certification.certifiedBadgeImages as |certifiedBadgeImage|}}
+      <div class="user-certifications-detail-result__complementary-certification">
+        <img src={{certifiedBadgeImage.path}} alt="{{t "pages.certificate.complementary.alternative"}}" />
+        {{#if certifiedBadgeImage.isTemporaryBadge}}
+          <span>{{t "pages.certificate.temporary-badge-info" level=certifiedBadgeImage.levelName}}</span>
+        {{/if}}
+      </div>
+    {{/each}}
+  </PixBlock>
+</div>

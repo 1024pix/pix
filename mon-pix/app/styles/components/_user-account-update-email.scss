@@ -1,0 +1,46 @@
+.user-account-update-email {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0 60px 0;
+
+  h3 {
+    @include device-is('mobile') {
+      text-align: center;
+      line-height: 2rem;
+    }
+  }
+
+  &__informations {
+    padding-top: 12px;
+    text-align: center;
+    color: $grey-90;
+    font-family: $font-open-sans;
+    line-height: 1.75rem;
+
+    &:nth-child(3) {
+      padding-top: 25px;
+    }
+  }
+
+  &__form {
+    padding-top: 30px;
+  }
+
+  &__actions {
+    padding-top: 30px;
+    width: 100%;
+    max-width: 449px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__error {
+    padding-top: 30px;
+    color: $red;
+  }
+}
+
+abbr.mandatory-mark {
+  text-decoration: none;
+}

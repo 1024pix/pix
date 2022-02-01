@@ -1,0 +1,33 @@
+.certification-issue-reports {
+
+  &__title {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+  }
+
+  &__subtitle {
+    font-size: 1rem;
+    font-weight: normal;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin: 0;
+
+    &--with-action-required {
+      background-color: $yellow-alert-light;
+      color: $yellow-alert-dark;
+    }
+
+    &--without-action-required {
+      background-color: $grey-10;
+      color: $grey-60;
+    }
+  }
+
+  &__list {
+    padding-left: 0;
+
+    &--last {
+      margin-bottom: 0;
+    }
+  }
+}

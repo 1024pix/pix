@@ -1,0 +1,28 @@
+{{page-title (t "pages.campaign-results.title")}}
+<h2 class="sr-only">{{t "pages.campaign-results.title"}}</h2>
+
+{{#if @model.campaign.hasSharedParticipations}}
+  <Campaign::Results::AssessmentCards
+    @hasStages={{@model.campaign.hasStages}}
+    @stages={{@model.campaign.stages}}
+    @sharedParticipationsCount={{@model.campaign.sharedParticipationsCount}}
+    @averageResult={{@model.campaign.averageResult}}
+  />
+
+  <Campaign::Charts::ResultDistribution @campaign={{@model.campaign}} @onSelectStage={{this.filterByStage}} />
+
+  <Campaign::Results::AssessmentList
+    @campaign={{@model.campaign}}
+    @participations={{@model.participations}}
+    @selectedDivisions={{this.divisions}}
+    @selectedGroups={{this.groups}}
+    @selectedBadges={{this.badges}}
+    @selectedStages={{this.stages}}
+    @onClickParticipant={{this.goToAssessmentPage}}
+    @onFilter={{this.triggerFiltering}}
+    @onResetFilter={{this.resetFiltering}}
+    class="assessment-results__list"
+  />
+{{else}}
+  <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
+{{/if}}

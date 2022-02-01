@@ -1,0 +1,72 @@
+<tr aria-label="{{t "pages.team-members.table.row-title"}}">
+  <td>{{@membership.user.lastName}}</td>
+  <td>{{@membership.user.firstName}}</td>
+
+  {{#unless this.isEditionMode}}
+    <td>{{this.displayRole}}</td>
+    {{#if this.currentUser.isAdminInOrganization}}
+      {{#if this.isNotCurrentUserMembership}}
+        <td class="zone-edit-role hide-on-mobile">
+          <Dropdown::IconTrigger
+            @icon="ellipsis-v"
+            @dropdownButtonClass="zone-edit-role__dropdown-button"
+            @dropdownContentClass="zone-edit-role__dropdown-content"
+            @ariaLabel={{t "pages.team-members.actions.manage"}}
+          >
+            <Dropdown::Item @onClick={{fn this.editRoleOfMember @membership}}>
+              {{t "pages.team-members.actions.edit-organization-membership-role"}}
+            </Dropdown::Item>
+            <Dropdown::Item @onClick={{fn this.displayRemoveMembershipModal @membership}}>
+              {{t "pages.team-members.actions.remove-membership"}}
+            </Dropdown::Item>
+          </Dropdown::IconTrigger>
+        </td>
+      {{else}}
+        <td class="hide-on-mobile"></td>
+      {{/if}}
+    {{/if}}
+  {{/unless}}
+
+  {{#if this.isEditionMode}}
+    <td>
+      <div id="selectOrganizationRole">
+        <PixSelect
+          class="table__input"
+          aria-label="{{t "pages.team-members.actions.select-role.label"}}"
+          placeholder="{{t "pages.team-members.actions.select-role.label"}}"
+          @onChange={{this.setRoleSelection}}
+          @options={{this.organizationRoles}}
+          @selectedOption={{@membership.organizationRole}}
+        />
+      </div>
+    </td>
+    <td>
+      <div class="zone-save-cancel-role">
+        <PixButton
+          id="save-organization-role"
+          @triggerAction={{fn this.updateRoleOfMember @membership}}
+          @size="small"
+          aria-label={{t "pages.team-members.actions.save"}}
+        >
+          {{t "pages.team-members.actions.save"}}
+        </PixButton>
+        <PixIconButton
+          @icon="times"
+          id="cancel-update-organization-role"
+          aria-label="{{t "common.actions.cancel"}}"
+          @triggerAction={{this.cancelUpdateRoleOfMember}}
+          @withBackground={{false}}
+          @color="dark-grey"
+        />
+      </div>
+    </td>
+  {{/if}}
+</tr>
+
+<Team::RemoveMemberModal
+  @firstName={{@membership.user.firstName}}
+  @lastName={{@membership.user.lastName}}
+  @isOpen={{this.isRemoveMembershipModalDisplayed}}
+  @onSubmit={{this.onRemoveButtonClicked}}
+  @onClose={{this.closeRemoveMembershipModal}}
+/>

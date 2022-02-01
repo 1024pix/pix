@@ -1,0 +1,57 @@
+{{! template-lint-disable require-input-label }}
+{{page-title "Centre " @model.certificationCenter.id}}
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.certification-centers.list"><span id="link-to-certification-centers-page">Tous les
+        centres de certification</span></LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    {{@model.certificationCenter.name}}
+  </div>
+</header>
+
+<main class="page-body" id="certification-center-get-page">
+  <CertificationCenters::Information
+    @availableHabilitations={{this.model.habilitations}}
+    @certificationCenter={{this.model.certificationCenter}}
+    @updateCertificationCenter={{this.updateCertificationCenter}}
+  />
+
+  <section class="page-section mb_10">
+    <header class="page-section__header">
+      <h2 class="page-section__title">Ajouter un membre</h2>
+    </header>
+
+    <div class="certification-center__section">
+      <Input
+        id="userEmailToAdd"
+        @type="email"
+        @value={{this.userEmailToAdd}}
+        aria-label="Adresse e-mail du nouveau membre"
+        class="form-field__text form-control"
+        placeholder="membre@inviter.net"
+        {{on "focusout" this.updateEmailErrorMessage}}
+      />
+
+      <PixButton
+        @triggerAction={{this.addCertificationCenterMembership}}
+        @isDisabled={{this.isDisabled}}
+        @size="small"
+        aria-label="Ajouter le membre"
+        data-test-add-membership
+      >
+        Valider
+      </PixButton>
+    </div>
+    {{#if this.errorMessage}}
+      <div class="certification-center__section error">
+        {{this.errorMessage}}
+      </div>
+    {{/if}}
+  </section>
+
+  <CertificationCenters::MembershipsSection
+    @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+    @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+  />
+
+</main>

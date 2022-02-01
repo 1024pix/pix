@@ -1,0 +1,23 @@
+<div class="badge-card">
+  <div class="badge-card__text">
+    <div class="badge-card__status">
+      {{#if @isAcquired}}
+        <p>
+          <span><FaIcon @icon="check-circle" class="badge-card-status__acquired-icon" /></span>
+          {{t "pages.skill-review.badge-card.acquired"}}
+        </p>
+      {{else}}
+        <p>
+          <span><FaIcon @icon="times-circle" class="badge-card-status__not-acquired-icon" /></span>
+          {{t "pages.skill-review.badge-card.not-acquired"}}
+        </p>
+      {{/if}}
+    </div>
+    <p class="badge-card-text__title">{{@title}}</p>
+    <p class="badge-card-text__message"><MarkdownToHtml @markdown={{@message}} /></p>
+  </div>
+  <div class="badge-card__image {{unless @isAcquired "badge-card__image--not-acquired"}}"><img
+      src="{{@imageUrl}}"
+      alt="{{@altMessage}}"
+    /></div>
+</div>

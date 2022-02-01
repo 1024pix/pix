@@ -1,0 +1,80 @@
+$margin-right: 32px;
+
+.list-team-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  margin-bottom: 20px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin: 1em 0 2.4em;
+  }
+
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid $grey-20;
+    margin-bottom: 24px;
+  }
+
+  .modal-dialog-width {
+    width: 600px;
+  }
+}
+
+.list-team-page-header__add-member-button {
+    margin-left: auto;
+  }
+
+.list-team-page-invitations {
+  margin-bottom: 35px;
+}
+
+.zone-edit-role {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  height: inherit;
+  justify-content: flex-end;
+  padding-right: 25px;
+
+  &__dropdown-button {
+    margin-right: $margin-right;
+  }
+
+  &__dropdown-content {
+    width: 200px;
+    right: $margin-right;
+  }
+}
+
+.zone-save-cancel-role {
+  box-sizing: border-box;
+  padding-right: 25px;
+  display: flex;
+  height: inherit;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+
+  & > :last-child {
+    margin-left: 10px;
+  }
+}
+
+@include device-is('mobile') {
+  .list-team-page {
+    &__header {
+      flex-direction: column;
+    }
+  }
+
+  .list-team-page-header {
+    &__add-member-button {
+      margin-top: initial;
+      margin-left: initial;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{{page-title "Nouveau Centre de certif"}}
+<header class="page-header">
+  <div class="page-title">
+    Nouveau centre de certification
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <CertificationCenters::Form
+      @certificationCenter={{@model.certificationCenter}}
+      @habilitations={{@model.habilitations}}
+      @onSubmit={{this.addCertificationCenter}}
+      @onCancel={{this.goBackToCertificationCentersList}}
+    />
+  </section>
+</main>

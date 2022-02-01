@@ -1,0 +1,19 @@
+<div class="list-students-page__header">
+  <div class="page__title page-title">{{t "pages.students-sup.title"}}</div>
+  {{#if this.currentUser.isAdminInOrganization}}
+    <div class="list-students-page__import-students-button hide-on-mobile">
+      <PixButtonLink
+        @href={{this.urlToDownloadCsvTemplate}}
+        @backgroundColor="transparent-light"
+        target="_blank"
+        rel="noopener noreferrer"
+        download
+      >
+        {{t "pages.students-sup.actions.download-template"}}
+      </PixButtonLink>
+      <PixButtonLink @route="authenticated.sup-students.import">
+        {{t "pages.students-sup.actions.import-file"}}
+      </PixButtonLink>
+    </div>
+  {{/if}}
+</div>

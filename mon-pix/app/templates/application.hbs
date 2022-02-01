@@ -1,0 +1,9 @@
+{{! template-lint-disable no-implicit-this no-inline-styles }}
+{{page-title (t "navigation.pix")}}
+<div class="body">
+  <CommunicationBanner />
+  {{outlet}}
+
+  <!-- Preloading images -->
+  <img src="{{rootURL}}/images/loader-white.svg" alt="{{t "common.loading.default"}}" style="display: none" />
+</div>

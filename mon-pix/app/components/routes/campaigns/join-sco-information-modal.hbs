@@ -1,0 +1,39 @@
+<PixModal @containerClass="join-error-modal" @onClickOverlay={{@closeModal}} role="dialog">
+  <div class="join-error-modal__header">
+    <div class="join-error-modal-header__title">
+      <h1 class="join-error-modal-header-title__text">{{t "pages.join.sco.login-information-title"}}</h1>
+    </div>
+    <PixIconButton
+      id="pix-modal__close-button"
+      @withBackground={{true}}
+      @ariaLabel={{t "common.actions.close"}}
+      @icon="times"
+      @triggerAction={{@closeModal}}
+    />
+  </div>
+
+  <div class="join-error-modal__body" {{on-key "Escape" @closeModal}}>
+    <div class="join-error-modal-body__message" aria-live="polite">{{this.message}}</div>
+  </div>
+
+  <div class="join-error-modal__footer">
+    {{#if this.isInformationMode}}
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.goToHome}}>
+        {{t "common.actions.sign-out"}}
+      </PixButton>
+
+      <PixButton @triggerAction={{@associate}}>
+        {{t "pages.join.sco.associate"}}
+      </PixButton>
+    {{else}}
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.goToHome}}>
+        {{t "common.actions.quit"}}
+      </PixButton>
+      {{#if this.displayContinueButton}}
+        <PixButton @triggerAction={{this.goToCampaignConnectionForm}}>
+          {{t "pages.join.sco.continue-with-pix"}}
+        </PixButton>
+      {{/if}}
+    {{/if}}
+  </div>
+</PixModal>

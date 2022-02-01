@@ -1,0 +1,79 @@
+<div class="content-text content-text--small">
+  <table class="table-admin">
+    <thead>
+      <tr>
+        <th class="table__column table__column--id"><label for="id">ID</label></th>
+        <th><label for="name">Nom</label></th>
+        <th><label for="type">Type</label></th>
+        <th><label for="externalId">ID externe</label></th>
+      </tr>
+      <tr>
+        <td class="table__column table__column--id">
+          <input
+            id="id"
+            type="text"
+            value={{@id}}
+            oninput={{perform @triggerFiltering "id"}}
+            class="table-admin-input"
+          />
+        </td>
+        <td>
+          <input
+            id="name"
+            type="text"
+            value={{@name}}
+            oninput={{perform @triggerFiltering "name"}}
+            class="table-admin-input"
+          />
+        </td>
+        <td>
+          <input
+            id="type"
+            type="text"
+            value={{@type}}
+            oninput={{perform @triggerFiltering "type"}}
+            class="table-admin-input"
+          />
+        </td>
+        <td>
+          <input
+            id="externalId"
+            type="text"
+            value={{@externalId}}
+            oninput={{perform @triggerFiltering "externalId"}}
+            class="table-admin-input"
+          />
+        </td>
+      </tr>
+    </thead>
+
+    {{#if @certificationCenters}}
+      <tbody>
+        {{#each @certificationCenters as |certificationCenter|}}
+          <tr aria-label="Centre de certification">
+            <td class="table__column table__column--id">
+              <LinkTo
+                @route="authenticated.certification-centers.get"
+                @model={{certificationCenter.id}}
+                data-test-certification={{certificationCenter.id}}
+              >
+                {{certificationCenter.id}}
+              </LinkTo>
+            </td>
+            <td>{{certificationCenter.name}}</td>
+            <td>{{certificationCenter.type}}</td>
+            <td>{{certificationCenter.externalId}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @certificationCenters}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>
+
+{{#if @certificationCenters}}
+  <PaginationControl @pagination={{@certificationCenters.meta}} />
+{{/if}}

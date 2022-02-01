@@ -1,0 +1,140 @@
+<PixModal
+  @class="comparison-window-modal"
+  @onClickOverlay={{@closeComparisonWindow}}
+  @originId="#button-comparision-answer-{{@answer.id}}"
+  role="dialog"
+>
+
+  <button
+    type="button"
+    id="pix-modal__close-button"
+    class="pix-modal__close-link"
+    aria-label={{t "common.actions.close"}}
+    {{on "click" @closeComparisonWindow}}
+  >
+    <span>{{t "common.actions.close"}}</span>
+    <FaIcon @icon="times-circle" class="logged-user-menu__icon" aria-hidden="true" />
+  </button>
+
+  <div class="pix-modal__container comparison-window" {{on-key "Escape" @closeComparisonWindow}}>
+
+    <div class="pix-modal-header comparison-window__header">
+      <div class="comparison-window-header__result-item-icon">
+        <FaIcon
+          @icon={{this.resultItemIcon.icon}}
+          class={{concat "comparison-window-header__result-item-icon--" this.resultItemIcon.color}}
+        />
+      </div>
+      <h3 class="comparison-window-header__title">{{t this.resultItem.title}}</h3>
+    </div>
+
+    <div class="comparison-window__content">
+
+      <div class="comparison-window-content__body">
+
+        <div class="rounded-panel comparison-window-content-body__instruction">
+          <div class="rounded-panel__row">
+            <MarkdownToHtmlUnsafe
+              @class="challenge-statement-instruction__text"
+              @markdown={{@answer.challenge.instruction}}
+            />
+          </div>
+
+          {{#if @answer.challenge.illustrationUrl}}
+            <div class="rounded-panel__row challenge-statement__illustration-section">
+              <ChallengeIllustration
+                @src={{@answer.challenge.illustrationUrl}}
+                @alt={{@answer.challenge.illustrationAlt}}
+              />
+            </div>
+          {{/if}}
+        </div>
+        <div class="comparison-window-content-body__corrected-answers">
+          {{#if this.isAssessmentChallengeTypeQcm}}
+            <QcmSolutionPanel
+              @challenge={{@answer.challenge}}
+              @answer={{@answer}}
+              @solution={{this.solution}}
+              @solutionToDisplay={{this.solutionToDisplay}}
+            />
+          {{/if}}
+
+          {{#if this.isAssessmentChallengeTypeQcu}}
+            <QcuSolutionPanel
+              @challenge={{@answer.challenge}}
+              @answer={{@answer}}
+              @solution={{this.solution}}
+              @solutionToDisplay={{this.solutionToDisplay}}
+            />
+          {{/if}}
+
+          {{#if this.isAssessmentChallengeTypeQroc}}
+            <div data-test-id="comparison-window__corrected-answers--qroc">
+              <QrocSolutionPanel
+                @answer={{@answer}}
+                @solution={{this.solution}}
+                @solutionToDisplay={{this.solutionToDisplay}}
+              />
+            </div>
+          {{/if}}
+
+          {{#if this.isAssessmentChallengeTypeQrocmInd}}
+            <div data-test-id="comparison-window__corrected-answers--qrocm">
+              <QrocmIndSolutionPanel
+                @answer={{@answer}}
+                @solution={{this.solution}}
+                @challenge={{@answer.challenge}}
+                @solutionToDisplay={{this.solutionToDisplay}}
+              />
+            </div>
+          {{/if}}
+
+          {{#if this.isAssessmentChallengeTypeQrocmDep}}
+            <div data-test-id="comparison-window__corrected-answers--qrocm">
+              <QrocmDepSolutionPanel
+                @answer={{@answer}}
+                @solution={{this.solution}}
+                @challenge={{@answer.challenge}}
+                @solutionToDisplay={{this.solutionToDisplay}}
+              />
+            </div>
+          {{/if}}
+        </div>
+
+        {{#if @answer.isResultNotOk}}
+          {{#if @answer.correction.noHintsNorTutorialsAtAll}}
+            <p class="comparison-windows-content-body-default-message-container__default-message-title">{{t
+                "pages.comparison-window.upcoming-tutorials"
+              }}</p>
+          {{else}}
+            <TutorialPanel @hint={{@answer.correction.hint}} @tutorials={{@answer.correction.tutorials}} />
+          {{/if}}
+        {{/if}}
+        <LearningMorePanel @learningMoreTutorials={{@answer.correction.learningMoreTutorials}} />
+      </div>
+
+      <div class="pix-modal-footer">
+        <div class="comparison-window__feedback-panel">
+          <FeedbackPanel
+            @assessment={{@answer.assessment}}
+            @challenge={{@answer.challenge}}
+            @context="comparison-window"
+            @answer={{@answer}}
+            @alwaysOpenForm={{true}}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="pix-modal__close-link"
+    aria-label={{t "common.actions.close"}}
+    {{on "click" @closeComparisonWindow}}
+  >
+    <span>{{t "common.actions.close"}}</span>
+    <FaIcon @icon="times-circle" class="logged-user-menu__icon" aria-hidden="true" />
+  </button>
+
+</PixModal>

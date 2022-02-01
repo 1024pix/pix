@@ -1,0 +1,153 @@
+.new-information {
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 16px;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @include device-is('tablet') {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+  }
+
+  &__close {
+    align-self: flex-end;
+    padding: 3px 10px 6px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @include device-is('tablet') {
+      align-self: flex-start;
+    }
+  }
+
+  &--yellow-background {
+    background: linear-gradient(-225deg, rgba(254, 220, 65, 0.55) 0%, rgba(255, 159, 0, 0.55) 100%);
+
+    @include device-is('tablet') {
+      margin-top: 40px;
+    }
+  }
+
+  &--blue-gradient-background {
+    background-image: $default-gradient;
+    background-color: rgb(5, 108, 255);
+  }
+
+  &--yellow-gradient-background {
+    background-image: linear-gradient(-225deg, #FFEC97 0%, #FFCA73 100%);
+  }
+
+  &--white-text {
+    color: $white;
+  }
+
+  &--black-text {
+    color: $grey-80;
+  }
+
+  &--align-text-center {
+    text-align: center;
+
+    @include device-is('desktop') {
+      text-align: left;
+    }
+  }
+}
+
+.new-information-content {
+
+  &__img {
+    display: block;
+    margin: 12px 48px 12px 30px;
+  }
+
+  &__text {
+    display: inline-block;
+    font-weight: $font-light;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 0 10px 14px;
+
+    @include device-is('tablet') {
+      padding: 16px 0 14px 24px;
+    }
+
+    @include device-is('desktop') {
+      padding: 12px 0;
+    }
+
+    h2 {
+      font-size: 1.125rem;
+      font-weight: $font-semi-bold;
+      font-family: $font-open-sans;
+      letter-spacing: 0;
+      line-height: 1.875rem;
+      margin-bottom: 14px;
+
+      @include device-is('tablet') {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+    }
+
+    p {
+      font-size: 0.875rem;
+      font-weight: $font-normal;
+      letter-spacing: 0.009rem;
+      line-height: 1.375rem;
+      margin: 0;
+    }
+  }
+}
+
+.new-information-content-text {
+
+  &__button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    display: inline-table;
+
+    @include device-is('tablet') {
+      margin: 0;
+    }
+  }
+
+  &__link {
+    display: none;
+    margin-top: 14px;
+    font-size: 0.875rem;
+    font-weight: $font-normal;
+    letter-spacing: 0.009rem;
+    line-height: 1.375rem;
+
+    .fa-arrow-right {
+      margin-right: 5px;
+    }
+
+    @include device-is('desktop') {
+      display: inline-table;
+    }
+
+    &:focus span,
+    &:hover span {
+      border-bottom: 1px solid $white;
+    }
+  }
+}

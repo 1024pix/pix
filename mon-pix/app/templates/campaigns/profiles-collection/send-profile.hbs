@@ -1,0 +1,43 @@
+{{! template-lint-disable no-action }}
+{{page-title (t "pages.send-profile.title")}}
+
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner send-profile-header">
+
+    <div class="send-profile-header__announcement">
+      <h1 class="send-profile-header__title">
+        {{t "pages.send-profile.first-title"}}
+      </h1>
+      <p class="send-profile-header__instruction">
+        {{t "pages.send-profile.instructions" htmlSafe=true}}
+      </p>
+    </div>
+
+    <ProfileSharingForm
+      @sendProfile={{action "sendProfile"}}
+      @campaignParticipation={{this.model.campaignParticipation}}
+      @campaign={{this.model.campaign}}
+      @errorMessage={{this.errorMessage}}
+    />
+
+    <div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
+      <HexagonScore @pixScore={{this.model.user.profile.pixScore}} />
+      <div class="send-profile-header__profile__cards">
+        <ProfileScorecards
+          @interactive={{false}}
+          class="send-profile-header__profile__cards"
+          @areasCode={{this.model.user.profile.areasCode}}
+          @scorecards={{this.model.user.profile.scorecards}}
+        />
+      </div>
+    </div>
+
+    <ProfileSharingForm
+      @sendProfile={{action "sendProfile"}}
+      @campaignParticipation={{this.model.campaignParticipation}}
+      @campaign={{this.model.campaign}}
+      @errorMessage={{this.errorMessage}}
+    />
+  </div>
+</div>

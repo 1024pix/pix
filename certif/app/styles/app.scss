@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+@import 'colors';
+@import "globals/breakpoints";
+@import "globals/errors";
+@import "globals/fonts";
+@import "globals/forms";
+@import "globals/pages";
+@import "globals/panels";
+@import 'globals/app-modal';
+@import "globals/tables";
+@import "globals/texts";
+@import "globals/titles";
+@import "pages/login";
+@import "pages/login-session-supervisor";
+@import "pages/session-supervising";
+@import "pages/session-supervising-error";
+@import "pages/authenticated";
+@import "pages/authenticated/restricted-access";
+@import "pages/authenticated/sessions";
+@import "pages/authenticated/sessions/add-student";
+@import "pages/authenticated/sessions/details";
+@import "pages/authenticated/sessions/list-items";
+@import "pages/authenticated/sessions/no-session-panel";
+@import "pages/authenticated/sessions/details/certification-candidates";
+@import "pages/authenticated/sessions/details/certification-candidates-sco";
+@import "pages/terms-of-service";
+@import "components/add-student-list";
+@import "components/certif-checkbox";
+@import "components/communication-banner";
+@import "components/ember-cli-notifications-ie-fallback";
+@import "components/add-issue-report-modal";
+@import "components/certification-candidate-details-modal";
+@import "components/layout/footer";
+@import "components/login-form";
+@import "components/login-session-supervisor-form.scss";
+@import "components/finalize";
+@import "components/new-certification-candidate-modal";
+@import "components/session-finalization-step-container";
+@import "components/session-finalization/reports-information-step";
+@import "components/session-finalization/formbuilder-link-step";
+@import "components/session-finalization/examiner-global-comment-step";
+@import "components/session-supervising/header";
+@import "components/session-supervising/candidate-in-list";
+@import "components/session-supervising/candidate-list";
+@import "components/session-summary-list";
+@import "components/pagination-control.scss";
+@import "components/dropdown";
+@import "components/user-logged-menu";
+
+body,
+html {
+  margin: 0;
+  min-height: 100%;
+  min-height: 100vh;
+  font-family: $roboto;
+  color: $black;
+  background-color: $grey-10;
+}
+
+body > .ember-view {
+  height: 100%;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+* {
+  box-sizing: border-box;
+}

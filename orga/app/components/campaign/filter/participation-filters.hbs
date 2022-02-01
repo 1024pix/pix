@@ -1,0 +1,56 @@
+{{#if this.displayFilters}}
+  <PixFilterBanner
+    @title={{t "pages.campaign-results.filters.title"}}
+    class="participant-filter-banner hide-on-mobile"
+    aria-label={{t "pages.campaign-results.filters.aria-label"}}
+    @details={{t "pages.campaign-results.filters.participations-count" count=@rowCount}}
+    @clearFiltersLabel={{t "pages.campaign-results.filters.actions.clear"}}
+    @onClearFilters={{@onResetFilter}}
+  >
+    {{#if this.displayStatusFilter}}
+      <PixSelect
+        aria-label={{t "pages.campaign-results.filters.type.status.title"}}
+        @options={{this.statusOptions}}
+        @onChange={{this.onSelectStatus}}
+        @selectedOption={{@selectedStatus}}
+        @emptyOptionLabel={{t "pages.campaign-results.filters.type.status.empty"}}
+        @emptyOptionNotSelectable={{false}}
+      />
+    {{/if}}
+    {{#if this.displayDivisionFilter}}
+      <Ui::DivisionsFilter
+        @model={{@campaign}}
+        @selected={{@selectedDivisions}}
+        @onSelect={{this.onSelectDivision}}
+        @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
+      />
+    {{/if}}
+    {{#if this.displayGroupsFilter}}
+      <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
+    {{/if}}
+    {{#if this.displayStagesFilter}}
+      <PixMultiSelect
+        @id="stage"
+        @title={{t "pages.campaign-results.filters.type.stages"}}
+        @onSelect={{this.onSelectStage}}
+        @selected={{@selectedStages}}
+        @options={{this.stageOptions}}
+        as |stage|
+      >
+        <Campaign::StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
+      </PixMultiSelect>
+    {{/if}}
+    {{#if this.displayBadgesFilter}}
+      <PixMultiSelect
+        @id="badge"
+        @title={{t "pages.campaign-results.filters.type.badges"}}
+        @onSelect={{this.onSelectBadge}}
+        @selected={{@selectedBadges}}
+        @options={{this.badgeOptions}}
+        as |badge|
+      >
+        {{badge.label}}
+      </PixMultiSelect>
+    {{/if}}
+  </PixFilterBanner>
+{{/if}}

@@ -1,0 +1,57 @@
+{{! template-lint-disable no-action require-input-label no-unknown-arguments-for-builtin-components }}
+{{page-title (t "pages.fill-in-certificate-verification-code.title")}}
+
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+    <NavbarHeader @burger={{burger}} />
+    <main>
+      <PixBackgroundHeader id="main">
+        <PixBlock class="fill-in-certificate-verification-code">
+          <form class="fill-in-certificate-verification-code__form" autocomplete="off">
+
+            <h1 class="form__title">
+              {{t "pages.fill-in-certificate-verification-code.first-title"}}
+            </h1>
+
+            <p class="form__description">
+              {{t "pages.fill-in-certificate-verification-code.description"}}
+            </p>
+
+            <div class="form__input-and-label">
+              <label for="certificate-verification-code">
+                {{t "pages.fill-in-certificate-verification-code.label"}}
+              </label>
+              <Input
+                required
+                class="input-code"
+                @type="text"
+                @id="certificate-verification-code"
+                @value={{this.certificateVerificationCode}}
+                @maxlength="10"
+                @key-down={{this.clearErrorMessage}}
+              />
+            </div>
+
+            {{#if this.errorMessage}}
+              <div class="form__error--validation" aria-live="polite">
+                {{this.errorMessage}}
+              </div>
+            {{/if}}
+
+            <PixButton @type="submit" @triggerAction={{this.checkCertificate}} class="form__actions">
+              {{t "pages.fill-in-certificate-verification-code.verify"}}
+            </PixButton>
+
+            {{#if this.showNotFoundCertificationErrorMessage}}
+              <PixMessage @type="alert" class="form__error--not-found">
+                <FaIcon @icon="exclamation-triangle" />
+                <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
+              </PixMessage>
+            {{/if}}
+          </form>
+        </PixBlock>
+      </PixBackgroundHeader>
+    </main>
+    <Footer />
+  </burger.outlet>
+</BurgerMenu>

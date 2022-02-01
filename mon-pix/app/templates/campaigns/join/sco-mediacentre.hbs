@@ -1,0 +1,16 @@
+{{page-title (t "pages.join.title")}}
+
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div
+    class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner join-restricted-campaign__container"
+  >
+    <div class="join-restricted-campaign">
+      <Routes::Campaigns::Join::AssociateScoStudentWithMediacentreForm
+        @organizationName={{@model.organizationName}}
+        @campaignCode={{@model.code}}
+        @onSubmit={{this.createAndReconcile}}
+      />
+    </div>
+  </div>
+</div>

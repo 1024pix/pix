@@ -1,0 +1,31 @@
+<fieldset class="late-or-leaving-certification-issue-report-fields">
+  <div class="late-or-leaving-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-late-or-leaving"
+      type="radio"
+      name="late-or-leaving"
+      checked={{@lateOrLeavingCategory.isChecked}}
+      {{on "click" (fn @toggleOnCategory @lateOrLeavingCategory)}}
+    />
+    <label for="input-radio-for-category-late-or-leaving"><span
+      >{{@lateOrLeavingCategory.categoryCode}}&nbsp;</span>{{@lateOrLeavingCategory.categoryLabel}}</label>
+  </div>
+  {{#if @lateOrLeavingCategory.isChecked}}
+    <div class="late-or-leaving-certification-issue-report-fields__details">
+      <label for="subcategory-for-category-late-or-leaving">Sélectionnez une sous-catégorie :</label>
+      <PixSelect
+        id="subcategory-for-category-late-or-leaving"
+        @options={{this.options}}
+        @selectedOption={{@lateOrLeavingCategory.subcategory}}
+        @onChange={{this.onChangeSubcategory}}
+      />
+      <label for="text-area-for-category-late-or-leaving">{{this.subcategoryTextAreaLabel}}</label>
+      <PixTextarea
+        @id="text-area-for-category-late-or-leaving"
+        @value={{@lateOrLeavingCategory.description}}
+        @maxlength={{@maxlength}}
+        required="true"
+      />
+    </div>
+  {{/if}}
+</fieldset>

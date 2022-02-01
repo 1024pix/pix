@@ -1,0 +1,48 @@
+<div class="pagination-control content-text content-text--small">
+  <div class="page-size">
+    <div class="page-size__label">Voir</div>
+    <div class="page-size__choice">
+      <PixSelect
+        id="pageSize"
+        @options={{this.options}}
+        @onChange={{this.changePageSize}}
+        @selectedOption={{@pagination.pageSize}}
+      />
+    </div>
+  </div>
+  <div class="page-navigation">
+    <div
+      class="page-navigation__arrow page-navigation__arrow--previous
+        {{if (eq @pagination.page 1) "page-navigation__arrow--disabled"}}"
+    >
+      <LinkTo
+        aria-label="Aller à la page précédente"
+        @query={{hash pageNumber=this.previousPage}}
+        @disabled={{eq @pagination.page 1}}
+        @replace={{true}}
+        class="icon-button icon-button--link"
+      >
+        <FaIcon @icon="arrow-left" />
+      </LinkTo>
+    </div>
+    <div class="page-navigation__body">
+      <div class="page-navigation__label">Page&nbsp;:</div>
+      <div class="page-navigation__current-page">{{@pagination.page}}</div>
+      <div class="page-navigation__last-page">/&nbsp;{{@pagination.pageCount}}</div>
+    </div>
+    <div
+      class="page-navigation__arrow page-navigation__arrow--next
+        {{if (eq @pagination.page @pagination.pageCount) "page-navigation__arrow--disabled"}}"
+    >
+      <LinkTo
+        aria-label="Aller à la page suivante"
+        @query={{hash pageNumber=this.nextPage}}
+        @disabled={{eq @pagination.page @pagination.pageCount}}
+        @replace={{true}}
+        class="icon-button icon-button--link"
+      >
+        <FaIcon @icon="arrow-right" />
+      </LinkTo>
+    </div>
+  </div>
+</div>

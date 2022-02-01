@@ -1,0 +1,36 @@
+<Modal::Dialog
+  class="edit-student-number-modal"
+  @title={{t "pages.students-sup.edit-student-number-modal.title"}}
+  @display={{@display}}
+  @close={{this.close}}
+>
+  <form {{on "submit" this.updateStudentNumber}}>
+    <Modal::Body class="edit-student-number-modal__content">
+      {{#if @student.studentNumber}}
+        <p class="content-text">{{t
+            "pages.students-sup.edit-student-number-modal.form.student-number"
+            firstName=@student.firstName
+            lastName=@student.lastName
+          }}<span class="content-text--info">{{@student.studentNumber}}</span></p>
+      {{/if}}
+      <label for="editStudentNumber" class="content-text">{{t
+          "pages.students-sup.edit-student-number-modal.form.new-student-number-label"
+        }}</label>
+      <div class="input-container">
+        <Input id="editStudentNumber" @type="text" @value={{this.newStudentNumber}} class="input" />
+
+        <div class="form__error error-message">
+          {{this.error}}
+        </div>
+      </div>
+    </Modal::Body>
+    <Modal::Footer class="edit-student-number-modal__actions">
+      <PixButton @triggerAction={{this.close}} @backgroundColor="transparent-light">
+        {{t "common.actions.cancel"}}
+      </PixButton>
+      <PixButton @type="submit" @isDisabled={{this.isDisabled}}>
+        {{t "pages.students-sup.edit-student-number-modal.actions.update"}}
+      </PixButton>
+    </Modal::Footer>
+  </form>
+</Modal::Dialog>

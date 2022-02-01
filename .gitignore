@@ -1,0 +1,86 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+**/dist
+**/tmp
+**/coverage
+**/.nyc_output
+**/pix.log.*
+
+# dependencies
+**/node_modules
+**/bower_components
+
+# misc
+**/.eslintcache
+**/.sass-cache
+**/connect.lock
+**/libpeerconnection.log
+**/npm-debug.log
+**/testem.log
+**/out.log
+**/api/.env
+**/*.log
+**/*.log.*
+
+# IDE
+**/.idea
+!.idea/runConfigurations/*.xml
+*.iml
+*.code-workspace
+
+# SQLite3 local dev file
+*.sqlite3
+
+# system
+.DS_Store
+
+**/.env
+
+# CircleCI
+*.circle-cache-key
+
+# ember-try
+**/.node_modules.ember-try/
+**/bower.json.ember-try
+**/package.json.ember-try
+
+api/.vscode/*
+api/.vscode
+api/.nvmrc
+.vscode/*
+!.vscode/sample.launch.json
+!.vscode/sample.settings.json
+.history
+
+# ember-try
+.node_modules.ember-try/
+bower.json.ember-try
+package.json.ember-try
+
+# cypress
+high-level-tests/e2e/cypress/screenshots/*
+high-level-tests/e2e/cypress/screenshots
+high-level-tests/e2e/cypress/videos/*
+high-level-tests/e2e/cypress/videos
+
+# Heap files
+*.heapsnapshot
+*.heapprofile
+
+# Artillery.io
+high-level-tests/load-testing/report/*.json
+high-level-tests/load-testing/report/*.html
+
+# Answers extracts
+api/scripts/extractions
+
+# Visual regression snapshots
+high-level-tests/e2e/cypress/snapshots/actual/**
+
+# Jupyter Notebook
+**/.cache
+**/.config
+**/.ipython
+**/.ipynb_checkpoints
+**/.local

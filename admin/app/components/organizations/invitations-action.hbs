@@ -1,0 +1,48 @@
+<section class="page-section mb_10 organization-invitations">
+  <div class="organization__forms-section">
+    <form>
+      <h2>Inviter un membre</h2>
+      <div class="organization__sub-form">
+        <PixInput
+          @id="userEmailToInvite"
+          @value={{@userEmailToInvite}}
+          @label="Adresse e-mail du membre à inviter"
+          class="organization-invitations__input {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
+        />
+
+        <PixSelect
+          @options={{this.languagesOptions}}
+          @selectedOption={{this.organizationInvitationLang}}
+          @onChange={{this.changeOrganizationInvitationLang}}
+          aria-label="Choisir la langue de l’email d’invitation"
+          class="organization-invitations__select"
+        />
+
+        <PixSelect
+          @options={{this.rolesOptions}}
+          @selectedOption={{this.organizationInvitationRole}}
+          @onChange={{this.changeOrganizationInvitationRole}}
+          aria-label="Choisir le rôle du membre"
+          class="organization-invitations__select"
+        />
+
+        <PixButton
+          @size="small"
+          @triggerAction={{fn
+            @createOrganizationInvitation
+            this.organizationInvitationLang
+            this.organizationInvitationRoleValue
+          }}
+          aria-label="Inviter un membre"
+          class="organization-invitations__button"
+          name="Inviter"
+        >
+          Inviter
+        </PixButton>
+      </div>
+      {{#if @userEmailToInviteError}}
+        <div class="organization-sub-form__error-message">{{@userEmailToInviteError}}</div>
+      {{/if}}
+    </form>
+  </div>
+</section>

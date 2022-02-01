@@ -1,0 +1,43 @@
+{{! template-lint-disable no-implicit-this no-curly-component-invocation }}
+<div class="tutorial-item">
+  <div class="tutorial__content">
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="{{tutorial.link}}"
+      class="tutorial-content__title"
+    >{{tutorial.title}}</a>
+    <div class="tutorial-content__description">
+      <span class="tutorial-content__source">{{t "pages.user-tutorials.list.tutorial.source"}}
+        {{tutorial.source}}</span>
+      •
+      <span class="tutorial-content__format">{{tutorial.format}}</span>
+      •
+      <span class="tutorial-content__duration">{{moment-duration tutorial.duration}}</span>
+    </div>
+    {{#if this.currentUser.user}}
+      <div class="tutorial-content__actions">
+        <button
+          class="tutorial-content-actions__save"
+          title={{this.buttonExtraInformation}}
+          {{on "click" (if this.isSaved this.removeTutorial this.saveTutorial)}}
+          disabled={{this.isSaveButtonDisabled}}
+          type="button"
+        >
+          <FaIcon @prefix={{if this.isSaved "fas" "far"}} @icon="bookmark" />
+          {{buttonLabel}}
+        </button>
+        <button
+          class="tutorial-content-actions__evaluate"
+          title={{t "pages.user-tutorials.list.tutorial.actions.evaluate.extra-information"}}
+          {{on "click" this.evaluateTutorial}}
+          disabled={{this.isEvaluateButtonDisabled}}
+          type="button"
+        >
+          <FaIcon @prefix={{if this.isEvaluated "fas" "far"}} @icon="thumbs-up" />
+          {{t "pages.user-tutorials.list.tutorial.actions.evaluate.label"}}
+        </button>
+      </div>
+    {{/if}}
+  </div>
+</div>

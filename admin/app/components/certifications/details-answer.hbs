@@ -1,0 +1,44 @@
+<div class="card text-center certification-details-answer border-secondary">
+  <div class="card-body certification-details-card">
+    <div class="certification-details-answer-order">
+      {{@answer.order}}
+    </div>
+    <div class="certification-details-answer-skill">
+      {{@answer.skill}}
+    </div>
+    <div class="certification-details-answer-challenge">
+      <div data-test-answer-challengeId>
+        {{@answer.challengeId}}
+      </div>
+      <div class="certification-details-answer-challenge-links">
+        <a
+          href={{this.linkToChallengePreviewInPixApp}}
+          target="_blank"
+          rel="noreferrer noopener"
+          data-test-link-preview
+        >
+          Preview
+        </a>|
+        <a href={{this.linkToChallengeInfoInPixEditor}} target="_blank" rel="noreferrer noopener" data-test-link-info>
+          Info
+        </a>
+      </div>
+    </div>
+    <div class="certification-details-answer-value">
+      {{@answer.value}}
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class={{this.resultClass}}>
+      <PowerSelect
+        @options={{this.resultOptions}}
+        @selected={{this.selectedOption}}
+        @searchEnabled={{false}}
+        @onChange={{this.selectOption}}
+        as |result|
+      >
+        {{result.label}}
+      </PowerSelect>
+    </div>
+  </div>
+</div>

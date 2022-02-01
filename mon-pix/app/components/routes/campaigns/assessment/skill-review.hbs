@@ -1,0 +1,226 @@
+<div class="skill-review__banner">
+  <AssessmentBanner @title={{@model.campaign.title}} @displayHomeLink={{false}} />
+</div>
+
+{{#if @model.campaign.isArchived}}
+  <PixBlock class="skill-review__result-abstract-container">
+    <div class="skill-review__campaign-archived">
+      <img
+        class="skill-review__campaign-archived-image"
+        src="{{this.rootURL}}/images/illustrations/fat-bee.svg"
+        alt=""
+        role="none"
+      />
+      <p class="skill-review__campaign-archived-text">
+        {{t "pages.skill-review.archived" htmlSafe=true}}
+      </p>
+      <LinkTo @route="index" class="skill-review-share__back-to-home link">
+        {{t "pages.skill-review.actions.continue"}}
+      </LinkTo>
+    </div>
+  </PixBlock>
+{{else}}
+  <PixBlock class="skill-review__result-abstract-container">
+    <div class="skill-review__result-and-action">
+      <h2 class="sr-only">{{t "pages.skill-review.abstract-title"}}</h2>
+      {{#if this.showStages}}
+        <ReachedStage
+          @stageCount={{this.stageCount}}
+          @starCount={{this.reachedStage.starCount}}
+          @masteryRate={{this.masteryRate}}
+          @imageUrl={{@model.campaign.targetProfileImageUrl}}
+        />
+      {{/if}}
+
+      <div class="skill-review__share">
+        {{#if this.showStages}}
+          <div class="skill-review-share__stage-congrats">
+            <div class="stage-congrats__title">
+              {{text-with-multiple-lang this.reachedStage.title}}
+            </div>
+            <div class="stage-congrats__message">
+              <MarkdownToHtml @markdown={{text-with-multiple-lang this.reachedStage.message}} />
+            </div>
+          </div>
+        {{else}}
+          {{#if this.isFlashCampaign}}
+            <p class="rounded-panel-title skill-review-result-abstract__text">
+              {{t "pages.skill-review.flash.abstract"}}
+            </p>
+            <p class="rounded-panel-title skill-review-result-abstract__subtext">
+              {{t "pages.skill-review.flash.estimatedLevel" level=this.estimatedFlashLevel}}
+            </p>
+          {{else}}
+            <p class="rounded-panel-title skill-review-result-abstract__text">
+              {{t "pages.skill-review.abstract" rate=this.masteryRate htmlSafe=true}}
+            </p>
+          {{/if}}
+        {{/if}}
+
+        <h2 class="sr-only">{{t "pages.skill-review.send-title"}}</h2>
+
+        <div
+          class="skill-review-result-abstract__share-container
+            {{if this.showStages "skill-review-result-abstract__share-container--left"}}"
+        >
+          {{#if this.showNotFinishedYetMessage}}
+            <div class="skill-review-share__error-container">
+              <div class="skill-review-share-error__message" aria-live="polite">
+                {{t "pages.skill-review.not-finished"}}
+              </div>
+              <LinkTo
+                @route="campaigns.entry-point"
+                @model={{@model.campaign.code}}
+                class="skill-review-share-error__button button button--big button--link"
+              ><span class="sr-only">{{t "pages.profile.resume-campaign-banner.accessibility.resume"}}</span>{{t
+                  "pages.profile.resume-campaign-banner.actions.resume"
+                }}</LinkTo>
+            </div>
+          {{else if this.showGlobalErrorMessage}}
+            <div class="skill-review-share__error-container">
+              <div class="skill-review-share-error__message" aria-live="polite">
+                {{t "pages.skill-review.error"}}
+              </div>
+              <LinkTo @route="login" class="skill-review-share-error__button button button--big button--link">
+                {{t "navigation.back-to-homepage"}}</LinkTo>
+            </div>
+          {{else}}
+            {{#if @model.campaign.isForAbsoluteNovice}}
+              <a
+                href="#"
+                {{on "click" this.redirectToSignupIfUserIsAnonymous}}
+                class="skill-review-share__back-to-home link"
+                data-link-to-continue-pix
+              >
+                {{t "pages.skill-review.actions.continue"}}
+              </a>
+            {{else}}
+              <CampaignShareButton
+                @isShared={{this.isShared}}
+                @displayPixLink={{this.displayPixLink}}
+                @shareCampaignParticipation={{this.shareCampaignParticipation}}
+                @redirectToSignupIfUserIsAnonymous={{this.redirectToSignupIfUserIsAnonymous}}
+                @isFlashCampaign={{this.isFlashCampaign}}
+              />
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{#if @model.campaignParticipationResult.canRetry}}
+      <div class="skill-review__retry">
+        <p class="skill-review-retry__message">{{t
+            "pages.skill-review.retry.message"
+            organizationName=@model.campaign.organizationName
+          }}</p>
+        <LinkTo
+          @route="campaigns.entry-point"
+          @model={{@model.campaign.code}}
+          @query={{hash retry=true}}
+          class="skill-review-retry__button button button--big button--link"
+        >{{t "pages.skill-review.retry.button"}}</LinkTo>
+      </div>
+    {{/if}}
+  </PixBlock>
+{{/if}}
+
+{{#if this.displayOrganizationCustomMessage}}
+  <PixBlock class="skill-review__organization-message">
+    {{#if @model.campaign.organizationLogoUrl}}
+      <div class="skill-review-organization-message__logo">
+        <img class="logo" src={{@model.campaign.organizationLogoUrl}} alt="{{@model.campaign.organizationName}}" />
+      </div>
+    {{/if}}
+    <div class="skill-review-organization-message__content">
+      <p class="skill-review-organization-message__title">{{t "pages.skill-review.organization-message"}}</p>
+      <p class="skill-review-organization-message__organization-name">{{@model.campaign.organizationName}}</p>
+      {{#if this.showOrganizationMessage}}
+        <div class="skill-review-organization-message__text">
+          <MarkdownToHtml @markdown={{@model.campaign.customResultPageText}} />
+        </div>
+      {{/if}}
+      {{#if this.showOrganizationButton}}
+        <a
+          class="skill-review-organization-message__link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={{this.customButtonUrl}}
+        >{{this.customButtonText}}<FaIcon @icon="external-link-alt" aria-hidden="true" /></a>
+      {{/if}}
+    </div>
+  </PixBlock>
+{{/if}}
+
+{{#if this.showNPS}}
+  <PixBlock class="skill-review__net-promoter-score">
+    <div class="skill-review-net-promoter-score__logo">
+      <img src="/images/illustrations/skill-review/net-promoter-score.svg" role="presentation" alt="" />
+    </div>
+    <div class="skill-review-net-promoter-score__content">
+      <h2>{{t "pages.skill-review.net-promoter-score.title"}}</h2>
+      <p>{{t "pages.skill-review.net-promoter-score.text"}}</p>
+      <PixButtonLink @href="{{@model.campaign.organizationFormNPSUrl}}" target="_blank">
+        {{t "pages.skill-review.net-promoter-score.link.label"}}
+      </PixButtonLink>
+    </div>
+  </PixBlock>
+{{/if}}
+
+{{#if this.showDetail}}
+  <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
+    {{#if this.showBadges}}
+      {{#unless this.hideBadgesTitle}}
+        <h2 class="skill-review-result-detail__badge-subtitle">
+          {{t "pages.skill-review.badges-title"}}
+        </h2>
+      {{/unless}}
+      <div class="badge-container">
+        {{#each this.orderedBadges as |badge|}}
+          <BadgeCard
+            @title={{badge.title}}
+            @message={{badge.message}}
+            @imageUrl={{badge.imageUrl}}
+            @altMessage={{badge.altMessage}}
+            @isAcquired={{badge.isAcquired}}
+          />
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if this.showImproveButton}}
+      <SkillReviewImprove @improve={{this.improve}} />
+    {{/if}}
+
+    {{#unless @model.campaign.isForAbsoluteNovice}}
+
+      <main class="skill-review-result-detail__content">
+        <div class="skill-review-result-detail__table-header">
+          <h2 class="skill-review-result-detail__subtitle">
+            {{t "pages.skill-review.details.title"}}
+          </h2>
+          <CircleChart @value={{this.masteryPercentage}}>
+            <span
+              aria-label="{{t "pages.skill-review.details.result"}}"
+              class="skill-review-table-header__circle-chart-value"
+            >
+              {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
+            </span>
+          </CircleChart>
+        </div>
+
+        <CampaignSkillReviewCompetenceResult
+          @showCleaCompetences={{this.showCleaCompetences}}
+          @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+          @skillSetResults={{@model.campaignParticipationResult.cleaBadge.skillSetResults}}
+        />
+      </main>
+
+      <div class="skill-review-result-detail__information">
+        <FaIcon @icon="info-circle" class="skill-review-information__info-icon" aria-hidden="true" />
+        <div class="skill-review-information__text">
+          {{t "pages.skill-review.information"}}
+        </div>
+      </div>
+    {{/unless}}
+  </PixBlock>
+{{/if}}

@@ -1,0 +1,15 @@
+{{page-title "Surveiller la session n° " @model.id}}
+
+<div class="app">
+  <div class="session-supervising-page">
+    <SessionSupervising::Header @session={{@model}} />
+    <SessionSupervising::CandidateList
+      @authorizeTestResume={{this.authorizeTestResume}}
+      @endAssessmentBySupervisor={{this.endAssessmentBySupervisor}}
+      @toggleCandidate={{this.toggleCandidate}}
+      @candidates={{@model.certificationCandidates}}
+    />
+  </div>
+
+  <NotificationContainer @position="bottom-right" />
+</div>

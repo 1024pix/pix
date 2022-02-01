@@ -1,0 +1,81 @@
+<div class="content-text content-text--small">
+  <div class="table-admin">
+    <table>
+      <thead>
+        <tr>
+          <th class="table__column table__column--id"><label for="id">ID</label></th>
+          <th><label for="name">Nom</label></th>
+          <th><label for="type">Type</label></th>
+          <th><label for="externalId">Identifiant externe</label></th>
+        </tr>
+        <tr>
+          <td class="table__column table__column--id">
+            <input
+              id="id"
+              type="text"
+              value={{@id}}
+              oninput={{fn @triggerFiltering "id"}}
+              class="table-admin-input form-control"
+            />
+          </td>
+          <td>
+            <input
+              id="name"
+              type="text"
+              value={{@name}}
+              oninput={{fn @triggerFiltering "name"}}
+              class="table-admin-input form-control"
+            />
+          </td>
+          <td>
+            <input
+              id="type"
+              type="text"
+              value={{@type}}
+              oninput={{fn @triggerFiltering "type"}}
+              class="table-admin-input form-control"
+            />
+          </td>
+          <td>
+            <input
+              id="externalId"
+              type="text"
+              value={{@externalId}}
+              oninput={{fn @triggerFiltering "externalId"}}
+              class="table-admin-input form-control"
+            />
+          </td>
+        </tr>
+      </thead>
+
+      {{#if @organizations}}
+        <tbody>
+          {{#each @organizations as |organization|}}
+            <tr aria-label="Organisation">
+              <td class="table__column table__column--id">
+                <LinkTo
+                  @route="authenticated.organizations.get"
+                  @model={{organization.id}}
+                  data-test-orga={{organization.id}}
+                >
+                  {{organization.id}}
+                </LinkTo>
+              </td>
+              <td>{{organization.name}}</td>
+              <td>{{organization.type}}</td>
+              <td>{{organization.externalId}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @organizations}}
+      <div class="table__empty content-text">Aucun résultat</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @organizations}}
+  <PaginationControl @pagination={{@organizations.meta}} />
+{{/if}}

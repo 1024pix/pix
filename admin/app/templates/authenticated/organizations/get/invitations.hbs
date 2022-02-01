@@ -1,0 +1,7 @@
+{{page-title "Orga " @model.organization.id " | Invitations"}}
+<Organizations::InvitationsAction
+  @userEmailToInvite={{this.userEmailToInvite}}
+  @userEmailToInviteError={{this.userEmailToInviteError}}
+  @createOrganizationInvitation={{this.createOrganizationInvitation}}
+/>
+<Organizations::Invitations @invitations={{@model.organizationInvitations}} />

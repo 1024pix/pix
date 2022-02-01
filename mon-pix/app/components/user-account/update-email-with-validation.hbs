@@ -1,0 +1,15 @@
+<div class="update-email-with-validation">
+  {{#if this.showEmailForm}}
+    <UserAccount::EmailWithValidationForm
+      @disableEmailEditionMode={{@disableEmailEditionMode}}
+      @showVerificationCode={{this.showVerificationCode}}
+    />
+  {{else}}
+    <UserAccount::EmailVerificationCode
+      @disableEmailEditionMode={{@disableEmailEditionMode}}
+      @displayEmailUpdateMessage={{@displayEmailUpdateMessage}}
+      @email={{this.newEmail}}
+      @password={{this.password}}
+    />
+  {{/if}}
+</div>

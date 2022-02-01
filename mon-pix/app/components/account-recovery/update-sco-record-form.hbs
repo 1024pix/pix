@@ -1,0 +1,58 @@
+{{! template-lint-disable no-nested-interactive }}
+<h1 class="account-recovery__content--title">
+  {{t "pages.account-recovery.update-sco-record.welcome-message" firstName=@firstName}}
+</h1>
+
+<p class="account-recovery__content--information-text--details">
+  {{t "pages.account-recovery.update-sco-record.fill-password"}}
+</p>
+
+<form onSubmit={{this.submitUpdate}} class="account-recovery__content--form">
+  <div class="account-recovery__content--form-fields">
+    <FormTextfield
+      @label={{t "pages.account-recovery.update-sco-record.form.email-label"}}
+      @textfieldName="email"
+      @inputBindingValue={{@email}}
+      @disabled={{true}}
+    />
+
+    <FormTextfield
+      @label={{t "pages.account-recovery.update-sco-record.form.password-label"}}
+      @textfieldName="password"
+      @inputBindingValue={{this.password}}
+      @onValidate={{this.validatePassword}}
+      @validationStatus={{this.passwordValidation.status}}
+      @validationMessage={{this.passwordValidation.message}}
+      @autocomplete="off"
+      @require={{true}}
+      @hideRequired={{true}}
+    />
+
+    <div class="account-recovery__content--information-text--details checkbox-with-label with-links">
+      <label for="pix-cgu">
+        {{t "pages.sign-up.fields.cgu.accept"}}
+        <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t "pages.sign-up.fields.cgu.cgu"}}
+        </a>
+        {{t "pages.sign-up.fields.cgu.and"}}
+        <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t "pages.sign-up.fields.cgu.data-protection-policy"}}
+        </a>
+        {{t "pages.sign-up.fields.cgu.pix"}}
+      </label>
+      <Input @type="checkbox" @checked={{this.cguAndProtectionPoliciesAccepted}} id="pix-cgu" />
+    </div>
+
+    <PixButton
+      @type="submit"
+      @isDisabled={{not this.isSubmitButtonEnabled}}
+      class="account-recovery__content--actions update-sco-record-form__submit"
+    >
+      {{t "pages.account-recovery.update-sco-record.form.login-button"}}
+    </PixButton>
+  </div>
+
+  <div class="update-sco-record-form__legal-details-container">
+    {{t "pages.sign-up.legal-information"}}
+  </div>
+</form>

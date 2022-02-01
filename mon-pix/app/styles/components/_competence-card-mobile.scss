@@ -1,0 +1,151 @@
+.competence-card {
+  position: relative;
+  top: 0;
+  overflow: hidden;
+  font-family: $font-roboto;
+  box-shadow: $box-shadow-competence-cards;
+  border: 1px solid $grey-20;
+  border-radius: 11px;
+  transition: all 0.1s linear;
+  -webkit-tap-highlight-color: rgba($grey-60, 0.3);
+  pointer-events: none;
+  background-color: white;
+
+  &--interactive {
+    pointer-events: auto;
+  }
+
+  & a {
+    text-decoration: none;
+    color: $white;
+  }
+}
+
+.competence-card__title {
+  display: flex;
+  flex-direction: column;
+  color: $white;
+  height: 100%;
+  position: relative;
+  transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.99);
+  overflow: visible;
+  padding: 16px 12px;
+  width: 100%;
+}
+
+.competence-card__wrapper {
+
+  &::after {
+    width: 110%;
+    border-radius: 100%;
+    position: absolute;
+    content: '';
+    right: -50px;
+    left: -80px;
+    top: -90px;
+    bottom: -90px;
+  }
+
+  &--jaffa::after {
+    background: linear-gradient(90deg, $information-dark 45%, $information-light 100%);
+  }
+
+  &--emerald::after {
+    background: linear-gradient(90deg, $content-dark 45%, $content-light 100%);
+  }
+
+  &--cerulean::after {
+    background: linear-gradient(90deg, $blue 45%, $communication-light 100%);
+  }
+
+  &--wild-strawberry::after {
+    background: linear-gradient(90deg, $security-dark 45%, $security-light 100%);
+  }
+
+  &--butterfly-bush::after {
+    background: linear-gradient(90deg, $environment-dark 45%, $environment-light 100%);
+  }
+}
+
+.competence-card__area-name {
+  font-size: 0.688rem;
+  letter-spacing: 0.031rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  font-weight: $font-bold;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.competence-card__competence-name {
+  font-size: 1.125rem;
+  font-weight: $font-medium;
+  position: relative;
+}
+
+.competence-card__body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  border: 0 solid rgba($white, 0.4);
+  transition: border 0.1s ease-in;
+  z-index: 1;
+  height: 80px;
+
+  &--white-background {
+    background-color: white;
+    background-clip: padding-box;
+    border-radius: 50%;
+    padding: 5px;
+  }
+}
+
+.competence-card__link {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 0 solid rgba($white, 0.4);
+  border-radius: 50%;
+  transition: border 0.1s ease-in;
+  z-index: 1;
+}
+
+.competence-card__level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.competence-card__score-value {
+  min-height: 44px;
+  font-size: 2.188rem;
+
+  &--congrats {
+    color: $white;
+    font-weight: $font-bold;
+  }
+}
+
+.competence-card__congrats {
+  width: 130px;
+  height: 140px;
+  background: url('/images/scorecard-congrats.svg') no-repeat center center;
+  background-size: contain;
+  margin: -10px -5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--small {
+    width: 90px;
+    height: 100px;
+  }
+}
+
+.competence-card__score-label--congrats {
+  color: $white;
+}

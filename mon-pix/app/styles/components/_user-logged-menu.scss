@@ -1,0 +1,116 @@
+.logged-user-details {
+  margin: auto 0;
+  display: flex;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: $grey-60 transparent transparent transparent;
+  display: inline-block;
+  margin: auto 0 auto 2px;
+}
+
+.logged-user-name__link {
+  text-decoration: none;
+  color: $grey-60;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:visited,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    color: $grey-60;
+  }
+
+  &:hover {
+    text-decoration: none;
+    color: $light-blue;
+
+    > .caret {
+      border-color: $light-blue transparent transparent transparent;
+    }
+  }
+}
+
+.logged-user-name {
+  word-break: break-all;
+  font-family: $font-roboto;
+  letter-spacing: 0.031rem;
+  text-align: right;
+  color: $grey-60;
+  text-transform: capitalize;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+
+  @include device-is('tablet') {
+    max-width: none;
+  }
+}
+
+.logged-user-menu {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  z-index: 999;
+  background-color: $white;
+  max-width: 380px;
+  min-width: 240px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
+
+  &__details {
+    color: $grey-80;
+    background-color: $grey-10;
+    padding: 12px 16px;
+  }
+
+  &__actions {
+    padding-left: 0;
+    margin: 0;
+
+    & > li {
+      list-style: none;
+    }
+  }
+}
+
+.logged-user-menu-details__fullname {
+  font-size: 1rem;
+  font-weight: $font-bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.logged-user-menu__link {
+  display: flex;
+  align-items: center;
+  font-size: 0.938rem;
+  padding: 12px 16px;
+  color: $grey-80;
+  transition: background-color 0.1s linear;
+  border-top: 1px solid $grey-15;
+
+  &:hover {
+    text-decoration: none;
+    color: $grey-80;
+    background-color: $grey-10;
+  }
+
+  & > svg {
+    margin-right: 5px;
+  }
+}

@@ -1,0 +1,43 @@
+<table class="default-table skill-review-competence__table">
+  <thead>
+    <tr>
+      <th scope="col">{{t "pages.skill-review.details.header-skill"}}</th>
+      <th scope="col">{{t "pages.skill-review.details.header-result"}}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#if @showCleaCompetences}}
+      {{#each @skillSetResults as |skillSet|}}
+        <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
+          <th scope="row">
+            <span class="skill-review-competence__border" aria-hidden="true"></span>
+            <span>{{skillSet.name}}</span>
+          </th>
+          <td>
+            <PixProgressGauge @value={{skillSet.masteryPercentage}} @tooltipText="{{skillSet.masteryPercentage}}%" />
+          </td>
+        </tr>
+      {{/each}}
+    {{else}}
+      {{#each @competenceResults as |competence|}}
+        <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
+          <th scope="row">
+            <span
+              class="skill-review-competence__border skill-review-competence__border--{{competence.areaColor}}"
+              aria-hidden="true"
+            ></span>
+            <span>{{competence.name}}</span>
+          </th>
+          <td>
+            <PixProgressGauge
+              @value={{competence.masteryPercentage}}
+              @tooltipText="{{competence.masteryPercentage}}%"
+            />
+          </td>
+        </tr>
+      {{/each}}
+    {{/if}}
+
+  </tbody>
+</table>

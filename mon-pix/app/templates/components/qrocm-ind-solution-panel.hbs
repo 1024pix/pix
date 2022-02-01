@@ -1,0 +1,108 @@
+<div class="qrocm-solution-panel rounded-panel">
+  <div class="rounded-panel__row correction-qrocm__text">
+    {{#each this.blocks as |block|}}
+      {{#if block.showText}}
+        <MarkdownToHtml
+          @markdown={{block.text}}
+          @extensions="remove-paragraph-tags"
+          class="correction-qrocm-text__label"
+        />
+      {{/if}}
+
+      {{#if block.input}}
+        {{#if block.text}}
+          <label for="{{block.input}}">
+            <MarkdownToHtml
+              @markdown={{block.text}}
+              @extensions="remove-paragraph-tags"
+              class="correction-qrocm-text__label"
+            />
+          </label>
+        {{/if}}
+
+        {{#if (eq @challenge.format "paragraphe")}}
+          <textarea
+            class="correction-qrocm__answer correction-qrocm__answer--paragraph {{block.inputClass}}"
+            rows="5"
+            value="{{block.answer}}"
+            id="{{block.input}}"
+            disabled
+          >
+          </textarea>
+          {{#if block.emptyOrWrongAnswer}}
+            <div class="correction-qrocm__solution">
+              <img
+                class="correction-qrocm__solution-img"
+                src="/images/icons/comparison-window/icon-arrow-right.svg"
+                alt=""
+                role="none"
+              />
+              <div class="correction-qrocm__solution-text">{{block.solution}}</div>
+            </div>
+          {{/if}}
+        {{else if (eq @challenge.format "phrase")}}
+          <input
+            value="{{block.answer}}"
+            size="{{get-qroc-input-size @challenge.format}}"
+            class="correction-qrocm__answer correction-qrocm__answer--sentence {{block.inputClass}}"
+            id="{{block.input}}"
+            disabled
+          />
+          {{#if block.emptyOrWrongAnswer}}
+            <div class="correction-qrocm__solution">
+              <img
+                class="correction-qrocm__solution-img"
+                src="/images/icons/comparison-window/icon-arrow-right.svg"
+                alt=""
+                role="none"
+              />
+              <div class="correction-qrocm__solution-text">{{block.solution}}</div>
+            </div>
+          {{/if}}
+        {{else}}
+          <div class="correction-qrocm__answer-wrapper">
+            <input
+              value="{{block.answer}}"
+              size="{{get-qroc-input-size @challenge.format}}"
+              class="correction-qrocm__answer correction-qrocm__answer--input {{block.inputClass}}"
+              id="{{block.input}}"
+              disabled
+            />
+            {{#if block.emptyOrWrongAnswer}}
+              <div class="correction-qrocm__solution">
+                <img
+                  class="correction-qrocm__solution-img"
+                  src="/images/icons/comparison-window/icon-arrow-right.svg"
+                  alt=""
+                  role="none"
+                />
+                <div class="correction-qrocm__solution-text">{{block.solution}}</div>
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if block.breakline}}
+        <br />
+      {{/if}}
+
+    {{/each}}
+  </div>
+
+  {{#if this.isNotCorrectlyAnswered}}
+    {{#if @solutionToDisplay}}
+      <div class="comparison-window-solution comparison-window-solution--with-margin">
+        <img
+          class="comparison-window-solution__img"
+          src="/images/icons/comparison-window/icon-arrow-right.svg"
+          alt=""
+          role="none"
+        />
+        <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+        <div class="comparison-window-solution__text">{{@solutionToDisplay}}</div>
+      </div>
+    {{/if}}
+  {{/if}}
+
+</div>

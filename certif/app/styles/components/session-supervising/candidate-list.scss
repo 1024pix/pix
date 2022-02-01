@@ -1,0 +1,72 @@
+$yellow-30: #FFBE00;
+$grey-85: rgb(37, 56, 88);
+$green-0: #EFFFD8;
+$green-70: #006134;
+
+.session-supervising-candidate-list-background {
+  background: $grey-100;
+  border-radius: 18px 18px 0 0;
+  flex-grow: 1;
+  padding: 24px 8px;
+
+  .session-supervising-candidate-list {
+    @include device-is("tablet") {
+      padding: 0 48px;
+      margin: auto;
+    }
+
+    @include device-is("desktop") {
+      max-width: 672px;
+      margin: auto;
+    }
+
+    &__description {
+      display: flex;
+      justify-content: flex-start;
+      color: $grey-15;
+      font-size: 12px;
+      font-weight: normal;
+      height: 14px;
+      letter-spacing: 0;
+      padding: 0 8px;
+      margin-bottom: 2rem;
+    }
+
+    &__title {
+      font-weight: 600;
+      margin-top: 0;
+      font-family: $open-sans;
+      color: $grey-15;
+      font-size: 1.125rem;
+      padding: 0 8px;
+    }
+
+    &__candidates {
+      list-style: none;
+      padding: 0;
+
+      > li:nth-child(odd) {
+        background: $grey-80;
+      }
+
+      > li:nth-child(even) {
+        background: $grey-90;
+      }
+    }
+
+    &__empty-image {
+      display: block;
+      margin: 20px auto;
+    }
+
+    &__empty-message {
+      color: $grey-15;
+      font-family: $open-sans;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: auto;
+      max-width: 225px;
+      text-align: center;
+    }
+  }
+}

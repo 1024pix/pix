@@ -1,0 +1,38 @@
+.routable-modal--dialog {
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.routable-modal--content {
+  background: $white;
+}
+
+.routable-modal--header {
+  display: inline-block;
+  width: 100%;
+}
+
+.routable-modal--title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.938rem;
+}
+
+button.routable-modal--close {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 0.938rem;
+  border: 0;
+  color: $grey-45;
+  cursor: pointer;
+  float: right;
+}
+
+button.routable-modal--close:hover,
+button.routable-modal--close:focus,
+button.routable-modal--close:active {
+  color: $grey-200;
+  outline: 0;
+}

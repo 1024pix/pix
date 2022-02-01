@@ -1,0 +1,31 @@
+ls:
+  .js: kebab-case
+  _test.js: kebab-case
+
+  .dir: kebab-case
+
+  lib:
+    application:
+      preHandlers:
+        .dir: camelCase
+      simulateErrors:
+        .dir: camelCase
+
+    infrastructure:
+      orm-models:
+        .js: PascalCase
+
+  tests:
+    integration:
+      application:
+        campaignParticipations:
+          .dir: camelCase
+
+
+ignore:
+  - .git
+  - node_modules
+  - .nyc_output
+  - db/migrations
+  - db/seeds
+  - scripts

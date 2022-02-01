@@ -1,0 +1,27 @@
+{{page-title "Organisations"}}
+<header class="page-header">
+  <div class="page-title">Toutes les organisations</div>
+  <div class="page-actions">
+    <PixButton
+      @route="authenticated.organizations.new"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      class="pix-button__secondary"
+    >
+      <FaIcon @icon="plus" />Nouvelle organisation
+    </PixButton>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <Organizations::ListItems
+      @organizations={{@model}}
+      @id={{this.id}}
+      @name={{this.name}}
+      @type={{this.type}}
+      @externalId={{this.externalId}}
+      @triggerFiltering={{this.triggerFiltering}}
+    />
+  </section>
+</main>

@@ -1,0 +1,96 @@
+@startuml
+actor utilisateur #blue
+participant navigateur
+participant GAR
+
+box "PIX" #LightBlue
+participant MonPix
+participant PixAPI
+participant DB
+end box
+
+== Connexion au GAR ==
+utilisateur -> navigateur: saisit identifiant et mot de passe \net clique sur "Login"
+navigateur -> GAR : POST /auth/login \nQP: email=<EMAIL>&password=<PASSWORD>
+GAR -> navigateur: 302_FOUND Header Set-Cookie: oneSessionId="090967(..)khpt0TA="
+navigateur -> GAR : GET / \n Header Cookie: oneSessionId="090967(..)khpt0TA="
+GAR -> navigateur: 301_MOVED_PERMANENTLY \n Location: timeline/timeline
+navigateur -> utilisateur: affiche page d'accueil
+navigateur -> GAR: GET /auth/oauth2/userinfo \n _=1597323765653
+GAR -> navigateur: 200_OK \n { lastName, firstName, birthDate, \n level:'TERMINALE', type: ELEVE, uai, structuresNames: ['LYCEE Y'], \n authorizedActions, apps (..)}
+utilisateur -> navigateur :  clique sur applications, \n puis sur Mediacentre
+navigateur  -> GAR : /mediacentre
+navigateur -> utilisateur : affiche les applications disponibles
+
+== Connexion à Pix ==
+utilisateur -> navigateur : clique sur Pix
+navigateur -> GAR : domaineGar?idENT=<ENT>&idEtab=<ETAB>&idRessource=<RESSOURCE_PIX>
+GAR -> navigateur: 302_FOUND \n location: pix.fr/api/saml/login
+navigateur -> PixAPI : GET pix.fr/api/saml/login
+PixAPI -> navigateur: 302_FOUND \n location: /idp/profile/SAML2/Redirect/SSO?SAMLRequest=<SAML_REQUEST>
+navigateur -> GAR : GET /idp/profile/SAML2/Redirect
+GAR -> navigateur : 302_FOUND /idp/login
+navigateur -> GAR : GET /idp/login
+GAR -> navigateur : 302_FOUND /idp/profile/SAML2
+navigateur -> GAR : GET /idp/profile/SAML2/Callback?\nentityId=https://app.pix.fr/api/saml/metadata.xml\n SAMLRequest=PD9(..)c3Q\n => SAMLRequest attributes= { IDO: f93(..)0d1, PRE: [Ana], NOM: [Adam], \nUAI: 0561607T, PRO: ['National_evl'] }
+GAR -> navigateur: formulaire redirection MonPix \n <input type="hidden" \n name="SAMLResponse" \n value=<SAML_RESPONSE> </input>
+navigateur -> PixAPI : POST /saml/assert \nSAMLResponse=PD9(..)c3Q
+PixAPI -> DB: SELECT FROM users u \n INNER JOIN "authentication-methods" a \n ON u.id = a."userId" \n AND a."identityProvider" = 'GAR' \n AND a."externalIdentifier" = 'f93584(..)590d1'
+== Scénario 1: utilisateur connu ==
+DB -> PixAPI : 1 record found
+PixAPI -> navigateur: 302_FOUND \n location: /?token=eyJhbGc(..)5AE&user-id=221184
+navigateur -> MonPix : GET / \nQP: token=<ACCESS_TOKEN>
+MonPix -> navigateur : 200 <HTML_PAGE_ACCUEIL>
+navigateur -> MonPix : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
+
+== Scénario 2: utilisateur inconnu, ne possède pas de compte ==
+DB -> PixAPI : no record found
+PixAPI -> navigateur: 302_FOUND \n location: /campagnes?externalUser=<ID_TOKEN>
+navigateur -> MonPix : GET /campagnes
+MonPix -> navigateur : 200_OK <APPLICATION-BUNDLE>
+utilisateur -> navigateur : saisie code campagne
+navigateur -> PixAPI : GET /campaigns
+PixAPI -> navigateur: 200_OK + Json
+utilisateur -> navigateur : saisie date de naissance
+navigateur -> PixAPI : POST schooling-registration-dependent-users/external-user-token \n { (..) birthdate: <DATE_NAISSANCE>, \n externa-user-token=<ID_TOKEN> }
+PixAPI -> DB: INSERT INTO users \nINSERT INTO "authentication-methods" ("externalIdentifier", "identityProvider", "userId") \n VALUES (<SAML_ID>, 'GAR', <USER_ID>)
+PixAPI -> navigateur: 200_OK + <ACCESS_TOKEN>
+navigateur -> PixAPI : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
+PixAPI -> navigateur: 200_OK
+
+== Scénario 3: utilisateur inconnu, possède déjà compte hors GAR ==
+DB -> PixAPI : no record found
+PixAPI -> navigateur: 302_FOUND \n location: /campagnes?externalUser=<ID_TOKEN>
+navigateur -> MonPix : GET /campagnes
+MonPix -> navigateur : 200_OK <APPLICATION-BUNDLE>
+utilisateur -> navigateur : saisie code campagne
+navigateur -> PixAPI : GET /campaigns
+PixAPI -> navigateur: 200_OK + Json
+utilisateur -> navigateur : saisie date de naissance
+navigateur -> PixAPI : POST schooling-registration-dependent-users/external-user-token \n { (..) birthdate: <DATE_NAISSANCE>, \n externa-user-token=<ID_TOKEN> }
+PixAPI -> navigateur: 409_CONFLICT + { (..), value: <OBFUSCATED_ACCOUNT> }
+navigateur -> utilisateur : "Vous possédez déjà un compte <OBFUSCATED_ACCOUNT>. \n Identifiez-vous"
+utilisateur -> navigateur : saisie compte email/identifiant
+navigateur -> PixAPI : POST /api/token-from-external-user \n FORM username, password
+PixAPI -> DB: INSERT INTO "authentication-methods" ("externalIdentifier", "identityProvider", "userId") \n VALUES (<SAML_ID>, 'GAR', <USER_ID>)
+PixAPI -> navigateur: 200_OK + <ACCESS_TOKEN>
+navigateur -> PixAPI : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
+PixAPI -> navigateur: 204_NO-CONTENT
+
+== Scénario 3: utilisateur inconnu, possède déjà autre compte GAR ==
+DB -> PixAPI : no record found
+PixAPI -> navigateur: 302_FOUND \n location: /campagnes?externalUser=<ID_TOKEN>
+navigateur -> MonPix : GET /campagnes
+MonPix -> navigateur : 200_OK <APPLICATION-BUNDLE>
+utilisateur -> navigateur : saisie code campagne
+navigateur -> PixAPI : GET /campaigns
+PixAPI -> navigateur: 200_OK + Json
+utilisateur -> navigateur : saisie date de naissance
+navigateur -> PixAPI : POST schooling-registration-dependent-users/external-user-token \n { (..) birthdate: <DATE_NAISSANCE>, \n externa-user-token=<ID_TOKEN> }
+PixAPI -> DB: UPDATE "authentication-methods" SET "externalIdentifier" = <SAML_ID> \n WHERE "userId" = <USER_ID> AND "identityProvider" = 'GAR'
+PixAPI -> navigateur: 200_OK + <ACCESS_TOKEN>
+navigateur -> PixAPI : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
+PixAPI -> navigateur: 200_OK
+
+
+@enduml

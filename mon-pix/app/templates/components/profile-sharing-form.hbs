@@ -1,0 +1,25 @@
+{{! template-lint-disable no-action }}
+<form {{action @sendProfile on="submit"}} class="send-profile-header__form">
+  <p class="send-profile-header__recipient">
+    {{t "pages.send-profile.form.recipient" recipient=@campaign.organizationName}}
+  </p>
+
+  {{#if @campaignParticipation.isShared}}
+    <p class="skill-review-share__thanks">
+      {{t "pages.send-profile.form.shared"}}
+    </p>
+    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+      {{t "pages.send-profile.form.continue"}}
+    </LinkTo>
+  {{else if @errorMessage}}
+    <p class="skill-review-share__thanks">{{@errorMessage}}</p>
+    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+      {{t "pages.send-profile.form.continue"}}
+    </LinkTo>
+  {{else}}
+    <PixButton @type="submit">
+      {{t "pages.send-profile.form.send"}}
+    </PixButton>
+  {{/if}}
+
+</form>

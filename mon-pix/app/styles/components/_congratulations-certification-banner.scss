@@ -1,0 +1,63 @@
+.congratulations-banner {
+  text-rendering: optimizeLegibility;
+  background: $green-certif;
+  position: relative;
+  color: $grey-10;
+  border-radius: 6px;
+  box-sizing: border-box;
+  height: 194px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.congratulations-banner__icon {
+  color: $white;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  left: auto;
+  bottom: auto;
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.5;
+
+  &:hover,
+  &:active {
+    color: $grey-60;
+  }
+}
+
+@mixin textBannerStyle {
+  color: $grey-10;
+  font-weight: $font-normal;
+  font-family: $font-open-sans;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.congratulations-banner__message {
+  @include textBannerStyle();
+
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.congratulations-banner__link {
+  @include textBannerStyle();
+
+  font-size: 0.875rem;
+
+  &__icon {
+    margin: auto 5px;
+  }
+}
+
+@include device-is('mobile') {
+
+  .congratulations-banner__message {
+    padding: 0 8px;
+  }
+}

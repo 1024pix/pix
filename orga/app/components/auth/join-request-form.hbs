@@ -1,0 +1,71 @@
+<div class="join-request-form">
+
+  <form {{on "submit" this.submit}}>
+    <p class="join-request-form__information">Tous les champs sont obligatoires.</p>
+
+    <div class="input-container">
+      <label for="uai" class="label">UAI/RNE de l'établissement</label>
+      {{#if this.validation.uai.hasError}}
+        <div class="alert-input alert-input--error" role="alert">{{this.validation.uai.message}}</div>
+      {{/if}}
+      <Input
+        id="uai"
+        name="uai"
+        @type="text"
+        class="input {{if this.validation.uai.hasError "input--error"}}"
+        @value={{this.uai}}
+        required="true"
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="firstName" class="label">Votre prénom</label>
+      {{#if this.validation.firstName.hasError}}
+        <div class="alert-input alert-input--error" role="alert">{{this.validation.firstName.message}}</div>
+      {{/if}}
+      <Input
+        id="firstName"
+        name="firstName"
+        @type="text"
+        class="input {{if this.validation.firstName.hasError "input--error"}}"
+        @value={{this.firstName}}
+        autocomplete="given-name"
+        required="true"
+        {{on "focusout" (fn this.validateInput "firstName" this.firstName)}}
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="lastName" class="label">Votre nom</label>
+      {{#if this.validation.lastName.hasError}}
+        <div class="alert-input alert-input--error" role="alert">{{this.validation.lastName.message}}</div>
+      {{/if}}
+      <Input
+        id="lastName"
+        name="lastName"
+        @type="text"
+        class="input {{if this.validation.lastName.hasError "input--error"}}"
+        @value={{this.lastName}}
+        autocomplete="family-name"
+        required="true"
+        {{on "focusout" (fn this.validateInput "lastName" this.lastName)}}
+      />
+    </div>
+
+    <div class="input-container">
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
+        Envoyer
+      </PixButton>
+    </div>
+
+  </form>
+
+  <p class="join-request-form__legal-information">
+    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre
+    à votre établissement scolaire d'accéder à son espace Pix Orga. Elles sont conservées pendant un an. Elles sont
+    destinées à Pix et ne sont pas communiquées à des tiers en dehors d’un envoi par mail à l'adresse électronique du
+    chef de l'établissement dont vous avez saisi l'identifiant UAI/RNE. Conformément à la loi « informatique et libertés
+    », vous pouvez exercer votre droit d’accès aux données vous concernant et les faire rectifier en envoyant un mail à
+    <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>
+  </p>
+</div>

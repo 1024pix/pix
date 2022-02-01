@@ -1,0 +1,45 @@
+<div class="congratulations-banner">
+  <button
+    aria-label={{t "common.actions.close"}}
+    class="icon-button congratulations-banner__icon"
+    {{on "click" @closeBanner}}
+    type="button"
+  >
+    <FaIcon @icon="times" />
+  </button>
+  <p class="congratulations-banner__message">
+    {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
+  </p>
+  {{#if @certificationEligibility.cleaCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.clea-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusDroitMaitreCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.pix-plus-droit-maitre-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusDroitExpertCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.pix-plus-droit-expert-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusEduInitieCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.pix-plus-edu-initie-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusEduConfirmeCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.pix-plus-edu-confirme-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusEduAvanceCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.pix-plus-edu-avance-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusEduExpertCertificationEligible}}
+    <p>{{t "pages.certification-joiner.congratulation-banner.pix-plus-edu-expert-eligibility"}}</p>
+  {{/if}}
+
+  <a
+    href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
+    class="congratulations-banner__link"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <FaIcon @icon="arrow-right" class="congratulations-banner__link__icon" />
+    {{t "pages.certification-joiner.congratulation-banner.link.text"}}
+    <FaIcon @icon="external-link-alt" class="congratulations-banner__link__icon" />
+  </a>
+</div>

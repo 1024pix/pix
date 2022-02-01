@@ -1,0 +1,28 @@
+<Modal::Dialog
+  @title="Ajouter une adresse e-mail"
+  @display={{@showAddAuthenticationMethodModal}}
+  @close={{@toggleAddAuthenticationMethodModal}}
+>
+  <form {{on "submit" @submitAddingPixAuthenticationMethod}}>
+    <Modal::Body class="add-authentication-method-modal__form-body">
+      <PixInput
+        @id="new-email-for-adding-authentication-method"
+        @label="Nouvelle adresse e-mail"
+        @value={{@newEmail}}
+        @errorMessage={{if @showAlreadyExistingEmailError "Cette adresse e-mail est déjà utilisée" ""}}
+        type="email"
+        required
+      />
+    </Modal::Body>
+
+    <Modal::Footer>
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{@toggleAddAuthenticationMethodModal}}
+      >Annuler</PixButton>
+      <PixButton @type="submit" @size="small">Enregistrer l'adresse e-mail</PixButton>
+    </Modal::Footer>
+  </form>
+</Modal::Dialog>

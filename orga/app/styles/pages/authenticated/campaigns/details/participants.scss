@@ -1,0 +1,39 @@
+.participant-list {
+  &__mastery-percentage {
+    color: $blue;
+    font-size: 1.25rem;
+    margin-left: 26px;
+  }
+
+  &__icon {
+    margin-right: 8px;
+    min-width: 15px;
+    display: inline-block;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    height: 60px;
+    padding-left: 30px;
+    color: $grey-60;
+    font-family: $roboto;
+    font-size: 0.875rem;
+  }
+
+  &__badges {
+    .pix-tooltip {
+      display: inline-block;
+    }
+
+    img {
+      height: 40px;
+    }
+  }
+}
+
+.participant-filter-banner {
+  margin-bottom: 12px;
+}
+

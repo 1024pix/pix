@@ -1,0 +1,29 @@
+@startuml
+actor Utilisateur
+participant MonPix
+participant API_Pix
+participant Pole_Emploi_Connect
+
+Utilisateur -> MonPix: Se connecter à Pôle emploi
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/connexion/oauth2/authorize?realm=/individu
+note right: Redirection vers le site Pôle Emploi
+Utilisateur -> Pole_Emploi_Connect: Saisie des crédentials utilisateur
+Pole_Emploi_Connect --> MonPix: Envoie de l'authorization code
+MonPix -> API_Pix: Transfert de l'authorization code (POST ?)
+API_Pix -> Pole_Emploi_Connect: POST <PoleEmploi>/connexion/oauth2/access_token
+note right: Demande d'access_token Pôle Emploi
+Pole_Emploi_Connect --> API_Pix: Envoie de l'access_token
+
+API_Pix -> MonPix: Génération et envoie de l'access_token Pix
+
+API_Pix -> Pole_Emploi_Connect: GET <API_PoleEmploi>/partenaire/peconnect-individu/v1/userinfo\nAuthorization: Bearer [Access token]
+note right: Demande d'information candidat Pôle Emploi
+
+Utilisateur -> MonPix: Demande de déconnexion de Pôle emploi
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion
+note right: Demande de déconnexion de l'utilisateur
+note left: Redirection <Mon-Pix>/logout-pe\nSupprimer les jetons de la session
+
+Utilisateur -> Pole_Emploi_Connect: Confirmation de déconnexion
+
+@enduml

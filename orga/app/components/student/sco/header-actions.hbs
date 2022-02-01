@@ -1,0 +1,10 @@
+<div class="list-students-page__header">
+  <h1 class="page__title page-title">{{t "pages.students-sco.title"}}</h1>
+  {{#if this.currentUser.isAdminInOrganization}}
+    <div class="list-students-page__import-students-button hide-on-mobile">
+      <PixButtonUpload @id="students-file-upload" @onChange={{@onImportStudents}} accept={{this.acceptedFileType}}>
+        {{this.importButtonLabel}}
+      </PixButtonUpload>
+    </div>
+  {{/if}}
+</div>

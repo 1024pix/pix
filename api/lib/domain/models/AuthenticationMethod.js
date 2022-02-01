@@ -1,0 +1,100 @@
+const Joi = require('joi').extend(require('@joi/date'));
+const { validateEntity } = require('../validators/entity-validator');
+
+const identityProviders = {
+  PIX: 'PIX',
+  GAR: 'GAR',
+  POLE_EMPLOI: 'POLE_EMPLOI',
+};
+
+class PixAuthenticationComplement {
+  constructor({ password, shouldChangePassword } = {}) {
+    this.password = password;
+    this.shouldChangePassword = shouldChangePassword;
+
+    validateEntity(
+      Joi.object({
+        password: Joi.string().required(),
+        shouldChangePassword: Joi.boolean().required(),
+      }),
+      this
+    );
+  }
+}
+
+class PoleEmploiAuthenticationComplement {
+  constructor({ accessToken, refreshToken, expiredDate } = {}) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.expiredDate = expiredDate;
+
+    validateEntity(
+      Joi.object({
+        accessToken: Joi.string().required(),
+        refreshToken: Joi.string().optional(),
+        expiredDate: Joi.date().required(),
+      }),
+      this
+    );
+  }
+}
+
+const validationSchema = Joi.object({
+  id: Joi.number().optional(),
+  identityProvider: Joi.string()
+    .valid(...Object.values(identityProviders))
+    .required(),
+  authenticationComplement: Joi.when('identityProvider', [
+    { is: identityProviders.PIX, then: Joi.object().instance(PixAuthenticationComplement).required() },
+    { is: identityProviders.POLE_EMPLOI, then: Joi.object().instance(PoleEmploiAuthenticationComplement).required() },
+    { is: identityProviders.GAR, then: Joi.any().empty() },
+  ]),
+  externalIdentifier: Joi.when('identityProvider', [
+    { is: identityProviders.GAR, then: Joi.string().required() },
+    { is: identityProviders.POLE_EMPLOI, then: Joi.string().required() },
+    { is: identityProviders.PIX, then: Joi.any().forbidden() },
+  ]),
+  userId: Joi.number().integer().required(),
+  createdAt: Joi.date().optional(),
+  updatedAt: Joi.date().optional(),
+});
+
+class AuthenticationMethod {
+  constructor({
+    id,
+    identityProvider,
+    authenticationComplement,
+    externalIdentifier,
+    createdAt,
+    updatedAt,
+    userId,
+  } = {}) {
+    this.id = id;
+    this.identityProvider = identityProvider;
+    this.authenticationComplement = authenticationComplement;
+    this.externalIdentifier = externalIdentifier;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.userId = userId;
+
+    validateEntity(validationSchema, this);
+  }
+
+  static buildPixAuthenticationMethod({ id, password, shouldChangePassword = false, createdAt, updatedAt, userId }) {
+    const authenticationComplement = new PixAuthenticationComplement({ password, shouldChangePassword });
+    return new AuthenticationMethod({
+      id,
+      identityProvider: identityProviders.PIX,
+      authenticationComplement,
+      externalIdentifier: undefined,
+      createdAt,
+      updatedAt,
+      userId,
+    });
+  }
+}
+
+AuthenticationMethod.identityProviders = identityProviders;
+AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
+AuthenticationMethod.PoleEmploiAuthenticationComplement = PoleEmploiAuthenticationComplement;
+module.exports = AuthenticationMethod;

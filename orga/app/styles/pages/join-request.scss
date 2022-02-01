@@ -1,0 +1,64 @@
+.join-request {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  background: $pix-orga-old-gradient;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    color: $communication-dark;
+
+    &:visited {
+      color: $communication-dark;
+    }
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+    padding: 32px 10px 20px;
+
+    @include device-is('tablet') {
+      padding: 32px 67px 20px;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+  }
+
+  &__title {
+    font-family: $open-sans;
+    font-size: 2rem;
+    letter-spacing: 0.009375rem;
+    line-height: 2.6875rem;
+    font-weight: 300;
+    text-align: center;
+    margin: 14px 0;
+  }
+
+  &__description {
+    font-family: $roboto;
+    text-align: center;
+    max-width: 497px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+  }
+
+  &__error-message {
+    max-width: 497px;
+    margin-bottom: 24px;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__success {
+    text-align: center;
+    color: $grey-90;
+    letter-spacing: .15px;
+    margin-top: 54px;
+    margin-bottom: 24px;
+  }
+}

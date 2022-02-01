@@ -1,0 +1,9 @@
+.login-page {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: $pix-certif-gradient;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  align-items: center;
+  padding: 8px;
+}

@@ -1,0 +1,41 @@
+name: Merge on Dev
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  transition-issue:
+    name: Transition Issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Find Issue Key
+        id: find
+        uses: atlassian/gajira-find-issue-key@master
+        continue-on-error: true
+        with:
+          from: commits
+
+      - name: Transition issue
+        uses: atlassian/gajira-transition@master
+        if: ${{ steps.find.outputs.issue }}
+        continue-on-error: true
+        with:
+          issue: ${{ steps.find.outputs.issue }}
+          transition: "Move to 'Deployed in Integration'"
+
+      - name: Notify team on config file change
+        uses: 1024pix/notify-team-on-config-file-change@v1.0.2
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          SLACK_BOT_TOKEN: ${{ secrets.PIX_BOT_RUN_SLACK_TOKEN }}
+          INTEGRATION_ENV_URL: ${{ secrets.INTEGRATION_ENV_URL }}

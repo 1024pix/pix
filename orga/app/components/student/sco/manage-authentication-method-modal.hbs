@@ -1,0 +1,188 @@
+<Modal::Dialog
+  @title="{{t "pages.students-sco.manage-authentication-method-modal.title"}}"
+  @display={{@display}}
+  @close={{this.closeModal}}
+>
+  <form class="manage-authentication-window">
+    <h6>
+      <FaIcon @icon="link" />
+      {{t "pages.students-sco.manage-authentication-method-modal.authentication-methods"}}
+    </h6>
+
+    <div>
+      {{#if @student.isAuthenticatedFromGar}}
+        <div class="manage-authentication-window__box">
+          <div class="manage-authentication-window__subTitle">
+            <span>{{t "pages.students-sco.manage-authentication-method-modal.section.mediacentre.label"}}</span>
+            <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+          </div>
+        </div>
+      {{/if}}
+
+      {{#if @student.hasEmail}}
+        <div class="manage-authentication-window__box">
+          <div class="manage-authentication-window__subTitle">
+            <span>{{t "pages.students-sco.manage-authentication-method-modal.section.email.label"}}</span>
+            <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+          </div>
+          <div class="input-container">
+            <div class="manage-authentication-window__clipboard">
+              <Input
+                id="email"
+                name="email"
+                @type="text"
+                class="input disabled"
+                @value={{@student.email}}
+                disabled={{true}}
+              />
+              {{#if (is-clipboard-supported)}}
+                <PixTooltip
+                  @id="copy-email-tooltip"
+                  @position="top"
+                  @isInline={{true}}
+                  class="manage-authentication-window__tooltip"
+                >
+                  <:triggerElement>
+                    <CopyButton
+                      @aria-label="{{t "pages.students-sco.manage-authentication-method-modal.section.email.copy"}}"
+                      @clipboardText={{@student.email}}
+                      @success={{this.clipboardSuccessEmail}}
+                      {{on "mouseout" this.clipboardOutEmail}}
+                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                      aria-describedby="copy-email-tooltip"
+                    >
+                      <FaIcon @icon="copy" @prefix="far" />
+                    </CopyButton>
+                  </:triggerElement>
+                  <:tooltip>
+                    {{this.tooltipTextEmail}}
+                  </:tooltip>
+                </PixTooltip>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+      <div class="manage-authentication-window__box">
+        {{#if @student.displayAddUsernameAuthentication}}
+          <div class="manage-authentication-window__subTitle">
+            <span>{{t "pages.students-sco.manage-authentication-method-modal.section.add-username.label"}}</span>
+            <FaIcon @icon="check-circle" @prefix="far" class="grey-icon" />
+          </div>
+          <PixButton @triggerAction={{this.generateUsernameWithTemporaryPassword}}>
+            {{t "pages.students-sco.manage-authentication-method-modal.section.add-username.button"}}
+          </PixButton>
+        {{else}}
+          {{#if @student.hasUsername}}
+            <div class="manage-authentication-window__subTitle">
+              <span>{{t "pages.students-sco.manage-authentication-method-modal.section.username.label"}}</span>
+              <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+            </div>
+            <div class="input-container">
+              <div class="manage-authentication-window__clipboard">
+                <Input
+                  id="username"
+                  name="username"
+                  @type="text"
+                  class="input disabled"
+                  @value={{@student.username}}
+                  disabled={{true}}
+                />
+                {{#if (is-clipboard-supported)}}
+                  <PixTooltip
+                    @id="copy-username-tooltip"
+                    @position="top"
+                    @isInline={{true}}
+                    class="manage-authentication-window__tooltip"
+                  >
+                    <:triggerElement>
+                      <CopyButton
+                        @aria-label={{t "pages.students-sco.manage-authentication-method-modal.section.username.copy"}}
+                        @clipboardText={{@student.username}}
+                        @success={{this.clipboardSuccessUsername}}
+                        {{on "mouseout" this.clipboardOutUsername}}
+                        @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                        aria-describedby="copy-username-tooltip"
+                      >
+                        <FaIcon @icon="copy" @prefix="far" />
+                      </CopyButton>
+                    </:triggerElement>
+                    <:tooltip>
+                      {{this.tooltipTextUsername}}
+                    </:tooltip>
+                  </PixTooltip>
+                {{/if}}
+              </div>
+            </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+
+    {{#unless @student.isAuthenticatedWithGarOnly}}
+      <div class="manage-authentication-window__footer">
+        {{#if this.isUniquePasswordVisible}}
+          <div>
+            <div class="input-container">
+              <label for="generated-password">{{t
+                  "pages.students-sco.manage-authentication-method-modal.section.password.label"
+                }}</label>
+              <div class="manage-authentication-window__clipboard">
+                <Input
+                  id="generated-password"
+                  @type="text"
+                  name="generated-password"
+                  class="input"
+                  @value={{this.generatedPassword}}
+                  disabled={{true}}
+                />
+                {{#if (is-clipboard-supported)}}
+                  <PixTooltip
+                    @id="copy-password-tooltip"
+                    @position="top"
+                    @isInline={{true}}
+                    class="manage-authentication-window__tooltip"
+                  >
+                    <:triggerElement>
+                      <CopyButton
+                        @aria-label={{t "pages.students-sco.manage-authentication-method-modal.section.password.copy"}}
+                        @clipboardText={{this.generatedPassword}}
+                        @success={{this.clipboardSuccessGeneratedPassword}}
+                        {{on "mouseout" this.clipboardOutGeneratedPassword}}
+                        @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                        aria-describedby="copy-password-tooltip"
+                      >
+                        <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
+                      </CopyButton>
+                    </:triggerElement>
+                    <:tooltip>
+                      {{this.tooltipTextGeneratedPassword}}
+                    </:tooltip>
+                  </PixTooltip>
+                {{/if}}
+              </div>
+            </div>
+
+            <ol class="manage-authentication-window__informations">
+              <li>{{t "pages.students-sco.manage-authentication-method-modal.section.password.warning-1"}}</li>
+              <li>{{t "pages.students-sco.manage-authentication-method-modal.section.password.warning-2"}}</li>
+              <li>{{t "pages.students-sco.manage-authentication-method-modal.section.password.warning-3"}}</li>
+            </ol>
+          </div>
+        {{else}}
+          <div>
+            <PixButton id="generate-password" @triggerAction={{this.resetPassword}}>
+              {{t "pages.students-sco.manage-authentication-method-modal.section.reset-password.button"}}
+            </PixButton>
+
+            <div class="manage-authentication-window__warning">
+              <FaIcon @icon="exclamation-triangle" class="icon--warning" />
+              <span>{{t "pages.students-sco.manage-authentication-method-modal.section.reset-password.warning"}}</span>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    {{/unless}}
+  </form>
+</Modal::Dialog>

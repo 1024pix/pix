@@ -1,0 +1,59 @@
+.certification-informations {
+  padding: 20px;
+
+  .buttons-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    a:hover {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  .card {
+    margin-bottom: 20px;
+  }
+
+  &__published--float {
+    float: right;
+  }
+
+  &__complementary-certification--acquired {
+    color: $success;
+    font-weight: bold;
+  }
+
+  &__complementary-certification--rejected {
+    color: $error;
+    font-weight: bold;
+  }
+
+  &__certification-issue-reports {
+    padding: 0;
+  }
+
+  .certification-informations {
+
+    &__actions {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .candidate-informations {
+
+    &__actions {
+      display: flex;
+      margin-top: 8px;
+    }
+
+    &__warning-cpf-message {
+      font-style: italic;
+      color: $red;
+      margin-top: 8px;
+      margin-left: 5px;
+    }
+  }
+}

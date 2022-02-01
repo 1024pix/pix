@@ -1,0 +1,13 @@
+<div id="icon-trigger" class="dropdown" ...attributes>
+  <PixIconButton
+    @icon={{@icon}}
+    aria-label="{{@ariaLabel}}"
+    class="{{@dropdownButtonClass}}"
+    @triggerAction={{this.toggle}}
+    @size="small"
+    @color="dark-grey"
+  />
+  <Dropdown::Content @display={{this.display}} @close={{this.close}} class="{{@dropdownContentClass}}">
+    {{yield}}
+  </Dropdown::Content>
+</div>

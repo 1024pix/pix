@@ -1,0 +1,4 @@
+{{page-title (t "pages.sign-up.title")}}
+<div class="sign-form-page">
+  <SignupForm @user={{@model}} @refresh="refresh" @authenticateUser={{route-action "authenticateUser"}} />
+</div>

@@ -1,0 +1,16 @@
+{{page-title "Nouvelle orga"}}
+<header class="page-header">
+  <div class="page-title">
+    Nouvelle organisation
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <Organizations::Form
+      @organization={{@model}}
+      @onSubmit={{this.addOrganization}}
+      @onCancel={{this.goBackToOrganizationList}}
+    />
+  </section>
+</main>

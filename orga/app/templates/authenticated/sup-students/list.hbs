@@ -1,0 +1,13 @@
+{{page-title (t "pages.students-sup.title")}}
+<div class="list-students-page">
+  <Student::Sup::HeaderActions />
+
+  <Student::Sup::List
+    @students={{@model}}
+    @lastNameFilter={{this.lastName}}
+    @firstNameFilter={{this.firstName}}
+    @studentNumberFilter={{this.studentNumber}}
+    @groupsFilter={{this.groups}}
+    @onFilter={{this.triggerFiltering}}
+  />
+</div>

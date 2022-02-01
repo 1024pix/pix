@@ -1,0 +1,90 @@
+<div class="panel">
+  <table class="table content-text content-text--small">
+    <thead>
+      <tr>
+        <Table::Header>{{t "pages.students-sup.table.column.student-number"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sup.table.column.last-name"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sup.table.column.first-name"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sup.table.column.date-of-birth"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sup.table.column.group"}}</Table::Header>
+        <Table::Header class="hide-on-mobile" />
+      </tr>
+      <tr class="hide-on-mobile">
+        <Table::HeaderFilterInput
+          @field="studentNumber"
+          @value={{@studentNumberFilter}}
+          @placeholder={{t "pages.students-sup.table.filter.student-number.label"}}
+          @ariaLabel={{t "pages.students-sup.table.filter.student-number.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::HeaderFilterInput
+          @field="lastName"
+          @value={{@lastNameFilter}}
+          @placeholder={{t "pages.students-sup.table.filter.last-name.label"}}
+          @ariaLabel={{t "pages.students-sup.table.filter.last-name.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::HeaderFilterInput
+          @field="firstName"
+          @value={{@firstNameFilter}}
+          @placeholder={{t "pages.students-sup.table.filter.first-name.label"}}
+          @ariaLabel={{t "pages.students-sup.table.filter.first-name.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
+        <Table::Header />
+        <Table::HeaderFilterMultiSelect
+          @field="groups"
+          @title={{t "pages.students-sup.table.column.group"}}
+          @onSelect={{@onFilter}}
+          @selectedOption={{@groupsFilter}}
+          @onLoadOptions={{this.loadGroups}}
+          @placeholder={{t "pages.students-sup.table.filter.group.label"}}
+          @ariaLabel={{t "pages.students-sup.table.filter.group.aria-label"}}
+        />
+        <Table::Header />
+      </tr>
+    </thead>
+
+    {{#if @students}}
+      <tbody>
+        {{#each @students as |student|}}
+          <tr aria-label={{t "pages.students-sup.table.row-title"}}>
+            <td>{{student.studentNumber}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+            <td>{{student.group}}</td>
+            <td class="list-students-page__actions hide-on-mobile">
+              {{#if this.currentUser.isAdminInOrganization}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-v"
+                  @dropdownButtonClass="list-students-page__dropdown-button"
+                  @dropdownContentClass="list-students-page__dropdown-content"
+                  @ariaLabel={{t "pages.students-sup.actions.show-actions"}}
+                >
+                  <Dropdown::Item @onClick={{fn this.openEditStudentNumberModal student}}>
+                    {{t "pages.students-sup.actions.edit-student-number"}}
+                  </Dropdown::Item>
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @students}}
+    <div class="table__empty content-text">{{t "pages.students-sup.table.empty"}}</div>
+  {{/unless}}
+</div>
+
+<Student::Sup::EditStudentNumberModal
+  @student={{this.selectedStudent}}
+  @display={{this.isShowingEditStudentNumberModal}}
+  @onClose={{this.closeEditStudentNumberModal}}
+  @onSubmit={{this.onSaveStudentNumber}}
+/>
+
+<Table::PaginationControl @pagination={{@students.meta}} />

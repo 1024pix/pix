@@ -1,0 +1,70 @@
+{{! template-lint-disable no-unknown-arguments-for-builtin-components }}
+
+<div class="login-form">
+  {{#if this.isErrorMessagePresent}}
+    <div id="login-form-error-message" class="login-form__error-message error-message">{{t
+        "pages.login-or-register.login-form.error"
+      }}</div>
+  {{/if}}
+
+  {{#if this.hasUpdateUserError}}
+    <div
+      id="update-form-error-message"
+      class="login-form__error-message error-message"
+    >{{this.updateErrorMessage}}</div>
+  {{/if}}
+
+  <form {{on "submit" this.authenticate}}>
+
+    <div id="login-email-container">
+      <FormTextfield
+        @label={{t "pages.login-or-register.login-form.fields.login.label"}}
+        @textfieldName="login"
+        @validationStatus="default"
+        @inputBindingValue={{this.login}}
+        @autocomplete="username"
+      />
+    </div>
+
+    <div id="login-password-container">
+      <FormTextfield
+        @label={{t "pages.login-or-register.login-form.fields.password.label"}}
+        @textfieldName="password"
+        @validationStatus="default"
+        @inputBindingValue={{this.password}}
+        @autocomplete="current-password"
+      />
+    </div>
+
+    <div class="login-button-container pix-form__actions">
+      {{#if this.isLoading}}
+        <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
+      {{else}}
+        <PixButton id="submit-connexion" @type="submit">
+          {{t "pages.login-or-register.login-form.button"}}
+        </PixButton>
+      {{/if}}
+    </div>
+
+  </form>
+
+  <div class="login-form__forgotten-password">
+    <span>{{t "pages.login-or-register.login-form.forgotten-password.instruction"}}</span>
+    <ul>
+      <li>{{t "pages.login-or-register.login-form.forgotten-password.email"}}
+        <LinkTo
+          @id="link_password-reset-demand"
+          @route="password-reset-demand"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          {{t "pages.login-or-register.login-form.forgotten-password.reset-link"}}
+        </LinkTo>
+      </li>
+      <li>
+        {{t "pages.login-or-register.login-form.forgotten-password.other-identity"}}
+      </li>
+    </ul>
+  </div>
+</div>

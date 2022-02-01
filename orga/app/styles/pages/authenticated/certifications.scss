@@ -1,0 +1,59 @@
+.certifications-page {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0 0 16px;
+  width: 100%;
+  margin-bottom: 20px;
+
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid $grey-20;
+    margin-bottom: 16px;
+  }
+
+  &__text {
+    font-family: $roboto;
+    margin: 2px 0 32px 0;
+    font-size: 1rem;
+    line-height: 1.45rem;
+    color: $grey-60;
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 100%;
+    margin-bottom: 40px;
+
+    label {
+      color: $grey-90;
+      margin-left: 2px;
+      min-width: 100%;
+      padding: 4px 0;
+    }
+
+    .pix-select {
+      margin-right: 8px;
+      margin-bottom: 6px;
+    }
+
+    button {
+      margin-bottom: 6px;
+      margin-left: 8px;
+    }
+
+  }
+
+  .pix-message {
+    max-width: max-content;
+  }
+}
+
+.certifications-page-header {
+  &__add-member-button {
+    margin-top: 20px;
+    margin-left: auto;
+  }
+}

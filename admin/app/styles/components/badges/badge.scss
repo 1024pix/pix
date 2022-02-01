@@ -1,0 +1,45 @@
+.badge-data {
+  display: flex;
+
+  &__image {
+    margin-right: 20px;
+  }
+
+  &__tags {
+    margin: 8px 0;
+  }
+
+  &__action {
+    margin-top: 12px;
+  }
+}
+
+.badge-criteria-competences {
+  list-style-type: none;
+}
+
+.badge-edit-form {
+  width: 50%;
+
+  &__field {
+    margin-bottom: 12px;
+  }
+
+  &__actions {
+    display: flex;
+    max-width: 220px;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+}
+
+.badge-edit-form-field {
+
+  &__label {
+    width: 100%;
+  }
+}
+
+.skill-sets-table {
+  margin: 20px 0;
+}

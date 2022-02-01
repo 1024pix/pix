@@ -1,0 +1,71 @@
+<header class="page-section__header">
+  <h2 class="page-section__title">Informations prescrit</h2>
+</header>
+
+<div class="schooling-registrations-table content-text content-text--small">
+  <table class="table-admin">
+    <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>DDN</th>
+        <th>Classe / Groupe</th>
+        <th class="table__column--small">Orga ID</th>
+        <th class="table__column--wide">Nom de l'orga</th>
+        <th>Date d'import</th>
+        <th>Dernière MAJ</th>
+        <th class="table__column--small">Actif</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @user.schoolingRegistrations as |schoolingRegistration|}}
+        <tr aria-label="Inscription">
+          <td>{{schoolingRegistration.firstName}}</td>
+          <td>{{schoolingRegistration.lastName}}</td>
+          <td>{{format-date schoolingRegistration.birthdate}}</td>
+          <td>
+            {{if schoolingRegistration.division schoolingRegistration.division}}
+            {{if schoolingRegistration.group schoolingRegistration.group}}
+          </td>
+          <td><LinkTo
+              @route="authenticated.organizations.get"
+              @model={{schoolingRegistration.organizationId}}
+            >{{schoolingRegistration.organizationId}}</LinkTo></td>
+          <td>{{schoolingRegistration.organizationName}}</td>
+          <td>{{format-date schoolingRegistration.createdAt}}</td>
+          <td>{{format-date schoolingRegistration.updatedAt}}</td>
+          <td class="table-admin-schooling-registrations-status">
+            {{#if schoolingRegistration.isDisabled}}
+              <FaIcon
+                @icon="times-circle"
+                class="schooling-registrations-table__status--isDisabled"
+                aria-label="Inscription désactivée"
+              />
+            {{else}}
+              <FaIcon
+                @icon="check-circle"
+                class="schooling-registrations-table__status--isEnabled"
+                aria-label="Inscription activée"
+              />
+            {{/if}}
+          </td>
+          <td>
+            <PixButton
+              @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
+              @size="small"
+              @backgroundColor="red"
+              data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
+            >
+              Dissocier
+            </PixButton>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="10" class="table-admin-empty">Aucun résultat</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

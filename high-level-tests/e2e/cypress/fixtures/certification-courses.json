@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "sessionId": 2,
+    "lastName": "Berger",
+    "firstName": "Michel",
+    "birthdate": "1990-01-04",
+    "birthplace": "Perpignan",
+    "externalId": "TEAMCERTIFDECHIRE",
+    "isV2Certification": true
+  },
+  {
+    "id": 2,
+    "userId": 2,
+    "sessionId": 2,
+    "lastName": "Balavoine",
+    "firstName": "Daniel",
+    "birthdate": "1990-02-04",
+    "birthplace": "Toulouse",
+    "externalId": "LAURADECHIRE",
+    "isV2Certification": true
+  }
+]

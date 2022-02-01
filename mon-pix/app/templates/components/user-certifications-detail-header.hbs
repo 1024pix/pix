@@ -1,0 +1,75 @@
+{{! template-lint-disable no-implicit-this no-redundant-fn }}
+{{#if @certification.date}}
+  <div class="user-certifications-detail-header">
+    <UserCertificationsHexagonScore @score={{@certification.pixScore}} />
+    <div class="user-certifications-detail-header__info-certificate">
+      <h1>{{t "pages.certificate.title"}}</h1>
+
+      <p class="user-certifications-detail-header__info-certificate--grey">
+        {{t "pages.certificate.issued-on"}}
+        {{moment-format @certification.deliveredAt "D MMMM YYYY"}}
+      </p>
+      <p class="user-certifications-detail-header__info-certificate--grey">
+        {{t "pages.certificate.validity"}}
+      </p>
+
+      <p>{{@certification.fullName}}</p>
+      <p>
+        {{#if @certification.birthplace}}
+          {{t
+            "pages.certificate.candidate-birth-complete"
+            birthdate=(moment-format birthdateMidnightLocalTime "D MMMM YYYY")
+            birthplace=@certification.birthplace
+          }}
+        {{else}}
+          {{t "pages.certificate.candidate-birth" birthdate=(moment-format birthdateMidnightLocalTime "D MMMM YYYY")}}
+        {{/if}}
+      </p>
+
+      {{#if @certification.certificationCenter}}
+        <p>{{t "pages.certificate.certification-center"}} {{@certification.certificationCenter}}</p>
+      {{/if}}
+
+      <p>{{t "pages.certificate.exam-date"}} {{moment-format @certification.date "D MMMM YYYY"}}</p>
+
+    </div>
+  </div>
+  {{#if @certification.verificationCode}}
+    <div class="attestation-and-verification-code">
+      <div class="attestation">
+        <PixButton @triggerAction={{this.downloadAttestation}}>
+          {{t "pages.certificate.attestation"}}
+        </PixButton>
+      </div>
+      <hr />
+      <div class="verification-code">
+        <h2 class="verification-code__title">
+          {{t "pages.certificate.verification-code.title"}}
+        </h2>
+        <span class="verification-code__box">
+          <p class="verification-code__code">{{@certification.verificationCode}}</p>
+
+          {{#if (is-clipboard-supported)}}
+            <PixTooltip @text={{this.tooltipText}} @position="bottom" @isInline={{true}}>
+              <CopyButton
+                @clipboardText={{@certification.verificationCode}}
+                @success={{this.clipboardSuccess}}
+                @classNames="icon-button"
+              >
+                <FaIcon
+                  class="verification-code__copy-button"
+                  @icon="copy"
+                  @prefix="far"
+                  alt={{t "pages.certificate.verification-code.alt"}}
+                />
+              </CopyButton>
+            </PixTooltip>
+          {{/if}}
+        </span>
+        <p class="verification-code__informations">
+          {{t "pages.certificate.verification-code.tooltip"}}
+        </p>
+      </div>
+    </div>
+  {{/if}}
+{{/if}}

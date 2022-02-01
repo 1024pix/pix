@@ -1,0 +1,136 @@
+.label {
+  display: inline-block;
+  color: $grey-70;
+  font-size: 0.94rem;
+  font-weight: 500;
+  padding-bottom: 5px;
+  margin-left: 1px;
+}
+
+.input {
+  border: 2px solid $grey-20;
+  border-radius: 4px;
+  height: 40px;
+  font-size: 1rem;
+  padding-left: 15px;
+  color: $grey-80;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $communication-dark;
+  }
+
+  &--small {
+    width: 160px;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.textarea {
+  border: 2px solid $grey-20;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: 8px;
+  color: $grey-80;
+  outline: none;
+  resize: none;
+
+  &:focus {
+    border: 2px solid $communication-dark;
+  }
+}
+
+.error-message {
+  color: red;
+  font-family: $roboto;
+  font-size: 0.75rem;
+}
+
+.select {
+  font-size: 1rem;
+  border: 2px $grey-20 solid;
+  height: 46px;
+  background-color: white;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $communication-dark;
+  }
+}
+
+.button {
+
+  &--disabled {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  &--showed-as-link {
+    text-decoration: underline;
+    border: none;
+    background: none;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    color: $blue-zodiac;
+
+    &:hover {
+      cursor: pointer;
+      color: $communication-dark;
+    }
+  }
+}
+
+.icon-button {
+  color: $grey-45;
+  padding: 6px 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+
+  &:hover,
+  &:active {
+    background-color: $grey-20;
+    border-radius: 16px;
+    transition: background-color 0.2s ease;
+  }
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  user-select: none;
+  cursor: pointer;
+  transition: box-shadow 0.1s linear;
+
+  &--unchecked {
+    border: 2px solid $grey-60;
+
+    &:hover {
+      background-color: $grey-10;
+      box-shadow: 0 0 0 8px rgba($grey-40, 0.1);
+      border-color: $grey-40;
+    }
+  }
+
+  &--checked {
+    background-color: $communication-dark;
+    border: 2px solid $communication-dark;
+  }
+}

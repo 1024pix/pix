@@ -1,0 +1,22 @@
+name: automerge check
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+  check_suite:
+    types:
+      - completed
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: automerge
+        uses: pascalgn/automerge-action@v0.14.3
+        env:
+          GITHUB_TOKEN: '${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}'
+          MERGE_LABELS: ':rocket: Ready to Merge,!:warning: Blocked,!:earth_africa: i18n needed,!:busts_in_silhouette: Panel Review Needed,!Development in progress,!:eyes: Design Review Needed,!:eyes: Func Review Needed,!:eyes: Tech Review Needed'
+          MERGE_COMMIT_MESSAGE: pull-request-title
+          UPDATE_LABELS: ':rocket: Ready to Merge'
+          UPDATE_METHOD: rebase
+          MERGE_FORKS: 'false'

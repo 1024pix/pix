@@ -1,0 +1,18 @@
+<Table::Header ...attributes>
+  <PixMultiSelect
+    id="select-{{@field}}"
+    class="table__input"
+    @title={{@title}}
+    @placeholder={{@placeholder}}
+    aria-label={{@ariaLabel}}
+    @showOptionsOnInput={{true}}
+    @isSearchable={{true}}
+    @onSelect={{this.onSelect}}
+    @selected={{@selectedOption}}
+    @options={{@options}}
+    @onLoadOptions={{@onLoadOptions}}
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+</Table::Header>

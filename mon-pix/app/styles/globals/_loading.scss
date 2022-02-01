@@ -1,0 +1,28 @@
+.app-loader,
+.app-nested-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $grey-10;
+}
+
+.app-loader__text {
+  font-size: 1.625rem;
+  padding: 20px;
+  text-align: center;
+}
+
+.app-loader__image {
+  text-align: center;
+}
+
+.app-nested-loader {
+  position: relative;
+  padding: 40px;
+}

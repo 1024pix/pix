@@ -1,0 +1,39 @@
+@startuml
+
+actor utilisateur #blue
+participant navigateur
+participant API
+
+== Surveillant non-membre ==
+utilisateur -> navigateur : certif.fr/connexion \n Adresse email + Mot de passe
+navigateur -> API : POST /api/token \ngrant_type=password\n&username=<USER_NAME>password=<PASSWORD>\n&scope=pix-certif
+API -> navigateur : 200 OK \n{ token_type: "bearer", \naccess_token: <JWT>\n user_id: <USER_ID> }
+navigateur -> API : GET /api/certification-point-of-contacts/me\nHeaders: Authorization: Bearer <JWT>
+API -> BDD: SELECT FROM certification-center-memberships \n WHERE userId = <USER_ID>
+BDD -> API: N rows found
+API -> navigateur : 200 OK \n{ (..) type: ""allowed-certification-center-access","(…)}}
+
+== Surveillant membre ==
+utilisateur -> navigateur : certif.fr/connexion \n Adresse email + Mot de passe
+navigateur -> API : POST /api/token \ngrant_type=password\n&username=<USER_NAME>password=<PASSWORD>\n&scope=pix-certif
+API -> navigateur : 200 OK \n{ token_type: "bearer", \naccess_token: <JWT>\n user_id: <USER_ID> }
+navigateur -> API : GET /api/certification-point-of-contacts/me\nHeaders: Authorization: Bearer <JWT>
+API -> BDD: SELECT FROM certification-center-memberships \n WHERE userId = <USER_ID>
+BDD -> API: 0 rows found
+API -> navigateur : 200 OK \n{ (..) type: ""allowed-certification-center-access" \n pix-certif-terms-of-service-accepted: false (…)}}
+utilisateur -> navigateur: Saisie N° de la session \n et mot de passe de la session
+navigateur -> API : POST api/supervise-session
+API -> BDD: INSERT INTO supervisor-access (..) \n VALUES (<SESSION_ID, <USER_ID>)
+navigateur -> API: GET api/<SESSION_ID>/certification-session-candidate \n + token
+API -> BDD: SELECT * FROM supervisor-access \n WHERE sessionId = <SESSION_ID> \n and userId = <USER_ID>
+BDD -> API: 1 row found
+API -> navigateur:  200 OK \n{ (..) type: "certification-session-candidate " (…)}}
+navigateur -> utilisateur: affichage des candidats
+
+== Tentative de fraude ==
+utilisateur -> API: GET api/<SESSION_ID>/certification-session-candidate \n + token
+API -> BDD: SELECT * FROM supervisor-access \n WHERE sessionId = <SESSION_ID> \n and userId = <USER_ID>
+BDD -> API: 0 row found
+API -> utilisateur: 401_UNAUTHORIZED
+
+@enduml

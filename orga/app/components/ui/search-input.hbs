@@ -1,0 +1,14 @@
+{{! template-lint-disable require-input-label }}
+<div class="input search-input" ...attributes>
+  <FaIcon @icon="search" />
+  <input
+    role="searchbox"
+    id={{@inputName}}
+    name={{@inputName}}
+    placeholder={{@placeholder}}
+    aria-label={{@ariaLabel}}
+    value={{@value}}
+    oninput={{@onSearch}}
+    class="search-input__invisible-field"
+  />
+</div>

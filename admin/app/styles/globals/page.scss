@@ -1,0 +1,71 @@
+.page {
+
+  .page-header {
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid $grey-20;
+    top: 0;
+    left: 80px;
+    right: 0;
+    height: 60px;
+    z-index: 4;
+    margin: 0;
+
+    .page-title {
+      font-weight: 500;
+
+      a {
+        color: $blue;
+      }
+
+      .wire {
+        color: $grey-45;
+      }
+    }
+  }
+
+  .page-body {
+    top: 60px;
+    left: 80px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    padding: 10px;
+
+    .page-section {
+      background: $white;
+      border-radius: 5px;
+      padding: 32px;
+
+      &__header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        &__title {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+      }
+
+      &__content {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.pix-button__secondary {
+
+  &:hover {
+    text-decoration: none;
+    color: initial;
+  }
+
+  svg {
+    margin-right: 6px;
+  }
+}

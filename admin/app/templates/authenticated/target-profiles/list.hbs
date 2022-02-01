@@ -1,0 +1,24 @@
+<header class="page-header">
+  <div class="page-title">Tous les profils cibles</div>
+  <div class="page-actions">
+    <PixButton
+      @route="authenticated.target-profiles.new"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      class="pix-button__secondary"
+    >
+      <FaIcon @icon="plus" />Nouveau profil cible
+    </PixButton>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <TargetProfiles::ListItems
+      @targetProfiles={{@model}}
+      @id={{this.id}}
+      @name={{this.name}}
+      @triggerFiltering={{this.triggerFiltering}}
+    />
+  </section>
+</main>

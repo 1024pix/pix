@@ -1,0 +1,178 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  box-sizing: border-box;
+
+  .table__input {
+    border: 1px solid $grey-45;
+    font-size: 0.8rem;
+    height: 36px;
+    width: 100%;
+
+    &:focus-within {
+      border: 1px solid $blue;
+    }
+  }
+}
+
+thead {
+  width: 100%;
+  color: $grey-100;
+
+  th {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
+
+caption {
+  text-align: center;
+  padding: 1rem 24px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+tbody {
+  color: $grey-60;
+
+  tr {
+    &:focus-within, &:hover {
+      background-color: $grey-15;
+    }
+  }
+
+  tr.tr--clickable {
+    cursor: pointer;
+
+    &:hover, &:focus, &:active {
+      color: $grey-100;
+      background-color: $grey-10;
+      transition: 0.25s ease;
+    }
+  }
+
+  .row--not-clickable {
+    cursor: auto;
+    background-color: white;
+  }
+
+  td {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: $grey-80;
+    position: relative;
+
+    &.ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    > a {
+      color: $grey-80;
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $grey-80;
+      }
+    }
+  }
+}
+
+tr {
+  width: 100%;
+  height: 60px;
+  border-top: 1px solid $grey-15;
+}
+
+td, th {
+  text-align: left;
+  padding-left: 24px;
+}
+
+th::first-letter {
+  text-transform: capitalize;
+}
+
+.table__column {
+  width: 16%;
+
+  col {
+    min-width: 100px;
+  }
+
+  &--center {
+    text-align: center;
+  }
+
+  &--x-small {
+    width: 3%;
+  }
+
+
+  &--small {
+    width: 6%;
+    max-width: 150px;
+  }
+
+  &--wide {
+    width: 25%;
+  }
+
+  &--x-wide {
+    width: 50%;
+  }
+
+  &--right {
+    text-align: right;
+    padding-right: 24px;
+  }
+
+  &--truncated {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &--sort {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .pix-icon-button {
+      margin-left: 8px;
+    }
+  }
+
+  &--highlight {
+    color: $grey-80;
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+.table__row {
+  &--small {
+    height: 40px;
+  }
+}
+
+.table__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  text-align: center;
+  border-top: 1px solid $grey-15;
+  margin: 0;
+}

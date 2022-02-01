@@ -1,0 +1,31 @@
+{{page-title this.pageTitle replace=true}}
+{{#if this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+  {{#unless this.hasOneOrMoreCandidates}}
+    <CertificationCandidatesSco @sessionId={{this.currentSession.id}} />
+  {{/unless}}
+  {{#if this.hasOneOrMoreCandidates}}
+    <EnrolledCandidates
+      @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+      @sessionId={{this.currentSession.id}}
+      @certificationCandidates={{this.certificationCandidates}}
+      @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}}
+      @countries={{this.countries}}
+      @displayComplementaryCertification={{this.displayComplementaryCertification}}
+    />
+  {{/if}}
+{{else}}
+  <ImportCandidates
+    @session={{this.currentSession}}
+    @certificationCandidates={{this.certificationCandidates}}
+    @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}}
+    @importAllowed={{this.importAllowed}}
+  />
+  <EnrolledCandidates
+    @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+    @sessionId={{this.currentSession.id}}
+    @certificationCandidates={{this.certificationCandidates}}
+    @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}}
+    @countries={{this.countries}}
+    @displayComplementaryCertification={{this.shouldDisplayComplementaryCertifications}}
+  />
+{{/if}}

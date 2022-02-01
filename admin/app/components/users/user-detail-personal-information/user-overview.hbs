@@ -1,0 +1,156 @@
+{{#if this.isEditionMode}}
+  <form class="form" {{on "submit" this.updateUserDetails}}>
+    <span class="form__instructions col-md-4">
+      Les champs marqués de
+      <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+      sont obligatoires.
+    </span>
+    <div class="form-field col-md-4">
+      <label for="firstName" class="form-field__label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Prénom :
+      </label>
+      {{#if (v-get this.form "firstName" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
+          {{v-get this.form "firstName" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="firstName"
+        @type="text"
+        class="form-control user-edit-form__first-name {{if (v-get this.form "firstName" "isInvalid") "is-invalid"}}"
+        @value={{this.form.firstName}}
+      />
+    </div>
+    <div class="form-field col-md-4">
+      <label for="lastName" class="form-field__label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Nom :
+      </label>
+      {{#if (v-get this.form "lastName" "isInvalid")}}
+        <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+          {{v-get this.form "lastName" "message"}}
+        </div>
+      {{/if}}
+      <Input
+        id="lastName"
+        @type="text"
+        class="form-control user-edit-form__last-name {{if (v-get this.form "lastName" "isInvalid") "is-invalid"}}"
+        @value={{this.form.lastName}}
+      />
+    </div>
+    {{#if this.canModifyEmail}}
+      <div class="form-field col-md-4">
+        <label for="email" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Adresse e-mail :
+        </label>
+        {{#if (v-get this.form "email" "isInvalid")}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ email">
+            {{v-get this.form "email" "message"}}
+          </div>
+        {{/if}}
+        <Input
+          id="email"
+          @type="email"
+          class="form-control user-edit-form__email {{if (v-get this.form "email" "isInvalid") "is-invalid"}}"
+          @value={{this.form.email}}
+        />
+      </div>
+    {{/if}}
+    {{#if @user.username}}
+      <div class="form-field col-md-4">
+        <label for="username" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Identifiant :
+        </label>
+        {{#if (v-get this.form "username" "isInvalid")}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ identifiant">
+            {{v-get this.form "username" "message"}}
+          </div>
+        {{/if}}
+        <Input
+          id="username"
+          @type="text"
+          class="form-control user-edit-form__username {{if (v-get this.form "username" "isInvalid") "is-invalid"}}"
+          @value={{this.form.username}}
+        />
+      </div>
+    {{/if}}
+    <div class="col-md-4 form-actions">
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.cancelEdit}}
+      >Annuler</PixButton>
+      <PixButton @type="submit" @size="small" @backgroundColor="green">Editer</PixButton>
+    </div>
+  </form>
+{{else}}
+  <form class="form">
+    <section class="page-section mb_10">
+      <div class="user-detail-personal-information-section__content">
+        <div>
+          <div>
+            <span>Prénom : </span>
+            <span>{{@user.firstName}}</span>
+          </div>
+          <div>
+            <span>Nom : </span>
+            <span>{{@user.lastName}}</span>
+          </div>
+          <div>
+            <span>Adresse e-mail : </span>
+            <span>{{@user.email}}</span>
+          </div>
+          <div>
+            <span>Identifiant : </span>
+            <span>{{@user.username}}</span>
+          </div>
+          <br />
+          <div>
+            <span>CGU Pix App validé : </span>
+            <span>{{if @user.cgu "OUI" "NON"}}</span>
+          </div>
+          <div>
+            <span>CGU Pix Orga validé : </span>
+            <span>
+              {{if @user.pixOrgaTermsOfServiceAccepted "OUI" "NON"}}
+            </span>
+          </div>
+          <div>
+            <span>CGU Pix Certif validé : </span>
+            <span>
+              {{if @user.pixCertifTermsOfServiceAccepted "OUI" "NON"}}
+            </span>
+          </div>
+        </div>
+        <div>
+          <PixButtonLink
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @href={{this.externalURL}}
+            @size="small"
+            class="pix-button__secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Tableau de bord</PixButtonLink>
+        </div>
+      </div>
+    </section>
+    <div class="col-md-4 form-actions">
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.changeEditionMode}}
+      >
+        Modifier
+      </PixButton>
+      <PixButton @size="small" @backgroundColor="red" @triggerAction={{@toggleDisplayAnonymizeModal}}>
+        Anonymiser cet utilisateur
+      </PixButton>
+    </div>
+  </form>
+{{/if}}

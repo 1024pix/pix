@@ -1,0 +1,63 @@
+<section class="page-section">
+  <h1>{{@campaign.name}}</h1>
+
+  <p class="campaign__subtitle">
+    Créée le
+    {{moment-format @campaign.createdAt "DD/MM/YYYY"}}
+    par
+    {{@campaign.creatorFirstName}}
+    {{@campaign.creatorLastName}}
+  </p>
+
+  <ul class="campaign__attributes">
+    <li>Code : {{@campaign.code}}</li>
+    <li>Type : {{if (eq @campaign.type "ASSESSMENT") "Évaluation" "Collecte de profils"}}</li>
+    <li>Organisation :
+      <LinkTo @route="authenticated.organizations.get" @model={{@campaign.organizationId}}>
+        {{@campaign.organizationName}}
+      </LinkTo>
+    </li>
+    {{#if @campaign.targetProfileId}}
+      <li>Profil cible :
+        <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@campaign.targetProfileId}}>
+          {{@campaign.targetProfileName}}
+        </LinkTo>
+      </li>
+    {{/if}}
+    {{#if @campaign.title}}
+      <li>Titre du parcours : {{@campaign.title}}</li>
+    {{/if}}
+    {{#if @campaign.archivedAt}}
+      <li>Archivée le {{moment-format @campaign.archivedAt "DD/MM/YYYY"}}</li>
+    {{/if}}
+
+    <br />
+
+    {{#if @campaign.customLandingPageText}}
+      <li>Texte de la page d'accueil :
+        <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+      </li>
+    {{/if}}
+    {{#if @campaign.customResultPageText}}
+      <li>Texte de la page de fin de parcours :
+        <MarkdownToHtml @markdown={{@campaign.customResultPageText}} />
+      </li>
+    {{/if}}
+    {{#if @campaign.customResultPageButtonText}}
+      <li>Texte du bouton de la page de fin de parcours : {{@campaign.customResultPageButtonText}}</li>
+    {{/if}}
+    {{#if @campaign.customResultPageButtonUrl}}
+      <li>URL du bouton de la page de fin de parcours : {{@campaign.customResultPageButtonUrl}}</li>
+    {{/if}}
+  </ul>
+
+  <br />
+
+  <PixButton
+    @triggerAction={{@toggleEditMode}}
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    @size="small"
+  >Editer</PixButton>
+
+</section>

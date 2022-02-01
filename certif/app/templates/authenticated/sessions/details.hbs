@@ -1,0 +1,73 @@
+{{page-title this.pageTitle replace=true}}
+<div class="session-details-page">
+  <div class="page__title session-details__header">
+    <div class="session-details-header__title">
+      <PixReturnTo @route="authenticated.sessions.list" class="session-details-content__return-button" />
+      <h1 class="page-title">Session {{this.session.id}}</h1>
+      <PixButtonLink
+        class="session-details-header__title__download-button"
+        @href="{{this.session.urlToDownloadSessionIssueReportSheet}}"
+        target="_blank"
+        aria-label="Télécharger le pv d'incident"
+        rel="noopener noreferrer"
+        download
+      >
+        PV d'incident&nbsp;
+        <FaIcon @icon="file-download" />
+      </PixButtonLink>
+      {{#if this.shouldDisplayDownloadButton}}
+        <PixButtonLink
+          class="session-details-header__title__download-button"
+          @href="{{this.session.urlToDownloadAttendanceSheet}}"
+          target="_blank"
+          aria-label="Télécharger la feuille d'émargement"
+          rel="noopener noreferrer"
+          download
+        >
+          Feuille d'émargement&nbsp;
+          <FaIcon @icon="file-download" />
+        </PixButtonLink>
+      {{/if}}
+    </div>
+
+    <div class="session-details-header__datetime">
+      <div class="session-details-header-datetime__date">
+        <h4 class="label-text session-details-content__label">Date</h4>
+        <span class="content-text content-text--big session-details-content__text">
+          {{moment-format this.session.date "dddd DD MMM YYYY" allow-empty=true locale="fr"}}
+        </span>
+      </div>
+
+      <div>
+        <h4 class="label-text session-details-content__label">Heure de début (heure locale)</h4>
+        <span class="content-text content-text--big session-details-content__text">
+          {{moment-format this.session.time "HH:mm" "HH:mm:ss" allow-empty=true}}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {{#if this.shouldDisplayResultRecipientInfoMessage}}
+    <PixMessage @withIcon={{true}}>
+      Vous pouvez maintenant renseigner l'adresse email du destinataire des résultats (exemple : formateur).<br />
+      Pensez à bien renseigner ce champ lors de l'inscription des candidats.
+      <a href="https://cloud.pix.fr/s/gTwmp4GKWNJtdn5" target="_blank" rel="noreferrer noopener">
+        Plus d'informations ici.
+      </a>
+    </PixMessage>
+  {{/if}}
+
+  <div class="panel session-details__controls">
+    <nav class="navbar session-details-controls__navbar-tabs">
+      <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
+        Détails
+      </LinkTo>
+      <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
+        Candidats
+        {{this.certificationCandidatesCount}}
+      </LinkTo>
+    </nav>
+
+  </div>
+  {{outlet}}
+</div>

@@ -1,0 +1,63 @@
+.tutorial-panel {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.tutorial-panel__hint-container-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 20px 0 40px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
+}
+
+.tutorial-panel__hint-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 991px;
+  margin: 0 15px;
+  border-radius: 5px;
+
+  @include device-is('desktop') {
+    margin: 0 40px;
+  }
+}
+
+.tutorial-panel__tutorials-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tutorial-panel__tutorial-info {
+  color: $grey-50;
+  font-size: 0.813rem;
+  line-height: 1.25rem;
+  margin: -5px 5px 0;
+}
+
+.tutorial-panel__hint-title {
+  @include tutorial-panel-title($grey-10);
+}
+
+.tutorial-panel__hint-content {
+  font-size: 1.125rem;
+  font-family: $font-open-sans;
+
+  & p {
+    padding: 12px 12px 0 12px;
+  }
+}
+
+.tutorial-panel__hint-picto-container {
+  vertical-align: middle;
+}
+
+.tutorial-panel__hint-picto {
+  padding: 0 20px;
+  min-width: 100px;
+}

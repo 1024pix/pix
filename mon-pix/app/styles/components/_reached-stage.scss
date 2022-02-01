@@ -1,0 +1,41 @@
+.reached-stage {
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  border: 1px solid rgb(231, 231, 231);
+  border-radius: 16px;
+  margin: 0 auto;
+
+  &__score {
+    padding: 43px 20px 20px;
+  }
+
+  &__image {
+    width: 100%;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+.reached-stage-score {
+
+  &__stars {
+    min-width: 200px;
+    max-width: 250px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__stars img {
+    margin: 3px;
+    padding-bottom: 16px;
+  }
+
+  &__percentage-text {
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    font-weight: $font-medium;
+    color: $grey-40;
+    text-align: center;
+  }
+}

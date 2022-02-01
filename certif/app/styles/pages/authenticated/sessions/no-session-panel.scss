@@ -1,0 +1,16 @@
+.no-session-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__explain-create-session {
+    text-align: center;
+    margin: 5%;
+  }
+
+  &__link-to-create {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
+}

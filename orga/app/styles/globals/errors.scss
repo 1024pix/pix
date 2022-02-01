@@ -1,0 +1,101 @@
+.c-notification.notification {
+  font-family: $roboto;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1.5px solid $grey-60;
+  color: $grey-70;
+  line-height: 1.3125rem;
+
+  > div:first-child {
+    background-color: $grey-60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  > div:nth-child(2) {
+    background-color: $grey-20;
+    padding: 8px 12px;
+    align-items: center;
+
+    > div {
+      align-self: center;
+      padding-right: 0;
+      background-color: inherit;
+    }
+  }
+
+  a {
+    color: $grey-70;
+  }
+
+  .fa {
+    font-size: 1.375rem;
+  }
+
+  .fa-exclamation-circle {
+    color: $white;
+  }
+
+  .c-notification__close svg {
+    fill: $grey-60;
+
+    &:hover, &:active {
+      fill: $grey-70;
+    }
+  }
+
+  &--error {
+    border: 1.5px solid $error;
+
+    div:first-child {
+      background-color: $error;
+    }
+
+    div:nth-child(2) {
+      background-color: lighten($error, 35%);
+    }
+  }
+
+  &--warning {
+    border: 1.5px solid $warning;
+
+    div:first-child {
+      background-color: $warning;
+    }
+
+    div:nth-child(2) {
+      background-color: lighten($warning, 40%);
+    }
+  }
+
+  &--success {
+    border: 1.5px solid $success;
+
+    div:first-child {
+      background-color: $success;
+    }
+
+    div:nth-child(2) {
+      background-color: lighten($success, 35%);
+    }
+  }
+}
+
+.alert-input {
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  font-size: .75rem;
+
+  &--error {
+    color: $error;
+  }
+
+  &--left {
+    text-align: left;
+    margin-top: 5px;
+  }
+}

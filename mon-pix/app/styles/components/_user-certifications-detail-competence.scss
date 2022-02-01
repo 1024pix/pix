@@ -1,0 +1,129 @@
+.user-certifications-detail-competence {
+  padding: 0;
+  margin-bottom: 32px;
+
+  @mixin leftElement {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @mixin rightElement {
+    min-width: 90px;
+    text-align: center;
+    padding-right: 36px;
+  }
+
+  &__title {
+    @include leftElement;
+
+    font-family: $font-roboto;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding-left: 16px;
+    line-height: 1rem;
+    font-weight: normal;
+
+    &--level {
+      @include rightElement;
+
+      color: $grey-60;
+    }
+  }
+
+  &__competence {
+    @include leftElement;
+
+    color: $grey-80;
+    height: 100%;
+    font-family: $font-open-sans;
+    font-size: 1rem;
+    padding: 20px 0 20px 36px;
+    margin: 0;
+
+    &--level {
+      @include rightElement;
+
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    &::before {
+      position: absolute;
+      content: "";
+      left: 16px;
+      width: 3px;
+      height: calc(100% - 20px);
+      border-radius: 1.5px;
+      top: 10px;
+    }
+
+    &--disabled {
+      opacity: 0.4;
+
+      span {
+        display: none;
+      }
+    }
+  }
+
+  > * {
+    border-bottom: 1.5px $grey-10 solid;
+    height: 75px;
+    min-height: 60px;
+  }
+
+  > :last-child {
+    border: none;
+  }
+}
+
+@mixin coloriseElements($color) {
+
+  .user-certifications-detail-competence__title {
+    color: $color;
+  }
+
+  .user-certifications-detail-competence__competence {
+
+    &--level {
+      color: $color;
+    }
+
+    &::before {
+      background-color: $color;
+    }
+  }
+}
+
+@include device-is('mobile') {
+
+  .user-certifications-detail-competence {
+
+    &__title {
+      font-size: 0.875rem;
+      font-weight: $font-normal;
+
+      &--level {
+        padding-right: 0;
+      }
+    }
+
+    &__competence {
+
+      &--level {
+        padding-right: 0;
+      }
+
+      &--disabled {
+
+        span {
+          display: block;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}

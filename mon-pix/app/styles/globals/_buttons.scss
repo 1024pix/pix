@@ -1,0 +1,214 @@
+.button {
+  font-family: $font-roboto;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.012rem;
+  text-align: center;
+  border-radius: 5px;
+  background-color: $blue;
+  color: $white;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background-color 0.2s ease;
+  padding: 5px 5px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $blue-hover;
+  }
+
+  &--link {
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &--round {
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 25px;
+  }
+
+  &--thin {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  &--extra-thin {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 0.938rem;
+  }
+
+  &--regular {
+    width: 120px;
+  }
+
+  &--big {
+    width: 180px;
+  }
+
+  &--extra-big {
+    width: 280px;
+  }
+
+  &--grey {
+    background: $grey-15;
+    border: 2px solid $grey-40;
+    color: $grey-80;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $grey-20;
+      border: 2px solid $grey-80;
+    }
+  }
+
+  &--green {
+    background: $green;
+    color: white;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $green-hover;
+    }
+  }
+
+  &--red {
+    background: $red;
+    color: $white;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $red-hover;
+      border: 2px solid $yellow;
+    }
+  }
+
+  &--yellow {
+    background: $yellow;
+    color: $grey-100;
+    font-weight: $font-bold;
+    font-size: 0.906rem;
+    box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $warning;
+      color: $grey-100;
+    }
+  }
+
+  &--dark-grey {
+    background-color: $grey-60;
+    color: $white;
+    font-weight: $font-bold;
+    font-size: 0.938rem;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $grey-80;
+    }
+  }
+
+  &--white {
+    background-color: $white;
+    color: $grey-200;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $grey-20;
+    }
+  }
+
+  &--no-color {
+    background-color: transparent;
+    color: $grey-100;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $grey-20;
+    }
+  }
+
+  &--border-focus {
+    border: 2px solid transparent;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px $blue;
+    }
+  }
+
+  @include device-is('tablet') {
+    padding: 14px 20px;
+  }
+}
+
+.icon-button {
+  color: $grey-60;
+  padding: 4px 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s ease;
+  border-radius: 50%;
+
+  &:hover,
+  &:active {
+    background-color: $grey-20;
+  }
+}
+
+.loader-in-button {
+  display: flex;
+  background: url('/images/loader-white.svg') no-repeat center;
+  background-size: 50px;
+}
+
+.link {
+  outline: none;
+  border: none;
+  background-color: inherit;
+  color: $blue;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+    color: $blue-hover;
+    cursor: pointer;
+  }
+
+  &--underline {
+    text-decoration: underline;
+  }
+
+  &--grey {
+    color: $grey-60;
+  }
+}

@@ -1,0 +1,35 @@
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <Table::Header @size="wide">{{t "pages.team-members.table.column.last-name"}}</Table::Header>
+          <Table::Header @size="wide">{{t "pages.team-members.table.column.first-name"}}</Table::Header>
+          <Table::Header @size="wide">{{t
+              "pages.team-members.table.column.organization-membership-role"
+            }}</Table::Header>
+          {{#if this.displayManagingColumn}}
+            <Table::Header @size="wide" class="hide-on-mobile">
+              <span class="sr-only">{{t "common.actions.global"}}</span>
+            </Table::Header>
+          {{/if}}
+        </tr>
+      </thead>
+      {{#if @members}}
+        <tbody>
+          {{#each @members as |membership|}}
+            <Team::MembersListItem @membership={{membership}} @onRemoveMember={{@onRemoveMember}} />
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @members}}
+      <div class="table__empty content-text">{{t "pages.team-members.table.empty"}}</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @members}}
+  <Table::PaginationControl @pagination={{@members.meta}} />
+{{/if}}

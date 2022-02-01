@@ -1,0 +1,43 @@
+{{! template-lint-disable no-unknown-arguments-for-builtin-components }}
+{{page-title (t "pages.assessment-results.title")}}
+
+<div class="assessment-results">
+
+  <div class="assessment-results__assessment-banner">
+    <AssessmentBanner @title={{@model.title}} @checkpoint={{false}} @displayHomeLink={{false}} />
+  </div>
+
+  <div class="assessment-results__content">
+    <p class="assessment-results__title">
+      {{t "pages.assessment-results.answers.header"}}
+    </p>
+
+    <div class="assessment-results__list">
+      {{#each @model.answers as |answer|}}
+        <ResultItem @answer={{answer}} @openAnswerDetails={{this.openComparisonWindow}} />
+      {{/each}}
+    </div>
+
+    <div class="assessment-results__index-link-container">
+      {{#if @model.isDemo}}
+        <PixButtonLink
+          @href="https://app.pix.fr/inscription"
+          class="assessment-results__index-link__element assessment-results__index-a-link"
+        >
+          <span class="assessment-results__link-back">{{t
+              "pages.assessment-results.actions.continue-pix-experience"
+            }}</span>
+        </PixButtonLink>
+      {{else}}
+        <LinkTo @route="index" class="assessment-results__index-link__element" @tagName="button">
+          <span class="assessment-results__link-back">{{t "pages.assessment-results.actions.return-to-homepage"}}</span>
+        </LinkTo>
+      {{/if}}
+    </div>
+  </div>
+
+  {{#if this.isShowingModal}}
+    <ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />
+  {{/if}}
+
+</div>

@@ -1,0 +1,33 @@
+<div class="session-supervising-header">
+  <PixButtonLink
+    aria-label="Quitter la surveillance de la session {{@session.id}}"
+    @route="login-session-supervisor"
+    @size="small"
+    @backgroundColor="transparent-light"
+    @isBorderVisible="true"
+    class="session-supervising-header__quit"
+  >
+    <FaIcon @icon="sign-out-alt" />Quitter
+  </PixButtonLink>
+  <h1 class="session-supervising-header__title">Session {{@session.id}}</h1>
+  <time class="session-supervising-header__date">
+    {{moment-format @session.date "DD/MM/YYYY"}}
+    ·
+    {{moment-format @session.time "HH:mm" "HH:mm:ss" allow-empty=true}}
+  </time>
+
+  <div>
+    <p class="session-supervising-header__line">
+      <span class="session-supervising-header__label">Site</span>
+      {{@session.certificationCenterName}}
+    </p>
+    <p class="session-supervising-header__line">
+      <span class="session-supervising-header__label">Salle</span>
+      {{@session.room}}
+    </p>
+    <p class="session-supervising-header__line">
+      <span class="session-supervising-header__label">Surveillant</span>
+      {{@session.examiner}}
+    </p>
+  </div>
+</div>

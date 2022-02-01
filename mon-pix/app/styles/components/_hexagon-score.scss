@@ -1,0 +1,104 @@
+.hexagon-score {
+  width: 132px;
+  height: 148px;
+  background: url('/images/background/hexa-pix-blue.svg') no-repeat center center;
+  background-size: cover;
+
+  &__content {
+    position: relative;
+    text-align: center;
+  }
+}
+
+@mixin hexagon-score-title {
+  color: $grey-100;
+  font-family: $font-roboto;
+  font-size: 0.875rem;
+  letter-spacing: 0.219rem;
+}
+
+@mixin hexagon-score-pix-score {
+  color: $grey-200;
+  font-family: $font-open-sans;
+  font-size: 2.875rem;
+}
+
+@mixin hexagon-score-pix-total {
+  color: $grey-60;
+  font-family: $font-roboto;
+  font-size: 0.813rem;
+  border-top: 1px solid $grey-30;
+}
+
+.hexagon-score-content {
+
+  &__title {
+    @include hexagon-score-title;
+
+    position: absolute;
+    width: 100%;
+    left: 1px;
+    top: 26px;
+    text-transform: uppercase;
+  }
+
+  &__pix-score {
+    @include hexagon-score-pix-score;
+
+    position: absolute;
+    width: 100%;
+    top: 40px;
+  }
+
+  &__pix-total {
+    @include hexagon-score-pix-total;
+
+    position: absolute;
+    width: 70px;
+    left: 31px;
+    top: 100px;
+    padding-top: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.hexagon-score__information {
+  padding: 24px 16px;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.hexagon-score-information__text {
+  font-family: $font-open-sans;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  display: block;
+
+  &--strong {
+    font-weight: $font-bold;
+  }
+}
+
+.hexagon-score-information__close {
+  float: right;
+  font-size: 1.25rem;
+  padding: 10px;
+  margin-top: -10px;
+
+  @include device-is('desktop') {
+    display: none;
+  }
+}
+
+hexagon-score-content-pix-total__icon {
+  padding: 0 0 0 4px;
+}

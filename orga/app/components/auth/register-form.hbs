@@ -1,0 +1,105 @@
+<div class="register-form">
+  <form {{on "submit" this.register}}>
+    <p class="login-form__information">{{t "common.form.mandatory-all-fields"}}</p>
+    <div class="input-container">
+      <PixInput
+        @id="register-firstName"
+        @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
+        name="firstName"
+        type="firstName"
+        {{on "focusout" this.validateFirstName}}
+        @errorMessage={{this.firstNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="given-name"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixInput
+        @id="register-lastName"
+        @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
+        name="lastName"
+        type="lastName"
+        {{on "focusout" this.validateLastName}}
+        @errorMessage={{this.lastNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="family-name"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixInput
+        @id="register-email"
+        @label={{t "pages.login-or-register.register-form.fields.email.label"}}
+        name="email"
+        type="email"
+        {{on "focusout" this.validateEmail}}
+        @errorMessage={{this.emailValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixInputPassword
+        @id="register-password"
+        name="password"
+        @label={{t "pages.login-or-register.register-form.fields.password.label"}}
+        autocomplete="current-password"
+        required={{true}}
+        aria-required={{true}}
+        {{on "input" this.validatePassword}}
+        {{on "focusout" this.validatePassword}}
+        @errorMessage={{this.passwordValidationMessage}}
+      />
+    </div>
+
+    <div id="register-cgu-container" class="input-container">
+      <label for="register-cgu" class="label register-form__cgu-label">
+        <Input
+          id="register-cgu"
+          @type="checkbox"
+          @checked={{this.cgu}}
+          required={{true}}
+          aria-required={{true}}
+          aria-label="{{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}"
+          {{on "focusout" this.validateCgu}}
+        />
+        <span class="register-form__cgu">
+          {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
+          <a
+            href="{{t "pages.login-or-register.register-form.fields.cgu.link"}}"
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{t "pages.login-or-register.register-form.fields.cgu.terms-of-use"}}
+          </a>
+        </span>
+      </label>
+      {{#if this.cguValidationMessage}}
+        <div class="register-form__cgu-error" role="alert">{{this.cguValidationMessage}}</div>
+      {{/if}}
+    </div>
+
+    {{#if this.errorMessage}}
+      <PixMessage @type="alert">
+        {{this.errorMessage}}
+      </PixMessage>
+    {{/if}}
+
+    <div class="input-container">
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
+        {{t "pages.login-or-register.register-form.fields.button.label"}}
+      </PixButton>
+    </div>
+
+  </form>
+
+  <div class="legal-text">
+    {{t "pages.login-or-register.register-form.legal-text"}}
+  </div>
+</div>

@@ -1,0 +1,17 @@
+{{! template-lint-disable require-input-label }}
+{{page-title "Certifications"}}
+<div class="page">
+  <header class="page-header">
+    <div class="page-title"> Certifications </div>
+    <div class="page-actions">
+      <form class="form-inline" {{on "submit" this.loadCertification}}>
+        <Input placeholder="Identifiant" @type="text" @value={{this.inputId}} />
+        <PixButton @size="small" @type="submit">Charger</PixButton>
+      </form>
+    </div>
+  </header>
+
+  <main class="page-body">
+    {{outlet}}
+  </main>
+</div>

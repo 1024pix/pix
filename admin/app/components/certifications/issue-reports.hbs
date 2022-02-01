@@ -1,0 +1,22 @@
+{{#if @hasImpactfulIssueReports}}
+  <h2 class="certification-issue-reports__subtitle certification-issue-reports__subtitle--with-action-required">
+    {{@impactfulCertificationIssueReports.length}}
+    Signalement(s) impactant(s)
+  </h2>
+  <ul class="certification-issue-reports__list">
+    {{#each @impactfulCertificationIssueReports as |issueReport|}}
+      <Certifications::IssueReport @issueReport={{issueReport}} />
+    {{/each}}
+  </ul>
+{{/if}}
+{{#if @hasUnimpactfulIssueReports}}
+  <h2 class="certification-issue-reports__subtitle certification-issue-reports__subtitle--without-action-required">
+    {{@unimpactfulCertificationIssueReports.length}}
+    Signalement(s) non impactant(s)
+  </h2>
+  <ul class="certification-issue-reports__list certification-issue-reports__list--last">
+    {{#each @unimpactfulCertificationIssueReports as |issueReport|}}
+      <Certifications::IssueReport @issueReport={{issueReport}} />
+    {{/each}}
+  </ul>
+{{/if}}

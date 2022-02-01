@@ -1,0 +1,56 @@
+{{page-title "Certif " @model.id " Détails | Pix Admin" replace=true}}
+<div class="certification-details">
+  <div class="row">
+    <div class="col">
+      <div class="card border-primary sticky-top certification-details__info">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">Statut :</div>
+            <div class="col">{{this.details.status}}</div>
+          </div>
+          <div class="row">
+            <div class="col">Créé le :</div>
+            <div class="col">{{this.details.creationDate}}</div>
+          </div>
+          <div class="row">
+            <div class="col">Terminée le :</div>
+            <div class="col">{{this.details.completionDate}}</div>
+          </div>
+          <div class="row">
+            <div class="col">Score :</div>
+            <div class="col certificate">{{this.score}}</div>
+          </div>
+          {{#if this.shouldDisplayJuryScore}}
+            <div class="row jury">
+              <div class="col">Score corrigé :</div>
+              <div class="col jury">{{this.juryScore}}</div>
+            </div>
+          {{/if}}
+          <div class="row">
+            <div class="col">Taux de reproductibilité :</div>
+            <div class="col certificate">{{this.rate}}</div>
+          </div>
+          {{#if this.juryRate}}
+            <div class="row">
+              <div class="col">Taux corrigé :</div>
+              <div class="col jury">{{this.juryRate}}</div>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      {{#each this.details.competences as |competence|}}
+        <Certifications::DetailsCompetence
+          @competence={{competence}}
+          @rate={{this.rate}}
+          @juryRate={{this.juryRate}}
+          @onUpdateRate={{this.onUpdateRate}}
+        />
+      {{/each}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col certification-details__actions">
+      <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
+    </div>
+  </div>
+</div>

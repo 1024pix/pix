@@ -1,0 +1,14 @@
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 40px 0;
+    align-items: center;
+    justify-content: center;
+    color: $grey-30;
+
+    &__text {
+        margin-top: 16px;
+        display: flex;
+    }
+}

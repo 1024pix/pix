@@ -1,0 +1,25 @@
+{{#if (is-clipboard-supported)}}
+  <PixTooltip
+    @id="copy-paste-button"
+    @position="top"
+    @isInline={{true}}
+    class="copy-paste-button__tooltip hide-on-mobile"
+  >
+    <:triggerElement>
+      <CopyButton
+        aria-label={{@defaultMessage}}
+        aria-describedby="copy-paste-button"
+        @clipboardText={{@clipBoardtext}}
+        @success={{this.onClipboardSuccess}}
+        {{on "mouseLeave" this.onClipboardOut}}
+        class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey copy-paste-button__clipboard"
+        ...attributes
+      >
+        <FaIcon @icon="copy" @prefix="far" />
+      </CopyButton>
+    </:triggerElement>
+    <:tooltip>
+      {{this.tooltipText}}
+    </:tooltip>
+  </PixTooltip>
+{{/if}}

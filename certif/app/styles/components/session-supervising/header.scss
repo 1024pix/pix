@@ -1,0 +1,58 @@
+.session-supervising-header {
+  background: #F4F5F7;
+  padding: 16px;
+
+  @include device-is("tablet") {
+    padding: 40px 48px;
+  }
+
+  @include device-is('desktop') {
+    align-self: center;
+    width: 672px;
+  }
+
+  &__quit {
+    float: right;
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+
+  &__title {
+    font-family: $open-sans;
+    font-size: 1.75rem;
+    font-weight: normal;
+    margin-bottom: 4px;
+  }
+
+  &__date {
+    color: $grey-45;
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+  }
+
+  &__line {
+    align-items: center;
+    border-bottom: 1px solid $grey-22;
+    color: $grey-70;
+    display: flex;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 8px 0;
+
+    &:last-child {
+      border: 0;
+    }
+  }
+
+  &__label {
+    color: $grey-60;
+    display: inline-block;
+    flex-shrink: 0;
+    font-weight: normal;
+    width: 85px;
+  }
+}

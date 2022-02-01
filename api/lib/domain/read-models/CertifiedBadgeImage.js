@@ -1,0 +1,71 @@
+const {
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+} = require('../../domain/models/Badge').keys;
+
+class CertifiedBadgeImage {
+  constructor({ path, isTemporaryBadge, levelName }) {
+    this.path = path;
+    this.isTemporaryBadge = isTemporaryBadge;
+    this.levelName = levelName;
+  }
+
+  static fromPartnerKey(partnerKey) {
+    if (partnerKey === PIX_DROIT_MAITRE_CERTIF) {
+      return new CertifiedBadgeImage({
+        path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+        isTemporaryBadge: false,
+      });
+    }
+
+    if (partnerKey === PIX_DROIT_EXPERT_CERTIF) {
+      return new CertifiedBadgeImage({
+        path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+        isTemporaryBadge: false,
+      });
+    }
+
+    if (partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
+      return new CertifiedBadgeImage({
+        path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+        isTemporaryBadge: true,
+        levelName: 'Initié (entrée dans le métier)',
+      });
+    }
+
+    if (
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
+        partnerKey
+      )
+    ) {
+      return new CertifiedBadgeImage({
+        path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
+        isTemporaryBadge: true,
+        levelName: 'Confirmé',
+      });
+    }
+
+    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
+      return new CertifiedBadgeImage({
+        path: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
+        isTemporaryBadge: true,
+        levelName: 'Avancé',
+      });
+    }
+
+    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
+      return new CertifiedBadgeImage({
+        path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
+        isTemporaryBadge: true,
+        levelName: 'Expert',
+      });
+    }
+  }
+}
+
+module.exports = CertifiedBadgeImage;

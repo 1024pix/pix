@@ -1,0 +1,53 @@
+{
+  "name": "pix-load-testing",
+  "version": "1.268.0",
+  "description": "Permet d'exécuter des tests de charge sur l'API de la plateforme Pix.",
+  "homepage": "https://github.com/1024pix/pix/tree/dev/high-level-tests/load-testing#readme",
+  "author": "GIP Pix",
+  "engines": {
+    "node": "14.17.0",
+    "npm": "6.14.13"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1024pix/pix"
+  },
+  "scripts": {
+    "arti:cmd": "artillery run --config config/common.yml --environment localhost --output report/index.json scenarios/signup-and-competence-evaluation.yml",
+    "arti:local:campaign": "artillery run --config config/common.yml --environment localhost --output report/index.json scenarios/signup-and-campaign-participation.yml",
+    "arti:dev:campaign": "artillery run --config config/common.yml --environment development --output report/index.json scenarios/signup-and-campaign-participation.yml",
+    "arti:local:profil": "artillery run --config config/common.yml --environment localhost --output report/index.json scenarios/signup-and-profil.yml",
+    "arti:dev:profil": "artillery run --config config/common.yml --environment development --output report/index.json scenarios/signup-and-profil.yml",
+    "arti:cmd:dev": "artillery run --config config/common.yml --environment development --output report/index.json scenarios/signup-and-competence-evaluation.yml",
+    "arti:run": "npm run db:initialize && npm run arti:cmd",
+    "arti:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix npm run arti:run",
+    "arti:test:local": "artillery run --config config/common.yml --environment localhost --quiet scenarios/test-connectivity.yml",
+    "arti:test:dev": "artillery run --config config/common.yml --environment development --quiet scenarios/test-connectivity.yml",
+    "db:initialize": "cd ../../api && npm run db:prepare",
+    "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js",
+    "lint": "npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "preinstall": "npx check-engine",
+    "report": "artillery report report/index.json",
+    "test:js": "mocha  --exit --recursive tests",
+    "test": "npm run lint && npm run test:js"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "js2xmlparser": "^4.0.1",
+    "mocha": "^9.1.0",
+    "sinon": "^11.1.2",
+    "sinon-chai": "^3.7.0"
+  },
+  "dependencies": {
+    "artillery": "^1.7.7",
+    "artillery-plugin-expect": "^1.5.0",
+    "artillery-plugin-publish-metrics": "^1.4.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-yaml": "^0.5.0",
+    "faker": "^5.5.3",
+    "lodash": "^4.17.21"
+  }
+}

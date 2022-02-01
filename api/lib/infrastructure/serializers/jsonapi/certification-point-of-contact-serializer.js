@@ -1,0 +1,63 @@
+const _ = require('lodash');
+const { Serializer } = require('jsonapi-serializer');
+const { featureToggles } = require('../../../config');
+
+module.exports = {
+  serialize(certificationPointOfContact) {
+    return new Serializer('certification-point-of-contact', {
+      attributes: [
+        'firstName',
+        'lastName',
+        'email',
+        'pixCertifTermsOfServiceAccepted',
+        'allowedCertificationCenterAccesses',
+      ],
+      allowedCertificationCenterAccesses: {
+        ref: 'id',
+        included: true,
+        attributes: [
+          'name',
+          'externalId',
+          'type',
+          'isRelatedToManagingStudentsOrganization',
+          'isAccessBlockedCollege',
+          'isAccessBlockedLycee',
+          'isAccessBlockedAEFE',
+          'isAccessBlockedAgri',
+          'relatedOrganizationTags',
+          'habilitations',
+          'hasEndTestScreenRemovalEnabled',
+        ],
+      },
+      typeForAttribute: function (attribute) {
+        if (attribute === 'allowedCertificationCenterAccesses') {
+          return 'allowed-certification-center-access';
+        }
+        return attribute;
+      },
+      transform(certificationPointOfContact) {
+        const transformedCertificationPointOfContact = _.clone(certificationPointOfContact);
+        transformedCertificationPointOfContact.allowedCertificationCenterAccesses = _.map(
+          certificationPointOfContact.allowedCertificationCenterAccesses,
+          (access) => {
+            let habilitations = access.habilitations;
+            if (!featureToggles.isComplementaryCertificationSubscriptionEnabled) {
+              habilitations = [];
+            }
+            return {
+              ...access,
+              habilitations,
+              isAccessBlockedCollege: access.isAccessBlockedCollege(),
+              isAccessBlockedLycee: access.isAccessBlockedLycee(),
+              isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
+              isAccessBlockedAgri: access.isAccessBlockedAgri(),
+              hasEndTestScreenRemovalEnabled: access.hasEndTestScreenRemovalEnabled(),
+            };
+          }
+        );
+
+        return transformedCertificationPointOfContact;
+      },
+    }).serialize(certificationPointOfContact);
+  },
+};

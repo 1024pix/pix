@@ -1,0 +1,105 @@
+<div class="table session-finalization-reports-information-step">
+
+  <table>
+    <caption>
+      <div class="session-finalization-reports-information-step__title-uncompleted">
+        <FaIcon @icon="exclamation-triangle" class="session-finalization-reports-information-step__icon" />
+        Ces candidats n'ont pas fini leur test de certification
+      </div>
+    </caption>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>N° de certification</th>
+        <th>Signalement</th>
+        <th>
+          <div class="session-finalization-reports-information-step__header_cancel">
+            <span>Raison de l'abandon</span>
+            <PixTooltip
+              @id="tooltip-cancel-reason"
+              @text={{escapeHtml
+                "<ul><li>Abandon du candidat :<ul><li>Le candidat est parti avant la fin de son test</li><li>Le candidat n'est pas parvenu à répondre à l'ensemble des questions du test dans le temps imparti, et n'a pas passé les questions restantes jusqu'à arriver à l'écran de fin de test</li></ul><li>Problème technique :<ul><li>Problème technique sur la plateforme Pix, ou lié au réseau du centre de certification</li></ul></li></ul>"
+              }}
+              @position="left"
+              @isWide={{true}}
+            >
+              <FaIcon
+                @icon="info-circle"
+                tabindex="0"
+                aria-describedby="tooltip-cancel-reason"
+                aria-label="Raison de l'abandon"
+              />
+            </PixTooltip>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @certificationReports as |report|}}
+        <tr>
+          <td data-test-id="finalization-report-last-name_{{report.certificationCourseId}}">{{report.lastName}}</td>
+          <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
+          <td
+            data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}"
+          >{{report.certificationCourseId}}</td>
+          <td data-test-id="finalization-report-certification-issue-reports_{{report.certificationCourseId}}">
+            <div class="finalization-report-examiner-comment">
+              {{#if report.certificationIssueReports}}
+                <button
+                  type="button"
+                  class="button--showed-as-link add-button"
+                  {{on "click" (fn this.openIssueReportsModal report)}}
+                >
+                  Ajouter / modifier
+                </button>
+                <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
+                  {{#if (gt report.certificationIssueReports.length 1)}}
+                    {{report.certificationIssueReports.length}}
+                    signalements
+                  {{else}}
+                    1 signalement
+                  {{/if}}
+                </p>
+              {{else}}
+                <button
+                  type="button"
+                  class="button--showed-as-link add-button"
+                  {{on "click" (fn this.openAddIssueReportModal report)}}
+                >
+                  Ajouter ?
+                </button>
+              {{/if}}
+            </div>
+          </td>
+          <td class="finalization-report-abort-reason">
+            <PixSelect
+              id={{concat "finalization-report-abort-reason__select" report.id}}
+              @emptyOptionLabel={{"-- Choisissez --"}}
+              @onChange={{fn @onChangeAbortReason report}}
+              @emptyOptionNotSelectable={{true}}
+              @selectedOption={{report.abortReason}}
+              required="required"
+              @options={{this.abortOptions}}
+            />
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if this.showAddIssueReportModal}}
+    <IssueReportModal::AddIssueReportModal
+      @closeModal={{this.closeAddIssueReportModal}}
+      @report={{this.reportToEdit}}
+      @maxlength={{@issueReportDescriptionMaxLength}}
+    />
+  {{/if}}
+  {{#if this.showIssueReportsModal}}
+    <IssueReportModal::IssueReportsModal
+      @closeModal={{this.closeIssueReportsModal}}
+      @onClickIssueReport={{this.openAddIssueReportModal}}
+      @onClickDeleteIssueReport={{@onIssueReportDeleteButtonClicked}}
+      @report={{this.reportToEdit}}
+    />
+  {{/if}}
+</div>

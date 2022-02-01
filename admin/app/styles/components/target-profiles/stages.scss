@@ -1,0 +1,43 @@
+.stages-table {
+
+  &__id {
+    width: 110px;
+  }
+
+  &__threshold {
+    width: 150px;
+  }
+
+  &__title {
+    width: 250px;
+  }
+
+  &__image {
+    width: 130px;
+
+    img {
+      width: 90px;
+    }
+  }
+
+  &__actions {
+    width: 134px;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+  }
+}
+
+.stages-table .form-field {
+  margin-bottom: 0;
+}
+
+.stages-new-stage {
+  margin: 10px 0;
+}
+
+.stages-actions {
+  display: flex;
+  text-align: right;
+}

@@ -1,0 +1,561 @@
+const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
+
+const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
+
+const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
+const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
+const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
+const campaignParticipantsActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
+
+const tokenService = require('../../../../lib/domain/services/token-service');
+const usecases = require('../../../../lib/domain/usecases');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+
+describe('Unit | Application | Controller | Campaign', function () {
+  describe('#save', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'createCampaign');
+      sinon.stub(campaignReportSerializer, 'serialize');
+    });
+
+    it('should return a serialized campaign when the campaign has been successfully created', async function () {
+      // given
+      const connectedUserId = 1;
+      const request = {
+        auth: { credentials: { userId: connectedUserId } },
+        payload: {
+          data: {
+            attributes: {
+              name: 'name',
+              type: 'ASSESSMENT',
+              title: 'title',
+              'id-pix-label': 'idPixLabel',
+              'custom-landing-page-text': 'customLandingPageText',
+              'multiple-sendings': true,
+            },
+            relationships: {
+              'target-profile': { data: { id: '123' } },
+              organization: { data: { id: '456' } },
+            },
+          },
+        },
+        i18n: {
+          __: sinon.stub(),
+        },
+      };
+      const campaign = {
+        name: 'name',
+        type: 'ASSESSMENT',
+        title: 'title',
+        idPixLabel: 'idPixLabel',
+        customLandingPageText: 'customLandingPageText',
+        organizationId: 456,
+        targetProfileId: 123,
+        creatorId: 1,
+        ownerId: 1,
+        multipleSendings: true,
+      };
+
+      const expectedResult = Symbol('result');
+      const createdCampaign = Symbol('created campaign');
+      usecases.createCampaign.withArgs({ campaign }).resolves(createdCampaign);
+      campaignReportSerializer.serialize.withArgs(createdCampaign).returns(expectedResult);
+
+      // when
+      const response = await campaignController.save(request, hFake);
+
+      // then
+      expect(response.source).to.equal(expectedResult);
+      expect(response.statusCode).to.equal(201);
+    });
+  });
+
+  describe('#getCsvAssessmentResults', function () {
+    const userId = 1;
+    const campaignId = 2;
+    const request = {
+      query: {
+        accessToken: 'token',
+      },
+      params: {
+        id: campaignId,
+      },
+      i18n: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        __: sinon.stub(),
+      },
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream');
+      sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
+    });
+
+    it('should call the use case to get result campaign in csv', async function () {
+      // given
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'any file name' });
+
+      // when
+      await campaignController.getCsvAssessmentResults(request);
+
+      // then
+      expect(usecases.startWritingCampaignAssessmentResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignAssessmentResultsToStream.firstCall.args[0];
+      expect(getResultsCampaignArgs).to.have.property('userId');
+      expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should return a response with correct headers', async function () {
+      // given
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'expected file name' });
+
+      // when
+      const response = await campaignController.getCsvAssessmentResults(request);
+
+      // then
+      expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-encoding']).to.equal('identity');
+    });
+
+    it('should fix invalid header chars in filename', async function () {
+      // given
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({
+        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+      });
+
+      // when
+      const response = await campaignController.getCsvAssessmentResults(request);
+
+      // then
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename="file-name with invalid_chars _____________.csv"'
+      );
+    });
+  });
+
+  describe('#getCsvProfilesCollectionResult', function () {
+    const userId = 1;
+    const campaignId = 2;
+    const request = {
+      query: {
+        accessToken: 'token',
+      },
+      params: {
+        id: campaignId,
+      },
+      i18n: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        __: sinon.stub(),
+      },
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
+      sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
+    });
+
+    it('should call the use case to get result campaign in csv', async function () {
+      // given
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'any file name' });
+
+      // when
+      await campaignController.getCsvProfilesCollectionResults(request);
+
+      // then
+      expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignProfilesCollectionResultsToStream.firstCall.args[0];
+      expect(getResultsCampaignArgs).to.have.property('userId');
+      expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should return a response with correct headers', async function () {
+      // given
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'expected file name' });
+
+      // when
+      const response = await campaignController.getCsvProfilesCollectionResults(request);
+
+      // then
+      expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-encoding']).to.equal('identity');
+    });
+
+    it('should fix invalid header chars in filename', async function () {
+      // given
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({
+        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+      });
+
+      // when
+      const response = await campaignController.getCsvProfilesCollectionResults(request);
+
+      // then
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename="file-name with invalid_chars _____________.csv"'
+      );
+    });
+  });
+
+  describe('#getByCode', function () {
+    it('should return the serialized campaign', async function () {
+      // given
+      const code = 'AZERTY123';
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ code });
+      const request = {
+        query: { 'filter[code]': code },
+      };
+      sinon.stub(usecases, 'getCampaignByCode').withArgs({ code }).resolves(campaignToJoin);
+
+      // when
+      const response = await campaignController.getByCode(request, hFake);
+
+      // then
+      expect(response.data).to.deep.equal({
+        type: 'campaigns',
+        id: campaignToJoin.id.toString(),
+        attributes: {
+          code: campaignToJoin.code,
+          title: campaignToJoin.title,
+          type: campaignToJoin.type,
+          'id-pix-label': campaignToJoin.idPixLabel,
+          'custom-landing-page-text': campaignToJoin.customLandingPageText,
+          'external-id-help-image-url': campaignToJoin.externalIdHelpImageUrl,
+          'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,
+          'is-archived': campaignToJoin.isArchived,
+          'is-restricted': campaignToJoin.isRestricted,
+          'is-simplified-access': campaignToJoin.isSimplifiedAccess,
+          'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
+          'organization-is-pole-emploi': campaignToJoin.organizationIsPoleEmploi,
+          'organization-name': campaignToJoin.organizationName,
+          'organization-type': campaignToJoin.organizationType,
+          'organization-logo-url': campaignToJoin.organizationLogoUrl,
+          'organization-show-nps': campaignToJoin.organizationShowNPS,
+          'organization-form-nps-url': campaignToJoin.organizationFormNPSUrl,
+          'target-profile-name': campaignToJoin.targetProfileName,
+          'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
+          'custom-result-page-text': campaignToJoin.customResultPageText,
+          'custom-result-page-button-text': campaignToJoin.customResultPageButtonText,
+          'custom-result-page-button-url': campaignToJoin.customResultPageButtonUrl,
+          'multiple-sendings': campaignToJoin.multipleSendings,
+          'is-flash': campaignToJoin.isFlash,
+        },
+      });
+    });
+  });
+
+  describe('#getById', function () {
+    const campaignId = 1;
+    const userId = 1;
+
+    let request, campaign;
+
+    beforeEach(function () {
+      campaign = {
+        id: 1,
+        name: 'My campaign',
+      };
+      request = {
+        params: {
+          id: campaign.id,
+        },
+        auth: {
+          credentials: {
+            userId: 1,
+          },
+        },
+        query: {},
+      };
+
+      sinon.stub(usecases, 'getCampaign');
+      sinon.stub(campaignReportSerializer, 'serialize');
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(tokenService, 'createTokenForCampaignResults');
+
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      tokenService.createTokenForCampaignResults.withArgs(request.auth.credentials.userId).returns('token');
+      usecases.getCampaign.resolves(campaign);
+    });
+
+    it('should return the campaign', async function () {
+      // given
+      const expectedResult = Symbol('ok');
+      const tokenForCampaignResults = 'token';
+      campaignReportSerializer.serialize.withArgs(campaign, {}, { tokenForCampaignResults }).returns(expectedResult);
+
+      // when
+      const response = await campaignController.getById(request, hFake);
+
+      // then
+      expect(usecases.getCampaign).calledWith({ campaignId, userId });
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#update', function () {
+    let request, updatedCampaign, updateCampaignArgs;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id: 1 },
+        payload: {
+          data: {
+            attributes: {
+              name: 'New name',
+              title: 'New title',
+              'custom-landing-page-text': 'New text',
+            },
+          },
+        },
+      };
+
+      updatedCampaign = {
+        id: request.params.id,
+        name: request.payload.data.attributes.name,
+        title: request.payload.data.attributes.title,
+        customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
+      };
+
+      updateCampaignArgs = {
+        userId: request.auth.credentials.userId,
+        campaignId: updatedCampaign.id,
+        name: updatedCampaign.name,
+        title: updatedCampaign.title,
+        customLandingPageText: updatedCampaign.customLandingPageText,
+      };
+
+      sinon.stub(usecases, 'updateCampaign');
+      sinon.stub(campaignReportSerializer, 'serialize');
+    });
+
+    it('should return the updated campaign', async function () {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
+
+      // when
+      const response = await campaignController.update(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(updatedCampaign);
+    });
+  });
+
+  describe('#getCollectiveResult', function () {
+    const campaignId = 1;
+    const userId = 1;
+    const locale = FRENCH_SPOKEN;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'computeCampaignCollectiveResult');
+      sinon.stub(campaignCollectiveResultSerializer, 'serialize');
+    });
+
+    it('should return expected results', async function () {
+      // given
+      const campaignCollectiveResult = Symbol('campaignCollectiveResults');
+      const expectedResults = Symbol('results');
+      usecases.computeCampaignCollectiveResult
+        .withArgs({ userId, campaignId, locale })
+        .resolves(campaignCollectiveResult);
+      campaignCollectiveResultSerializer.serialize.withArgs(campaignCollectiveResult).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: campaignId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignController.getCollectiveResult(request);
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+
+    it('should return an unauthorized error', async function () {
+      // given
+      const error = new UserNotAuthorizedToAccessEntityError(
+        'User does not have access to this campaign participation'
+      );
+      const request = {
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId },
+        },
+      };
+      usecases.computeCampaignCollectiveResult.rejects(error);
+
+      // when
+      const errorCatched = await catchErr(campaignController.getCollectiveResult)(request);
+
+      // then
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntityError);
+    });
+  });
+
+  describe('#getAnalysis', function () {
+    const campaignId = 1;
+    const userId = 1;
+    const locale = FRENCH_SPOKEN;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'computeCampaignAnalysis');
+      sinon.stub(campaignAnalysisSerializer, 'serialize');
+    });
+
+    it('should return expected results', async function () {
+      // given
+      const campaignAnalysis = Symbol('campaignAnalysis');
+      const expectedResults = Symbol('results');
+      usecases.computeCampaignAnalysis.withArgs({ userId, campaignId, locale }).resolves(campaignAnalysis);
+      campaignAnalysisSerializer.serialize.withArgs(campaignAnalysis).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: campaignId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignController.getAnalysis(request);
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+
+    it('should return an unauthorized error', async function () {
+      // given
+      const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
+      const request = {
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId },
+        },
+      };
+      usecases.computeCampaignAnalysis.rejects(error);
+
+      // when
+      const errorCatched = await catchErr(campaignController.getAnalysis)(request);
+
+      // then
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntityError);
+    });
+  });
+
+  describe('#archiveCampaign', function () {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'archiveCampaign');
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async function () {
+      // given
+      usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignController.archiveCampaign({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId },
+        },
+      });
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
+    });
+  });
+
+  describe('#unarchiveCampaign', function () {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'unarchiveCampaign');
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async function () {
+      // given
+      usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignController.unarchiveCampaign({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId },
+        },
+      });
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
+    });
+  });
+
+  describe('#findParticipantsActivity', function () {
+    let serializedParticipantsActivities;
+    let participantsActivities;
+    const filters = { status: 'SHARED', groups: ['L1'] };
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(function () {
+      participantsActivities = Symbol('participants activities');
+      serializedParticipantsActivities = Symbol('serialized participants activities');
+      sinon.stub(usecases, 'findPaginatedCampaignParticipantsActivities').resolves(participantsActivities);
+      sinon
+        .stub(campaignParticipantsActivitySerializer, 'serialize')
+        .withArgs({ participantsActivities })
+        .resolves(serializedParticipantsActivities);
+    });
+
+    it('should return the participants activities properly serialized', async function () {
+      // given
+      usecases.findPaginatedCampaignParticipantsActivities
+        .withArgs({ campaignId, userId, page: 3, filters })
+        .resolves(participantsActivities);
+      campaignParticipantsActivitySerializer.serialize
+        .withArgs(participantsActivities)
+        .returns(serializedParticipantsActivities);
+
+      // when
+      const response = await campaignController.findParticipantsActivity({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId },
+        },
+        query: {
+          filter: {
+            group: ['L1'],
+            status: 'SHARED',
+          },
+        },
+      });
+
+      // then
+      expect(response).to.be.equal(serializedParticipantsActivities);
+    });
+  });
+});

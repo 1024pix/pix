@@ -1,0 +1,75 @@
+<main class="sign-form__container">
+
+  <a href={{this.homeUrl}} class="pix-logo__link">
+    <img class="pix-logo__image" src="{{@rootURL}}/images/pix-logo.svg" alt="{{t "navigation.homepage"}}" />
+  </a>
+
+  <div class="sign-form__header">
+    <h1 class="sign-form-title">{{t "pages.sign-in.first-title"}}</h1>
+
+    <div class="sign-form-header__subtitle">
+      <span class="sign-form-header-subtitle sign-form-instruction">{{t "pages.sign-in.subtitle.text"}}</span>
+      <LinkTo @route="inscription" class="link sign-form-link"> {{t "pages.sign-in.subtitle.link"}}</LinkTo>
+    </div>
+  </div>
+
+  {{#if this.hasFailed}}
+    <div class="sign-form__notification-message sign-form__notification-message--error" role="alert">
+      {{this.errorMessage}}
+    </div>
+  {{/if}}
+
+  <form {{on "submit" this.signin}} class="sign-form__body">
+    <p class="sign-form-body__instruction">{{t "common.form.mandatory-all-fields" htmlSafe=true}}</p>
+
+    <fieldset>
+      <legend class="sr-only">{{t "pages.sign-in.fields.legend"}}</legend>
+      <div class="sign-form-body__input">
+        <FormTextfield
+          @label="{{t "pages.sign-in.fields.login.label"}}"
+          @textfieldName="login"
+          @validationStatus="default"
+          @inputBindingValue={{this.username}}
+          @autocomplete="username"
+          @hideRequired={{true}}
+          @require={{true}}
+        />
+      </div>
+
+      <div class="sign-form-body__input">
+        <FormTextfield
+          @label="{{t "pages.sign-in.fields.password.label"}}"
+          @textfieldName="password"
+          @validationStatus="default"
+          @inputBindingValue={{this.password}}
+          @autocomplete="current-password"
+          @hideRequired={{true}}
+          @require={{true}}
+        />
+      </div>
+    </fieldset>
+    <LinkTo
+      @route="password-reset-demand"
+      class="link link--grey sign-form-link sign-form-body__forgotten-password-link"
+    >
+      {{t "pages.sign-in.forgotten-password"}}</LinkTo>
+
+    <div class="sign-form-body__bottom-button">
+      <PixButton @type="submit" @shape="rounded">
+        {{t "pages.sign-in.actions.submit"}}
+      </PixButton>
+    </div>
+
+    {{#if this.displayPoleEmploiButton}}
+      <div class="sign-form-body__bottom-decoration">
+        <span>{{t "pages.sign-in.or"}}</span>
+      </div>
+
+      <LinkTo @route="login-pe" class="sign-form-body__pe-connect-link" data-test-pole-emploi>
+        <img src="{{this.rootURL}}/images/logo/pe-connect-logo.svg" alt="{{t "pages.sign-in.pole-emploi.link.img"}}" />
+        <span>{{t "pages.sign-in.pole-emploi.title"}}</span>
+      </LinkTo>
+    {{/if}}
+
+  </form>
+</main>

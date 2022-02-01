@@ -1,0 +1,24 @@
+.app {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: $grey-10;
+  overflow: auto;
+
+  &__body {
+    flex: 1 0 auto;
+  }
+}
+
+@include device-is('mobile') {
+  .app {
+    flex-direction: column;
+  }
+}

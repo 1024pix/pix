@@ -1,0 +1,82 @@
+<div class="login-form">
+
+  {{#unless @isWithInvitation}}
+    <div class="login-form__information">{{t "pages.login-form.is-only-accessible"}}</div>
+  {{/unless}}
+
+  {{#if @hasInvitationAlreadyBeenAccepted}}
+    <div class="login-form__invitation-error">{{t "pages.login-form.invitation-already-accepted"}}</div>
+  {{/if}}
+
+  {{#if @isInvitationCancelled}}
+    <p class="login-form__invitation-error">{{t "pages.login-form.invitation-was-cancelled"}}</p>
+  {{/if}}
+
+  {{#if this.isErrorMessagePresent}}
+    <div id="login-form-error-message" class="login-form__error-message error-message" role="alert">
+      {{this.errorMessage}}
+    </div>
+  {{/if}}
+
+  <form {{on "submit" this.authenticate}}>
+    <p class="login-form__information">{{t "common.form.mandatory-all-fields"}}</p>
+
+    <div class="input-container">
+      <PixInput
+        @id="login-email"
+        @label={{t "pages.login-form.email"}}
+        name="login"
+        type="email"
+        {{on "focusout" this.validateEmail}}
+        {{on "input" this.updateEmail}}
+        @errorMessage={{this.emailValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixInputPassword
+        @id="login-password"
+        name="password"
+        @label={{t "pages.login-form.password"}}
+        autocomplete="current-password"
+        required={{true}}
+        aria-required={{true}}
+        {{on "focusout" this.validatePassword}}
+        {{on "input" this.validatePassword}}
+        @errorMessage={{this.passwordValidationMessage}}
+      />
+    </div>
+
+    <div class="input-container">
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
+        {{t "pages.login-form.login"}}
+      </PixButton>
+    </div>
+
+    <div>
+      <div class="login-form__forgotten-password help-text">
+        <a
+          href="{{t "pages.login-form.forgotten-password-url"}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          {{t "pages.login-form.forgot-password"}}
+        </a>
+      </div>
+      {{#if this.displayRecoveryLink}}
+        <div>
+          <div class="login-form__recover-access-link help-text">
+            <LinkTo @route="join-request" class="link">{{t "pages.login-form.active-or-retrieve"}}</LinkTo>
+          </div>
+          <div class="login-form__recover-access-message help-text">({{t "pages.login-form.only-for-admin"}})</div>
+        </div>
+      {{/if}}
+    </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,30 @@
+{{page-title (t "pages.certification-start.title")}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @burger={{burger}} />
+    <main class="main">
+      <PixBackgroundHeader id="main">
+
+        {{#if this.model.isCertifiable}}
+          <PixBlock @shadow="heavy" class="certification-start-page__block">
+            {{#if this.showCongratulationsBanner}}
+              <CongratulationsCertificationBanner
+                @certificationEligibility={{this.model}}
+                @fullName={{this.currentUser.user.fullName}}
+                @closeBanner={{this.closeBanner}}
+              />
+            {{/if}}
+            <CertificationJoiner @onStepChange={{this.changeStep}} />
+          </PixBlock>
+        {{else}}
+          <CertificationNotCertifiable />
+        {{/if}}
+
+      </PixBackgroundHeader>
+    </main>
+
+    <Footer />
+
+  </burger.outlet>
+</BurgerMenu>

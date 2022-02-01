@@ -1,0 +1,53 @@
+.badge-form {
+
+  label {
+    font-weight: $font-semi-bold;
+  }
+
+  &__text-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__text-field:not(:last-child),
+  &__check-field:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  &-check-field__control {
+    margin: 0 8px;
+  }
+
+  &__action-buttons {
+    display: flex;
+    padding-top: 24px;
+    border-top: 1px solid $grey-22;
+  }
+
+  &-action-buttons__cancel {
+    margin-right: 8px;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &-criteria {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 16px;
+
+    &__threshold {
+      width: 160px;
+    }
+
+    &__skill-set {
+      flex: 1;
+    }
+  }
+
+  h4 {
+    margin-top: 37px;
+  }
+}

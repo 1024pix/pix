@@ -1,0 +1,81 @@
+{{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components no-bare-strings }}
+<section class="certification-joiner">
+  <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
+  <form autocomplete="off" {{on "submit" this.attemptNext}}>
+    <div class="certification-joiner__row">
+      <label class="certification-joiner__label" for="certificationJoinerSessionId">{{t
+          "pages.certification-joiner.form.fields.session-number"
+        }}</label>
+      <Input
+        id="certificationJoinerSessionId"
+        class={{if this.sessionIdIsNotANumberError "certification-joiner__input--invalid"}}
+        pattern={{this.SESSION_ID_VALIDATION_PATTERN}}
+        title={{t "pages.certification-joiner.form.fields-validation.session-number-error"}}
+        @type="text"
+        size="6"
+        @value={{this.sessionId}}
+        {{on "input" this.checkSessionIdIsValid}}
+        inputmode="decimal"
+        required="true"
+      />
+      <p class="certification-joiner__validation-error">{{this.sessionIdIsNotANumberError}}</p>
+    </div>
+    <div class="certification-joiner__row">
+      <label class="certification-joiner__label" for="certificationJoinerFirstName">{{t
+          "pages.certification-joiner.form.fields.first-name"
+        }}</label>
+      <Input @type="text" @value={{this.firstName}} id="certificationJoinerFirstName" />
+    </div>
+    <div class="certification-joiner__row">
+      <label class="certification-joiner__label" for="certificationJoinerLastName">{{t
+          "pages.certification-joiner.form.fields.birth-name"
+        }}</label>
+      <Input @type="text" @value={{this.lastName}} id="certificationJoinerLastName" />
+    </div>
+    <div class="certification-joiner__row">
+      <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t
+          "pages.certification-joiner.form.fields.birth-date"
+        }}</label>
+      <div class="certification-joiner__birthdate" id="certificationJoinerBirthDate">
+        <Input
+          min="1"
+          max="31"
+          @type="number"
+          @value={{this.dayOfBirth}}
+          placeholder="JJ"
+          id="certificationJoinerDayOfBirth"
+          {{on "input" this.handleDayInputChange}}
+          {{on "focus-in" this.handleInputFocus}}
+          aria-label={{t "pages.certification-joiner.form.fields.birth-day"}}
+        />
+        <div class="certification-joiner__divider"></div>
+        <Input
+          min="1"
+          @max="12"
+          @type="number"
+          @value={{this.monthOfBirth}}
+          placeholder="MM"
+          @id="certificationJoinerMonthOfBirth"
+          {{on "input" this.handleMonthInputChange}}
+          {{on "focus-in" this.handleInputFocus}}
+          aria-label={{t "pages.certification-joiner.form.fields.birth-month"}}
+        />
+        <div class="certification-joiner__divider"></div>
+        <Input
+          @min="1900"
+          @type="number"
+          @value={{this.yearOfBirth}}
+          placeholder="AAAA"
+          @id="certificationJoinerYearOfBirth"
+          {{on "focus-in" this.handleInputFocus}}
+          aria-label={{t "pages.certification-joiner.form.fields.birth-year"}}
+        />
+      </div>
+    </div>
+
+    {{#if this.errorMessage}}
+      <div class="certification-course-page__errors">{{this.errorMessage}}</div>
+    {{/if}}
+    <PixButton @type="submit">{{t "pages.certification-joiner.form.actions.submit"}}</PixButton>
+  </form>
+</section>

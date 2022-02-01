@@ -1,0 +1,16 @@
+{{page-title "Utilisateur " @model.id}}
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.users.list"><span id="link-to-users-page">Tous les utilisateurs</span></LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    {{@model.id}}
+  </div>
+</header>
+
+<main class="page-body">
+  <Users::UserDetailPersonalInformation
+    @user={{@model}}
+    @removeAuthenticationMethod={{this.removeAuthenticationMethod}}
+    @addPixAuthenticationMethod={{this.addPixAuthenticationMethod}}
+  />
+</main>

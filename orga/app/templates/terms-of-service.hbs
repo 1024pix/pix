@@ -1,0 +1,21 @@
+{{page-title (t "pages.terms-of-service.title")}}
+
+<div class="terms-of-service-page">
+  <div class="terms-of-service-form">
+
+    {{#if this.isEnglishLocale}}
+      <TermsOfService::PageEn />
+    {{else}}
+      <TermsOfService::PageFr />
+    {{/if}}
+
+    <div class="terms-of-service-form__actions">
+      <PixButtonLink id="terms-of-service-cancel-button" @route="logout" @backgroundColor="transparent-light">
+        {{t "common.actions.cancel"}}
+      </PixButtonLink>
+      <PixButton @type="submit" @triggerAction={{this.submit}}>
+        {{t "pages.terms-of-service.accept"}}
+      </PixButton>
+    </div>
+  </div>
+</div>

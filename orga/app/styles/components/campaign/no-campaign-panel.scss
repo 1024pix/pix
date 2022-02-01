@@ -1,0 +1,16 @@
+.no-campaign-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+  padding: 60px 30px;
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  &__information-text {
+    color: $grey-60;
+  }
+}

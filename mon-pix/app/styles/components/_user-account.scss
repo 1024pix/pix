@@ -1,0 +1,112 @@
+.user-account {
+
+  &__title {
+    margin: 0 0 8px;
+    padding-top: 55px;
+    padding-bottom: 26px;
+    font-family: $font-open-sans;
+    font-size: 3rem;
+    font-weight: 300;
+    color: $white;
+    position: relative;
+    right: 0;
+
+    @include device-is('middle-desktop') {
+      right: 350px;
+    }
+  }
+
+  &__validation-title {
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 16px;
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-weight: 400;
+
+    @include device-is('tablet') {
+      text-align: start;
+    }
+  }
+
+  &__menu-and-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+
+    .pix-block {
+      width: auto;
+    }
+  }
+
+  &__menu-block {
+    padding: 0;
+    height: max-content;
+
+    .user-account-menu {
+      display: flex;
+      flex-direction: column;
+
+      ul li {
+        border-bottom: 1.5px solid $grey-10;
+        border-radius: 4px;
+
+        &:first-child a {
+          border-radius: 4px 4px 0 0;
+        }
+
+        &:last-child a {
+          border-radius: 0 0 4px 4px;
+          border-bottom: none;
+        }
+      }
+
+      &__link {
+        display: block;
+        color: $grey-60;
+        padding: 16px 60px 16px 20px;
+
+        svg {
+          margin-right: 8px;
+        }
+
+        &:hover {
+          background-color: $grey-15;
+        }
+
+        &:focus-within {
+          background-color: $grey-15;
+        }
+
+        &.active {
+          background-color: $grey-15;
+        }
+      }
+    }
+  }
+
+  &__content.pix-block {
+    margin-left: 40px;
+    width: 645px;
+    height: max-content;
+
+    @include device-is('mobile') {
+      margin-left: 0;
+      min-width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  &__error-message {
+    @include device-is('tablet') {
+      max-width: 520px;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__connection-methods {
+    max-width: 980px;
+    padding: 10px 0;
+  }
+}

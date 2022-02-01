@@ -1,0 +1,27 @@
+.badges-table {
+
+  &__id {
+    width: 110px;
+  }
+
+  &__key {
+    width: 150px;
+  }
+
+  &__name {
+    width: 250px;
+  }
+
+  &__image {
+    width: 130px;
+
+    img {
+      width: 90px;
+    }
+  }
+
+  &__actions,
+  &__shortcoming {
+    width: 140px;
+  }
+}

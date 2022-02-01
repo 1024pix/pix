@@ -1,0 +1,263 @@
+<section class="page-section mb_10">
+  <div class="organization__information">
+    <div class="organization__logo">
+      <figure class="organization__logo-figure">
+        {{#if @organization.logoUrl}}
+          <img src={{@organization.logoUrl}} alt={{@organization.name}} />
+        {{else}}
+          <img src="{{this.rootURL}}/logo-placeholder.png" alt="placeholder" />
+        {{/if}}
+
+        <FileUpload @name="logo" @accept="image/*" @onfileadd={{this.updateLogo}} />
+      </figure>
+    </div>
+
+    {{#if this.isEditMode}}
+      <div class="organization__edit-form">
+        <form class="form" {{on "submit" this.updateOrganization}}>
+
+          <span class="form__instructions">
+            Les champs marqués de
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+            sont obligatoires.
+          </span>
+
+          <div class="form-field">
+            <label for="name" class="form-field__label">
+              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+              Nom
+            </label>
+            {{#if (v-get this.form "name" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "name" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="name"
+              @type="text"
+              class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.name}}
+              required={{true}}
+            />
+          </div>
+          <div class="form-field">
+            <label for="externalId" class="form-field__label">Identifiant externe</label>
+            {{#if (v-get this.form "externalId" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "externalId" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="externalId"
+              @type="text"
+              class={{if (v-get this.form "externalId" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.externalId}}
+            />
+          </div>
+          <div class="form-field">
+            <label for="provinceCode" class="form-field__label">Département (en 3 chiffres)</label>
+            {{#if (v-get this.form "provinceCode" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "provinceCode" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="provinceCode"
+              @type="text"
+              class={{if (v-get this.form "provinceCode" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.provinceCode}}
+            />
+          </div>
+          <div class="form-field">
+            <label for="email" class="form-field__label">Adresse e-mail (SCO)</label>
+            {{#if (v-get this.form "email" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "email" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="email"
+              @type="text"
+              class={{if (v-get this.form "email" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.email}}
+            />
+          </div>
+          <div class="form-field">
+            <label for="credits" class="form-field__label">Crédits</label>
+            {{#if (v-get this.form "credit" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "credit" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="credit"
+              @type="number"
+              class={{if (v-get this.form "credit" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.credit}}
+            />
+          </div>
+          <div class="form-field">
+            <label for="documentationUrl" class="form-field__label">Lien vers la documentation</label>
+            {{#if (v-get this.form "documentationUrl" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "documentationUrl" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="documentationUrl"
+              @type="text"
+              class={{if (v-get this.form "documentationUrl" "isInvalid") "form-control is-invalid" "form-control"}}
+              @value={{this.form.documentationUrl}}
+            />
+          </div>
+          {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+            <div class="form-field organization-edit-form__checkbox">
+              <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
+              {{#if (v-get this.form "isManagingStudents" "isInvalid")}}
+                <div class="form-field__error">
+                  {{v-get this.form "isManagingStudents" "message"}}
+                </div>
+              {{/if}}
+              <Input
+                id="isManagingStudents"
+                @type="checkbox"
+                class={{if (v-get this.form "isManagingStudents" "isInvalid") "form-control is-invalid" "form-control"}}
+                @checked={{this.form.isManagingStudents}}
+              />
+            </div>
+          {{/if}}
+          <div class="form-field organization-edit-form__checkbox">
+            <label for="canCollectProfiles" class="form-field__label">Collecte de profils</label>
+            {{#if (v-get this.form "canCollectProfiles" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "canCollectProfiles" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="canCollectProfiles"
+              @type="checkbox"
+              class={{if (v-get this.form "canCollectProfiles" "isInvalid") "form-control is-invalid" "form-control"}}
+              @checked={{this.form.canCollectProfiles}}
+            />
+          </div>
+          <div class="form-field organization-edit-form__checkbox">
+            <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
+            {{#if (v-get this.form "showSkills" "isInvalid")}}
+              <div class="form-field__error">
+                {{v-get this.form "showSkills" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="showSkills"
+              @type="checkbox"
+              class={{if (v-get this.form "showSkills" "isInvalid") "form-control is-invalid" "form-control"}}
+              @checked={{this.form.showSkills}}
+            />
+          </div>
+          <div class="form-actions">
+            <PixButton
+              @size="small"
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @triggerAction={{this.cancel}}
+            >Annuler</PixButton>
+            <PixButton @type="submit" @size="small" @backgroundColor="green">Enregistrer</PixButton>
+          </div>
+        </form>
+      </div>
+
+    {{else}}
+      <div class="organization__data">
+        <h1 class="organization__name">{{@organization.name}}</h1>
+
+        {{#if @organization.tags}}
+          <ul class="organization-tags-list">
+            {{#each @organization.tags as |tag|}}
+              <li class="organization-tags-list__tag">
+                <PixTag @compact="true" @color="purple-light">{{tag.name}}</PixTag>
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+
+        <div class="organization-information-section__content">
+          <div class="organization-information-section__details">
+            <p>
+              Type :
+              <span>{{@organization.type}}</span><br />
+              {{#if @organization.externalId}}
+                Identifiant externe :
+                <span>{{@organization.externalId}}</span><br />
+              {{/if}}
+              {{#if @organization.provinceCode}}
+                Département :
+                <span>{{@organization.provinceCode}}</span><br />
+              {{/if}}
+              {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+                Gestion d’élèves/étudiants :
+                <span class="organization__isManagingStudents">{{if
+                    @organization.isManagingStudents
+                    "Oui"
+                    "Non"
+                  }}</span><br />
+              {{/if}}
+              Adresse e-mail:
+              <span class="organization'__email">{{@organization.email}}</span><br />
+              Collecte de profils :
+              <span class="organization__canCollectProfiles">{{if
+                  @organization.canCollectProfiles
+                  "Oui"
+                  "Non"
+                }}</span><br />
+              Affichage des acquis dans l'export de résultats :
+              <span class="organization__showSkills">{{if @organization.showSkills "Oui" "Non"}}</span><br />
+              Affichage du Net Promoter Score :
+              <span>{{if @organization.showNPS "Oui" "Non"}}</span><br />
+              Lien vers le formulaire du Net Promoter Score :
+              {{#if @organization.formNPSUrl}}
+                <a
+                  href="{{@organization.formNPSUrl}}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{@organization.formNPSUrl}}</a>
+              {{else}}
+                Non spécifié
+              {{/if}}
+              <br />
+              Crédits :
+              <span>{{@organization.credit}}</span>
+              <br />
+              Lien vers la documentation :
+              {{#if @organization.documentationUrl}}
+                <a
+                  href="{{@organization.documentationUrl}}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{@organization.documentationUrl}}</a>
+              {{else}}
+                Non spécifié
+              {{/if}}
+            </p>
+            <PixButton
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @size="small"
+              @triggerAction={{this.toggleEditMode}}
+            >Editer</PixButton>
+          </div>
+          <div>
+            <PixButtonLink
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @href={{this.externalURL}}
+              @size="small"
+              class="pix-button__secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Tableau de bord</PixButtonLink>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</section>

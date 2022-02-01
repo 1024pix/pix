@@ -1,0 +1,52 @@
+log_format keyvalue
+  'method=$request_method'
+  ' path="$request_uri"'
+  ' host=$host'
+  ' request_id=$http_x_request_id'
+  ' from="$remote_addr"'
+  ' protocol=$scheme'
+  ' status=$status'
+  ' duration=${request_time}s'
+  ' bytes=$bytes_sent'
+  ' referer="$http_referer"'
+  ' user_agent="$http_user_agent"';
+
+# In order to avoid logging access twice per request
+# it is necessary to turn off the top-level (e.g. http) buildpack default access_log
+# as we are about to override it in the server directive here below
+access_log off;
+
+server {
+  access_log logs/access.log keyvalue;
+  server_name localhost;
+  listen <%= ENV['PORT'] %>;
+
+  charset utf-8;
+
+  # Disable compression that is performed by the Scalingo router anyway
+  gzip off;
+
+  location ~ ^/(?<app>[^/]+)/.*$ {
+
+
+    root /app/dist/;
+
+    try_files $uri /$app/index.html =404;
+
+    expires -1;
+  }
+
+  add_header X-Content-Type-Options "nosniff";
+  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-XSS-Protection 1;
+
+  <% ENV.each do |key,value|
+    if key.start_with? 'ADD_HTTP_HEADER' %>
+      add_header <%=
+        key.sub(/^ADD_HTTP_HEADER_/, '').split("_").map(&:capitalize).join("-")
+      %> "<%=
+        value.gsub('\\', '\\\\\\\\').gsub('"','\\"').gsub('$','\\$')
+      %>" ;
+    <% end
+  end %>
+}

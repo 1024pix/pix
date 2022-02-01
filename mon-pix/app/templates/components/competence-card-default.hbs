@@ -1,0 +1,90 @@
+<article class="competence-card {{if @interactive "competence-card--interactive"}}">
+  <LinkTo @route="competences.details" @model={{@scorecard.competenceId}}>
+    <div class="competence-card__title">
+      <div class="competence-card__wrapper competence-card__wrapper--{{@scorecard.area.color}}">
+        <div class="competence-card__area-name">{{@scorecard.area.title}}</div>
+        <div class="competence-card__competence-name">{{@scorecard.name}}</div>
+      </div>
+    </div>
+
+    <div class="competence-card__body" role="img" aria-label="{{scorecard-aria-label @scorecard}}">
+      {{#if @scorecard.isFinishedWithMaxLevel}}
+        <div class="competence-card__congrats competence-card__congrats--with-magnification">
+          <div class="competence-card__level competence-card__level--congrats">
+            <span class="score-label competence-card__score-label--congrats">{{t "common.level"}}</span>
+            <span
+              class="score-value competence-card__score-value competence-card__score-value--congrats"
+            >{{this.displayedLevel}}</span>
+          </div>
+        </div>
+      {{else}}
+        <div class="competence-card__link">
+          <CircleChart
+            @value={{@scorecard.percentageAheadOfNextLevel}}
+            @sliceColor={{@scorecard.area.color}}
+            @chartClass="circle-chart__content--big"
+            @thicknessClass="circle--thick"
+          >
+            <div class="competence-card__level">
+              <span class="score-label">{{t "common.level"}}</span>
+              <span class="score-value competence-card__score-value">{{replace-zero-by-dash this.displayedLevel}}</span>
+              <span class="competence-card__score-details">{{t "pages.profile.competence-card.details"}}</span>
+            </div>
+          </CircleChart>
+        </div>
+      {{/if}}
+    </div>
+  </LinkTo>
+
+  {{#if @scorecard.isFinishedWithMaxLevel}}
+    <div class="competence-card__congrats-message">
+      {{t "pages.profile.competence-card.congrats"}}
+    </div>
+  {{else}}
+    <div class="competence-card__interactions">
+      {{#if @scorecard.isFinished}}
+        {{#if this.shouldWaitBeforeImproving}}
+          <div class="competence-card-interactions__improvement-countdown">
+            <span class="competence-card-improvement-countdown__label">{{t
+                "pages.competence-details.actions.improve.description.waiting-text"
+              }}</span>
+            <span class="competence-card-improvement-countdown__count">{{t
+                "pages.competence-details.actions.improve.description.countdown"
+                daysBeforeImproving=@scorecard.remainingDaysBeforeImproving
+              }}</span>
+          </div>
+        {{else}}
+          <PixButton
+            class="competence-card__button"
+            @shape="rounded"
+            @backgroundColor="green"
+            @triggerAction={{this.improveCompetenceEvaluation}}
+          >
+            <span class="competence-card-button__label">
+              {{t "pages.competence-details.actions.improve.label"}}
+              <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
+            </span>
+            <span class="competence-card-button__arrow"><FaIcon @icon="long-arrow-alt-right" /></span>
+          </PixButton>
+        {{/if}}
+      {{else}}
+        <LinkTo
+          class="button button--extra-thin button--round button--link button--green competence-card__button"
+          @model={{@scorecard.competenceId}}
+          @route="competences.resume"
+        >
+          <span class="competence-card-button__label">
+            {{#if @scorecard.isStarted}}
+              {{t "pages.competence-details.actions.continue.label"}}
+            {{else}}
+              {{t "pages.competence-details.actions.start.label"}}
+            {{/if}}
+          </span>
+          <span class="competence-card-button__arrow">
+            <FaIcon @icon="long-arrow-alt-right" />
+          </span>
+        </LinkTo>
+      {{/if}}
+    </div>
+  {{/if}}
+</article>

@@ -1,0 +1,172 @@
+<header class="page-header">
+  <div class="page-title">
+    <p>Résultat Thématique<span class="wire">&nbsp;>&nbsp;</span>{{@badge.id}}</p>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section mb_10">
+    <div class="page-section__header">
+      <h1 class="page-section__title">{{@badge.name}}</h1>
+    </div>
+    <div class="page-section__details badge-data">
+      <div class="badge-data__image">
+        <img src={{@badge.imageUrl}} alt="" role="presentation" width="90px" /><br />
+      </div>
+      {{#if this.editMode}}
+        <div class="badge-edit-form">
+          <form class="form" {{on "submit" this.updateBadge}}>
+            <div class="badge-edit-form__field">
+              <label for="title" class="badge-edit-form-field__label">
+                Titre :
+              </label>
+              <Input id="title" @type="text" class="form-control" @value={{this.form.title}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="key" class="badge-edit-form-field__label">
+                Clé :
+              </label>
+              <Input id="key" @type="text" class="form-control" @value={{this.form.key}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="message" class="badge-edit-form-field__label">
+                Message :
+              </label>
+              <Textarea id="message" class="form-control" @value={{this.form.message}} rows="4" />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="imageUrl" class="badge-edit-form-field__label">
+                Nom de l'image (svg) :
+              </label>
+              <Input id="imageUrl" @type="text" class="form-control" @value={{this.form.imageName}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="altMessage" class="badge-edit-form-field__label">
+                Message Alternatif :
+              </label>
+              <Input
+                id="altMessage"
+                @type="text"
+                class="form-control"
+                @value={{this.form.altMessage}}
+                required={{true}}
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isCertifiable">Certifiable : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isCertifiable}}
+                id="isCertifiable"
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isAlwaysVisible">Lacunes : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isAlwaysVisible}}
+                id="isAlwaysVisible"
+              />
+            </div>
+            <div class="badge-edit-form__actions">
+              <PixButton
+                @size="small"
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @triggerAction={{this.cancel}}
+              >Annuler</PixButton>
+              <PixButton @type="submit" @size="small" @backgroundColor="green">Enregistrer</PixButton>
+            </div>
+          </form>
+        </div>
+      {{else}}
+        <div class="page-section__details">
+          ID :
+          {{@badge.id}}<br />
+          Nom du badge :
+          {{@badge.title}}<br />
+          Nom de l'image :
+          {{this.imageName}}<br />
+          Clé :
+          {{@badge.key}}<br />
+          Message :
+          {{@badge.message}}<br />
+          Message alternatif :
+          {{@badge.altMessage}}<br />
+          {{#if @badge.isCertifiable}}
+            <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br
+            />
+          {{/if}}
+          {{#if @badge.isAlwaysVisible}}
+            <PixTag @color={{this.isAlwaysVisibleColor}} class="badge-data__tags">
+              {{this.isAlwaysVisibleText}}</PixTag><br />
+          {{/if}}
+          <PixButton
+            @backgroundColor="transparent-light"
+            class="badge-data__action"
+            @isBorderVisible={{true}}
+            @size="small"
+            @triggerAction={{this.toggleEditMode}}
+          >Editer</PixButton>
+        </div>
+      {{/if}}
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section__header">
+      <h2 class="page-section__title">Critères</h2>
+    </div>
+
+    <div class="page-section__details table-admin">
+      {{#each this.badgeCriteria as |criterion|}}
+        <p>L‘évalué doit obtenir
+          <strong>{{criterion.threshold}}%</strong>
+          sur
+          {{call (fn this.scopeExplanation criterion.scope)}}</p>
+
+        {{#if criterion.skillSets}}
+          <ul class="badge-criteria-competences">
+            {{#each criterion.skillSets as |skillSet|}}
+              <li>
+                <details>
+                  <summary>{{skillSet.name}}</summary>
+                  <table class="table-admin skill-sets-table">
+                    <thead>
+                      <tr>
+                        <th class="table__column table__column--wide">Sujet</th>
+                        {{#each this.allLevels as |level|}}
+                          <th class="table__column table__column--small table__column--center">Niveau {{level}}</th>
+                        {{/each}}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each skillSet.tubes as |tube|}}
+                        <tr>
+                          <td>{{tube.practicalTitle}}</td>
+                          {{#each tube.skillsWithAllLevels as |skill|}}
+                            <td class="table__column--center skill-column">
+                              {{#if skill}}
+                                <PixTooltip @text={{concat skill.id " " skill.name}} @position="bottom">
+                                  <FaIcon @icon="check" class="skill-column--check" aria-label={{skill.name}} />
+                                </PixTooltip>
+                              {{else}}
+                                <FaIcon @icon="times" class="skill-column--uncheck" />
+                              {{/if}}
+                            </td>
+                          {{/each}}
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </details>
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      {{/each}}
+    </div>
+  </section>
+</main>

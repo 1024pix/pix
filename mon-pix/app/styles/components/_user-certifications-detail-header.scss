@@ -1,0 +1,147 @@
+.user-certifications-page-get__header {
+  display: flex;
+}
+
+.user-certifications-detail-header {
+  font-family: $font-open-sans;
+  display: flex;
+  flex-direction: row;
+  padding: 32px 0;
+
+  &__info-certificate {
+    color: $grey-80;
+    align-self: center;
+
+    & > * {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    h1 {
+      font-weight: lighter;
+      font-size: 2rem;
+    }
+
+    p:nth-child(4) {
+      font-weight: bold;
+    }
+
+    &--grey {
+      color: $grey-45;
+      font-size: 0.875rem;
+      line-height: 23px;
+
+      &:nth-child(2) {
+        margin-top: 10px;
+      }
+
+      &:nth-child(3) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  @include device-is('mobile') {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  @include device-is('tablet') {
+    flex-wrap: wrap;
+  }
+
+  @include device-is('desktop') {
+    flex-wrap: nowrap;
+  }
+}
+
+.attestation-and-verification-code {
+  background-color: $grey-10;
+  border-radius: 8px;
+  padding: 16px 20px;
+
+  .attestation {
+    font-size: 0.875rem;
+    margin: auto;
+    text-align: center;
+
+    button {
+      max-width: 250px;
+      padding: 14px 20px;
+    }
+  }
+
+  hr {
+    margin: 24px 0;
+    border: 1px solid $grey-15;
+  }
+
+  .verification-code {
+    font-family: $font-open-sans;
+    color: $grey-90;
+    max-width: 250px;
+    margin: auto;
+    letter-spacing: 0;
+
+    &__title {
+      display: flex;
+      font-size: 1rem;
+      padding: 0;
+      padding-bottom: 8px;
+      font-weight: initial;
+    }
+
+    &__box {
+      padding: 10px 20px;
+      border: 1.5px $grey-22 dashed;
+      border-radius: 4px;
+      background-color: $grey-5;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+
+      .verification-code__code {
+        padding: 0;
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: bold;
+        letter-spacing: 0.3px;
+        margin-right: 6px;
+      }
+
+      .verification-code__copy-button {
+        border: none;
+        background: none;
+        cursor: pointer;
+        padding: 0;
+        color: $blue;
+        font-size: 1.25rem;
+
+        &:hover { color: darken($blue, 20%); }
+      }
+    }
+
+    &__informations {
+      font-size: 0.8125rem;
+      margin: 0;
+      margin-top: 8px;
+      line-height: 20px;
+    }
+  }
+
+  @include device-is('tablet') {
+    margin-left: 0;
+    flex-grow: 1;
+  }
+
+  @include device-is('desktop') {
+    margin-left: auto;
+    flex-grow: 0;
+
+    .verification-code,
+    .attestation {
+      margin: 0;
+    }
+  }
+}

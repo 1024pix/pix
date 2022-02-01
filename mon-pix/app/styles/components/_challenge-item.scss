@@ -1,0 +1,144 @@
+.challenge-item {
+  border: 3px solid transparent;
+
+  &--focused {
+    border: 3px dashed $grey-70;
+    border-radius: 10px;
+    z-index: 1;
+  }
+}
+
+.challenge-response {
+  font-size: 0.938rem;
+  background-color: $grey-10;
+  margin: 6px;
+
+  @include device-is('desktop') {
+    font-size: 1.25rem;
+  }
+
+  label {
+    font-weight: $font-normal;
+  }
+
+  a {
+    text-decoration: underline;
+    color: $blue;
+
+    @include device-is('tablet') {
+      display: inline-block;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $blue-hover;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  &__instructions {
+    font-size: 1rem;
+    font-weight: $font-normal;
+  }
+
+  &__proposal {
+    font-size: 1.25rem;
+    color: $grey-80;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+    &--paragraph {
+      display: flex;
+      width: 100%;
+      height: auto;
+      resize: vertical;
+    }
+
+    &--sentence {
+      display: flex;
+      width: 100%;
+    }
+
+    &--number {
+      width: 100px;
+    }
+
+    &--selector {
+      display: inline-block;
+    }
+  }
+
+  &__proposal-label {
+    font-weight: $font-normal;
+    width: 100%;
+  }
+}
+
+.proposal-text {
+  font-weight: $font-normal;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.625rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+form .challenge-response {
+
+  &--locked {
+    position: relative;
+  }
+
+  &__locked-overlay {
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+
+  .qroc-proposal {
+
+    .qroc_input-label {
+      display: inline;
+    }
+
+    ul,
+    ol,
+    p {
+      margin: 0;
+    }
+  }
+}
+
+form .challenge-response.challenge-response--locked {
+
+  &:hover {
+
+    .challenge-response__locked-overlay {
+      opacity: 1;
+      transition: 0.9s ease;
+    }
+  }
+}
+
+form .challenge-response-locked {
+
+  &__icon {
+    font-size: 3.125rem;
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+      transition: 0.3s ease;
+    }
+  }
+}

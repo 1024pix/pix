@@ -1,0 +1,65 @@
+.login-page {
+  background: $pix-gradient;
+  color: $white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.login-page__main {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.login-page__header {
+  height: 129px;
+  margin-top: 48px;
+  text-align: center;
+}
+
+.login-page__section--login-form {
+  margin: 48px 0;
+}
+
+.login-form {
+  background: $white;
+  border-radius: 3px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 48px;
+}
+
+.login-form__error {
+  background-color: $error;
+  border-color: $error;
+  color: $white;
+  border-radius: 3px;
+  padding: 8px;
+}
+
+.login-form__control {
+  margin-top: 24px;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.login-form__control:first-child {
+  margin-top: 0;
+}
+
+.login-form__field {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 8px;
+  border: 1px solid $grey-22;
+  line-height: 22px;
+}
+
+.login-form__button {
+  width: 100%;
+}

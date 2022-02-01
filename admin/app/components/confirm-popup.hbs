@@ -1,0 +1,15 @@
+<BsModalSimple
+  @title={{this.title}}
+  @closeTitle={{this.closeTitle}}
+  @submitTitle={{this.submitTitle}}
+  @size={{this.size}}
+  @fade={{false}}
+  @open={{@show}}
+  @position="center"
+  @onSubmit={{@confirm}}
+  @onHide={{@cancel}}
+  @submitButtonType={{if @submitButtonType @submitButtonType "primary"}}
+>
+  <p>{{@message}}</p>
+  <p class="confirm-popup__errors">{{@error}}</p>
+</BsModalSimple>

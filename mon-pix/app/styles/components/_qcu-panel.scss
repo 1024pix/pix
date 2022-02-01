@@ -1,0 +1,69 @@
+.qcu-panel {
+
+  a {
+    text-decoration: underline;
+    color: $blue;
+
+    @include device-is('tablet') {
+      display: inline-block;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $blue-hover;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  & > input[type=radio] {
+    flex-shrink: 0;
+    margin: auto 0;
+  }
+
+  &__label {
+    display: inline-block;
+    padding-left: 20px;
+    line-height: 21px;
+    position: relative;
+    cursor: pointer;
+    font-weight: $font-normal;
+  }
+
+  &-solution {
+
+    &__proposal-item {
+      line-height: 1.2rem;
+      font-weight: $font-normal;
+      margin-left: 7px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+    }
+
+    &__radio-button {
+      margin: auto 10px auto 0;
+    }
+
+    &__proposition {
+      display: inline-block;
+
+      &[data-goodness='good'] {
+        color: $green;
+        font-weight: $font-heavy;
+      }
+
+      &[data-goodness='bad'][data-checked='yes'] {
+        text-decoration: line-through;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

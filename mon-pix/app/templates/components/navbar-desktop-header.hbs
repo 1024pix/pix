@@ -1,0 +1,62 @@
+<div class="navbar-desktop-header">
+  <div class="navbar-desktop-header__container">
+    <div class="navbar-desktop-header-logo">
+      {{#if @shouldShowTheMarianneLogo}}
+        <div class="navbar-desktop-header-logo__marianne">
+          <img
+            src="{{this.rootURL}}/images/logo/logo-de-la-republique-francaise.svg"
+            alt="{{t "common.french-republic"}}"
+          />
+        </div>
+      {{/if}}
+      <PixLogo />
+    </div>
+
+    {{#if this.showHeaderMenuItem}}
+      <nav class="navbar-desktop-header-container__menu">
+        <ul class="navbar-desktop-header-menu__list">
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
+              {{t "navigation.main.dashboard"}}
+            </LinkTo>
+          </li>
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
+              {{t "navigation.main.skills"}}
+            </LinkTo>
+          </li>
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="certifications" class="navbar-desktop-header-menu__link">
+              {{t "navigation.main.start-certification"}}
+            </LinkTo>
+          </li>
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="user-tutorials" class="navbar-desktop-header-menu__link">
+              {{t "navigation.main.tutorials"}}
+            </LinkTo>
+          </li>
+        </ul>
+        <!-- Right -->
+        <div class="navbar-desktop-header-right">
+          <ul class="navbar-desktop-header-menu__list">
+            <li class="navbar-desktop-header-menu__item">
+              <LinkTo
+                @route="fill-in-campaign-code"
+                class="button button--extra-thin button--link navbar-desktop-header-campaign-menu__button"
+              >
+                {{t "navigation.main.code"}}
+              </LinkTo>
+            </li>
+          </ul>
+          <UserLoggedMenu />
+
+        </div>
+      </nav>
+
+    {{else}}
+      <div class="navbar-desktop-header-right">
+        <NavbarDesktopMenu @menu={{this.menu}} />
+      </div>
+    {{/if}}
+  </div>
+</div>

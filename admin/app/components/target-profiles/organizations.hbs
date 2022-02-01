@@ -1,0 +1,63 @@
+<section class="page-section mb_10 target-profile-organizations">
+  <div class="organization__forms-section">
+    <form class="organization__form" {{on "submit" this.attachOrganizations}}>
+      <label for="attach-organizations">Rattacher une ou plusieurs organisation(s)</label>
+      <div class="organization__sub-form">
+        <Input
+          id="attach-organizations"
+          @value={{this.organizationsToAttach}}
+          class="form-field__text form-control"
+          placeholder="1, 2"
+          aria-describedby="attach-organizations-info"
+        />
+        <p id="attach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
+        <PixButton
+          @type="submit"
+          @size="small"
+          aria-label="Valider le rattachement"
+          @isDisabled={{this.isDisabledAttachOrganizations}}
+        >
+          Valider
+        </PixButton>
+      </div>
+    </form>
+
+    <form class="organization__form" {{on "submit" this.attachOrganizationsFromExistingTargetProfile}}>
+      <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible
+        existant</label>
+      <div class="organization__sub-form">
+        <Input
+          id="attach-organizations-from-existing-target-profile"
+          @value={{this.existingTargetProfile}}
+          class="form-field__text form-control"
+          placeholder="1135"
+          aria-describedby="attach-organizations-from-existing-target-profile-info"
+        />
+        <p id="attach-organizations-from-existing-target-profile-info" hidden>Id du profil cible existant</p>
+        <PixButton
+          @type="submit"
+          @size="small"
+          aria-label="Valider le rattachement à partir de ce profil cible"
+          @isDisabled={{this.isDisabledAttachOrganizationsFromExistingTargetProfile}}
+        >
+          Valider
+        </PixButton>
+      </div>
+    </form>
+  </div>
+</section>
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Organisations</h2>
+  </header>
+
+  <Organizations::ListItems
+    @organizations={{@organizations}}
+    @id={{@id}}
+    @name={{@name}}
+    @type={{@type}}
+    @externalId={{@externalId}}
+    @triggerFiltering={{@triggerFiltering}}
+    @goToOrganizationPage={{@goToOrganizationPage}}
+  />
+</section>

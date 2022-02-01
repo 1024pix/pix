@@ -1,0 +1,70 @@
+/* stylelint-disable declaration-colon-newline-after */
+/* stylelint-disable function-parentheses-newline-inside */
+
+.fill-in-campaign-code {
+
+  &__container {
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    @include device-is('tablet') {
+      padding: 40px;
+    }
+  }
+
+  &__title {
+    font-weight: $font-light;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &__instruction {
+    color: $grey-100;
+    font-family: $font-open-sans;
+    font-size: 1.219rem;
+    text-align: center;
+    font-weight: $font-light;
+    margin-bottom: 16px;
+    max-width: 390px;
+  }
+
+  &__form-field {
+    display: inline-block;
+    text-align: left;
+
+    input {
+      width: 13.6ch;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 118px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__error {
+    color: $pure-orange;
+    font-size: 0.875rem;
+    padding: 16px 10px;
+    text-align: center;
+  }
+
+  &__warning {
+    color: $grey-90;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: 40px;
+  }
+}

@@ -1,0 +1,23 @@
+{{page-title (t "pages.campaign-activity.title")}}
+<h2 class="sr-only">{{t "pages.campaign-activity.title"}}</h2>
+
+{{#if @model.campaign.hasParticipations}}
+  <Campaign::Activity::Dashboard @campaign={{@model.campaign}} class="activity__dashboard" />
+
+  <h3 class="sr-only">{{t "pages.campaign-activity.table.title"}}</h3>
+
+  <Campaign::Activity::ParticipantsList
+    @campaign={{@model.campaign}}
+    @onClickParticipant={{this.goToParticipantPage}}
+    @participations={{@model.participations}}
+    @selectedStatus={{this.status}}
+    @selectedDivisions={{this.divisions}}
+    @selectedGroups={{this.groups}}
+    @rowCount={{@model.participations.meta.rowCount}}
+    @onFilter={{this.triggerFiltering}}
+    @onResetFilter={{this.resetFiltering}}
+    class="activity__participants-list"
+  />
+{{else}}
+  <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
+{{/if}}

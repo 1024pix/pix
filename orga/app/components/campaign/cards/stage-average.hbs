@@ -1,0 +1,10 @@
+<Ui::IndicatorCard
+  @title={{t "cards.participants-average-stages.title"}}
+  @icon="crown"
+  @color="blue"
+  @info={{t "cards.participants-average-stages.information"}}
+  @isLoading={{@isLoading}}
+  ...attributes
+>
+  <Campaign::StageStars @result={{this.valuePercentage}} @stages={{@stages}} @isWide={{true}} />
+</Ui::IndicatorCard>

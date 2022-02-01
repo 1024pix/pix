@@ -1,0 +1,78 @@
+/* Structure & layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.modal-wrapper {
+  z-index: 100;
+
+  .modal-dialog {
+    border-radius: 4px;
+    background-color: $white;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    width: 500px;
+    padding: 0;
+
+    &__large {
+      width: 600px;
+    }
+
+    @include device-is('mobile') {
+      width: 80%;
+    }
+
+    .modal__container {
+      position: relative;
+      margin: auto;
+
+      .modal-header {
+        position: relative;
+        padding: 32px 48px;
+        border-bottom: 1px solid $grey-20;
+
+        &__title {
+          font-family: $open-sans;
+          align-items: center;
+          justify-content: space-between;
+          color: $grey-90;
+          display: flex;
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        &__icon {
+          position: absolute;
+          right: 32px;
+          top: 32px;
+        }
+      }
+
+      .modal-body {
+        padding-left: 48px;
+        padding-right: 48px;
+      }
+
+      .modal-footer {
+        padding: 32px 48px;
+      }
+    }
+  }
+}
+
+/* Overlay
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.ember-modal-overlay {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ember-modal-overlay.translucent {
+  background-color: rgba(red($grey-200), green($grey-200), blue($grey-200), 0.2);
+}
+
+.modal__translucent {
+  background-color: transparent;
+  box-shadow: none;
+}

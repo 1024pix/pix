@@ -1,0 +1,15 @@
+<div data-test-id="challenge-illustration">
+  {{#if this.displayPlaceholder}}
+    <div class="challenge-illustration__placeholder" aria-label="{{t "pages.challenge.illustration.placeholder"}}">
+      <FaIcon @icon="image" />
+    </div>
+  {{/if}}
+
+  <img
+    src="{{@src}}"
+    alt="{{@alt}}"
+    class="challenge-illustration__loaded-image {{this.hiddenClass}}"
+    {{on "load" this.onImageLoaded}}
+  />
+
+</div>

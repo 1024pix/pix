@@ -1,0 +1,25 @@
+{{page-title (t "pages.team-list.title")}}
+{{page-title (t "pages.team-new.title")}}
+
+<div class="new-team-page">
+  <h1 class="page__title page-title">
+    {{t "pages.team-new.title"}}
+  </h1>
+
+  <p class="paragraph">
+    {{t "pages.team-new.email-requirement"}}<br />
+    {{t "pages.team-new.several-email-requirement"}}
+  </p>
+
+  <p class="paragraph">
+    {{t "pages.team-new.invited-members"}}
+  </p>
+
+  <Team::InviteForm
+    @email={{@model.email}}
+    @isLoading={{this.isLoading}}
+    @onSubmit={{this.createOrganizationInvitation}}
+    @onCancel={{this.cancel}}
+    class="new-team-page__form"
+  />
+</div>

@@ -1,0 +1,21 @@
+{{page-title "Pix Admin" separator=" | "}}
+<div class="app-container">
+
+  <aside class="app-sidebar">
+    <header class="app-logo">
+      <LinkTo @route="authenticated.index" class="app-logo__link">
+        PIX
+      </LinkTo>
+    </header>
+    <MenuBar />
+  </aside>
+
+  <div class="app-body">
+    <div class="app-page">
+      {{outlet}}
+    </div>
+  </div>
+
+  <NotificationContainer @position="bottom-right" />
+
+</div>

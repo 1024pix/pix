@@ -1,0 +1,39 @@
+.signup-form {
+
+  &__cgu-container {
+    max-width: 449px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 10px 0;
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    @include device-is('tablet') {
+      margin: 15px 0;
+      padding: 0;
+    }
+  }
+
+  &__cgu {
+    margin-top: 7px;
+    font-size: 1rem;
+    font-weight: $font-medium;
+  }
+
+  &__cgu-label {
+    margin: 3px 0 3px 15px;
+  }
+
+  &__legal-details-container {
+    display: block;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 0.75rem;
+
+    @include device-is('tablet') {
+      padding: 10px 0;
+    }
+  }
+}

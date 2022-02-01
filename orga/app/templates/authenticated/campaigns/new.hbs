@@ -1,0 +1,14 @@
+{{page-title (t "pages.campaign-creation.title")}}
+
+<div class="new-campaign-page">
+  <h1 class="page__title page-title">{{t "pages.campaign-creation.title"}}</h1>
+
+  <Campaign::CreateForm
+    @campaign={{@model.campaign}}
+    @targetProfiles={{@model.targetProfiles}}
+    @errors={{this.errors}}
+    @onSubmit={{this.createCampaign}}
+    @onCancel={{this.cancel}}
+    @membersSortedByFullName={{@model.membersSortedByFullName}}
+  />
+</div>

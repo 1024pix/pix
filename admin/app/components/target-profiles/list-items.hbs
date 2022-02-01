@@ -1,0 +1,60 @@
+<div class="content-text content-text--small">
+  <div class="table-admin">
+    <table>
+      <thead>
+        <tr>
+          <th class="table__column table__column--id">ID</th>
+          <th>Nom</th>
+          <th class="col-status">Statut</th>
+        </tr>
+        <tr>
+          <th class="table__column table__column--id">
+            <input
+              id="id"
+              type="text"
+              value={{@id}}
+              oninput={{perform @triggerFiltering "id"}}
+              class="table-admin-input"
+            />
+          </th>
+          <th>
+            <input
+              id="name"
+              type="text"
+              value={{@name}}
+              oninput={{perform @triggerFiltering "name"}}
+              class="table-admin-input"
+            />
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+
+      {{#if @targetProfiles}}
+        <tbody>
+          {{#each @targetProfiles as |targetProfile|}}
+            <tr aria-label="Profil cible">
+              <td class="table__column table__column--id">{{targetProfile.id}}</td>
+              <td>
+                <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile.id}}>
+                  {{targetProfile.name}}
+                </LinkTo>
+              </td>
+              <td class="target-profile-table-column__status">
+                {{if targetProfile.outdated "Obsolète" "Actif"}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @targetProfiles}}
+      <div class="table__empty content-text">Aucun résultat</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @targetProfiles}}
+  <PaginationControl @pagination={{@targetProfiles.meta}} />
+{{/if}}

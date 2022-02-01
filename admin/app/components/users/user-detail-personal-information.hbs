@@ -1,0 +1,48 @@
+<section class="page-section mb_10">
+  <Users::UserDetailPersonalInformation::UserOverview
+    @user={{@user}}
+    @toggleDisplayAnonymizeModal={{this.toggleDisplayAnonymizeModal}}
+  />
+</section>
+
+<section class="page-section mb_10 user-authentication-method">
+  <Users::UserDetailPersonalInformation::AuthenticationMethod
+    @user={{@user}}
+    @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+    @addPixAuthenticationMethod={{@addPixAuthenticationMethod}}
+  />
+</section>
+
+<section class="page-section mb_10">
+  <Users::UserDetailPersonalInformation::SchoolingRegistrationInformation
+    @user={{@user}}
+    @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+  />
+</section>
+
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
+  @confirm={{this.anonymizeUser}}
+  @cancel={{this.toggleDisplayAnonymizeModal}}
+  @submitButtonType="danger"
+  @show={{this.displayAnonymizeModal}}
+/>
+
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir dissocier ce prescrit ?"
+  @title="Confirmer la dissociation"
+  @submitTitle="Oui, je dissocie"
+  @submitButtonType="danger"
+  @confirm={{this.dissociate}}
+  @cancel={{this.toggleDisplayDissociateModal}}
+  @show={{this.displayDissociateModal}}
+/>
+
+<ConfirmPopup
+  @message="Suppression de la méthode de connexion suivante : {{this.translatedType}}"
+  @title="Confirmer la suppression"
+  @submitTitle="Oui, je supprime"
+  @confirm={{this.removeAuthenticationMethod}}
+  @cancel={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+  @show={{this.displayRemoveAuthenticationMethodModal}}
+/>

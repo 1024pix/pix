@@ -1,0 +1,139 @@
+{{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components no-bare-strings }}
+<div class="form-textfield">
+  <label class="form-textfield__label">
+    {{#if @require}}<abbr title="{{t "common.form.mandatory"}}" class="mandatory-mark">*</abbr> {{/if}}
+    {{@label}}
+    <br />
+  </label>
+
+  <div class="form-textfield__date">
+    <div
+      class="form-textfield__input-field-container
+        {{if @disabled "form-textfield__input-container--disabled" this.dayInputContainerStatusClass}}"
+    >
+      <Input
+        @type="text"
+        @id={{@dayTextfieldName}}
+        @value={{@dayInputBindingValue}}
+        name={{@dayTextfieldName}}
+        {{on "focusout" (fn @onValidateDay @dayTextfieldName @dayInputBindingValue)}}
+        class="form-textfield__input {{this.dayInputValidationStatus}}"
+        ariaDescribedBy={{@dayValidationMessage}}
+        required={{@require}}
+        disabled={{@disabled}}
+        placeholder="JJ"
+      />
+      <div class="form-textfield__icon">
+        {{#if this.dayHasIcon}}
+          {{#if (eq @dayValidationStatus "error")}}
+            <img
+              src="/images/icons/icon-error.svg"
+              class="form-textfield-icon__state form-textfield-icon__state--error"
+              alt={{t "common.form.error"}}
+            />
+          {{else}}
+            <img
+              src="/images/icons/icon-success.svg"
+              class="form-textfield-icon__state form-textfield-icon__state--success"
+              alt={{t "common.form.success"}}
+            />
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+
+    <div
+      class="form-textfield__input-field-container
+        {{if @disabled "form-textfield__input-container--disabled" this.monthInputContainerStatusClass}}"
+    >
+      <Input
+        @type="text"
+        @id={{@monthTextfieldName}}
+        @value={{@monthInputBindingValue}}
+        name={{@monthTextfieldName}}
+        {{on "focusout" (fn @onValidateMonth @monthTextfieldName @monthInputBindingValue)}}
+        class="form-textfield__input {{this.monthInputValidationStatus}}"
+        ariaDescribedBy={{@monthValidationMessage}}
+        required={{@require}}
+        disabled={{@disabled}}
+        placeholder="MM"
+      />
+      <div class="form-textfield__icon">
+        {{#if this.monthHasIcon}}
+          {{#if (eq @monthValidationStatus "error")}}
+            <img
+              src="/images/icons/icon-error.svg"
+              class="form-textfield-icon__state form-textfield-icon__state--error"
+              alt={{t "common.form.error"}}
+            />
+          {{else}}
+            <img
+              src="/images/icons/icon-success.svg"
+              class="form-textfield-icon__state form-textfield-icon__state--success"
+              alt={{t "common.form.success"}}
+            />
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+
+    <div
+      class="form-textfield__input-field-container
+        {{if @disabled "form-textfield__input-container--disabled" this.yearInputContainerStatusClass}}"
+    >
+      <Input
+        @type="text"
+        @id={{@yearTextfieldName}}
+        @value={{@yearInputBindingValue}}
+        name={{@yearTextfieldName}}
+        {{on "focusout" (fn @onValidateYear @yearTextfieldName @yearInputBindingValue)}}
+        class="form-textfield__input {{this.yearInputValidationStatus}}"
+        ariaDescribedBy={{@yearValidationMessage}}
+        required={{@require}}
+        disabled={{@disabled}}
+        placeholder="AAAA"
+      />
+      <div class="form-textfield__icon">
+        {{#if this.yearHasIcon}}
+          {{#if (eq @yearValidationStatus "error")}}
+            <img
+              src="/images/icons/icon-error.svg"
+              class="form-textfield-icon__state form-textfield-icon__state--error"
+              alt={{t "common.form.error"}}
+            />
+          {{else}}
+            <img
+              src="/images/icons/icon-success.svg"
+              class="form-textfield-icon__state form-textfield-icon__state--success"
+              alt={{t "common.form.success"}}
+            />
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{#if @dayValidationMessage}}
+    <div
+      id="dayValidationMessage"
+      class="form-textfield__message {{this.dayValidationMessageClass}}"
+      role="alert"
+    >{{@dayValidationMessage}}</div>
+  {{/if}}
+
+  {{#if @monthValidationMessage}}
+    <div
+      id="monthValidationMessage"
+      class="form-textfield__message {{this.monthValidationMessageClass}}"
+      role="alert"
+    >{{@monthValidationMessage}}</div>
+  {{/if}}
+
+  {{#if @yearValidationMessage}}
+    <div
+      id="yearValidationMessage"
+      class="form-textfield__message {{this.yearValidationMessageClass}}"
+      role="alert"
+    >{{@yearValidationMessage}}</div>
+  {{/if}}
+</div>

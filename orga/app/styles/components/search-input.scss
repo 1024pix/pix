@@ -1,0 +1,42 @@
+.search-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1rem;
+  box-sizing: border-box;
+
+  svg {
+    color: $grey-70;
+  }
+
+  &__invisible-field {
+    height: inherit;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    border-radius: 3px;
+    font-family: $roboto;
+    font-size: 0.875em;
+    background: transparent;
+
+    &:focus {
+      outline: none;
+    }
+
+    /* IE 11 */
+    &:-ms-input-placeholder {
+      color: $grey-30;
+    }
+
+    /* older Chrome/Safari/Opera and Edge */
+    &::-webkit-input-placeholder {
+      color: $grey-30;
+    }
+
+    &::placeholder {
+      color: $grey-30;
+      opacity: 1; /* Firefox */
+    }
+  }
+}

@@ -1,0 +1,113 @@
+<div class="content-text content-text--small table-admin__wrapper session-list">
+  <table class="table-admin table-admin__auto-width">
+    <thead>
+      <tr>
+        <th class="table__column table__column--id">ID</th>
+        <th>Centre de certification</th>
+        <th>Identifiant externe</th>
+        <th>Catégorie</th>
+        <th>Date de session</th>
+        <th>Statut</th>
+        <th>Date de finalisation</th>
+        <th>Date de publication</th>
+        <th>Date de diffusion au prescripteur</th>
+      </tr>
+      <tr>
+        <th class="table__column table__column--id">
+          <input
+            id="id"
+            type="text"
+            value={{@id}}
+            oninput={{perform @triggerFiltering "id"}}
+            class="table-admin-input"
+          />
+        </th>
+        <th>
+          <input
+            id="certificationCenterName"
+            type="text"
+            value={{@certificationCenterName}}
+            oninput={{perform @triggerFiltering "certificationCenterName"}}
+            class="table-admin-input"
+          />
+        </th>
+        <th>
+          <input
+            id="certificationCenterExternalId"
+            type="text"
+            value={{@certificationCenterExternalId}}
+            oninput={{perform @triggerFiltering "certificationCenterExternalId"}}
+            class="table-admin-input"
+          />
+        </th>
+        <th>
+          <PixSelect
+            id="certificationCenterType"
+            name="certificationCenterType"
+            class="sessions-list-items__select"
+            @options={{this.certificationCenterTypeOptions}}
+            @onChange={{this.selectCertificationCenterType}}
+            @selectedOption={{@certificationCenterType}}
+          />
+        </th>
+        <th></th>
+        <th>
+          <PixSelect
+            id="status"
+            name="status"
+            class="sessions-list-items__select"
+            @options={{this.sessionStatusOptions}}
+            @onChange={{this.selectSessionStatus}}
+            @selectedOption={{@status}}
+          />
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <PixSelect
+            id="resultsSentToPrescriberAt"
+            name="resultsSentToPrescriberAt"
+            class="sessions-list-items__select"
+            @options={{this.sessionResultsSentToPrescriberOptions}}
+            @onChange={{this.selectSessionResultsSentToPrescriber}}
+            @selectedOption={{@resultsSentToPrescriberAt}}
+          />
+        </th>
+      </tr>
+    </thead>
+
+    {{#if @sessions}}
+      <tbody>
+        {{#each @sessions as |session|}}
+          <tr>
+            <td class="table__column table__column--id">
+              <LinkTo @route="authenticated.sessions.session" @model={{session.id}}>
+                {{session.id}}
+              </LinkTo>
+            </td>
+            <td>{{session.certificationCenterName}}</td>
+            <td>{{session.certificationCenterExternalId}}</td>
+            {{#if session.certificationCenterType}}
+              <td class="session-list__item--align-center">{{session.certificationCenterType}}</td>
+            {{else}}
+              <td class="session-list__item--align-center">-</td>
+            {{/if}}
+            <td>{{format-date session.date}} à {{session.time}}</td>
+            <td>{{session.displayStatus}}</td>
+            <td>{{format-date session.finalizedAt}}</td>
+            <td>{{format-date session.publishedAt}}</td>
+            <td>{{format-date session.resultsSentToPrescriberAt}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @sessions}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>
+
+{{#if @sessions}}
+  <PaginationControl @pagination={{@sessions.meta}} />
+{{/if}}

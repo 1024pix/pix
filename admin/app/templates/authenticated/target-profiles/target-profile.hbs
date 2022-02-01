@@ -1,0 +1,88 @@
+{{page-title "Profil " @model.id " | Pix Admin" replace=true}}
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.target-profiles.list">Tous les profils cibles</LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    {{@model.name}}
+  </div>
+</header>
+
+<main class="page-body">
+  {{#if this.isEditMode}}
+
+    <TargetProfiles::UpdateTargetProfile @model={{@model}} @toggleEditMode={{this.toggleEditMode}} />
+
+  {{else}}
+    <section class="page-section">
+      <div class="page-section__header">
+        <h1 class="page-section__title target-profile_title">{{@model.name}}</h1>
+        <TargetProfiles::Category @category={{@model.category}} />
+      </div>
+      <div class="page-section__container">
+        <div class="page-section__content">
+          <div>ID : {{@model.id}}</div>
+          <div>Date de création : {{format-date @model.createdAt}}</div>
+          <div>Public : {{this.isPublic}}</div>
+          <div>Obsolète : {{this.isOutdated}}</div>
+          <div>Organisation de référence :
+            <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
+              {{@model.ownerOrganizationId}}
+            </LinkTo>
+          </div>
+        </div>
+        <div class="page-section__content">
+          {{#if @model.description}}
+            <div>
+              Description :
+              <MarkdownToHtml @markdown={{@model.description}} />
+            </div>
+          {{/if}}
+          {{#if @model.comment}}
+            <div>
+              Commentaire (usage interne) :
+              <MarkdownToHtml @markdown={{@model.comment}} />
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-actions">
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.toggleEditMode}}
+        >Editer</PixButton>
+        {{#unless @model.outdated}}
+          <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>Marquer comme
+            obsolète</PixButton>
+        {{/unless}}
+      </div>
+    </section>
+
+  {{/if}}
+
+  <nav class="navbar">
+    <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@model}} class="navbar-item">
+      Détails
+    </LinkTo>
+    <LinkTo @route="authenticated.target-profiles.target-profile.organizations" @model={{@model}} class="navbar-item">
+      Organisations
+    </LinkTo>
+    <LinkTo @route="authenticated.target-profiles.target-profile.insights" @model={{@model}} class="navbar-item">
+      Clés de lecture
+    </LinkTo>
+  </nav>
+
+  {{outlet}}
+
+  <ConfirmPopup
+    @message="Marquer comme obsolète ce profil cible entraînera l'impossibilité de l'utiliser dans toutes les organisations qui lui sont rattachées."
+    @title="Etes-vous sûr de vouloir marquer comme obsolète le profil cible {{@model.name}} ?"
+    @submitTitle="Oui, marquer comme obsolète"
+    @closeTitle="Non, annuler"
+    @size="lg"
+    @confirm={{this.outdate}}
+    @cancel={{this.toggleDisplayConfirm}}
+    @show={{this.displayConfirm}}
+  />
+</main>

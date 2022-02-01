@@ -1,0 +1,47 @@
+<section class="panel panel--light-shadow participant-results__details">
+  <h3 class="sr-only">{{t "pages.assessment-individual-results.table.title"}}</h3>
+
+  <table class="content-text content-text--small">
+    <thead>
+      <tr>
+        <Table::Header @size="wide">{{t
+            "pages.assessment-individual-results.table.column.competences"
+            count=@results.sortedCompetenceResults.length
+          }}</Table::Header>
+        <Table::Header @size="wide">{{t
+            "pages.assessment-individual-results.table.column.results.label"
+          }}</Table::Header>
+      </tr>
+    </thead>
+
+    {{#if @displayResults}}
+      <tbody>
+        {{#each @results.sortedCompetenceResults as |competenceResult|}}
+          <tr aria-label={{t "pages.assessment-individual-results.table.row-title"}}>
+            <td class="competences-col__name">
+              <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
+              <span>
+                {{competenceResult.name}}
+              </span>
+            </td>
+            <td class="competences-col__gauge">
+              <PixProgressGauge
+                @value={{multiply competenceResult.competenceMasteryRate 100}}
+                @tooltipText={{t
+                  "pages.assessment-individual-results.table.column.results.tooltip"
+                  result=competenceResult.competenceMasteryRate
+                  competence=competenceResult.name
+                  htmlSafe=true
+                }}
+              />
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @displayResults}}
+    <p class="table__empty content-text">{{t "pages.assessment-individual-results.table.empty"}}</p>
+  {{/unless}}
+</section>

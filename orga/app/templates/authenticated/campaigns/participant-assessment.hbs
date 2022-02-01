@@ -1,0 +1,15 @@
+{{page-title @model.campaign.name}}
+
+<article class="participant">
+  <Participant::Assessment::Header
+    @campaign={{@model.campaign}}
+    @participation={{@model.campaignAssessmentParticipation}}
+  />
+
+  <Participant::Assessment::Tabs
+    @campaignId={{@model.campaign.id}}
+    @participationId={{@model.campaignAssessmentParticipation.id}}
+  />
+
+  {{outlet}}
+</article>

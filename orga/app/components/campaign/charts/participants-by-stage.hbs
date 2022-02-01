@@ -1,0 +1,55 @@
+<Ui::ChartCard @title={{t "charts.participants-by-stage.title"}} ...attributes>
+  {{#if this.loading}}
+    <Campaign::Charts::ParticipantsByStageLoader />
+  {{else}}
+    <ul class="participants-by-stage__wrapper">
+      {{#each this.data as |stage index|}}
+        <li class="participants-by-stage">
+          <PixStars
+            @count={{stage.index}}
+            @total={{this.totalStage}}
+            @color="blue"
+            class="participants-by-stage__stars"
+            aria-hidden="true"
+          />
+          <div class="participants-by-stage__values">
+            {{t "charts.participants-by-stage.participants" count=stage.value}}
+          </div>
+          {{#if stage.displayTooltip}}
+            <PixTooltip
+              @id="chart-stage-{{index}}"
+              @position="bottom-right"
+              @isWide={{true}}
+              class="participants-by-stage__container"
+            >
+              <:triggerElement>
+                <Campaign::Charts::ParticipantsByStageBar
+                  @onClickBar={{this.onClickBar}}
+                  @stageId={{stage.id}}
+                  @barWidth={{stage.barWidth}}
+                  tabindex="0"
+                  aria-describedby="chart-stage-{{index}}"
+                >
+                  {{t "charts.participants-by-stage.percentage" percentage=stage.percentage}}
+                </Campaign::Charts::ParticipantsByStageBar>
+              </:triggerElement>
+              <:tooltip>
+                {{stage.tooltip}}
+              </:tooltip>
+            </PixTooltip>
+          {{else}}
+            <div class="participants-by-stage__container">
+              <Campaign::Charts::ParticipantsByStageBar
+                @onClickBar={{this.onClickBar}}
+                @stageId={{stage.id}}
+                @barWidth={{stage.barWidth}}
+              >
+                {{t "charts.participants-by-stage.percentage" percentage=stage.percentage}}
+              </Campaign::Charts::ParticipantsByStageBar>
+            </div>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</Ui::ChartCard>

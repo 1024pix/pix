@@ -1,0 +1,17 @@
+ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "eslint-plugin-yml"]
+
+# "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
+# code => bookshelf.plugin('bookshelf-validate',
+# see https://github.com/kripod/bookshelf-validate#configuration
+
+# "mocha-junit-reporter" is used in ../.circleci/config.yml
+# code =>  MOCHA_REPORTER: mocha-junit-reporter
+# see https://github.com/michaelleeallen/mocha-junit-reporter#usage
+
+# "eslint-plugin-mocha" is used in ../.eslintrc.yaml
+# code =>  plugins: - mocha
+# see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
+
+# "eslint-plugin-YAML" is used in ../.eslintrc.yaml
+# code =>  plugins: - yaml
+# see https://github.com/ota-meshi/eslint-plugin-yml#book-usage

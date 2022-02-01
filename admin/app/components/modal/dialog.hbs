@@ -1,0 +1,28 @@
+{{#if @display}}
+  <ModalDialog
+    @translucentOverlay={{true}}
+    @targetAttachment="none"
+    @wrapperClass="modal-wrapper"
+    @overlayClass="modal-overlay"
+    @containerClass="{{this.containerClass}}"
+    @onClose={{@close}}
+  >
+    <div class="modal__container" role="dialog" aria-labelledby={{this.labelId}} aria-modal="true" ...attributes>
+      <div class="modal-header">
+        <h2 class="modal-header__title" id={{this.labelId}}>
+          {{@title}}
+        </h2>
+        <PixIconButton
+          @icon="times"
+          aria-label="Fermer"
+          @triggerAction={{@close}}
+          @withBackground={{false}}
+          class="modal-header__icon"
+        />
+      </div>
+      <div>
+        {{yield}}
+      </div>
+    </div>
+  </ModalDialog>
+{{/if}}

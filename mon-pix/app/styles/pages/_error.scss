@@ -1,0 +1,61 @@
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5%;
+
+  &__error {
+    margin: 20px;
+    padding: 20px;
+    background: $grey-15;
+    color: $grey-45;
+  }
+
+  &__error-title {
+    font-size: 0.938rem;
+    font-weight: 600;
+  }
+}
+
+.error-page__body-section {
+  width: 100%;
+
+  @include device-is('desktop') {
+    max-width: 980px;
+  }
+}
+
+.error-page__main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-bottom: 1px dashed $grey-50;
+  margin: 0 20px;
+
+  @include device-is('desktop') {
+    padding: 80px 0;
+  }
+
+  p {
+    text-align: left;
+    font-size: 0.625rem;
+
+    @include device-is('desktop') {
+      text-align: center;
+    }
+  }
+}
+
+.error-page-main-content__title {
+  font-size: 1.25rem;
+  padding-bottom: 20px;
+}
+
+.error-page__index-link {
+  margin-top: 20px;
+
+  @include device-is('desktop') {
+    margin-top: 40px;
+  }
+}

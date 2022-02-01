@@ -1,0 +1,75 @@
+<div class="panel panel-actions">
+  <div class="content-text">
+    <div class="panel-actions__header">
+      <div class="panel-actions__header-icon">
+        <FaIcon @icon="info" />
+      </div>
+      <div class="panel-actions__header-title">Ajouter des candidats</div>
+    </div>
+    <div class="panel-actions__action-row">
+      <div class="panel-actions__action-icon">
+        <FaIcon @icon="file-download" />
+      </div>
+      <div class="panel-actions__description">
+        <div class="panel-actions__title">Télécharger le modèle de liste des candidats</div>
+        <div>Pour ajouter des candidats à la session, renseignez leurs informations (Nom, Prénom, …) dans ce document.
+          <br />
+          Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les
+          informations des candidats ajoutés à la session.
+        </div>
+      </div>
+      <div class="panel-actions__button">
+        <PixButtonLink
+          href="{{@session.urlToDownloadCandidatesImportTemplate}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+        >
+          Télécharger (.ods)&nbsp;
+          <FaIcon @icon="file-download" />
+        </PixButtonLink>
+      </div>
+    </div>
+    <div class="panel-actions__action-row">
+      {{#if @importAllowed}}
+        <div class="panel-actions__action-icon">
+          <FaIcon @icon="cloud-upload-alt" />
+        </div>
+        <div class="panel-actions__description">
+          <div class="panel-actions__title">Importer la liste des candidats</div>
+          <div>
+            Sélectionnez la liste des candidats préalablement remplie.
+            <br />
+            <strong>
+              Attention, tout nouvel import efface la liste des candidats existante.
+            </strong>
+          </div>
+        </div>
+        <div class="panel-actions__button">
+          <FileUpload
+            @name="file-upload"
+            @for="upload-attendance-sheet"
+            @accept=".ods"
+            @multiple={{false}}
+            @onfileadd={{this.importCertificationCandidates}}
+          >
+            {{! template-lint-disable require-presentational-children }}
+            <PixButtonLink role="button" tabindex="0">
+              Importer (.ods)&nbsp;<FaIcon @icon="cloud-upload-alt" />
+            </PixButtonLink>
+          </FileUpload>
+        </div>
+      {{else}}
+        <div class="panel-actions__action-icon">
+          <FaIcon @icon="exclamation-circle" class="panel-actions__warning-icon" />
+        </div>
+        <div class="panel-actions__description">
+          <strong class="panel-actions__warning">
+            La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la
+            liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.
+          </strong>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

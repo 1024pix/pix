@@ -1,0 +1,22 @@
+.checkbox {
+
+  &__done-icon {
+    min-width: 10px;
+    min-height: 9px;
+  }
+
+  &__dash-icon {
+    min-width: 10px;
+    height: 4px;
+    border-radius: 1px;
+    background-color: $grey-22;
+  }
+
+  &--unchecked {
+    background-color: $white;
+  }
+
+  &--partial:hover &__dash-icon {
+    background-color: $grey-40;
+  }
+}

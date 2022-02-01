@@ -1,0 +1,15 @@
+{{page-title "Orga " @model.id " | Équipe"}}
+<Organizations::TeamActionsSection @addMembership={{this.addMembership}} @userEmailToAdd={{this.userEmailToAdd}} />
+
+<Organizations::TeamSection
+  @memberships={{@model.memberships}}
+  @updateMembership={{this.updateMembership}}
+  @disableMembership={{this.disableMembership}}
+  @isLoading={{this.isLoading}}
+  @firstName={{this.firstName}}
+  @lastName={{this.lastName}}
+  @email={{this.email}}
+  @organizationRole={{this.organizationRole}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @selectRoleForSearch={{this.selectRoleForSearch}}
+/>

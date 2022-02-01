@@ -1,0 +1,60 @@
+<div class="login-form">
+
+  <div>
+    <img src="/pix-certif-logo.svg" alt="Pix Certif" />
+  </div>
+
+  <div>
+
+    <h1 class="login-form__title">Connectez-vous</h1>
+
+    <p class="login-form__information paragraph">
+      L'accès à Pix Certif est limité aux centres de certification Pix.
+    </p>
+
+    {{#if this.isErrorMessagePresent}}
+      <div id="login-form-error-message" class="login-form__error-message error-message">
+        {{this.errorMessage}}
+      </div>
+    {{/if}}
+
+    <form {{on "submit" this.authenticate}}>
+
+      <div class="login-form__input-container">
+        <PixInput
+          @id="login-email"
+          name="login"
+          @label="Adresse e-mail"
+          @value={{this.email}}
+          autocomplete="email"
+          type="email"
+          required="true"
+        />
+      </div>
+
+      <div class="login-form__input-container">
+        <PixInputPassword
+          @id="login-password"
+          name="password"
+          @label="Mot de passe"
+          @value={{this.password}}
+          autocomplete="current-password"
+          required="true"
+        />
+      </div>
+
+      <div class="login-form__input-container">
+        <PixButton @type="submit">
+          Je me connecte
+        </PixButton>
+      </div>
+
+      <div class="login-form__forgotten-password one-line-text">
+        <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer">Mot de passe oublié ?</a>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+printf "This install script will add the following domains to your hosts file:\n\n"
+cat ./scripts/local-domains/hosts.txt
+printf "\n"
+
+read -p "Do you want to continue? (y/n) " -n 1 -r
+printf "\n"
+if [[ $REPLY != "y" ]]; then
+  exit
+fi
+
+if [ "$EUID" -ne 0 ]
+  then printf "\n\033[0;31mError: this script must be run as root to update your hosts file\033[0m\n\n"
+  exit 1
+fi
+
+npx hostile load ./scripts/local-domains/hosts.txt

@@ -1,0 +1,76 @@
+.participants-by-stage {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  &__wrapper {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__stars {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &--loader {
+      height: 20px;
+      min-width: 100px;
+    }
+  }
+
+  &__values {
+    color: $grey-50;
+    font-size: 0.75rem;
+    min-width: 140px;
+    margin-left: 32px;
+
+    &--loader {
+      height: 20px;
+      min-width: 100px;
+      margin: 0 16px;
+    }
+  }
+
+  &__container {
+    flex-grow: 1;
+
+    .pix-tooltip__content {
+      transform: none;
+      left: 0;
+    }
+  }
+
+  &__graph {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    &--loader {
+      flex-grow: 1;
+      height: 20px;
+    }
+  }
+
+  &__bar {
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid $blue;
+    background-color: lighten($blue, 20%);
+  }
+
+  &__graph:hover &__bar {
+    background-color: lighten($blue, 10%);
+  }
+
+  &__percentage {
+    color: $grey-50;
+    font-size: 0.75rem;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+}

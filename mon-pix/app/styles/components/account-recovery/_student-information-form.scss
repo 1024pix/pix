@@ -1,0 +1,39 @@
+.student-information-form {
+
+  &__tooltip {
+    display: block;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    color: $communication-dark;
+
+    strong {
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+      margin-top: 12px;
+    }
+  }
+
+  &__birthdate-label {
+    margin-bottom: 0;
+  }
+
+  &__birthdate-fields {
+    display: flex;
+
+    .form-textfield__input-field-container {
+      display: block;
+      width: calc(80px + 2 * 2px);
+      height: calc(38px + 2 * 2px);
+      margin-right: 8px;
+
+      & > input {
+        width: 80px;
+        height: 38px;
+      }
+    }
+  }
+}

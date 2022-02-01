@@ -1,0 +1,79 @@
+.fill-in-certificate-verification-code {
+  max-width: max-content;
+  padding: 48px 24px;
+  font-family: $font-roboto;
+  text-align: center;
+
+  @include device-is('tablet') {
+    padding: 48px 60px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .form__title {
+      margin-bottom: 16px;
+      font-size: 2rem;
+      font-weight: $font-light;
+      font-family: $font-open-sans;
+      color: $grey-80;
+    }
+
+    .form__description {
+      max-width: 500px;
+      color: $grey-60;
+      font-weight: $font-light;
+      margin-bottom: 32px;
+      line-height: 22px;
+    }
+
+    .form__input-and-label {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        color: $grey-100;
+        font-size: 0.875rem;
+        font-weight: $font-normal;
+        margin-bottom: 6px;
+        text-align: left;
+        letter-spacing: 0.15px;
+        line-height: 22px;
+      }
+
+      input {
+        width: 15.3ch;
+      }
+
+      @media all and (-ms-high-contrast: none) {
+
+        input {
+          width: 17.4ch;
+        }
+      }
+    }
+
+    .form__actions {
+      margin-top: 24px;
+      padding: 14px 20px;
+      width: calc(276px + 4px + 0.5ch + 1px);
+    }
+
+    .form__error--validation {
+      color: $red;
+      font-size: 0.875rem;
+      margin: 16px 10px 0 10px;
+    }
+
+    .form__error--not-found {
+      margin: 0;
+      margin-top: 16px;
+
+      svg {
+        margin-right: 4px;
+      }
+    }
+  }
+}

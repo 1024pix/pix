@@ -1,0 +1,81 @@
+
+.competences-col-name-wrapper {
+  display: flex;
+}
+
+.competences-col {
+  &__name {
+    position: relative;
+    padding-left: 1rem;
+    font-family: $open-sans;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $grey-80;
+  }
+
+  &__gauge {
+    padding-top: 16px;
+    padding-right: 32px;
+  }
+
+  &__border {
+    padding: 0.5rem 0;
+    margin-right: 1rem;
+    border-style: solid;
+    border-width: 1.5px;
+    border-radius: 1.5px;
+
+    &--jaffa {
+      border-color: $information-light;
+      background: $information-light;
+    }
+
+    &--emerald {
+      border-color: $content-light;
+      background: $content-light;
+    }
+
+    &--cerulean {
+      border-color: $communication-light;
+      background: $communication-light;
+    }
+
+    &--wild-strawberry {
+      border-color: $security-light;
+      background: $security-light;
+    }
+
+    &--butterfly-bush {
+      border-color: $environment-light;
+      background: $environment-light;
+    }
+
+    &--bottom {
+      display: none;
+      position: absolute;
+      top: 0;
+      left:  1rem;
+      height: calc(100% - 0.5rem);
+      box-sizing: border-box;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    &--top {
+      position: absolute;
+      left:  1rem;
+      height: calc(100% - 0.5rem);
+      box-sizing: border-box;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &--open {
+      display: block;
+    }
+  }
+}
+
+.competences-section {
+  padding: 0;
+}

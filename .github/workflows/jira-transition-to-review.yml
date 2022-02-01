@@ -1,0 +1,36 @@
+name: Move JIRA ticket to Func review
+on:
+  pull_request:
+    types:
+      - labeled
+jobs:
+  transition-issue:
+    name: Transition Issue
+    runs-on: ubuntu-latest
+    if: >
+      contains(github.event.pull_request.labels.*.name, ':eyes: Tech Review Needed')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Find Issue Key
+        id: find
+        uses: atlassian/gajira-find-issue-key@master
+        continue-on-error: true
+        with:
+          string: ${{ github.event.pull_request.title }}
+
+      - name: Transition issue
+        uses: atlassian/gajira-transition@master
+        if: ${{ steps.find.outputs.issue }}
+        continue-on-error: true
+        with:
+          issue: ${{ steps.find.outputs.issue }}
+          transition: "Move to 'Tech/Func Review'"

@@ -1,0 +1,88 @@
+{{page-title (t "pages.campaign-landing.title")}}
+
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div class="campaign-landing-page__container rounded-panel--over-background-banner">
+
+    {{#if @model.isAssessment}}
+      <CampaignStartBlock
+        @campaign={{@model}}
+        @startCampaignParticipation={{this.startCampaignParticipation}}
+        @titleText={{t "pages.campaign-landing.assessment.title"}}
+        @announcementText={{t "pages.campaign-landing.assessment.announcement" htmlSafe=true}}
+        @buttonText={{t "pages.campaign-landing.assessment.action"}}
+        @legalText={{t "pages.campaign-landing.assessment.legal"}}
+      />
+    {{else}}
+      <CampaignStartBlock
+        @campaign={{@model}}
+        @startCampaignParticipation={{this.startCampaignParticipation}}
+        @titleText={{t "pages.campaign-landing.profiles-collection.title"}}
+        @announcementText={{t "pages.campaign-landing.profiles-collection.announcement" htmlSafe=true}}
+        @buttonText={{t "pages.campaign-landing.profiles-collection.action"}}
+        @legalText={{t "pages.campaign-landing.profiles-collection.legal"}}
+      />
+    {{/if}}
+
+    {{#if @model.isAssessment}}
+      <div class="rounded-panel campaign-landing-page__container__details">
+        <div class="campaign-landing-page__details__text">
+          <h2 class="campaign-landing-page__details__text title">
+            {{t "pages.campaign-landing.assessment.details"}}
+          </h2>
+
+          <div class="campaign-landing-page__details__measure__container">
+            <img
+              class="campaign-landing-page__details__article-image measure"
+              src="{{this.rootURL}}/images/illustrations/landing-page/icon-mesurer.svg"
+              role="none"
+              alt=""
+            />
+            <div class="campaign-landing-page__details__article-side">
+              <p class="campaign-landing-page__details__text article-title">
+                {{t "pages.campaign-landing.assessment.evaluate.title"}}
+              </p>
+              {{t "pages.campaign-landing.assessment.evaluate.list" htmlSafe=true}}
+            </div>
+          </div>
+          <p class="campaign-landing-page__details__text article-text complement">
+            {{t "pages.campaign-landing.assessment.evaluate.complement"}}
+            <a href={{t "pages.campaign-landing.assessment.evaluate.more-info.link"}} target="_BLANK">
+              {{t "pages.campaign-landing.assessment.evaluate.more-info.label"}}
+            </a>
+          </p>
+
+          <div
+            class="campaign-landing-page__details__measure__container campaign-landing-page__details__measure__container--dashline"
+          >
+            <img src="{{this.rootURL}}/images/illustrations/landing-page/icon-conseil.svg" role="none" alt="" />
+            <div class="campaign-landing-page__details__article-side">
+              <p class="campaign-landing-page__details__text article-title">
+                {{t "pages.campaign-landing.assessment.develop.title"}}
+              </p>
+              <p class="campaign-landing-page__details__text article-text">
+                {{t "pages.campaign-landing.assessment.develop.description"}}
+              </p>
+            </div>
+
+          </div>
+
+          <div
+            class="campaign-landing-page__details__measure__container campaign-landing-page__details__measure__container--dashline"
+          >
+            <img src="{{this.rootURL}}/images/illustrations/landing-page/icon-certif.svg" role="none" alt="" />
+            <div class="campaign-landing-page__details__article-side">
+              <p class="campaign-landing-page__details__text article-title">
+                {{t "pages.campaign-landing.assessment.certify.title"}}
+              </p>
+              <p class="campaign-landing-page__details__text article-text">
+                {{t "pages.campaign-landing.assessment.certify.description"}}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>

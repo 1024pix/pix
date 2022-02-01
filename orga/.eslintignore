@@ -1,0 +1,23 @@
+# https://eslint.org/docs/user-guide/configuring#eslintignore
+# .file are implicitly ignored, unless explicitly specified here
+
+# unconventional js
+/blueprints/*/files/
+/vendor/
+
+# compiled output
+/dist/
+/tmp/
+
+# dependencies
+/bower_components/
+/node_modules/
+
+# misc
+/coverage/
+!.*
+
+# ember-try
+/.node_modules.ember-try/
+/bower.json.ember-try
+/package.json.ember-try

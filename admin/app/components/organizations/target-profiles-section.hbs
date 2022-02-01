@@ -1,0 +1,58 @@
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
+  </header>
+  <div class="organization__forms-section">
+    <form
+      aria-label="Rattacher un ou plusieurs profil(s) cible(s)"
+      class="organization__sub-form form"
+      {{on "submit" this.attachTargetProfiles}}
+    >
+      <Input
+        aria-label="ID du ou des profil(s) cible(s)"
+        @value={{this.targetProfilesToAttach}}
+        class="organization-sub-form__input form-field__text form-control"
+        placeholder="1, 2"
+      />
+      <PixButton @type="submit" @size="small" @isDisabled={{this.isDisabled}}>Valider</PixButton>
+    </form>
+  </div>
+</section>
+
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Profils cibles</h2>
+  </header>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--id">ID</th>
+            <th>Nom du profil cible</th>
+          </tr>
+        </thead>
+
+        {{#if @organization.targetProfiles}}
+          <tbody>
+            {{#each @organization.targetProfiles as |targetProfile|}}
+              <tr
+                aria-label="Profil cible"
+                role="button"
+                {{on "click" (fn this.goToTargetProfilePage targetProfile.id)}}
+                class="tr--clickable"
+              >
+                <td class="table__column table__column--id">{{targetProfile.id}}</td>
+                <td>{{targetProfile.name}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @organization.targetProfiles}}
+        <div class="table__empty content-text">Aucun résultat</div>
+      {{/unless}}
+    </div>
+  </div>
+</section>

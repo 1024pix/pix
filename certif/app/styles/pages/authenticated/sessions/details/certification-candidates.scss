@@ -1,0 +1,230 @@
+.table__empty {
+  text-align: center;
+  padding: 2rem 0;
+  box-sizing: border-box;
+}
+
+.panel-actions  {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem 2.5rem 0.3rem 2.58rem;
+}
+
+.panel-actions__header {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  margin-bottom: 2.5rem;
+}
+
+.panel-actions__header-title {
+  margin-left: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.panel-actions__header-icon {
+  font-size: 1rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.18rem solid;
+  border-radius: 0.13rem;
+  padding-top: 0.13rem;
+  box-sizing: border-box;
+}
+
+.panel-actions__action-row {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 0 1.25rem 1.25rem;
+  box-sizing: border-box;
+  flex-flow: row nowrap;
+  margin-bottom: 1.3rem;
+  border: 0.062rem solid $grey-22;
+  border-radius: 1.25rem;
+  background: $grey-10;
+  position: relative;
+}
+
+.panel-actions__action-icon {
+  color: $grey-22;
+  font-size: 1.87rem;
+  width: 3.125rem;
+  text-align: center;
+}
+
+.panel-actions__action-icon svg {
+  margin: 0 auto;
+}
+
+.panel-actions__description {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-left: 1.25rem;
+  width: 65%;
+  color: $grey-45;
+  font-size: 0.8rem;
+}
+
+.panel-actions__title {
+  margin-bottom: 0.625rem;
+  font-weight: bold;
+  color: $grey-70;
+}
+
+.panel-actions__button {
+  display: flex;
+  align-items: center;
+  padding-right: 0.625rem;
+  margin-left: auto;
+  margin-right: 1.25rem;
+}
+
+.panel-actions__warning {
+  display: flex;
+  align-items: center;
+}
+
+.panel-actions__warning-icon {
+  color: $yellow;
+  margin-right: 8px;
+  font-size: 1.5rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  color: $grey-40;
+  padding: 16px 0;
+  margin: 0 16px;
+
+  &__title {
+    display: flex;
+    flex-grow: 1;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__mandatory-warning {
+    padding-top: 4px;
+    margin-left: 16px;
+    font-size: 0.82rem;
+    font-weight: normal;
+    color: $grey-45;
+  }
+}
+
+.certification-candidates-add-button {
+  &__text  {
+    margin-right: 16px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+.certification-candidates-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.certification-candidates-input-wrapper input {
+  &:required.focused:not(:focus):invalid, &:not(:required):not(:focus):invalid {
+    border: 2px solid $error;
+  }
+}
+
+.certification-candidates-input {
+  background: $grey-5;
+  border-radius: 4px;
+  border: 1px solid $grey-20;
+  height: 35px;
+  min-width: 24px;
+  flex-grow: 1;
+  padding-left: 6px;
+  font-size: .8125rem;
+}
+
+.certification-candidates-percentage {
+  margin-left: 8px;
+}
+
+.certification-candidates-row-actions {
+  justify-content: flex-end;
+  padding-right: 16px;
+
+  &__close {
+    margin-left: 8px;
+  }
+}
+
+.button--row-item {
+  padding-top: 11px;
+  height: 38px;
+}
+
+.certification-candidates-table td, .certification-candidates-table th {
+  padding-left: 16px;
+}
+
+.certification-candidates-table__column-last-name {
+  width: 160px;
+}
+
+.certification-candidates-table__column-first-name {
+  width: 130px;
+}
+
+.certification-candidates-table__column-birthdate {
+  width: 130px;
+}
+
+.certification-candidates-table__column-time {
+  width: 50px;
+  box-sizing: content-box;
+}
+
+.certification-candidates-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 16px;
+
+  &__display-details {
+    margin-right: 16px;
+  }
+
+  &__delete {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-button--disabled {
+      background-color: $grey-22;
+      color: $white;
+      cursor: not-allowed;
+
+      &:hover, &:active, &:focus {
+        background-color: $grey-35;
+      }
+    }
+  }
+}
+
+.certification-candidates-notification {
+  p {
+    margin: 0;
+    flex-direction: column;
+  }
+  b {
+    font-weight: bold;
+  }
+}

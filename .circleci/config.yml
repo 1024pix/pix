@@ -1,0 +1,389 @@
+# .circleci/config.yml
+#
+# This file configures the CircleCI 2.0 build.
+#
+# Documentation:
+# - Overview: https://circleci.com/docs/2.0/workflows/
+# - Caching: https://circleci.com/docs/2.0/caching/
+#
+# Things to know:
+# - every job is a container
+# - cache is used for data that can potentially be reused between builds, provided we can
+#   be sure it will not influence the build result other than by speeding it up.
+# - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
+#   `v1-` at the beginning. Increment it when you need to change the cache content.
+# - because we use `npm ci`, we cache the `~/.npm` directory and not `node_modules` which
+#   is erased by `npm ci`.
+# - to make sure the cache is indexed by the `package.json` and `package-lock.json` files,
+#   we concatenate them into a temporary file whose checksum we use as part of the cache key.
+# - for data that is specific to a build (commit), like the source code downloaded from github,
+#   we use Circle CI's workspace feature to transport it between jobs.
+
+version: 2.0
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - checkout:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+                - master
+                - prod
+                - /release-.*/
+
+      - api_build_and_test:
+          requires:
+            - checkout
+
+      - mon_pix_build_and_test:
+          requires:
+            - checkout
+
+      - orga_build_and_test:
+          requires:
+            - checkout
+
+      - certif_build_and_test:
+          requires:
+            - checkout
+
+      - admin_build_and_test:
+          requires:
+            - checkout
+
+      - e2e_test:
+          context: Pix
+          requires:
+            - checkout
+
+      - algo_test:
+          requires:
+            - checkout
+
+jobs:
+  checkout:
+    docker:
+      - image: circleci/node:14.17.0
+    resource_class: small
+    working_directory: ~/pix
+    steps:
+      - checkout
+      - run:
+          name: Lint and test scripts
+          command: |
+            npm ci
+            npm run lint:scripts
+            npm run lint:yaml
+            npm run test:ci
+            rm -rf .git/
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - .
+
+  api_build_and_test:
+    docker:
+      - image: circleci/node:14.17.0
+      - image: postgres:13.3-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: small
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-api-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint and test
+          command: |
+            npm run lint
+            npm run test:ci
+          environment:
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_REPORTER: mocha-junit-reporter
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
+
+  mon_pix_build_and_test:
+    docker:
+      - image: circleci/node:14.17.0-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
+    working_directory: ~/pix/mon-pix
+    parallelism: 3
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-mon-pix-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-mon-pix-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test:ci
+
+  orga_build_and_test:
+    docker:
+      - image: circleci/node:14.17.0-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+    working_directory: ~/pix/orga
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-orga-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-orga-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test:ci
+
+  certif_build_and_test:
+    docker:
+      - image: circleci/node:14.17.0-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+    working_directory: ~/pix/certif
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-certif-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-certif-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test:ci
+
+  admin_build_and_test:
+    docker:
+      - image: circleci/node:14.17.0-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+    working_directory: ~/pix/admin
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-admin-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-admin-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test:ci
+
+  e2e_test:
+    docker:
+      - image: cypress/browsers:node14.17.0-chrome91-ff89
+      - image: postgres:13.3-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: medium+
+    parallelism: 5
+    working_directory: ~/pix/high-level-tests/e2e
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-e2e-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-e2e-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+
+      - run:
+          name: Lint
+          command: npm run lint
+
+      - run:
+          working_directory: ~/pix/api
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+      - run:
+          name: Install Pix API
+          working_directory: ~/pix/api
+          command: npm ci
+
+      - run:
+          working_directory: ~/pix/mon-pix
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey" }}
+      - run:
+          name: Install Pix App
+          environment:
+            JOBS: 1
+          working_directory: ~/pix/mon-pix
+          command: npm ci
+
+      - run:
+          working_directory: ~/pix/orga
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
+      - run:
+          name: Install Pix Orga
+          environment:
+            JOBS: 2
+          working_directory: ~/pix/orga
+          command: npm ci
+
+      - run:
+          working_directory: ~/pix/certif
+          command: cat package*.json > cachekey
+
+      - restore_cache:
+          keys:
+            - v7-certif-npm-{{ checksum "~/pix/certif/cachekey" }}
+
+      - run:
+          name: Install Pix Certif
+          environment:
+            JOBS: 2
+          working_directory: ~/pix/certif
+          command: npm ci
+
+      - run:
+          name: Start Pix API
+          working_directory: ~/pix/api
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          background: true
+          command: npm start
+
+      - run:
+          name: Start Pix App
+          working_directory: ~/pix/mon-pix
+          environment:
+            JOBS: 1
+          background: true
+          command: npm start
+
+      - run:
+          name: Start Pix Orga
+          working_directory: ~/pix/orga
+          environment:
+            JOBS: 2
+          background: true
+          command: npm start
+
+      - run:
+          name: Start Pix Certif
+          working_directory: ~/pix/certif
+          environment:
+            JOBS: 1
+          background: true
+          command: npm start
+
+      - run:
+          name: Run tests
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          command: npm run test:ci
+      - store_test_results:
+          path: /home/circleci/test-results
+
+  algo_test:
+    docker:
+      - image: circleci/node:14.17.0
+    resource_class: small
+    parallelism: 1
+    working_directory: ~/pix/high-level-tests/test-algo
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          working_directory: ~/pix/api
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+      - run:
+          name: Install Pix API
+          working_directory: ~/pix/api
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          command: npm ci
+      - run:
+          command: cat package*.json > cachekey
+
+      - restore_cache:
+          keys:
+            - v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
+      - run:
+          name: Install test algo
+          command: npm ci
+      - save_cache:
+          key: v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
+          paths:
+            - ~/.npm
+
+      - run:
+          name: Lint
+          command: npm run lint
+
+      - run:
+          name: Test
+          command: npm run test:ci
+

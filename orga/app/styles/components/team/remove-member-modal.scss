@@ -1,0 +1,25 @@
+.remove-member-modal {
+
+  .content-text {
+    color: $grey-90;
+    line-height: 26px;
+  }
+
+  &__content, &__actions {
+    background: $grey-10;
+  }
+
+  &__content{
+    padding-top: 32px;
+    padding-bottom: 24px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+
+    button:first-child {
+      margin-right: 25px;
+    }
+  }
+}

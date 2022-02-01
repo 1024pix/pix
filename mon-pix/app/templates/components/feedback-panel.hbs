@@ -1,0 +1,108 @@
+{{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
+<div class="feedback-panel">
+  <h3 class="sr-only">{{t "pages.challenge.parts.feedback"}}</h3>
+  <div class="feedback-panel__view feedback-panel__view--link">
+    <button
+      class="feedback-panel__open-button"
+      {{on "click" this.toggleFeedbackForm}}
+      disabled={{this.isToggleFeedbackFormDisabled}}
+      type="button"
+    >
+      {{t "pages.challenge.feedback-panel.actions.open-close"}}
+    </button>
+  </div>
+
+  {{#if this.isFormOpened}}
+    {{#if this.isFormSubmitted}}
+      <div class="feedback-panel__view feedback-panel__view--mercix">
+        {{t "pages.challenge.feedback-panel.form.status.success" htmlSafe=true}}
+      </div>
+    {{else}}
+      <div class="feedback-panel__view feedback-panel__view--form">
+        <div class="feedback-panel__form-description">
+        </div>
+        {{#if @assessment.isCertification}}
+          <FeedbackCertificationSection />
+        {{else}}
+          <p>{{t "pages.challenge.feedback-panel.description"}}</p>
+          <div class="feedback-panel__form-wrapper">
+            <form class="feedback-panel__form" {{on "submit" this.sendFeedback}}>
+              <div class="feedback-panel__group">
+                <div class="feedback-panel__category-selection">
+                  <select
+                    class="feedback-panel__dropdown"
+                    {{on "change" this.displayCategoryOptions}}
+                    aria-label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-first"}}
+                    data-test-feedback-category-dropdown
+                  >
+                    <option value="" disabled selected>{{t
+                        "pages.challenge.feedback-panel.form.fields.category-selection.label"
+                      }}</option>
+                    {{#each this.categories as |category|}}
+                      <option value={{category.value}}>{{t category.name}}</option>
+                    {{/each}}
+                  </select>
+                  {{#if this.displayQuestionDropdown}}
+                    <select
+                      class="feedback-panel__dropdown"
+                      {{on "change" this.showFeedback}}
+                      aria-label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"}}
+                      data-test-feedback-subcategory-dropdown
+                    >
+                      <option value="default" selected>{{t
+                          "pages.challenge.feedback-panel.form.fields.detail-selection.label"
+                        }}</option>
+                      {{#each this.nextCategory as |question index|}}
+                        <option value={{index}}>{{t question.name}}</option>
+                      {{/each}}
+                    </select>
+                  {{/if}}
+                  {{#if this.quickHelpInstructions}}
+                    <div class="feedback-panel__quick-help">
+                      <FaIcon @icon="exclamation-circle" class="tuto-icon__warning" />
+                      <p>{{t this.quickHelpInstructions htmlSafe=true}}</p>
+                    </div>
+                  {{/if}}
+                </div>
+              </div>
+              {{#if this.displayTextBox}}
+                <div class="feedback-panel__group">
+                  <p>{{t "pages.challenge.feedback-panel.form.status.error.max-characters"}}</p>
+                  <Textarea
+                    class="feedback-panel__field feedback-panel__field--content"
+                    @value={{this.content}}
+                    placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
+                    @maxlength="10000"
+                    @rows={{5}}
+                    aria-label={{t
+                      "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                    }}
+                  />
+                </div>
+                {{#if this.emptyTextBoxMessageError}}
+                  <div class="alert alert--danger" role="alert">
+                    {{this.emptyTextBoxMessageError}}
+                  </div>
+                {{/if}}
+                <PixButton @type="submit" @backgroundColor="grey" @isDisabled={{this.isSendButtonDisabled}}>
+                  {{t "pages.challenge.feedback-panel.form.actions.submit"}}
+                </PixButton>
+              {{/if}}
+            </form>
+          </div>
+
+          <div class="feedback-panel__form-legal-notice">
+            <div class="feedback-panel__form-description">
+              {{t "pages.challenge.feedback-panel.information.guidance" htmlSafe=true}}
+            </div>
+
+            <div class="feedback-panel__form-description">
+              {{t "pages.challenge.feedback-panel.information.data-usage" htmlSafe=true}}
+            </div>
+          </div>
+        {{/if}}
+
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

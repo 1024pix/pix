@@ -1,0 +1,11 @@
+<Ui::IndicatorCard
+  @title={{if @isTypeAssessment (t "cards.submitted-count.title") (t "cards.submitted-count.title-profiles")}}
+  @icon="share"
+  @color="green"
+  @info={{t "cards.submitted-count.information"}}
+  @loader={{t "cards.submitted-count.loader"}}
+  @isLoading={{@isLoading}}
+  ...attributes
+>
+  {{@value}}
+</Ui::IndicatorCard>

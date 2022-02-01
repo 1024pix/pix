@@ -1,0 +1,49 @@
+.restricted-access-page {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.restricted-access-content {
+
+  &__image {
+    margin: auto;
+    margin-bottom: 24px;
+  }
+
+  &__opening-title {
+    font-family: $open-sans;
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.15px;
+    line-height: 43px;
+    margin: 0;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  &__opening-dates {
+    background: $blue-zodiac;
+    border-radius: 8px;
+    color: $white;
+    font-family: $open-sans;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.15px;
+    margin: 0;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    text-align: center;
+  }
+
+  &__link-calendar {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    font-weight: normal;
+    letter-spacing: 0.15px;
+    line-height: 22px;
+    margin: 0;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+}

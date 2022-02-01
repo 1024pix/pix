@@ -1,0 +1,100 @@
+<div class="panel campaign-settings">
+  <dl>
+    <div class="campaign-settings-row">
+      <div class="campaign-settings-content">
+        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.campaign-type.title"}}</dt>
+        <dd class="content-text campaign-settings-content__text">{{this.campaignType}}</dd>
+      </div>
+      {{#if @campaign.isTypeProfilesCollection}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label campaign-settings-content__label--with-tooltip">
+            <span>{{t "pages.campaign-settings.multiple-sendings.title"}}</span>
+            <PixTooltip @id="credit-info-tooltip" @position="top" @isWide={{true}}>
+              <:triggerElement>
+                <FaIcon
+                  @icon="info-circle"
+                  class="campaign-settings-content__tooltip-icon"
+                  tabindex="0"
+                  aria-describedby={{t "pages.campaign-settings.multiple-sendings.tooltip.aria-label" htmlSafe=true}}
+                />
+              </:triggerElement>
+              <:tooltip>
+                {{this.multipleSendingsTooltipText}}
+              </:tooltip>
+            </PixTooltip>
+          </dt>
+          <dd class="content-text campaign-settings-content__text">{{this.multipleSendingsText}}</dd>
+        </div>
+      {{/if}}
+    </div>
+    <div class="campaign-settings-row">
+      {{#if @campaign.isTypeAssessment}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label">
+            {{t "pages.campaign-settings.target-profile.title"}}
+          </dt>
+          <dd class="content-text campaign-settings-content__text campaign-settings-content__text--with-tooltip">
+            <span>{{@campaign.targetProfileName}} </span>
+            <Campaign::Settings::TargetProfileTooltip
+              class="campaign-settings-content__tooltip-icon"
+              @targetProfileDescription={{@campaign.targetProfileDescription}}
+              @hasStages={{@campaign.hasStages}}
+              @hasBadges={{@campaign.hasBadges}}
+              @targetProfileTubesCount={{@campaign.targetProfileTubesCount}}
+              @targetProfileThematicResultCount={{@campaign.targetProfileThematicResultCount}}
+            />
+          </dd>
+        </div>
+      {{/if}}
+      {{#if @campaign.idPixLabel}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label">{{t
+              "pages.campaign-settings.external-user-id-label"
+            }}</dt>
+          <dd class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</dd>
+        </div>
+      {{/if}}
+      <div class="campaign-settings-content">
+        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.direct-link"}}</dt>
+        <dd class="campaign-settings-content__clipboard">
+          <span class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</span>
+          <Campaign::CopyPasteButton
+            @clipBoardtext={{this.campaignsRootUrl}}
+            @successMessage={{t "pages.campaign.copy.link.success"}}
+            @defaultMessage={{t "pages.campaign.copy.link.default"}}
+          />
+        </dd>
+      </div>
+    </div>
+    {{#if @campaign.isTypeAssessment}}
+      <div class="campaign-settings-row">
+        <div class="campaign-settings-content campaign-settings-content--single">
+          <dt class="label-text campaign-settings-content__label">{{t
+              "pages.campaign-settings.personalised-test-title"
+            }}</dt>
+          <dd class="content-text campaign-settings-content__text">{{@campaign.title}}</dd>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="campaign-settings-row">
+      <div class="campaign-settings-content campaign-settings-content--single">
+        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.landing-page-text"}}</dt>
+        <dd class="content-text campaign-settings-content__text">
+          <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+        </dd>
+      </div>
+    </div>
+  </dl>
+
+  {{#unless @campaign.isArchived}}
+    <div class="campaign-settings-buttons">
+      <PixButtonLink @route="authenticated.campaigns.update" @model={{@campaign.id}} @backgroundColor="grey">
+        {{t "pages.campaign-settings.actions.edit"}}
+      </PixButtonLink>
+      <PixButton @triggerAction={{fn this.archiveCampaign @campaign.id}} @backgroundColor="grey">
+        {{t "pages.campaign-settings.actions.archive"}}
+      </PixButton>
+    </div>
+  {{/unless}}
+</div>

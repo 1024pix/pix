@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug orga" type="JavascriptDebugType" uri="http://localhost:4201">
+    <mapping url="http://localhost:4201/index.html" local-file="$PROJECT_DIR$/orga/dist/index.html" />
+    <mapping url="http://localhost:4201/assets/orga.js" local-file="$PROJECT_DIR$/orga/dist/assets/pix-orga.js" />
+    <mapping url="http://localhost:4201/assets/orga" local-file="$PROJECT_DIR$/orga/app" />
+    <mapping url="http://localhost:4201/assets/vendor.js" local-file="$PROJECT_DIR$/orga/dist/assets/vendor.js" />
+    <mapping url="http://localhost:4201" local-file="$PROJECT_DIR$/orga/dist" />
+    <method v="2" />
+  </configuration>
+</component>

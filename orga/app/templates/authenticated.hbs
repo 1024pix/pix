@@ -1,0 +1,18 @@
+<div class="app">
+  <Layout::Sidebar />
+
+  <div class="main-content">
+    <header>
+      <Layout::Topbar />
+      <Banner::Information />
+    </header>
+
+    <main class="main-content__body page">
+      {{outlet}}
+    </main>
+
+    <Layout::Footer />
+  </div>
+
+  <NotificationContainer @position="bottom-right" />
+</div>

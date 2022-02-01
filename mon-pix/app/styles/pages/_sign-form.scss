@@ -1,0 +1,246 @@
+.sign-form-page {
+  display: flex;
+  justify-content: center;
+  background: $default-gradient;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  align-items: center;
+
+  abbr {
+    text-decoration: none;
+  }
+}
+
+.sign-form {
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 95%;
+    max-width: 609px;
+    border-radius: 10px;
+    background-color: $white;
+    margin: 0 auto;
+    padding: 20px 10px;
+
+    @include device-is('tablet') {
+      width: 609px;
+      margin: 20px 0;
+      padding: 40px 80px;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  &__body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__notification-message {
+    width: 100%;
+    text-align: center;
+    color: $white;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.625rem;
+
+    &--success {
+      color: $green;
+    }
+
+    &--error {
+      color: $dark-error;
+    }
+  }
+
+  &__validation-error {
+    color: $dark-error;
+    font-weight: normal;
+  }
+}
+
+.sign-form-header {
+
+  &__subtitle {
+    display: flex;
+    padding: 5px 20px 24px 20px;
+    flex-direction: column;
+    text-align: center;
+    font-family: $font-open-sans;
+    font-size: 1rem;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
+
+  &__instruction {
+    width: 100%;
+    margin: 10px 0 40px;
+
+    @include device-is('tablet') {
+      margin: 24px 0 40px;
+
+      &--short {
+        width: 400px;
+      }
+    }
+  }
+}
+
+.sign-form-header-subtitle {
+  margin-right: 3px;
+}
+
+.sign-form-body {
+
+  &__instruction {
+    margin: 10px 0;
+    font-size: 0.875rem;
+  }
+
+  &__input {
+    max-width: 449px;
+    width: 100%;
+    padding: 0 20px;
+
+    @include device-is('tablet') {
+      padding: 0;
+    }
+
+    @include device-is('mobile') {
+      padding: 0;
+    }
+  }
+
+  &__bottom-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto 20px;
+
+    &--big {
+      margin: 10px auto;
+
+      @include device-is('desktop') {
+        margin: 30px auto;
+      }
+
+      @include device-is('mobile') {
+        width: 280px;
+      }
+    }
+  }
+
+  &__bottom-decoration {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1.5px solid $grey-20;
+    line-height: 0.1rem;
+    margin: 30px 0 40px;
+
+    @include device-is('mobile') {
+      width: 100%;
+    }
+
+    span {
+      font-size: 16px;
+      color: $grey-80;
+      background: $white;
+      padding: 0 10px;
+    }
+  }
+
+  &__pe-connect-link {
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background-color: $pole-emploi;
+    color: $white;
+    padding: 7px 10px 7px 13px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid transparent;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px $pole-emploi;
+    }
+
+    img {
+      width: 30px;
+    }
+
+    span {
+      padding: 0 3px 0 10px;
+    }
+  }
+
+  &__forgotten-password-link {
+    align-self: flex-end;
+    margin: 5px 0 20px 0;
+  }
+}
+
+// Text Styles
+
+.sign-form-title {
+  font-family: $font-open-sans;
+  color: $grey-80;
+  margin: 0;
+  font-size: 1.563rem;
+  font-weight: $font-light;
+
+  @include device-is('desktop') {
+    font-size: 2.25rem;
+  }
+}
+
+.sign-form-subtitle {
+  font-family: $font-open-sans;
+  color: $grey-80;
+  font-size: 0.938rem;
+  font-weight: $font-light;
+  line-height: 28px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 1.375rem;
+  }
+}
+
+.sign-form-instruction {
+  font-size: 0.938rem;
+  font-weight: $font-light;
+  color: $grey-80;
+}
+
+.sign-form-text {
+  color: $grey-80;
+  font-family: $font-open-sans;
+  font-size: 0.625rem;
+
+  @include device-is('tablet') {
+    font-size: 0.938rem;
+  }
+}
+
+.sign-form-link {
+  font-size: 0.938rem;
+}

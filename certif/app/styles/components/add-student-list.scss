@@ -1,0 +1,128 @@
+.add-student-list {
+  font-size: 0.875rem;
+  position: relative;
+  box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+
+  &__filters {
+    background-color: $white;
+    color: $blue-zodiac;
+    padding: 18px 24px;
+
+    label {
+      margin-right: 16px;
+    }
+
+    .pix-multi-select {
+      min-width: 200px;
+      width: auto;
+
+      &__list-button {
+        display: flex;
+        color: $blue-zodiac;
+      }
+    }
+  }
+
+  thead tr {
+    background: $grey-10;
+    border-radius: 4px;
+    outline: 4px solid $white;
+    outline-offset: -4px;
+    border-bottom: 4px solid $grey-10;
+  }
+
+  tr.add-student-list__row--disabled {
+    border-top-color: $grey-20;
+    border-bottom: 2px solid $grey-20;
+
+    &:hover {
+      background: $grey-15;
+      cursor: default;
+    }
+  }
+
+  &__row {
+    background-color: $white;
+    color: $grey-60;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--disabled {
+      background: $grey-15;
+      border-top: 1px solid $grey-50;
+      border-bottom: 1px solid $grey-50;
+
+      .add-student-list__column-checkbox .checkbox {
+        background-color: $grey-40;
+        border-color: $grey-40;
+        pointer-events: none;
+
+        &:hover {
+          cursor: initial;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding-left: 30px;
+  }
+
+  &__column-checkbox { width: 30px; }
+  &__column-birthdate { width: 60%; }
+
+  &__checker {
+    margin-right: 16px;
+  }
+
+  &__bottom-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100vw;
+    height: 68px;
+    left: 0;
+    bottom: 0;
+    box-shadow: -2px 2px 9px 0 rgba(0, 0, 0, 0.22);
+    background-color: $white;
+    color: $blue-zodiac;
+    font-family: $roboto;
+
+    .bottom-action-bar__informations {
+      margin-left: calc(250px + 35px);
+      display: flex;
+      align-items: baseline;
+
+      &--candidates-selected {
+        font-size: 1.125rem;
+      }
+
+      &--candidates-already-added {
+        font-size: 0.875rem;
+      }
+
+      .bottom-action-bar__seperator {
+        margin: 0 16px;
+        align-self: center;
+        background: $grey-25;
+        height: 30px;
+        width: 1px;
+      }
+    }
+
+    .bottom-action-bar__actions {
+      display: flex;
+      padding: 0 24px;
+
+      .pix-button {
+        margin: 0 8px;
+      }
+    }
+  }
+}

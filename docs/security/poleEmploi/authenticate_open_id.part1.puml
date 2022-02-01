@@ -1,0 +1,30 @@
+@startuml
+
+title **Partie 1 Workflow Full Front**\nConnexion via PE - Récupération infos Candidat - Déconnexion PE
+
+actor Candidat_PE
+participant MonPix
+participant Pole_Emploi_Connect
+
+Candidat_PE -> MonPix: Se connecter à Pôle emploi
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/connexion/oauth2/authorize?realm=/individu
+
+Candidat_PE -> Pole_Emploi_Connect: Saisie de mes crédentials
+Pole_Emploi_Connect --> MonPix: Envoie de l'"authorization_code"
+
+MonPix -> Pole_Emploi_Connect: POST <PoleEmploi>/connexion/oauth2/access_token
+note right: Demande d'access_token Pôle Emploi
+Pole_Emploi_Connect --> MonPix: Envoie de l'access_token
+
+MonPix -> Pole_Emploi_Connect: GET <API_PoleEmploi>/partenaire/peconnect-individu/v1/userinfo\nAuthorization: Bearer [Access token]
+note right: Demande d'information candidat Pôle Emploi
+Pole_Emploi_Connect --> MonPix: Envoie des informations du Candidat PE
+note right: email, family_name, given_name et idIdentiteExterne
+
+Candidat_PE -> MonPix: Demande de déconnexion de Mon-Pix (et de Pôle emploi)
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion
+note right: Demande de déconnexion du Candidat_PE
+Pole_Emploi_Connect --> MonPix: Retour sur Mon-Pix
+note right: Déconnexion du Candidat PE
+
+@enduml

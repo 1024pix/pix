@@ -1,0 +1,34 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  background: $pix-orga-old-gradient;
+  align-items: center;
+  justify-content: center;
+
+  &__panel {
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 10px;
+
+    @include device-is('tablet') {
+      border-radius: 10px;
+      margin: 10px 0;
+      padding: 40px 60px;
+    }
+  }
+
+  .form-title {
+    text-align: center;
+    font-family: $open-sans;
+    font-size: 2rem;
+    color: $grey-80;
+    margin-bottom: 8px;
+  }
+}
+
+.panel__image {
+  text-align: center;
+}

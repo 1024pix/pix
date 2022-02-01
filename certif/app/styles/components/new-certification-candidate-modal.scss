@@ -1,0 +1,132 @@
+/* stylelint-disable no-descending-specificity */
+
+.new-certification-candidate-details-modal {
+  min-width: 576px;
+  max-width: 576px;
+
+  fieldset {
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+
+  &__title {
+    font-family: $open-sans;
+    padding: 12px 32px;
+
+    h1 {
+      font-size: 1.25rem;
+      color: $grey-80;
+      margin: 0;
+      margin-bottom: 4px;
+    }
+  }
+
+  &__content {
+    color: $grey-70;
+    border-top: 1px solid $grey-20;
+    border-bottom: 1px solid $grey-20;
+    background-color: $grey-10;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 8px 32px;
+  }
+
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    &__required-fields-mention {
+      width: 100%;
+    }
+
+    .required-field-indicator {
+      color: $red;
+    }
+
+    &__field {
+      width: 100%;
+      margin: 12px 0;
+
+      label {
+        display: block;
+
+        &.radio-button-label {
+          display: inline-block;
+          margin: 0 16px 0 8px;
+        }
+      }
+
+      input {
+        border: 1.2px $grey-35 solid;
+        box-sizing: border-box;
+        width: 248px;
+        height: 36px;
+      }
+
+      .pix-select {
+        height: 36px;
+        width: 248px;
+      }
+
+      .birth-country-selector {
+        border: 1.2px $grey-35 solid;
+        height: 36px;
+        width: 248px;
+      }
+
+      input[type="radio"] {
+        height: 20px;
+        width: 20px;
+      }
+
+      .radio-button-container {
+        align-items: center;
+        display: flex;
+      }
+
+      &-double {
+        width: 248px;
+      }
+
+      .complementary-certifications-checkbox-list {
+        display: flex;
+
+        ul {
+          list-style-type: none;
+          margin: 8px;
+          padding: 0;
+        }
+
+        label {
+          align-items: center;
+          display: flex;
+          height: 30px;
+        }
+
+        input {
+          width: 20px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  #email-container {
+    padding-top: 18px;
+  }
+
+  &__actions {
+    background-color: $grey-10;
+    padding: 16px 0;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 0 0 5px 5px;
+    width: 100%;
+
+    .pix-button {
+      margin-left: 16px;
+    }
+  }
+}

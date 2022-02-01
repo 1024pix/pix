@@ -1,0 +1,17 @@
+{{page-title (t "pages.certification-start.title")}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @burger={{burger}} />
+    <main class="main">
+      <PixBackgroundHeader id="main">
+        <PixBlock @shadow="heavy" class="certification-start-page__block">
+          <CertificationStarter @certificationCandidateSubscription={{@model}} />
+        </PixBlock>
+      </PixBackgroundHeader>
+    </main>
+
+    <Footer />
+
+  </burger.outlet>
+</BurgerMenu>

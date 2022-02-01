@@ -1,0 +1,81 @@
+<li class="session-supervising-candidate-in-list">
+  {{#if this.isCheckboxToBeDisplayed}}
+    <PixInput
+      @id={{concat "candidate-checkbox-" @candidate.id}}
+      class="session-supervising-candidate-in-list__checkbox"
+      type="checkbox"
+      checked={{@candidate.authorizedToStart}}
+      {{on "click" (fn this.toggleCandidate @candidate)}}
+    />
+  {{/if}}
+  <div class="session-supervising-candidate-in-list__candidate-data">
+    <div class="session-supervising-candidate-in-list__full-name">
+      {{#if @candidate.hasStarted}}
+        {{@candidate.lastName}}
+        {{@candidate.firstName}}
+      {{else}}
+        <label for={{concat "candidate-checkbox-" @candidate.id}}>
+          {{@candidate.lastName}}
+          {{@candidate.firstName}}
+        </label>
+      {{/if}}
+    </div>
+    <div class="session-supervising-candidate-in-list__details">
+      {{moment-format @candidate.birthdate "DD/MM/YYYY"}}
+      {{#if @candidate.extraTimePercentage}}
+        · Temps majoré :
+        {{@candidate.extraTimePercentage}}%
+      {{/if}}
+    </div>
+    {{#if @candidate.hasStarted}}
+      <span
+        class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
+      >
+        En cours
+      </span>
+    {{/if}}
+    {{#if @candidate.hasCompleted}}
+      <span
+        class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
+      >
+        Terminé
+      </span>
+    {{/if}}
+  </div>
+  {{#if this.optionsMenuShouldBeDisplayed}}
+    <div class="session-supervising-candidate-in-list__menu">
+      <PixIconButton
+        @icon="ellipsis-v"
+        aria-label="Afficher les options du candidat"
+        @triggerAction={{this.toggleMenu}}
+      />
+      <Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} aria-label="Options du candidat">
+        <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
+          Autoriser la reprise du test
+        </Dropdown::Item>
+        <Dropdown::Item @onClick={{this.askUserToConfirmTestEnd}}>
+          Terminer le test
+        </Dropdown::Item>
+      </Dropdown::Content>
+    </div>
+  {{/if}}
+
+  {{#if this.isConfirmationModalDisplayed}}
+    <SessionSupervising::ConfirmationModal
+      @closeConfirmationModal={{this.closeConfirmationModal}}
+      @actionOnConfirmation={{this.actionMethod}}
+      @candidate={{this.candidate}}
+      @modalCancelText={{this.modalCancelText}}
+      @modalConfirmationButtonText={{this.modalConfirmationText}}
+    >
+      <:instruction>
+        {{this.modalInstructionText}}
+      </:instruction>
+      <:description>
+        {{this.modalDescriptionText}}
+      </:description>
+    </SessionSupervising::ConfirmationModal>
+
+  {{/if}}
+
+</li>

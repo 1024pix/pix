@@ -1,0 +1,19 @@
+.no-certification-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background-color: white;
+  color: $grey-80;
+  font-family: $font-open-sans;
+  font-size: 1.063rem;
+
+  @include device-is('tablet') {
+    margin: 0 50px;
+    font-size: 1.25rem;
+  }
+
+  @include device-is('desktop') {
+    margin: 0 100px;
+  }
+}

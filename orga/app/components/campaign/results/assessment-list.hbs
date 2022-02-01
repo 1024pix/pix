@@ -1,0 +1,97 @@
+<section ...attributes>
+  <h3 class="sr-only">{{t "pages.campaign-results.table.title"}}</h3>
+
+  <Campaign::Filter::ParticipationFilters
+    @campaign={{@campaign}}
+    @selectedDivisions={{@selectedDivisions}}
+    @selectedGroups={{@selectedGroups}}
+    @selectedBadges={{@selectedBadges}}
+    @selectedStages={{@selectedStages}}
+    @rowCount={{@participations.meta.rowCount}}
+    @isHiddenStatus={{true}}
+    @onResetFilter={{@onResetFilter}}
+    @onFilter={{@onFilter}}
+  />
+
+  <div class="panel">
+    <table class="table content-text content-text--small">
+      <colgroup class="table__column">
+        <col />
+        <col />
+        {{#if @campaign.idPixLabel}}
+          <col />
+        {{/if}}
+        <col />
+        {{#if @campaign.hasBadges}}
+          <col />
+        {{/if}}
+      </colgroup>
+      <thead>
+        <tr>
+          <Table::Header>{{t "pages.campaign-results.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-results.table.column.first-name"}}</Table::Header>
+          {{#if @campaign.idPixLabel}}
+            <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
+          {{/if}}
+          <Table::Header>{{t "pages.campaign-results.table.column.results.label"}}</Table::Header>
+          {{#if @campaign.hasBadges}}
+            <Table::Header>{{t "pages.campaign-results.table.column.badges"}}</Table::Header>
+          {{/if}}
+        </tr>
+      </thead>
+
+      {{#if @participations}}
+        <tbody>
+          {{#each @participations as |participation|}}
+            <tr
+              aria-label={{t "pages.campaign-results.table.row-title"}}
+              role="button"
+              {{on "click" (fn @onClickParticipant @campaign.id participation.id)}}
+              class="tr--clickable"
+            >
+              <td>
+                <LinkTo
+                  @route={{"authenticated.campaigns.participant-assessment"}}
+                  @models={{array @campaign.id participation.id}}
+                >
+                  {{participation.lastName}}
+                </LinkTo>
+              </td>
+              <td>{{participation.firstName}}</td>
+              {{#if @campaign.idPixLabel}}
+                <td>{{participation.participantExternalId}}</td>
+              {{/if}}
+              {{#if @campaign.hasStages}}
+                <td>
+                  <Campaign::StageStars
+                    @result={{multiply participation.masteryRate 100}}
+                    @stages={{@campaign.stages}}
+                    @withTooltip={{true}}
+                    @tooltipPosition="bottom-left"
+                  />
+                </td>
+              {{else}}
+                <td class="participant-list__mastery-percentage">
+                  {{t "pages.campaign-results.table.column.results.value" percentage=participation.masteryRate}}
+                </td>
+              {{/if}}
+              {{#if @campaign.hasBadges}}
+                <td class="participant-list__badges">
+                  <Campaign::Badges @badges={{participation.badges}} />
+                </td>
+              {{/if}}
+            </tr>
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @participations}}
+      <p class="table__empty content-text">{{t "pages.campaign-results.table.empty"}}</p>
+    {{/unless}}
+  </div>
+
+  {{#if @participations}}
+    <Table::PaginationControl @pagination={{@participations.meta}} />
+  {{/if}}
+</section>

@@ -1,0 +1,51 @@
+{{page-title (t "pages.account-recovery.find-sco-record.title")}}
+
+<div class="account-recovery">
+  <div class="account-recovery__content">
+    <PixLogo />
+    <div class="account-recovery__content--image">
+      <img alt="" role="none" src="{{rootURL}}/images/illustrations/account-recovery/{{this.templateImg}}.svg" />
+    </div>
+
+    <div class="account-recovery__content--step">
+      {{#if this.showStudentInformationForm}}
+        <AccountRecovery::StudentInformationForm
+          @submitStudentInformation={{this.submitStudentInformation}}
+          @showAccountNotFoundError={{this.showAccountNotFoundError}}
+        />
+      {{/if}}
+
+      {{#if this.showErrors}}
+        <AccountRecovery::RecoveryErrors
+          @title={{this.accountRecoveryError.title}}
+          @message={{this.accountRecoveryError.message}}
+          @showBackToHomeButton={{this.accountRecoveryError.showBackToHomeButton}}
+        />
+      {{/if}}
+
+      {{#if this.showConfirmationStep}}
+        <AccountRecovery::ConfirmationStep
+          @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+          @cancelAccountRecovery={{this.cancelAccountRecovery}}
+          @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
+        />
+      {{/if}}
+
+      {{#if this.showBackupEmailConfirmationForm}}
+        <AccountRecovery::BackupEmailConfirmationForm
+          @sendEmail={{this.sendEmail}}
+          @resetErrors={{this.resetErrors}}
+          @firstName={{this.studentInformationForAccountRecovery.firstName}}
+          @existingEmail={{this.studentInformationForAccountRecovery.email}}
+          @cancelAccountRecovery={{this.cancelAccountRecovery}}
+          @showAlreadyRegisteredEmailError={{this.showAlreadyRegisteredEmailError}}
+          @isLoading={{this.isLoading}}
+        />
+      {{/if}}
+
+      {{#if this.showConfirmationEmailSent}}
+        <AccountRecovery::ConfirmationEmailSent />
+      {{/if}}
+    </div>
+  </div>
+</div>

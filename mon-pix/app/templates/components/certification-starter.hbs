@@ -1,0 +1,87 @@
+{{! template-lint-disable require-input-label }}
+<section class="certification-starter">
+  <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
+
+  {{#if @certificationCandidateSubscription.hasSubscriptions}}
+    <div class="certification-starter-subscriptions">
+      {{#if (gt this.allComplementaryCertificationsLength 0)}}
+        <div class="certification-starter-subscriptions-container">
+          <p class="certification-starter-subscriptions-container-title">
+            {{t "pages.certification-start.eligible-subscriptions" itemCount=this.allComplementaryCertificationsLength}}
+          </p>
+          <div class="certification-starter-subscriptions-container-items">
+            {{#each @certificationCandidateSubscription.eligibleSubscriptions as |eligibleSubscription|}}
+              <span class="certification-starter-subscriptions-container-items__eligible-item">
+                <FaIcon
+                  @icon="check-circle"
+                  class="certification-starter-subscriptions-container-items__eligible-icon"
+                />
+                {{eligibleSubscription.name}}
+              </span>
+            {{/each}}
+            {{#each @certificationCandidateSubscription.nonEligibleSubscriptions as |nonEligibleSubscription|}}
+              <span class="certification-starter-subscriptions-container-items__non-eligible-item">
+                <FaIcon
+                  @icon="check-circle"
+                  class="certification-starter-subscriptions-container-items__non-eligible-icon"
+                />
+                {{nonEligibleSubscription.name}}
+              </span>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+      {{#if this.nonEligibleSubscriptionNames.length}}
+        <div class="certification-starter-subscriptions-container__non-eligible">
+          <FaIcon @icon="exclamation-circle" class="certification-starter-subscriptions-container__info-icon" />
+          <span>
+            {{t
+              "pages.certification-start.non-eligible-subscriptions"
+              nonEligibleSubscription=this.nonEligibleSubscriptionNames
+              eligibleSubscription=this.eligibleSubscriptionNames
+              eligibleSubscriptionLength=this.eligibleSubscriptionNames.length
+              itemCount=@certificationCandidateSubscription.nonEligibleSubscriptions.length
+            }}
+          </span>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+  <p class="certification-course-page__order">
+    {{t "pages.certification-start.access-code"}}
+  </p>
+  <form autocomplete="off">
+    <div class="certification-course-page__session-code-input">
+      <Input
+        required={{true}}
+        id="certificationStarterSessionCode"
+        @type="text"
+        @value={{this.inputAccessCode}}
+        maxlength="6"
+        spellcheck={{false}}
+      />
+      {{#if this.errorMessage}}
+        <div class="certification-course-page__errors">{{this.errorMessage}}</div>
+      {{/if}}
+    </div>
+
+    <div class="certification-course-page__field-button">
+
+      <PixButton @type="submit" @triggerAction={{this.submit}}>
+        {{t "pages.certification-start.actions.submit"}}
+      </PixButton>
+    </div>
+  </form>
+
+  <div class="certification-course-page__cgu">
+    <p>
+      {{t "pages.certification-start.cgu.info"}}
+    </p>
+    <p>
+      {{t "pages.certification-start.cgu.contact.info"}}
+      <a href="mailto:{{t "pages.certification-start.cgu.contact.email"}}">{{t
+          "pages.certification-start.cgu.contact.email"
+        }}</a>.
+    </p>
+  </div>
+</section>

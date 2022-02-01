@@ -1,0 +1,61 @@
+$yellow-30: #FFBE00;
+$green-0: #EFFFD8;
+$green-70: #006134;
+
+.session-supervising-candidate-in-list {
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &__candidate-data {
+    width: calc(100% - 32px);
+  }
+
+  &__details {
+    color: $grey-22;
+    font-size: 0.75rem;
+  }
+
+  &__full-name {
+    color: $yellow-30;
+    margin-bottom: 4px;
+  }
+
+  &__checkbox {
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+  }
+
+  &__status {
+    border-radius: 12px;
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 500;
+    margin-top: 8px;
+    padding: 4px 16px;
+
+    &--started {
+      background-color: $green-0;
+      color: $green-70;
+    }
+
+    &--completed {
+      background-color: $blue-alert-light;
+      color: $blue-alert-dark;
+    }
+  }
+
+  &__menu {
+    position: relative;
+  }
+
+  .dropdown__content {
+    right: 0;
+    top: 32px;
+    width: 216px;
+  }
+}

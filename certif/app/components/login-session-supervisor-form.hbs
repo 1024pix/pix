@@ -1,0 +1,49 @@
+<div class="login-session-supervisor-form">
+
+  <img src="/illu-espace-surveillant.svg" alt="" role="presentation" />
+
+  <h1 class="login-session-supervisor-form__title">Espace Surveillant</h1>
+
+  <h2 class="login-session-supervisor-form__subtitle">Surveiller une session</h2>
+
+  <p class="login-session-supervisor-form__required-fields-notice">Tous les champs sont obligatoires.</p>
+
+  {{#if this.errorMessage}}
+    <p
+      id="login-session-supervisor-form-error-message"
+      class="login-session-supervisor-form__error-message error-message"
+    >
+      {{this.errorMessage}}
+    </p>
+  {{/if}}
+
+  <form class="login-session-supervisor-form__form" {{on "submit" this.superviseSession}}>
+    <PixInput @id="session-id" @label="Numéro de la session" type="number" @value={{this.sessionId}} />
+
+    <PixInputPassword
+      @id="session-password"
+      @label="Mot de passe de la session"
+      @information="Exemple : C-12345"
+      @prefix="C-"
+      placeholder="XXXXXX"
+      @value={{this.supervisorPassword}}
+    />
+
+    <PixButton @type="submit">
+      Surveiller la session
+    </PixButton>
+  </form>
+
+  <p class="login-session-supervisor-form__description">
+    Le mot de passe de la session à surveiller vous a été communiqué par un administrateur Pix Certif.
+  </p>
+
+  <div class="login-session-supervisor-form__current-user-email">
+    <span><FaIcon @icon="user-circle" />
+      {{@currentUserEmail}}
+    </span>
+    <LinkTo class="login-session-supervisor-form__logout" @route="logout">
+      Changer de compte
+    </LinkTo>
+  </div>
+</div>

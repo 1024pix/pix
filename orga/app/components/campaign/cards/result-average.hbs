@@ -1,0 +1,10 @@
+<Ui::IndicatorCard
+  @title={{t "cards.participants-average-results.title"}}
+  @icon="crown"
+  @color="blue"
+  @info={{t "cards.participants-average-results.information"}}
+  @isLoading={{@isLoading}}
+  ...attributes
+>
+  {{t "common.percentage" value=@value}}
+</Ui::IndicatorCard>

@@ -1,0 +1,32 @@
+{{#if @isShared}}
+  {{#if @displayPixLink}}
+    <div class="skill-review-share__thanks">
+      {{t "pages.skill-review.already-shared"}}
+    </div>
+    <a
+      href="#"
+      {{on "click" @redirectToSignupIfUserIsAnonymous}}
+      class="skill-review-share__back-to-home link"
+      data-link-to-continue-pix
+    >
+      <FaIcon @icon="arrow-right" aria-hidden="true" />
+      {{t "pages.skill-review.actions.continue"}}
+    </a>
+  {{/if}}
+{{else}}
+  <PixButton
+    class="skill-review-share__button"
+    aria-hidden="true"
+    @backgroundColor="green"
+    @shape="rounded"
+    @triggerAction={{@shareCampaignParticipation}}
+  >
+    {{t "pages.skill-review.actions.send"}}
+  </PixButton>
+
+  {{#unless @isFlashCampaign}}
+    <p class="skill-review-share__legal">
+      {{t "pages.skill-review.send-results"}}
+    </p>
+  {{/unless}}
+{{/if}}

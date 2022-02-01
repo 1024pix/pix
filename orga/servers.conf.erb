@@ -1,0 +1,94 @@
+log_format keyvalue
+  'method=$request_method'
+  ' path="$request_uri"'
+  ' host=$host'
+  ' request_id=$http_x_request_id'
+  ' from="$remote_addr"'
+  ' protocol=$scheme'
+  ' status=$status'
+  ' duration=${request_time}s'
+  ' bytes=$bytes_sent'
+  ' referer="$http_referer"'
+  ' user_agent="$http_user_agent"';
+
+# In order to avoid logging access twice per request
+# it is necessary to turn off the top-level (e.g. http) buildpack default access_log
+# as we are about to override it in the server directive here below
+access_log off;
+
+server {
+  access_log logs/access.log keyvalue;
+  server_name localhost;
+  listen <%= ENV['PORT'] %>;
+
+  charset utf-8;
+
+  # Disable compression that is performed by the Scalingo router anyway
+  gzip off;
+
+  root /app/dist/;
+
+  # in case of 503, serve this URI
+  error_page 503 /maintenance_page.html;
+  location = /maintenance_page.html {
+    # maintenance page is at the root of the project
+    root /app/;
+  }
+
+  <% if ENV['MAINTENANCE'] == 'enabled' %>
+
+  location / {
+    return 503;
+  }
+
+  <% else %>
+
+  location = /index.html {
+    # index.html should never be cached
+    expires -1;
+  }
+
+  location /assets/ {
+    # Files in /assets/ are hash-suffixed, so it's safe to cache them indefinitely
+    expires max;
+  }
+ 
+  location /images/ {
+    expires 24h;
+  }
+ 
+  location / {
+    # Fall back to index.html for routes that don't match an existing file
+    try_files $uri /index.html;
+
+    # Let clients cache these files for a bit
+    expires 24h;
+  }
+
+  location /api/ {
+    <%
+    # We compute the API host from the front app name, examples:
+    #   pix-orga-integration       -> pix-api-integration.scalingo.io
+    #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
+    #   pix-orga-production        -> pix-api-production.scalingo.io
+    %>
+    proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
+    proxy_redirect default;
+  }
+
+  <% end %>
+
+  add_header X-Content-Type-Options "nosniff";
+  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-XSS-Protection 1;
+
+  <% ENV.each do |key,value|
+    if key.start_with? 'ADD_HTTP_HEADER' %>
+      add_header <%=
+        key.sub(/^ADD_HTTP_HEADER_/, '').split("_").map(&:capitalize).join("-")
+      %> "<%=
+        value.gsub('\\', '\\\\\\\\').gsub('"','\\"').gsub('$','\\$')
+      %>" ;
+    <% end
+  end %>
+}

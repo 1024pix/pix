@@ -1,0 +1,76 @@
+.form {
+
+  &__instructions {
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+    display: block;
+  }
+
+  .form-section {
+    padding: 0 20px 20px;
+
+    &:first-child {
+      padding: 20px;
+    }
+  }
+
+  .form-section--actions {
+    border-top: 1px solid $grey-22;
+    padding: 20px;
+  }
+
+  .form-field {
+    margin-bottom: 16px;
+
+    .form-field__select {
+
+      &.is-invalid > .ember-power-select-trigger {
+        border-color: $error;
+      }
+    }
+
+    .form-field__error {
+      width: 100%;
+      font-size: 0.8em;
+      color: $error;
+    }
+
+    &__label {
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+
+  button {
+    margin-right: 6px;
+  }
+}
+
+.form-inline {
+
+  input {
+    margin-right: 10px;
+  }
+}
+
+.input {
+  border: 2px solid $grey-20;
+  border-radius: 4px;
+  height: 40px;
+  font-size: 1rem;
+  padding-left: 15px;
+  color: $grey-80;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $communication-dark;
+  }
+
+  &--small {
+    width: 160px;
+  }
+}

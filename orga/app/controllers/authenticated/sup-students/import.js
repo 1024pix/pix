@@ -1,0 +1,100 @@
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import groupBy from 'lodash/groupBy';
+import uniq from 'lodash/uniq';
+
+export default class ImportController extends Controller {
+  @service currentUser;
+  @service session;
+  @service intl;
+  @service notifications;
+  @service errorMessages;
+  @service store;
+
+  @tracked isLoading = false;
+
+  @action
+  async importStudents(files) {
+    const adapter = this.store.adapterFor('students-import');
+    const organizationId = this.currentUser.organization.id;
+
+    this.isLoading = true;
+    this.notifications.clearAll();
+    try {
+      const response = await adapter.addStudentsCsv(organizationId, files);
+      this._sendNotifications(response);
+      this.transitionToRoute('authenticated.sup-students.list');
+    } catch (errorResponse) {
+      this._sendErrorNotifications(errorResponse);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  @action
+  async replaceStudents(files) {
+    const adapter = this.store.adapterFor('students-import');
+    const organizationId = this.currentUser.organization.id;
+
+    this.isLoading = true;
+    this.notifications.clearAll();
+    try {
+      const response = await adapter.replaceStudentsCsv(organizationId, files);
+      this._sendNotifications(response);
+      this.transitionToRoute('authenticated.sup-students.list');
+    } catch (errorResponse) {
+      this._sendErrorNotifications(errorResponse);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  _sendNotifications(response) {
+    const warningsArray = get(response, 'data.attributes.warnings', []);
+    if (isEmpty(warningsArray)) {
+      return this.notifications.sendSuccess(this.intl.t('pages.students-sup-import.global-success'));
+    }
+
+    const warnings = groupBy(warningsArray, 'field');
+    const warningMessages = [];
+    if (warnings.diploma) {
+      const diplomas = uniq(warnings.diploma.map((warning) => warning.value)).join(', ');
+      warningMessages.push(this.intl.t('pages.students-sup-import.warnings.diploma', { diplomas }));
+    }
+    if (warnings['study-scheme']) {
+      const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
+      warningMessages.push(this.intl.t('pages.students-sup-import.warnings.study-scheme', { studySchemes }));
+    }
+    return this.notifications.sendWarning(
+      this.intl.t('pages.students-sup-import.global-success-with-warnings', {
+        warnings: warningMessages.join(''),
+        htmlSafe: true,
+      })
+    );
+  }
+
+  _sendErrorNotifications(errorResponse) {
+    const globalErrorMessage = this.intl.t('pages.students-sup-import.global-error', { htmlSafe: true });
+    if (errorResponse.errors) {
+      errorResponse.errors.forEach((error) => {
+        if (error.status === '412' || error.status === '413') {
+          const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
+          return this.notifications.sendError(
+            this.intl.t('pages.students-sup-import.error-wrapper', { message, htmlSafe: true })
+          );
+        }
+        return this.notifications.sendError(globalErrorMessage, {
+          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+        });
+      });
+    } else {
+      return this.notifications.sendError(globalErrorMessage, {
+        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+      });
+    }
+  }
+}

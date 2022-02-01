@@ -1,0 +1,94 @@
+<header class="navigation">
+  <Ui::PreviousPageButton
+    @route="authenticated.campaigns.campaign.activity"
+    @routeId={{@campaign.id}}
+    @backButtonAriaLabel={{t "common.actions.back"}}
+    aria-label={{t "pages.campaign.name"}}
+  >
+    {{@campaign.name}}
+  </Ui::PreviousPageButton>
+</header>
+
+<section class="panel panel--header">
+  <header class="panel-header__headline">
+    <h2 class="panel-header-title">{{@participation.firstName}} {{@participation.lastName}}</h2>
+  </header>
+
+  <div class="panel-header__body">
+    <dl class="panel-header__data">
+      {{#if @participation.participantExternalId}}
+        <div class="panel-header-data__content">
+          <dt class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</dt>
+          <dd class="value-text panel-header-data-content__value">{{@participation.participantExternalId}}</dd>
+        </div>
+      {{/if}}
+      <div class="panel-header-data__content">
+        <dt class="label-text panel-header-data-content__label">{{t
+            "pages.campaign-individual-results.start-date"
+          }}</dt>
+        <dd class="value-text panel-header-data-content__value">
+          {{moment-format @participation.createdAt "DD MMM YYYY"}}
+        </dd>
+      </div>
+      {{#unless @participation.isShared}}
+        <div class="panel-header-data__content">
+          <dt class="label-text panel-header-data-content__label">{{t
+              "pages.assessment-individual-results.progression"
+            }}</dt>
+          <dd class="value-text panel-header-data-content__value">
+            {{t "common.percentage" value=@participation.progression}}
+          </dd>
+        </div>
+      {{/unless}}
+      {{#if @participation.isShared}}
+        <div class="panel-header-data__content">
+          <dt class="label-text panel-header-data-content__label">{{t
+              "pages.campaign-individual-results.shared-date"
+            }}</dt>
+          <dd class="value-text panel-header-data-content__value">
+            {{moment-format @participation.sharedAt "DD MMM YYYY"}}
+          </dd>
+        </div>
+      {{/if}}
+    </dl>
+
+    {{#if @participation.isShared}}
+      <ul class="panel-header__data panel-header__data--highlight">
+        {{#if this.displayBadges}}
+          <li
+            aria-label={{t "pages.assessment-individual-results.badges"}}
+            class="panel-header-data__content panel-header-data-content__badges"
+          >
+            <Campaign::Badges @badges={{@participation.badges}} />
+          </li>
+        {{/if}}
+        {{#if @campaign.hasStages}}
+          <li
+            aria-label={{t "pages.assessment-individual-results.stages.label"}}
+            class="panel-header-data__content panel-header-data-content__stages"
+          >
+            <Campaign::StageStars
+              @result={{multiply @participation.masteryRate 100}}
+              @stages={{@campaign.stages}}
+              @withTooltip={{true}}
+              @tooltipPosition="bottom-left"
+            />
+          </li>
+        {{else}}
+          <li
+            aria-label={{t "pages.assessment-individual-results.result"}}
+            class="panel-header-data__content panel-header-data-content__progress-bar"
+          >
+            <Ui::ProgressBar @value={{@participation.masteryRate}} />
+          </li>
+
+          <li
+            class="panel-header-data__content value-text value-text--highlight panel-header-data-content__mastery-percentage"
+          >
+            {{t "common.percentage" value=@participation.masteryRate}}
+          </li>
+        {{/if}}
+      </ul>
+    {{/if}}
+  </div>
+</section>

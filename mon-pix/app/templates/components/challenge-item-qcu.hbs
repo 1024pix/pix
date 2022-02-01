@@ -1,0 +1,52 @@
+<form {{on "submit" this.validateAnswer}}>
+
+  <div class="rounded-panel__row challenge-response {{if @answer "challenge-response--locked"}}">
+    <h2 class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcu"}}</h2>
+    <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
+    <div class="challenge-proposals">
+      <QcuProposals
+        @answer={{@answer}}
+        @answerValue={{@answer.value}}
+        @proposals={{@challenge.proposals}}
+        @answerChanged={{this.answerChanged}}
+        @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
+      />
+    </div>
+
+    {{#if @answer}}
+      <div class="challenge-response__locked-overlay">
+        <FaIcon @icon="lock" class="challenge-response-locked__icon" />
+      </div>
+    {{/if}}
+
+    {{#if this.displayTimer}}
+      <div class="timeout-gauge-wrapper">
+        <TimeoutGauge
+          @allottedTime={{@challenge.timer}}
+          @hasTimeoutChallenge={{@assessment.hasTimeoutChallenge}}
+          @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
+        />
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if this.errorMessage}}
+    <div class="alert alert--danger" role="alert">
+      {{this.errorMessage}}
+    </div>
+  {{/if}}
+
+  {{#if @assessment}}
+    <ChallengeActions
+      @challenge={{@challenge}}
+      @answer={{@answer}}
+      @isCertification={{@assessment.isCertification}}
+      @resumeAssessment={{this.resumeAssessment}}
+      @validateAnswer={{this.validateAnswer}}
+      @skipChallenge={{this.skipChallenge}}
+      @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+      @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+      @isDisabled={{this.isAnswerFieldDisabled}}
+    />
+  {{/if}}
+</form>

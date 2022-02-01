@@ -1,0 +1,10 @@
+.progress-bar {
+  width: 160px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: $grey-20;
+
+  &--completion {
+    background-color: $blue;
+  }
+}

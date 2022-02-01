@@ -1,0 +1,63 @@
+<h1 class="account-recovery__content--title">{{t
+    "pages.account-recovery.find-sco-record.confirmation-step.good-news"
+    firstName=@studentInformationForAccountRecovery.firstName
+  }}
+</h1>
+
+<div class="account-recovery__content--step--content">
+  <p class="account-recovery__content--information-text">{{t
+      "pages.account-recovery.find-sco-record.confirmation-step.found-account"
+    }}</p>
+
+  <p class="account-recovery__content--information-text--details">
+    {{t "pages.account-recovery.find-sco-record.confirmation-step.contact-support"}}
+    <a href="{{t "pages.account-recovery.contact-support.link-url"}}" target="_blank" rel="noopener noreferrer">
+      {{t "pages.account-recovery.find-sco-record.contact-support.link-text"}}
+    </a>
+  </p>
+
+  <ul class="confirmation-step-account-information">
+    <li class="confirmation-step-account-information__field">
+      <div>{{t "pages.account-recovery.find-sco-record.confirmation-step.fields.first-name"}}</div>
+      <div>{{@studentInformationForAccountRecovery.firstName}}</div>
+    </li>
+
+    <li class="confirmation-step-account-information__field">
+      <div>{{t "pages.account-recovery.find-sco-record.confirmation-step.fields.last-name"}}</div>
+      <div>{{@studentInformationForAccountRecovery.lastName}}</div>
+    </li>
+
+    {{#if @studentInformationForAccountRecovery.username}}
+      <li class="confirmation-step-account-information__field">
+        <div>{{t "pages.account-recovery.find-sco-record.confirmation-step.fields.username"}}</div>
+        <div>{{@studentInformationForAccountRecovery.username}}</div>
+      </li>
+    {{/if}}
+
+    <li class="confirmation-step-account-information__field">
+      <div>{{t "pages.account-recovery.find-sco-record.confirmation-step.fields.latest-organization-name"}}</div>
+      <div>{{@studentInformationForAccountRecovery.latestOrganizationName}}</div>
+    </li>
+  </ul>
+
+  <p class="account-recovery__content--information-text--details checkbox-with-label">
+    <Input @type="checkbox" id="pix-certify" @checked={{this.checked}} />
+    <label for="pix-certify">
+      {{t "pages.account-recovery.find-sco-record.confirmation-step.certify-account"}}
+    </label>
+  </p>
+
+  <div class="account-recovery__content--actions">
+    <PixButton @isBorderVisible={{true}} @triggerAction={{@cancelAccountRecovery}} @backgroundColor="transparent-light">
+      {{t "pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel"}}
+    </PixButton>
+    <PixButton
+      @isBorderVisible={{true}}
+      @isDisabled={{not this.isFormValid}}
+      @triggerAction={{@continueAccountRecoveryBackupEmailConfirmation}}
+      @backgroundColor="red"
+    >
+      {{t "pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm"}}
+    </PixButton>
+  </div>
+</div>

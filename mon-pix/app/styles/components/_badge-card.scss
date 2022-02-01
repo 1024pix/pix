@@ -1,0 +1,99 @@
+.badge-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.badge-card {
+  flex: 1 1 90%;
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: $box-shadow-competence-cards;
+  min-height: 150px;
+  justify-content: space-between;
+  border-radius: 10px;
+  overflow: hidden;
+  word-break: break-word;
+
+  @include device-is('desktop') {
+    flex: 1 1 40%;
+    min-width: 420px;
+    max-width: 420px;
+    min-height: 200px;
+  }
+
+  &__status {
+
+    p {
+      margin-top: 0;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    padding-right: 16px;
+    max-width: 70%;
+
+    @include device-is('desktop') {
+      flex: 1 1 40%;
+      min-width: 300px;
+      max-width: 300px;
+    }
+  }
+
+  &-text {
+
+    &__title {
+      margin: 0;
+      color: $grey-100;
+      font-family: $font-roboto;
+      font-size: 1.12rem;
+      font-weight: $font-medium;
+      letter-spacing: 0.028rem;
+    }
+
+    &__message {
+      margin-bottom: 0;
+      color: $grey-45;
+      font-family: $font-roboto;
+      font-size: 0.85rem;
+      font-weight: $font-normal;
+      letter-spacing: 0.0093rem;
+      line-height: 1.2rem;
+    }
+  }
+
+  &__image {
+    min-width: 120px;
+    max-width: 120px;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $grey-10;
+
+    img {
+      width: 90px;
+    }
+
+    &--not-acquired {
+      filter: grayscale(1);
+    }
+  }
+}
+
+.badge-card-status {
+
+  &__acquired-icon {
+    color: $green;
+    margin-right: 4px;
+  }
+
+  &__not-acquired-icon {
+    color: $grey-45;
+    margin-right: 4px;
+  }
+}

@@ -1,0 +1,44 @@
+.certification-center-form {
+  max-width: 400px;
+
+  .form-field__label {
+    color: $grey-70;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+
+  .ember-power-select-trigger {
+    width: 100%;
+  }
+
+  .habilitations-title {
+    color: $grey-70;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+
+  .habilitations-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 8px 0;
+    padding: 0;
+
+    .habilitation-entry {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      padding-bottom: 8px;
+
+      * {
+        margin-bottom: 0;
+        align-self: center;
+      }
+
+      input[type=checkbox] {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}

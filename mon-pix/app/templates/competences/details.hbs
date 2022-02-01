@@ -1,0 +1,18 @@
+{{page-title @model.name}}
+
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @burger={{burger}} />
+    <main id="main" class="main background-banner-wrapper competence-details">
+      <div class="background-banner"></div>
+
+      <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+        <ScorecardDetails @scorecard={{@model}} />
+      </div>
+    </main>
+
+    <Footer />
+
+  </burger.outlet>
+</BurgerMenu>

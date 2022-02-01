@@ -1,0 +1,42 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+}
+
+html {
+  font-family: 'Roboto', Arial, sans-serif;
+  color: $grey-90;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+abbr.mandatory-mark {
+  cursor: help;
+  color: $dark-error;
+  display: contents;
+  margin: 1.25rem;
+  text-decoration: none;
+}

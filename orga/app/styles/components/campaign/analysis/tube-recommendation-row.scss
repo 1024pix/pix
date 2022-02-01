@@ -1,0 +1,87 @@
+.tube-recommendation-title {
+  font-family: $open-sans;
+  color: $grey-80;
+  font-weight: 600;
+  font-size: 0.875rem;
+
+  &--open {
+    margin-left: 16px;
+    color: $grey-100;
+    font-weight: 700;
+  }
+}
+
+.tube-recommendation-subtitle {
+  font-family: $open-sans;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: $grey-50;
+
+  &--open {
+    color: $grey-60;
+  }
+}
+
+.tube-recommendation-tutorial {
+  height: 0;
+  border-top: none;
+
+  &--open {
+    height: 100%;
+  }
+
+  &__description {
+    font-family: $open-sans;
+    color: $grey-60;
+    font-size: 0.875rem;
+  }
+
+  &__column {
+    position: relative;
+    padding-left: 32px;
+    padding-right: 52px;
+  }
+
+  &__title {
+    font-weight: 400;
+    font-family: $open-sans;
+    font-size: 1rem;
+    padding-left: 20px;
+  }
+}
+
+.tube-recommendation-tutorial-wrapper {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0s ease;
+
+  &--open {
+    height: auto;
+    max-height: 1000px;
+    transition: max-height 1s ease-out;
+  }
+}
+
+.tube-recommendation-tutorial-table {
+  margin-bottom: 10px;
+  margin-left: 20px;
+
+  &__row {
+    padding-left: 0;
+
+    a {
+      font-weight: 500;
+    }
+  }
+
+  &__details {
+    color: $grey-80;
+    font-family: $roboto;
+    font-size: .75rem;
+    font-weight: normal;
+  }
+
+  &__format {
+    text-transform: capitalize;
+  }
+}

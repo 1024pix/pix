@@ -1,0 +1,14 @@
+@startuml
+participant navigateur
+participant IDP
+participant ressource
+
+navigateur -> ressource: demande accès  (/login)
+ressource -> navigateur: redirection IDP (SAMLRequest)
+navigateur -> IDP : demande d'accès à ressource (SAMLRequest)
+IDP -> navigateur : redirection ressource (SAMLResponse)
+navigateur -> ressource : demande (/assert avec SAMLResponse)
+ressource -> navigateur: token ressource
+navigateur -> ressource: demande contenu \n avec token ressource
+ressource -> navigateur: contenu
+@enduml

@@ -1,0 +1,141 @@
+.session-details-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.session-details__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 1em 0;
+}
+
+.session-details-header {
+
+  &__title {
+    display: flex;
+    align-items: center;
+    min-width: 300px;
+
+    &__download-button {
+      margin-left: 50px;
+    }
+  }
+
+  &__datetime {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+  }
+}
+
+.session-details-header-datetime {
+
+  &__date {
+    padding-right: 40px;
+    margin-right: 40px;
+    border-right: 1px solid $grey-20;
+  }
+}
+
+.session-details-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.session-details-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 8px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $grey-20;
+  }
+}
+
+$details-content-padding: 8px;
+$details-content-margin: 8px;
+
+.session-details-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+
+  &--multiple {
+    border-right: 1px solid $grey-20;
+    padding: $details-content-padding + $details-content-margin;
+    white-space: nowrap;
+  }
+
+  &--copyable {
+    background: $grey-5;
+    margin: $details-content-margin;
+    padding: $details-content-padding 16px;
+    border-radius: 4px;
+    border: 0;
+  }
+
+  &--single {
+    width: 100%;
+  }
+
+  &__label {
+    margin: 0;
+    min-height: 32px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: $grey-90;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__sub-label {
+    color: $grey-50;
+    font-weight: normal;
+    font-size: 0.813rem;
+  }
+
+  &__text {
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  &__clipboard {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__return-button {
+    margin-right: 6px;
+  }
+
+  &__clipboard-button {
+    margin-left: 4px;
+  }
+}
+
+.session-details-buttons {
+  display: flex;
+  padding: 22px 30px;
+
+  &--push-right {
+    margin-left: auto;
+  }
+}
+
+.session-details__controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em 0;
+}
+
+.session-details-controls__navbar-tabs {
+  display: flex;
+}

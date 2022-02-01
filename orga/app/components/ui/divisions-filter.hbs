@@ -1,0 +1,16 @@
+<PixMultiSelect
+  @id="division"
+  @title={{t "common.filters.divisions.title"}}
+  @emptyMessage={{t "common.filters.divisions.empty"}}
+  @loadingMessage={{t "common.filters.loading"}}
+  @placeholder={{@placeholder}}
+  @selected={{@selected}}
+  @onSelect={{@onSelect}}
+  @onLoadOptions={{this.onLoadDivisions}}
+  @isSearchable={{true}}
+  @showOptionsOnInput={{true}}
+  ...attributes
+  as |option|
+>
+  {{option.label}}
+</PixMultiSelect>

@@ -1,0 +1,51 @@
+.email-verification-code {
+  color: $grey-70;
+
+  &__description {
+    font-size: 0.875rem;
+  }
+
+  &__email {
+    font-weight: bold;
+    font-size: 0.875rem;
+  }
+
+  &__input-code {
+    margin: 24px 0;
+  }
+
+  &__error {
+    max-width: 520px;
+    margin-bottom: 20px;
+  }
+
+  &__resend {
+    display: flex;
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+    margin-bottom: 12px;
+
+    p {
+      margin: 0;
+    }
+
+    &.visible {
+      opacity: 1;
+    }
+
+    button {
+      padding: 0;
+      margin-left: 2px;
+      background-color: transparent;
+      border: none;
+      font-family: $font-roboto;
+      font-size: 1rem;
+      color: $blue;
+      cursor: pointer;
+    }
+  }
+
+  &__resend-confirmation-message {
+    margin-bottom: 12px;
+  }
+}

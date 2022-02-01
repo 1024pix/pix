@@ -1,0 +1,269 @@
+/* stylelint-disable no-descending-specificity */
+
+@include device-is('tablet') {
+
+  .competence-card {
+    flex-direction: column;
+    width: 212px;
+    height: 310px;
+  }
+
+  .competence-card__title {
+    height: 125px;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .competence-card__wrapper {
+
+    &::after {
+      right: -200px;
+      left: -200px;
+      top: -330px;
+      bottom: 0;
+      width: auto;
+    }
+
+    &--jaffa,
+    &--jaffa::after {
+      background: radial-gradient($information-dark 25%, $information-light 100%);
+      background-color: $information-dark;
+    }
+
+    &--emerald,
+    &--emerald::after {
+      background: radial-gradient($content-dark 25%, $content-light 100%);
+      background-color: $content-dark;
+    }
+
+    &--cerulean,
+    &--cerulean::after {
+      background: radial-gradient($communication-dark 25%, $communication-light 100%);
+      background-color: $communication-dark;
+    }
+
+    &--wild-strawberry,
+    &--wild-strawberry::after {
+      background: radial-gradient($security-dark 25%, $security-light 100%);
+      background-color: $security-dark;
+    }
+
+    &--butterfly-bush,
+    &--butterfly-bush::after {
+      background: radial-gradient($environment-dark 25%, $environment-light 100%);
+      background-color: $environment-dark;
+    }
+  }
+
+  .competence-card__area-name {
+    z-index: 2;
+    font-size: 0.7rem;
+    font-weight: $font-medium;
+    margin: 0;
+  }
+
+  .competence-card__competence-name {
+    z-index: 2;
+    font-size: 1.17rem;
+    font-weight: $font-bold;
+    margin: 0 3px;
+    padding-top: 10px;
+  }
+
+  .competence-card__body {
+    position: absolute;
+    top: 80px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    background: transparent;
+    transition: top 0.2s ease-out;
+  }
+
+  .competence-card__link {
+    z-index: 0;
+    padding: 0;
+  }
+
+  .competence-card__link:hover {
+    border: 12px solid rgba($white, 0.4);
+  }
+
+  .competence-card__link:hover .competence-card__score-details {
+    opacity: 1;
+  }
+
+  .competence-card:hover .competence-card__interactions {
+    bottom: 0;
+    height: 70px;
+  }
+
+  .competence-card__button:hover .competence-card-button__label {
+    left: -20px;
+  }
+
+  .competence-card__button:hover .competence-card-button__arrow {
+    opacity: 1;
+    right: 24px;
+    top: -2px;
+  }
+
+  .competence-card:hover .competence-card__body {
+    top: 32px;
+  }
+
+  .competence-card:hover {
+    top: -8px;
+    box-shadow: $box-shadow-competence-cards-hover;
+  }
+
+  .competence-card:hover .competence-card__title {
+    height: 179px;
+    transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .competence-card__level {
+
+    .score-label {
+      display: block;
+      text-transform: uppercase;
+    }
+
+    &--congrats {
+      margin-bottom: 12px;
+    }
+  }
+
+  .competence-card__congrats {
+    width: 130px;
+    height: 140px;
+    background: url('/images/scorecard-congrats.svg') no-repeat center center;
+    background-size: contain;
+    margin: -10px -5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--with-magnification {
+
+      &:hover {
+        width: 140px;
+        height: 150px;
+      }
+    }
+  }
+
+  .competence-card__score-label--congrats {
+    color: $white;
+  }
+
+  .competence-card__score-value--congrats {
+    color: $white;
+    font-size: 2.813rem;
+    font-weight: $font-bold;
+  }
+
+  .competence-card__congrats-message {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 34px;
+    color: $grey-70;
+    font-family: $font-open-sans;
+    font-size: 0.938rem;
+    font-weight: $font-bold;
+    letter-spacing: 0.063rem;
+    text-transform: uppercase;
+  }
+
+  .competence-card__score-details {
+    display: block;
+    margin-top: 3px;
+    margin-bottom: -4px;
+    color: $grey-30;
+    opacity: 0;
+    text-transform: uppercase;
+    font-size: 0.625rem;
+    transition: opacity 0.1s linear;
+    letter-spacing: 0.5px;
+  }
+
+  .competence-card__interactions {
+    position: absolute;
+    bottom: -34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 34px;
+    visibility: visible;
+    z-index: 1;
+    transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: 0s;
+
+    .competence-card__button {
+      position: relative;
+      height: 34px;
+      min-width: 140px;
+    }
+
+    .competence-card-button__label {
+      position: absolute;
+      top: 0;
+      bottom: 2px;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: left 0.1s ease-out;
+    }
+
+    .competence-card-button__arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      margin-left: 8px;
+      transition: all 0.1s linear;
+    }
+  }
+
+  .competence-card-interactions {
+
+    &__improvement-countdown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: default;
+    }
+  }
+
+  .competence-card-improvement-countdown {
+
+    &__label {
+      font-size: 0.6875rem;
+      letter-spacing: 0.0075rem;
+      color: $grey-60;
+    }
+
+    &__count {
+      font-size: 1rem;
+      letter-spacing: 0.01rem;
+      color: $grey-90;
+      margin-top: 6px;
+    }
+  }
+}

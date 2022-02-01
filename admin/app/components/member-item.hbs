@@ -1,0 +1,79 @@
+<td>{{@membership.id}}</td>
+<td>{{@membership.user.firstName}}</td>
+<td>{{@membership.user.lastName}}</td>
+<td>{{@membership.user.email}}</td>
+<td data-test-id="editable-cell">
+  {{#if this.isEditionMode}}
+    <PowerSelect
+      @options={{this.organizationRoles}}
+      @selected={{this.selectedNewRole}}
+      @searchEnabled={{false}}
+      @onChange={{this.setRoleSelection}}
+      @placeholder="Sélectionner"
+      aria-label="Sélectionner un rôle"
+      as |role|
+    >
+      {{role.label}}
+    </PowerSelect>
+  {{else}}
+    {{@membership.displayedOrganizationRole}}
+  {{/if}}
+</td>
+<td>
+  <div class="member-item-actions">
+    {{#if this.isEditionMode}}
+      <div class="member-item-actions__modify">
+        <PixButton
+          @size="small"
+          @triggerAction={{this.updateRoleOfMember}}
+          class="member-item-actions__button member-item-actions__button--save"
+        >
+          Enregistrer
+        </PixButton>
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.cancelUpdateRoleOfMember}}
+          aria-label="Annuler"
+          class="member-item-actions__button--icon"
+        >
+          <FaIcon @icon="times" />
+        </PixButton>
+      </div>
+    {{else}}
+      {{#if @membership.isSaving}}
+        <PixButton @isDisabled={{true}} @size="small" class="member-item-actions__button">
+          <FaIcon @icon="edit" />Modifier le rôle
+        </PixButton>
+      {{else}}
+        <PixButton @triggerAction={{this.editRoleOfMember}} @size="small" class="member-item-actions__button">
+          <FaIcon @icon="edit" />Modifier le rôle
+        </PixButton>
+      {{/if}}
+    {{/if}}
+    {{#if @membership.isSaving}}
+      <PixButton @size="small" @backgroundColor="red" @isDisabled={{true}} class="member-item-actions__button">
+        <FaIcon @icon="trash" />Désactiver
+      </PixButton>
+    {{else}}
+      <PixButton
+        @size="small"
+        @backgroundColor="red"
+        @triggerAction={{this.toggleDisplayConfirm}}
+        class="member-item-actions__button"
+      >
+        <FaIcon @icon="trash" />Désactiver
+      </PixButton>
+    {{/if}}
+  </div>
+</td>
+
+<ConfirmPopup
+  @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
+  @title="Désactivation d'un membre"
+  @submitTitle="Désactiver"
+  @confirm={{this.disableMembership}}
+  @cancel={{this.toggleDisplayConfirm}}
+  @show={{this.displayConfirm}}
+/>

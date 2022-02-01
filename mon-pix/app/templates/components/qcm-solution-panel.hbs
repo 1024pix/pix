@@ -1,0 +1,38 @@
+<div class="qcm-solution-panel qcm-panel__proposals rounded-panel">
+  <div class="rounded-panel__row">
+    {{#each this.labeledCheckboxes as |labeledCheckbox index|}}
+      <p class="qcm-panel__proposal-item">
+        <label class="qcm-panel__proposal-label qcm-proposal-label">
+
+          <input
+            type="checkbox"
+            class="qcm-panel__proposal-checkbox"
+            checked={{if (get labeledCheckbox 1) "checked" ""}}
+            disabled="disabled"
+          />
+
+          <MarkdownToHtml
+            @class="qcm-proposal-label__answer-details"
+            @markdown={{get labeledCheckbox 0}}
+            data-goodness="{{if (get this.solutionArray (concat index)) "good" "bad"}}"
+            data-checked={{if (get labeledCheckbox 1) "yes" "no"}}
+          />
+        </label>
+      </p>
+    {{/each}}
+  </div>
+  {{#if this.isNotCorrectlyAnswered}}
+    {{#if @solutionToDisplay}}
+      <div class="comparison-window-solution comparison-window-solution--with-margin">
+        <img
+          class="comparison-window-solution__img"
+          src="/images/icons/comparison-window/icon-arrow-right.svg"
+          alt=""
+          role="none"
+        />
+        <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+        <div class="comparison-window-solution__text">{{@solutionToDisplay}}</div>
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

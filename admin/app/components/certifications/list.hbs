@@ -1,0 +1,14 @@
+<div data-test-id="certification-list">
+
+  <ModelsTable
+    @data={{@certifications}}
+    @columns={{this.columns}}
+    @showColumnsDropdown={{false}}
+    @showGlobalFilter={{false}}
+    @useNumericPagination={{true}}
+    @multipleSelect={{true}}
+    @pageSize={{25}}
+    @pageSizeValues={{this.pageValues}}
+  />
+
+</div>

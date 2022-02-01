@@ -1,0 +1,52 @@
+.activity-dashboard {
+  display: flex;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+  }
+
+  &__row:first-child {
+    margin-bottom: 24px;
+  }
+
+  &__total-participants-card {
+    margin-right: 24px;
+  }
+
+  &__participations-by-day {
+    box-sizing: border-box;
+    width: calc(75% - 24px);
+    margin-right: 24px;
+  }
+
+  &__participations-by-status {
+    box-sizing: border-box;
+    width: 25%;
+  }
+
+  @media (max-width: 768px) {
+    &__row {
+      flex-direction: column;
+      margin: 0;
+    }
+
+    &__row:first-child {
+      margin-bottom: 16px;
+    }
+
+    &__total-participants-card {
+      margin-bottom: 16px;
+      margin-right: 0;
+    }
+
+    &__participations-by-day {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    &__participations-by-status {
+      width: 100%;
+    }
+  }
+}

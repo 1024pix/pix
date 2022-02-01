@@ -1,0 +1,9 @@
+{{page-title (t "pages.fill-in-participant-external-id.title")}}
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <Routes::Campaigns::Invited::FillInParticipantExternalId
+    @campaign={{@model}}
+    @onSubmit={{this.onSubmitParticipantExternalId}}
+    @onCancel={{this.onCancel}}
+  />
+</div>

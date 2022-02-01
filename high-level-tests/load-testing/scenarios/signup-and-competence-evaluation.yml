@@ -1,0 +1,173 @@
+config:
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: Warm up
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+
+scenarios:
+  - name: "Inscription et évaluation"
+    flow:
+      - function: "setupSignupFormData"
+
+      ### ---------------------- ###
+      ### From page /inscription ###
+      ### ---------------------- ###
+
+      # Submit user form
+      - post:
+          url: "/api/users"
+          json:
+            data:
+              attributes:
+                cgu: true
+                email: "{{ email }}"
+                first-name: "{{ firstName }}"
+                last-name: "{{ lastName }}"
+                password: "{{ password }}"
+
+      # Authenticate user
+      - post:
+          url: "/api/token"
+          headers:
+            content-type: "application/x-www-form-urlencoded"
+          body: "grant_type=password&scope=mon-pix&username={{ email }}&password={{ password }}"
+          capture:
+            - json: "$.access_token"
+              as: "accessToken"
+            - json: "$.user_id"
+              as: "userId"
+
+      # Get user profile
+      - get:
+          url: "/api/users/me"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      # Fetch competence-id from user profile
+      - get:
+          url: "/api/users/{{ userId }}/profile"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          capture:
+            json: "$.included[?(@.type == 'scorecards')].attributes['competence-id']"
+            as: "competenceId"
+          expect:
+            - statusCode: 200
+            - contentType: json
+
+      # Fetch campaign participations
+      - get:
+          url: "/api/users/{{ userId }}/campaign-participations"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      ### ----------------- ###
+      ### From page /compte ###
+      ### ----------------- ###
+
+      # Create competence evaluation
+      - post:
+          url: "/api/competence-evaluations/start-or-resume"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          json:
+            competenceId: "{{ competenceId }}"
+          capture:
+            json: "$.data.relationships.assessment.data.id"
+            as: "assessmentId"
+          expect: 
+            - statusCode: 201
+
+
+      # Fetch assessment
+      - get:
+          url: "/api/assessments/{{ assessmentId }}"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      # Fetch assessment next challenge
+      - get:
+          url: "/api/assessments/{{ assessmentId }}/next"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          capture:
+            json: "$.data.id"
+            as: "challengeId"
+
+      - loop:
+          # Fetch answer (if exists)
+          - get:
+              url: "/api/answers?assessment={{ assessmentId }}&challenge={{ challengeId }}"
+              headers:
+                Authorization: "Bearer {{ accessToken }}"
+
+          # Fetch next challenge details
+          - get:
+              url: "/api/challenges/{{ challengeId }}"
+              headers:
+                Authorization: "Bearer {{ accessToken }}"
+
+          ### -------------------------------------------------------------- ###
+          ### From page /assessments/:assessment_id/challenges/:challenge_id ###
+          ### -------------------------------------------------------------- ###
+
+          # Submit "skip" answer
+          - post:
+              url: "/api/answers"
+              headers:
+                Authorization: "Bearer {{ accessToken }}"
+              json:
+                data:
+                  attributes:
+                    value: "#ABAND#"
+                  relationships:
+                    assessment:
+                      data:
+                        type: "assessments"
+                        id: "{{ assessmentId }}"
+                    challenge:
+                      data:
+                        type: "challenges"
+                        id: "{{ challengeId }}"
+                  type: answers
+
+          # Fetch assessment
+          - get:
+              url: "/api/assessments/{{ assessmentId }}"
+              headers:
+                Authorization: "Bearer {{ accessToken }}"
+
+          # Fetch assessment next challenge
+          - get:
+              url: "/api/assessments/{{ assessmentId }}/next"
+              headers:
+                Authorization: "Bearer {{ accessToken }}"
+              afterResponse: "handleResponseForChallengeId"
+
+        whileTrue: "foundNextChallenge"
+
+      # Fetch assessment
+      - get:
+          url: "/api/assessments/{{ assessmentId }}"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      ### ----------------------------------------------------- ###
+      ### From page /assessment-result, go back to profile page ###
+      ### ----------------------------------------------------- ###
+
+      # Get user profile
+      - get:
+          url: "/api/users/me"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      # Fetch campaign participations
+      - get:
+          url: "/api/users/{{ userId }}/campaign-participations"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"

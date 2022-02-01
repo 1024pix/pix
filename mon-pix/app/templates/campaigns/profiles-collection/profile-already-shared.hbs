@@ -1,0 +1,54 @@
+{{! template-lint-disable no-implicit-this  }}
+{{page-title (t "pages.profile-already-shared.title")}}
+
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <PixBlock @shadow="heavy" class="send-profile-header">
+    <div class="send-profile-header__announcement">
+      {{#unless this.model.sharedProfile.canRetry}}
+        <img
+          class="send-profile-header__image"
+          src="{{rootURL}}/images/illustrations/fat-bee.svg"
+          alt={{t "pages.profile-already-shared.first-title"}}
+        />
+      {{/unless}}
+      <p class="send-profile-header__instruction">
+        {{t
+          "pages.profile-already-shared.explanation"
+          organization=this.model.campaign.organizationName
+          date=(moment-format this.model.sharedProfile.sharedAt "D MMMM YYYY")
+          hour=this.model.sharedProfile.sharedAt
+          htmlSafe=true
+        }}
+      </p>
+      <LinkTo @route="index" class="skill-review-share__back-to-home link">
+        {{t "pages.profile-already-shared.actions.continue"}}
+      </LinkTo>
+    </div>
+    {{#if this.model.sharedProfile.canRetry}}
+      <div class="profile-already-shared-retry">
+        <p class="profile-already-shared-retry__message">{{t
+            "pages.profile-already-shared.retry.message"
+            organization=this.model.campaign.organizationName
+          }}</p>
+        <LinkTo
+          @route="campaigns.entry-point"
+          @model={{@model.campaign.code}}
+          @query={{hash retry=true}}
+          class="button button--link profile-already-shared-retry__button"
+        >{{t "pages.profile-already-shared.retry.button"}}</LinkTo>
+      </div>
+    {{/if}}
+    <div class="send-profile-header__profile">
+      <HexagonScore @pixScore={{this.model.sharedProfile.pixScore}} />
+      <div class="send-profile-header__profile__cards">
+        <ProfileScorecards
+          class="send-profile-header__profile__cards"
+          @interactive={{false}}
+          @areasCode={{this.model.sharedProfile.areasCode}}
+          @scorecards={{this.model.sharedProfile.scorecards}}
+        />
+      </div>
+    </div>
+  </PixBlock>
+</div>

@@ -1,0 +1,114 @@
+.paragraph {
+  color: $grey-60;
+  font-family: $open-sans;
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+
+.help-text {
+  color: $grey-60;
+  font-family: $roboto;
+  font-size: 0.75rem;
+}
+
+.legal-text {
+  color: $grey-60;
+  font-family: $roboto;
+  font-size: 0.6875rem;
+  font-weight: 300;
+}
+
+.information-text {
+  color: $grey-60;
+  font-family: $open-sans;
+  font-size: 1.2rem;
+}
+
+.label-text {
+  color: $grey-50;
+  font-family: $roboto;
+  font-size: 0.875rem;
+  font-weight: 400;
+
+  &--dark {
+    color: $grey-60;
+  }
+
+  &--small {
+    font-size: 0.75rem;
+  }
+}
+
+.value-text {
+  color: $grey-80;
+  font-family: $roboto;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &--highlight {
+    color: $grey-90;
+    font-size: 1.125rem;
+  }
+}
+
+.content-text {
+  color: $grey-60;
+  font-family: $roboto;
+  font-size: 1rem;
+
+  &--bold {
+    color: $grey-100;
+    font-weight: 700;
+  }
+
+  &--big {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  &--small {
+    font-size: 0.8125rem;
+  }
+}
+
+.link {
+  outline: none;
+  border: none;
+  background-color: inherit;
+  color: $blue;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+    color: $blue-hover;
+  }
+
+  &--bold {
+    font-weight: 600;
+  }
+
+  &--underlined {
+    text-decoration: underline;
+  }
+
+  &--white {
+    color: $white;
+
+    &:hover {
+      color: $white;
+      opacity: 0.85;
+    }
+
+    &:focus,
+    &:active{
+      color: $black;
+      background-color: $yellow;
+    }
+  }
+
+  &--banner {
+    color: inherit;
+  }
+}

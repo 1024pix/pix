@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+@import "globals/a11y";
+@import "globals/colors";
+@import "globals/layout";
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+@import "globals/breakpoints";
+@import "globals/fonts";
+@import "globals/competences";
+@import "globals/errors";
+@import "globals/forms";
+@import "globals/icons";
+@import "globals/pages";
+@import "globals/shadows";
+@import "globals/panels";
+@import "globals/pix-loader";
+@import "globals/tables";
+@import "globals/texts";
+@import "globals/titles";
+@import "components/ui";
+@import "components/banner/communication";
+@import "components/login-form";
+@import "components/campaign";
+@import "components/current-organization";
+@import "components/dissociate-user-modal";
+@import "components/edit-student-number-modal";
+@import "components/dropdown";
+@import "components/indicator-card";
+@import "components/join-request-form";
+@import "components/layout/footer";
+@import "components/layout/organization-credit-info";
+@import "components/layout/sidebar";
+@import "components/layout/topbar";
+@import "components/layout/user-logged-menu";
+@import "components/pagination-control";
+@import "components/participant/tabs";
+@import "components/previous-page-button";
+@import "components/pix-score-tag";
+@import "components/progress-bar";
+@import "components/register-form";
+@import "components/search-input";
+@import "components/team";
+@import "components/login-or-register";
+@import "components/manage-authentication-method-modal";
+@import "components/modal";
+@import "pages/login";
+@import "pages/join";
+@import "pages/join-request";
+@import "pages/authenticated";
+@import "pages/authenticated/campaigns/campaign";
+@import "pages/authenticated/campaigns/new";
+@import "pages/authenticated/campaigns/new-item";
+@import "pages/authenticated/campaigns/list";
+@import "pages/authenticated/campaigns/details/activity";
+@import "pages/authenticated/campaigns/details/analysis";
+@import "pages/authenticated/campaigns/details/assessment-results";
+@import "pages/authenticated/campaigns/details/profile-results";
+@import "pages/authenticated/campaigns/details/participants";
+@import "pages/authenticated/campaigns/details/participants/participant";
+@import "pages/authenticated/campaigns/details/participants/participant/header";
+@import "pages/authenticated/campaigns/details/participants/participant/results";
+@import "pages/authenticated/campaigns/participant-profile";
+@import "pages/authenticated/certifications";
+@import "pages/authenticated/preselect-target-profile";
+@import "pages/authenticated/team";
+@import "pages/authenticated/team/list";
+@import "pages/authenticated/team/new";
+@import "pages/authenticated/terms-of-service";
+@import "pages/authenticated/students";
+@import "pages/authenticated/students/import";
+@import "pages/authenticated/students/list";
+
+
+body, html {
+  margin: 0;
+  height: 100%;
+  font-family: $roboto;
+  font-size: 100%;
+  background-color: $grey-10;
+  color: $black;
+}
+
+body > .ember-view {
+  height: 100%;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+@include device-is('mobile') {
+  .hide-on-mobile {
+    display: none;
+  }
+}

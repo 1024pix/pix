@@ -1,0 +1,13 @@
+<section class="panel empty-state">
+  <img src="{{this.rootURL}}/images/empty-state.svg" alt="" role="none" />
+
+  <div class="empty-state__text">
+    <p>{{t "pages.campaign.empty-state"}}</p>
+
+    <Campaign::CopyPasteButton
+      @clipBoardtext={{this.campaignUrl}}
+      @successMessage={{t "pages.campaign.copy.link.success"}}
+      @defaultMessage={{t "pages.campaign.copy.link.default"}}
+    />
+  </div>
+</section>

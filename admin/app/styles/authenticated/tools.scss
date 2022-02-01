@@ -1,0 +1,20 @@
+.btn-refresh-cache {
+
+  svg {
+    margin-right: 6px;
+  }
+}
+
+.tools__create-tag-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+
+  input {
+    max-width: 300px;
+  }
+
+  button {
+    max-height: 36px;
+  }
+}

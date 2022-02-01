@@ -1,0 +1,20 @@
+.assessment-cards {
+  display: flex;
+  margin-bottom: 24px;
+
+  &__average-card {
+    margin-right: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .assessment-cards {
+    flex-direction: column;
+    margin-bottom: 16px;
+
+    &__average-card {
+      margin-right: 0;
+      margin-bottom: 16px;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<h2 class="user-account__validation-title">{{t "pages.user-account.email-verification.title"}}</h2>
+<div class="email-verification-code">
+  <p class="email-verification-code__description">{{t "pages.user-account.email-verification.description"}}</p>
+  <p class="email-verification-code__email">{{@email}}</p>
+  <div class="email-verification-code__input-code">
+    <PixInputCode
+      @ariaLabel={{t "pages.user-account.email-verification.code-label"}}
+      @legend={{t "pages.user-account.email-verification.code-legend"}}
+      @explanationOfUse={{t "pages.user-account.email-verification.code-explanation-of-use"}}
+      @numInputs={{6}}
+      @onAllInputsFilled={{this.onSubmitCode}}
+    />
+  </div>
+
+  {{#if this.errorMessage}}
+    <PixMessage @type="error" class="email-verification-code__error">
+      {{this.errorMessage}}
+    </PixMessage>
+  {{/if}}
+
+  {{#if this.isEmailSent}}
+    <PixMessage @type="success" class="email-verification-code__resend-confirmation-message">
+      {{t "pages.user-account.email-verification.confirmation-message"}}
+    </PixMessage>
+  {{else}}
+    <div class="email-verification-code__resend {{if this.showResendCode "visible"}}">
+      <p>{{t "pages.user-account.email-verification.did-not-receive"}}</p>
+      <button type="button" disabled={{this.isResending}} {{on "click" this.resendVerificationCodeByEmail}}>
+        {{t "pages.user-account.email-verification.send-back-the-code"}}
+      </button>
+    </div>
+  {{/if}}
+  <PixButton @isBorderVisible={{true}} @triggerAction={{@disableEmailEditionMode}} @backgroundColor="transparent-light">
+    {{t "common.actions.cancel"}}
+  </PixButton>
+</div>

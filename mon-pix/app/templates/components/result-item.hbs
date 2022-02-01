@@ -1,0 +1,25 @@
+<div class="result-item">
+  {{#if this.resultItem}}
+    <div class="result-item__icon" title="{{this.resultTooltip}}">
+      <span class="sr-only">{{this.resultTooltip}}</span>
+      <FaIcon @icon={{this.resultItem.icon}} class={{concat "result-item__icon--" this.resultItem.color}} />
+    </div>
+
+    <div class="result-item__instruction">
+      {{strip-instruction (convert-to-html @answer.challenge.instruction) this.textLength}}
+    </div>
+
+    <div class="result-item__correction">
+      {{#if this.validationImplementedForChallengeType}}
+        <button
+          {{on "click" (fn @openAnswerDetails @answer)}}
+          id="button-comparision-answer-{{@answer.id}}"
+          class="result-item__correction-button link js-correct-answer"
+          type="button"
+        >
+          {{t "pages.result-item.actions.see-answers-and-tutorials.label"}}
+        </button>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>

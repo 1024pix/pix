@@ -1,0 +1,118 @@
+.tutorial-item {
+  border-bottom: 1px solid $grey-20;
+  margin-bottom: 24px;
+}
+
+.tutorial__content {
+  padding-left: 24px;
+  position: relative;
+
+  &::after {
+    content: ' ';
+    display: block;
+    width: 4px;
+    height: calc(100% - 6px);
+    background: $grey-50;
+    border-radius: 50px;
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+}
+
+.tutorial-content {
+
+  &__title {
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+    letter-spacing: 0;
+    color: $grey-90;
+    margin-bottom: 4px;
+    display: inline-block;
+    font-weight: $font-normal;
+
+    @include device-is('tablet') {
+      font-weight: $font-medium;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    font-weight: $font-normal;
+    color: $grey-50;
+    line-height: 1.5rem;
+    margin: 0 0 14px;
+
+    .tutorial-content__format {
+      text-transform: capitalize;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+  }
+}
+
+.tutorial-content-actions {
+
+  &__save {
+    font-size: 0.813rem;
+    font-weight: $font-medium;
+    color: $grey-50;
+    letter-spacing: 0.028rem;
+    margin: 0 0 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: block;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      filter: brightness(70%);
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: $grey-30;
+      filter: brightness(90%);
+      cursor: auto;
+    }
+  }
+
+  &__evaluate {
+    font-size: 0.813rem;
+    font-weight: $font-medium;
+    color: $grey-50;
+    letter-spacing: 0.028rem;
+    margin: 0 0 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: block;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      filter: brightness(70%);
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: $grey-30;
+      filter: brightness(90%);
+      cursor: auto;
+    }
+  }
+}

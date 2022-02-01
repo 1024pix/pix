@@ -1,0 +1,86 @@
+$margin-right: 32px;
+
+.list-students-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 1rem 0;
+  }
+
+  &__divisions-filter {
+    height: 36px;
+    min-width: 100%;
+    font-weight: 400;
+    
+    > label {
+      border: 1px solid $grey-15;
+      padding-right: 8px;
+
+      > input[type="text"]::placeholder {
+        font-family: $roboto;
+        color: $grey-30;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  &__tooltip {
+    display: inline-flex;
+    .pix-tooltip ul {
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      padding-inline-start: 40px;
+    }
+
+    .pix-tooltip li {
+      list-style: disc;
+      padding: initial;
+    }
+  }
+
+  &__tooltip-title {
+    color: $grey-40;
+    font-size: 0.75rem;
+    svg {
+      margin-left: 4px;
+    }
+  }
+
+  &__import-students-button {
+    display: flex;
+
+    > a {
+      margin-right: 16px;
+    }
+
+    > a:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__authentication-methods {
+    > * {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &__actions {
+    text-align: right;
+  }
+
+  &__dropdown-button {
+    margin-right: $margin-right;
+  }
+
+  &__dropdown-content {
+    width: 200px;
+    right: $margin-right;
+  }
+}

@@ -1,0 +1,173 @@
+.competence-results-panel-header {
+
+  &__banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+    border-radius: 5px;
+
+    &-result-comment {
+      margin: 0;
+      color: $white;
+      font-size: 3rem;
+      font-family: $font-open-sans;
+      font-weight: $font-bold;
+    }
+
+    @include device-is('tablet') {
+      padding: 30px;
+      margin: 12px;
+    }
+
+    &--congrats {
+      background: url('/images/background/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      text-align: center;
+      padding: 1rem;
+      padding-top: 18rem;
+      padding-bottom: 30px;
+
+      @include device-is('tablet') {
+        background: url('/images/background/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+        justify-content: center;
+        align-items: flex-start;
+        background-position: left -70px center;
+        padding: 3rem;
+        padding-left: 22rem;
+      }
+
+      @include device-is('desktop') {
+        padding-left: 27rem;
+      }
+    }
+
+    &--not-bad {
+      background: url('/images/background/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      text-align: center;
+      padding: 1rem;
+      padding-top: 18rem;
+
+      @include device-is('tablet') {
+        justify-content: center;
+        align-items: flex-start;
+        background-position: right -70px center;
+        padding-top: 1rem;
+      }
+
+      @include device-is('desktop') {
+        background-position: right center;
+      }
+    }
+
+    &--too-bad {
+      padding: 40px;
+      background: url('/images/background/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+    }
+  }
+}
+
+.competence-results-banner {
+
+  &__title {
+
+    &--tablet {
+      display: none;
+
+      @include device-is('tablet') {
+        display: inherit;
+      }
+    }
+
+    &--mobile {
+      display: inherit;
+
+      @include device-is('tablet') {
+        display: none;
+      }
+    }
+  }
+
+  &__subtitle {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 1.125rem;
+    margin-top: 14px;
+    text-align: center;
+
+    @include device-is('tablet') {
+      width: 400px;
+    }
+
+    @include device-is('desktop') {
+      width: inherit;
+    }
+
+    &--left {
+      @include device-is('tablet') {
+        text-align: left;
+      }
+    }
+
+    &--small {
+      width: 300px;
+
+      @include device-is('tablet') {
+        width: 450px;
+      }
+    }
+  }
+
+  &__text {
+    display: flex;
+
+    @include device-is('tablet') {
+      padding-top: 20px;
+    }
+
+    &--spaced {
+      padding-top: 20px;
+    }
+  }
+}
+
+.competence-results-banner-text {
+
+  &__results {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 16px;
+
+    @include device-is('tablet') {
+      flex-direction: column;
+      padding-top: 0;
+    }
+
+    &--spaced {
+      padding: 0 10px;
+      flex-direction: column;
+
+      @include device-is('tablet') {
+        padding: 0 30px;
+      }
+    }
+  }
+}
+
+.competence-results-banner-text-results {
+
+  &__label {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 0.875rem;
+  }
+
+  &__value {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    padding: 0 10px;
+    text-transform: capitalize;
+  }
+}

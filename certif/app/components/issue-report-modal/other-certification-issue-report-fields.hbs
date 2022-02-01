@@ -1,0 +1,24 @@
+<fieldset class="other-certification-issue-report-fields">
+  <div class="other-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-other"
+      type="radio"
+      name="other"
+      checked={{@otherCategory.isChecked}}
+      {{on "click" (fn @toggleOnCategory @otherCategory)}}
+    />
+    <label for="input-radio-for-category-other"><span
+      >{{@otherCategory.categoryCode}}&nbsp;</span>{{@otherCategory.categoryLabel}}</label>
+  </div>
+  {{#if @otherCategory.isChecked}}
+    <div class="other-certification-issue-report-fields__details">
+      <label for="text-area-for-category-other">Décrivez l’incident</label>
+      <PixTextarea
+        id="text-area-for-category-other"
+        @value={{@otherCategory.description}}
+        @maxlength={{@maxlength}}
+        required="true"
+      />
+    </div>
+  {{/if}}
+</fieldset>

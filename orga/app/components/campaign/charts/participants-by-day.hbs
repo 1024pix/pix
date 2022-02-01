@@ -1,0 +1,32 @@
+<Ui::ChartCard @title={{t "charts.participants-by-day.title"}} ...attributes>
+  {{#if this.loading}}
+    <Campaign::Charts::ParticipantsByDayLoader />
+  {{else}}
+    <Ui::Chart
+      @type="line"
+      @options={{this.options}}
+      @data={{this.data}}
+      aria-hidden="true"
+      class="participants-by-day"
+    />
+
+    {{#each this.datasets as |dataset|}}
+      <table class="sr-only">
+        <thead>
+          <tr>
+            <Table::Header>{{t "charts.participants-by-day.labels-a11y.date"}}</Table::Header>
+            <Table::Header>{{t dataset.countLabel}}</Table::Header>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each dataset.entries as |entry|}}
+            <tr>
+              <td>{{moment-format entry.day "DD/MM/YYYY"}}</td>
+              <td>{{entry.count}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/each}}
+  {{/if}}
+</Ui::ChartCard>
