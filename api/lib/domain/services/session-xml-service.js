@@ -23,36 +23,35 @@ function getUpdatedXmlWithCertificationCandidatesData({ stringifiedXml, candidat
   });
 }
 
-function addComplementaryCertificationColumns({ stringifiedXml, certificationCenterHabilitations }) {
-  const habilitationColumnNames = certificationCenterHabilitations.map((habilitation) => habilitation.name);
-
-  stringifiedXml = _addComplementaryCertificationOverallHeader({
+function addColumnGroup({ stringifiedXml, groupHeaderLabel, columns }) {
+  stringifiedXml = _addColumnGroupHeader({
     stringifiedXml,
-    numberOfColumns: habilitationColumnNames.length,
+    headerLabel: groupHeaderLabel,
+    numberOfColumns: columns.length,
   });
 
-  stringifiedXml = habilitationColumnNames.reduce((stringifiedXml, habilitationColumnName) => {
-    return _addComplementaryCertificationColumn(stringifiedXml, habilitationColumnName);
-  }, stringifiedXml);
+  stringifiedXml = columns.reduce(_addColumn, stringifiedXml);
 
   return writeOdsUtils.incrementRowsColumnSpan({
     stringifiedXml,
     startLine: 0,
     endLine: INFORMATIVE_HEADER_ROW - 1,
-    increment: habilitationColumnNames.length,
+    increment: columns.length,
   });
 }
 
-function _addComplementaryCertificationOverallHeader({ stringifiedXml, numberOfColumns }) {
+function _addColumnGroupHeader({ stringifiedXml, headerLabel, numberOfColumns }) {
+  const headerLabelWords = headerLabel.split(' ');
+
   let addedCellOption = new AddedCellOption({
-    labels: ['Certification(s) complémentaire(s)'],
+    labels: [headerLabel],
     rowspan: 3,
     positionOffset: 2,
   });
 
   if (numberOfColumns === 1) {
     addedCellOption = new AddedCellOption({
-      labels: ['Certification(s)', 'complémentaire(s)'],
+      labels: headerLabelWords,
       rowspan: 3,
       colspan: 1,
       positionOffset: 2,
@@ -69,24 +68,24 @@ function _addComplementaryCertificationOverallHeader({ stringifiedXml, numberOfC
   return stringifiedXml;
 }
 
-function _addComplementaryCertificationColumn(stringifiedXml, habilitationColumnName) {
+function _addColumn(stringifiedXml, column) {
   stringifiedXml = writeOdsUtils.addCellToEndOfLineWithStyleOfCellLabelled({
     stringifiedXml,
     lineNumber: TABLE_HEADER_ROW,
     cellToCopyLabel: 'Temps majoré ?',
-    addedCellOption: new AddedCellOption({ labels: [habilitationColumnName, '("oui" ou laisser vide)'] }),
+    addedCellOption: new AddedCellOption({ labels: column.headerLabel }),
   });
 
   return writeOdsUtils.addCellToEndOfLineWithStyleOfCellLabelled({
     stringifiedXml,
     lineNumber: TABLE_FIRST_ROW,
     cellToCopyLabel: 'EXTERNAL_ID',
-    addedCellOption: new AddedCellOption({ labels: [habilitationColumnName] }),
+    addedCellOption: new AddedCellOption({ labels: column.placeholder }),
   });
 }
 
 module.exports = {
   getUpdatedXmlWithSessionData,
   getUpdatedXmlWithCertificationCandidatesData,
-  addComplementaryCertificationColumns,
+  addColumnGroup,
 };
