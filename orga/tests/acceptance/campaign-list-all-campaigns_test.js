@@ -81,7 +81,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           await visitScreen('/campagnes/toutes');
 
           // when
-          await fillByLabel('Rechercher un créateur', owner.firstName);
+          await fillByLabel('Rechercher un propriétaire', owner.firstName);
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/toutes?ownerName=${owner.firstName}`);
@@ -98,7 +98,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           await visitScreen(`/campagnes/toutes?ownerName=${owner.firstName}`);
 
           // when
-          await fillByLabel('Rechercher un créateur', '');
+          await fillByLabel('Rechercher un propriétaire', '');
 
           // then
           assert.strictEqual(currentURL(), '/campagnes/toutes');
@@ -125,7 +125,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           const screen = await visitScreen('/campagnes/toutes');
 
           // when
-          await fillByLabel('Rechercher un créateur', owner.firstName);
+          await fillByLabel('Rechercher un propriétaire', owner.firstName);
 
           // then
           assert.dom(screen.getByText('ma super campagne')).exists();
@@ -201,7 +201,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           await visitScreen('/campagnes/toutes');
 
           // when
-          await fillByLabel('Rechercher un créateur', 'Harry');
+          await fillByLabel('Rechercher un propriétaire', 'Harry');
           await fillByLabel('Rechercher une campagne', 'campagne');
 
           // then
