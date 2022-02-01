@@ -40,9 +40,14 @@ function _updateXml(stringifiedXml, sessionData, candidatesData, certificationCe
 
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
     if (!_.isEmpty(certificationCenterHabilitations)) {
-      updatedStringifiedXml = sessionXmlService.addComplementaryCertificationColumns({
+      const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
+        headerLabel: [name, '("oui" ou laisser vide)'],
+        placeholder: [name],
+      }));
+      updatedStringifiedXml = sessionXmlService.addColumnGroup({
         stringifiedXml: updatedStringifiedXml,
-        certificationCenterHabilitations,
+        groupHeaderLabel: 'Certification(s) complémentaire(s)',
+        columns: habilitationColumns,
       });
     }
   }
