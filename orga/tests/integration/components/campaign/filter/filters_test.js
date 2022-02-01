@@ -21,12 +21,12 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     );
 
     // then
-    assert.contains('Filtres');
+    assert.dom(screen.getByText('Filtres')).exists();
     assert.dom(screen.getByLabelText('Rechercher une campagne')).exists();
-    assert.dom(screen.getByLabelText('Rechercher un créateur')).exists();
+    assert.dom(screen.getByLabelText('Rechercher un propriétaire')).exists();
     assert.dom(screen.getByLabelText('Archivées')).exists();
     assert.dom(screen.getByLabelText('Actives')).exists();
-    assert.contains('1 campagne');
+    assert.dom(screen.getByText('1 campagne')).exists();
   });
 
   module('when showing current user campaign list', function () {
@@ -41,7 +41,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       );
 
       // then
-      assert.dom(screen.queryByLabelText('Rechercher un créateur')).doesNotExist();
+      assert.dom(screen.queryByLabelText('Rechercher un propriétaire')).doesNotExist();
     });
   });
 

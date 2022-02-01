@@ -259,7 +259,7 @@
           "default": "Copier le lien direct"
         }
       },
-      "created-by": "Créée par",
+      "created-by": "Propriétaire",
       "created-on": "Créée le",
       "empty-state": "Aucun participant pour l’instant ! Envoyez-leur le lien suivant pour rejoindre votre campagne.",
       "name": "Nom de la campagne",
@@ -500,17 +500,17 @@
       },
       "no-campaign": "Aucune campagne, pour commencer cliquez sur le bouton 'Créer une campagne'.",
       "filter": {
-        "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du créateur. Des boutons permettent de filtrer les campagnes actives et archivées.",
+        "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du propriétaire. Des boutons permettent de filtrer les campagnes actives et archivées.",
         "title": "Filtres",
-        "by-owner": "Rechercher un créateur",
+        "by-owner": "Rechercher un propriétaire",
         "by-name": "Rechercher une campagne",
         "results": "{total, plural, =0 {0 campagne} =1 {1 campagne} other {{total, number} campagnes}}"
       },
       "table": {
         "column": {
-          "campaign": "Campagnes",
-          "created-by": "Créé par",
-          "created-on": "Créé le",
+          "campaign": "Nom de la campagne",
+          "created-by": "Propriétaire",
+          "created-on": "Créée le",
           "participants": "Participants",
           "results": "Résultats reçus"
         },
