@@ -39,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'custom-result-page-button-text': campaignToJoin.customResultPageButtonText,
             'custom-result-page-button-url': campaignToJoin.customResultPageButtonUrl,
             'multiple-sendings': campaignToJoin.multipleSendings,
+            'is-flash': campaignToJoin.isFlash,
           },
         },
       });

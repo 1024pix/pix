@@ -1254,6 +1254,10 @@
           "label": "Je donne mon avis"
         },
         "text": "Prenez quelques minutes pour nous dire ce que vous avez pensé de ce test et nous aider à l'améliorer."
+      },
+      "flash": {
+        "abstract": "Bravo, vous êtes allé·e jusqu'au bout !",
+        "estimatedLevel": "Votre score FLASH est {level, number}."
       }
     },
     "terms-of-service": {

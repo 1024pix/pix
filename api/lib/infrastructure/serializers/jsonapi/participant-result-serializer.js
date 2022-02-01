@@ -11,6 +11,7 @@ module.exports = {
         'isCompleted',
         'isShared',
         'participantExternalId',
+        'estimatedFlashLevel',
         'campaignParticipationBadges',
         'competenceResults',
         'reachedStage',

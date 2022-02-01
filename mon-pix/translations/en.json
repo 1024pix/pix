@@ -1254,6 +1254,10 @@
           "label": "Give my feedback"
         },
         "text": "Take a few minutes to tell us what you thought of this test and help us improve it."
+      },
+      "flash": {
+        "abstract": "Congratulations, you went all the way !",
+        "estimatedLevel": "Your FLASH score is {level, number}."
       }
     },
     "terms-of-service": {
