@@ -20,8 +20,8 @@ module('Acceptance | Session supervising error', function (hooks) {
     await authenticateSession(certificationPointOfContact.id);
   });
 
-  module('When there are candidates on the session', function () {
-    test('it should display candidates entries', async function (assert) {
+  module('When the supervisor tries to access a session he doesnt have a supervisor-access to', function () {
+    test('it should display an error page and a HTTP 401 error', async function (assert) {
       // given
       this.sessionForSupervising = server.create('session-for-supervising', {
         id: 2000,
