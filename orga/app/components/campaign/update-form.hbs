@@ -19,6 +19,37 @@
     />
   </div>
 
+  <div class="form__field-with-info form__field">
+    <label class="label" for="campaign-owner">
+      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+      {{t "pages.campaign-modification.owner.label"}}
+    </label>
+    <PixSelect
+      class="update-campaign__select"
+      @id="campaign-owner"
+      @onChange={{this.selectOwner}}
+      @options={{this.campaignOwnerOptions}}
+      placeholder={{t "pages.campaign-modification.owner.placeholder"}}
+      @isSearchable={{true}}
+      value={{@campaign.ownerFullName}}
+      required={{true}}
+      aria-required={{true}}
+    />
+    {{#if @errors.name}}
+      <div class="form__error error-message">
+        {{display-campaign-errors @errors.name}}
+      </div>
+    {{/if}}
+
+    <div class="form__field-info">
+      <span class="form__field-info-title">
+        <FaIcon @icon="info-circle" class="form__field-info-icon" />
+        <span>{{t "pages.campaign-modification.owner.title"}}</span>
+      </span>
+      <span class="form__field-info-message">{{t "pages.campaign-modification.owner.info"}}</span>
+    </div>
+  </div>
+
   {{#if @campaign.isTypeAssessment}}
     <div class="form__field">
       <PixInput

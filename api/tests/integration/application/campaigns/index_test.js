@@ -95,6 +95,7 @@ describe('Integration | Application | Route | campaignRouter', function () {
             name: 'toto',
             title: null,
             'custom-landing-page-text': 'toto',
+            'owner-id': 2,
           },
         },
       });
