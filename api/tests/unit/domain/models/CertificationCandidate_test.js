@@ -349,6 +349,47 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
+
+    it('should not throw if billing mode is one of the expected values', async function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'Gratuite' });
+
+      const call = () => {
+        certificationCandidate.validateParticipation();
+      };
+
+      // when
+      // then
+      expect(call).to.not.throw();
+    });
+
+    it('should throw an error when billing mode is none of the expected values', async function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'Cadeau !' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) {
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+      }
+    });
+
+    it('should throw an error if billing mode is "Prépayée" but prepaymentCode is empty', async function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'Prépayée' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) {
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+      }
+    });
   });
 
   describe('updateBirthInformation', function () {
