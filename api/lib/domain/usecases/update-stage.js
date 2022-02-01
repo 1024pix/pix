@@ -1,3 +1,18 @@
-module.exports = function updateStage({ stageId, prescriberTitle, prescriberDescription, stageRepository }) {
-  return stageRepository.updateStagePrescriberAttributes({ id: stageId, prescriberTitle, prescriberDescription });
+module.exports = function updateStage({
+  stageId,
+  title,
+  message,
+  threshold,
+  prescriberTitle,
+  prescriberDescription,
+  stageRepository,
+}) {
+  return stageRepository.updateStage({
+    id: stageId,
+    title,
+    message,
+    threshold,
+    prescriberTitle,
+    prescriberDescription,
+  });
 };
