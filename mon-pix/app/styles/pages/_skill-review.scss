@@ -288,6 +288,13 @@
     }
   }
 
+  &__subtext {
+    color: $grey-90;
+    font-weight: $font-bold;
+    margin: 40px 0;
+    text-align: center;
+  }
+
   &__share-container {
     padding: 16px 40px 32px 40px;
     text-align: center;

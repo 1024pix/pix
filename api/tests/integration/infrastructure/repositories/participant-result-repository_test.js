@@ -3,6 +3,7 @@ const participantResultRepository = require('../../../../lib/infrastructure/repo
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const { STARTED } = CampaignParticipation.statuses;
 
@@ -875,6 +876,41 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           locale: 'FR',
         });
         expect(participantResult.id).to.equal(campaignParticipationId);
+      });
+    });
+
+    context('when campaign is flash', function () {
+      it('returns the estimated flash level', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          assessmentMethod: Assessment.methods.FLASH,
+        });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+        });
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+          campaignParticipationId,
+          userId,
+          method: Assessment.methods.FLASH,
+        });
+        const { estimatedLevel } = databaseBuilder.factory.buildFlashAssessmentResult({
+          assessmentId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          locale: 'FR',
+        });
+
+        // then
+        expect(participantResult).to.contain({
+          estimatedFlashLevel: estimatedLevel,
+        });
       });
     });
   });

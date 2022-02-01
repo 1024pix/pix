@@ -81,6 +81,14 @@ export default class SkillReview extends Component {
     return Boolean(this.customButtonText && this.customButtonUrl);
   }
 
+  get isFlashCampaign() {
+    return this.args.model.campaign.isFlash;
+  }
+
+  get showDetail() {
+    return !this.isFlashCampaign;
+  }
+
   get masteryRate() {
     return this.args.model.campaignParticipationResult.masteryRate;
   }
@@ -90,6 +98,10 @@ export default class SkillReview extends Component {
       return this.args.model.campaignParticipationResult.masteryRate * 100;
     }
     return null;
+  }
+
+  get estimatedFlashLevel() {
+    return this.args.model.campaignParticipationResult.estimatedFlashLevel;
   }
 
   get participantExternalId() {
