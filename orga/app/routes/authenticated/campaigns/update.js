@@ -13,8 +13,7 @@ export default class UpdateRoute extends Route {
         organizationId: organization.id,
       },
       page: {
-        number: params.pageNumber,
-        size: params.pageSize,
+        size: 500,
       },
     });
     const members = memberships.map((membership) => membership.user);
