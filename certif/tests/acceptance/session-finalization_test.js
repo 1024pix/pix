@@ -31,7 +31,10 @@ module('Acceptance | Session Finalization', function (hooks) {
       allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
       pixCertifTermsOfServiceAccepted: true,
     });
-    const certificationReports = server.createList('certification-report', 2, { hasSeenEndTestScreen: false });
+    const certificationReports = server.createList('certification-report', 2, {
+      hasSeenEndTestScreen: false,
+      isCompleted: true,
+    });
     session = server.create('session', {
       certificationCenterId: allowedCertificationCenterAccess.id,
       certificationReports,
@@ -50,9 +53,7 @@ module('Acceptance | Session Finalization', function (hooks) {
       await visit(`/sessions/${session.id}/finalisation`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -70,9 +71,7 @@ module('Acceptance | Session Finalization', function (hooks) {
         await visit(`/sessions/${session.id}/finalisation`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -81,9 +80,7 @@ module('Acceptance | Session Finalization', function (hooks) {
       await visit(`/sessions/${session.id}/finalisation`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/finalisation`);
     });
 
     test('it should display the end screen column when the center has no access to the supervisor space', async function (assert) {
@@ -192,7 +189,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: true,
               abortReason: 'technical',
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
             session.update({ certificationReports: [certificationReport] });
 
@@ -214,7 +210,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: true,
               abortReason: 'technical',
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
             session.update({ certificationReports: [certificationReport] });
 
@@ -233,7 +228,6 @@ module('Acceptance | Session Finalization', function (hooks) {
         test('it should not show the uncompleted reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: true });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -254,7 +248,6 @@ module('Acceptance | Session Finalization', function (hooks) {
                 isCompleted: true,
                 abortReason: 'technical',
               });
-              server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
               session.update({ certificationReports: [certificationReport] });
 
@@ -276,7 +269,6 @@ module('Acceptance | Session Finalization', function (hooks) {
                 isCompleted: true,
                 abortReason: 'technical',
               });
-              server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
               allowedCertificationCenterAccess.update({
                 hasEndTestScreenRemovalEnabled: true,
@@ -298,7 +290,6 @@ module('Acceptance | Session Finalization', function (hooks) {
         test('it should not show the completed reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: null });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -312,7 +303,6 @@ module('Acceptance | Session Finalization', function (hooks) {
         test('it should show the uncompleted reports table', async function (assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false });
-          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -329,7 +319,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: false,
               abortReason: null,
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
             session.update({ certificationReports: [certificationReport] });
 
             // when
@@ -349,7 +338,6 @@ module('Acceptance | Session Finalization', function (hooks) {
               isCompleted: false,
               abortReason: 'technical',
             });
-            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
             session.update({ certificationReports: [certificationReport] });
 
             // when

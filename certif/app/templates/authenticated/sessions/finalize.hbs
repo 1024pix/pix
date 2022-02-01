@@ -18,15 +18,13 @@
     @icon="/icons/session-finalization-user.svg"
     @iconAlt=""
   >
-    {{#if this.isManageUncompletedCertifEnabled}}
-      {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.session.uncompletedCertificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
-          @onChangeAbortReason={{this.abort}}
-        />
-      {{/if}}
+    {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
+      <SessionFinalization::UncompletedReportsInformationStep
+        @certificationReports={{this.session.uncompletedCertificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+        @onChangeAbortReason={{this.abort}}
+      />
     {{/if}}
     {{#if (gt this.session.completedCertificationReports.length 0)}}
       <SessionFinalization::CompletedReportsInformationStep

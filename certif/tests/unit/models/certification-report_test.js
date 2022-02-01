@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import { A } from '@ember/array';
 
 module('Unit | Model | certification report', function (hooks) {
@@ -9,33 +8,20 @@ module('Unit | Model | certification report', function (hooks) {
   test('it should return the right data in the finalized session model', function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const model = run(() =>
-      store.createRecord('certification-report', {
-        id: 123,
-        firstName: 'Clément',
-        lastName: 'Tine',
-        certificationCourseId: 987,
-        hasSeenEndTestScreen: false,
-      })
-    );
+    const model = store.createRecord('certification-report', {
+      id: 123,
+      firstName: 'Clément',
+      lastName: 'Tine',
+      certificationCourseId: 987,
+      hasSeenEndTestScreen: false,
+    });
 
-    // when / then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.id, 123);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.firstName, 'Clément');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.lastName, 'Tine');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.certificationCourseId, 987);
+    assert.notPropEqual(model.id, 123);
+    assert.deepEqual(model.firstName, 'Clément');
+    assert.deepEqual(model.lastName, 'Tine');
+    assert.deepEqual(model.certificationCourseId, 987);
     assert.false(model.hasSeenEndTestScreen);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.firstIssueReportDescription, '');
+    assert.deepEqual(model.firstIssueReportDescription, '');
   });
 
   module('#firstIssueReportDescription', function () {
@@ -43,24 +29,73 @@ module('Unit | Model | certification report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const description = 'Il était en retard à la certification';
-      const issueReport = run(() =>
-        store.createRecord('certification-issue-report', {
-          description,
-          category: 'Retard',
-        })
-      );
-      const certificationReport = run(() =>
-        store.createRecord('certification-report', {
-          id: 123,
-          certificationIssueReports: A([issueReport]),
-          hasSeenEndTestScreen: false,
-        })
-      );
-
+      const issueReport = store.createRecord('certification-issue-report', {
+        description,
+        category: 'Retard',
+      });
+      const certificationReport = store.createRecord('certification-report', {
+        id: 123,
+        certificationIssueReports: A([issueReport]),
+        hasSeenEndTestScreen: false,
+      });
       // when / then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(certificationReport.firstIssueReportDescription, description);
+      assert.deepEqual(certificationReport.firstIssueReportDescription, description);
+    });
+
+    module('#isInvalid', function () {
+      module('when the certification is incomplete', function () {
+        module('when the certification has no abort reason', function () {
+          test('it should return true', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: false,
+              abortReason: null,
+            });
+            // when / then
+            assert.true(certificationReport.isInvalid);
+          });
+        });
+        module('when the certification has abort reasons', function () {
+          test('it should return false', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: false,
+              abortReason: 'technical',
+            });
+            // when / then
+            assert.false(certificationReport.isInvalid);
+          });
+        });
+      });
+
+      module('when the certification is complete ', function () {
+        module('when the certification has no abort reasons', function () {
+          test('it should return false', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: true,
+              abortReason: null,
+            });
+            // when / then
+            assert.false(certificationReport.isInvalid);
+          });
+        });
+        module('when the certification has abort reasons', function () {
+          test('it should return false', function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const certificationReport = store.createRecord('certification-report', {
+              isCompleted: true,
+              abortReason: 'technical',
+            });
+            // when / then
+            assert.false(certificationReport.isInvalid);
+          });
+        });
+      });
     });
   });
 });
