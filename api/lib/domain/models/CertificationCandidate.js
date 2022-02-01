@@ -8,6 +8,12 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../errors');
 
+const BILLING_MODES = {
+  FREE: 'FREE',
+  PAID: 'PAID',
+  PREPAID: 'PREPAID',
+};
+
 const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   firstName: Joi.string().required().empty(null),
   lastName: Joi.string().required().empty(null),
@@ -45,7 +51,9 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   userId: Joi.any().allow(null).optional(),
   schoolingRegistrationId: Joi.any().allow(null).optional(),
   complementaryCertifications: Joi.array(),
-  billingMode: Joi.string().allow(null).optional(),
+  billingMode: Joi.string()
+    .valid(...Object.values(BILLING_MODES))
+    .empty(null),
   prepaymentCode: Joi.string().allow(null).optional(),
 });
 
@@ -113,6 +121,10 @@ class CertificationCandidate {
       }
       throw new CertificationCandidatePersonalInfoWrongFormat();
     }
+
+    if (this.isBillingModePrepaid() && !this.prepaymentCode) {
+      throw new CertificationCandidatePersonalInfoFieldMissingError();
+    }
   }
 
   isAuthorizedToStart() {
@@ -147,10 +159,6 @@ class CertificationCandidate {
   }
 }
 
-CertificationCandidate.BILLING_MODES = {
-  FREE: 'FREE',
-  PAID: 'PAID',
-  PREPAID: 'PREPAID',
-};
+CertificationCandidate.BILLING_MODES = BILLING_MODES;
 
 module.exports = CertificationCandidate;

@@ -349,6 +349,53 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
+      it(`should not throw if billing mode is expected value ${billingMode}`, async function () {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          billingMode,
+          prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
+        });
+
+        // when
+        const call = () => {
+          certificationCandidate.validateParticipation();
+        };
+
+        // then
+        expect(call).to.not.throw();
+      });
+    });
+
+    it('should throw an error when billing mode is none of the expected values', async function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'Cadeau !' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) {
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+      }
+    });
+
+    it('should throw an error if billing mode is "Prépayée" but prepaymentCode is empty', async function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'PREPAID' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) {
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+      }
+    });
   });
 
   describe('updateBirthInformation', function () {
