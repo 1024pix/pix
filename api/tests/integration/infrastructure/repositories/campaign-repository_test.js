@@ -73,21 +73,22 @@ describe('Integration | Repository | Campaign', function () {
     });
   });
 
-  describe('#create', function () {
-    let creatorId, organizationId, targetProfileId;
-    let savedCampaign, campaignToSave, campaignAttributes;
+  describe('#save', function () {
+    afterEach(function () {
+      return knex('campaigns').delete();
+    });
 
-    beforeEach(async function () {
+    it('should save the given campaign with type ASSESSMENT', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser({});
-      creatorId = user.id;
-      const ownerId = user.id;
-      organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      const user = databaseBuilder.factory.buildUser();
+      const creatorId = user.id;
+      const ownerId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-      targetProfileId = databaseBuilder.factory.buildTargetProfile({}).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       await databaseBuilder.commit();
 
-      campaignAttributes = {
+      const campaignToSave = {
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
@@ -95,24 +96,13 @@ describe('Integration | Repository | Campaign', function () {
         ownerId,
         organizationId,
         multipleSendings: true,
-      };
-    });
-
-    afterEach(function () {
-      return knex('campaigns').delete();
-    });
-
-    it('should save the given campaign with type ASSESSMENT', async function () {
-      // given
-      campaignToSave = {
-        ...campaignAttributes,
         type: Campaign.types.ASSESSMENT,
         targetProfileId,
         title: 'Parcours recherche internet',
       };
 
       // when
-      savedCampaign = await campaignRepository.save(campaignToSave);
+      const savedCampaign = await campaignRepository.save(campaignToSave);
 
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);
@@ -129,16 +119,34 @@ describe('Integration | Repository | Campaign', function () {
           'organization',
           'targetProfile',
           'multipleSendings',
+          'ownerId',
         ])
       );
     });
 
     it('should save the given campaign with type PROFILES_COLLECTION', async function () {
       // given
-      campaignToSave = { ...campaignAttributes, type: Campaign.types.PROFILES_COLLECTION };
+      const user = databaseBuilder.factory.buildUser();
+      const creatorId = user.id;
+      const ownerId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        name: 'Evaluation niveau 1 recherche internet',
+        code: 'BCTERD153',
+        customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
+        creatorId,
+        ownerId,
+        organizationId,
+        multipleSendings: true,
+      };
+
+      const campaignToSave = { ...campaignAttributes, type: Campaign.types.PROFILES_COLLECTION };
 
       // when
-      savedCampaign = await campaignRepository.save(campaignToSave);
+      const savedCampaign = await campaignRepository.save(campaignToSave);
 
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);
@@ -154,6 +162,7 @@ describe('Integration | Repository | Campaign', function () {
           'creator',
           'organization',
           'multipleSendings',
+          'ownerId',
         ])
       );
     });

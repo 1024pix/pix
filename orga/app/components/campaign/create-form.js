@@ -31,6 +31,11 @@ export default class CreateForm extends Component {
       this.isCampaignGoalAssessment = true;
       this.campaign.type = 'ASSESSMENT';
     }
+    this.campaign.ownerId = this.currentUser.prescriber.id;
+  }
+
+  get currentUserFullName() {
+    return this.currentUser.prescriber.fullName;
   }
 
   get categories() {
@@ -150,6 +155,17 @@ export default class CreateForm extends Component {
   @action
   onChangeCampaignTitle(event) {
     this.campaign.title = event.target.value?.trim();
+  }
+
+  @action
+  onChangeCampaignOwner(event) {
+    const newOwnerFullName = event.target.value;
+    const selectedMember = this.args.membersSortedByFullName.find(
+      (member) => newOwnerFullName === member.get('fullName')
+    );
+    if (selectedMember) {
+      this.campaign.ownerId = selectedMember.get('id');
+    }
   }
 
   @action

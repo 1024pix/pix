@@ -505,9 +505,12 @@ describe('Acceptance | API | Campaign Controller', function () {
   });
 
   describe('POST /api/campaigns', function () {
-    let options, payload;
+    afterEach(async function () {
+      await knex('campaigns').delete();
+    });
 
-    beforeEach(async function () {
+    it('should return 201 status code and the campaign created with type ASSESSMENT and owner id', async function () {
+      // given
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
@@ -536,16 +539,17 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
 
-      payload = {
+      // when
+      const payload = {
         data: {
           type: 'campaign',
           attributes: {
             name: 'Campagne collège',
             type: 'ASSESSMENT',
+            'owner-id': userId,
           },
           relationships: {
             'target-profile': {
@@ -563,36 +567,64 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
         },
       };
-      options = {
-        method: 'POST',
-        url: '/api/campaigns',
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        payload,
-      };
-    });
-
-    afterEach(async function () {
-      await knex('campaigns').delete();
-    });
-
-    it('should return 201 status code and the campaign created with type ASSESSMENT', async function () {
-      // when
-      const response = await server.inject(options, payload);
+      const response = await server.inject(
+        {
+          method: 'POST',
+          url: '/api/campaigns',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload,
+        },
+        payload
+      );
 
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.attributes.name).to.equal('Campagne collège');
+      expect(response.result.data.attributes['owner-id']).to.equal(userId);
       expect(response.result.data.attributes.type).to.equal('ASSESSMENT');
     });
 
-    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION', async function () {
+    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION and owner id', async function () {
       // given
-      payload = {
+      const userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
+      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
+      await databaseBuilder.commit();
+
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+
+      // when
+      const payload = {
         data: {
           type: 'campaign',
           attributes: {
             name: 'Campagne lycée',
             type: 'PROFILES_COLLECTION',
+            'owner-id': userId,
           },
           relationships: {
             'target-profile': {
@@ -610,31 +642,91 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
         },
       };
-      options.payload = payload;
-
-      // when
-      const response = await server.inject(options, payload);
+      const response = await server.inject(
+        {
+          method: 'POST',
+          url: '/api/campaigns',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload,
+        },
+        payload
+      );
 
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.attributes.name).to.equal('Campagne lycée');
+      expect(response.result.data.attributes['owner-id']).to.equal(userId);
       expect(response.result.data.attributes.type).to.equal('PROFILES_COLLECTION');
     });
 
     it('should return 403 status code when the user does not have access', async function () {
       // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
+      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
-      options = {
-        method: 'POST',
-        url: '/api/campaigns',
-        headers: { authorization: generateValidRequestAuthorizationHeader(anotherUserId) },
-        payload,
-      };
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
 
       // when
-      const response = await server.inject(options, payload);
+      const payload = {
+        data: {
+          type: 'campaign',
+          attributes: {
+            name: 'Campagne collège',
+            type: 'ASSESSMENT',
+            'owner-id': userId,
+          },
+          relationships: {
+            'target-profile': {
+              data: {
+                type: 'target-profiles',
+                id: `${targetProfile.id}`,
+              },
+            },
+            organization: {
+              data: {
+                type: 'organizations',
+                id: `${organization.id}`,
+              },
+            },
+          },
+        },
+      };
+      const response = await server.inject(
+        {
+          method: 'POST',
+          url: '/api/campaigns',
+          headers: { authorization: generateValidRequestAuthorizationHeader(anotherUserId) },
+          payload,
+        },
+        payload
+      );
 
       // then
       expect(response.statusCode).to.equal(403);
