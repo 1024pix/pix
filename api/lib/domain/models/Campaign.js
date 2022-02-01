@@ -21,6 +21,7 @@ class Campaign {
     isForAbsoluteNovice,
     targetProfile,
     creator,
+    ownerId,
     organization,
     customResultPageText,
     customResultPageButtonText,
@@ -42,6 +43,7 @@ class Campaign {
     this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.targetProfile = targetProfile;
     this.creator = creator;
+    this.ownerId = ownerId;
     this.organization = organization;
     this.customResultPageText = customResultPageText;
     this.customResultPageButtonText = customResultPageButtonText;

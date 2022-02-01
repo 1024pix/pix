@@ -8,21 +8,23 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    this.campaign = EmberObject.create({ isTypeAssessment: true });
     this.set('updateCampaignSpy', (event) => event.preventDefault());
     this.set('cancelSpy', () => {});
   });
 
-  test('it should contain inputs, attributes and validation button', async function (assert) {
+  test('it should contain inputs, attributes, information block, and validation button', async function (assert) {
     // when
-    await renderScreen(
+    const screen = await renderScreen(
       hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
     );
 
     // then
-    assert.dom('#campaign-custom-landing-page-text').exists();
-    assert.dom('button[type="submit"]').exists();
-    assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', '5000');
+    assert.dom(screen.getByLabelText('* Nom de la campagne')).exists();
+    assert.dom(screen.getByLabelText('* Propriétaire de la campagne')).exists();
+    assert.dom(screen.getByText('Propriétaire de la campagne', { selector: 'span' })).exists();
+    assert.dom(screen.getByLabelText("Texte de la page d'accueil")).exists();
+    assert.dom(screen.getByLabelText("Texte de la page d'accueil")).hasAttribute('maxLength', '5000');
+    assert.dom(screen.getByText('Modifier')).exists();
   });
 
   test('[a11y] it should display a message that some inputs are required', async function (assert) {
@@ -35,40 +37,49 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     assert.dom(screen.getByText('indique un champ obligatoire')).exists();
   });
 
-  test('it should send campaign update action when submitted', async function (assert) {
-    // when
-    await renderScreen(
-      hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
-    );
-
-    // then
-    await fillByLabel('Titre du parcours', 'New title');
-    await clickByName('Modifier');
-
-    assert.deepEqual(this.campaign.title, 'New title');
-  });
-
   module('When campaign type is ASSESSMENT', function () {
     test('it should display campaign title input', async function (assert) {
+      // given
+      this.campaign = EmberObject.create({ isTypeAssessment: true });
+
+      // when
+      const screen = await renderScreen(
+        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+      );
+
+      // then
+      assert.dom(screen.getByLabelText('Titre du parcours')).exists();
+      assert.dom(screen.getByLabelText('Titre du parcours')).hasAttribute('maxLength', '50');
+    });
+
+    test('it should send campaign update action when submitted', async function (assert) {
+      // given
       this.campaign = EmberObject.create({ isTypeAssessment: true });
 
       await renderScreen(
         hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
       );
 
-      assert.dom('input#campaign-title').exists();
-      assert.dom('#campaign-title').hasAttribute('maxLength', '50');
+      // when
+      await fillByLabel('Titre du parcours', 'New title');
+      await clickByName('Modifier');
+
+      // then
+      assert.deepEqual(this.campaign.title, 'New title');
     });
   });
 
   module('When campaign type is not ASSESSMENT', function () {
     test('it should not display campaign title input', async function (assert) {
+      // given
       this.campaign = EmberObject.create({ isTypeAssessment: false });
 
+      // when
       await renderScreen(
         hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
       );
 
+      // then
       assert.dom('input#campaign-title').doesNotExist();
     });
   });

@@ -198,6 +198,7 @@ describe('Integration | Repository | Campaign', function () {
         title: 'Title',
         customLandingPageText: 'Text',
         archivedAt: new Date('2019-03-01T23:04:05Z'),
+        ownerId: databaseBuilder.factory.buildUser({ id: 1 }).id,
       });
       campaign = domainBuilder.buildCampaign(bookshelfCampaign);
       return databaseBuilder.commit();
@@ -229,6 +230,8 @@ describe('Integration | Repository | Campaign', function () {
       campaign.title = 'New title';
       campaign.customLandingPageText = 'New text';
       campaign.archivedAt = new Date('2020-12-12T06:07:08Z');
+      campaign.ownerId = databaseBuilder.factory.buildUser({ id: 2 }).id;
+      await databaseBuilder.commit();
 
       // when
       const campaignSaved = await campaignRepository.update(campaign);
@@ -239,6 +242,7 @@ describe('Integration | Repository | Campaign', function () {
       expect(campaignSaved.title).to.equal('New title');
       expect(campaignSaved.customLandingPageText).to.equal('New text');
       expect(campaignSaved.archivedAt).to.deep.equal(new Date('2020-12-12T06:07:08Z'));
+      expect(campaignSaved.ownerId).to.equal(2);
     });
   });
 

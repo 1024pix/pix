@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { UserNotAuthorizedToUpdateResourceError } = require('../errors');
+const { UserNotAuthorizedToUpdateResourceError, UserNotMemberOfOrganizationError } = require('../errors');
 const campaignValidator = require('../validators/campaign-validator');
 
 module.exports = async function updateCampaign({
@@ -8,8 +8,10 @@ module.exports = async function updateCampaign({
   name,
   title,
   customLandingPageText,
+  ownerId,
   userRepository,
   campaignRepository,
+  membershipRepository,
 }) {
   const [user, campaign] = await Promise.all([
     userRepository.getWithMemberships(userId),
@@ -23,9 +25,21 @@ module.exports = async function updateCampaign({
     );
   }
 
+  const ownerMembership = await membershipRepository.findByUserIdAndOrganizationId({
+    userId: ownerId,
+    organizationId,
+  });
+
+  if (_.isEmpty(ownerMembership)) {
+    throw new UserNotMemberOfOrganizationError(
+      `L'utilisateur ${ownerId} n'est pas membre de l'organisation ${organizationId}`
+    );
+  }
+
   if (name !== undefined) campaign.name = name;
   if (title !== undefined) campaign.title = title;
   if (customLandingPageText !== undefined) campaign.customLandingPageText = customLandingPageText;
+  if (ownerId !== undefined) campaign.ownerId = ownerId;
 
   const rawCampaign = {
     ...campaign,

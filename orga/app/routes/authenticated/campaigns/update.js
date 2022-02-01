@@ -25,6 +25,6 @@ export default class UpdateRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    controller.campaignName = model.name;
+    controller.campaignName = model.campaign.name;
   }
 }

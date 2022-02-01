@@ -380,6 +380,12 @@
       "actions": {
         "edit": "Edit"
       },
+      "owner": {
+        "label": "Owner of the campaign",
+        "placeholder": "Owner’s first and last name",
+        "title": "Owner of the campaign",
+        "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
+      },
       "campaign-name": "Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the personalised test"
