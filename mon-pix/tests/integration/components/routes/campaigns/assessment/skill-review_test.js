@@ -119,8 +119,10 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     });
 
     it("should display the user's flash estimated level", function () {
+      const expectedPixCount = 257;
+
       // Then
-      expect(contains(this.intl.t('pages.skill-review.flash.estimatedLevel', { level: estimatedFlashLevel }))).to.exist;
+      expect(contains(this.intl.t('pages.skill-review.flash.pixCount', { count: expectedPixCount }))).to.exist;
     });
   });
 
