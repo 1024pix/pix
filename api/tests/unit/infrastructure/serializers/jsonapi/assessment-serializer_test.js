@@ -120,8 +120,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
     it('should convert an Assessment model object with type CAMPAIGN and method FLASH into JSON API data', function () {
       //given
-      const assessment = domainBuilder.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
         method: Assessment.methods.FLASH,
         campaignParticipation: { campaign: { code: 'Konami' } },
       });
