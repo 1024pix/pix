@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -41,5 +41,16 @@ module('Acceptance | Campaign Update', function (hooks) {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/campagnes/1/parametres');
+  });
+
+  test('it should show campaign title', async function (assert) {
+    // given
+    const campaign = server.create('campaign', { id: 1, name: 'Super Campagne' });
+
+    // when
+    const screen = await visitScreen(`/campagnes/${campaign.id}/modification`);
+
+    // then
+    assert.dom(screen.getByText('Super Campagne')).exists();
   });
 });
