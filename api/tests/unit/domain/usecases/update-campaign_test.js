@@ -1,15 +1,19 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
-const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
+const {
+  UserNotAuthorizedToUpdateResourceError,
+  UserNotMemberOfOrganizationError,
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;
   let userWithMembership;
-  let campaignRepository;
-  let userRepository;
+  let ownerwithMembership;
+  let campaignRepository, userRepository, membershipRepository;
 
   const organizationId = 1;
   const creatorId = 1;
+  const ownerId = 2;
 
   beforeEach(function () {
     userRepository = { getWithMemberships: sinon.stub() };
@@ -17,6 +21,7 @@ describe('Unit | UseCase | update-campaign', function () {
       get: sinon.stub(),
       update: sinon.stub(),
     };
+    membershipRepository = { findByUserIdAndOrganizationId: sinon.stub() };
   });
 
   context('when campaign exists', function () {
@@ -29,7 +34,7 @@ describe('Unit | UseCase | update-campaign', function () {
         customLandingPageText: 'Old text',
         targetProfile: { id: 1 },
         creator: { id: creatorId },
-        ownerId: domainBuilder.buildUser({ id: 10 }).id,
+        ownerId: domainBuilder.buildUser({ id: ownerId }).id,
         organization: { id: organizationId },
       });
       userWithMembership = {
@@ -37,10 +42,17 @@ describe('Unit | UseCase | update-campaign', function () {
         memberships: [{ organization: { id: organizationId } }],
         hasAccessToOrganization: sinon.stub(),
       };
+      ownerwithMembership = domainBuilder.buildMembership({
+        user: domainBuilder.buildUser({ id: ownerId }),
+        organization: { id: organizationId },
+      });
       campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
       campaignRepository.update.callsFake((updatedCampaign) => updatedCampaign);
       userRepository.getWithMemberships.withArgs(userWithMembership.id).resolves(userWithMembership);
       userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
+      membershipRepository.findByUserIdAndOrganizationId
+        .withArgs({ userId: ownerId, organizationId })
+        .resolves([ownerwithMembership]);
     });
 
     it('should update the campaign title only', async function () {
@@ -55,8 +67,10 @@ describe('Unit | UseCase | update-campaign', function () {
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         title: updatedCampaign.title,
+        ownerId,
         userRepository,
         campaignRepository,
+        membershipRepository,
       });
 
       // then
@@ -76,9 +90,11 @@ describe('Unit | UseCase | update-campaign', function () {
       const resultCampaign = await updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
+        ownerId,
         customLandingPageText: updatedCampaign.customLandingPageText,
         userRepository,
         campaignRepository,
+        membershipRepository,
       });
 
       // then
@@ -95,8 +111,10 @@ describe('Unit | UseCase | update-campaign', function () {
       const resultCampaign = await updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
+        ownerId,
         userRepository,
         campaignRepository,
+        membershipRepository,
       });
 
       // then
@@ -118,8 +136,10 @@ describe('Unit | UseCase | update-campaign', function () {
         campaignId: updatedCampaign.id,
         name: updatedCampaign.name,
         title: originalCampaign.title,
+        ownerId,
         userRepository,
         campaignRepository,
+        membershipRepository,
       });
 
       // then
@@ -130,10 +150,17 @@ describe('Unit | UseCase | update-campaign', function () {
 
     it('should update the campaign ownerId only', async function () {
       // given
+      const newOwner = domainBuilder.buildUser({ id: 50 });
+      const newOwnerWithMembership = domainBuilder.buildMembership({
+        user: newOwner,
+        organization: { id: organizationId },
+      });
       const updatedCampaign = domainBuilder.buildCampaign({
         ...originalCampaign,
-        ownerId: domainBuilder.buildUser({ id: 50 }).id,
+        ownerId: newOwner.id,
       });
+
+      membershipRepository.findByUserIdAndOrganizationId.resolves([newOwnerWithMembership]);
 
       // when
       const resultCampaign = await updateCampaign({
@@ -144,6 +171,7 @@ describe('Unit | UseCase | update-campaign', function () {
         ownerId: updatedCampaign.ownerId,
         userRepository,
         campaignRepository,
+        membershipRepository,
       });
 
       // then
@@ -160,8 +188,10 @@ describe('Unit | UseCase | update-campaign', function () {
         campaignId: updatedCampaign.id,
         name: undefined,
         title: originalCampaign.title,
+        ownerId,
         userRepository,
         campaignRepository,
+        membershipRepository,
       });
 
       // then
@@ -194,6 +224,37 @@ describe('Unit | UseCase | update-campaign', function () {
 
       // then
       expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateResourceError);
+    });
+
+    it('should throw an error when the owner is not a member of organization', async function () {
+      // given
+      const ownerWithoutMembership = domainBuilder.buildUser();
+      userWithMembership = {
+        id: 1,
+        memberships: [{ organization: { id: organizationId } }],
+        hasAccessToOrganization: sinon.stub(),
+      };
+      originalCampaign = domainBuilder.buildCampaign({ organization: { id: organizationId } });
+
+      campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
+      userRepository.getWithMemberships.withArgs(userWithMembership.id).resolves(userWithMembership);
+      userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
+      membershipRepository.findByUserIdAndOrganizationId
+        .withArgs({ userId: ownerWithoutMembership.id, organizationId })
+        .resolves([]);
+
+      // when
+      const error = await catchErr(updateCampaign)({
+        userId: userWithMembership.id,
+        campaignId: originalCampaign.id,
+        ownerId: ownerWithoutMembership.id,
+        userRepository,
+        campaignRepository,
+        membershipRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotMemberOfOrganizationError);
     });
   });
 });
