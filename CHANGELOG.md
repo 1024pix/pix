@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.163.0 (01/02/2022)
+
+
+### :rocket: Enhancement
+- [#3996](https://github.com/1024pix/pix/pull/3996) [FEATURE] Ajout du champ Propriétaire lors de la création d'une campagne (PIX-4073).
+- [#3975](https://github.com/1024pix/pix/pull/3975) [FEATURE] Renommer les labels "Créée par" en "Propriétaire" sur Pix Orga (PIX-4148).
+- [#3994](https://github.com/1024pix/pix/pull/3994) [FEATURE] Permettre de modifier le propriétaire à la modification d'une campagne sur Pix Orga (PIX-4072).
+- [#3989](https://github.com/1024pix/pix/pull/3989) [FEATURE] Afficher une page d'erreur lorsque le surveillant n'a pas accès à la session (PIX-4264)
+- [#3980](https://github.com/1024pix/pix/pull/3980) [FEATURE] Afficher le compte connecté et pouvoir en changer dans l'espace surveillant (PIX-3728)
+- [#3963](https://github.com/1024pix/pix/pull/3963) [FEATURE] Afficher le niveau estimé sur l'écran de fin de campagne FLASH (PIX-3786)
+- [#3958](https://github.com/1024pix/pix/pull/3958) [FEATURE] Edition du message d'un palier dans Pix-Admin (PIX-3959).
+
+### :building_construction: Tech
+- [#4002](https://github.com/1024pix/pix/pull/4002) [TECH] Activer l'espace surveillant sur une propriété BDD du centre de certification (PIX-4229).
+- [#4003](https://github.com/1024pix/pix/pull/4003) [TECH] Toujours afficher les certifications incomplètes (PIX-4161).
+
+### :coffee: Various
+- [#4005](https://github.com/1024pix/pix/pull/4005) [DOC] Mise à jour des tags de titre de PR
+
 ## v3.162.0 (31/01/2022)
 
 
