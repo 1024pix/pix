@@ -7,6 +7,7 @@ const {
 } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -335,10 +336,11 @@ describe('Unit | Controller | certification-course-controller', function () {
 
   describe('#get', function () {
     let certificationCourse;
+    const sessionId = 5;
     const certificationCourseId = 'certification_course_id';
 
     beforeEach(function () {
-      certificationCourse = new CertificationCourse({ id: certificationCourseId });
+      certificationCourse = new CertificationCourse({ id: certificationCourseId, sessionId });
     });
 
     it('should fetch and return the given course, serialized as JSONAPI', async function () {
@@ -352,6 +354,10 @@ describe('Unit | Controller | certification-course-controller', function () {
         .stub(certificationCourseSerializer, 'serialize')
         .withArgs(certificationCourse)
         .resolves(certificationCourse);
+      sinon
+        .stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledBySessionId')
+        .withArgs(sessionId)
+        .resolves(true);
       const request = {
         params: { id: certificationCourseId },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },

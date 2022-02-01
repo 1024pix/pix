@@ -26,7 +26,7 @@ module.exports = {
           'isAccessBlockedAgri',
           'relatedOrganizationTags',
           'habilitations',
-          'hasEndTestScreenRemovalEnabled',
+          'isEndTestScreenRemovalEnabled',
         ],
       },
       typeForAttribute: function (attribute) {
@@ -51,7 +51,7 @@ module.exports = {
               isAccessBlockedLycee: access.isAccessBlockedLycee(),
               isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
               isAccessBlockedAgri: access.isAccessBlockedAgri(),
-              hasEndTestScreenRemovalEnabled: access.hasEndTestScreenRemovalEnabled(),
+              isEndTestScreenRemovalEnabled: access.isEndTestScreenRemovalEnabled(),
             };
           }
         );
