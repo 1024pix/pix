@@ -301,7 +301,8 @@
         "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne."
       },
       "actions": {
-        "create": "Créer la campagne"
+        "create": "Créer la campagne",
+        "delete": "Effacer"
       },
       "external-id-label": {
         "label": "Libellé de l’identifiant",
@@ -337,6 +338,9 @@
         "SUBJECT": "Thématique"
       },
       "tags-title": "Filtrer la recherche :",
+      "target-profiles": {
+        "chevron": "Afficher le menu déroulant des profils cibles"
+      },
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
       "test-title": {

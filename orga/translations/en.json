@@ -301,7 +301,8 @@
         "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
       },
       "actions": {
-        "create": "Create a campaign"
+        "create": "Create a campaign",
+        "delete": "Delete"
       },
       "external-id-label": {
         "label": "external user ID label",
@@ -337,6 +338,9 @@
         "SUBJECT": "Subject"
       },
       "tags-title": "Filter:",
+      "target-profiles": {
+        "chevron": "Toggle target profile options dropdown"
+      },
       "target-profiles-list-label": "What would you like to test?",
       "target-profiles-search-placeholder": "Search by name",
       "test-title": {
