@@ -292,6 +292,12 @@
     },
     "campaign-creation": {
       "title": "Create a campaign",
+      "owner": {
+        "label": "Campaign owner",
+        "placeholder": "Owner’s first and last name",
+        "title": "Campaign owner",
+        "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
+      },
       "actions": {
         "create": "Create a campaign"
       },

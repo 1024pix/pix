@@ -313,10 +313,16 @@ export default function () {
 
   this.post('/campaigns', (schema, request) => {
     const body = JSON.parse(request.requestBody);
+
+    const ownerId = body.data.attributes['owner-id'];
+    const owner = schema.users.findBy({ id: ownerId });
+
     const campaign = {
       ...body.data.attributes,
       customLandingPageText: body.data.attributes['custom-landing-page-text'],
       idPixLabel: body.data.attributes['id-pix-label'],
+      ownerFirstName: owner.firstName,
+      ownerLastName: owner.lastName,
     };
     if (campaign.type === 'PROFILES_COLLECTION') {
       return schema.campaigns.create(campaign);

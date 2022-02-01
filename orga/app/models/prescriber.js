@@ -8,4 +8,8 @@ export default class Prescriber extends Model {
   @attr('string') lang;
   @hasMany('membership') memberships;
   @belongsTo('user-orga-setting') userOrgaSettings;
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

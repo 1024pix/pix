@@ -13,7 +13,9 @@ import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserThatCanCollectProfiles,
   createPrescriberByUser,
+  createMembershipByOrganizationIdAndUser,
 } from '../helpers/test-init';
+import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -22,6 +24,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.beforeEach(() => {
     availableTargetProfiles = server.createList('target-profile', 2);
@@ -38,20 +41,19 @@ module('Acceptance | Campaign Creation', function (hooks) {
   });
 
   module('when the prescriber is authenticated', (hooks) => {
-    hooks.beforeEach(async function () {
-      const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
-
-      await authenticateSession(user.id);
-      await visit('/campagnes/creation');
-    });
-
     hooks.afterEach(function () {
       const notificationMessagesService = this.owner.lookup('service:notifications');
       notificationMessagesService.clearAll();
     });
 
     test('it should be accessible for an authenticated prescriber', async function (assert) {
+      // given / when
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+      await visit('/campagnes/creation');
+
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
@@ -61,6 +63,12 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should allow to create a campaign of type ASSESSMENT by default and redirect to the newly created campaign', async function (assert) {
       // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+      await visit('/campagnes/creation');
+
       const expectedTargetProfileId = availableTargetProfiles[1].id;
       const expectedTargetProfileName = availableTargetProfiles[1].name;
 
@@ -96,8 +104,72 @@ module('Acceptance | Campaign Creation', function (hooks) {
       assert.equal(currentURL(), '/campagnes/1/parametres');
     });
 
+    test('it should set the current user as owner by default when creating a campaign', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+      const screen = await visit('/campagnes/creation');
+
+      const targetProfileName = availableTargetProfiles[1].name;
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', targetProfileName);
+
+      // when
+      await clickByName('Créer la campagne');
+
+      // then
+      assert.dom(screen.getByText('Harry Cover', { selector: 'dd' })).exists();
+    });
+
+    test('it should be possible to change default campaign owner', async function (assert) {
+      // given
+      const organization = server.create('organization', { name: 'BRO & Evil Associates' });
+
+      const currentUser = server.create('user', {
+        id: 7,
+        firstName: 'Harry',
+        lastName: 'Cover',
+        email: 'harry@cover.com',
+        pixOrgaTermsOfServiceAccepted: true,
+      });
+      currentUser.userOrgaSettings = server.create('user-orga-setting', { user: currentUser, organization });
+      const currentUserWithMembership = createMembershipByOrganizationIdAndUser(organization.id, currentUser);
+      createPrescriberByUser(currentUserWithMembership);
+
+      const otherUser = server.create('user', {
+        id: 10,
+        firstName: 'Tom',
+        lastName: 'Égérie',
+        pixOrgaTermsOfServiceAccepted: true,
+      });
+      const otherUserWithMembership = createMembershipByOrganizationIdAndUser(organization.id, otherUser);
+      createPrescriberByUser(otherUserWithMembership);
+
+      await authenticateSession(currentUser.id);
+
+      const screen = await visit('/campagnes/creation');
+
+      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
+      await selectByLabelAndOption('Que souhaitez-vous tester ?', availableTargetProfiles[1].name);
+
+      // when
+      await selectByLabelAndOption(this.intl.t('pages.campaign-creation.owner.label'), 'Tom Égérie');
+      await clickByName('Créer la campagne');
+
+      // then
+      assert.dom(screen.getByText('Tom Égérie', { selector: 'dd' })).exists();
+    });
+
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {
       // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+      await visit('/campagnes/creation');
+
       const expectedTargetProfileName = availableTargetProfiles[1].name;
       server.post('/campaigns', {}, 500);
 

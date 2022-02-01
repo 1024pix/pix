@@ -23,6 +23,7 @@ describe('Unit | Application | Controller | Campaign', function () {
     it('should return a serialized campaign when the campaign has been successfully created', async function () {
       // given
       const connectedUserId = 1;
+      const ownerId = 4;
       const request = {
         auth: { credentials: { userId: connectedUserId } },
         payload: {
@@ -34,6 +35,7 @@ describe('Unit | Application | Controller | Campaign', function () {
               'id-pix-label': 'idPixLabel',
               'custom-landing-page-text': 'customLandingPageText',
               'multiple-sendings': true,
+              'owner-id': ownerId,
             },
             relationships: {
               'target-profile': { data: { id: '123' } },
@@ -54,7 +56,7 @@ describe('Unit | Application | Controller | Campaign', function () {
         organizationId: 456,
         targetProfileId: 123,
         creatorId: 1,
-        ownerId: 1,
+        ownerId: 4,
         multipleSendings: true,
       };
 

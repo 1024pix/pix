@@ -6,7 +6,7 @@ export default class NewRoute extends Route {
   @service store;
   @service currentUser;
 
-  async model(params) {
+  async model() {
     const organization = this.currentUser.organization;
 
     const memberships = await this.store.query('membership', {
@@ -14,8 +14,7 @@ export default class NewRoute extends Route {
         organizationId: organization.id,
       },
       page: {
-        number: params.pageNumber,
-        size: params.pageSize,
+        size: 500,
       },
     });
     const members = memberships.map((membership) => membership.user);
