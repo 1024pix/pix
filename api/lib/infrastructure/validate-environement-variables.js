@@ -31,6 +31,7 @@ const schema = Joi.object({
   FT_CERTIFICATION_BILLING: Joi.string().optional().valid('true', 'false'),
   FT_VALIDATE_EMAIL: Joi.string().optional().valid('true', 'false'),
   FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED: Joi.string().optional().valid('true', 'false'),
+  FT_NEW_TUTORIALS_PAGE: Joi.string().optional().valid('true', 'false'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
   POLE_EMPLOI_CLIENT_ID: Joi.string().optional(),
   POLE_EMPLOI_CLIENT_SECRET: Joi.string().optional(),
