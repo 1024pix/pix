@@ -137,12 +137,32 @@
           @onChange={{this.selectTargetProfile}}
           @options={{this.targetProfilesOptions}}
           @emptyOptionLabel=""
+          class="campaign-target-profile"
           aria-describedby="target-profile-info"
           placeholder={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
           @isSearchable={{true}}
           required={{true}}
           aria-required={{true}}
         />
+        {{#if this.displayDeleteInputButton}}
+          <PixTooltip @id="clean-input-button" @position="bottom" class="clean-input-button__tooltip hide-on-mobile">
+            <:triggerElement>
+              <PixIconButton
+                @ariaLabel={{t "pages.campaign-creation.actions.delete"}}
+                aria-describedby="clean-input-button"
+                @icon="times"
+                @size="small"
+                @triggerAction={{this.cleanInput}}
+              />
+            </:triggerElement>
+            <:tooltip>
+              {{t "pages.campaign-creation.actions.delete"}}
+            </:tooltip>
+          </PixTooltip>
+        {{/if}}
+        <span class="target-profile-option">
+          <FaIcon @icon="chevron-down" role="img" aria-label={{t "pages.campaign-creation.target-profiles.chevron"}} />
+        </span>
         {{#if @errors.targetProfile}}
           <div class="form__error error-message">
             {{display-campaign-errors @errors.targetProfile}}

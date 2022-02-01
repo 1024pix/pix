@@ -353,6 +353,91 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         assert.contains(t('common.target-profile-details.results.common'));
       });
     });
+
+    module('chevron', function () {
+      test('should display chevron', async function (assert) {
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.targetProfiles = [
+          EmberObject.create({
+            id: '1',
+            name: 'targetProfile1',
+            description: 'description1',
+          }),
+        ];
+        await renderScreen(
+          hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+        assert.dom(`[aria-label="${this.intl.t('pages.campaign-creation.target-profiles.chevron')}"]`).exists();
+      });
+    });
+
+    module('when the user wants to clear the content of the target profile input', function (hooks) {
+      hooks.beforeEach(function () {
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: true });
+          prescriber = EmberObject.create({ id: 1 });
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.targetProfiles = [
+          EmberObject.create({
+            id: '1',
+            name: 'targetProfile1',
+            description: 'description1',
+          }),
+        ];
+      });
+
+      module('when the target profile input is empty', function () {
+        test('should not display the button to clear the input', async function (assert) {
+          await renderScreen(
+            hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+          assert.notContains(t('pages.campaign-creation.actions.delete'));
+        });
+      });
+
+      module('when the target profile input is filled', function () {
+        test('should display the button to clear the input', async function (assert) {
+          await renderScreen(
+            hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await fillByLabel(`* ${t('pages.campaign-creation.target-profiles-list-label')}`, 'pro');
+
+          assert.contains(t('pages.campaign-creation.actions.delete'));
+        });
+
+        test('should clear the input after the click on the delete button', async function (assert) {
+          await renderScreen(
+            hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await fillByLabel(`* ${t('pages.campaign-creation.target-profiles-list-label')}`, 'pro');
+          await clickByName(t('pages.campaign-creation.actions.delete'));
+
+          assert.dom('input[aria-describedby="target-profile-info"]').containsText('');
+        });
+
+        test('should not display target profile informations after the click on the delete button', async function (assert) {
+          await renderScreen(
+            hbs`<Campaign::CreateForm @targetProfiles={{targetProfiles}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await selectByLabelAndOption(t('pages.campaign-creation.target-profiles-list-label'), 'targetProfile1');
+          await clickByName(t('pages.campaign-creation.actions.delete'));
+
+          assert.notContains('description1');
+        });
+      });
+    });
   });
 
   module('when user choose to create a campaign of type PROFILES_COLLECTION', () => {
