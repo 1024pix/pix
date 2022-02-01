@@ -1257,7 +1257,7 @@
       },
       "flash": {
         "abstract": "Bravo, vous êtes allé·e jusqu'au bout !",
-        "estimatedLevel": "Votre score FLASH est {level, number}."
+        "pixCount": "Vous avez obtenu {count, number, ::.} Pix."
       }
     },
     "terms-of-service": {
