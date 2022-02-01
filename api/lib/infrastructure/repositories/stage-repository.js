@@ -27,10 +27,12 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfStage, createdStage);
   },
 
-  async updateStagePrescriberAttributes(stage) {
-    const { id, prescriberTitle, prescriberDescription } = stage;
+  async updateStage({ id, title, message, threshold, prescriberTitle, prescriberDescription }) {
     try {
-      await new BookshelfStage({ id }).save({ prescriberTitle, prescriberDescription }, { patch: true });
+      await new BookshelfStage({ id }).save(
+        { title, message, threshold, prescriberTitle, prescriberDescription },
+        { patch: true }
+      );
     } catch (error) {
       if (error instanceof BookshelfStage.NoRowsUpdatedError) {
         throw new NotFoundError(`Le palier avec l'id ${id} n'existe pas`);

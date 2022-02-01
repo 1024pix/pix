@@ -99,50 +99,67 @@ describe('Integration | Repository | StageRepository', function () {
     });
   });
 
-  describe('#updateStagePrescriberAttributes', function () {
-    it('should update the stage with new data', async function () {
-      // given
+  describe('#updateStage', function () {
+    let stageId;
+
+    beforeEach(async function () {
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-      const stage = databaseBuilder.factory.buildStage({ targetProfileId });
+
+      stageId = databaseBuilder.factory.buildStage({
+        targetProfileId,
+        title: "titre d'origine",
+        message: "message d'origine",
+        threshold: 50,
+        prescriberTitle: "titre d'origine",
+        prescriberDescription: "description d'origine",
+      }).id;
 
       await databaseBuilder.commit();
+    });
 
+    it('should update the stage with new data', async function () {
       // when
-      stage.prescriberTitle = 'palier bof';
-      stage.prescriberDescription = 'tu es moyen';
-      await stageRepository.updateStagePrescriberAttributes(stage);
+      await stageRepository.updateStage({
+        id: stageId,
+        title: "c'est cool",
+        message: "ça va aller t'inquiète pas",
+        threshold: 60,
+        prescriberTitle: 'palier bof',
+        prescriberDescription: 'tu es moyen',
+      });
 
       // then
-      expect(stage.prescriberTitle).to.equal('palier bof');
-      expect(stage.prescriberDescription).to.equal('tu es moyen');
+      const actualStage = await knex('stages').select().where({ id: stageId }).first();
+      expect(actualStage).to.contain({
+        title: "c'est cool",
+        message: "ça va aller t'inquiète pas",
+        threshold: 60,
+        prescriberTitle: 'palier bof',
+        prescriberDescription: 'tu es moyen',
+      });
     });
 
     it('should update only one attribute', async function () {
-      // given
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-      const stage = databaseBuilder.factory.buildStage({ targetProfileId });
-
-      await databaseBuilder.commit();
-
       // when
-      stage.prescriberTitle = 'palier bof';
-      await stageRepository.updateStagePrescriberAttributes(stage);
+      await stageRepository.updateStage({ id: stageId, prescriberTitle: 'palier bof' });
 
       // then
-      expect(stage.prescriberTitle).to.equal('palier bof');
-      expect(stage.prescriberDescription).to.equal(null);
+      const actualStage = await knex('stages').select().where({ id: stageId }).first();
+      expect(actualStage).to.contain({
+        title: "titre d'origine",
+        message: "message d'origine",
+        threshold: 50,
+        prescriberTitle: 'palier bof',
+        prescriberDescription: "description d'origine",
+      });
     });
 
     it('should not update the stage when the id is unknown and throw an error', async function () {
-      // given
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-      const stage = databaseBuilder.factory.buildStage({ targetProfileId });
-      await databaseBuilder.commit();
-
       // when
-      stage.id = 999999;
-      stage.prescriberTitle = 'palier bof';
-      const error = await catchErr(stageRepository.updateStagePrescriberAttributes)(stage);
+      const error = await catchErr(stageRepository.updateStage)({
+        id: 999999,
+        prescriberTitle: 'palier bof',
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
