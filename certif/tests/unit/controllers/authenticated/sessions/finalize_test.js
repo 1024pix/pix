@@ -108,7 +108,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         id: 123,
         name: 'Test certification center',
         type: 'NOT_SCO',
-        hasEndTestScreenRemovalEnabled: true,
+        isEndTestScreenRemovalEnabled: true,
       });
 
       class CurrentUserStub extends Service {
@@ -136,7 +136,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         id: 123,
         name: 'Test certification center',
         type: 'NOT_SCO',
-        hasEndTestScreenRemovalEnabled: false,
+        isEndTestScreenRemovalEnabled: false,
       });
 
       class CurrentUserStub extends Service {

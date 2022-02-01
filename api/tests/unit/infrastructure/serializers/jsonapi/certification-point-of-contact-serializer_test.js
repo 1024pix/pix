@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         relatedOrganizationTags: ['tag1'],
         habilitations: [],
       });
-      allowedCertificationCenterAccess2.hasEndTestScreenRemovalEnabled = sinon.stub().returns(true);
+      allowedCertificationCenterAccess2.isEndTestScreenRemovalEnabled = sinon.stub().returns(true);
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 789,
         firstName: 'Buffy',
@@ -86,7 +86,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
                 { id: 1, name: 'Certif comp 1' },
                 { id: 2, name: 'Certif comp 2' },
               ],
-              'has-end-test-screen-removal-enabled': false,
+              'is-end-test-screen-removal-enabled': false,
             },
           },
           {
@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-agri': false,
               'related-organization-tags': ['tag1'],
               habilitations: [],
-              'has-end-test-screen-removal-enabled': true,
+              'is-end-test-screen-removal-enabled': true,
             },
           },
         ],
@@ -189,7 +189,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
                 'is-access-blocked-agri': false,
                 'related-organization-tags': [],
                 habilitations: [],
-                'has-end-test-screen-removal-enabled': false,
+                'is-end-test-screen-removal-enabled': false,
               },
             },
             {
@@ -206,7 +206,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
                 'is-access-blocked-agri': false,
                 'related-organization-tags': ['tag1'],
                 habilitations: [],
-                'has-end-test-screen-removal-enabled': false,
+                'is-end-test-screen-removal-enabled': false,
               },
             },
           ],

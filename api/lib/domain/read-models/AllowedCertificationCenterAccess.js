@@ -9,6 +9,7 @@ class AllowedCertificationCenterAccess {
     isRelatedToManagingStudentsOrganization,
     relatedOrganizationTags,
     habilitations,
+    isSupervisorAccessEnabled,
   }) {
     this.id = id;
     this.name = name;
@@ -17,6 +18,7 @@ class AllowedCertificationCenterAccess {
     this.isRelatedToManagingStudentsOrganization = isRelatedToManagingStudentsOrganization;
     this.relatedOrganizationTags = relatedOrganizationTags;
     this.habilitations = habilitations;
+    this.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
   }
 
   isAccessBlockedCollege() {
@@ -70,8 +72,8 @@ class AllowedCertificationCenterAccess {
     return features.pixCertifScoBlockedAccessWhitelist.includes(this.externalId.toUpperCase());
   }
 
-  hasEndTestScreenRemovalEnabled() {
-    return features.endTestScreenRemovalWhiteList.includes(this.id.toString());
+  isEndTestScreenRemovalEnabled() {
+    return this.isSupervisorAccessEnabled;
   }
 }
 

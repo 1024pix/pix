@@ -23,7 +23,7 @@ module('Acceptance | Session Finalization', function (hooks) {
       isAccessBlockedLycee: false,
       isAccessBlockedAEFE: false,
       isAccessBlockedAgri: false,
-      hasEndTestScreenRemovalEnabled: false,
+      isEndTestScreenRemovalEnabled: false,
     });
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
@@ -85,7 +85,6 @@ module('Acceptance | Session Finalization', function (hooks) {
 
     test('it should display the end screen column when the center has no access to the supervisor space', async function (assert) {
       // when
-      server.create('feature-toggle', { isEndTestScreenRemovalEnabled: true });
       const screen = await visit(`/sessions/${session.id}/finalisation`);
 
       // then
@@ -271,7 +270,7 @@ module('Acceptance | Session Finalization', function (hooks) {
               });
 
               allowedCertificationCenterAccess.update({
-                hasEndTestScreenRemovalEnabled: true,
+                isEndTestScreenRemovalEnabled: true,
               });
 
               session.update({ certificationReports: [certificationReport] });

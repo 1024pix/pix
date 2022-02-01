@@ -11,7 +11,16 @@ const types = {
 };
 
 class CertificationCenter {
-  constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [] } = {}) {
+  constructor({
+    id,
+    name,
+    externalId,
+    type,
+    createdAt,
+    updatedAt,
+    habilitations = [],
+    isSupervisorAccessEnabled = false,
+  } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
@@ -19,6 +28,7 @@ class CertificationCenter {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.habilitations = habilitations;
+    this.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
   }
 
   get isSco() {
