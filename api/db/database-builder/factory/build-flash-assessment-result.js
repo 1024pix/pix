@@ -1,18 +1,20 @@
 const databaseBuffer = require('../database-buffer');
-const buildAssessment = require('./build-assessment');
+const buildAnswer = require('./build-answer');
 
 module.exports = function buildFlashAssessmentResult({
   id = databaseBuffer.getNextId(),
+  answerId,
   assessmentId,
   estimatedLevel = 2.64,
   errorRate = 0.391,
 } = {}) {
-  if (!assessmentId) assessmentId = buildAssessment({ method: 'FLASH' }).id;
+  if (!answerId && !assessmentId) throw new Error('either `answerId` or `assessmentId` must be defined');
+  if (!answerId) answerId = buildAnswer({ assessmentId }).id;
   return databaseBuffer.pushInsertable({
     tableName: 'flash-assessment-results',
     values: {
       id,
-      assessmentId,
+      answerId,
       estimatedLevel,
       errorRate,
     },

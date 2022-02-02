@@ -163,7 +163,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
         findFlashCompatible: sinon.stub(),
       };
       flashAssessmentResultRepository = {
-        getByAssessmentId: sinon.stub(),
+        getLatestByAssessmentId: sinon.stub(),
       };
     });
 
@@ -181,7 +181,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       challengeRepository.findFlashCompatible.withArgs().resolves(challenges);
-      flashAssessmentResultRepository.getByAssessmentId.withArgs(assessment.id).resolves({ estimatedLevel });
+      flashAssessmentResultRepository.getLatestByAssessmentId.withArgs(assessment.id).resolves({ estimatedLevel });
 
       // when
       const data = await dataFetcher.fetchForFlashCampaigns({

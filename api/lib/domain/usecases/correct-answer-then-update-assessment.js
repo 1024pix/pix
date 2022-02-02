@@ -94,8 +94,8 @@ module.exports = async function correctAnswerThenUpdateAssessment({
 
     const { estimatedLevel, errorRate } = flashAlgorithmService.getEstimatedLevelAndErrorRate(flashData);
 
-    await flashAssessmentResultRepository.updateEstimatedLevelAndErrorRate({
-      assessmentId: assessment.id,
+    await flashAssessmentResultRepository.save({
+      answerId: answerSaved.id,
       estimatedLevel,
       errorRate,
     });
