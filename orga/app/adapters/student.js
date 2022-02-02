@@ -8,11 +8,6 @@ export default class StudentAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/organizations/${organizationId}/students`;
   }
 
-  dissociateUser(student) {
-    const url = `${this.host}/${this.namespace}/schooling-registration-user-associations/${student.id}`;
-    return this.ajax(url, 'DELETE');
-  }
-
   updateRecord(store, type, snapshot) {
     const { id, adapterOptions } = snapshot;
 

@@ -79,13 +79,6 @@
                   <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
                     {{t "pages.students-sco.actions.manage-account"}}
                   </Dropdown::Item>
-                  {{#if this.currentUser.isAdminInOrganization}}
-                    {{#if this.isDissociateButtonEnabled}}
-                      <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
-                        Dissocier le compte
-                      </Dropdown::Item>
-                    {{/if}}
-                  {{/if}}
                 </Dropdown::IconTrigger>
               {{/if}}
             </td>
@@ -108,12 +101,6 @@
   @student={{this.student}}
   @display={{this.isShowingAuthenticationMethodModal}}
   @onClose={{this.closeAuthenticationMethodModal}}
-/>
-<Student::Sco::DissociateUserModal
-  @student={{this.student}}
-  @display={{this.isShowingDissociateModal}}
-  @onClose={{this.closeDissociateModal}}
-  @onSubmit={{@onDissociateUser}}
 />
 
 <Table::PaginationControl @pagination={{@students.meta}} />

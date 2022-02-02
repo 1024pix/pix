@@ -27,20 +27,6 @@ module('Unit | Adapters | student', function (hooks) {
     });
   });
 
-  module('#dissociateUser', function () {
-    test('it performs the request to dissociate user from student', async function (assert) {
-      // given
-      const student = { id: 12345 };
-      const url = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations/${student.id}`;
-
-      // when
-      await adapter.dissociateUser(student);
-
-      // then
-      assert.ok(ajaxStub.calledWith(url, 'DELETE'));
-    });
-  });
-
   module('#updateRecord', function () {
     test('it performs the request to update the student number', async function (assert) {
       // given
