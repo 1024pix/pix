@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Skill = require('./Skill');
 const Validator = require('./Validator');
 const ValidatorQCM = require('./ValidatorQCM');
 const ValidatorQCU = require('./ValidatorQCU');
@@ -100,24 +99,12 @@ class Challenge {
     this.genealogy = genealogy;
   }
 
-  addSkill(skill) {
-    this.skills.push(skill);
-  }
-
   isTimed() {
     return Number.isFinite(parseFloat(this.timer));
   }
 
   hasSkill(searchedSkill) {
     return this.skills.some((skill) => skill.id === searchedSkill.id);
-  }
-
-  get hardestSkill() {
-    return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty ? s1 : s2));
-  }
-
-  testsAtLeastOneNewSkill(alreadyAssessedSkills) {
-    return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 
   hasIllustration() {
