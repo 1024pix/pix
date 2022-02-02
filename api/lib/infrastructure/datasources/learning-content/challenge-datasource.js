@@ -11,13 +11,13 @@ module.exports = datasource.extend({
   async findOperativeBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
     const challenges = await this.findOperative();
-    return challenges.filter((challengeData) => _.some(challengeData.skillIds, foundInSkillIds));
+    return challenges.filter((challengeData) => foundInSkillIds(challengeData.skillId));
   },
 
   async findValidatedByCompetenceId(competenceId) {
     const challenges = await this.findValidated();
     return challenges.filter(
-      (challengeData) => !_.isEmpty(challengeData.skillIds) && _.includes(challengeData.competenceId, competenceId)
+      (challengeData) => !_.isEmpty(challengeData.skillId) && _.includes(challengeData.competenceId, competenceId)
     );
   },
 
@@ -38,13 +38,13 @@ module.exports = datasource.extend({
 
   async findValidatedBySkillId(id) {
     const validatedChallenges = await this.findValidated();
-    return validatedChallenges.filter((challenge) => challenge.skillIds.includes(id));
+    return validatedChallenges.filter((challenge) => challenge.skillId === id);
   },
 
   async findValidatedPrototypeBySkillId(id) {
     const validatedChallenges = await this.findValidated();
     return validatedChallenges.filter(
-      (challenge) => challenge.skillIds.includes(id) && challenge.genealogy === PROTOTYPE_CHALLENGE
+      (challenge) => challenge.skillId === id && challenge.genealogy === PROTOTYPE_CHALLENGE
     );
   },
 
@@ -53,7 +53,7 @@ module.exports = datasource.extend({
     return challenges.filter(
       (challengeData) =>
         challengeData.status === VALIDATED_CHALLENGE &&
-        !_.isEmpty(challengeData.skillIds) &&
+        challengeData.skillId &&
         _.includes(challengeData.locales, locale) &&
         challengeData.alpha != null &&
         challengeData.delta != null

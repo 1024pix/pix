@@ -87,7 +87,7 @@ function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, loc
   return _.map(targetSkills, (skill) => {
     const challenges = _.filter(
       filteredChallenges,
-      (challenge) => challenge.hasSkill(skill) && challenge.locales.includes(locale)
+      (challenge) => challenge.skill.id === skill.id && challenge.locales.includes(locale)
     );
     const [firstChallenge] = challenges;
     const skillCopy = Object.create(skill);
