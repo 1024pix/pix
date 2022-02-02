@@ -189,14 +189,11 @@ describe('Unit | Controller | certifications-controller', function () {
   });
 
   describe('#getCertificationAttestation', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const attestationPDF = 'binary string';
-    const fileName = 'attestation-pix-20181003.pdf';
-    const userId = 1;
-
     it('should return binary attestation', async function () {
       // given
+      const attestationPDF = 'binary string';
+      const fileName = 'attestation-pix-20181003.pdf';
+      const userId = 1;
       const deliveredAt = new Date('2018-12-04T02:02:02Z');
       const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree({ deliveredAt });
       const request = {
