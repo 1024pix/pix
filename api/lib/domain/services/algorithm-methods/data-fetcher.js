@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const { DEFAULT_ESTIMATED_LEVEL } = require('./flash');
 
 async function fetchForCampaigns({
   assessment,
@@ -82,7 +81,7 @@ async function fetchForFlashCampaigns({
   flashAssessmentResultRepository,
   locale,
 }) {
-  const [allAnswers, challenges, { estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}] = await Promise.all([
+  const [allAnswers, challenges, { estimatedLevel } = {}] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     challengeRepository.findFlashCompatible(locale),
     flashAssessmentResultRepository.getByAssessmentId(assessment.id),

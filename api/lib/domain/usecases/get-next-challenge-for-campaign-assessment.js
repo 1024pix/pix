@@ -2,7 +2,6 @@ const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/algorithm-methods/smart-random');
 const flash = require('../services/algorithm-methods/flash');
 const dataFetcher = require('../services/algorithm-methods/data-fetcher');
-const hashInt = require('hash-int');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
   challengeRepository,
@@ -27,8 +26,8 @@ module.exports = async function getNextChallengeForCampaignAssessment({
     if (algoResult.hasAssessmentEnded) {
       throw new AssessmentEndedError();
     }
-    const keyForChallenge = Math.abs(hashInt(assessment.id));
-    return algoResult.possibleChallenges[keyForChallenge % algoResult.possibleChallenges.length];
+
+    return assessment.chooseNextFlashChallenge(algoResult.possibleChallenges);
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
