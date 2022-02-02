@@ -23,10 +23,16 @@
         @selected={{@selectedDivisions}}
         @onSelect={{this.onSelectDivision}}
         @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
+        class="participant-filter-banner__multi-select"
       />
     {{/if}}
     {{#if this.displayGroupsFilter}}
-      <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
+      <Ui::GroupsFilter
+        @campaign={{@campaign}}
+        @onSelect={{this.onSelectGroup}}
+        @selectedGroups={{@selectedGroups}}
+        class="participant-filter-banner__multi-select"
+      />
     {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
