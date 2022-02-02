@@ -9,7 +9,6 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
-const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
@@ -47,21 +46,6 @@ module.exports = {
     const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
 
     return h.response(challenge).code(200);
-  },
-
-  async findByFilters(request) {
-    let assessments = [];
-    const userId = extractUserIdFromRequest(request);
-
-    if (userId) {
-      const filters = extractParameters(request.query).filter;
-
-      if (filters.codeCampaign) {
-        assessments = await usecases.findCampaignAssessments({ userId, filters });
-      }
-    }
-
-    return assessmentSerializer.serialize(assessments);
   },
 
   async getNextChallenge(request) {

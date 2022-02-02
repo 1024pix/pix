@@ -88,25 +88,6 @@ module.exports = {
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
-  findLastCampaignAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
-    return BookshelfAssessment.where({
-      'assessments.userId': userId,
-      'assessments.type': 'CAMPAIGN',
-      'campaigns.code': campaignCode,
-    })
-      .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
-        qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
-        qb.where('campaign-participations.isImproved', false);
-      })
-      .orderBy('createdAt', 'desc')
-      .fetch({
-        require: false,
-        withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [],
-      })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
-  },
-
   abortByAssessmentId(assessmentId) {
     return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED });
   },
