@@ -144,26 +144,38 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
   describe('DELETE /api/schooling-registration-user-associations/{id}', function () {
     const method = 'DELETE';
-    const headers = {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      authorization: generateValidRequestAuthorizationHeader(userId),
-    };
-    const payload = null;
 
-    it('should return a HTTP status code 200', async function () {
+    it('should return a HTTP status code 204', async function () {
       // given
-      sinon.stub(schoolingRegistrationUserAssociationController, 'dissociate').returns('ok');
+      sinon.stub(preHandler, 'checkUserHasRolePixMaster').returns(true);
+      sinon
+        .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+        .callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       const url = '/api/schooling-registration-user-associations/1';
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await httpTestServer.request(method, url, null);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return a HTTP status code 403 when user is not pixmaster', async function () {
+      // given
+      sinon.stub(preHandler, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/schooling-registration-user-associations/1';
+
+      // when
+      const response = await httpTestServer.request(method, url, null);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
 
     it('should return a HTTP status code 400 if id parameter is not a number', async function () {
@@ -174,7 +186,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       const url = '/api/schooling-registration-user-associations/ABC';
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await httpTestServer.request(method, url, null);
 
       // then
       expect(response.statusCode).to.equal(400);

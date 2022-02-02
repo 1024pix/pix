@@ -24,10 +24,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
       await schoolingRegistrationUserAssociationController.dissociate(request, hFake);
 
       // then
-      expect(usecases.dissociateUserFromSchoolingRegistration).to.have.been.calledWith({
-        schoolingRegistrationId,
-        userId,
-      });
+      expect(usecases.dissociateUserFromSchoolingRegistration).to.have.been.calledWith({ schoolingRegistrationId });
     });
   });
 });

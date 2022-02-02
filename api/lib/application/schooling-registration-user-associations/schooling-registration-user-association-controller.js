@@ -102,9 +102,8 @@ module.exports = {
   },
 
   async dissociate(request, h) {
-    const { userId } = request.auth.credentials;
     const schoolingRegistrationId = request.params.id;
-    await usecases.dissociateUserFromSchoolingRegistration({ userId, schoolingRegistrationId });
+    await usecases.dissociateUserFromSchoolingRegistration({ schoolingRegistrationId });
     return h.response().code(204);
   },
 
