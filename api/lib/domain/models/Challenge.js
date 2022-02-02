@@ -44,6 +44,7 @@ class Challenge {
    * @param discriminant
    * @param difficulty
    * @param responsive
+   * @param genealogy
    */
   constructor({
     id,
@@ -70,6 +71,7 @@ class Challenge {
     discriminant,
     difficulty,
     responsive,
+    genealogy,
   } = {}) {
     this.id = id;
     this.answer = answer;
@@ -95,6 +97,7 @@ class Challenge {
     this.discriminant = discriminant;
     this.difficulty = difficulty;
     this.responsive = responsive;
+    this.genealogy = genealogy;
   }
 
   addSkill(skill) {
