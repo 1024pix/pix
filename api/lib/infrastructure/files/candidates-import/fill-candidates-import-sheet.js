@@ -13,44 +13,63 @@ const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
 
 module.exports = async function fillCandidatesImportSheet(session, certificationCenterHabilitations) {
-  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath() });
+  const template = await _getCandidatesImportTemplate();
 
-  const sessionData = SessionData.fromSession(session);
-  const candidatesData = _getCandidatesData(session.certificationCandidates);
-
-  const updatedStringifiedXml = _updateXml(
-    stringifiedXml,
-    sessionData,
-    candidatesData,
-    certificationCenterHabilitations
+  const templateWithSession = _addSession(template, session);
+  const templateWithSessionAndColumns = _addColumns(templateWithSession, certificationCenterHabilitations);
+  const templateWithSessionAndColumnsAndCandidates = _addCandidates(
+    templateWithSessionAndColumns,
+    session.certificationCandidates
   );
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({
-    stringifiedXml: updatedStringifiedXml,
+    stringifiedXml: templateWithSessionAndColumnsAndCandidates,
     odsFilePath: _getCandidatesImportTemplatePath(),
   });
 };
 
-function _updateXml(stringifiedXml, sessionData, candidatesData, certificationCenterHabilitations) {
-  let updatedStringifiedXml = sessionXmlService.getUpdatedXmlWithSessionData({
+async function _getCandidatesImportTemplate() {
+  const templatePath = __dirname + '/1.5/candidates_import_template.ods';
+  return readOdsUtils.getContentXml({ odsFilePath: templatePath });
+}
+
+function _addSession(stringifiedXml, session) {
+  const sessionData = SessionData.fromSession(session);
+  const templateWithSession = sessionXmlService.getUpdatedXmlWithSessionData({
     stringifiedXml,
     sessionData,
     sessionTemplateValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
   });
+  return templateWithSession;
+}
 
+function _addColumns(updatedStringifiedXml, certificationCenterHabilitations) {
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    if (!_.isEmpty(certificationCenterHabilitations)) {
-      const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
-        headerLabel: [name, '("oui" ou laisser vide)'],
-        placeholder: [name],
-      }));
-      updatedStringifiedXml = sessionXmlService.addColumnGroup({
-        stringifiedXml: updatedStringifiedXml,
-        groupHeaderLabel: 'Certification(s) complémentaire(s)',
-        columns: habilitationColumns,
-      });
-    }
+    updatedStringifiedXml = _addComplementaryCertificationColumns(
+      certificationCenterHabilitations,
+      updatedStringifiedXml
+    );
   }
+  return updatedStringifiedXml;
+}
+
+function _addComplementaryCertificationColumns(certificationCenterHabilitations, updatedStringifiedXml) {
+  if (!_.isEmpty(certificationCenterHabilitations)) {
+    const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
+      headerLabel: [name, '("oui" ou laisser vide)'],
+      placeholder: [name],
+    }));
+    updatedStringifiedXml = sessionXmlService.addColumnGroup({
+      stringifiedXml: updatedStringifiedXml,
+      groupHeaderLabel: 'Certification(s) complémentaire(s)',
+      columns: habilitationColumns,
+    });
+  }
+  return updatedStringifiedXml;
+}
+
+function _addCandidates(updatedStringifiedXml, certificationCandidates) {
+  const candidatesData = _getCandidatesData(certificationCandidates);
   return sessionXmlService.getUpdatedXmlWithCertificationCandidatesData({
     stringifiedXml: updatedStringifiedXml,
     candidatesData,

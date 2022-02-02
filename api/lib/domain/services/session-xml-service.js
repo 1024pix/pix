@@ -5,6 +5,7 @@ const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
 const INFORMATIVE_HEADER_ROW = 8;
 const TABLE_HEADER_ROW = 11;
 const TABLE_FIRST_ROW = 12;
+const GROUP_HEADER_ROW_HEIGHT_ROW_SPAN = 3;
 
 function getUpdatedXmlWithSessionData({ stringifiedXml, sessionTemplateValues, sessionData }) {
   return writeOdsUtils.updateXmlSparseValues({
@@ -45,15 +46,15 @@ function _addColumnGroupHeader({ stringifiedXml, headerLabel, numberOfColumns })
 
   let addedCellOption = new AddedCellOption({
     labels: [headerLabel],
-    rowspan: 3,
+    rowspan: GROUP_HEADER_ROW_HEIGHT_ROW_SPAN,
     positionOffset: 2,
   });
 
   if (numberOfColumns === 1) {
     addedCellOption = new AddedCellOption({
       labels: headerLabelWords,
-      rowspan: 3,
       colspan: 1,
+      rowspan: GROUP_HEADER_ROW_HEIGHT_ROW_SPAN,
       positionOffset: 2,
     });
   }
