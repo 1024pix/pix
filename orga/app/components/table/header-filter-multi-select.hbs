@@ -1,9 +1,11 @@
 <Table::Header ...attributes>
   <PixMultiSelect
-    id="select-{{@field}}"
-    class="table__input"
+    @id="select-{{@field}}"
+    class="table__multi-select"
     @title={{@title}}
     @placeholder={{@placeholder}}
+    @loadingMessage={{t "common.filters.loading"}}
+    @emptyMessage={{@emptyMessage}}
     aria-label={{@ariaLabel}}
     @showOptionsOnInput={{true}}
     @isSearchable={{true}}
