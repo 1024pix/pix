@@ -1257,7 +1257,8 @@
       },
       "flash": {
         "abstract": "Bravo, vous êtes allé·e jusqu'au bout !",
-        "pixCount": "Vous avez obtenu {count, number, ::.} Pix."
+        "pixCount": "Vous avez obtenu {count, number, ::.} Pix",
+        "nonDefinitive": "(calcul non définitif)"
       }
     },
     "terms-of-service": {
