@@ -128,7 +128,7 @@ module('Acceptance | Session Details', function (hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('[aria-label="Télécharger le pv d\'incident"]').hasText("PV d'incident\u00a0");
+          assert.dom('[aria-label="Télécharger le pv d\'incident"]').hasText("PV d'incident");
         });
       });
 
@@ -152,7 +152,7 @@ module('Acceptance | Session Details', function (hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').hasText("Feuille d'émargement\u00a0");
+          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').hasText("Feuille d'émargement");
         });
 
         test('it should not show download attendance sheet button where there is no candidate', async function (assert) {

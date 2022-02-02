@@ -24,9 +24,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await visit(`/sessions/${session.id}/candidats`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -61,9 +59,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         await visit(`/sessions/${session.id}/candidats`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -99,6 +95,36 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           sessionId: sessionWithCandidates.id,
           isLinked: false,
           resultRecipientEmail: 'recipient@example.com',
+        });
+      });
+
+      module('when current certification center has access to supervisor space', function (hooks) {
+        hooks.afterEach(function () {
+          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
+        });
+
+        test('it should display the supervisor kit download button', async function (assert) {
+          // given
+          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: true });
+
+          // when
+          await visit(`/sessions/${sessionWithCandidates.id}`);
+
+          // then
+          assert.contains('Kit surveillant');
+        });
+      });
+
+      module('when current certification center has not access to supervisor space', function () {
+        test('it should not display the supervisor kit download button', async function (assert) {
+          // given
+          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
+
+          // when
+          await visit(`/sessions/${sessionWithCandidates.id}`);
+
+          // then
+          assert.notContains('Kit surveillant');
         });
       });
 
@@ -235,7 +261,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
     test('it should redirect to the default candidates detail view', async function (assert) {
       // given
-      const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
+      const linkToCandidate = '.session-details__controls-navbar-tabs a:nth-of-type(2)';
       const connectedcertificationPointOfContactId = certificationPointOfContact.id;
       await authenticateSession(connectedcertificationPointOfContactId);
 
@@ -244,9 +270,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await click(linkToCandidate);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
     module('when the addCandidate button is clicked', function () {
