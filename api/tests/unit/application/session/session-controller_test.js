@@ -1,4 +1,4 @@
-const { expect, sinon, hFake, catchErr } = require('../../../test-helper');
+const { expect, sinon, hFake, domainBuilder, catchErr } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
@@ -19,6 +19,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const { SessionPublicationBatchResult } = require('../../../../lib/domain/models/SessionPublicationBatchResult');
 const logger = require('../../../../lib/infrastructure/logger');
 const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
+const supervisorKitPdf = require('../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf');
 
 describe('Unit | Controller | sessionController', function () {
   let request;
@@ -1044,6 +1045,39 @@ describe('Unit | Controller | sessionController', function () {
         sessionId,
       });
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('#getSupervisorKitPdf', function () {
+    it('should return supervisor kit', async function () {
+      // given
+      sinon.stub(usecases, 'getSupervisorKitSessionInfo');
+      const sessionMainInfo = domainBuilder.buildSessionForSupervisorKit({ id: 1 });
+      const supervisorKitBuffer = 'binary string';
+      const userId = 1;
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: sessionMainInfo.id },
+        query: {
+          accessToken: 'ACCESS_TOKEN',
+        },
+      };
+      sinon.stub(tokenService, 'extractUserId').returns(userId);
+      sinon
+        .stub(supervisorKitPdf, 'getSupervisorKitPdfBuffer')
+        .resolves({ buffer: supervisorKitBuffer, fileName: `kit-surveillant-${sessionMainInfo.id}.pdf` });
+      usecases.getSupervisorKitSessionInfo.resolves(sessionMainInfo);
+
+      // when
+      const response = await sessionController.getSupervisorKitPdf(request, hFake);
+
+      // then
+      expect(usecases.getSupervisorKitSessionInfo).to.have.been.calledWith({
+        userId,
+        sessionId: sessionMainInfo.id,
+      });
+      expect(response.source).to.deep.equal(supervisorKitBuffer);
+      expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=kit-surveillant-1.pdf`);
     });
   });
 });

@@ -17,6 +17,8 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
+const supervisorKitPdf = require('../../infrastructure/utils/pdf/supervisor-kit-pdf');
+
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 const logger = require('../../infrastructure/logger');
@@ -76,6 +78,22 @@ module.exports = {
       .response(attendanceSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
       .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
+
+  async getSupervisorKitPdf(request, h) {
+    const sessionId = request.params.id;
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+    const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
+
+    const { buffer, fileName } = await supervisorKitPdf.getSupervisorKitPdfBuffer({
+      sessionForSupervisorKit,
+    });
+
+    return h
+      .response(buffer)
+      .header('Content-Disposition', `attachment; filename=${fileName}`)
+      .header('Content-Type', 'application/pdf');
   },
 
   async getCandidatesImportSheet(request, h) {
