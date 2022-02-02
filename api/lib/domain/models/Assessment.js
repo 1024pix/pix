@@ -1,3 +1,4 @@
+const hashInt = require('hash-int');
 const { ObjectValidationError } = require('../errors');
 
 const courseIdMessage = {
@@ -138,6 +139,10 @@ class Assessment {
 
   isSmartRandom() {
     return this.method === methods.SMART_RANDOM;
+  }
+
+  chooseNextFlashChallenge(challenges) {
+    return challenges[Math.abs(hashInt(this.id)) % challenges.length];
   }
 
   static computeMethodFromType(type) {
