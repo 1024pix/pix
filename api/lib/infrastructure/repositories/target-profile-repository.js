@@ -141,7 +141,7 @@ module.exports = {
         targetProfileId: targetProfile.id,
       };
     });
-    const attachedOrganizationIds = await _createTargetProfileShares(rows, targetProfile.id);
+    const attachedOrganizationIds = await _createTargetProfileShares(rows);
 
     const duplicatedOrganizationIds = targetProfile.organizations.filter(
       (organizationId) => !attachedOrganizationIds.includes(organizationId)
@@ -185,14 +185,6 @@ module.exports = {
       .select('organizationId')
       .where({ 'target-profile-shares.targetProfileId': targetProfileId });
     return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
-  },
-
-  attachOrganizationIds({ targetProfileId, organizationIds }) {
-    const rows = organizationIds.map((organizationId) => {
-      return { organizationId, targetProfileId };
-    });
-
-    return _createTargetProfileShares(rows, targetProfileId);
   },
 
   async hasSkills({ targetProfileId, skillIds }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -246,7 +238,7 @@ async function _createTargetProfileShares(targetProfileShares) {
   } catch (error) {
     if (foreignKeyConstraintViolated(error)) {
       const organizationId = error.detail.match(/=\((\d+)\)/)[1];
-      throw new NotFoundError(`L'organization  avec l'id ${organizationId} n'existe pas`);
+      throw new NotFoundError(`L'organization avec l'id ${organizationId} n'existe pas`);
     }
   }
 }
