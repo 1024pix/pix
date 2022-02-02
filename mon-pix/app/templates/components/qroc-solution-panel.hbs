@@ -21,7 +21,7 @@
         {{else}}
           <input
             class="correction-qroc-box-answer {{this.inputClass}}"
-            size="{{get-qroc-input-size @answer.challenge.format}}"
+            size="{{this.answerToDisplay.length}}"
             value="{{this.answerToDisplay}}"
             aria-label={{t "pages.comparison-window.results.a11y.given-answer"}}
             disabled

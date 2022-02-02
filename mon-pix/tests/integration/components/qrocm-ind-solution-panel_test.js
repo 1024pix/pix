@@ -137,7 +137,7 @@ describe('Integration | Component | QROCm ind solution panel', function () {
       this.set('challenge', challenge);
     });
 
-    it(`should display a disabled input with expected size`, async function () {
+    it(`should display a disabled input with size based on the length of the value`, async function () {
       //given
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when

@@ -5,6 +5,7 @@
     font-size: 1rem;
     line-height: 1.75rem;
     color: $grey-80;
+    width: 100%;
   }
 
   &__answer {
@@ -41,19 +42,13 @@
   &__solution {
     display: flex;
     align-items: center;
-    margin-top: 4px;
-
-    &-img {
-      width: 18px;
-      height: 18px;
-      margin-right: 4px;
-    }
 
     &-text {
       font-weight: $font-bold;
       color: $green;
       font-size: 1rem;
-      margin-left: 3px;
+      margin-left: 10px;
+      margin-top: 3px;
       padding-bottom: 1px;
     }
   }
