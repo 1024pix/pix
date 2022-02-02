@@ -1,10 +1,4 @@
-const {
-  sinon,
-  expect,
-  generateValidRequestAuthorizationHeader,
-  hFake,
-  domainBuilder,
-} = require('../../../test-helper');
+const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const events = require('../../../../lib/domain/events');
@@ -44,105 +38,6 @@ describe('Unit | Controller | assessment-controller', function () {
 
       // then
       expect(result).to.be.equal(assessment);
-    });
-  });
-
-  describe('#findByFilters', function () {
-    const assessments = [{ id: 1 }, { id: 2 }];
-    const assessmentsInJSONAPI = [
-      {
-        id: 1,
-        type: 'assessments',
-        attributes: { pixScore: 12 },
-      },
-      {
-        id: 1,
-        type: 'assessments',
-        attributes: { pixScore: 12 },
-      },
-    ];
-
-    const userId = 24504875;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'findCampaignAssessments');
-      sinon.stub(assessmentSerializer, 'serialize');
-    });
-
-    it('should serialize assessment to JSON API', async function () {
-      // given
-      const request = {
-        query: { 'filter[codeCampaign]': 'Code' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-      usecases.findCampaignAssessments.resolves(assessments);
-      assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
-
-      // when
-      const response = await assessmentController.findByFilters(request, hFake);
-
-      // then
-      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(assessments);
-      expect(response).to.deep.equal(assessmentsInJSONAPI);
-    });
-
-    context('GET assessments with campaignCode filter', function () {
-      const request = {
-        query: { 'filter[codeCampaign]': 'Code' },
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      it('should call assessment service with query filters', async function () {
-        // given
-        usecases.findCampaignAssessments.resolves();
-
-        // when
-        await assessmentController.findByFilters(request, hFake);
-
-        // then
-        expect(usecases.findCampaignAssessments).to.have.been.calledWithExactly({
-          userId,
-          filters: { codeCampaign: 'Code' },
-        });
-      });
-    });
-
-    //BUG
-    context('GET assessments with no valid filter', function () {
-      const request = {
-        query: { 'filter[type]': 'DEMO' },
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      it('should resolve []', async function () {
-        // given
-        assessmentSerializer.serialize.withArgs([]).returns({ data: [] });
-
-        // when
-        const response = await assessmentController.findByFilters(request, hFake);
-
-        // then
-        expect(response).to.deep.equal({ data: [] });
-      });
-    });
-
-    context('GET assessment with invalid token', function () {
-      const request = {
-        query: { 'filter[type]': 'DEMO' },
-        headers: { authorization: 'Bearer invalidtoken' },
-      };
-
-      it('should resolve []', async function () {
-        // when
-        await assessmentController.findByFilters(request, hFake);
-
-        // then
-        expect(assessmentSerializer.serialize).to.have.been.calledWithExactly([]);
-      });
     });
   });
 
