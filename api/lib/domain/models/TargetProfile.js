@@ -62,21 +62,9 @@ class TargetProfile {
     return this.skills.filter((skill) => skill.competenceId === competenceId).length;
   }
 
-  addOrganizations(organizations) {
-    organizations.forEach(_addUniqueOrganization(this.organizationsAttached));
-  }
-
   get organizations() {
     return this.organizationsAttached;
   }
-}
-
-function _addUniqueOrganization(organizations) {
-  return (id) => {
-    if (!organizations.includes(id)) {
-      organizations.push(id);
-    }
-  };
 }
 
 TargetProfile.categories = categories;

@@ -502,11 +502,11 @@ describe('Integration | Repository | Target-profile', function () {
 
       await databaseBuilder.commit();
 
-      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+      const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
 
-      targetProfile.addOrganizations([organization1.id, organization2.id]);
+      targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
-      const results = await targetProfileRepository.attachOrganizations(targetProfile);
+      const results = await targetProfileRepository.attachOrganizations(targetProfileOrganizations);
 
       expect(results).to.deep.equal({ duplicatedIds: [], attachedIds: [organization1.id, organization2.id] });
     });
@@ -518,15 +518,15 @@ describe('Integration | Repository | Target-profile', function () {
 
       await databaseBuilder.commit();
 
-      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+      const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
 
-      targetProfile.addOrganizations([organization1.id, organization2.id]);
+      targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
-      await targetProfileRepository.attachOrganizations(targetProfile);
+      await targetProfileRepository.attachOrganizations(targetProfileOrganizations);
 
       const rows = await knex('target-profile-shares')
         .select('organizationId')
-        .where({ targetProfileId: targetProfile.id });
+        .where({ targetProfileId: targetProfileOrganizations.id });
       const organizationIds = rows.map(({ organizationId }) => organizationId);
 
       expect(organizationIds).to.exactlyContain([organization1.id, organization2.id]);
@@ -540,14 +540,14 @@ describe('Integration | Repository | Target-profile', function () {
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
 
-        targetProfile.addOrganizations([unknownOrganizationId, organizationId]);
+        targetProfileOrganizations.attach([unknownOrganizationId, organizationId]);
 
-        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
+        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfileOrganizations);
 
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.have.string(`L'organization  avec l'id ${unknownOrganizationId} n'existe pas`);
+        expect(error.message).to.have.string(`L'organization avec l'id ${unknownOrganizationId} n'existe pas`);
       });
     });
 
@@ -564,74 +564,13 @@ describe('Integration | Repository | Target-profile', function () {
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
 
-        targetProfile.addOrganizations([firstOrganization.id, secondOrganization.id]);
+        targetProfileOrganizations.attach([firstOrganization.id, secondOrganization.id]);
 
-        const result = await targetProfileRepository.attachOrganizations(targetProfile);
+        const result = await targetProfileRepository.attachOrganizations(targetProfileOrganizations);
 
         expect(result).to.deep.equal({ duplicatedIds: [firstOrganization.id], attachedIds: [secondOrganization.id] });
-      });
-    });
-  });
-
-  describe('#attachOrganizationIds', function () {
-    afterEach(function () {
-      return knex('target-profile-shares').delete();
-    });
-
-    it('add organizations to the target profile', async function () {
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const organizationId1 = databaseBuilder.factory.buildOrganization().id;
-      const organizationId2 = databaseBuilder.factory.buildOrganization().id;
-      await databaseBuilder.commit();
-
-      const organizationIds = [organizationId1, organizationId2];
-
-      await targetProfileRepository.attachOrganizationIds({ targetProfileId, organizationIds });
-
-      const rows = await knex('target-profile-shares').select('organizationId').where({ targetProfileId });
-      const result = rows.map(({ organizationId }) => organizationId);
-
-      expect(result).to.exactlyContain(organizationIds);
-    });
-
-    context('when the organization does not exist', function () {
-      it('throws an error', async function () {
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        await databaseBuilder.commit();
-
-        const organizationIds = [10];
-
-        const error = await catchErr(targetProfileRepository.attachOrganizationIds)({
-          targetProfileId,
-          organizationIds,
-        });
-
-        expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.have.string("L'organization  avec l'id 10 n'existe pas");
-      });
-    });
-
-    context('when the organization is already attached', function () {
-      it('should return inserted organization', async function () {
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        const firstOrganization = databaseBuilder.factory.buildOrganization();
-        const secondOrganization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId: firstOrganization.id });
-
-        await databaseBuilder.commit();
-
-        await targetProfileRepository.attachOrganizationIds({
-          targetProfileId,
-          organizationIds: [firstOrganization.id, secondOrganization.id],
-        });
-
-        const rows = await knex('target-profile-shares').select('organizationId').where({ targetProfileId });
-        const result = rows.map(({ organizationId }) => organizationId);
-
-        expect(result).to.deep.equal([firstOrganization.id, secondOrganization.id]);
       });
     });
   });
@@ -645,11 +584,11 @@ describe('Integration | Repository | Target-profile', function () {
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
 
-        targetProfile.addOrganizations([organization1.id, organization2.id]);
+        targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
-        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfile);
+        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfileOrganizations);
 
         expect(isAttached).to.equal(false);
       });
@@ -665,11 +604,11 @@ describe('Integration | Repository | Target-profile', function () {
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
+        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
 
-        targetProfile.addOrganizations([organization1.id, organization2.id]);
+        targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
-        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfile);
+        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfileOrganizations);
 
         expect(isAttached).to.equal(true);
       });
