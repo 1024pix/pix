@@ -32,27 +32,20 @@ const buildLearningContent = function (learningContent) {
             const challenges =
               skill.challenges &&
               skill.challenges.map((challenge) => {
-                const sameChallengeForAnotherSkill = allChallenges
-                  .flat()
-                  .find((otherSkillChallenge) => otherSkillChallenge.id === challenge.id);
-                if (!sameChallengeForAnotherSkill) {
-                  return {
-                    id: challenge.id,
-                    competenceId: competence.id,
-                    skillIds: [skill.id],
-                    status: challenge.statut || 'validé',
-                    solution: challenge.solution,
-                    locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
-                    type: challenge.type,
-                    instruction: challenge.instruction,
-                    proposals: challenge.proposals,
-                    autoReply: challenge.autoReply,
-                    alpha: challenge.alpha,
-                    delta: challenge.delta,
-                  };
-                } else {
-                  sameChallengeForAnotherSkill.skillIds.push(skill.id);
-                }
+                return {
+                  id: challenge.id,
+                  competenceId: competence.id,
+                  skillId: skill.id,
+                  status: challenge.statut || 'validé',
+                  solution: challenge.solution,
+                  locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
+                  type: challenge.type,
+                  instruction: challenge.instruction,
+                  proposals: challenge.proposals,
+                  autoReply: challenge.autoReply,
+                  alpha: challenge.alpha,
+                  delta: challenge.delta,
+                };
               });
             allChallenges.push(challenges);
             return {

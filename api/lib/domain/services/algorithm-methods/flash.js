@@ -108,14 +108,11 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
 }
 
 function getNonAnsweredChallenges({ allAnswers, challenges }) {
-  const getAnswerSkills = (answer) => challenges.find((challenge) => challenge.id === answer.challengeId).skills;
-  const alreadyAnsweredSkillsIds = allAnswers
-    .map(getAnswerSkills)
-    .flat()
-    .map((skill) => skill.id);
+  const getAnswerSkill = (answer) => challenges.find((challenge) => challenge.id === answer.challengeId).skill;
+  const alreadyAnsweredSkillsIds = allAnswers.map(getAnswerSkill).map((skill) => skill.id);
 
   const isSkillAlreadyAnswered = (skill) => alreadyAnsweredSkillsIds.includes(skill.id);
-  const filterNonAnsweredChallenges = (challenge) => !challenge.skills.some(isSkillAlreadyAnswered);
+  const filterNonAnsweredChallenges = (challenge) => !isSkillAlreadyAnswered(challenge.skill);
   const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenges);
 
   return nonAnsweredChallenges;

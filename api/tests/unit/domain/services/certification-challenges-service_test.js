@@ -39,7 +39,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
   let challengeForSkillCollaborer4;
   let challengeForSkillCitation4;
-  let challengeForSkillCitation4AndMoteur3;
   let challengeForSkillRecherche4;
   let challengeRecordWithoutSkills;
   let anotherChallengeForSkillCitation4;
@@ -146,82 +145,77 @@ describe('Unit | Service | Certification Challenge Service', function () {
     challengeForSkillCollaborer4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdThree',
       competenceId: 'competenceRecordIdThatDoesNotExistAnymore',
-      skills: [skillCollaborer4],
+      skill: skillCollaborer4,
     });
     challengeForSkillCitation4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdOne',
       competenceId: competenceFlipper.id,
-      skills: [skillCitation4],
-    });
-    challengeForSkillCitation4AndMoteur3 = domainBuilder.buildChallenge({
-      id: 'challengeRecordIdTwo',
-      competenceId: competenceFlipper.id,
-      skills: [skillCitation4, skillMoteur3],
+      skill: skillCitation4,
     });
     challengeForSkillRecherche4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdFour',
       competenceId: competenceFlipper.id,
-      skills: [skillRecherche4],
+      skill: skillRecherche4,
     });
     challengeRecordWithoutSkills = domainBuilder.buildChallenge({
       id: 'challengeRecordIdNine',
       competenceId: competenceFlipper.id,
-      skills: [],
+      skill: null,
     });
     anotherChallengeForSkillCitation4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdTen',
       competenceId: competenceFlipper.id,
-      skills: [skillCitation4],
+      skill: skillCitation4,
     });
     challengeForSkillKoala1 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdKoala1',
       competenceId: competenceKoala.id,
-      skills: [skillKoala1],
+      skill: skillKoala1,
     });
     challengeForSkillKoala2 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdKoala2',
       competenceId: competenceKoala.id,
-      skills: [skillKoala2],
+      skill: skillKoala2,
     });
     challengeForSkillRemplir2 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdFive',
       competenceId: competenceRemplir.id,
-      skills: [skillRemplir2],
+      skill: skillRemplir2,
     });
     challengeForSkillRemplir2Focus = domainBuilder.buildChallenge({
       id: 'challengeRecordIdFiveFocus',
       competenceId: competenceRemplir.id,
-      skills: [skillRemplir2Focus],
+      skill: skillRemplir2Focus,
     });
     domainBuilder.buildChallenge({
       id: 'anotherChallengeForSkillRemplir2',
       competenceId: competenceRemplir.id,
-      skills: [skillRemplir2],
+      skill: skillRemplir2,
     });
     challengeForSkillRemplir4 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdSix',
       competenceId: competenceRemplir.id,
-      skills: [skillRemplir4],
+      skill: skillRemplir4,
     });
     challengeForSkillUrl3 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdSeven',
       competenceId: competenceRemplir.id,
-      skills: [skillUrl3],
+      skill: skillUrl3,
     });
     challengeForSkillWeb1 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdEight',
       competenceId: competenceRemplir.id,
-      skills: [skillWeb1],
+      skill: skillWeb1,
     });
     challengeForSkillRequin5 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdNine',
       competenceId: competenceRequin.id,
-      skills: [skillRequin5],
+      skill: skillRequin5,
     });
     challengeForSkillRequin8 = domainBuilder.buildChallenge({
       id: 'challengeRecordIdTen',
       competenceId: competenceRequin.id,
-      skills: [skillRequin8],
+      skill: skillRequin8,
     });
   });
 
@@ -237,7 +231,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves([
           challengeForSkillCitation4,
           anotherChallengeForSkillCitation4,
-          challengeForSkillCitation4AndMoteur3,
           challengeForSkillCollaborer4,
           challengeForSkillRecherche4,
           challengeForSkillRemplir2,
@@ -378,7 +371,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
             domainBuilder.buildKnowledgeElement({
               answerId: 1,
               competenceId: competenceFlipper.id,
-              skillId: challengeForSkillCitation4.skills[0].id,
+              skillId: challengeForSkillCitation4.skill.id,
             }),
           ]);
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([1]).resolves(['challengeRecordIdOne']);
@@ -407,23 +400,13 @@ describe('Unit | Service | Certification Challenge Service', function () {
             domainBuilder.buildKnowledgeElement({
               answerId: 123,
               competenceId: competenceFlipper.id,
-              skillId: challengeForSkillRecherche4.skills[0].id,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              answerId: 456,
-              competenceId: competenceFlipper.id,
-              skillId: challengeForSkillCitation4AndMoteur3.skills[0].id,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              answerId: 456,
-              competenceId: competenceFlipper.id,
-              skillId: challengeForSkillCitation4AndMoteur3.skills[1].id,
+              skillId: challengeForSkillRecherche4.skill.id,
             }),
           ]);
         answerRepository.findChallengeIdsFromAnswerIds
-          .withArgs([123, 456, 456])
+          .withArgs([123])
           .resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
-        const expectedSkills = [skillCitation4.name, skillRecherche4.name, skillMoteur3.name];
+        const expectedSkills = [skillCitation4.name, skillRecherche4.name];
 
         // when
         const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
@@ -450,23 +433,13 @@ describe('Unit | Service | Certification Challenge Service', function () {
             domainBuilder.buildKnowledgeElement({
               answerId: 123,
               competenceId: competenceFlipper.id,
-              skillId: challengeForSkillRecherche4.skills[0].id,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              answerId: 456,
-              competenceId: competenceFlipper.id,
-              skillId: challengeForSkillCitation4AndMoteur3.skills[0].id,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              answerId: 456,
-              competenceId: competenceFlipper.id,
-              skillId: challengeForSkillCitation4AndMoteur3.skills[1].id,
+              skillId: challengeForSkillRecherche4.skill.id,
             }),
           ]);
         answerRepository.findChallengeIdsFromAnswerIds
-          .withArgs([123, 456, 456])
+          .withArgs([123])
           .resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
-        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
+        const expectedSkills = [skillCitation4, skillRecherche4];
 
         // when
         const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
@@ -498,17 +471,17 @@ describe('Unit | Service | Certification Challenge Service', function () {
           domainBuilder.buildKnowledgeElement({
             answerId: 123,
             competenceId: competenceFlipper.id,
-            skillId: challengeForSkillRecherche4.skills[0].id,
+            skillId: challengeForSkillRecherche4.skill.id,
           }),
           domainBuilder.buildKnowledgeElement({
             answerId: 456,
             competenceId: competenceRemplir.id,
-            skillId: challengeForSkillUrl3.skills[0].id,
+            skillId: challengeForSkillUrl3.skill.id,
           }),
           domainBuilder.buildKnowledgeElement({
             answerId: 789,
             competenceId: competenceRemplir.id,
-            skillId: challengeForSkillRemplir2.skills[0].id,
+            skillId: challengeForSkillRemplir2.skill.id,
           }),
         ]);
       answerRepository.findChallengeIdsFromAnswerIds
@@ -594,22 +567,22 @@ describe('Unit | Service | Certification Challenge Service', function () {
           domainBuilder.buildKnowledgeElement({
             answerId: 1,
             competenceId: competenceRemplir.id,
-            skillId: challengeForSkillRemplir4.skills[0].id,
+            skillId: challengeForSkillRemplir4.skill.id,
           }),
           domainBuilder.buildKnowledgeElement({
             answerId: 2,
             competenceId: competenceRemplir.id,
-            skillId: challengeForSkillRemplir2.skills[0].id,
+            skillId: challengeForSkillRemplir2.skill.id,
           }),
           domainBuilder.buildKnowledgeElement({
             answerId: 3,
             competenceId: competenceRemplir.id,
-            skillId: challengeForSkillUrl3.skills[0].id,
+            skillId: challengeForSkillUrl3.skill.id,
           }),
           domainBuilder.buildKnowledgeElement({
             answerId: 4,
             competenceId: competenceRemplir.id,
-            skillId: challengeForSkillWeb1.skills[0].id,
+            skillId: challengeForSkillWeb1.skill.id,
           }),
         ]);
       answerRepository.findChallengeIdsFromAnswerIds
@@ -715,52 +688,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
       ]);
     });
 
-    it('should not add a challenge twice', async function () {
-      // given
-      const onlyOneChallengeForCitation4AndMoteur3 = [
-        challengeForSkillCitation4AndMoteur3,
-        challengeForSkillCollaborer4,
-        challengeForSkillRecherche4,
-        challengeForSkillRemplir2,
-        challengeForSkillRemplir4,
-        challengeForSkillUrl3,
-        challengeForSkillWeb1,
-        challengeRecordWithoutSkills,
-        challengeForSkillRequin5,
-        challengeForSkillRequin8,
-      ];
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(onlyOneChallengeForCitation4AndMoteur3);
-      placementProfile.userCompetences = [
-        domainBuilder.buildUserCompetence({
-          ...userCompetence1,
-          skills: [skillCitation4, skillMoteur3],
-        }),
-      ];
-      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
-        .withArgs({ userId, limitDate: 'limitDate' })
-        .resolves([
-          domainBuilder.buildKnowledgeElement({
-            answerId: 1,
-            competenceId: competenceFlipper.id,
-            skillId: challengeForSkillCitation4AndMoteur3.skills[0].id,
-          }),
-          domainBuilder.buildKnowledgeElement({
-            answerId: 1,
-            competenceId: competenceFlipper.id,
-            skillId: challengeForSkillCitation4AndMoteur3.skills[1].id,
-          }),
-        ]);
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([1, 1]).resolves(['challengeRecordIdTwo']);
-      // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(
-        placementProfile,
-        locale
-      );
-
-      // then
-      expect(_.map(certificationChallenges, 'challengeId')).to.deep.equal(['challengeRecordIdTwo']);
-    });
-
     it('should not assign skill, when the challenge id is not found', async function () {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
@@ -839,10 +766,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challengeRepository.findOperativeHavingLocale
         .withArgs(locale)
         .resolves([
-          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skills: [toto6] }),
-          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skills: [toto5] }),
-          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skills: [toto4] }),
-          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skills: [zaza4] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skill: toto6 }),
+          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skill: toto5 }),
+          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skill: toto4 }),
+          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skill: zaza4 }),
         ]);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
         .withArgs({ userId, limitDate: 'limitDate' })
@@ -938,11 +865,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challengeRepository.findOperativeHavingLocale
         .withArgs(locale)
         .resolves([
-          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skills: [toto6] }),
-          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skills: [toto5] }),
-          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skills: [toto4] }),
-          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skills: [zaza4] }),
-          domainBuilder.buildChallenge({ id: 'challengeMama5', competenceId: 'competenceId', skills: [mama5] }),
+          domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skill: toto6 }),
+          domainBuilder.buildChallenge({ id: 'challengeToto5', competenceId: 'competenceId', skill: toto5 }),
+          domainBuilder.buildChallenge({ id: 'challengeToto4', competenceId: 'competenceId', skill: toto4 }),
+          domainBuilder.buildChallenge({ id: 'challengeZaza4', competenceId: 'competenceId', skill: zaza4 }),
+          domainBuilder.buildChallenge({ id: 'challengeMama5', competenceId: 'competenceId', skill: mama5 }),
         ]);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
         .withArgs({ userId, limitDate: 'limitDate' })
@@ -1031,7 +958,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         competences: [targetedCompetence],
       });
     }
-    function _createChallengeWithDecl(challengeBaseId, skills, countDecl) {
+    function _createChallengeWithDecl(challengeBaseId, skill, countDecl) {
       const challenges = [];
 
       for (let i = 1; i <= countDecl; ++i) {
@@ -1039,7 +966,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           domainBuilder.buildChallenge({
             id: `${challengeBaseId}_dec${i}`,
             name: `${challengeBaseId}_dec${i}`,
-            skills,
+            skill,
           })
         );
       }
@@ -1177,20 +1104,16 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
       );
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
@@ -1362,20 +1285,16 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 2));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 2)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
       );
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 2));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 2));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 2));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
@@ -1553,21 +1472,17 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
       );
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
@@ -1746,21 +1661,17 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
       );
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
@@ -1888,21 +1799,15 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
       );
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireSonLit', [{ id: 'faireSonLit6_id' }, { id: 'faireSonLit4_id' }], 1)
-      );
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
@@ -2063,20 +1968,16 @@ describe('Unit | Service | Certification Challenge Service', function () {
         .resolves(certifiableProfile);
       // challenges
       let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
       );
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
-      challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1)
-      );
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
-      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 

@@ -42,8 +42,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     challenges: [
       {
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: [skillId],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
+        skillId: skillId,
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr-fr'],

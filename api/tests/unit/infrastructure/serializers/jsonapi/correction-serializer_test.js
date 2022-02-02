@@ -11,10 +11,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
         id: 'correction_id',
         solution: 'Correction value',
         solutionToDisplay: 'Correction to be displayed',
-        hints: [
-          new Hint({ skillName: '@test2', value: 'Indice moins Facile' }),
-          new Hint({ skillName: '@test1', value: 'Indice Facile' }),
-        ],
+        hint: new Hint({ skillName: '@test1', value: 'Indice Facile' }),
         tutorials: [
           {
             ...new Tutorial({

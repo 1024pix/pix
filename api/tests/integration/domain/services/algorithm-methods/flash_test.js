@@ -70,17 +70,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           const worstNextChallenge = domainBuilder.buildChallenge({
             difficulty: -5,
             discriminant: -5,
-            skills: [FirstSkill],
+            skill: FirstSkill,
           });
           const bestNextChallenge = domainBuilder.buildChallenge({
             difficulty: 1,
             discriminant: 5,
-            skills: [SecondSkill],
+            skill: SecondSkill,
           });
           const anotherBestNextChallenge = domainBuilder.buildChallenge({
             difficulty: 1,
             discriminant: 5,
-            skills: [FirstSkill],
+            skill: FirstSkill,
           });
           const challenges = [worstNextChallenge, bestNextChallenge, anotherBestNextChallenge];
           const allAnswers = [];
@@ -105,19 +105,19 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             id: 'recCHAL1',
             difficulty: -5,
             discriminant: -5,
-            skills: [FirstSkill],
+            skill: FirstSkill,
           });
           const answeredBestNextChallenge = domainBuilder.buildChallenge({
             id: 'recCHAL2',
             difficulty: 1,
             discriminant: 3,
-            skills: [SecondSkill],
+            skill: SecondSkill,
           });
           const nonAnsweredBestNextChallenge = domainBuilder.buildChallenge({
             id: 'recCHAL3',
             difficulty: 1,
             discriminant: 3,
-            skills: [FirstSkill],
+            skill: FirstSkill,
           });
           const challenges = [worstNextChallenge, answeredBestNextChallenge, nonAnsweredBestNextChallenge];
           const allAnswers = [
@@ -195,121 +195,121 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const listChallenges = [
           domainBuilder.buildChallenge({
             id: 'recA',
-            skills: [listSkills.url5],
+            skill: listSkills.url5,
             difficulty: -0.917927344545694,
             discriminant: 1.02282430250024,
           }),
           domainBuilder.buildChallenge({
             id: 'recB',
-            skills: [listSkills.web3],
+            skill: listSkills.web3,
             difficulty: 0.301604780272093,
             discriminant: 0.815896135600247,
           }),
           domainBuilder.buildChallenge({
             id: 'recC',
-            skills: [listSkills.sourceinfo5],
+            skill: listSkills.sourceinfo5,
             difficulty: -1.69218011589622,
             discriminant: 1.38594509996278,
           }),
           domainBuilder.buildChallenge({
             id: 'recD',
-            skills: [listSkills.installogiciel2],
+            skill: listSkills.installogiciel2,
             difficulty: -5.4464574841729,
             discriminant: 0.427255285029657,
           }),
           domainBuilder.buildChallenge({
             id: 'recE',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -1.5526216455839,
             discriminant: 1.21015304225808,
           }),
           domainBuilder.buildChallenge({
             id: 'recF',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -1.36561917255237,
             discriminant: 1.09320650236677,
           }),
           domainBuilder.buildChallenge({
             id: 'recG',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -4.20230915443229,
             discriminant: 0.562929008226957,
           }),
           domainBuilder.buildChallenge({
             id: 'recH',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: 0.262904155422314,
             discriminant: 0.901542609459213,
           }),
           domainBuilder.buildChallenge({
             id: 'recI',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -0.754355900389256,
             discriminant: 0.834990152043718,
           }),
           domainBuilder.buildChallenge({
             id: 'recJ',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: 3.174339929941,
             discriminant: 0.827526706077148,
           }),
           domainBuilder.buildChallenge({
             id: 'recK',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: -1.16967416012961,
             discriminant: 1.17433370794629,
           }),
           domainBuilder.buildChallenge({
             id: 'recL',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: -0.030736508016524,
             discriminant: 1.06665273005823,
           }),
           domainBuilder.buildChallenge({
             id: 'recM',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: -2.37249657419562,
             discriminant: 0.656224379307742,
           }),
           domainBuilder.buildChallenge({
             id: 'recN',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: 1.62670103354638,
             discriminant: 1.50948587856458,
           }),
           domainBuilder.buildChallenge({
             id: 'recO',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: 2.811956480867,
             discriminant: 1.04445171700575,
           }),
           domainBuilder.buildChallenge({
             id: 'recP',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: 0.026713944730478,
             discriminant: 0.703441785686095,
           }),
           domainBuilder.buildChallenge({
             id: 'recQ',
-            skills: [listSkills.pratiquesinternet4],
+            skill: listSkills.pratiquesinternet4,
             difficulty: -1.83253533603,
             discriminant: 0.711777117426424,
           }),
           domainBuilder.buildChallenge({
             id: 'recR',
-            skills: [listSkills.pratiquesinternet4],
+            skill: listSkills.pratiquesinternet4,
             difficulty: 0.251708600387063,
             discriminant: 0.369707224301943,
           }),
           domainBuilder.buildChallenge({
             id: 'recS',
-            skills: [listSkills.pratiquesinternet4],
+            skill: listSkills.pratiquesinternet4,
             difficulty: 1.90647729810166,
             discriminant: 0.950709518595358,
           }),
           domainBuilder.buildChallenge({
             id: 'recT',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: -1.82670103354638,
             discriminant: 2.50948587856458,
           }),
@@ -470,121 +470,121 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const listChallenges = [
           domainBuilder.buildChallenge({
             id: 'recA',
-            skills: [listSkills.url5],
+            skill: listSkills.url5,
             difficulty: -0.917927344545694,
             discriminant: 1.02282430250024,
           }),
           domainBuilder.buildChallenge({
             id: 'recB',
-            skills: [listSkills.web3],
+            skill: listSkills.web3,
             difficulty: 0.301604780272093,
             discriminant: 0.815896135600247,
           }),
           domainBuilder.buildChallenge({
             id: 'recC',
-            skills: [listSkills.sourceinfo5],
+            skill: listSkills.sourceinfo5,
             difficulty: -1.69218011589622,
             discriminant: 1.38594509996278,
           }),
           domainBuilder.buildChallenge({
             id: 'recD',
-            skills: [listSkills.installogiciel2],
+            skill: listSkills.installogiciel2,
             difficulty: -5.4464574841729,
             discriminant: 0.427255285029657,
           }),
           domainBuilder.buildChallenge({
             id: 'recE',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -1.5526216455839,
             discriminant: 1.21015304225808,
           }),
           domainBuilder.buildChallenge({
             id: 'recF',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -1.36561917255237,
             discriminant: 1.09320650236677,
           }),
           domainBuilder.buildChallenge({
             id: 'recG',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -4.20230915443229,
             discriminant: 0.562929008226957,
           }),
           domainBuilder.buildChallenge({
             id: 'recH',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: 0.262904155422314,
             discriminant: 0.901542609459213,
           }),
           domainBuilder.buildChallenge({
             id: 'recI',
-            skills: [listSkills.fichier4],
+            skill: listSkills.fichier4,
             difficulty: -0.754355900389256,
             discriminant: 0.834990152043718,
           }),
           domainBuilder.buildChallenge({
             id: 'recJ',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: 3.174339929941,
             discriminant: 0.827526706077148,
           }),
           domainBuilder.buildChallenge({
             id: 'recK',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: -1.16967416012961,
             discriminant: 1.17433370794629,
           }),
           domainBuilder.buildChallenge({
             id: 'recL',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: -0.030736508016524,
             discriminant: 1.06665273005823,
           }),
           domainBuilder.buildChallenge({
             id: 'recM',
-            skills: [listSkills.sauvegarde5],
+            skill: listSkills.sauvegarde5,
             difficulty: -2.37249657419562,
             discriminant: 0.656224379307742,
           }),
           domainBuilder.buildChallenge({
             id: 'recN',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: 1.62670103354638,
             discriminant: 1.50948587856458,
           }),
           domainBuilder.buildChallenge({
             id: 'recO',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: 2.811956480867,
             discriminant: 1.04445171700575,
           }),
           domainBuilder.buildChallenge({
             id: 'recP',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: 0.026713944730478,
             discriminant: 0.703441785686095,
           }),
           domainBuilder.buildChallenge({
             id: 'recQ',
-            skills: [listSkills.pratiquesinternet4],
+            skill: listSkills.pratiquesinternet4,
             difficulty: -1.83253533603,
             discriminant: 0.711777117426424,
           }),
           domainBuilder.buildChallenge({
             id: 'recR',
-            skills: [listSkills.pratiquesinternet4],
+            skill: listSkills.pratiquesinternet4,
             difficulty: 0.251708600387063,
             discriminant: 0.369707224301943,
           }),
           domainBuilder.buildChallenge({
             id: 'recS',
-            skills: [listSkills.pratiquesinternet4],
+            skill: listSkills.pratiquesinternet4,
             difficulty: 1.90647729810166,
             discriminant: 0.950709518595358,
           }),
           domainBuilder.buildChallenge({
             id: 'recT',
-            skills: [listSkills.langbalise6],
+            skill: listSkills.langbalise6,
             difficulty: -1.82670103354638,
             discriminant: 2.50948587856458,
           }),
@@ -658,19 +658,19 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           id: 'First',
           discriminant: 1.86350005965093,
           difficulty: 0.194712138508747,
-          skills: [skills[0]],
+          skill: skills[0],
         }),
         domainBuilder.buildChallenge({
           id: 'Second',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,
-          skills: [skills[0]],
+          skill: skills[0],
         }),
         domainBuilder.buildChallenge({
           id: 'Third',
           discriminant: 2.25422414740233,
           difficulty: 0.823376599163319,
-          skills: [skills[1]],
+          skill: skills[1],
         }),
       ];
 
@@ -681,94 +681,6 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
       // then
       expect(result).to.be.deep.equal([challenges[2]]);
-    });
-
-    it('should return the list of challenges without already answered skills with challenge containing two skills', function () {
-      // given
-      const skills = [
-        domainBuilder.buildSkill({ id: 'FirstSkill' }),
-        domainBuilder.buildSkill({ id: 'SecondSkill' }),
-        domainBuilder.buildSkill({ id: 'ThirdSkill' }),
-      ];
-
-      const challenges = [
-        domainBuilder.buildChallenge({
-          id: 'First',
-          discriminant: 1.86350005965093,
-          difficulty: 0.194712138508747,
-          skills: [skills[0], skills[1]],
-        }),
-        domainBuilder.buildChallenge({
-          id: 'Second',
-          discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319,
-          skills: [skills[0]],
-        }),
-        domainBuilder.buildChallenge({
-          id: 'Third',
-          discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319,
-          skills: [skills[1]],
-        }),
-        domainBuilder.buildChallenge({
-          id: 'Fourth',
-          discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319,
-          skills: [skills[2]],
-        }),
-      ];
-
-      const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
-
-      // when
-      const result = flash.getNonAnsweredChallenges({ allAnswers, challenges });
-
-      // then
-      expect(result).to.be.deep.equal([challenges[3]]);
-    });
-
-    it('should return the list of challenges without already answered skills with another challenge containing two skills', function () {
-      // given
-      const skills = [
-        domainBuilder.buildSkill({ id: 'FirstSkill' }),
-        domainBuilder.buildSkill({ id: 'SecondSkill' }),
-        domainBuilder.buildSkill({ id: 'ThirdSkill' }),
-      ];
-
-      const challenges = [
-        domainBuilder.buildChallenge({
-          id: 'First',
-          discriminant: 1.86350005965093,
-          difficulty: 0.194712138508747,
-          skills: [skills[0]],
-        }),
-        domainBuilder.buildChallenge({
-          id: 'Second',
-          discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319,
-          skills: [skills[1], skills[0]],
-        }),
-        domainBuilder.buildChallenge({
-          id: 'Third',
-          discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319,
-          skills: [skills[1]],
-        }),
-        domainBuilder.buildChallenge({
-          id: 'Fourth',
-          discriminant: 2.25422414740233,
-          difficulty: 0.823376599163319,
-          skills: [skills[2]],
-        }),
-      ];
-
-      const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
-
-      // when
-      const result = flash.getNonAnsweredChallenges({ allAnswers, challenges });
-
-      // then
-      expect(result).to.be.deep.equal([challenges[2], challenges[3]]);
     });
   });
 });

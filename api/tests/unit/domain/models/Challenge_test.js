@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | Challenge', function () {
         embedHeight: 400,
         status: 'validé',
         answer: [],
-        skills: [new Skill('recUDrCWD76fp5MsE')],
+        skill: new Skill('recUDrCWD76fp5MsE'),
         validator: undefined,
         competenceId: 'recsvLz0W2ShyfD63',
         illustrationAlt: "Texte alternatif à l'image",

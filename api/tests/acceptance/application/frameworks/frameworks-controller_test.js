@@ -58,7 +58,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
     challenges: [
       {
         id: 'challengeId',
-        skillIds: ['skillId'],
+        skillId: 'skillId',
       },
     ],
   };
