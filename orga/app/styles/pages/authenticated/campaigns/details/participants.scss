@@ -35,5 +35,9 @@
 
 .participant-filter-banner {
   margin-bottom: 12px;
+
+  &__multi-select {
+    width: auto;
+  }
 }
 
