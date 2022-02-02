@@ -28,6 +28,19 @@
           <FaIcon @icon="file-download" />
         </PixButtonLink>
       {{/if}}
+      {{#if this.shouldDisplaySupervisorKitButton}}
+        <PixButtonLink
+          class="session-details-header__title__download-button"
+          @href="{{this.session.urlToDownloadSupervisorKitPdf}}"
+          target="_blank"
+          aria-label="Télécharger le kit surveillant"
+          rel="noopener noreferrer"
+          download
+        >
+          Kit surveillant&nbsp;
+          <FaIcon @icon="file-download" />
+        </PixButtonLink>
+      {{/if}}
     </div>
 
     <div class="session-details-header__datetime">
