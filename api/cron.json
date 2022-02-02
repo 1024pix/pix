@@ -1,0 +1,7 @@
+{
+  "jobs": [
+    {
+      "command": "20 5 * * * npm run cache:refresh"
+    }
+  ]
+}
