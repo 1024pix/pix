@@ -89,24 +89,24 @@ describe('Integration | Domain | Algorithm-methods | SmartRandom', function () {
     cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2' });
 
     // Challenges
-    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1], locales: ['fr'] });
-    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skills: [web2], locales: ['fr'] });
-    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skills: [web2, web3], locales: ['fr'] });
-    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skills: [web3], locales: ['fr'] });
-    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skills: [web4], locales: ['fr'] });
-    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skills: [web5], locales: ['fr'] });
-    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb6', skills: [web6], locales: ['fr'] });
-    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'recweb7', skills: [web7], locales: ['fr'] });
-    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skills: [url2], locales: ['fr'] });
-    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skills: [url3], locales: ['fr'] });
-    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skills: [url4], locales: ['fr'] });
-    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skills: [url5], locales: ['fr'] });
-    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skills: [url6], locales: ['fr'] });
-    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skills: [rechInfo5], locales: ['fr'] });
-    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7], locales: ['fr'] });
-    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skills: [cnil1], locales: ['fr'] });
-    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2], locales: ['fr'] });
-    challengeInfo_2_frAndEn = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2], locales: ['fr', 'en'] });
+    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skill: web1, locales: ['fr'] });
+    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skill: web2, locales: ['fr'] });
+    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skill: web3, locales: ['fr'] });
+    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skill: web3, locales: ['fr'] });
+    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skill: web4, locales: ['fr'] });
+    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skill: web5, locales: ['fr'] });
+    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb6', skill: web6, locales: ['fr'] });
+    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'recweb7', skill: web7, locales: ['fr'] });
+    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skill: url2, locales: ['fr'] });
+    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skill: url3, locales: ['fr'] });
+    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skill: url4, locales: ['fr'] });
+    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skill: url5, locales: ['fr'] });
+    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skill: url6, locales: ['fr'] });
+    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skill: rechInfo5, locales: ['fr'] });
+    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skill: rechInfo7, locales: ['fr'] });
+    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skill: cnil1, locales: ['fr'] });
+    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skill: cnil2, locales: ['fr'] });
+    challengeInfo_2_frAndEn = domainBuilder.buildChallenge({ id: 'recinfo2', skill: info2, locales: ['fr', 'en'] });
   });
 
   describe('#getPossibleSkillsForNextChallenge', function () {
@@ -636,42 +636,6 @@ describe('Integration | Domain | Algorithm-methods | SmartRandom', function () {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
 
         // This is where we assert the randomness behavior to have deterministic test
-      });
-    });
-
-    context('when skills is linked to another skills in challenge should have a better rewarding', function () {
-      it('should return correctly a next challenge', function () {
-        // given
-        targetSkills = [url2, web2, web3];
-        challenges = [challengeWeb_2_3, challengeUrl_2];
-        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO });
-        allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'indirect',
-          }),
-        ];
-
-        // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements,
-          lastAnswer,
-          allAnswers,
-          locale,
-        });
-
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(2);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[1].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web2.id);
-        expect(possibleSkillsForNextChallenge[1].id).to.be.equal(web3.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_2_3.id);
-        expect(possibleSkillsForNextChallenge[1].challenges[0].id).to.be.equal(challengeWeb_2_3.id);
       });
     });
 

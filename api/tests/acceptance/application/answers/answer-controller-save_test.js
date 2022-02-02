@@ -69,7 +69,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
             {
               id: challengeId,
               competenceId: competenceId,
-              skillIds: ['recSkill1'],
+              skillId: 'recSkill1',
               status: 'validé',
               solution: correctAnswer,
               proposals: '${a}',
@@ -284,7 +284,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
             {
               id: challengeId,
               competenceId: 'recCompetence',
-              skillIds: ['recSkill1'],
+              skillId: 'recSkill1',
               status: 'validé',
               solution: correctAnswer,
               locales: ['fr-fr'],

@@ -49,9 +49,7 @@ function _findTubes(skills, challenges) {
 
 function _filterSkillsByChallenges(skills, challenges) {
   const skillsWithChallenges = skills.filter((skill) => {
-    return challenges.find((challenge) => {
-      return challenge.skills.find((challengeSkill) => skill.name === challengeSkill.name);
-    });
+    return challenges.find((challenge) => challenge.skill.name === skill.name);
   });
   return skillsWithChallenges;
 }

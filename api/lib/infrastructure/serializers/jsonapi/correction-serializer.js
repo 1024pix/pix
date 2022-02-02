@@ -19,7 +19,7 @@ module.exports = {
       },
       transform: (record) => {
         const correction = Object.assign({}, record);
-        correction.hint = typeof record.relevantHint !== 'undefined' ? record.relevantHint.value : null;
+        correction.hint = record.hint?.value;
         return correction;
       },
     }).serialize(correction);

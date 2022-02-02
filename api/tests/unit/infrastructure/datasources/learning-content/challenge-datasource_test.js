@@ -30,7 +30,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     challenge_competence1 = {
       id: 'challenge-competence1',
       competenceId: competence1.id,
-      skillIds: [web1.id],
+      skillId: web1.id,
       status: 'validé',
       locales: ['fr', 'fr-fr'],
       alpha: 2.11,
@@ -40,7 +40,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     challenge_competence1_noSkills = {
       id: 'challenge-competence1-noSkills',
       competenceId: competence1.id,
-      skillIds: undefined,
+      skillId: undefined,
       status: 'validé',
       locales: ['fr', 'fr-fr'],
       alpha: 8.11,
@@ -50,7 +50,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     challenge_competence1_notValidated = {
       id: 'challenge-competence1-notValidated',
       competenceId: competence1.id,
-      skillIds: [web1.id],
+      skillId: web1.id,
       locales: ['fr', 'fr-fr'],
       status: 'proposé',
       alpha: -0,
@@ -60,7 +60,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     challenge_competence2 = {
       id: 'challenge-competence2',
       competenceId: competence2.id,
-      skillIds: [web1.id],
+      skillId: web1.id,
       status: 'validé',
       locales: ['fr', 'fr-fr'],
       alpha: 8.21,
@@ -69,14 +69,14 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     };
     challenge_web1 = {
       id: 'challenge-web1',
-      skillIds: [web1.id],
+      skillId: web1.id,
       locales: ['fr', 'fr-fr'],
       status: 'validé',
       genealogy: 'Prototype 1',
     };
     challenge_web1_notValidated = {
       id: 'challenge-web1-notValidated',
-      skillIds: [web1.id],
+      skillId: web1.id,
       status: 'proposé',
       locales: ['fr', 'fr-fr'],
       alpha: -1.9,
@@ -85,7 +85,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     };
     challenge_web1_archived = {
       id: 'challenge_web1_archived',
-      skillIds: [web1.id],
+      skillId: web1.id,
       status: 'archivé',
       locales: ['fr', 'fr-fr'],
       alpha: -1.9,
@@ -94,7 +94,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     };
     challenge_web2_en = {
       id: 'challenge-web2',
-      skillIds: [web2.id],
+      skillId: web2.id,
       locales: ['en'],
       status: 'validé',
       alpha: 1,
@@ -103,7 +103,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     };
     challenge_web3 = {
       id: 'challenge-web3',
-      skillIds: [web3.id],
+      skillId: web3.id,
       status: 'validé',
       locales: ['fr', 'fr-fr'],
       alpha: 1.83,
@@ -112,7 +112,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     };
     challenge_web3_archived = {
       id: 'challenge-web3-archived',
-      skillIds: [web3.id],
+      skillId: web3.id,
       status: 'archivé',
       locales: ['fr-fr'],
       alpha: -8.1,
