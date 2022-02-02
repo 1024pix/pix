@@ -53,31 +53,6 @@ describe('Unit | Domain | Models | Challenge', function () {
     });
   });
 
-  describe('#hasSkill', function () {
-    it('should return false when the skill is not known', function () {
-      // given
-      const challenge = new Challenge();
-
-      // when
-      const result = challenge.hasSkill(new Skill('@recherche1'));
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should return true when the skill is known', function () {
-      // given
-      const challenge = new Challenge();
-      challenge.skills.push(new Skill('@recherche1'));
-
-      // when
-      const result = challenge.hasSkill(new Skill('@recherche1'));
-
-      // then
-      expect(result).to.be.true;
-    });
-  });
-
   describe('static#createValidatorForChallengeType', function () {
     const challengeTypeAndValidators = {
       QCM: ValidatorQCM,
