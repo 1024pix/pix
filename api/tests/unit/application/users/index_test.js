@@ -461,41 +461,6 @@ describe('Unit | Router | user-router', function () {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}/dissociate', function () {
-    const method = 'PATCH';
-
-    it('should exist', async function () {
-      // given
-      sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/admin/users/1/dissociate';
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(200);
-    });
-
-    it('should return 400 when id is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/admin/users/wrongId/dissociate';
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-      expect(JSON.parse(result.payload).errors[0].detail).to.equal('"id" must be a number');
-    });
-  });
-
   describe('POST /api/admin/users/{id}/remove-authentication', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI'].forEach((type) => {
