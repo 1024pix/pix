@@ -188,6 +188,12 @@ exports.register = async function (server) {
       method: 'DELETE',
       path: '/api/schooling-registration-user-associations/{id}',
       config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: schoolingRegistrationUserAssociationController.dissociate,
         validate: {
           params: Joi.object({
@@ -195,8 +201,8 @@ exports.register = async function (server) {
           }),
         },
         notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés et admin au sein de l'orga**\n" +
-            "- Elle dissocie un utilisateur d'une inscription d’élève",
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            '- Elle dissocie un utilisateur d’une inscription d’élève',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
