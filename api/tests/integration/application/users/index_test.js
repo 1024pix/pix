@@ -7,8 +7,6 @@ describe('Integration | Application | Users | Routes', function () {
   const methodGET = 'GET';
   const methodPATCH = 'PATCH';
 
-  let payload;
-
   let httpTestServer;
 
   beforeEach(async function () {
@@ -19,7 +17,6 @@ describe('Integration | Application | Users | Routes', function () {
 
     sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
     sinon.stub(userController, 'updateUserDetailsForAdministration').returns('updated');
-    sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
     sinon.stub(userController, 'resetScorecard').returns('ok');
     sinon.stub(userController, 'rememberUserHasSeenChallengeTooltip').returns('ok');
 
@@ -225,21 +222,6 @@ describe('Integration | Application | Users | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('PATCH /api/admin/users/{id}/dissociate', function () {
-    const url = '/api/admin/users/1/dissociate';
-
-    it('should dissociate user', async function () {
-      // given
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
     });
   });
 
