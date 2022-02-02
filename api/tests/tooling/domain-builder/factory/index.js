@@ -89,6 +89,7 @@ module.exports = {
   buildSchoolingRegistrationForAdmin: require('./build-schooling-registration-for-admin'),
   buildSession: require('./build-session'),
   buildSessionForSupervising: require('./build-session-for-supervising'),
+  buildSessionForSupervisorKit: require('./build-session-for-supervisor-kit'),
   buildSessionJuryComment: require('./build-session-jury-comment'),
   buildSessionSummary: require('./build-session-summary'),
   buildShareableCertificate: require('./build-shareable-certificate'),
