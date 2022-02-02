@@ -2,7 +2,7 @@ const BookshelfAssessment = require('../orm-models/Assessment');
 const DomainTransaction = require('../DomainTransaction');
 const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { groupBy, map, head, _ } = require('lodash');
+const { groupBy, map, head, uniqBy, omit } = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 
@@ -22,7 +22,7 @@ module.exports = {
     });
 
     const assessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
-    if (assessment) assessment.answers = _.uniqBy(assessment.answers, 'challengeId');
+    if (assessment) assessment.answers = uniqBy(assessment.answers, 'challengeId');
     return assessment;
   },
 
@@ -187,7 +187,7 @@ function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
 }
 
 function _adaptModelToDb(assessment) {
-  return _.omit(assessment, [
+  return omit(assessment, [
     'id',
     'course',
     'createdAt',
