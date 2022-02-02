@@ -6,13 +6,22 @@ table {
   box-sizing: border-box;
 
   .table__input {
-    border: 1px solid $grey-45;
-    font-size: 0.8rem;
     height: 36px;
     width: 100%;
 
     &:focus-within {
       border: 1px solid $blue;
+    }
+  }
+
+  .table__multi-select {
+    height: 36px;
+    min-width: 100%;
+
+    > label {
+      > input[type="text"]::placeholder {
+        color: $grey-30;
+      }
     }
   }
 }

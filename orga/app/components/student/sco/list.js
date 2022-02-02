@@ -12,6 +12,16 @@ export default class ScoList extends Component {
   @tracked isShowingDissociateModal = false;
   @tracked isDissociateButtonEnabled = ENV.APP.IS_DISSOCIATE_BUTTON_ENABLED;
 
+  loadDivisions = async () => {
+    const divisions = await this.currentUser.organization.divisions;
+    return divisions.map(({ name }) => {
+      return {
+        label: name,
+        value: name,
+      };
+    });
+  };
+
   @action
   openAuthenticationMethodModal(student) {
     this.student = student;
@@ -32,10 +42,5 @@ export default class ScoList extends Component {
   @action
   closeDissociateModal() {
     this.isShowingDissociateModal = false;
-  }
-
-  @action
-  onSearchDivisions(divisions) {
-    this.args.onFilter('divisions', divisions);
   }
 }
