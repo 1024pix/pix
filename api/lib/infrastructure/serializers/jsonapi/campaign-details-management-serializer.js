@@ -7,6 +7,7 @@ module.exports = {
         'name',
         'code',
         'type',
+        'title',
         'createdAt',
         'archivedAt',
         'creatorId',
