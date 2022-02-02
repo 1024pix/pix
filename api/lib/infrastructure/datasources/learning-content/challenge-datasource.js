@@ -3,6 +3,7 @@ const datasource = require('./datasource');
 
 const VALIDATED_CHALLENGE = 'validé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
+const PROTOTYPE_CHALLENGE = 'Prototype 1';
 
 module.exports = datasource.extend({
   modelName: 'challenges',
@@ -38,6 +39,13 @@ module.exports = datasource.extend({
   async findValidatedBySkillId(id) {
     const validatedChallenges = await this.findValidated();
     return validatedChallenges.filter((challenge) => challenge.skillIds.includes(id));
+  },
+
+  async findValidatedPrototypeBySkillId(id) {
+    const validatedChallenges = await this.findValidated();
+    return validatedChallenges.filter(
+      (challenge) => challenge.skillIds.includes(id) && challenge.genealogy === PROTOTYPE_CHALLENGE
+    );
   },
 
   async findFlashCompatible(locale) {

@@ -77,6 +77,12 @@ module.exports = {
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
   },
+
+  async findValidatedPrototypeBySkillId(skillId) {
+    const challengeDataObjects = await challengeDatasource.findValidatedPrototypeBySkillId(skillId);
+    const activeSkills = await skillDatasource.findActive();
+    return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
+  },
 };
 
 function _toDomainCollection({ challengeDataObjects, skills }) {
@@ -128,5 +134,6 @@ function _toDomain({ challengeDataObject, skillDataObjects }) {
     discriminant: challengeDataObject.alpha,
     difficulty: challengeDataObject.delta,
     responsive: challengeDataObject.responsive,
+    genealogy: challengeDataObject.genealogy,
   });
 }
