@@ -34,7 +34,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const competenceEvaluationRepository = {};
   const targetProfileRepository = { getByCampaignParticipationId: () => undefined };
   const skillRepository = { findActiveByCompetenceId: () => undefined };
-  const flashAssessmentResultRepository = { updateEstimatedLevelAndErrorRate: () => undefined };
+  const flashAssessmentResultRepository = { save: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
     findUniqByUserIdAndAssessmentId: () => undefined,
@@ -55,7 +55,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     sinon.stub(challengeRepository, 'get');
     sinon.stub(skillRepository, 'findActiveByCompetenceId');
     sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-    sinon.stub(flashAssessmentResultRepository, 'updateEstimatedLevelAndErrorRate');
+    sinon.stub(flashAssessmentResultRepository, 'save');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
@@ -621,14 +621,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
       it('should call the flash assessment result repository to save estimatedLevel and errorRate', async function () {
         // when
-        await correctAnswerThenUpdateAssessment({
+        const { id } = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
           ...dependencies,
         });
 
-        expect(flashAssessmentResultRepository.updateEstimatedLevelAndErrorRate).to.have.been.calledWith({
-          assessmentId: assessment.id,
+        expect(flashAssessmentResultRepository.save).to.have.been.calledWith({
+          answerId: id,
           estimatedLevel,
           errorRate,
         });
