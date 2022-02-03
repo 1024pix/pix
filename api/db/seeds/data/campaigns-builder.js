@@ -9,7 +9,7 @@ const {
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
 } = require('./target-profiles-builder');
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
-const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID } = require('./organizations-sco-builder');
+const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID, SCO_AEFE_ID } = require('./organizations-sco-builder');
 const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
 const POLE_EMPLOI_CAMPAIGN_ID = 5;
 
@@ -28,12 +28,13 @@ function _buildCampaignForSco(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 4,
     name: 'Sco - Collège - Campagne d’évaluation Badges',
-    code: 'BADGES123',
+    code: 'SCOBADGE1',
     type: 'ASSESSMENT',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     creatorId: 4,
     ownerId: 4,
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    assessmentMethod: 'SMART_RANDOM',
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
@@ -43,7 +44,7 @@ function _buildCampaignForSco(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 7,
     name: 'Sco - Collège - Campagne de collecte de profils',
-    code: 'SNAP456',
+    code: 'SCOCOLECT',
     type: 'PROFILES_COLLECTION',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     creatorId: 6,
@@ -57,12 +58,13 @@ function _buildCampaignForSco(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 8,
     name: 'Sco - Lycée - Campagne d’évaluation Badges',
-    code: 'BADGES456',
+    code: 'SCOBADGE2',
     type: 'ASSESSMENT',
     organizationId: SCO_HIGH_SCHOOL_ID,
     creatorId: 5,
     ownerId: 5,
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
@@ -72,16 +74,49 @@ function _buildCampaignForSco(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 9,
     name: 'Sco - Agriculture - Campagne d’évaluation Badges',
-    code: 'BADGES789',
+    code: 'SCOBADGE3',
     type: 'ASSESSMENT',
     organizationId: SCO_AGRI_ID,
-    creatorId: 7,
-    ownerId: 7,
+    creatorId: 5,
+    ownerId: 4,
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
     createdAt: new Date('2020-01-04'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 23,
+    name: 'Sco - AEFE - Campagne d’évaluation Pix+ Édu initiale',
+    code: 'PIXEDUINI',
+    type: 'ASSESSMENT',
+    organizationId: SCO_AEFE_ID,
+    creatorId: 4,
+    ownerId: 5,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
+    assessmentMethod: 'SMART_RANDOM',
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 24,
+    name: 'Sco - AEFE - Campagne d’évaluation Pix+ Édu continue',
+    code: 'PIXEDUCON',
+    type: 'ASSESSMENT',
+    organizationId: SCO_AEFE_ID,
+    creatorId: 4,
+    ownerId: 5,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
+    assessmentMethod: 'SMART_RANDOM',
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
   });
 }
 
@@ -89,12 +124,13 @@ function _buildCampaignForSup(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 3,
     name: 'Sup - Campagne d’évaluation PIC',
-    code: 'AZERTY789',
+    code: 'SUPPIC123',
     type: 'ASSESSMENT',
     organizationId: SUP_UNIVERSITY_ID,
     creatorId: 7,
     ownerId: 7,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    assessmentMethod: 'SMART_RANDOM',
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
@@ -104,10 +140,10 @@ function _buildCampaignForSup(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 10,
     name: 'Sup - Campagne de collecte de profils',
-    code: 'SNAP789',
+    code: 'SUPCOLECT',
     type: 'PROFILES_COLLECTION',
     organizationId: SUP_UNIVERSITY_ID,
-    creatorId: 7,
+    creatorId: 8,
     ownerId: 7,
     idPixLabel: null,
     title: null,
@@ -116,63 +152,19 @@ function _buildCampaignForSup(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildCampaign({
-    id: 12395,
-    name: 'Sup - Campagne d’évaluation Pix+ Droit',
-    code: 'DROIT1234',
-    type: 'ASSESSMENT',
-    organizationId: PRO_COMPANY_ID,
-    creatorId: 7,
-    ownerId: 7,
-    targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
-    title: null,
-    customLandingPageText: null,
-    idPixLabel: null,
-    createdAt: new Date('2020-01-07'),
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 12396,
-    name: 'Sup - Campagne d\'évaluation #2 Pix+ Droit',
-    code: 'DROIT5678',
+    id: 20,
+    name: 'Sup - Campagne d\'évaluation Pix+ Droit',
+    code: 'SUPDROIT1',
     type: 'ASSESSMENT',
     organizationId: SUP_UNIVERSITY_ID,
     creatorId: 7,
-    ownerId: 7,
+    ownerId: 8,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+    assessmentMethod: 'SMART_RANDOM',
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
     createdAt: new Date('2020-01-08'),
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 12397,
-    name: 'Campagne d’évaluation Pix+ Édu - Formation Initiale 2nd degré',
-    code: 'PIXEDU123',
-    type: 'ASSESSMENT',
-    organizationId: PRO_COMPANY_ID,
-    creatorId: 7,
-    ownerId: 7,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
-    title: null,
-    customLandingPageText: null,
-    idPixLabel: null,
-    createdAt: new Date('2020-01-07'),
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 12398,
-    name: 'Campagne d’évaluation Pix+ Édu - Formation Continue 2nd degré',
-    code: 'PIXEDU456',
-    type: 'ASSESSMENT',
-    organizationId: PRO_COMPANY_ID,
-    creatorId: 7,
-    ownerId: 7,
-    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
-    title: null,
-    customLandingPageText: null,
-    idPixLabel: null,
-    createdAt: new Date('2020-01-07'),
   });
 }
 
@@ -180,12 +172,13 @@ function _buildCampaignForPro(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 1,
     name: 'Pro - Campagne d’évaluation 5.1',
-    code: 'AZERTY123',
+    code: 'PROCOMP51',
     type: 'ASSESSMENT',
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
@@ -198,15 +191,18 @@ function _buildCampaignForPro(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 2,
     name: 'Pro - Campagne d’évaluation PIC - en cours',
-    code: 'AZERTY456',
+    code: 'PROCUSTOM',
     type: 'ASSESSMENT',
     title: 'Parcours en cours',
     customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
     organizationId: PRO_COMPANY_ID,
-    creatorId: 2,
+    creatorId: 3,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    idPixLabel: null,
+    assessmentMethod: 'SMART_RANDOM',
+    idPixLabel: 'identifiant entreprise',
+    externalIdHelpImageUrl: 'https://placekitten.com/g/500/300',
+    alternativeTextToExternalIdHelpImage: 'Votre identifiant est le nom du premier chaton',
     customResultPageButtonUrl: 'https://pix.fr/',
     customResultPageButtonText: 'Voir Pix ! Avec du markdown ',
     customResultPageText: `---
@@ -222,24 +218,24 @@ __Plus d'infos :)__
   databaseBuilder.factory.buildCampaign({
     id: POLE_EMPLOI_CAMPAIGN_ID,
     name: 'Pro - Campagne Pix Emploi',
-    code: 'QWERTY789',
+    code: 'PIXEMPLOI',
     type: 'ASSESSMENT',
     organizationId: PRO_POLE_EMPLOI_ID,
-    creatorId: 3,
-    ownerId: 3,
+    creatorId: 2,
+    ownerId: 2,
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+    assessmentMethod: 'SMART_RANDOM',
     title: null,
     customLandingPageText: null,
-    idPixLabel: 'identifiant pôle emploi',
-    externalIdHelpImageUrl: 'https://placekitten.com/g/500/300',
-    alternativeTextToExternalIdHelpImage: 'Votre identifiant est le nom du premier chaton',
+    idPixLabel: null,
     createdAt: new Date('2020-01-11'),
+    multipleSendings: true,
   });
 
   databaseBuilder.factory.buildCampaign({
     id: 6,
     name: 'Pro - Campagne de collecte de profils',
-    code: 'SNAP123',
+    code: 'PROCOLECT',
     type: 'PROFILES_COLLECTION',
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
@@ -260,6 +256,7 @@ __Plus d'infos :)__
     creatorId: 2,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: null,
     customLandingPageText: null,
     customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
@@ -271,7 +268,7 @@ __Plus d'infos :)__
   databaseBuilder.factory.buildCampaign({
     id: 12,
     name: 'Pro - Campagne d’évaluation PIC - Non partagé',
-    code: 'AZERTY654',
+    code: 'PROPIC123',
     type: 'ASSESSMENT',
     title: 'Parcours terminé non partagé',
     customLandingPageText: null,
@@ -279,6 +276,7 @@ __Plus d'infos :)__
     creatorId: 2,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     createdAt: new Date('2020-01-14'),
   });
@@ -291,9 +289,10 @@ __Plus d'infos :)__
     title: 'Parcours archivé partagé',
     customLandingPageText: null,
     organizationId: PRO_COMPANY_ID,
-    creatorId: 2,
-    ownerId: 2,
+    creatorId: 3,
+    ownerId: 3,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-02T15:00:34Z'),
     createdAt: new Date('2020-01-15'),
@@ -310,10 +309,12 @@ __Plus d'infos :)__
     creatorId: 2,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     createdAt: new Date('2019-01-01'),
     archivedAt: new Date('2020-01-01T15:00:34Z'),
   });
+
   databaseBuilder.factory.buildCampaign({
     id: 15,
     name: 'Pro - Campagne d’évaluation PIC - Archivé partagé avec paliers',
@@ -324,7 +325,8 @@ __Plus d'infos :)__
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
     ownerId: 2,
-    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     createdAt: new Date('2019-01-02'),
     archivedAt: new Date('2020-01-01T15:00:34Z'),
@@ -332,8 +334,8 @@ __Plus d'infos :)__
 
   databaseBuilder.factory.buildCampaign({
     id: 16,
-    name: 'Pro - Campagne d’évaluation PIC - Terrminé & partagé - Envois multiple',
-    code: 'FINISHED3',
+    name: 'Pro - Campagne d’évaluation PIC - Terminé & partagé - Envois multiples',
+    code: 'PROPICMUL',
     type: 'ASSESSMENT',
     title: 'Parcours terminé partagé - Envois multiple',
     customLandingPageText: null,
@@ -341,6 +343,7 @@ __Plus d'infos :)__
     creatorId: 2,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     multipleSendings: true,
     createdAt: new Date('2020-01-16'),
@@ -353,10 +356,11 @@ __Plus d'infos :)__
     type: 'ASSESSMENT',
     title: 'Pour novice, accès simplifié',
     customLandingPageText: null,
-    organizationId: PRO_COMPANY_ID,
+    organizationId: PRO_MED_NUM_ID,
     creatorId: 2,
     ownerId: 2,
     targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
+    assessmentMethod: 'SMART_RANDOM',
     idPixLabel: null,
     isForAbsoluteNovice: true,
     createdAt: new Date('2020-01-17'),
@@ -364,8 +368,8 @@ __Plus d'infos :)__
 
   databaseBuilder.factory.buildCampaign({
     id: 18,
-    name: 'Pro - Campagne de collecte de profils - envois multiple',
-    code: 'SNAPMU789',
+    name: 'Pro - Campagne de collecte de profils - Envois multiple',
+    code: 'PROCOLMUL',
     type: 'PROFILES_COLLECTION',
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
@@ -379,18 +383,50 @@ __Plus d'infos :)__
 
   databaseBuilder.factory.buildCampaign({
     id: 19,
-    name: 'Pro - Campagne d’évaluation - Campagne FLASH',
+    name: 'Pro - Campagne d’évaluation FLASH',
     code: 'FLASH1234',
     type: 'ASSESSMENT',
     organizationId: PRO_COMPANY_ID,
     targetProfileId: null,
-    creatorId: 2,
-    ownerId: 2,
+    assessmentMethod: 'FLASH',
+    creatorId: 3,
+    ownerId: 3,
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
     createdAt: new Date('2021-11-09'),
-    assessmentMethod: 'FLASH',
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 21,
+    name: 'Pro - Campagne d’évaluation Pix+ Droit',
+    code: 'PRODROIT1',
+    type: 'ASSESSMENT',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 3,
+    ownerId: 3,
+    targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+    assessmentMethod: 'SMART_RANDOM',
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 22,
+    name: 'Pro - Campagne d’évaluation Badges',
+    code: 'PROBADGE1',
+    type: 'ASSESSMENT',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    ownerId: 3,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    assessmentMethod: 'SMART_RANDOM',
+    idPixLabel: null,
+    title: null,
+    customLandingPageText: null,
+    createdAt: new Date('2020-01-04'),
   });
 
 }
