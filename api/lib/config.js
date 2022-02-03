@@ -68,7 +68,6 @@ module.exports = (function () {
 
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
-      colorEnabled: false,
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: isFeatureEnabled(process.env.LOG_FOR_HUMANS),
       enableLogKnexQueries: isFeatureEnabled(process.env.LOG_KNEX_QUERIES),
@@ -235,7 +234,6 @@ module.exports = (function () {
 
   if (config.environment === 'development') {
     config.enabled = true;
-    config.logging.colorEnabled = true;
   } else if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
