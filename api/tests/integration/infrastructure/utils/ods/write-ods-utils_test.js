@@ -406,6 +406,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
           '<table:table-cell table:style-name="ce123" table:number-columns-spanned="3">' +
           '<text:p>New Cell</text:p>' +
           '</table:table-cell>' +
+          '<table:covered-table-cell table:number-columns-repeated="2"/>' +
           '<table:table-cell table:number-columns-repeated="10"/>' +
           '</table:table-row>' +
           '</xml>';
