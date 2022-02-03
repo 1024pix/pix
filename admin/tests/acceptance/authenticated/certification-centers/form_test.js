@@ -25,8 +25,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
     const externalId = 'externalId';
     this.server.post('/certification-centers', (schema, request) => {
-      const { name, type, externalId } = JSON.parse(request.requestBody).data.attributes;
-      return schema.certificationCenters.create({ id: 99, name, type, externalId });
+      const { name, type, externalId, isSupervisorAccessEnabled } = JSON.parse(request.requestBody).data.attributes;
+      return schema.certificationCenters.create({ id: 99, name, type, externalId, isSupervisorAccessEnabled });
     });
 
     // when
@@ -40,12 +40,11 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Ajouter' }));
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/certification-centers/99');
+    assert.strictEqual(currentURL(), '/certification-centers/99');
     assert.contains(name);
     assert.contains(type.label);
     assert.contains(externalId);
+    assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
 
     assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour CléA Numérique' })).exists();
     assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+ Droit' })).exists();
