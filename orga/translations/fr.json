@@ -734,7 +734,9 @@
         "empty": "Aucun élève.",
         "filter": {
           "division": {
-            "placeholder": "Rechercher par classe"
+            "aria-label": "Entrer une classe",
+            "empty": "Aucune classe",
+            "label": "Rechercher par classe"
           },
           "first-name": {
             "aria-label": "Entrer un prénom",
@@ -788,8 +790,8 @@
           },
           "group": {
             "aria-label": "Entrer un groupe",
-            "label": "Rechercher par groupe",
-            "selected": "Groupes: {groups}"
+            "empty": "Aucun groupe",
+            "label": "Rechercher par groupe"
           },
           "last-name": {
             "aria-label": "Entrer un nom",

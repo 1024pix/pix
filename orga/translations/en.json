@@ -734,7 +734,9 @@
         "empty": "No students.",
         "filter": {
           "division": {
-            "placeholder": "Search by class"
+            "aria-label": "Enter a class",
+            "empty": "No class",
+            "label": "Search by class"
           },
           "first-name": {
             "aria-label": "Enter a first name",
@@ -788,8 +790,8 @@
           },
           "group": {
             "aria-label": "Enter a group",
-            "label": "Search by group",
-            "selected": "Groups: {groups}"
+            "empty": "No group",
+            "label": "Search by group"
           },
           "last-name": {
             "aria-label": "Enter a last name",

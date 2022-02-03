@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -86,13 +87,8 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       await fillByLabel('Entrer un nom', 'bob');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[0], 'lastName');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[1], 'bob');
+      sinon.assert.calledWithExactly(triggerFiltering, 'lastName', 'bob');
+      assert.ok(true);
     });
 
     test('it should trigger filtering with firstname', async function (assert) {
@@ -107,13 +103,8 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       await fillByLabel('Entrer un prénom', 'bob');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[0], 'firstName');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[1], 'bob');
+      sinon.assert.calledWithExactly(triggerFiltering, 'firstName', 'bob');
+      assert.ok(true);
     });
 
     test('it should trigger filtering with division', async function (assert) {
@@ -122,17 +113,19 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      const { getByPlaceholderText } = await render(hbs`<Student::Sco::List
+        @students={{students}}
+        @onFilter={{triggerFiltering}}
+      />`);
 
       // when
-      await click('[for="division-3A"]');
+      const select = await getByPlaceholderText('Rechercher par classe');
+      await click(select);
+      await clickByName('3A');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[0], 'divisions');
-      assert.deepEqual(call.args[1], ['3A']);
+      sinon.assert.calledWithExactly(triggerFiltering, 'divisions', ['3A']);
+      assert.ok(true);
     });
 
     test('it should trigger filtering with connexionType', async function (assert) {
@@ -150,13 +143,8 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       await fillByLabel('Rechercher par méthode de connexion', 'email');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[0], 'connexionType');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(call.args[1], 'email');
+      sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', 'email');
+      assert.ok(true);
     });
   });
 

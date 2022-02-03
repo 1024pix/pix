@@ -45,10 +45,11 @@
     padding: 16px;
     color: $grey-60;
     font-size: 0.875rem;
+    margin: 16px 0 0 0;
 
     @include device-is('desktop') {
       position: absolute;
-      margin: 16px 0 0 16px;
+      margin: 0 0 0 16px;
       left: 100%;
       width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
@@ -138,11 +139,6 @@
     text-decoration: none;
     border: none;
   }
-}
-
-.pix-select {
-  margin-top: 16px;
-  margin-bottom: 12px;
 }
 
 .label {
