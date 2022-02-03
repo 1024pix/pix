@@ -5,28 +5,26 @@ const nullDestination = {
   write() {},
 };
 
-let pinoPrettyOptions;
+let transport;
 
 if (settings.logging.logForHumans) {
   const omitDay = 'h:MM:ss';
 
-  pinoPrettyOptions = {
-    colorize: true,
-    translateTime: omitDay,
-    ignore: 'pid,hostname',
+  transport = {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: omitDay,
+      ignore: 'pid,hostname',
+    },
   };
-} else {
-  pinoPrettyOptions = false;
 }
 
 const logger = pino(
   {
     level: settings.logging.logLevel,
     redact: ['req.headers.authorization'],
-    transport: {
-      target: 'pino-pretty',
-      options: pinoPrettyOptions,
-    },
+    transport,
   },
   settings.logging.enabled ? pino.destination() : nullDestination
 );
