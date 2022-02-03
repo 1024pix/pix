@@ -15,6 +15,10 @@ function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
+function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
+  return environmentVariable === 'true' ? true : defaultValue;
+}
+
 function _getNumber(numberAsString, defaultIntNumber) {
   const number = parseInt(numberAsString, 10);
   return isNaN(number) ? defaultIntNumber : number;
@@ -307,7 +311,7 @@ module.exports = (function () {
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
-    config.logging.enabled = false;
+    config.logging.enabled = isBooleanFeatureEnabledElseDefault(process.env.LOG_ENABLED, false);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
