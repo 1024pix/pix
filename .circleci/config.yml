@@ -106,7 +106,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-api-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run: npm ci --no-optional
       - save_cache:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
@@ -279,7 +279,7 @@ jobs:
       - run:
           name: Install Pix API
           working_directory: ~/pix/api
-          command: npm ci
+          command: npm ci --no-optional
 
       - run:
           working_directory: ~/pix/mon-pix
@@ -361,7 +361,7 @@ jobs:
           working_directory: ~/pix/api
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm ci
+          command: npm ci --no-optional
       - run:
           command: cat package*.json > cachekey
 
