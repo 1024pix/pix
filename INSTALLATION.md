@@ -77,8 +77,8 @@ npm run configure
 
 ⚠️ Compter entre 10 et 15mn pour l'exécution du script.
 
-Pix s'appuie sur la bibliotèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement en local.
-Si besoin, éditer le fichier `.env` généré par le script pour l'adapter à vos besoins.
+Pix s'appuie sur la bibliothèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement
+en local. Si besoin, éditer le fichier `.env` généré par le script pour l'adapter à vos besoins.
 
 Vérifier les connexions à la base de donnée :
 
@@ -101,7 +101,9 @@ npm start
 - [Pix Admin](http://localhost:4202) sur le port 4202
 - [Pix Certif](http://localhost:4203) sur le port 4203
 
-### 6. (Facultatif) Configurer les domaines locaux.
+### Facultatif
+
+#### Configurer les domaines locaux.
 
 Il est possible d'accéder aux applications Pix avec des domaines `*.dev.pix.<tld>`
 plutôt que `localhost:port` :
@@ -133,4 +135,10 @@ Et arrêter le container avec :
 
 ```bash
 npm run domains:stop
+```
+
+#### Activer le lint à chaque commit
+
+```
+npm run local:trigger-lint-on-commit
 ```
