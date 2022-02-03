@@ -1,4 +1,4 @@
-ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "eslint-plugin-yml"]
+ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "eslint-plugin-yml", "pino-pretty"]
 
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
@@ -15,3 +15,7 @@ ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "
 # "eslint-plugin-YAML" is used in ../.eslintrc.yaml
 # code =>  plugins: - yaml
 # see https://github.com/ota-meshi/eslint-plugin-yml#book-usage
+
+# "pino-pretty" is used in ../lib/infrastructure/logger.js
+# code =>  target: 'pino-pretty'
+# see https://github.com/pinojs/pino-pretty#programmatic-integration
