@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { UserNotAuthorizedToUpdateResourceError, UserNotMemberOfOrganizationError } = require('../errors');
+const { UserNotAuthorizedToUpdateResourceError, EntityValidationError } = require('../errors');
 const campaignValidator = require('../validators/campaign-validator');
 
 module.exports = async function updateCampaign({
@@ -31,9 +31,9 @@ module.exports = async function updateCampaign({
   });
 
   if (_.isEmpty(ownerMembership)) {
-    throw new UserNotMemberOfOrganizationError(
-      `L'utilisateur ${ownerId} n'est pas membre de l'organisation ${organizationId}`
-    );
+    throw new EntityValidationError({
+      invalidAttributes: [{ attribute: 'ownerId', message: 'OWNER_NOT_IN_ORGANIZATION' }],
+    });
   }
 
   if (name !== undefined) campaign.name = name;
