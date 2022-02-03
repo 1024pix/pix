@@ -2,21 +2,27 @@ const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
-const SCO_HIGH_SCHOOL_ID_2 = 13;
 const SCO_AGRI_ID = 7;
-const SCO_AGRI_ID_2 = 12;
 const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
 const SCO_FOREIGNER_USER_ID = 9912;
 const SCO_FRENCH_USER_ID = 2339213;
+const SCO_ADMIN_ID = 4;
+const SCO_MEMBER_ID = 5;
 
 function organizationsScoBuilder({ databaseBuilder }) {
+  _buildMiddleSchools({ databaseBuilder });
+  _buildHighSchools({ databaseBuilder });
+  _buildAgri({ databaseBuilder });
+  _buildAEFE({ databaseBuilder });
+}
+
+function _buildMiddleSchools({ databaseBuilder }) {
   const SCO_COLLEGE_EXTERNAL_ID = '1237457A';
 
-  /* COLLEGE */
-  const scoUser1 = databaseBuilder.factory.buildUser.withRawPassword({
-    id: 4,
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_ADMIN_ID,
     firstName: 'Jon',
     lastName: 'Snow',
     email: 'sco.admin@example.net',
@@ -26,8 +32,8 @@ function organizationsScoBuilder({ databaseBuilder }) {
     lastPixOrgaTermsOfServiceValidatedAt: new Date(),
   });
 
-  const scoUser2 = databaseBuilder.factory.buildUser.withRawPassword({
-    id: 5,
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_MEMBER_ID,
     firstName: 'Aemon',
     lastName: 'Targaryen',
     email: 'sco.member@example.net',
@@ -49,49 +55,19 @@ function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
-  databaseBuilder.factory.buildOrganization({
-    id: SCO_AGRI_ID_2,
-    type: 'SCO',
-    name: 'Lycée agri The Night Watch',
-    isManagingStudents: true,
-    canCollectProfiles: true,
-    email: 'sco.generic.account@example.net',
-    externalId: '1237457D',
-    provinceCode: '12',
-  });
-
-  databaseBuilder.factory.buildOrganization({
-    id: SCO_HIGH_SCHOOL_ID_2,
-    type: 'SCO',
-    name: 'Lycée Sunnydale',
-    isManagingStudents: true,
-    canCollectProfiles: true,
-    email: 'sco.generic.account@example.net',
-    externalId: '1237457K',
-    provinceCode: '12',
-  });
-
   databaseBuilder.factory.buildMembership({
-    userId: scoUser1.id,
-    organizationId: SCO_HIGH_SCHOOL_ID_2,
-    organizationRole: Membership.roles.ADMIN,
-  });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser1.id,
+    userId: SCO_ADMIN_ID,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
-    userId: scoUser2.id,
+    userId: SCO_MEMBER_ID,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     organizationRole: Membership.roles.MEMBER,
   });
 
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_HIGH_SCHOOL_ID_2, tagId: 9 });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_MIDDLE_SCHOOL_ID, tagId: 8 });
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID_2, tagId: 1 });
 
   const disabledUserId = databaseBuilder.factory.buildUser.withRawPassword({
     id: 6,
@@ -110,7 +86,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
 
   // schooling registration not associated yet
   databaseBuilder.factory.buildSchoolingRegistration({
-    id: 1,
     firstName: 'First',
     lastName: 'Last',
     birthdate: '2010-10-10',
@@ -119,6 +94,18 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: null,
     nationalStudentId: '123456789AA',
+  });
+
+  // schooling registration not associated yet
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: 'Prenom',
+    lastName: 'Nom',
+    birthdate: '2009-09-09',
+    division: '3B',
+    group: null,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    userId: null,
+    nationalStudentId: '123456789BB',
   });
 
   // schooling registration associated with username
@@ -131,15 +118,15 @@ function organizationsScoBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  const schoolingRegistrationAssociated = databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildSchoolingRegistration({
     firstName: userWithUsername.firstName,
     lastName: userWithUsername.lastName,
     birthdate: '2013-07-22',
     division: '3A',
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
-    userId: userWithUsername.id,
-    nationalStudentId: '123456789BB',
+    userId: SCO_FRENCH_USER_ID,
+    nationalStudentId: '123456789CC',
   });
 
   // schooling registration associated with username and email
@@ -153,7 +140,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  const schoolingRegistrationAssociated2 = databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildSchoolingRegistration({
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
@@ -162,8 +149,8 @@ function organizationsScoBuilder({ databaseBuilder }) {
     group: null,
     sex: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
-    userId: userWithEmailAndUsername.id,
-    nationalStudentId: '123456789CC',
+    userId: SCO_FOREIGNER_USER_ID,
+    nationalStudentId: '123456789DD',
   });
 
   // schooling registration associated with email
@@ -183,7 +170,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmail.id,
-    nationalStudentId: '123456789DD',
+    nationalStudentId: '123456789EE',
   });
 
   // schooling registration associated with email used by certification
@@ -204,7 +191,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userCertifWithEmail.id,
-    nationalStudentId: '123456789EE',
+    nationalStudentId: '123456789FF',
   });
 
   // schooling registration associated with gar
@@ -229,7 +216,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithGAR.id,
-    nationalStudentId: '123456789FF',
+    nationalStudentId: '123456789GG',
   });
 
   // schooling registration disabled
@@ -249,119 +236,30 @@ function organizationsScoBuilder({ databaseBuilder }) {
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: studentDisabled.id,
-    nationalStudentId: '123456789GG',
+    nationalStudentId: '123456789HH',
     isDisabled: true,
-  });
-
-  /* LYCEE */
-  databaseBuilder.factory.buildOrganization({
-    id: SCO_HIGH_SCHOOL_ID,
-    type: 'SCO',
-    name: 'Lycée The Night Watch',
-    isManagingStudents: true,
-    canCollectProfiles: true,
-    email: 'sco2.generic.account@example.net',
-    externalId: '1237457B',
-    provinceCode: '12',
-  });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser1.id,
-    organizationId: SCO_HIGH_SCHOOL_ID,
-    organizationRole: Membership.roles.ADMIN,
-  });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser2.id,
-    organizationId: SCO_HIGH_SCHOOL_ID,
-    organizationRole: Membership.roles.MEMBER,
-  });
-
-  // schooling registration also associated in another organization
-  databaseBuilder.factory.buildSchoolingRegistration({
-    userId: userWithEmailAndUsername.id,
-    firstName: userWithEmailAndUsername.firstName,
-    lastName: userWithEmailAndUsername.lastName,
-    birthdate: userWithEmailAndUsername.birtdate,
-    division: '3D',
-    group: null,
-    organizationId: SCO_HIGH_SCHOOL_ID,
-    nationalStudentId: schoolingRegistrationAssociated2.nationalStudentId,
-    createdAt: new Date('2020-08-14'),
-  });
-
-  // schooling registration associated in another organization but not associated yet
-  databaseBuilder.factory.buildSchoolingRegistration({
-    userId: null,
-    firstName: userWithUsername.firstName,
-    lastName: userWithUsername.lastName,
-    birthdate: userWithUsername.birthdate,
-    division: '3D',
-    group: null,
-    organizationId: SCO_HIGH_SCHOOL_ID,
-    nationalStudentId: schoolingRegistrationAssociated.nationalStudentId,
-    createdAt: new Date('2020-08-14'),
-  });
-
-  /* AGRICULTURE */
-  databaseBuilder.factory.buildOrganization({
-    id: SCO_AGRI_ID,
-    type: 'SCO',
-    name: 'Lycée Agricole',
-    isManagingStudents: true,
-    canCollectProfiles: true,
-    email: 'sco3.generic.account@example.net',
-    externalId: '1237457C',
-    provinceCode: '12',
-  });
-
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID, tagId: 1 });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser1.id,
-    organizationId: SCO_AGRI_ID,
-    organizationRole: Membership.roles.ADMIN,
-  });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser2.id,
-    organizationId: SCO_AGRI_ID,
-    organizationRole: Membership.roles.MEMBER,
-  });
-
-  /* AEFE */
-  databaseBuilder.factory.buildOrganization({
-    id: SCO_AEFE_ID,
-    type: 'SCO',
-    name: 'AEFE',
-    canCollectProfiles: true,
-    email: 'sco5.generic.account@example.net',
-    externalId: '1237457E',
-    provinceCode: '12',
-  });
-
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AEFE_ID, tagId: 6 });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser1.id,
-    organizationId: SCO_AEFE_ID,
-    organizationRole: Membership.roles.ADMIN,
-  });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser2.id,
-    organizationId: SCO_AEFE_ID,
-    organizationRole: Membership.roles.MEMBER,
   });
 
   // user who has left SCO
   const userWhoHasLeftSCO = databaseBuilder.factory.buildUser({
-    firstName: 'John',
-    lastName: 'hasLeftSCO',
-    email: 'john.hasleftsco@example.net',
+    firstName: 'Studentsco',
+    lastName: 'HasLeftSCO',
+    email: 'studentsco.hasleftsco@example.net',
     username: null,
     cgu: true,
     emailConfirmedAt: new Date(),
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: userWhoHasLeftSCO.firstName,
+    lastName: userWhoHasLeftSCO.lastName,
+    birthdate: '2000-01-01',
+    division: '3A',
+    group: null,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    userId: userWhoHasLeftSCO.id,
+    nationalStudentId: '123456789II',
+    isDisabled: true,
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
@@ -378,6 +276,116 @@ function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWhoHasLeftSCO.firstName,
     lastName: userWhoHasLeftSCO.lastName,
     used: true,
+  });
+}
+
+function _buildHighSchools({ databaseBuilder }) {
+  const SCO_LYCEE_EXTERNAL_ID = '1237457B';
+
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_HIGH_SCHOOL_ID,
+    type: 'SCO',
+    name: 'Lycée The Night Watch',
+    isManagingStudents: true,
+    canCollectProfiles: true,
+    email: 'sco2.generic.account@example.net',
+    externalId: SCO_LYCEE_EXTERNAL_ID,
+    provinceCode: '12',
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_ADMIN_ID,
+    organizationId: SCO_HIGH_SCHOOL_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_MEMBER_ID,
+    organizationId: SCO_HIGH_SCHOOL_ID,
+    organizationRole: Membership.roles.MEMBER,
+  });
+
+  // schooling registration also associated in another organization
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: SCO_FOREIGNER_USER_ID,
+    firstName: 'Same Blue Ivy',
+    lastName: 'Same Carter',
+    birthdate: '2012-01-07',
+    division: '2B',
+    group: null,
+    organizationId: SCO_HIGH_SCHOOL_ID,
+    nationalStudentId: '123456789CC',
+    createdAt: new Date('2020-08-14'),
+  });
+
+  // schooling registration associated in another organization but not associated yet
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: null,
+    firstName: 'Same George',
+    lastName: 'Same De Cambridge',
+    birthdate: '2013-07-22',
+    division: '2A',
+    group: null,
+    organizationId: SCO_HIGH_SCHOOL_ID,
+    nationalStudentId: '123456789BB',
+    createdAt: new Date('2020-08-14'),
+  });
+}
+
+function _buildAgri({ databaseBuilder }) {
+  const SCO_AGRI_EXTERNAL_ID = '1237457C';
+
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_AGRI_ID,
+    type: 'SCO',
+    name: 'Lycée Agricole',
+    isManagingStudents: true,
+    canCollectProfiles: true,
+    email: 'sco3.generic.account@example.net',
+    externalId: SCO_AGRI_EXTERNAL_ID,
+    provinceCode: '12',
+  });
+
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID, tagId: 1 });
+
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_ADMIN_ID,
+    organizationId: SCO_AGRI_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_MEMBER_ID,
+    organizationId: SCO_AGRI_ID,
+    organizationRole: Membership.roles.MEMBER,
+  });
+}
+
+function _buildAEFE({ databaseBuilder }) {
+  const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
+
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_AEFE_ID,
+    type: 'SCO',
+    name: 'AEFE',
+    canCollectProfiles: true,
+    email: 'sco4.generic.account@example.net',
+    externalId: SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID,
+    provinceCode: '12',
+  });
+
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AEFE_ID, tagId: 6 });
+
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_ADMIN_ID,
+    organizationId: SCO_AEFE_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: SCO_MEMBER_ID,
+    organizationId: SCO_AEFE_ID,
+    organizationRole: Membership.roles.MEMBER,
   });
 }
 
