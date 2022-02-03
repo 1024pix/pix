@@ -19,21 +19,6 @@ describe('Unit | Application | Router | assessment-router', function () {
     });
   });
 
-  describe('GET /api/assessments', function () {
-    it('should return 200', async function () {
-      // given
-      sinon.stub(assessmentController, 'findByFilters').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/assessments');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/assessments/{id}/next', function () {
     it('should return 200', async function () {
       // given

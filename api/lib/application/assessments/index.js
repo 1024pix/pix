@@ -17,16 +17,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/assessments',
-      config: {
-        auth: false,
-        handler: assessmentController.findByFilters,
-        tags: ['api'],
-        notes: ['route désormais non utilisée et donc dépréciée'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/assessments/{id}/next',
       config: {
         auth: false,
