@@ -98,36 +98,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         });
       });
 
-      module('when current certification center has access to supervisor space', function (hooks) {
-        hooks.afterEach(function () {
-          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
-        });
-
-        test('it should display the supervisor kit download button', async function (assert) {
-          // given
-          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: true });
-
-          // when
-          await visit(`/sessions/${sessionWithCandidates.id}`);
-
-          // then
-          assert.contains('Kit surveillant');
-        });
-      });
-
-      module('when current certification center has not access to supervisor space', function () {
-        test('it should not display the supervisor kit download button', async function (assert) {
-          // given
-          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
-
-          // when
-          await visit(`/sessions/${sessionWithCandidates.id}`);
-
-          // then
-          assert.notContains('Kit surveillant');
-        });
-      });
-
       test('it should display details modal button', async function (assert) {
         // when
         await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
@@ -344,17 +314,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
-          });
-
-          test('it should display the attendance sheet download button', async function (assert) {
-            // when
-            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
-            await _fillFormWithCorrectData(screen);
-            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
-
-            // then
-            assert.contains("Feuille d'émargement");
           });
         });
       });
