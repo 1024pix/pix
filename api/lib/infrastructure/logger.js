@@ -23,7 +23,10 @@ const logger = pino(
   {
     level: settings.logging.logLevel,
     redact: ['req.headers.authorization'],
-    prettyPrint: pinoPrettyOptions,
+    transport: {
+      target: 'pino-pretty',
+      options: pinoPrettyOptions,
+    },
   },
   settings.logging.enabled ? pino.destination() : nullDestination
 );
