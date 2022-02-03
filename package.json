@@ -58,7 +58,7 @@
     "lint:orga:json": "cd orga && npm run lint:json",
     "lint:scripts": "eslint scripts",
     "lint:json": "run-p --print-label lint:api:json lint:mon-pix:json lint:orga:json",
-    "lint:yaml": "eslint --ext .yml .circleci && eslint --ext .yml .github",
+    "lint:yaml": "eslint --ext .yml .circleci && eslint --ext .yaml .github",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "local:trigger-lint-on-commit": "husky install",
     "preinstall": "npx check-engine",

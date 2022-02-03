@@ -23,5 +23,5 @@ insert_final_newline = false
 [*.{diff,md}]
 trim_trailing_whitespace = false
 
-[*.yml]
+[*.yaml]
 quote_type = single
