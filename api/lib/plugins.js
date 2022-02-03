@@ -1,6 +1,5 @@
 const Pack = require('../package');
 const settings = require('./config');
-const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const monitoringTools = require('./infrastructure/monitoring-tools');
@@ -25,7 +24,6 @@ function logObjectSerializer(req) {
 const plugins = [
   Inert,
   Vision,
-  Blipp,
   {
     plugin: require('hapi-i18n'),
     options: {
