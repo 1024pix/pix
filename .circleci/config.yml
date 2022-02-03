@@ -72,12 +72,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Lint and test scripts
+          name: Lint and test root
           command: |
             npm ci
             npm run lint:scripts
             npm run lint:yaml
-            npm run test:ci
+            npm run test:root
             rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
