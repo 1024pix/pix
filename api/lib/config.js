@@ -233,7 +233,7 @@ module.exports = (function () {
   };
 
   if (config.environment === 'development') {
-    config.enabled = true;
+    config.logging.enabled = true;
   } else if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
