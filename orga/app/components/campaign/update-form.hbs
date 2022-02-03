@@ -41,9 +41,9 @@
       required={{true}}
       aria-required={{true}}
     />
-    {{#if @errors.name}}
+    {{#if @campaign.errors.owner}}
       <div class="form__error error-message">
-        {{display-campaign-errors @errors.name}}
+        {{display-campaign-errors @campaign.errors.owner}}
       </div>
     {{/if}}
 
