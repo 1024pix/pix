@@ -13,23 +13,6 @@ $margin-right: 32px;
     margin: 1rem 0;
   }
 
-  &__divisions-filter {
-    height: 36px;
-    min-width: 100%;
-    font-weight: 400;
-    
-    > label {
-      border: 1px solid $grey-15;
-      padding-right: 8px;
-
-      > input[type="text"]::placeholder {
-        font-family: $roboto;
-        color: $grey-30;
-        font-size: 0.8rem;
-      }
-    }
-  }
-
   &__tooltip {
     display: inline-flex;
     .pix-tooltip ul {
