@@ -9,6 +9,7 @@ const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../.
 const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
 const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
+const checkAuthorizationToManageCampaignUsecase = require('../../../lib/application/usecases/checkAuthorizationToManageCampaign');
 
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkUserHasRolePixMaster', function () {
@@ -576,6 +577,64 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+  describe('#checkAuthorizationToManageCampaign', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and is admin in organization and owner of the campaign', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const organization = domainBuilder.buildOrganization();
+        domainBuilder.buildMembership({ organization, user, organizationRole: 'ADMIN' });
+        const campaign = domainBuilder.buildCampaign({ organizationId: organization.id, ownerId: user.id });
+
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: user.id } },
+          params: { id: campaign.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon
+          .stub(checkAuthorizationToManageCampaignUsecase, 'execute')
+          .withArgs({ userId: user.id, campaignId: campaign.id })
+          .resolves(true);
+
+        // when
+        const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user is member but does not own the campaign', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const otherUser = domainBuilder.buildUser();
+        const organization = domainBuilder.buildOrganization();
+        domainBuilder.buildMembership({ organization, user, organizationRole: 'MEMBER' });
+        const campaign = domainBuilder.buildCampaign({ organizationId: organization.id, ownerId: otherUser.id });
+
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: user.id } },
+          params: { id: campaign.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        sinon
+          .stub(checkAuthorizationToManageCampaignUsecase, 'execute')
+          .withArgs({ userId: user.id, campaignId: campaign.id })
+          .resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
       });
     });
   });

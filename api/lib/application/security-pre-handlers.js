@@ -8,6 +8,7 @@ const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelon
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization');
 const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter');
+const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign');
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -242,6 +243,18 @@ async function checkUserIsMemberOfAnOrganization(request, h) {
   return _replyForbiddenError(h);
 }
 
+async function checkAuthorizationToManageCampaign(request, h) {
+  const userId = request.auth.credentials.userId;
+  const campaignId = request.params.id;
+  const isAdminOrOwnerOfTheCampaign = await checkAuthorizationToManageCampaignUsecase.execute({
+    userId,
+    campaignId,
+  });
+
+  if (isAdminOrOwnerOfTheCampaign) return h.response(true);
+  return _replyForbiddenError(h);
+}
+
 /* eslint-enable no-restricted-syntax */
 
 module.exports = {
@@ -252,6 +265,7 @@ module.exports = {
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkUserIsAdminInOrganization,
+  checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserBelongsToOrganization,
