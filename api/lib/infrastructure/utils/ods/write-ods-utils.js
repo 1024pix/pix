@@ -70,12 +70,25 @@ function addCellToEndOfLineWithStyleOfCellLabelled({ stringifiedXml, lineNumber,
     clonedCell.setAttribute('table:number-columns-spanned', addedCellOption.colspan);
   }
 
+  const addedCellPositionOffset = addedCellOption.positionOffset ? addedCellOption.positionOffset : 1;
   _addCellToEndOfLine({
     parsedXmlDom,
     lineNumber,
     cell: clonedCell,
-    positionOffset: addedCellOption.positionOffset ? addedCellOption.positionOffset : 1,
+    positionOffset: addedCellPositionOffset,
   });
+
+  if (addedCellOption.colspan && addedCellOption.colspan > 0) {
+    const coveredTableCell = parsedXmlDom.createElement('table:covered-table-cell');
+    coveredTableCell.setAttribute('table:number-columns-repeated', addedCellOption.colspan - 1);
+    const coveredTableCellPositionOffset = addedCellOption.positionOffset ? addedCellOption.positionOffset : 1;
+    _addCellToEndOfLine({
+      parsedXmlDom,
+      lineNumber,
+      cell: coveredTableCell,
+      positionOffset: coveredTableCellPositionOffset,
+    });
+  }
 
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
