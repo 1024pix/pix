@@ -45,6 +45,7 @@ class Form extends Object.extend(Validations) {
   @tracked name;
   @tracked externalId;
   @tracked type;
+  @tracked isSupervisorAccessEnabled;
   @tracked habilitations;
 }
 
@@ -92,6 +93,7 @@ export default class Information extends Component {
       name: this.form.name.trim(),
       externalId: !this.form.externalId ? null : this.form.externalId.trim(),
       type: this.form.type.trim(),
+      isSupervisorAccessEnabled: this.form.isSupervisorAccessEnabled,
       habilitations: this.form.habilitations,
     };
 
@@ -110,16 +112,19 @@ export default class Information extends Component {
   }
 
   _initForm() {
-    const { habilitations, name, externalId, type } = this.args.certificationCenter.getProperties(
-      'habilitations',
-      'name',
-      'externalId',
-      'type'
-    );
+    const { habilitations, name, externalId, type, isSupervisorAccessEnabled } =
+      this.args.certificationCenter.getProperties(
+        'habilitations',
+        'name',
+        'externalId',
+        'type',
+        'isSupervisorAccessEnabled'
+      );
 
     this.form.name = name;
     this.form.habilitations = habilitations ? habilitations.toArray() : [];
     this.form.externalId = externalId;
     this.form.type = type;
+    this.form.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
   }
 }

@@ -10,9 +10,12 @@ import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-
 import repeat from 'lodash/repeat';
 import sinon from 'sinon';
 
-function _createEmberDataHabilitations() {
+function _createEmberDataHabilitations(store) {
   return ArrayProxy.create({
-    content: [EmberObject.create({ id: 0, name: 'Pix+Droit' }), EmberObject.create({ id: 1, name: 'Cléa' })],
+    content: [
+      store.createRecord('habilitation', { id: 0, name: 'Pix+Droit' }),
+      store.createRecord('habilitation', { id: 1, name: 'Cléa' }),
+    ],
   });
 }
 
@@ -21,13 +24,15 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it should display label and values in read mode', async function (assert) {
     // given
-    const availableHabilitations = _createEmberDataHabilitations();
+    const store = this.owner.lookup('service:store');
+    const availableHabilitations = _createEmberDataHabilitations(store);
     this.availableHabilitations = availableHabilitations;
 
-    const certificationCenter = EmberObject.create({
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
+      isSupervisorAccessEnabled: false,
       habilitations: [availableHabilitations.firstObject],
     });
     this.certificationCenter = certificationCenter;
@@ -45,16 +50,19 @@ module('Integration | Component | certification-centers/information', function (
     assert.contains('Centre SCO');
     assert.contains('SCO');
     assert.contains('AX129');
+    assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'non');
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
   });
 
   test('it enters edition mode when click on Edit button', async function (assert) {
     // given
-    const certificationCenter = EmberObject.create({
+    const store = this.owner.lookup('service:store');
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
+      isSupervisorAccessEnabled: false,
     });
     this.set('certificationCenter', certificationCenter);
     this.set('isEditMode', false);
@@ -73,10 +81,12 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it exits edition mode when click on Save button', async function (assert) {
     // given
-    const certificationCenter = EmberObject.create({
+    const store = this.owner.lookup('service:store');
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
+      isSupervisorAccessEnabled: false,
     });
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
@@ -100,10 +110,12 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it exits edition mode when click on Cancel button', async function (assert) {
     // given
-    const certificationCenter = EmberObject.create({
+    const store = this.owner.lookup('service:store');
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
+      isSupervisorAccessEnabled: false,
     });
     this.set('certificationCenter', certificationCenter);
 
@@ -122,13 +134,15 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it renders the certification center information component in edit mode', async function (assert) {
     // given
-    const availableHabilitations = _createEmberDataHabilitations();
+    const store = this.owner.lookup('service:store');
+    const availableHabilitations = _createEmberDataHabilitations(store);
     this.availableHabilitations = availableHabilitations;
 
-    const certificationCenter = EmberObject.create({
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
+      isSupervisorAccessEnabled: false,
       habilitations: [availableHabilitations.firstObject],
     });
     this.set('certificationCenter', certificationCenter);
@@ -144,6 +158,7 @@ module('Integration | Component | certification-centers/information', function (
     assert.dom('input#name').hasValue('Centre SCO');
     assert.dom('select#certification-center-type').hasValue('SCO');
     assert.dom('input#external-id').hasValue('AX129');
+    assert.dom(screen.getByLabelText('Espace surveillant')).isNotChecked();
     assert.dom(screen.getByLabelText('Pix+Droit')).isChecked();
     assert.dom(screen.getByLabelText('Cléa')).isNotChecked();
   });
@@ -207,13 +222,15 @@ module('Integration | Component | certification-centers/information', function (
 
   test('it should call updateCertificationCenter with certification center data on save', async function (assert) {
     // given
-    const availableHabilitations = _createEmberDataHabilitations();
+    const store = this.owner.lookup('service:store');
+    const availableHabilitations = _createEmberDataHabilitations(store);
     this.availableHabilitations = availableHabilitations;
-    const certificationCenter = EmberObject.create({
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
       habilitations: [],
+      isSupervisorAccessEnabled: false,
     });
 
     this.set('certificationCenter', certificationCenter);
@@ -229,6 +246,7 @@ module('Integration | Component | certification-centers/information', function (
     await fillInByLabel('Nom du centre', 'Centre SUP');
     await fillInByLabel('Type', 'SUP');
     await fillInByLabel('Identifiant externe', 'externalId');
+    await clickByLabel('Espace surveillant');
     await clickByLabel('Pix+Droit');
 
     // when
@@ -240,19 +258,22 @@ module('Integration | Component | certification-centers/information', function (
       externalId: 'externalId',
       name: 'Centre SUP',
       type: 'SUP',
+      isSupervisorAccessEnabled: true,
     });
     assert.ok(true);
   });
 
   test('it should not call updateCertificationCenter and discard user input on cancel', async function (assert) {
     // given
-    const availableHabilitations = _createEmberDataHabilitations();
+    const store = this.owner.lookup('service:store');
+    const availableHabilitations = _createEmberDataHabilitations(store);
     this.availableHabilitations = availableHabilitations;
-    const certificationCenter = EmberObject.create({
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
       habilitations: [availableHabilitations.firstObject],
+      isSupervisorAccessEnabled: true,
     });
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
@@ -269,6 +290,7 @@ module('Integration | Component | certification-centers/information', function (
     await fillIn('#name', 'Centre SUP');
     await fillIn('#certification-center-type', 'SUP');
     await fillIn('#external-id', 'externalId');
+    await clickByLabel('Espace surveillant');
     await clickByLabel('Cléa');
     await clickByLabel('Annuler');
 
@@ -277,6 +299,7 @@ module('Integration | Component | certification-centers/information', function (
     assert.contains('Centre SCO');
     assert.contains('SCO');
     assert.contains('AX129');
+    assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
   });

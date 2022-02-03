@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, findAll, triggerEvent, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn, find, findAll, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -29,9 +29,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/certification-centers/1');
+    assert.strictEqual(currentURL(), '/certification-centers/1');
   });
 
   test('should display Certification center detail', async function (assert) {
@@ -291,6 +289,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         name: 'Center 1',
         externalId: 'ABCDEF',
         type: 'SCO',
+        isSupervisorAccessEnabled: false,
       });
       await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByLabel('Editer');
@@ -300,6 +299,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await fillInByLabel('Nom du centre', 'nouveau nom');
       await fillInByLabel('Type', 'SUP');
       await fillInByLabel('Identifiant externe', 'nouvel identifiant externe');
+      await clickByLabel('Espace surveillant');
       await clickByLabel('Enregistrer');
 
       // then
@@ -307,6 +307,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.contains('nouveau nom');
       assert.contains('Établissement supérieur');
       assert.contains('nouvel identifiant externe');
+      assert.strictEqual(find('span[aria-label="Espace surveillant"]').textContent, 'oui');
     });
 
     test('should display a success notification when the certification has been successfully updated', async function (assert) {
