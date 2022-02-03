@@ -38,6 +38,7 @@ describe('Acceptance | API | Certification Center', function () {
           name: 'Centres des tests jolis',
           type: 'SUP',
           externalId: '12345',
+          isSupervisorAccessEnabled: true,
           createdAt: new Date('2020-01-01'),
         });
         databaseBuilder.factory.buildCertificationCenter({
@@ -45,6 +46,7 @@ describe('Acceptance | API | Certification Center', function () {
           name: 'Centres des tests pas moches',
           type: 'SCO',
           externalId: '222',
+          isSupervisorAccessEnabled: false,
           createdAt: new Date('2020-01-05'),
         });
         databaseBuilder.factory.buildComplementaryCertification({
@@ -72,6 +74,7 @@ describe('Acceptance | API | Certification Center', function () {
                 'external-id': '12345',
                 name: 'Centres des tests jolis',
                 type: 'SUP',
+                'is-supervisor-access-enabled': true,
               },
               relationships: {
                 habilitations: {
@@ -97,6 +100,7 @@ describe('Acceptance | API | Certification Center', function () {
                 'external-id': '222',
                 name: 'Centres des tests pas moches',
                 type: 'SCO',
+                'is-supervisor-access-enabled': false,
               },
               relationships: {
                 habilitations: {
@@ -166,6 +170,7 @@ describe('Acceptance | API | Certification Center', function () {
             attributes: {
               name: 'Nouveau Centre de Certif',
               type: 'SCO',
+              'is-supervisor-access-enabled': true,
             },
             relationships: {
               habilitations: {
@@ -208,6 +213,7 @@ describe('Acceptance | API | Certification Center', function () {
 
         // then
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
+        expect(response.result.data.attributes['is-supervisor-access-enabled']).to.equal(true);
         expect(response.result.data.id).to.be.ok;
       });
     });

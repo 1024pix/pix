@@ -26,6 +26,7 @@ describe('Integration | Repository | Certification Center', function () {
           createdAt: new Date('2018-01-01T05:43:10Z'),
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
+          isSupervisorAccessEnabled: true,
           updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
@@ -37,6 +38,7 @@ describe('Integration | Repository | Certification Center', function () {
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           complementaryCertifications: [],
+          isSupervisorAccessEnabled: true,
           updatedAt: now,
         });
 
@@ -320,7 +322,11 @@ describe('Integration | Repository | Certification Center', function () {
 
     it('should save the given certification center', async function () {
       // given
-      const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName', type: 'SCO' });
+      const certificationCenter = new CertificationCenter({
+        name: 'CertificationCenterName',
+        type: 'SCO',
+        isSupervisorAccessEnabled: true,
+      });
 
       // when
       const savedCertificationCenter = await certificationCenterRepository.save(certificationCenter);
@@ -328,7 +334,9 @@ describe('Integration | Repository | Certification Center', function () {
       // then
       expect(savedCertificationCenter).to.be.instanceof(CertificationCenter);
       expect(savedCertificationCenter.id).to.exist;
-      expect(savedCertificationCenter.name).to.equal(certificationCenter.name);
+      expect(savedCertificationCenter.name).to.equal('CertificationCenterName');
+      expect(savedCertificationCenter.type).to.equal('SCO');
+      expect(savedCertificationCenter.isSupervisorAccessEnabled).to.be.true;
     });
 
     it('should update the given certification center with the proper updated date', async function () {
