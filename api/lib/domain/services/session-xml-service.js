@@ -47,14 +47,15 @@ function _addColumnGroupHeader({ stringifiedXml, headerLabel, numberOfColumns })
   let addedCellOption = new AddedCellOption({
     labels: [headerLabel],
     rowspan: GROUP_HEADER_ROW_HEIGHT_ROW_SPAN,
+    colspan: numberOfColumns,
     positionOffset: 2,
   });
 
   if (numberOfColumns === 1) {
     addedCellOption = new AddedCellOption({
       labels: headerLabelWords,
-      colspan: 1,
       rowspan: GROUP_HEADER_ROW_HEIGHT_ROW_SPAN,
+      colspan: numberOfColumns,
       positionOffset: 2,
     });
   }
