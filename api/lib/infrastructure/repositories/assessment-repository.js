@@ -2,7 +2,7 @@ const BookshelfAssessment = require('../orm-models/Assessment');
 const DomainTransaction = require('../DomainTransaction');
 const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { groupBy, map, head, _ } = require('lodash');
+const { groupBy, map, head, uniqBy, omit } = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 
@@ -22,7 +22,7 @@ module.exports = {
     });
 
     const assessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
-    if (assessment) assessment.answers = _.uniqBy(assessment.answers, 'challengeId');
+    if (assessment) assessment.answers = uniqBy(assessment.answers, 'challengeId');
     return assessment;
   },
 
@@ -86,25 +86,6 @@ module.exports = {
       .where('state', '!=', 'aborted')
       .fetchAll()
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
-  },
-
-  findLastCampaignAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
-    return BookshelfAssessment.where({
-      'assessments.userId': userId,
-      'assessments.type': 'CAMPAIGN',
-      'campaigns.code': campaignCode,
-    })
-      .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
-        qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
-        qb.where('campaign-participations.isImproved', false);
-      })
-      .orderBy('createdAt', 'desc')
-      .fetch({
-        require: false,
-        withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [],
-      })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   abortByAssessmentId(assessmentId) {
@@ -206,7 +187,7 @@ function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
 }
 
 function _adaptModelToDb(assessment) {
-  return _.omit(assessment, [
+  return omit(assessment, [
     'id',
     'course',
     'createdAt',
