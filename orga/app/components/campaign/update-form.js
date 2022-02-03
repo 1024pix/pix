@@ -45,13 +45,13 @@ export default class UpdateForm extends Component {
 
   @action
   onChangeCampaignTitle(event) {
-    const titleTrim = event.target.value?.trim();
+    const titleTrim = event.target.value.trim();
     this.args.campaign.title = titleTrim || null;
   }
 
   @action
   onChangeCampaignCustomLandingPageText(event) {
-    const customLandingPageTextTrim = event.target.value?.trim();
+    const customLandingPageTextTrim = event.target.value.trim();
     this.args.campaign.customLandingPageText = customLandingPageTextTrim || null;
   }
 
