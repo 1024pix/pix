@@ -48,14 +48,6 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       assert.dom('input#title').hasValue('Ceci est un titre');
     });
 
-    test('it should display an error text when the title has more than 255 characters', async function (assert) {
-      // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Titre du parcours', 'a'.repeat(256));
-      // then
-      assert.contains('La longueur du titre ne doit pas excéder 255 caractères');
-    });
-
     test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);

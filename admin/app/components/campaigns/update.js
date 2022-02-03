@@ -57,6 +57,7 @@ const Validations = buildValidations({
     validators: [
       validator('format', {
         type: 'url',
+        allowBlank: true,
         message: 'Ce champ doit être une URL complète et valide',
       }),
     ],
@@ -87,6 +88,7 @@ export default class Update extends Component {
   }
 
   async _checkFormValidation() {
+    console.log(this.form.customResultPageButtonUrl);
     const { validations } = await this.form.validate();
     return validations.isValid;
   }
