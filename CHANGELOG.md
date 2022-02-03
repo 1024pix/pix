@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.164.0 (03/02/2022)
+
+
+### :rocket: Enhancement
+- [#4009](https://github.com/1024pix/pix/pull/4009) [FEATURE] À la sortie de la campagne, afficher le nombre de Pix (PIX-3787)
+- [#3987](https://github.com/1024pix/pix/pull/3987) [FEATURE] Créer la route de téléchargement du kit surveillant (PIX-4172)
+- [#4006](https://github.com/1024pix/pix/pull/4006) [FEATURE] Centrer l'encart d'erreur et modifier le message de test (PIX-4291)
+
+### :building_construction: Tech
+- [#4015](https://github.com/1024pix/pix/pull/4015) [TECH] Mettre à jour le logger API pino vers 7.6.5.
+- [#4016](https://github.com/1024pix/pix/pull/4016) [TECH] Suppression de la route dépréciée GET /assessments (PIX-4307).
+- [#4018](https://github.com/1024pix/pix/pull/4018) [TECH] Remplace un paramétrage VSCode deprecated par le nouveau
+- [#4020](https://github.com/1024pix/pix/pull/4020) [TECH] Ne pas afficher la liste des routes lors du démarrage de l'API.
+- [#3982](https://github.com/1024pix/pix/pull/3982) [TECH] Permettre de linter avant chaque commit en local, si besoin.
+- [#4000](https://github.com/1024pix/pix/pull/4000) [TECH] Ajout d'un script pour ajouter des membres à une organisation en env de développement (PIX-4275)
+- [#3977](https://github.com/1024pix/pix/pull/3977) [TECH] Refactorings préalables à la certification FLASH
+- [#4007](https://github.com/1024pix/pix/pull/4007) [TECH] Ajout d'un feature toggle pour l'affichage de la nouvelle page de tutoriels sur mon-pix (PIX-4287).
+
+### :bug: Bug fix
+- [#4027](https://github.com/1024pix/pix/pull/4027) [BUGFIX] Une devDepency est référencée sur les environnements hors développement.
+- [#3995](https://github.com/1024pix/pix/pull/3995) [BUGFIX] Correction graphiques sur les selects et multi-selects de Pix Orga (PIX-4236)
+- [#4012](https://github.com/1024pix/pix/pull/4012) [BUGFIX] Affiche le titre du parcours dans le détail d'une campagne (PIX-4256).
+- [#3985](https://github.com/1024pix/pix/pull/3985) [BUGFIX] Correction de l'affichage du statut responsive d'un tube (PIX-4267)
+
 ## v3.163.0 (01/02/2022)
 
 
