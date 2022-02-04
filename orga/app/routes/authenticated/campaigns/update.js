@@ -22,6 +22,15 @@ export default class UpdateRoute extends Route {
     return { campaign, membersSortedByFullName };
   }
 
+  afterModel(model, transition) {
+    const isCurrentUserAdmin = this.currentUser.prescriber.isAdminOfTheCurrentOrganization;
+    const isCurrentUserOwnerOfTheCampaign = parseInt(this.currentUser.prescriber.id) === model.campaign.ownerId;
+    if (!isCurrentUserAdmin && !isCurrentUserOwnerOfTheCampaign) {
+      transition.abort();
+      this.transitionTo('authenticated.campaigns');
+    }
+  }
+
   setupController(controller, model) {
     super.setupController(controller, model);
     controller.campaignName = model.campaign.name;
