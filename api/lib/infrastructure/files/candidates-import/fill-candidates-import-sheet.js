@@ -84,11 +84,11 @@ function _addBillingColumns(updatedStringifiedXml) {
     columns: [
       {
         headerLabel: ['Tarification part Pix'],
-        placeholder: ['Tarification part Pix'],
+        placeholder: ['billingMode'],
       },
       {
         headerLabel: ['Code de prépaiement'],
-        placeholder: ['Code de prépaiement'],
+        placeholder: ['prepaymentCode'],
       },
     ],
   });
@@ -154,6 +154,8 @@ class CandidateData {
     schoolingRegistrationId = null,
     number = null,
     complementaryCertifications = null,
+    billingMode = null,
+    prepaymentCode = null,
   }) {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
@@ -177,6 +179,8 @@ class CandidateData {
     this.sessionId = this._emptyStringIfNull(sessionId);
     this.userId = this._emptyStringIfNull(userId);
     this.schoolingRegistrationId = this._emptyStringIfNull(schoolingRegistrationId);
+    this.billingMode = this._emptyStringIfNull(billingMode);
+    this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
     this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
       'CléA Numérique'
