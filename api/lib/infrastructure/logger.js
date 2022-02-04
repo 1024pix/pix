@@ -1,13 +1,9 @@
 const pino = require('pino');
-const settings = require('../config');
-
-const nullDestination = {
-  write() {},
-};
+const { logging: logSettings } = require('../config');
 
 let transport;
 
-if (settings.logging.logForHumans) {
+if (logSettings.logForHumans) {
   const omitDay = 'h:MM:ss';
 
   transport = {
@@ -20,14 +16,12 @@ if (settings.logging.logForHumans) {
   };
 }
 
-const logger = pino(
-  {
-    level: settings.logging.logLevel,
-    redact: ['req.headers.authorization'],
-    transport,
-  },
-  settings.logging.enabled ? pino.destination() : nullDestination
-);
+const logger = pino({
+  level: logSettings.logLevel,
+  redact: ['req.headers.authorization'],
+  transport,
+  enabled: logSettings.enabled,
+});
 
 logger.debug('DEBUG logs enabled');
 logger.trace('TRACE logs enabled');
