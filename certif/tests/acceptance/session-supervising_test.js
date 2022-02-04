@@ -141,6 +141,36 @@ module('Acceptance | Session supervising', function (hooks) {
     assert.true(find('input[type="checkbox"]').checked);
   });
 
+  test('when supervisor checks and unchecks the candidate, it should update authorizedToStart', async function (assert) {
+    // given
+    const sessionId = 12345;
+    this.sessionForSupervising = server.create('session-for-supervising', {
+      id: sessionId,
+      certificationCandidates: [
+        server.create('certification-candidate-for-supervising', {
+          id: 123,
+          firstName: 'John',
+          lastName: 'Doe',
+          birthdate: '1984-05-28',
+          extraTimePercentage: '8',
+          authorizedToStart: false,
+        }),
+      ],
+    });
+
+    const firstVisit = await visitScreen('/connexion-espace-surveillant');
+    await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+    await fillIn(firstVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+
+    // when
+    await click(firstVisit.getByRole('checkbox', { name: 'Doe John' }));
+    await click(firstVisit.getByRole('checkbox', { name: 'Doe John' }));
+
+    // then
+    assert.false(server.schema.certificationCandidateForSupervisings.find(123).authorizedToStart);
+  });
+
   test('when supervisor allow to resume test, it should display a success notification', async function (assert) {
     // given
     const sessionId = 12345;
