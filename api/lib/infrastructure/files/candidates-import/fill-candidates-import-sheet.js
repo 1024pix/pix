@@ -50,7 +50,10 @@ function _addColumns(updatedStringifiedXml, certificationCenterHabilitations) {
       updatedStringifiedXml
     );
   }
-  return updatedStringifiedXml;
+
+  const updatedStringifiedXmlWithBillingColumns = _addBillingColumns(updatedStringifiedXml);
+
+  return updatedStringifiedXmlWithBillingColumns;
 }
 
 function _addComplementaryCertificationColumns(certificationCenterHabilitations, updatedStringifiedXml) {
@@ -63,6 +66,26 @@ function _addComplementaryCertificationColumns(certificationCenterHabilitations,
       stringifiedXml: updatedStringifiedXml,
       groupHeaderLabel: 'Certification(s) complémentaire(s)',
       columns: habilitationColumns,
+    });
+  }
+  return updatedStringifiedXml;
+}
+
+function _addBillingColumns(updatedStringifiedXml) {
+  if (featureToggles.isCertificationBillingEnabled) {
+    updatedStringifiedXml = sessionXmlService.addColumnGroup({
+      stringifiedXml: updatedStringifiedXml,
+      groupHeaderLabel: 'Tarification',
+      columns: [
+        {
+          headerLabel: ['Tarification part Pix'],
+          placeholder: ['Tarification part Pix'],
+        },
+        {
+          headerLabel: ['Code de prépaiement'],
+          placeholder: ['Code de prépaiement'],
+        },
+      ],
     });
   }
   return updatedStringifiedXml;
