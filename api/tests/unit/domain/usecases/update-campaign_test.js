@@ -1,9 +1,6 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
-const {
-  UserNotAuthorizedToUpdateResourceError,
-  UserNotMemberOfOrganizationError,
-} = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToUpdateResourceError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;
@@ -254,7 +251,9 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // then
-      expect(error).to.be.instanceOf(UserNotMemberOfOrganizationError);
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
+      expect(error.invalidAttributes).to.deep.equal([{ attribute: 'ownerId', message: 'OWNER_NOT_IN_ORGANIZATION' }]);
     });
   });
 });

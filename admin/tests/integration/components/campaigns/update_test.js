@@ -24,7 +24,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     // then
-    assert.dom('label[for="name"]').hasText('Nom de la campagne');
+    assert.dom('label[for="name"]').hasText('* Nom de la campagne');
     assert.dom('label[for="customLandingPageText"]').hasText("Texte de la page d'accueil");
     assert.dom('textarea#customLandingPageText').hasAttribute('maxLength', '5000');
     assert.dom('input#name').hasValue('Ceci est un nom');
@@ -48,14 +48,6 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       assert.dom('input#title').hasValue('Ceci est un titre');
     });
 
-    test('it should display an error text when the title has more than 255 characters', async function (assert) {
-      // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Titre du parcours', 'a'.repeat(256));
-      // then
-      assert.contains('La longueur du titre ne doit pas excéder 255 caractères');
-    });
-
     test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
@@ -70,6 +62,26 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       await fillInByLabel('URL du bouton de la page de fin de parcours', 'a');
       // then
       assert.contains('Ce champ doit être une URL complète et valide');
+    });
+
+    test('it should trim extra spaces written by user from title attibute', async function (assert) {
+      // when
+      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      await fillInByLabel('Titre du parcours', ' text with space ');
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.deepEqual(this.campaign.title, 'text with space');
+    });
+
+    test("It should return 'null' when title is empty", async function (assert) {
+      // when
+      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      await fillInByLabel('Titre du parcours', '');
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.strictEqual(this.campaign.title, null);
     });
   });
 
@@ -92,7 +104,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should display an error text when the name is empty', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('Nom de la campagne', '');
+    await fillInByLabel('* Nom de la campagne', '');
 
     // then
     assert.contains('Le nom ne peut pas être vide');
@@ -101,15 +113,45 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should display an error text when the name has more than 255 characters', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('Nom de la campagne', 'a'.repeat(256));
+    await fillInByLabel('* Nom de la campagne', 'a'.repeat(256));
     // then
     assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
+  });
+
+  test('it should trim extra spaces written by user from custom landing page attibute', async function (assert) {
+    // when
+    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+    await fillInByLabel("Texte de la page d'accueil", ' text with space ');
+    await clickByLabel('Enregistrer');
+
+    // then
+    assert.deepEqual(this.campaign.customLandingPageText, 'text with space');
+  });
+
+  test("It should return 'null' when custom landing page attribute is empty", async function (assert) {
+    // when
+    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+    await fillInByLabel("Texte de la page d'accueil", '');
+    await clickByLabel('Enregistrer');
+
+    // then
+    assert.strictEqual(this.campaign.customLandingPageText, null);
+  });
+
+  test("It should return 'null' when custom landing page attribute has only white space", async function (assert) {
+    // when
+    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+    await fillInByLabel("Texte de la page d'accueil", ' ');
+    await clickByLabel('Enregistrer');
+
+    // then
+    assert.strictEqual(this.campaign.customLandingPageText, null);
   });
 
   test('it should call update when form is valid', async function (assert) {
     //when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('Nom de la campagne', 'Nouveau nom');
+    await fillInByLabel('* Nom de la campagne', 'Nouveau nom');
     await clickByLabel('Enregistrer');
 
     //then

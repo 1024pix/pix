@@ -449,6 +449,26 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         // when/then
         expect(campaignValidator.validate(campaign)).to.not.throw;
       });
+
+      it('should reject with error campaign type is ASSESSMENT and title has more than 50 char', function () {
+        // given
+        const expectedError = {
+          attribute: 'title',
+          message: 'CAMPAIGN_TITLE_IS_TOO_LONG',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            title: 'Karam'.repeat(50),
+          });
+          expect.fail('should have thrown an error');
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
     });
 
     context('when a customResultPageText is provided', function () {

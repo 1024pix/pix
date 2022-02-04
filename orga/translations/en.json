@@ -5,8 +5,10 @@
     "campaign-creation": {
       "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the customised test.",
       "name-required": "Please name your campaign.",
+      "owner_not_in_organization": "Please select a member of your organization.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
-      "target-profile-required": "Please select a target profile for your campaign."
+      "target-profile-required": "Please select a target profile for your campaign.",
+      "title_too_long": "Please choose a shorter title."
     },
     "default": "The service is temporarily unavailable. Please try again later.",
     "edit-student-number": {
@@ -393,6 +395,7 @@
         "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
       },
       "campaign-name": "Name of the campaign",
+      "campaign-modification-success-message": "The changes have been successfully saved.",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the personalised test"
     },

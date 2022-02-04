@@ -5,8 +5,10 @@
     "campaign-creation": {
       "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
       "name-required": "Veuillez donner un nom à votre campagne.",
+      "owner_not_in_organization": "Le propriétaire ne fait pas parti de l'organisation.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
-      "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne."
+      "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne.",
+      "title_too_long": "Le titre de la campagne est trop long."
     },
     "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
     "edit-student-number": {
@@ -393,6 +395,7 @@
         "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier et archiver cette campagne."
       },
       "campaign-name": "Nom de la campagne",
+      "campaign-modification-success-message": "Les modifications ont bien été enregistrées.",
       "landing-page-text": "Texte de la page d'accueil",
       "personalised-test-title": "Titre du parcours"
     },

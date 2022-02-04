@@ -10,7 +10,6 @@ const Validations = buildValidations({
     validators: [
       validator('presence', {
         presence: true,
-        ignoreBlank: true,
         message: 'Le nom ne peut pas être vide',
       }),
       validator('length', {
@@ -24,8 +23,8 @@ const Validations = buildValidations({
     validators: [
       validator('length', {
         min: 0,
-        max: 255,
-        message: 'La longueur du titre ne doit pas excéder 255 caractères',
+        max: 50,
+        message: 'La longueur du titre ne doit pas excéder 50 caractères',
       }),
     ],
   },
@@ -89,6 +88,7 @@ export default class Update extends Component {
   }
 
   async _checkFormValidation() {
+    console.log(this.form.customResultPageButtonUrl);
     const { validations } = await this.form.validate();
     return validations.isValid;
   }
@@ -96,15 +96,18 @@ export default class Update extends Component {
   async _update() {
     const campaign = this.args.campaign;
     campaign.name = this.form.name.trim();
-    campaign.title = this.form.title ? this.form.title.trim() : null;
-    campaign.customLandingPageText = this.form.customLandingPageText ? this.form.customLandingPageText.trim() : null;
-    campaign.customResultPageText = this.form.customResultPageText ? this.form.customResultPageText.trim() : null;
-    campaign.customResultPageButtonText = this.form.customResultPageButtonText
-      ? this.form.customResultPageButtonText.trim()
-      : null;
-    campaign.customResultPageButtonUrl = this.form.customResultPageButtonUrl
-      ? this.form.customResultPageButtonUrl.trim()
-      : null;
+    const titleTrim = this.form.title?.trim();
+    const customLandingPageTextTrim = this.form.customLandingPageText?.trim();
+    const customResultPageTextTrim = this.form.customResultPageText?.trim();
+    const customResultPageButtonTextTrim = this.form.customResultPageButtonText?.trim();
+    const customResultPageButtonUrlTrim = this.form.customResultPageButtonUrl?.trim();
+
+    campaign.title = titleTrim || null;
+    campaign.customLandingPageText = customLandingPageTextTrim || null;
+    campaign.customResultPageText = customResultPageTextTrim || null;
+    campaign.customResultPageButtonText = customResultPageButtonTextTrim || null;
+    campaign.customResultPageButtonUrl = customResultPageButtonUrlTrim || null;
+
     try {
       await campaign.save();
       await this.notifications.success('Les modifications ont bien été enregistrées.');
