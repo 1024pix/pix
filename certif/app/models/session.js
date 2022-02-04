@@ -47,6 +47,11 @@ export default class Session extends Model {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/candidates-import-sheet?accessToken=${this.session.data.authenticated.access_token}`;
   }
 
+  @computed('id', 'session.data.authenticated.access_token')
+  get urlToDownloadSupervisorKitPdf() {
+    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/supervisor-kit?accessToken=${this.session.data.authenticated.access_token}`;
+  }
+
   @computed('id')
   get urlToUpload() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/certification-candidates/import`;

@@ -4,8 +4,6 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import { visit } from '@1024pix/ember-testing-library';
 
-import config from 'pix-certif/config/environment';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Session Details', function (hooks) {
@@ -117,77 +115,70 @@ module('Acceptance | Session Details', function (hooks) {
         assert.contains('14:00');
       });
 
-      module('when FT_REPORTS_CATEGORISATION is on', function () {
-        test('it should show issue report sheet download button', async function (assert) {
+      test('it should show issue report sheet download button', async function (assert) {
+        // given
+        const sessionWithCandidates = server.create('session');
+        server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
+
+        // when
+        const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: "Télécharger le pv d'incident" })).exists();
+      });
+
+      test('it should show attendance sheet download button when there is one or more candidate', async function (assert) {
+        // given
+        const sessionWithCandidates = server.create('session');
+        server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionWithCandidates.id });
+
+        // when
+        const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: "Télécharger la feuille d'émargement" })).exists();
+      });
+
+      test('it should not show download attendance sheet button where there is no candidate', async function (assert) {
+        // given
+        const sessionWithoutCandidate = server.create('session');
+
+        // when
+        const screen = await visit(`/sessions/${sessionWithoutCandidate.id}`);
+
+        // then
+        assert.dom(screen.queryByRole('link', { name: "Télécharger la feuille d'émargement" })).doesNotExist();
+      });
+    });
+
+    module('when looking at the session details controls', function () {
+      module('when current certification center has access to supervisor space', function (hooks) {
+        hooks.afterEach(function () {
+          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
+        });
+
+        test('it should display the supervisor kit download button', async function (assert) {
           // given
-          const sessionWithCandidates = server.create('session');
-          server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
-          server.create('feature-toggle', { id: 0, reportsCategorization: true });
+          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: true });
 
           // when
-          await visit(`/sessions/${sessionWithCandidates.id}`);
+          const screen = await visit(`/sessions/${session.id}`);
 
           // then
-          assert.dom('[aria-label="Télécharger le pv d\'incident"]').hasText("PV d'incident\u00a0");
+          assert.dom(screen.getByRole('link', { name: 'Télécharger le kit surveillant' })).exists();
         });
       });
 
-      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', function (hooks) {
-        const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
-
-        hooks.before(() => {
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
-        });
-
-        hooks.after(() => {
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
-        });
-
-        test('it should show attendance sheet download button when there is one or more candidate', async function (assert) {
+      module('when current certification center has not access to supervisor space', function () {
+        test('it should not display the supervisor kit download button', async function (assert) {
           // given
-          const sessionWithCandidates = server.create('session');
-          server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionWithCandidates.id });
+          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
 
           // when
-          await visit(`/sessions/${sessionWithCandidates.id}`);
+          const screen = await visit(`/sessions/${session.id}`);
 
           // then
-          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').hasText("Feuille d'émargement\u00a0");
-        });
-
-        test('it should not show download attendance sheet button where there is no candidate', async function (assert) {
-          // given
-          const sessionWithoutCandidate = server.create('session');
-
-          // when
-          await visit(`/sessions/${sessionWithoutCandidate.id}`);
-
-          // then
-          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').doesNotExist();
-        });
-      });
-
-      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is off', function (hooks) {
-        const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
-
-        hooks.before(() => {
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
-        });
-
-        hooks.after(() => {
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
-        });
-
-        test('it should not show download attendance sheet button', async function (assert) {
-          // given
-          const sessionWithCandidates = server.create('session');
-          server.createList('certification-candidate', 3, { isLinked: true });
-
-          // when
-          await visit(`/sessions/${sessionWithCandidates.id}`);
-
-          // then
-          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').doesNotExist();
+          assert.dom(screen.queryByRole('link', { name: 'Télécharger le kit surveillant' })).doesNotExist();
         });
       });
     });

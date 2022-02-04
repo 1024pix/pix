@@ -15,6 +15,10 @@ export default class SessionsDetailsController extends Controller {
     return `Détails | Session ${this.session.id} | Pix Certif`;
   }
 
+  get shouldDisplaySupervisorKitButton() {
+    return this.currentUser.currentAllowedCertificationCenterAccess.isEndTestScreenRemovalEnabled;
+  }
+
   @computed('certificationCandidates.length')
   get certificationCandidatesCount() {
     const certificationCandidatesCount = this.certificationCandidates.length;

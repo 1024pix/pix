@@ -25,6 +25,29 @@ module('Unit | Model | session', function (hooks) {
     });
   });
 
+  module('#urlToDownloadSupervisorKitPdf', function () {
+    test('it should return the correct urlToDownloadSupervisorKitPdf', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('session', { id: 1 });
+      class SessionStub extends Service {
+        data = {
+          authenticated: {
+            access_token: '123',
+          },
+        };
+      }
+
+      this.owner.register('service:session', SessionStub);
+
+      // when/then
+      assert.strictEqual(
+        model.urlToDownloadSupervisorKitPdf,
+        `${config.APP.API_HOST}/api/sessions/1/supervisor-kit?accessToken=123`
+      );
+    });
+  });
+
   module('#urlToUpload', function () {
     test('it should return the correct urlToUpload', function (assert) {
       // given

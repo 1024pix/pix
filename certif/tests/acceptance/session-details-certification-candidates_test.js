@@ -24,9 +24,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await visit(`/sessions/${session.id}/candidats`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -61,9 +59,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         await visit(`/sessions/${session.id}/candidats`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -235,7 +231,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
     test('it should redirect to the default candidates detail view', async function (assert) {
       // given
-      const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
+      const linkToCandidate = '.session-details__controls-navbar-tabs a:nth-of-type(2)';
       const connectedcertificationPointOfContactId = certificationPointOfContact.id;
       await authenticateSession(connectedcertificationPointOfContactId);
 
@@ -244,9 +240,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await click(linkToCandidate);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
     module('when the addCandidate button is clicked', function () {
@@ -320,17 +314,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
-          });
-
-          test('it should display the attendance sheet download button', async function (assert) {
-            // when
-            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
-            await _fillFormWithCorrectData(screen);
-            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
-
-            // then
-            assert.contains("Feuille d'émargement");
           });
         });
       });

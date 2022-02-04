@@ -4,30 +4,6 @@
     <div class="session-details-header__title">
       <PixReturnTo @route="authenticated.sessions.list" class="session-details-content__return-button" />
       <h1 class="page-title">Session {{this.session.id}}</h1>
-      <PixButtonLink
-        class="session-details-header__title__download-button"
-        @href="{{this.session.urlToDownloadSessionIssueReportSheet}}"
-        target="_blank"
-        aria-label="Télécharger le pv d'incident"
-        rel="noopener noreferrer"
-        download
-      >
-        PV d'incident&nbsp;
-        <FaIcon @icon="file-download" />
-      </PixButtonLink>
-      {{#if this.shouldDisplayDownloadButton}}
-        <PixButtonLink
-          class="session-details-header__title__download-button"
-          @href="{{this.session.urlToDownloadAttendanceSheet}}"
-          target="_blank"
-          aria-label="Télécharger la feuille d'émargement"
-          rel="noopener noreferrer"
-          download
-        >
-          Feuille d'émargement&nbsp;
-          <FaIcon @icon="file-download" />
-        </PixButtonLink>
-      {{/if}}
     </div>
 
     <div class="session-details-header__datetime">
@@ -58,7 +34,7 @@
   {{/if}}
 
   <div class="panel session-details__controls">
-    <nav class="navbar session-details-controls__navbar-tabs">
+    <nav class="navbar session-details__controls-navbar-tabs">
       <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
         Détails
       </LinkTo>
@@ -67,7 +43,49 @@
         {{this.certificationCandidatesCount}}
       </LinkTo>
     </nav>
-
+    <div class="session-details__controls-links">
+      <span class="session-details__controls-title">Téléchargements :</span>
+      <PixButtonLink
+        class="session-details__controls-download-button"
+        @href="{{this.session.urlToDownloadSessionIssueReportSheet}}"
+        @backgroundColor="transparent"
+        target="_blank"
+        aria-label="Télécharger le pv d'incident"
+        rel="noopener noreferrer"
+        download
+      >
+        <FaIcon @icon="file-download" class="session-details__controls-icon" />
+        PV d'incident
+      </PixButtonLink>
+      {{#if this.shouldDisplaySupervisorKitButton}}
+        <PixButtonLink
+          class="session-details__controls-download-button"
+          @href="{{this.session.urlToDownloadSupervisorKitPdf}}"
+          @backgroundColor="transparent"
+          target="_blank"
+          aria-label="Télécharger le kit surveillant"
+          rel="noopener noreferrer"
+          download
+        >
+          <FaIcon @icon="file-download" class="session-details__controls-icon" />
+          Kit surveillant
+        </PixButtonLink>
+      {{/if}}
+      {{#if this.shouldDisplayDownloadButton}}
+        <PixButtonLink
+          class="session-details__controls-download-button"
+          @href="{{this.session.urlToDownloadAttendanceSheet}}"
+          @backgroundColor="transparent"
+          target="_blank"
+          aria-label="Télécharger la feuille d'émargement"
+          rel="noopener noreferrer"
+          download
+        >
+          <FaIcon @icon="file-download" class="session-details__controls-icon" />
+          Feuille d'émargement
+        </PixButtonLink>
+      {{/if}}
+    </div>
   </div>
   {{outlet}}
 </div>
