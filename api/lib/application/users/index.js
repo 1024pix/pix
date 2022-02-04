@@ -725,29 +725,6 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/admin/users/{id}/dissociate',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
-          },
-        ],
-        handler: userController.dissociateSchoolingRegistrations,
-        notes: [
-          '- Permet à un administrateur de dissocier un utilisateur\n' +
-            'des inscriptions scolaires qui lui sont rattachées.',
-        ],
-        tags: ['api', 'administration', 'user'],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/users/{id}/email/verification-code',
       config: {

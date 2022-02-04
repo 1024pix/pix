@@ -875,31 +875,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#dissociateSchoolingRegistrations', function () {
-    const userId = 1;
-    const request = {
-      auth: { credentials: { userId } },
-      params: { id: userId },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'dissociateSchoolingRegistrations');
-      sinon.stub(userDetailsForAdminSerializer, 'serialize').resolves();
-    });
-
-    it('should call the dissociate schooling registrations usecase', async function () {
-      // given
-      usecases.dissociateSchoolingRegistrations.resolves({ id: userId });
-
-      // when
-      await userController.dissociateSchoolingRegistrations(request, hFake);
-
-      // then
-      expect(usecases.dissociateSchoolingRegistrations).to.have.been.calledWith({ userId });
-      expect(usecases.dissociateSchoolingRegistrations).to.have.been.calledWith({ userId });
-    });
-  });
-
   describe('#sendVerificationCode', function () {
     it('should call the usecase to send verification code with code, email and locale', async function () {
       // given
