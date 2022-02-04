@@ -38,7 +38,6 @@ module.exports = function (environment) {
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
-      IS_DISSOCIATE_BUTTON_ENABLED: _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
         environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS',
         defaultValue: 8,
@@ -100,7 +99,6 @@ module.exports = function (environment) {
   if (environment === 'test') {
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
-    ENV.APP.IS_DISSOCIATE_BUTTON_ENABLED = true;
 
     // Testem prefers this...
     ENV.locationType = 'none';

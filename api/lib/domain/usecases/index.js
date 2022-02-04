@@ -210,7 +210,6 @@ module.exports = injectDependencies(
     disableMembership: require('./disable-membership'),
     disableCertificationCenterMembership: require('./disable-certification-center-membership'),
     dissociateUserFromSchoolingRegistration: require('./dissociate-user-from-schooling-registration'),
-    dissociateSchoolingRegistrations: require('./dissociate-schooling-registrations'),
     endAssessmentBySupervisor: require('./end-assessment-by-supervisor'),
     enrollStudentsToSession: require('./enroll-students-to-session'),
     finalizeSession: require('./finalize-session'),

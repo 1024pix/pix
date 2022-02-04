@@ -18,7 +18,6 @@ describe('Integration | Application | Users | user-controller', function () {
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
     sandbox.stub(usecases, 'getUserCampaignAssessmentResult');
-    sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
     sandbox.stub(usecases, 'removeAuthenticationMethod');
 
     httpTestServer = new HttpTestServer();
@@ -165,43 +164,6 @@ describe('Integration | Application | Users | user-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(401);
-      });
-    });
-  });
-
-  describe('#dissociateSchoolingRegistrations', function () {
-    const method = 'PATCH';
-    const url = '/api/admin/users/1/dissociate';
-
-    beforeEach(function () {
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-    });
-
-    context('Success cases', function () {
-      it('should return a HTTP response with status code 200', async function () {
-        // given
-        usecases.dissociateSchoolingRegistrations.resolves(domainBuilder.buildUserDetailsForAdmin());
-
-        // when
-        const response = await httpTestServer.request(method, url);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    context('Error cases', function () {
-      it('should return a 403 HTTP response when when user is not allowed to access resource', async function () {
-        // given
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
-
-        // when
-        const response = await httpTestServer.request(method, url);
-
-        // then
-        expect(response.statusCode).to.equal(403);
       });
     });
   });

@@ -263,12 +263,6 @@ module.exports = {
     return h.response(userAnonymizedDetailsForAdminSerializer.serialize(user)).code(200);
   },
 
-  async dissociateSchoolingRegistrations(request) {
-    const userId = request.params.id;
-    const userDetailsForAdmin = await usecases.dissociateSchoolingRegistrations({ userId });
-    return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
-  },
-
   async removeAuthenticationMethod(request, h) {
     const userId = request.params.id;
     const type = request.payload.data.attributes.type;
