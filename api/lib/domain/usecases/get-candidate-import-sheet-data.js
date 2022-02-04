@@ -17,5 +17,6 @@ module.exports = async function getCandidateImportSheetData({
   return {
     session,
     certificationCenterHabilitations: certificationCenter.habilitations,
+    isScoCertificationCenter: certificationCenter.isSco,
   };
 };
