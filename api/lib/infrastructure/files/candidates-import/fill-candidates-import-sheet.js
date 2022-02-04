@@ -12,11 +12,19 @@ const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
 
-module.exports = async function fillCandidatesImportSheet(session, certificationCenterHabilitations) {
+module.exports = async function fillCandidatesImportSheet({
+  session,
+  certificationCenterHabilitations,
+  isScoCertificationCenter,
+}) {
   const template = await _getCandidatesImportTemplate();
 
   const templateWithSession = _addSession(template, session);
-  const templateWithSessionAndColumns = _addColumns(templateWithSession, certificationCenterHabilitations);
+  const templateWithSessionAndColumns = _addColumns({
+    stringifiedXml: templateWithSession,
+    certificationCenterHabilitations,
+    isScoCertificationCenter,
+  });
   const templateWithSessionAndColumnsAndCandidates = _addCandidates(
     templateWithSessionAndColumns,
     session.certificationCandidates
@@ -43,17 +51,15 @@ function _addSession(stringifiedXml, session) {
   return templateWithSession;
 }
 
-function _addColumns(updatedStringifiedXml, certificationCenterHabilitations) {
+function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCertificationCenter }) {
+  if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
+    stringifiedXml = _addBillingColumns(stringifiedXml);
+  }
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    updatedStringifiedXml = _addComplementaryCertificationColumns(
-      certificationCenterHabilitations,
-      updatedStringifiedXml
-    );
+    stringifiedXml = _addComplementaryCertificationColumns(certificationCenterHabilitations, stringifiedXml);
   }
 
-  const updatedStringifiedXmlWithBillingColumns = _addBillingColumns(updatedStringifiedXml);
-
-  return updatedStringifiedXmlWithBillingColumns;
+  return stringifiedXml;
 }
 
 function _addComplementaryCertificationColumns(certificationCenterHabilitations, updatedStringifiedXml) {
@@ -72,23 +78,20 @@ function _addComplementaryCertificationColumns(certificationCenterHabilitations,
 }
 
 function _addBillingColumns(updatedStringifiedXml) {
-  if (featureToggles.isCertificationBillingEnabled) {
-    updatedStringifiedXml = sessionXmlService.addColumnGroup({
-      stringifiedXml: updatedStringifiedXml,
-      groupHeaderLabel: 'Tarification',
-      columns: [
-        {
-          headerLabel: ['Tarification part Pix'],
-          placeholder: ['Tarification part Pix'],
-        },
-        {
-          headerLabel: ['Code de prépaiement'],
-          placeholder: ['Code de prépaiement'],
-        },
-      ],
-    });
-  }
-  return updatedStringifiedXml;
+  return sessionXmlService.addColumnGroup({
+    stringifiedXml: updatedStringifiedXml,
+    groupHeaderLabel: 'Tarification',
+    columns: [
+      {
+        headerLabel: ['Tarification part Pix'],
+        placeholder: ['Tarification part Pix'],
+      },
+      {
+        headerLabel: ['Code de prépaiement'],
+        placeholder: ['Code de prépaiement'],
+      },
+    ],
+  });
 }
 
 function _addCandidates(updatedStringifiedXml, certificationCandidates) {

@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     await databaseBuilder.commit();
     // when
     const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
-    const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);
+    const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session });
     await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
     const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
     const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
@@ -202,7 +202,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         userId,
       });
-      const updatedOdsFileBuffer = await fillCandidatesImportSheet(session, certificationCenterHabilitations);
+      const updatedOdsFileBuffer = await fillCandidatesImportSheet({
+        session,
+        certificationCenterHabilitations,
+      });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
@@ -340,7 +343,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         userId,
       });
-      const updatedOdsFileBuffer = await fillCandidatesImportSheet(session, certificationCenterHabilitations);
+      const updatedOdsFileBuffer = await fillCandidatesImportSheet({
+        session,
+        certificationCenterHabilitations,
+      });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
