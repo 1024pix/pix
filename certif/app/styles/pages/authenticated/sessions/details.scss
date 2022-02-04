@@ -14,15 +14,10 @@
 }
 
 .session-details-header {
-
   &__title {
     display: flex;
     align-items: center;
     min-width: 300px;
-
-    &__download-button {
-      margin-left: 50px;
-    }
   }
 
   &__datetime {
@@ -33,7 +28,6 @@
 }
 
 .session-details-header-datetime {
-
   &__date {
     padding-right: 40px;
     margin-right: 40px;
@@ -130,12 +124,52 @@ $details-content-margin: 8px;
   }
 }
 
-.session-details__controls {
-  display: flex;
-  justify-content: space-between;
-  margin: 1em 0;
-}
+.session-details {
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 0;
+    flex-direction: column;
 
-.session-details-controls__navbar-tabs {
-  display: flex;
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+  }
+
+  &__controls-navbar-tabs {
+    display: flex;
+  }
+
+  &__controls-title {
+    color: $grey-70;
+    display: inline-block;
+    font-size: 0.875rem;
+    font-family: $roboto;
+    font-weight: 500;
+    margin-right: 8px;
+    width: 117px;
+  }
+
+  &__controls-links {
+    align-items: center;
+    display: flex;
+    justify-content: right;
+    margin-right: 24px;
+    flex-wrap: wrap;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+  }
+
+  &__controls-download-button {
+    border: 1px solid $grey-50;
+    color: $grey-70;
+    margin: 8px 6px;
+    padding: 8px 16px;
+  }
+
+  &__controls-icon {
+    margin-right: 8px;
+  }
 }
