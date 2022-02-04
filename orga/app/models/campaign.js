@@ -29,7 +29,6 @@ export default class Campaign extends Model {
   @attr('number') averageResult;
   @attr('boolean') multipleSendings;
 
-  @belongsTo('user') owner;
   @belongsTo('organization') organization;
   @belongsTo('target-profile') targetProfile;
   @belongsTo('campaign-collective-result') campaignCollectiveResult;
