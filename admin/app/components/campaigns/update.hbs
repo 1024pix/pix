@@ -5,6 +5,7 @@
   <form class="form" {{on "submit" this.update}}>
     <div class="form-field">
       <label for="name" class="form-field__label">
+        <abbr title="obligatoire" class="mandatory-mark">*</abbr>
         Nom de la campagne
       </label>
       <Input
@@ -29,6 +30,7 @@
           @type="text"
           class="form-control {{if (v-get this.form "title" "isInvalid") "is-invalid"}}"
           @value={{this.form.title}}
+          maxlength="50"
         />
         {{#if (v-get this.form "title" "isInvalid")}}
           <div class="form-field__error">

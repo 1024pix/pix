@@ -5,6 +5,8 @@ const CAMPAIGN_CREATION_ERRORS = {
   CAMPAIGN_PURPOSE_IS_REQUIRED: 'api-errors-messages.campaign-creation.purpose-required',
   TARGET_PROFILE_IS_REQUIRED: 'api-errors-messages.campaign-creation.target-profile-required',
   EXTERNAL_USER_ID_IS_REQUIRED: 'api-errors-messages.campaign-creation.external-user-id-required',
+  OWNER_NOT_IN_ORGANIZATION: 'api-errors-messages.campaign-creation.owner_not_in_organization',
+  CAMPAIGN_TITLE_IS_TOO_LONG: 'api-errors-messages.campaign-creation.title_too_long',
 };
 
 const CSV_IMPORT_ERRORS = {

@@ -59,6 +59,7 @@ const campaignValidationJoiSchema = Joi.object({
 
   title: Joi.string()
     .allow(null)
+    .max(50)
     .when('type', {
       is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
       then: Joi.valid(null),
@@ -66,10 +67,12 @@ const campaignValidationJoiSchema = Joi.object({
     })
     .messages({
       'any.only': 'TITLE_OF_PERSONALISED_TEST_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+      'string.max': 'CAMPAIGN_TITLE_IS_TOO_LONG',
     }),
 
   customResultPageText: Joi.string()
     .allow(null)
+    .max(5000)
     .when('type', {
       is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
       then: Joi.valid(null),

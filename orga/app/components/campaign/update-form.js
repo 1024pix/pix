@@ -1,7 +1,23 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 export default class UpdateForm extends Component {
+  @service notifications;
+  @service intl;
+
+  @tracked name;
+  @tracked title;
+  @tracked customLandingPageText;
+
+  constructor() {
+    super(...arguments);
+    this.name = this.args.campaign.name;
+    this.title = this.args.campaign.title;
+    this.customLandingPageText = this.args.campaign.customLandingPageText;
+  }
+
   get campaignOwnerOptions() {
     if (!this.args.membersSortedByFullName) return [];
 
@@ -23,11 +39,41 @@ export default class UpdateForm extends Component {
 
   @action
   onChangeCampaignName(event) {
-    this.args.campaign.name = event.target.value?.trim();
+    const nameTrim = event.target.value.trim();
+    this.args.campaign.name = nameTrim || null;
   }
 
   @action
   onChangeCampaignTitle(event) {
-    this.args.campaign.title = event.target.value?.trim();
+    const titleTrim = event.target.value.trim();
+    this.args.campaign.title = titleTrim || null;
+  }
+
+  @action
+  onChangeCampaignCustomLandingPageText(event) {
+    const customLandingPageTextTrim = event.target.value.trim();
+    this.args.campaign.customLandingPageText = customLandingPageTextTrim || null;
+  }
+
+  _handleErrors(errorResponse) {
+    const errors = errorResponse.errors;
+    if (!errors) {
+      return this.notifications.error(this.intl.t('api-errors-messages.global'));
+    }
+    return errorResponse.errors.forEach((error) => {
+      if (error.status !== '422') {
+        return this.notifications.error(this.intl.t('api-errors-messages.global'));
+      }
+    });
+  }
+
+  @action
+  async onSubmit(event) {
+    event.preventDefault();
+    try {
+      await this.args.onSubmit();
+    } catch (errorResponse) {
+      this._handleErrors(errorResponse);
+    }
   }
 }
