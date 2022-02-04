@@ -55,6 +55,10 @@
               @value={{this.form.externalId}}
             />
           </div>
+          <div class="form-field form-field__checkbox">
+            <Input id="supervisor-portal" @type="checkbox" @checked={{this.form.isSupervisorAccessEnabled}} />
+            <label for="supervisor-portal" class="field__label">Espace surveillant</label>
+          </div>
           <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
           <ul class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
             {{#each this.availableHabilitations as |habilitation|}}
@@ -93,6 +97,10 @@
         <div class="property">
           <label class="field__label">Identifiant externe :</label>
           <span>{{@certificationCenter.externalId}}</span><br />
+        </div>
+        <div class="property">
+          <label class="field__label">Espace surveillant :</label>
+          <span aria-label="Espace surveillant">{{@certificationCenter.supervisorAccessLabel}}</span><br />
         </div>
         <div class="property">
           <h2 class="field__label">Habilitations aux certifications complémentaires</h2>

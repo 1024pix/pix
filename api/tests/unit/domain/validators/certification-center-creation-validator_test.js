@@ -15,7 +15,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
     context('when validation is successful', function () {
       it('should not throw any error', function () {
         // given
-        const certificationCenterCreationParams = { name: 'ACME', type: 'PRO' };
+        const certificationCenterCreationParams = { name: 'ACME', type: 'PRO', isSupervisorAccessEnabled: false };
 
         // when/then
         expect(certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not.throw;
@@ -30,7 +30,11 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             attribute: 'name',
             message: 'Le nom n’est pas renseigné.',
           };
-          const certificationCenterCreationParams = { name: MISSING_VALUE, type: 'PRO' };
+          const certificationCenterCreationParams = {
+            name: MISSING_VALUE,
+            type: 'PRO',
+            isSupervisorAccessEnabled: false,
+          };
 
           try {
             // when
@@ -48,7 +52,11 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             attribute: 'name',
             message: 'Le nom ne doit pas dépasser 255 caractères.',
           };
-          const certificationCenterCreationParams = { name: 'a'.repeat(256), type: 'PRO' };
+          const certificationCenterCreationParams = {
+            name: 'a'.repeat(256),
+            type: 'PRO',
+            isSupervisorAccessEnabled: false,
+          };
 
           try {
             // when
@@ -75,7 +83,11 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             },
           ];
 
-          const certificationCenterCreationParams = { name: 'ACME', type: MISSING_VALUE };
+          const certificationCenterCreationParams = {
+            name: 'ACME',
+            type: MISSING_VALUE,
+            isSupervisorAccessEnabled: false,
+          };
 
           try {
             // when
@@ -94,7 +106,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             attribute: 'type',
             message: 'Le type du centre de certification doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
           };
-          const certificationCenterCreationParams = { name: 'ACME', type: 'PTT' };
+          const certificationCenterCreationParams = { name: 'ACME', type: 'PTT', isSupervisorAccessEnabled: false };
 
           try {
             // when
@@ -110,7 +122,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
         ['SUP', 'SCO', 'PRO'].forEach((type) => {
           it(`should not throw with ${type} as type`, function () {
             // given
-            const certificationCenterCreationParams = { name: 'ACME', type };
+            const certificationCenterCreationParams = { name: 'ACME', type, isSupervisorAccessEnabled: false };
 
             // when/then
             return expect(certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not
@@ -129,7 +141,66 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             },
           ];
 
-          const certificationCenterCreationParams = { name: 'ACME', type: 'SCO', externalId: 'a'.repeat(256) };
+          const certificationCenterCreationParams = {
+            name: 'ACME',
+            type: 'SCO',
+            isSupervisorAccessEnabled: false,
+            externalId: 'a'.repeat(256),
+          };
+
+          try {
+            // when
+            certificationCenterCreationValidator.validate(certificationCenterCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.length(1);
+            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+          }
+        });
+      });
+
+      context('on isSupervisorAccessEnabled attribute', function () {
+        it('should reject with error when isSupervisorAccessEnabled is not a boolean', function () {
+          // given
+          const expectedError = [
+            {
+              attribute: 'isSupervisorAccessEnabled',
+              message: 'L‘accès à l‘espace surveillant n’est pas renseigné.',
+            },
+          ];
+
+          const certificationCenterCreationParams = {
+            name: 'ACME',
+            type: 'SCO',
+            isSupervisorAccessEnabled: 'NOT A BOOLEAN',
+          };
+
+          try {
+            // when
+            certificationCenterCreationValidator.validate(certificationCenterCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.length(1);
+            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+          }
+        });
+
+        it('should reject with error when isSupervisorAccessEnabled is missing', function () {
+          // given
+          const expectedError = [
+            {
+              attribute: 'isSupervisorAccessEnabled',
+              message: 'L‘accès à l‘espace surveillant n’est pas renseigné.',
+            },
+          ];
+
+          const certificationCenterCreationParams = {
+            name: 'ACME',
+            type: 'SCO',
+            isSupervisorAccessEnabled: MISSING_VALUE,
+          };
 
           try {
             // when
@@ -145,7 +216,11 @@ describe('Unit | Domain | Validators | certification-center-validator', function
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', function () {
         // given
-        const certificationCenterCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE };
+        const certificationCenterCreationParams = {
+          name: MISSING_VALUE,
+          type: MISSING_VALUE,
+          isSupervisorAccessEnabled: MISSING_VALUE,
+        };
 
         try {
           // when
@@ -153,7 +228,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           expect.fail('should have thrown an error');
         } catch (errors) {
           // then
-          expect(errors.invalidAttributes).to.have.lengthOf(3);
+          expect(errors.invalidAttributes).to.have.lengthOf(4);
         }
       });
     });
