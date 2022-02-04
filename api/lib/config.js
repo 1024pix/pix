@@ -15,6 +15,10 @@ function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
+function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
+  return environmentVariable === 'true' ? true : defaultValue;
+}
+
 function _getNumber(numberAsString, defaultIntNumber) {
   const number = parseInt(numberAsString, 10);
   return isNaN(number) ? defaultIntNumber : number;
@@ -68,7 +72,6 @@ module.exports = (function () {
 
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
-      colorEnabled: false,
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: isFeatureEnabled(process.env.LOG_FOR_HUMANS),
       enableLogKnexQueries: isFeatureEnabled(process.env.LOG_KNEX_QUERIES),
@@ -234,8 +237,7 @@ module.exports = (function () {
   };
 
   if (config.environment === 'development') {
-    config.enabled = true;
-    config.logging.colorEnabled = true;
+    config.logging.enabled = true;
   } else if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
@@ -309,7 +311,7 @@ module.exports = (function () {
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
-    config.logging.enabled = false;
+    config.logging.enabled = isBooleanFeatureEnabledElseDefault(process.env.LOG_ENABLED, false);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
