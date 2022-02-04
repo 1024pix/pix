@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { render, fillIn, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
@@ -12,7 +12,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
   hooks.beforeEach(function () {
     this.onSubmit = () => {};
     this.onCancel = () => {};
-    this.certificationCenter = EmberObject.create();
+    this.certificationCenter = EmberObject.create({ isSupervisorAccessEnabled: true });
   });
 
   test('it renders the new certification center form component', async function (assert) {
@@ -25,6 +25,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
     assert.contains('Nom du centre');
     assert.contains("Type d'établissement");
     assert.contains('Identifiant externe');
+    assert.true(find('#supervisor-portal').checked);
     assert.contains('Annuler');
     assert.contains('Ajouter');
   });
@@ -40,9 +41,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       await fillIn('#certificationCenterTypeSelector', 'SCO');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.certificationCenter.type, 'SCO');
+      assert.strictEqual(this.certificationCenter.type, 'SCO');
     });
   });
 

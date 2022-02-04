@@ -64,6 +64,13 @@
       {{/if}}
     </div>
 
+    <div class="form-field form-group form-field__checkbox">
+      <Input @type="checkbox" id="supervisor-portal" @checked={{@certificationCenter.isSupervisorAccessEnabled}} />
+      <label class="form-field__label" for="supervisor-portal">
+        Espace surveillant
+      </label>
+    </div>
+
     <section>
       <h1 class="habilitations-title">Habilitations aux certifications complémentaires</h1>
       <ul class="form-field habilitations-checkbox-list">
