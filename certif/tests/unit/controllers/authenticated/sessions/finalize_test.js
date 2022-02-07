@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import Service from '@ember/service';
 import sinon from 'sinon';
 
 const FINALIZE_PATH = 'authenticated/sessions/finalize';
@@ -101,25 +100,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   });
 
   module('#computed shouldDisplayHasSeenEndTestScreenCheckbox', function () {
-    test('it should return false if certification center has access to supervisor space', function (assert) {
+    test('it should return false if the session has supervisor access', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        name: 'Test certification center',
-        type: 'NOT_SCO',
-        isEndTestScreenRemovalEnabled: true,
-      });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       controller.model = store.createRecord('session', {
         certificationReports: [],
+        hasSupervisorAccess: true,
       });
 
       // when
@@ -129,25 +116,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       assert.false(result);
     });
 
-    test('it should return true if certification center has access to supervisor space', function (assert) {
+    test('it should return true if the session does not have supervisor access', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        name: 'Test certification center',
-        type: 'NOT_SCO',
-        isEndTestScreenRemovalEnabled: false,
-      });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       controller.model = store.createRecord('session', {
         certificationReports: [],
+        hasSupervisorAccess: false,
       });
 
       // when
