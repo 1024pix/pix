@@ -355,4 +355,144 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       expect(actualResult).to.deep.equal(expectedResult);
     });
   });
+
+  context(
+    'when isCertificationBillingEnabled feature toggle is enabled and certification center is not of type SCO',
+    function () {
+      it('should return a candidate import sheet with session data, candidates data prefilled', async function () {
+        // given
+        featureToggles.isCertificationBillingEnabled = sinon.stub().returns(true);
+        expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns.ods`;
+        actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns.tmp.ods`;
+
+        const certificationCenterName = 'Centre de certification';
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: certificationCenterName,
+          type: 'SUP',
+        }).id;
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+
+        sessionId = databaseBuilder.factory.buildSession({
+          id: 10,
+          certificationCenter: certificationCenterName,
+          certificationCenterId: certificationCenterId,
+          accessCode: 'ABC123DEF',
+          address: '3 rue des bibiches',
+          room: '28D',
+          examiner: 'Johnny',
+          date: '2020-07-05',
+          time: '14:30',
+          description: 'La super description',
+        }).id;
+
+        databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'Certif',
+          lastName: 'Gratos',
+          billingMode: 'FREE',
+          prepaymentCode: null,
+          sessionId,
+        });
+        databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'Candidat',
+          lastName: 'Qui Raque',
+          billingMode: 'PAID',
+          prepaymentCode: null,
+          sessionId,
+        });
+        databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'A Man',
+          lastName: 'With A Code',
+          billingMode: 'PREPAID',
+          prepaymentCode: 'CODECODECODEC',
+          sessionId,
+        });
+        databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'Yo',
+          lastName: 'Lo',
+          billingMode: null,
+          prepaymentCode: null,
+          sessionId,
+        });
+        await databaseBuilder.commit();
+        const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
+
+        // when
+        const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session });
+
+        // then
+        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+        expect(actualResult).to.deep.equal(expectedResult);
+      });
+      context('when some candidate have complementary certifications', function () {
+        it('should return a candidate import sheet with session data, candidates data prefilled', async function () {
+          // given
+          featureToggles.isComplementaryCertificationSubscriptionEnabled = sinon.stub().returns(true);
+          featureToggles.isCertificationBillingEnabled = sinon.stub().returns(true);
+          expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.ods`;
+          actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.tmp.ods`;
+
+          const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({ name: 'CléA Numérique' });
+
+          const certificationCenterName = 'Centre de certification';
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+            name: certificationCenterName,
+            type: 'SUP',
+          }).id;
+
+          databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+            certificationCenterId,
+            complementaryCertificationId: cleaNumerique.id,
+          });
+
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+
+          sessionId = databaseBuilder.factory.buildSession({
+            id: 10,
+            certificationCenter: certificationCenterName,
+            certificationCenterId: certificationCenterId,
+            accessCode: 'ABC123DEF',
+            address: '3 rue des bibiches',
+            room: '28D',
+            examiner: 'Johnny',
+            date: '2020-07-05',
+            time: '14:30',
+            description: 'La super description',
+          }).id;
+
+          const cleaNumeriqueCandidate = databaseBuilder.factory.buildCertificationCandidate({
+            firstName: 'Yo',
+            lastName: 'Lo',
+            billingMode: null,
+            prepaymentCode: null,
+            sessionId,
+          });
+
+          databaseBuilder.factory.buildComplementaryCertificationSubscription({
+            certificationCandidateId: cleaNumeriqueCandidate.id,
+            complementaryCertificationId: cleaNumerique.id,
+          });
+
+          await databaseBuilder.commit();
+          const { session, certificationCenterHabilitations } = await usecases.getCandidateImportSheetData({
+            sessionId,
+            userId,
+          });
+
+          // when
+          const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, certificationCenterHabilitations });
+
+          // then
+          await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+          const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+          const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+          expect(actualResult).to.deep.equal(expectedResult);
+        });
+      });
+    }
+  );
 });
