@@ -1462,6 +1462,10 @@
           "source": "Par"
         }
       }
+    },
+    "user-tutorials-v2": {
+      "title": "Mes tutos",
+      "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix."
     }
   }
 }
