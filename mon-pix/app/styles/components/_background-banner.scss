@@ -6,6 +6,12 @@
   color: $white;
 }
 
+.background-banner-v2 {
+  width: 100%;
+  background: $white;
+  box-shadow: 0 2px 5px 0 rgba($grey-90, 0.06);
+}
+
 .background-banner-wrapper {
   display: flex;
   flex-direction: column;
