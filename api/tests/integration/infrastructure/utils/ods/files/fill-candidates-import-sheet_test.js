@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     await unlink(actualOdsFilePath);
   });
 
-  it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+  it('should return a candidate import sheet with session data, certification candidates data prefilled', async function () {
     // given
     expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template.ods`;
     actualOdsFilePath = `${__dirname}/1.5/candidates_import_template.tmp.ods`;
@@ -124,7 +124,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
   });
 
   context('when isComplementaryCertificationSubscriptionEnabled feature toggle is enabled', function () {
-    it('should return an attendance sheet with session data, certification candidates data prefilled with one complementary certification', async function () {
+    it('should return a candidate import sheet with session data, certification candidates data prefilled with one complementary certification', async function () {
       // given
       featureToggles.isComplementaryCertificationSubscriptionEnabled = sinon.stub().returns(true);
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-one-complementary-certification.ods`;
@@ -214,7 +214,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       expect(actualResult).to.deep.equal(expectedResult);
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled with two complementary certifications', async function () {
+    it('should return a candidate import sheet with session data, certification candidates data prefilled with two complementary certifications', async function () {
       // given
       featureToggles.isComplementaryCertificationSubscriptionEnabled = sinon.stub().returns(true);
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-two-complementary-certifications.ods`;
