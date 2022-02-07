@@ -4,10 +4,14 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-session', function () {
   let sessionRepository;
+  let supervisorAccessRepository;
 
   beforeEach(function () {
     sessionRepository = {
       get: sinon.stub(),
+    };
+    supervisorAccessRepository = {
+      sessionHasSupervisorAccess: sinon.stub(),
     };
   });
 
@@ -17,12 +21,45 @@ describe('Unit | UseCase | get-session', function () {
       const sessionId = 123;
       const sessionToFind = domainBuilder.buildSession({ id: sessionId });
       sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+      supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
       // when
-      const actualSession = await getSession({ sessionId, sessionRepository });
+      const { session: actualSession } = await getSession({ sessionId, sessionRepository, supervisorAccessRepository });
 
       // then
       expect(actualSession).to.deepEqualInstance(sessionToFind);
+    });
+
+    context('when the session does have supervisor access', function () {
+      it('should return hasSupervisorAccess to true', async function () {
+        // given
+        const sessionId = 123;
+        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
+        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+        supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
+
+        // when
+        const { hasSupervisorAccess } = await getSession({ sessionId, sessionRepository, supervisorAccessRepository });
+
+        // then
+        expect(hasSupervisorAccess).to.be.true;
+      });
+    });
+
+    context('when the session does not have supervisor access', function () {
+      it('should return hasSupervisorAccess to true', async function () {
+        // given
+        const sessionId = 123;
+        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
+        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+        supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
+
+        // when
+        const { hasSupervisorAccess } = await getSession({ sessionId, sessionRepository, supervisorAccessRepository });
+
+        // then
+        expect(hasSupervisorAccess).to.be.false;
+      });
     });
   });
 
@@ -33,7 +70,7 @@ describe('Unit | UseCase | get-session', function () {
       sessionRepository.get.withArgs(sessionId).rejects(new NotFoundError());
 
       // when
-      const err = await catchErr(getSession)({ sessionId, sessionRepository });
+      const err = await catchErr(getSession)({ sessionId, sessionRepository, supervisorAccessRepository });
 
       // then
       expect(err).to.be.an.instanceof(NotFoundError);
