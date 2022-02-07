@@ -24,14 +24,14 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
-    test('it should be accessible', async function (assert) {
+    test('it should be accessible and prescriber redirected to his campaigns list', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
       await authenticateSession(user.id);
 
       // when
-      await visitScreen('/campagnes/toutes');
+      await visitScreen('/campagnes');
 
       // then
       assert.deepEqual(currentURL(), '/campagnes/toutes');
@@ -67,6 +67,28 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/campagnes/1');
+      });
+
+      module('When search input filters by name or owner are empty', function () {
+        test('it should display a disabled clear all filters button', async function (assert) {
+          // given
+          const user = createUserWithMembershipAndTermsOfServiceAccepted();
+          createPrescriberByUser(user);
+          await authenticateSession(user.id);
+
+          const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+          server.create('campaign', {
+            name: 'ma super campagne',
+            ownerFirstName: owner.firstName,
+            ownerLastName: owner.lastName,
+          });
+
+          // when
+          const screen = await visitScreen('/campagnes/toutes');
+
+          //then
+          assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasAttribute('disabled');
+        });
       });
 
       module('When using owner filter', function () {
@@ -131,6 +153,57 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           assert.dom(screen.getByText('ma super campagne')).exists();
           assert.dom(screen.queryByLabelText('la campagne de Sara')).doesNotExist();
         });
+
+        module('With clear all filters button', function () {
+          test('it should display an enabled clear all filters button', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+
+            const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+            server.create('campaign', {
+              name: 'ma super campagne',
+              ownerFirstName: owner.firstName,
+              ownerLastName: owner.lastName,
+            });
+            const screen = await visitScreen('/campagnes/toutes');
+
+            // when
+            await fillByLabel('Rechercher un propriétaire', 'Harry');
+
+            //then
+            assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
+          });
+
+          test('it should clear owner filter on click and display all active campaigns', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+
+            const campaignName1 = 'ma super campagne';
+            const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+            server.create('campaign', {
+              name: campaignName1,
+              ownerFirstName: owner.firstName,
+              ownerLastName: owner.lastName,
+            });
+            const screen = await visitScreen('/campagnes/toutes');
+
+            // when
+            await fillByLabel('Rechercher un propriétaire', 'Harry');
+            await clickByName('Archivées');
+            await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+
+            //then
+            assert
+              .dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-owner')))
+              .containsText('');
+            assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
+            assert.deepEqual(currentURL(), '/campagnes/toutes');
+          });
+        });
       });
 
       module('When using campaign filter', function () {
@@ -172,6 +245,53 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           // then
           assert.deepEqual(currentURL(), `/campagnes/toutes?name=${campaignName}`);
         });
+
+        module('With clear all filters button', function () {
+          test('it should display an enabled clear all filters button when search input is filled', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+
+            const campaignName = 'CampagneV2';
+            server.create('campaign', { name: campaignName });
+            const screen = await visitScreen('/campagnes/toutes');
+
+            // when
+            await fillByLabel('Rechercher une campagne', campaignName);
+
+            //then
+            assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
+          });
+
+          test('it should clear campaign filter on click and display all active campaigns', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+            const campaignName1 = 'ma super campagne';
+
+            const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+            server.create('campaign', {
+              name: campaignName1,
+              ownerFirstName: owner.firstName,
+              ownerLastName: owner.lastName,
+            });
+            const screen = await visitScreen('/campagnes/toutes');
+
+            // when
+            await fillByLabel('Rechercher une campagne', campaignName1);
+            await clickByName('Archivées');
+            await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+
+            //then
+            assert
+              .dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')))
+              .containsText('');
+            assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
+            assert.deepEqual(currentURL(), '/campagnes/toutes');
+          });
+        });
       });
 
       module('When using campaign and owner filters', function () {
@@ -208,6 +328,64 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           assert.contains('ma super campagne');
           assert.notContains('Evaluation');
           assert.notContains('la campagne de Sara');
+        });
+
+        module('With clear all filters button', function () {
+          test('it should display an enabled clear all filters button when campaign and owner search inputs are filled', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+
+            const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+            server.create('campaign', {
+              name: 'ma super campagne',
+              ownerFirstName: owner.firstName,
+              ownerLastName: owner.lastName,
+            });
+
+            await visitScreen('/campagnes/toutes');
+
+            // when
+            const screen = await visitScreen('/campagnes/toutes');
+            await fillByLabel('Rechercher un propriétaire', 'Harry');
+            await fillByLabel('Rechercher une campagne', 'campagne');
+
+            //then
+            assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
+          });
+
+          test('it should clear campaign and owner filter on click and display all active campaigns', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+            const campaignName1 = 'ma super campagne';
+
+            const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+            server.create('campaign', {
+              name: campaignName1,
+              ownerFirstName: owner.firstName,
+              ownerLastName: owner.lastName,
+            });
+            const screen = await visitScreen('/campagnes/toutes');
+
+            // when
+            await fillByLabel('Rechercher une campagne', campaignName1);
+            await fillByLabel('Rechercher un propriétaire', owner.firstName);
+            await clickByName('Archivées');
+            await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+
+            //then
+            assert
+              .dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-owner')))
+              .containsText('');
+            assert
+              .dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')))
+              .containsText('');
+            assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
+            assert.deepEqual(currentURL(), '/campagnes/toutes');
+          });
         });
       });
     });
