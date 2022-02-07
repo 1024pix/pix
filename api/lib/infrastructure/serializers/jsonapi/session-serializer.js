@@ -7,7 +7,7 @@ const { isValidDate } = require('../../utils/date-utils');
 const Session = require('../../../domain/models/Session');
 
 module.exports = {
-  serialize(sessions) {
+  serialize(sessions, hasSupervisorAccess) {
     const attributes = [
       'address',
       'room',
@@ -25,8 +25,15 @@ module.exports = {
       'certificationCandidates',
       'certificationReports',
       'supervisorPassword',
+      'hasSupervisorAccess',
     ];
     return new Serializer('session', {
+      transform(record) {
+        if (hasSupervisorAccess !== undefined) {
+          record.hasSupervisorAccess = hasSupervisorAccess;
+        }
+        return record;
+      },
       attributes,
       certificationCandidates: {
         ref: 'id',
