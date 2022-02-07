@@ -27,7 +27,6 @@ const schema = Joi.object({
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
   AUTH_SECRET: Joi.string().required(),
   SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
-  CACHE_RELOAD_TIME: Joi.string().optional(),
   FT_CERTIFICATION_BILLING: Joi.string().optional().valid('true', 'false'),
   FT_VALIDATE_EMAIL: Joi.string().optional().valid('true', 'false'),
   FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED: Joi.string().optional().valid('true', 'false'),
