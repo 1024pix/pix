@@ -17,6 +17,7 @@ module.exports = async function getAttendanceSheet({
   sessionRepository,
   sessionForAttendanceSheetRepository,
   endTestScreenRemovalService,
+  supervisorAccessRepository,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
@@ -26,11 +27,14 @@ module.exports = async function getAttendanceSheet({
   const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
     sessionId
   );
+  const hasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({ sessionId });
+  const addEndTestScreenColumn = !isEndTestScreenRemovalEnabled || !hasSupervisorAccess;
+
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
   const odsFilePath = _getAttendanceSheetTemplatePath(
     session.certificationCenterType,
     session.isOrganizationManagingStudents,
-    isEndTestScreenRemovalEnabled
+    addEndTestScreenColumn
   );
 
   const stringifiedXml = await readOdsUtils.getContentXml({
@@ -121,9 +125,9 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
 function _getAttendanceSheetTemplatePath(
   certificationCenterType,
   isOrganizationManagingStudents,
-  isEndTestScreenRemovalEnabled
+  addEndTestScreenColumn
 ) {
-  const suffix = isEndTestScreenRemovalEnabled ? '' : '_with_fdt';
+  const suffix = addEndTestScreenColumn ? '_with_fdt' : '';
   const templatePath = __dirname + '/../../infrastructure/files/attendance-sheet';
   if (certificationCenterType === 'SCO' && isOrganizationManagingStudents) {
     return `${templatePath}/sco_attendance_sheet_template${suffix}.ods`;
