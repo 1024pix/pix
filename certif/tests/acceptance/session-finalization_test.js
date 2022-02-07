@@ -23,7 +23,6 @@ module('Acceptance | Session Finalization', function (hooks) {
       isAccessBlockedLycee: false,
       isAccessBlockedAEFE: false,
       isAccessBlockedAgri: false,
-      isEndTestScreenRemovalEnabled: false,
     });
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
@@ -239,28 +238,7 @@ module('Acceptance | Session Finalization', function (hooks) {
 
       module('when there are uncompleted reports', function () {
         module('when end test screen has not been seen', function () {
-          module('when certification center is not in the whitelist', function () {
-            test('it should display end test screen warning', async function (assert) {
-              // given
-              const certificationReport = server.create('certification-report', {
-                hasSeenEndTestScreen: false,
-                isCompleted: true,
-                abortReason: 'technical',
-              });
-
-              session.update({ certificationReports: [certificationReport] });
-
-              // when
-              await visit(`/sessions/${session.id}/finalisation`);
-              await clickByLabel('Finaliser');
-
-              // then
-              assert.contains(CONFIRMATION_TEXT);
-              assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
-            });
-          });
-
-          module('when certification center is in the whitelist', function () {
+          module('when the session has supervisor access', function () {
             test('it should not display end test screen warning', async function (assert) {
               // given
               const certificationReport = server.create('certification-report', {
@@ -268,12 +246,7 @@ module('Acceptance | Session Finalization', function (hooks) {
                 isCompleted: true,
                 abortReason: 'technical',
               });
-
-              allowedCertificationCenterAccess.update({
-                isEndTestScreenRemovalEnabled: true,
-              });
-
-              session.update({ certificationReports: [certificationReport] });
+              session.update({ certificationReports: [certificationReport], hasSupervisorAccess: true });
 
               // when
               await visit(`/sessions/${session.id}/finalisation`);
@@ -282,6 +255,25 @@ module('Acceptance | Session Finalization', function (hooks) {
               // then
               assert.contains(CONFIRMATION_TEXT);
               assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+            });
+          });
+          module('when the session does not have supervisor access', function () {
+            test('it should display end test screen warning', async function (assert) {
+              // given
+              const certificationReport = server.create('certification-report', {
+                hasSeenEndTestScreen: false,
+                isCompleted: true,
+                abortReason: 'technical',
+              });
+              session.update({ certificationReports: [certificationReport], hasSupervisorAccess: false });
+
+              // when
+              await visit(`/sessions/${session.id}/finalisation`);
+              await clickByLabel('Finaliser');
+
+              // then
+              assert.contains(CONFIRMATION_TEXT);
+              assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
             });
           });
         });
