@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),
+            'supervisor-password': 'SOWHAT',
           },
           relationships: {
             'certification-candidates': {
@@ -63,17 +64,27 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
 
     context('when session does not have a link to an existing certification center', function () {
       it('should convert a Session model object into JSON API data including supervisor password', function () {
-        // given
-        const expectedJsonApiIncludingSupervisorPassword = {
-          ...expectedJsonApi,
-        };
-        expectedJsonApiIncludingSupervisorPassword.data.attributes['supervisor-password'] = 'SOWHAT';
-
         // when
         const json = serializer.serialize(modelSession);
 
         // then
-        expect(json).to.deep.equal(expectedJsonApiIncludingSupervisorPassword);
+        expect(json).to.deep.equal(expectedJsonApi);
+      });
+    });
+
+    context('when hasSupervisorAccess is provided', function () {
+      it('should add hasSupervisorAccess to the serialized session', function () {
+        // given
+        const expectedJsonApiIncludingHasSupervisorAccess = {
+          ...expectedJsonApi,
+        };
+        expectedJsonApiIncludingHasSupervisorAccess.data.attributes['has-supervisor-access'] = true;
+
+        // when
+        const json = serializer.serialize(modelSession, true);
+
+        // then
+        expect(json).to.deep.equal(expectedJsonApiIncludingHasSupervisorAccess);
       });
     });
   });
