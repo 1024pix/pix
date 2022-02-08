@@ -206,6 +206,7 @@ module.exports = injectDependencies(
     createUserFromPoleEmploi: require('./create-user-from-pole-emploi'),
     deleteCertificationIssueReport: require('./delete-certification-issue-report'),
     deleteSessionJuryComment: require('./delete-session-jury-comment'),
+    deleteUnassociatedBadge: require('./delete-unassociated-badge'),
     deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
     deneutralizeChallenge: require('./deneutralize-challenge'),
     disableMembership: require('./disable-membership'),

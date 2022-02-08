@@ -986,6 +986,12 @@ class SchoolingRegistrationCannotBeDissociatedError extends DomainError {
   }
 }
 
+class BadgeForbiddenDeletionError extends DomainError {
+  constructor(message = 'Il est interdit de supprimer un résultat thématique déjà acquis par un utilisateur.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1010,6 +1016,7 @@ module.exports = {
   AuthenticationMethodAlreadyExistsError,
   AuthenticationKeyForPoleEmploiTokenExpired,
   UncancellableOrganizationInvitationError,
+  BadgeForbiddenDeletionError,
   CampaignCodeError,
   CancelledOrganizationInvitationError,
   CandidateNotAuthorizedToJoinSessionError,

@@ -24,7 +24,6 @@ describe('Integration | Repository | Badge', function () {
     targetProfileWithoutBadge = databaseBuilder.factory.buildTargetProfile();
     setupTargetProfileWithSkillSets();
     setupTargetProfileWithSeveralBadges();
-
     await databaseBuilder.commit();
   });
 
@@ -117,6 +116,7 @@ describe('Integration | Repository | Badge', function () {
   afterEach(async function () {
     await knex('skill-sets').delete();
     await knex('badge-criteria').delete();
+    await knex('badge-acquisitions').delete();
     await knex('badges').delete();
   });
 
@@ -517,6 +517,86 @@ describe('Integration | Repository | Badge', function () {
 
         // then
         expect(error).to.instanceOf(AlreadyExistingEntityError);
+      });
+    });
+  });
+
+  describe('#isAssociated', function () {
+    describe('when the badge is not associated to a badge acquisition', function () {
+      it('should return false', async function () {
+        // given
+        const badge = databaseBuilder.factory.buildBadge({
+          id: 1,
+          altMessage: 'You won the Toto badge!',
+          imageUrl: 'data:,',
+          message: 'Congrats, you won the Toto badge!',
+          key: 'TOTO2',
+        });
+        await databaseBuilder.commit();
+        const badgeId = badge.id;
+
+        // when
+        const isNotAssociated = await badgeRepository.isAssociated(badgeId);
+
+        // then
+        expect(isNotAssociated).to.be.false;
+      });
+    });
+
+    describe('when the badge is associated to a badge acquisition', function () {
+      it('should return true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const badgeId = databaseBuilder.factory.buildBadge().id;
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const isNotAssociated = await badgeRepository.isAssociated(badgeId);
+
+        // then
+        expect(isNotAssociated).to.be.true;
+      });
+    });
+  });
+
+  describe('#delete', function () {
+    describe('when the record to delete is in the table', function () {
+      it('should return true when deletion goes well', async function () {
+        // when
+        const badgeId = badgeWithSameTargetProfile_1.id;
+        const isDeleted = await badgeRepository.delete(badgeId);
+
+        // then
+        expect(isDeleted).to.be.true;
+      });
+
+      it('should delete a single row in the table', async function () {
+        const badgeId = badgeWithSameTargetProfile_1.id;
+        const badgeRowsCountBeforeDeletion = await knex('badges').where({ id: badgeId }).count();
+        // when
+        await badgeRepository.delete(badgeId);
+        const badgeRowsCountAfterDeletion = await knex('badges').where({ id: badgeId }).count();
+
+        // then
+        expect(badgeRowsCountAfterDeletion[0].count).to.equal(badgeRowsCountBeforeDeletion[0].count - 1);
+      });
+    });
+
+    describe('when the badge has complementary criteria', function () {
+      it('should delete both badge and criteria', async function () {
+        // given
+        const badgeId = badgeWithSameTargetProfile_1.id;
+
+        // when
+        const isDeleted = await badgeRepository.delete(badgeId);
+
+        // then
+        const badge = await knex.select().from('badges').where({ id: badgeId }).first();
+        const badgeCriterion = await knex.select().from('badge-criteria').where({ badgeId }).first();
+        expect(badge).to.be.undefined;
+        expect(badgeCriterion).to.be.undefined;
+        expect(isDeleted).to.be.true;
       });
     });
   });
