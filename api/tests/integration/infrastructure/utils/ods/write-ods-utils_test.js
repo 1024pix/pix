@@ -12,6 +12,7 @@ const {
   addCellToEndOfLineWithStyleOfCellLabelled,
   incrementRowsColumnSpan,
   addValidatorRestrictedList,
+  addTooltipOnCell,
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 const AddedCellOption = require('../../../../../lib/infrastructure/utils/ods/added-cell-option');
 
@@ -671,6 +672,46 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
           <table:content-validations>
             <table:content-validation table:name="validator2000" table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)" table:allow-empty-cell="false">
               <table:error-message table:display="true" table:message-type="stop"/>
+            </table:content-validation>
+          </table:content-validations>
+        </xml>
+          `;
+        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
+      });
+    });
+  });
+
+  describe('#addTooltipOnCell', function () {
+    context('when allow empty cells is true', function () {
+      it('should add a validator not empty for a given list', function () {
+        // given
+        const stringifiedXml = `
+        <xml xmlns:table="">
+          <table:content-validations></table:content-validations>
+        </xml>`;
+
+        // when
+        const result = addTooltipOnCell({
+          stringifiedXml,
+          targetCellAddress: 'A1',
+          tooltipName: 'important-info',
+          tooltipTitle: 'Please read this important information',
+          tooltipContentLines: ['Cant touch this', 'Tuuuu tu tu tu', 'Tu tu', 'Tu tu', 'Cant touch this'],
+        });
+
+        // then
+        const updatedStringifiedXml = `
+        <xml xmlns:table="">
+          <table:content-validations>
+            <table:content-validation table:name="important-info" table:base-cell-address="A1">
+                <table:error-message table:display="true" table:message-type="stop"/>
+                <table:help-message table:title="Please read this important information" table:display="true">
+                    <text:p>Cant touch this</text:p>
+                    <text:p>Tuuuu tu tu tu</text:p>
+                    <text:p>Tu tu</text:p>
+                    <text:p>Tu tu</text:p>
+                    <text:p>Cant touch this</text:p>
+                </table:help-message>
             </table:content-validation>
           </table:content-validations>
         </xml>
