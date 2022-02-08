@@ -54,6 +54,33 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
   });
 
+  test('it should display legal mentions with related links', async function (assert) {
+    // given
+    const service = this.owner.lookup('service:url');
+    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+    // when
+    const screen = await renderScreen(hbs`<Auth::RegisterForm/>`);
+
+    // then
+    assert
+      .dom(screen.getByText(this.intl.t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
+      .exists();
+    assert
+      .dom(screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`))
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false }))
+      .exists();
+    assert
+      .dom(
+        screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`)
+      )
+      .exists();
+    assert.dom('a[href="https://pix.fr/conditions-generales-d-utilisation"]').exists();
+    assert.dom('a[href="https://pix.fr/politique-protection-donnees-personnelles-app"]').exists();
+  });
+
   module('successful cases', function (hooks) {
     hooks.beforeEach(function () {
       this.owner.unregister('service:store');
@@ -92,18 +119,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.email, 'shi@fu.me');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.password, 'Mypassword1');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionServiceObserver.scope, 'pix-orga');
+      assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+      assert.strictEqual(sessionServiceObserver.email, 'shi@fu.me');
+      assert.strictEqual(sessionServiceObserver.password, 'Mypassword1');
+      assert.strictEqual(sessionServiceObserver.scope, 'pix-orga');
     });
   });
 
@@ -135,9 +154,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(spy.callCount, 0);
+        assert.strictEqual(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
       });
     });
@@ -151,9 +168,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(spy.callCount, 0);
+        assert.strictEqual(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
       });
     });
@@ -167,9 +182,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(spy.callCount, 0);
+        assert.strictEqual(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
       });
     });
@@ -183,9 +196,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(spy.callCount, 0);
+        assert.strictEqual(spy.callCount, 0);
         assert.dom(screen.getByText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
       });
     });
@@ -199,9 +210,8 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(spy.callCount, 0);
+        // assert.strictEqual
+        assert.strictEqual(spy.callCount, 0);
       });
     });
   });

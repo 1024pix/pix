@@ -43,9 +43,7 @@ module('Unit | Service | url', function (hooks) {
       const campaignsRootUrl = service.campaignsRootUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(campaignsRootUrl, service.definedCampaignsRootUrl);
+      assert.strictEqual(campaignsRootUrl, service.definedCampaignsRootUrl);
     });
 
     test('should get "pix.test" url when current domain contains pix.test', function (assert) {
@@ -59,9 +57,7 @@ module('Unit | Service | url', function (hooks) {
       const campaignsRootUrl = service.campaignsRootUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(campaignsRootUrl, expectedCampaignsRootUrl);
+      assert.strictEqual(campaignsRootUrl, expectedCampaignsRootUrl);
     });
   });
 
@@ -90,9 +86,7 @@ module('Unit | Service | url', function (hooks) {
       const homeUrl = service.homeUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(homeUrl, expectedHomeUrl);
+      assert.strictEqual(homeUrl, expectedHomeUrl);
     });
   });
 
@@ -107,9 +101,7 @@ module('Unit | Service | url', function (hooks) {
       const url = service.legalNoticeUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
     });
 
     test('should get "pix.org" english url when current language is en', function (assert) {
@@ -123,9 +115,7 @@ module('Unit | Service | url', function (hooks) {
       const url = service.legalNoticeUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
     });
 
     test('should get "pix.org" french url when current language is fr', function (assert) {
@@ -139,9 +129,93 @@ module('Unit | Service | url', function (hooks) {
       const url = service.legalNoticeUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
+    });
+  });
+
+  module('#dataProtectionPolicyUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+
+    test('should get "pix.org" english url when current language is en', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('en') };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+
+    test('should get "pix.org" french url when current language is fr', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+  });
+
+  module('#cguUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+
+    test('should get "pix.org" english url when current language is en', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('en') };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+
+    test('should get "pix.org" french url when current language is fr', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
   });
 
@@ -156,9 +230,7 @@ module('Unit | Service | url', function (hooks) {
       const url = service.accessibilityUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
     });
 
     test('should get "pix.org" in english when current language is en', function (assert) {
@@ -172,9 +244,7 @@ module('Unit | Service | url', function (hooks) {
       const url = service.accessibilityUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
     });
 
     test('should get "pix.org" in french when current language is fr', function (assert) {
@@ -188,9 +258,7 @@ module('Unit | Service | url', function (hooks) {
       const url = service.accessibilityUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
     });
   });
 });
