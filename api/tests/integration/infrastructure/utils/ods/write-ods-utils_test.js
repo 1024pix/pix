@@ -621,7 +621,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
 
   describe('#addValidatorRestrictedList', function () {
     context('when allow empty cells is true', function () {
-      it('should add a validator for a given list', function () {
+      it('should add a tooltip, dropdown menu and entry validation', function () {
         // given
         const stringifiedXml = `
         <xml xmlns:table="">
@@ -631,6 +631,12 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
         // when
         const result = addValidatorRestrictedList({
           stringifiedXml,
+          tooltipTitle: 'Code de prépaiement',
+          tooltipContentLines: [
+            "(Requis notamment dans le cas d'un achat de crédits combinés)",
+            'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
+            'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
+          ],
           validatorName: 'validator2000',
           restrictedList: ['a', 'b'],
           allowEmptyCell: true,
@@ -639,19 +645,28 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
         // then
         const updatedStringifiedXml = `
          <xml xmlns:table="">
-          <table:content-validations>
-            <table:content-validation table:name="validator2000" table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)" table:allow-empty-cell="true">
-              <table:error-message table:display="true" table:message-type="stop"/>
-            </table:content-validation>
-          </table:content-validations>
-        </xml>
+              <table:content-validations>
+                  <table:content-validation table:name="validator2000"
+                                            table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)"
+                                            table:allow-empty-cell="true">
+                      <table:error-message table:display="true" table:message-type="stop"/>
+                      <table:help-message table:title="Code de prépaiement" table:display="true">
+                          <text:p>(Requis notamment dans le cas d'un achat de crédits combinés)</text:p>
+                          <text:p>Doit être composé du SIRET de l’organisation et du numéro de facture. Ex :
+                              12345678912345/FACT12345
+                          </text:p>
+                          <text:p>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.</text:p>
+                      </table:help-message>
+                  </table:content-validation>
+              </table:content-validations>
+          </xml>
           `;
         expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
       });
     });
 
     context('when allow empty cells is false', function () {
-      it('should add a validator not empty for a given list', function () {
+      it('should add a tooltip, dropdown menu and an optional entry validation', function () {
         // given
         const stringifiedXml = `
         <xml xmlns:table="">
@@ -661,49 +676,65 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
         // when
         const result = addValidatorRestrictedList({
           stringifiedXml,
+          tooltipTitle: 'Code de prépaiement',
+          tooltipContentLines: [
+            "(Requis notamment dans le cas d'un achat de crédits combinés)",
+            'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
+            'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
+          ],
           validatorName: 'validator2000',
           restrictedList: ['a', 'b'],
-          allowEmptyCell: false,
+          allowEmptyCell: true,
         });
 
         // then
-        const updatedStringifiedXml = `
+        const expectedXml = `
          <xml xmlns:table="">
-          <table:content-validations>
-            <table:content-validation table:name="validator2000" table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)" table:allow-empty-cell="false">
-              <table:error-message table:display="true" table:message-type="stop"/>
-            </table:content-validation>
-          </table:content-validations>
-        </xml>
+              <table:content-validations>
+                  <table:content-validation table:name="validator2000"
+                                            table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)"
+                                            table:allow-empty-cell="true">
+                      <table:error-message table:display="true" table:message-type="stop"/>
+                      <table:help-message table:title="Code de prépaiement" table:display="true">
+                          <text:p>(Requis notamment dans le cas d'un achat de crédits combinés)</text:p>
+                          <text:p>Doit être composé du SIRET de l’organisation et du numéro de facture. Ex :
+                              12345678912345/FACT12345
+                          </text:p>
+                          <text:p>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.</text:p>
+                      </table:help-message>
+                  </table:content-validation>
+              </table:content-validations>
+          </xml>
           `;
-        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
+        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(expectedXml));
       });
     });
   });
 
   describe('#addTooltipOnCell', function () {
-    context('when allow empty cells is true', function () {
-      it('should add a validator not empty for a given list', function () {
-        // given
-        const stringifiedXml = `
+    it('should add a tooltip on a cell range', function () {
+      // given
+      const stringifiedXml = `
         <xml xmlns:table="">
           <table:content-validations></table:content-validations>
         </xml>`;
 
-        // when
-        const result = addTooltipOnCell({
-          stringifiedXml,
-          targetCellAddress: 'A1',
-          tooltipName: 'important-info',
-          tooltipTitle: 'Please read this important information',
-          tooltipContentLines: ['Cant touch this', 'Tuuuu tu tu tu', 'Tu tu', 'Tu tu', 'Cant touch this'],
-        });
+      const targetCellRange = '.A1';
 
-        // then
-        const updatedStringifiedXml = `
+      // when
+      const result = addTooltipOnCell({
+        stringifiedXml,
+        targetCellAddress: targetCellRange,
+        tooltipName: 'important-info',
+        tooltipTitle: 'Please read this important information',
+        tooltipContentLines: ['Cant touch this', 'Tuuuu tu tu tu', 'Tu tu', 'Tu tu', 'Cant touch this'],
+      });
+
+      // then
+      const updatedStringifiedXml = `
         <xml xmlns:table="">
           <table:content-validations>
-            <table:content-validation table:name="important-info" table:base-cell-address="A1">
+            <table:content-validation table:name="important-info">
                 <table:error-message table:display="true" table:message-type="stop"/>
                 <table:help-message table:title="Please read this important information" table:display="true">
                     <text:p>Cant touch this</text:p>
@@ -716,8 +747,8 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
           </table:content-validations>
         </xml>
           `;
-        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
-      });
+
+      expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
     });
   });
 });
