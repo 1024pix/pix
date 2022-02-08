@@ -28,6 +28,7 @@ export default class CertificationCandidateForSupervising extends Model {
     type: 'post',
     urlType: 'updateAuthorizedToStart',
     before(authorizedToStart) {
+      this.authorizedToStart = authorizedToStart;
       return {
         'authorized-to-start': authorizedToStart,
       };
