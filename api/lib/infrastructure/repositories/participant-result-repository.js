@@ -197,7 +197,7 @@ async function _isRegistrationActive(userId, campaignId) {
 }
 
 async function _getEstimatedFlashLevel(assessmentId) {
-  const flashAssessmentResult = await flashAssessmentResultRepository.getByAssessmentId(assessmentId);
+  const flashAssessmentResult = await flashAssessmentResultRepository.getLatestByAssessmentId(assessmentId);
   return flashAssessmentResult?.estimatedLevel;
 }
 
