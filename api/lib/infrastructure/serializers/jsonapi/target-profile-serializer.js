@@ -16,6 +16,7 @@ module.exports = {
       imageUrl: json.data.attributes['image-url'],
       skillIds: json.data.attributes['skill-ids'],
       comment: json.data.attributes['comment'],
+      description: json.data.attributes['description'],
       category: json.data.attributes['category'],
     };
   },

@@ -37,4 +37,44 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });
   });
+
+  describe('#deserialize', function () {
+    it('should deserialize JSONAPI to target profile', function () {
+      // given
+
+      const json = {
+        data: {
+          id: '12',
+          type: 'target-profiles',
+          attributes: {
+            name: 'Les compétences de BRO 2.0',
+            'is-public': false,
+            'owner-organization-id': 12,
+            'skill-ids': ['skillId1', 'skillIds2'],
+            'image-url': 'superImage.png',
+            comment: 'Interesting comment',
+            description: 'Amazing description',
+            category: 'OTHER',
+          },
+        },
+      };
+
+      const expectTargetProfileObject = {
+        ownerOrganizationId: 12,
+        name: 'Les compétences de BRO 2.0',
+        isPublic: false,
+        imageUrl: 'superImage.png',
+        skillIds: ['skillId1', 'skillIds2'],
+        comment: 'Interesting comment',
+        description: 'Amazing description',
+        category: 'OTHER',
+      };
+
+      // when
+      const deserializedTargetProfile = serializer.deserialize(json);
+
+      // then
+      return expect(deserializedTargetProfile).to.deep.equal(expectTargetProfileObject);
+    });
+  });
 });
