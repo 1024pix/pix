@@ -166,6 +166,10 @@ describe('Integration | Repository | Campaign-Management', function () {
     context('when the given organization has campaigns', function () {
       it('should return campaign with all attributes', async function () {
         // given
+        const owner = databaseBuilder.factory.buildUser({
+          lastName: 'Queen',
+          firstName: 'Elizabeth',
+        });
         const creator = databaseBuilder.factory.buildUser({
           lastName: 'King',
           firstName: 'Arthur',
@@ -178,6 +182,7 @@ describe('Integration | Repository | Campaign-Management', function () {
           archivedAt: new Date('2021-01-01'),
           type: 'ASSESSMENT',
           creatorId: creator.id,
+          ownerId: owner.id,
         });
         await databaseBuilder.commit();
 
@@ -198,6 +203,9 @@ describe('Integration | Repository | Campaign-Management', function () {
           creatorLastName: creator.lastName,
           creatorFirstName: creator.firstName,
           creatorId: creator.id,
+          ownerId: owner.id,
+          ownerFirstName: owner.firstName,
+          ownerLastName: owner.lastName,
         });
       });
 
