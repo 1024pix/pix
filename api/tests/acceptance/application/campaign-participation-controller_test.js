@@ -117,6 +117,7 @@ describe('Acceptance | API | Campaign Participations', function () {
     beforeEach(async function () {
       options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
+      mockLearningContent({ skills: [] });
       await databaseBuilder.commit();
     });
 
