@@ -3,10 +3,10 @@ const { Serializer } = require('jsonapi-serializer');
 module.exports = {
   serializeForPaginatedList(jurySessionsForPaginatedList) {
     const { jurySessions, pagination } = jurySessionsForPaginatedList;
-    return this.serialize(jurySessions, pagination);
+    return this.serialize(jurySessions, undefined, pagination);
   },
 
-  serialize(jurySessions, meta) {
+  serialize(jurySessions, hasSupervisorAccess, meta) {
     return new Serializer('sessions', {
       attributes: [
         'certificationCenterName',
@@ -28,6 +28,7 @@ module.exports = {
         'juryComment',
         'juryCommentAuthorId',
         'juryCommentedAt',
+        'hasSupervisorAccess',
         // included
         'assignedCertificationOfficer',
         'juryCommentAuthor',
@@ -57,6 +58,9 @@ module.exports = {
       transform(jurySession) {
         const transformedJurySession = Object.assign({}, jurySession);
         transformedJurySession.status = jurySession.status;
+        if (hasSupervisorAccess !== undefined) {
+          transformedJurySession.hasSupervisorAccess = hasSupervisorAccess;
+        }
         return transformedJurySession;
       },
       typeForAttribute: function (attribute) {

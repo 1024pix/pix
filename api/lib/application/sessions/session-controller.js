@@ -37,9 +37,9 @@ module.exports = {
 
   async getJurySession(request) {
     const sessionId = request.params.id;
-    const { jurySession } = await usecases.getJurySession({ sessionId });
+    const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
 
-    return jurySessionSerializer.serialize(jurySession);
+    return jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
   },
 
   async get(request) {
