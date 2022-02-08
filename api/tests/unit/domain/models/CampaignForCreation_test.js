@@ -89,7 +89,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
       });
     });
 
-    context('when the campaign type is PROFILE_COLLECTION', function () {
+    context('when the campaign type is PROFILES_COLLECTION', function () {
       context('when the every required field is present', function () {
         it('should create the campaign', function () {
           const attributes = {
