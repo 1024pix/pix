@@ -11,6 +11,9 @@ module.exports = function buildCampaignManagement({
   creatorId = 2,
   creatorFirstName = 'Un prénom',
   creatorLastName = 'Un nom',
+  ownerId = 3,
+  ownerFirstName = 'Alain',
+  ownerLastName = 'Provist',
 } = {}) {
   return new CampaignManagement({
     id,
@@ -22,5 +25,8 @@ module.exports = function buildCampaignManagement({
     creatorId,
     creatorFirstName,
     creatorLastName,
+    ownerId,
+    ownerFirstName,
+    ownerLastName,
   });
 };
