@@ -8,6 +8,7 @@ const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
 const SCO_FOREIGNER_USER_ID = 9912;
 const SCO_FRENCH_USER_ID = 2339213;
+const SCO_DISABLED_USER_ID = 777;
 const SCO_ADMIN_ID = 4;
 const SCO_MEMBER_ID = 5;
 
@@ -119,6 +120,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
+    id: SCO_FRENCH_USER_ID,
     firstName: userWithUsername.firstName,
     lastName: userWithUsername.lastName,
     birthdate: '2013-07-22',
@@ -141,6 +143,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
+    id: SCO_FOREIGNER_USER_ID,
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
@@ -184,13 +187,14 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
+    id: SCO_STUDENT_ID,
     firstName: userCertifWithEmail.firstName,
     lastName: userCertifWithEmail.lastName,
     birthdate: '2000-01-01',
     division: '5D',
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
-    userId: userCertifWithEmail.id,
+    userId: SCO_STUDENT_ID,
     nationalStudentId: '123456789FF',
   });
 
@@ -221,6 +225,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
 
   // schooling registration disabled
   const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_DISABLED_USER_ID,
     firstName: 'student',
     lastName: 'disabled',
     username: 'student.disabled1234',
@@ -229,13 +234,14 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
+    id: SCO_DISABLED_USER_ID,
     firstName: studentDisabled.firstName,
     lastName: studentDisabled.lastName,
     birthdate: '2000-01-01',
     division: '3A',
     group: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
-    userId: studentDisabled.id,
+    userId: SCO_DISABLED_USER_ID,
     nationalStudentId: '123456789HH',
     isDisabled: true,
   });
@@ -398,4 +404,5 @@ module.exports = {
   SCO_STUDENT_ID,
   SCO_FOREIGNER_USER_ID,
   SCO_FRENCH_USER_ID,
+  SCO_DISABLED_USER_ID,
 };

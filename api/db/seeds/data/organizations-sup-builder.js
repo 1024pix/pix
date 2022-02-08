@@ -1,6 +1,8 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const SUP_UNIVERSITY_ID = 2;
+const SUP_STUDENT_ASSOCIATED_ID = 888;
+const SUP_STUDENT_DISABLED_ID = 889;
 
 function organizationsSupBuilder({ databaseBuilder }) {
   const supUser1 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -72,18 +74,21 @@ function organizationsSupBuilder({ databaseBuilder }) {
 
   // student associated
   const studentAssociated = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SUP_STUDENT_ASSOCIATED_ID,
     firstName: 'Studentsup',
     lastName: 'Associated',
     email: 'studentsup.associated@example.net',
     rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
+
   databaseBuilder.factory.buildSchoolingRegistration({
+    id: SUP_STUDENT_ASSOCIATED_ID,
     firstName: studentAssociated.firstName,
     lastName: studentAssociated.lastName,
     birthdate: '2005-03-28',
     organizationId: SUP_UNIVERSITY_ID,
-    userId: studentAssociated.id,
+    userId: SUP_STUDENT_ASSOCIATED_ID,
     studentNumber: 'associated1',
     group: 'L1',
     division: null,
@@ -91,6 +96,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
 
   // disabled student
   const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SUP_STUDENT_DISABLED_ID,
     firstName: 'Studentsup',
     lastName: 'Disabled',
     email: 'studentsup.disabled@example.net',
@@ -99,11 +105,12 @@ function organizationsSupBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
+    id: SUP_STUDENT_DISABLED_ID,
     firstName: studentDisabled.firstName,
     lastName: studentDisabled.lastName,
     birthdate: '2000-05-28',
     organizationId: SUP_UNIVERSITY_ID,
-    userId: studentDisabled.id,
+    userId: SUP_STUDENT_DISABLED_ID,
     studentNumber: 'disabled1',
     isDisabled: true,
   });
@@ -112,4 +119,6 @@ function organizationsSupBuilder({ databaseBuilder }) {
 module.exports = {
   organizationsSupBuilder,
   SUP_UNIVERSITY_ID,
+  SUP_STUDENT_ASSOCIATED_ID,
+  SUP_STUDENT_DISABLED_ID,
 };
