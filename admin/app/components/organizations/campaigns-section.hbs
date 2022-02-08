@@ -11,9 +11,10 @@
             <th>Code</th>
             <th>Type</th>
             <th>Nom</th>
-            <th>Créée le</th>
+            <th class="table__column--medium">Créée le</th>
             <th>Créée par</th>
-            <th>Archivée le</th>
+            <th>Propriétaire</th>
+            <th class="table__column--medium">Archivée le</th>
           </tr>
         </thead>
 
@@ -33,6 +34,7 @@
                 <td>{{campaign.name}}</td>
                 <td>{{moment-format campaign.createdAt "DD/MM/YYYY"}}</td>
                 <td>{{campaign.creatorFirstName}} {{campaign.creatorLastName}}</td>
+                <td>{{campaign.ownerFirstName}} {{campaign.ownerLastName}}</td>
                 <td>
                   {{#if campaign.archivedAt}}
                     {{moment-format campaign.archivedAt "DD/MM/YYYY"}}
