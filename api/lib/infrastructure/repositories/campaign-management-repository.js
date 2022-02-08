@@ -43,11 +43,15 @@ module.exports = {
         createdAt: 'campaigns.createdAt',
         archivedAt: 'campaigns.archivedAt',
         type: 'campaigns.type',
-        creatorLastName: 'users.lastName',
-        creatorFirstName: 'users.firstName',
-        creatorId: 'users.id',
+        creatorLastName: 'creatorUser.lastName',
+        creatorFirstName: 'creatorUser.firstName',
+        creatorId: 'creatorUser.id',
+        ownerId: 'ownerUser.id',
+        ownerLastName: 'ownerUser.lastName',
+        ownerFirstName: 'ownerUser.firstName',
       })
-      .join('users', 'users.id', 'campaigns.creatorId')
+      .join('users AS creatorUser', 'creatorUser.id', 'campaigns.creatorId')
+      .join('users AS ownerUser', 'ownerUser.id', 'campaigns.ownerId')
       .where('organizationId', organizationId)
       .orderBy('campaigns.createdAt', 'DESC');
 
