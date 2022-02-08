@@ -27,6 +27,9 @@ describe('Unit | Serializer | JSONAPI | campaign-management-serializer', functio
             'creator-id': campaignManagement.creatorId,
             'creator-first-name': campaignManagement.creatorFirstName,
             'creator-last-name': campaignManagement.creatorLastName,
+            'owner-id': campaignManagement.ownerId,
+            'owner-first-name': campaignManagement.ownerFirstName,
+            'owner-last-name': campaignManagement.ownerLastName,
           },
         },
       });
