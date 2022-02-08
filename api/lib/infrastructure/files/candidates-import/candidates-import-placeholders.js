@@ -89,6 +89,7 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
   {
     placeholder: 'billingMode',
     propertyName: 'billingMode',
+    validator: 'billingModeValidator',
   },
   {
     placeholder: 'prepaymentCode',
