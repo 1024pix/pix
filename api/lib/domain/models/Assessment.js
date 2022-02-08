@@ -169,14 +169,14 @@ class Assessment {
     });
   }
 
-  static createForCampaign({ userId, campaignParticipationId, method }) {
+  static createForCampaign({ userId, campaignParticipationId, method, isImproving = false }) {
     return new Assessment({
       userId,
       campaignParticipationId,
       state: Assessment.states.STARTED,
       type: Assessment.types.CAMPAIGN,
       courseId: Assessment.courseIdMessage.CAMPAIGN,
-      isImproving: false,
+      isImproving,
       method,
     });
   }
