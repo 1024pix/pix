@@ -32,6 +32,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     externalId: null,
     provinceCode: null,
     email: null,
+    showSkills: true,
   });
 
   databaseBuilder.factory.buildMembership({
