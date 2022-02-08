@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.165.0 (08/02/2022)
+
+
+### :rocket: Enhancement
+- [#4017](https://github.com/1024pix/pix/pull/4017) [FEATURE] Enregistrer l'évolution du score FLASH en base (PIX-4306)
+- [#4028](https://github.com/1024pix/pix/pull/4028) [FEATURE] Ajout du header pour la nouvelle page de tutoriels (PIX-4292).
+- [#4008](https://github.com/1024pix/pix/pull/4008) [FEATURE] Ajouter une croix pour supprimer le contenu de l'input des profiles cibles (PIX-4165)
+- [#4011](https://github.com/1024pix/pix/pull/4011) [FEATURE] Afficher un bouton de téléchargement du kit surveillant (PIX-4284).
+- [#4029](https://github.com/1024pix/pix/pull/4029) [FEATURE] Pouvoir activer/désactiver l'accès à l'espace surveillant depuis Pix Admin (PIX-4305).
+
+### :building_construction: Tech
+- [#4010](https://github.com/1024pix/pix/pull/4010) [TECH] Utilise le cron scalingo pour raffraichir le référentiel tout les jours
+- [#4021](https://github.com/1024pix/pix/pull/4021) [TECH] Permettre de tout logguer en local lors des tests si besoin.
+- [#4023](https://github.com/1024pix/pix/pull/4023) [TECH] Suppression d'une fonctionnalité cachée : la dissociation depuis Pix Orga (PIX-4311).
+- [#3949](https://github.com/1024pix/pix/pull/3949) [TECH] Prévenir les attaques par réponse utilisateur trop longue.
+- [#3983](https://github.com/1024pix/pix/pull/3983) [TECH] Améliorer la cohérence des fichiers YAML.
+
+### :bug: Bug fix
+- [#4035](https://github.com/1024pix/pix/pull/4035) [BUGFIX] Corriger le problème de cochage/décochage de la présence d'un candidat dans l'espace surveillant (PIX-4317).
+- [#3953](https://github.com/1024pix/pix/pull/3953) [BUGFIX] Correction de l’erreur 400 lors de l’envoi d'une chaîne de caractère vide dans le formulaire de modification d'une campagne (PIX-4127).
+
+### :coffee: Various
+- [#4037](https://github.com/1024pix/pix/pull/4037) [CLEANUP] Supprime des méthodes non utilisés dans Challenge
+
 ## v3.164.0 (03/02/2022)
 
 
