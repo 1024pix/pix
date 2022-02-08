@@ -4,8 +4,6 @@ const Campaign = require('../../domain/models/Campaign');
 const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
-const knexUtils = require('../utils/knex-utils');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../DomainTransaction');
@@ -36,25 +34,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
-  async save(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
-    try {
-      const knexConn = domainTransaction.knexTransaction || knex;
-      const [newCampaignParticipation] = await knexConn('campaign-participations')
-        .insert(_adaptModelToDb(campaignParticipation))
-        .returning('*');
-
-      return new CampaignParticipation(newCampaignParticipation);
-    } catch (error) {
-      if (knexUtils.isUniqConstraintViolated(error)) {
-        const { userId, campaignId } = campaignParticipation;
-        throw new AlreadyExistingEntityError(
-          `A campaignParticipation already exists for the user ${userId} and campaign ${campaignId}.`
-        );
-      }
-      throw error;
-    }
-  },
-
   async update(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const attributes = _getAttributes(campaignParticipation);
@@ -65,17 +44,6 @@ module.exports = {
       .update(attributes);
 
     return new CampaignParticipation(updatedCampaignParticipation);
-  },
-
-  async markPreviousParticipationsAsImproved(
-    campaignId,
-    userId,
-    domainTransaction = DomainTransaction.emptyTransaction()
-  ) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-    return knexConn('campaign-participations').where({ campaignId, userId }).update({
-      isImproved: true,
-    });
   },
 
   async hasAlreadyParticipated(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -239,16 +207,6 @@ module.exports = {
     return mapToParticipationByStatus(row, campaignType);
   },
 };
-
-function _adaptModelToDb(campaignParticipation) {
-  return {
-    campaignId: campaignParticipation.campaignId,
-    participantExternalId: campaignParticipation.participantExternalId,
-    userId: campaignParticipation.userId,
-    status: campaignParticipation.status,
-    schoolingRegistrationId: campaignParticipation.schoolingRegistrationId,
-  };
-}
 
 function _rowToResult(row) {
   return {
