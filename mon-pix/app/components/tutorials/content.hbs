@@ -4,5 +4,15 @@
     <p class="user-tutorials-banner-v2__description">
       {{t "pages.user-tutorials-v2.description"}}
     </p>
+
+    <div class="user-tutorials-banner-v2__filters">
+      <PixButton @shape="rounded" class="user-tutorials-banner-v2-filters__button" @backgroundColor="transparent-light">
+        {{t "pages.user-tutorials-v2.recommended"}}
+      </PixButton>
+
+      <PixButton @shape="rounded" class="user-tutorials-banner-v2-filters__button" @backgroundColor="grey">
+        {{t "pages.user-tutorials-v2.saved"}}
+      </PixButton>
+    </div>
   </div>
 </header>

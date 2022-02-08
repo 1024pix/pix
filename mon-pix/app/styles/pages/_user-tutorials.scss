@@ -55,10 +55,11 @@
   margin: 0 24px;
   font-family: $font-roboto;
   font-weight: $font-light;
+  padding-bottom: 16px;
 
   @include device-is('desktop') {
     max-width: 1320px;
-    padding: 0 20px;
+    padding: 0 20px 16px 20px;
     margin: 0 auto;
   }
 
@@ -80,6 +81,20 @@
     font-size: 1rem;
     letter-spacing: 0.0093rem;
     line-height: 1.375rem;
+  }
+
+  &__filters {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+}
+
+.user-tutorials-banner-v2-filters__button {
+  height: 36px;
+
+  @include device-is('desktop') {
+    height: 44px;
   }
 }
 
