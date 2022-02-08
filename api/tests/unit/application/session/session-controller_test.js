@@ -119,7 +119,7 @@ describe('Unit | Controller | sessionController', function () {
         // given
         const foundJurySession = Symbol('foundSession');
         const serializedJurySession = Symbol('serializedSession');
-        usecases.getJurySession.withArgs({ sessionId }).resolves(foundJurySession);
+        usecases.getJurySession.withArgs({ sessionId }).resolves({ jurySession: foundJurySession });
         jurySessionSerializer.serialize.withArgs(foundJurySession).resolves(serializedJurySession);
 
         // when
