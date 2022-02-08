@@ -130,6 +130,31 @@ function addValidatorRestrictedList({ stringifiedXml, validatorName, restrictedL
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
 
+function addTooltipOnCell({ stringifiedXml, targetCellAddress, tooltipName, tooltipTitle, tooltipContentLines }) {
+  const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
+  const contentValidations = parsedXmlDom.getElementsByTagName('table:content-validations').item(0);
+
+  const tooltip = parsedXmlDom.createElement('table:content-validation');
+  tooltip.setAttribute('table:name', tooltipName);
+  tooltip.setAttribute('table:base-cell-address', targetCellAddress);
+
+  const helpMessage = parsedXmlDom.createElement('table:help-message');
+  helpMessage.setAttribute('table:title', tooltipTitle);
+  helpMessage.setAttribute('table:display', 'true');
+
+  const helpMessageWithContent = tooltipContentLines.reduce((helpMessageAccumulator, line) => {
+    const paragraph = parsedXmlDom.createElement('text:p');
+    paragraph.textContent = line;
+    helpMessageAccumulator.appendChild(paragraph);
+    return helpMessageAccumulator;
+  }, helpMessage);
+
+  tooltip.appendChild(helpMessageWithContent);
+  contentValidations.appendChild(tooltip);
+
+  return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
+}
+
 function _getRefRowAndContainerDomElements(parsedXmlDom, rowMarkerPlaceholder) {
   const referenceRowElement = _getXmlDomElementByText(parsedXmlDom, rowMarkerPlaceholder).parentNode.parentNode;
   return {
@@ -238,4 +263,5 @@ module.exports = {
   addCellToEndOfLineWithStyleOfCellLabelled,
   incrementRowsColumnSpan,
   addValidatorRestrictedList,
+  addTooltipOnCell,
 };
