@@ -11,6 +11,7 @@ globals:
 
 plugins:
   - knex
+  - node
 
 rules:
   no-console: error

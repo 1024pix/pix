@@ -87,6 +87,7 @@
     "eslint-plugin-i18n-json": "^3.1.0",
     "eslint-plugin-knex": "^0.2.1",
     "eslint-plugin-mocha": "^9.0.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-yml": "^0.11.0",
     "form-data": "^4.0.0",
