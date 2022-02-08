@@ -46,6 +46,11 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
+  async isAssociated(badgeId) {
+    const associatedBadge = await knex('badge-acquisitions').where({ badgeId }).first();
+    return !!associatedBadge;
+  },
+
   async get(id) {
     const bookshelfBadge = await BookshelfBadge.where('id', id).fetch({
       withRelated: ['badgeCriteria', 'skillSets'],
@@ -82,6 +87,15 @@ module.exports = {
     if (result.length) {
       throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
     }
+    return true;
+  },
+
+  async delete(badgeId) {
+    await knex.transaction(async (trx) => {
+      await trx('badge-criteria').where({ badgeId }).del();
+      return trx('badges').where({ id: badgeId }).del();
+    });
+
     return true;
   },
 };

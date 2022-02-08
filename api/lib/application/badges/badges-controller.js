@@ -17,4 +17,11 @@ module.exports = {
 
     return h.response(badgeSerializer.serialize(updatedBadge)).code(204);
   },
+
+  async deleteUnassociatedBadge(request, h) {
+    const badgeId = request.params.id;
+    await usecases.deleteUnassociatedBadge({ badgeId });
+
+    return h.response().code(204);
+  },
 };

@@ -291,4 +291,52 @@ describe('Acceptance | API | Badges', function () {
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('DELETE /api/admin/badges/{id}', function () {
+    beforeEach(async function () {
+      userId = (await insertUserWithRolePixMaster()).id;
+    });
+
+    afterEach(async function () {
+      await knex('badge-acquisitions').delete();
+      await knex('badges').delete();
+    });
+
+    it('should delete the existing badge if not associated to a badge acquisition', async function () {
+      // given
+      badge = databaseBuilder.factory.buildBadge({ id: 1 });
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'DELETE',
+        url: `/api/admin/badges/${badge.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should not delete the existing badge if associated to a badge acquisition', async function () {
+      // given
+      badge = databaseBuilder.factory.buildBadge({ id: 1 });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge.id, userId });
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'DELETE',
+        url: `/api/admin/badges/${badge.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
 });
