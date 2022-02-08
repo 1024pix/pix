@@ -11,6 +11,7 @@ const {
 const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
+const billingValidatorList = ['Gratuite', 'Payante', 'Prépayée'];
 
 module.exports = async function fillCandidatesImportSheet({
   session,
@@ -53,6 +54,12 @@ function _addSession(stringifiedXml, session) {
 
 function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCertificationCenter }) {
   if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
+    stringifiedXml = writeOdsUtils.addValidatorRestrictedList({
+      stringifiedXml,
+      validatorName: 'billingModeValidator',
+      restrictedList: billingValidatorList,
+      allowEmptyCell: false,
+    });
     stringifiedXml = _addBillingColumns(stringifiedXml);
   }
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
