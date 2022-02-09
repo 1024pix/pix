@@ -19,13 +19,14 @@ const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', '
 
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('save', function () {
-    let userId;
+    let userIdentity;
     let schoolingRegistrationId;
 
     beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
+      const user = databaseBuilder.factory.buildUser();
       schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
       await databaseBuilder.commit();
+      userIdentity = { id: user.id, firstName: user.firstName, lastName: user.lastName };
     });
 
     afterEach(async function () {
@@ -36,7 +37,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     it('returns campaign participation id', async function () {
       const campaignParticipant = await makeCampaignParticipant({
         campaignAttributes: { idPixLabel: null },
-        userId,
+        userIdentity,
         schoolingRegistrationId,
         participantExternalId: null,
       });
@@ -54,7 +55,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('create a campaign participation', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
-          userId,
+          userIdentity,
           schoolingRegistrationId,
           participantExternalId: null,
         });
@@ -75,7 +76,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('does not create an assessment', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
-          userId,
+          userIdentity,
           schoolingRegistrationId,
           participantExternalId: null,
         });
@@ -100,7 +101,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             idPixLabel: null,
             method: 'SMART_RANDOM',
           },
-          userId,
+          userIdentity,
           schoolingRegistrationId,
           participantExternalId: null,
         });
@@ -134,7 +135,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           multipleSendings: true,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
+          userId: userIdentity.id,
           schoolingRegistrationId,
           campaignId: campaign.id,
           isImproved: false,
@@ -147,7 +148,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           schoolingRegistrationId,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
             status: 'SHARED',
@@ -182,7 +183,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isImproved: false,
         });
         databaseBuilder.factory.buildCampaignParticipation({
-          userId,
+          userId: userIdentity.id,
           isImproved: false,
         });
         databaseBuilder.factory.buildCampaignParticipation({
@@ -190,7 +191,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isImproved: false,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
+          userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
         });
@@ -201,7 +202,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           schoolingRegistrationId,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
             status: 'SHARED',
@@ -227,7 +228,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('save participant external id', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { idPixLabel: 'some external id' },
-          userId,
+          userIdentity,
           schoolingRegistrationId,
           participantExternalId: 'some participant external id',
         });
@@ -255,7 +256,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             idPixLabel: null,
           });
           databaseBuilder.factory.buildCampaignParticipation({
-            userId,
+            userId: userIdentity.id,
             schoolingRegistrationId,
             campaignId: campaign.id,
             isImproved: false,
@@ -267,7 +268,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
             schoolingRegistrationId,
-            userId,
+            userIdentity,
           });
 
           campaignParticipant.start({ participantExternalId: null });
@@ -282,7 +283,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           //THEN
           expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
           expect(error.message).to.equal(
-            `User ${userId} has already a campaign participation with campaign ${campaign.id}`
+            `User ${userIdentity.id} has already a campaign participation with campaign ${campaign.id}`
           );
         });
       });
@@ -301,7 +302,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
             schoolingRegistrationId,
-            userId: 12,
+            userIdentity: { id: 12 },
           });
 
           campaignParticipant.start({ participantExternalId: null });
@@ -324,7 +325,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           idPixLabel: null,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
+          userId: userIdentity.id,
           schoolingRegistrationId,
           campaignId: campaign.id,
           isImproved: false,
@@ -336,7 +337,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           schoolingRegistrationId,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
             status: 'SHARED',
@@ -385,7 +386,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
       });
 
-      expect(campaignParticipant.userId).to.equal(userId);
+      expect(campaignParticipant.userIdentity.id).to.equal(userId);
     });
 
     context('when there is a previous campaign participation', function () {
@@ -651,7 +652,12 @@ function getExpectedAssessment(campaignParticipationId, campaignParticipant) {
   };
 }
 
-async function makeCampaignParticipant({ campaignAttributes, userId, schoolingRegistrationId, participantExternalId }) {
+async function makeCampaignParticipant({
+  campaignAttributes,
+  userIdentity,
+  schoolingRegistrationId,
+  participantExternalId,
+}) {
   const campaign = databaseBuilder.factory.buildCampaign(campaignAttributes);
 
   await databaseBuilder.commit();
@@ -660,7 +666,7 @@ async function makeCampaignParticipant({ campaignAttributes, userId, schoolingRe
   const campaignParticipant = new CampaignParticipant({
     campaignToStartParticipation,
     schoolingRegistrationId,
-    userId,
+    userIdentity,
     previousCampaignParticipation: null,
   });
 
