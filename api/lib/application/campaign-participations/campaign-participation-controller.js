@@ -23,6 +23,7 @@ module.exports = {
         return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
       }
     );
+
     events.eventDispatcher
       .dispatch(event)
       .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
