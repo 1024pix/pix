@@ -16,19 +16,18 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           idPixLabel: null,
         });
         const schoolingRegistrationId = 12;
-        const userId = 13;
-        const participantExternalId = 13;
+        const userIdentity = { id: 13 };
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
           schoolingRegistrationId,
         });
-        campaignParticipant.start({ participantExternalId });
+        campaignParticipant.start({ participantExternalId: null });
 
         expect(campaignParticipant.campaignParticipation).to.deep.include({
           campaignId: campaignToStartParticipation.id,
           status: 'STARTED',
-          userId,
+          userId: userIdentity.id,
           schoolingRegistrationId,
         });
       });
@@ -40,14 +39,13 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           idPixLabel: null,
         });
         const schoolingRegistrationId = 12;
-        const userId = 13;
-        const participantExternalId = 13;
+        const userIdentity = { id: 13 };
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
           schoolingRegistrationId,
         });
-        campaignParticipant.start({ participantExternalId });
+        campaignParticipant.start({ participantExternalId: null });
 
         expect(campaignParticipant.assessment).to.deep.include({
           courseId: '[NOT USED] Campaign Assessment CourseId Not Used',
@@ -66,10 +64,12 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             idPixLabel: null,
             skillCount: 1,
           });
+          const userIdentity = { id: 13 };
           const previousCampaignParticipation = { status: 'SHARED', validatedSkillsCount: 0, id: 1 };
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
             previousCampaignParticipation,
+            userIdentity,
           });
           campaignParticipant.start({ participantExternalId: null });
 
@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         });
 
         it('throws a AlreadyExistingCampaignParticipationError exception when the participant has validated the maximum number of skills', async function () {
-          const userId = 1;
+          const userIdentity = { id: 1 };
           const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
             type: 'ASSESSMENT',
             idPixLabel: null,
@@ -92,7 +92,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            userId,
+            userIdentity,
             previousCampaignParticipation: {
               status: 'SHARED',
               validatedSkillsCount: 2,
@@ -102,12 +102,12 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
           expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
           expect(error.message).to.equal(
-            `User ${userId} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
+            `User ${userIdentity.id} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
           );
         });
 
         it('throws a AlreadyExistingCampaignParticipationError exception when the participant has validated more than the maximum number of skills (when a skill has been deprecated)', async function () {
-          const userId = 1;
+          const userIdentity = { id: 1 };
           const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
             type: 'ASSESSMENT',
             idPixLabel: null,
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            userId,
+            userIdentity,
             previousCampaignParticipation: {
               status: 'SHARED',
               validatedSkillsCount: 3,
@@ -126,7 +126,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
           expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
           expect(error.message).to.equal(
-            `User ${userId} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
+            `User ${userIdentity.id} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
           );
         });
       });
@@ -140,11 +140,11 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           skillCount: 0,
         });
         const schoolingRegistrationId = 12;
-        const userId = 13;
-        const participantExternalId = 13;
+        const userIdentity = { id: 13 };
+        const participantExternalId = 'some participant external id';
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
           schoolingRegistrationId,
         });
         campaignParticipant.start({ participantExternalId });
@@ -152,18 +152,20 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         expect(campaignParticipant.campaignParticipation).to.deep.include({
           campaignId: campaignToStartParticipation.id,
           status: 'TO_SHARE',
-          userId,
+          userId: userIdentity.id,
           schoolingRegistrationId,
         });
       });
 
       it('should not create an assessment', async function () {
+        const userIdentity = { id: 13 };
         const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
           type: 'PROFILES_COLLECTION',
           idPixLabel: null,
         });
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
+          userIdentity,
         });
         campaignParticipant.start({ participantExternalId: null });
 
@@ -172,6 +174,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
       context('when campaign allows multiple participation and has a previous campaign participation', function () {
         it('should not throw an error when there is no validated skill count', async function () {
+          const userIdentity = { id: 13 };
           const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
             type: 'PROFILES_COLLECTION',
             multipleSendings: true,
@@ -181,6 +184,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
             previousCampaignParticipation,
+            userIdentity,
           });
 
           expect(() => campaignParticipant.start({ participantExternalId: null })).to.not.throw();
@@ -189,10 +193,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
     });
 
     context('when the campaign is restricted', function () {
-      let userId;
+      let userIdentity;
       let restrictedCampaign;
       beforeEach(function () {
-        userId = 1;
+        userIdentity = { id: 1 };
         restrictedCampaign = domainBuilder.buildCampaignToStartParticipation({
           idPixLabel: null,
           isRestricted: true,
@@ -202,7 +206,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       it('throws a ForbiddenAccess exception when the user is not in the organization trainees', async function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
-          userId,
+          userIdentity,
           schoolingRegistrationId: null,
         });
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
@@ -214,7 +218,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       it('creates a new participation when the user is in the organization trainees', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
-          userId,
+          userIdentity,
           schoolingRegistrationId: 1,
         });
 
@@ -226,16 +230,16 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
     context('when the campaign has an idPixLabel', function () {
       let campaignToStartParticipation;
-      let userId;
+      let userIdentity;
       beforeEach(function () {
-        userId = 1;
+        userIdentity = { id: 1 };
         campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ idPixLabel: 'something' });
       });
 
       it('should throw an error if participantExternalId is missing in parameters', async function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
         });
 
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
@@ -246,7 +250,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       it('should get participant external id from parameters', async function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
         });
 
         const expectedParticipantExternalId = 'YvoLol';
@@ -269,7 +273,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             validatedSkillsCount: 0,
             participantExternalId: expectedParticipantExternalId,
           },
-          userId,
+          userIdentity,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -284,10 +288,12 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           multipleSendings: true,
           idPixLabel: null,
         });
+        const userIdentity = { id: 13 };
         const previousCampaignParticipation = { status: 'SHARED', id: 1 };
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           previousCampaignParticipation,
+          userIdentity,
         });
         campaignParticipant.start({ participantExternalId: null });
 
@@ -295,14 +301,14 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       });
 
       it('throws a AlreadyExistingCampaignParticipationError exception when the previous participation is not shared', async function () {
-        const userId = 1;
+        const userIdentity = { id: 1 };
         const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
           idPixLabel: null,
         });
 
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             status: 'STARTED',
           },
@@ -311,13 +317,13 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
         expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
         expect(error.message).to.equal(
-          `User ${userId} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
+          `User ${userIdentity.id} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
         );
       });
     });
 
     it('throws a ForbiddenAccess exception when the campaign is archived', async function () {
-      const userId = 1;
+      const userIdentity = { id: 13 };
       const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
         archivedAt: new Date('2022-01-01'),
         idPixLabel: null,
@@ -325,7 +331,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
       const campaignParticipant = new CampaignParticipant({
         campaignToStartParticipation,
-        userId,
+        userIdentity,
       });
       const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -335,7 +341,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
     context('when campaign does not allow multiple participation', function () {
       it('throws a AlreadyExistingCampaignParticipationError exception when there is a previous participation', async function () {
-        const userId = 1;
+        const userIdentity = { id: 13 };
         const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
           multipleSendings: false,
           idPixLabel: null,
@@ -343,14 +349,14 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          userId,
+          userIdentity,
           previousCampaignParticipation: { id: 1, status: 'SHARED' },
         });
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
         expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
         expect(error.message).to.equal(
-          `User ${userId} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
+          `User ${userIdentity.id} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
         );
       });
     });

@@ -56,6 +56,8 @@ async function _createAssessment(assessment, campaignParticipationId, queryBuild
 }
 
 async function get({ userId, campaignId, domainTransaction }) {
+  const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);
+
   const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
 
   const schoolingRegistrationId = await _getSchoolingRegistrationId(campaignId, userId, domainTransaction);
@@ -63,11 +65,15 @@ async function get({ userId, campaignId, domainTransaction }) {
   const previousCampaignParticipation = await _getPreviousCampaignParticipation(campaignId, userId, domainTransaction);
 
   return new CampaignParticipant({
-    userId,
+    userIdentity,
     campaignToStartParticipation,
     schoolingRegistrationId,
     previousCampaignParticipation,
   });
+}
+
+function _getUserIdentityForTrainee(userId, domainTransaction) {
+  return domainTransaction.knexTransaction('users').select('id', 'firstName', 'lastName').where({ id: userId }).first();
 }
 
 async function _getCampaignToStart(campaignId, domainTransaction) {
