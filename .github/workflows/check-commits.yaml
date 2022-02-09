@@ -8,9 +8,6 @@ jobs:
     permissions:
       pull-requests: read
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2.4.0
-
       - name: Block Autosquash Commits
         uses: xt0rted/block-autosquash-commits-action@v2
         with:
