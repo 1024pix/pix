@@ -7,12 +7,15 @@ const {
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
 } = require('./candidates-import-placeholders');
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 
 const _ = require('lodash');
 const CandidateData = require('./CandidateData');
 const SessionData = require('./SessionData');
 
-const billingValidatorList = ['Gratuite', 'Payante', 'Prépayée'];
+const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map(
+  CandidateData.translateBillingMode
+);
 
 module.exports = async function fillCandidatesImportSheet({
   session,
