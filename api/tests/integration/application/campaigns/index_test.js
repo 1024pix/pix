@@ -14,7 +14,6 @@ describe('Integration | Application | Route | campaignRouter', function () {
       .stub(campaignController, 'getCsvProfilesCollectionResults')
       .callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer();
@@ -82,26 +81,6 @@ describe('Integration | Application | Route | campaignRouter', function () {
 
       // then
       expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('PATCH /api/campaigns/{id}', function () {
-    it('should exist', async function () {
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/campaigns/1', {
-        data: {
-          type: 'campaigns',
-          attributes: {
-            name: 'toto',
-            title: null,
-            'custom-landing-page-text': 'toto',
-            'owner-id': 2,
-          },
-        },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(201);
     });
   });
 });

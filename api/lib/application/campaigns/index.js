@@ -141,6 +141,7 @@ exports.register = async function (server) {
       method: 'PATCH',
       path: '/api/campaigns/{id}',
       config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,

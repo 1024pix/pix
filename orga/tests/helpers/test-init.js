@@ -185,6 +185,66 @@ export function createMembershipByOrganizationIdAndUser(organizationId, user, ro
   return user;
 }
 
+export function createAdmin() {
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
+  const organization = server.create('organization', { name: 'BRO & Evil Associates' });
+
+  const membership = server.create('membership', {
+    organizationId: organization.id,
+    userId: user.id,
+    organizationRole: 'ADMIN',
+  });
+  user.memberships = [membership];
+
+  const userOrgaSettings = server.create('user-orga-setting', { user, organization });
+
+  const prescriber = server.create('prescriber', {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+    memberships: user.memberships,
+    userOrgaSettings: user.userOrgaSettings,
+  });
+
+  return { user, organization, membership, userOrgaSettings, prescriber };
+}
+
+export function createMember() {
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
+  const organization = server.create('organization', { name: 'BRO & Evil Associates' });
+
+  const membership = server.create('membership', {
+    organizationId: organization.id,
+    userId: user.id,
+    organizationRole: 'MEMBER',
+  });
+  user.memberships = [membership];
+
+  const userOrgaSettings = server.create('user-orga-setting', { user, organization });
+
+  const prescriber = server.create('prescriber', {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+    memberships: user.memberships,
+    userOrgaSettings: user.userOrgaSettings,
+  });
+
+  return { user, organization, membership, userOrgaSettings, prescriber };
+}
+
 export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
   const user = server.create('user', {
     firstName: 'Harry',

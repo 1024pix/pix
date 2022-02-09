@@ -3,6 +3,7 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaign::Settings::View', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -12,9 +13,14 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
     campaignsRootUrl = 'root-url/';
   }
 
+  class CurrentUserStub extends Service {
+    prescriber = { isAdminOfTheCurrentOrganization: true };
+  }
+
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
     this.owner.register('service:url', UrlStub);
+    this.owner.register('service:currentUser', CurrentUserStub);
   });
 
   module('display the type of campaign', function () {
@@ -260,9 +266,30 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
   });
 
   module('on Modify action display', function () {
+    module('when the user is a MEMBER and does not own the campaign', function () {
+      test('it should not display the button modify', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { isAdminOfTheCurrentOrganization: false };
+        }
+        this.owner.register('service:currentUser', CurrentUserStub);
+        this.campaign = store.createRecord('campaign', { isArchived: false, ownerId: 1 });
+
+        // when
+        const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom(screen.queryByText('Modifier')).doesNotExist();
+      });
+    });
+
     module('when the campaign is not archived', function () {
       test('it should display the button modify', async function (assert) {
         // given
+        class CurrentUserStub extends Service {
+          prescriber = { isAdminOfTheCurrentOrganization: true };
+        }
+        this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', { isArchived: false });
 
         // when

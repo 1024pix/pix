@@ -7,6 +7,17 @@ export default class CampaignView extends Component {
   @service notifications;
   @service url;
   @service intl;
+  @service currentUser;
+
+  get displayCampaignActionsButtons() {
+    const campaignIsNotArchived = !this.args.campaign.isArchived;
+
+    const isCurrentUserAdmin = this.currentUser.prescriber.isAdminOfTheCurrentOrganization;
+    const isCurrentUserOwnerOfTheCampaign = parseInt(this.currentUser.prescriber.id) === this.args.campaign.ownerId;
+    const isCurrentUserAllowedToUpdateCampaign = isCurrentUserAdmin || isCurrentUserOwnerOfTheCampaign;
+
+    return campaignIsNotArchived && isCurrentUserAllowedToUpdateCampaign;
+  }
 
   get campaignsRootUrl() {
     return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
