@@ -30,6 +30,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     afterEach(async function () {
       await knex('assessments').delete();
       await knex('campaign-participations').delete();
+      await knex('schooling-registrations').delete();
     });
 
     it('returns campaign participation id', async function () {
@@ -117,6 +118,96 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
         );
         expect(assessment).to.deep.equal(getExpectedAssessment(campaignParticipation.id, campaignParticipant));
+      });
+    });
+
+    context('when there is already a schooling registration', function () {
+      it('create a campaign participation linked to this schooling registration', async function () {
+        //GIVEN
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
+        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          schoolingRegistrationId,
+          userIdentity,
+          previousCampaignParticipation: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+        expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+      });
+    });
+
+    context('when there is no schooling registration linked', function () {
+      it('create a new schooling registration', async function () {
+        //GIVEN
+        userIdentity = databaseBuilder.factory.buildUser({ firstName: 'Valentin', lastName: 'Tamare' });
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          schoolingRegistrationId: null,
+          userIdentity,
+          previousCampaignParticipation: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const schoolingRegistration = await knex('schooling-registrations')
+          .select('firstName', 'lastName', 'userId', 'organizationId')
+          .first();
+
+        expect(schoolingRegistration).to.deep.equal({
+          firstName: userIdentity.firstName,
+          lastName: userIdentity.lastName,
+          organizationId: campaignToStartParticipation.organizationId,
+          userId: userIdentity.id,
+        });
+      });
+
+      it('create a campaign participation linked to the new schooling registration', async function () {
+        //GIVEN
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          schoolingRegistrationId: null,
+          userIdentity,
+          previousCampaignParticipation: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+        const schoolingRegistration = await knex('schooling-registrations').select('id').first();
+        expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistration.id);
       });
     });
 
@@ -284,7 +375,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            userIdentity: { id: 12 },
+            userIdentity: { id: 12, firstName: '', lastName: '' },
           });
 
           campaignParticipant.start({ participantExternalId: null });
@@ -297,7 +388,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           })();
 
           //THEN
-          expect(error.constraint).to.equal('campaign_participations_userid_foreign');
+          expect(error.constraint).to.equal('students_userid_foreign');
         });
       });
 

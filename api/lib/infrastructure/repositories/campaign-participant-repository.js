@@ -5,6 +5,14 @@ const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('..
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 
 async function save(campaignParticipant, domainTransaction) {
+  const newlyCreatedSchoolingRegistrationId = await _createNewSchoolingRegistration(
+    campaignParticipant.schoolingRegistration,
+    domainTransaction.knexTransaction
+  );
+  if (newlyCreatedSchoolingRegistrationId) {
+    campaignParticipant.campaignParticipation.schoolingRegistrationId = newlyCreatedSchoolingRegistrationId;
+  }
+
   await _updatePreviousParticipation(
     campaignParticipant.previousCampaignParticipation,
     domainTransaction.knexTransaction
@@ -15,6 +23,20 @@ async function save(campaignParticipant, domainTransaction) {
   );
   await _createAssessment(campaignParticipant.assessment, campaignParticipationId, domainTransaction.knexTransaction);
   return campaignParticipationId;
+}
+
+async function _createNewSchoolingRegistration(schoolingRegistration, queryBuilder) {
+  if (schoolingRegistration) {
+    const [newlyCreatedSchoolingRegistrationId] = await queryBuilder('schooling-registrations')
+      .insert({
+        userId: schoolingRegistration.userId,
+        organizationId: schoolingRegistration.organizationId,
+        firstName: schoolingRegistration.firstName,
+        lastName: schoolingRegistration.lastName,
+      })
+      .returning('id');
+    return newlyCreatedSchoolingRegistrationId;
+  }
 }
 
 async function _updatePreviousParticipation(campaignParticipation, queryBuilder) {
