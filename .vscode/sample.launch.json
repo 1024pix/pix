@@ -33,6 +33,13 @@
       "request": "launch",
       "name": "api mocha all tests",
       "program": "${workspaceFolder}/api/node_modules/mocha/bin/_mocha",
+      "outputCapture": "std",
+      "env": {
+        "NODE_ENV": "test",
+        "LOG_FOR_HUMANS": "true",
+        "LOG_ENABLED": "true",
+        "LOG_LEVEL": "error"
+      },
       "args": [
         "-ui",
         "bdd",
@@ -43,9 +50,6 @@
         "--recursive",
         "${workspaceFolder}/api/tests"
       ],
-      "env": {
-        "NODE_ENV": "test"
-      },
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": [
         "<node_internals>/**",
@@ -56,8 +60,12 @@
       "name": "api mocha current file",
       "type": "node",
       "request": "launch",
+      "outputCapture": "std",
       "env": {
-        "NODE_ENV": "test"
+        "NODE_ENV": "test",
+        "LOG_FOR_HUMANS": "true",
+        "LOG_ENABLED": "true",
+        "LOG_LEVEL": "error"
       },
       "program": "${workspaceRoot}/api/node_modules/mocha/bin/_mocha",
       "args": [
