@@ -22,6 +22,8 @@ const buildCertificationCandidate = function ({
   userId = 789,
   schoolingRegistrationId,
   complementaryCertifications = [buildComplementaryCertification()],
+  billingMode = null,
+  prepaymentCode = null,
 } = {}) {
   return new CertificationCandidate({
     id,
@@ -44,6 +46,8 @@ const buildCertificationCandidate = function ({
     userId,
     schoolingRegistrationId,
     complementaryCertifications,
+    billingMode,
+    prepaymentCode,
   });
 };
 

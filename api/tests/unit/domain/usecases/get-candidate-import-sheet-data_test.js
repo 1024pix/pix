@@ -52,6 +52,7 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
     const complementaryCertification2 = domainBuilder.buildComplementaryCertification({ name: 'Pix+Penché' });
     const certificationCenter = domainBuilder.buildCertificationCenter({
       habilitations: [complementaryCertification1, complementaryCertification2],
+      type: 'SCO',
     });
     certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
 
@@ -67,6 +68,7 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
     expect(result).to.deepEqualInstance({
       session,
       certificationCenterHabilitations: [complementaryCertification1, complementaryCertification2],
+      isScoCertificationCenter: true,
     });
   });
 });

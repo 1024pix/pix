@@ -70,12 +70,25 @@ function addCellToEndOfLineWithStyleOfCellLabelled({ stringifiedXml, lineNumber,
     clonedCell.setAttribute('table:number-columns-spanned', addedCellOption.colspan);
   }
 
+  const addedCellPositionOffset = addedCellOption.positionOffset ? addedCellOption.positionOffset : 1;
   _addCellToEndOfLine({
     parsedXmlDom,
     lineNumber,
     cell: clonedCell,
-    positionOffset: addedCellOption.positionOffset ? addedCellOption.positionOffset : 1,
+    positionOffset: addedCellPositionOffset,
   });
+
+  if (addedCellOption.colspan && addedCellOption.colspan > 0) {
+    const coveredTableCell = parsedXmlDom.createElement('table:covered-table-cell');
+    coveredTableCell.setAttribute('table:number-columns-repeated', addedCellOption.colspan - 1);
+    const coveredTableCellPositionOffset = addedCellOption.positionOffset ? addedCellOption.positionOffset : 1;
+    _addCellToEndOfLine({
+      parsedXmlDom,
+      lineNumber,
+      cell: coveredTableCell,
+      positionOffset: coveredTableCellPositionOffset,
+    });
+  }
 
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
@@ -94,6 +107,27 @@ function _addCellToEndOfLine({ parsedXmlDom, lineNumber, cell, positionOffset })
   const line = Array.from(parsedXmlDom.getElementsByTagName('table:table-row'))[lineNumber];
   const lineChildNodes = Array.from(line.childNodes);
   line.insertBefore(cell, lineChildNodes[lineChildNodes.length - positionOffset]);
+}
+
+function addValidatorRestrictedList({ stringifiedXml, validatorName, restrictedList, allowEmptyCell = true }) {
+  const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
+  const contentValidations = parsedXmlDom.getElementsByTagName('table:content-validations').item(0);
+  const validator = parsedXmlDom.createElement('table:content-validation');
+  validator.setAttribute('table:name', validatorName);
+  validator.setAttribute(
+    'table:condition',
+    `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`
+  );
+  validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
+
+  const errorMessage = parsedXmlDom.createElement('table:error-message');
+  errorMessage.setAttribute('table:display', 'true');
+  errorMessage.setAttribute('table:message-type', 'stop');
+
+  validator.appendChild(errorMessage);
+  contentValidations.appendChild(validator);
+
+  return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
 
 function _getRefRowAndContainerDomElements(parsedXmlDom, rowMarkerPlaceholder) {
@@ -126,15 +160,24 @@ function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
 }
 
 function _updateXmlElementWithData(xmlElement, dataToInject, templateValues) {
-  for (const { placeholder, propertyName } of templateValues) {
+  for (const { placeholder, propertyName, validator } of templateValues) {
     const targetXmlDomElement = _getXmlDomElementByText(xmlElement, placeholder);
     if (targetXmlDomElement) {
-      _updateXmlElementByType(targetXmlDomElement.parentNode, targetXmlDomElement, dataToInject[propertyName]);
+      _updateXmlElementByType(
+        targetXmlDomElement.parentNode,
+        targetXmlDomElement,
+        dataToInject[propertyName],
+        validator
+      );
     }
   }
 }
 
-function _updateXmlElementByType(xmlElement, xmlElementTextChild, data) {
+function _updateXmlElementByType(xmlElement, xmlElementTextChild, data, validator) {
+  if (validator) {
+    xmlElement.setAttribute('table:content-validation-name', validator);
+  }
+
   if (data === '') {
     _clearXmlElement(xmlElement, xmlElementTextChild);
     return;
@@ -194,4 +237,5 @@ module.exports = {
   updateXmlRows,
   addCellToEndOfLineWithStyleOfCellLabelled,
   incrementRowsColumnSpan,
+  addValidatorRestrictedList,
 };

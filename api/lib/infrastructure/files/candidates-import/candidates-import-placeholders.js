@@ -87,6 +87,15 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     propertyName: 'extraTimePercentage',
   },
   {
+    placeholder: 'billingMode',
+    propertyName: 'billingMode',
+    validator: 'billingModeValidator',
+  },
+  {
+    placeholder: 'prepaymentCode',
+    propertyName: 'prepaymentCode',
+  },
+  {
     placeholder: 'CléA Numérique',
     propertyName: 'cleaNumerique',
   },

@@ -101,11 +101,16 @@ module.exports = {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
 
-    const { session, certificationCenterHabilitations } = await usecases.getCandidateImportSheetData({
-      sessionId,
-      userId,
+    const { session, certificationCenterHabilitations, isScoCertificationCenter } =
+      await usecases.getCandidateImportSheetData({
+        sessionId,
+        userId,
+      });
+    const candidateImportSheet = await fillCandidatesImportSheet({
+      session,
+      certificationCenterHabilitations,
+      isScoCertificationCenter,
     });
-    const candidateImportSheet = await fillCandidatesImportSheet(session, certificationCenterHabilitations);
 
     return h
       .response(candidateImportSheet)
