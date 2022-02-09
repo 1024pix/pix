@@ -87,7 +87,7 @@
     </div>
   </dl>
 
-  {{#unless @campaign.isArchived}}
+  {{#if this.displayCampaignActionsButtons}}
     <div class="campaign-settings-buttons">
       <PixButtonLink @route="authenticated.campaigns.update" @model={{@campaign.id}} @backgroundColor="grey">
         {{t "pages.campaign-settings.actions.edit"}}
@@ -96,5 +96,5 @@
         {{t "pages.campaign-settings.actions.archive"}}
       </PixButton>
     </div>
-  {{/unless}}
+  {{/if}}
 </div>
