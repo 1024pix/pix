@@ -1388,4 +1388,48 @@ describe('Acceptance | API | Campaign Controller', function () {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('DELETE /api/campaigns/{id}/archive', function () {
+    it('should return 200 when user is admin in organization', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId: organization.id });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ userId, organizationRole: 'ADMIN', organizationId: organization.id });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'DELETE',
+        url: `/api/campaigns/${campaign.id}/archive`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 403 when user is not owner of the campaign', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const campaign = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        creatorId: databaseBuilder.factory.buildUser({ id: 3 }).id,
+        ownerId: databaseBuilder.factory.buildUser({ id: 2 }).id,
+      });
+      const userId = databaseBuilder.factory.buildUser({ id: 1 }).id;
+      databaseBuilder.factory.buildMembership({ userId, organizationRole: 'MEMBER', organizationId: organization.id });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'DELETE',
+        url: `/api/campaigns/${campaign.id}/archive`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });
