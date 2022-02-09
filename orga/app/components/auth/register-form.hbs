@@ -58,9 +58,8 @@
     </div>
 
     <div id="register-cgu-container" class="input-container">
-      <label for="register-cgu" class="label register-form__cgu-label">
+      <div class="checkbox-container">
         <Input
-          id="register-cgu"
           @type="checkbox"
           @checked={{this.cgu}}
           required={{true}}
@@ -68,20 +67,19 @@
           aria-label="{{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}"
           {{on "focusout" this.validateCgu}}
         />
-        <span class="register-form__cgu">
+        <p class="register-form__cgu-label">
           {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
-          <a
-            href="{{t "pages.login-or-register.register-form.fields.cgu.link"}}"
-            class="link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
             {{t "pages.login-or-register.register-form.fields.cgu.terms-of-use"}}
           </a>
-        </span>
-      </label>
+          {{t "pages.login-or-register.register-form.fields.cgu.and"}}
+          <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+            {{t "pages.login-or-register.register-form.fields.cgu.data-protection-policy"}}
+          </a>
+        </p>
+      </div>
       {{#if this.cguValidationMessage}}
-        <div class="register-form__cgu-error" role="alert">{{this.cguValidationMessage}}</div>
+        <p class="register-form__cgu-error" role="alert">{{this.cguValidationMessage}}</p>
       {{/if}}
     </div>
 

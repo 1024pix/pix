@@ -11,6 +11,7 @@ export default class RegisterForm extends Component {
   @service session;
   @service store;
   @service intl;
+  @service url;
 
   @tracked isLoading = false;
   @tracked firstName = null;
@@ -23,6 +24,14 @@ export default class RegisterForm extends Component {
   @tracked lastNameValidationMessage = null;
   @tracked cguValidationMessage = null;
   @tracked errorMessage = null;
+
+  get cguUrl() {
+    return this.url.cguUrl;
+  }
+
+  get dataProtectionPolicyUrl() {
+    return this.url.dataProtectionPolicyUrl;
+  }
 
   @action
   async register(event) {

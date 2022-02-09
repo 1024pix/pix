@@ -585,10 +585,11 @@
           },
           "cgu": {
             "accept": "I agree to the",
+            "and": "and",
             "aria-label": "Accept the terms of use of the Pix platform",
-            "error": "Please agree to the terms and conditions of use.",
-            "link": "https://pix.org/en-gb/terms-and-conditions/",
-            "terms-of-use": "terms and conditions of use of the Pix platform"
+            "data-protection-policy": "personal data protection policy",
+            "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
+            "terms-of-use": "Pix terms of use"
           },
           "email": {
             "error": "Please enter a valid email address.",
