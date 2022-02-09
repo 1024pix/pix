@@ -23,6 +23,8 @@ module.exports = function buildCertificationCandidate({
   userId,
   schoolingRegistrationId,
   authorizedToStart = false,
+  billingMode = null,
+  prepaymentCode = null,
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -47,6 +49,8 @@ module.exports = function buildCertificationCandidate({
     userId,
     schoolingRegistrationId,
     authorizedToStart,
+    billingMode,
+    prepaymentCode,
   };
 
   return databaseBuffer.pushInsertable({

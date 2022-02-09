@@ -11,6 +11,7 @@ const {
   updateXmlSparseValues,
   addCellToEndOfLineWithStyleOfCellLabelled,
   incrementRowsColumnSpan,
+  addValidatorRestrictedList,
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 const AddedCellOption = require('../../../../../lib/infrastructure/utils/ods/added-cell-option');
 
@@ -96,7 +97,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
     });
   });
 
-  describe('updateXmlRows', function () {
+  describe('#updateXmlRows', function () {
     const rowMarkerPlaceholder = 'PROP_STRING';
 
     const rowTemplateValues = [
@@ -191,6 +192,75 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
 
       // then
       expect(result).to.deep.equal(updatedStringifiedXml);
+    });
+
+    context('when a column has a validator', function () {
+      it('should transform an xml given a templatized row, a starting position and data to inject', function () {
+        // given
+        const rowMarkerPlaceholder = 'PROP_STRING';
+
+        const rowTemplateValues = [
+          {
+            placeholder: 'PROP_STRING',
+            propertyName: 'propString',
+          },
+          {
+            placeholder: 'PROP_DATE',
+            propertyName: 'propDate',
+            validator: 'validator2000',
+          },
+        ];
+
+        const dataToInject = [
+          {
+            propString: 'Bibidi',
+            propDate: '2001-01-01',
+          },
+        ];
+
+        const stringifiedXml = `
+          <xml xmlns:some="" xmlns:text="">
+            <some:element>
+              <some:element>
+                <some:element office:value-type="string"><text:p>PROP_STRING</text:p></some:element>
+                <some:element office:value-type="date"><text:p>PROP_DATE</text:p></some:element>
+              </some:element>
+            </some:element>
+            <some:element><text:p>Some text</text:p></some:element>
+          </xml>
+          `;
+
+        const updatedStringifiedXml = `
+          <xml xmlns:some="" xmlns:text="">
+            <some:element>
+              <some:element>
+                <some:element xmlns:office="" office:value-type="string">
+                  <text:p>Bibidi</text:p>
+                </some:element>
+                <some:element
+                  office:value-type="date"
+                  table:content-validation-name="validator2000"
+                  office:date-value="2001-01-01"
+                />
+              </some:element>
+            </some:element>
+            <some:element>
+              <text:p>Some text</text:p>
+            </some:element>
+          </xml>
+        `;
+        // when
+        const result = updateXmlRows({
+          stringifiedXml,
+          rowMarkerPlaceholder,
+          rowTemplateValues,
+          dataToInject,
+        });
+
+        // then
+
+        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
+      });
     });
   });
 
@@ -406,6 +476,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
           '<table:table-cell table:style-name="ce123" table:number-columns-spanned="3">' +
           '<text:p>New Cell</text:p>' +
           '</table:table-cell>' +
+          '<table:covered-table-cell table:number-columns-repeated="2"/>' +
           '<table:table-cell table:number-columns-repeated="10"/>' +
           '</table:table-row>' +
           '</xml>';
@@ -546,4 +617,70 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
   });
+
+  describe('#addValidatorRestrictedList', function () {
+    context('when allow empty cells is true', function () {
+      it('should add a validator for a given list', function () {
+        // given
+        const stringifiedXml = `
+        <xml xmlns:table="">
+          <table:content-validations></table:content-validations>
+        </xml>`;
+
+        // when
+        const result = addValidatorRestrictedList({
+          stringifiedXml,
+          validatorName: 'validator2000',
+          restrictedList: ['a', 'b'],
+          allowEmptyCell: true,
+        });
+
+        // then
+        const updatedStringifiedXml = `
+         <xml xmlns:table="">
+          <table:content-validations>
+            <table:content-validation table:name="validator2000" table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)" table:allow-empty-cell="true">
+              <table:error-message table:display="true" table:message-type="stop"/>
+            </table:content-validation>
+          </table:content-validations>
+        </xml>
+          `;
+        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
+      });
+    });
+
+    context('when allow empty cells is false', function () {
+      it('should add a validator not empty for a given list', function () {
+        // given
+        const stringifiedXml = `
+        <xml xmlns:table="">
+          <table:content-validations></table:content-validations>
+        </xml>`;
+
+        // when
+        const result = addValidatorRestrictedList({
+          stringifiedXml,
+          validatorName: 'validator2000',
+          restrictedList: ['a', 'b'],
+          allowEmptyCell: false,
+        });
+
+        // then
+        const updatedStringifiedXml = `
+         <xml xmlns:table="">
+          <table:content-validations>
+            <table:content-validation table:name="validator2000" table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)" table:allow-empty-cell="false">
+              <table:error-message table:display="true" table:message-type="stop"/>
+            </table:content-validation>
+          </table:content-validations>
+        </xml>
+          `;
+        expect(_removeSpaces(result)).to.deep.equal(_removeSpaces(updatedStringifiedXml));
+      });
+    });
+  });
 });
+
+function _removeSpaces(value) {
+  return value.replace(/\s*/g, '');
+}
