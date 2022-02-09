@@ -228,6 +228,62 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       });
     });
 
+    context('when the campaign is not restricted', function () {
+      let userIdentity;
+      let campaign;
+      beforeEach(function () {
+        userIdentity = { id: 1, firstName: 'Helene', lastName: 'Mouton' };
+        campaign = domainBuilder.buildCampaignToStartParticipation({
+          idPixLabel: null,
+          isRestricted: false,
+          organizationId: 66,
+        });
+      });
+
+      context('when the user is not associated yet', function () {
+        it('creates a new schooling registration', function () {
+          const campaignParticipant = new CampaignParticipant({
+            campaignToStartParticipation: campaign,
+            userIdentity,
+            schoolingRegistrationId: null,
+          });
+
+          campaignParticipant.start({ participantExternalId: null });
+
+          expect(campaignParticipant.schoolingRegistration.userId).to.equal(userIdentity.id);
+          expect(campaignParticipant.schoolingRegistration.organizationId).to.equal(campaign.organizationId);
+          expect(campaignParticipant.schoolingRegistration.firstName).to.equal(userIdentity.firstName);
+          expect(campaignParticipant.schoolingRegistration.lastName).to.equal(userIdentity.lastName);
+        });
+      });
+
+      context('when the user is already associated', function () {
+        it('use the existed schooling registration', function () {
+          const campaignParticipant = new CampaignParticipant({
+            campaignToStartParticipation: campaign,
+            userIdentity,
+            schoolingRegistrationId: 77,
+          });
+
+          campaignParticipant.start({ participantExternalId: null });
+
+          expect(campaignParticipant.schoolingRegistrationId).to.equal(77);
+        });
+
+        it('does not create new schooling registration', function () {
+          const campaignParticipant = new CampaignParticipant({
+            campaignToStartParticipation: campaign,
+            userIdentity,
+            schoolingRegistrationId: 77,
+          });
+
+          campaignParticipant.start({ participantExternalId: null });
+
+          expect(campaignParticipant.schoolingRegistration).to.be.null;
+        });
+      });
+    });
+
     context('when the campaign has an idPixLabel', function () {
       let campaignToStartParticipation;
       let userIdentity;

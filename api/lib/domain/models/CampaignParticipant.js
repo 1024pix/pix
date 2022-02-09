@@ -1,6 +1,7 @@
 const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors');
 const CampaignParticipation = require('./CampaignParticipation');
 const Assessment = require('./Assessment');
+const SchoolingRegistration = require('./SchoolingRegistration');
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
@@ -10,6 +11,7 @@ class CampaignParticipant {
     this.schoolingRegistrationId = schoolingRegistrationId;
     this.userIdentity = userIdentity;
     this.previousCampaignParticipation = previousCampaignParticipation;
+    this.schoolingRegistration = null;
   }
 
   start({ participantExternalId }) {
@@ -21,6 +23,15 @@ class CampaignParticipant {
     if (this.previousCampaignParticipation) {
       startAgainCampaign = true;
       this.previousCampaignParticipation.isImproved = true;
+    }
+
+    if (this._shouldBecomeTrainee()) {
+      this.schoolingRegistration = new SchoolingRegistration({
+        userId: this.userIdentity.id,
+        organizationId: this.campaignToStartParticipation.organizationId,
+        firstName: this.userIdentity.firstName,
+        lastName: this.userIdentity.lastName,
+      });
     }
 
     if (this.campaignToStartParticipation.isAssessment) {
@@ -38,6 +49,10 @@ class CampaignParticipant {
       schoolingRegistrationId: this.schoolingRegistrationId,
       participantExternalId: participantExternalIdToUse,
     });
+  }
+
+  _shouldBecomeTrainee() {
+    return !this.campaignToStartParticipation.isRestricted && !this.schoolingRegistrationId;
   }
 
   _checkCanParticipateToCampaign(participantExternalId) {
