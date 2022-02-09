@@ -17,6 +17,10 @@ function modifyWhiteList() {
   };
 }
 
+function filterAccessibilityClass(value) {
+  return value === 'sr-only' ? `class="${value}"` : null;
+}
+
 export default class MarkdownToHtml extends Component {
   get options() {
     return {
@@ -30,6 +34,9 @@ export default class MarkdownToHtml extends Component {
     const unsafeHtml = converter.makeHtml(this.args.markdown);
     const html = xss(unsafeHtml, {
       whiteList: modifyWhiteList(),
+      onIgnoreTagAttr: (tag, name, value) => {
+        return name === 'class' ? filterAccessibilityClass(value) : null;
+      },
     });
     return htmlSafe(html);
   }
