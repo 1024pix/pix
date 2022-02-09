@@ -121,7 +121,7 @@
     "manual-lint:json": "eslint --cache --cache-strategy content --fix --ext .json translations/",
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
-    "scalingo-postbuild": "echo 'nothing to do'",
+    "scalingo-postbuild": "node scripts/generate-cron > cron.json",
     "start": "node bin/www",
     "start:watch": "nodemon bin/www",
     "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
