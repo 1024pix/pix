@@ -16,3 +16,10 @@
     </div>
   </div>
 </header>
+<article class="user-tutorials-content-v2">
+  <div class="user-tutorials-content-v2__container">
+    {{#each @userTutorials as |userTutorial|}}
+      <TutorialItem @tutorial={{userTutorial.tutorial}} />
+    {{/each}}
+  </div>
+</article>
