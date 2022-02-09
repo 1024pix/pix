@@ -45,28 +45,22 @@ describe('Integration | Component | QROC solution panel', function () {
   });
 
   describe('When format is neither a paragraph nor a sentence', function () {
-    [
-      { format: 'petit', expectedSize: '11' },
-      { format: 'mots', expectedSize: '20' },
-      { format: 'unreferenced_format', expectedSize: '20' },
-    ].forEach((data) => {
-      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function () {
-        // given
-        const challenge = EmberObject.create({ format: data.format });
-        const answer = EmberObject.create({ challenge });
-        const solution = '4';
-        this.set('answer', answer);
-        this.set('solution', solution);
+    it(`should display a disabled input with expected size`, async function () {
+      // given
+      const challenge = EmberObject.create({ format: '' });
+      const answer = EmberObject.create({ id: 'answer_id', result: 'ok', value: 'test', challenge });
+      const solution = '4';
+      this.set('answer', answer);
+      this.set('solution', solution);
 
-        //when
-        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+      //when
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
-        // then
-        expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
-        expect(find('textarea.correction-qroc-box-answer--sentence')).to.not.exist;
-        expect(find('input.correction-qroc-box-answer')).to.have.attr('disabled');
-        expect(find('input.correction-qroc-box-answer').getAttribute('size')).to.equal(data.expectedSize);
-      });
+      // then
+      expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
+      expect(find('textarea.correction-qroc-box-answer--sentence')).to.not.exist;
+      expect(find('input.correction-qroc-box-answer')).to.have.attr('disabled');
+      expect(find('input.correction-qroc-box-answer').getAttribute('size')).to.equal(answer.value.length.toString());
     });
   });
 
@@ -123,12 +117,10 @@ describe('Integration | Component | QROC solution panel', function () {
 
           it('should display the solution with an arrow and the solution in bold green', function () {
             const blockSolution = find('.comparison-window-solution');
-            const arrowImg = find('.comparison-window-solution__img');
             const solutionText = find('.comparison-window-solution__text');
 
             // then
             expect(blockSolution).to.exist;
-            expect(arrowImg).to.exist;
             expect(solutionText).to.exist;
           });
         });

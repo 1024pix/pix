@@ -31,12 +31,6 @@
           </textarea>
           {{#if block.emptyOrWrongAnswer}}
             <div class="correction-qrocm__solution">
-              <img
-                class="correction-qrocm__solution-img"
-                src="/images/icons/comparison-window/icon-arrow-right.svg"
-                alt=""
-                role="none"
-              />
               <div class="correction-qrocm__solution-text">{{block.solution}}</div>
             </div>
           {{/if}}
@@ -50,12 +44,6 @@
           />
           {{#if block.emptyOrWrongAnswer}}
             <div class="correction-qrocm__solution">
-              <img
-                class="correction-qrocm__solution-img"
-                src="/images/icons/comparison-window/icon-arrow-right.svg"
-                alt=""
-                role="none"
-              />
               <div class="correction-qrocm__solution-text">{{block.solution}}</div>
             </div>
           {{/if}}
@@ -63,19 +51,13 @@
           <div class="correction-qrocm__answer-wrapper">
             <input
               value="{{block.answer}}"
-              size="{{get-qroc-input-size @challenge.format}}"
+              size="{{block.answer.length}}"
               class="correction-qrocm__answer correction-qrocm__answer--input {{block.inputClass}}"
               id="{{block.input}}"
               disabled
             />
             {{#if block.emptyOrWrongAnswer}}
               <div class="correction-qrocm__solution">
-                <img
-                  class="correction-qrocm__solution-img"
-                  src="/images/icons/comparison-window/icon-arrow-right.svg"
-                  alt=""
-                  role="none"
-                />
                 <div class="correction-qrocm__solution-text">{{block.solution}}</div>
               </div>
             {{/if}}
@@ -93,12 +75,6 @@
   {{#if this.isNotCorrectlyAnswered}}
     {{#if @solutionToDisplay}}
       <div class="comparison-window-solution comparison-window-solution--with-margin">
-        <img
-          class="comparison-window-solution__img"
-          src="/images/icons/comparison-window/icon-arrow-right.svg"
-          alt=""
-          role="none"
-        />
         <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
         <div class="comparison-window-solution__text">{{@solutionToDisplay}}</div>
       </div>
