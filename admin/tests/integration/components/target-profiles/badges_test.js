@@ -3,8 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | TargetProfiles::Badges', function (hooks) {
   setupRenderingTest(hooks);
@@ -35,16 +35,10 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     assert.contains('Message');
     assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('tbody tr td:first-child').textContent, '1');
+    assert.strictEqual(find('tbody tr td:first-child').textContent, '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('alt'), 'My alt message');
+    assert.strictEqual(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
+    assert.strictEqual(find('tbody tr td:nth-child(2) img').getAttribute('alt'), 'My alt message');
     assert.contains('My key');
     assert.contains('My title');
     assert.contains('My message');
