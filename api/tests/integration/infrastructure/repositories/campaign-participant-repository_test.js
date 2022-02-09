@@ -20,11 +20,9 @@ const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', '
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('save', function () {
     let userIdentity;
-    let schoolingRegistrationId;
 
     beforeEach(async function () {
       const user = databaseBuilder.factory.buildUser();
-      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
       await databaseBuilder.commit();
       userIdentity = { id: user.id, firstName: user.firstName, lastName: user.lastName };
     });
@@ -38,7 +36,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       const campaignParticipant = await makeCampaignParticipant({
         campaignAttributes: { idPixLabel: null },
         userIdentity,
-        schoolingRegistrationId,
         participantExternalId: null,
       });
 
@@ -56,7 +53,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
           userIdentity,
-          schoolingRegistrationId,
           participantExternalId: null,
         });
 
@@ -77,7 +73,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
           userIdentity,
-          schoolingRegistrationId,
           participantExternalId: null,
         });
 
@@ -94,7 +89,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     context('when the campaign is assessment', function () {
       it('create a campaign participation and an assessment', async function () {
         //GIVEN
-
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: {
             type: 'ASSESSMENT',
@@ -102,7 +96,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             method: 'SMART_RANDOM',
           },
           userIdentity,
-          schoolingRegistrationId,
           participantExternalId: null,
         });
 
@@ -130,13 +123,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     context('when there is a previous participation', function () {
       it('update the previous participation', async function () {
         //GIVEN
-
         const campaign = databaseBuilder.factory.buildCampaign({
           multipleSendings: true,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
-          schoolingRegistrationId,
           campaignId: campaign.id,
           isImproved: false,
           status: 'SHARED',
@@ -147,7 +138,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
           userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
@@ -174,7 +164,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       it('does not update participation for other user or campaign', async function () {
         //GIVEN
-
         const campaign = databaseBuilder.factory.buildCampaign({
           idPixLabel: null,
           multipleSendings: true,
@@ -201,7 +190,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
           userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
@@ -229,7 +217,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { idPixLabel: 'some external id' },
           userIdentity,
-          schoolingRegistrationId,
           participantExternalId: 'some participant external id',
         });
 
@@ -251,13 +238,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       context('when there already is a participation for this campaign', function () {
         it('throws an exception AlreadyExistingCampaignParticipationError', async function () {
           //GIVEN
-
           const campaign = databaseBuilder.factory.buildCampaign({
             idPixLabel: null,
           });
           databaseBuilder.factory.buildCampaignParticipation({
             userId: userIdentity.id,
-            schoolingRegistrationId,
             campaignId: campaign.id,
             isImproved: false,
           });
@@ -267,7 +252,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            schoolingRegistrationId,
             userIdentity,
           });
 
@@ -291,7 +275,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       context('when there is another error', function () {
         it('throws the original exception', async function () {
           //GIVEN
-
           const campaign = databaseBuilder.factory.buildCampaign({
             idPixLabel: null,
           });
@@ -301,7 +284,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            schoolingRegistrationId,
             userIdentity: { id: 12 },
           });
 
@@ -326,7 +308,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
-          schoolingRegistrationId,
           campaignId: campaign.id,
           isImproved: false,
         });
@@ -336,7 +317,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation({ ...campaign, id: 13 });
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
           userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
