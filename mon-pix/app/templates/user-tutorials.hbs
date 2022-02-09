@@ -5,7 +5,7 @@
     <NavbarHeader @burger={{burger}} />
     <main id="main" class="main">
       {{#if this.showNewTutorialsPage}}
-        <Tutorials::Content />
+        <Tutorials::Content @userTutorials={{this.model}} />
       {{else}}
         <header role="banner" class="background-banner">
           <div class="user-tutorials-banner">
