@@ -52,11 +52,14 @@ Or cette solution amène du couplage entre deux aspects fonctionnels distincts q
 
 ## Décision
 
-Englober le usecase dans une transaction métier.
+Englober le usecase dans une transaction métier, initiée:
+
+- soit depuis le controller;
+- soit depuis le script.
 
 ## Conséquences
 
-L'architecture applicative est légèrement différente.
+L'architecture applicative est légèrement différente, voir ci-dessous. Des règles de lint sont mises en place pour attirer l'attention du développeur.
 
 ### Architecture
 
