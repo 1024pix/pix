@@ -176,27 +176,20 @@ describe('Integration | Component | QROCm dep solution panel', function () {
       this.set('challenge', challenge);
     });
 
-    [
-      { format: 'petit', expectedSize: '11' },
-      { format: 'mots', expectedSize: '20' },
-      { format: 'unreferenced_format', expectedSize: '20' },
-    ].forEach((data) => {
-      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function () {
-        //given
-        this.challenge.set('format', data.format);
+    it(`should display a disabled input with expected size`, async function () {
+      //given
+      const answerSize = 'rightAnswer1'.length;
+      //when
+      await render(
+        hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+      );
 
-        //when
-        await render(
-          hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
-        );
-
-        //then
-        expect(find(PARAGRAPH)).to.not.exist;
-        expect(find(SENTENCE)).to.not.exist;
-        expect(find(INPUT).tagName).to.equal('INPUT');
-        expect(find(INPUT).getAttribute('size')).to.equal(data.expectedSize);
-        expect(find(INPUT).hasAttribute('disabled')).to.be.true;
-      });
+      //then
+      expect(find(PARAGRAPH)).to.not.exist;
+      expect(find(SENTENCE)).to.not.exist;
+      expect(find(INPUT).tagName).to.equal('INPUT');
+      expect(find(INPUT).getAttribute('size')).to.equal(answerSize.toString());
+      expect(find(INPUT).hasAttribute('disabled')).to.be.true;
     });
   });
 
