@@ -11,6 +11,8 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
         firstName: 'John',
         lastName: 'Doe',
         birthdate: new Date('2000-10-15'),
+        division: '3A',
+        group: 'L1',
         organizationId: 1,
         organizationName: 'School',
         createdAt: new Date('2020-09-05'),
@@ -64,22 +66,23 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
       );
     });
 
-    it('should not throw an ObjectValidationError when division is null or undefined', function () {
+    it('should not throw an ObjectValidationError when birthdate is null', function () {
       // when
-      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, division: null })).not.to.throw(
-        ObjectValidationError
-      );
-      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, division: undefined })).not.to.throw(
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, birthdate: 'null' })).to.throw(
         ObjectValidationError
       );
     });
 
-    it('should not throw an ObjectValidationError when group is null or undefined', function () {
+    it('should not throw an ObjectValidationError when division is null', function () {
       // when
-      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, group: null })).not.to.throw(
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, division: null })).not.to.throw(
         ObjectValidationError
       );
-      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, group: undefined })).not.to.throw(
+    });
+
+    it('should not throw an ObjectValidationError when group is null', function () {
+      // when
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, group: null })).not.to.throw(
         ObjectValidationError
       );
     });
