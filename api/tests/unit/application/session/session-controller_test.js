@@ -150,7 +150,7 @@ describe('Unit | Controller | sessionController', function () {
         // given
         const foundSession = Symbol('foundSession');
         const serializedSession = Symbol('serializedSession');
-        usecases.getSession.withArgs({ sessionId }).resolves(foundSession);
+        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession });
         sessionSerializer.serialize.withArgs(foundSession).resolves(serializedSession);
 
         // when
