@@ -44,8 +44,8 @@ module.exports = {
 
   async get(request) {
     const sessionId = request.params.id;
-    const session = await usecases.getSession({ sessionId });
-    return sessionSerializer.serialize(session, true);
+    const { session, hasSupervisorAccess } = await usecases.getSession({ sessionId });
+    return sessionSerializer.serialize(session, hasSupervisorAccess);
   },
 
   async save(request) {
@@ -262,7 +262,7 @@ module.exports = {
 
     const event = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });
     await events.eventDispatcher.dispatch(event);
-    const session = await usecases.getSession({ sessionId });
+    const { session } = await usecases.getSession({ sessionId });
 
     return sessionSerializer.serializeForFinalization(session);
   },

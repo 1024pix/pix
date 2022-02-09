@@ -9,7 +9,6 @@ import isEmpty from 'lodash/isEmpty';
 import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
-  @service featureToggles;
   @service currentUser;
 
   @service notifications;
@@ -25,7 +24,7 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   get shouldDisplayHasSeenEndTestScreenCheckbox() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.isEndTestScreenRemovalEnabled;
+    return !this.session.hasSupervisorAccess;
   }
 
   get uncheckedHasSeenEndTestScreenCount() {
