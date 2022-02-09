@@ -1,0 +1,32 @@
+<div class="tutorial-card-v2">
+
+  <div class="tutorial-card-v2__domain-border"></div>
+
+  <div class="tutorial-card-v2__content">
+    {{! template-lint-disable no-bare-strings }}
+    <div class="tutorial-card-v2-content__skill">
+      Mener une recherche et une veille d'information
+    </div>
+    <a target="_blank" rel="noopener noreferrer" href="{{@tutorial.link}}" class="tutorial-card-v2-content__link">
+      {{@tutorial.title}}
+    </a>
+    <div class="tutorial-card-v2-content__details">
+      {{@tutorial.source}}
+      •
+      {{@tutorial.format}}
+      •
+      {{moment-duration @tutorial.duration}}
+    </div>
+    <div class="tutorial-card-v2-content__actions">
+      <button class="tutorial-card-v2-content-actions__save" type="button">
+        <FaIcon @prefix="fas" @icon="bookmark" />
+        {{this.buttonLabel}}
+      </button>
+      <button class="tutorial-card-v2-content-actions__evaluate" type="button">
+        <FaIcon @prefix="fas" @icon="thumbs-up" />
+        {{t "pages.user-tutorials.list.tutorial.actions.evaluate.label"}}
+      </button>
+    </div>
+  </div>
+
+</div>
