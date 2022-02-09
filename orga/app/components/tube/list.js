@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
+import moment from 'moment';
 import Component from '@glimmer/component';
 
 export default class TubeList extends Component {
@@ -21,6 +22,10 @@ export default class TubeList extends Component {
 
   get fileSize() {
     return (this.file.size / 1024).toFixed(2);
+  }
+
+  get formattedCurrentDate() {
+    return moment().format('YYYY-MM-DD-HHmm');
   }
 
   get downloadURL() {

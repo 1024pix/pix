@@ -1,5 +1,5 @@
 {{page-title (t "pages.preselect-target-profile.title")}}
 
 <article class="preselect-target-profile">
-  <Tube::List @areas={{@model}} />
+  <Tube::List @areas={{this.model.areas}} @organization={{this.model.organization}} />
 </article>
