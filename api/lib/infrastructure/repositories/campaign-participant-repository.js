@@ -82,6 +82,7 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
       'isManagingStudents AS isRestricted',
       'multipleSendings',
       'assessmentMethod',
+      'organizationId',
     ])
     .where({ 'campaigns.id': campaignId })
     .first();

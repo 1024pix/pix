@@ -10,6 +10,7 @@ module.exports = function buildCampaignToStartParticipation({
   multipleSendings = false,
   assessmentMethod = 'SMART_RANDOM',
   skillCount = 1,
+  organizationId,
 } = {}) {
   return new CampaignToStartParticipation({
     id,
@@ -20,5 +21,6 @@ module.exports = function buildCampaignToStartParticipation({
     multipleSendings,
     assessmentMethod,
     skillCount: type === Campaign.types.ASSESSMENT ? skillCount : null,
+    organizationId,
   });
 };
