@@ -208,6 +208,7 @@ exports.register = async function (server) {
       method: 'PUT',
       path: '/api/campaigns/{id}/archive',
       config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,
