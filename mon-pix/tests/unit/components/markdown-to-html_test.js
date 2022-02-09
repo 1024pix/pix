@@ -73,4 +73,32 @@ describe('Unit | Component | markdown-to-html', function () {
       expect(component.html.string).to.equal(expectedHtml);
     });
   });
+
+  describe('when class is provided', () => {
+    it('should remove it', () => {
+      // given
+      const markdown = '<h1 class="foo">Test</h1>';
+
+      // when
+      component = createGlimmerComponent('component:markdown-to-html', { markdown });
+
+      // then
+      const expectedHtml = '<h1>Test</h1>';
+      expect(component.html.string).to.equal(expectedHtml);
+    });
+  });
+
+  describe('when accessibility class is provided', () => {
+    it('should keep it', () => {
+      // given
+      const markdown = '<h1 class="sr-only">Test</h1>';
+
+      // when
+      component = createGlimmerComponent('component:markdown-to-html', { markdown });
+
+      // then
+      const expectedHtml = '<h1 class="sr-only">Test</h1>';
+      expect(component.html.string).to.equal(expectedHtml);
+    });
+  });
 });
