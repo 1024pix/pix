@@ -17,7 +17,8 @@ export default class AuthenticatedCampaignsListAllCampaignsController extends Co
 
   get isClearFiltersButtonDisabled() {
     const filtersAreEmpty = !this.name && !this.ownerName;
-    return filtersAreEmpty;
+    const activeCampainsDisplayed = this.status === null;
+    return filtersAreEmpty && activeCampainsDisplayed;
   }
 
   updateFilters(filters) {
@@ -27,8 +28,8 @@ export default class AuthenticatedCampaignsListAllCampaignsController extends Co
 
   @action
   clearFilters() {
-    this.name = null;
-    this.ownerName = null;
+    this.name = '';
+    this.ownerName = '';
     this.status = null;
   }
 

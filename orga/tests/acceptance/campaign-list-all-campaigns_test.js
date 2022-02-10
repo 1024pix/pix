@@ -24,14 +24,14 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
-    test('it should be accessible and prescriber redirected to his campaigns list', async function (assert) {
+    test('it should be accessible', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
       await authenticateSession(user.id);
 
       // when
-      await visitScreen('/campagnes');
+      await visitScreen('/campagnes/toutes');
 
       // then
       assert.deepEqual(currentURL(), '/campagnes/toutes');
