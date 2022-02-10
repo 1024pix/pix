@@ -24,7 +24,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
-    test('it should be accessible', async function (assert) {
+    test('it should be accessible and prescriber redirected to his campaigns list', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
@@ -61,7 +61,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         });
 
         // when
-        const screen = await visitScreen('/campagnes');
+        const screen = await visitScreen('/campagnes/les-miennes');
 
         // then
         assert.strictEqual(screen.getAllByLabelText('Campagne').length, 2, 'the number of campaigns');
@@ -80,13 +80,59 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
           ownerLastName: user.lastName,
           ownerFirstName: user.firstName,
         });
-        await visitScreen('/campagnes');
+        await visitScreen('/campagnes/les-miennes');
 
         // when
         await clickByName('CampagneEtPrairie');
 
         // then
         assert.deepEqual(currentURL(), '/campagnes/1');
+      });
+
+      module('When campaign filter is empty', function () {
+        test('it should display a disabled clear all filters button', async function (assert) {
+          // given
+          const user = createUserWithMembershipAndTermsOfServiceAccepted();
+          createPrescriberByUser(user);
+          await authenticateSession(user.id);
+
+          const campaignName = 'CampagneV2';
+          server.create('campaign', {
+            name: campaignName,
+            ownerId: user.id,
+            ownerLastName: user.lastName,
+            ownerFirstName: user.firstName,
+          });
+
+          // when
+          const screen = await visitScreen('/campagnes/les-miennes');
+
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasAttribute('disabled');
+        });
+      });
+
+      module('When search input filter by campaign name is empty', function () {
+        test('it should display a disabled clear all filters button', async function (assert) {
+          // given
+          const user = createUserWithMembershipAndTermsOfServiceAccepted();
+          createPrescriberByUser(user);
+          await authenticateSession(user.id);
+
+          const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+          server.create('campaign', {
+            name: 'ma super campagne',
+            ownerId: user.id,
+            ownerFirstName: owner.firstName,
+            ownerLastName: owner.lastName,
+          });
+
+          // when
+          const screen = await visitScreen('/campagnes/les-miennes');
+
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasAttribute('disabled');
+        });
       });
 
       module('When using campaign filter', function () {
@@ -108,7 +154,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
             ownerLastName: user.lastName,
             ownerFirstName: user.firstName,
           });
-          const screen = await visitScreen('/campagnes');
+          const screen = await visitScreen('/campagnes/les-miennes');
 
           // when
           await fillByLabel('Rechercher une campagne', 'super');
@@ -131,13 +177,65 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
             ownerLastName: user.lastName,
             ownerFirstName: user.firstName,
           });
-          await visitScreen('/campagnes');
+          await visitScreen('/campagnes/les-miennes');
 
           // when
           await fillByLabel('Rechercher une campagne', campaignName);
 
           // then
           assert.deepEqual(currentURL(), `/campagnes/les-miennes?name=${campaignName}`);
+        });
+
+        module('With clear all filters button', function () {
+          test('it should display an enabled clear all filters button', async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+
+            server.create('campaign', {
+              name: 'ma super campagne',
+              ownerId: user.id,
+              ownerLastName: user.lastName,
+              ownerFirstName: user.firstName,
+            });
+
+            const screen = await visitScreen('/campagnes/les-miennes');
+
+            // when
+            await fillByLabel('Rechercher une campagne', 'ma super campagne');
+
+            //then
+            assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
+          });
+
+          test("it should clear campaign filter on click and display active owner's campaigns", async function (assert) {
+            // given
+            const user = createUserWithMembershipAndTermsOfServiceAccepted();
+            createPrescriberByUser(user);
+            await authenticateSession(user.id);
+
+            server.create('campaign', {
+              name: 'ma super campagne',
+              ownerId: user.id,
+              ownerLastName: user.lastName,
+              ownerFirstName: user.firstName,
+            });
+
+            const screen = await visitScreen('/campagnes/les-miennes');
+
+            // when
+            await fillByLabel('Rechercher une campagne', 'ma super campagne');
+            await clickByName('Archivées');
+            await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+
+            //then
+            assert
+              .dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')))
+              .containsText('');
+            assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
+            assert.deepEqual(currentURL(), '/campagnes/les-miennes');
+          });
         });
       });
     });
@@ -150,7 +248,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         await authenticateSession(user.id);
 
         // when
-        const screen = await visitScreen('/campagnes');
+        const screen = await visitScreen('/campagnes/les-miennes');
 
         // then
         assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign'))).exists();
