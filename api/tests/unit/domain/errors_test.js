@@ -490,4 +490,8 @@ describe('Unit | Domain | Errors', function () {
   it('should export an EmailModificationDemandNotFoundOrExpiredError', function () {
     expect(errors.EmailModificationDemandNotFoundOrExpiredError).to.exist;
   });
+
+  it('should export an SchoolingRegistrationCannotBeDissociatedError', function () {
+    expect(errors.SchoolingRegistrationCannotBeDissociatedError).to.exist;
+  });
 });

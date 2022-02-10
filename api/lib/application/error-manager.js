@@ -397,6 +397,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError(error.message);
   }
 
+  if (error instanceof DomainErrors.SchoolingRegistrationCannotBeDissociatedError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
