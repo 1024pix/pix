@@ -28,9 +28,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}`);
       assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
       assert
         .dom('.session-info__details div:nth-child(1) div:last-child a')
@@ -57,12 +55,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), undefined);
+      assert.strictEqual(find('[data-test-id="session-info__examiner-comment"]'), null);
+      assert.strictEqual(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), null);
     });
 
     test('it does not render the "M\'assigner la session" button', async function (assert) {
@@ -116,6 +110,19 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       assert.dom('[data-test-id="session-info__number-of-started-or-error-certifications"]').hasText('0');
     });
 
+    module('when the session has supervisor access', function () {
+      test('it should not display the number of not checked end test screens', async function (assert) {
+        // given
+        session.update({ hasSupervisorAccess: true });
+
+        // when
+        await visit(`/sessions/${session.id}`);
+
+        // when
+        assert.notContains("Nombre d'écrans de fin de test non renseignés");
+      });
+    });
+
     test('it renders the examinerGlobalComment if any', async function (assert) {
       // when
       await visit(`/sessions/${session.id}`);
@@ -132,9 +139,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
+      assert.strictEqual(find('[data-test-id="session-info__examiner-comment"]'), null);
     });
 
     module('when results have not yet been sent to prescriber', function () {
@@ -149,9 +154,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         const buttonSendResultsToCandidates = this.element.querySelector(
           '.session-info__actions .row button:nth-child(3)'
         );
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
+        assert.strictEqual(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
     });
 
