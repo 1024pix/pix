@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', function () {
+describe('Unit | Serializer | JSONAPI | user-anonymized-details-for-admin-serializer', function () {
   describe('#serialize', function () {
     it('should serialize user details for Pix Admin', function () {
       // given

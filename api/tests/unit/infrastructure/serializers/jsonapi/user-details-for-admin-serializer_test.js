@@ -59,6 +59,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
               'created-at': modelObject.schoolingRegistrations[0].createdAt,
               'updated-at': modelObject.schoolingRegistrations[0].updatedAt,
               'is-disabled': modelObject.schoolingRegistrations[0].isDisabled,
+              'can-be-dissociated': modelObject.schoolingRegistrations[0].canBeDissociated,
             },
             id: `${modelObject.schoolingRegistrations[0].id}`,
             type: 'schoolingRegistrations',
