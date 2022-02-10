@@ -26,7 +26,7 @@
     width: 274px;
     color: $grey-50;
     font-family: $font-roboto;
-    font-size: 0.8125rem;
+    font-size: 0.813rem;
     font-weight: normal;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -39,6 +39,10 @@
     font-size: 1rem;
     font-family: $font-open-sans;
     font-weight: $font-semi-bold;
+
+    @include device-is('tablet') {
+      font-size: 1.125rem;
+    }
 
     &:hover,
     &:focus {
@@ -55,10 +59,11 @@
   &__details {
     height: 24px;
     color: $grey-50;
-    font-size: 0.8125rem;
+    font-size: 0.813rem;
     font-family: $font-roboto;
     font-weight: $font-normal;
     line-height: 1.5rem;
+    margin: 0;
   }
 
   &__actions {
@@ -71,32 +76,7 @@
 
 .tutorial-card-v2-content-actions {
 
-  &__save {
-    font-size: 0.813rem;
-    font-weight: $font-medium;
-    color: $grey-50;
-    letter-spacing: 0.028rem;
-    background: transparent;
-    border: none;
-    padding: 0;
-    display: block;
-
-    svg {
-      margin-right: 4px;
-    }
-
-    &:hover {
-      filter: brightness(70%);
-      cursor: pointer;
-    }
-
-    &:disabled {
-      color: $grey-30;
-      filter: brightness(90%);
-      cursor: auto;
-    }
-  }
-
+  &__save,
   &__evaluate {
     font-size: 0.813rem;
     font-weight: $font-medium;
