@@ -1,5 +1,6 @@
 const buildCampaign = require('./build-campaign');
 const buildUser = require('./build-user');
+const buildSchoolingRegistration = require('./build-schooling-registration');
 const databaseBuffer = require('../database-buffer');
 const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
 const _ = require('lodash');
@@ -12,6 +13,7 @@ module.exports = function buildCampaignParticipation({
   createdAt = new Date('2020-01-01'),
   sharedAt = new Date('2020-01-02'),
   userId,
+  schoolingRegistrationId,
   participantExternalId = 'participantExternalId',
   validatedSkillsCount,
   masteryRate,
@@ -20,6 +22,9 @@ module.exports = function buildCampaignParticipation({
   isImproved = false,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
+  schoolingRegistrationId = _.isUndefined(schoolingRegistrationId)
+    ? buildSchoolingRegistration().id
+    : schoolingRegistrationId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
   const isShared = status === SHARED;
   sharedAt = isShared ? sharedAt : null;
@@ -28,6 +33,7 @@ module.exports = function buildCampaignParticipation({
     id,
     campaignId,
     userId,
+    schoolingRegistrationId,
     createdAt,
     sharedAt,
     participantExternalId,

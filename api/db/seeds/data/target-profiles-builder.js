@@ -80,7 +80,7 @@ const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE = 9;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
-  _buildTargetProfileOnCompetence(databaseBuilder);
+  _buildTargetProfileOneCompetence(databaseBuilder);
   _buildTargetProfileWithStagesAndBadges(databaseBuilder);
   _buildTargetProfileWithSimplifiedAccess(databaseBuilder);
   _buildTargetProfilePixEmploiClea(databaseBuilder);
@@ -113,13 +113,14 @@ function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
     'rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU', 'rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe', 'recPG9ftlGZLiF0O6',
     'rectLj7NPg5JcSIqN', 'rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5',
     'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV', 'recgOc2OreHCosoRp',
-    'recGd7oJ2wVEyKmPS', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR', 'recDZTKszXX02aXD1',
+    'recGd7oJ2wVEyKmPS', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR', 'recOyQOjUhDKTO7UN', 'recKFUQ2CzcYHrxPR',
+    'recmB2623CruGvA1b',
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID, skillId });
   });
 }
 
-function _buildTargetProfileOnCompetence(databaseBuilder) {
+function _buildTargetProfileOneCompetence(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
     id: TARGET_PROFILE_ONE_COMPETENCE_ID,
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
@@ -159,6 +160,8 @@ function _buildTargetProfileWithStagesAndBadges(databaseBuilder) {
     'rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU', 'rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe', 'recPG9ftlGZLiF0O6',
     'rectLj7NPg5JcSIqN', 'rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5',
     'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV', 'recgOc2OreHCosoRp',
+    'recGd7oJ2wVEyKmPS', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR', 'recOyQOjUhDKTO7UN', 'recKFUQ2CzcYHrxPR',
+    'recmB2623CruGvA1b',
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID, skillId });
   });

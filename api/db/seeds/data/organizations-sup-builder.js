@@ -1,6 +1,8 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const SUP_UNIVERSITY_ID = 2;
+const SUP_STUDENT_ASSOCIATED_ID = 888;
+const SUP_STUDENT_DISABLED_ID = 889;
 
 function organizationsSupBuilder({ databaseBuilder }) {
   const supUser1 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -49,71 +51,67 @@ function organizationsSupBuilder({ databaseBuilder }) {
 
   // student not associated
   databaseBuilder.factory.buildSchoolingRegistration({
-    firstName: 'Joffrey',
-    lastName: 'Baratheon',
-    birthdate: '2000-02-28',
+    firstName: 'Studentsup',
+    lastName: 'Free',
+    birthdate: '2010-10-10',
     organizationId: SUP_UNIVERSITY_ID,
     userId: null,
-    studentNumber: 'JAIMELESFRUITS123',
+    studentNumber: 'free1',
     group: 'L1',
     division: null,
   });
 
-  // student associated
-  const aryaStark = databaseBuilder.factory.buildUser.withRawPassword({
-    firstName: 'Arya',
-    lastName: 'Stark',
-    email: 'arya.stark@example.net',
-    rawPassword: DEFAULT_PASSWORD,
-    cgu: false,
-  });
   databaseBuilder.factory.buildSchoolingRegistration({
-    firstName: aryaStark.firstName,
-    lastName: aryaStark.lastName,
-    birthdate: '2005-03-28',
+    firstName: 'Studentsup',
+    lastName: 'Free2',
+    birthdate: '2009-09-09',
     organizationId: SUP_UNIVERSITY_ID,
-    userId: aryaStark.id,
-    studentNumber: 'JAIMELESLEGUMES123',
-    group: 'L1',
-    division: null,
-  });
-
-  // with student number
-  const sansaStark = databaseBuilder.factory.buildUser.withRawPassword({
-    firstName: 'Sansa',
-    lastName: 'Stark',
-    email: 'sansa.stark@example.net',
-    rawPassword: DEFAULT_PASSWORD,
-    cgu: false,
-  });
-
-  databaseBuilder.factory.buildSchoolingRegistration({
-    firstName: sansaStark.firstName,
-    lastName: sansaStark.lastName,
-    birthdate: '2000-05-28',
-    organizationId: SUP_UNIVERSITY_ID,
-    userId: sansaStark.id,
-    studentNumber: 'JAIMELECHOCOLAT',
+    userId: null,
+    studentNumber: 'free2',
     group: 'L2',
     division: null,
   });
 
-  // disabled student
-  const branStark = databaseBuilder.factory.buildUser.withRawPassword({
-    firstName: 'Bran',
-    lastName: 'Stark',
-    email: 'bran.stark@example.net',
+  // student associated
+  const studentAssociated = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SUP_STUDENT_ASSOCIATED_ID,
+    firstName: 'Studentsup',
+    lastName: 'Associated',
+    email: 'studentsup.associated@example.net',
     rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
-    firstName: branStark.firstName,
-    lastName: branStark.lastName,
+    id: SUP_STUDENT_ASSOCIATED_ID,
+    firstName: studentAssociated.firstName,
+    lastName: studentAssociated.lastName,
+    birthdate: '2005-03-28',
+    organizationId: SUP_UNIVERSITY_ID,
+    userId: SUP_STUDENT_ASSOCIATED_ID,
+    studentNumber: 'associated1',
+    group: 'L1',
+    division: null,
+  });
+
+  // disabled student
+  const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SUP_STUDENT_DISABLED_ID,
+    firstName: 'Studentsup',
+    lastName: 'Disabled',
+    email: 'studentsup.disabled@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    id: SUP_STUDENT_DISABLED_ID,
+    firstName: studentDisabled.firstName,
+    lastName: studentDisabled.lastName,
     birthdate: '2000-05-28',
     organizationId: SUP_UNIVERSITY_ID,
-    userId: branStark.id,
-    studentNumber: 'JAIMELESFECULENTS123',
+    userId: SUP_STUDENT_DISABLED_ID,
+    studentNumber: 'disabled1',
     isDisabled: true,
   });
 }
@@ -121,4 +119,6 @@ function organizationsSupBuilder({ databaseBuilder }) {
 module.exports = {
   organizationsSupBuilder,
   SUP_UNIVERSITY_ID,
+  SUP_STUDENT_ASSOCIATED_ID,
+  SUP_STUDENT_DISABLED_ID,
 };
