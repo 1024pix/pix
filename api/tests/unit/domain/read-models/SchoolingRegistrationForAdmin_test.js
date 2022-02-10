@@ -18,6 +18,7 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
         createdAt: new Date('2020-09-05'),
         updatedAt: new Date('2020-09-08'),
         isDisabled: false,
+        organizationIsManagingStudents: true,
       };
     });
 
@@ -135,6 +136,16 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
       expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, isDisabled: undefined })).to.throw(
         ObjectValidationError
       );
+    });
+
+    it('should throw an ObjectValidationError when canBeDissociated is not valid', function () {
+      // when
+      expect(
+        () => new SchoolingRegistrationForAdmin({ ...validArguments, organizationIsManagingStudents: 'not_valid' })
+      ).to.throw(ObjectValidationError);
+      expect(
+        () => new SchoolingRegistrationForAdmin({ ...validArguments, organizationIsManagingStudents: undefined })
+      ).to.throw(ObjectValidationError);
     });
   });
 });

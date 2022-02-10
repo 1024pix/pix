@@ -439,6 +439,7 @@ function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
       createdAt: schoolingRegistration.createdAt,
       updatedAt: schoolingRegistration.updatedAt,
       isDisabled: schoolingRegistration.isDisabled,
+      organizationIsManagingStudents: schoolingRegistration.organization.isManagingStudents,
     });
   });
 }
