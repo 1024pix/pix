@@ -44,6 +44,7 @@ export default class Session extends Model {
   @attr() publishedAt;
   @attr() juryComment;
   @attr() juryCommentedAt;
+  @attr('boolean') hasSupervisorAccess;
 
   @hasMany('jury-certification-summary') juryCertificationSummaries;
   @belongsTo('user') assignedCertificationOfficer;

@@ -176,15 +176,11 @@ module('Unit | Model | session', function (hooks) {
     });
 
     test('it should count 6 certification issue reports', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionWithCertificationIssueReports.countCertificationIssueReports, 6);
+      assert.strictEqual(sessionWithCertificationIssueReports.countCertificationIssueReports, 6);
     });
 
     test('it should count 0 certification issue report', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionWithoutCertificationIssueReport.countCertificationIssueReports, 0);
+      assert.strictEqual(sessionWithoutCertificationIssueReport.countCertificationIssueReports, 0);
     });
   });
 
@@ -212,15 +208,11 @@ module('Unit | Model | session', function (hooks) {
     });
 
     test('it should count 6 certification issue reports ', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionWithCertificationIssueReports.countCertificationIssueReportsWithActionRequired, 6);
+      assert.strictEqual(sessionWithCertificationIssueReports.countCertificationIssueReportsWithActionRequired, 6);
     });
 
     test('it should count 0 certification issue report ', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionWithoutCertificationIssueReport.countCertificationIssueReportsWithActionRequired, 0);
+      assert.strictEqual(sessionWithoutCertificationIssueReport.countCertificationIssueReportsWithActionRequired, 0);
     });
   });
 
@@ -242,16 +234,12 @@ module('Unit | Model | session', function (hooks) {
 
     test('it should count 1 unchecked box if only one box (unchecked)', function (assert) {
       const countNotCheckedEndScreen = sessionWithOneUncheckedEndScreen.countNotCheckedEndScreen;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countNotCheckedEndScreen, 1);
+      assert.strictEqual(countNotCheckedEndScreen, 1);
     });
 
     test('it should count 0 unchecked box if only one box (checked)', function (assert) {
       const countNotCheckedEndScreen = sessionWithOneCheckedEndScreen.countNotCheckedEndScreen;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countNotCheckedEndScreen, 0);
+      assert.strictEqual(countNotCheckedEndScreen, 0);
     });
   });
 
@@ -269,9 +257,7 @@ module('Unit | Model | session', function (hooks) {
       const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countStartedAndInErrorCertifications, 1);
+      assert.strictEqual(countStartedAndInErrorCertifications, 1);
     });
 
     test('it should take into account in error certifications', function (assert) {
@@ -287,9 +273,7 @@ module('Unit | Model | session', function (hooks) {
       const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countStartedAndInErrorCertifications, 1);
+      assert.strictEqual(countStartedAndInErrorCertifications, 1);
     });
 
     test('it should ignore validated certifications', function (assert) {
@@ -305,9 +289,7 @@ module('Unit | Model | session', function (hooks) {
       const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countStartedAndInErrorCertifications, 0);
+      assert.strictEqual(countStartedAndInErrorCertifications, 0);
     });
 
     test('it should ignore rejected certifications', function (assert) {
@@ -323,9 +305,7 @@ module('Unit | Model | session', function (hooks) {
       const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countStartedAndInErrorCertifications, 0);
+      assert.strictEqual(countStartedAndInErrorCertifications, 0);
     });
 
     test('it should ignore cancelled certifications', function (assert) {
@@ -341,9 +321,7 @@ module('Unit | Model | session', function (hooks) {
       const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countStartedAndInErrorCertifications, 0);
+      assert.strictEqual(countStartedAndInErrorCertifications, 0);
     });
 
     test('it should return a sum of started and in error certifications', function (assert) {
@@ -367,9 +345,7 @@ module('Unit | Model | session', function (hooks) {
       const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countStartedAndInErrorCertifications, 3);
+      assert.strictEqual(countStartedAndInErrorCertifications, 3);
     });
   });
 
@@ -385,9 +361,7 @@ module('Unit | Model | session', function (hooks) {
       const countCertificationsFlaggedAsAborted = session.countCertificationsFlaggedAsAborted;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(countCertificationsFlaggedAsAborted, 1);
+      assert.strictEqual(countCertificationsFlaggedAsAborted, 1);
     });
   });
 
@@ -429,9 +403,7 @@ module('Unit | Model | session', function (hooks) {
         const displayStatus = session.displayStatus;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(displayStatus, 'Créée');
+        assert.strictEqual(displayStatus, 'Créée');
       });
     });
 
@@ -444,9 +416,7 @@ module('Unit | Model | session', function (hooks) {
         const displayStatus = session.displayStatus;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(displayStatus, 'Finalisée');
+        assert.strictEqual(displayStatus, 'Finalisée');
       });
     });
 
@@ -459,9 +429,7 @@ module('Unit | Model | session', function (hooks) {
         const displayStatus = session.displayStatus;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(displayStatus, 'Résultats transmis par Pix');
+        assert.strictEqual(displayStatus, 'Résultats transmis par Pix');
       });
     });
   });
