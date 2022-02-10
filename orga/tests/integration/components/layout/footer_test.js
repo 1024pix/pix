@@ -41,7 +41,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.dom(screen.getByText('Accessibilité : non conforme')).exists();
+    assert.dom(screen.getByText('Accessibilité : partiellement conforme')).exists();
     assert.dom('a[href="https://pix.fr/accessibilite-pix-orga"]').exists();
   });
 });
