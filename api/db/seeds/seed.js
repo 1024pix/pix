@@ -5,8 +5,9 @@ const DatabaseBuilder = require('../database-builder/database-builder');
 const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');
 const buildPixAileProfile = require('./data/pix-aile-profile-builder');
-const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
-const { campaignsBuilder } = require('./data/campaigns-builder');
+const { campaignsProBuilder } = require('./data/campaigns-pro-builder');
+const { campaignsSupBuilder } = require('./data/campaigns-sup-builder');
+const { campaignsScoBuilder } = require('./data/campaigns-sco-builder');
 const { certificationCandidatesBuilder } = require('./data/certification/certification-candidates-builder');
 const { badgeAcquisitionBuilder } = require('./data/certification/badge-acquisition-builder');
 const { partnerCertificationBuilder } = require('./data/certification/partner-certification-builder');
@@ -71,8 +72,9 @@ exports.seed = async (knex) => {
   certificationCpfCityBuilder({ databaseBuilder });
 
   // Éléments de parcours
-  campaignsBuilder({ databaseBuilder });
-  campaignParticipationsBuilder({ databaseBuilder });
+  campaignsProBuilder({ databaseBuilder });
+  campaignsSupBuilder({ databaseBuilder });
+  campaignsScoBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
   answersBuilder({ databaseBuilder });
 
