@@ -9,6 +9,8 @@ export default class Campaign extends Model {
   @attr('date') createdAt;
   @attr('string') creatorLastName;
   @attr('string') creatorFirstName;
+  @attr('string') ownerLastName;
+  @attr('string') ownerFirstName;
   @attr('string') organizationId;
   @attr('string') organizationName;
   @attr('string') targetProfileId;

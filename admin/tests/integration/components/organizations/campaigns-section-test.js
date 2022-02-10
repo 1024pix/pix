@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | organizations/campaigns-section', function (hooks) {
@@ -8,16 +8,48 @@ module('Integration | Component | organizations/campaigns-section', function (ho
 
   module('when there is no campaigns', function () {
     test('it should display aucune campagne', async function (assert) {
+      // given
       this.set('campaigns', []);
 
       // when
-      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+
       // then
-      assert.contains('Aucune campagne');
+      assert.dom(screen.getByText('Aucune campagne')).exists();
     });
   });
 
   module('when there are campaigns', function () {
+    test('it should display campaign columns', async function (assert) {
+      // given
+      const campaign = {
+        id: 1,
+        name: 'C1',
+        archivedAt: new Date('2021-01-01'),
+        type: 'ASSESSMENT',
+        code: '123',
+        createdAt: new Date('2021-01-02'),
+        creatorLastName: 'K',
+        creatorFirstName: 'K',
+      };
+      const campaigns = [campaign];
+      campaigns.meta = { rowCount: 1 };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+
+      // then
+      assert.dom(screen.getByText('ID')).exists();
+      assert.dom(screen.getByText('Code')).exists();
+      assert.dom(screen.getByText('Nom')).exists();
+      assert.dom(screen.getByText('Type')).exists();
+      assert.dom(screen.getByText('Créée le')).exists();
+      assert.dom(screen.getByText('Créée par')).exists();
+      assert.dom(screen.getByText('Propriétaire')).exists();
+      assert.dom(screen.getByText('Archivée le')).exists();
+    });
+
     test('it should display a list of campaigns', async function (assert) {
       const campaign1 = {
         id: 1,
@@ -42,8 +74,9 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       const campaigns = [campaign1, campaign2];
       campaigns.meta = { rowCount: 2 };
       this.set('campaigns', campaigns);
+
       // when
-      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom('[aria-label="campagne"]').exists({ count: 2 });
@@ -59,6 +92,8 @@ module('Integration | Component | organizations/campaigns-section', function (ho
         createdAt: new Date('2021-01-02'),
         creatorLastName: 'King',
         creatorFirstName: 'Karam',
+        ownerLastName: 'Di',
+        ownerFirstName: 'Amar',
       };
       const campaign2 = {
         id: 2,
@@ -67,30 +102,38 @@ module('Integration | Component | organizations/campaigns-section', function (ho
         type: 'PROFILE_COLLECTION',
         code: '456',
         createdAt: new Date('2021-01-04'),
-        creatorLastName: 'JJ',
-        creatorFirstName: 'AA',
+        creatorLastName: 'Elizabeth',
+        creatorFirstName: 'Queen',
+        ownerLastName: 'Credi',
+        ownerFirstName: 'Amer',
       };
       const campaigns = [campaign1, campaign2];
       campaigns.meta = { rowCount: 2 };
       this.set('campaigns', campaigns);
+
       // when
-      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+
       // then
-      assert.contains('C1');
-      assert.contains('Évaluation');
-      assert.contains('123');
-      assert.contains('Karam King');
-      assert.contains('01/01/2021');
-      assert.contains('02/01/2021');
-      assert.contains('C2');
-      assert.contains('Collecte de profils');
-      assert.contains('123');
-      assert.contains('Karam King');
-      assert.contains('01/01/2021');
-      assert.contains('02/01/2021');
+      assert.dom(screen.getByText('C1')).exists();
+      assert.dom(screen.getByText('Évaluation')).exists();
+      assert.dom(screen.getByText('123')).exists();
+      assert.dom(screen.getByText('Karam King')).exists();
+      assert.dom(screen.getByText('Amar Di')).exists();
+      assert.dom(screen.getByText('01/01/2021')).exists();
+      assert.dom(screen.getByText('02/01/2021')).exists();
+
+      assert.dom(screen.getByText('C2')).exists();
+      assert.dom(screen.getByText('Collecte de profils')).exists();
+      assert.dom(screen.getByText('456')).exists();
+      assert.dom(screen.getByText('Queen Elizabeth')).exists();
+      assert.dom(screen.getByText('Amer Credi')).exists();
+      assert.dom(screen.getByText('03/01/2021')).exists();
+      assert.dom(screen.getByText('04/01/2021')).exists();
     });
 
     test('it should display - when there is no archivedAt date', async function (assert) {
+      // given
       const campaign = {
         id: 1,
         name: 'C1',
@@ -106,9 +149,10 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+
       // then
-      assert.contains('-');
+      assert.dom(screen.getByText('-')).exists();
     });
   });
 });
