@@ -1,13 +1,9 @@
 const faker = require('faker');
 const get = require('lodash/get');
 const isUndefined = require('lodash/isUndefined');
-
-module.exports = {
-  foundNextChallenge,
-  handleResponseForChallengeId,
-  setupSignupFormData,
-  generateLengthyValue,
-};
+const fs = require('fs');
+const sizeof = require('sizeof');
+let candidates;
 
 function foundNextChallenge(context, next) {
   const continueLooping = !isUndefined(context.vars.challengeId);
@@ -33,3 +29,26 @@ function generateLengthyValue(context, events, done) {
   context.vars['lengthyValue'] = 'X'.repeat(oneMillion);
   return done();
 }
+
+function loadCandidateData() {
+  const fileName = '/tmp/liste-candidats-session-11.ods';
+  candidates = fs.readFileSync(fileName, 'utf8');
+  console.log(`Candidates from file ${fileName} have been loaded in memory`);
+  console.log('Memory used: ' + sizeof.sizeof(candidates, true));
+}
+
+loadCandidateData();
+
+const setVarInContext = function(context, events, done) {
+  context.vars['candidates'] = candidates;
+  return done();
+};
+
+module.exports = {
+  foundNextChallenge,
+  handleResponseForChallengeId,
+  setupSignupFormData,
+  generateLengthyValue,
+  setVarInContext,
+};
+
