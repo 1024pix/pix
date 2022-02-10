@@ -160,43 +160,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       });
     });
 
-    context('CATEGORY: CONNECTION_OR_END_SCREEN', function () {
-      let certificationIssueReportDTO;
-
-      beforeEach(function () {
-        certificationIssueReportDTO = {
-          certificationCourseId: 123,
-          category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
-        };
-      });
-
-      it('should create a CONNECTION_OR_END_SCREEN CertificationIssueReport', function () {
-        expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
-          CertificationIssueReport
-        );
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
-        it(`should create a CONNECTION_OR_END_SCREEN CertificationIssueReport when description is empty with value ${emptyValue}`, function () {
-          // when
-          expect(
-            CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue })
-          ).to.be.an.instanceOf(CertificationIssueReport);
-        });
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
-        it(`should create CONNECTION_OR_END_SCREEN CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function () {
-          // when
-          expect(
-            CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue })
-          ).to.be.an.instanceOf(CertificationIssueReport);
-        });
-      });
-    });
-
     context('CATEGORY: IN_CHALLENGE', function () {
       let certificationIssueReportDTO;
 
