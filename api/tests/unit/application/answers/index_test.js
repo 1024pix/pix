@@ -1,6 +1,7 @@
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const moduleUnderTest = require('../../../../lib/application/answers');
 const answerController = require('../../../../lib/application/answers/answer-controller');
+const { features } = require('../../../../lib/config');
 
 describe('Unit | Application | Router | answer-router', function () {
   describe('POST /api/answers', function () {
@@ -37,8 +38,7 @@ describe('Unit | Application | Router | answer-router', function () {
       sinon.stub(answerController, 'save').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
-      const USER_ANSWERS_MAX_LENGTH = 500;
-      const value = 'X'.repeat(USER_ANSWERS_MAX_LENGTH + 1);
+      const value = 'X'.repeat(features.userAnswersMaxLength + 1);
 
       const payload = {
         data: {
