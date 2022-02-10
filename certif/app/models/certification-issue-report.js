@@ -4,7 +4,6 @@ export const certificationIssueReportCategories = {
   OTHER: 'OTHER',
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
   LATE_OR_LEAVING: 'LATE_OR_LEAVING',
-  CONNECTION_OR_END_SCREEN: 'CONNECTION_OR_END_SCREEN',
   IN_CHALLENGE: 'IN_CHALLENGE',
   FRAUD: 'FRAUD',
   TECHNICAL_PROBLEM: 'TECHNICAL_PROBLEM',
@@ -30,7 +29,6 @@ export const categoryToLabel = {
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'Retard, absence ou départ',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
   [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique non bloquant',
-  [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'Le candidat n’a pas pu terminer, faute de temps',
   [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème technique sur une question',
 };
 
@@ -56,7 +54,6 @@ export const subcategoryToLabel = {
 export const categoryToCode = {
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'C1-C2',
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'C3-C4',
-  [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'C5',
   [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E9',
   [certificationIssueReportCategories.FRAUD]: 'C6',
   [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',

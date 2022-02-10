@@ -73,7 +73,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
   test('it should show Mes signalements (2)', async function (assert) {
     // given
     const issue1 = EmberObject.create({
-      category: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+      category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
     });
 
     const issue2 = EmberObject.create({
@@ -109,16 +109,11 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
   test('it should list existing issue reports with subcategory', async function (assert) {
     // given
     const issue1 = EmberObject.create({
-      category: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
-      categoryLabel: categoryToLabel[certificationIssueReportCategories.CONNECTION_OR_END_SCREEN],
-    });
-
-    const issue2 = EmberObject.create({
       category: certificationIssueReportCategories.LATE_OR_LEAVING,
       categoryLabel: categoryToLabel[certificationIssueReportCategories.LATE_OR_LEAVING],
     });
 
-    const issue3 = EmberObject.create({
+    const issue2 = EmberObject.create({
       category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
       categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
       subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
@@ -127,7 +122,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
 
     const report = EmberObject.create({
       certificationCourseId: 1,
-      certificationIssueReports: [issue1, issue2, issue3],
+      certificationIssueReports: [issue1, issue2],
       firstName: 'Lisa',
       lastName: 'Monpud',
       hasSeenEndTestScreen: false,
@@ -148,10 +143,9 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     `);
 
     // then
-    assert.contains(categoryToLabel[certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]);
     assert.contains(categoryToLabel[certificationIssueReportCategories.LATE_OR_LEAVING]);
     assert.contains(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]);
     assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]);
-    assert.dom('li').exists({ count: 3 });
+    assert.dom('li').exists({ count: 2 });
   });
 });
