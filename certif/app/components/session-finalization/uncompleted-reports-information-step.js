@@ -15,7 +15,7 @@ export default class UncompletedReportsInformationStep extends Component {
 
   get abortOptions() {
     return [
-      { label: 'Abandon du candidat', value: 'candidate' },
+      { label: 'Abandon : Manque de temps ou départ prématuré', value: 'candidate' },
       { label: 'Problème technique', value: 'technical' },
     ];
   }
