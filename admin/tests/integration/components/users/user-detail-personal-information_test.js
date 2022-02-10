@@ -110,6 +110,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         id: 1,
         firstName: 'John',
         lastName: 'Harry',
+        canBeDissociated: true,
         destroyRecord: destroyRecordStub,
       });
       const user = EmberObject.create({
@@ -124,7 +125,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
-      await click('button[data-test-dissociate-schooling-registration]');
+      await clickByLabel('Dissocier');
 
       // then
       assert.contains('Confirmer la dissociation');
@@ -137,6 +138,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         id: 1,
         firstName: 'John',
         lastName: 'Harry',
+        canBeDissociated: true,
         destroyRecord: destroyRecordStub,
       });
       const user = EmberObject.create({
@@ -149,7 +151,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[data-test-dissociate-schooling-registration]');
+      await clickByLabel('Dissocier');
 
       // when
       await clickByLabel('Annuler');
@@ -166,6 +168,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         id: 1,
         firstName: 'John',
         lastName: 'Harry',
+        canBeDissociated: true,
         destroyRecord: destroyRecordStub,
       });
       const user = EmberObject.create({
@@ -178,7 +181,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
-      await click('button[data-test-dissociate-schooling-registration]');
+      await clickByLabel('Dissocier');
 
       // when
       await clickByLabel('Oui, je dissocie');

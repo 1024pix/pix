@@ -51,14 +51,15 @@
             {{/if}}
           </td>
           <td>
-            <PixButton
-              @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
-              @size="small"
-              @backgroundColor="red"
-              data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
-            >
-              Dissocier
-            </PixButton>
+            {{#if schoolingRegistration.canBeDissociated}}
+              <PixButton
+                @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
+                @size="small"
+                @backgroundColor="red"
+              >
+                Dissocier
+              </PixButton>
+            {{/if}}
           </td>
         </tr>
       {{else}}
