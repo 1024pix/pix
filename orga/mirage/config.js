@@ -307,6 +307,12 @@ export default function () {
 
   this.patch('/campaigns/:id');
 
+  this.put('/campaigns/:id/archive', (schema, request) => {
+    const id = request.params.id;
+    const campaign = schema.campaigns.findBy({ id });
+    return campaign.update({ isArchived: true });
+  });
+
   this.get('/organizations/:id/target-profiles', (schema) => {
     return schema.targetProfiles.all();
   });

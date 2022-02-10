@@ -10,6 +10,7 @@
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
+  min-height: 60px;
 
   &__text {
     display: flex;

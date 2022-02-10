@@ -4,8 +4,14 @@
       <FaIcon class="campaign-archived-banner__icon" @icon="archive" />
       <span>{{t "pages.campaign.archived"}}</span>
     </div>
-    <PixButton @triggerAction={{this.unarchiveCampaign}} @backgroundColor="transparent-dark" @isBorderVisible={{true}}>
-      {{t "pages.campaign.actions.unarchive"}}
-    </PixButton>
+    {{#if this.displayUnarchiveButton}}
+      <PixButton
+        @triggerAction={{this.unarchiveCampaign}}
+        @backgroundColor="transparent-dark"
+        @isBorderVisible={{true}}
+      >
+        {{t "pages.campaign.actions.unarchive"}}
+      </PixButton>
+    {{/if}}
   </div>
 {{/if}}
