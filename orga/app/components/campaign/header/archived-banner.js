@@ -6,6 +6,7 @@ export default class CampaignArchivedBanner extends Component {
   @service store;
   @service notifications;
   @service intl;
+  @service currentUser;
 
   @action
   async unarchiveCampaign() {
@@ -15,5 +16,13 @@ export default class CampaignArchivedBanner extends Component {
     } catch (err) {
       this.notifications.error(this.intl.t('api-errors-messages.global'));
     }
+  }
+
+  get displayUnarchiveButton() {
+    const isCurrentUserAdmin = this.currentUser.prescriber.isAdminOfTheCurrentOrganization;
+    const isCurrentUserOwnerOfTheCampaign = parseInt(this.currentUser.prescriber.id) === this.args.campaign.ownerId;
+    const isCurrentUserAllowedToUnarchiveCampaign = isCurrentUserAdmin || isCurrentUserOwnerOfTheCampaign;
+
+    return isCurrentUserAllowedToUnarchiveCampaign;
   }
 }
