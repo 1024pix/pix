@@ -433,4 +433,28 @@ module('Unit | Model | session', function (hooks) {
       });
     });
   });
+
+  module('#displayHasSeenEndTestScreenColumn', function () {
+    test('should display false when hasSupervisorAccess is true', function (assert) {
+      // given
+      const session = store.createRecord('session', { hasSupervisorAccess: true });
+
+      // when
+      const displayHasSeenEndTestScreenColumn = session.displayHasSeenEndTestScreenColumn;
+
+      // then
+      assert.false(displayHasSeenEndTestScreenColumn);
+    });
+
+    test('should display true when hasSupervisorAccess is false', function (assert) {
+      // given
+      const session = store.createRecord('session', { hasSupervisorAccess: false });
+
+      // when
+      const displayHasSeenEndTestScreenColumn = session.displayHasSeenEndTestScreenColumn;
+
+      // then
+      assert.true(displayHasSeenEndTestScreenColumn);
+    });
+  });
 });
