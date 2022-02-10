@@ -126,6 +126,11 @@ export default class Session extends Model {
     return statusToDisplayName[this.status];
   }
 
+  @computed('hasSupervisorAccess')
+  get displayHasSeenEndTestScreenColumn() {
+    return !this.hasSupervisorAccess;
+  }
+
   getDownloadLink = memberAction({
     path: 'generate-results-download-link',
     type: 'get',
