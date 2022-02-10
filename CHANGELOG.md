@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v3.166.0 (10/02/2022)
+
+
+### :rocket: Enhancement
+- [#4049](https://github.com/1024pix/pix/pull/4049) [FEATURE] Afficher le propriétaire d'une campagne sur Pix Admin (PIX-4326).
+- [#4055](https://github.com/1024pix/pix/pull/4055) [FEATURE] Affichage liste tutos (items V1) (PIX-4339)
+- [#4051](https://github.com/1024pix/pix/pull/4051) [FEATURE] Permettre à l'équipe contenu d'utiliser la class sr-only dans les épreuves (PIX-4333).
+- [#4039](https://github.com/1024pix/pix/pull/4039) [FEATURE] Ajouter la tarification de la part Pix dans le template des candidats (PIX-4324). 
+- [#4041](https://github.com/1024pix/pix/pull/4041) [FEATURE] Afficher les cases de fin de test lors d'une finalisation de session qui n'a pas été effectuée avec l'espace surveillant (PIX-4223).
+- [#4032](https://github.com/1024pix/pix/pull/4032) [FEATURE] Empêcher les membres de Pix Orga de modifier une campagne s'ils n'en sont pas propriétaires (PIX-4077)
+- [#4045](https://github.com/1024pix/pix/pull/4045) [FEATURE] Permettre de désactiver pour tous la visualisation des acquis dans l'export CSV de campagnes via un script (PIX-4106).
+- [#4026](https://github.com/1024pix/pix/pull/4026) [FEATURE] Ajouter le lien vers la politique de confidentialité sur la double mire inscription/connexion sur Pix Orga (PIX-4162)
+- [#4038](https://github.com/1024pix/pix/pull/4038) [FEATURE] Ajouter un accordéon sur la sélection des sujets (PIX-4169)
+- [#4042](https://github.com/1024pix/pix/pull/4042) [FEATURE] Ajoute les boutons de filtres sur le header des tutoriels v2 (PIX-4296)
+
+### :building_construction: Tech
+- [#4048](https://github.com/1024pix/pix/pull/4048) [TECH] Afficher les logs de test si besoin dans les IDE (PIX-4334)
+- [#4056](https://github.com/1024pix/pix/pull/4056) [TECH] Génère le fichier cron.json conditionnellement au moment du build 
+- [#4054](https://github.com/1024pix/pix/pull/4054) [TECH] Supprimer les étapes de checkout inutiles dans les GitHub actions. 
+- [#3969](https://github.com/1024pix/pix/pull/3969) [TECH] Refacto du usecase start-campaign-participation (PIX-4157)
+
+### :bug: Bug fix
+- [#4047](https://github.com/1024pix/pix/pull/4047) [BUGFIX] sauvegarder une description à la création d'un profile cible (PIX-4285)
+- [#4058](https://github.com/1024pix/pix/pull/4058) [BUGFIX] Afficher le niveau de conformité a11y dans le footer de mon-pix (PIX-4347)
+- [#3992](https://github.com/1024pix/pix/pull/3992) [BUGFIX] Corriger la longueur des champs input quand les contenus sont trop longs (PIX-4261)
+
+### :coffee: Various
+- [#4060](https://github.com/1024pix/pix/pull/4060) [DOCS] Corrige un lien du CONTRIBUTING pour accéder au CHANGELOG
+
 ## v3.165.0 (08/02/2022)
 
 
