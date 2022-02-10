@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { POLE_EMPLOI_CAMPAIGN_ID } = require('./campaigns-builder');
+const { POLE_EMPLOI_CAMPAIGN_ID } = require('./campaigns-pro-builder');
 
 module.exports = function poleEmploisSendingsBuilder({ databaseBuilder }) {
   const _generateStatus = () => {
