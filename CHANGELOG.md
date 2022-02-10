@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.167.0 (10/02/2022)
+
+
+### :rocket: Enhancement
+- [#4071](https://github.com/1024pix/pix/pull/4071) [FEATURE] Mettre à jour le footer d'accessibilité de Pix Orga en "partiellement conforme" (PIX-4344).
+- [#4043](https://github.com/1024pix/pix/pull/4043) [FEATURE] Empêcher les membres de PixOrga d'archiver ou de désarchiver une campagne s'ils n'en sont pas propriétaires (PIX-4318)
+
+### :building_construction: Tech
+- [#4073](https://github.com/1024pix/pix/pull/4073) [TECH] Permettre la gestion de la longueur max des réponses via variable d'env
+- [#4044](https://github.com/1024pix/pix/pull/4044) [TECH] Amélioration des seeds pour la prescription (PIX-4327).
+
 ## v3.166.0 (10/02/2022)
 
 
