@@ -7,7 +7,14 @@ const pick = require('lodash/pick');
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-const campaignParticipationAttributes = ['id', 'campaignId', 'userId', 'status', 'schoolingRegistrationId'];
+const campaignParticipationAttributes = [
+  'id',
+  'campaignId',
+  'userId',
+  'status',
+  'schoolingRegistrationId',
+  'participantExternalId',
+];
 const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', 'isImproving'];
 
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
@@ -213,6 +220,29 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipations = await knex('campaign-participations').pluck('id').where({ isImproved: true });
 
         expect(campaignParticipations).to.deep.equal([previousCampaignParticipationId]);
+      });
+    });
+
+    context('when external id is asked', function () {
+      it('save participant external id', async function () {
+        const campaignParticipant = await makeCampaignParticipant({
+          campaignAttributes: { idPixLabel: 'some external id' },
+          userId,
+          schoolingRegistrationId,
+          participantExternalId: 'some participant external id',
+        });
+
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        const campaignParticipation = await knex('campaign-participations')
+          .select(campaignParticipationAttributes)
+          .first();
+
+        expect(campaignParticipation).to.deep.equal(
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
+        );
       });
     });
 
