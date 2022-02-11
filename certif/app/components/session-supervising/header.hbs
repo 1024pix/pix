@@ -1,14 +1,14 @@
 <div class="session-supervising-header">
-  <PixButtonLink
+  <PixButton
     aria-label="Quitter la surveillance de la session {{@session.id}}"
-    @route="login-session-supervisor"
     @size="small"
+    @triggerAction={{this.askUserToConfirmLeaving}}
     @backgroundColor="transparent-light"
     @isBorderVisible="true"
     class="session-supervising-header__quit"
   >
     <FaIcon @icon="sign-out-alt" />Quitter
-  </PixButtonLink>
+  </PixButton>
   <h1 class="session-supervising-header__title">Session {{@session.id}}</h1>
   <time class="session-supervising-header__date">
     {{moment-format @session.date "DD/MM/YYYY"}}
@@ -30,4 +30,22 @@
       {{@session.examiner}}
     </p>
   </div>
+
+  {{#if this.isConfirmationModalDisplayed}}
+    <SessionSupervising::ConfirmationModal
+      @closeConfirmationModal={{this.closeConfirmationModal}}
+      @actionOnConfirmation={{this.actionConfirmation}}
+      @candidate={{this.candidate}}
+      @modalCancelText={{this.modalCancelText}}
+      @modalConfirmationButtonText={{this.modalConfirmationText}}
+    >
+      <:instruction>
+        {{this.modalInstructionText}}
+      </:instruction>
+      <:description>
+        {{this.modalDescriptionText}}
+      </:description>
+    </SessionSupervising::ConfirmationModal>
+
+  {{/if}}
 </div>
