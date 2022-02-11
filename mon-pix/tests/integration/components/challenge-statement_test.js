@@ -4,7 +4,6 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
 
 describe('Integration | Component | ChallengeStatement', function () {
   setupIntlRenderingTest();
@@ -23,7 +22,7 @@ describe('Integration | Component | ChallengeStatement', function () {
                           @assessment={{this.assessment}}/>`);
   }
 
-  beforeEach(async function () {
+  beforeEach(function () {
     class currentUser extends Service {
       user = {
         hasSeenFocusedChallengeTooltip: false,
@@ -39,17 +38,6 @@ describe('Integration | Component | ChallengeStatement', function () {
    */
 
   describe('Instruction section:', function () {
-    let clock;
-    const februaryTheFifth = new Date(2017, 1, 5);
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers(februaryTheFifth);
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
     it('should render challenge instruction if it exists', async function () {
       // given
@@ -162,6 +150,42 @@ describe('Integration | Component | ChallengeStatement', function () {
       // then
       expect(find('.tooltip__tag--regular')).to.exist;
       expect(find('.tooltip__tag--focused')).to.not.exist;
+    });
+
+    it('should have a screen reader only warning if challenge has an embed', async function () {
+      // given
+      addChallengeToContext(this, {
+        hasValidEmbedDocument: true,
+        id: 'rec_challenge',
+        instruction: 'La consigne de mon test',
+      });
+      addAssessmentToContext(this, { id: '267845' });
+
+      // when
+      await renderChallengeStatement(this);
+
+      // then
+      expect(find('.challenge-statement__instruction-section > .sr-only'))
+        .to.have.property('textContent')
+        .that.contains(this.intl.t('pages.challenge.statement.sr-only.embed'));
+    });
+
+    it('should have a screen reader only warning if challenge has an alternative instruction', async function () {
+      // given
+      addChallengeToContext(this, {
+        id: 'rec_challenge',
+        instruction: 'La consigne de mon test',
+        alternativeInstruction: 'La consigne alternative de mon test',
+      });
+      addAssessmentToContext(this, { id: '267845' });
+
+      // when
+      await renderChallengeStatement(this);
+
+      // then
+      expect(find('.challenge-statement__instruction-section > .sr-only'))
+        .to.have.property('textContent')
+        .that.contains(this.intl.t('pages.challenge.statement.sr-only.alternative-instruction'));
     });
   });
 
