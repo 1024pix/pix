@@ -1,13 +1,17 @@
-<div class="tutorial-card-v2">
-
+<article class="tutorial-card-v2">
   <div class="tutorial-card-v2__domain-border"></div>
-
   <div class="tutorial-card-v2__content">
     {{! template-lint-disable no-bare-strings }}
-    <div class="tutorial-card-v2-content__skill">
+    <p class="tutorial-card-v2-content__skill">
       Mener une recherche et une veille d'information
-    </div>
-    <a target="_blank" rel="noopener noreferrer" href="{{@tutorial.link}}" class="tutorial-card-v2-content__link">
+    </p>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="{{@tutorial.link}}"
+      class="tutorial-card-v2-content__link"
+      title="{{@tutorial.title}}"
+    >
       {{@tutorial.title}}
     </a>
     <p class="tutorial-card-v2-content__details">
@@ -28,5 +32,4 @@
       </button>
     </div>
   </div>
-
-</div>
+</article>

@@ -1,11 +1,11 @@
 .tutorial-card-v2 {
+  display: flex;
   min-height: 170px;
   background: $white;
   border-radius: 8px;
   box-shadow: 0 2px 5px 0 rgba($grey-90, 0.06);
   padding: 16px;
   gap: 12px;
-  display: flex;
 
   &__domain-border {
     width: 3px;
@@ -21,9 +21,10 @@
 }
 
 .tutorial-card-v2-content {
+
   &__skill {
-    margin-bottom: 16px;
-    width: 274px;
+    margin: 0 0 16px 0;
+    width: 100%;
     color: $grey-50;
     font-family: $font-roboto;
     font-size: 0.813rem;
@@ -34,11 +35,17 @@
   }
 
   &__link {
+    display: -webkit-box;
     margin-bottom: 4px;
     color: $grey-90;
     font-size: 1rem;
     font-family: $font-open-sans;
     font-weight: $font-semi-bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
 
     @include device-is('tablet') {
       font-size: 1.125rem;
@@ -47,12 +54,6 @@
     &:hover,
     &:focus {
       color: $blue;
-    }
-
-    &::after {
-      @include external-link;
-
-      margin-left: 8px;
     }
   }
 
