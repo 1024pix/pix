@@ -51,6 +51,15 @@ module.exports = {
     return !!associatedBadge;
   },
 
+  async isRelatedToCertification(badgeId) {
+    const partnerCertificationBadge = await knex('partner-certifications')
+      .join('badges', 'partnerKey', 'key')
+      .where('badges.id', badgeId)
+      .first();
+    const complementaryCertificationBadge = await knex('complementary-certification-badges').where({ badgeId }).first();
+    return !!(partnerCertificationBadge || complementaryCertificationBadge);
+  },
+
   async get(id) {
     const bookshelfBadge = await BookshelfBadge.where('id', id).fetch({
       withRelated: ['badgeCriteria', 'skillSets'],
@@ -93,6 +102,7 @@ module.exports = {
   async delete(badgeId) {
     await knex.transaction(async (trx) => {
       await trx('badge-criteria').where({ badgeId }).del();
+      await trx('skill-sets').where({ badgeId }).del();
       return trx('badges').where({ id: badgeId }).del();
     });
 

@@ -117,6 +117,8 @@ describe('Integration | Repository | Badge', function () {
     await knex('skill-sets').delete();
     await knex('badge-criteria').delete();
     await knex('badge-acquisitions').delete();
+    await knex('partner-certifications').delete();
+    await knex('complementary-certification-badges').delete();
     await knex('badges').delete();
   });
 
@@ -560,15 +562,86 @@ describe('Integration | Repository | Badge', function () {
     });
   });
 
+  describe('#hasBeenAcquiredDuringCertification', function () {
+    describe('when the badge is not acquired', function () {
+      it('should return false', async function () {
+        // given
+        const badgeId = databaseBuilder.factory.buildBadge({ id: 1 }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const hasBeenAcquired = await badgeRepository.isRelatedToCertification(badgeId);
+
+        // then
+        expect(hasBeenAcquired).to.be.false;
+      });
+    });
+
+    describe('when the badge is present in partner-certification', function () {
+      it('should return true', async function () {
+        // given
+        const badge = databaseBuilder.factory.buildBadge();
+        databaseBuilder.factory.buildPartnerCertification({ partnerKey: badge.key });
+        await databaseBuilder.commit();
+
+        // when
+        const isNotAssociated = await badgeRepository.isRelatedToCertification(badge.id);
+
+        // then
+        expect(isNotAssociated).to.be.true;
+      });
+    });
+
+    describe('when the badge is present in complementary-certification-badges', function () {
+      it('should return true', async function () {
+        // given
+        const badge = databaseBuilder.factory.buildBadge();
+        databaseBuilder.factory.buildPartnerCertification({ partnerKey: badge.key });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId: null,
+          badgeId: badge.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const isNotAssociated = await badgeRepository.isRelatedToCertification(badge.id);
+
+        // then
+        expect(isNotAssociated).to.be.true;
+      });
+    });
+
+    describe('when the badge is present in both complementary-certification-badges and partner-certifications', function () {
+      it('should return true', async function () {
+        // given
+        const badgeId = databaseBuilder.factory.buildBadge().id;
+        databaseBuilder.factory.buildComplementaryCertificationBadge({ complementaryCertificationId: null, badgeId });
+        await databaseBuilder.commit();
+
+        // when
+        const isNotAssociated = await badgeRepository.isRelatedToCertification(badgeId);
+
+        // then
+        expect(isNotAssociated).to.be.true;
+      });
+    });
+  });
+
   describe('#delete', function () {
     describe('when the record to delete is in the table', function () {
       it('should return true when deletion goes well', async function () {
+        // given
+        const badgeId = databaseBuilder.factory.buildBadge().id;
+        databaseBuilder.factory.buildSkillSet({ badgeId });
+        await databaseBuilder.commit();
+
         // when
-        const badgeId = badgeWithSameTargetProfile_1.id;
         const isDeleted = await badgeRepository.delete(badgeId);
 
         // then
         expect(isDeleted).to.be.true;
+        const skillSetRowsCountAfterDeletion = await knex('skill-sets').where({ badgeId }).count();
+        expect(skillSetRowsCountAfterDeletion[0].count).to.equal(0);
       });
 
       it('should delete a single row in the table', async function () {
