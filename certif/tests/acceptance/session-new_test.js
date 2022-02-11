@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 
@@ -81,27 +81,13 @@ module('Acceptance | Session creation', function (hooks) {
 
       // then
       const session = server.schema.sessions.findBy({ date: sessionDate });
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.address, 'My address');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.room, 'My room');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.examiner, 'My examiner');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.description, 'My description');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.date, sessionDate);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(session.time, '13:45');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}`);
+      assert.strictEqual(session.address, 'My address');
+      assert.strictEqual(session.room, 'My room');
+      assert.strictEqual(session.examiner, 'My examiner');
+      assert.strictEqual(session.description, 'My description');
+      assert.strictEqual(session.date, sessionDate);
+      assert.strictEqual(session.time, '13:45');
+      assert.strictEqual(currentURL(), `/sessions/${session.id}`);
     });
 
     test('it should go back to sessions list on cancel without creating any sessions', async function (assert) {
@@ -114,12 +100,8 @@ module('Acceptance | Session creation', function (hooks) {
 
       // then
       const actualSessionsCount = server.schema.sessions.all().length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(previousSessionsCount, actualSessionsCount);
+      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(previousSessionsCount, actualSessionsCount);
     });
   });
 });
