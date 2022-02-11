@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.168.0 (11/02/2022)
+
+
+### :rocket: Enhancement
+- [#4068](https://github.com/1024pix/pix/pull/4068) [FEATURE] MAJ signalements page de finalisation : suppression C5  (PIX-4350)
+- [#4063](https://github.com/1024pix/pix/pull/4063) [FEATURE] Afficher un loader lorsque on clique sur le bouton Créer une campagne (PIX-4304). 
+- [#4066](https://github.com/1024pix/pix/pull/4066) [FEATURE] Mettre à jour la durée de conservation des documents sur la page de finalisation d'une session (PIX-4356)
+
+### :bug: Bug fix
+- [#4075](https://github.com/1024pix/pix/pull/4075) [BUGFIX] Sauvegarder l'identifiant externe du participant au démarrage de campagne (PIX-4366).
+
 ## v3.167.0 (10/02/2022)
 
 
