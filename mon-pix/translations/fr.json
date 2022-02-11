@@ -527,6 +527,10 @@
             "content": "Vous êtes libre d’utiliser internet ou des applications pour répondre à cette question.",
             "title": "Mode Libre"
           }
+        },
+        "sr-only": {
+          "embed": "Cette épreuve contient un simulateur.",
+          "alternative-instruction": "Cette épreuve a une consigne alternative."
         }
       },
       "timed": {
