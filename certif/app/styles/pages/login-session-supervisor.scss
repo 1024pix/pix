@@ -6,4 +6,37 @@
   background: $pix-certif-gradient;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   align-items: center;
+  justify-content: center;
+
+  .login-session-supervisor-page-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    &__current-user-email {
+      display: flex;
+      flex-direction: column;
+      border-radius: 0 0 10px 10px;
+      background: $grey-10;
+      align-items: center;
+      justify-content: center;
+      font-family: $roboto;
+      color: $blue-zodiac;
+      width: 100%;
+      font-size: 14px;
+      font-weight: normal;
+      height: 80px;
+      letter-spacing: 0.15px;
+      line-height: 22px;
+
+      svg {
+        margin-right: 8px;
+      }
+    }
+
+    &__logout {
+      margin-top: 4px;
+      color: $blue-zodiac;
+    }
+  }
 }
