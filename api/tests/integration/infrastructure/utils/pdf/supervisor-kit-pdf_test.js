@@ -39,6 +39,37 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
     expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
     expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
   });
+
+  context('when session details contains long labels', function () {
+    it('should return full supervisor kit as a buffer with long labels in multiple lines', async function () {
+      // given
+      const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+        id: 12345678,
+        supervisorPassword: 12344,
+        accessCode: 'WB64K2',
+        date: '2022-09-21',
+        examiner: 'Un nom très très très très très très très très très très long',
+        address: 'Une adresse qui ne tient pas sur une seule ligne',
+        room: 'Une salle particulièrement longue mais on ne sait jamais',
+      });
+      const expectedPdfPath = __dirname + '/kit-surveillant-with-long-labels_expected.pdf';
+
+      // when
+      const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
+        sessionForSupervisorKit,
+        creationDate: new Date('2021-01-01'),
+      });
+
+      // Note: to update the reference pdf, you can run the test with the following lines.
+      //
+      // const { writeFile } = require('fs/promises');
+      // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+
+      // then
+      expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+      expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+    });
+  });
 });
 
 // Warning: call _restorePdfLib() when finished /!\
