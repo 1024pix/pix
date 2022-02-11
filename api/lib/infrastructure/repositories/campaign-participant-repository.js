@@ -33,6 +33,7 @@ async function _createNewCampaignParticipation(queryBuilder, campaignParticipati
         userId: campaignParticipation.userId,
         status: campaignParticipation.status,
         schoolingRegistrationId: campaignParticipation.schoolingRegistrationId,
+        participantExternalId: campaignParticipation.participantExternalId,
       })
       .returning('id');
 
