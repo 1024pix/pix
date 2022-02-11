@@ -18,7 +18,7 @@
   {{/if}}
 
   <form class="login-session-supervisor-form__form" {{on "submit" this.superviseSession}}>
-    <PixInput @id="session-id" @label="Numéro de la session" type="number" @value={{this.sessionId}} />
+    <PixInput @id="session-id" @label="Numéro de la session" type="number" {{on "input" this.setSessionId}} />
 
     <PixInputPassword
       @id="session-password"
@@ -26,7 +26,7 @@
       @information="Exemple : C-12345"
       @prefix="C-"
       placeholder="XXXXXX"
-      @value={{this.supervisorPassword}}
+      {{on "input" this.setSupervisorPassword}}
     />
 
     <PixButton @type="submit">

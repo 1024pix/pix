@@ -25,10 +25,10 @@
           @id="login-email"
           name="login"
           @label="Adresse e-mail"
-          @value={{this.email}}
           autocomplete="email"
           type="email"
           required="true"
+          {{on "input" this.setEmail}}
         />
       </div>
 
@@ -37,9 +37,9 @@
           @id="login-password"
           name="password"
           @label="Mot de passe"
-          @value={{this.password}}
           autocomplete="current-password"
           required="true"
+          {{on "input" this.setPassword}}
         />
       </div>
 

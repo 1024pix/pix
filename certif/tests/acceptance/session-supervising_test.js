@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn, find } from '@ember/test-helpers';
+import { click, find, fillIn } from '@ember/test-helpers';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
 import sinon from 'sinon';

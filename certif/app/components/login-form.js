@@ -19,6 +19,16 @@ export default class LoginForm extends Component {
   }
 
   @action
+  setEmail(event) {
+    this.email = event.target.value;
+  }
+
+  @action
+  setPassword(event) {
+    this.password = event.target.value;
+  }
+
+  @action
   async authenticate(event) {
     event.preventDefault();
     const email = this.email ? this.email.trim() : '';
