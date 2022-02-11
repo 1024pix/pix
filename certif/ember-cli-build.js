@@ -23,7 +23,7 @@ module.exports = function (defaults) {
       testGenerator: 'qunit',
     },
     sassOptions: {
-      includePaths: ['node_modules/pix-ui/addon/styles'],
+      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
     },
   });
 
