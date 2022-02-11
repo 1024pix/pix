@@ -20,10 +20,9 @@ module('Integration | Component | SessionFinalization::FormbuilderLinkStep', fun
       "Cette étape, facultative, vous permet de nous transmettre tout document que vous jugerez utile de nous communiquer pour le traitement des sessions (capture d'écran d'un problème technique, PV de fraude...). Pour cela, suivez ce lien"
     );
     assert.contains(
-      "Il n'est plus obligatoire de nous transmettre la feuille d'émargement et le PV d'incident scannés. En revanche, ces deux documents doivent être conservés par votre établissement pendant une durée de 2 ans et pouvoir être fournis à Pix en cas de besoin."
+      "Il n'est plus obligatoire de nous transmettre la feuille d'émargement et le PV d'incident scannés. En revanche, ces deux documents doivent être conservés par votre établissement pendant une durée de 5 ans et pouvoir être fournis à Pix en cas de besoin."
     );
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(this.element.querySelector('a').getAttribute('href'), formBuilderLinkUrl);
+
+    assert.strictEqual(this.element.querySelector('a').getAttribute('href'), formBuilderLinkUrl);
   });
 });
