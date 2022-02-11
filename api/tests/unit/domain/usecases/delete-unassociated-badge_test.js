@@ -1,7 +1,10 @@
 const { sinon, expect, catchErr } = require('../../../test-helper');
 
 const deleteUnassociatedBadge = require('../../../../lib/domain/usecases/delete-unassociated-badge');
-const { BadgeForbiddenDeletionError } = require('../../../../lib/domain/errors');
+const {
+  AcquiredBadgeForbiddenDeletionError,
+  CertificationBadgeForbiddenDeletionError,
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
   let badgeId;
@@ -12,6 +15,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
     badgeRepository = {
       isAssociated: sinon.stub(),
       delete: sinon.stub(),
+      isRelatedToCertification: sinon.stub(),
     };
   });
 
@@ -29,7 +33,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       });
 
       // then
-      expect(response).to.deep.equal(true);
+      expect(response).to.equal(true);
     });
   });
 
@@ -46,7 +50,43 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       });
 
       // then
-      expect(err).to.be.instanceOf(BadgeForbiddenDeletionError);
+      expect(err).to.be.instanceOf(AcquiredBadgeForbiddenDeletionError);
+    });
+  });
+
+  context('When the badge is related to a certification', function () {
+    beforeEach(function () {
+      badgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(true);
+      badgeRepository.delete.withArgs(badgeId).resolves(true);
+    });
+
+    it('should not delete the badge', async function () {
+      // when
+      const error = await catchErr(deleteUnassociatedBadge)({
+        badgeId,
+        badgeRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(CertificationBadgeForbiddenDeletionError);
+    });
+  });
+
+  context('When the badge is not related to a certification', function () {
+    beforeEach(function () {
+      badgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(false);
+      badgeRepository.delete.withArgs(badgeId).resolves(true);
+    });
+
+    it('should delete the badge', async function () {
+      // when
+      const response = await deleteUnassociatedBadge({
+        badgeId,
+        badgeRepository,
+      });
+
+      // then
+      expect(response).to.equal(true);
     });
   });
 });
