@@ -1,6 +1,8 @@
 const { PDFDocument, rgb } = require('pdf-lib');
 const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
+const { toArrayOfFixedLengthStringsConservingWords } = require('../../utils/string-utils');
+const MAX_SESSION_DETAIL_LENGTH = 45;
 
 async function getSupervisorKitPdfBuffer({
   sessionForSupervisorKit,
@@ -72,35 +74,47 @@ function _drawSessionStartTime(sessionForSupervisorKit, page, font) {
 }
 
 function _drawSessionAddress(sessionForSupervisorKit, page, font) {
-  const address = sessionForSupervisorKit.address;
-  page.drawText(address, {
-    x: 60,
-    y: 614,
-    size: 8,
-    font,
-    color: rgb(0, 0, 0),
+  const addressArray = toArrayOfFixedLengthStringsConservingWords(
+    sessionForSupervisorKit.address,
+    MAX_SESSION_DETAIL_LENGTH
+  );
+  addressArray.forEach((address, index) => {
+    page.drawText(address, {
+      x: 60,
+      y: 614 - index * 10,
+      size: 8,
+      font,
+      color: rgb(0, 0, 0),
+    });
   });
 }
 
 function _drawSessionRoom(sessionForSupervisorKit, page, font) {
-  const room = sessionForSupervisorKit.room;
-  page.drawText(room, {
-    x: 60,
-    y: 582,
-    size: 8,
-    font,
-    color: rgb(0, 0, 0),
+  const roomArray = toArrayOfFixedLengthStringsConservingWords(sessionForSupervisorKit.room, MAX_SESSION_DETAIL_LENGTH);
+  roomArray.forEach((room, index) => {
+    page.drawText(room, {
+      x: 60,
+      y: 582 - index * 10,
+      size: 8,
+      font,
+      color: rgb(0, 0, 0),
+    });
   });
 }
 
 function _drawSessionExaminer(sessionForSupervisorKit, page, font) {
-  const examiner = sessionForSupervisorKit.examiner;
-  page.drawText(examiner, {
-    x: 60,
-    y: 547,
-    size: 8,
-    font,
-    color: rgb(0, 0, 0),
+  const examinerArray = toArrayOfFixedLengthStringsConservingWords(
+    sessionForSupervisorKit.examiner,
+    MAX_SESSION_DETAIL_LENGTH
+  );
+  examinerArray.forEach((examiner, index) => {
+    page.drawText(examiner, {
+      x: 60,
+      y: 547 - index * 10,
+      size: 8,
+      font,
+      color: rgb(0, 0, 0),
+    });
   });
 }
 
