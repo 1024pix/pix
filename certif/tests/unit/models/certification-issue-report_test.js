@@ -16,7 +16,7 @@ module('Unit | Model | certification issue report', function (hooks) {
   setupTest(hooks);
 
   test('it should return the right label for the category', function (assert) {
-    assert.expect(7);
+    assert.expect(6);
     // given
     const store = this.owner.lookup('service:store');
 
@@ -26,9 +26,7 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.categoryLabel, categoryToLabel[model.category]);
+      assert.strictEqual(model.categoryLabel, categoryToLabel[model.category]);
     }
   });
 
@@ -43,14 +41,12 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.subcategoryLabel, subcategoryToLabel[model.subcategory]);
+      assert.strictEqual(model.subcategoryLabel, subcategoryToLabel[model.subcategory]);
     }
   });
 
   test('it should return the right code for the category', function (assert) {
-    assert.expect(7);
+    assert.expect(6);
     // given
     const store = this.owner.lookup('service:store');
 
@@ -60,9 +56,7 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.categoryCode, categoryToCode[model.category]);
+      assert.strictEqual(model.categoryCode, categoryToCode[model.category]);
     }
   });
 
@@ -77,9 +71,7 @@ module('Unit | Model | certification issue report', function (hooks) {
 
     // when / then
     for (const model of models) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.subcategoryCode, subcategoryToCode[model.subcategory]);
+      assert.strictEqual(model.subcategoryCode, subcategoryToCode[model.subcategory]);
     }
   });
 
@@ -90,8 +82,6 @@ module('Unit | Model | certification issue report', function (hooks) {
     const model = run(() => store.createRecord('certification-issue-report', { subcategory: null }));
 
     // when / then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(model.subcategoryLabel, '');
+    assert.strictEqual(model.subcategoryLabel, '');
   });
 });

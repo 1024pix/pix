@@ -115,9 +115,6 @@ export default class AddIssueReportModal extends Component {
     name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
     subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   });
-  @tracked connectionOrEndScreenCategory = new RadioButtonCategory({
-    name: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
-  });
   @tracked inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
     name: certificationIssueReportCategories.IN_CHALLENGE,
     subcategory: certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
@@ -132,7 +129,6 @@ export default class AddIssueReportModal extends Component {
     this.otherCategory,
     this.lateOrLeavingCategory,
     this.candidateInformationChangeCategory,
-    this.connectionOrEndScreenCategory,
     this.inChallengeCategory,
     this.fraudCategory,
     this.technicalProblemCategory,
