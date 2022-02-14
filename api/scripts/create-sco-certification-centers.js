@@ -1,4 +1,4 @@
-const { checkCsvExtensionFile, parseCsvWithHeader } = require('./helpers/csvHelpers');
+const { parseCsvWithHeader } = require('./helpers/csvHelpers');
 
 const Bookshelf = require('../lib/infrastructure/bookshelf');
 
@@ -21,10 +21,6 @@ async function main() {
 
   try {
     const filePath = process.argv[2];
-
-    console.log('Check csv extension file... ');
-    checkCsvExtensionFile(filePath);
-    console.log('ok');
 
     console.log('Reading and parsing csv data file... ');
     const csvData = await parseCsvWithHeader(filePath);
