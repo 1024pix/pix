@@ -85,13 +85,15 @@
             data-test-id="session-info__number-of-issue-report"
           >{{this.sessionModel.countCertificationIssueReports}}</div>
         </div>
-        <div class="row">
-          <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
-          <div
-            class="col"
-            data-test-id="session-info__number-of-not-checked-end-screen"
-          >{{this.sessionModel.countNotCheckedEndScreen}}</div>
-        </div>
+        {{#unless this.sessionModel.hasSupervisorAccess}}
+          <div class="row">
+            <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
+            <div
+              class="col"
+              data-test-id="session-info__number-of-not-checked-end-screen"
+            >{{this.sessionModel.countNotCheckedEndScreen}}</div>
+          </div>
+        {{/unless}}
         <div class="row">
           <div class="col">Certifications non terminées traitées automatiquement :</div>
           <div

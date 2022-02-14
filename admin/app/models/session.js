@@ -44,6 +44,7 @@ export default class Session extends Model {
   @attr() publishedAt;
   @attr() juryComment;
   @attr() juryCommentedAt;
+  @attr('boolean') hasSupervisorAccess;
 
   @hasMany('jury-certification-summary') juryCertificationSummaries;
   @belongsTo('user') assignedCertificationOfficer;
@@ -123,6 +124,11 @@ export default class Session extends Model {
   @computed('status')
   get displayStatus() {
     return statusToDisplayName[this.status];
+  }
+
+  @computed('hasSupervisorAccess')
+  get displayHasSeenEndTestScreenColumn() {
+    return !this.hasSupervisorAccess;
   }
 
   getDownloadLink = memberAction({
