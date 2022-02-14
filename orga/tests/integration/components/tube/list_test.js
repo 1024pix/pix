@@ -25,7 +25,7 @@ module('Integration | Component | tube:list', function (hooks) {
         practicalDescription: 'Description 2',
       },
     ];
-    const thematics = [{ tubes }];
+    const thematics = [{ id: 'thematicId', name: 'thematic1', tubes }];
     const competences = [
       {
         get sortedThematics() {
@@ -59,7 +59,8 @@ module('Integration | Component | tube:list', function (hooks) {
 
     // then
     assert.dom('.row-tube').exists({ count: 2 });
-    assert.dom(this.element.querySelector('.row-tube')).hasText('Titre 1 : Description 1');
+    assert.dom(this.element.querySelector('[for="tube-tubeId1"]')).hasText('Titre 1 : Description 1');
+    assert.dom(this.element.querySelector('[for="tube-tubeId2"]')).hasText('Titre 2 : Description 2');
   });
 
   test('it should disable the download button if not tube is selected', async function (assert) {
@@ -86,5 +87,49 @@ module('Integration | Component | tube:list', function (hooks) {
     // then
     assert.dom('.download-file__button').doesNotHaveClass('pix-button--disabled');
     assert.dom(`.download-file__button[download="${expectedAttr}"]`).exists();
+  });
+
+  test('Enable the download button if a thematic is selected', async function (assert) {
+    // given
+    this.set('areas', areas);
+
+    // when
+    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    await clickByName('1 · Titre domaine');
+    await clickByName('thematic1');
+
+    // then
+    assert.dom('.download-file__button').doesNotHaveClass('pix-button--disabled');
+  });
+
+  test('Should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
+    // given
+    this.set('areas', areas);
+
+    // when
+    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const tube1 = document.getElementById('tube-tubeId1');
+    const tube2 = document.getElementById('tube-tubeId2');
+    await clickByName('1 · Titre domaine');
+    await clickByName('thematic1');
+
+    // then
+    assert.dom(tube1).isChecked();
+    assert.dom(tube2).isChecked();
+  });
+
+  test('Should check the thematics if all corresponding tubes are selected', async function (assert) {
+    // given
+    this.set('areas', areas);
+
+    // when
+    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const thematic = document.getElementById('thematic-thematicId');
+    await clickByName('1 · Titre domaine');
+    await clickByName('Titre 1 : Description 1');
+    await clickByName('Titre 2 : Description 2');
+
+    // then
+    assert.dom(thematic).isChecked();
   });
 });
