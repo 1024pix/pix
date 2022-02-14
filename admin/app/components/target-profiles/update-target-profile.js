@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { optionsCategoryList } from '../../models/target-profile';
 
 const Validations = buildValidations({
   name: {
@@ -63,32 +64,7 @@ export default class UpdateTargetProfile extends Component {
     this.form.comment = this.args.model.comment || null;
     this.form.category = this.args.model.category || null;
 
-    this.optionsList = [
-      {
-        value: 'OTHER',
-        label: 'Autre',
-      },
-      {
-        value: 'COMPETENCES',
-        label: 'Compétences Pix',
-      },
-      {
-        value: 'DISCIPLINE',
-        label: 'Disciplinaire',
-      },
-      {
-        value: 'PREDEFINED',
-        label: 'Prédéfini',
-      },
-      {
-        value: 'CUSTOM',
-        label: 'Sur-mesure',
-      },
-      {
-        value: 'SUBJECT',
-        label: 'Thématique',
-      },
-    ];
+    this.optionsList = this.optionsList = optionsCategoryList;
   }
 
   async _checkFormValidation() {

@@ -1,5 +1,19 @@
 import { memberAction } from 'ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
+import map from 'lodash/map';
+
+export const categories = {
+  COMPETENCES: 'Les 16 compétences',
+  SUBJECT: 'Thématiques',
+  DISCIPLINE: 'Disciplinaires',
+  CUSTOM: 'Parcours sur-mesure',
+  PREDEFINED: 'Parcours prédéfinis',
+  OTHER: 'Autres',
+};
+
+export const optionsCategoryList = map(categories, function (key, value) {
+  return { value: value, label: key };
+});
 
 export default class TargetProfile extends Model {
   @attr('string') name;
