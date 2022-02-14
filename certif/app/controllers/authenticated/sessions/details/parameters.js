@@ -60,6 +60,18 @@ export default class SessionParametersController extends Controller {
   removeSupervisorPasswordTooltip() {
     this.supervisorPasswordTooltipText = '';
   }
+
+  get isAccessCodeTooltipTextEmpty() {
+    return this.accessCodeTooltipText.length === 0;
+  }
+
+  get isSupervisorPasswordTooltipTextEmpty() {
+    return this.supervisorPasswordTooltipText.length === 0;
+  }
+
+  get isSessionNumberTooltipTextEmpty() {
+    return this.sessionNumberTooltipText.length === 0;
+  }
 }
 
 async function _waitForSeconds(timeoutInSeconds) {
