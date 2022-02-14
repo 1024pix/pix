@@ -119,8 +119,11 @@ describe('Unit | Controller | sessionController', function () {
         // given
         const foundJurySession = Symbol('foundSession');
         const serializedJurySession = Symbol('serializedSession');
-        usecases.getJurySession.withArgs({ sessionId }).resolves(foundJurySession);
-        jurySessionSerializer.serialize.withArgs(foundJurySession).resolves(serializedJurySession);
+        const hasSupervisorAccess = true;
+        usecases.getJurySession
+          .withArgs({ sessionId })
+          .resolves({ jurySession: foundJurySession, hasSupervisorAccess });
+        jurySessionSerializer.serialize.withArgs(foundJurySession, hasSupervisorAccess).resolves(serializedJurySession);
 
         // when
         const response = await sessionController.getJurySession(request, hFake);

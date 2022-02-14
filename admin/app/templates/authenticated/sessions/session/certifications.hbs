@@ -30,7 +30,10 @@
     </header>
 
     <div>
-      <Certifications::List @certifications={{this.model.juryCertificationSummaries}} />
+      <Certifications::List
+        @certifications={{this.model.juryCertificationSummaries}}
+        @displayHasSeenEndTestScreenColumn={{this.model.displayHasSeenEndTestScreenColumn}}
+      />
     </div>
   </div>
 </section>

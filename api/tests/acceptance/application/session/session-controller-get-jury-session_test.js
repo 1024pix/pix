@@ -29,6 +29,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
         certificationCenterId: certificationCenter.id,
         certificationCenter: certificationCenter.name,
       });
+      databaseBuilder.factory.buildSupervisorAccess({ sessionId: expectedJurySession.id });
       databaseBuilder.factory.buildSession();
       options = {
         method: 'GET',
@@ -73,6 +74,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
           expectedJurySession.resultsSentToPrescriberAt
         );
         expect(response.result.data.attributes['published-at']).to.equal(expectedJurySession.publishedAt);
+        expect(response.result.data.attributes['has-supervisor-access']).to.be.true;
         expect(parseInt(response.result.included[0].id)).to.equal(expectedJurySession.assignedCertificationOfficerId);
         expect(response.result.included[0].attributes['first-name']).to.equal('Pix');
         expect(response.result.included[0].attributes['last-name']).to.equal('Doe');
