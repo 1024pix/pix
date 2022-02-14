@@ -68,6 +68,14 @@ tbody {
     background-color: white;
   }
 
+  th.th--clickable {
+    background-color: white;
+
+    &:hover {
+      background-color: $grey-15;
+    }
+  }
+
   td {
     font-family: $roboto;
     font-size: 0.875rem;
@@ -127,6 +135,10 @@ th::first-letter {
   &--small {
     width: 6%;
     max-width: 150px;
+  }
+
+  &--medium {
+    width: 15%;
   }
 
   &--wide {
