@@ -1,19 +1,16 @@
 .login-session-supervisor-form {
   box-sizing: border-box;
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border-radius: 10px;
-  margin: 8px;
+  border-radius: 10px 10px 0 0;
   max-width: 463px;
-  height: 622px;
   padding: 32px 8px 16px;
   width: 100%;
 
   @include device-is('tablet') {
-    padding: 40px 60px;
+    padding: 40px 60px 10px 60px;
     margin: auto;
   }
 
@@ -61,33 +58,5 @@
     font-size: 0.8rem;
     margin: 0;
     text-align: center;
-  }
-
-  &__current-user-email {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    border-radius: 0 0 10px 10px;
-    bottom: 0;
-    background: $grey-10;
-    align-items: center;
-    justify-content: center;
-    font-family: $roboto;
-    color: $blue-zodiac;
-    width: 100%;
-    font-size: 14px;
-    font-weight: normal;
-    height: 80px;
-    letter-spacing: 0.15px;
-    line-height: 22px;
-
-    svg {
-      margin-right: 8px;
-    }
-  }
-
-  &__logout {
-    margin-top: 4px;
-    color: $blue-zodiac;
   }
 }
