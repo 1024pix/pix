@@ -618,7 +618,7 @@
     "preselect-target-profile": {
       "no-tube-selected": "Télécharger la sélection des sujets (JSON, { fileSize }ko)",
       "download": "Télécharger la sélection des sujets ({ numberOfTubesSelected }) (JSON, { fileSize }ko)",
-      "download-filename": "selection-sujets.json",
+      "download-filename": "selection-sujets-{ organizationName }-{ date }.json",
       "title": "Sélection des sujets",
       "table": {
         "caption": "Sélection des sujets",
