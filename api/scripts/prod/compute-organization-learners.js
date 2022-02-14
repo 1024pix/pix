@@ -2,6 +2,8 @@
 
 const { knex } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
+const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
+const campaignParticipationRepository = require('../../lib/infrastructure/repositories/campaign-participation-repository');
 
 let count;
 let total;
@@ -24,8 +26,21 @@ async function computeOrganizationLearners(concurrency = 1, log = true) {
   await bluebird.map(campaignParticipations, _computeOrganizationLearners, { concurrency });
 }
 
-async function _computeOrganizationLearners() {
-  return;
+async function _computeOrganizationLearners(campaignParticipation) {
+  await DomainTransaction.execute(async (domainTransaction) => {
+    const schoolingRegistrationId = await _getOrCreateTrainee({ campaignParticipation, domainTransaction });
+    await campaignParticipationRepository.update(
+      { id: campaignParticipation.id, schoolingRegistrationId },
+      domainTransaction
+    );
+  });
+
+  count++;
+  _log(`${count} / ${total}`);
+}
+
+async function _getOrCreateTrainee() {
+  return 1;
 }
 
 module.exports = computeOrganizationLearners;
