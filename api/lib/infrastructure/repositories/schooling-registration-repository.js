@@ -11,6 +11,7 @@ const {
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
+const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
 const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
@@ -242,6 +243,32 @@ module.exports = {
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
     }
+  },
+
+  async getSchoolingRegistrationForAdmin(schoolingRegistrationId) {
+    const schoolingRegistration = await knex('schooling-registrations')
+      .select(
+        'schooling-registrations.id as id',
+        'firstName',
+        'lastName',
+        'birthdate',
+        'division',
+        'group',
+        'organizationId',
+        'organizations.name as organizationName',
+        'schooling-registrations.createdAt as createdAt',
+        'schooling-registrations.updatedAt as updatedAt',
+        'isDisabled',
+        'organizations.isManagingStudents as organizationIsManagingStudents'
+      )
+      .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+      .where({ 'schooling-registrations.id': schoolingRegistrationId })
+      .first();
+
+    if (!schoolingRegistration) {
+      throw new NotFoundError(`Schooling registration not found for ID ${schoolingRegistrationId}`);
+    }
+    return new SchoolingRegistrationForAdmin(schoolingRegistration);
   },
 
   async dissociateUserFromSchoolingRegistration(schoolingRegistrationId) {

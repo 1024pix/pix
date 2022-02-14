@@ -1,15 +1,17 @@
 const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors');
 const CampaignParticipation = require('./CampaignParticipation');
 const Assessment = require('./Assessment');
+const SchoolingRegistration = require('./SchoolingRegistration');
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
 class CampaignParticipant {
-  constructor({ campaignToStartParticipation, schoolingRegistrationId, userId, previousCampaignParticipation }) {
+  constructor({ campaignToStartParticipation, schoolingRegistrationId, userIdentity, previousCampaignParticipation }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
     this.schoolingRegistrationId = schoolingRegistrationId;
-    this.userId = userId;
+    this.userIdentity = userIdentity;
     this.previousCampaignParticipation = previousCampaignParticipation;
+    this.schoolingRegistration = null;
   }
 
   start({ participantExternalId }) {
@@ -23,9 +25,18 @@ class CampaignParticipant {
       this.previousCampaignParticipation.isImproved = true;
     }
 
+    if (this._shouldBecomeTrainee()) {
+      this.schoolingRegistration = new SchoolingRegistration({
+        userId: this.userIdentity.id,
+        organizationId: this.campaignToStartParticipation.organizationId,
+        firstName: this.userIdentity.firstName,
+        lastName: this.userIdentity.lastName,
+      });
+    }
+
     if (this.campaignToStartParticipation.isAssessment) {
       this.assessment = Assessment.createForCampaign({
-        userId: this.userId,
+        userId: this.userIdentity.id,
         isImproving: startAgainCampaign,
         method: this.campaignToStartParticipation.assessmentMethod,
       });
@@ -34,10 +45,14 @@ class CampaignParticipant {
     this.campaignParticipation = CampaignParticipation.start({
       campaign: this.campaignToStartParticipation,
       campaignId: this.campaignToStartParticipation.id,
-      userId: this.userId,
+      userId: this.userIdentity.id,
       schoolingRegistrationId: this.schoolingRegistrationId,
       participantExternalId: participantExternalIdToUse,
     });
+  }
+
+  _shouldBecomeTrainee() {
+    return !this.campaignToStartParticipation.isRestricted && !this.schoolingRegistrationId;
   }
 
   _checkCanParticipateToCampaign(participantExternalId) {
@@ -51,7 +66,7 @@ class CampaignParticipant {
 
     if (this.previousCampaignParticipation && !this.campaignToStartParticipation.multipleSendings) {
       throw new AlreadyExistingCampaignParticipationError(
-        `User ${this.userId} has already a campaign participation with campaign ${this.campaignToStartParticipation.id}`
+        `User ${this.userIdentity.id} has already a campaign participation with campaign ${this.campaignToStartParticipation.id}`
       );
     }
     if (this.previousCampaignParticipation && this.previousCampaignParticipation.status !== 'SHARED') {

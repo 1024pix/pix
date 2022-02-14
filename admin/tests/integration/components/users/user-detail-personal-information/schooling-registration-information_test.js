@@ -126,12 +126,12 @@ module(
       assert.dom('[aria-label="Inscription désactivée"]').exists();
     });
 
-    test('should be able to dissociate user', async function (assert) {
+    test('should be able to dissociate user if it is enabled', async function (assert) {
       // given
       const toggleDisplayDissociateModal = sinon.stub();
       this.set('toggleDisplayDissociateModal', toggleDisplayDissociateModal);
       this.set('user', {
-        schoolingRegistrations: [{ firstName: 'some name' }],
+        schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: true }],
       });
 
       // when
@@ -143,6 +143,23 @@ module(
       // then
       sinon.assert.called(this.toggleDisplayDissociateModal);
       assert.ok(true);
+    });
+
+    test('should not be able to dissociate user if it is disabled', async function (assert) {
+      // given
+      const toggleDisplayDissociateModal = sinon.stub();
+      this.set('toggleDisplayDissociateModal', toggleDisplayDissociateModal);
+      this.set('user', {
+        schoolingRegistrations: [{ firstName: 'some name', canBeDissociated: false }],
+      });
+
+      // when
+      await render(
+        hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+      );
+
+      // then
+      assert.notContains('Dissocier');
     });
   }
 );

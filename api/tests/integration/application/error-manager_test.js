@@ -157,6 +157,13 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
+
+    it('responds Precondition Failed when a SchoolingRegistrationCannotBeDissociated occurs', async function () {
+      routeHandler.throws(new DomainErrors.SchoolingRegistrationCannotBeDissociatedError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('404 Not Found', function () {

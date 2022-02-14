@@ -4,6 +4,7 @@ const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../.
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
+const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 
 const {
   NotFoundError,
@@ -1666,6 +1667,39 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // when
       const result = await catchErr(schoolingRegistrationRepository.get)(nonExistentStudentId);
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
+    });
+  });
+
+  describe('#getSchoolingRegistrationForAdmin', function () {
+    let schoolingRegistrationId;
+
+    beforeEach(function () {
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return an instance of SchoolingRegistrationForAdmin', async function () {
+      // when
+      const schoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationForAdmin(
+        schoolingRegistrationId
+      );
+
+      // then
+      expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistrationForAdmin);
+      expect(schoolingRegistration.id).to.equal(schoolingRegistrationId);
+    });
+
+    it('should return a NotFoundError if no schoolingRegistration is found', async function () {
+      // given
+      const nonExistentSchoolingRegistrationId = 678;
+
+      // when
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationForAdmin)(
+        nonExistentSchoolingRegistrationId
+      );
 
       // then
       expect(result).to.be.instanceOf(NotFoundError);

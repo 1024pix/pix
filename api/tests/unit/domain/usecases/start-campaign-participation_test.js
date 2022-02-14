@@ -22,7 +22,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     // given
     const domainTransaction = Symbol('transaction');
     const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation();
-    const campaignParticipant = new CampaignParticipant({ campaignToStartParticipation, userId });
+    const campaignParticipant = new CampaignParticipant({ campaignToStartParticipation, userIdentity: { id: userId } });
     const campaignParticipationAttributes = { campaignId: 12, participantExternalId: 'YvoLoL' };
     const expectedCampaignParticipation = domainBuilder.buildCampaignParticipation({ id: 12 });
 

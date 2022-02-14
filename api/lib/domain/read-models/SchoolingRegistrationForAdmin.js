@@ -5,15 +5,15 @@ const validationSchema = Joi.object({
   id: Joi.number().integer().required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  birthdate: Joi.date().required(),
-  division: Joi.string().optional().allow(null),
-  group: Joi.string().optional().allow(null),
+  birthdate: Joi.date().required().allow(null),
+  division: Joi.string().required().allow(null),
+  group: Joi.string().required().allow(null),
   organizationId: Joi.number().integer().required(),
-  //organizationExternalId: Joi.string().required(),
   organizationName: Joi.string().required(),
   createdAt: Joi.date().required(),
   updatedAt: Joi.date().required(),
   isDisabled: Joi.boolean().required(),
+  canBeDissociated: Joi.boolean().required(),
 });
 
 class SchoolingRegistrationForAdmin {
@@ -29,6 +29,7 @@ class SchoolingRegistrationForAdmin {
     createdAt,
     updatedAt,
     isDisabled,
+    organizationIsManagingStudents,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -41,6 +42,7 @@ class SchoolingRegistrationForAdmin {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.isDisabled = isDisabled;
+    this.canBeDissociated = organizationIsManagingStudents;
 
     validateEntity(validationSchema, this);
   }
