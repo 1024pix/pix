@@ -87,7 +87,10 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       // then
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
+      assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Médiacentre")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec GAR")).exists();
+      assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
+      //
     });
   });
 });
