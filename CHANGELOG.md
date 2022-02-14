@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.169.0 (14/02/2022)
+
+
+### :rocket: Enhancement
+- [#4069](https://github.com/1024pix/pix/pull/4069) [FEATURE] Ne pas afficher les informations relatives aux cases de fin de test dans Pix Admin pour une session effectuée avec l'espace surveillant (PIX-4224).
+- [#4070](https://github.com/1024pix/pix/pull/4070) [FEATURE] Créer un prescrit à la volée s'il n'y en a pas déjà un lors du démarrage d'une participation à une campagne (PIX-4116).
+
+### :bug: Bug fix
+- [#4081](https://github.com/1024pix/pix/pull/4081) [BUGFIX] Neutraliser les questions auxquelles les candidats n'ont pas pu répondre à cause d'une régression (PIX-4368).
+- [#4083](https://github.com/1024pix/pix/pull/4083) [BUGFIX] Réparer le design de la page de connexion à l'espace surveillant lors de l'apparition d'un message d'erreur (PIX-4323).
+- [#4076](https://github.com/1024pix/pix/pull/4076) [BUGFIX] : correction de la lecture des réponses du checkpoint (PIX-3918)
+- [#4072](https://github.com/1024pix/pix/pull/4072) [BUGFIX] Permettre l'affichage sur deux lignes des libellés de sessions trop long dans le kit surveillant (PIX-4351)
+- [#4059](https://github.com/1024pix/pix/pull/4059) [BUGFIX] Identifier les images décoratives de manière à les considérer en tant que tel (PIX-3905)
+
 ## v3.168.0 (11/02/2022)
 
 
