@@ -1,7 +1,6 @@
 const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
-const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
@@ -44,21 +43,6 @@ module.exports = {
       .update(attributes);
 
     return new CampaignParticipation(updatedCampaignParticipation);
-  },
-
-  async hasAlreadyParticipated(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-    const { count } = await knexConn('campaign-participations').count('id').where({ campaignId, userId }).first();
-    return count > 0;
-  },
-
-  async findParticipantExternalId(campaignId, userId, domainTransaction) {
-    const campaignParticipation = await domainTransaction
-      .knexTransaction('campaign-participations')
-      .select('participantExternalId')
-      .where({ campaignId, userId })
-      .first();
-    return campaignParticipation?.participantExternalId;
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
@@ -126,29 +110,6 @@ module.exports = {
       knowledgeElements,
       domainTransaction,
     });
-  },
-
-  async countSharedParticipationOfCampaign(campaignId) {
-    const { count } = await knex('campaign-participations')
-      .count('id as count')
-      .where('campaignId', campaignId)
-      .where('status', SHARED)
-      .first();
-
-    return count;
-  },
-
-  async isAssessmentCompleted(campaignParticipationId) {
-    const assessment = await knex('assessments')
-      .select('state')
-      .where({ campaignParticipationId })
-      .orderBy('assessments.createdAt', 'desc')
-      .first();
-
-    if (assessment) {
-      return assessment.state === Assessment.states.COMPLETED;
-    }
-    return false;
   },
 
   async isRetrying({ campaignParticipationId }) {
