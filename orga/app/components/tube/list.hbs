@@ -8,7 +8,11 @@
       <PixButtonLink
         class="download-file__button"
         @href={{this.downloadURL}}
-        download={{t "pages.preselect-target-profile.download-filename"}}
+        download={{t
+          "pages.preselect-target-profile.download-filename"
+          organizationName=@organization.name
+          date=this.formattedCurrentDate
+        }}
       >
         {{t
           "pages.preselect-target-profile.download"
