@@ -30,7 +30,6 @@ describe('computeOrganizationLearners', function () {
       schoolingRegistrationId: null,
     });
     const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({
-      id: 1,
       userId,
       organizationId,
     });
