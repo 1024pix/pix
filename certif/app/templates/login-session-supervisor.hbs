@@ -1,7 +1,15 @@
 {{page-title "Connexion à l'espace surveillant"}}
 <div class="login-session-supervisor-page">
-  <LoginSessionSupervisorForm
-    @onFormSubmit={{this.authenticateSupervisor}}
-    @currentUserEmail={{this.currentUserEmail}}
-  />
+  <div class="login-session-supervisor-page-content">
+    <LoginSessionSupervisorForm @onFormSubmit={{this.authenticateSupervisor}} />
+
+    <div class="login-session-supervisor-page-content__current-user-email">
+      <span><FaIcon @icon="user-circle" />
+        {{this.currentUserEmail}}
+      </span>
+      <LinkTo class="login-session-supervisor-page-content__logout" @route="logout">
+        Changer de compte
+      </LinkTo>
+    </div>
+  </div>
 </div>
