@@ -87,6 +87,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       // then
       assert.dom(screen.getByText("La méthode de connexion à bien été déplacé vers l'utilisateur 1")).exists();
+      assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Médiacentre")).exists();
     });
   });
 });
