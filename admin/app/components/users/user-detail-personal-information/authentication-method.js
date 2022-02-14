@@ -54,12 +54,7 @@ export default class AuthenticationMethod extends Component {
   @action
   async submitReassignGarAuthenticationMethod(event) {
     event.preventDefault();
-    try {
-      await this.args.reassignGarAuthenticationMethod(this.targetUserId);
-      this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${this.targetUserId}`);
-      this.showReassignGarAuthenticationMethodModal = false;
-    } catch (response) {
-      console.log(response.errors);
-    }
+    await this.args.reassignGarAuthenticationMethod(this.targetUserId);
+    this.showReassignGarAuthenticationMethodModal = false;
   }
 }
