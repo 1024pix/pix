@@ -11,7 +11,7 @@ const _ = require('lodash');
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
 
-const ATTRIBUTES_TO_SAVE = [
+const ATTRIBUTES_TO_UPDATE = [
   'createdAt',
   'participantExternalId',
   'sharedAt',
@@ -22,6 +22,7 @@ const ATTRIBUTES_TO_SAVE = [
   'pixScore',
   'status',
   'masteryRate',
+  'schoolingRegistrationId',
 ];
 
 module.exports = {
@@ -188,7 +189,7 @@ function _rowToResult(row) {
 }
 
 function _getAttributes(campaignParticipation) {
-  return _.pick(campaignParticipation, ATTRIBUTES_TO_SAVE);
+  return _.pick(campaignParticipation, ATTRIBUTES_TO_UPDATE);
 }
 
 function mapToParticipationByStatus(row = {}, campaignType) {
