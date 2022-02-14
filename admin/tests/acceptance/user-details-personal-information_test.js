@@ -1,11 +1,9 @@
 import { module, test } from 'qunit';
-import { currentURL, click, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
-import getByLabel from '../helpers/extended-ember-test-helpers/get-by-label';
 
 module('Acceptance | User details personal information', function (hooks) {
   setupApplicationTest(hooks);
@@ -36,48 +34,46 @@ module('Acceptance | User details personal information', function (hooks) {
     await visit(`/users/${user.id}`);
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), `/users/${user.id}`);
+    assert.deepEqual(currentURL(), `/users/${user.id}`);
   });
 
   module('when administrator click to edit users details', function () {
     test('should update user firstName, lastName and email', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
-      await visit(`/users/${user.id}`);
-      await clickByLabel('Modifier');
+      const screen = await visitScreen(`/users/${user.id}`);
+      await clickByName('Modifier');
 
       // when
-      await fillIn('#firstName', 'john');
-      await fillIn('#lastName', 'doe');
-      await fillIn('#email', 'john.doe@example.net');
+      await fillByLabel('* Prénom :', 'john');
+      await fillByLabel('* Nom :', 'doe');
+      await fillByLabel('* Adresse e-mail :', 'john.doe@example.net');
 
-      await clickByLabel('Editer');
+      await clickByName('Editer');
 
       // then
-      assert.contains('john');
-      assert.contains('doe');
-      assert.contains('john.doe@example.net');
+      assert.dom(screen.getByText('john')).exists();
+      assert.dom(screen.getByText('doe')).exists();
+      assert.dom(screen.getByText('john.doe@example.net')).exists();
     });
 
     test('should update user firstName, lastName and username', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: null, username: 'john.harry0101' });
-      await visit(`/users/${user.id}`);
-      await clickByLabel('Modifier');
+      const screen = await visitScreen(`/users/${user.id}`);
+      await clickByName('Modifier');
 
       // when
-      await fillIn('#firstName', 'john');
-      await fillIn('#lastName', 'doe');
-      await fillIn('#username', 'john.doe0101');
+      await fillByLabel('* Prénom :', 'john');
+      await fillByLabel('* Nom :', 'doe');
+      await fillByLabel('* Identifiant :', 'john.doe0101');
 
-      await clickByLabel('Editer');
+      await clickByName('Editer');
 
       // then
-      assert.contains('john');
-      assert.contains('doe');
-      assert.contains('john.doe0101');
+      assert.dom(screen.getByText('john')).exists();
+      assert.dom(screen.getByText('doe')).exists();
+      assert.dom(screen.getByText('john.doe0101')).exists();
     });
   });
 
@@ -100,21 +96,21 @@ module('Acceptance | User details personal information', function (hooks) {
         authenticationMethods: [pixAuthenticationMethod, garAuthenticationMethod],
       });
 
-      await visit(`/users/${userToAnonymise.id}`);
-      await clickByLabel('Anonymiser cet utilisateur');
+      const screen = await visitScreen(`/users/${userToAnonymise.id}`);
+      await clickByName('Anonymiser cet utilisateur');
 
       // when
-      await clickByLabel('Confirmer');
+      await clickByName('Confirmer');
 
       // then
-      assert.contains(`prenom_${userToAnonymise.id}`);
-      assert.contains(`nom_${userToAnonymise.id}`);
-      assert.contains(`email_${userToAnonymise.id}@example.net`);
+      assert.dom(screen.getByText(`prenom_${userToAnonymise.id}`)).exists();
+      assert.dom(screen.getByText(`nom_${userToAnonymise.id}`)).exists();
+      assert.dom(screen.getByText(`email_${userToAnonymise.id}@example.net`)).exists();
 
-      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
-      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec GAR")).exists();
-      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi")).exists();
-      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
     });
   });
 
@@ -131,15 +127,15 @@ module('Acceptance | User details personal information', function (hooks) {
       user.schoolingRegistrations.models.push(schoolingRegistrationToDissociate);
       user.save();
 
-      await visit(`/users/${user.id}`);
-      await clickByLabel('Dissocier');
+      const screen = await visitScreen(`/users/${user.id}`);
+      await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       // when
-      await clickByLabel('Oui, je dissocie');
+      await clickByName('Oui, je dissocie');
 
       // then
-      assert.strictEqual(currentURL(), `/users/${user.id}`);
-      assert.notContains(organizationName);
+      assert.deepEqual(currentURL(), `/users/${user.id}`);
+      assert.notContains('Organisation_to_dissociate_of');
     });
   });
 
@@ -147,15 +143,15 @@ module('Acceptance | User details personal information', function (hooks) {
     test('should not display remove link and display unchecked icon', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
-      await visit(`/users/${user.id}`);
+      const screen = await visitScreen(`/users/${user.id}`);
 
       // when
       await click('button[data-test-remove-email]');
-      await click('.modal-dialog .btn-primary');
+      await clickByName('Oui, je supprime');
 
       // then
-      assert.dom(getByLabel("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
-      assert.dom('button[data-test-remove-email]').notExists;
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
+      assert.notContains('Supprimer');
     });
   });
 });
