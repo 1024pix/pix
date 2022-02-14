@@ -130,6 +130,27 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(campaignParticipation.pixScore).to.equals(10);
       expect(campaignParticipation.masteryRate).to.equals('0.90');
     });
+
+    it('save the change of schoolingRegistrationId', async function () {
+      const campaignParticipationId = 12;
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: campaignParticipationId,
+        schoolingRegistrationId: null,
+      });
+
+      await databaseBuilder.commit();
+
+      await campaignParticipationRepository.update({
+        id: campaignParticipationId,
+        schoolingRegistrationId,
+      });
+      const campaignParticipation = await knex('campaign-participations')
+        .where({ id: campaignParticipationId })
+        .first();
+
+      expect(campaignParticipation.schoolingRegistrationId).to.equals(schoolingRegistrationId);
+    });
   });
 
   describe('#findProfilesCollectionResultDataByCampaignId', function () {
