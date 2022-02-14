@@ -44,11 +44,13 @@ describe('Integration | UseCase | get-user-details-for-admin', function () {
           ...firstSchoolingRegistrationInDB,
           organizationId: firstOrganizationInDB.id,
           organizationName: firstOrganizationInDB.name,
+          organizationIsManagingStudents: firstOrganizationInDB.isManagingStudents,
         }),
         domainBuilder.buildSchoolingRegistrationForAdmin({
           ...secondSchoolingRegistrationInDB,
           organizationId: secondOrganizationInDB.id,
           organizationName: secondOrganizationInDB.name,
+          organizationIsManagingStudents: secondOrganizationInDB.isManagingStudents,
         }),
       ],
     });

@@ -1,7 +1,17 @@
 const { types } = require('../models/Campaign');
 
 class CampaignToStartParticipation {
-  constructor({ id, idPixLabel, archivedAt, type, isRestricted, multipleSendings, assessmentMethod, skillCount } = {}) {
+  constructor({
+    id,
+    idPixLabel,
+    archivedAt,
+    type,
+    isRestricted,
+    multipleSendings,
+    assessmentMethod,
+    skillCount,
+    organizationId,
+  } = {}) {
     this.id = id;
     this.type = type;
     this.idPixLabel = idPixLabel;
@@ -10,6 +20,7 @@ class CampaignToStartParticipation {
     this.multipleSendings = multipleSendings;
     this.assessmentMethod = assessmentMethod;
     this.skillCount = skillCount;
+    this.organizationId = organizationId;
   }
 
   get isAssessment() {

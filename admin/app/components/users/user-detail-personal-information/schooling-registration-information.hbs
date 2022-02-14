@@ -10,9 +10,8 @@
         <th>Nom</th>
         <th>DDN</th>
         <th>Classe / Groupe</th>
-        <th class="table__column--small">Orga ID</th>
-        <th class="table__column--wide">Nom de l'orga</th>
-        <th>Date d'import</th>
+        <th class="table__column--wide">Organisation</th>
+        <th>Création</th>
         <th>Dernière MAJ</th>
         <th class="table__column--small">Actif</th>
         <th>Actions</th>
@@ -31,8 +30,7 @@
           <td><LinkTo
               @route="authenticated.organizations.get"
               @model={{schoolingRegistration.organizationId}}
-            >{{schoolingRegistration.organizationId}}</LinkTo></td>
-          <td>{{schoolingRegistration.organizationName}}</td>
+            >{{schoolingRegistration.organizationName}}</LinkTo></td>
           <td>{{format-date schoolingRegistration.createdAt}}</td>
           <td>{{format-date schoolingRegistration.updatedAt}}</td>
           <td class="table-admin-schooling-registrations-status">
@@ -51,14 +49,15 @@
             {{/if}}
           </td>
           <td>
-            <PixButton
-              @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
-              @size="small"
-              @backgroundColor="red"
-              data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
-            >
-              Dissocier
-            </PixButton>
+            {{#if schoolingRegistration.canBeDissociated}}
+              <PixButton
+                @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
+                @size="small"
+                @backgroundColor="red"
+              >
+                Dissocier
+              </PixButton>
+            {{/if}}
           </td>
         </tr>
       {{else}}

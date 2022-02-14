@@ -126,20 +126,19 @@ module('Acceptance | User details personal information', function (hooks) {
       const schoolingRegistrationToDissociate = this.server.create('schooling-registration', {
         id: 10,
         organizationName,
+        canBeDissociated: true,
       });
       user.schoolingRegistrations.models.push(schoolingRegistrationToDissociate);
       user.save();
 
       await visit(`/users/${user.id}`);
-      await click('button[data-test-dissociate-schooling-registration="10"]');
+      await clickByLabel('Dissocier');
 
       // when
       await clickByLabel('Oui, je dissocie');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/users/${user.id}`);
+      assert.strictEqual(currentURL(), `/users/${user.id}`);
       assert.notContains(organizationName);
     });
   });

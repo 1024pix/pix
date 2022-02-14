@@ -980,6 +980,12 @@ class InvalidSkillSetError extends DomainError {
   }
 }
 
+class SchoolingRegistrationCannotBeDissociatedError extends DomainError {
+  constructor(message = 'Impossible de dissocier') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1079,6 +1085,7 @@ module.exports = {
   PasswordResetDemandNotFoundError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationAlreadyLinkedToInvalidUserError,
+  SchoolingRegistrationCannotBeDissociatedError,
   SchoolingRegistrationDisabledError,
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,

@@ -123,7 +123,8 @@ describe('Acceptance | API | Campaign Participations', function () {
 
     afterEach(async function () {
       await knex('assessments').delete();
-      return knex('campaign-participations').delete();
+      await knex('campaign-participations').delete();
+      await knex('schooling-registrations').delete();
     });
 
     it('should return 201 and the campaign participation when it has been successfully created', async function () {

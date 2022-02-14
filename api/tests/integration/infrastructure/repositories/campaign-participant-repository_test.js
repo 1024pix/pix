@@ -19,25 +19,24 @@ const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', '
 
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('save', function () {
-    let userId;
-    let schoolingRegistrationId;
+    let userIdentity;
 
     beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
+      userIdentity = { id: user.id, firstName: user.firstName, lastName: user.lastName };
     });
 
     afterEach(async function () {
       await knex('assessments').delete();
       await knex('campaign-participations').delete();
+      await knex('schooling-registrations').delete();
     });
 
     it('returns campaign participation id', async function () {
       const campaignParticipant = await makeCampaignParticipant({
         campaignAttributes: { idPixLabel: null },
-        userId,
-        schoolingRegistrationId,
+        userIdentity,
         participantExternalId: null,
       });
 
@@ -54,8 +53,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('create a campaign participation', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
-          userId,
-          schoolingRegistrationId,
+          userIdentity,
           participantExternalId: null,
         });
 
@@ -75,8 +73,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('does not create an assessment', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { type: 'PROFILES_COLLECTION', idPixLabel: null },
-          userId,
-          schoolingRegistrationId,
+          userIdentity,
           participantExternalId: null,
         });
 
@@ -93,15 +90,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     context('when the campaign is assessment', function () {
       it('create a campaign participation and an assessment', async function () {
         //GIVEN
-
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: {
             type: 'ASSESSMENT',
             idPixLabel: null,
             method: 'SMART_RANDOM',
           },
-          userId,
-          schoolingRegistrationId,
+          userIdentity,
           participantExternalId: null,
         });
 
@@ -126,16 +121,104 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
     });
 
+    context('when there is already a schooling registration', function () {
+      it('create a campaign participation linked to this schooling registration', async function () {
+        //GIVEN
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
+        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          schoolingRegistrationId,
+          userIdentity,
+          previousCampaignParticipation: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+        expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+      });
+    });
+
+    context('when there is no schooling registration linked', function () {
+      it('create a new schooling registration', async function () {
+        //GIVEN
+        userIdentity = databaseBuilder.factory.buildUser({ firstName: 'Valentin', lastName: 'Tamare' });
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          schoolingRegistrationId: null,
+          userIdentity,
+          previousCampaignParticipation: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const schoolingRegistration = await knex('schooling-registrations')
+          .select('firstName', 'lastName', 'userId', 'organizationId')
+          .first();
+
+        expect(schoolingRegistration).to.deep.equal({
+          firstName: userIdentity.firstName,
+          lastName: userIdentity.lastName,
+          organizationId: campaignToStartParticipation.organizationId,
+          userId: userIdentity.id,
+        });
+      });
+
+      it('create a campaign participation linked to the new schooling registration', async function () {
+        //GIVEN
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          schoolingRegistrationId: null,
+          userIdentity,
+          previousCampaignParticipation: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+        const schoolingRegistration = await knex('schooling-registrations').select('id').first();
+        expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistration.id);
+      });
+    });
+
     context('when there is a previous participation', function () {
       it('update the previous participation', async function () {
         //GIVEN
-
         const campaign = databaseBuilder.factory.buildCampaign({
           multipleSendings: true,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          schoolingRegistrationId,
+          userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
           status: 'SHARED',
@@ -146,8 +229,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
             status: 'SHARED',
@@ -173,7 +255,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       it('does not update participation for other user or campaign', async function () {
         //GIVEN
-
         const campaign = databaseBuilder.factory.buildCampaign({
           idPixLabel: null,
           multipleSendings: true,
@@ -182,7 +263,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isImproved: false,
         });
         databaseBuilder.factory.buildCampaignParticipation({
-          userId,
+          userId: userIdentity.id,
           isImproved: false,
         });
         databaseBuilder.factory.buildCampaignParticipation({
@@ -190,7 +271,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isImproved: false,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
+          userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
         });
@@ -200,8 +281,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
             status: 'SHARED',
@@ -227,8 +307,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('save participant external id', async function () {
         const campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { idPixLabel: 'some external id' },
-          userId,
-          schoolingRegistrationId,
+          userIdentity,
           participantExternalId: 'some participant external id',
         });
 
@@ -250,13 +329,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       context('when there already is a participation for this campaign', function () {
         it('throws an exception AlreadyExistingCampaignParticipationError', async function () {
           //GIVEN
-
           const campaign = databaseBuilder.factory.buildCampaign({
             idPixLabel: null,
           });
           databaseBuilder.factory.buildCampaignParticipation({
-            userId,
-            schoolingRegistrationId,
+            userId: userIdentity.id,
             campaignId: campaign.id,
             isImproved: false,
           });
@@ -266,8 +343,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            schoolingRegistrationId,
-            userId,
+            userIdentity,
           });
 
           campaignParticipant.start({ participantExternalId: null });
@@ -282,7 +358,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           //THEN
           expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
           expect(error.message).to.equal(
-            `User ${userId} has already a campaign participation with campaign ${campaign.id}`
+            `User ${userIdentity.id} has already a campaign participation with campaign ${campaign.id}`
           );
         });
       });
@@ -290,7 +366,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       context('when there is another error', function () {
         it('throws the original exception', async function () {
           //GIVEN
-
           const campaign = databaseBuilder.factory.buildCampaign({
             idPixLabel: null,
           });
@@ -300,8 +375,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            schoolingRegistrationId,
-            userId: 12,
+            userIdentity: { id: 12, firstName: '', lastName: '' },
           });
 
           campaignParticipant.start({ participantExternalId: null });
@@ -314,7 +388,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           })();
 
           //THEN
-          expect(error.constraint).to.equal('campaign_participations_userid_foreign');
+          expect(error.constraint).to.equal('students_userid_foreign');
         });
       });
 
@@ -324,8 +398,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           idPixLabel: null,
         });
         const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          schoolingRegistrationId,
+          userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
         });
@@ -335,8 +408,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation({ ...campaign, id: 13 });
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
-          userId,
+          userIdentity,
           previousCampaignParticipation: {
             id: previousCampaignParticipationId,
             status: 'SHARED',
@@ -385,7 +457,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
       });
 
-      expect(campaignParticipant.userId).to.equal(userId);
+      expect(campaignParticipant.userIdentity.id).to.equal(userId);
     });
 
     context('when there is a previous campaign participation', function () {
@@ -651,7 +723,12 @@ function getExpectedAssessment(campaignParticipationId, campaignParticipant) {
   };
 }
 
-async function makeCampaignParticipant({ campaignAttributes, userId, schoolingRegistrationId, participantExternalId }) {
+async function makeCampaignParticipant({
+  campaignAttributes,
+  userIdentity,
+  schoolingRegistrationId,
+  participantExternalId,
+}) {
   const campaign = databaseBuilder.factory.buildCampaign(campaignAttributes);
 
   await databaseBuilder.commit();
@@ -660,7 +737,7 @@ async function makeCampaignParticipant({ campaignAttributes, userId, schoolingRe
   const campaignParticipant = new CampaignParticipant({
     campaignToStartParticipation,
     schoolingRegistrationId,
-    userId,
+    userIdentity,
     previousCampaignParticipation: null,
   });
 

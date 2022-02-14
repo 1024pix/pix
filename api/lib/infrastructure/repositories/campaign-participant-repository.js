@@ -5,6 +5,14 @@ const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('..
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 
 async function save(campaignParticipant, domainTransaction) {
+  const newlyCreatedSchoolingRegistrationId = await _createNewSchoolingRegistration(
+    campaignParticipant.schoolingRegistration,
+    domainTransaction.knexTransaction
+  );
+  if (newlyCreatedSchoolingRegistrationId) {
+    campaignParticipant.campaignParticipation.schoolingRegistrationId = newlyCreatedSchoolingRegistrationId;
+  }
+
   await _updatePreviousParticipation(
     campaignParticipant.previousCampaignParticipation,
     domainTransaction.knexTransaction
@@ -15,6 +23,20 @@ async function save(campaignParticipant, domainTransaction) {
   );
   await _createAssessment(campaignParticipant.assessment, campaignParticipationId, domainTransaction.knexTransaction);
   return campaignParticipationId;
+}
+
+async function _createNewSchoolingRegistration(schoolingRegistration, queryBuilder) {
+  if (schoolingRegistration) {
+    const [newlyCreatedSchoolingRegistrationId] = await queryBuilder('schooling-registrations')
+      .insert({
+        userId: schoolingRegistration.userId,
+        organizationId: schoolingRegistration.organizationId,
+        firstName: schoolingRegistration.firstName,
+        lastName: schoolingRegistration.lastName,
+      })
+      .returning('id');
+    return newlyCreatedSchoolingRegistrationId;
+  }
 }
 
 async function _updatePreviousParticipation(campaignParticipation, queryBuilder) {
@@ -56,6 +78,8 @@ async function _createAssessment(assessment, campaignParticipationId, queryBuild
 }
 
 async function get({ userId, campaignId, domainTransaction }) {
+  const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);
+
   const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
 
   const schoolingRegistrationId = await _getSchoolingRegistrationId(campaignId, userId, domainTransaction);
@@ -63,11 +87,15 @@ async function get({ userId, campaignId, domainTransaction }) {
   const previousCampaignParticipation = await _getPreviousCampaignParticipation(campaignId, userId, domainTransaction);
 
   return new CampaignParticipant({
-    userId,
+    userIdentity,
     campaignToStartParticipation,
     schoolingRegistrationId,
     previousCampaignParticipation,
   });
+}
+
+function _getUserIdentityForTrainee(userId, domainTransaction) {
+  return domainTransaction.knexTransaction('users').select('id', 'firstName', 'lastName').where({ id: userId }).first();
 }
 
 async function _getCampaignToStart(campaignId, domainTransaction) {
@@ -82,6 +110,7 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
       'isManagingStudents AS isRestricted',
       'multipleSendings',
       'assessmentMethod',
+      'organizationId',
     ])
     .where({ 'campaigns.id': campaignId })
     .first();

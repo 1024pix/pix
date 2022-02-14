@@ -1255,9 +1255,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
   });
 
   describe('DELETE /api/schooling-registration-user-associations', function () {
-    context('When user has the role pixMaster', function () {
+    context('When user has the role pixMaster and schooling registration can be dissociated', function () {
       it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
         const pixMaster = await insertUserWithRolePixMaster();
         const userId = databaseBuilder.factory.buildUser().id;
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId });

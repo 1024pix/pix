@@ -11,6 +11,7 @@ export default class SchoolingRegistration extends Model {
   @attr() createdAt;
   @attr() updatedAt;
   @attr() isDisabled;
+  @attr() canBeDissociated;
 
   @belongsTo('user') user;
 }
