@@ -140,6 +140,44 @@ describe('computeOrganizationLearners', function () {
 
       expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistration.id);
     });
+
+    context('when organization is managing students', function () {
+      it('creates new schooling registration with status disabled', async function () {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          schoolingRegistrationId: null,
+        });
+        await databaseBuilder.commit();
+
+        await computeOrganizationLearners(1, false);
+        const schoolingRegistration = await knex('schooling-registrations').select('isDisabled').first();
+
+        expect(schoolingRegistration.isDisabled).to.be.true;
+      });
+    });
+
+    context('when organization is not managing students', function () {
+      it('creates new schooling registration with status enabled', async function () {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ isManagingStudents: false });
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          schoolingRegistrationId: null,
+        });
+        await databaseBuilder.commit();
+
+        await computeOrganizationLearners(1, false);
+        const schoolingRegistration = await knex('schooling-registrations').select('isDisabled').first();
+
+        expect(schoolingRegistration.isDisabled).to.be.false;
+      });
+    });
   });
 
   context('when there is several participations to handle', function () {

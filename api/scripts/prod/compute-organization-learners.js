@@ -17,10 +17,12 @@ async function computeOrganizationLearners(concurrency = 1, log = true) {
       'campaign-participations.userId',
       'campaigns.organizationId',
       'users.firstName',
-      'users.lastName'
+      'users.lastName',
+      'organizations.isManagingStudents'
     )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('users', 'users.id', 'campaign-participations.userId')
+    .join('organizations', 'organizations.id', 'campaigns.organizationId')
     .leftJoin('schooling-registrations', function () {
       this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
         'campaigns.organizationId': 'schooling-registrations.organizationId',
@@ -48,7 +50,7 @@ async function _computeOrganizationLearners(campaignParticipation) {
 }
 
 async function _getOrCreateTrainee({ campaignParticipation, domainTransaction }) {
-  const { userId, organizationId, firstName, lastName } = campaignParticipation;
+  const { userId, organizationId, firstName, lastName, isManagingStudents } = campaignParticipation;
   const schoolingRegistration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
@@ -60,7 +62,7 @@ async function _getOrCreateTrainee({ campaignParticipation, domainTransaction })
 
   const [newlyCreatedSchoolingRegistrationId] = await domainTransaction
     .knexTransaction('schooling-registrations')
-    .insert({ userId, organizationId, firstName, lastName })
+    .insert({ userId, organizationId, firstName, lastName, isDisabled: isManagingStudents })
     .returning('id');
   return newlyCreatedSchoolingRegistrationId;
 }
