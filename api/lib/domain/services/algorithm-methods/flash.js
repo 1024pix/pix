@@ -112,8 +112,8 @@ function getNonAnsweredChallenges({ allAnswers, challenges }) {
   const alreadyAnsweredSkillsIds = allAnswers.map(getAnswerSkill).map((skill) => skill.id);
 
   const isSkillAlreadyAnswered = (skill) => alreadyAnsweredSkillsIds.includes(skill.id);
-  const filterNonAnsweredChallenges = (challenge) => !isSkillAlreadyAnswered(challenge.skill);
-  const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenges);
+  const filterNonAnsweredChallenge = (challenge) => !isSkillAlreadyAnswered(challenge.skill);
+  const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenge);
 
   return nonAnsweredChallenges;
 }
