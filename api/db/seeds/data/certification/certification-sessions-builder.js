@@ -18,7 +18,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
   const address = 'Anne-Star Street';
   const room = 'Salle Anne';
   const examiner = 'Anne';
-  const date = '2020-03-04';
+  const date = '2020-01-31';
   const time = '15:00';
 
   databaseBuilder.factory.buildSession({
