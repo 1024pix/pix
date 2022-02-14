@@ -280,13 +280,6 @@ module.exports = {
     );
   },
 
-  async dissociateUserFromSchoolingRegistrationIds(schoolingRegistrationIds) {
-    await BookshelfSchoolingRegistration.where('id', 'in', schoolingRegistrationIds).save(
-      { userId: null },
-      { patch: true }
-    );
-  },
-
   async findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
@@ -298,15 +291,6 @@ module.exports = {
       .where({ userId, organizationId });
     if (!schoolingRegistration) return null;
     return new SchoolingRegistration(schoolingRegistration);
-  },
-
-  async updateStudentNumber(studentId, studentNumber) {
-    await BookshelfSchoolingRegistration.where('id', studentId).save(
-      { studentNumber },
-      {
-        patch: true,
-      }
-    );
   },
 
   get(schoolingRegistrationId) {
