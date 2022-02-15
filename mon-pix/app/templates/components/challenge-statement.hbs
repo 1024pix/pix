@@ -4,6 +4,14 @@
     <div class="challenge-statement__instruction-section">
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
 
+      {{#if @challenge.hasValidEmbedDocument}}
+        <div class="sr-only">{{t "pages.challenge.statement.sr-only.embed"}}</div>
+      {{/if}}
+
+      {{#if @challenge.alternativeInstruction}}
+        <div class="sr-only">{{t "pages.challenge.statement.sr-only.alternative-instruction"}}</div>
+      {{/if}}
+
       {{#if this.isFocusedChallengeToggleEnabled}}
         <Challenge::Statement::Tooltip @challenge={{@challenge}} />
       {{/if}}
