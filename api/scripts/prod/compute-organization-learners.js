@@ -11,15 +11,14 @@ let total;
 let logEnable;
 async function computeOrganizationLearners(concurrency = 1, log = true) {
   logEnable = log;
-  const campaignParticipations = await knex('campaign-participations')
-    .select(
-      'campaign-participations.id',
-      'campaign-participations.userId',
-      'campaigns.organizationId',
-      'users.firstName',
-      'users.lastName',
-      'organizations.isManagingStudents'
-    )
+  const campaignParticipationsByOrganizations = await knex('campaign-participations')
+    .select({
+      organizationId: 'campaigns.organizationId',
+      organizationIsManagingStudents: 'organizations.isManagingStudents',
+      campaignParticipations: knex.raw(
+        `array_agg(json_build_object('id', "campaign-participations".id, 'userId', "campaign-participations"."userId", 'firstName', users."firstName", 'lastName', users."lastName") order by "campaign-participations".id)`
+      ),
+    })
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('users', 'users.id', 'campaign-participations.userId')
     .join('organizations', 'organizations.id', 'campaigns.organizationId')
@@ -28,29 +27,50 @@ async function computeOrganizationLearners(concurrency = 1, log = true) {
         'campaigns.organizationId': 'schooling-registrations.organizationId',
       });
     })
-    .where({ 'campaign-participations.schoolingRegistrationId': null });
+    .where({ 'campaign-participations.schoolingRegistrationId': null })
+    .groupBy('campaigns.organizationId', 'organizations.isManagingStudents');
   count = 0;
-  total = campaignParticipations.length;
-  _log(`Participations à traiter : ${total}`);
+  total = campaignParticipationsByOrganizations.length;
+  _log(`Organisations à traiter : ${total}`);
 
-  await bluebird.map(campaignParticipations, _computeOrganizationLearners, { concurrency });
+  await bluebird.map(campaignParticipationsByOrganizations, _computeOrganizationLearners, { concurrency });
 }
 
-async function _computeOrganizationLearners(campaignParticipation) {
-  await DomainTransaction.execute(async (domainTransaction) => {
-    const schoolingRegistrationId = await _getOrCreateTrainee({ campaignParticipation, domainTransaction });
-    await campaignParticipationRepository.update(
-      { id: campaignParticipation.id, schoolingRegistrationId },
-      domainTransaction
-    );
-  });
+async function _computeOrganizationLearners(campaignParticipationsByOrganization) {
+  const organizationId = campaignParticipationsByOrganization.organizationId;
+  const organizationIsManagingStudents = campaignParticipationsByOrganization.organizationIsManagingStudents;
+  const participationsCount = campaignParticipationsByOrganization.campaignParticipations.length;
+  _log(`Organisation ${organizationId} : Participations à traiter : ${participationsCount}`);
+
+  await bluebird.mapSeries(
+    campaignParticipationsByOrganization.campaignParticipations,
+    async (campaignParticipation) => {
+      await DomainTransaction.execute(async (domainTransaction) => {
+        const schoolingRegistrationId = await _getOrCreateLearner({
+          organizationId,
+          organizationIsManagingStudents,
+          campaignParticipation,
+          domainTransaction,
+        });
+        await campaignParticipationRepository.update(
+          { id: campaignParticipation.id, schoolingRegistrationId },
+          domainTransaction
+        );
+      });
+    }
+  );
 
   count++;
   _log(`${count} / ${total}`);
 }
 
-async function _getOrCreateTrainee({ campaignParticipation, domainTransaction }) {
-  const { userId, organizationId, firstName, lastName, isManagingStudents } = campaignParticipation;
+async function _getOrCreateLearner({
+  organizationId,
+  organizationIsManagingStudents,
+  campaignParticipation,
+  domainTransaction,
+}) {
+  const { userId, firstName, lastName } = campaignParticipation;
   const schoolingRegistration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
@@ -62,7 +82,7 @@ async function _getOrCreateTrainee({ campaignParticipation, domainTransaction })
 
   const [newlyCreatedSchoolingRegistrationId] = await domainTransaction
     .knexTransaction('schooling-registrations')
-    .insert({ userId, organizationId, firstName, lastName, isDisabled: isManagingStudents })
+    .insert({ userId, organizationId, firstName, lastName, isDisabled: organizationIsManagingStudents })
     .returning('id');
   return newlyCreatedSchoolingRegistrationId;
 }

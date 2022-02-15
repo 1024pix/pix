@@ -181,7 +181,7 @@ describe('computeOrganizationLearners', function () {
   });
 
   context('when there is several participations to handle', function () {
-    it('handle all of them', async function () {
+    it('handle 2 participations in the same organization with a schooling registration', async function () {
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
@@ -217,6 +217,34 @@ describe('computeOrganizationLearners', function () {
         { schoolingRegistrationId },
         { schoolingRegistrationId: schoolingRegistrationId2 },
       ]);
+    });
+
+    it('handle 2 participations for same user in the same organization without schooling registration', async function () {
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        schoolingRegistrationId: null,
+      });
+
+      const { id: campaignId2 } = databaseBuilder.factory.buildCampaign({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId: campaignId2,
+        schoolingRegistrationId: null,
+      });
+
+      await databaseBuilder.commit();
+
+      await computeOrganizationLearners(1, false);
+      const campaignParticipations = await knex('campaign-participations')
+        .select('schoolingRegistrationId')
+        .orderBy('id');
+      const { id: schoolingRegistrationId } = await knex('schooling-registrations').select('id').first();
+
+      expect(campaignParticipations).to.deep.equal([{ schoolingRegistrationId }, { schoolingRegistrationId }]);
     });
   });
 });
