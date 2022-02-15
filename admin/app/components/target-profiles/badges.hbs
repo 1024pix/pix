@@ -23,15 +23,23 @@
             <td>
               <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
             </td>
-            <td>
+            <td class="badges-table__actions">
               <PixButtonLink
                 @backgroundColor="transparent-light"
                 @isBorderVisible={{true}}
                 @route="authenticated.badges.badge"
                 @size="small"
                 @model={{badge.id}}
-                class="pix-button__secondary"
+                class="badges-table-actions__button"
               >Voir détail</PixButtonLink>
+              <PixButton
+                @size="small"
+                @backgroundColor="red"
+                @triggerAction={{fn this.toggleDisplayConfirm badge.id}}
+                class="badges-table-actions__button badges-table-actions__button--delete"
+              >
+                <FaIcon @icon="trash" />Supprimer
+              </PixButton>
             </td>
           </tr>
         {{/each}}
@@ -41,3 +49,12 @@
     <div class="table__empty content-text">Aucun résultat thématique associé</div>
   {{/if}}
 </div>
+
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
+  @title="Suppression d'un résultat thématique"
+  @submitTitle="Supprimer"
+  @confirm={{fn this.deleteBadge this.badgeIdToDelete}}
+  @cancel={{this.toggleDisplayConfirm}}
+  @show={{this.displayConfirm}}
+/>

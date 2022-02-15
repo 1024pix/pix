@@ -46,6 +46,20 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
+  async isAssociated(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const associatedBadge = await (knexTransaction ?? knex)('badge-acquisitions').where({ badgeId }).first();
+    return !!associatedBadge;
+  },
+
+  async isRelatedToCertification(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const partnerCertificationBadge = await (knexTransaction ?? knex)('partner-certifications')
+      .join('badges', 'partnerKey', 'key')
+      .where('badges.id', badgeId)
+      .first();
+    const complementaryCertificationBadge = await knex('complementary-certification-badges').where({ badgeId }).first();
+    return !!(partnerCertificationBadge || complementaryCertificationBadge);
+  },
+
   async get(id) {
     const bookshelfBadge = await BookshelfBadge.where('id', id).fetch({
       withRelated: ['badgeCriteria', 'skillSets'],
@@ -82,6 +96,15 @@ module.exports = {
     if (result.length) {
       throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
     }
+    return true;
+  },
+
+  async delete(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const knexConn = knexTransaction ?? knex;
+    await knexConn('badge-criteria').where({ badgeId }).del();
+    await knexConn('skill-sets').where({ badgeId }).del();
+    await knexConn('badges').where({ id: badgeId }).del();
+
     return true;
   },
 };
