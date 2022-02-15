@@ -1,6 +1,5 @@
 const writeOdsUtils = require('../../utils/ods/write-ods-utils');
 const readOdsUtils = require('../../utils/ods/read-ods-utils');
-const sessionXmlService = require('../../../domain/services/session-xml-service');
 const { featureToggles } = require('../../../../lib/config');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -24,20 +23,18 @@ module.exports = async function fillCandidatesImportSheet({
 }) {
   const template = await _getCandidatesImportTemplate();
 
-  const templateWithSession = _addSession(template, session);
-  const templateWithSessionAndColumns = _addColumns({
-    stringifiedXml: templateWithSession,
+  // TODO ne pas manipuler l'ods builder depuis fill-candidates-import-sheet mais session-xml-service
+  const odsBuilder = new writeOdsUtils.OdsUtilsBuilder(template);
+  _addSession(odsBuilder, session);
+  _addColumns({
+    odsBuilder,
     certificationCenterHabilitations,
     isScoCertificationCenter,
   });
-
-  const templateWithSessionAndColumnsAndCandidates = _addCandidates(
-    templateWithSessionAndColumns,
-    session.certificationCandidates
-  );
+  _addCandidates(odsBuilder, session.certificationCandidates);
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({
-    stringifiedXml: templateWithSessionAndColumnsAndCandidates,
+    stringifiedXml: odsBuilder.build(),
     odsFilePath: _getCandidatesImportTemplatePath(),
   });
 };
@@ -47,20 +44,14 @@ async function _getCandidatesImportTemplate() {
   return readOdsUtils.getContentXml({ odsFilePath: templatePath });
 }
 
-function _addSession(stringifiedXml, session) {
+function _addSession(odsBuilder, session) {
   const sessionData = SessionData.fromSession(session);
-  const templateWithSession = sessionXmlService.getUpdatedXmlWithSessionData({
-    stringifiedXml,
-    sessionData,
-    sessionTemplateValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
-  });
-  return templateWithSession;
+  return odsBuilder.withData(sessionData, IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES);
 }
 
-function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCertificationCenter }) {
+function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter }) {
   if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
-    stringifiedXml = writeOdsUtils.addTooltipOnCell({
-      stringifiedXml,
+    odsBuilder.withTooltipOnCell({
       targetCellAddress: "'Liste des candidats'.O13",
       tooltipName: 'val-prepayment-code',
       tooltipTitle: 'Code de prépaiement',
@@ -71,41 +62,38 @@ function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCe
       ],
     });
 
-    stringifiedXml = writeOdsUtils.addValidatorRestrictedList({
-      stringifiedXml,
+    odsBuilder.withValidatorRestrictedList({
       validatorName: 'billingModeValidator',
       restrictedList: billingValidatorList,
       allowEmptyCell: false,
       tooltipTitle: 'Code de prépaiement',
       tooltipContentLines: ['Choix possibles:', ...billingValidatorList],
     });
-    stringifiedXml = _addBillingColumns(stringifiedXml);
+    _addBillingColumns(odsBuilder);
   }
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    stringifiedXml = _addComplementaryCertificationColumns(certificationCenterHabilitations, stringifiedXml);
+    odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations });
   }
 
-  return stringifiedXml;
+  return odsBuilder;
 }
 
-function _addComplementaryCertificationColumns(certificationCenterHabilitations, updatedStringifiedXml) {
+function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations }) {
   if (!_.isEmpty(certificationCenterHabilitations)) {
     const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
       headerLabel: [name, '("oui" ou laisser vide)'],
       placeholder: [name],
     }));
-    updatedStringifiedXml = sessionXmlService.addColumnGroup({
-      stringifiedXml: updatedStringifiedXml,
+    odsBuilder.withColumnGroup({
       groupHeaderLabel: 'Certification(s) complémentaire(s)',
       columns: habilitationColumns,
     });
   }
-  return updatedStringifiedXml;
+  return odsBuilder;
 }
 
-function _addBillingColumns(updatedStringifiedXml) {
-  return sessionXmlService.addColumnGroup({
-    stringifiedXml: updatedStringifiedXml,
+function _addBillingColumns(odsBuilder) {
+  return odsBuilder.withColumnGroup({
     groupHeaderLabel: 'Tarification',
     columns: [
       {
@@ -120,12 +108,13 @@ function _addBillingColumns(updatedStringifiedXml) {
   });
 }
 
-function _addCandidates(updatedStringifiedXml, certificationCandidates) {
+function _addCandidates(odsBuilder, certificationCandidates) {
+  const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
   const candidatesData = _getCandidatesData(certificationCandidates);
-  return sessionXmlService.getUpdatedXmlWithCertificationCandidatesData({
-    stringifiedXml: updatedStringifiedXml,
-    candidatesData,
-    candidateTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
+  return odsBuilder.updateXmlRows({
+    rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
+    rowTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
+    dataToInject: candidatesData,
   });
 }
 
