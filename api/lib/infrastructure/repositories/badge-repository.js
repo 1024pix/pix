@@ -46,13 +46,13 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
-  async isAssociated(badgeId) {
-    const associatedBadge = await knex('badge-acquisitions').where({ badgeId }).first();
+  async isAssociated(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const associatedBadge = await (knexTransaction ?? knex)('badge-acquisitions').where({ badgeId }).first();
     return !!associatedBadge;
   },
 
-  async isRelatedToCertification(badgeId) {
-    const partnerCertificationBadge = await knex('partner-certifications')
+  async isRelatedToCertification(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const partnerCertificationBadge = await (knexTransaction ?? knex)('partner-certifications')
       .join('badges', 'partnerKey', 'key')
       .where('badges.id', badgeId)
       .first();
@@ -99,12 +99,11 @@ module.exports = {
     return true;
   },
 
-  async delete(badgeId) {
-    await knex.transaction(async (trx) => {
-      await trx('badge-criteria').where({ badgeId }).del();
-      await trx('skill-sets').where({ badgeId }).del();
-      return trx('badges').where({ id: badgeId }).del();
-    });
+  async delete(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const knexConn = knexTransaction ?? knex;
+    await knexConn('badge-criteria').where({ badgeId }).del();
+    await knexConn('skill-sets').where({ badgeId }).del();
+    await knexConn('badges').where({ id: badgeId }).del();
 
     return true;
   },
