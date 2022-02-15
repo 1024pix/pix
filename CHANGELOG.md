@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.170.0 (15/02/2022)
+
+
+### :rocket: Enhancement
+- [#4061](https://github.com/1024pix/pix/pull/4061) [FEATURE] Suppression d'un RT non assigné dans Pix-Admin (PIX-4288).
+- [#4062](https://github.com/1024pix/pix/pull/4062) [FEATURE] Nouveau design des cards de tutos (PIX-4299)
+- [#4079](https://github.com/1024pix/pix/pull/4079) [FEATURE] Screen readers: prévenir des embed/texte alternatif (PIX-3917)
+- [#4064](https://github.com/1024pix/pix/pull/4064) [FEATURE] Modifier le titre du fichier d'extraction de sujets sélectionnés (PIX-4170)
+
+### :building_construction: Tech
+- [#4077](https://github.com/1024pix/pix/pull/4077) [TECH] Ajout d'un script pour connaitre l'éligibilité CléA pour une session (PIX-4369)
+
 ## v3.169.0 (14/02/2022)
 
 
