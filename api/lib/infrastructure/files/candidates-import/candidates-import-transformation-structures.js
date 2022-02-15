@@ -77,9 +77,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = [
 ];
 
 // ALL
-function getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications({
-  complementaryCertifications,
-}) {
+function getTransformationStructsForPixCertifCandidatesImport({ complementaryCertifications }) {
   const transformationStruct = [..._TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
 
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
@@ -133,5 +131,5 @@ function _toBooleanIfValueEqualsOuiOrNull(val) {
 }
 
 module.exports = {
-  getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications,
+  getTransformationStructsForPixCertifCandidatesImport,
 };
