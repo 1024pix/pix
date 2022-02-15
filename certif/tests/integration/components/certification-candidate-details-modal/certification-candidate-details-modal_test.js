@@ -319,7 +319,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
           @candidate={{this.candidate}}
         />
       `);
-      await click(screen.getByRole('button', { name: 'Fermer' }));
+      await click(screen.getByRole('button', { name: 'Fermer la modale de détail du candidat' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);
