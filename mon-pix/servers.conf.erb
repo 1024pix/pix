@@ -16,6 +16,16 @@ log_format keyvalue
 # as we are about to override it in the server directive here below
 access_log off;
 
+upstream api {
+    <%
+    # We compute the API host from the front app name, examples:
+    #   pix-orga-integration       -> pix-api-integration.scalingo.io
+    #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
+    #   pix-orga-production        -> pix-api-production.scalingo.io
+    %>
+    server <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>:443 max_fails=<%= ENV['NGINX_UPSTREAM_MAX_FAILS'] || 3 %> fail_timeout=<%= ENV['NGINX_UPSTREAM_FAIL_TIMEOUT'] || '5s' %>;
+}
+
 server {
   access_log logs/access.log keyvalue;
   server_name localhost;
@@ -66,14 +76,9 @@ server {
   }
 
   location /api/ {
-    <%
-    # We compute the API host from the front app name, examples:
-    #   pix-orga-integration       -> pix-api-integration.scalingo.io
-    #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
-    #   pix-orga-production        -> pix-api-production.scalingo.io
-    %>
-    proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
+    proxy_pass https://api;
     proxy_redirect default;
+    proxy_set_header Host <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
   }
 
   <% end %>
