@@ -72,6 +72,9 @@ const main = async () => {
 
   if (process.env.PROCEED === 'YES') {
     await neutralizeAnswers(answers, userId);
+  } else {
+    logger.info('Answers have not been neutralized.');
+    logger.info('To actually neutralize, set PROCEED env variable value to YES');
   }
 };
 
