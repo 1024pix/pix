@@ -22,6 +22,7 @@ import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
+import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 
 /* eslint max-statements: off */
 export default function () {
@@ -41,6 +42,7 @@ export default function () {
   loadSchoolingRegistrationDependentUserRoutes(this);
   loadUserRoutes(this);
   loadAccountRecoveryRoutes(this);
+  loadUserTutorialsRoutes(this);
 
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
