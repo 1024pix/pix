@@ -527,6 +527,10 @@
             "content": "To answer this question, feel free to search the internet or use an external application.",
             "title": "Free Mode"
           }
+        },
+        "sr-only": {
+          "embed": "This question uses a simulator.",
+          "alternative-instruction": "This question has an alternative instruction."
         }
       },
       "timed": {
