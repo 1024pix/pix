@@ -45,11 +45,10 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
   });
 }
 
-function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
+function _addUserToOrganization(user, { externalId } = {}) {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
     externalId,
-    canCollectProfiles,
   });
 
   const memberships = server.create('membership', {
@@ -82,16 +81,6 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     pixOrgaTermsOfServiceAccepted: true,
   });
   return _addUserToOrganization(user, { externalId: 'EXTBRO' });
-}
-
-export function createUserThatCanCollectProfiles() {
-  const user = server.create('user', {
-    firstName: 'Harry',
-    lastName: 'Cover',
-    email: 'harry@cover.com',
-    pixOrgaTermsOfServiceAccepted: true,
-  });
-  return _addUserToOrganization(user, { canCollectProfiles: true });
 }
 
 export function createUserMembershipWithRole(organizationRole) {

@@ -28,10 +28,6 @@ export default class CreateForm extends Component {
     };
     this._setTargetProfilesOptions(this.args.targetProfiles);
 
-    if (!this.currentUser.organization.canCollectProfiles) {
-      this.isCampaignGoalAssessment = true;
-      this.campaign.type = 'ASSESSMENT';
-    }
     this.campaign.ownerId = this.currentUser.prescriber.id;
   }
 

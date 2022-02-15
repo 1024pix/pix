@@ -47,7 +47,6 @@ module.exports = {
             'type',
             'credit',
             'isManagingStudents',
-            'canCollectProfiles',
             'isAgriculture',
             'targetProfiles',
             'memberships',

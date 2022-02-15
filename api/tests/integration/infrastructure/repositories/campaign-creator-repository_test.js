@@ -4,24 +4,27 @@ const { UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/doma
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {
-    it('returns the creator for the given organization and user id', async function () {
+    it('returns the creator for the given organization', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
-      const { id: otherOrganizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: otherOrganizationId } = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       databaseBuilder.factory.buildMembership({ organizationId: otherOrganizationId, userId });
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: organizationId,
+      });
       await databaseBuilder.commit();
 
       const creator = await campaignCreatorRepository.get({ userId, organizationId, ownerId: userId });
 
-      expect(creator.notAllowedToCreateProfileCollectionCampaign).to.equal(false);
+      expect(creator.availableTargetProfileIds).to.deep.equal([targetProfileId]);
     });
 
     context('when there are target profiles', function () {
       context('when target profiles are public', function () {
         it('returns the public target profiles', async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
           databaseBuilder.factory.buildMembership({ organizationId, userId });
 
           const { id: targetProfilePublicId } = databaseBuilder.factory.buildTargetProfile({
@@ -39,7 +42,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       context('when the target profiles are private', function () {
         it('returns the shared target profiles', async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
           databaseBuilder.factory.buildMembership({ organizationId, userId });
 
           const { id: targetProfileSharedId } = databaseBuilder.factory.buildTargetProfile({
@@ -60,7 +63,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
         it('returns the target profiles is owned by the organization', async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
           databaseBuilder.factory.buildMembership({ organizationId, userId });
 
           const { id: organizationTargetProfileId } = databaseBuilder.factory.buildTargetProfile({
@@ -79,7 +82,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       context('when target profiles are outdated', function () {
         it('does not return target profiles', async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
           databaseBuilder.factory.buildMembership({ organizationId, userId });
 
           databaseBuilder.factory.buildTargetProfile({
@@ -109,7 +112,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       it('throws an error', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationMemberId } = databaseBuilder.factory.buildUser();
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({ organizationId, userId: organizationMemberId });
 
         await databaseBuilder.commit();
@@ -130,7 +133,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const ownerId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true }).id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildMembership({ organizationId, userId });
 
         await databaseBuilder.commit();

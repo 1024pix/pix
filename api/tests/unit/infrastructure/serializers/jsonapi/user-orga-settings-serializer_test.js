@@ -116,7 +116,6 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
         type: 'PRO',
         'external-id': 'EXTID',
         'is-managing-students': false,
-        'can-collect-profiles': false,
       });
     });
 
