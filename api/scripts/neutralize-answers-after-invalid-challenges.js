@@ -1,43 +1,23 @@
 'use strict';
 require('dotenv').config({ path: `${__dirname}/../.env` });
-const _ = require('lodash');
 const bluebird = require('bluebird');
 
 const { knex } = require('../db/knex-database-connection');
 const logger = require('../lib/infrastructure/logger');
 
-const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
 const certificationAssessmentRepository = require('../lib/infrastructure/repositories/certification-assessment-repository');
 const usecases = require('../lib/domain/usecases/index');
 const events = require('../lib/domain/events');
 
-const extractLengthyChallenges = async () => {
-  const challenges = await challengeRepository.findValidated();
-  const lengthyChallenges = _.remove(challenges, function (challenge) {
-    return challenge.validator.solution.value.length >= 500;
-  });
-
-  if (lengthyChallenges.length === 0) {
-    throw new Error('No challenges found, ending process');
-  }
-
-  logger.info(`${lengthyChallenges.length} challenges found`);
-  logger.debug(lengthyChallenges);
-
-  return lengthyChallenges;
-};
-
-const extractAnswers = async (lengthyChallenges, exposure) => {
+const extractAnswers = async (lengthyChallengeId, exposure) => {
   const answers = await knex
-    .from('sessions')
-    .select('certification-courses.id AS certificationCourseId', 'answers.challengeId')
-    .innerJoin('certification-courses', 'certification-courses.sessionId', 'sessions.id')
-    .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .innerJoin('answers', 'answers.assessmentId', 'assessments.id')
-    .whereRaw('"certification-courses"."createdAt"::DATE = ?', exposure.date)
+    .from('answers')
+    .select('assessments.certificationCourseId AS certificationCourseId', 'answers.challengeId')
+    .innerJoin('assessments', 'assessments.id', 'answers.assessmentId')
     .where('answers.result', '<>', 'ok')
-    .whereBetween('answers.createdAt', exposure.window)
-    .whereIn('answers.challengeId', lengthyChallenges);
+    .where('answers.id', '>', exposure.lastAnswerIdBeforeRegression)
+    .where('answers.id', '<', exposure.firstAnswerIdAfterRegression)
+    .where('answers.challengeId', '=', lengthyChallengeId);
 
   if (answers.length === 0) {
     throw new Error('No answers found, ending process');
@@ -79,19 +59,22 @@ const neutralizeAnswers = async function (answers, userId) {
 };
 
 const main = async () => {
-  const lengthyChallenges = await extractLengthyChallenges();
+  const lengthyChallengeId = 'receQkwO1dvjQc2S3';
 
   const exposure = {
-    date: '2022-02-10',
-    window: ['2022-02-10 09:50:00.000000 +00:00', '2022-02-10 18:00:00.000000 +00:00'],
+    lastAnswerIdBeforeRegression: 700064555,
+    firstAnswerIdAfterRegression: 701092524,
   };
 
-  const answers = await extractAnswers(lengthyChallenges, exposure);
+  const answers = await extractAnswers(lengthyChallengeId, exposure);
 
   const userId = await getServiceUser();
 
   if (process.env.PROCEED === 'YES') {
     await neutralizeAnswers(answers, userId);
+  } else {
+    logger.info('Answers have not been neutralized.');
+    logger.info('To actually neutralize, set PROCEED env variable value to YES');
   }
 };
 
