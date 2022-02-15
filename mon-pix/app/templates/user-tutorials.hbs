@@ -21,11 +21,11 @@
             </p>
           </div>
         </header>
-        {{#if this.model}}
+        {{#if @model}}
           <article aria-label={{t "pages.user-tutorials.label"}} class="user-tutorials-content">
             <h3 class="user-tutorials-content__title">{{t "pages.user-tutorials.list.title"}}</h3>
             <div>
-              {{#each this.model as |userTutorial|}}
+              {{#each @model as |userTutorial|}}
                 <TutorialItem @tutorial={{userTutorial.tutorial}} />
               {{/each}}
             </div>

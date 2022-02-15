@@ -6,20 +6,24 @@
     </p>
 
     <div class="user-tutorials-banner-v2__filters">
-      <PixButton @shape="rounded" class="user-tutorials-banner-v2-filters__button" @backgroundColor="transparent-light">
+      <PixButtonLink
+        @route="user-tutorials.recommended"
+        @shape="rounded"
+        class="user-tutorials-banner-v2-filters__button"
+        @backgroundColor="transparent-light"
+      >
         {{t "pages.user-tutorials-v2.recommended"}}
-      </PixButton>
+      </PixButtonLink>
 
-      <PixButton @shape="rounded" class="user-tutorials-banner-v2-filters__button" @backgroundColor="grey">
+      <PixButtonLink
+        @route="user-tutorials.saved"
+        @shape="rounded"
+        class="user-tutorials-banner-v2-filters__button"
+        @backgroundColor="transparent-light"
+      >
         {{t "pages.user-tutorials-v2.saved"}}
-      </PixButton>
+      </PixButtonLink>
     </div>
   </div>
 </header>
-<article class="user-tutorials-content-v2">
-  <div class="user-tutorials-content-v2__container">
-    {{#each @userTutorials as |userTutorial|}}
-      <Tutorials::Card @tutorial={{userTutorial.tutorial}} />
-    {{/each}}
-  </div>
-</article>
+{{outlet}}
