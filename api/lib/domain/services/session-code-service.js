@@ -2,12 +2,12 @@ const _ = require('lodash');
 const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
 
 function _randomLetter() {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
+  const letters = 'BCDFGHJKMPQRTVWXY'.split('');
   return _.sample(letters);
 }
 
 function _randomNumberCharacter() {
-  const numberCharacter = '0123456789'.split('');
+  const numberCharacter = '2346789'.split('');
   return _.sample(numberCharacter);
 }
 

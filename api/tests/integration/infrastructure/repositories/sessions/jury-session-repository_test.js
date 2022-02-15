@@ -25,6 +25,7 @@ describe('Integration | Repository | JurySession', function () {
         });
         certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EXT_ID' }).id;
         sessionId = databaseBuilder.factory.buildSession({
+          accessCode: 'GHKM26',
           assignedCertificationOfficerId: assignedCertificationOfficer.id,
           certificationCenterId,
           juryComment: 'Les mecs ils font des sessions de certif dans le jardin ??',
@@ -48,7 +49,7 @@ describe('Integration | Repository | JurySession', function () {
           examiner: 'Ginette',
           date: '2020-01-15',
           time: '15:30:00',
-          accessCode: 'ACC123',
+          accessCode: 'GHKM26',
           description: 'La session se déroule dans le jardin',
           examinerGlobalComment: '',
           finalizedAt: null,
