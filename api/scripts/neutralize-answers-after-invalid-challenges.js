@@ -15,6 +15,7 @@ const extractAnswers = async (lengthyChallengeId, exposure) => {
     .select('assessments.certificationCourseId AS certificationCourseId', 'answers.challengeId')
     .innerJoin('assessments', 'assessments.id', 'answers.assessmentId')
     .where('answers.result', '<>', 'ok')
+    .where('assessments.type', '=', 'CERTIFICATION')
     .where('answers.id', '>', exposure.lastAnswerIdBeforeRegression)
     .where('answers.id', '<', exposure.firstAnswerIdAfterRegression)
     .where('answers.challengeId', '=', lengthyChallengeId);
