@@ -1,0 +1,7 @@
+<article class="user-tutorials-content-v2">
+  <div class="user-tutorials-content-v2__container">
+    {{#each @model as |userTutorial|}}
+      <Tutorials::Card @tutorial={{userTutorial.tutorial}} />
+    {{/each}}
+  </div>
+</article>
