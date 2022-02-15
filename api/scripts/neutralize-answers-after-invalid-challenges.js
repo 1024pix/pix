@@ -11,11 +11,9 @@ const events = require('../lib/domain/events');
 
 const extractAnswers = async (lengthyChallengeId, exposure) => {
   const answers = await knex
-    .from('sessions')
-    .select('certification-courses.id AS certificationCourseId', 'answers.challengeId')
-    .innerJoin('certification-courses', 'certification-courses.sessionId', 'sessions.id')
-    .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .innerJoin('answers', 'answers.assessmentId', 'assessments.id')
+    .from('answers')
+    .select('assessments.certificationCourseId AS certificationCourseId', 'answers.challengeId')
+    .innerJoin('assessments', 'assessments.id', 'answers.assessmentId')
     .where('answers.result', '<>', 'ok')
     .where('answers.id', '>', exposure.lastAnswerIdBeforeRegression)
     .where('answers.id', '<', exposure.firstAnswerIdAfterRegression)
