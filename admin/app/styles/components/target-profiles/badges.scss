@@ -20,8 +20,24 @@
     }
   }
 
-  &__actions,
   &__shortcoming {
     width: 140px;
+  }
+
+  &__actions {
+    width: 160px;
+  }
+}
+
+.badges-table-actions {
+
+  &__button {
+    width: 100%;
+
+    &--delete {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }

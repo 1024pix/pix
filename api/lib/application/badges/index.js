@@ -71,6 +71,29 @@ exports.register = async function (server) {
         ],
       },
     },
+    {
+      method: 'DELETE',
+      path: '/api/admin/badges/{id}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.badgeId,
+          }),
+        },
+        handler: badgesController.deleteUnassociatedBadge,
+        tags: ['api', 'badges'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            '- Elle permet de supprimer un résultat thématique non assigné.',
+        ],
+      },
+    },
   ]);
 };
 
