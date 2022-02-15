@@ -81,34 +81,38 @@ function getTransformationStructsForPixCertifCandidatesImport({ complementaryCer
   const transformationStruct = [..._TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
 
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    const containsClea = complementaryCertifications.some(
-      (complementaryCertification) => complementaryCertification.name === CLEA
-    );
-    const containsPixPlusDroit = complementaryCertifications.some(
-      (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
-    );
-
-    if (containsClea) {
-      transformationStruct.push({
-        header: 'CléA Numérique\n("oui" ou laisser vide)',
-        property: 'hasCleaNumerique',
-        transformFn: _toBooleanIfValueEqualsOuiOrNull,
-      });
-    }
-
-    if (containsPixPlusDroit) {
-      transformationStruct.push({
-        header: 'Pix+ Droit\n("oui" ou laisser vide)',
-        property: 'hasPixPlusDroit',
-        transformFn: _toBooleanIfValueEqualsOuiOrNull,
-      });
-    }
+    _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct);
   }
 
   return {
     transformStruct: transformationStruct,
     headers: _getHeadersFromTransformationStruct(transformationStruct),
   };
+}
+
+function _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct) {
+  const containsClea = complementaryCertifications.some(
+    (complementaryCertification) => complementaryCertification.name === CLEA
+  );
+  const containsPixPlusDroit = complementaryCertifications.some(
+    (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
+  );
+
+  if (containsClea) {
+    transformationStruct.push({
+      header: 'CléA Numérique\n("oui" ou laisser vide)',
+      property: 'hasCleaNumerique',
+      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+    });
+  }
+
+  if (containsPixPlusDroit) {
+    transformationStruct.push({
+      header: 'Pix+ Droit\n("oui" ou laisser vide)',
+      property: 'hasPixPlusDroit',
+      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+    });
+  }
 }
 
 function _toNotEmptyTrimmedStringOrNull(val) {
