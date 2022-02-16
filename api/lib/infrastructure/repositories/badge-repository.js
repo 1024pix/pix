@@ -46,13 +46,14 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
-  async isAssociated(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-    const associatedBadge = await (knexTransaction ?? knex)('badge-acquisitions').where({ badgeId }).first();
+  async isAssociated(badgeId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const associatedBadge = await domainTransaction.knex('badge-acquisitions').where({ badgeId }).first();
     return !!associatedBadge;
   },
 
-  async isRelatedToCertification(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-    const partnerCertificationBadge = await (knexTransaction ?? knex)('partner-certifications')
+  async isRelatedToCertification(badgeId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const partnerCertificationBadge = await domainTransaction
+      .knex('partner-certifications')
       .join('badges', 'partnerKey', 'key')
       .where('badges.id', badgeId)
       .first();
@@ -74,9 +75,9 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
 
-  async save(badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+  async save(badge, domainTransaction = DomainTransaction.emptyTransaction()) {
     try {
-      const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
+      const [savedBadge] = await domainTransaction.knex(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
       return new Badge(savedBadge);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
@@ -91,19 +92,18 @@ module.exports = {
     return new Badge({ ...badge, ...updatedBadge });
   },
 
-  async isKeyAvailable(key, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-    const result = await (knexTransaction ?? knex)(TABLE_NAME).select('key').where('key', key);
+  async isKeyAvailable(key, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const result = await domainTransaction.knex(TABLE_NAME).select('key').where('key', key);
     if (result.length) {
       throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
     }
     return true;
   },
 
-  async delete(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-    const knexConn = knexTransaction ?? knex;
-    await knexConn('badge-criteria').where({ badgeId }).del();
-    await knexConn('skill-sets').where({ badgeId }).del();
-    await knexConn('badges').where({ id: badgeId }).del();
+  async delete(badgeId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    await domainTransaction.knex('badge-criteria').where({ badgeId }).del();
+    await domainTransaction.knex('skill-sets').where({ badgeId }).del();
+    await domainTransaction.knex('badges').where({ id: badgeId }).del();
 
     return true;
   },
