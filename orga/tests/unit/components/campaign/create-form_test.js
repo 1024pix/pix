@@ -3,9 +3,11 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import { setupIntl, t } from 'ember-intl/test-support';
 
 module('Unit | Component | Campaign::CreateForm', (hooks) => {
   setupTest(hooks);
+  setupIntl(hooks);
 
   module('#categories', function () {
     module('when this a target profile without OTHER category', function () {
@@ -41,15 +43,15 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         const expectedOrder = [
           {
             name: 'PREDEFINED',
-            translation: 'Prédéfinie',
+            translation: t('pages.campaign-creation.tags.PREDEFINED'),
           },
           {
             name: 'CUSTOM',
-            translation: 'Sur-mesure',
+            translation: t('pages.campaign-creation.tags.CUSTOM'),
           },
           {
             name: 'SUBJECT',
-            translation: 'Thématique',
+            translation: t('pages.campaign-creation.tags.SUBJECT'),
           },
         ];
         assert.deepEqual(allCategories, expectedOrder);
@@ -95,19 +97,19 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         const expectedOrder = [
           {
             name: 'PREDEFINED',
-            translation: 'Prédéfinie',
+            translation: t('pages.campaign-creation.tags.PREDEFINED'),
           },
           {
             name: 'CUSTOM',
-            translation: 'Sur-mesure',
+            translation: t('pages.campaign-creation.tags.CUSTOM'),
           },
           {
             name: 'SUBJECT',
-            translation: 'Thématique',
+            translation: t('pages.campaign-creation.tags.SUBJECT'),
           },
           {
             name: 'OTHER',
-            translation: 'Autre',
+            translation: t('pages.campaign-creation.tags.OTHER'),
           },
         ];
         assert.deepEqual(allCategories, expectedOrder);

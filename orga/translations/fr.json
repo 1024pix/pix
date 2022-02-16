@@ -330,12 +330,12 @@
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix."
       },
       "tags": {
-        "COMPETENCES": "Compétences Pix",
-        "CUSTOM": "Sur-mesure",
-        "DISCIPLINE": "Disciplinaire",
-        "PREDEFINED": "Prédéfinie",
-        "OTHER": "Autre",
-        "SUBJECT": "Thématique"
+        "COMPETENCES": "Les 16 compétences",
+        "CUSTOM": "Parcours sur-mesure",
+        "DISCIPLINE": "Disciplinaires",
+        "PREDEFINED": "Parcours prédéfinis",
+        "OTHER": "Autres",
+        "SUBJECT": "Thématiques"
       },
       "tags-title": "Filtrer la recherche :",
       "target-profiles": {

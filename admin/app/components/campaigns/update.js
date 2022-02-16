@@ -88,7 +88,6 @@ export default class Update extends Component {
   }
 
   async _checkFormValidation() {
-    console.log(this.form.customResultPageButtonUrl);
     const { validations } = await this.form.validate();
     return validations.isValid;
   }
