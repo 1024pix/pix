@@ -1,7 +1,6 @@
-import { find, findAll } from '@ember/test-helpers';
+import { find, findAll, visit } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail } from '../helpers/authentication';

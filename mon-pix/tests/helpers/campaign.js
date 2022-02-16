@@ -1,5 +1,4 @@
-import { click, fillIn } from '@ember/test-helpers';
-import visit from './visit';
+import { click, fillIn, visit } from '@ember/test-helpers';
 import { clickByLabel } from './click-by-label';
 
 export async function startCampaignByCode(campaignCode) {

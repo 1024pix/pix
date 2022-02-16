@@ -1,9 +1,8 @@
-import { findAll, currentURL } from '@ember/test-helpers';
+import { findAll, currentURL, visit } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import { contains } from '../helpers/contains';
-import visit from '../helpers/visit';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { setupApplicationTest } from 'ember-mocha';

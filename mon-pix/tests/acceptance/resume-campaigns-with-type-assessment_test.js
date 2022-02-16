@@ -1,9 +1,8 @@
-import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
-import visit from '../helpers/visit';
 import { clickByLabel } from '../helpers/click-by-label';
 import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-mocha';

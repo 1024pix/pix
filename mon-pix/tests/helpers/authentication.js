@@ -1,5 +1,4 @@
-import { fillIn } from '@ember/test-helpers';
-import visit from './visit';
+import { fillIn, visit } from '@ember/test-helpers';
 import { clickByLabel } from './click-by-label';
 
 export async function authenticateByEmail(user) {
