@@ -1,11 +1,13 @@
 const _ = require('lodash');
+const config = require('../../config');
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
 const IN_PROCESS = 'in_process';
 const PROCESSED = 'processed';
 
-const availableCharactersForPasswordGeneration = '2346789BCDFGHJKMPQRTVWXY'.split('');
+const availableCharactersForPasswordGeneration =
+  `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
 const NB_CHAR = 5;
 
 const statuses = {
