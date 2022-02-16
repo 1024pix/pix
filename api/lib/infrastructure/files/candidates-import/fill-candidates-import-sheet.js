@@ -30,6 +30,7 @@ module.exports = async function fillCandidatesImportSheet({
     certificationCenterHabilitations,
     isScoCertificationCenter,
   });
+
   const templateWithSessionAndColumnsAndCandidates = _addCandidates(
     templateWithSessionAndColumns,
     session.certificationCandidates
@@ -58,11 +59,25 @@ function _addSession(stringifiedXml, session) {
 
 function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCertificationCenter }) {
   if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
+    stringifiedXml = writeOdsUtils.addTooltipOnCell({
+      stringifiedXml,
+      targetCellAddress: "'Liste des candidats'.O13",
+      tooltipName: 'val-prepayment-code',
+      tooltipTitle: 'Code de prépaiement',
+      tooltipContentLines: [
+        "(Requis notamment dans le cas d'un achat de crédits combinés)",
+        'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
+        'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
+      ],
+    });
+
     stringifiedXml = writeOdsUtils.addValidatorRestrictedList({
       stringifiedXml,
       validatorName: 'billingModeValidator',
       restrictedList: billingValidatorList,
       allowEmptyCell: false,
+      tooltipTitle: 'Code de prépaiement',
+      tooltipContentLines: ['Choix possibles:', ...billingValidatorList],
     });
     stringifiedXml = _addBillingColumns(stringifiedXml);
   }
