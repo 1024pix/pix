@@ -1,6 +1,5 @@
 .scalingo/node
 admin
-api
 certif
 high-level-tests
 mon-pix
