@@ -25,10 +25,6 @@
     "web": {
       "amount": 1,
       "size": "S"
-    },
-    "background": {
-      "amount": 0,
-      "size": "S"
     }
   }
 }
