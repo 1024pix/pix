@@ -47,4 +47,5 @@ module.exports = [
   require('./application/user-orga-settings'),
   require('./application/user-tutorials'),
   require('./application/users'),
+  require('./application/static'),
 ];
