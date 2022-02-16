@@ -6,9 +6,9 @@ export default class IndexRoute extends Route.extend(SecuredRouteMixin) {
   @service featureToggles;
 
   redirect() {
-    if (!this.featureToggles.featureToggles.isNewTutorialsPageEnabled) return;
-
-    this.replaceWith('user-tutorials.recommended');
+    this.replaceWith(
+      this.featureToggles.featureToggles.isNewTutorialsPageEnabled ? 'user-tutorials-v2.recommended' : 'user-tutorials'
+    );
   }
 
   async model() {
