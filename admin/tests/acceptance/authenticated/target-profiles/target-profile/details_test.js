@@ -62,7 +62,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
       // then
       assert.contains('Profil Cible Fantastix');
-      assert.contains('Thématique');
+      assert.contains('Thématiques');
       assert.dom('section').containsText('ID : 1');
       assert.dom('section').containsText('Public : Oui');
       assert.dom('section').containsText('Obsolète : Non');
@@ -223,7 +223,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       await click('button[type=submit]');
 
       // then
-      assert.contains('Sur-mesure');
+      assert.contains('Parcours sur-mesure');
       assert.dom('Enregistrer').doesNotExist();
     });
   });

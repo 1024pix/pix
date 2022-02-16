@@ -11,7 +11,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     await render(hbs`<TargetProfiles::Category @category="COMPETENCES"/>`);
 
     // then
-    assert.contains('Compétences Pix');
+    assert.contains('Les 16 compétences');
   });
 
   test('it should display the tag for type SUBJECT', async function (assert) {
@@ -19,7 +19,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     await render(hbs`<TargetProfiles::Category @category="SUBJECT"/>`);
 
     // then
-    assert.contains('Thématique');
+    assert.contains('Thématiques');
   });
 
   test('it should display the tag for type DISCIPLINE', async function (assert) {
@@ -27,7 +27,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     await render(hbs`<TargetProfiles::Category @category="DISCIPLINE"/>`);
 
     // then
-    assert.contains('Disciplinaire');
+    assert.contains('Disciplinaires');
   });
 
   test('it should display the tag for type CUSTOM', async function (assert) {
@@ -35,7 +35,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     await render(hbs`<TargetProfiles::Category @category="CUSTOM"/>`);
 
     // then
-    assert.contains('Sur-mesure');
+    assert.contains('Parcours sur-mesure');
   });
 
   test('it should display the tag for type PREDEFINED', async function (assert) {
@@ -43,7 +43,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     await render(hbs`<TargetProfiles::Category @category="PREDEFINED"/>`);
 
     // then
-    assert.contains('Prédéfinie');
+    assert.contains('Parcours prédéfinis');
   });
 
   test('it should display the tag for type OTHER', async function (assert) {
@@ -51,6 +51,6 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     await render(hbs`<TargetProfiles::Category @category="OTHER"/>`);
 
     // then
-    assert.contains('Autre');
+    assert.contains('Autres');
   });
 });
