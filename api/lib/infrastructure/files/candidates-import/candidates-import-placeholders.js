@@ -94,6 +94,7 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
   {
     placeholder: 'prepaymentCode',
     propertyName: 'prepaymentCode',
+    validator: 'val-prepayment-code',
   },
   {
     placeholder: 'CléA Numérique',

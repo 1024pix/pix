@@ -109,16 +109,25 @@ function _addCellToEndOfLine({ parsedXmlDom, lineNumber, cell, positionOffset })
   line.insertBefore(cell, lineChildNodes[lineChildNodes.length - positionOffset]);
 }
 
-function addValidatorRestrictedList({ stringifiedXml, validatorName, restrictedList, allowEmptyCell = true }) {
+function addValidatorRestrictedList({
+  stringifiedXml,
+  validatorName,
+  restrictedList,
+  allowEmptyCell = true,
+  tooltipTitle,
+  tooltipContentLines,
+}) {
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   const contentValidations = parsedXmlDom.getElementsByTagName('table:content-validations').item(0);
   const validator = parsedXmlDom.createElement('table:content-validation');
   validator.setAttribute('table:name', validatorName);
-  validator.setAttribute(
-    'table:condition',
-    `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`
-  );
-  validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
+  if (restrictedList?.length) {
+    validator.setAttribute(
+      'table:condition',
+      `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`
+    );
+    validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
+  }
 
   const errorMessage = parsedXmlDom.createElement('table:error-message');
   errorMessage.setAttribute('table:display', 'true');
@@ -127,7 +136,30 @@ function addValidatorRestrictedList({ stringifiedXml, validatorName, restrictedL
   validator.appendChild(errorMessage);
   contentValidations.appendChild(validator);
 
+  const helpMessage = parsedXmlDom.createElement('table:help-message');
+  helpMessage.setAttribute('table:title', tooltipTitle);
+  helpMessage.setAttribute('table:display', 'true');
+
+  const helpMessageWithContent = tooltipContentLines.reduce((helpMessageAccumulator, line) => {
+    const paragraph = parsedXmlDom.createElement('text:p');
+    paragraph.textContent = line;
+    helpMessageAccumulator.appendChild(paragraph);
+    return helpMessageAccumulator;
+  }, helpMessage);
+
+  validator.appendChild(helpMessageWithContent);
+
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
+}
+
+function addTooltipOnCell({ stringifiedXml, tooltipName, tooltipTitle, tooltipContentLines }) {
+  return addValidatorRestrictedList({
+    stringifiedXml,
+    validatorName: tooltipName,
+    allowEmptyCell: true,
+    tooltipTitle,
+    tooltipContentLines,
+  });
 }
 
 function _getRefRowAndContainerDomElements(parsedXmlDom, rowMarkerPlaceholder) {
@@ -238,4 +270,5 @@ module.exports = {
   addCellToEndOfLineWithStyleOfCellLabelled,
   incrementRowsColumnSpan,
   addValidatorRestrictedList,
+  addTooltipOnCell,
 };
