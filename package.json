@@ -23,7 +23,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "run-s ci:front build:front signal-github signal-jira",
+    "build": "run-s ci:all build:front signal-github signal-jira",
     "build:admin": "(cd admin && npm run build) && mkdir -p api/dist && cp -R admin/dist api/dist/admin",
     "build:certif": "(cd certif && npm run build) && mkdir -p api/dist && cp -R certif/dist api/dist/certif",
     "build:front": "run-p --print-label build:mon-pix build:orga build:certif build:admin",
