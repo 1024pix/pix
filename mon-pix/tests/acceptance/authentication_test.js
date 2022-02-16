@@ -1,9 +1,8 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
-import { fillIn, currentURL } from '@ember/test-helpers';
+import { fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import visit from '../helpers/visit';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';

@@ -1,8 +1,7 @@
-import { click, find, findAll } from '@ember/test-helpers';
+import { click, find, findAll, visit } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
-import visit from '../helpers/visit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Compare answers and solutions for QCM questions', function () {

@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
-import visit from '../helpers/visit';
+import { visit } from '@ember/test-helpers';
 import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Footer', function () {
