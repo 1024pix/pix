@@ -1,13 +1,14 @@
 const _ = require('lodash');
+const config = require('../../config');
 const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
 
 function _randomLetter() {
-  const letters = 'BCDFGHJKMPQRTVWXY'.split('');
+  const letters = config.availableCharacterForCode.letters.split('');
   return _.sample(letters);
 }
 
 function _randomNumberCharacter() {
-  const numberCharacter = '2346789'.split('');
+  const numberCharacter = config.availableCharacterForCode.numbers.split('');
   return _.sample(numberCharacter);
 }
 

@@ -1,7 +1,10 @@
 const _ = require('lodash');
 const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository');
 const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors');
-const availableCharacters = '2346789BCDFGHJKMPQRTVWXY'.split('');
+const config = require('../../config');
+
+const availableCharacters =
+  `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
 const NB_CHAR = 8;
 const NB_OF_TRIALS = 1000;
 
