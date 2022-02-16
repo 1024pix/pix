@@ -803,6 +803,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await visit(`/connexion-pole-emploi?code=test&state=${state}`);
 
             // then
+            sinon.assert.notCalled(replaceLocationStub);
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
