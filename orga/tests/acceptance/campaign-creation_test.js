@@ -40,6 +40,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
   module('when the prescriber is authenticated', (hooks) => {
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      server.create('member', { id: user.id, firstName: user.firstName, lastName: user.lastName });
       createPrescriberByUser(user);
 
       await authenticateSession(user.id);
@@ -144,14 +145,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const currentUserWithMembership = createMembershipByOrganizationIdAndUser(organization.id, currentUser);
       createPrescriberByUser(currentUserWithMembership);
 
-      const otherUser = server.create('user', {
-        id: 10,
-        firstName: 'Tom',
-        lastName: 'Égérie',
-        pixOrgaTermsOfServiceAccepted: true,
-      });
-      const otherUserWithMembership = createMembershipByOrganizationIdAndUser(organization.id, otherUser);
-      createPrescriberByUser(otherUserWithMembership);
+      server.create('member', { id: currentUser.id, firstName: currentUser.firstName, lastName: currentUser.lastName });
+      server.create('member', { firstName: 'Tom', lastName: 'Égérie' });
 
       await authenticateSession(currentUser.id);
 
