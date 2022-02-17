@@ -78,6 +78,47 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       assert.true(shouldDisplayComplementaryCertifications);
     });
   });
+
+  module('#get shouldDisplayPaymentOptions', function () {
+    test('should return false if feature toggle is false and center is not sco', function (assert) {
+      // given
+      _stubFeatureToggle(this, 'isCertificationBillingEnabled', false);
+      _stubCurrentCenter(this, store, { type: 'PRO' });
+      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
+
+      // when
+      const shouldDisplayPaymentOptions = controller.shouldDisplayPaymentOptions;
+
+      // then
+      assert.false(shouldDisplayPaymentOptions);
+    });
+
+    test('should return false if feature toggle is true and center is sco', function (assert) {
+      // given
+      _stubFeatureToggle(this, 'isCertificationBillingEnabled', true);
+      _stubCurrentCenter(this, store, { type: 'SCO' });
+      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
+
+      // when
+      const shouldDisplayPaymentOptions = controller.shouldDisplayPaymentOptions;
+
+      // then
+      assert.false(shouldDisplayPaymentOptions);
+    });
+
+    test('should return true if feature toggle is true and center is not SCO', function (assert) {
+      // given
+      _stubFeatureToggle(this, 'isCertificationBillingEnabled', true);
+      _stubCurrentCenter(this, store, { type: 'PRO' });
+      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
+
+      // when
+      const shouldDisplayPaymentOptions = controller.shouldDisplayPaymentOptions;
+
+      // then
+      assert.true(shouldDisplayPaymentOptions);
+    });
+  });
 });
 
 function _stubFeatureToggle(controller, featureToggleName, featureToggleValue) {
