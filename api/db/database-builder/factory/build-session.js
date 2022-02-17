@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 module.exports = function buildSession({
   id = databaseBuffer.getNextId(),
-  accessCode = 'ACC123',
+  accessCode = 'FMKP39',
   address = '3 rue des églantines',
   certificationCenter = 'Centre de certif Pix',
   certificationCenterId,

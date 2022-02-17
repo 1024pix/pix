@@ -2,7 +2,7 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const buildSession = function ({
   id = 123,
-  accessCode = 'ABCD123',
+  accessCode = 'BCDF234',
   address = '4 avenue du général perlimpimpim',
   certificationCenter = 'Centre de certif pix',
   certificationCenterId,

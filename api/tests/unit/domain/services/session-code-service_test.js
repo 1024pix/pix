@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 describe('Unit | Service | CodeSession', function () {
   describe('#isSessionCodeAvailable', function () {
-    it('should return a session code with 4 random capital letters and 2 random numbers', async function () {
+    it('should return a non ambiguous session code with 4 random capital letters and 2 random numbers', async function () {
       // given
       sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
 
@@ -13,7 +13,7 @@ describe('Unit | Service | CodeSession', function () {
       const result = await sessionCodeService.getNewSessionCode();
 
       // then
-      expect(result).to.match(/[A-Z]{4}[0-9]{2}/);
+      expect(result).to.match(/[B,C,D,F,G,H,J,K,M,P,Q,R,T,V,W,X,Y]{4}[2,3,4,6,7,8,9]{2}/);
     });
 
     it('should return a new code if first code was not unique', async function () {
