@@ -2,10 +2,15 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const CampaignManagement = require('../../domain/read-models/CampaignManagement');
 const { fetchPage } = require('../utils/knex-utils');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+
+const Campaign = require('../../domain/models/Campaign');
+
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 module.exports = {
   async get(campaignId) {
-    const result = await knex('campaigns')
+    let campaign = await knex('campaigns')
       .select({
         id: 'campaigns.id',
         code: 'campaigns.code',
@@ -22,17 +27,25 @@ module.exports = {
         targetProfileId: 'campaigns.targetProfileId',
         targetProfileName: 'target-profiles.name',
         title: 'campaigns.title',
+        ownerId: 'ownerUser.id',
+        ownerLastName: 'ownerUser.lastName',
+        ownerFirstName: 'ownerUser.firstName',
         customLandingPageText: 'campaigns.customLandingPageText',
         customResultPageText: 'campaigns.customResultPageText',
         customResultPageButtonText: 'campaigns.customResultPageButtonText',
         customResultPageButtonUrl: 'campaigns.customResultPageButtonUrl',
       })
       .join('users', 'users.id', 'campaigns.creatorId')
+      .join('users AS ownerUser', 'ownerUser.id', 'campaigns.ownerId')
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .where('campaigns.id', campaignId)
       .first();
-    return result;
+
+    const participationCountByStatus = await _countParticipationsByStatus(campaignId, campaign.type);
+    campaign = { ...campaign, ...participationCountByStatus };
+    const campaignManagement = new CampaignManagement(campaign);
+    return campaignManagement;
   },
 
   async findPaginatedCampaignManagements({ organizationId, page }) {
@@ -75,3 +88,28 @@ module.exports = {
     return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
   },
 };
+
+async function _countParticipationsByStatus(campaignId, campaignType) {
+  const row = await knex('campaign-participations')
+    .select([
+      knex.raw(`sum(case when status = ? then 1 else 0 end) as shared`, SHARED),
+      knex.raw(`sum(case when status = ? then 1 else 0 end) as completed`, TO_SHARE),
+      knex.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
+    ])
+    .where({ campaignId, isImproved: false })
+    .groupBy('campaignId')
+    .first();
+
+  return _mapToParticipationByStatus(row, campaignType);
+}
+
+function _mapToParticipationByStatus(row = {}, campaignType) {
+  const participationByStatus = {
+    shared: row.shared || 0,
+    completed: row.completed || 0,
+  };
+  if (campaignType === Campaign.types.ASSESSMENT) {
+    participationByStatus.started = row.started || 0;
+  }
+  return participationByStatus;
+}
