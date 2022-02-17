@@ -33,28 +33,28 @@ module('Acceptance | Supervisor Portal', function (hooks) {
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/12345/surveiller');
+      assert.strictEqual(currentURL(), '/sessions/12345/surveiller');
     });
   });
 
   module('When supervisor is supervising a session', function () {
     module('When quit button is clicked', function () {
-      test('it should redirect to the supervisor authentication page', async function (assert) {
-        // given
-        const screen = await visitScreen('/connexion-espace-surveillant');
-        await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-        await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
-        await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+      module('When action is confirmed through the modal', function () {
+        test('it should redirect to the supervisor authentication page', async function (assert) {
+          // given
+          const screen = await visitScreen('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+          await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
-        // when
-        await click(screen.getByText('Quitter'));
+          // when
+          await click(screen.getByText('Quitter'));
 
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/connexion-espace-surveillant');
+          await click(screen.getByText('Quitter la surveillance'));
+
+          // then
+          assert.strictEqual(currentURL(), '/connexion-espace-surveillant');
+        });
       });
     });
   });
