@@ -27,11 +27,9 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
           const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
           const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
           const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
-          const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
 
           sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
           endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(false);
-          supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
           sessionForAttendanceSheetRepository.getWithCertificationCandidates
             .withArgs(sessionId)
             .resolves(_buildSessionWithCandidate('SUP', false));
@@ -69,7 +67,6 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             sessionRepository,
             endTestScreenRemovalService,
             sessionForAttendanceSheetRepository,
-            supervisorAccessRepository,
           });
 
           // then
@@ -77,128 +74,120 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
         });
 
         context('when the certification center has supervisor access', function () {
-          context('when the session has supervisor access', function () {
-            it('should return the attendance sheet without end test column', async function () {
-              // given
-              const userId = 'dummyUserId';
-              const sessionId = 'dummySessionId';
-              const stringifiedXml = '<xml>Some xml</xml>';
-              const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
-              const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+          it('should return the attendance sheet without end test column', async function () {
+            // given
+            const userId = 'dummyUserId';
+            const sessionId = 'dummySessionId';
+            const stringifiedXml = '<xml>Some xml</xml>';
+            const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
+            const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
 
-              const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
-              const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
-              const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-              const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
+            const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+            const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+            const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
 
-              sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-              endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(true);
-              supervisorAccessRepository.sessionHasSupervisorAccess.withArgs({ sessionId }).resolves(true);
-              sessionForAttendanceSheetRepository.getWithCertificationCandidates
-                .withArgs(sessionId)
-                .resolves(_buildSessionWithCandidate('SUP', true));
+            sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(true);
+            sessionForAttendanceSheetRepository.getWithCertificationCandidates
+              .withArgs(sessionId)
+              .resolves(_buildSessionWithCandidate('SUP', true));
 
-              const odsBuffer = Buffer.from('some ods file');
-              sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-              sinon
-                .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
-                  odsFilePath: sinon.match('attendance_sheet_template.ods'),
-                })
-                .resolves(odsBuffer);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
-                .withArgs({
-                  stringifiedXml,
-                  sessionData: _buildAttendanceSheetSessionData('SUP', true),
-                  sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionUpdatedXml);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionUpdatedXml,
-                  candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
-                  candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionAndCandidatesUpdatedXml);
+            const odsBuffer = Buffer.from('some ods file');
+            sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+            sinon
+              .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+              .withArgs({
+                stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+                odsFilePath: sinon.match('attendance_sheet_template.ods'),
+              })
+              .resolves(odsBuffer);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+              .withArgs({
+                stringifiedXml,
+                sessionData: _buildAttendanceSheetSessionData('SUP', true),
+                sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionUpdatedXml);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+              .withArgs({
+                stringifiedXml: stringifiedSessionUpdatedXml,
+                candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
+                candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionAndCandidatesUpdatedXml);
 
-              // when
-              const result = await getAttendanceSheet({
-                userId,
-                sessionId,
-                endTestScreenRemovalService,
-                sessionRepository,
-                sessionForAttendanceSheetRepository,
-                supervisorAccessRepository,
-              });
-
-              // then
-              expect(result).to.deep.equal(odsBuffer);
+            // when
+            const result = await getAttendanceSheet({
+              userId,
+              sessionId,
+              endTestScreenRemovalService,
+              sessionRepository,
+              sessionForAttendanceSheetRepository,
             });
+
+            // then
+            expect(result).to.deep.equal(odsBuffer);
           });
+        });
 
-          context('when the session does not have supervisor access', function () {
-            it('should return the attendance sheet with end test column', async function () {
-              // given
-              const userId = 'dummyUserId';
-              const sessionId = 'dummySessionId';
-              const stringifiedXml = '<xml>Some xml</xml>';
-              const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
-              const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+        context('when the certification center does not have supervisor access', function () {
+          it('should return the attendance sheet with end test column', async function () {
+            // given
+            const userId = 'dummyUserId';
+            const sessionId = 'dummySessionId';
+            const stringifiedXml = '<xml>Some xml</xml>';
+            const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
+            const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
 
-              const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
-              const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-              const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
-              const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
+            const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+            const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
+            const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
 
-              sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-              endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(true);
-              supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
-              sessionForAttendanceSheetRepository.getWithCertificationCandidates
-                .withArgs(sessionId)
-                .resolves(_buildSessionWithCandidate('SUP', false));
+            sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(false);
+            sessionForAttendanceSheetRepository.getWithCertificationCandidates
+              .withArgs(sessionId)
+              .resolves(_buildSessionWithCandidate('SUP', false));
 
-              const odsBuffer = Buffer.from('some ods file');
-              sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-              sinon
-                .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
-                  odsFilePath: sinon.match('non_sco_attendance_sheet_template_with_fdt.ods'),
-                })
-                .resolves(odsBuffer);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
-                .withArgs({
-                  stringifiedXml,
-                  sessionData: _buildAttendanceSheetSessionData('SUP', false),
-                  sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionUpdatedXml);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionUpdatedXml,
-                  candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
-                  candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionAndCandidatesUpdatedXml);
+            const odsBuffer = Buffer.from('some ods file');
+            sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+            sinon
+              .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+              .withArgs({
+                stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+                odsFilePath: sinon.match('non_sco_attendance_sheet_template_with_fdt.ods'),
+              })
+              .resolves(odsBuffer);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+              .withArgs({
+                stringifiedXml,
+                sessionData: _buildAttendanceSheetSessionData('SUP', false),
+                sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionUpdatedXml);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+              .withArgs({
+                stringifiedXml: stringifiedSessionUpdatedXml,
+                candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
+                candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionAndCandidatesUpdatedXml);
 
-              // when
-              const result = await getAttendanceSheet({
-                userId,
-                sessionId,
-                sessionRepository,
-                endTestScreenRemovalService,
-                sessionForAttendanceSheetRepository,
-                supervisorAccessRepository,
-              });
-
-              // then
-              expect(result).to.deep.equal(odsBuffer);
+            // when
+            const result = await getAttendanceSheet({
+              userId,
+              sessionId,
+              sessionRepository,
+              endTestScreenRemovalService,
+              sessionForAttendanceSheetRepository,
             });
+
+            // then
+            expect(result).to.deep.equal(odsBuffer);
           });
         });
       });
@@ -215,11 +204,9 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
           const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
           const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
           const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-          const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
 
           sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
           endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(false);
-          supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
           sessionForAttendanceSheetRepository.getWithCertificationCandidates
             .withArgs(sessionId)
             .resolves(_buildSessionWithCandidate('SCO', true));
@@ -257,135 +244,126 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             endTestScreenRemovalService,
             sessionRepository,
             sessionForAttendanceSheetRepository,
-            supervisorAccessRepository,
           });
 
           // then
           expect(result).to.deep.equal(odsBuffer);
         });
 
-        context('when the certification center have supervisor access', function () {
-          context('when the session has supervisor access', function () {
-            it('should return the sco attendance sheet without end test column', async function () {
-              // given
-              const userId = 'dummyUserId';
-              const sessionId = 'dummySessionId';
-              const stringifiedXml = '<xml>Some xml</xml>';
-              const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
-              const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+        context('when the certification center has supervisor access', function () {
+          it('should return the sco attendance sheet without end test column', async function () {
+            // given
+            const userId = 'dummyUserId';
+            const sessionId = 'dummySessionId';
+            const stringifiedXml = '<xml>Some xml</xml>';
+            const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
+            const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
 
-              const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
-              const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
-              const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-              const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
+            const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+            const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+            const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
 
-              sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-              endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(true);
-              supervisorAccessRepository.sessionHasSupervisorAccess.withArgs({ sessionId }).resolves(true);
-              sessionForAttendanceSheetRepository.getWithCertificationCandidates
-                .withArgs(sessionId)
-                .resolves(_buildSessionWithCandidate('SCO', true));
+            sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.withArgs(sessionId).resolves(true);
+            sessionForAttendanceSheetRepository.getWithCertificationCandidates
+              .withArgs(sessionId)
+              .resolves(_buildSessionWithCandidate('SCO', true));
 
-              const odsBuffer = Buffer.from('some ods file');
-              sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-              sinon
-                .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
-                  odsFilePath: sinon.match('sco_attendance_sheet_template.ods'),
-                })
-                .resolves(odsBuffer);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
-                .withArgs({
-                  stringifiedXml,
-                  sessionData: _buildAttendanceSheetSessionData('SCO', true),
-                  sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionUpdatedXml);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionUpdatedXml,
-                  candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
-                  candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionAndCandidatesUpdatedXml);
+            const odsBuffer = Buffer.from('some ods file');
+            sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+            sinon
+              .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+              .withArgs({
+                stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+                odsFilePath: sinon.match('sco_attendance_sheet_template.ods'),
+              })
+              .resolves(odsBuffer);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+              .withArgs({
+                stringifiedXml,
+                sessionData: _buildAttendanceSheetSessionData('SCO', true),
+                sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionUpdatedXml);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+              .withArgs({
+                stringifiedXml: stringifiedSessionUpdatedXml,
+                candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
+                candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionAndCandidatesUpdatedXml);
 
-              // when
-              const result = await getAttendanceSheet({
-                userId,
-                sessionId,
-                endTestScreenRemovalService,
-                sessionRepository,
-                sessionForAttendanceSheetRepository,
-                supervisorAccessRepository,
-              });
-
-              // then
-              expect(result).to.deep.equal(odsBuffer);
+            // when
+            const result = await getAttendanceSheet({
+              userId,
+              sessionId,
+              endTestScreenRemovalService,
+              sessionRepository,
+              sessionForAttendanceSheetRepository,
             });
+
+            // then
+            expect(result).to.deep.equal(odsBuffer);
           });
-          context('when the session does not have supervisor access', function () {
-            it('should return the attendance sheet with end test column', async function () {
-              // given
-              const userId = 'dummyUserId';
-              const sessionId = 'dummySessionId';
-              const stringifiedXml = '<xml>Some xml</xml>';
-              const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
-              const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+        });
+        context('when the certification center does not have supervisor access', function () {
+          it('should return the attendance sheet with end test column', async function () {
+            // given
+            const userId = 'dummyUserId';
+            const sessionId = 'dummySessionId';
+            const stringifiedXml = '<xml>Some xml</xml>';
+            const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
+            const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
 
-              const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
-              const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
-              const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-              const supervisorAccessRepository = { sessionHasSupervisorAccess: sinon.stub() };
+            const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+            const endTestScreenRemovalService = { isEndTestScreenRemovalEnabledBySessionId: sinon.stub() };
+            const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
 
-              sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-              endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(true);
-              supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
-              sessionForAttendanceSheetRepository.getWithCertificationCandidates
-                .withArgs(sessionId)
-                .resolves(_buildSessionWithCandidate('SCO', true));
+            sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+            endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId.resolves(false);
+            sessionForAttendanceSheetRepository.getWithCertificationCandidates
+              .withArgs(sessionId)
+              .resolves(_buildSessionWithCandidate('SCO', true));
 
-              const odsBuffer = Buffer.from('some ods file');
-              sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-              sinon
-                .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
-                  odsFilePath: sinon.match('sco_attendance_sheet_template_with_fdt.ods'),
-                })
-                .resolves(odsBuffer);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
-                .withArgs({
-                  stringifiedXml,
-                  sessionData: _buildAttendanceSheetSessionData('SCO', true),
-                  sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionUpdatedXml);
-              sinon
-                .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
-                .withArgs({
-                  stringifiedXml: stringifiedSessionUpdatedXml,
-                  candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
-                  candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-                })
-                .returns(stringifiedSessionAndCandidatesUpdatedXml);
+            const odsBuffer = Buffer.from('some ods file');
+            sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+            sinon
+              .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+              .withArgs({
+                stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+                odsFilePath: sinon.match('sco_attendance_sheet_template_with_fdt.ods'),
+              })
+              .resolves(odsBuffer);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+              .withArgs({
+                stringifiedXml,
+                sessionData: _buildAttendanceSheetSessionData('SCO', true),
+                sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionUpdatedXml);
+            sinon
+              .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+              .withArgs({
+                stringifiedXml: stringifiedSessionUpdatedXml,
+                candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
+                candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+              })
+              .returns(stringifiedSessionAndCandidatesUpdatedXml);
 
-              // when
-              const result = await getAttendanceSheet({
-                userId,
-                sessionId,
-                endTestScreenRemovalService,
-                sessionRepository,
-                sessionForAttendanceSheetRepository,
-                supervisorAccessRepository,
-              });
-
-              // then
-              expect(result).to.deep.equal(odsBuffer);
+            // when
+            const result = await getAttendanceSheet({
+              userId,
+              sessionId,
+              endTestScreenRemovalService,
+              sessionRepository,
+              sessionForAttendanceSheetRepository,
             });
+
+            // then
+            expect(result).to.deep.equal(odsBuffer);
           });
         });
       });
