@@ -22,6 +22,10 @@ module.exports = {
         'customResultPageText',
         'customResultPageButtonText',
         'customResultPageButtonUrl',
+        'sharedParticipationsCount',
+        'totalParticipationsCount',
+        'isTypeProfilesCollection',
+        'isTypeAssessment',
       ],
       meta,
     }).serialize(campaignManagement);
