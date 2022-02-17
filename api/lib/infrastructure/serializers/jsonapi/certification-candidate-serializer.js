@@ -10,6 +10,7 @@ module.exports = {
       transform: function (certificationCandidate) {
         return {
           ...certificationCandidate,
+          billingMode: certificationCandidate.translatedBillingMode,
           isLinked: !_.isNil(certificationCandidate.userId),
         };
       },
@@ -30,6 +31,8 @@ module.exports = {
         'birthINSEECode',
         'birthPostalCode',
         'complementaryCertifications',
+        'billingMode',
+        'prepaymentCode',
       ],
     }).serialize(certificationCandidates);
   },

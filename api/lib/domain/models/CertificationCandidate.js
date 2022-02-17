@@ -163,6 +163,10 @@ class CertificationCandidate {
     }
   }
 
+  get translatedBillingMode() {
+    return CertificationCandidate.translateBillingMode(this.billingMode);
+  }
+
   isAuthorizedToStart() {
     return this.authorizedToStart;
   }

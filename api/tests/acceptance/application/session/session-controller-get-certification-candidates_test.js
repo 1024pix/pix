@@ -57,6 +57,8 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         expectedCertificationCandidateAAttributes = {
           'first-name': certificationCandidateA.firstName,
           'last-name': certificationCandidateA.lastName,
+          'billing-mode': '',
+          'prepayment-code': null,
           birthdate: certificationCandidateA.birthdate,
           'birth-city': certificationCandidateA.birthCity,
           'birth-province-code': certificationCandidateA.birthProvinceCode,
@@ -75,6 +77,8 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         expectedCertificationCandidateBAttributes = {
           'first-name': certificationCandidateB.firstName,
           'last-name': certificationCandidateB.lastName,
+          'billing-mode': '',
+          'prepayment-code': null,
           birthdate: certificationCandidateB.birthdate,
           'birth-city': certificationCandidateB.birthCity,
           'birth-province-code': certificationCandidateB.birthProvinceCode,

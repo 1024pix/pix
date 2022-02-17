@@ -602,4 +602,26 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
     });
   });
+
+  describe('get translatedBillingMode', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { value: 'FREE', expectedTranslation: 'Gratuite' },
+      { value: 'PAID', expectedTranslation: 'Payante' },
+      { value: 'PREPAID', expectedTranslation: 'Prépayée' },
+      { value: 'Gratuite', expectedTranslation: 'FREE' },
+      { value: 'Payante', expectedTranslation: 'PAID' },
+      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
+    ].forEach(({ value, expectedTranslation }) => {
+      it(`should return ${expectedTranslation} when ${value} is translated`, function () {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          billingMode: value,
+        });
+
+        // when/then
+        expect(certificationCandidate.translatedBillingMode).to.equal(expectedTranslation);
+      });
+    });
+  });
 });
