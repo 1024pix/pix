@@ -87,11 +87,32 @@
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
+
+    a.active {
+      background-color: $grey-20;
+    }
   }
 }
 
 .user-tutorials-banner-v2-filters__button {
   height: 36px;
+  background-color: white;
+  border: 2px solid transparent;
+  outline: none;
+  color: #505F79;
+
+  &:hover {
+    background-color: $grey-30 !important;
+    box-shadow: none !important;
+    border: 2px solid transparent;
+  }
+
+  &:focus,
+  &:focus-visible {
+    border: 2px solid white;
+    color: white;
+    outline: none;
+  }
 
   @include device-is('desktop') {
     height: 44px;
