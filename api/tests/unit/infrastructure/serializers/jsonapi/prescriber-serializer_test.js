@@ -14,48 +14,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
       });
     });
 
-    context('when canCollectProfiles is true', function () {
-      it('should serialize prescriber with canCollectProfiles', function () {
-        // given
-        const organization = domainBuilder.buildOrganization({ canCollectProfiles: true });
-
-        const membership = domainBuilder.buildMembership({
-          organization,
-          organizationRole: Membership.roles.MEMBER,
-          user,
-        });
-
-        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
-          currentOrganization: organization,
-        });
-        userOrgaSettings.user = null;
-
-        const prescriber = domainBuilder.buildPrescriber({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          areNewYearSchoolingRegistrationsImported: false,
-          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
-          memberships: [membership],
-          userOrgaSettings,
-        });
-
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
-          prescriber,
-          membership,
-          userOrgaSettings,
-          organization,
-          serializedField: 'can-collect-profiles',
-          field: 'canCollectProfiles',
-        });
-
-        // when
-        const result = serializer.serialize(prescriber);
-
-        // then
-        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
-      });
-    });
-
     context('when isManagingStudents is true', function () {
       it('should serialize prescriber with isManagingStudents', function () {
         // given
@@ -148,7 +106,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         const organization = domainBuilder.buildOrganization({
           tags,
           isManagingStudents: false,
-          canCollectProfiles: false,
         });
 
         const membership = domainBuilder.buildMembership({

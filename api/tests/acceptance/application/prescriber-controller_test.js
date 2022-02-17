@@ -48,7 +48,6 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
           id: organization.id.toString(),
           type: 'organizations',
           attributes: {
-            'can-collect-profiles': organization.canCollectProfiles,
             credit: organization.credit,
             'external-id': organization.externalId,
             'is-managing-students': organization.isManagingStudents,

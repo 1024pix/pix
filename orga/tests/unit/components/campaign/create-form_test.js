@@ -28,7 +28,6 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
           },
         ];
         class CurrentUserStub extends Service {
-          organization = { canCollectProfiles: true };
           prescriber = { id: 1 };
         }
         this.owner.lookup('service:intl').setLocale('fr');
@@ -62,7 +61,6 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       test('should sort categories in alphabetic order and put the other category at the end.', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = { canCollectProfiles: true };
           prescriber = { id: 1 };
         }
         this.owner.lookup('service:intl').setLocale('fr');
@@ -121,7 +119,6 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
     test('should set new owner id', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = { canCollectProfiles: true };
         prescriber = { id: 1 };
       }
       this.owner.register('service:current-user', CurrentUserStub);

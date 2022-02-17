@@ -512,7 +512,7 @@ describe('Acceptance | API | Campaign Controller', function () {
     it('should return 201 status code and the campaign created with type ASSESSMENT and owner id', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+      organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
       targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
@@ -587,7 +587,7 @@ describe('Acceptance | API | Campaign Controller', function () {
     it('should return 201 status code and the campaign created with type PROFILES_COLLECTION and owner id', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+      organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
       targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
@@ -662,7 +662,7 @@ describe('Acceptance | API | Campaign Controller', function () {
     it('should return 403 status code when the user does not have access', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+      organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
       targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });

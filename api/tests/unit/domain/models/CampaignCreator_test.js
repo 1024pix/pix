@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
     describe('when the creator is allowed to create the campaign', function () {
       it('creates the campaign', function () {
         const availableTargetProfileIds = [1, 2];
-        const creator = new CampaignCreator(availableTargetProfileIds, false);
+        const creator = new CampaignCreator(availableTargetProfileIds);
         const campaignData = {
           name: 'campagne utilisateur',
           type: Campaign.types.ASSESSMENT,
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
       describe('when the creator cannot use the targetProfileId', function () {
         it('throws an error', async function () {
           const availableTargetProfileIds = [1, 2];
-          const creator = new CampaignCreator(availableTargetProfileIds, false);
+          const creator = new CampaignCreator(availableTargetProfileIds);
           const campaignData = {
             name: 'campagne utilisateur',
             type: Campaign.types.ASSESSMENT,
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
       describe('when the targetProfileId is not given', function () {
         it('throws an error', async function () {
           const availableTargetProfileIds = [1, 2];
-          const creator = new CampaignCreator(availableTargetProfileIds, false);
+          const creator = new CampaignCreator(availableTargetProfileIds);
           const campaignData = {
             name: 'campagne utilisateur',
             type: Campaign.types.ASSESSMENT,
@@ -67,27 +67,6 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
           expect(error.invalidAttributes).to.deep.equal([
             { attribute: 'targetProfileId', message: 'TARGET_PROFILE_IS_REQUIRED' },
           ]);
-        });
-      });
-    });
-
-    describe('when the campaign to create is an profile collection campaign', function () {
-      describe('when the prescriber cannot create profile collection campaign', function () {
-        it('creates the campaign', async function () {
-          const canCollectProfile = false;
-          const creator = new CampaignCreator([], canCollectProfile);
-          const campaignData = {
-            name: 'campagne utilisateur',
-            type: Campaign.types.PROFILES_COLLECTION,
-            creatorId: 1,
-            ownerId: 1,
-            organizationId: 2,
-          };
-
-          const error = await catchErr(creator.createCampaign, creator)(campaignData);
-
-          expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
-          expect(error.message).to.equal('Organization can not create campaign with type PROFILES_COLLECTION');
         });
       });
     });
