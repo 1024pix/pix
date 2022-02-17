@@ -1,6 +1,7 @@
 const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 
 module.exports = class CandidateData {
   constructor({
@@ -49,7 +50,7 @@ module.exports = class CandidateData {
     this.sessionId = this._emptyStringIfNull(sessionId);
     this.userId = this._emptyStringIfNull(userId);
     this.schoolingRegistrationId = this._emptyStringIfNull(schoolingRegistrationId);
-    this.billingMode = CandidateData.translateBillingMode(billingMode);
+    this.billingMode = CertificationCandidate.translateBillingMode(billingMode);
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
     this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
@@ -90,20 +91,6 @@ module.exports = class CandidateData {
       (complementaryCertification) => complementaryCertification.name === certificationLabel
     );
     return hasComplementaryCertification ? 'oui' : '';
-  }
-
-  static translateBillingMode(value) {
-    switch (value) {
-      case 'FREE':
-        return 'Gratuite';
-      case 'PAID':
-        return 'Payante';
-      case 'PREPAID':
-        return 'Prépayée';
-      case null:
-      default:
-        return '';
-    }
   }
 
   static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number) {

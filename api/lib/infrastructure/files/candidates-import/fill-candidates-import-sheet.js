@@ -14,7 +14,7 @@ const CandidateData = require('./CandidateData');
 const SessionData = require('./SessionData');
 
 const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map(
-  CandidateData.translateBillingMode
+  CertificationCandidate.translateBillingMode
 );
 
 module.exports = async function fillCandidatesImportSheet({
