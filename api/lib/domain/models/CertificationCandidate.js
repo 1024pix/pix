@@ -7,6 +7,7 @@ const {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../errors');
+const { featureToggles } = require('../../config');
 
 const BILLING_MODES = {
   FREE: 'FREE',
@@ -28,6 +29,18 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   extraTimePercentage: Joi.number().allow(null).optional(),
   sessionId: Joi.number().required().empty(null),
   complementaryCertifications: Joi.array().required(),
+  billingMode: Joi.when('$isCertificationBillingEnabled', {
+    is: true,
+    then: Joi.string()
+      .valid(...Object.values(BILLING_MODES))
+      .required(),
+    otherwise: Joi.valid(null),
+  }),
+  prepaymentCode: Joi.when('billingMode', {
+    is: 'PREPAID',
+    then: Joi.string().required().empty(null),
+    otherwise: Joi.valid(null),
+  }),
 });
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
@@ -107,7 +120,10 @@ class CertificationCandidate {
   }
 
   validate() {
-    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, { allowUnknown: true });
+    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
+      allowUnknown: true,
+      context: { isCertificationBillingEnabled: featureToggles.isCertificationBillingEnabled },
+    });
     if (error) {
       throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
     }
