@@ -187,7 +187,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         context(
           'when user reproducibility rate is in between minimum repro rate and trusted repro rate (grey zone)',
           function () {
-            it('should build CleaCertificationScoring containing a hash of maxReachablePixByCompetenceForClea based on operative clea skills', async function () {
+            it('should build CleaCertificationScoring containing a hash of expectedPixByCompetenceForClea based on operative clea skills', async function () {
               // given
               const cleaSkill1Comp1 = domainBuilder.buildSkill({
                 id: 'recSkill1_1',
@@ -252,7 +252,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
                 });
 
               // then
-              expect(cleaCertificationScoring.maxReachablePixByCompetenceForClea).to.deep.equal({
+              expect(cleaCertificationScoring.expectedPixByCompetenceForClea).to.deep.equal({
                 recCompetence1: 9,
                 recCompetence2: 4,
                 recCompetence3: 2,
