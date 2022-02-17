@@ -242,7 +242,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         // then
         expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('billingMode');
-        expect(error.why).to.equal('not_a_billing_mode');
+        expect(error.why).to.equal('required');
       });
 
       it('should throw an error if billingMode is not an expected value', async function () {
@@ -584,6 +584,22 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       // then
       expect(certificationCandidate.isBillingModePrepaid()).to.be.true;
+    });
+  });
+
+  describe('translateBillingMode', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { value: 'FREE', expectedTranslation: 'Gratuite' },
+      { value: 'PAID', expectedTranslation: 'Payante' },
+      { value: 'PREPAID', expectedTranslation: 'Prépayée' },
+      { value: 'Gratuite', expectedTranslation: 'FREE' },
+      { value: 'Payante', expectedTranslation: 'PAID' },
+      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
+    ].forEach(({ value, expectedTranslation }) => {
+      it(`should return ${expectedTranslation} when ${value} is translated`, function () {
+        expect(CertificationCandidate.translateBillingMode(value)).to.equal(expectedTranslation);
+      });
     });
   });
 });
