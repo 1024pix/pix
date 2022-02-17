@@ -142,6 +142,11 @@ module.exports = (function () {
       passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
     },
 
+    availableCharacterForCode: {
+      letters: 'BCDFGHJKMPQRTVWXY',
+      numbers: '2346789',
+    },
+
     caching: {
       redisUrl: process.env.REDIS_URL,
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
