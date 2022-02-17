@@ -12,6 +12,7 @@ const userWithSchoolingRegistrationSerializer = require('../../infrastructure/se
 const higherSchoolingRegistrationWarningSerializer = require('../../infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
+const organizationMembersSerializer = require('../../infrastructure/serializers/jsonapi/organization-members-serializer');
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const {
@@ -114,6 +115,12 @@ module.exports = {
       page: options.page,
     });
     return membershipSerializer.serialize(memberships, pagination);
+  },
+
+  async getOrganizationMembers(request) {
+    const organizationId = request.params.id;
+    const members = await usecases.getOrganizationMembers({ organizationId });
+    return organizationMembersSerializer.serialize(members);
   },
 
   async downloadCertificationAttestationsForDivision(request, h) {
