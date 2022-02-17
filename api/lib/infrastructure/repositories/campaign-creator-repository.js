@@ -5,10 +5,6 @@ const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors'
 async function get({ userId, organizationId, ownerId }) {
   await _checkUserIsAMemberOfOrganization({ organizationId, userId });
   await _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId });
-  const { canCollectProfiles } = await knex('organizations')
-    .where({ id: organizationId })
-    .select('canCollectProfiles')
-    .first();
 
   const availableTargetProfiles = await knex('target-profiles')
     .leftJoin('target-profile-shares', 'targetProfileId', 'target-profiles.id')
@@ -20,7 +16,7 @@ async function get({ userId, organizationId, ownerId }) {
         .orWhere({ organizationId });
     })
     .pluck('target-profiles.id');
-  return new CampaignCreator(availableTargetProfiles, canCollectProfiles);
+  return new CampaignCreator(availableTargetProfiles);
 }
 
 module.exports = {

@@ -23,7 +23,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     this.cancelSpy = () => {};
     this.errors = {};
     class CurrentUserStub extends Service {
-      organization = EmberObject.create({ canCollectProfiles: false });
       prescriber = EmberObject.create({ fullName: 'Adam Troisjour', id: 1 });
     }
     this.owner.register('service:current-user', CurrentUserStub);
@@ -73,35 +72,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom(screen.getByText(t('common.form.mandatory-fields'))).exists();
   });
 
-  module('when user cannot create campaign of type PROFILES_COLLECTION', function () {
-    test('it should display fields for campaign title and target profile by default', async function (assert) {
-      // when
-      await renderScreen(
-        hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
-      );
-
-      // then
-      assert.contains(t('pages.campaign-creation.test-title.label'));
-      assert.contains(t('pages.campaign-creation.target-profiles-list-label'));
-    });
-
-    test('it should not contain field to select campaign type', async function (assert) {
-      // when
-      await renderScreen(
-        hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
-      );
-
-      // then
-      assert.notContains(t('pages.campaign-creation.purpose.assessment'));
-      assert.notContains(t('pages.campaign-creation.purpose.profiles-collection'));
-    });
-  });
-
   module('when user choose to create a campaign of type ASSESSMENT', function () {
     test('it should display fields for campaign title and target profile', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: true });
         prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -120,7 +94,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     test('it should display the purpose explanation of an assessment campaign', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: true });
         prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -152,7 +125,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display the all category tags', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -185,7 +157,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display each category tags once', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -223,7 +194,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display only the target profiles associated to the tag selected', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -258,7 +228,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should not display the category tags', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -278,7 +247,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display informations about target profile', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -316,7 +284,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display a message about result', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -353,7 +320,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     module('chevron', function () {
       test('should display chevron', async function (assert) {
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -376,7 +342,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     module('when the user wants to clear the content of the target profile input', function (hooks) {
       hooks.beforeEach(function () {
         class CurrentUserStub extends Service {
-          organization = EmberObject.create({ canCollectProfiles: true });
           prescriber = EmberObject.create({ id: 1 });
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -440,7 +405,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     test('it should not display fields for campaign title and target profile', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: true });
         prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -458,7 +422,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     test('it should display fields for enabling multiple sendings', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: true });
         prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -475,7 +438,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     test('it should display the purpose explanation of a profiles collection campaign', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: true });
         prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -540,6 +502,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}} @targetProfiles={{this.targetProfiles}}/>`
     );
     await fillByLabel(`* ${t('pages.campaign-creation.name.label')}`, 'Ma campagne');
+    await clickByName(t('pages.campaign-creation.purpose.assessment'));
     await selectByLabelAndOption(t('pages.campaign-creation.target-profiles-list-label'), this.targetProfiles[0].name);
 
     // when
@@ -551,10 +514,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   });
 
   module('when there are errors', function () {
-    test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty ', async function (assert) {
+    test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: true });
         prescriber = EmberObject.create({ id: 1 });
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -609,6 +571,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await renderScreen(
         hbs`<Campaign::CreateForm @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}} @errors={{errors}}/>`
       );
+      await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
       // then
       assert.contains(t('api-errors-messages.campaign-creation.target-profile-required'));
