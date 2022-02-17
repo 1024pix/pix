@@ -127,6 +127,12 @@ class CertificationCandidate {
         return 'Payante';
       case 'PREPAID':
         return 'Prépayée';
+      case 'Gratuite':
+        return 'FREE';
+      case 'Payante':
+        return 'PAID';
+      case 'Prépayée':
+        return 'PREPAID';
       case null:
       default:
         return '';
