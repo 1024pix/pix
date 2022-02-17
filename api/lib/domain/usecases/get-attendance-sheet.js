@@ -17,7 +17,6 @@ module.exports = async function getAttendanceSheet({
   sessionRepository,
   sessionForAttendanceSheetRepository,
   endTestScreenRemovalService,
-  supervisorAccessRepository,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
@@ -27,8 +26,7 @@ module.exports = async function getAttendanceSheet({
   const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
     sessionId
   );
-  const hasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({ sessionId });
-  const addEndTestScreenColumn = !isEndTestScreenRemovalEnabled || !hasSupervisorAccess;
+  const addEndTestScreenColumn = !isEndTestScreenRemovalEnabled;
 
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
   const odsFilePath = _getAttendanceSheetTemplatePath(
