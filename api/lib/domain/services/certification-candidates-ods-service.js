@@ -49,7 +49,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   return await bluebird.mapSeries(
     Object.entries(certificationCandidatesDataByLine),
     async ([line, certificationCandidateData]) => {
-      let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity } = certificationCandidateData;
+      let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = certificationCandidateData;
       const { hasCleaNumerique, hasPixPlusDroit } = certificationCandidateData;
 
       if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
@@ -76,6 +76,10 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         complementaryCertificationRepository,
       });
 
+      if (billingMode) {
+        billingMode = CertificationCandidate.translateBillingMode(billingMode);
+      }
+
       const certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,
         birthCountry,
@@ -85,6 +89,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         sex,
         sessionId,
         complementaryCertifications,
+        billingMode,
       });
 
       try {
