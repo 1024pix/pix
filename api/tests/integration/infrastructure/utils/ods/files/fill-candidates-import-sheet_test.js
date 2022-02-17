@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
   context('when isComplementaryCertificationSubscriptionEnabled feature toggle is enabled', function () {
     it('should return a candidate import sheet with session data, certification candidates data prefilled with one complementary certification', async function () {
       // given
-      featureToggles.isComplementaryCertificationSubscriptionEnabled = sinon.stub().returns(true);
+      sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-one-complementary-certification.ods`;
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-one-complementary-certification.tmp.ods`;
 
@@ -216,7 +216,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
 
     it('should return a candidate import sheet with session data, certification candidates data prefilled with two complementary certifications', async function () {
       // given
-      featureToggles.isComplementaryCertificationSubscriptionEnabled = sinon.stub().returns(true);
+      sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-two-complementary-certifications.ods`;
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-two-complementary-certifications.tmp.ods`;
 
@@ -361,7 +361,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     function () {
       it('should return a candidate import sheet with session data, candidates data prefilled', async function () {
         // given
-        featureToggles.isCertificationBillingEnabled = sinon.stub().returns(true);
+        sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
         expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns.ods`;
         actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns.tmp.ods`;
 
@@ -430,8 +430,8 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       context('when some candidate have complementary certifications', function () {
         it('should return a candidate import sheet with session data, candidates data prefilled', async function () {
           // given
-          featureToggles.isComplementaryCertificationSubscriptionEnabled = sinon.stub().returns(true);
-          featureToggles.isCertificationBillingEnabled = sinon.stub().returns(true);
+          sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
+          sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
           expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.ods`;
           actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.tmp.ods`;
 
