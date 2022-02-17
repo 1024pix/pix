@@ -52,6 +52,9 @@
               <th class="certification-candidates-table__external-id">Identifiant externe</th>
             {{/unless}}
             <th class="certification-candidates-table__column-time">Temps majoré</th>
+            {{#if @shouldDisplayPaymentOptions}}
+              <th class="certification-candidates-table__payment-options">Tarification part Pix</th>
+            {{/if}}
             {{#if @displayComplementaryCertification}}
               <th>Certifications complémentaires</th>
             {{/if}}
@@ -81,6 +84,12 @@
               <td data-test-id="panel-candidate__extraTimePercentage__{{candidate.id}}">{{format-percentage
                   candidate.extraTimePercentage
                 }}</td>
+              {{#if @shouldDisplayPaymentOptions}}
+                <td data-test-id="panel-candidate__paymentOptions__{{candidate.id}}">{{candidate.billingMode}}
+                  {{candidate.prepaymentCode}}
+                </td>
+              {{/if}}
+
               {{#if @displayComplementaryCertification}}
                 <td data-test-id="panel-candidate__complementaryCertifications__{{candidate.id}}">
                   {{if candidate.complementaryCertifications candidate.complementaryCertificationsList "-"}}

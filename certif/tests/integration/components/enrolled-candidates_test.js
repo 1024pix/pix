@@ -23,6 +23,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
   const COMPLEMENTARY_CERTIFICATIONS_SELECTOR = 'panel-candidate__complementaryCertifications__';
+  const PAYMENT_OPTION_SELECTOR = 'panel-candidate__paymentOptions__';
 
   let store;
 
@@ -191,6 +192,64 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       .hasClass(DELETE_BUTTON_SELECTOR);
   });
 
+  module('when feature toggle FT_CERTIFICATION_BILLING is enabled and certification center is not SCO', function () {
+    test('it displays candidate billing information', async function (assert) {
+      // given
+      this.set('shouldDisplayPaymentOptions', true);
+      const candidate = _buildCertificationCandidate({
+        billingMode: 'Prepayée',
+        prepaymentCode: 'CODE01',
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+      this.set('certificationCandidates', [certificationCandidate]);
+
+      // when
+      await render(hbs`
+          <EnrolledCandidates
+            @sessionId="1"
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+            >
+          </EnrolledCandidates>
+        `);
+
+      // then
+      assert.contains('Tarification part Pix');
+      assert.dom(`[data-test-id=${PAYMENT_OPTION_SELECTOR}${candidate.id}]`).hasText('Prepayée CODE01');
+    });
+  });
+
+  module('when feature toggle FT_CERTIFICATION_BILLING is not enabled or certification center is SCO', function () {
+    test('it does not display candidate billing information', async function (assert) {
+      // given
+      this.set('shouldDisplayPaymentOptions', false);
+      const candidate = _buildCertificationCandidate({
+        billingMode: 'Prepayée',
+        prepaymentCode: 'CODE01',
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+      this.set('certificationCandidates', [certificationCandidate]);
+
+      // when
+      await render(hbs`
+          <EnrolledCandidates
+            @sessionId="1"
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+            >
+          </EnrolledCandidates>
+        `);
+
+      // then
+      assert.notContains('Tarification part Pix');
+      assert.dom(`[data-test-id=${PAYMENT_OPTION_SELECTOR}${candidate.id}]`).doesNotExist();
+    });
+  });
+
   module('add student(s) button', () => {
     [
       {
@@ -304,6 +363,8 @@ function _buildCertificationCandidate({
       name: 'Pix+Droit',
     },
   ],
+  billingMode = '',
+  prepaymentCode = null,
 }) {
   return {
     id,
@@ -319,5 +380,7 @@ function _buildCertificationCandidate({
     extraTimePercentage,
     isLinked,
     complementaryCertifications,
+    billingMode,
+    prepaymentCode,
   };
 }

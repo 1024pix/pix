@@ -7,6 +7,7 @@ import { alias } from '@ember/object/computed';
 
 export default class SessionsDetailsController extends Controller {
   @service currentUser;
+  @service featureToggles;
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
