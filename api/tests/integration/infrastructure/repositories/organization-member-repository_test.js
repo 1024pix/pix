@@ -4,12 +4,13 @@ const organizationMemberRepository = require('../../../../lib/infrastructure/rep
 
 describe('Integration | Repository | organizationMemberRepository', function () {
   describe('#getAllByOrganizationId', function () {
-    it('should return all actives member of organization', async function () {
+    it('should return all actives member of organization sorted by lastName and firstName', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const activeMemberId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Némard' }).id;
       const otherActiveMemberId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Registre' }).id;
+      const otherActiveMemberId2 = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Registre' }).id;
       const disabledMemberId = databaseBuilder.factory.buildUser().id;
       const memberOfAnotherOrganization = databaseBuilder.factory.buildUser({
         firstName: 'Jean',
@@ -17,6 +18,7 @@ describe('Integration | Repository | organizationMemberRepository', function () 
       }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId: activeMemberId }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId }).id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId2 }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId: disabledMemberId, disabledAt: new Date() }).id;
       databaseBuilder.factory.buildMembership({
         organizationId: otherOrganizationId,
@@ -34,15 +36,23 @@ describe('Integration | Repository | organizationMemberRepository', function () 
         lastName: 'Némard',
       });
       const expectedMember2 = new OrganizationMember({
+        id: otherActiveMemberId2,
+        firstName: 'Anne',
+        lastName: 'Registre',
+      });
+      const expectedMember3 = new OrganizationMember({
         id: otherActiveMemberId,
         firstName: 'Jean',
         lastName: 'Registre',
       });
 
-      expect(members).to.have.lengthOf(2);
+      expect(members).to.have.lengthOf(3);
       expect(members[0]).to.be.an.instanceof(OrganizationMember);
+      expect(members[0]).to.deep.equal(expectedMember1);
       expect(members[1]).to.be.an.instanceof(OrganizationMember);
-      expect(members).to.deep.include.members([expectedMember1, expectedMember2]);
+      expect(members[1]).to.deep.equal(expectedMember2);
+      expect(members[2]).to.be.an.instanceof(OrganizationMember);
+      expect(members[2]).to.deep.equal(expectedMember3);
     });
 
     it('should return an empty array if organization does not exist', async function () {

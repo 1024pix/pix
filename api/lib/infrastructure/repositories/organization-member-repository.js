@@ -6,7 +6,9 @@ module.exports = {
     const membersDTO = await knex('users')
       .select('users.id', 'users.firstName', 'users.lastName')
       .join('memberships', 'memberships.userId', 'users.id')
-      .where({ disabledAt: null, organizationId });
+      .where({ disabledAt: null, organizationId })
+      .orderBy('lastName', 'ASC')
+      .orderBy('firstName', 'ASC');
 
     return membersDTO.map((memberDTO) => new OrganizationMember({ ...memberDTO }));
   },
