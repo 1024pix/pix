@@ -119,6 +119,20 @@ class CertificationCandidate {
     this.prepaymentCode = prepaymentCode;
   }
 
+  static translateBillingMode(value) {
+    switch (value) {
+      case 'FREE':
+        return 'Gratuite';
+      case 'PAID':
+        return 'Payante';
+      case 'PREPAID':
+        return 'Prépayée';
+      case null:
+      default:
+        return '';
+    }
+  }
+
   validate() {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       allowUnknown: true,
