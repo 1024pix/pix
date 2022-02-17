@@ -1,4 +1,5 @@
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const { MissingBadgeCriterionError } = require('../errors');
 
 module.exports = async function createBadge({
   targetProfileId,
@@ -14,9 +15,15 @@ module.exports = async function createBadge({
     await targetProfileRepository.get(targetProfileId, domainTransaction);
     await badgeRepository.isKeyAvailable(badge.key, domainTransaction);
 
+    const isCampaignThresholdValid = campaignThreshold || campaignThreshold === 0;
+
+    if (!isCampaignThresholdValid && !skillSetThreshold) {
+      throw new MissingBadgeCriterionError();
+    }
+
     const savedBadge = await badgeRepository.save({ ...badge, targetProfileId }, domainTransaction);
 
-    if (campaignThreshold) {
+    if (isCampaignThresholdValid) {
       await badgeCriteriaRepository.save(
         {
           badgeCriterion: {
