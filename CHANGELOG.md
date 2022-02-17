@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.171.0 (17/02/2022)
+
+
+### :rocket: Enhancement
+- [#4098](https://github.com/1024pix/pix/pull/4098) [FEATURE] Ouverture de la collecte de profils pour toutes les organisations (PIX-4360).
+- [#4078](https://github.com/1024pix/pix/pull/4078) [FEATURE] Ajout pop-in de confirmation lorsqu'un surveillant quitte la surveillance d'une session (PIX-3801)
+- [#4092](https://github.com/1024pix/pix/pull/4092) [FEATURE] MAJ du code d'accès à une session pour respecter les bonnes pratiques (PIX-4380)
+- [#4106](https://github.com/1024pix/pix/pull/4106) [FEATURE] Possibilité de créer un RT avec un seuil d'une valeur de 0. (PIX-4392).
+- [#4087](https://github.com/1024pix/pix/pull/4087) [FEATURE] Changer le nom des catégories pour les profils cibles (PIX-4365)
+- [#4057](https://github.com/1024pix/pix/pull/4057) [FEATURE] Aider l'utilisateur lors de la saisie du code de pré-paiement (PIX-4329).
+
+### :bug: Bug fix
+- [#4096](https://github.com/1024pix/pix/pull/4096) [BUGFIX] Améliorer l'affichage des textes longs dans le kit surveillant (PIX-4388).
+- [#4085](https://github.com/1024pix/pix/pull/4085) [BUGFIX] Cacher la colonne écran de fin de test dans la feuille d'émargement quand le centre de certification à accès à l'espace surveillant (PIX-4376).
+- [#4095](https://github.com/1024pix/pix/pull/4095) [BUGFIX] Neutraliser les questions auxquelles les candidats n'ont pas pu répondre à cause d'une régression - v3 (PIX-4389).
+- [#4089](https://github.com/1024pix/pix/pull/4089) [BUGFIX] Neutraliser les questions auxquelles les candidats n'ont pas pu répondre à cause d'une régression - v2 (PIX-4368). 
+
+### :coffee: Various
+- [#4102](https://github.com/1024pix/pix/pull/4102) [CLEANUP] Corrige le nom d'un fichier d'une ADR
+- [#4100](https://github.com/1024pix/pix/pull/4100) [CLEANUP] Nettoyage du fichier scalingo.json
+
 ## v3.170.0 (15/02/2022)
 
 
