@@ -81,9 +81,7 @@ export default class CreateForm extends Component {
   get campaignOwnerOptions() {
     if (!this.args.membersSortedByFullName) return [];
 
-    return this.args.membersSortedByFullName.map((member) => {
-      return { value: member.get('id'), label: member.get('fullName') };
-    });
+    return this.args.membersSortedByFullName.map((member) => ({ value: member.id, label: member.fullName }));
   }
 
   _isTargetProfileInputEmpty() {
@@ -178,11 +176,9 @@ export default class CreateForm extends Component {
   @action
   onChangeCampaignOwner(event) {
     const newOwnerFullName = event.target.value;
-    const selectedMember = this.args.membersSortedByFullName.find(
-      (member) => newOwnerFullName === member.get('fullName')
-    );
+    const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerFullName === member.fullName);
     if (selectedMember) {
-      this.campaign.ownerId = selectedMember.get('id');
+      this.campaign.ownerId = selectedMember.id;
     }
   }
 

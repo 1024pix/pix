@@ -8,15 +8,7 @@ export default class UpdateRoute extends Route {
     const organization = this.currentUser.organization;
     const campaign = await this.store.findRecord('campaign', params.campaign_id);
 
-    const memberships = await this.store.query('membership', {
-      filter: {
-        organizationId: organization.id,
-      },
-      page: {
-        size: 500,
-      },
-    });
-    const members = memberships.map((membership) => membership.user);
+    const members = await this.store.findAll('member', { adapterOptions: { organizationId: organization.id } });
     const membersSortedByFullName = members.sortBy('firstName', 'lastName');
 
     return { campaign, membersSortedByFullName };

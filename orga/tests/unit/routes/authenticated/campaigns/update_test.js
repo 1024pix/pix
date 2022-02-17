@@ -12,23 +12,19 @@ module('Unit | Route | authenticated/campaigns/update', function (hooks) {
 
     route.currentUser = { organization: { id: 123 } };
 
-    const membership1 = EmberObject.create({
-      user: EmberObject.create({
-        firstName: 'Alice',
-        lastName: 'Delamer',
-      }),
+    const member1 = EmberObject.create({
+      firstName: 'Alice',
+      lastName: 'Delamer',
     });
-    const membership2 = EmberObject.create({
-      user: EmberObject.create({
-        firstName: 'Alice',
-        lastName: 'Delamare',
-      }),
+    const member2 = EmberObject.create({
+      firstName: 'Alice',
+      lastName: 'Delamare',
     });
     const campaign = EmberObject.create({ ownerFirstName: 'Marc', ownerLastName: 'Dupont' });
     const queryStub = sinon.stub();
     const findRecordStub = sinon.stub();
     const storeStub = {
-      query: queryStub.resolves([membership1, membership2]),
+      findAll: queryStub.resolves([member1, member2]),
       findRecord: findRecordStub.resolves(campaign),
     };
     route.store = storeStub;
