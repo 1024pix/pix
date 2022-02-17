@@ -84,6 +84,10 @@ function getTransformationStructsForPixCertifCandidatesImport({ complementaryCer
     _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct);
   }
 
+  if (featureToggles.isCertificationBillingEnabled) {
+    _includeBillingColumns(transformationStruct);
+  }
+
   return {
     transformStruct: transformationStruct,
     headers: _getHeadersFromTransformationStruct(transformationStruct),
@@ -113,6 +117,19 @@ function _includeComplementaryCertificationColumns(complementaryCertifications, 
       transformFn: _toBooleanIfValueEqualsOuiOrNull,
     });
   }
+}
+
+function _includeBillingColumns(transformationStruct) {
+  transformationStruct.push({
+    header: 'Tarification part Pix',
+    property: 'billingMode',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  });
+  transformationStruct.push({
+    header: 'Code de prépaiement',
+    property: 'prepaymentCode',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  });
 }
 
 function _toNotEmptyTrimmedStringOrNull(val) {
