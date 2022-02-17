@@ -1,8 +1,9 @@
 const { PDFDocument, rgb } = require('pdf-lib');
 const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
-const { toArrayOfFixedLengthStringsConservingWords } = require('../../utils/string-utils');
-const MAX_SESSION_DETAIL_LENGTH = 45;
+const MAX_SESSION_DETAIL_WIDTH = 155;
+const SESSION_DETAIL_FONT_SIZE = 7;
+const SESSION_DETAIL_LINE_HEIGHT = 8;
 
 async function getSupervisorKitPdfBuffer({
   sessionForSupervisorKit,
@@ -55,7 +56,7 @@ function _drawSessionDate(sessionForSupervisorKit, page, font) {
   page.drawText(fullDate, {
     x: 85,
     y: 646,
-    size: 8,
+    size: SESSION_DETAIL_FONT_SIZE,
     font,
     color: rgb(0, 0, 0),
   });
@@ -67,22 +68,23 @@ function _drawSessionStartTime(sessionForSupervisorKit, page, font) {
   page.drawText(hour, {
     x: 182,
     y: 646,
-    size: 8,
+    size: SESSION_DETAIL_FONT_SIZE,
     font,
     color: rgb(0, 0, 0),
   });
 }
 
 function _drawSessionAddress(sessionForSupervisorKit, page, font) {
-  const addressArray = toArrayOfFixedLengthStringsConservingWords(
+  const addressArray = _toArrayOfFixedWidthConservingWords(
     sessionForSupervisorKit.address,
-    MAX_SESSION_DETAIL_LENGTH
+    font,
+    MAX_SESSION_DETAIL_WIDTH
   );
   addressArray.forEach((address, index) => {
     page.drawText(address, {
       x: 60,
-      y: 614 - index * 10,
-      size: 8,
+      y: 616 - index * SESSION_DETAIL_LINE_HEIGHT,
+      size: SESSION_DETAIL_FONT_SIZE,
       font,
       color: rgb(0, 0, 0),
     });
@@ -90,12 +92,12 @@ function _drawSessionAddress(sessionForSupervisorKit, page, font) {
 }
 
 function _drawSessionRoom(sessionForSupervisorKit, page, font) {
-  const roomArray = toArrayOfFixedLengthStringsConservingWords(sessionForSupervisorKit.room, MAX_SESSION_DETAIL_LENGTH);
+  const roomArray = _toArrayOfFixedWidthConservingWords(sessionForSupervisorKit.room, font, MAX_SESSION_DETAIL_WIDTH);
   roomArray.forEach((room, index) => {
     page.drawText(room, {
       x: 60,
-      y: 582 - index * 10,
-      size: 8,
+      y: 584 - index * SESSION_DETAIL_LINE_HEIGHT,
+      size: SESSION_DETAIL_FONT_SIZE,
       font,
       color: rgb(0, 0, 0),
     });
@@ -103,15 +105,16 @@ function _drawSessionRoom(sessionForSupervisorKit, page, font) {
 }
 
 function _drawSessionExaminer(sessionForSupervisorKit, page, font) {
-  const examinerArray = toArrayOfFixedLengthStringsConservingWords(
+  const examinerArray = _toArrayOfFixedWidthConservingWords(
     sessionForSupervisorKit.examiner,
-    MAX_SESSION_DETAIL_LENGTH
+    font,
+    MAX_SESSION_DETAIL_WIDTH
   );
   examinerArray.forEach((examiner, index) => {
     page.drawText(examiner, {
       x: 60,
-      y: 547 - index * 10,
-      size: 8,
+      y: 549 - index * SESSION_DETAIL_LINE_HEIGHT,
+      size: SESSION_DETAIL_FONT_SIZE,
       font,
       color: rgb(0, 0, 0),
     });
@@ -152,6 +155,24 @@ function _drawAccessCode(sessionForSupervisorKit, page, font) {
     font,
     color: rgb(0, 0, 0),
   });
+}
+
+function _toArrayOfFixedWidthConservingWords(str, font, maxWidth) {
+  const result = [];
+  const words = str.split(' ');
+  let index = 0;
+  words.forEach((word) => {
+    if (!result[index]) {
+      result[index] = '';
+    }
+    if (font.widthOfTextAtSize(`${result[index]} ${word}`, 7) <= maxWidth) {
+      result[index] += `${word} `;
+    } else {
+      index++;
+      result[index] = `${word} `;
+    }
+  });
+  return result.map((str) => str.trim());
 }
 
 module.exports = {
