@@ -125,6 +125,8 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
           data: [
             {
               attributes: {
+                'billing-mode': '',
+                'prepayment-code': null,
                 'birth-city': student.birthCity,
                 birthdate: student.birthdate,
                 'first-name': student.firstName,
