@@ -9,7 +9,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    this.campaign = EmberObject.create({ name: 'campaign', isTypeAssessment: true });
+    this.campaign = EmberObject.create({ name: 'campaign', isTypeAssessment: true, ownerId: 666 });
     this.set('cancelSpy', () => {});
     this.set('updateCampaignSpy', (event) => event.preventDefault());
   });
@@ -27,7 +27,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   module('When campaign type is ASSESSMENT', function () {
     test('it should display campaign title input', async function (assert) {
       // given
-      this.campaign = EmberObject.create({ isTypeAssessment: true });
+      this.campaign = EmberObject.create({ isTypeAssessment: true, ownerId: 666 });
 
       // when
       const screen = await renderScreen(
@@ -56,7 +56,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
     test('it should send campaign update action when submitted', async function (assert) {
       // given
-      this.campaign = EmberObject.create({ isTypeAssessment: true, ownerFullName: 'Jon Snow' });
+      this.campaign = EmberObject.create({ isTypeAssessment: true, ownerFullName: 'Jon Snow', ownerId: 666 });
       this.updateCampaignSpy = sinon.stub();
 
       await renderScreen(
@@ -86,7 +86,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   module('When campaign type is not ASSESSMENT', function () {
     test('it should not display campaign title input', async function (assert) {
       // given
-      this.campaign = EmberObject.create({ isTypeAssessment: false });
+      this.campaign = EmberObject.create({ isTypeAssessment: false, ownerId: 666 });
 
       // when
       await renderScreen(
