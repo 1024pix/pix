@@ -2058,4 +2058,57 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       });
     });
   });
+
+  describe('#findInvalidatedAndDirectByUserId', function () {
+    it('should find invalidated & direct KE with given UserId', async function () {
+      // Given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 1,
+        userId,
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        source: KnowledgeElement.SourceType.DIRECT,
+        createdAt: new Date('2022-01-03'),
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 2,
+        userId,
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        source: KnowledgeElement.SourceType.DIRECT,
+        createdAt: new Date('2022-08-19'),
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        status: KnowledgeElement.StatusType.VALIDATED,
+        source: KnowledgeElement.SourceType.DIRECT,
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        source: KnowledgeElement.SourceType.INFERRED,
+      });
+
+      await databaseBuilder.commit();
+
+      // When
+      const knowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
+
+      // Then
+      expect(knowledgeElements).to.have.length(2);
+      expect(knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
+      expect(knowledgeElements[0].id).to.equal(2);
+    });
+
+    it('should return an empty list if there are no invalidated & direct KE', async function () {
+      // Given
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      // When
+      const knowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
+
+      // Then
+      expect(knowledgeElements).to.have.length(0);
+    });
+  });
 });
