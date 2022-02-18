@@ -76,13 +76,13 @@
         {{#if @user.hasPoleEmploiAuthenticationMethod}}
           <FaIcon
             @icon="check-circle"
-            aria-label="L'utilisateur a une méthode de connexion avec Pôle Emploi"
+            aria-label="L'utilisateur a une méthode de connexion Pôle Emploi"
             class="authentication-method__check"
           />
         {{else}}
           <FaIcon
             @icon="times-circle"
-            aria-label="L'utilisateur n'a pas de méthode de connexion avec Pôle Emploi"
+            aria-label="L'utilisateur n'a pas de méthode de connexion Pôle Emploi"
             class="authentication-method__uncheck"
           />
         {{/if}}
@@ -104,11 +104,15 @@
       <td class="authentication-method__name-column">Médiacentre</td>
       <td>
         {{#if @user.hasGarAuthenticationMethod}}
-          <FaIcon @icon="check-circle" class="authentication-method__check" />
+          <FaIcon
+            @icon="check-circle"
+            aria-label="L'utilisateur a une méthode de connexion Médiacentre"
+            class="authentication-method__check"
+          />
         {{else}}
           <FaIcon
             @icon="times-circle"
-            aria-label="L'utilisateur n'a pas de méthode de connexion avec GAR"
+            aria-label="L'utilisateur n'a pas de méthode de connexion Médiacentre"
             class="authentication-method__uncheck"
           />
         {{/if}}
@@ -124,6 +128,13 @@
           >Supprimer</PixButton>
         {{/if}}
       </td>
+      <td>
+        {{#if @user.hasGarAuthenticationMethod}}
+          <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
+            Déplacer cette méthode de connexion
+          </PixButton>
+        {{/if}}
+      </td>
     </tr>
   </tbody>
 </table>
@@ -134,4 +145,11 @@
   @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
   @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
   @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
+/>
+
+<Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
+  @showReassignGarAuthenticationMethodModal={{this.showReassignGarAuthenticationMethodModal}}
+  @targetUserId={{this.targetUserId}}
+  @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
+  @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
 />

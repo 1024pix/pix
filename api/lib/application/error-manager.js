@@ -66,6 +66,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AuthenticationKeyForPoleEmploiTokenExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
+  if (error instanceof DomainErrors.AuthenticationMethodAlreadyExistsError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
   if (error instanceof DomainErrors.UserHasAlreadyLeftSCO) {
     return new HttpErrors.ForbiddenError(error.message);
   }

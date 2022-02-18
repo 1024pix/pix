@@ -1,6 +1,7 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
@@ -1036,6 +1037,78 @@ describe('Unit | Controller | user-controller', function () {
 
       // then
       expect(result.source).to.be.equal(updatedUserSerialized);
+    });
+  });
+
+  describe('#reassignAuthenticationMethods', function () {
+    context('when the reassigned authentication method is gar', function () {
+      it('should update gar authentication method user id', async function () {
+        // given
+        const originUserId = domainBuilder.buildUser({ id: 1 }).id;
+        const targetUserId = domainBuilder.buildUser({ id: 2 }).id;
+
+        sinon.stub(usecases, 'reassignGarAuthenticationMethod').withArgs({ originUserId, targetUserId }).resolves();
+
+        // when
+        const request = {
+          auth: {
+            credentials: {
+              userId: originUserId,
+            },
+          },
+          params: {
+            userId: originUserId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'user-id': targetUserId,
+                'identity-provider': AuthenticationMethod.identityProviders.GAR,
+              },
+            },
+          },
+        };
+        await userController.reassignAuthenticationMethods(request, hFake);
+
+        // then
+        expect(usecases.reassignGarAuthenticationMethod).to.have.been.calledWith({
+          originUserId,
+          targetUserId,
+        });
+      });
+    });
+
+    context('when the reassigned authentication method is not gar (pole emploi or pix)', function () {
+      it('should not update gar authentication method user id', async function () {
+        // given
+        const originUserId = domainBuilder.buildUser({ id: 1 }).id;
+        const targetUserId = domainBuilder.buildUser({ id: 2 }).id;
+        sinon.stub(usecases, 'reassignGarAuthenticationMethod');
+
+        // when
+        const request = {
+          auth: {
+            credentials: {
+              userId: originUserId,
+            },
+          },
+          params: {
+            userId: originUserId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'user-id': targetUserId,
+                'identity-provider': AuthenticationMethod.identityProviders.PIX,
+              },
+            },
+          },
+        };
+        await userController.reassignAuthenticationMethods(request, hFake);
+
+        // then
+        expect(usecases.reassignGarAuthenticationMethod.notCalled).to.be.true;
+      });
     });
   });
 });
