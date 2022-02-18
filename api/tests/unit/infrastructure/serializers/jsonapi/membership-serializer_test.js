@@ -119,7 +119,6 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
         type: 'PRO',
         'external-id': 'EXTID',
         'is-managing-students': false,
-        'can-collect-profiles': true,
       });
     });
 
