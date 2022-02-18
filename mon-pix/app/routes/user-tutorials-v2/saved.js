@@ -1,14 +1,12 @@
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default class IndexRoute extends Route.extend(SecuredRouteMixin) {
+export default class UserTutorialsSavedRoute extends Route {
   @service featureToggles;
+  @service router;
 
   redirect() {
-    this.replaceWith(
-      this.featureToggles.featureToggles.isNewTutorialsPageEnabled ? 'user-tutorials-v2.recommended' : 'user-tutorials'
-    );
+    if (!this.featureToggles.featureToggles.isNewTutorialsPageEnabled) this.router.replaceWith('user-tutorials');
   }
 
   async model() {
