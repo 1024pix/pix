@@ -5,7 +5,7 @@ module.exports = function buildBadgeAcquisition({
   badgeId,
   userId,
   campaignParticipationId,
-  createdAt,
+  createdAt = new Date('2000-01-01'),
 } = {}) {
   return databaseBuffer.pushInsertable({
     tableName: 'badge-acquisitions',

@@ -20,17 +20,18 @@ module.exports = {
       return CleaCertificationScoring.buildNotEligible({ certificationCourseId });
     }
     const cleaSkills = await _getCleaSkills(cleaBadgeKey, skillRepository);
-    const maxReachablePixByCompetenceForClea = _getMaxReachablePixByCompetenceForClea(cleaSkills);
+    const expectedPixByCompetenceForClea = _getexpectedPixByCompetenceForClea(cleaSkills);
     const cleaCompetenceMarks = await _getCleaCompetenceMarks({
       certificationCourseId,
-      cleaCompetenceIds: Object.keys(maxReachablePixByCompetenceForClea),
+      cleaCompetenceIds: Object.keys(expectedPixByCompetenceForClea),
       domainTransaction,
     });
+
     return new CleaCertificationScoring({
       certificationCourseId,
       hasAcquiredBadge,
       cleaCompetenceMarks,
-      maxReachablePixByCompetenceForClea,
+      expectedPixByCompetenceForClea,
       reproducibilityRate,
       cleaBadgeKey,
     });
@@ -125,7 +126,7 @@ async function _getCleaSkills(cleaBadgeKey, skillRepository) {
   return skillRepository.findOperativeByIds(cleaSkillIds);
 }
 
-function _getMaxReachablePixByCompetenceForClea(cleaSkills) {
+function _getexpectedPixByCompetenceForClea(cleaSkills) {
   return _(cleaSkills)
     .groupBy('competenceId')
     .mapValues((skills) => _.sumBy(skills, 'pixValue'))

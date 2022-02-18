@@ -16,6 +16,9 @@ const {
   CERTIF_REGULAR_USER5_ID,
   CERTIF_SCO_STUDENT_ID,
 } = require('./users');
+const {
+  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID } = require('./certification-centers-builder');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { BILLING_MODES } = require('../../../../lib/domain/models/CertificationCandidate');
 
@@ -202,8 +205,6 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
 
   // Candidates for a session with complementary certification subscriptions
   sessionId = COMPLEMENTARY_CERTIFICATIONS_SESSION_ID;
-  const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({ name: 'CléA Numérique' });
-  const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+ Droit' });
   const john = databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'John',
     lastName: 'Lennon',
@@ -213,8 +214,9 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildComplementaryCertificationSubscription({
     certificationCandidateId: john.id,
-    complementaryCertificationId: cleaComplementaryCertification.id,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
+
   const herbie = databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'Herbie',
     lastName: 'Hancock',
@@ -224,7 +226,7 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildComplementaryCertificationSubscription({
     certificationCandidateId: herbie.id,
-    complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
   const frank = databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'Frank',
@@ -236,11 +238,11 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildComplementaryCertificationSubscription({
     certificationCandidateId: frank.id,
-    complementaryCertificationId: cleaComplementaryCertification.id,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationSubscription({
     certificationCandidateId: frank.id,
-    complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'Britney',
