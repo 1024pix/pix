@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.172.0 (18/02/2022)
+
+
+### :rocket: Enhancement
+- [#4090](https://github.com/1024pix/pix/pull/4090) [FEATURE] Permettre de déplacer une méthode de connexion GAR d'un user à un autre (PIX-4043)
+- [#4050](https://github.com/1024pix/pix/pull/4050) [FEATURE] Rajouter le bouton "Effacer les filtres" sur la liste des campagnes (PIX-4070) 
+
 ## v3.171.0 (17/02/2022)
 
 
