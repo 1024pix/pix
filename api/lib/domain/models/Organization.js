@@ -8,7 +8,6 @@ const types = {
 
 const defaultValues = {
   credit: 0,
-  canCollectProfiles: false,
 };
 
 class Organization {
@@ -21,7 +20,6 @@ class Organization {
     provinceCode,
     isManagingStudents,
     credit = defaultValues.credit,
-    canCollectProfiles = defaultValues.canCollectProfiles,
     email,
     targetProfileShares = [],
     students = [],
@@ -41,7 +39,6 @@ class Organization {
     this.provinceCode = provinceCode;
     this.isManagingStudents = isManagingStudents;
     this.credit = credit;
-    this.canCollectProfiles = canCollectProfiles;
     this.email = email;
     this.targetProfileShares = targetProfileShares;
     this.students = students;

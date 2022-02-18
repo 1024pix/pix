@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | Organization', function () {
       expect(organization.targetProfileShares.length).to.equal(1);
     });
 
-    it('should build an Organization with default values for credit, canCollectProfiles when not specified', function () {
+    it('should build an Organization with default values for credit when not specified', function () {
       // given
       const rawData = {
         id: 1,
@@ -56,7 +56,6 @@ describe('Unit | Domain | Models | Organization', function () {
       const organization = new Organization(rawData);
       // then
       expect(organization.credit).to.equal(0);
-      expect(organization.canCollectProfiles).to.equal(false);
     });
   });
 
