@@ -1375,26 +1375,6 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#dissociateUserFromSchoolingRegistrationIds', function () {
-    it('should delete association between user and schoolingRegistrations', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const firstSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId }).id;
-      const secondSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId }).id;
-      await databaseBuilder.commit();
-
-      // when
-      await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds([
-        firstSchoolingRegistrationId,
-        secondSchoolingRegistrationId,
-      ]);
-
-      // then
-      const schoolingRegistrationsByUserId = await schoolingRegistrationRepository.findByUserId({ userId });
-      expect(schoolingRegistrationsByUserId.length).to.equal(0);
-    });
-  });
-
   describe('#reconcileUserToSchoolingRegistration', function () {
     afterEach(function () {
       return knex('schooling-registrations').delete();
