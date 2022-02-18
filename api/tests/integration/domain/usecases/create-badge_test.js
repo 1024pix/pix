@@ -8,7 +8,12 @@ const skillSetRepository = require('../../../../lib/infrastructure/repositories/
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const createBadge = require('../../../../lib/domain/usecases/create-badge');
 const Badge = require('../../../../lib/domain/models/Badge');
-const { AlreadyExistingEntityError, NotFoundError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
+const {
+  AlreadyExistingEntityError,
+  NotFoundError,
+  InvalidSkillSetError,
+  MissingBadgeCriterionError,
+} = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCases | create-badge', function () {
   let targetProfileId;
@@ -60,7 +65,22 @@ describe('Integration | UseCases | create-badge', function () {
     await knex('badges').delete();
   });
 
-  it('should save a new badge', async function () {
+  it('should not save a new badge if there are no associated criteria', async function () {
+    // when
+    const error = await catchErr(createBadge)({
+      targetProfileId,
+      badgeCreation,
+      ...dependencies,
+    });
+
+    // then
+    expect(error).to.be.an.instanceOf(MissingBadgeCriterionError);
+  });
+
+  it('should save a new badge with a campaign criterion', async function () {
+    // given
+    badgeCreation.campaignThreshold = 99;
+
     // when
     const result = await createBadge({
       targetProfileId,
@@ -71,11 +91,18 @@ describe('Integration | UseCases | create-badge', function () {
     // then
     expect(result).to.be.an.instanceOf(Badge);
     expect(_.pick(result, Object.keys(badge))).to.deep.equal(badge);
+
+    const criteria = await knex('badge-criteria').select().where({ badgeId: result.id });
+    expect(criteria).to.have.lengthOf(1);
+    expect(_.pick(criteria[0], ['threshold', 'scope'])).to.deep.equal({
+      threshold: badgeCreation.campaignThreshold,
+      scope: 'CampaignParticipation',
+    });
   });
 
-  it('should save a new badge with a campaign criterion', async function () {
+  it('should save a new badge even if the threshold is 0', async function () {
     // given
-    badgeCreation.campaignThreshold = 99;
+    badgeCreation.campaignThreshold = 0;
 
     // when
     const result = await createBadge({
