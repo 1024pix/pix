@@ -30,7 +30,6 @@ function organizationsSupBuilder({ databaseBuilder }) {
     type: 'SUP',
     name: 'Université du Lion',
     isManagingStudents: true,
-    canCollectProfiles: true,
     externalId: null,
     provinceCode: null,
     email: null,

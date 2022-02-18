@@ -23,7 +23,6 @@ function _buildOrganization() {
     code: 'ABCD12',
     externalId: 'EXTID',
     isManagingStudents: false,
-    canCollectProfiles: true,
   });
 }
 
