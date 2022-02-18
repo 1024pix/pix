@@ -250,7 +250,7 @@ export default function () {
     return user;
   });
 
-  this.put('/admin/users/:userId/authentication-methods/:id/reassign', (schema, request) => {
+  this.put('/admin/users/:userId/authentication-methods/:authenticationMethodId/reassign', (schema, request) => {
     const userId = request.params.userId;
     const user = schema.users.findBy({ id: userId });
     user.update({ authenticationMethods: [] });
