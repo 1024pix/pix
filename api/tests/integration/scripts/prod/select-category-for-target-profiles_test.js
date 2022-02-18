@@ -51,12 +51,20 @@ describe('Integration | Scripts | select-category-for-target-profiles.js', funct
   });
 
   describe('#setCategoriesToTargetProfiles', function () {
-    it('should log categories that are not supported', async function () {
+    it('should return categories that are not supported', async function () {
       const { invalidCategories } = await setCategoriesToTargetProfiles(`targetProfileId,category
 1,WRONG
 2,BAD`);
 
       expect(invalidCategories).deep.equal(['WRONG', 'BAD']);
+    });
+
+    it('should return target profiles that are not valid', async function () {
+      const { invalidTargetProfiles } = await setCategoriesToTargetProfiles(`targetProfileId,category
+,COMPETENCES
+yolo,COMPETENCES`);
+
+      expect(invalidTargetProfiles).deep.equal(['', 'yolo']);
     });
 
     it('should not set categories that are not supported', async function () {
