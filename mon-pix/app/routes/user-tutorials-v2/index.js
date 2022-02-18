@@ -10,10 +10,4 @@ export default class IndexRoute extends Route.extend(SecuredRouteMixin) {
       this.featureToggles.featureToggles.isNewTutorialsPageEnabled ? 'user-tutorials-v2.recommended' : 'user-tutorials'
     );
   }
-
-  async model() {
-    const userTutorials = await this.store.findAll('user-tutorial', { reload: true });
-    userTutorials.sortBy('updatedAt').reverse();
-    return userTutorials;
-  }
 }

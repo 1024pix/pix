@@ -27,6 +27,10 @@ Router.map(function () {
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
   this.route('user-tutorials', { path: '/mes-tutos' });
+  this.route('user-tutorials-v2', { path: '/mes-tutos-v2' }, function () {
+    this.route('recommended', { path: '/recommandes' });
+    this.route('saved', { path: '/enregistres' });
+  });
   this.route('user-dashboard', { path: '/accueil' });
   this.route('user-tests', { path: '/mes-parcours' });
 
