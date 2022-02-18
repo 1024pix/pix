@@ -172,9 +172,7 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/campagnes/creation');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/creation');
+        assert.strictEqual(currentURL(), '/campagnes/creation');
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 

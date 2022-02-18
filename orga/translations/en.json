@@ -297,6 +297,10 @@
       "owner": {
         "label": "Campaign owner",
         "placeholder": "Owner’s first and last name",
+        "search-placeholder": "Search for an owner",
+        "clear-label": "Clear the selection",
+        "expand-label": "Open the drop down list",
+        "collapse-label": "Close the drop down list",
         "title": "Campaign owner",
         "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
       },
