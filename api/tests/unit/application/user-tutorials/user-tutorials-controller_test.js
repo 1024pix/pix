@@ -45,6 +45,25 @@ describe('Unit | Controller | User-tutorials', function () {
     });
   });
 
+  describe('#findRecommended', function () {
+    it('should call the expected usecase', async function () {
+      // given
+      const userId = 'userId';
+      sinon.stub(usecases, 'findRecommendedTutorials').returns([]);
+
+      const request = {
+        auth: { credentials: { userId } },
+      };
+
+      // when
+      await userTutorialsController.findRecommended(request, hFake);
+
+      // then
+      const findUserTutorialsArgs = usecases.findRecommendedTutorials.firstCall.args[0];
+      expect(findUserTutorialsArgs).to.have.property('userId', userId);
+    });
+  });
+
   describe('#removeFromUser', function () {
     it('should call the repository', async function () {
       // given
