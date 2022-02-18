@@ -55,12 +55,20 @@ export default class CertificationJoiner extends Component {
       this.router.replaceWith('certifications.resume', newCertificationCourse.id);
     } catch (err) {
       newCertificationCourse.deleteRecord();
-      if (err.errors?.[0]?.status === '404') {
+      const statusCode = err.errors?.[0]?.status;
+      if (statusCode === '404') {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.access-code-error');
-      } else if (err.errors?.[0]?.status === '412') {
+      } else if (statusCode === '412') {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.session-not-accessible');
-      } else if (err.errors?.[0]?.status === '403') {
-        this.errorMessage = err.errors[0].detail;
+      } else if (statusCode === '403') {
+        const errorCode = err.errors?.[0]?.code;
+        if (errorCode === 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION') {
+          this.errorMessage = this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start');
+        } else if (errorCode === 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION') {
+          this.errorMessage = this.intl.t(
+            'pages.certification-start.error-messages.candidate-not-authorized-to-resume'
+          );
+        }
       } else {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.generic');
       }
