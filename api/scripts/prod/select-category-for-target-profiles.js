@@ -4,6 +4,7 @@ const bluebird = require('bluebird');
 const groupBy = require('lodash/groupBy');
 const sum = require('lodash/sum');
 const has = require('lodash/has');
+const partition = require('lodash/partition');
 const negate = require('lodash/negate');
 
 const { readCsvFile, parseCsvData } = require('../helpers/csvHelpers');
@@ -22,9 +23,12 @@ async function main() {
   console.log('✅ ok');
 
   console.log('Setting categories on target profiles...');
-  const { totalUpdatedRows, invalidCategories } = await setCategoriesToTargetProfiles(csvData);
+  const { totalUpdatedRows, invalidCategories, invalidTargetProfiles } = await setCategoriesToTargetProfiles(csvData);
   if (invalidCategories.length > 0) {
-    console.log(`⚠️ Les catégories "${invalidCategories.join(', ')}" ne sont pas supportées`);
+    console.log(`⚠️ Les catégories "${invalidCategories.join('", "')}" ne sont pas supportées`);
+  }
+  if (invalidTargetProfiles.length > 0) {
+    console.log(`⚠️ Les ids de profils cibles "${invalidTargetProfiles.join('", "')}" ne sont pas valides`);
   }
   console.log(`✅ ${totalUpdatedRows} target profiles were updated.`);
 }
@@ -46,15 +50,19 @@ async function setCategoriesToTargetProfiles(csvData) {
 
   const invalidCategories = parsedCategories.filter(negate(_isSupportedCategory));
   const validCategories = parsedCategories.filter(_isSupportedCategory);
+  let invalidTargetProfiles = [];
 
   const result = await bluebird.mapSeries(validCategories, function (category) {
-    return setCategoryToTargetProfiles(
-      category,
-      targetProfilesGroupedByCategory[category].map((row) => row[TARGET_PROFILE_ID_COLUMN])
+    const targetProfiles = targetProfilesGroupedByCategory[category].map((row) => row[TARGET_PROFILE_ID_COLUMN]);
+    const [validTargetProfilesIds, invalidTargetProfilesIds] = partition(targetProfiles, (targetProfileId) =>
+      Number.isInteger(parseInt(targetProfileId))
     );
+    invalidTargetProfiles = [...invalidTargetProfiles, ...invalidTargetProfilesIds];
+
+    return setCategoryToTargetProfiles(category, validTargetProfilesIds);
   });
 
-  return { totalUpdatedRows: sum(result), invalidCategories };
+  return { totalUpdatedRows: sum(result), invalidCategories, invalidTargetProfiles };
 }
 
 if (require.main === module) {
