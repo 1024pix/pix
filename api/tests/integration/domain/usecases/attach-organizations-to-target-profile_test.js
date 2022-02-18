@@ -1,6 +1,6 @@
 const { expect, sinon, databaseBuilder, knex } = require('../../../test-helper');
 const attachOrganizationsToTargetProfile = require('../../../../lib/domain/usecases/attach-organizations-to-target-profile');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
 describe('Integration | UseCase | attach-organizations-to-target-profile', function () {
@@ -22,7 +22,7 @@ describe('Integration | UseCase | attach-organizations-to-target-profile', funct
       await attachOrganizationsToTargetProfile({
         targetProfileId: targetProfile.id,
         organizationIds,
-        targetProfileRepository,
+        targetProfileShareRepository,
       });
 
       const rows = await knex('target-profile-shares')

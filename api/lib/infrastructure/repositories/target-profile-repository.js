@@ -6,7 +6,6 @@ const skillDatasource = require('../datasources/learning-content/skill-datasourc
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
-const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
 const {
   TargetProfileCannotBeCreated,
   NotFoundError,
@@ -134,22 +133,6 @@ module.exports = {
       });
   },
 
-  async attachOrganizations(targetProfile) {
-    const rows = targetProfile.organizations.map((organizationId) => {
-      return {
-        organizationId,
-        targetProfileId: targetProfile.id,
-      };
-    });
-    const attachedOrganizationIds = await _createTargetProfileShares(rows);
-
-    const duplicatedOrganizationIds = targetProfile.organizations.filter(
-      (organizationId) => !attachedOrganizationIds.includes(organizationId)
-    );
-
-    return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
-  },
-
   async update(targetProfile) {
     let targetProfileUpdatedRowCount;
     const editedAttributes = _.pick(targetProfile, ['name', 'outdated', 'description', 'comment']);
@@ -217,20 +200,5 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
   if (id) {
     qb.where({ id });
-  }
-}
-
-async function _createTargetProfileShares(targetProfileShares) {
-  try {
-    return await knex('target-profile-shares')
-      .insert(targetProfileShares)
-      .onConflict(['targetProfileId', 'organizationId'])
-      .ignore()
-      .returning('organizationId');
-  } catch (error) {
-    if (foreignKeyConstraintViolated(error)) {
-      const organizationId = error.detail.match(/=\((\d+)\)/)[1];
-      throw new NotFoundError(`L'organization avec l'id ${organizationId} n'existe pas`);
-    }
   }
 }
