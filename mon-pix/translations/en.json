@@ -235,7 +235,7 @@
           "birth-date": "Date of birth",
           "birth-day": "Day (DD)",
           "birth-month": "Month (MM)",
-          "birth-name": "Given name",
+          "birth-name": "Last name (given at birth)",
           "birth-year": "Year (YYYY)",
           "first-name": "First name",
           "session-number": "Session number"
