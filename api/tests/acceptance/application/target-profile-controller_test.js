@@ -326,7 +326,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       await knex('badges').delete();
     });
 
-    it('should create and return badge', async function () {
+    it('should not create a badge if there are no associated criteria', async function () {
       // given
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -338,6 +338,8 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         message: 'Bravo !',
         title: 'Le super badge',
         'is-certifiable': false,
+        'campaign-threshold': null,
+        'skill-set-threshold': null,
         'is-always-visible': true,
       };
       const options = {
@@ -356,22 +358,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const response = await server.inject(options);
 
       // then
-      const expectedResult = {
-        data: {
-          attributes: {
-            'alt-message': 'alt-message',
-            'image-url': 'https//images.example.net',
-            'is-certifiable': false,
-            'is-always-visible': true,
-            key: 'TOTO23',
-            message: 'Bravo !',
-            title: 'Le super badge',
-          },
-          type: 'badges',
-        },
-      };
-      expect(response.statusCode).to.equal(201);
-      expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+      expect(response.statusCode).to.equal(400);
     });
 
     it('should create badge with empty message and title', async function () {
@@ -385,6 +372,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         'image-url': 'https//images.example.net',
         'is-certifiable': false,
         'is-always-visible': true,
+        'campaign-threshold': '99',
         message: '',
         title: null,
       };
@@ -422,7 +410,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
     });
 
-    it('should create a badge with criteria', async function () {
+    it('should create a badge with at least one criterion', async function () {
       // given
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();

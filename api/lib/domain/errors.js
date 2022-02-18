@@ -998,6 +998,12 @@ class CertificationBadgeForbiddenDeletionError extends DomainError {
   }
 }
 
+class MissingBadgeCriterionError extends DomainError {
+  constructor(message = 'Vous devez définir au moins un critère pour créer ce résultat thématique.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1080,6 +1086,7 @@ module.exports = {
   MembershipCreationError,
   MembershipUpdateError,
   MissingAssessmentId,
+  MissingBadgeCriterionError,
   MissingOrInvalidCredentialsError,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
