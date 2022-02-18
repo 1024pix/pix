@@ -875,7 +875,7 @@ describe('Acceptance | Application | organization-controller', function () {
       databaseBuilder.factory.buildMembership({
         userId: otherOrganizationMember1.id,
         organizationId: otherOrganizationId,
-      }).id;
+      });
 
       await databaseBuilder.commit();
 

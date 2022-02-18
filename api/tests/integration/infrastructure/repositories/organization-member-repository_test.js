@@ -3,8 +3,8 @@ const OrganizationMember = require('../../../../lib/domain/models/OrganizationMe
 const organizationMemberRepository = require('../../../../lib/infrastructure/repositories/organization-member-repository');
 
 describe('Integration | Repository | organizationMemberRepository', function () {
-  describe('#getAllByOrganizationId', function () {
-    it('should return all actives member of organization sorted by lastName and firstName', async function () {
+  describe('#findAllByOrganizationId', function () {
+    it('should return all actives members of organization sorted by firstName and lastName', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -16,29 +16,29 @@ describe('Integration | Repository | organizationMemberRepository', function () 
         firstName: 'Jean',
         lastName: 'Tanrien',
       }).id;
-      databaseBuilder.factory.buildMembership({ organizationId, userId: activeMemberId }).id;
-      databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId }).id;
-      databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId2 }).id;
-      databaseBuilder.factory.buildMembership({ organizationId, userId: disabledMemberId, disabledAt: new Date() }).id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId: activeMemberId });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId2 });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: disabledMemberId, disabledAt: new Date() });
       databaseBuilder.factory.buildMembership({
         organizationId: otherOrganizationId,
         userId: memberOfAnotherOrganization,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
-      const members = await organizationMemberRepository.getAllByOrganizationId({ organizationId });
+      const members = await organizationMemberRepository.findAllByOrganizationId({ organizationId });
 
       // then
       const expectedMember1 = new OrganizationMember({
-        id: activeMemberId,
-        firstName: 'Jean',
-        lastName: 'Némard',
-      });
-      const expectedMember2 = new OrganizationMember({
         id: otherActiveMemberId2,
         firstName: 'Anne',
         lastName: 'Registre',
+      });
+      const expectedMember2 = new OrganizationMember({
+        id: activeMemberId,
+        firstName: 'Jean',
+        lastName: 'Némard',
       });
       const expectedMember3 = new OrganizationMember({
         id: otherActiveMemberId,
@@ -55,14 +55,14 @@ describe('Integration | Repository | organizationMemberRepository', function () 
       expect(members[2]).to.deep.equal(expectedMember3);
     });
 
-    it('should return an empty array if organization does not exist', async function () {
+    it('should return an empty array if organization has no members', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const wrongOrganizationId = organizationId + 1;
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationMemberRepository.getAllByOrganizationId({
+      const result = await organizationMemberRepository.findAllByOrganizationId({
         organizationId: wrongOrganizationId,
       });
 

@@ -168,7 +168,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les rôles des membres rattachées à l’organisation de manière paginé.',
+          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
         ],
       },
     },
@@ -191,7 +191,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les nom et prénom des membres rattachées à l’organisation.',
+          'Elle retourne la liste des membres rattachés à l’organisation.',
         ],
       },
     },

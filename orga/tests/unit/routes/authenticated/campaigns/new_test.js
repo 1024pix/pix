@@ -18,7 +18,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
     }
     this.owner.register('service:current-user', CurrentUserStub);
 
-    const members = Symbol('list of members sorted by names');
+    const members = Symbol('list of members sorted by firstnames and lastnames');
     const findAllStub = sinon.stub();
     const storeStub = {
       findAll: findAllStub.resolves(members),
