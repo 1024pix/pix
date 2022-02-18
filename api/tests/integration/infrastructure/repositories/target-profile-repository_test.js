@@ -575,46 +575,6 @@ describe('Integration | Repository | Target-profile', function () {
     });
   });
 
-  describe('#isAttachedToOrganizations', function () {
-    context('when none of given organizations is attached to the targetProfile', function () {
-      it('return true', async function () {
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        const organization1 = databaseBuilder.factory.buildOrganization();
-        const organization2 = databaseBuilder.factory.buildOrganization();
-
-        await databaseBuilder.commit();
-
-        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
-
-        targetProfileOrganizations.attach([organization1.id, organization2.id]);
-
-        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfileOrganizations);
-
-        expect(isAttached).to.equal(false);
-      });
-    });
-
-    context('when one of given organizations is attached to the targetProfile', function () {
-      it('return true', async function () {
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        const organization1 = databaseBuilder.factory.buildOrganization();
-        const organization2 = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId: organization1.id });
-
-        await databaseBuilder.commit();
-
-        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
-
-        targetProfileOrganizations.attach([organization1.id, organization2.id]);
-
-        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfileOrganizations);
-
-        expect(isAttached).to.equal(true);
-      });
-    });
-  });
-
   describe('#update', function () {
     it('should update the target profile name', async function () {
       // given

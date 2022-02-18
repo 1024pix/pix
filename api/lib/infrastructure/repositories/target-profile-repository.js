@@ -150,14 +150,6 @@ module.exports = {
     return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
   },
 
-  async isAttachedToOrganizations(targetProfile) {
-    const attachedOrganizations = await knex('target-profile-shares')
-      .select('organizationId')
-      .whereIn('organizationId', targetProfile.organizations);
-
-    return attachedOrganizations.some((e) => e);
-  },
-
   async update(targetProfile) {
     let targetProfileUpdatedRowCount;
     const editedAttributes = _.pick(targetProfile, ['name', 'outdated', 'description', 'comment']);
