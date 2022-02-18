@@ -34,11 +34,20 @@
   }
 }
 
-.add-authentication-method-modal__form-body {
+.add-authentication-method-modal__form-body,
+.reassign-gar-authentication-method-modal__form-body {
   margin-bottom: 16px;
 
   label[for="new-email-for-adding-authentication-method"] {
     height: 18px;
     bottom: calc(-18px - 4px - 6px);
+  }
+}
+
+.reassign-gar-authentication-method-modal__form-body {
+
+  p {
+    padding: 0;
+    margin-bottom: 40px;
   }
 }

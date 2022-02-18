@@ -243,4 +243,10 @@ module.exports = {
     }
     return _toDomain(authenticationMethodDTO);
   },
+
+  async updateAuthenticationMethodUserId({ originUserId, identityProvider, targetUserId }) {
+    await knex(AUTHENTICATION_METHODS_TABLE)
+      .where({ userId: originUserId, identityProvider })
+      .update({ userId: targetUserId, updatedAt: new Date() });
+  },
 };

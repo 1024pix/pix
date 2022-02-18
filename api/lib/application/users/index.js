@@ -780,6 +780,35 @@ exports.register = async function (server) {
         tags: ['api', 'user', 'authentication-methods'],
       },
     },
+    {
+      method: 'PUT',
+      path: '/api/admin/users/{userId}/authentication-methods/{authenticationMethodId}/reassign',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            authenticationMethodId: identifiersType.authenticationMethodId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'user-id': identifiersType.userId,
+                'identity-provider': Joi.string().valid('GAR').required(),
+              },
+            },
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        handler: userController.reassignAuthenticationMethods,
+        notes: ["- Permet à un administrateur de déplacer une méthode de connexion GAR d'un utilisateur à un autre"],
+        tags: ['api', 'administration', 'user', 'authentication-method'],
+      },
+    },
   ]);
 };
 
