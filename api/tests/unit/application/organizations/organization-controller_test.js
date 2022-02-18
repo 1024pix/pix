@@ -1015,7 +1015,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#getOrganizationMembers', function () {
-    it('should return the firstName and lastName of all members of the organization', async function () {
+    it('should return all members of the organization serialized', async function () {
       // given
       const organizationId = 1234;
       const members = Symbol('members');

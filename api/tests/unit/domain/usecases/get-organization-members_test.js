@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-organization-members', function () {
 
   beforeEach(function () {
     organizationMemberRepository = {
-      getAllByOrganizationId: sinon.stub(),
+      findAllByOrganizationId: sinon.stub(),
     };
   });
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-organization-members', function () {
     const organizationId = 123;
     const member1 = new OrganizationMember({ id: 444, firstName: 'Gérard', lastName: 'Menfaim' });
     const member2 = new OrganizationMember({ id: 777, firstName: 'Guy', lastName: 'Tar' });
-    organizationMemberRepository.getAllByOrganizationId.withArgs({ organizationId }).resolves([member1, member2]);
+    organizationMemberRepository.findAllByOrganizationId.withArgs({ organizationId }).resolves([member1, member2]);
 
     // when
     const result = await getOrganizationMembers({
