@@ -513,6 +513,7 @@
       },
       "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
       "filter": {
+        "clear": "Clear filters",
         "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du propriétaire. Des boutons permettent de filtrer les campagnes actives et archivées.",
         "title": "Filters",
         "by-owner": "Search for an owner",

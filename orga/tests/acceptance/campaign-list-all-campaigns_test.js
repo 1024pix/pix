@@ -210,6 +210,36 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           assert.notContains('la campagne de Sara');
         });
       });
+
+      module('With clear all filters button', function () {
+        test('it should clear archived, campaign and owner filter on click and display all active campaigns', async function (assert) {
+          // given
+          const user = createUserWithMembershipAndTermsOfServiceAccepted();
+          createPrescriberByUser(user);
+          await authenticateSession(user.id);
+          const campaignName1 = 'ma super campagne';
+
+          const owner = server.create('user', { firstName: 'Harry', lastName: 'Gole' });
+          server.create('campaign', {
+            name: campaignName1,
+            ownerFirstName: owner.firstName,
+            ownerLastName: owner.lastName,
+          });
+          const screen = await visitScreen('/campagnes/toutes');
+
+          // when
+          await fillByLabel('Rechercher une campagne', campaignName1);
+          await fillByLabel('Rechercher un propriétaire', owner.firstName);
+          await clickByName('Archivées');
+          await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+
+          //then
+          assert.dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-owner'))).containsText('');
+          assert.dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name'))).containsText('');
+          assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
+          assert.deepEqual(currentURL(), '/campagnes/toutes');
+        });
+      });
     });
 
     module('When there is no campaign', function () {

@@ -15,9 +15,22 @@ export default class AuthenticatedCampaignsListMyCampaignsController extends Con
     return this.status === 'archived';
   }
 
+  get isClearFiltersButtonDisabled() {
+    const isSearchInputEmpty = !this.name;
+    const activeCampainsDisplayed = this.status === null;
+    return isSearchInputEmpty && activeCampainsDisplayed;
+  }
+
   updateFilters(filters) {
     Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = null;
+  }
+
+  @action
+  clearFilters() {
+    this.name = '';
+    this.ownerName = '';
+    this.status = null;
   }
 
   @action

@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import sinon from 'sinon';
 
 module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -9,6 +10,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
   hooks.beforeEach(function () {
     this.set('triggerFilteringSpy', () => {});
     this.set('onClickStatusFilterSpy', () => {});
+    this.set('onClickClearFiltersSpy', sinon.stub());
   });
 
   test('it should display filters', async function (assert) {
@@ -17,6 +19,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
         @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
 
@@ -29,6 +32,26 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     assert.dom(screen.getByText('1 campagne')).exists();
   });
 
+  module('With clear all filters button', function () {
+    test('it should reset all filters on button clear filters click', async function (assert) {
+      // when
+      await renderScreen(
+        hbs`<Campaign::Filter::Filters
+        @onFilter={{this.triggerFilteringSpy}}
+        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
+        @numResults={{1}} />`
+      );
+
+      // When
+      await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+
+      // then
+      sinon.assert.called(this.onClickClearFiltersSpy);
+      assert.ok(true);
+    });
+  });
+
   module('when showing current user campaign list', function () {
     test('it should not show creator input', async function (assert) {
       // given / when
@@ -36,6 +59,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
         hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
         @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}}
         @listOnlyCampaignsOfCurrentUser={{true}} />`
       );
@@ -51,6 +75,7 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
         @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
 

@@ -15,9 +15,22 @@ export default class AuthenticatedCampaignsListAllCampaignsController extends Co
     return this.status === 'archived';
   }
 
+  get isClearFiltersButtonDisabled() {
+    const filtersAreEmpty = !this.name && !this.ownerName;
+    const activeCampainsDisplayed = this.status === null;
+    return filtersAreEmpty && activeCampainsDisplayed;
+  }
+
   updateFilters(filters) {
     Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = null;
+  }
+
+  @action
+  clearFilters() {
+    this.name = '';
+    this.ownerName = '';
+    this.status = null;
   }
 
   @action
