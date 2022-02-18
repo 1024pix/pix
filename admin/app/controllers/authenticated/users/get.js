@@ -28,14 +28,24 @@ export default class GetController extends Controller {
 
   @action
   async reassignGarAuthenticationMethod(targetUserId) {
+    const authenticationMethodId = this._getGARauthenticationMethodId();
     try {
-      await this.model.save({ adapterOptions: { reassignGarAuthenticationMethod: true, targetUserId } });
+      await this.model.save({
+        adapterOptions: { reassignGarAuthenticationMethod: true, targetUserId, authenticationMethodId },
+      });
       this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${targetUserId}`);
       this.send('refreshModel');
       this.notifications.success("L'utilisateur n'a plus de méthode de connexion Médiacentre");
     } catch (error) {
       this._handleResponseError(error);
     }
+  }
+
+  _getGARauthenticationMethodId() {
+    const authenticationMethods = this.model.authenticationMethods.filter(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+    );
+    return authenticationMethods[0].get('id');
   }
 
   _handleResponseError({ errors }) {

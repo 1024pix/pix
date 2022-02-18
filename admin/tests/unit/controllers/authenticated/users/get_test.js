@@ -11,18 +11,18 @@ module('Unit | Controller | authenticated/users/get', function (hooks) {
       const controller = this.owner.lookup('controller:authenticated.users.get');
 
       const targetUserId = 2;
+      const authenticationMethodId = 10;
+
       controller.model = { save: sinon.stub() };
+      controller._getGARauthenticationMethodId = sinon.stub().returns(authenticationMethodId);
       controller.send = sinon.stub();
-
       controller.model.save
-        .withArgs({ adapterOptions: { reassignGarAuthenticationMethod: true, targetUserId } })
+        .withArgs({ adapterOptions: { reassignGarAuthenticationMethod: true, targetUserId, authenticationMethodId } })
         .rejects({ errors: [{ status: '422' }] });
-
       controller.notifications = {
         success: sinon.stub(),
         error: sinon.stub(),
       };
-
       controller.notifications.error.resolves();
 
       // when

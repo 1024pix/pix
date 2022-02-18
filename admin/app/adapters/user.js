@@ -68,9 +68,10 @@ export default class UserAdapter extends ApplicationAdapter {
           },
         },
       };
+
       const url =
         this.urlForUpdateRecord(snapshot.id) +
-        `/authentication-methods/${snapshot.adapterOptions.targetUserId}/reassign`;
+        `/authentication-methods/${snapshot.adapterOptions.authenticationMethodId}/reassign`;
       return this.ajax(url, 'PUT', payload);
     }
 
