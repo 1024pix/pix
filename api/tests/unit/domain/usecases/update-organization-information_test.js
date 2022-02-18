@@ -184,27 +184,6 @@ describe('Unit | UseCase | update-organization-information', function () {
       });
     });
 
-    it('should allow to update the organization canCollectProfiles (only) if modified', async function () {
-      // given
-      const organizationId = 7;
-      const givenOrganization = _buildOrganizationWithNullAttributes({
-        id: organizationId,
-        canCollectProfiles: false,
-      });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationRepository.get.resolves(originalOrganization);
-
-      // when
-      await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
-
-      // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({
-        ...originalOrganization,
-        canCollectProfiles: false,
-      });
-    });
-
     it('should allow to update the organization email', async function () {
       // given
       const newEmail = 'sco.generic.newaccount@example.net';
@@ -389,7 +368,6 @@ function _buildOrganizationWithNullAttributes(attributes) {
     externalId: attributes.externalId,
     provinceCode: attributes.provinceCode,
     isManagingStudents: attributes.isManagingStudents,
-    canCollectProfiles: attributes.canCollectProfiles,
     email: attributes.email,
     credit: attributes.credit,
     tags: attributes.tags,
@@ -407,7 +385,6 @@ function _buildOriginalOrganization(organizationId) {
     externalId: 'extId',
     provinceCode: '666',
     isManagingStudents: true,
-    canCollectProfiles: true,
     email: null,
     credit: null,
   });
