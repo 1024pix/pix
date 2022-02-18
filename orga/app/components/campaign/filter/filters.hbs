@@ -48,5 +48,10 @@
     <p class="campaign-filters__results">
       {{t "pages.campaigns-list.filter.results" total=@numResults}}
     </p>
+    <div class="campaign-filters__clear">
+      <PixButton @triggerAction={{@onClearFilters}} @isDisabled={{@isClearFiltersButtonDisabled}}>
+        {{t "pages.campaigns-list.filter.clear"}}
+      </PixButton>
+    </div>
   </div>
 </div>

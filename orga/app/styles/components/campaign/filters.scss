@@ -32,12 +32,18 @@
   }
 
   > div:last-child {
+    display: flex;
     border-top: 1.2px solid $grey-15;
     margin-top: 20px;
 
     @include device-is('tablet') {
       border: none;
       margin: 0;
+    }
+
+    @include device-is('mobile') {
+      justify-content: space-between;
+      border: none;
     }
   }
 
@@ -49,6 +55,10 @@
   .search-input {
     height: 36px;
     width: 260px;
+
+    @include device-is('mobile') {
+      width: 100%;
+    }
   }
 
   &__type {
@@ -68,6 +78,16 @@
     color: $grey-60;
     font-size: 0.875em;
     font-weight: 500;
+  }
+
+  &__clear {
+    border-left: 1px solid $grey-20;
+    margin-left: 24px;
+    padding: 2px 0 2px 24px;
+
+    @include device-is('mobile') {
+      border-left: none;
+    }
   }
 
   &__radio {
@@ -110,6 +130,11 @@
       &:hover {
         opacity: 1;
       }
+    }
+
+    @include device-is('mobile') {
+      flex-grow: 1;
+      justify-content: center;
     }
   }
 }

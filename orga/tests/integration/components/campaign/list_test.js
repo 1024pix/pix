@@ -283,5 +283,61 @@ module('Integration | Component | Campaign::List', function (hooks) {
         assert.dom(screen.queryByLabelText('Dupont Alice')).doesNotExist();
       });
     });
+
+    module('clear filters button', function () {
+      test('it should be disabled when isClearFiltersButtonDisabled returns true which means that filters are empty', async function (assert) {
+        // given
+        this.set('isClearFiltersButtonDisabled', true);
+
+        const campaigns = [
+          { name: 'campagne 1', code: 'AAAAAA111', ownerFullName: 'Dupont Alice' },
+          { name: 'campagne 2', code: 'BBBBBB222', ownerFullName: 'Dupont Alice' },
+        ];
+        campaigns.meta = {
+          rowCount: 2,
+        };
+        this.set('campaigns', campaigns);
+        this.set('listOnlyCampaignsOfCurrentUser', true);
+
+        // when
+        const screen = await renderScreen(hbs`<Campaign::List
+                    @campaigns={{this.campaigns}}
+                    @onFilter={{this.triggerFilteringSpy}}
+                    @onClickCampaign={{this.goToCampaignPageSpy}}
+                    @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+                    @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+                    @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}/>`);
+
+        // then
+        assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasAttribute('disabled');
+      });
+
+      test('it should be enabled when isClearFiltersButtonDisabled returns false which means that one or some filters are used', async function (assert) {
+        // given
+        this.set('isClearFiltersButtonDisabled', false);
+
+        const campaigns = [
+          { name: 'campagne 1', code: 'AAAAAA111', ownerFullName: 'Dupont Alice' },
+          { name: 'campagne 2', code: 'BBBBBB222', ownerFullName: 'Dupont Alice' },
+        ];
+        campaigns.meta = {
+          rowCount: 2,
+        };
+        this.set('campaigns', campaigns);
+        this.set('listOnlyCampaignsOfCurrentUser', true);
+
+        // when
+        const screen = await renderScreen(hbs`<Campaign::List
+                    @campaigns={{this.campaigns}}
+                    @onFilter={{this.triggerFilteringSpy}}
+                    @onClickCampaign={{this.goToCampaignPageSpy}}
+                    @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+                    @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+                    @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}/>`);
+
+        // then
+        assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
+      });
+    });
   });
 });
