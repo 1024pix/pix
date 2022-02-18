@@ -130,6 +130,27 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(campaignParticipation.pixScore).to.equals(10);
       expect(campaignParticipation.masteryRate).to.equals('0.90');
     });
+
+    it('save the change of schoolingRegistrationId', async function () {
+      const campaignParticipationId = 12;
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: campaignParticipationId,
+        schoolingRegistrationId: null,
+      });
+
+      await databaseBuilder.commit();
+
+      await campaignParticipationRepository.update({
+        id: campaignParticipationId,
+        schoolingRegistrationId,
+      });
+      const campaignParticipation = await knex('campaign-participations')
+        .where({ id: campaignParticipationId })
+        .first();
+
+      expect(campaignParticipation.schoolingRegistrationId).to.equals(schoolingRegistrationId);
+    });
   });
 
   describe('#findProfilesCollectionResultDataByCampaignId', function () {
@@ -558,100 +579,6 @@ describe('Integration | Repository | Campaign Participation', function () {
         expect(participations.sharedAt).to.be.undefined;
         expect(snapshotInDB).to.be.empty;
       });
-    });
-  });
-
-  describe('#countSharedParticipationOfCampaign', function () {
-    it('counts the number of campaign participation shared for a campaign', async function () {
-      const campaignId = databaseBuilder.factory.buildCampaign({}).id;
-      const otherCampaignId = databaseBuilder.factory.buildCampaign({}).id;
-
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED });
-      databaseBuilder.factory.buildCampaignParticipation({ otherCampaignId });
-
-      await databaseBuilder.commit();
-
-      const numberOfCampaignShared = await campaignParticipationRepository.countSharedParticipationOfCampaign(
-        campaignId
-      );
-
-      expect(numberOfCampaignShared).to.equal(1);
-    });
-  });
-
-  describe('#isAssessmentCompleted', function () {
-    it('should return true when latest assessment is completed', async function () {
-      // given
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-      const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-      // oldest assessment
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId,
-        state: Assessment.states.STARTED,
-        createdAt: new Date('2019-01-04'),
-      });
-      // latest assessment
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId,
-        state: Assessment.states.COMPLETED,
-        createdAt: new Date('2019-02-05'),
-      });
-      // noise
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId: otherCampaignParticipationId,
-        state: Assessment.states.STARTED,
-        createdAt: new Date('2019-04-05'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const isAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(
-        campaignParticipationId
-      );
-
-      // then
-      expect(isAssessmentCompleted).to.be.true;
-    });
-
-    it('should return false when latest assessment is not completed', async function () {
-      // given
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-      // oldest assessment
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId,
-        state: Assessment.states.COMPLETED,
-        createdAt: new Date('2019-01-04'),
-      });
-      // latest assessment
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId,
-        state: Assessment.states.STARTED,
-        createdAt: new Date('2019-02-05'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const isAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(
-        campaignParticipationId
-      );
-
-      // then
-      expect(isAssessmentCompleted).to.be.false;
-    });
-
-    it('should return false when campaignParticipation has no assessment', async function () {
-      // given
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-      await databaseBuilder.commit();
-
-      // when
-      const isAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(
-        campaignParticipationId
-      );
-
-      // then
-      expect(isAssessmentCompleted).to.be.false;
     });
   });
 
