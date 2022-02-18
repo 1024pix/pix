@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, findAll, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | certifications/list', function (hooks) {
@@ -12,19 +12,35 @@ module('Integration | Component | certifications/list', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  test('should display many certifications', async function (assert) {
+  test('should display many certifications ordered by the most issues with required action count', async function (assert) {
     // given
     this.certifications = [
-      store.createRecord('jury-certification-summary', { id: 1 }),
-      store.createRecord('jury-certification-summary', { id: 2 }),
-      store.createRecord('jury-certification-summary', { id: 3 }),
+      store.createRecord('jury-certification-summary', {
+        id: 1,
+        numberOfCertificationIssueReportsWithRequiredActionLabel: 1,
+      }),
+      store.createRecord('jury-certification-summary', {
+        id: 2,
+        numberOfCertificationIssueReportsWithRequiredActionLabel: 3,
+      }),
+      store.createRecord('jury-certification-summary', {
+        id: 3,
+        numberOfCertificationIssueReportsWithRequiredActionLabel: 2,
+      }),
     ];
 
     // when
     await render(hbs`<Certifications::List @certifications={{certifications}} />`);
 
-    const $tableRows = this.element.querySelectorAll('tbody > tr');
-    assert.strictEqual($tableRows.length, 3);
+    const tableRows = findAll('tbody > tr');
+    assert.strictEqual(tableRows.length, 3);
+    const firstRow = 'tbody > tr:nth-child(1)';
+    const unresolvedImpactfulIssuesColumn = 'td:nth-child(5)';
+    assert.strictEqual(find(firstRow + ' > ' + unresolvedImpactfulIssuesColumn).innerText, '3');
+    const secondRow = 'tbody > tr:nth-child(2)';
+    assert.strictEqual(find(secondRow + ' > ' + unresolvedImpactfulIssuesColumn).innerText, '2');
+    const thirdRow = 'tbody > tr:nth-child(3)';
+    assert.strictEqual(find(thirdRow + ' > ' + unresolvedImpactfulIssuesColumn).innerText, '1');
   });
 
   test('should display number of certification issue reports with required action', async function (assert) {
