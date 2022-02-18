@@ -13,16 +13,13 @@ function _isScoreOver75PercentOfExpectedScore(score, expectedScore) {
   return score >= _.floor(expectedScore * 0.75);
 }
 
-function _hasRequiredPixScoreForAtLeast75PercentOfCompetences({
-  maxReachablePixByCompetenceForClea,
-  cleaCompetenceMarks,
-}) {
+function _hasRequiredPixScoreForAtLeast75PercentOfCompetences({ expectedPixByCompetenceForClea, cleaCompetenceMarks }) {
   if (cleaCompetenceMarks.length === 0) return false;
 
   const countCompetencesWithRequiredPixScore = _(cleaCompetenceMarks)
-    .filter((cleaCompetenceMark) => {
-      const currentCompetenceScore = cleaCompetenceMark.score;
-      const expectedCompetenceScore = maxReachablePixByCompetenceForClea[cleaCompetenceMark.competenceId];
+    .filter(({ score, competenceId }) => {
+      const currentCompetenceScore = score;
+      const expectedCompetenceScore = expectedPixByCompetenceForClea[competenceId];
       return _isScoreOver75PercentOfExpectedScore(currentCompetenceScore, expectedCompetenceScore);
     })
     .size();
@@ -46,7 +43,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     reproducibilityRate,
     cleaCompetenceMarks,
     isBadgeAcquisitionStillValid = true,
-    maxReachablePixByCompetenceForClea,
+    expectedPixByCompetenceForClea,
     cleaBadgeKey,
   } = {}) {
     super({
@@ -58,13 +55,13 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     this.isBadgeAcquisitionStillValid = isBadgeAcquisitionStillValid;
     this.reproducibilityRate = reproducibilityRate;
     this.cleaCompetenceMarks = cleaCompetenceMarks;
-    this.maxReachablePixByCompetenceForClea = maxReachablePixByCompetenceForClea;
+    this.expectedPixByCompetenceForClea = expectedPixByCompetenceForClea;
 
     const schema = Joi.object({
       hasAcquiredBadge: Joi.boolean().required(),
       reproducibilityRate: Joi.number().required(),
       cleaCompetenceMarks: Joi.array().required(),
-      maxReachablePixByCompetenceForClea: Joi.object().required(),
+      expectedPixByCompetenceForClea: Joi.object().required(),
     }).unknown();
 
     validateEntity(schema, this);
@@ -76,7 +73,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
       hasAcquiredBadge: false,
       isBadgeAcquisitionStillValid: false,
       cleaCompetenceMarks: [],
-      maxReachablePixByCompetenceForClea: {},
+      expectedPixByCompetenceForClea: {},
       reproducibilityRate: 0,
       cleaBadgeKey: 'no_badge',
     });
@@ -99,7 +96,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
 
     return _hasRequiredPixScoreForAtLeast75PercentOfCompetences({
       cleaCompetenceMarks: this.cleaCompetenceMarks,
-      maxReachablePixByCompetenceForClea: this.maxReachablePixByCompetenceForClea,
+      expectedPixByCompetenceForClea: this.expectedPixByCompetenceForClea,
     });
   }
 }

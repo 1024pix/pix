@@ -17,28 +17,32 @@ const SCO_AGRI_EXTERNAL_ID = '1237457C';
 const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
 const AGRI_SCO_MANAGING_STUDENT_ID = 9;
 const AGRI_SCO_MANAGING_STUDENT_NAME = 'Centre AGRI des Anne-Etoiles';
+const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
+const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
 
 const { PIX_EMPLOI_CLEA_BADGE_ID, PIX_DROIT_MAITRE_BADGE_ID, PIX_DROIT_EXPERT_BADGE_ID } = require('../badges-builder');
 
 function certificationCentersBuilder({ databaseBuilder }) {
-  const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+  databaseBuilder.factory.buildComplementaryCertification({
     name: 'CléA Numérique',
-  }).id;
+    id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID,
-    complementaryCertificationId: cleaComplementaryCertificationId,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
-  const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+  databaseBuilder.factory.buildComplementaryCertification({
     name: 'Pix+ Droit',
-  }).id;
+    id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+  });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_DROIT_MAITRE_BADGE_ID,
-    complementaryCertificationId: pixDroitComplementaryCertificationId,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_DROIT_EXPERT_BADGE_ID,
-    complementaryCertificationId: pixDroitComplementaryCertificationId,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildCertificationCenter({
@@ -77,7 +81,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: PRO_CERTIF_CENTER_ID,
-    complementaryCertificationId: cleaComplementaryCertificationId,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildCertificationCenter({
@@ -87,11 +91,11 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: SUP_CERTIF_CENTER_ID,
-    complementaryCertificationId: cleaComplementaryCertificationId,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: SUP_CERTIF_CENTER_ID,
-    complementaryCertificationId: pixDroitComplementaryCertificationId,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildCertificationCenter({
@@ -101,7 +105,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: DROIT_CERTIF_CENTER_ID,
-    complementaryCertificationId: pixDroitComplementaryCertificationId,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   for (let i = 0; i < 200; i++) {
@@ -129,4 +133,6 @@ module.exports = {
   AGRI_SCO_MANAGING_STUDENT_NAME,
   SCO_LYCEE_CERTIF_CENTER_ID,
   SCO_LYCEE_CERTIF_CENTER_NAME,
+  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
 };
