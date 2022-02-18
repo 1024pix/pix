@@ -1,6 +1,7 @@
 const { expect, sinon, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const { NoOrganizationToAttach, NotFoundError } = require('../../../../lib/domain/errors');
 const attachOrganizationsFromExistingTargetProfile = require('../../../../lib/domain/usecases/attach-organizations-from-existing-target-profile');
+const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
@@ -33,6 +34,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       await attachOrganizationsFromExistingTargetProfile({
         targetProfileId,
         existingTargetProfileId,
+        targetProfileShareRepository,
         targetProfileRepository,
       });
 
@@ -50,6 +52,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       const error = await catchErr(attachOrganizationsFromExistingTargetProfile)({
         targetProfileId,
         existingTargetProfileId,
+        targetProfileShareRepository,
         targetProfileRepository,
       });
 
@@ -65,6 +68,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       const error = await catchErr(attachOrganizationsFromExistingTargetProfile)({
         targetProfileId: 999,
         existingTargetProfileId,
+        targetProfileShareRepository,
         targetProfileRepository,
       });
 
@@ -78,6 +82,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       const error = await catchErr(attachOrganizationsFromExistingTargetProfile)({
         targetProfileId,
         existingTargetProfileId: 999,
+        targetProfileShareRepository,
         targetProfileRepository,
       });
 
