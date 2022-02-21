@@ -42,7 +42,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     test('should return false if feature toggle is false and center has complementary certifications', function (assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', false);
-      _stubCurrentCenterHabilitations(this, store, ['Pix+Droit']);
+      _stubCurrentCenter(this, store, { habilitations: ['Pix+Droit'] });
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
@@ -55,7 +55,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     test('should return false if feature toggle is true and center has no complementary certifications', function (assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', true);
-      _stubCurrentCenterHabilitations(this, store, []);
+      _stubCurrentCenter(this, store, { habilitations: [] });
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
@@ -68,7 +68,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     test('should return true if feature toggle is true and center has complementary certifications', function (assert) {
       // given
       _stubFeatureToggle(this, 'isComplementaryCertificationSubscriptionEnabled', true);
-      _stubCurrentCenterHabilitations(this, store, ['Pix+Edu']);
+      _stubCurrentCenter(this, store, { habilitations: ['Pix+Edu'] });
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
       // when
@@ -89,10 +89,11 @@ function _stubFeatureToggle(controller, featureToggleName, featureToggleValue) {
   controller.owner.register('service:feature-toggles', FeatureTogglesStub);
 }
 
-function _stubCurrentCenterHabilitations(controller, store, habilitations) {
+function _stubCurrentCenter(controller, store, properties) {
   const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-    habilitations,
+    ...properties,
   });
+
   class CurrentUserStub extends Service {
     currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
   }
