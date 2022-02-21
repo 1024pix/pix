@@ -24,7 +24,7 @@ $green-70: #006134;
     margin-bottom: 4px;
   }
 
-  &__checkbox {
+  &__checkbox[type="checkbox"] {
     width: 32px;
     height: 32px;
     margin-right: 16px;

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { fillIn, click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
