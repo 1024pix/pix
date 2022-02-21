@@ -7,7 +7,6 @@ export default class CertificationList extends Component {
         propertyName: 'id',
         title: 'Id',
         routeName: 'authenticated.certifications.certification.informations',
-        sortPrecedence: 1,
       },
       {
         propertyName: 'firstName',
@@ -26,6 +25,8 @@ export default class CertificationList extends Component {
         propertyName: 'numberOfCertificationIssueReportsWithRequiredActionLabel',
         title: 'Signalements impactants non résolus',
         className: 'certification-list-page__cell--important',
+        sortPrecedence: 1,
+        sortDirection: 'desc',
       },
       {
         propertyName: 'complementaryCertificationsLabel',
