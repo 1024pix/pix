@@ -1046,8 +1046,12 @@ describe('Unit | Controller | user-controller', function () {
         // given
         const originUserId = domainBuilder.buildUser({ id: 1 }).id;
         const targetUserId = domainBuilder.buildUser({ id: 2 }).id;
+        const authenticationMethodId = 123;
 
-        sinon.stub(usecases, 'reassignGarAuthenticationMethod').withArgs({ originUserId, targetUserId }).resolves();
+        sinon
+          .stub(usecases, 'reassignAuthenticationMethodToAnotherUser')
+          .withArgs({ originUserId, targetUserId, authenticationMethodId })
+          .resolves();
 
         // when
         const request = {
@@ -1058,6 +1062,7 @@ describe('Unit | Controller | user-controller', function () {
           },
           params: {
             userId: originUserId,
+            authenticationMethodId,
           },
           payload: {
             data: {
@@ -1071,43 +1076,11 @@ describe('Unit | Controller | user-controller', function () {
         await userController.reassignAuthenticationMethods(request, hFake);
 
         // then
-        expect(usecases.reassignGarAuthenticationMethod).to.have.been.calledWith({
+        expect(usecases.reassignAuthenticationMethodToAnotherUser).to.have.been.calledWith({
           originUserId,
           targetUserId,
+          authenticationMethodId,
         });
-      });
-    });
-
-    context('when the reassigned authentication method is not gar (pole emploi or pix)', function () {
-      it('should not update gar authentication method user id', async function () {
-        // given
-        const originUserId = domainBuilder.buildUser({ id: 1 }).id;
-        const targetUserId = domainBuilder.buildUser({ id: 2 }).id;
-        sinon.stub(usecases, 'reassignGarAuthenticationMethod');
-
-        // when
-        const request = {
-          auth: {
-            credentials: {
-              userId: originUserId,
-            },
-          },
-          params: {
-            userId: originUserId,
-          },
-          payload: {
-            data: {
-              attributes: {
-                'user-id': targetUserId,
-                'identity-provider': AuthenticationMethod.identityProviders.PIX,
-              },
-            },
-          },
-        };
-        await userController.reassignAuthenticationMethods(request, hFake);
-
-        // then
-        expect(usecases.reassignGarAuthenticationMethod.notCalled).to.be.true;
       });
     });
   });
