@@ -362,13 +362,35 @@ describe('Integration | Repository | Certification Center Membership', function 
       expect(hasMembership).to.be.false;
     });
 
-    it('should return true if user has membership in given certification center', async function () {
+    it('should return false if user has a disabled membership in given certification center', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       databaseBuilder.factory.buildCertificationCenterMembership({
         userId,
         certificationCenterId,
+        disabledAt: new Date(),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
+        userId,
+        certificationCenterId,
+      });
+
+      // then
+      expect(hasMembership).to.be.false;
+    });
+
+    it('should return true if user has a not disabled membership in given certification center', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        disabledAt: null,
       });
       await databaseBuilder.commit();
 
