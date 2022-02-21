@@ -122,7 +122,7 @@ export default function () {
 
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
 
-  this.get('/organizations/:id/members-identity', (schema) => {
+  this.get('/organizations/:id/member-identities', (schema) => {
     return schema.memberIdentities.all();
   });
 

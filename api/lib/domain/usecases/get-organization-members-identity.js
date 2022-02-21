@@ -1,3 +1,3 @@
-module.exports = function getOrganizationMembersIdentity({ organizationId, organizationMemberIdentityRepository }) {
+module.exports = function getOrganizationMemberIdentities({ organizationId, organizationMemberIdentityRepository }) {
   return organizationMemberIdentityRepository.findAllByOrganizationId({ organizationId });
 };

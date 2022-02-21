@@ -117,9 +117,9 @@ module.exports = {
     return membershipSerializer.serialize(memberships, pagination);
   },
 
-  async getOrganizationMembersIdentity(request) {
+  async getOrganizationMemberIdentities(request) {
     const organizationId = request.params.id;
-    const members = await usecases.getOrganizationMembersIdentity({ organizationId });
+    const members = await usecases.getOrganizationMemberIdentities({ organizationId });
     return organizationMemberIdentitySerializer.serialize(members);
   },
 

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const getOrganizationMembersIdentity = require('../../../../lib/domain/usecases/get-organization-members-identity');
+const getOrganizationMemberIdentities = require('../../../../lib/domain/usecases/get-organization-members-identity');
 const OrganizationMemberIdentity = require('../../../../lib/domain/models/OrganizationMemberIdentity');
 
 describe('Unit | UseCase | get-organization-members', function () {
@@ -16,18 +16,18 @@ describe('Unit | UseCase | get-organization-members', function () {
     const organizationId = 123;
     const member1 = new OrganizationMemberIdentity({ id: 444, firstName: 'Gérard', lastName: 'Menfaim' });
     const member2 = new OrganizationMemberIdentity({ id: 777, firstName: 'Guy', lastName: 'Tar' });
+    const organizationMembers = [member1, member2];
     organizationMemberIdentityRepository.findAllByOrganizationId
       .withArgs({ organizationId })
-      .resolves([member1, member2]);
+      .resolves(organizationMembers);
 
     // when
-    const result = await getOrganizationMembersIdentity({
+    const result = await getOrganizationMemberIdentities({
       organizationId,
       organizationMemberIdentityRepository,
     });
 
     // then
-    const organizationMembers = [member1, member2];
     expect(result).to.be.deep.equal(organizationMembers);
   });
 });
