@@ -16,20 +16,31 @@
         <th>
           <div class="session-finalization-reports-information-step__header_cancel">
             <span>Raison de l'abandon</span>
-            <PixTooltip
-              @id="tooltip-cancel-reason"
-              @text={{escapeHtml
-                "<ul><li>Abandon : Manque de temps ou départ prématuré :<ul><li>Le candidat n’a pas eu le temps de répondre à toutes ses questions</li><li>Le candidat est parti volontairement avant la fin du test</li></ul><li>Problème technique :<ul><li>Le candidat a rencontré un problème technique l'empêchant de poursuivre son test jusqu’à la fin</li></ul></li></ul>"
-              }}
-              @position="left"
-              @isWide={{true}}
-            >
-              <FaIcon
-                @icon="info-circle"
-                tabindex="0"
-                aria-describedby="tooltip-cancel-reason"
-                aria-label="Raison de l'abandon"
-              />
+            <PixTooltip @id="tooltip-cancel-reason" @position="left" @isWide={{true}}>
+              <:triggerElement>
+                <FaIcon
+                  @icon="info-circle"
+                  tabindex="0"
+                  aria-describedby="tooltip-cancel-reason"
+                  aria-label="Raison de l'abandon"
+                />
+              </:triggerElement>
+              <:tooltip>
+                <ul>
+                  <li>Abandon : Manque de temps ou départ prématuré :
+                    <ul>
+                      <li>Le candidat n'a pas eu le temps de répondre à toutes ses questions</li>
+                      <li>Le candidat est parti volontairement avant la fin du test</li>
+                    </ul>
+                  </li>
+                  <li>Problème technique :
+                    <ul>
+                      <li>Le candidat a rencontré un problème technique l'empêchant de poursuivre son test jusqu’à la
+                        fin</li>
+                    </ul>
+                  </li>
+                </ul>
+              </:tooltip>
             </PixTooltip>
           </div>
         </th>

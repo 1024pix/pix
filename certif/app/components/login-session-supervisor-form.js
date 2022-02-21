@@ -4,9 +4,19 @@ import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
 export default class LoginSessionSupervisorForm extends Component {
-  @tracked sessionId;
-  @tracked supervisorPassword;
   @tracked errorMessage = null;
+  sessionId;
+  supervisorPassword;
+
+  @action
+  setSupervisorPassword(event) {
+    this.supervisorPassword = event.target.value;
+  }
+
+  @action
+  setSessionId(event) {
+    this.sessionId = event.target.value;
+  }
 
   @action
   async superviseSession(event) {

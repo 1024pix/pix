@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
+import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession, invalidateSession } from 'ember-simple-auth/test-support';
 import {
