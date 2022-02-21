@@ -62,7 +62,7 @@ class KnowledgeElement {
     targetSkills,
     userId,
   }) {
-    const directKnowledgeElements = _createDirectKnowledgeElements({
+    const directKnowledgeElement = _createDirectKnowledgeElement({
       answer,
       challenge,
       previouslyFailedSkills,
@@ -71,9 +71,9 @@ class KnowledgeElement {
       userId,
     });
 
-    return _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
+    return _enrichDirectKnowledgeElementWithInferredKnowledgeElements({
       answer,
-      directKnowledgeElements,
+      directKnowledgeElement,
       previouslyFailedSkills,
       previouslyValidatedSkills,
       targetSkills,
@@ -100,7 +100,7 @@ class KnowledgeElement {
 KnowledgeElement.SourceType = sources;
 KnowledgeElement.StatusType = statuses;
 
-function _createDirectKnowledgeElements({
+function _createDirectKnowledgeElement({
   answer,
   challenge,
   previouslyFailedSkills,
@@ -110,13 +110,15 @@ function _createDirectKnowledgeElements({
 }) {
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
-  return challenge.skills
-    .filter(_skillIsInTargetedSkills({ targetSkills }))
-    .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
-    .map((skill) => {
-      const source = sources.DIRECT;
-      return _createKnowledgeElement({ skill, source, status, answer, userId });
-    });
+  const filters = [
+    _skillIsInTargetedSkills({ targetSkills }),
+    _skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }),
+  ];
+  if (filters.every((filter) => filter(challenge.skill))) {
+    const source = sources.DIRECT;
+    const skill = challenge.skill;
+    return _createKnowledgeElement({ skill, source, status, answer, userId });
+  }
 }
 
 function _skillIsInTargetedSkills({ targetSkills }) {
@@ -128,9 +130,9 @@ function _skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidate
   return (skill) => _(alreadyAssessedSkills).intersectionWith([skill], Skill.areEqualById).isEmpty();
 }
 
-function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
+function _enrichDirectKnowledgeElementWithInferredKnowledgeElements({
   answer,
-  directKnowledgeElements,
+  directKnowledgeElement,
   previouslyFailedSkills,
   previouslyValidatedSkills,
   targetSkills,
@@ -139,31 +141,24 @@ function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   const targetSkillsGroupedByTubeName = _.groupBy(targetSkills, (skill) => skill.tubeNameWithoutPrefix);
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
-  return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
+  if (directKnowledgeElement) {
     const directSkill = _findSkillByIdFromTargetSkills(directKnowledgeElement.skillId, targetSkills);
 
-    targetSkillsGroupedByTubeName[directSkill.tubeNameWithoutPrefix]
+    const newKnowledgeElements = targetSkillsGroupedByTubeName[directSkill.tubeNameWithoutPrefix]
       .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
-      .forEach((skillToInfer) => {
-        const knowledgeElementAlreadyExistsForThatSkill = _.some(totalKnowledgeElements, (knowledgeElement) => {
-          const skillOfKnowledgeElement = _findSkillByIdFromTargetSkills(knowledgeElement.skillId, targetSkills);
-          return Skill.areEqualById(skillToInfer, skillOfKnowledgeElement);
+      .flatMap((skillToInfer) => {
+        const newKnowledgeElements = _createInferredKnowledgeElements({
+          answer,
+          status,
+          directSkill,
+          skillToInfer,
+          userId,
         });
-
-        if (!knowledgeElementAlreadyExistsForThatSkill) {
-          const newKnowledgeElements = _createInferredKnowledgeElements({
-            answer,
-            status,
-            directSkill,
-            skillToInfer,
-            userId,
-          });
-          totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElements);
-        }
+        return newKnowledgeElements;
       });
-
-    return totalKnowledgeElements;
-  }, directKnowledgeElements);
+    return [directKnowledgeElement, ...newKnowledgeElements];
+  }
+  return [];
 }
 
 function _findSkillByIdFromTargetSkills(skillId, targetSkills) {

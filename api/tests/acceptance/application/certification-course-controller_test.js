@@ -43,6 +43,7 @@ describe('Acceptance | API | Certification Course', function () {
                     id: 'recTube1',
                     skills: [
                       {
+                        id: 'recSkill1',
                         challenges: [{ id: 'k_challenge_id' }],
                       },
                     ],
@@ -111,6 +112,7 @@ describe('Acceptance | API | Certification Course', function () {
                     id: 'recTube1',
                     skills: [
                       {
+                        id: 'recSkill1',
                         challenges,
                       },
                     ],

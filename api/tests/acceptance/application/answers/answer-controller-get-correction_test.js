@@ -44,7 +44,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
             competenceId: 'competence_id',
             solution: 'fromage',
             solutionToDisplay: 'camembert',
-            skillIds: ['q_first_acquis'],
+            skillId: 'q_first_acquis',
           },
         ],
         tutorials: [

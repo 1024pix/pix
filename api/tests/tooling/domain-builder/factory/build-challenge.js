@@ -1,6 +1,6 @@
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Validator = require('../../../../lib/domain/models/Validator');
-const buildSkillCollection = require('./build-skill-collection');
+const buildSkill = require('./build-skill');
 
 module.exports = function buildChallenge({
   id = 'recCHAL1',
@@ -27,7 +27,7 @@ module.exports = function buildChallenge({
   // includes
   answer,
   validator = new Validator(),
-  skills = buildSkillCollection(),
+  skill = buildSkill(),
   // references
   competenceId = 'recCOMP1',
 } = {}) {
@@ -55,7 +55,7 @@ module.exports = function buildChallenge({
     // includes
     answer,
     validator,
-    skills,
+    skill,
     // references
     competenceId,
     illustrationAlt,

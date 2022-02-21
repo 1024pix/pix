@@ -33,7 +33,7 @@ class Challenge {
    * @param timer
    * @param type
    * @param answer ==> Il semblerait que answer ne serve plus.
-   * @param skills
+   * @param skill
    * @param validator
    * @param competenceId
    * @param format
@@ -63,7 +63,7 @@ class Challenge {
     locales,
     autoReply,
     answer,
-    skills = [],
+    skill,
     validator,
     competenceId,
     focused,
@@ -89,7 +89,7 @@ class Challenge {
     this.locales = locales;
     this.autoReply = autoReply;
     this.alternativeInstruction = alternativeInstruction;
-    this.skills = skills;
+    this.skill = skill;
     this.validator = validator;
     this.competenceId = competenceId;
     this.focused = focused;
@@ -101,10 +101,6 @@ class Challenge {
 
   isTimed() {
     return Number.isFinite(parseFloat(this.timer));
-  }
-
-  hasSkill(searchedSkill) {
-    return this.skills.some((skill) => skill.id === searchedSkill.id);
   }
 
   hasIllustration() {
@@ -142,7 +138,7 @@ class Challenge {
   }
 
   static findBySkill({ challenges, skill }) {
-    return _.filter(challenges, (challenge) => challenge.hasSkill(skill));
+    return _.filter(challenges, (challenge) => challenge.skill?.id === skill.id);
   }
 }
 
