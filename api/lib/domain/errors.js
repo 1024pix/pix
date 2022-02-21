@@ -981,15 +981,19 @@ class InvalidSessionSupervisorPasswordError extends DomainError {
 
 class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   constructor(
-    message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.'
+    message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.',
+    code = 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION'
   ) {
-    super(message);
+    super(message, code);
   }
 }
 
 class CandidateNotAuthorizedToResumeCertificationTestError extends DomainError {
-  constructor(message = "Merci de contacter votre surveillant afin qu'il autorise la reprise de votre test.") {
-    super(message);
+  constructor(
+    message = "Merci de contacter votre surveillant afin qu'il autorise la reprise de votre test.",
+    code = 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION'
+  ) {
+    super(message, code);
   }
 }
 
