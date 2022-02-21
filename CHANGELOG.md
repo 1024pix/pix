@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.173.0 (21/02/2022)
+
+
+### :rocket: Enhancement
+- [#4086](https://github.com/1024pix/pix/pull/4086) [FEATURE] Création d'un script de rattachement des catégories aux profils cibles (PIX-4357)
+- [#4116](https://github.com/1024pix/pix/pull/4116) [FEATURE] Ajout de la traduction du message de présence non signalée en session de certification (PIX-3964)
+- [#4109](https://github.com/1024pix/pix/pull/4109) [FEATURE] Importer les candidats de certification avec les informations de tarification (PIX-4325).
+- [#4117](https://github.com/1024pix/pix/pull/4117) [FEATURE] Trier les certifications par le plus grand nombre de signalements impactant non résolus dans Pix Admin (PIX-4407).
+- [#4118](https://github.com/1024pix/pix/pull/4118) [FEATURE] Changer le logo de la République française (PIX-4332).
+- [#4107](https://github.com/1024pix/pix/pull/4107) [FEATURE] Ajout d'un minimum d'un critère rempli pour la création d'un RT (PIX-4393).
+- [#4112](https://github.com/1024pix/pix/pull/4112) [FEATURE] Ajout du switch entre les onglets “Recommandés” et “Enregistrés” sur la page tutos V2 (PIX-4340).
+- [#4094](https://github.com/1024pix/pix/pull/4094) [FEATURE] Création de prescrit via un script pour toutes les anciennes participations de campagne (PIX-4135).
+
+### :building_construction: Tech
+- [#4084](https://github.com/1024pix/pix/pull/4084) [TECH] Bump pix UI sur Certif (PIX-4355)
+- [#4115](https://github.com/1024pix/pix/pull/4115) [TECH] Permettre à certif-success de passer son cléA (PIX-4413)
+
+### :coffee: Various
+- [#4040](https://github.com/1024pix/pix/pull/4040) [CLEANUP] Associe une épreuve a un seul acquis
+- [#4113](https://github.com/1024pix/pix/pull/4113) [TRANSLATION] Change a translation on certification joiner (PIX-4409)
+
 ## v3.172.0 (18/02/2022)
 
 
