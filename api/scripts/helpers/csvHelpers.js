@@ -28,13 +28,7 @@ const optionsWithHeader = {
   },
 };
 
-async function checkCsvExtensionFile(filePath) {
-  try {
-    await access(filePath, fs.constants.F_OK);
-  } catch (err) {
-    throw new NotFoundError(`File ${filePath} not found!`);
-  }
-
+function checkCsvExtensionFile(filePath) {
   const fileExtension = path.extname(filePath);
 
   if (fileExtension !== '.csv') {
@@ -58,10 +52,24 @@ async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
   }
 }
 
-async function parseCsv(filePath, options) {
-  await checkCsvExtensionFile(filePath);
+async function readCsvFile(filePath) {
+  try {
+    await access(filePath, fs.constants.F_OK);
+  } catch (err) {
+    throw new NotFoundError(`File ${filePath} not found!`);
+  }
+  checkCsvExtensionFile(filePath);
+
   const rawData = await readFile(filePath, 'utf8');
-  const cleanedData = rawData.toString('utf8').replace(/^\uFEFF/, '');
+  return rawData.replace(/^\uFEFF/, '');
+}
+
+async function parseCsv(filePath, options) {
+  const cleanedData = await readCsvFile(filePath);
+  return parseCsvData(cleanedData, options);
+}
+
+async function parseCsvData(cleanedData, options) {
   const { data } = papa.parse(cleanedData, options);
 
   return data;
@@ -96,6 +104,8 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
 module.exports = {
   checkCsvExtensionFile,
   checkCsvHeader,
+  readCsvFile,
+  parseCsvData,
   parseCsv,
   parseCsvWithHeader,
   parseCsvWithHeaderAndRequiredFields,
