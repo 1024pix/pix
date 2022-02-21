@@ -264,6 +264,9 @@ class InvalidCertificationCandidate extends DomainError {
     error.key = errorDetail.context.key;
     error.why = null;
     const type = errorDetail.type;
+    const value = errorDetail.context.value;
+    const allowedValues = errorDetail.context.valids;
+
     if (type === 'any.required') {
       error.why = 'required';
     }
@@ -284,6 +287,21 @@ class InvalidCertificationCandidate extends DomainError {
     }
     if (type === 'any.only' && error.key === 'sex') {
       error.why = 'not_a_sex_code';
+    }
+    if (type === 'any.only' && error.key === 'billingMode') {
+      if (allowedValues.length === 1 && allowedValues[0] === null) {
+        error.why = 'billing_mode_not_null';
+      } else {
+        error.why = value !== null ? 'not_a_billing_mode' : 'required';
+      }
+    }
+    if (type === 'any.only' && error.key === 'prepaymentCode') {
+      if (allowedValues.length === 1 && allowedValues[0] === null) {
+        error.why = 'prepayment_code_not_null';
+      }
+    }
+    if (type === 'any.required' && error.key === 'prepaymentCode') {
+      error.why = 'prepayment_code_null';
     }
     return new InvalidCertificationCandidate({ error });
   }
@@ -434,21 +452,22 @@ class CertificationCandidatesImportError extends DomainError {
 
     if (error.why === 'not_a_date' || error.why === 'date_format') {
       contentPortion = `Le champ “${label}” doit être au format jj/mm/aaaa.`;
-    }
-    if (error.why === 'email_format') {
+    } else if (error.why === 'email_format') {
       contentPortion = `Le champ “${label}” doit être au format email.`;
-    }
-    if (error.why === 'not_a_string') {
+    } else if (error.why === 'not_a_string') {
       contentPortion = `Le champ “${label}” doit être une chaîne de caractères.`;
-    }
-    if (error.why === 'not_a_number') {
+    } else if (error.why === 'not_a_number') {
       contentPortion = `Le champ “${label}” doit être un nombre.`;
-    }
-    if (error.why === 'required') {
+    } else if (error.why === 'required') {
       contentPortion = `Le champ “${label}” est obligatoire.`;
-    }
-    if (error.why === 'not_a_sex_code') {
+    } else if (error.why === 'not_a_sex_code') {
       contentPortion = `Le champ “${label}” accepte les valeurs "M" pour un homme ou "F" pour une femme.`;
+    } else if (error.why === 'not_a_billing_mode') {
+      contentPortion = `Le champ “${label}” ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée.`;
+    } else if (error.why === 'prepayment_code_null') {
+      contentPortion = `Le champ “${label}” est obligatoire puisque l’option “Prépayée” a été sélectionnée pour ce candidat.`;
+    } else if (error.why === 'prepayment_code_not_null') {
+      contentPortion = `Le champ “${label}” doit rester vide puisque l’option “Prépayée” n'a pas été sélectionnée pour ce candidat.`;
     }
 
     return new CertificationCandidatesImportError({ message: `${linePortion} ${contentPortion}` });

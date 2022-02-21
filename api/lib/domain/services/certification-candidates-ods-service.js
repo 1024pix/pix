@@ -1,6 +1,6 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const {
-  getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications,
+  getTransformationStructsForPixCertifCandidatesImport,
 } = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const { CLEA, PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
@@ -22,7 +22,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   certificationCenterRepository,
 }) {
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
-  const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImportByComplementaryCertifications({
+  const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImport({
     complementaryCertifications: certificationCenter.habilitations,
   });
   try {
@@ -49,7 +49,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   return await bluebird.mapSeries(
     Object.entries(certificationCandidatesDataByLine),
     async ([line, certificationCandidateData]) => {
-      let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity } = certificationCandidateData;
+      let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = certificationCandidateData;
       const { hasCleaNumerique, hasPixPlusDroit } = certificationCandidateData;
 
       if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
@@ -76,6 +76,10 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         complementaryCertificationRepository,
       });
 
+      if (billingMode) {
+        billingMode = CertificationCandidate.translateBillingMode(billingMode);
+      }
+
       const certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,
         birthCountry,
@@ -85,6 +89,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         sex,
         sessionId,
         complementaryCertifications,
+        billingMode,
       });
 
       try {
