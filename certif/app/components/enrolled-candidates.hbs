@@ -63,35 +63,28 @@
         <tbody>
           {{#each @certificationCandidates as |candidate|}}
             <tr>
-              <td data-test-id="panel-candidate__lastName__{{candidate.id}}">{{candidate.lastName}}</td>
-              <td data-test-id="panel-candidate__firstName__{{candidate.id}}">{{candidate.firstName}}</td>
-              <td data-test-id="panel-candidate__birthdate__{{candidate.id}}">{{moment-format
-                  candidate.birthdate
-                  "DD/MM/YYYY"
-                }}</td>
+              <td>{{candidate.lastName}}</td>
+              <td>{{candidate.firstName}}</td>
+              <td>{{moment-format candidate.birthdate "DD/MM/YYYY"}}</td>
               {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <td data-test-id="panel-candidate__birthCity__{{candidate.id}}">{{candidate.birthCity}}</td>
-                <td data-test-id="panel-candidate__birthCountry__{{candidate.id}}">{{candidate.birthCountry}}</td>
+                <td>{{candidate.birthCity}}</td>
+                <td>{{candidate.birthCountry}}</td>
               {{/if}}
               {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <td
-                  data-test-id="panel-candidate__result-recipient-email__{{candidate.id}}"
-                >{{candidate.resultRecipientEmail}}</td>
+                <td>{{candidate.resultRecipientEmail}}</td>
               {{/unless}}
               {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <td data-test-id="panel-candidate__externalId__{{candidate.id}}">{{candidate.externalId}}</td>
+                <td>{{candidate.externalId}}</td>
               {{/unless}}
-              <td data-test-id="panel-candidate__extraTimePercentage__{{candidate.id}}">{{format-percentage
-                  candidate.extraTimePercentage
-                }}</td>
+              <td>{{format-percentage candidate.extraTimePercentage}}</td>
               {{#if @shouldDisplayPaymentOptions}}
-                <td data-test-id="panel-candidate__paymentOptions__{{candidate.id}}">{{candidate.billingMode}}
+                <td>{{candidate.billingMode}}
                   {{candidate.prepaymentCode}}
                 </td>
               {{/if}}
 
               {{#if @displayComplementaryCertification}}
-                <td data-test-id="panel-candidate__complementaryCertifications__{{candidate.id}}">
+                <td>
                   {{if candidate.complementaryCertifications candidate.complementaryCertificationsList "-"}}
                 </td>
               {{/if}}
@@ -116,8 +109,7 @@
                           <PixIconButton
                             @icon="trash-alt"
                             class="certification-candidates-actions__delete-button--disabled"
-                            data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
-                            aria-label="Supprimer un candidat"
+                            aria-label="Supprimer le candidat {{candidate.firstName}} {{candidate.lastName}}"
                             aria-disabled="true"
                             aria-describedby="tooltip-delete-student-button"
                             @withBackground={{true}}
@@ -129,9 +121,8 @@
                       <PixIconButton
                         @icon="trash-alt"
                         {{on "click" (fn this.deleteCertificationCandidate candidate)}}
-                        aria-label="Supprimer un candidat"
+                        aria-label="Supprimer le candidat {{candidate.firstName}} {{candidate.lastName}}"
                         class="certification-candidates-actions__delete-button"
-                        data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
                         @withBackground={{true}}
                       />
                     {{/if}}
