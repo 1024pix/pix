@@ -312,16 +312,16 @@ module.exports = {
   },
 
   async reassignAuthenticationMethods(request, h) {
+    const authenticationMethodId = request.params.authenticationMethodId;
     const originUserId = request.params.userId;
     const targetUserId = request.payload.data.attributes['user-id'];
-    const identityProvider = request.payload.data.attributes['identity-provider'];
 
-    if (identityProvider === 'GAR') {
-      await usecases.reassignGarAuthenticationMethod({
-        originUserId,
-        targetUserId,
-      });
-      return h.response().code(204);
-    }
+    await usecases.reassignAuthenticationMethodToAnotherUser({
+      originUserId,
+      targetUserId,
+      authenticationMethodId,
+    });
+    return h.response().code(204);
   },
+  // },
 };
