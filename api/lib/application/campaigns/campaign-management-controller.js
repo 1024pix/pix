@@ -9,6 +9,10 @@ module.exports = {
     return campaignDetailsManagementSerializer.serialize(campaign);
   },
 
+  async findPaginatedParticipationsForCampaignManagement(request) {
+
+  },
+
   async updateCampaignDetailsManagement(request, h) {
     const campaignId = request.params.id;
     const {
