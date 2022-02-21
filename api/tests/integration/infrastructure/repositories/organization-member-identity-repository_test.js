@@ -24,7 +24,7 @@ describe('Integration | Repository | organizationMemberIdentityRepository', func
       expect(members[0].lastName).to.equal('Némard');
     });
 
-    it('should return all members of the organization', async function () {
+    it('should return only members of the organization', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -81,16 +81,26 @@ describe('Integration | Repository | organizationMemberIdentityRepository', func
         lastName: 'Registre',
       });
 
-      expect(members).to.have.lengthOf(3);
-      expect(members[0]).to.be.an.instanceof(OrganizationMemberIdentity);
       expect(members[0]).to.deep.equal(expectedMember1);
-      expect(members[1]).to.be.an.instanceof(OrganizationMemberIdentity);
       expect(members[1]).to.deep.equal(expectedMember2);
-      expect(members[2]).to.be.an.instanceof(OrganizationMemberIdentity);
       expect(members[2]).to.deep.equal(expectedMember3);
     });
 
     it('should return an empty array if organization has no members', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationMemberIdentityRepository.findAllByOrganizationId({
+        organizationId,
+      });
+
+      // then
+      expect(result).to.be.deep.equal([]);
+    });
+
+    it('should return an empty array if organization does not exists', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const wrongOrganizationId = organizationId + 1;

@@ -861,19 +861,19 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}/members-identity', function () {
+  describe('GET /api/organizations/{id}/member-identities', function () {
     it('should return the members identities as JSON API', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const member1 = databaseBuilder.factory.buildUser();
       const member2 = databaseBuilder.factory.buildUser();
-      const otherOrganizationMember1 = databaseBuilder.factory.buildUser();
+      const otherOrganizationMember = databaseBuilder.factory.buildUser();
 
       databaseBuilder.factory.buildMembership({ userId: member1.id, organizationId }).id;
       databaseBuilder.factory.buildMembership({ userId: member2.id, organizationId }).id;
       databaseBuilder.factory.buildMembership({
-        userId: otherOrganizationMember1.id,
+        userId: otherOrganizationMember.id,
         organizationId: otherOrganizationId,
       });
 
@@ -882,7 +882,7 @@ describe('Acceptance | Application | organization-controller', function () {
       // when
       const response = await server.inject({
         method: 'GET',
-        url: `/api/organizations/${organizationId}/members-identity`,
+        url: `/api/organizations/${organizationId}/member-identities`,
         headers: { authorization: generateValidRequestAuthorizationHeader(member1.id) },
       });
 

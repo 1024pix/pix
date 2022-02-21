@@ -1014,21 +1014,22 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#getOrganizationMembersIdentity', function () {
+  describe('#getOrganizationMemberIdentities', function () {
     it('should return all members idendities of the organization serialized', async function () {
       // given
       const organizationId = 1234;
       const members = Symbol('members');
       const serializedMembersIdentities = Symbol('members serialized');
 
-      sinon.stub(usecases, 'getOrganizationMembersIdentity');
-      sinon.stub(organizationMemberIdentitySerializer, 'serialize');
-      usecases.getOrganizationMembersIdentity.withArgs({ organizationId }).returns(members);
-      organizationMemberIdentitySerializer.serialize.withArgs(members).returns(serializedMembersIdentities);
+      sinon.stub(usecases, 'getOrganizationMemberIdentities').withArgs({ organizationId }).returns(members);
+      sinon
+        .stub(organizationMemberIdentitySerializer, 'serialize')
+        .withArgs(members)
+        .returns(serializedMembersIdentities);
 
       // when
       const request = { params: { id: organizationId } };
-      const result = await organizationController.getOrganizationMembersIdentity(request, hFake);
+      const result = await organizationController.getOrganizationMemberIdentities(request, hFake);
 
       // then
       expect(result).to.be.equal(serializedMembersIdentities);
