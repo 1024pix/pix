@@ -129,6 +129,7 @@ module.exports = {
       .where({
         userId,
         certificationCenterId,
+        disabledAt: null,
       })
       .first();
 
