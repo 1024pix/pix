@@ -123,6 +123,52 @@ describe('Integration | Repository | Certification Center Membership', function 
       expect(associatedCertificationCenter.id).to.equal(expectedCertificationCenter.id);
       expect(associatedCertificationCenter.name).to.equal(expectedCertificationCenter.name);
     });
+
+    context('when the certification center membership is disabled', function () {
+      it('should return an empty array', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId,
+          disabledAt: new Date(),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(userId);
+
+        // then
+        expect(certificationCenterMemberships).to.deep.equal([]);
+      });
+    });
+
+    context('when an user has a disabled membership and a not disabled one', function () {
+      it('should return the not disabled membership', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId,
+          disabledAt: new Date(),
+        });
+        const notDisabledMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId,
+          disabledAt: null,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(userId);
+
+        // then
+        expect(certificationCenterMemberships.length).to.equal(1);
+        expect(certificationCenterMemberships[0].id).to.equal(notDisabledMembership.id);
+      });
+    });
   });
 
   describe('#findActiveByCertificationCenterIdSortedById', function () {
