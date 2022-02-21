@@ -418,4 +418,107 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
     });
   });
+
+  context('when billing information are provided', function () {
+    it('should return extracted and validated certification candidates with billing information', async function () {
+      // given
+      sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(false);
+      sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+
+      await databaseBuilder.commit();
+
+      const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
+      const odsBuffer = await readFile(odsFilePath);
+      const expectedCertificationCandidates = _.map(
+        [
+          {
+            lastName: 'Gallagher',
+            firstName: 'Jack',
+            birthdate: '1980-08-10',
+            sex: 'M',
+            birthCity: 'Londres',
+            birthCountry: 'ANGLETERRE',
+            birthINSEECode: '99132',
+            birthPostalCode: null,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jack@d.it',
+            externalId: null,
+            extraTimePercentage: 0.15,
+            sessionId,
+            billingMode: 'PAID',
+          },
+          {
+            lastName: 'Jackson',
+            firstName: 'Janet',
+            birthdate: '2005-12-05',
+            sex: 'F',
+            birthCity: 'AJACCIO',
+            birthCountry: 'FRANCE',
+            birthINSEECode: '2A004',
+            birthPostalCode: null,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jaja@hotmail.fr',
+            externalId: 'DEF456',
+            extraTimePercentage: null,
+            sessionId,
+            billingMode: 'FREE',
+          },
+          {
+            lastName: 'Jackson',
+            firstName: 'Michael',
+            birthdate: '2004-04-04',
+            sex: 'M',
+            birthCity: 'PARIS 18',
+            birthCountry: 'FRANCE',
+            birthINSEECode: null,
+            birthPostalCode: '75018',
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jackson@gmail.com',
+            externalId: 'ABC123',
+            extraTimePercentage: 0.6,
+            sessionId,
+            billingMode: 'FREE',
+          },
+          {
+            lastName: 'Mercury',
+            firstName: 'Freddy',
+            birthdate: '1925-06-28',
+            sex: 'M',
+            birthCity: 'SAINT-ANNE',
+            birthCountry: 'FRANCE',
+            birthINSEECode: null,
+            birthPostalCode: '97180',
+            resultRecipientEmail: null,
+            email: null,
+            externalId: 'GHI789',
+            extraTimePercentage: 1.5,
+            sessionId,
+            billingMode: 'PREPAID',
+            prepaymentCode: 'CODE1',
+          },
+        ],
+        (candidate) => new CertificationCandidate(candidate)
+      );
+
+      // when
+      const actualCertificationCandidates =
+        await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+          sessionId,
+          odsBuffer,
+          certificationCpfService,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+          certificationCenterRepository,
+          complementaryCertificationRepository,
+        });
+
+      // then
+      expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+    });
+  });
 });

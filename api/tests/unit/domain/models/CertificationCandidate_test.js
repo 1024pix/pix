@@ -1,10 +1,11 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, catchErr, sinon } = require('../../../test-helper');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../../../../lib/domain/errors');
+const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {
@@ -192,6 +193,132 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(error.key).to.equal('sex');
       expect(error.why).to.equal('not_a_sex_code');
     });
+
+    context('when isCertificationBillingEnabled feature toggle is off', function () {
+      it('should return an error if billingMode is not null', async function () {
+        // given
+        sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(false);
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          billingMode: 'PAID',
+        });
+
+        // when
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('billingMode');
+        expect(error.why).to.equal('billing_mode_not_null');
+      });
+
+      it('should return an error if prepaymentCode is not null', async function () {
+        // given
+        sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(false);
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          prepaymentCode: 'NOT_NULL',
+        });
+
+        // when
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('prepaymentCode');
+        expect(error.why).to.equal('prepayment_code_not_null');
+      });
+    });
+
+    context('when isCertificationBillingEnabled feature toggle is on', function () {
+      it('should throw an error if billingMode is null', async function () {
+        // given
+        sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          billingMode: null,
+        });
+
+        // when
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('billingMode');
+        expect(error.why).to.equal('required');
+      });
+
+      it('should throw an error if billingMode is not an expected value', async function () {
+        // given
+        sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          billingMode: 'NOT_ALLOWED_VALUE',
+        });
+
+        // when
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('billingMode');
+        expect(error.why).to.equal('not_a_billing_mode');
+      });
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
+        it(`should not throw if billing mode is expected value ${billingMode}`, async function () {
+          // given
+          sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            billingMode,
+            prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
+          });
+
+          // when
+          const call = () => {
+            certificationCandidate.validate();
+          };
+
+          // then
+          expect(call).to.not.throw();
+        });
+      });
+
+      context('when billingMode is not PREPAID', function () {
+        it('should throw an error if prepaymentCode is not null', async function () {
+          // given
+          sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            billingMode: 'PAID',
+            prepaymentCode: 'NOT_NULL',
+          });
+
+          // when
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+          // then
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(error.key).to.equal('prepaymentCode');
+          expect(error.why).to.equal('prepayment_code_not_null');
+        });
+      });
+
+      context('when billingMode is PREPAID', function () {
+        it('should not throw an error if prepaymentCode is not null', function () {
+          // given
+          sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            billingMode: 'PREPAID',
+            prepaymentCode: 'NOT_NULL',
+          });
+
+          // when
+          const call = () => {
+            certificationCandidate.validate();
+          };
+
+          // then
+          expect(call).to.not.throw();
+        });
+      });
+    });
   });
 
   describe('validateParticipation', function () {
@@ -372,6 +499,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should throw an error when billing mode is none of the expected values', async function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'Cadeau !' });
+      sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
 
       // when
       try {
@@ -456,6 +584,22 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       // then
       expect(certificationCandidate.isBillingModePrepaid()).to.be.true;
+    });
+  });
+
+  describe('translateBillingMode', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { value: 'FREE', expectedTranslation: 'Gratuite' },
+      { value: 'PAID', expectedTranslation: 'Payante' },
+      { value: 'PREPAID', expectedTranslation: 'Prépayée' },
+      { value: 'Gratuite', expectedTranslation: 'FREE' },
+      { value: 'Payante', expectedTranslation: 'PAID' },
+      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
+    ].forEach(({ value, expectedTranslation }) => {
+      it(`should return ${expectedTranslation} when ${value} is translated`, function () {
+        expect(CertificationCandidate.translateBillingMode(value)).to.equal(expectedTranslation);
+      });
     });
   });
 });
