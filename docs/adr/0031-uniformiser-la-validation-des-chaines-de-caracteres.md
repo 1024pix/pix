@@ -8,9 +8,9 @@ En cours
 
 ## Contexte
 
-Lors de la réalisation de la pull request https://github.com/1024pix/pix/pull/3953.
-On s'est rendu compte qu'il n'est pas trivial de vider un champ de base données.
-Il existe actuellement plusieurs manière de le faire côté front :
+Lors de la réalisation de [cette pull request](https://github.com/1024pix/pix/pull/3953).
+Nous avons besoin de supprimer un texte sur un objet déjà présent en base de données, par exemple la description d'un badge.
+Il existe actuellement plusieurs manières de le faire côté front :
 1. envoyer une chaîne vide
 2. envoyer null
 
@@ -20,17 +20,17 @@ La deuxième solution se traduit généralement par une ternaire qui vérifie si
 const customLandingPageTextTrim = this.form.customLandingPageText ? this.form.customLandingPageText.trim() : null;
 ```
 
-Côté API, il existe aussi plusieurs manière de valider les chaînes de caractères reçues :
+Côté API, il existe aussi plusieurs manières de valider les chaînes de caractères reçues :
 1. `Joi.string().required().allow('')` - La propriété doit être présente mais on accepte les chaînes vides
 2. `Joi.string().required().allow(null)` - La propriété doit être présente mais on accepte null
-3. `Joi.string().empty('').allow(null).optional()` - La propriété n'est pas obligatoire mais on accepte null et une chaîne vide est considéré comme `undefined`
-4. `Joi.string().allow(null).optional()` - La propriété n'est pas obligatoire mais on accepte null
+3. `Joi.string().empty('').allow(null).optional()` - La propriété n'est pas obligatoire, on accepte null et une chaîne vide est considéré comme `undefined`
+4. `Joi.string().allow(null).optional()` - La propriété n'est pas obligatoire et on accepte null
 
 On peut déduire de cette validation un certains nombre de cas:
-1. La propriété n'est pas présente dans le payload
-2. La propriété vaut chaîne vide
-3. La propriété vaut null
-4. La propriété est une chaîne de caractère non vide
+- La propriété n'est pas présente dans le payload
+- La propriété vaut chaîne vide
+- La propriété vaut null
+- La propriété est une chaîne de caractère non vide
 
 Chaque état devrait laisser transparaître une intention:
 1. On veut vider le champ ou ne rien faire ?
@@ -38,19 +38,19 @@ Chaque état devrait laisser transparaître une intention:
 3. On veut vider le champ
 4. On veut mettre à jour le champ
 
-On constate que dans le deux premiers cas il peut y avoir un doute.
+On constate que dans les deux premiers cas il peut y avoir un doute.
 
 Malgré tout il se dégage de l'existant que dans la majorité des cas la validation 1. est utilisée et par conséquent on utilise une ternaire côté front pour gérer les chaînes vides.
 
 ### Les difficultés rencontrées aujourd'hui
 
-Il est important aussi de préciser que par le passé on a eu des bugs lié à l'utilisation d'adminer. Il est arrivé qu'avec adminer on stocke des chaînes vides au lieu de null ce qui avait une incidence sur la manière dont la donnée était interpreté par l'API.
+Il est important aussi de préciser que par le passé, suite à des mises à jours de données manuelles, il y a des chaînes vides au lieu de `NULL` (SQL),  ce qui avait une incidence sur la manière dont la donnée était interpretée par l'API.
 
 ### Solution : Réduire le nombre de valeurs acceptées par le backend 
 
 N'autoriser que deux intentions claires côté validation :
-1. On veut vider le champ
-2. On veut mettre à jour le champ
+1. supprimer la propriété
+2. mettre à jour la propriété
 
 Ce qui se traduit côté joi par la ligne suivante :
 `Joi.string().required().allow(null)`
@@ -76,7 +76,7 @@ export default class StringTransform extends Transform {
 }
 ```
 
-On pourrait donc une fois par application définir comment sont sérialisé les chaînes de caractères. Cela permet de ne faire la ternaire qu'une seule fois.
+On pourrait donc une fois par application définir comment sont sérialisées les chaînes de caractères. Cela permet de ne faire la ternaire qu'une seule fois.
 
 ### Décisions
 
