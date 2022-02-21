@@ -5,12 +5,21 @@ import { inject as service } from '@ember/service';
 export default class GetController extends Controller {
   @service notifications;
 
-  METHOD_REASSIGN_IMPOSSIBLE = "L'utilisateur a déjà une méthode de connexion Médiacentre.";
+  AUTHENTICATION_METHODS = {
+    POLE_EMPLOI: 'Pôle Emploi',
+    GAR: 'Médiacentre',
+  };
+
+  POLE_EMPLOI_METHOD_REASSIGN_IMPOSSIBLE = "L'utilisateur a déjà une méthode de connexion Pôle Emploi.";
+  GAR_METHOD_REASSIGN_IMPOSSIBLE = "L'utilisateur a déjà une méthode de connexion Médiacentre.";
   BAD_REQUEST = 'Cette requête est impossible';
 
   ERROR_MESSAGES = {
     DEFAULT: 'Une erreur est survenue.',
-    STATUS_422: this.METHOD_REASSIGN_IMPOSSIBLE,
+    STATUS_422: {
+      POLE_EMPLOI: this.POLE_EMPLOI_METHOD_REASSIGN_IMPOSSIBLE,
+      GAR: this.GAR_METHOD_REASSIGN_IMPOSSIBLE,
+    },
     STATUS_400: this.BAD_REQUEST,
     STATUS_404: "Cet utilisateur n'existe pas.",
   };
@@ -27,28 +36,36 @@ export default class GetController extends Controller {
   }
 
   @action
-  async reassignGarAuthenticationMethod(targetUserId) {
-    const authenticationMethodId = this._getGARauthenticationMethodId();
+  async reassignAuthenticationMethod({ targetUserId, identityProvider }) {
+    const authenticationMethodId = this._getUserAuthenticationMethodIdByIdentityProvider(identityProvider);
     try {
       await this.model.save({
-        adapterOptions: { reassignGarAuthenticationMethod: true, targetUserId, authenticationMethodId },
+        adapterOptions: {
+          reassignAuthenticationMethodToAnotherUser: true,
+          targetUserId,
+          authenticationMethodId,
+          identityProvider,
+        },
       });
       this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${targetUserId}`);
       this.send('refreshModel');
-      this.notifications.success("L'utilisateur n'a plus de méthode de connexion Médiacentre");
-    } catch (error) {
-      this._handleResponseError(error);
+      this.notifications.success(
+        `L'utilisateur n'a plus de méthode de connexion ${this.AUTHENTICATION_METHODS[identityProvider]}`
+      );
+    } catch (errors) {
+      this._handleResponseError(errors, identityProvider);
     }
   }
 
-  _getGARauthenticationMethodId() {
+  _getUserAuthenticationMethodIdByIdentityProvider(identityProvider) {
     const authenticationMethods = this.model.authenticationMethods.filter(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+      (authenticationMethod) => authenticationMethod.identityProvider === identityProvider
     );
     return authenticationMethods[0].get('id');
   }
 
-  _handleResponseError({ errors }) {
+  _handleResponseError(errorResponse, identityProvider) {
+    const { errors } = errorResponse;
     let errorMessages = [];
 
     if (errors) {
@@ -59,7 +76,7 @@ export default class GetController extends Controller {
           case '404':
             return this.ERROR_MESSAGES.STATUS_404;
           case '422':
-            return this.ERROR_MESSAGES.STATUS_422;
+            return this.ERROR_MESSAGES.STATUS_422[identityProvider];
           default:
             return this.ERROR_MESSAGES.DEFAULT;
         }

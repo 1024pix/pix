@@ -1,12 +1,12 @@
 <Modal::Dialog
   @title="Déplacer la méthode de connexion"
-  @display={{@showReassignGarAuthenticationMethodModal}}
-  @close={{@toggleReassignGarAuthenticationMethodModal}}
+  @display={{@showReassignPoleEmploiAuthenticationMethodModal}}
+  @close={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
 >
-  <form {{on "submit" @submitReassignGarAuthenticationMethod}}>
+  <form {{on "submit" @submitReassignPoleEmploiAuthenticationMethod}}>
     <Modal::Body class="reassign-authentication-method-modal__form-body">
       <p class="reassign-authentication-method-modal__form-body__information">
-        Vous vous apprêtez à déplacer la méthode Médiacentre sur un autre utilisateur. Cela signifie qu'elle n'existera
+        Vous vous apprêtez à déplacer la méthode Pôle Emploi sur un autre utilisateur. Cela signifie qu'elle n'existera
         plus pour cet utilisateur.
       </p>
       <PixInput
@@ -23,7 +23,7 @@
         @size="small"
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
-        @triggerAction={{@toggleReassignGarAuthenticationMethodModal}}
+        @triggerAction={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
       >Annuler</PixButton>
       <PixButton @type="submit" @size="small">Valider le déplacement</PixButton>
     </Modal::Footer>
