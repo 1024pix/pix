@@ -11,13 +11,13 @@ const { getTranslatedText } = require('../../domain/services/get-translated-text
 module.exports = {
   async getByChallengeId({ challengeId, userId, locale }) {
     const challenge = await challengeDatasource.get(challengeId);
-    const skills = await _getSkills(challenge);
-    const hints = await _getHints({ skills, locale });
+    const skill = await _getSkill(challenge);
+    const hint = await _getHint({ skill, locale });
 
-    const tutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'tutorialIds', locale });
+    const tutorials = await _getTutorials({ userId, skill, tutorialIdsProperty: 'tutorialIds', locale });
     const learningMoreTutorials = await _getTutorials({
       userId,
-      skills,
+      skill,
       tutorialIdsProperty: 'learningMoreTutorialIds',
       locale,
     });
@@ -26,42 +26,38 @@ module.exports = {
       id: challenge.id,
       solution: challenge.solution,
       solutionToDisplay: challenge.solutionToDisplay,
-      hints,
+      hint,
       tutorials,
       learningMoreTutorials: learningMoreTutorials,
     });
   },
 };
 
-async function _getHints({ skills, locale }) {
-  const skillsWithHints = await _filterSkillsWithValidatedHint(skills);
-  return _convertSkillsToHints({ skillsWithHints, locale });
+async function _getHint({ skill, locale }) {
+  if (_hasValidatedHint(skill)) {
+    return _convertSkillToHint({ skill, locale });
+  }
 }
 
-function _getSkills(challengeDataObject) {
-  const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
-  return Promise.all(skillDataObjectPromises);
+function _getSkill(challengeDataObject) {
+  return skillDatasource.get(challengeDataObject.skillId);
 }
 
-function _filterSkillsWithValidatedHint(skillDataObjects) {
-  return skillDataObjects.filter((skillDataObject) => VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus));
+function _hasValidatedHint(skillDataObject) {
+  return VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus);
 }
 
-function _convertSkillsToHints({ skillsWithHints, locale }) {
-  return skillsWithHints.map((skillsWithHint) => {
-    return new Hint({
-      skillName: skillsWithHint.name,
-      value: getTranslatedText(locale, { frenchText: skillsWithHint.hintFrFr, englishText: skillsWithHint.hintEnUs }),
-    });
+function _convertSkillToHint({ skill, locale }) {
+  return new Hint({
+    skillName: skill.name,
+    value: getTranslatedText(locale, { frenchText: skill.hintFrFr, englishText: skill.hintEnUs }),
   });
 }
 
-async function _getTutorials({ userId, skills, tutorialIdsProperty, locale }) {
-  const tutorialsIds = _(skills)
-    .map((skill) => skill[tutorialIdsProperty])
-    .filter((tutorialId) => !_.isEmpty(tutorialId))
-    .flatten()
-    .uniq()
-    .value();
-  return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialsIds, userId, locale });
+async function _getTutorials({ userId, skill, tutorialIdsProperty, locale }) {
+  const tutorialIds = skill[tutorialIdsProperty];
+  if (!_.isEmpty(tutorialIds)) {
+    return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId, locale });
+  }
+  return [];
 }

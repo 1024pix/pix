@@ -221,65 +221,12 @@ describe('Integration | buildLearningContent', function () {
     // then
     const challenges = await challengeDatasource.list();
     expect(challenges[0].id).to.equal('recArea1_Competence1_Tube1_Skill1_Challenge1');
-    expect(challenges[0].skillIds).to.deep.equal(['recArea1_Competence1_Tube1_Skill1']);
+    expect(challenges[0].skillId).to.deep.equal('recArea1_Competence1_Tube1_Skill1');
     expect(challenges[0].status).to.deep.equal('validé');
     expect(challenges[1].id).to.equal('recArea1_Competence1_Tube1_Skill1_Challenge2');
-    expect(challenges[1].skillIds).to.deep.equal(['recArea1_Competence1_Tube1_Skill1']);
+    expect(challenges[1].skillId).to.deep.equal('recArea1_Competence1_Tube1_Skill1');
     expect(challenges[1].status).to.deep.equal('archivé');
     expect(challenges[1].locales).to.deep.equal(['fr', 'fr-fr']);
-  });
-
-  it('builds challenges | a single challenge is linked several skills', async function () {
-    // given
-    const learningContent = [
-      {
-        id: 'recArea1',
-        competences: [
-          {
-            id: 'recArea1_Competence1',
-            tubes: [
-              {
-                id: 'recArea1_Competence1_Tube1',
-                skills: [
-                  {
-                    id: 'recArea1_Competence1_Tube1_Skill1',
-                    status: 'actif',
-                    challenges: [
-                      {
-                        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-                        statut: 'validé',
-                      },
-                    ],
-                  },
-                  {
-                    id: 'recArea1_Competence1_Tube1_Skill2',
-                    status: 'actif',
-                    challenges: [
-                      {
-                        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1', // same id
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ];
-
-    // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
-    mockLearningContent(learningContentObjects);
-
-    // then
-    const challenges = await challengeDatasource.list();
-    expect(challenges[0].id).to.equal('recArea1_Competence1_Tube1_Skill1_Challenge1');
-    expect(challenges[0].skillIds).to.deep.equal([
-      'recArea1_Competence1_Tube1_Skill1',
-      'recArea1_Competence1_Tube1_Skill2',
-    ]);
-    expect(challenges[0].status).to.deep.equal('validé');
   });
 
   it('builds courses', async function () {

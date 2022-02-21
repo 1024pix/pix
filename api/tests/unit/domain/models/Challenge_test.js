@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | Challenge', function () {
         embedHeight: 400,
         status: 'validé',
         answer: [],
-        skills: [new Skill('recUDrCWD76fp5MsE')],
+        skill: new Skill('recUDrCWD76fp5MsE'),
         validator: undefined,
         competenceId: 'recsvLz0W2ShyfD63',
         illustrationAlt: "Texte alternatif à l'image",
@@ -50,31 +50,6 @@ describe('Unit | Domain | Models | Challenge', function () {
       // then
       expect(challengeDataObject).to.be.an.instanceof(Challenge);
       expect(challengeDataObject).to.deep.equal(challengeRawData);
-    });
-  });
-
-  describe('#hasSkill', function () {
-    it('should return false when the skill is not known', function () {
-      // given
-      const challenge = new Challenge();
-
-      // when
-      const result = challenge.hasSkill(new Skill('@recherche1'));
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should return true when the skill is known', function () {
-      // given
-      const challenge = new Challenge();
-      challenge.skills.push(new Skill('@recherche1'));
-
-      // when
-      const result = challenge.hasSkill(new Skill('@recherche1'));
-
-      // then
-      expect(result).to.be.true;
     });
   });
 

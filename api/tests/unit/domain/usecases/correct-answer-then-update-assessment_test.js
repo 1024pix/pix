@@ -310,7 +310,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         skillAlreadyValidated = skills[0];
         skillNotAlreadyValidated = skills[2];
         challenge = domainBuilder.buildChallenge({
-          skills: [skillNotAlreadyValidated],
+          skill: skillNotAlreadyValidated,
           id: answer.challengeId,
           validator,
         });
@@ -498,7 +498,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         skillAlreadyValidated = skills[0];
         skillNotAlreadyValidated = skills[2];
         challenge = domainBuilder.buildChallenge({
-          skills: [skillNotAlreadyValidated],
+          skill: skillNotAlreadyValidated,
           id: answer.challengeId,
           validator,
         });
