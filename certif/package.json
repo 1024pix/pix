@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.5.0",
-    "@1024pix/pix-ui": "^13.1.0",
+    "@1024pix/pix-ui": "^13.2.0",
     "@ember/optional-features": "^2.0.0",
     "@fortawesome/ember-fontawesome": "^0.2.3",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
