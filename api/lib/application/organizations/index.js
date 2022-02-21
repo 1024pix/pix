@@ -174,7 +174,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/members',
+      path: '/api/organizations/{id}/members-identity',
       config: {
         pre: [
           {
@@ -187,11 +187,11 @@ exports.register = async (server) => {
             id: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.getOrganizationMembers,
+        handler: organizationController.getOrganizationMembersIdentity,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne la liste des membres rattachés à l’organisation.',
+          "Elle retourne l'identité des membres rattachés à l’organisation.",
         ],
       },
     },

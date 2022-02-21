@@ -1,17 +1,17 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-members-serializer');
-const OrganizationMember = require('../../../../../lib/domain/models/OrganizationMember');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
+const OrganizationMemberIdentity = require('../../../../../lib/domain/models/OrganizationMemberIdentity');
 
 describe('Unit | Serializer | organization-members-serializer', function () {
   describe('#serialize', function () {
     it('should return a JSON API serialized organization members', function () {
       // given
-      const organizationMember1 = new OrganizationMember({
+      const organizationMember1 = new OrganizationMemberIdentity({
         id: 123,
         firstName: 'Alain',
         lastName: 'Provist',
       });
-      const organizationMember2 = new OrganizationMember({
+      const organizationMember2 = new OrganizationMemberIdentity({
         id: 666,
         firstName: 'Claire',
         lastName: 'De Lune',
@@ -19,13 +19,13 @@ describe('Unit | Serializer | organization-members-serializer', function () {
       const members = [organizationMember1, organizationMember2];
 
       // when
-      const serializedOrganizationMembers = serializer.serialize(members);
+      const serializedOrganizationMemberIdentity = serializer.serialize(members);
 
       // then
-      expect(serializedOrganizationMembers).to.deep.equal({
+      expect(serializedOrganizationMemberIdentity).to.deep.equal({
         data: [
           {
-            type: 'members',
+            type: 'member-identities',
             id: '123',
             attributes: {
               'first-name': 'Alain',
@@ -33,7 +33,7 @@ describe('Unit | Serializer | organization-members-serializer', function () {
             },
           },
           {
-            type: 'members',
+            type: 'member-identities',
             id: '666',
             attributes: {
               'first-name': 'Claire',

@@ -1,8 +1,8 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const OrganizationMember = require('../../../../lib/domain/models/OrganizationMember');
-const organizationMemberRepository = require('../../../../lib/infrastructure/repositories/organization-member-repository');
+const OrganizationMemberIdentity = require('../../../../lib/domain/models/OrganizationMemberIdentity');
+const organizationMemberIdentityRepository = require('../../../../lib/infrastructure/repositories/organization-member-identity-repository');
 
-describe('Integration | Repository | organizationMemberRepository', function () {
+describe('Integration | Repository | organizationMemberIdentityRepository', function () {
   describe('#findAllByOrganizationId', function () {
     it('should return all actives members of organization sorted by firstName and lastName', async function () {
       // given
@@ -27,31 +27,31 @@ describe('Integration | Repository | organizationMemberRepository', function () 
       await databaseBuilder.commit();
 
       // when
-      const members = await organizationMemberRepository.findAllByOrganizationId({ organizationId });
+      const members = await organizationMemberIdentityRepository.findAllByOrganizationId({ organizationId });
 
       // then
-      const expectedMember1 = new OrganizationMember({
+      const expectedMember1 = new OrganizationMemberIdentity({
         id: otherActiveMemberId2,
         firstName: 'Anne',
         lastName: 'Registre',
       });
-      const expectedMember2 = new OrganizationMember({
+      const expectedMember2 = new OrganizationMemberIdentity({
         id: activeMemberId,
         firstName: 'Jean',
         lastName: 'Némard',
       });
-      const expectedMember3 = new OrganizationMember({
+      const expectedMember3 = new OrganizationMemberIdentity({
         id: otherActiveMemberId,
         firstName: 'Jean',
         lastName: 'Registre',
       });
 
       expect(members).to.have.lengthOf(3);
-      expect(members[0]).to.be.an.instanceof(OrganizationMember);
+      expect(members[0]).to.be.an.instanceof(OrganizationMemberIdentity);
       expect(members[0]).to.deep.equal(expectedMember1);
-      expect(members[1]).to.be.an.instanceof(OrganizationMember);
+      expect(members[1]).to.be.an.instanceof(OrganizationMemberIdentity);
       expect(members[1]).to.deep.equal(expectedMember2);
-      expect(members[2]).to.be.an.instanceof(OrganizationMember);
+      expect(members[2]).to.be.an.instanceof(OrganizationMemberIdentity);
       expect(members[2]).to.deep.equal(expectedMember3);
     });
 
@@ -62,7 +62,7 @@ describe('Integration | Repository | organizationMemberRepository', function () 
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationMemberRepository.findAllByOrganizationId({
+      const result = await organizationMemberIdentityRepository.findAllByOrganizationId({
         organizationId: wrongOrganizationId,
       });
 

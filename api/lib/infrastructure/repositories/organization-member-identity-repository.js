@@ -1,4 +1,4 @@
-const OrganizationMember = require('../../domain/models/OrganizationMember');
+const OrganizationMemberIdentity = require('../../domain/models/OrganizationMemberIdentity');
 const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
@@ -9,6 +9,6 @@ module.exports = {
       .where({ disabledAt: null, organizationId })
       .orderBy(['firstName', 'lastName'], ['asc', 'asc']);
 
-    return membersDTO.map((memberDTO) => new OrganizationMember({ ...memberDTO }));
+    return membersDTO.map((memberDTO) => new OrganizationMemberIdentity({ ...memberDTO }));
   },
 };
