@@ -122,8 +122,8 @@ export default function () {
 
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
 
-  this.get('/organizations/:id/members', (schema) => {
-    return schema.members.all();
+  this.get('/organizations/:id/members-identity', (schema) => {
+    return schema.memberIdentities.all();
   });
 
   this.get('/organizations/:id/invitations', (schema) => {
@@ -325,7 +325,7 @@ export default function () {
     const body = JSON.parse(request.requestBody);
 
     const ownerId = body.data.attributes['owner-id'];
-    const owner = schema.members.findBy({ id: ownerId });
+    const owner = schema.memberIdentities.findBy({ id: ownerId });
 
     const campaign = {
       ...body.data.attributes,

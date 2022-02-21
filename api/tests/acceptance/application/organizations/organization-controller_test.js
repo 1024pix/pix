@@ -861,8 +861,8 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}/members', function () {
-    it('should return the members list as JSON API', async function () {
+  describe('GET /api/organizations/{id}/members-identity', function () {
+    it('should return the members identities as JSON API', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -882,7 +882,7 @@ describe('Acceptance | Application | organization-controller', function () {
       // when
       const response = await server.inject({
         method: 'GET',
-        url: `/api/organizations/${organizationId}/members`,
+        url: `/api/organizations/${organizationId}/members-identity`,
         headers: { authorization: generateValidRequestAuthorizationHeader(member1.id) },
       });
 
@@ -895,7 +895,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'last-name': member1.lastName,
             },
             id: member1.id.toString(),
-            type: 'members',
+            type: 'member-identities',
           },
           {
             attributes: {
@@ -903,7 +903,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'last-name': member2.lastName,
             },
             id: member2.id.toString(),
-            type: 'members',
+            type: 'member-identities',
           },
         ],
       };

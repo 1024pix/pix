@@ -211,7 +211,7 @@ export function createMember() {
     email: 'harry@cover.com',
     pixOrgaTermsOfServiceAccepted: true,
   });
-  server.create('member', { id: user.id, firstName: 'Harry', lastName: 'Cover' });
+  server.create('member-identity', { id: user.id, firstName: 'Harry', lastName: 'Cover' });
   const organization = server.create('organization', { name: 'BRO & Evil Associates' });
 
   const membership = server.create('membership', {

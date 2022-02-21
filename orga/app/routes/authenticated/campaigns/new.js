@@ -8,7 +8,7 @@ export default class NewRoute extends Route {
 
   async model() {
     const organization = this.currentUser.organization;
-    const membersSortedByFullName = await this.store.findAll('member', {
+    const membersSortedByFullName = await this.store.findAll('member-identity', {
       adapterOptions: { organizationId: organization.id },
     });
 

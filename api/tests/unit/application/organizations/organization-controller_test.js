@@ -23,7 +23,7 @@ const organizationSerializer = require('../../../../lib/infrastructure/serialize
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
-const organizationMembersSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-members-serializer');
+const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
@@ -1014,24 +1014,24 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#getOrganizationMembers', function () {
-    it('should return all members of the organization serialized', async function () {
+  describe('#getOrganizationMembersIdentity', function () {
+    it('should return all members idendities of the organization serialized', async function () {
       // given
       const organizationId = 1234;
       const members = Symbol('members');
-      const serializedMembers = Symbol('members serialized');
+      const serializedMembersIdentities = Symbol('members serialized');
 
-      sinon.stub(usecases, 'getOrganizationMembers');
-      sinon.stub(organizationMembersSerializer, 'serialize');
-      usecases.getOrganizationMembers.withArgs({ organizationId }).returns(members);
-      organizationMembersSerializer.serialize.withArgs(members).returns(serializedMembers);
+      sinon.stub(usecases, 'getOrganizationMembersIdentity');
+      sinon.stub(organizationMemberIdentitySerializer, 'serialize');
+      usecases.getOrganizationMembersIdentity.withArgs({ organizationId }).returns(members);
+      organizationMemberIdentitySerializer.serialize.withArgs(members).returns(serializedMembersIdentities);
 
       // when
       const request = { params: { id: organizationId } };
-      const result = await organizationController.getOrganizationMembers(request, hFake);
+      const result = await organizationController.getOrganizationMembersIdentity(request, hFake);
 
       // then
-      expect(result).to.be.equal(serializedMembers);
+      expect(result).to.be.equal(serializedMembersIdentities);
     });
   });
 });

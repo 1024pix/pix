@@ -1,4 +1,4 @@
-class OrganizationMember {
+class OrganizationMemberIdentity {
   constructor({ id, firstName, lastName } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -6,4 +6,4 @@ class OrganizationMember {
   }
 }
 
-module.exports = OrganizationMember;
+module.exports = OrganizationMemberIdentity;
