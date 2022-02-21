@@ -91,5 +91,35 @@ module('Unit | Adapter | user', function (hooks) {
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });
+
+    module('when reassign authentication method adapterOptions is passed', function () {
+      test('should send a POST request to user authentication method endpoint', async function (assert) {
+        // given
+        const expectedUrl = 'http://localhost:3000/api/admin/users/123/authentication-methods/2';
+        const targetUserId = 1;
+        const authenticationMethodId = 2;
+        const identityProvider = 'GAR';
+        const adapterOptions = {
+          reassignAuthenticationMethodToAnotherUser: true,
+          targetUserId,
+          authenticationMethodId,
+          identityProvider,
+        };
+        const expectedPayload = {
+          data: {
+            data: {
+              attributes: { 'identity-provider': 'GAR', 'user-id': 1 },
+            },
+          },
+        };
+
+        // when
+        await adapter.updateRecord(null, { modelName: 'user' }, { id: 123, adapterOptions });
+
+        // then
+        sinon.assert.calledWith(adapter.ajax, expectedUrl, 'POST', expectedPayload);
+        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
+      });
+    });
   });
 });

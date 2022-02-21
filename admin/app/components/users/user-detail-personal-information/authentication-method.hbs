@@ -98,6 +98,13 @@
           >Supprimer</PixButton>
         {{/if}}
       </td>
+      <td>
+        {{#if @user.hasPoleEmploiAuthenticationMethod}}
+          <PixButton @triggerAction={{this.toggleReassignPoleEmploiAuthenticationMethodModal}} @size="small">
+            Déplacer cette méthode de connexion
+          </PixButton>
+        {{/if}}
+      </td>
     </tr>
 
     <tr data-test-gar>
@@ -152,4 +159,11 @@
   @onChangeTargetUserId={{this.onChangeTargetUserId}}
   @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
   @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
+/>
+
+<Users::UserDetailPersonalInformation::ReassignPoleEmploiAuthenticationMethodModal
+  @showReassignPoleEmploiAuthenticationMethodModal={{this.showReassignPoleEmploiAuthenticationMethodModal}}
+  @onChangeTargetUserId={{this.onChangeTargetUserId}}
+  @toggleReassignPoleEmploiAuthenticationMethodModal={{this.toggleReassignPoleEmploiAuthenticationMethodModal}}
+  @submitReassignPoleEmploiAuthenticationMethod={{this.submitReassignPoleEmploiAuthenticationMethod}}
 />

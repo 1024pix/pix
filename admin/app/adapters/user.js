@@ -57,13 +57,13 @@ export default class UserAdapter extends ApplicationAdapter {
       return this.ajax(url, 'POST', payload);
     }
 
-    if (snapshot.adapterOptions && snapshot.adapterOptions.reassignGarAuthenticationMethod) {
+    if (snapshot.adapterOptions && snapshot.adapterOptions.reassignAuthenticationMethodToAnotherUser) {
       const payload = {
         data: {
           data: {
             attributes: {
               'user-id': snapshot.adapterOptions.targetUserId,
-              'identity-provider': 'GAR',
+              'identity-provider': snapshot.adapterOptions.identityProvider,
             },
           },
         },
@@ -71,8 +71,9 @@ export default class UserAdapter extends ApplicationAdapter {
 
       const url =
         this.urlForUpdateRecord(snapshot.id) +
-        `/authentication-methods/${snapshot.adapterOptions.authenticationMethodId}/reassign`;
-      return this.ajax(url, 'PUT', payload);
+        `/authentication-methods/${snapshot.adapterOptions.authenticationMethodId}`;
+
+      return this.ajax(url, 'POST', payload);
     }
 
     return super.updateRecord(...arguments);
