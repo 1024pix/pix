@@ -55,10 +55,12 @@ describe('Integration | Repository | organizationMemberIdentityRepository', func
       const activeMemberId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Némard' }).id;
       const otherActiveMemberId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Registre' }).id;
       const otherActiveMemberId2 = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Registre' }).id;
+      const otherActiveMemberId3 = databaseBuilder.factory.buildUser({ firstName: 'anne', lastName: 'atole' }).id;
 
       databaseBuilder.factory.buildMembership({ organizationId, userId: activeMemberId });
       databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId });
       databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId2 });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: otherActiveMemberId3 });
       await databaseBuilder.commit();
 
       // when
@@ -66,16 +68,21 @@ describe('Integration | Repository | organizationMemberIdentityRepository', func
 
       // then
       const expectedMember1 = new OrganizationMemberIdentity({
+        id: otherActiveMemberId3,
+        firstName: 'anne',
+        lastName: 'atole',
+      });
+      const expectedMember2 = new OrganizationMemberIdentity({
         id: otherActiveMemberId2,
         firstName: 'Anne',
         lastName: 'Registre',
       });
-      const expectedMember2 = new OrganizationMemberIdentity({
+      const expectedMember3 = new OrganizationMemberIdentity({
         id: activeMemberId,
         firstName: 'Jean',
         lastName: 'Némard',
       });
-      const expectedMember3 = new OrganizationMemberIdentity({
+      const expectedMember4 = new OrganizationMemberIdentity({
         id: otherActiveMemberId,
         firstName: 'Jean',
         lastName: 'Registre',
@@ -84,6 +91,7 @@ describe('Integration | Repository | organizationMemberIdentityRepository', func
       expect(members[0]).to.deep.equal(expectedMember1);
       expect(members[1]).to.deep.equal(expectedMember2);
       expect(members[2]).to.deep.equal(expectedMember3);
+      expect(members[3]).to.deep.equal(expectedMember4);
     });
 
     it('should return an empty array if organization has no members', async function () {
