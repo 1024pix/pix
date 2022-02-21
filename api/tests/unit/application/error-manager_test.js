@@ -337,7 +337,7 @@ describe('Unit | Application | ErrorManager', function () {
       await handle(params.request, params.h, params.error);
 
       // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate ForbiddenError when CandidateNotAuthorizedToResumeCertificationTestError', async function () {
@@ -350,7 +350,7 @@ describe('Unit | Application | ErrorManager', function () {
       await handle(params.request, params.h, params.error);
 
       // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate UnprocessableEntityError when UncancellableOrganizationInvitationError', async function () {
