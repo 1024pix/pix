@@ -26,7 +26,6 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
         type: 'SCO',
         name: 'Collège The Night Watch',
         isManagingStudents: true,
-        canCollectProfiles: true,
         email: 'sco.generic.account@example.net',
         externalId: 123,
         provinceCode: '12',

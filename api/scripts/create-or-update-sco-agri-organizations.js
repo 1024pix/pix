@@ -64,7 +64,6 @@ async function createOrUpdateOrganizations({ organizationsByExternalId, checkedD
       organization.name = name;
       organization.email = email;
       organization.isManagingStudents = true;
-      organization.canCollectProfiles = true;
       organization.logoUrl = logoUrl;
       createdOrUpdatedOrganizations.push(await organizationRepository.update(organization));
     } else {
@@ -75,7 +74,6 @@ async function createOrUpdateOrganizations({ organizationsByExternalId, checkedD
         provinceCode: externalId.substring(0, 3),
         type: 'SCO',
         isManagingStudents: true,
-        canCollectProfiles: true,
         logoUrl,
       });
       createdOrUpdatedOrganizations.push(await organizationRepository.create(organization));
