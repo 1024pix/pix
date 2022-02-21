@@ -3,12 +3,13 @@ const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async findAllByOrganizationId({ organizationId }) {
-    const membersDTO = await knex('users')
+    const sortedMembers = await knex('users')
       .select('users.id', 'users.firstName', 'users.lastName')
       .join('memberships', 'memberships.userId', 'users.id')
       .where({ disabledAt: null, organizationId })
-      .orderBy(['firstName', 'lastName'], ['asc', 'asc']);
+      .orderByRaw('LOWER("firstName") asc')
+      .orderByRaw('LOWER("lastName") asc');
 
-    return membersDTO.map((memberDTO) => new OrganizationMemberIdentity({ ...memberDTO }));
+    return sortedMembers.map((sortedMember) => new OrganizationMemberIdentity({ ...sortedMember }));
   },
 };
