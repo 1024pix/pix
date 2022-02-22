@@ -9,6 +9,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
   beforeEach(function () {
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       schoolingRegistrationId: 1,
+      billingMode: 'PAID',
       complementaryCertifications: [
         domainBuilder.buildComplementaryCertification({
           id: 2,
@@ -28,6 +29,8 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           attributes: {
             'first-name': certificationCandidate.firstName,
             'last-name': certificationCandidate.lastName,
+            'billing-mode': 'Payante',
+            'prepayment-code': null,
             'birth-city': certificationCandidate.birthCity,
             'birth-province-code': certificationCandidate.birthProvinceCode,
             'birth-insee-code': certificationCandidate.birthINSEECode,

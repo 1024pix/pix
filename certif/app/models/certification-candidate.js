@@ -16,6 +16,8 @@ export default class CertificationCandidate extends Model {
   @attr('boolean') isLinked;
   @attr('string') schoolingRegistrationId;
   @attr('string') sex;
+  @attr('string') billingMode;
+  @attr('string') prepaymentCode;
   @attr complementaryCertifications;
 
   get sexLabel() {

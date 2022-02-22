@@ -1,28 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | enrolled-candidates', function (hooks) {
   setupRenderingTest(hooks);
 
-  const CERTIFICATION_CANDIDATES_TABLE_SELECTOR = 'certification-candidates-table tbody';
-  const CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR = 'certification-candidates-actions__delete';
   const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
   const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
-  const ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR = 'certification-candidates-add-button__text';
-  const ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR = 'enrolled-candidate__add-students';
-  const EXTERNAL_ID_COLUMN_SELECTOR = 'panel-candidate__externalId__';
-  const RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR = 'panel-candidate__result-recipient-email__';
-  const BIRTHDATE_COLUMN_SELECTOR = 'panel-candidate__birthdate__';
-  const LAST_NAME_COLUMN_SELECTOR = 'panel-candidate__lastName__';
-  const FIRST_NAME_COLUMN_SELECTOR = 'panel-candidate__firstName__';
-  const BIRTH_CITY_COLUMN_SELECTOR = 'panel-candidate__birthCity__';
-  const BIRTH_PROVINCE_CODE_COLUMN_SELECTOR = 'panel-candidate__birthProvinceCode__';
-  const BIRTH_COUNTRY_SELECTOR = 'panel-candidate__birthCountry__';
-  const EMAIL_SELECTOR = 'panel-candidate__email__';
-  const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
-  const COMPLEMENTARY_CERTIFICATIONS_SELECTOR = 'panel-candidate__complementaryCertifications__';
 
   let store;
 
@@ -40,12 +25,10 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
       const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-      const certificationCandidates = [certificationCandidate];
-
-      this.set('certificationCandidates', certificationCandidates);
+      this.set('certificationCandidates', [certificationCandidate]);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
@@ -55,22 +38,18 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       `);
 
       // then
-      assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
-      assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
-      assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
-      assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
-      assert
-        .dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`)
-        .hasText(candidate.resultRecipientEmail);
-      assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
-      assert
-        .dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`)
-        .hasText('Pix+Edu, Pix+Droit');
-      assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-      assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-      assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
-      assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCandidate.lastName })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
+      assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
+      assert.dom(screen.getByRole('cell', { name: '3000 %' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Pix+Edu, Pix+Droit' })).exists();
+      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
     });
+
     test('it displays a dash where there is no certification', async function (assert) {
       // given
       this.set('displayComplementaryCertification', true);
@@ -80,12 +59,10 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
       const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-      const certificationCandidates = [certificationCandidate];
-
-      this.set('certificationCandidates', certificationCandidates);
+      this.set('certificationCandidates', [certificationCandidate]);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
@@ -95,7 +72,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       `);
 
       // then
-      assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).hasText('-');
+      assert.dom(screen.getByRole('cell', { name: '-' })).exists();
     });
   });
 
@@ -110,12 +87,10 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
       const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-      const certificationCandidates = [certificationCandidate];
-
-      this.set('certificationCandidates', certificationCandidates);
+      this.set('certificationCandidates', [certificationCandidate]);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
@@ -125,8 +100,10 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       `);
 
       // then
-      assert.notContains('Certifications complémentaires');
-      assert.dom(`[data-test-id=${COMPLEMENTARY_CERTIFICATIONS_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(screen.queryByRole('columnheader', { name: 'Certifications complémentaires' })).doesNotExist();
+      assert
+        .dom(screen.queryByRole('cell', { name: certificationCandidate.complementaryCertificationsList }))
+        .doesNotExist();
     });
   });
 
@@ -138,30 +115,34 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     this.set('certificationCandidates', certificationCandidates);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
         >
         </EnrolledCandidates>
-      `);
+    `);
 
     // then
-    assert.dom(`[aria-label="Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}"]`).isVisible();
+    assert
+      .dom(
+        screen.getByRole('button', { name: `Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}` })
+      )
+      .isVisible();
   });
 
   test('it display candidates with delete disabled button if linked', async function (assert) {
     // given
     const certificationCandidates = [
-      _buildCertificationCandidate({ isLinked: false }),
-      _buildCertificationCandidate({ isLinked: true }),
-      _buildCertificationCandidate({ isLinked: false }),
+      _buildCertificationCandidate({ firstName: 'Riri', lastName: 'Duck', isLinked: false }),
+      _buildCertificationCandidate({ firstName: 'Fifi', lastName: 'Duck', isLinked: true }),
+      _buildCertificationCandidate({ firstName: 'Loulou', lastName: 'Duck', isLinked: false }),
     ];
 
     this.set('certificationCandidates', certificationCandidates);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
       <EnrolledCandidates
         @sessionId="1"
         @certificationCandidates={{this.certificationCandidates}}>
@@ -169,26 +150,73 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     `);
 
     // then
-    assert.dom(`.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr`).isVisible({ count: 3 });
     assert
-      .dom(`.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr .${CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR} button`)
-      .isVisible({ count: 3 });
-
-    assert
-      .dom(
-        `.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr:nth-child(1) .${CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR} button`
-      )
+      .dom(screen.getByRole('button', { name: 'Supprimer le candidat Riri Duck' }))
       .hasClass(DELETE_BUTTON_SELECTOR);
     assert
-      .dom(
-        `.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr:nth-child(2) .${CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR} button`
-      )
+      .dom(screen.getByRole('button', { name: 'Supprimer le candidat Fifi Duck' }))
       .hasClass(DELETE_BUTTON_DISABLED_SELECTOR);
     assert
-      .dom(
-        `.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr:nth-child(3) .${CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR} button`
-      )
+      .dom(screen.getByRole('button', { name: 'Supprimer le candidat Loulou Duck' }))
       .hasClass(DELETE_BUTTON_SELECTOR);
+  });
+
+  module('when feature toggle FT_CERTIFICATION_BILLING is enabled and certification center is not SCO', function () {
+    test('it displays candidate billing information', async function (assert) {
+      // given
+      this.set('shouldDisplayPaymentOptions', true);
+      const candidate = _buildCertificationCandidate({
+        billingMode: 'Prepayée',
+        prepaymentCode: 'CODE01',
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+      this.set('certificationCandidates', [certificationCandidate]);
+
+      // when
+      const screen = await renderScreen(hbs`
+          <EnrolledCandidates
+            @sessionId="1"
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+            >
+          </EnrolledCandidates>
+        `);
+
+      // then
+      assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Prepayée CODE01' })).exists();
+    });
+  });
+
+  module('when feature toggle FT_CERTIFICATION_BILLING is not enabled or certification center is SCO', function () {
+    test('it does not display candidate billing information', async function (assert) {
+      // given
+      this.set('shouldDisplayPaymentOptions', false);
+      const candidate = _buildCertificationCandidate({
+        billingMode: 'Prepayée',
+        prepaymentCode: 'CODE01',
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+      this.set('certificationCandidates', [certificationCandidate]);
+
+      // when
+      const screen = await renderScreen(hbs`
+          <EnrolledCandidates
+            @sessionId="1"
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+            >
+          </EnrolledCandidates>
+        `);
+
+      // then
+      assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: 'Prepayée CODE01' })).doesNotExist();
+    });
   });
 
   module('add student(s) button', () => {
@@ -215,22 +243,22 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         );
 
         // when
-        await render(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-          @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-        >
-        </EnrolledCandidates>
+        const screen = await renderScreen(hbs`
+          <EnrolledCandidates
+            @sessionId="1"
+            @certificationCandidates={{this.certificationCandidates}}
+            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+          >
+          </EnrolledCandidates>
         `);
 
         // then
         if (multipleButtonVisible) {
-          assert.dom(`.${ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR}`).isVisible();
-          assert.dom(`.${ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR}`).isNotVisible();
+          assert.dom(screen.getByRole('link', { name: 'Ajouter des candidats' })).isVisible();
+          assert.dom(screen.queryByRole('button', { name: 'Ajouter un candidat' })).isNotVisible();
         } else {
-          assert.dom(`.${ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR}`).isNotVisible();
-          assert.dom(`.${ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR}`).isVisible();
+          assert.dom(screen.queryByRole('link', { name: 'Ajouter des candidats' })).isNotVisible();
+          assert.dom(screen.getByRole('button', { name: 'Ajouter un candidat' })).isVisible();
         }
       })
     );
@@ -251,31 +279,30 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     test(it, async function (assert) {
       // given
       const candidate = _buildCertificationCandidate({});
-      const certificationCandidates = [_buildCertificationCandidate({})];
 
-      this.set('certificationCandidates', certificationCandidates);
+      this.set('certificationCandidates', [candidate]);
       this.set(
         'shouldDisplayPrescriptionScoStudentRegistrationFeature',
         shouldDisplayPrescriptionScoStudentRegistrationFeature
       );
 
       // when
-      await render(hbs`
-      <EnrolledCandidates
-        @sessionId="1"
-        @certificationCandidates={{certificationCandidates}}
-        @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-      >
-      </EnrolledCandidates>
+      const screen = await renderScreen(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
+          @certificationCandidates={{certificationCandidates}}
+          @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+        >
+        </EnrolledCandidates>
     `);
 
       // then
       if (shouldColumnsBeEmpty) {
-        assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-        assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+        assert.dom(screen.queryByRole('cell', { name: candidate.externalId })).doesNotExist();
+        assert.dom(screen.queryByRole('cell', { name: candidate.resultRecipientEmail })).doesNotExist();
       } else {
-        assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).exists();
-        assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).exists();
+        assert.dom(screen.getByRole('cell', { name: candidate.externalId })).exists();
+        assert.dom(screen.getByRole('cell', { name: candidate.resultRecipientEmail })).exists();
       }
     })
   );
@@ -304,6 +331,8 @@ function _buildCertificationCandidate({
       name: 'Pix+Droit',
     },
   ],
+  billingMode = '',
+  prepaymentCode = null,
 }) {
   return {
     id,
@@ -319,5 +348,7 @@ function _buildCertificationCandidate({
     extraTimePercentage,
     isLinked,
     complementaryCertifications,
+    billingMode,
+    prepaymentCode,
   };
 }
