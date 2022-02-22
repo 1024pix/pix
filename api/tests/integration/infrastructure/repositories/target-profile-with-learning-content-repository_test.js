@@ -131,6 +131,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         imageUrl: 'data:,',
         description: 'Super profil cible.',
         comment: 'Red Notice',
+        isSimplifiedAccess: false,
       });
       databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfileDB.id,
@@ -154,6 +155,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
         areas: [area1],
+        isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
       });
 
       const learningContent = {
