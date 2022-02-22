@@ -1,11 +1,4 @@
-.create-campaign {
-
-  &__select {
-    width: 100%;
-  }
-}
-
-//enlever la flèche par défaut de la datalist sur chrome
+// enlève la flèche par défaut de la datalist sur chrome
 .campaign-target-profile::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
