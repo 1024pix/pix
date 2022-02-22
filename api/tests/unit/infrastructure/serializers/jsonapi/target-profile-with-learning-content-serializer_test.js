@@ -22,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         areas: [{ id: 'rec4', title: 'Connaître', color: 'blue' }],
         organizations: [{ id: 42 }],
         category: 'OTHER',
+        isSimplifiedAccess: false,
       });
 
       const expectedTargetProfile = {
@@ -38,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             'image-url': targetProfileWithLearningContent.imageUrl,
             category: targetProfileWithLearningContent.category,
             'created-at': targetProfileWithLearningContent.createdAt,
+            'is-simplified-access': targetProfileWithLearningContent.isSimplifiedAccess,
           },
           relationships: {
             skills: {
