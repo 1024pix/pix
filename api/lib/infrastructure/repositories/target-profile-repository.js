@@ -135,7 +135,13 @@ module.exports = {
 
   async update(targetProfile) {
     let targetProfileUpdatedRowCount;
-    const editedAttributes = _.pick(targetProfile, ['name', 'outdated', 'description', 'comment']);
+    const editedAttributes = _.pick(targetProfile, [
+      'name',
+      'outdated',
+      'description',
+      'comment',
+      'isSimplifiedAccess',
+    ]);
 
     try {
       targetProfileUpdatedRowCount = await knex('target-profiles')
