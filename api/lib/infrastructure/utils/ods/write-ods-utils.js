@@ -454,11 +454,27 @@ function _buildStringifiedXmlFromXmlDom(parsedXmlDom) {
   return new XMLSerializer().serializeToString(parsedXmlDom);
 }
 
+function updateXmlSparseValues({ stringifiedXml, templateValues, dataToInject }) {
+  const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
+  const parsedXmlDomUpdated = _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues);
+  return _buildStringifiedXmlFromXmlDom(parsedXmlDomUpdated);
+}
+
+function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
+  const parsedXmlDomUpdated = _.cloneDeep(parsedXmlDom);
+  for (const { placeholder, propertyName } of templateValues) {
+    const targetXmlDomElement = _getXmlDomElementByText(parsedXmlDomUpdated, placeholder);
+    if (targetXmlDomElement) {
+      const newXmlValue = dataToInject[propertyName];
+      targetXmlDomElement.textContent = newXmlValue;
+    }
+  }
+  return parsedXmlDomUpdated;
+}
+
 module.exports = {
   makeUpdatedOdsByContentXml,
-  /*
   updateXmlSparseValues,
-*/
   updateXmlRows,
   addCellToEndOfLineWithStyleOfCellLabelled,
   incrementRowsColumnSpan,
