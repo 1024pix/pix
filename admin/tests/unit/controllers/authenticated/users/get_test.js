@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import EmberObject from '@ember/object';
 
 module('Unit | Controller | authenticated/users/get', function (hooks) {
   setupTest(hooks);
@@ -11,22 +12,31 @@ module('Unit | Controller | authenticated/users/get', function (hooks) {
         const identityProvider = 'POLE_EMPLOI';
         const controller = this.owner.lookup('controller:authenticated.users.get');
 
+        const originUserId = 1;
         const targetUserId = 2;
-        const authenticationMethodId = 10;
 
-        controller.model = { save: sinon.stub() };
-        controller._getUserAuthenticationMethodIdByIdentityProvider = sinon.stub().returns(authenticationMethodId);
-        controller.send = sinon.stub();
-        controller.model.save
+        const destroyRecordStub = sinon.stub();
+        const rollbackAttributesStub = sinon.stub();
+        destroyRecordStub
           .withArgs({
             adapterOptions: {
               reassignAuthenticationMethodToAnotherUser: true,
               targetUserId,
-              authenticationMethodId,
+              originUserId,
               identityProvider,
             },
           })
           .rejects({ errors: [{ status: '422' }] });
+        const authenticationMethods = [
+          EmberObject.create({
+            identityProvider,
+            destroyRecord: destroyRecordStub,
+            rollbackAttributes: rollbackAttributesStub,
+          }),
+        ];
+        const user = EmberObject.create({ id: originUserId, authenticationMethods });
+
+        controller.model = user;
         controller.notifications = {
           success: sinon.stub(),
           error: sinon.stub(),

@@ -256,10 +256,10 @@ export default function () {
   });
 
   this.post('/admin/users/:userId/authentication-methods/:authenticationMethodId', (schema, request) => {
-    const userId = request.params.userId;
-    const user = schema.users.findBy({ id: userId });
-    user.update({ authenticationMethods: [] });
-    return user;
+    const authenticationMethodId = request.params.authenticationMethodId;
+    const authenticationMethod = schema.authenticationMethods.findBy({ id: authenticationMethodId });
+    authenticationMethod.destroy();
+    return new Response(204);
   });
 
   this.get('feature-toggles', (schema) => {

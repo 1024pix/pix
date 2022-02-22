@@ -57,25 +57,6 @@ export default class UserAdapter extends ApplicationAdapter {
       return this.ajax(url, 'POST', payload);
     }
 
-    if (snapshot.adapterOptions && snapshot.adapterOptions.reassignAuthenticationMethodToAnotherUser) {
-      const payload = {
-        data: {
-          data: {
-            attributes: {
-              'user-id': snapshot.adapterOptions.targetUserId,
-              'identity-provider': snapshot.adapterOptions.identityProvider,
-            },
-          },
-        },
-      };
-
-      const url =
-        this.urlForUpdateRecord(snapshot.id) +
-        `/authentication-methods/${snapshot.adapterOptions.authenticationMethodId}`;
-
-      return this.ajax(url, 'POST', payload);
-    }
-
     return super.updateRecord(...arguments);
   }
 }

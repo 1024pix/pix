@@ -37,31 +37,24 @@ export default class GetController extends Controller {
 
   @action
   async reassignAuthenticationMethod({ targetUserId, identityProvider }) {
-    const authenticationMethodId = this._getUserAuthenticationMethodIdByIdentityProvider(identityProvider);
+    const authenticationMethod = this.model.authenticationMethods.findBy('identityProvider', identityProvider);
     try {
-      await this.model.save({
+      await authenticationMethod.destroyRecord({
         adapterOptions: {
           reassignAuthenticationMethodToAnotherUser: true,
+          originUserId: this.model.id,
           targetUserId,
-          authenticationMethodId,
           identityProvider,
         },
       });
       this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${targetUserId}`);
-      this.send('refreshModel');
       this.notifications.success(
         `L'utilisateur n'a plus de méthode de connexion ${this.AUTHENTICATION_METHODS[identityProvider]}`
       );
     } catch (errors) {
+      authenticationMethod.rollbackAttributes();
       this._handleResponseError(errors, identityProvider);
     }
-  }
-
-  _getUserAuthenticationMethodIdByIdentityProvider(identityProvider) {
-    const authenticationMethods = this.model.authenticationMethods.filter(
-      (authenticationMethod) => authenticationMethod.identityProvider === identityProvider
-    );
-    return authenticationMethods[0].get('id');
   }
 
   _handleResponseError(errorResponse, identityProvider) {
