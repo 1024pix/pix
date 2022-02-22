@@ -1,7 +1,8 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
+const UserTutorial = require('../../../../lib/domain/models/UserTutorial');
 
-describe('Integration | Infrastructure | Repository | userTutorialRepository', function () {
+describe('Integration | Infrastructure | Repository | user-tutorial-repository', function () {
   let userId;
 
   beforeEach(async function () {
@@ -26,10 +27,11 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', f
       const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
 
       // then
-      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
-      expect(userTutorial.id).to.deep.equal(userTutorials[0].id);
-      expect(userTutorial.userId).to.deep.equal(userTutorials[0].userId);
-      expect(userTutorial.tutorialId).to.deep.equal(userTutorials[0].tutorialId);
+      const savedUserTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+      expect(userTutorial).to.be.instanceOf(UserTutorial);
+      expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
+      expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
+      expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
     });
 
     context('when the tutorialId already exists in the user list', function () {
@@ -42,11 +44,12 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', f
         const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
 
         // then
-        const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
-        expect(userTutorials).to.have.length(1);
-        expect(userTutorial.id).to.deep.equal(userTutorials[0].id);
-        expect(userTutorial.userId).to.deep.equal(userTutorials[0].userId);
-        expect(userTutorial.tutorialId).to.deep.equal(userTutorials[0].tutorialId);
+        const savedUserTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+        expect(savedUserTutorials).to.have.length(1);
+        expect(userTutorial).to.be.instanceOf(UserTutorial);
+        expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
+        expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
+        expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
       });
     });
   });
@@ -66,6 +69,7 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', f
         expect(userTutorials).to.have.length(1);
         expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
         expect(userTutorials[0]).to.have.property('userId', userId);
+        expect(userTutorials[0]).to.be.instanceOf(UserTutorial);
       });
     });
 
