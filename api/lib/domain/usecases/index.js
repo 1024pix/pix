@@ -333,6 +333,7 @@ module.exports = injectDependencies(
     improveCompetenceEvaluation: require('./improve-competence-evaluation'),
     linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate')
       .linkUserToSessionCertificationCandidate,
+    markTargetProfileAsSimplifiedAccess: require('./mark-target-profile-as-simplified-access'),
     manuallyResolveCertificationIssueReport: require('./manually-resolve-certification-issue-report'),
     neutralizeChallenge: require('./neutralize-challenge'),
     publishSession: require('./publish-session'),
