@@ -1473,7 +1473,11 @@
       "title": "Mes tutos",
       "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
       "recommended": "Recommandés",
-      "saved": "Enregistrés"
+      "saved": "Enregistrés",
+      "saved-empty": {
+        "title": "Vous n'avez pas encore de tutos enregistrés",
+        "description": "Vouz devez enregistrer un tuto recommandé pour qu'il s'affiche ici."
+      }
     }
   }
 }

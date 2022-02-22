@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-
 export default class UserTutorialsSavedRoute extends Route {
   @service featureToggles;
   @service router;
