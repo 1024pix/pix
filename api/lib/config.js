@@ -142,6 +142,8 @@ module.exports = (function () {
       passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
     },
 
+    bcryptNumberOfSaltRounds: _getNumber(process.env.BCRYPT_NUMBER_OF_SALT_ROUNDS, 10),
+
     availableCharacterForCode: {
       letters: 'BCDFGHJKMPQRTVWXY',
       numbers: '2346789',
@@ -275,6 +277,8 @@ module.exports = (function () {
     config.mailing.sendinblue.templates.emailChangeTemplateId = 'test-email-change-template-id';
     config.mailing.sendinblue.templates.accountRecoveryTemplateId = 'test-account-recovery-template-id';
     config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
+
+    config.bcryptNumberOfSaltRounds = 1;
 
     config.authentication.secret = 'test-jwt-key';
 

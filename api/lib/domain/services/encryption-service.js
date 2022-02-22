@@ -1,13 +1,12 @@
 const bcrypt = require('bcrypt');
+const { bcryptNumberOfSaltRounds } = require('../../config');
 const PasswordNotMatching = require('../errors').PasswordNotMatching;
 
-const NUMBER_OF_ROUNDS = 10;
-
 module.exports = {
-  hashPassword: (password) => bcrypt.hash(password, NUMBER_OF_ROUNDS),
+  hashPassword: (password) => bcrypt.hash(password, bcryptNumberOfSaltRounds),
 
   /* eslint-disable-next-line no-sync */
-  hashPasswordSync: (password) => bcrypt.hashSync(password, NUMBER_OF_ROUNDS),
+  hashPasswordSync: (password) => bcrypt.hashSync(password, bcryptNumberOfSaltRounds),
 
   checkPassword: async ({ password, passwordHash }) => {
     const matching = await bcrypt.compare(password, passwordHash);
