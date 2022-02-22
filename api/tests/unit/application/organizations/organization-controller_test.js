@@ -23,6 +23,7 @@ const organizationSerializer = require('../../../../lib/infrastructure/serialize
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
+const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
@@ -1010,6 +1011,28 @@ describe('Unit | Application | Organizations | organization-controller', functio
       });
       expect(response.source).to.deep.equal(attestationsPDF);
       expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20210101_attestations_3b.pdf');
+    });
+  });
+
+  describe('#getOrganizationMemberIdentities', function () {
+    it('should return all members idendities of the organization serialized', async function () {
+      // given
+      const organizationId = 1234;
+      const members = Symbol('members');
+      const serializedMembersIdentities = Symbol('members serialized');
+
+      sinon.stub(usecases, 'getOrganizationMemberIdentities').withArgs({ organizationId }).returns(members);
+      sinon
+        .stub(organizationMemberIdentitySerializer, 'serialize')
+        .withArgs(members)
+        .returns(serializedMembersIdentities);
+
+      // when
+      const request = { params: { id: organizationId } };
+      const result = await organizationController.getOrganizationMemberIdentities(request, hFake);
+
+      // then
+      expect(result).to.be.equal(serializedMembersIdentities);
     });
   });
 });
