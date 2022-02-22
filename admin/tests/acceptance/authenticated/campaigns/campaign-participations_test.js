@@ -5,14 +5,14 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Page', function (hooks) {
+module('Acceptance | Campaign Participations', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   module('When user is not logged in', function () {
     test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
-      await visit('/campaigns/1');
+      await visit('/campaigns/1/participations');
 
       // then
       assert.strictEqual(currentURL(), '/login');
@@ -25,15 +25,16 @@ module('Acceptance | Campaign Page', function (hooks) {
       await createAuthenticateSession({ userId: user.id });
     });
 
-    test('it should display the default page', async function (assert) {
+    test('it should display campaign participations', async function (assert) {
       server.create('campaign', { id: 1, name: 'Campaign name' });
+      server.create('campaign-participation', { firstName: 'Georgette', lastName: 'Frimousse' });
 
       // when
-      await visit('/campaigns/1');
+      await visit('/campaigns/1/participations');
 
       // then
       assert.strictEqual(currentURL(), '/campaigns/1/participations');
-      assert.contains('Campaign name');
+      assert.contains('Georgette');
     });
   });
 });
