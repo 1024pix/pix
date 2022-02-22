@@ -28,6 +28,27 @@ describe('Acceptance | API | Campaign Management Controller', function () {
     });
   });
 
+  describe('GET /api/admin/campaigns/{id}/participations', function () {
+    it('should return participations', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/campaigns/${campaign.id}/participations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].id).to.equal(campaignParticipation.id.toString());
+    });
+  });
+
   describe('PATCH /api/admin/campaigns/{id}', function () {
     it('should return the updated campaign', async function () {
       // given
