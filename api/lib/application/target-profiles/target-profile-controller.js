@@ -96,4 +96,11 @@ module.exports = {
 
     return h.response(badgeSerializer.serialize(createdBadge)).created();
   },
+
+  async markTargetProfileAsSimplifiedAccess(request, h) {
+    const id = request.params.id;
+
+    await usecases.markTargetProfileAsSimplifiedAccess({ id });
+    return h.response({}).code(204);
+  },
 };

@@ -328,6 +328,29 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'PUT',
+      path: '/api/admin/target-profiles/{id}/simplified-access',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.markTargetProfileAsSimplifiedAccess,
+        tags: ['api', 'target-profiles'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            '- Elle permet de marquer un profil cible comme étant "Parcours Accès Simplifié"',
+        ],
+      },
+    },
   ]);
 };
 
