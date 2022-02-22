@@ -16,6 +16,10 @@ export default class TargetProfileController extends Controller {
     return this.model.outdated ? 'Oui' : 'Non';
   }
 
+  get isSimplifiedAccess() {
+    return this.model.isSimplifiedAccess ? 'Oui' : 'Non';
+  }
+
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
