@@ -31,7 +31,7 @@
             <caption>{{t "pages.preselect-target-profile.table.caption"}}</caption>
             <thead>
               <tr>
-                <Table::Header @size="small" @align="center" scope="col">
+                <Table::Header @size="medium" @align="center" scope="col">
                   {{t "pages.preselect-target-profile.table.column.theme-name"}}
                 </Table::Header>
                 <Table::Header @size="small" @align="center" scope="col">
@@ -53,20 +53,32 @@
               {{#each competence.sortedThematics as |thematic|}}
                 {{#each thematic.tubes as |tube index|}}
                   <tr
-                    {{on "click" this.toggleInput}}
+                    {{on "click" this.toggleTubeInput}}
                     class="row-tube"
                     aria-label={{t "pages.preselect-target-profile.table.row-title"}}
                   >
                     {{#if (eq index 0)}}
                       <th
-                        class="row--not-clickable"
                         scope="row"
+                        class="th--clickable"
                         rowspan={{thematic.tubes.length}}
-                      >{{thematic.name}}</th>
+                        {{on "click" this.toggleThematicInput}}
+                      >
+                        <Input
+                          {{on "input" (fn this.updateSelectedThematics thematic.id)}}
+                          id="thematic-{{thematic.id}}"
+                          @type="checkbox"
+                        />
+                        <label for="thematic-{{thematic.id}}">
+                          {{thematic.name}}
+                        </label>
+                      </th>
                     {{/if}}
                     <td class="table__column--center">
                       <Input
                         {{on "input" (fn this.updateSelectedTubes tube.id)}}
+                        data-thematic={{thematic.id}}
+                        data-tube={{tube.id}}
                         id="tube-{{tube.id}}"
                         @type="checkbox"
                       />

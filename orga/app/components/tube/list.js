@@ -37,8 +37,8 @@ export default class TubeList extends Component {
   }
 
   @action
-  toggleInput(event) {
-    const checkbox = event.currentTarget.querySelector('input');
+  toggleTubeInput(event) {
+    const checkbox = event.currentTarget.querySelector('[data-tube]');
     if (event.target.nodeName === 'TD') {
       checkbox.checked = !checkbox.checked;
       const evt = document.createEvent('HTMLEvents');
@@ -48,12 +48,63 @@ export default class TubeList extends Component {
   }
 
   @action
+  toggleThematicInput(event) {
+    const checkbox = event.currentTarget.querySelector('input');
+    if (event.target.nodeName === 'TH') {
+      checkbox.checked = !checkbox.checked;
+      const evt = document.createEvent('HTMLEvents');
+      evt.initEvent('input', false, true);
+      checkbox.dispatchEvent(evt);
+    }
+  }
+
+  _toggleCheckboxThematicByTubes(tube) {
+    const thematicId = tube.getAttribute('data-thematic');
+    const thematic = document.getElementById(`thematic-${thematicId}`);
+    const tubes = document.querySelectorAll(`[data-thematic="${thematicId}"]`);
+
+    if (Array.from(tubes).every((element) => element.checked)) {
+      thematic.indeterminate = false;
+      thematic.checked = true;
+    } else if (Array.from(tubes).some((element) => element.checked)) {
+      thematic.indeterminate = true;
+    } else {
+      thematic.indeterminate = false;
+      thematic.checked = false;
+    }
+  }
+
+  @action
   updateSelectedTubes(tubeId, event) {
-    const el = event.currentTarget;
-    if (el.checked) {
+    const tube = event.currentTarget;
+    this._toggleCheckboxThematicByTubes(tube);
+    if (tube.checked) {
       this.tubesSelected.pushObject(tubeId);
     } else {
       this.tubesSelected.removeObject(tubeId);
     }
+  }
+
+  @action
+  updateSelectedThematics(thematicId, event) {
+    const el = event.currentTarget;
+    const tubes = document.querySelectorAll(`[data-thematic="${thematicId}"]`);
+    const uniqueTubesSelected = new Set(this.tubesSelected);
+
+    if (el.checked) {
+      for (let i = 0; i < tubes.length; i++) {
+        const tubeId = tubes[i].getAttribute('data-tube');
+        tubes[i].checked = true;
+        uniqueTubesSelected.add(tubeId);
+      }
+    } else {
+      for (let i = 0; i < tubes.length; i++) {
+        const tubeId = tubes[i].getAttribute('data-tube');
+        tubes[i].checked = false;
+        uniqueTubesSelected.delete(tubeId);
+      }
+    }
+
+    this.tubesSelected = A([...new Set(uniqueTubesSelected)]);
   }
 }
