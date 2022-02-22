@@ -7,7 +7,7 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/campaigns/new', function (hooks) {
   setupTest(hooks);
 
-  test('should return members list sorted by full name', async function (assert) {
+  test('should return members', async function (assert) {
     // given
     const route = this.owner.lookup('route:authenticated/campaigns/new');
 
@@ -18,35 +18,18 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
     }
     this.owner.register('service:current-user', CurrentUserStub);
 
-    const membership1 = EmberObject.create({
-      user: EmberObject.create({
-        firstName: 'Alice',
-        lastName: 'Delamer',
-      }),
-    });
-    const membership2 = EmberObject.create({
-      user: EmberObject.create({
-        firstName: 'Alice',
-        lastName: 'Delamare',
-      }),
-    });
-    const queryStub = sinon.stub();
+    const members = Symbol('list of members sorted by firstnames and lastnames');
+    const findAllStub = sinon.stub();
     const storeStub = {
-      query: queryStub.resolves([membership1, membership2]),
+      findAll: findAllStub.resolves(members),
       createRecord: sinon.stub(),
     };
     route.store = storeStub;
 
-    const params = {
-      pageNumber: 1,
-      pageSize: 2,
-    };
-
     // when
-    const result = await route.model(params);
+    const result = await route.model();
 
     //then
-    assert.strictEqual(result.membersSortedByFullName[0].lastName, 'Delamare');
-    assert.strictEqual(result.membersSortedByFullName[1].lastName, 'Delamer');
+    assert.strictEqual(result.membersSortedByFullName, members);
   });
 });

@@ -8,17 +8,9 @@ export default class NewRoute extends Route {
 
   async model() {
     const organization = this.currentUser.organization;
-
-    const memberships = await this.store.query('membership', {
-      filter: {
-        organizationId: organization.id,
-      },
-      page: {
-        size: 500,
-      },
+    const membersSortedByFullName = await this.store.findAll('member-identity', {
+      adapterOptions: { organizationId: organization.id },
     });
-    const members = memberships.map((membership) => membership.user);
-    const membersSortedByFullName = members.sortBy('firstName', 'lastName');
 
     return RSVP.hash({
       campaign: this.store.createRecord('campaign', { organizationId: organization.id }),

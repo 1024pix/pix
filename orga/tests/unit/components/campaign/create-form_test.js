@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
-import sinon from 'sinon';
 import { setupIntl, t } from 'ember-intl/test-support';
 
 module('Unit | Component | Campaign::CreateForm', (hooks) => {
@@ -122,13 +121,10 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         prescriber = { id: 1 };
       }
       this.owner.register('service:current-user', CurrentUserStub);
-      const getStub1 = sinon.stub();
-      getStub1.withArgs('fullName').returns('Remy Fasol');
-      getStub1.withArgs('id').returns(1);
-      const getStub2 = sinon.stub();
-      getStub2.withArgs('fullName').returns('Thierry Golo');
-      getStub2.withArgs('id').returns(7);
-      const membersSortedByFullName = [{ get: getStub1 }, { get: getStub2 }];
+      const membersSortedByFullName = [
+        { id: 1, fullName: 'Remy Fasol' },
+        { id: 7, fullName: 'Thierry Golo' },
+      ];
       const component = await createGlimmerComponent('component:campaign/create-form', { membersSortedByFullName });
       const event = { target: { value: 'Thierry Golo' } };
 

@@ -168,7 +168,30 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les membres rattachées à l’organisation.',
+          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/member-identities',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+            assign: 'belongsToOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.getOrganizationMemberIdentities,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle retourne l'identité des membres rattachés à l’organisation.",
         ],
       },
     },
