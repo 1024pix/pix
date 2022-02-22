@@ -100,7 +100,7 @@ function _toDomainCollection({ challengeDataObjects, skills }) {
 }
 
 function _toDomain({ challengeDataObject, skillDataObject }) {
-  const skill = skillAdapter.fromDatasourceObject(skillDataObject);
+  const skill = skillDataObject ? skillAdapter.fromDatasourceObject(skillDataObject) : null;
 
   const solution = solutionAdapter.fromDatasourceObject(challengeDataObject);
 
