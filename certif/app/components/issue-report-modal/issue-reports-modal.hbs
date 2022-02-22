@@ -1,5 +1,5 @@
 <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
-  <div class="add-issue-report-modal">
+  <div class="issue-report-modal">
     <div class="pix-modal__close-button">
       <button
         type="button"
@@ -12,18 +12,18 @@
     </div>
 
     <div class="pix-modal__container pix-modal__container--white">
-      <div class="add-issue-report-modal__title">
+      <div class="issue-report-modal__title">
         <h1>Signalement du candidat</h1>
         <h3>{{@report.firstName}} {{@report.lastName}}</h3>
       </div>
 
-      <div class="add-issue-report-modal__content">
+      <div class="issue-report-modal__content">
         <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
-        <div class="add-issue-report-modal__content--frame">
+        <div class="issue-report-modal__content--frame">
           <ul>
             {{#each @report.certificationIssueReports as |issueReport|}}
               <li>
-                <p class="add-issue-report-modal-content__category-label">
+                <p class="issue-report-modal-content__category-label">
                   {{issueReport.categoryCode}}&nbsp;{{issueReport.categoryLabel}}
                   <PixIconButton
                     @icon="trash"
@@ -33,7 +33,7 @@
                 </p>
                 {{#if issueReport.subcategoryLabel}}
                   <p
-                    class="add-issue-report-modal-content__subcategory-label"
+                    class="issue-report-modal-content__subcategory-label"
                   >{{issueReport.subcategoryCode}}&nbsp;{{issueReport.subcategoryLabel}}</p>
                 {{/if}}
               </li>
