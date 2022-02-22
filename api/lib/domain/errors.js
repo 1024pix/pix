@@ -974,7 +974,7 @@ class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
 }
 
 class InvalidSessionSupervisorPasswordError extends DomainError {
-  constructor(message = 'Le mot de passe de la session ne correspond pas au numéro de la session.') {
+  constructor(message = 'Le numéro de session et/ou le mot de passe saisis sont incorrects.') {
     super(message);
   }
 }

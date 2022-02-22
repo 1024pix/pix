@@ -34,6 +34,7 @@ describe('Unit | UseCase | supervise-session', function () {
 
     // then
     expect(error).to.be.an.instanceOf(InvalidSessionSupervisorPasswordError);
+    expect(error.message).to.equal('Le numéro de session et/ou le mot de passe saisis sont incorrects.');
   });
 
   it('should throw a SessionNotAccessible when the session is not accessible', async function () {
