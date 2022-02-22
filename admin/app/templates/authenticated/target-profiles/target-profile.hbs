@@ -23,6 +23,7 @@
           <div>ID : {{@model.id}}</div>
           <div>Date de création : {{format-date @model.createdAt}}</div>
           <div>Public : {{this.isPublic}}</div>
+          <div>Parcours Accès Simplifié : {{this.isSimplifiedAccess}}</div>
           <div>Obsolète : {{this.isOutdated}}</div>
           <div>Organisation de référence :
             <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>

@@ -1,4 +1,5 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 
 import clickByLabel from 'pix-admin/tests/helpers/extended-ember-test-helpers/click-by-label';
@@ -55,20 +56,22 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         description: 'Top profil cible.',
         comment: 'Commentaire Privé.',
         category: 'SUBJECT',
+        isSimplifiedAccess: true,
       });
 
       // when
-      await visit('/target-profiles/1');
+      const screen = await visitScreen('/target-profiles/1');
 
       // then
-      assert.contains('Profil Cible Fantastix');
-      assert.contains('Thématiques');
-      assert.dom('section').containsText('ID : 1');
-      assert.dom('section').containsText('Public : Oui');
-      assert.dom('section').containsText('Obsolète : Non');
-      assert.dom('section').containsText('Organisation de référence : 456');
-      assert.dom('section').containsText('Description : Top profil cible.');
-      assert.dom('section').containsText('Commentaire (usage interne) : Commentaire Privé.');
+      assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix' })).exists();
+      assert.dom(screen.getByText('Thématiques')).exists();
+      assert.dom(screen.getByText('ID : 1')).exists();
+      assert.dom(screen.getByText('Public : Oui')).exists();
+      assert.dom(screen.getByText('Obsolète : Non')).exists();
+      assert.dom(screen.getByText('Parcours Accès Simplifié : Oui')).exists();
+      assert.dom(screen.getByText('456')).exists();
+      assert.dom(screen.getByText('Top profil cible.')).exists();
+      assert.dom(screen.getByText('Commentaire Privé.')).exists();
     });
 
     test('it should display target profile skills', async function (assert) {
