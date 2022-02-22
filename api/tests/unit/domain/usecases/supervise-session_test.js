@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const superviseSession = require('../../../../lib/domain/usecases/supervise-session');
-const { InvalidSessionSupervisorPasswordError, SessionNotAccessible } = require('../../../../lib/domain/errors');
+const { InvalidSessionSupervisingLoginError, SessionNotAccessible } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | supervise-session', function () {
   let sessionRepository;
@@ -15,7 +15,7 @@ describe('Unit | UseCase | supervise-session', function () {
     };
   });
 
-  it('should throw a InvalidSessionSupervisorPasswordError when the supervised password is wrong', async function () {
+  it('should throw a InvalidSessionSupervisingLoginError when the supervised password is wrong', async function () {
     // given
     const sessionId = 123;
     const supervisorPassword = 'NOT_MATCHING_SUPERVISOR_PASSWORD';
@@ -33,7 +33,7 @@ describe('Unit | UseCase | supervise-session', function () {
     });
 
     // then
-    expect(error).to.be.an.instanceOf(InvalidSessionSupervisorPasswordError);
+    expect(error).to.be.an.instanceOf(InvalidSessionSupervisingLoginError);
     expect(error.message).to.equal('Le numéro de session et/ou le mot de passe saisis sont incorrects.');
   });
 

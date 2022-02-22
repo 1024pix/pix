@@ -2,7 +2,11 @@ const { catchErr, expect, sinon, hFake, domainBuilder } = require('../../../test
 const endTestScreenRemovalEnabled = require('../../../../lib/application/preHandlers/end-test-screen-removal-enabled');
 const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
-const { SupervisorAccessNotAuthorizedError, NotFoundError } = require('../../../../lib/domain/errors');
+const {
+  SupervisorAccessNotAuthorizedError,
+  NotFoundError,
+  InvalidSessionSupervisingLoginError,
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Pre-handler | end test screen removal', function () {
   describe('#verifyBySessionId', function () {
@@ -13,7 +17,7 @@ describe('Unit | Pre-handler | end test screen removal', function () {
 
     context('When POST', function () {
       describe('when session does not exist', function () {
-        it('should throw a NotFoundError', async function () {
+        it('should throw a InvalidSessionSupervisingLoginError', async function () {
           // given
           const request = {
             payload: {
@@ -26,7 +30,7 @@ describe('Unit | Pre-handler | end test screen removal', function () {
           const error = await catchErr(endTestScreenRemovalEnabled.verifyBySessionId)(request, hFake);
 
           // then
-          expect(error).to.be.an.instanceOf(NotFoundError);
+          expect(error).to.be.an.instanceOf(InvalidSessionSupervisingLoginError);
           expect(error.message).to.equal('Le numéro de session et/ou le mot de passe saisis sont incorrects.');
         });
       });
@@ -70,12 +74,12 @@ describe('Unit | Pre-handler | end test screen removal', function () {
       });
     });
     context('When GET', function () {
-      describe('when session does not exist', function () {
-        it('should throw a NotFoundError', async function () {
+      describe('when the session does not exist', function () {
+        it('should throw a InvalidSessionSupervisingLoginError', async function () {
           // given
           const request = {
-            payload: {
-              data: { attributes: { 'session-id': 8 } },
+            params: {
+              id: 8,
             },
           };
           sessionRepository.get.withArgs(8).throws(new NotFoundError());
@@ -84,7 +88,7 @@ describe('Unit | Pre-handler | end test screen removal', function () {
           const error = await catchErr(endTestScreenRemovalEnabled.verifyBySessionId)(request, hFake);
 
           // then
-          expect(error).to.be.an.instanceOf(NotFoundError);
+          expect(error).to.be.an.instanceOf(InvalidSessionSupervisingLoginError);
           expect(error.message).to.equal('Le numéro de session et/ou le mot de passe saisis sont incorrects.');
         });
       });

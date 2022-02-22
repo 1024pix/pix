@@ -973,7 +973,7 @@ class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
   }
 }
 
-class InvalidSessionSupervisorPasswordError extends DomainError {
+class InvalidSessionSupervisingLoginError extends DomainError {
   constructor(message = 'Le numéro de session et/ou le mot de passe saisis sont incorrects.') {
     super(message);
   }
@@ -1100,7 +1100,7 @@ module.exports = {
   InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-  InvalidSessionSupervisorPasswordError,
+  InvalidSessionSupervisingLoginError,
   InvalidSkillSetError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
