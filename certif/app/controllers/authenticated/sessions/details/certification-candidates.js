@@ -48,4 +48,14 @@ export default class CertificationCandidatesController extends Controller {
       this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations
     );
   }
+
+  get shouldDisplayPaymentOptions() {
+    return (
+      this._currentCertificationCenterIsNotSco() && this.featureToggles.featureToggles.isCertificationBillingEnabled
+    );
+  }
+
+  _currentCertificationCenterIsNotSco() {
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+  }
 }
