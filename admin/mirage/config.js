@@ -29,6 +29,10 @@ export default function () {
     return schema.campaigns.find(request.params.id);
   });
 
+  this.get('/admin/campaigns/:id/participations', (schema) => {
+    return schema.campaignParticipations.all();
+  });
+
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', (schema) => {
     const toBePublishedSessions = schema.toBePublishedSessions.all();
