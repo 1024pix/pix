@@ -1,9 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const reassignAuthenticationMethodToAnotherUser = require('../../../../lib/domain/usecases/reassign-authentication-method-to-another-user');
-const {
-  AuthenticationMethodNotFoundError,
-  AuthenticationMethodAlreadyExistsError,
-} = require('../../../../lib/domain/errors');
+const { AuthenticationMethodAlreadyExistsError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reassign-authentication-method-to-another-user', function () {
   let authenticationMethodRepository, userRepository;
