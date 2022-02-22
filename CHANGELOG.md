@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.174.0 (22/02/2022)
+
+
+### :rocket: Enhancement
+- [#4110](https://github.com/1024pix/pix/pull/4110) [FEATURE] Pouvoir visualiser la "Tarification part Pix" dans la liste des candidats (PIX-4194)
+
+### :building_construction: Tech
+- [#4111](https://github.com/1024pix/pix/pull/4111) [TECH] Ne pas limiter la liste des membres d'une orga à 500 lors de la création et modification d'une campagne (PIX-4303)
+
+### :bug: Bug fix
+- [#4123](https://github.com/1024pix/pix/pull/4123) [BUGFIX] Corrige la création du modèle Challenge lorsque le skill associé n'existe pas
+
 ## v3.173.0 (21/02/2022)
 
 
