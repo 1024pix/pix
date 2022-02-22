@@ -1,4 +1,4 @@
-const { TargetProfileOrganizations } = require('../models');
+const { OrganizationsToAttachToTargetProfile } = require('../models');
 
 module.exports = async function attachOrganizationsFromExistingTargetProfile({
   targetProfileId,
@@ -6,7 +6,7 @@ module.exports = async function attachOrganizationsFromExistingTargetProfile({
   targetProfileShareRepository,
   targetProfileRepository,
 }) {
-  const targetProfileOrganizations = new TargetProfileOrganizations({ id: targetProfileId });
+  const targetProfileOrganizations = new OrganizationsToAttachToTargetProfile({ id: targetProfileId });
   const organizationIds = await targetProfileRepository.findOrganizationIds(existingTargetProfileId);
 
   targetProfileOrganizations.attach(organizationIds);

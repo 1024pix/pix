@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { NoOrganizationToAttach } = require('../errors');
 
-class TargetProfileOrganizations {
+class OrganizationsToAttachToTargetProfile {
   constructor({ id }) {
     this.id = id;
   }
@@ -14,4 +14,4 @@ class TargetProfileOrganizations {
   }
 }
 
-module.exports = TargetProfileOrganizations;
+module.exports = OrganizationsToAttachToTargetProfile;

@@ -119,7 +119,9 @@ describe('Integration | Repository | Target-profile-share', function () {
 
       await databaseBuilder.commit();
 
-      const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
+      const targetProfileOrganizations = domainBuilder.buildOrganizationsToAttachToTargetProfile({
+        id: targetProfileId,
+      });
 
       targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
@@ -135,7 +137,9 @@ describe('Integration | Repository | Target-profile-share', function () {
 
       await databaseBuilder.commit();
 
-      const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
+      const targetProfileOrganizations = domainBuilder.buildOrganizationsToAttachToTargetProfile({
+        id: targetProfileId,
+      });
 
       targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
@@ -157,7 +161,9 @@ describe('Integration | Repository | Target-profile-share', function () {
 
         await databaseBuilder.commit();
 
-        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
+        const targetProfileOrganizations = domainBuilder.buildOrganizationsToAttachToTargetProfile({
+          id: targetProfileId,
+        });
 
         targetProfileOrganizations.attach([unknownOrganizationId, organizationId]);
 
@@ -181,7 +187,9 @@ describe('Integration | Repository | Target-profile-share', function () {
 
         await databaseBuilder.commit();
 
-        const targetProfileOrganizations = domainBuilder.buildTargetProfileOrganizations({ id: targetProfileId });
+        const targetProfileOrganizations = domainBuilder.buildOrganizationsToAttachToTargetProfile({
+          id: targetProfileId,
+        });
 
         targetProfileOrganizations.attach([firstOrganization.id, secondOrganization.id]);
 
