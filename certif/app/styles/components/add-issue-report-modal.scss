@@ -3,132 +3,89 @@
 .add-issue-report-modal {
   min-width: 650px;
   max-width: 650px;
+  margin: 100px auto; // to fix in pix UI
 
-  &__title {
-    font-family: $open-sans;
-    padding: 12px 32px;
-
-    h1 {
-      font-size: 1.25rem;
-      color: $grey-80;
-      margin: 0;
-      margin-bottom: 4px;
-    }
-
-    h3 {
-      font-size: 0.875rem;
-      color: $grey-50;
-      margin: 0;
-    }
+  input {
+    outline: 2px transparent;
   }
 
-  &__content {
-    font-size: 0.875rem;
-    color: $grey-70;
-    border-top: 1px solid $grey-20;
-    border-bottom: 1px solid $grey-20;
-    padding: 22px 32px;
-    background-color: $grey-10;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-
-    input {
-      outline: 2px transparent;
-    }
-
-    .add-issue-report-modal-content {
-
-      label[for^="subcategory-for-category"],
-      label[for^="text-area-for-category"] {
-        display: block;
-        margin-bottom: 4px;
-      }
-
-      .pix-select select {
-        width: 100%;
-      }
-
-      label[for^="text-area-for-category"] {
-        margin-top: 16px;
-      }
-
-      fieldset {
-        border: 0;
-        padding: 0;
-        margin: 0;
-        min-width: 0;
-        margin-bottom: 22px;
-
-        label[for^="input-radio-for-category"] span {
-          font-weight: bold;
-        }
-
-        input[id|="input-radio-for-category"] {
-          background-color: $communication-light;
-          transform: scale(1.2);
-          margin: 0;
-          cursor: pointer;
-
-          span {
-            font-weight: bold;
-          }
-        }
-
-        input[id|="input-for-category-in-challenge-question-number"] {
-          box-sizing: border-box;
-          margin-left: 8px;
-          border: 1.2px solid $blue-zodiac;
-          border-radius: 4px;
-          padding: 2px  8px;
-
-          &:focus {
-            outline: 2px solid $communication-dark;
-            -moz-outline-radius: 4px;
-            border-color: transparent;
-          }
-
-          &::placeholder {
-            color: transparent;
-          }
-
-          &:not(:placeholder-shown):invalid {
-            outline: 2px solid $information-dark;
-            -moz-outline-radius: 4px;
-            border: none;
-          }
-        }
-
-        label[for|="input-radio-for-category"] {
-          margin-left: 16px;
-          cursor: pointer;
-        }
-
-        label[for|="subcategory-for-category-in-challenge"] {
-          margin: 16px 0 8px;
-        }
-      }
-
-      div[class$="certification-issue-report-fields__details"] {
-        margin-top: 16px;
-        padding-left: 32px;
-
-        textarea {
-          box-shadow: none;
-          min-height: 82px;
-        }
-      }
-    }
+  label[for^="subcategory-for-category"],
+  label[for^="text-area-for-category"] {
+    display: block;
+    margin-bottom: 4px;
   }
 
-  &__actions {
-    background-color: $grey-10;
-    padding: 16px 32px;
-    display: flex;
-    justify-content: flex-end;
-    border-radius: 0 0 5px 5px;
+  .pix-select select {
+    width: 100%;
+  }
 
-    .pix-button {
+  label[for^="text-area-for-category"] {
+    margin-top: 16px;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    margin-bottom: 22px;
+
+    label[for^="input-radio-for-category"] span {
+      font-weight: bold;
+    }
+
+    input[id|="input-radio-for-category"] {
+      background-color: $communication-light;
+      transform: scale(1.2);
+      margin: 0;
+      cursor: pointer;
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    input[id|="input-for-category-in-challenge-question-number"] {
+      box-sizing: border-box;
+      margin-left: 8px;
+      border: 1.2px solid $blue-zodiac;
+      border-radius: 4px;
+      padding: 2px  8px;
+
+      &:focus {
+        outline: 2px solid $communication-dark;
+        -moz-outline-radius: 4px;
+        border-color: transparent;
+      }
+
+      &::placeholder {
+        color: transparent;
+      }
+
+      &:not(:placeholder-shown):invalid {
+        outline: 2px solid $information-dark;
+        -moz-outline-radius: 4px;
+        border: none;
+      }
+    }
+
+    label[for|="input-radio-for-category"] {
       margin-left: 16px;
+      cursor: pointer;
+    }
+
+    label[for|="subcategory-for-category-in-challenge"] {
+      margin: 16px 0 8px;
+    }
+  }
+
+  div[class$="certification-issue-report-fields__details"] {
+    margin-top: 16px;
+    padding-left: 32px;
+
+    textarea {
+      box-shadow: none;
+      min-height: 82px;
     }
   }
 }
