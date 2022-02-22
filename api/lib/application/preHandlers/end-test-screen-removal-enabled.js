@@ -1,11 +1,25 @@
-const { SupervisorAccessNotAuthorizedError } = require('../../domain/errors');
+const {
+  SupervisorAccessNotAuthorizedError,
+  NotFoundError,
+  InvalidSessionSupervisingLoginError,
+} = require('../../domain/errors');
 const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
+const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
 
 module.exports = {
   async verifyBySessionId(request) {
     let sessionId = request.params?.id;
     if (!sessionId) {
       sessionId = request.payload.data.attributes['session-id'];
+    }
+
+    try {
+      await sessionRepository.get(sessionId);
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw new InvalidSessionSupervisingLoginError();
+      }
+      throw error;
     }
 
     const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
