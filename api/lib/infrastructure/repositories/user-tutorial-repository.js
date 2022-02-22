@@ -1,5 +1,8 @@
 const { knex } = require('../../../db/knex-database-connection');
+const Tutorial = require('../../domain/models/Tutorial');
 const UserTutorial = require('../../domain/models/UserTutorial');
+const UserTutorialWithTutorial = require('../../domain/models/UserTutorialWithTutorial');
+const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
@@ -14,6 +17,19 @@ module.exports = {
   async find({ userId }) {
     const userTutorials = await knex('user_tutorials').where({ userId });
     return userTutorials.map(_toDomain);
+  },
+
+  async findWithTutorial({ userId }) {
+    const userTutorials = await knex('user_tutorials').where({ userId });
+    return Promise.all(
+      userTutorials.map(async (userTutorial) => {
+        const tutorial = await tutorialDatasource.get(userTutorial.tutorialId);
+        return new UserTutorialWithTutorial({
+          ...userTutorial,
+          tutorial: new Tutorial(tutorial),
+        });
+      })
+    );
   },
 
   async removeFromUser(userTutorial) {
