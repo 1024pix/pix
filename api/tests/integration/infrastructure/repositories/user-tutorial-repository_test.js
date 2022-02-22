@@ -1,6 +1,8 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 const UserTutorial = require('../../../../lib/domain/models/UserTutorial');
+const UserTutorialWithTutorial = require('../../../../lib/domain/models/UserTutorialWithTutorial');
+const Tutorial = require('../../../../lib/domain/models/Tutorial');
 
 describe('Integration | Infrastructure | Repository | user-tutorial-repository', function () {
   let userId;
@@ -70,15 +72,52 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
         expect(userTutorials[0]).to.have.property('userId', userId);
         expect(userTutorials[0]).to.be.instanceOf(UserTutorial);
+        expect(userTutorials[0].tutorialId).to.equal(tutorialId);
       });
     });
 
     context('when user has not saved tutorial', function () {
-      it('should empty array', async function () {
+      it('should return an empty list', async function () {
         const userTutorials = await userTutorialRepository.find({ userId });
 
         // then
         expect(userTutorials).to.deep.equal([]);
+      });
+    });
+  });
+
+  describe('#findWithTutorial', function () {
+    context('when user has saved tutorials', function () {
+      it('should return user-tutorials belonging to given user', async function () {
+        // given
+        const tutorialId = 'recTutorial';
+
+        const learningContent = {
+          tutorials: [{ id: tutorialId }],
+        };
+        mockLearningContent(learningContent);
+
+        databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const userTutorialsWithTutorials = await userTutorialRepository.findWithTutorial({ userId });
+
+        // then
+        expect(userTutorialsWithTutorials).to.have.length(1);
+        expect(userTutorialsWithTutorials[0]).to.have.property('userId', userId);
+        expect(userTutorialsWithTutorials[0]).to.be.instanceOf(UserTutorialWithTutorial);
+        expect(userTutorialsWithTutorials[0].tutorial).to.be.instanceOf(Tutorial);
+        expect(userTutorialsWithTutorials[0].tutorial.id).to.equal(tutorialId);
+      });
+    });
+
+    context('when user has not saved tutorial', function () {
+      it('should return an empty list', async function () {
+        const userTutorialsWithTutorials = await userTutorialRepository.findWithTutorial({ userId });
+
+        // then
+        expect(userTutorialsWithTutorials).to.deep.equal([]);
       });
     });
   });
