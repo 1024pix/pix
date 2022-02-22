@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
@@ -29,7 +30,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     this.set('onClickIssueReport', onClickIssueReportStub);
 
     // when
-    await render(hbs`
+    const { getByRole } = await render(hbs`
       <IssueReportModal::IssueReportsModal
         @report={{this.reportToEdit}}
         @closeModal={{this.closeIssueReportsModal}}
@@ -38,8 +39,8 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     `);
 
     // then
-    const reportModalTitleSelector = '.add-issue-report-modal__title h3';
-    assert.dom(reportModalTitleSelector).hasText('Lisa Monpud');
+    assert.dom(getByRole('heading', { name: 'Signalement du candidat' })).exists();
+    assert.dom(getByRole('heading', { name: 'Lisa Monpud' })).exists();
   });
 
   test('it should close modal onclick "Ajouter un signalement"', async function (assert) {
@@ -57,14 +58,14 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     this.set('closeIssueReportsModal', closeIssueReportsModalStub);
 
     // when
-    await render(hbs`
+    const { getByRole } = await render(hbs`
       <IssueReportModal::IssueReportsModal
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
       />
     `);
-    await click('.add-issue-report-modal__content button');
+    await click(getByRole('button', { name: 'Ajouter un signalement' }));
 
     // then
     assert.ok(onClickIssueReportStub.calledOnceWith(report));
