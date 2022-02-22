@@ -18,6 +18,7 @@ class TargetProfileWithLearningContent {
     stages = [],
     imageUrl,
     category,
+    isSimplifiedAccess,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -35,6 +36,7 @@ class TargetProfileWithLearningContent {
     this.stages = _.sortBy(stages, 'threshold');
     this.imageUrl = imageUrl;
     this.category = category;
+    this.isSimplifiedAccess = isSimplifiedAccess;
   }
 
   get skillNames() {
