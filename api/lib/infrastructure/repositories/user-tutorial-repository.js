@@ -1,4 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
+const UserTutorial = require('../../domain/models/UserTutorial');
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
@@ -21,9 +22,9 @@ module.exports = {
 };
 
 function _toDomain(userTutorial) {
-  return {
+  return new UserTutorial({
     id: userTutorial.id,
     tutorialId: userTutorial.tutorialId,
     userId: userTutorial.userId,
-  };
+  });
 }
