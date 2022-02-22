@@ -1,28 +1,16 @@
-const { AuthenticationMethodAlreadyExistsError, AuthenticationMethodNotFoundError } = require('../errors');
-const _ = require('lodash');
+const { AuthenticationMethodAlreadyExistsError } = require('../errors');
 
 module.exports = async function reassignAuthenticationMethodToAnotherUser({
   originUserId,
   targetUserId,
   authenticationMethodId,
-  userRepository,
   authenticationMethodRepository,
 }) {
-  await userRepository.get(originUserId);
-  await userRepository.get(targetUserId);
-
-  const originUserIdAuthenticationMethods = await authenticationMethodRepository.findByUserId({ userId: originUserId });
-  const authenticationMethodToReassign = originUserIdAuthenticationMethods.filter(
-    (authenticationMethod) => authenticationMethod.id === authenticationMethodId
-  );
-
-  _checkIfUserHasThisAuthenticationMethod({
+  const authenticationMethodToReassign = await authenticationMethodRepository.getByIdAndUserId({
+    id: authenticationMethodId,
     userId: originUserId,
-    authenticationMethodId,
-    userAuthenticationMethods: authenticationMethodToReassign,
   });
-
-  const identityProviderToReassign = authenticationMethodToReassign[0].identityProvider;
+  const identityProviderToReassign = authenticationMethodToReassign.identityProvider;
 
   await _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
     targetUserId,
@@ -36,13 +24,6 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
     targetUserId,
   });
 };
-
-function _checkIfUserHasThisAuthenticationMethod({ userId, authenticationMethodId, userAuthenticationMethods }) {
-  if (_.isEmpty(userAuthenticationMethods))
-    throw new AuthenticationMethodNotFoundError(
-      `La méthode de connexion ${authenticationMethodId} n'est pas rattachée à l'utilisateur ${userId}.`
-    );
-}
 
 async function _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
   targetUserId,

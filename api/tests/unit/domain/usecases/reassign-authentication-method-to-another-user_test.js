@@ -3,43 +3,14 @@ const reassignAuthenticationMethodToAnotherUser = require('../../../../lib/domai
 const { AuthenticationMethodAlreadyExistsError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reassign-authentication-method-to-another-user', function () {
-  let authenticationMethodRepository, userRepository;
+  let authenticationMethodRepository;
 
   beforeEach(function () {
-    userRepository = {
-      get: sinon.stub(),
-    };
     authenticationMethodRepository = {
+      getByIdAndUserId: sinon.stub(),
       updateAuthenticationMethodUserId: sinon.stub(),
       findByUserId: sinon.stub(),
     };
-  });
-
-  context('When authentication method id does not match with origin user id', function () {
-    it('should throw an error', async function () {
-      // given
-      const wrongAuthenticationMethodId = 1234;
-      const originUserId = domainBuilder.buildUser({ id: 1 }).id;
-      domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
-        userId: originUserId,
-      });
-      const targetUserId = domainBuilder.buildUser({ id: 2 }).id;
-
-      authenticationMethodRepository.findByUserId.withArgs({ userId: originUserId }).resolves([]);
-
-      // when
-      const error = await catchErr(reassignAuthenticationMethodToAnotherUser)({
-        originUserId,
-        targetUserId,
-        userRepository,
-        authenticationMethodId: wrongAuthenticationMethodId,
-        authenticationMethodRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
-      expect(error.message).to.equal("La méthode de connexion 1234 n'est pas rattachée à l'utilisateur 1.");
-    });
   });
 
   context('When target user already has an authentication method with same identity provider', function () {
@@ -56,9 +27,9 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
       const poleEmploiAuthenticationMethodFromTargetUser =
         domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: targetUserId });
 
-      authenticationMethodRepository.findByUserId
-        .withArgs({ userId: originUserId })
-        .resolves([garAuthenticationMethodFromOriginUser]);
+      authenticationMethodRepository.getByIdAndUserId
+        .withArgs({ id: garAuthenticationMethodFromOriginUser.id, userId: originUserId })
+        .resolves(garAuthenticationMethodFromOriginUser);
       authenticationMethodRepository.findByUserId
         .withArgs({ userId: targetUserId })
         .resolves([garAuthenticationMethodFromTargetUser, poleEmploiAuthenticationMethodFromTargetUser]);
@@ -68,7 +39,6 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
         originUserId: originUserId,
         targetUserId: targetUserId,
         authenticationMethodId: garAuthenticationMethodFromOriginUser.id,
-        userRepository,
         authenticationMethodRepository,
       });
 
@@ -88,9 +58,9 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
     const poleEmploiAuthenticationMethodFromTargetUser =
       domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: targetUserId });
 
-    authenticationMethodRepository.findByUserId
-      .withArgs({ userId: originUserId })
-      .resolves([garAuthenticationMethodFromOriginUser]);
+    authenticationMethodRepository.getByIdAndUserId
+      .withArgs({ id: garAuthenticationMethodFromOriginUser.id, userId: originUserId })
+      .resolves(garAuthenticationMethodFromOriginUser);
     authenticationMethodRepository.findByUserId
       .withArgs({ userId: targetUserId })
       .resolves([poleEmploiAuthenticationMethodFromTargetUser]);
@@ -100,7 +70,6 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
       originUserId: originUserId,
       targetUserId: targetUserId,
       authenticationMethodId: garAuthenticationMethodFromOriginUser.id,
-      userRepository,
       authenticationMethodRepository,
     });
 
@@ -124,9 +93,9 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
       userId: targetUserId,
     });
 
-    authenticationMethodRepository.findByUserId
-      .withArgs({ userId: originUserId })
-      .resolves([poleEmploiAuthenticationMethodFromOriginUser]);
+    authenticationMethodRepository.getByIdAndUserId
+      .withArgs({ id: poleEmploiAuthenticationMethodFromOriginUser.id, userId: originUserId })
+      .resolves(poleEmploiAuthenticationMethodFromOriginUser);
     authenticationMethodRepository.findByUserId
       .withArgs({ userId: targetUserId })
       .resolves([garAuthenticationMethodFromTargetUser]);
@@ -136,7 +105,6 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
       originUserId: originUserId,
       targetUserId: targetUserId,
       authenticationMethodId: poleEmploiAuthenticationMethodFromOriginUser.id,
-      userRepository,
       authenticationMethodRepository,
     });
 
