@@ -8,7 +8,6 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
   userRepository,
   authenticationMethodRepository,
 }) {
-  // check les users existent
   await userRepository.get(originUserId);
   await userRepository.get(targetUserId);
 
@@ -17,19 +16,18 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
     (authenticationMethod) => authenticationMethod.id === authenticationMethodId
   );
 
-  _checkIUserHasThisAuthenticationMethod({
+  _checkIfUserHasThisAuthenticationMethod({
     userId: originUserId,
     authenticationMethodId,
     userAuthenticationMethods: authenticationMethodToReassign,
   });
 
   const identityProviderToReassign = authenticationMethodToReassign[0].identityProvider;
-  const targetUserAuthenticationMethods = await authenticationMethodRepository.findByUserId({ userId: targetUserId });
 
-  _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
+  await _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
     targetUserId,
     identityProviderToReassign,
-    targetUserAuthenticationMethods,
+    authenticationMethodRepository,
   });
 
   await authenticationMethodRepository.updateAuthenticationMethodUserId({
@@ -39,18 +37,19 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
   });
 };
 
-function _checkIUserHasThisAuthenticationMethod({ userId, authenticationMethodId, userAuthenticationMethods }) {
+function _checkIfUserHasThisAuthenticationMethod({ userId, authenticationMethodId, userAuthenticationMethods }) {
   if (_.isEmpty(userAuthenticationMethods))
     throw new AuthenticationMethodNotFoundError(
       `La méthode de connexion ${authenticationMethodId} n'est pas rattachée à l'utilisateur ${userId}.`
     );
 }
 
-function _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
+async function _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
   targetUserId,
   identityProviderToReassign,
-  targetUserAuthenticationMethods,
+  authenticationMethodRepository,
 }) {
+  const targetUserAuthenticationMethods = await authenticationMethodRepository.findByUserId({ userId: targetUserId });
   const hasTargetAnAuthenticationMethodWithProvider = targetUserAuthenticationMethods.find(
     (authenticationMethod) => authenticationMethod.identityProvider === identityProviderToReassign
   );
