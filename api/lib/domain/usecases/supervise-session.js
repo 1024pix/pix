@@ -1,4 +1,4 @@
-const { SessionNotAccessible, InvalidSessionSupervisorPasswordError } = require('../errors');
+const { SessionNotAccessible, InvalidSessionSupervisingLoginError } = require('../errors');
 module.exports = async function superviseSession({
   sessionId,
   supervisorPassword,
@@ -8,7 +8,7 @@ module.exports = async function superviseSession({
 }) {
   const session = await sessionRepository.get(sessionId);
   if (!session.isSupervisable(supervisorPassword)) {
-    throw new InvalidSessionSupervisorPasswordError();
+    throw new InvalidSessionSupervisingLoginError();
   }
   if (!session.isAccessible()) {
     throw new SessionNotAccessible();
