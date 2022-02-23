@@ -33,18 +33,14 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
   context('when there is user tutorial and tutorial', function () {
     it('should serialize', function () {
       // given
-      const userTutorial = {
-        id: 'userTutorialId',
-        userId: 'userId',
-        tutorial: domainBuilder.buildTutorial({ id: 'tutorialId' }),
-      };
-
+      const tutorial = domainBuilder.buildTutorial({ id: 'tutorialId' });
+      const userTutorialWithTutorial = domainBuilder.buildUserTutorialWithTutorial({ id: 123, userId: 456, tutorial });
       const expectedJsonUserTutorial = {
         data: {
           type: 'user-tutorials',
-          id: 'userTutorialId',
+          id: '123',
           attributes: {
-            'user-id': 'userId',
+            'user-id': 456,
           },
           relationships: {
             tutorial: {
@@ -71,7 +67,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
         ],
       };
       // when
-      const json = serializer.serialize(userTutorial);
+      const json = serializer.serialize(userTutorialWithTutorial);
 
       // then
       expect(json).to.be.deep.equal(expectedJsonUserTutorial);
