@@ -54,6 +54,24 @@ describe('Integration | Repository | Certification Center Membership', function 
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
     });
 
+    context('when there is already a disabled membership for the same user and certification center', function () {
+      it('should add a new membership in database', async function () {
+        // given
+        databaseBuilder.factory.buildMembership({ userId, certificationCenterId, disabledAt: new Date() });
+        await databaseBuilder.commit();
+        const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
+
+        // when
+        await certificationCenterMembershipRepository.save({ userId, certificationCenterId });
+
+        // then
+        const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
+        expect(countCertificationCenterMembershipsAfterCreate).to.equal(
+          countCertificationCenterMembershipsBeforeCreate + 1
+        );
+      });
+    });
+
     context('Error cases', function () {
       beforeEach(async function () {
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
