@@ -42,7 +42,10 @@ function _toDomain(certificationCenterMembershipDTO) {
 
 module.exports = {
   async findByUserId(userId) {
-    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({ userId }).fetchAll({
+    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({
+      userId,
+      disabledAt: null,
+    }).fetchAll({
       withRelated: ['certificationCenter'],
     });
 
@@ -129,6 +132,7 @@ module.exports = {
       .where({
         userId,
         certificationCenterId,
+        disabledAt: null,
       })
       .first();
 
