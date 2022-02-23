@@ -80,6 +80,7 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     email: 'harry@cover.com',
     pixOrgaTermsOfServiceAccepted: true,
   });
+  server.create('member-identity', { id: user.id, firstName: 'Harry', lastName: 'Cover' });
   return _addUserToOrganization(user, { externalId: 'EXTBRO' });
 }
 

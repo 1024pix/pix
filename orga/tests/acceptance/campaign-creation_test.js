@@ -9,11 +9,7 @@ import {
 } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser,
-  createMembershipByOrganizationIdAndUser,
-} from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -128,44 +124,6 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       // then
       assert.dom(screen.getByText('Harry Cover', { selector: 'dd' })).exists();
-    });
-
-    test('it should be possible to change default campaign owner', async function (assert) {
-      // given
-      const organization = server.create('organization', { name: 'BRO & Evil Associates' });
-
-      const currentUser = server.create('user', {
-        id: 7,
-        firstName: 'Coco',
-        lastName: 'Cover',
-        email: 'harry@cover.com',
-        pixOrgaTermsOfServiceAccepted: true,
-      });
-      currentUser.userOrgaSettings = server.create('user-orga-setting', { user: currentUser, organization });
-      const currentUserWithMembership = createMembershipByOrganizationIdAndUser(organization.id, currentUser);
-      createPrescriberByUser(currentUserWithMembership);
-
-      server.create('member-identity', {
-        id: currentUser.id,
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-      });
-      server.create('member-identity', { firstName: 'Tom', lastName: 'Égérie' });
-
-      await authenticateSession(currentUser.id);
-
-      const screen = await visit('/campagnes/creation');
-
-      await fillByLabel('* Nom de la campagne', 'Ma Campagne');
-      await clickByName('Évaluer les participants');
-      await selectByLabelAndOption('Que souhaitez-vous tester ?', availableTargetProfiles[1].name);
-
-      // when
-      await selectByLabelAndOption(this.intl.t('pages.campaign-creation.owner.label'), 'Tom Égérie');
-      await clickByName('Créer la campagne');
-
-      // then
-      assert.dom(screen.getByText('Tom Égérie', { selector: 'dd' })).exists();
     });
 
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {

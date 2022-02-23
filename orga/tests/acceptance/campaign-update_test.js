@@ -15,7 +15,7 @@ module('Acceptance | Campaign Update', function (hooks) {
     // given
     const { user } = createAdmin();
     await authenticateSession(user.id);
-    const campaign = server.create('campaign', { id: 1, name: 'Super Campagne' });
+    const campaign = server.create('campaign', { id: 1, name: 'Super Campagne', ownerId: user.id });
 
     // when
     const screen = await visitScreen(`/campagnes/${campaign.id}/modification`);
@@ -29,7 +29,7 @@ module('Acceptance | Campaign Update', function (hooks) {
       // given
       const { user } = createAdmin();
       await authenticateSession(user.id);
-      const campaign = server.create('campaign', { id: 1 });
+      const campaign = server.create('campaign', { id: 1, ownerId: user.id });
       const newName = 'New Name';
       const newText = 'New text';
 

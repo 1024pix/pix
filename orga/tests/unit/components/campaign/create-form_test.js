@@ -126,10 +126,10 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         { id: 7, fullName: 'Thierry Golo' },
       ];
       const component = await createGlimmerComponent('component:campaign/create-form', { membersSortedByFullName });
-      const event = { target: { value: 'Thierry Golo' } };
+      const newOwnerId = 7;
 
       //when
-      await component.onChangeCampaignOwner(event);
+      await component.onChangeCampaignOwner(newOwnerId);
 
       //then
       assert.deepEqual(component.campaign.ownerId, 7);
