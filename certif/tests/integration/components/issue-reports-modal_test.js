@@ -39,8 +39,7 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     `);
 
     // then
-    assert.dom(getByRole('heading', { name: 'Signalement du candidat' })).exists();
-    assert.dom(getByRole('heading', { name: 'Lisa Monpud' })).exists();
+    assert.dom(getByRole('heading', { name: 'Signalement du candidat : Lisa Monpud' })).exists();
   });
 
   test('it should close modal onclick "Ajouter un signalement"', async function (assert) {
