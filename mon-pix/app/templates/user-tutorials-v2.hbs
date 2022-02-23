@@ -3,11 +3,9 @@
     <NavbarHeader @burger={{burger}} />
     <Tutorials::Header />
     <main id="main" class="main">
-      <article class="user-tutorials-content-v2">
-        <div class="user-tutorials-content-v2__container">
-          {{outlet}}
-        </div>
-      </article>
+      <div class="user-tutorials-content-v2">
+        {{outlet}}
+      </div>
     </main>
     <Footer />
   </burger.outlet>

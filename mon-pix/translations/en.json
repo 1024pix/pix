@@ -1473,7 +1473,11 @@
       "title": "My tutorials",
       "description": "Improve with the help of tutorials suggested by the Pix users’ community.",
       "recommended": "Recommended",
-      "saved": "Saved"
+      "saved": "Saved",
+      "saved-empty": {
+        "title": "No tutorials saved yet",
+        "description": "You need to save a tutorial for it to be displayed here."
+      }
     }
   }
 }
