@@ -1,7 +1,7 @@
 {{#if @model}}
   <div class="user-tutorials-content-v2__container">
-    {{#each @model as |userTutorial|}}
-      <Tutorials::Card @tutorial={{userTutorial.tutorial}} />
+    {{#each @model as |tutorial|}}
+      <Tutorials::Card @tutorial={{tutorial}} />
     {{/each}}
   </div>
 {{else}}

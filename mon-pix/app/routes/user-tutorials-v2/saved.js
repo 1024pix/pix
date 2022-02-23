@@ -8,9 +8,7 @@ export default class UserTutorialsSavedRoute extends Route {
     if (!this.featureToggles.featureToggles.isNewTutorialsPageEnabled) this.router.replaceWith('user-tutorials');
   }
 
-  async model() {
-    const userTutorials = await this.store.findAll('user-tutorial', { reload: true });
-    userTutorials.sortBy('updatedAt').reverse();
-    return userTutorials;
+  model() {
+    return this.store.query('tutorial', { type: 'saved' }, { reload: true });
   }
 }
