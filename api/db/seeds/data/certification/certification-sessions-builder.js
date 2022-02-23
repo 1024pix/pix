@@ -1,4 +1,11 @@
-const { SCO_COLLEGE_CERTIF_CENTER_ID, SCO_COLLEGE_CERTIF_CENTER_NAME, DROIT_CERTIF_CENTER_ID, DROIT_CERTIF_CENTER_NAME, SUP_CERTIF_CENTER_NAME, SUP_CERTIF_CENTER_ID } = require('./certification-centers-builder');
+const {
+  SCO_COLLEGE_CERTIF_CENTER_ID,
+  SCO_COLLEGE_CERTIF_CENTER_NAME,
+  DROIT_CERTIF_CENTER_ID,
+  DROIT_CERTIF_CENTER_NAME,
+  SUP_CERTIF_CENTER_NAME,
+  SUP_CERTIF_CENTER_ID,
+} = require('./certification-centers-builder');
 const { PIX_MASTER_ID } = require('./../users-builder');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
@@ -91,6 +98,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     publishedAt: null,
     date, time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    assignedCertificationOfficerName: 'Pix Master',
   });
 
   databaseBuilder.factory.buildSession({
@@ -153,11 +161,22 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     finalizedAt: null,
     publishedAt: null,
   });
-  databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId,
-    finalizedAt: new Date('2018-01-01T00:00:00Z'),
+  const finalizedSession = databaseBuilder.factory.buildSession({
+    certificationCenter, certificationCenterId, address,
+    createdAt: new Date('2018-01-01T00:00:00Z'),
+    date: '2018-01-02',
+    finalizedAt: new Date('2018-01-03T00:00:00Z'),
     publishedAt: null,
   });
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId: finalizedSession.id,
+    certificationCenterName: certificationCenter,
+    isPublishable: true,
+    date: '2018-01-02', time,
+    finalizedAt: new Date('2018-01-03T00:00:00Z'),
+    publishedAt: null,
+  });
+
   databaseBuilder.factory.buildSession({
     certificationCenter, certificationCenterId,
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
