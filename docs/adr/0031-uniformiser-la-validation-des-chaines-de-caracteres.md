@@ -79,7 +79,7 @@ On n'autorise que deux intentions claires côté validation :
 #### Inconvénients
 
 - On faut changer le code backend pour gérer les chaînes vides correctement côté API
-- Dans la majorité des usages en terme de validation on utilise `null` à l'heure actuelle
+- Dans la majorité des usages en termes de validation on utilise `null` à l'heure actuelle
 - API est plus restrictive
 
 Si on décide de stocker en base de données la valeur `""` :
@@ -88,19 +88,19 @@ Si on décide de stocker en base de données la valeur `""` :
 
 ### Solution n°3 : Utiliser des solutions spécifiques 
 
-On va définir la validation des propriété de type texte en fonction de usages pour avoir la solution la plus adaptée possible.
+On va définir la validation des propriétés de type texte en fonction des usages pour avoir la solution la plus adaptée possible.
 
-On n'autorise des valeurs multiples côté validation qui peuvent réfleter un ensemble d'intentions diverses (`""`, `" "`, une chaîne différente de `""` ou `" "`, `undefined` ou encore `null`).
+On n'autorise des valeurs multiples côté validation qui peuvent réfléter un ensemble d'intentions diverses (`""`, `" "`, une chaîne différente de `""` ou `" "`, `undefined` ou encore `null`).
 
 #### Avantages 
 
-- On a une solution adapté à notre cas particulier qui justifie l'usage d'une chaîne vide plutôt que `null` 
+- On a une solution adaptée à notre cas particulier qui justifie l'usage d'une chaîne vide plutôt que `null` 
 - API permissive
 
 #### Inconvénients
 
 - Les développeurs doivent systématiquement se poser la question (charge cognitive en plus)
-- Les intentions ne sont pas clairement définis entre (`""`, `null` ou `undefined`). Elle peuvent varier d'un usage à un autre.
+- Les intentions ne sont pas clairement définies entre (`""`, `null` ou `undefined`). Elles peuvent varier d'un usage à un autre.
 - Pas d'uniformisation du design de l'API
 
 ### Décisions
@@ -109,13 +109,13 @@ On choisit donc la solution n°1 qui semble répondre le mieux à la problémati
 
 ### Conséquences
 
-On utilise la validation Joi (dans le routeur ou le domaine) suivante pour les propriété de type texte : 
+On utilise la validation Joi (dans le routeur ou le domaine) suivante pour les propriétés de type texte : 
 
 ```js
 Joi.string().allow(null).required()
 ```
 
-On ajoute le transform suivante dans les application Ember pour éviter l'utilisation de ternaire :
+On ajoute le transform suivante dans les applications Ember pour éviter l'utilisation de ternaire :
 
 ```js
 import Transform from '@ember-data/serializer/transform';
