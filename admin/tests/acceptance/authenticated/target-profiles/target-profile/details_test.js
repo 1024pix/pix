@@ -1,8 +1,6 @@
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { click, currentURL, visit } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-
-import clickByLabel from 'pix-admin/tests/helpers/extended-ember-test-helpers/click-by-label';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -20,9 +18,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       await visit('/target-profiles/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.deepEqual(currentURL(), '/login');
     });
   });
 
@@ -40,9 +36,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       await visit('/target-profiles/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/target-profiles/1');
+      assert.deepEqual(currentURL(), '/target-profiles/1');
     });
 
     test('it should display target profile details', async function (assert) {
@@ -91,12 +85,12 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      await visit('/target-profiles/1');
+      const screen = await visitScreen('/target-profiles/1');
 
       // then
-      assert.contains('Competence 1');
-      assert.contains('Area 1');
-      assert.contains('Tube 1');
+      assert.dom(screen.getByText('Competence 1')).exists();
+      assert.dom(screen.getByText('Area 1')).exists();
+      assert.dom(screen.getByText('Tube 1')).exists();
     });
 
     test('it should redirect to organization details on click', async function (assert) {
@@ -109,9 +103,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       await click('a[href="/organizations/456"]');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/organizations/456/team');
+      assert.deepEqual(currentURL(), '/organizations/456/team');
     });
 
     test('it should display target profile organizations', async function (assert) {
@@ -120,12 +112,12 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       server.create('target-profile', { id: 1, name: 'Profil Cible' });
 
       // when
-      await visit('/target-profiles/1/organizations');
+      const screen = await visitScreen('/target-profiles/1/organizations');
 
       // then
-      assert.dom('[aria-label="Organisation"]').containsText('Fantastix');
-      assert.dom('[aria-label="Organisation"]').containsText('PRO');
-      assert.dom('[aria-label="Organisation"]').containsText('123');
+      assert.dom(screen.getByText('Fantastix')).exists();
+      assert.dom(screen.getByText('PRO')).exists();
+      assert.dom(screen.getByText('123')).exists();
     });
 
     test('it should switch to edition mode', async function (assert) {
@@ -139,11 +131,11 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      await visit('/target-profiles/1');
-      await clickByLabel('Editer');
+      const screen = await visitScreen('/target-profiles/1');
+      await clickByName('Editer');
 
       // then
-      assert.dom('Editer').doesNotExist();
+      assert.dom(screen.queryByLabelText('Editer')).doesNotExist();
     });
 
     test('it should outdate target profile', async function (assert) {
@@ -157,13 +149,13 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      await visit('/target-profiles/1');
-      await clickByLabel('Marquer comme obsolète');
+      const screen = await visitScreen('/target-profiles/1');
+      await clickByName('Marquer comme obsolète');
 
-      await clickByLabel('Oui, marquer comme obsolète');
+      await clickByName('Oui, marquer comme obsolète');
 
       // then
-      assert.dom('section').containsText('Obsolète : Oui');
+      assert.dom(screen.getByText('Obsolète : Oui')).exists();
     });
 
     test('it should not outdate target profile', async function (assert) {
@@ -177,13 +169,13 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      await visit('/target-profiles/1');
-      await clickByLabel('Marquer comme obsolète');
+      const screen = await visitScreen('/target-profiles/1');
+      await clickByName('Marquer comme obsolète');
 
-      await clickByLabel('Non, annuler');
+      await clickByName('Non, annuler');
 
       // then
-      assert.dom('section').containsText('Obsolète : Non');
+      assert.dom(screen.getByText('Obsolète : Non')).exists();
     });
 
     test('it should edit target profile name', async function (assert) {
@@ -198,14 +190,14 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      await visit('/target-profiles/1');
-      await click('button[type=button]');
-      await fillIn('#targetProfileName', 'Profil Cible Fantastix Edited');
-      await click('button[type=submit]');
+      const screen = await visitScreen('/target-profiles/1');
+      await clickByName('Editer');
+      await fillByLabel('* Nom', 'Profil Cible Fantastix Edited');
+      await clickByName('Enregistrer');
 
       // then
-      assert.contains('Profil Cible Fantastix Edited');
-      assert.dom('Enregistrer').doesNotExist();
+      assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix Edited' })).exists();
+      assert.dom(screen.queryByLabelText('Enregistrer')).doesNotExist();
     });
 
     test('it should edit target profile category', async function (assert) {
@@ -220,14 +212,14 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      await visit('/target-profiles/1');
-      await click('button[type=button]');
-      await fillIn('#targetProfileCategory', 'CUSTOM');
-      await click('button[type=submit]');
+      const screen = await visitScreen('/target-profiles/1');
+      await clickByName('Editer');
+      await fillByLabel('Catégorie :', 'CUSTOM');
+      await clickByName('Enregistrer');
 
       // then
-      assert.contains('Parcours sur-mesure');
-      assert.dom('Enregistrer').doesNotExist();
+      assert.dom(screen.getByText('Parcours sur-mesure')).exists();
+      assert.dom(screen.queryByLabelText('Enregistrer')).doesNotExist();
     });
   });
 });
