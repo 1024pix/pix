@@ -24,10 +24,13 @@ export default class UpdateForm extends Component {
     return this.args.membersSortedByFullName.map((member) => ({ value: member.id, label: member.fullName }));
   }
 
+  get ownerIdOption() {
+    return this.args.campaign.ownerId.toString();
+  }
+
   @action
-  selectOwner(event) {
-    const newOwnerFullName = event.target.value;
-    const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerFullName === member.fullName);
+  onChangeCampaignOwner(newOwnerId) {
+    const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerId === member.id);
     if (selectedMember) {
       this.args.campaign.ownerId = selectedMember.id;
     }

@@ -31,8 +31,11 @@ export default class CreateForm extends Component {
     this.campaign.ownerId = this.currentUser.prescriber.id;
   }
 
-  get currentUserFullName() {
-    return this.currentUser.prescriber.fullName;
+  get currentUserOptionId() {
+    const currentUserOption = this.args.membersSortedByFullName.find(
+      (member) => member.get('fullName') === this.currentUser.prescriber.fullName
+    );
+    return currentUserOption.get('id');
   }
 
   get categories() {
@@ -174,9 +177,8 @@ export default class CreateForm extends Component {
   }
 
   @action
-  onChangeCampaignOwner(event) {
-    const newOwnerFullName = event.target.value;
-    const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerFullName === member.fullName);
+  onChangeCampaignOwner(newOwnerId) {
+    const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerId === member.id);
     if (selectedMember) {
       this.campaign.ownerId = selectedMember.id;
     }

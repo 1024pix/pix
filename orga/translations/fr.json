@@ -297,6 +297,10 @@
       "owner": {
         "label": "Propriétaire de la campagne",
         "placeholder": "Nom et prénom du propriétaire",
+        "search-placeholder": "Rechercher un propriétaire",
+        "clear-label": "Supprimer la sélection",
+        "expand-label": "Ouvrir le menu déroulant",
+        "collapse-label": "Réduire le menu déroulant",
         "title": "Propriétaire de la campagne",
         "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne."
       },
