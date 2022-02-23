@@ -28,4 +28,35 @@ describe('Unit | Controller | certification-issue-report-controller', function (
       expect(response).to.be.null;
     });
   });
+
+  describe('#manuallyResolve', function () {
+    it('should resolve certification issue report', async function () {
+      // given
+      const request = {
+        params: {
+          id: 100,
+        },
+        payload: {
+          data: {
+            resolution: 'resolved',
+          },
+        },
+      };
+      const manuallyResolveCertificationIssueReportStub = sinon.stub(
+        usecases,
+        'manuallyResolveCertificationIssueReport'
+      );
+      manuallyResolveCertificationIssueReportStub.resolves();
+
+      // when
+      const response = await certificationIssueReportController.manuallyResolve(request, hFake);
+
+      // then
+      expect(response.statusCode).to.deep.equal(204);
+      expect(manuallyResolveCertificationIssueReportStub).has.been.calledOnceWith({
+        certificationIssueReportId: 100,
+        resolution: 'resolved',
+      });
+    });
+  });
 });

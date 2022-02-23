@@ -11,4 +11,15 @@ module.exports = {
 
     return null;
   },
+
+  async manuallyResolve(request, h) {
+    const certificationIssueReportId = request.params.id;
+    const resolution = request.payload.data.resolution;
+    await usecases.manuallyResolveCertificationIssueReport({
+      certificationIssueReportId,
+      resolution,
+    });
+
+    return h.response().code(204);
+  },
 };
