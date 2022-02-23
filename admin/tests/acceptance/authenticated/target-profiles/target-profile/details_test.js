@@ -221,5 +221,41 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       assert.dom(screen.getByText('Parcours sur-mesure')).exists();
       assert.dom(screen.queryByLabelText('Enregistrer')).doesNotExist();
     });
+
+    test('it should mark target profile as simplified access', async function (assert) {
+      // given
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Accès',
+        ownerOrganizationId: 123,
+        isSimplifiedAccess: false,
+      });
+
+      // when
+      const screen = await visitScreen('/target-profiles/1');
+      await clickByName('Marquer comme accès simplifié');
+      await clickByName('Oui, marquer comme accès simplifié');
+
+      // then
+      assert.dom(screen.getByText('Parcours Accès Simplifié : Oui')).exists();
+    });
+
+    module('When target profile is already simplified access', function () {
+      test('it should not display button', async function (assert) {
+        // given
+        server.create('target-profile', {
+          id: 1,
+          name: 'Profil Cible Accès',
+          ownerOrganizationId: 123,
+          isSimplifiedAccess: true,
+        });
+
+        // when
+        const screen = await visitScreen('/target-profiles/1');
+
+        // then
+        assert.dom(screen.queryByLabelText('Marquer comme accès simplifié')).doesNotExist();
+      });
+    });
   });
 });
