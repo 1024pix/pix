@@ -7,6 +7,7 @@ export default class TargetProfileController extends Controller {
 
   @tracked isEditMode = false;
   @tracked displayConfirm = false;
+  @tracked displaySimplifiedAccessPopupConfirm = false;
 
   get isPublic() {
     return this.model.isPublic ? 'Oui' : 'Non';
@@ -31,6 +32,11 @@ export default class TargetProfileController extends Controller {
   }
 
   @action
+  toggleDisplaySimplifiedAccessPopupConfirm() {
+    this.displaySimplifiedAccessPopupConfirm = !this.displaySimplifiedAccessPopupConfirm;
+  }
+
+  @action
   async outdate() {
     this.toggleDisplayConfirm();
     try {
@@ -39,6 +45,18 @@ export default class TargetProfileController extends Controller {
       return this.notifications.success('Profil cible marqué comme obsolète.');
     } catch (responseError) {
       this._handleResponseError(responseError);
+    }
+  }
+
+  @action
+  async markTargetProfileAsSimplifiedAccess() {
+    this.toggleDisplaySimplifiedAccessPopupConfirm();
+    try {
+      await this.model.markTargetProfileAsSimplifiedAccess();
+
+      return this.notifications.success('Ce profil cible a bien été marqué comme accès simplifié.');
+    } catch (responseError) {
+      return this.notifications.error('Une erreur est survenue.');
     }
   }
 

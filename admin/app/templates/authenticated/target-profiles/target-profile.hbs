@@ -57,6 +57,15 @@
           <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>Marquer comme
             obsolète</PixButton>
         {{/unless}}
+        {{#unless @model.isSimplifiedAccess}}
+          <PixButton
+            @size="small"
+            @backgroundColor="yellow"
+            @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
+          >
+            Marquer comme accès simplifié
+          </PixButton>
+        {{/unless}}
       </div>
     </section>
 
@@ -85,5 +94,16 @@
     @confirm={{this.outdate}}
     @cancel={{this.toggleDisplayConfirm}}
     @show={{this.displayConfirm}}
+  />
+
+  <ConfirmPopup
+    @message="Pour tous les utilisateurs qui accéderont à des campagnes avec ce profil cible, l’accès se fera sans inscription et donc sans création de compte. Ils accéderont à ces campagnes de manière anonyme. Cette action est irréversible."
+    @title="Êtes-vous sûr de vouloir marquer ce profil cible comme accès simplifié ?"
+    @submitTitle="Oui, marquer comme accès simplifié"
+    @closeTitle="Non, annuler"
+    @size="lg"
+    @confirm={{this.markTargetProfileAsSimplifiedAccess}}
+    @cancel={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
+    @show={{this.displaySimplifiedAccessPopupConfirm}}
   />
 </main>
