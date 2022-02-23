@@ -130,7 +130,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               id: '4242',
               attributes: {
                 'user-id': 4444,
-                'tutorial-id': 'tutorialId',
               },
               relationships: {
                 tutorial: {
@@ -162,9 +161,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         expect(response.result.data[0].id).to.deep.equal(expectedUserTutorials.data[0].id);
         expect(response.result.data[0].attributes['user-id']).to.deep.equal(
           expectedUserTutorials.data[0].attributes['user-id']
-        );
-        expect(response.result.data[0].attributes['tutorial-id']).to.deep.equal(
-          expectedUserTutorials.data[0].attributes['tutorial-id']
         );
         expect(response.result.data[0].relationships).to.deep.equal(expectedUserTutorials.data[0].relationships);
       });
