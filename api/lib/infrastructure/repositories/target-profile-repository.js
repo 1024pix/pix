@@ -13,6 +13,7 @@ const {
   InvalidSkillSetError,
 } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const TargetProfile = require('../../domain/models/TargetProfile');
 
 module.exports = {
   async create(targetProfileData) {
@@ -134,7 +135,7 @@ module.exports = {
   },
 
   async update(targetProfile) {
-    let targetProfileUpdatedRowCount;
+    let results;
     const editedAttributes = _.pick(targetProfile, [
       'name',
       'outdated',
@@ -144,16 +145,19 @@ module.exports = {
     ]);
 
     try {
-      targetProfileUpdatedRowCount = await knex('target-profiles')
+      results = await knex('target-profiles')
         .where({ id: targetProfile.id })
-        .update(editedAttributes);
+        .update(editedAttributes)
+        .returning(['id', 'isSimplifiedAccess']);
     } catch (error) {
       throw new ObjectValidationError();
     }
 
-    if (targetProfileUpdatedRowCount !== 1) {
+    if (!results.length) {
       throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
     }
+
+    return new TargetProfile(results[0]);
   },
 
   async findOrganizationIds(targetProfileId) {
