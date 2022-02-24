@@ -4,6 +4,7 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
   originUserId,
   targetUserId,
   authenticationMethodId,
+  userRepository,
   authenticationMethodRepository,
 }) {
   const authenticationMethodToReassign = await authenticationMethodRepository.getByIdAndUserId({
@@ -11,6 +12,8 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
     userId: originUserId,
   });
   const identityProviderToReassign = authenticationMethodToReassign.identityProvider;
+
+  await _checkIfTargetUserExists({ targetUserId, userRepository });
 
   await _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
     targetUserId,
@@ -24,6 +27,10 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
     targetUserId,
   });
 };
+
+async function _checkIfTargetUserExists({ targetUserId, userRepository }) {
+  await userRepository.get(targetUserId);
+}
 
 async function _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
   targetUserId,

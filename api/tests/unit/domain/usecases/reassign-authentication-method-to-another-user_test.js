@@ -1,15 +1,18 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const reassignAuthenticationMethodToAnotherUser = require('../../../../lib/domain/usecases/reassign-authentication-method-to-another-user');
-const { AuthenticationMethodAlreadyExistsError } = require('../../../../lib/domain/errors');
+const { AuthenticationMethodAlreadyExistsError, UserNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reassign-authentication-method-to-another-user', function () {
-  let authenticationMethodRepository;
+  let authenticationMethodRepository, userRepository;
 
   beforeEach(function () {
     authenticationMethodRepository = {
       getByIdAndUserId: sinon.stub(),
       updateAuthenticationMethodUserId: sinon.stub(),
       findByUserId: sinon.stub(),
+    };
+    userRepository = {
+      get: sinon.stub(),
     };
   });
 
@@ -36,15 +39,45 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
 
       // when
       const error = await catchErr(reassignAuthenticationMethodToAnotherUser)({
-        originUserId: originUserId,
-        targetUserId: targetUserId,
+        originUserId,
+        targetUserId,
         authenticationMethodId: garAuthenticationMethodFromOriginUser.id,
+        userRepository,
         authenticationMethodRepository,
       });
 
       // then
       expect(error).to.be.instanceOf(AuthenticationMethodAlreadyExistsError);
       expect(error.message).to.equal("L'utilisateur 2 a déjà une méthode de connexion GAR.");
+    });
+  });
+
+  context('When target user does not exists', function () {
+    it('should throw an error', async function () {
+      // given
+      const originUserId = domainBuilder.buildUser({ id: 1 }).id;
+      const garAuthenticationMethodFromOriginUser = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: originUserId,
+      });
+      const nonExistingTargetUserId = originUserId + 1;
+      const notFoundError = new UserNotFoundError();
+
+      authenticationMethodRepository.getByIdAndUserId
+        .withArgs({ id: garAuthenticationMethodFromOriginUser.id, userId: originUserId })
+        .resolves(garAuthenticationMethodFromOriginUser);
+      userRepository.get.withArgs(nonExistingTargetUserId).rejects(notFoundError);
+
+      // when
+      const error = await catchErr(reassignAuthenticationMethodToAnotherUser)({
+        originUserId,
+        targetUserId: nonExistingTargetUserId,
+        authenticationMethodId: garAuthenticationMethodFromOriginUser.id,
+        userRepository,
+        authenticationMethodRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
     });
   });
 
@@ -67,17 +100,18 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
 
     // when
     await reassignAuthenticationMethodToAnotherUser({
-      originUserId: originUserId,
-      targetUserId: targetUserId,
+      originUserId,
+      targetUserId,
       authenticationMethodId: garAuthenticationMethodFromOriginUser.id,
+      userRepository,
       authenticationMethodRepository,
     });
 
     // then
     expect(authenticationMethodRepository.updateAuthenticationMethodUserId).to.have.been.calledOnceWith({
-      originUserId: originUserId,
+      originUserId,
       identityProvider: 'GAR',
-      targetUserId: targetUserId,
+      targetUserId,
     });
   });
 
@@ -102,17 +136,18 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
 
     // when
     await reassignAuthenticationMethodToAnotherUser({
-      originUserId: originUserId,
-      targetUserId: targetUserId,
+      originUserId,
+      targetUserId,
       authenticationMethodId: poleEmploiAuthenticationMethodFromOriginUser.id,
+      userRepository,
       authenticationMethodRepository,
     });
 
     // then
     expect(authenticationMethodRepository.updateAuthenticationMethodUserId).to.have.been.calledOnceWith({
-      originUserId: originUserId,
+      originUserId,
       identityProvider: 'POLE_EMPLOI',
-      targetUserId: targetUserId,
+      targetUserId,
     });
   });
 });
