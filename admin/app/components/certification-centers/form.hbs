@@ -24,11 +24,12 @@
       <label class="form-field__label" for="certificationCenterTypeSelector">Type d'établissement</label>
       <div
         class="form-field__select
-          {{if @certificationCenter.errors.type "is-invalid" ""}}
+          {{if @certificationCenter.errors.type " is-invalid" ""}}
           certification-center-form__select-type"
       >
         <PixSelect
           id="certificationCenterTypeSelector"
+          class="certification-center-form__select"
           @options={{this.certificationCenterTypes}}
           @isSearchable={{false}}
           @emptyOptionNotSelectable={{true}}

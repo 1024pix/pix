@@ -1,5 +1,9 @@
 {{page-title "Orga " @model.id " | Équipe"}}
-<Organizations::TeamActionsSection @addMembership={{this.addMembership}} @userEmailToAdd={{this.userEmailToAdd}} />
+<Organizations::TeamActionsSection
+  @addMembership={{this.addMembership}}
+  @userEmailToAdd={{this.userEmailToAdd}}
+  @onChangeUserEmailToAdd={{this.onChangeUserEmailToAdd}}
+/>
 
 <Organizations::TeamSection
   @memberships={{@model.memberships}}

@@ -166,7 +166,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         // then
         assert.dom('#birth-insee-code').doesNotExist();
         assert.dom('#birth-postal-code').doesNotExist();
-        assert.dom('#birth-country > option[selected]').hasText('DANEMARK');
+        const options = this.element.querySelectorAll('option');
+        assert.true(options.item(0).selected);
         assert.dom('#birth-city').hasValue('Copenhague');
       });
     });
@@ -200,7 +201,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         assert.dom('#birth-postal-code').hasValue('66440');
         assert.dom('#birth-insee-code').doesNotExist();
         assert.dom('#birth-city').hasValue('Torreilles');
-        assert.dom('#birth-country > option[selected]').hasText('FRANCE');
+        const options = this.element.querySelectorAll('option');
+        assert.true(options.item(1).selected);
       });
     });
 
@@ -233,7 +235,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         assert.dom('#birth-insee-code').hasValue('66212');
         assert.dom('#birth-postal-code').doesNotExist();
         assert.dom('#birth-city').doesNotExist();
-        assert.dom('#birth-country > option[selected]').hasText('FRANCE');
+        const options = this.element.querySelectorAll('option');
+        assert.true(options.item(1).selected);
       });
     });
   });
@@ -280,7 +283,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       assert.dom('#birth-insee-code').doesNotExist();
       assert.dom('#birth-postal-code').doesNotExist();
       assert.dom('#birth-city').hasValue('Copenhague');
-      assert.dom('#birth-country > option[selected]').hasText('DANEMARK');
+      const options = this.element.querySelectorAll('option');
+      assert.true(options.item(0).selected);
     });
 
     test('it should not alter candidate information', async function (assert) {
