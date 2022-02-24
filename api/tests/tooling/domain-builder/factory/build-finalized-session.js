@@ -8,6 +8,7 @@ module.exports = function buildFinalizedSession({
   finalizedAt = '2021-01-12',
   publishedAt = null,
   isPublishable = true,
+  assignedCertificationOfficerName = null,
 } = {}) {
   return new FinalizedSession({
     sessionId,
@@ -17,5 +18,6 @@ module.exports = function buildFinalizedSession({
     finalizedAt,
     publishedAt,
     isPublishable,
+    assignedCertificationOfficerName,
   });
 };
