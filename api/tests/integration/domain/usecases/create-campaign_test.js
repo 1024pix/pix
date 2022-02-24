@@ -14,7 +14,7 @@ describe('Integration | UseCases | create-campaign', function () {
   let targetProfileId;
 
   beforeEach(async function () {
-    organizationId = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true }).id;
+    organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
 
     targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;

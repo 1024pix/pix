@@ -107,7 +107,7 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', func
     });
 
     context('When organization already exists', function () {
-      it('should update name, email, isManagingStudents, canCollectProfiles and logo url', async function () {
+      it('should update name, email, isManagingStudents and logo url', async function () {
         // given
         const organizationsByExternalId = {};
         organizationsByExternalId[organization.externalId] = {
@@ -129,7 +129,6 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', func
         expect(updatedOrganizations[0].name).to.equal(checkedData[0].name);
         expect(updatedOrganizations[0].email).to.equal(checkedData[0].email);
         expect(updatedOrganizations[0].isManagingStudents).to.be.true;
-        expect(updatedOrganizations[0].canCollectProfiles).to.be.true;
         expect(updatedOrganizations[0].logoUrl).to.equal(logoUrl);
       });
     });
@@ -157,7 +156,6 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', func
         expect(createdOrganizations[0].provinceCode).to.equal('EXT');
         expect(createdOrganizations[0].type).to.equal('SCO');
         expect(createdOrganizations[0].isManagingStudents).to.be.true;
-        expect(createdOrganizations[0].canCollectProfiles).to.be.true;
       });
     });
   });

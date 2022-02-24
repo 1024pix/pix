@@ -35,7 +35,6 @@ describe('Unit | Serializer | organization-serializer', function () {
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
             credit: organization.credit,
-            'can-collect-profiles': organization.canCollectProfiles,
             email: organization.email,
             'created-by': organization.createdBy,
             'documentation-url': organization.documentationUrl,
@@ -121,7 +120,6 @@ describe('Unit | Serializer | organization-serializer', function () {
         externalId: 'ABCD123',
         provinceCode: '64',
         isManagingStudents: true,
-        canCollectProfiles: true,
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
         showSkills: false,
@@ -139,7 +137,6 @@ describe('Unit | Serializer | organization-serializer', function () {
             'external-id': organizationAttributes.externalId,
             'province-code': organizationAttributes.provinceCode,
             'is-managing-students': organizationAttributes.isManagingStudents,
-            'can-collect-profiles': organizationAttributes.canCollectProfiles,
             'created-by': organizationAttributes.createdBy,
             'documentation-url': organizationAttributes.documentationUrl,
             'show-skills': organizationAttributes.showSkills,
@@ -161,7 +158,6 @@ describe('Unit | Serializer | organization-serializer', function () {
         externalId: organizationAttributes.externalId,
         provinceCode: organizationAttributes.provinceCode,
         isManagingStudents: organizationAttributes.isManagingStudents,
-        canCollectProfiles: organizationAttributes.canCollectProfiles,
         createdBy: organizationAttributes.createdBy,
         documentationUrl: organizationAttributes.documentationUrl,
         showSkills: organizationAttributes.showSkills,
@@ -181,7 +177,6 @@ describe('Unit | Serializer | organization-serializer', function () {
         externalId: 'ABCD123',
         provinceCode: '64',
         isManagingStudents: true,
-        canCollectProfiles: true,
       };
       const tagAttributes1 = { id: '4', type: 'tags' };
       const tagAttributes2 = { id: '2', type: 'tags' };
@@ -198,7 +193,6 @@ describe('Unit | Serializer | organization-serializer', function () {
             'external-id': organizationAttributes.externalId,
             'province-code': organizationAttributes.provinceCode,
             'is-managing-students': organizationAttributes.isManagingStudents,
-            'can-collect-profiles': organizationAttributes.canCollectProfiles,
           },
           relationships: {
             tags: {

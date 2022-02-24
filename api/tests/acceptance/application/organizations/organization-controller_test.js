@@ -167,7 +167,6 @@ describe('Acceptance | Application | organization-controller', function () {
         provinceCode: '044',
         email: 'sco.generic.newaccount@example.net',
         credit: 50,
-        canCollectProfiles: false,
         logoUrl: logo,
       };
       const organization = databaseBuilder.factory.buildOrganization({ ...organizationAttributes });
@@ -175,7 +174,6 @@ describe('Acceptance | Application | organization-controller', function () {
       await databaseBuilder.commit();
 
       const newLogo = dragonLogo;
-      const newAttribute = 'true';
       const payload = {
         data: {
           type: 'organizations',
@@ -185,7 +183,6 @@ describe('Acceptance | Application | organization-controller', function () {
             'province-code': organizationAttributes.provinceCode,
             email: organizationAttributes.email,
             credit: organizationAttributes.credit,
-            'can-collect-profiles': newAttribute,
             'logo-url': newLogo,
           },
           relationships: {
@@ -209,7 +206,6 @@ describe('Acceptance | Application | organization-controller', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes['external-id']).to.equal('0446758F');
       expect(response.result.data.attributes['province-code']).to.equal('044');
-      expect(response.result.data.attributes['can-collect-profiles']).to.equal(true);
       expect(response.result.data.attributes['email']).to.equal('sco.generic.newaccount@example.net');
       expect(response.result.data.attributes['credit']).to.equal(50);
       expect(response.result.data.attributes['logo-url']).to.equal(newLogo);
@@ -220,7 +216,7 @@ describe('Acceptance | Application | organization-controller', function () {
     describe('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
-        const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+        const organization = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
         const payload = {
           data: {
@@ -231,7 +227,6 @@ describe('Acceptance | Application | organization-controller', function () {
               'province-code': '044',
               email: 'sco.generic.newaccount@example.net',
               credit: 50,
-              'can-collect-profiles': 'true',
             },
           },
         };
@@ -252,7 +247,7 @@ describe('Acceptance | Application | organization-controller', function () {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
         // given
         const nonPixMAsterUserId = 9999;
-        const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+        const organization = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
         const payload = {
           data: {
@@ -263,7 +258,6 @@ describe('Acceptance | Application | organization-controller', function () {
               'province-code': '044',
               email: 'sco.generic.newaccount@example.net',
               credit: 50,
-              'can-collect-profiles': 'true',
             },
           },
         };
@@ -641,7 +635,6 @@ describe('Acceptance | Application | organization-controller', function () {
               'external-id': organization.externalId,
               'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
-              'can-collect-profiles': organization.canCollectProfiles,
               credit: organization.credit,
               email: organization.email,
               'created-by': pixMasterUserId,

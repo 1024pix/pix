@@ -476,7 +476,6 @@ function _toMembershipsDomain(membershipsBookshelf) {
         name: membershipBookshelf.related('organization').get('name'),
         type: membershipBookshelf.related('organization').get('type'),
         isManagingStudents: Boolean(membershipBookshelf.related('organization').get('isManagingStudents')),
-        canCollectProfiles: Boolean(membershipBookshelf.related('organization').get('canCollectProfiles')),
         externalId: membershipBookshelf.related('organization').get('externalId'),
       }),
     });

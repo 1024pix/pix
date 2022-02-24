@@ -68,13 +68,6 @@ const Validations = buildValidations({
       }),
     ],
   },
-  canCollectProfiles: {
-    validators: [
-      validator('inclusion', {
-        in: [true, false],
-      }),
-    ],
-  },
   documentationUrl: {
     validators: [
       validator('absolute-url', {
@@ -99,7 +92,6 @@ class Form extends Object.extend(Validations) {
   @tracked email;
   @tracked credit;
   @tracked isManagingStudents;
-  @tracked canCollectProfiles;
   @tracked documentationUrl;
   @tracked showSkills;
 }
@@ -152,7 +144,6 @@ export default class OrganizationInformationSection extends Component {
     this.args.organization.set('email', !this.form.email ? null : this.form.email.trim());
     this.args.organization.set('credit', !this.form.credit ? null : this.form.credit);
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
-    this.args.organization.set('canCollectProfiles', this.form.canCollectProfiles);
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
     this.args.organization.set('showSkills', this.form.showSkills);
 
@@ -167,7 +158,6 @@ export default class OrganizationInformationSection extends Component {
     this.form.email = this.args.organization.email;
     this.form.credit = this.args.organization.credit;
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
-    this.form.canCollectProfiles = this.args.organization.canCollectProfiles;
     this.form.documentationUrl = this.args.organization.documentationUrl;
     this.form.showSkills = this.args.organization.showSkills;
   }
