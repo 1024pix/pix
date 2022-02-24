@@ -49,4 +49,9 @@ export default class InvitationsController extends Controller {
     this.userEmailToInviteError = null;
     return true;
   }
+
+  @action
+  onChangeUserEmailToInvite(event) {
+    this.userEmailToInvite = event.target.value;
+  }
 }

@@ -8,7 +8,7 @@
       <PixInput
         @id="new-email-for-adding-authentication-method"
         @label="Nouvelle adresse e-mail"
-        @value={{@newEmail}}
+        {{on "change" @onChangeNewEmail}}
         @errorMessage={{if @showAlreadyExistingEmailError "Cette adresse e-mail est déjà utilisée" ""}}
         type="email"
         required

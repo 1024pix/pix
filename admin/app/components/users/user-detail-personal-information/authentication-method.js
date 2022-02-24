@@ -57,4 +57,14 @@ export default class AuthenticationMethod extends Component {
     await this.args.reassignGarAuthenticationMethod(this.targetUserId);
     this.showReassignGarAuthenticationMethodModal = false;
   }
+
+  @action
+  onChangeNewEmail(event) {
+    this.newEmail = event.target.value;
+  }
+
+  @action
+  onChangeTargetUserId(event) {
+    this.targetUserId = event.target.value;
+  }
 }

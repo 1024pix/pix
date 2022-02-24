@@ -141,7 +141,7 @@
 
 <Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
   @showAddAuthenticationMethodModal={{this.showAddAuthenticationMethodModal}}
-  @newEmail={{this.newEmail}}
+  @onChangeNewEmail={{this.onChangeNewEmail}}
   @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
   @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
   @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
@@ -149,7 +149,7 @@
 
 <Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
   @showReassignGarAuthenticationMethodModal={{this.showReassignGarAuthenticationMethodModal}}
-  @targetUserId={{this.targetUserId}}
+  @onChangeTargetUserId={{this.onChangeTargetUserId}}
   @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
   @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
 />
