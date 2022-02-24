@@ -1,8 +1,8 @@
 const Assessment = require('../models/Assessment');
-const CampaignParticipation = require('../models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
 const _ = require('lodash');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 class CampaignAssessmentParticipation {
   constructor({

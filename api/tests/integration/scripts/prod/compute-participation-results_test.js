@@ -1,9 +1,9 @@
 const { expect, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
 const computeParticipationResults = require('../../../../scripts/prod/compute-participation-results');
 const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('computeParticipationResults', function () {
   context('when there is one campaign participation on profile collection campaign', function () {

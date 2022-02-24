@@ -2,10 +2,10 @@ const Stage = require('../../../../lib/domain/models/Stage');
 const Skill = require('../../../../lib/domain/models/Skill');
 const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
 const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { expect } = require('../../../test-helper');
 
-const { SHARED, STARTED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function () {
   describe('constructor', function () {

@@ -5,8 +5,8 @@ const {
 const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
 const { SUP_STUDENT_ASSOCIATED_ID, SUP_STUDENT_DISABLED_ID } = require('./organizations-sup-builder');
 const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
-const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 module.exports = {
   campaignsSupBuilder,

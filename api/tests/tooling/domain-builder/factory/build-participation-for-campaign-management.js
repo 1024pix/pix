@@ -1,3 +1,4 @@
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const ParticipationForCampaignManagement = require('../../../../lib/domain/models/ParticipationForCampaignManagement');
 
 module.exports = function buildParticipationForCampaignManagement({
@@ -5,7 +6,7 @@ module.exports = function buildParticipationForCampaignManagement({
   lastName = 'Un nom',
   firstName = 'Un prénom',
   participantExternalId = 'un identifiant externe',
-  status = ParticipationForCampaignManagement.statuses.TO_SHARE,
+  status = CampaignParticipationStatuses.TO_SHARE,
   createdAt = new Date(),
   sharedAt = null,
 } = {}) {

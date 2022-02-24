@@ -1,7 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 const CampaignParticipationsStatsRepository = {
   async getParticipationsActivityByDate(campaignId) {

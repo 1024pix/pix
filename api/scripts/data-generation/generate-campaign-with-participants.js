@@ -6,14 +6,14 @@ const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
-const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
 const computeParticipationResults = require('../prod/compute-participation-results');
 const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
 
-const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
+const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');

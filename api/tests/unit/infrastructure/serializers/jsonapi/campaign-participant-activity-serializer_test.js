@@ -1,9 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
 const CampaignParticipantActivity = require('../../../../../lib/domain/read-models/CampaignParticipantActivity');
-const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { SHARED, STARTED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer', function () {
   describe('#serialize()', function () {

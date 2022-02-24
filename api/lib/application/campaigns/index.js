@@ -4,9 +4,9 @@ const campaignManagementController = require('./campaign-management-controller')
 const campaignStatsController = require('./campaign-stats-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const identifiersType = require('../../domain/types/identifiers-type');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-const campaignParticipationStatuses = Object.values(CampaignParticipation.statuses);
+const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
 exports.register = async function (server) {
   server.route([

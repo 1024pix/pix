@@ -9,9 +9,9 @@ const {
   learningContentBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Acceptance | Controller | users-controller-reset-scorecard', function () {
   let options;

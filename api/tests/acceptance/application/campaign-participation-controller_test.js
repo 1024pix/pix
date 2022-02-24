@@ -1,6 +1,6 @@
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const {
   expect,
   databaseBuilder,
@@ -10,7 +10,7 @@ const {
   knex,
 } = require('../../test-helper');
 
-const { SHARED, STARTED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Acceptance | API | Campaign Participations', function () {
   let server, options, user;

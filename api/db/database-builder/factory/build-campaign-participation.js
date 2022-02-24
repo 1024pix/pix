@@ -2,10 +2,10 @@ const buildCampaign = require('./build-campaign');
 const buildUser = require('./build-user');
 const buildSchoolingRegistration = require('./build-schooling-registration');
 const databaseBuffer = require('../database-buffer');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const _ = require('lodash');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = function buildCampaignParticipation({
   id = databaseBuffer.getNextId(),

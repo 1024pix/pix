@@ -5,12 +5,7 @@ const {
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
 } = require('../errors');
-
-const statuses = {
-  STARTED: 'STARTED',
-  TO_SHARE: 'TO_SHARE',
-  SHARED: 'SHARED',
-};
+const CampaignParticipationStatuses = require('./CampaignParticipationStatuses');
 
 class CampaignParticipation {
   constructor({
@@ -45,7 +40,7 @@ class CampaignParticipation {
   static start(campaignParticipation) {
     const { schoolingRegistrationId = null } = campaignParticipation;
     const { isAssessment } = campaignParticipation.campaign;
-    const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
+    const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 
     const status = isAssessment ? STARTED : TO_SHARE;
 
@@ -57,7 +52,7 @@ class CampaignParticipation {
   }
 
   get isShared() {
-    return this.status === statuses.SHARED;
+    return this.status === CampaignParticipationStatuses.SHARED;
   }
 
   get lastAssessment() {
@@ -75,12 +70,12 @@ class CampaignParticipation {
   share() {
     this._canBeShared();
     this.sharedAt = new Date();
-    this.status = statuses.SHARED;
+    this.status = CampaignParticipationStatuses.SHARED;
   }
 
   improve() {
     this._canBeImproved();
-    this.status = statuses.STARTED;
+    this.status = CampaignParticipationStatuses.STARTED;
   }
 
   _canBeImproved() {
@@ -105,7 +100,5 @@ class CampaignParticipation {
 function lastAssessmentNotCompleted(campaignParticipation) {
   return !campaignParticipation.lastAssessment || !campaignParticipation.lastAssessment.isCompleted();
 }
-
-CampaignParticipation.statuses = statuses;
 
 module.exports = CampaignParticipation;

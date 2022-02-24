@@ -14,8 +14,8 @@ const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
-const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 const POLE_EMPLOI_CAMPAIGN_ID = 5;
 

@@ -2,11 +2,11 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const CampaignCollectiveResult = require('../../domain/read-models/CampaignCollectiveResult');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const constants = require('../constants');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = {
   async getCampaignCollectiveResult(campaignId, targetProfileWithLearningContent) {
