@@ -1,3 +1,5 @@
-{{#each @model as |tutorial|}}
-  <Tutorials::Card @tutorial={{tutorial}} />
-{{/each}}
+<div class="user-tutorials-content-v2__container">
+  {{#each @model as |tutorial|}}
+    <Tutorials::Card @tutorial={{tutorial}} />
+  {{/each}}
+</div>
