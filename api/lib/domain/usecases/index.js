@@ -88,6 +88,7 @@ const dependencies = {
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
   organizationTagRepository: require('../../infrastructure/repositories/organization-tag-repository'),
+  organizationsToAttachToTargetProfileRepository: require('../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository'),
   participantResultRepository: require('../../infrastructure/repositories/participant-result-repository'),
   partnerCertificationScoringRepository: require('../../infrastructure/repositories/partner-certification-scoring-repository'),
   passwordGenerator: require('../../domain/services/password-generator'),
