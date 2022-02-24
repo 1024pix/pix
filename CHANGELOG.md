@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.175.0 (24/02/2022)
+
+
+### :rocket: Amélioration
+- [#4129](https://github.com/1024pix/pix/pull/4129) [FEATURE] Tutos v2 enregistrés vide (PIX-4297)
+- [#4122](https://github.com/1024pix/pix/pull/4122) [FEATURE] Permettre de rattacher à nouveau un membre Pix Certif qui a été désactivé par le passé (PIX-4013).
+- [#4121](https://github.com/1024pix/pix/pull/4121) [FEATURE] Mettre à jour le composant pour choisir un propriétaire de campagne (PIX-4410)
+- [#4093](https://github.com/1024pix/pix/pull/4093) [FEATURE] Pouvoir sélectionner une thématique entièrement (PIX-3955)
+
+### :building_construction: Tech
+- [#4138](https://github.com/1024pix/pix/pull/4138) [TECH] Monter la version de Pix-UI sur Pix Admin (PIX-4464)
+- [#4132](https://github.com/1024pix/pix/pull/4132) [TECH] Ajout de deux modèles UserTutorial et UserTutorialWithTutorial sur l'api
+- [#4119](https://github.com/1024pix/pix/pull/4119) [TECH]  Supprimer l’utilisation, l’affichage et la modification de canCollectProfiles pour les orga dans Pix Admin (PIX-4363).
+- [#4022](https://github.com/1024pix/pix/pull/4022) [TECH] Simplifie la manière dont les organizations sont rattachés aux profils cibles (PIX-4406).
+- [#4125](https://github.com/1024pix/pix/pull/4125) [TECH] Augmente le nombre de passes de bcrypt de 5 à 10
+
+### :bug: Correction
+- [#4124](https://github.com/1024pix/pix/pull/4124) [BUGFIX] Corriger les messages d'erreur lors de l'accès à l'espace surveillant (PIX-4381).
+
+### :coffee: Autre
+- [#4103](https://github.com/1024pix/pix/pull/4103) [ADR] Ajout d'un ADR sur la suppression une propriété de type texte
+
 ## v3.174.0 (22/02/2022)
 
 
