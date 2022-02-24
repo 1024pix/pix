@@ -129,13 +129,6 @@ function addValidatorRestrictedList({
     validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
   }
 
-  const errorMessage = parsedXmlDom.createElement('table:error-message');
-  errorMessage.setAttribute('table:display', 'true');
-  errorMessage.setAttribute('table:message-type', 'stop');
-
-  validator.appendChild(errorMessage);
-  contentValidations.appendChild(validator);
-
   const helpMessage = parsedXmlDom.createElement('table:help-message');
   helpMessage.setAttribute('table:title', tooltipTitle);
   helpMessage.setAttribute('table:display', 'true');
@@ -148,6 +141,13 @@ function addValidatorRestrictedList({
   }, helpMessage);
 
   validator.appendChild(helpMessageWithContent);
+
+  const errorMessage = parsedXmlDom.createElement('table:error-message');
+  errorMessage.setAttribute('table:display', 'true');
+  errorMessage.setAttribute('table:message-type', 'stop');
+
+  validator.appendChild(errorMessage);
+  contentValidations.appendChild(validator);
 
   return _buildStringifiedXmlFromXmlDom(parsedXmlDom);
 }
