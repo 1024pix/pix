@@ -2,14 +2,14 @@ const { knex } = require('../bookshelf');
 
 const CampaignReport = require('../../domain/read-models/CampaignReport');
 const TargetProfileForSpecifier = require('../../domain/read-models/campaign/TargetProfileForSpecifier');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const { fetchPage } = require('../utils/knex-utils');
 const { NotFoundError } = require('../../domain/errors');
 const _ = require('lodash');
 
 const skillDataSource = require('../datasources/learning-content/skill-datasource');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName, isOwnedByMe }, userId) {
   if (name) {

@@ -3,7 +3,7 @@ const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
 const _ = require('lodash');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
 let userId;
@@ -58,7 +58,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           createdAt: new Date('2020-01-01'),
           sharedAt: new Date('2020-01-02'),
           validatedSkillsCount: 1,
-          status: CampaignParticipation.statuses.SHARED,
+          status: CampaignParticipationStatuses.SHARED,
           masteryRate: 0.1,
         });
         databaseBuilder.factory.buildAssessment({
@@ -167,7 +167,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          status: CampaignParticipation.statuses.TO_SHARE,
+          status: CampaignParticipationStatuses.TO_SHARE,
         });
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: participationId,
@@ -190,7 +190,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           campaignParticipationOverviews: [campaignParticipation],
         } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
-        expect(campaignParticipation.status).to.equal(CampaignParticipation.statuses.TO_SHARE);
+        expect(campaignParticipation.status).to.equal(CampaignParticipationStatuses.TO_SHARE);
       });
 
       it('retrieves pagination information', async function () {

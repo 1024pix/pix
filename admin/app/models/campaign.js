@@ -6,6 +6,7 @@ export default class Campaign extends Model {
   @attr('date') archivedAt;
   @attr('string') type;
   @attr('string') code;
+  @attr('string') idPixLabel;
   @attr('date') createdAt;
   @attr('string') creatorLastName;
   @attr('string') creatorFirstName;

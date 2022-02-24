@@ -20,4 +20,12 @@
   {{else}}
     <Campaigns::Details @campaign={{@model}} @toggleEditMode={{this.toggleEditMode}} />
   {{/if}}
+
+  <nav class="navbar">
+    <LinkTo @route="authenticated.campaigns.campaign.participations" @model={{@model}} class="navbar-item">
+      Participations
+    </LinkTo>
+  </nav>
+
+  {{outlet}}
 </main>

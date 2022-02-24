@@ -4,9 +4,9 @@ const campaignManagementController = require('./campaign-management-controller')
 const campaignStatsController = require('./campaign-stats-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const identifiersType = require('../../domain/types/identifiers-type');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-const campaignParticipationStatuses = Object.values(CampaignParticipation.statuses);
+const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
 exports.register = async function (server) {
   server.route([
@@ -62,6 +62,28 @@ exports.register = async function (server) {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
             "- Elle permet de récupérer le détail d'une campagne.",
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/campaigns/{id}/participations',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+          query: Joi.object({
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
+        },
+        handler: campaignManagementController.findPaginatedParticipationsForCampaignManagement,
+        tags: ['api', 'campaign', 'participations', 'admin'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            "- Elle permet de récupérer les participations d'une campagne donnée.",
         ],
       },
     },

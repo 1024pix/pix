@@ -1,10 +1,10 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-const { TO_SHARE } = CampaignParticipation.statuses;
+const { TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Unit | UseCase | compute-campaign-participation-analysis', function () {
   let campaignRepository;

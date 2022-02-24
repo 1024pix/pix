@@ -1,7 +1,7 @@
 const CampaignProfileCompetence = require('./CampaignProfileCompetence');
-const CampaignParticipation = require('../models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 class CampaignProfile {
   constructor({

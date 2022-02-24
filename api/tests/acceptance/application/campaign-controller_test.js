@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 const {
   databaseBuilder,

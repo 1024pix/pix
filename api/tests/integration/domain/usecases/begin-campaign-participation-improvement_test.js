@@ -2,9 +2,9 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const beginCampaignParticipationImprovement = require('../../../../lib/domain/usecases/begin-campaign-participation-improvement');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
+const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Integration | UseCase | begin-campaign-participation-improvement', function () {
   it('should change campaignParticipation status to STARTED', async function () {

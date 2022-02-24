@@ -3,6 +3,7 @@ class CampaignManagement {
     id,
     code,
     name,
+    idPixLabel,
     createdAt,
     archivedAt,
     type,
@@ -17,6 +18,7 @@ class CampaignManagement {
     this.code = code;
     this.name = name;
     this.type = type;
+    this.idPixLabel = idPixLabel;
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;
     this.creatorLastName = creatorLastName;

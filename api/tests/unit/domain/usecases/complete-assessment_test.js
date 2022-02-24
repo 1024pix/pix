@@ -4,7 +4,7 @@ const completeAssessment = require('../../../../lib/domain/usecases/complete-ass
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
@@ -129,7 +129,7 @@ describe('Unit | UseCase | complete-assessment', function () {
 
       it('should call update campaign participation status', async function () {
         const assessment = _buildCampaignAssessment();
-        const { TO_SHARE } = CampaignParticipation.statuses;
+        const { TO_SHARE } = CampaignParticipationStatuses;
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();

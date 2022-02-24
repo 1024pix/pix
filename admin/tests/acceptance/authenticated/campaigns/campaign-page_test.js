@@ -15,9 +15,7 @@ module('Acceptance | Campaign Page', function (hooks) {
       await visit('/campaigns/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
@@ -27,16 +25,14 @@ module('Acceptance | Campaign Page', function (hooks) {
       await createAuthenticateSession({ userId: user.id });
     });
 
-    test('it should display the campaign detail page', async function (assert) {
+    test('it should display the default page', async function (assert) {
       server.create('campaign', { id: 1, name: 'Campaign name' });
 
       // when
       await visit('/campaigns/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campaigns/1');
+      assert.strictEqual(currentURL(), '/campaigns/1/participations');
       assert.contains('Campaign name');
     });
   });

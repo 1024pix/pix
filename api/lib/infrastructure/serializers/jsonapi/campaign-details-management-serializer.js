@@ -8,6 +8,7 @@ module.exports = {
         'code',
         'type',
         'title',
+        'idPixLabel',
         'createdAt',
         'archivedAt',
         'creatorId',
