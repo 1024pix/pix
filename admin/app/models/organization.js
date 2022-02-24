@@ -10,7 +10,6 @@ export default class Organization extends Model {
   @attr() externalId;
   @attr() provinceCode;
   @attr() isManagingStudents;
-  @attr() canCollectProfiles;
   @attr('boolean') showNPS;
   @attr('string') formNPSUrl;
   @attr() credit;

@@ -24,7 +24,6 @@ module.exports = async function updateOrganizationInformation({
   existingOrganization.externalId = organization.externalId;
   existingOrganization.provinceCode = organization.provinceCode;
   existingOrganization.isManagingStudents = organization.isManagingStudents;
-  existingOrganization.canCollectProfiles = organization.canCollectProfiles;
   existingOrganization.documentationUrl = organization.documentationUrl;
   existingOrganization.showSkills = organization.showSkills;
   return organizationRepository.update(existingOrganization);

@@ -127,7 +127,6 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
       organization = databaseBuilder.factory.buildOrganization({
         credit: 5,
         isManagingStudents: true,
-        canCollectProfiles: true,
       });
       membership = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({

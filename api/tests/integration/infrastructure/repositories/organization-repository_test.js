@@ -54,7 +54,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationSaved.documentationUrl).to.equal(organization.documentationUrl);
     });
 
-    it('should insert default value for canCollectProfiles (false), credit (0) when not defined', async function () {
+    it('should insert default value for credit (0) when not defined', async function () {
       // given
       const organization = new Organization({
         name: 'organization',
@@ -66,7 +66,6 @@ describe('Integration | Repository | Organization', function () {
       const organizationSaved = await organizationRepository.create(organization);
 
       // then
-      expect(organizationSaved.canCollectProfiles).to.equal(Organization.defaultValues['canCollectProfiles']);
       expect(organizationSaved.credit).to.equal(Organization.defaultValues['credit']);
       expect(organizationSaved.email).to.be.null;
     });
@@ -115,7 +114,6 @@ describe('Integration | Repository | Organization', function () {
         externalId: '999Z527F',
         provinceCode: '999',
         isManagingStudents: true,
-        canCollectProfiles: true,
         credit: 50,
         email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
@@ -132,7 +130,6 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
       expect(organizationSaved.isManagingStudents).to.equal(organization.isManagingStudents);
-      expect(organizationSaved.canCollectProfiles).to.equal(organization.canCollectProfiles);
       expect(organizationSaved.credit).to.equal(organization.credit);
       expect(organizationSaved.email).to.equal(organization.email);
       expect(organizationSaved.documentationUrl).to.equal('https://pix.fr/');
@@ -154,7 +151,6 @@ describe('Integration | Repository | Organization', function () {
           externalId: '100',
           provinceCode: '75',
           isManagingStudents: 'true',
-          canCollectProfiles: 'true',
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
           createdBy: pixMasterUserId,
@@ -172,7 +168,6 @@ describe('Integration | Repository | Organization', function () {
           externalId: '100',
           provinceCode: '75',
           isManagingStudents: true,
-          canCollectProfiles: true,
           email: 'sco.generic.account@example.net',
           students: [],
           targetProfileShares: [],
@@ -979,7 +974,6 @@ describe('Integration | Repository | Organization', function () {
         externalId: '1237457A',
         name: 'Orga 1',
         provinceCode: '12',
-        canCollectProfiles: true,
         credit: 100,
         createdBy: userId,
         documentationUrl: 'http://example.net/',

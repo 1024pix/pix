@@ -31,18 +31,6 @@ module('Integration | Component | organizations/information-section', function (
     assert.contains('350');
   });
 
-  test('it should display canCollectProfiles', async function (assert) {
-    // given
-    const organization = EmberObject.create({ canCollectProfiles: true });
-    this.set('organization', organization);
-
-    // when
-    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-    // then
-    assert.dom('.organization__canCollectProfiles').hasText('Oui');
-  });
-
   module('Displaying whether or not the items of this campaign will be exported in results', function () {
     test("it should display 'Oui' when showskills set to true", async function (assert) {
       // given
@@ -123,7 +111,6 @@ module('Integration | Component | organizations/information-section', function (
         externalId: 'VELIT',
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
-        canCollectProfiles: false,
         isOrganizationSCO: true,
         isManagingStudents: false,
         credit: 0,
@@ -165,7 +152,6 @@ module('Integration | Component | organizations/information-section', function (
       assert.dom('input#provinceCode').hasValue(organization.provinceCode);
       assert.dom('input#email').hasValue(organization.email);
       assert.dom('input#credit').hasValue(organization.credit.toString());
-      assert.dom('input#canCollectProfiles').isNotChecked();
       assert.dom('input#isManagingStudents').isNotChecked();
       assert.dom('input#documentationUrl').hasValue(organization.documentationUrl);
       assert.dom('input#showSkills').isNotChecked();
@@ -288,7 +274,6 @@ module('Integration | Component | organizations/information-section', function (
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
       await clickByLabel('Gestion d’élèves/étudiants');
-      await clickByLabel('Collecte de profils');
       await fillIn('input#documentationUrl', 'new documentationUrl');
       await clickByLabel("Affichage des acquis dans l'export de résultats");
 
@@ -300,7 +285,6 @@ module('Integration | Component | organizations/information-section', function (
       assert.contains(organization.externalId);
       assert.contains(organization.provinceCode);
       assert.dom('.organization__isManagingStudents').hasText('Non');
-      assert.dom('.organization__canCollectProfiles').hasText('Non');
       assert.contains(organization.documentationUrl);
       assert.dom('.organization__showSkills').hasText('Non');
     });
@@ -318,7 +302,6 @@ module('Integration | Component | organizations/information-section', function (
       await fillIn('input#provinceCode', '  ');
       await fillIn('input#credit', 50);
       await clickByLabel('Gestion d’élèves/étudiants');
-      await clickByLabel('Collecte de profils');
       await fillIn('input#documentationUrl', 'https://pix.fr/');
 
       // when
@@ -329,7 +312,6 @@ module('Integration | Component | organizations/information-section', function (
       assert.contains('new externalId');
       assert.notContains('Département : ');
       assert.contains('50');
-      assert.dom('.organization__canCollectProfiles').hasText('Oui');
       assert.dom('.organization__isManagingStudents').hasText('Oui');
       assert.contains('https://pix.fr/');
     });

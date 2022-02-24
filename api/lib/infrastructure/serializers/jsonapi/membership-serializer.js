@@ -23,7 +23,6 @@ module.exports = {
           'name',
           'type',
           'isManagingStudents',
-          'canCollectProfiles',
           'externalId',
           'campaigns',
           'targetProfiles',
