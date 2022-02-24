@@ -4,7 +4,7 @@ Date : 2022-02-16
 
 ## Etat
 
-En cours
+Accepté
 
 ## Contexte
 
