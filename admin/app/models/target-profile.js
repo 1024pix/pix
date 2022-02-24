@@ -52,12 +52,4 @@ export default class TargetProfile extends Model {
       this.reload();
     },
   });
-
-  markTargetProfileAsSimplifiedAccess = memberAction({
-    path: 'simplified-access',
-    type: 'put',
-    after() {
-      this.reload();
-    },
-  });
 }

@@ -52,11 +52,12 @@ export default class TargetProfileController extends Controller {
   async markTargetProfileAsSimplifiedAccess() {
     this.toggleDisplaySimplifiedAccessPopupConfirm();
     try {
-      await this.model.markTargetProfileAsSimplifiedAccess();
+      this.model.isSimplifiedAccess = true;
+      await this.model.save({ adapterOptions: { markTargetProfileAsSimplifiedAccess: true } });
 
-      return this.notifications.success('Ce profil cible a bien été marqué comme accès simplifié.');
+      this.notifications.success('Ce profil cible a bien été marqué comme accès simplifié.');
     } catch (responseError) {
-      return this.notifications.error('Une erreur est survenue.');
+      this.notifications.error('Une erreur est survenue.');
     }
   }
 
