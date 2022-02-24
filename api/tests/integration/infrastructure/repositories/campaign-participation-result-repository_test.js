@@ -1,9 +1,9 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participation Result', function () {
   describe('#getByParticipationId', function () {

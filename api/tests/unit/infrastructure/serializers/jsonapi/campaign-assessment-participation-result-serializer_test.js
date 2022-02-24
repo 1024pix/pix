@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const CampaignAssessmentParticipationResult = require('../../../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
-const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result-serializer', function () {
   describe('#serialize()', function () {

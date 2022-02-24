@@ -6,7 +6,7 @@ const {
   AlreadySharedCampaignParticipationError,
   UserNotAuthorizedToAccessEntityError,
 } = require('../../../../lib/domain/errors');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', function () {
   let dependencies;
@@ -52,7 +52,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: CampaignParticipation.statuses.SHARED,
+      status: CampaignParticipationStatuses.SHARED,
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
@@ -80,7 +80,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: CampaignParticipation.statuses.STARTED,
+      status: CampaignParticipationStatuses.STARTED,
       assessments: [ongoingAssessment],
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
@@ -105,7 +105,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     const campaignParticipation = domainBuilder.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
-      status: CampaignParticipation.statuses.STARTED,
+      status: CampaignParticipationStatuses.STARTED,
       assessments: [latestAssessment],
     });
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);

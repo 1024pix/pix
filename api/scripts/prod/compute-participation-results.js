@@ -5,9 +5,9 @@ require('dotenv').config({ path: `${__dirname}/../../.env` });
 const knowlegeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const skillDatasource = require('../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const ParticipantResultsShared = require('../../lib/domain/models/ParticipantResultsShared');
-const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 const { knex } = require('../../db/knex-database-connection');
 const _ = require('lodash');

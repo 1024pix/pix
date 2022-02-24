@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const CampaignParticipation = require('../models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 class CampaignParticipationOverview {
   constructor({

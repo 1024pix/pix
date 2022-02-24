@@ -3,9 +3,9 @@ const { knex } = require('../bookshelf');
 const { fetchPage } = require('../utils/knex-utils');
 const targetProfileRepository = require('./target-profile-with-learning-content-repository');
 const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
   const targetProfile = await targetProfileRepository.getByCampaignId({ campaignId });

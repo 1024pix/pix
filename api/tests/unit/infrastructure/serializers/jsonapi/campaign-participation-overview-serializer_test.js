@@ -1,12 +1,12 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
 const CampaignParticipationOverview = require('../../../../../lib/domain/read-models/CampaignParticipationOverview');
-const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 const Stage = require('../../../../../lib/domain/models/Stage');
 const Skill = require('../../../../../lib/domain/models/Skill');
 const TargetProfileWithLearningContent = require('../../../../../lib/domain/models/TargetProfileWithLearningContent');
 
-const { SHARED, STARTED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializer', function () {
   describe('#serialize', function () {

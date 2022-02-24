@@ -3,10 +3,11 @@ const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper')
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participation', function () {
   describe('#get', function () {

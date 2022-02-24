@@ -1,4 +1,5 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { expect, domainBuilder, sinon, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -8,7 +9,7 @@ const {
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
 } = require('../../../../lib/domain/errors');
-const { TO_SHARE, SHARED } = CampaignParticipation.statuses;
+const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignParticipation', function () {
   describe('#getTargetProfileId', function () {
@@ -114,7 +115,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
           expect(campaignParticipation.isShared).to.be.true;
           expect(campaignParticipation.sharedAt).to.deep.equals(now);
-          expect(campaignParticipation.status).to.equals(CampaignParticipation.statuses.SHARED);
+          expect(campaignParticipation.status).to.equals(CampaignParticipationStatuses.SHARED);
         });
       });
 
@@ -158,7 +159,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
             expect(campaignParticipation.isShared).to.be.true;
             expect(campaignParticipation.sharedAt).to.deep.equals(now);
-            expect(campaignParticipation.status).to.equals(CampaignParticipation.statuses.SHARED);
+            expect(campaignParticipation.status).to.equals(CampaignParticipationStatuses.SHARED);
           });
         });
       });
@@ -208,7 +209,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
           const campaign = domainBuilder.buildCampaignToJoin({ type: Campaign.types.PROFILES_COLLECTION });
           const campaignParticipation = CampaignParticipation.start({ campaign });
 
-          expect(campaignParticipation.status).to.be.equal(CampaignParticipation.statuses.TO_SHARE);
+          expect(campaignParticipation.status).to.be.equal(CampaignParticipationStatuses.TO_SHARE);
         });
       });
 
@@ -217,7 +218,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
           const campaign = domainBuilder.buildCampaignToJoin({ type: Campaign.types.ASSESSMENT });
           const campaignParticipation = CampaignParticipation.start({ campaign });
 
-          expect(campaignParticipation.status).to.be.equal(CampaignParticipation.statuses.STARTED);
+          expect(campaignParticipation.status).to.be.equal(CampaignParticipationStatuses.STARTED);
         });
       });
     });

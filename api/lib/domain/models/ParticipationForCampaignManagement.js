@@ -1,5 +1,3 @@
-const CampaignParticipation = require('./CampaignParticipation.js');
-
 class ParticipationForCampaignManagement {
   constructor({ id, lastName, firstName, participantExternalId, status, createdAt, sharedAt } = {}) {
     this.id = id;
@@ -11,7 +9,5 @@ class ParticipationForCampaignManagement {
     this.sharedAt = sharedAt;
   }
 }
-
-ParticipationForCampaignManagement.statuses = CampaignParticipation.statuses;
 
 module.exports = ParticipationForCampaignManagement;

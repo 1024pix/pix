@@ -1,9 +1,9 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participation Info', function () {
   describe('#findByCampaignId', function () {
