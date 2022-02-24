@@ -166,7 +166,6 @@ module.exports = (function () {
       pixCertifScoBlockedAccessWhitelist: getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
-      userAnswersMaxLength: _getNumber(process.env.USER_ANSWERS_MAX_LENGTH, 500),
     },
 
     featureToggles: {

@@ -2,7 +2,6 @@ const Joi = require('joi');
 const answerController = require('./answer-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { NotFoundError } = require('../../domain/errors');
-const { features } = require('../../config');
 
 exports.register = async (server) => {
   server.route([
@@ -15,7 +14,7 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
-                value: Joi.string().max(features.userAnswersMaxLength).allow('').allow(null),
+                value: Joi.string().allow('').allow(null),
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
                 timeout: Joi.number().allow(null),
