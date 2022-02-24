@@ -1,15 +1,15 @@
-const _ = require('lodash');
-const { NoOrganizationToAttach } = require('../errors');
+const { OrganizationsToAttachToTargetProfile } = require('../models');
 
 module.exports = async function attachOrganizationsFromExistingTargetProfile({
   targetProfileId,
   existingTargetProfileId,
+  organizationsToAttachToTargetProfileRepository,
   targetProfileRepository,
 }) {
+  const targetProfileOrganizations = new OrganizationsToAttachToTargetProfile({ id: targetProfileId });
   const organizationIds = await targetProfileRepository.findOrganizationIds(existingTargetProfileId);
-  if (_.isEmpty(organizationIds)) {
-    throw new NoOrganizationToAttach(`Le profil cible ${existingTargetProfileId} n'a aucune organisation rattachée.`);
-  }
 
-  await targetProfileRepository.attachOrganizationIds({ targetProfileId, organizationIds });
+  targetProfileOrganizations.attach(organizationIds);
+
+  await organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
 };
