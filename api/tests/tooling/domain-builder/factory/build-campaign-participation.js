@@ -1,6 +1,7 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const buildCampaign = require('./build-campaign');
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = function buildCampaignParticipation({
   id = 1,

@@ -1,5 +1,6 @@
 const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const Campaign = require('../../domain/models/Campaign');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
@@ -9,7 +10,7 @@ const DomainTransaction = require('../DomainTransaction');
 
 const _ = require('lodash');
 
-const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 const ATTRIBUTES_TO_UPDATE = [
   'createdAt',
@@ -174,7 +175,7 @@ function _rowToResult(row) {
   return {
     id: row.id,
     createdAt: new Date(row.createdAt),
-    isShared: row.status === CampaignParticipation.statuses.SHARED,
+    isShared: row.status === CampaignParticipationStatuses.SHARED,
     sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
     participantExternalId: row.participantExternalId,
     userId: row.userId,

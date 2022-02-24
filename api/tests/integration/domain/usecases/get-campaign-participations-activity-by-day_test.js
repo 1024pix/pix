@@ -1,9 +1,9 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | UseCase | get-campaign-participations-activity-by-day', function () {
   let organizationId;

@@ -14,8 +14,8 @@ const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
-const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 const POLE_EMPLOI_CAMPAIGN_ID = 5;
 
@@ -317,15 +317,19 @@ function _buildParticipations({ databaseBuilder }) {
 }
 
 function _buildUsers({ databaseBuilder, users }) {
-  return users.map((user) => databaseBuilder.factory.buildUser.withRawPassword({ ...user, rawPassword: DEFAULT_PASSWORD }));
+  return users.map((user) => {
+    const databaseUser = databaseBuilder.factory.buildUser.withRawPassword({ ...user, rawPassword: DEFAULT_PASSWORD });
+    databaseBuilder.factory.buildSchoolingRegistration({ ...user, id: databaseUser.id, userId: databaseUser.id, organizationId: PRO_COMPANY_ID });
+    return databaseUser;
+  });
 }
 
 function _buildParticipationsInDifferentStatus({ databaseBuilder, user }) {
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 2, user, schoolingRegistrationId: null, status: STARTED }); //started
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 12, user, schoolingRegistrationId: null, status: TO_SHARE }); //to share
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 13, user, schoolingRegistrationId: null, status: SHARED });//archived + shared
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 14, user, schoolingRegistrationId: null, status: STARTED });//archived + started
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 15, user, schoolingRegistrationId: null, status: SHARED });//archived + shared + badges
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 2, user, schoolingRegistrationId: user.id, status: STARTED }); //started
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 12, user, schoolingRegistrationId: user.id, status: TO_SHARE }); //to share
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 13, user, schoolingRegistrationId: user.id, status: SHARED });//archived + shared
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 14, user, schoolingRegistrationId: user.id, status: STARTED });//archived + started
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 15, user, schoolingRegistrationId: user.id, status: SHARED });//archived + shared + badges
 }
 
 function _buildAssessmentParticipations({ databaseBuilder, users }) {
@@ -336,29 +340,29 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
   const userIdsCompletedShared2 = [users[0], users[9]];
   const userIdsCompletedSharedWith2Badges = [users[3], users[11]];
 
-  userIdsNotCompleted.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: null, status: STARTED }));
-  userIdsNotShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: null, status: TO_SHARE }));
+  userIdsNotCompleted.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: STARTED }));
+  userIdsNotShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: TO_SHARE }));
   userIdsNotShared2.forEach((user) => {
-    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: null, status: TO_SHARE });
+    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: TO_SHARE });
     databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
   });
   userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, status: SHARED }));
   userIdsCompletedShared2.forEach((user) => {
-    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: null, status: SHARED });
+    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: SHARED });
     databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
   });
   userIdsCompletedSharedWith2Badges.forEach((user) => {
-    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: null, status: SHARED });
+    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: SHARED });
     databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
     databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
   });
 
   //multiple sendings profiles collection campaign
-  userIdsNotCompleted.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: null, status: STARTED }));
-  userIdsNotShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: null, status: TO_SHARE }));
-  userIdsNotShared2.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: null, status: TO_SHARE, isImprovingOldParticipation: true }));
-  userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: null, status: SHARED }));
-  userIdsCompletedShared2.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: null, status: SHARED, isImprovingOldParticipation: true }));
+  userIdsNotCompleted.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: user.id, status: STARTED }));
+  userIdsNotShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: user.id, status: TO_SHARE }));
+  userIdsNotShared2.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: user.id, status: TO_SHARE, isImprovingOldParticipation: true }));
+  userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: user.id, status: SHARED }));
+  userIdsCompletedShared2.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, schoolingRegistrationId: user.id, status: SHARED, isImprovingOldParticipation: true }));
 }
 
 function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
@@ -370,13 +374,17 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   const certifRegularUser4 = { id: CERTIF_REGULAR_USER4_ID, createdAt: new Date('2022-02-06') };
   const certifRegularUser5 = { id: CERTIF_REGULAR_USER5_ID, createdAt: new Date('2022-02-07') };
 
-  [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, schoolingRegistrationId: null, status: TO_SHARE }));
-  [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, schoolingRegistrationId: null, status: SHARED }));
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].map((certifUser) => {
+    databaseBuilder.factory.buildSchoolingRegistration({ ...certifUser, userId: certifUser.id, organizationId: PRO_COMPANY_ID });
+  });
+
+  [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, schoolingRegistrationId: user.id, status: TO_SHARE }));
+  [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, schoolingRegistrationId: user.id, status: SHARED }));
 
   //multiple sendings profiles collection campaign
-  userIdsShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: null, status: SHARED }));
-  userIdsNotShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: null, status: TO_SHARE, isImprovingOldParticipation: true }));
-  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: null, status: SHARED, isImprovingOldParticipation: true }));
+  userIdsShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: SHARED }));
+  userIdsNotShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: TO_SHARE, isImprovingOldParticipation: true }));
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: SHARED, isImprovingOldParticipation: true }));
 }
 
 function _buildMedNumAssessmentParticipations({ databaseBuilder }) {
@@ -388,5 +396,11 @@ function _buildMedNumAssessmentParticipations({ databaseBuilder }) {
     isAnonymous: true,
     createdAt: new Date('2022-01-01'),
   });
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 11, user: anonymousUser, schoolingRegistrationId: null, status: SHARED });
+  const anonymousSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: '',
+    lastName: '',
+    userId: anonymousUser.id,
+    organizationId: PRO_MED_NUM_ID,
+  });
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 11, user: anonymousUser, schoolingRegistrationId: anonymousSchoolingRegistration.id, status: SHARED });
 }

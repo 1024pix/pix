@@ -1,8 +1,8 @@
 const { expect } = require('../../../test-helper');
 const CampaignProfile = require('../../../../lib/domain/read-models/CampaignProfile');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
+const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Read-Models | CampaignProfile', function () {
   describe('#isCertifiable', function () {

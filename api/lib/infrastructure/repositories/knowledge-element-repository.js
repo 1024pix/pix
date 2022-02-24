@@ -3,13 +3,13 @@ const bluebird = require('bluebird');
 const constants = require('../constants');
 const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements).orderBy('createdAt', 'desc').uniqBy('skillId').value();

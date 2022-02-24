@@ -1,8 +1,8 @@
 const campaignParticipationsStatsRepository = require('../../../../lib/infrastructure/repositories/campaign-participations-stats-repository');
 const { expect, databaseBuilder } = require('../../../test-helper');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participations Stats', function () {
   describe('#getParticipationsActivityByDate', function () {

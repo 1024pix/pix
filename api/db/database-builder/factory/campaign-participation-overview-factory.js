@@ -4,9 +4,9 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 const buildTargetProfileSkill = require('./build-target-profile-skill');
 const buildTargetProfile = require('./build-target-profile');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 module.exports = {
   build({ userId, createdAt, sharedAt, assessmentCreatedAt, assessmentState, campaignId, id } = {}) {

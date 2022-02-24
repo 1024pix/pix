@@ -3,9 +3,9 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
 const scorecardService = require('../../../../lib/domain/services/scorecard-service');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED, SHARED } = CampaignParticipation.statuses;
+const { STARTED, SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Service | ScorecardService', function () {
   describe('#computeScorecard', function () {

@@ -1,5 +1,5 @@
 const AssessmentCompleted = require('../events/AssessmentCompleted');
-const CampaignParticipation = require('../models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
 
 const { AlreadyRatedAssessmentError } = require('../errors');
 
@@ -18,7 +18,7 @@ module.exports = async function completeAssessment({
   await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
 
   if (assessment.campaignParticipationId) {
-    const { TO_SHARE } = CampaignParticipation.statuses;
+    const { TO_SHARE } = CampaignParticipationStatuses;
 
     await campaignParticipationRepository.update(
       { id: assessment.campaignParticipationId, status: TO_SHARE },

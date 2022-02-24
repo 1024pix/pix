@@ -1,8 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const CampaignAssessmentParticipationResult = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
+const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function () {
   describe('constructor', function () {

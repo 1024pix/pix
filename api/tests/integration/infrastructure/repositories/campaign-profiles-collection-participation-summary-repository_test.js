@@ -1,9 +1,9 @@
 const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const campaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function () {
   describe('#findPaginatedByCampaignId', function () {

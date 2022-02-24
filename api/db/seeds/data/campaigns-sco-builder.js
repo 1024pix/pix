@@ -7,8 +7,8 @@ const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
 const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID, SCO_AEFE_ID } = require('./organizations-sco-builder');
 const { SCO_STUDENT_ID, SCO_FRENCH_USER_ID, SCO_FOREIGNER_USER_ID, SCO_DISABLED_USER_ID } = require('./organizations-sco-builder');
 const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
-const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 module.exports = {
   campaignsScoBuilder,

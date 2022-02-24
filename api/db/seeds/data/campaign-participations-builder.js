@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
-const { SHARED, STARTED } = CampaignParticipation.statuses;
+const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 function _mapAssessmentStateFromParticipationStatus(status) {
   if (status === STARTED) {

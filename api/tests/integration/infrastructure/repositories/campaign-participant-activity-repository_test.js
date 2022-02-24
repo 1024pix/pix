@@ -1,9 +1,9 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignParticipantActivityRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-activity-repository');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participant activity', function () {
   describe('#findPaginatedByCampaignId', function () {

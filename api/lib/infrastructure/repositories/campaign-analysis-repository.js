@@ -3,10 +3,10 @@ const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const CampaignAnalysis = require('../../domain/read-models/CampaignAnalysis');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const constants = require('../constants');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = {
   async getCampaignAnalysis(campaignId, targetProfileWithLearningContent, tutorials) {

@@ -3,10 +3,10 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const CampaignProfile = require('../../../../../lib/domain/read-models/CampaignProfile');
 const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
-const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 const Area = require('../../../../../lib/domain/models/Area');
 
-const { SHARED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function () {
   describe('#serialize', function () {

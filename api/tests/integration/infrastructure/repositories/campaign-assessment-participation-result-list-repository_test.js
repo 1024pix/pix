@@ -1,8 +1,8 @@
 const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const campaignAssessmentParticipationResultListRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Assessment Participation Result List', function () {
   describe('#findPaginatedByCampaignId', function () {

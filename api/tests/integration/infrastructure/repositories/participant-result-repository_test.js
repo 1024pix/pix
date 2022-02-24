@@ -2,10 +2,10 @@ const { catchErr, expect, databaseBuilder, mockLearningContent } = require('../.
 const participantResultRepository = require('../../../../lib/infrastructure/repositories/participant-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | ParticipantResultRepository', function () {
   describe('#getByUserIdAndCampaignId', function () {

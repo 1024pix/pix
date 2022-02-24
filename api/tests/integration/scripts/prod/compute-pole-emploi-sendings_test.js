@@ -11,9 +11,9 @@ const {
 const computePoleEmploiSendings = require('../../../../scripts/prod/compute-pole-emploi-sendings');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipation.statuses;
+const { STARTED } = CampaignParticipationStatuses;
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 function setLearningContent(learningContent) {
   const learningObjects = learningContentBuilder.buildLearningContent(learningContent);

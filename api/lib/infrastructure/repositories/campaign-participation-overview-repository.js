@@ -4,7 +4,7 @@ const CampaignParticipationOverview = require('../../domain/read-models/Campaign
 const { fetchPage } = require('../utils/knex-utils');
 const targetProfileWithLearningContentRepository = require('../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository.js');
 const bluebird = require('bluebird');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
 module.exports = {
   async findByUserIdWithFilters({ userId, states, page }) {
@@ -64,7 +64,7 @@ function _computeCampaignParticipationState() {
     WHEN "campaign-participations"."status" = ? THEN 'ENDED'
     ELSE 'TO_SHARE'
   END`,
-    [CampaignParticipation.statuses.STARTED, CampaignParticipation.statuses.SHARED]
+    [CampaignParticipationStatuses.STARTED, CampaignParticipationStatuses.SHARED]
   );
 }
 
