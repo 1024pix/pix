@@ -22,16 +22,22 @@
               {{#each certifiedTube.certifiedSkills as |certifiedSkill|}}
                 <td class="table__column--center skill-column">
                   {{#if certifiedSkill.hasBeenAskedInCertif}}
-                    <PixTooltip @text={{concat certifiedSkill.id " " certifiedSkill.name}} @position="bottom">
-                      <FaIcon
-                        @icon="check-double"
-                        class="skill-column--tested-in-certif"
-                        aria-label={{certifiedSkill.name}}
-                      />
+                    <PixTooltip @position="bottom">
+                      <:triggerElement>
+                        <FaIcon
+                          @icon="check-double"
+                          class="skill-column--tested-in-certif"
+                          aria-label={{certifiedSkill.name}}
+                        />
+                      </:triggerElement>
+                      <:tooltip>{{concat certifiedSkill.id " " certifiedSkill.name}}</:tooltip>
                     </PixTooltip>
                   {{else if certifiedSkill}}
-                    <PixTooltip @text={{concat certifiedSkill.id " " certifiedSkill.name}} @position="bottom">
-                      <FaIcon @icon="check" class="skill-column--check" aria-label={{certifiedSkill.name}} />
+                    <PixTooltip @position="bottom">
+                      <:triggerElement>
+                        <FaIcon @icon="check" class="skill-column--check" aria-label={{certifiedSkill.name}} />
+                      </:triggerElement>
+                      <:tooltip>{{concat certifiedSkill.id " " certifiedSkill.name}}</:tooltip>
                     </PixTooltip>
                   {{else}}
                     <FaIcon @icon="times" class="skill-column--uncheck" />

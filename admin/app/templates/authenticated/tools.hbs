@@ -46,7 +46,7 @@
         <h2 class="page-section__title">Créer un nouveau tag</h2>
       </header>
       <form onSubmit={{this.createNewTag}} class="tools__create-tag-form">
-        <PixInput @id="tagNameInput" @value={{this.tagName}} @label="Nom du tag" />
+        <PixInput @id="tagNameInput" {{on "change" this.onChangeTagName}} @label="Nom du tag" />
         <PixButton @type="submit" @size="small">Créer le tag</PixButton>
       </form>
     </section>

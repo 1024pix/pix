@@ -5,7 +5,8 @@
       <div class="organization__sub-form">
         <PixInput
           @id="userEmailToAdd"
-          @value={{@userEmailToAdd}}
+          value={{@userEmailToAdd}}
+          {{on "change" @onChangeUserEmailToAdd}}
           @label="Adresse e-mail de l'utilisateur à ajouter"
           class="organization-team-section__input"
         />

@@ -14,14 +14,18 @@
           {{#if this.canPublish}}
             <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Publier la session</PixButton>
           {{else}}
-            <PixTooltip
-              @text="Vous ne pouvez pas publier la session tant qu'il reste des certifications en 'error' ou 'started'."
-              @position="left"
-              @isWide={{true}}
-            >
-              <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}} @isDisabled={{true}}>
-                Publier la session
-              </PixButton>
+
+            <PixTooltip @position="left" @isWide={{true}}>
+              <:triggerElement>
+                <PixButton
+                  @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}
+                  @isDisabled={{true}}
+                >
+                  Publier la session
+                </PixButton>
+              </:triggerElement>
+              <:tooltip>Vous ne pouvez pas publier la session tant qu'il reste des certifications en 'error' ou
+                'started'.</:tooltip>
             </PixTooltip>
           {{/if}}
 

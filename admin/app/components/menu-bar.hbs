@@ -2,71 +2,99 @@
 
   <ul class="menu-bar__entries">
     <li class="menu-bar__entry">
-      <PixTooltip @text="Organisations" @position="right">
-        <LinkTo @route="authenticated.organizations" data-test-id="menu-bar-link-organizations" class="menu-bar__link">
-          <FaIcon @icon="building" @title="Organisations" />
-        </LinkTo>
+      <PixTooltip @position="right">
+        <:triggerElement>
+          <LinkTo
+            @route="authenticated.organizations"
+            data-test-id="menu-bar-link-organizations"
+            class="menu-bar__link"
+          >
+            <FaIcon @icon="building" @title="Organisations" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Organisations</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Utilisateurs" @position="right">
-        <LinkTo @route="authenticated.users.list" data-test-id="menu-bar-link-users" class="menu-bar__link">
-          <FaIcon @icon="users" @title="Utilisateurs" />
-        </LinkTo>
+      <PixTooltip @position="right">
+        <:triggerElement>
+          <LinkTo @route="authenticated.users.list" data-test-id="menu-bar-link-users" class="menu-bar__link">
+            <FaIcon @icon="users" @title="Utilisateurs" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Utilisateurs</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Centres de certification" @position="right" @inline={{true}}>
-        <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link">
-          <FaIcon @icon="map-pin" @title="Centres de certification" />
-        </LinkTo>
+      <PixTooltip @position="right" @inline={{true}}>
+        <:triggerElement>
+          <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link">
+            <FaIcon @icon="map-pin" @title="Centres de certification" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Centres de certification</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Sessions de certifications" @position="right" @inline={{true}}>
-        <LinkTo
-          @route="authenticated.sessions.list.with-required-action"
-          data-test-id="menu-bar__link--sessions"
-          class="menu-bar__link"
-        >
-          <FaIcon @icon="chalkboard-teacher" @title="Sessions de certifications" />
-        </LinkTo>
+      <PixTooltip @position="right" @inline={{true}}>
+        <:triggerElement>
+          <LinkTo
+            @route="authenticated.sessions.list.with-required-action"
+            data-test-id="menu-bar__link--sessions"
+            class="menu-bar__link"
+          >
+            <FaIcon @icon="chalkboard-teacher" @title="Sessions de certifications" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Sessions de certifications</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Certifications" @position="right" @inline={{true}}>
-        <LinkTo
-          @route="authenticated.certifications"
-          data-test-id="menu-bar-link-certifications"
-          class="menu-bar__link"
-        >
-          <FaIcon @icon="graduation-cap" @title="Certifications" />
-        </LinkTo>
+      <PixTooltip @position="right" @inline={{true}}>
+        <:triggerElement>
+          <LinkTo
+            @route="authenticated.certifications"
+            data-test-id="menu-bar-link-certifications"
+            class="menu-bar__link"
+          >
+            <FaIcon @icon="graduation-cap" @title="Certifications" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Certifications</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Profils cibles" @position="right" @inline={{true}}>
-        <LinkTo
-          @route="authenticated.target-profiles.list"
-          data-test-id="menu-bar-link--target-profiles"
-          class="menu-bar__link"
-        >
-          <FaIcon @icon="clipboard-list" @title="Profils cibles" />
-        </LinkTo>
+      <PixTooltip @position="right" @inline={{true}}>
+        <:triggerElement>
+          <LinkTo
+            @route="authenticated.target-profiles.list"
+            data-test-id="menu-bar-link--target-profiles"
+            class="menu-bar__link"
+          >
+            <FaIcon @icon="clipboard-list" @title="Profils cibles" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Profils cibles</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Outils" @position="right">
-        <LinkTo @route="authenticated.tools" data-test-id="menu-bar-link-tools" class="menu-bar__link">
-          <FaIcon @icon="tools" @title="Outils" />
-        </LinkTo>
+      <PixTooltip @position="right">
+        <:triggerElement>
+          <LinkTo @route="authenticated.tools" data-test-id="menu-bar-link-tools" class="menu-bar__link">
+            <FaIcon @icon="tools" @title="Outils" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Outils</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text="Se déconnecter" @position="right" @inline={{true}}>
-        <LinkTo @route="logout" data-test-id="menu-bar-link-logout" class="menu-bar__link">
-          <FaIcon @icon="power-off" @title="Se déconnecter" />
-        </LinkTo>
+      <PixTooltip @position="right" @inline={{true}}>
+        <:triggerElement>
+          <LinkTo @route="logout" data-test-id="menu-bar-link-logout" class="menu-bar__link">
+            <FaIcon @icon="power-off" @title="Se déconnecter" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Se déconnecter</:tooltip>
       </PixTooltip>
     </li>
   </ul>

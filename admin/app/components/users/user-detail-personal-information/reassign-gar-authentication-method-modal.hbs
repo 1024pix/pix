@@ -12,7 +12,7 @@
       <PixInput
         @id="user-id-for-reassign-authentication-method"
         @label="Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion"
-        @value={{@targetUserId}}
+        {{on "change" @onChangeTargetUserId}}
         type="number"
         required
       />
