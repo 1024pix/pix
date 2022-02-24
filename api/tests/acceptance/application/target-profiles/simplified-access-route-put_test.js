@@ -8,7 +8,7 @@ const createServer = require('../../../../server');
 
 describe('Acceptance | Route | Target-profiles', function () {
   describe('PUT /api/admin/target-profiles/{id}/simplified-access', function () {
-    it('should return 204 HTTP status code', async function () {
+    it('should return 200 HTTP status code', async function () {
       // given
       const server = await createServer();
 
@@ -28,7 +28,16 @@ describe('Acceptance | Route | Target-profiles', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(200);
+      expect(response.payload).to.equal(
+        JSON.stringify({
+          data: {
+            type: 'target-profiles',
+            id: targetProfile.id.toString(),
+            attributes: { 'is-simplified-access': true },
+          },
+        })
+      );
     });
   });
 });

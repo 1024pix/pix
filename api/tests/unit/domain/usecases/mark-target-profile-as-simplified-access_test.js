@@ -8,9 +8,10 @@ describe('Unit | UseCase | mark-target-profile-as-simplified-access', function (
       update: sinon.stub(),
     };
     const targetProfile = domainBuilder.buildTargetProfile({ id: 12345, isSimplifiedAccess: false });
+    targetProfileRepository.update.resolves({ id: targetProfile.id, isSimplifiedAccess: true });
 
     //when
-    await markTargetProfileAsSimplifiedAccess({
+    const result = await markTargetProfileAsSimplifiedAccess({
       id: targetProfile.id,
       targetProfileRepository,
     });
@@ -20,5 +21,6 @@ describe('Unit | UseCase | mark-target-profile-as-simplified-access', function (
       id: 12345,
       isSimplifiedAccess: true,
     });
+    expect(result).to.deep.equal({ id: targetProfile.id, isSimplifiedAccess: true });
   });
 });

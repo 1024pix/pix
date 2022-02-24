@@ -547,21 +547,18 @@ describe('Integration | Repository | Target-profile', function () {
       expect(outdated).to.equal(targetProfile.outdated);
     });
 
-    it('should update the target profile "isSimplifiedAccess"', async function () {
+    it('should update and return the target profile "isSimplifiedAccess" attribute', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
       await databaseBuilder.commit();
 
       // when
       targetProfile.isSimplifiedAccess = true;
-      await targetProfileRepository.update(targetProfile);
+      const result = await targetProfileRepository.update(targetProfile);
 
       // then
-      const { isSimplifiedAccess } = await knex('target-profiles')
-        .select('isSimplifiedAccess')
-        .where('id', targetProfile.id)
-        .first();
-      expect(isSimplifiedAccess).to.equal(true);
+      expect(result).to.be.instanceOf(TargetProfile);
+      expect(result.isSimplifiedAccess).to.equal(true);
     });
 
     it('should not update the target profile and throw an error while id not existing', async function () {

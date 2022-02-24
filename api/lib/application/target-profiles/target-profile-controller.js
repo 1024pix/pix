@@ -100,7 +100,7 @@ module.exports = {
   async markTargetProfileAsSimplifiedAccess(request, h) {
     const id = request.params.id;
 
-    await usecases.markTargetProfileAsSimplifiedAccess({ id });
-    return h.response({}).code(204);
+    const targetProfile = await usecases.markTargetProfileAsSimplifiedAccess({ id });
+    return h.response(targetProfileSerializer.serialize(targetProfile));
   },
 };
