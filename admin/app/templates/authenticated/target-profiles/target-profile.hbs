@@ -96,14 +96,35 @@
     @show={{this.displayConfirm}}
   />
 
-  <ConfirmPopup
-    @message="Pour tous les utilisateurs qui accéderont à des campagnes avec ce profil cible, l’accès se fera sans inscription et donc sans création de compte. Ils accéderont à ces campagnes de manière anonyme. Cette action est irréversible."
-    @title="Êtes-vous sûr de vouloir marquer ce profil cible comme accès simplifié ?"
-    @submitTitle="Oui, marquer comme accès simplifié"
-    @closeTitle="Non, annuler"
-    @size="lg"
-    @confirm={{this.markTargetProfileAsSimplifiedAccess}}
-    @cancel={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
-    @show={{this.displaySimplifiedAccessPopupConfirm}}
-  />
+  {{#if this.displaySimplifiedAccessPopupConfirm}}
+    <PixModal
+      @title="Êtes-vous sûr de vouloir marquer ce profil cible comme accès simplifié ?"
+      @onCloseButtonClick={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
+    >
+      <:content>
+        <p>
+          Pour tous les utilisateurs qui accéderont à des campagnes avec ce profil cible, l’accès se fera sans
+          inscription et donc sans création de compte. Ils accéderont à ces campagnes de manière anonyme.
+        </p>
+        <p>
+          <strong>
+            Cette action est irréversible.
+          </strong>
+        </p>
+      </:content>
+      <:footer>
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
+        >
+          Non, annuler
+        </PixButton>
+        <PixButton @type="submit" @size="small" {{on "click" this.markTargetProfileAsSimplifiedAccess}}>
+          Oui, marquer comme accès simplifié
+        </PixButton>
+      </:footer>
+    </PixModal>
+  {{/if}}
 </main>
