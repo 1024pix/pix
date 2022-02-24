@@ -154,16 +154,18 @@
   @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
 />
 
-<Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
-  @showReassignGarAuthenticationMethodModal={{this.showReassignGarAuthenticationMethodModal}}
-  @onChangeTargetUserId={{this.onChangeTargetUserId}}
-  @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
-  @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
-/>
+{{#if this.showReassignGarAuthenticationMethodModal}}
+  <Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
+    @onChangeTargetUserId={{this.onChangeTargetUserId}}
+    @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
+    @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
+  />
+{{/if}}
 
-<Users::UserDetailPersonalInformation::ReassignPoleEmploiAuthenticationMethodModal
-  @showReassignPoleEmploiAuthenticationMethodModal={{this.showReassignPoleEmploiAuthenticationMethodModal}}
-  @onChangeTargetUserId={{this.onChangeTargetUserId}}
-  @toggleReassignPoleEmploiAuthenticationMethodModal={{this.toggleReassignPoleEmploiAuthenticationMethodModal}}
-  @submitReassignPoleEmploiAuthenticationMethod={{this.submitReassignPoleEmploiAuthenticationMethod}}
-/>
+{{#if this.showReassignPoleEmploiAuthenticationMethodModal}}
+  <Users::UserDetailPersonalInformation::ReassignPoleEmploiAuthenticationMethodModal
+    @onChangeTargetUserId={{this.onChangeTargetUserId}}
+    @toggleReassignPoleEmploiAuthenticationMethodModal={{this.toggleReassignPoleEmploiAuthenticationMethodModal}}
+    @submitReassignPoleEmploiAuthenticationMethod={{this.submitReassignPoleEmploiAuthenticationMethod}}
+  />
+{{/if}}

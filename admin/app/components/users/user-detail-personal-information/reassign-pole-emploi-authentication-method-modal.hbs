@@ -1,31 +1,30 @@
-<Modal::Dialog
+<PixModal
   @title="Déplacer la méthode de connexion"
-  @display={{@showReassignPoleEmploiAuthenticationMethodModal}}
-  @close={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
+  @onCloseButtonClick={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
 >
-  <form {{on "submit" @submitReassignPoleEmploiAuthenticationMethod}}>
-    <Modal::Body class="reassign-authentication-method-modal__form-body">
-      <p class="reassign-authentication-method-modal__form-body__information">
-        Vous vous apprêtez à déplacer la méthode Pôle Emploi sur un autre utilisateur. Cela signifie qu'elle n'existera
-        plus pour cet utilisateur.
-      </p>
-      <PixInput
-        @id="user-id-for-reassign-authentication-method"
-        @label="Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion"
-        {{on "change" @onChangeTargetUserId}}
-        type="number"
-        required
-      />
-    </Modal::Body>
+  <:content>
+    <p class="reassign-authentication-method-modal__form-body__information">
+      Vous vous apprêtez à déplacer la méthode Pôle Emploi sur un autre utilisateur. Cela signifie qu'elle n'existera
+      plus pour cet utilisateur.
+    </p>
+    <PixInput
+      @id="user-id-for-reassign-authentication-method"
+      @label="Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion"
+      {{on "change" @onChangeTargetUserId}}
+      type="number"
+      required
+    />
+  </:content>
 
-    <Modal::Footer>
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
-      >Annuler</PixButton>
-      <PixButton @type="submit" @size="small">Valider le déplacement</PixButton>
-    </Modal::Footer>
-  </form>
-</Modal::Dialog>
+  <:footer>
+    <PixButton
+      @size="small"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
+    >Annuler</PixButton>
+    <PixButton @type="submit" @size="small" {{on "click" @submitReassignPoleEmploiAuthenticationMethod}}>
+      Valider le déplacement
+    </PixButton>
+  </:footer>
+</PixModal>
