@@ -1,9 +1,5 @@
 {{#if @model}}
-  <div class="user-tutorials-content-v2__container">
-    {{#each @model as |tutorial|}}
-      <Tutorials::Card @tutorial={{tutorial}} />
-    {{/each}}
-  </div>
+  <Tutorials::Cards @tutorials={{@model}} />
 {{else}}
   <Tutorials::SavedEmpty />
 {{/if}}
