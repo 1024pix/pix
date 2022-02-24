@@ -649,7 +649,6 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
                   <table:content-validation table:name="validator2000"
                                             table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)"
                                             table:allow-empty-cell="true">
-                      <table:error-message table:display="true" table:message-type="stop"/>
                       <table:help-message table:title="Code de prépaiement" table:display="true">
                           <text:p>(Requis notamment dans le cas d'un achat de crédits combinés)</text:p>
                           <text:p>Doit être composé du SIRET de l’organisation et du numéro de facture. Ex :
@@ -657,6 +656,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
                           </text:p>
                           <text:p>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.</text:p>
                       </table:help-message>
+                      <table:error-message table:display="true" table:message-type="stop"/>
                   </table:content-validation>
               </table:content-validations>
           </xml>
@@ -694,7 +694,6 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
                   <table:content-validation table:name="validator2000"
                                             table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)"
                                             table:allow-empty-cell="true">
-                      <table:error-message table:display="true" table:message-type="stop"/>
                       <table:help-message table:title="Code de prépaiement" table:display="true">
                           <text:p>(Requis notamment dans le cas d'un achat de crédits combinés)</text:p>
                           <text:p>Doit être composé du SIRET de l’organisation et du numéro de facture. Ex :
@@ -702,6 +701,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
                           </text:p>
                           <text:p>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.</text:p>
                       </table:help-message>
+                      <table:error-message table:display="true" table:message-type="stop"/>
                   </table:content-validation>
               </table:content-validations>
           </xml>
@@ -735,7 +735,6 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
         <xml xmlns:table="">
           <table:content-validations>
             <table:content-validation table:name="important-info">
-                <table:error-message table:display="true" table:message-type="stop"/>
                 <table:help-message table:title="Please read this important information" table:display="true">
                     <text:p>Cant touch this</text:p>
                     <text:p>Tuuuu tu tu tu</text:p>
@@ -743,6 +742,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
                     <text:p>Tu tu</text:p>
                     <text:p>Cant touch this</text:p>
                 </table:help-message>
+                <table:error-message table:display="true" table:message-type="stop"/>
             </table:content-validation>
           </table:content-validations>
         </xml>
