@@ -19,7 +19,8 @@ module('Integration | Component | organization-team-actions-section', function (
     await render(hbs`<Organizations::TeamActionsSection
       @addMembership={{addMembership}}
       @createOrganizationInvitation={{noop}}
-      @triggerFiltering={{noop}}/>`);
+      @triggerFiltering={{noop}}
+      @onChangeUserEmailToAdd={{noop}} />`);
 
     await fillInByLabel('Ajouter un membre', 'user@example.net');
     await clickByLabel('Ajouter un membre');

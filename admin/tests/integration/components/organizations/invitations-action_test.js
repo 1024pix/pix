@@ -12,10 +12,13 @@ module('Integration | Component | organization-invitations-action', function (ho
     // given
     const createOrganizationInvitationStub = sinon.stub();
     this.set('createOrganizationInvitation', createOrganizationInvitationStub);
+    this.set('noop', () => {});
 
     // when
     await render(
-      hbs`<Organizations::InvitationsAction @createOrganizationInvitation={{createOrganizationInvitation}}/>`
+      hbs`<Organizations::InvitationsAction
+        @createOrganizationInvitation={{createOrganizationInvitation}}
+        @onChangeUserEmailToInvite={{noop}}/>`
     );
     await clickByText('Inviter');
 

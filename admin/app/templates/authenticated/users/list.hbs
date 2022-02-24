@@ -3,10 +3,10 @@
 <header class="page-header">
   <h1 class="page-title">Rechercher un(des) utilisateur(s)</h1>
   <div class="page-actions">
-    <form class="form-inline" {{on "submit" this.refreshModel}}>
-      <PixInput @id="firstName" @value={{this.firstNameForm}} placeholder="Prénom" />
-      <PixInput @id="lastName" @value={{this.lastNameForm}} placeholder="Nom" />
-      <PixInput @id="email" @value={{this.emailForm}} placeholder="Email" />
+    <form class="form-inline user-list__form" {{on "submit" this.refreshModel}}>
+      <PixInput @id="firstName" {{on "change" this.onChangeFirstName}} placeholder="Prénom" />
+      <PixInput @id="lastName" {{on "change" this.onChangeLastName}} placeholder="Nom" />
+      <PixInput @id="email" {{on "change" this.onChangeEmail}} placeholder="Adresse e-mail" />
       <PixButton @size="small" @type="submit">Charger</PixButton>
     </form>
   </div>

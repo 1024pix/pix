@@ -1,14 +1,11 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import debounce from 'lodash/debounce';
-import config from 'pix-admin/config/environment';
 import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email'];
-  DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
@@ -20,23 +17,27 @@ export default class ListController extends Controller {
   @tracked lastNameForm = null;
   @tracked emailForm = null;
 
-  pendingFilters = {};
-
-  debouncedUpdateFilters = debounce(this.updateFilters, this.DEBOUNCE_MS);
-
-  updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
+  @action
+  async refreshModel(event) {
+    event.preventDefault();
+    this.firstName = this.firstNameForm;
+    this.lastName = this.lastNameForm;
+    this.email = this.emailForm;
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
-  async refreshModel(event) {
-    await this.debouncedUpdateFilters({
-      firstName: this.firstNameForm,
-      lastName: this.lastNameForm,
-      email: this.emailForm,
-    });
+  onChangeFirstName(event) {
+    this.firstNameForm = event.target.value;
+  }
 
-    event.preventDefault();
+  @action
+  onChangeLastName(event) {
+    this.lastNameForm = event.target.value;
+  }
+
+  @action
+  onChangeEmail(event) {
+    this.emailForm = event.target.value;
   }
 }

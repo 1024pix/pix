@@ -50,4 +50,9 @@ export default class ToolsController extends Controller {
       }
     }
   }
+
+  @action
+  onChangeTagName(event) {
+    this.tagName = event.target.value;
+  }
 }

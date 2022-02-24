@@ -103,4 +103,9 @@ export default class GetTeamController extends Controller {
       this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
     }
   }
+
+  @action
+  onChangeUserEmailToAdd(event) {
+    this.userEmailToAdd = event.target.value;
+  }
 }
