@@ -33,21 +33,15 @@ function _getParticipantsResultList(campaignId, targetProfile, filters) {
 
 function _getParticipations(qb, campaignId, targetProfile, filters) {
   qb.select(
-    knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
-    knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+    'schooling-registrations.firstName',
+    'schooling-registrations.lastName',
     'campaign-participations.participantExternalId',
     'campaign-participations.masteryRate',
     'campaign-participations.id AS campaignParticipationId',
-    'users.id AS userId'
+    'campaign-participations.userId'
   )
     .from('campaign-participations')
-    .join('users', 'users.id', 'campaign-participations.userId')
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('schooling-registrations', function () {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-        'campaigns.organizationId': 'schooling-registrations.organizationId',
-      });
-    })
+    .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.isImproved', '=', false)
