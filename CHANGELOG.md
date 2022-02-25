@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.176.0 (25/02/2022)
+
+
+### :rocket: Amélioration
+- [#4120](https://github.com/1024pix/pix/pull/4120) [FEATURE] Déplacer une méthode d'authentification Pole Emploi (ou Gar) d'un utilisateur à un autre (PIX-4175)
+- [#4131](https://github.com/1024pix/pix/pull/4131) [FEATURE] Permettre de marquer un profil cible comme étant "Parcours Accès Simplifié" sur Pix Admin (PIX-4042).
+- [#4128](https://github.com/1024pix/pix/pull/4128) [FEATURE] Résoudre manuellement un signalement - API (PIX-4412).
+- [#4126](https://github.com/1024pix/pix/pull/4126) [FEATURE] Affichage des participations à une campagne dans Pix Admin (PIX-4429).
+
+### :building_construction: Tech
+- [#4140](https://github.com/1024pix/pix/pull/4140) [TECH] Corriger les logs infinis lorsqu'on lance les tests unitaire en watch
+
+### :bug: Correction
+- [#4139](https://github.com/1024pix/pix/pull/4139) [BUGFIX] Corriger l'ODS d'import des candidats qui ne s'ouvre pas avec Excel (PIX-4467)
+
 ## v3.175.0 (24/02/2022)
 
 
