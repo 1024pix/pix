@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.176.1 (25/02/2022)
+
+
+### :bug: Correction
+- [#4143](https://github.com/1024pix/pix/pull/4143) [BUGFIX] Filtrer les tutoriels inexistants sur la page des tuto
+
 ## v3.176.0 (25/02/2022)
 
 
