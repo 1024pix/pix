@@ -1,7 +1,6 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignParticipantActivityRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-activity-repository');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const Campaign = require('../../../../lib/domain/models/Campaign');
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -75,36 +74,11 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       });
     });
 
-    context('when the campaign is assessment', function () {
-      context('When there are several assessments for the same participant', function () {
-        beforeEach(async function () {
-          campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-          const user = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId: campaign.id,
-            status: STARTED,
-            userId: user.id,
-          });
-
-          await databaseBuilder.commit();
-        });
-
-        it('Returns one CampaignParticipantActivity with the most recent assessment', async function () {
-          const { campaignParticipantsActivities } =
-            await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-          const statuses = campaignParticipantsActivities.map((activity) => activity.status);
-
-          expect(statuses).to.have.lengthOf(1);
-          expect(statuses).to.exactlyContain([STARTED]);
-        });
-      });
-    });
-
-    context('when the campaign is profile collection', function () {
+    context('status', function () {
       context('when the participation is shared', function () {
         it('should return status shared', async function () {
-          campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
+          campaign = databaseBuilder.factory.buildCampaign();
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: SHARED });
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } =
@@ -115,13 +89,25 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
       context('when the participation is not shared', function () {
         it('should return status to share', async function () {
-          campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+          campaign = databaseBuilder.factory.buildCampaign();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: TO_SHARE });
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } =
             await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           expect(campaignParticipantsActivities[0].status).to.equal(TO_SHARE);
+        });
+      });
+
+      context('when the participation is started', function () {
+        it('should return status started', async function () {
+          campaign = databaseBuilder.factory.buildCampaign();
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: STARTED });
+          await databaseBuilder.commit();
+
+          const { campaignParticipantsActivities } =
+            await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+          expect(campaignParticipantsActivities[0].status).to.equal(STARTED);
         });
       });
     });
