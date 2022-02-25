@@ -20,7 +20,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
       await userTutorialRepository.addTutorial({ userId, tutorialId });
 
       // then
-      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+      const userTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
       expect(userTutorials).to.have.length(1);
     });
 
@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
       const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
 
       // then
-      const savedUserTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+      const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
       expect(userTutorial).to.be.instanceOf(UserTutorial);
       expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
       expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
@@ -39,14 +39,14 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
     context('when the tutorialId already exists in the user list', function () {
       it('should not store the tutorialId', async function () {
         // given
-        databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
         await databaseBuilder.commit();
 
         // when
         const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
 
         // then
-        const savedUserTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+        const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
         expect(savedUserTutorials).to.have.length(1);
         expect(userTutorial).to.be.instanceOf(UserTutorial);
         expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
@@ -61,7 +61,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
       it('should return user-tutorials belonging to given user', async function () {
         // given
         const tutorialId = 'recTutorial';
-        databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -97,7 +97,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         };
         mockLearningContent(learningContent);
 
-        databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
     context('when user has saved a tutorial not available anymore', function () {
       it('should return an empty list', async function () {
         mockLearningContent({ tutorials: [] });
-        databaseBuilder.factory.buildUserTutorial({ tutorialId: 'recTutorial', userId });
+        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId: 'recTutorial', userId });
         await databaseBuilder.commit();
 
         const userTutorialsWithTutorials = await userTutorialRepository.findWithTutorial({ userId });
@@ -142,12 +142,12 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
     it('should delete the user tutorial', async function () {
       // given
-      databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+      databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
       await databaseBuilder.commit();
 
       // when
       await userTutorialRepository.removeFromUser({ userId, tutorialId });
-      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+      const userTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
 
       // then
       expect(userTutorials).to.have.length(0);
@@ -157,7 +157,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
       it('should do nothing', async function () {
         // when
         await userTutorialRepository.removeFromUser({ userId, tutorialId });
-        const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+        const userTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
 
         // then
         expect(userTutorials).to.have.length(0);

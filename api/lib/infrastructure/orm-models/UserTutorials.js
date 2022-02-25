@@ -5,7 +5,7 @@ const modelName = 'UserTutorials';
 module.exports = Bookshelf.model(
   modelName,
   {
-    tableName: 'user_tutorials',
+    tableName: 'user-saved-tutorials',
     hasTimestamps: ['createdAt', 'updatedAt'],
   },
   {
