@@ -394,8 +394,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
         };
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation, {});
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation, {});
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation);
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation);
 
         await databaseBuilder.commit();
 
@@ -442,7 +442,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           };
 
           for (let i = 0; i < 11; i++) {
-            databaseBuilder.factory.buildAssessmentFromParticipation(participation, {});
+            databaseBuilder.factory.buildAssessmentFromParticipation(participation);
           }
 
           await databaseBuilder.commit();
@@ -488,11 +488,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           participantExternalId: 'The good',
           campaignId: campaign.id,
         };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, {
           organizationId: campaign.organizationId,
-          userId: 1,
           division: 'Good Guys Team',
         });
 
@@ -500,11 +497,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           participantExternalId: 'The bad',
           campaignId: campaign.id,
         };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, {
           organizationId: campaign.organizationId,
-          userId: 2,
           division: 'Bad Guys Team',
         });
 
@@ -513,10 +507,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
         };
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, {
           organizationId: campaign.organizationId,
-          userId: 3,
           division: 'Ugly Guys Team',
         });
 
@@ -752,22 +744,26 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           threshold: 25,
         });
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 75 });
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { masteryRate: 0, participantExternalId: 'Juste Before', campaignId: campaign.id },
-          { id: 1 }
-        );
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { masteryRate: 0.25, participantExternalId: 'Stage Reached Boundary IN', campaignId: campaign.id },
-          { id: 2 }
-        );
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { masteryRate: 0.74, participantExternalId: 'Stage Reached Boundary OUT', campaignId: campaign.id },
-          { id: 3 }
-        );
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { masteryRate: 0.75, participantExternalId: 'Just After', campaignId: campaign.id },
-          { id: 4 }
-        );
+        databaseBuilder.factory.buildAssessmentFromParticipation({
+          masteryRate: 0,
+          participantExternalId: 'Juste Before',
+          campaignId: campaign.id,
+        });
+        databaseBuilder.factory.buildAssessmentFromParticipation({
+          masteryRate: 0.25,
+          participantExternalId: 'Stage Reached Boundary IN',
+          campaignId: campaign.id,
+        });
+        databaseBuilder.factory.buildAssessmentFromParticipation({
+          masteryRate: 0.74,
+          participantExternalId: 'Stage Reached Boundary OUT',
+          campaignId: campaign.id,
+        });
+        databaseBuilder.factory.buildAssessmentFromParticipation({
+          masteryRate: 0.75,
+          participantExternalId: 'Just After',
+          campaignId: campaign.id,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -837,10 +833,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
         };
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, {
           organizationId: campaign.organizationId,
-          userId: 1,
           group: 'Bad Puns Team',
         });
 
@@ -849,10 +843,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
         };
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, {
           organizationId: campaign.organizationId,
-          userId: 2,
           group: 'Royal Guard',
         });
 
@@ -861,10 +853,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
         };
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, {
           organizationId: campaign.organizationId,
-          userId: 3,
           group: 'Adoptive Brother',
         });
 
