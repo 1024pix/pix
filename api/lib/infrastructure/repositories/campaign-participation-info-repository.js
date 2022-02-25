@@ -10,22 +10,19 @@ module.exports = {
           'campaign-participations.*',
           'assessments.state',
           _assessmentRankByCreationDate(),
-          knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
-          knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+          'schooling-registrations.firstName',
+          'schooling-registrations.lastName',
           'schooling-registrations.studentNumber',
           'schooling-registrations.division',
           'schooling-registrations.group',
         ])
           .from('campaign-participations')
-          .join('users', 'campaign-participations.userId', 'users.id')
           .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
-          .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-          .leftJoin('schooling-registrations', function () {
-            this.on('schooling-registrations.userId', 'campaign-participations.userId').andOn(
-              'schooling-registrations.organizationId',
-              'campaigns.organizationId'
-            );
-          })
+          .join(
+            'schooling-registrations',
+            'schooling-registrations.id',
+            'campaign-participations.schoolingRegistrationId'
+          )
           .where({ campaignId: campaignId, isImproved: false });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')
