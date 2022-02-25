@@ -76,8 +76,12 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
       assert.equal(component.args.certificationCandidates.length, 1);
     });
   });
+
   module('#addCertificationCandidateInStaging', function () {
     test('should add an empty new candidate', async function (assert) {
+      // given
+      component.args.shouldDisplayPaymentOptions = false;
+
       const newCandidate = EmberObject.create({
         firstName: '',
         lastName: '',
@@ -98,6 +102,36 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
 
       // then
       assert.deepEqual(component.newCandidate, newCandidate);
+    });
+
+    module('when shouldDisplayPaymentOptions is true', function () {
+      test('it should add billing information', async function (assert) {
+        // given
+        component.args.shouldDisplayPaymentOptions = true;
+
+        const newCandidate = EmberObject.create({
+          firstName: '',
+          lastName: '',
+          birthdate: '',
+          birthCity: '',
+          birthCountry: 'FRANCE',
+          email: '',
+          externalId: '',
+          resultRecipientEmail: '',
+          birthPostalCode: '',
+          birthInseeCode: '',
+          sex: '',
+          extraTimePercentage: '',
+          billingMode: '',
+          prepaymentCode: '',
+        });
+
+        // when
+        await component.addCertificationCandidateInStaging();
+
+        // then
+        assert.deepEqual(component.newCandidate, newCandidate);
+      });
     });
   });
 

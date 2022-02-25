@@ -33,6 +33,13 @@ export default class EnrolledCandidates extends Component {
 
   @action
   addCertificationCandidateInStaging() {
+    let addedAttributes = {};
+    if (this.args.shouldDisplayPaymentOptions) {
+      addedAttributes = {
+        billingMode: '',
+        prepaymentCode: '',
+      };
+    }
     this.newCandidate = EmberObject.create({
       firstName: '',
       lastName: '',
@@ -46,6 +53,7 @@ export default class EnrolledCandidates extends Component {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      ...addedAttributes,
     });
   }
 
@@ -150,6 +158,8 @@ export default class EnrolledCandidates extends Component {
       email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
       resultRecipientEmail: this._trimOrUndefinedIfFalsy(certificationCandidateData.resultRecipientEmail),
       extraTimePercentage: certificationCandidateData.extraTimePercentage,
+      billingMode: certificationCandidateData.billingMode,
+      prepaymentCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.prepaymentCode),
       complementaryCertifications: certificationCandidateData.complementaryCertifications,
     });
   }
