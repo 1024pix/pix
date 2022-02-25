@@ -37,7 +37,6 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
             ...participation,
             campaignId,
           },
-          {},
           participant
         );
         campaignParticipationId = assessment.campaignParticipationId;
@@ -235,9 +234,16 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [skill]).id;
         const userId = databaseBuilder.factory.buildUser().id;
 
+        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId,
+          userId,
+          firstName: 'John',
+          lastName: 'Doe',
+        }).id;
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
+          schoolingRegistrationId,
           sharedAt: new Date('2020-12-12'),
         }).id;
 
@@ -247,12 +253,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           createdAt: new Date('2020-10-10'),
           state: Assessment.states.COMPLETED,
         });
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId,
-          userId,
-          firstName: 'John',
-          lastName: 'Doe',
-        });
+
         databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: otherOrganizationId,
           userId,
