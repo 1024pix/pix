@@ -494,4 +494,75 @@ describe('Unit | Domain | Errors', function () {
   it('should export an SchoolingRegistrationCannotBeDissociatedError', function () {
     expect(errors.SchoolingRegistrationCannotBeDissociatedError).to.exist;
   });
+
+  describe('CertificationCandidateAddError', function () {
+    context('#fromInvalidCertificationCandidateError', function () {
+      it('should return a CertificationCandidateAddError', function () {
+        // given
+        const invalidCertificationCandidateError = {
+          key: 'someKey',
+          why: 'someWhy',
+        };
+
+        // when
+        const error = errors.CertificationCandidateAddError.fromInvalidCertificationCandidateError(
+          invalidCertificationCandidateError,
+          {},
+          1
+        );
+
+        // then
+        expect(error).to.be.instanceOf(errors.CertificationCandidateAddError);
+      });
+
+      context('when err.why is known', function () {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        [
+          {
+            why: 'not_a_billing_mode',
+            message: `Le champ “Tarification part Pix” ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée.`,
+          },
+          {
+            why: 'prepayment_code_null',
+            message: `Le champ “Code de prépaiement” est obligatoire puisque l’option “Prépayée” a été sélectionnée pour ce candidat.`,
+          },
+          {
+            why: 'prepayment_code_not_null',
+            message: `Le champ “Code de prépaiement” doit rester vide puisque l’option “Prépayée” n'a pas été sélectionnée pour ce candidat.`,
+          },
+        ].forEach(({ why, message }) => {
+          it(`message should be "${message}" when why is "${why}"`, async function () {
+            // given
+            const invalidCertificationCandidateError = { why };
+
+            // when
+            const error = errors.CertificationCandidateAddError.fromInvalidCertificationCandidateError(
+              invalidCertificationCandidateError
+            );
+
+            // then
+            expect(error.message).to.equal(message);
+          });
+        });
+      });
+
+      context('when err.why is unknown', function () {
+        it('should display generic message', function () {
+          // given
+          const invalidCertificationCandidateError = {
+            key: 'someKey',
+            why: 'unknown',
+          };
+
+          // when
+          const error = errors.CertificationCandidateAddError.fromInvalidCertificationCandidateError(
+            invalidCertificationCandidateError
+          );
+
+          // then
+          expect(error.message).to.contain('Candidat de certification invalide.');
+        });
+      });
+    });
+  });
 });

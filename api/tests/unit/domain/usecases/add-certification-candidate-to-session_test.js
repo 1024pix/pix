@@ -3,8 +3,8 @@ const addCertificationCandidateToSession = require('../../../../lib/domain/useca
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  InvalidCertificationCandidate,
   CpfBirthInformationValidationError,
+  CertificationCandidateAddError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
@@ -28,7 +28,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   });
 
   context('when certification candidate does not pass JOI validation', function () {
-    it('should throw an InvalidCertificationCandidate error', async function () {
+    it('should throw an CertificationCandidateAddError error', async function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
         birthdate: 'WrongDateFormat',
@@ -47,7 +47,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       });
 
       // then
-      expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      expect(err).to.be.instanceOf(CertificationCandidateAddError);
       expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
     });
   });
