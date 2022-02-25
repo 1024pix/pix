@@ -221,6 +221,10 @@ class OdsUtilsBuilder {
     const odsBuffer = await inMemoryZippedTemplate.generateAsync({ type: 'nodebuffer' });
     return odsBuffer;
   }
+
+  buildToString() {
+    return new XMLSerializer().serializeToString(this.xmlDom);
+  }
 }
 
 async function makeUpdatedOdsByContentXml({ stringifiedXml, odsFilePath }) {

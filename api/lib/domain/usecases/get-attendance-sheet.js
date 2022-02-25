@@ -2,7 +2,6 @@ const _ = require('lodash');
 const moment = require('moment');
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const sessionXmlService = require('../services/session-xml-service');
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -34,12 +33,10 @@ module.exports = async function getAttendanceSheet({
     session.isOrganizationManagingStudents,
     addEndTestScreenColumn
   );
+  const template = await readOdsUtils.getContentXml({ odsFilePath: odsFilePath });
+  const odsBuilder = new writeOdsUtils.OdsUtilsBuilder(template);
 
-  const stringifiedXml = await readOdsUtils.getContentXml({
-    odsFilePath,
-  });
-
-  const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
+  const updatedStringifiedXml = _updateXmlWithSession({ odsBuilder, session });
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({
     stringifiedXml: updatedStringifiedXml,
@@ -47,18 +44,10 @@ module.exports = async function getAttendanceSheet({
   });
 };
 
-function _updateXmlWithSession(stringifiedXml, session) {
+function _updateXmlWithSession({ odsBuilder, session }) {
   const sessionData = _.transform(session, _transformSessionIntoAttendanceSheetSessionData);
-  const updatedStringifiedXml = sessionXmlService.getUpdatedXmlWithSessionData({
-    stringifiedXml,
-    sessionData,
-    sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-  });
+  odsBuilder.withData(sessionData, ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES);
 
-  return _attendanceSheetWithCertificationCandidates(updatedStringifiedXml, session);
-}
-
-function _attendanceSheetWithCertificationCandidates(stringifiedXml, session) {
   let candidateTemplateValues = NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
 
   if (session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents) {
@@ -79,11 +68,14 @@ function _attendanceSheetWithCertificationCandidates(stringifiedXml, session) {
     candidatesData.push(emptyCandidateData);
   });
 
-  return sessionXmlService.getUpdatedXmlWithCertificationCandidatesData({
-    stringifiedXml,
-    candidatesData,
-    candidateTemplateValues,
+  const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
+  odsBuilder.updateXmlRows({
+    rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
+    rowTemplateValues: candidateTemplateValues,
+    dataToInject: candidatesData,
   });
+
+  return odsBuilder.buildToString();
 }
 
 function _transformSessionIntoAttendanceSheetSessionData(attendanceSheetData, value, prop) {
