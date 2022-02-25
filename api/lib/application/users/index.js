@@ -781,8 +781,8 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/admin/users/{userId}/authentication-methods/{authenticationMethodId}/reassign',
+      method: 'POST',
+      path: '/api/admin/users/{userId}/authentication-methods/{authenticationMethodId}',
       config: {
         validate: {
           params: Joi.object({
@@ -793,7 +793,7 @@ exports.register = async function (server) {
             data: {
               attributes: {
                 'user-id': identifiersType.userId,
-                'identity-provider': Joi.string().valid('GAR').required(),
+                'identity-provider': Joi.string().valid('GAR', 'POLE_EMPLOI').required(),
               },
             },
           }),

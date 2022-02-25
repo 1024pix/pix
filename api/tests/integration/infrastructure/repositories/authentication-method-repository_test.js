@@ -901,6 +901,104 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     });
   });
 
+  describe('#getByIdAndUserId', function () {
+    it("should return the user's authentication method", async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: otherUserId,
+        externalIdentifier: 'abcde123',
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+        userId,
+      });
+      const garAuthenticationMethodId = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId,
+        externalIdentifier: 'fghij456',
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.getByIdAndUserId({
+        id: garAuthenticationMethodId,
+        userId,
+      });
+
+      // then
+      expect(result).to.be.instanceOf(AuthenticationMethod);
+      expect(result.id).to.be.equal(garAuthenticationMethodId);
+      expect(result.userId).to.be.equal(userId);
+      expect(result.identityProvider).to.be.equal(AuthenticationMethod.identityProviders.GAR);
+    });
+
+    describe('when authentication method belongs to another user', function () {
+      it('should throw an AuthenticationMethodNotFoundError', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const otherUserId = databaseBuilder.factory.buildUser().id;
+        domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+          externalIdentifier: 'alreadyExistingExternalIdentifier',
+          userId,
+        });
+        const wrongAuthenticationMethodId = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+          externalIdentifier: 'alreadyExistingExternalIdentifier',
+          userId: otherUserId,
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.getByIdAndUserId)({
+          id: wrongAuthenticationMethodId,
+          userId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+      });
+    });
+
+    describe('when authentication method id does not exist', function () {
+      it('should throw an AuthenticationMethodNotFoundError', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const authenticationMethodId = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }).id;
+        const wrongAuthenticationMethodId = authenticationMethodId + 1;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.getByIdAndUserId)({
+          id: wrongAuthenticationMethodId,
+          userId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+      });
+    });
+
+    describe('when user id does not exist', function () {
+      it('should throw an AuthenticationMethodNotFoundError', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const wrongUserId = userId + 1;
+        const authenticationMethodId = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+          userId,
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.getByIdAndUserId)({
+          id: authenticationMethodId,
+          userId: wrongUserId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+      });
+    });
+  });
+
   describe('#updateAuthenticationMethodUserId', function () {
     let clock;
     const now = new Date('2022-02-16');

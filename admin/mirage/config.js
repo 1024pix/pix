@@ -255,11 +255,11 @@ export default function () {
     return user;
   });
 
-  this.put('/admin/users/:userId/authentication-methods/:authenticationMethodId/reassign', (schema, request) => {
-    const userId = request.params.userId;
-    const user = schema.users.findBy({ id: userId });
-    user.update({ authenticationMethods: [] });
-    return user;
+  this.post('/admin/users/:userId/authentication-methods/:authenticationMethodId', (schema, request) => {
+    const authenticationMethodId = request.params.authenticationMethodId;
+    const authenticationMethod = schema.authenticationMethods.findBy({ id: authenticationMethodId });
+    authenticationMethod.destroy();
+    return new Response(204);
   });
 
   this.get('feature-toggles', (schema) => {

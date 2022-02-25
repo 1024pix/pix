@@ -8,7 +8,7 @@ const createServer = require('../../../../server');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Acceptance | Route | Users', function () {
-  describe('PUT /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}/reassign', function () {
+  describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
     let server;
     let pixMaster;
 
@@ -28,8 +28,8 @@ describe('Acceptance | Route | Users', function () {
 
       // when
       const response = await server.inject({
-        method: 'PUT',
-        url: `/api/admin/users/${originUserId}/authentication-methods/${authenticationMethodId}/reassign`,
+        method: 'POST',
+        url: `/api/admin/users/${originUserId}/authentication-methods/${authenticationMethodId}`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
         },
@@ -64,8 +64,8 @@ describe('Acceptance | Route | Users', function () {
 
       // when
       const response = await server.inject({
-        method: 'PUT',
-        url: `/api/admin/users/${originUserId}/authentication-methods/${authenticationMethodId}/reassign`,
+        method: 'POST',
+        url: `/api/admin/users/${originUserId}/authentication-methods/${authenticationMethodId}`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
         },

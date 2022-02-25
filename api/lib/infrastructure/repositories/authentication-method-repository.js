@@ -6,17 +6,19 @@ const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = requir
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 function _toDomain(authenticationMethodDTO) {
+  const externalIdentifier =
+    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR ||
+    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
+      ? authenticationMethodDTO.externalIdentifier
+      : undefined;
+  const authenticationComplement = _toAuthenticationComplement(
+    authenticationMethodDTO.identityProvider,
+    authenticationMethodDTO.authenticationComplement
+  );
   return new AuthenticationMethod({
     ...authenticationMethodDTO,
-    externalIdentifier:
-      authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR ||
-      authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
-        ? authenticationMethodDTO.externalIdentifier
-        : undefined,
-    authenticationComplement: _toAuthenticationComplement(
-      authenticationMethodDTO.identityProvider,
-      authenticationMethodDTO.authenticationComplement
-    ),
+    externalIdentifier,
+    authenticationComplement,
   });
 }
 
@@ -127,6 +129,14 @@ module.exports = {
       .orderBy('id', 'ASC');
 
     return authenticationMethodDTOs.map(_toDomain);
+  },
+
+  async getByIdAndUserId({ id, userId }) {
+    const authenticationMethod = await knex.from(AUTHENTICATION_METHODS_TABLE).where({ id, userId }).first();
+    if (!authenticationMethod) {
+      throw new AuthenticationMethodNotFoundError(`Authentication method of id ${id} and user id ${userId} not found.`);
+    }
+    return _toDomain(authenticationMethod);
   },
 
   async hasIdentityProviderPIX({ userId }) {
