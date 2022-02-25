@@ -114,6 +114,21 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
     context('when user has not saved tutorial', function () {
       it('should return an empty list', async function () {
+        mockLearningContent({ tutorials: [] });
+
+        const userTutorialsWithTutorials = await userTutorialRepository.findWithTutorial({ userId });
+
+        // then
+        expect(userTutorialsWithTutorials).to.deep.equal([]);
+      });
+    });
+
+    context('when user has saved a tutorial not available anymore', function () {
+      it('should return an empty list', async function () {
+        mockLearningContent({ tutorials: [] });
+        databaseBuilder.factory.buildUserTutorial({ tutorialId: 'recTutorial', userId });
+        await databaseBuilder.commit();
+
         const userTutorialsWithTutorials = await userTutorialRepository.findWithTutorial({ userId });
 
         // then
