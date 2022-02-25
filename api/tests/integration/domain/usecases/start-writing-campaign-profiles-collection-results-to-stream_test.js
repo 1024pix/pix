@@ -132,14 +132,18 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           title: null,
         });
 
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          createdAt,
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: '+Mon mail pro',
-          campaignId: campaign.id,
-          userId: participant.id,
-          pixScore: 52,
-        });
+        schoolingRegistration = { firstName: '@Jean', lastName: '=Bono' };
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          schoolingRegistration,
+          {
+            createdAt,
+            sharedAt: new Date('2019-03-01T23:04:05Z'),
+            participantExternalId: '+Mon mail pro',
+            campaignId: campaign.id,
+            userId: participant.id,
+            pixScore: 52,
+          }
+        );
 
         await databaseBuilder.commit();
       });
@@ -151,8 +155,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
-          `"${participant.lastName}";` +
-          `"${participant.firstName}";` +
+          `"'${schoolingRegistration.lastName}";` +
+          `"'${schoolingRegistration.firstName}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
@@ -217,6 +221,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
+          schoolingRegistrationId: schoolingRegistration.id,
           pixScore: 52,
         });
 
@@ -298,6 +303,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
+          schoolingRegistrationId: schoolingRegistration.id,
           pixScore: 52,
         });
 
