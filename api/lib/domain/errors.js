@@ -440,6 +440,26 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
   }
 }
 
+class CertificationCandidateAddError extends DomainError {
+  constructor(message = 'Candidat de certification invalide.') {
+    super(message);
+  }
+
+  static fromInvalidCertificationCandidateError(error) {
+    let message = 'Candidat de certification invalide.';
+
+    if (error.why === 'not_a_billing_mode') {
+      message = `Le champ “Tarification part Pix” ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée.`;
+    } else if (error.why === 'prepayment_code_null') {
+      message = `Le champ “Code de prépaiement” est obligatoire puisque l’option “Prépayée” a été sélectionnée pour ce candidat.`;
+    } else if (error.why === 'prepayment_code_not_null') {
+      message = `Le champ “Code de prépaiement” doit rester vide puisque l’option “Prépayée” n'a pas été sélectionnée pour ce candidat.`;
+    }
+
+    return new CertificationCandidateAddError(message);
+  }
+}
+
 class CertificationCandidatesImportError extends DomainError {
   constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null } = {}) {
     super(message, code);
@@ -1059,12 +1079,13 @@ module.exports = {
   CertificateVerificationCodeGenerationTooManyTrials,
   NoCertificationAttestationForDivisionError,
   CertificationBadgeForbiddenDeletionError,
-  CertificationCandidateForbiddenDeletionError,
+  CertificationCandidateAddError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
+  CertificationCandidateForbiddenDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
