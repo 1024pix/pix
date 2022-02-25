@@ -315,6 +315,34 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
           });
+
+          module('when shouldDisplayPaymentOptions is true', function () {
+            test('it should add a new candidate with billing information', async function (assert) {
+              // given
+              server.create('feature-toggle', { id: 0, isCertificationBillingEnabled: true });
+              allowedCertificationCenterAccess.update({ type: 'SUP' });
+
+              const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+              await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+              await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
+              await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+              await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
+              await click(screen.getByLabelText('Homme'));
+              await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');
+              await click(screen.getByLabelText('Code INSEE'));
+              await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+              await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+              await fillIn(screen.getByLabelText('* Tarification part Pix'), 'PREPAID');
+              await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
+
+              // when
+              await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
+
+              // then
+              assert.dom('table tbody tr').exists({ count: 1 });
+              assert.contains('Prépayée 12345');
+            });
+          });
         });
       });
     });

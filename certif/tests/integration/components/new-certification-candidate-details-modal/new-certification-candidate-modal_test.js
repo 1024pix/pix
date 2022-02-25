@@ -76,6 +76,71 @@ module('Integration | Component | new-certification-candidate-modal', function (
     assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
   });
 
+  module('when shouldDisplayPaymentOptions is true', function () {
+    test('it shows candidate form with billing information', async function (assert) {
+      // given
+      const shouldDisplayPaymentOptions = true;
+      const closeModalStub = sinon.stub();
+      const updateCandidateStub = sinon.stub();
+      const updateCandidateWithEventStub = sinon.stub();
+      this.set('shouldDisplayPaymentOptions', shouldDisplayPaymentOptions);
+      this.set('closeModal', closeModalStub);
+      this.set('updateCandidateStub', updateCandidateStub);
+      this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
+      this.set('countries', []);
+      this.set('candidateData', [
+        {
+          firstName: '',
+          lastName: '',
+          birthdate: '',
+          birthCity: '',
+          birthCountry: '',
+          email: '',
+          externalId: '',
+          resultRecipientEmail: '',
+          birthPostalCode: '',
+          birthInseeCode: '',
+          sex: '',
+          extraTimePercentage: '',
+          billingMode: '',
+          prepaymentCode: '',
+        },
+      ]);
+
+      // when
+      const screen = await renderScreen(hbs`
+        <NewCertificationCandidateModal
+          @closeModal={{this.closeModal}}
+          @countries={{this.countries}}
+          @updateCandidateData={{this.updateCandidateStub}}
+          @updateCandidateDataWithEvent={{this.updateCandidateStub}}
+          @candidateData={{this.candidateData}}
+          @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+        />
+      `);
+
+      // then
+      assert.dom(screen.getByLabelText('* Nom de famille')).exists();
+      assert.dom(screen.getByLabelText('* Nom de famille')).isFocused();
+      assert.dom(screen.getByLabelText('* Prénom')).exists();
+      assert.dom(screen.getByLabelText('Homme')).exists();
+      assert.dom(screen.getByLabelText('Femme')).exists();
+      assert.dom(screen.getByLabelText('* Date de naissance')).exists();
+      assert.dom(screen.getByLabelText('* Pays de naissance')).exists();
+      assert.dom(screen.getByLabelText('Code INSEE')).exists();
+      assert.dom(screen.getByLabelText('Code postal')).exists();
+      assert.dom(screen.getByLabelText('* Code INSEE de naissance')).exists();
+      assert.dom(screen.getByLabelText('Identifiant externe')).exists();
+      assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
+      assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
+      assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
+      assert.dom(screen.getByLabelText('Certif complémentaire 1')).exists();
+      assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
+      assert.dom(screen.getByLabelText('* Tarification part Pix')).exists();
+      assert.dom(screen.getByLabelText('Code de prépaiement')).exists();
+    });
+  });
+
   test('it shows a countries list with France selected as default', async function (assert) {
     // given
     const closeModalStub = sinon.stub();

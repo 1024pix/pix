@@ -132,6 +132,14 @@ export default class NewCertificationCandidateModal extends Component {
     return FRANCE_INSEE_CODE;
   }
 
+  get billingModeOptions() {
+    return [
+      { label: 'Gratuite', value: 'FREE' },
+      { label: 'Payante', value: 'PAID' },
+      { label: 'Prépayée', value: 'PREPAID' },
+    ];
+  }
+
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
   }
