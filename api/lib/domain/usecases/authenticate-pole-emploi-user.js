@@ -107,7 +107,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
-  const pixAccessToken = tokenService.createAccessTokenFromUser(authenticatedUserId, 'pole_emploi_connect').accessToken;
+  const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(authenticatedUserId);
 
   await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
@@ -124,7 +124,7 @@ async function _getPixAccessTokenFromPoleEmploiUser({
     authenticationComplement,
     userId: user.id,
   });
-  const pixAccessToken = tokenService.createAccessTokenFromUser(user.id, 'pole_emploi_connect').accessToken;
+  const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(user.id);
 
   await userRepository.updateLastLoggedAt({ userId: user.id });
   return pixAccessToken;
