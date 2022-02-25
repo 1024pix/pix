@@ -21,15 +21,14 @@ module.exports = {
 
   async findWithTutorial({ userId }) {
     const userTutorials = await knex('user_tutorials').where({ userId });
-    return Promise.all(
-      userTutorials.map(async (userTutorial) => {
-        const tutorial = await tutorialDatasource.get(userTutorial.tutorialId);
-        return new UserTutorialWithTutorial({
-          ...userTutorial,
-          tutorial: new Tutorial(tutorial),
-        });
-      })
-    );
+    const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
+    return tutorials.map((tutorial) => {
+      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+      return new UserTutorialWithTutorial({
+        ...userTutorial,
+        tutorial: new Tutorial(tutorial),
+      });
+    });
   },
 
   async removeFromUser(userTutorial) {
