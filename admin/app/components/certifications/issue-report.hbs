@@ -29,4 +29,8 @@
       </div>
     {{/if}}
   </div>
+  {{#if (and @issueReport.isImpactful (not @issueReport.resolvedAt))}}
+    <PixButton @size="small" @backgroundColor="transparent-light" @isBorderVisible={{true}}>Résoudre
+    </PixButton>
+  {{/if}}
 </li>
