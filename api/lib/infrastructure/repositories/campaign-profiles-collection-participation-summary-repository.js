@@ -12,27 +12,17 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
     const query = knex
       .select(
         'campaign-participations.id AS campaignParticipationId',
-        'users.id as userId',
-        knex.raw(
-          'COALESCE (LOWER("schooling-registrations"."firstName"), LOWER("users"."firstName")) AS "lowerFirstName"'
-        ),
-        knex.raw(
-          'COALESCE (LOWER("schooling-registrations"."lastName"), LOWER("users"."lastName")) AS "lowerLastName"'
-        ),
-        knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
-        knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+        'campaign-participations.userId AS userId',
+        knex.raw('LOWER("schooling-registrations"."firstName") AS "lowerFirstName"'),
+        knex.raw('LOWER("schooling-registrations"."lastName") AS "lowerLastName"'),
+        'schooling-registrations.firstName AS firstName',
+        'schooling-registrations.lastName AS lastName',
         'campaign-participations.participantExternalId',
         'campaign-participations.sharedAt',
         'campaign-participations.pixScore AS pixScore'
       )
       .from('campaign-participations')
-      .join('users', 'users.id', 'campaign-participations.userId')
-      .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-      .leftJoin('schooling-registrations', function () {
-        this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-          'campaigns.organizationId': 'schooling-registrations.organizationId',
-        });
-      })
+      .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
       .where('campaign-participations.campaignId', '=', campaignId)
       .where('campaign-participations.isImproved', '=', false)
       .whereRaw('"campaign-participations"."sharedAt" IS NOT NULL')
