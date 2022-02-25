@@ -53,13 +53,6 @@ class OdsUtilsBuilder {
       validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
     }
 
-    const errorMessage = this.xmlDom.createElement('table:error-message');
-    errorMessage.setAttribute('table:display', 'true');
-    errorMessage.setAttribute('table:message-type', 'stop');
-
-    validator.appendChild(errorMessage);
-    contentValidations.appendChild(validator);
-
     const helpMessage = this.xmlDom.createElement('table:help-message');
     helpMessage.setAttribute('table:title', tooltipTitle);
     helpMessage.setAttribute('table:display', 'true');
@@ -73,20 +66,29 @@ class OdsUtilsBuilder {
 
     validator.appendChild(helpMessageWithContent);
 
+    const errorMessage = this.xmlDom.createElement('table:error-message');
+    errorMessage.setAttribute('table:display', 'true');
+    errorMessage.setAttribute('table:message-type', 'stop');
+
+    validator.appendChild(errorMessage);
+    contentValidations.appendChild(validator);
+
     return this;
   }
 
-  withColumnGroup({ groupHeaderLabel, columns }) {
+  withColumnGroup({ groupHeaderLabel, columns, startsAt, headerRowSpan, tableHeaderRow, tableFirstRow }) {
     this.withColumnGroupHeader({
       headerLabel: groupHeaderLabel,
       numberOfColumns: columns.length,
+      lineNumber: startsAt,
+      rowspan: headerRowSpan,
     });
 
-    columns.forEach((col) => this._addColumn(col));
+    columns.forEach((col) => this._addColumn(col, tableHeaderRow, tableFirstRow));
 
     this.incrementRowsColumnSpan({
       startLine: 0,
-      endLine: INFORMATIVE_HEADER_ROW - 1,
+      endLine: startsAt - 1,
       increment: columns.length,
     });
   }
@@ -109,12 +111,12 @@ class OdsUtilsBuilder {
     return this;
   }
 
-  withColumnGroupHeader({ headerLabel, numberOfColumns }) {
+  withColumnGroupHeader({ headerLabel, numberOfColumns, lineNumber, rowspan }) {
     const headerLabelWords = headerLabel.split(' ');
 
     let addedCellOption = new AddedCellOption({
       labels: [headerLabel],
-      rowspan: GROUP_HEADER_ROW_HEIGHT_ROW_SPAN,
+      rowspan,
       colspan: numberOfColumns,
       positionOffset: 2,
     });
@@ -122,14 +124,14 @@ class OdsUtilsBuilder {
     if (numberOfColumns === 1) {
       addedCellOption = new AddedCellOption({
         labels: headerLabelWords,
-        rowspan: GROUP_HEADER_ROW_HEIGHT_ROW_SPAN,
+        rowspan,
         colspan: numberOfColumns,
         positionOffset: 2,
       });
     }
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
-      lineNumber: INFORMATIVE_HEADER_ROW,
+      lineNumber,
       cellToCopyLabel: '* Lieu de naissance',
       addedCellOption,
     });
@@ -176,15 +178,15 @@ class OdsUtilsBuilder {
     return this;
   }
 
-  _addColumn(column) {
+  _addColumn(column, tableHeaderRow, tableFirstRow) {
     this._withCellToEndOfLineWithStyleOfCellLabelled({
-      lineNumber: TABLE_HEADER_ROW,
+      lineNumber: tableHeaderRow,
       cellToCopyLabel: 'Temps majoré ?',
       addedCellOption: new AddedCellOption({ labels: column.headerLabel }),
     });
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
-      lineNumber: TABLE_FIRST_ROW,
+      lineNumber: tableFirstRow,
       cellToCopyLabel: 'EXTERNAL_ID',
       addedCellOption: new AddedCellOption({ labels: column.placeholder }),
     });

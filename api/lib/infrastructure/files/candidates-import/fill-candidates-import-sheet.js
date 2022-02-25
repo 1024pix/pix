@@ -16,6 +16,11 @@ const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES)
   CertificationCandidate.translateBillingMode
 );
 
+const INFORMATIVE_HEADER_ROW = 8;
+const HEADER_ROW_SPAN = 3;
+const CANDIDATE_TABLE_HEADER_ROW = 11;
+const CANDIDATE_TABLE_FIRST_ROW = 12;
+
 module.exports = async function fillCandidatesImportSheet({
   session,
   certificationCenterHabilitations,
@@ -51,25 +56,41 @@ function _addSession(odsBuilder, session) {
 
 function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter }) {
   if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
-    odsBuilder.withTooltipOnCell({
-      targetCellAddress: "'Liste des candidats'.O13",
-      tooltipName: 'val-prepayment-code',
-      tooltipTitle: 'Code de prépaiement',
-      tooltipContentLines: [
-        "(Requis notamment dans le cas d'un achat de crédits combinés)",
-        'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
-        'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
-      ],
-    });
-
-    odsBuilder.withValidatorRestrictedList({
-      validatorName: 'billingModeValidator',
-      restrictedList: billingValidatorList,
-      allowEmptyCell: false,
-      tooltipTitle: 'Tarification part Pix',
-      tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
-    });
-    _addBillingColumns(odsBuilder);
+    odsBuilder
+      .withTooltipOnCell({
+        targetCellAddress: "'Liste des candidats'.O13",
+        tooltipName: 'val-prepayment-code',
+        tooltipTitle: 'Code de prépaiement',
+        tooltipContentLines: [
+          "(Requis notamment dans le cas d'un achat de crédits combinés)",
+          'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
+          'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
+        ],
+      })
+      .withValidatorRestrictedList({
+        validatorName: 'billingModeValidator',
+        restrictedList: billingValidatorList,
+        allowEmptyCell: false,
+        tooltipTitle: 'Tarification part Pix',
+        tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
+      })
+      .withColumnGroup({
+        groupHeaderLabel: 'Tarification',
+        columns: [
+          {
+            headerLabel: ['Tarification part Pix'],
+            placeholder: ['billingMode'],
+          },
+          {
+            headerLabel: ['Code de prépaiement'],
+            placeholder: ['prepaymentCode'],
+          },
+        ],
+        startsAt: INFORMATIVE_HEADER_ROW,
+        headerRowSpan: HEADER_ROW_SPAN,
+        tableHeaderRow: CANDIDATE_TABLE_HEADER_ROW,
+        tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
+      });
   }
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
     odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations });
@@ -87,25 +108,13 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
     odsBuilder.withColumnGroup({
       groupHeaderLabel: 'Certification(s) complémentaire(s)',
       columns: habilitationColumns,
+      startsAt: INFORMATIVE_HEADER_ROW,
+      headerRowSpan: HEADER_ROW_SPAN,
+      tableHeaderRow: CANDIDATE_TABLE_HEADER_ROW,
+      tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
     });
   }
   return odsBuilder;
-}
-
-function _addBillingColumns(odsBuilder) {
-  return odsBuilder.withColumnGroup({
-    groupHeaderLabel: 'Tarification',
-    columns: [
-      {
-        headerLabel: ['Tarification part Pix'],
-        placeholder: ['billingMode'],
-      },
-      {
-        headerLabel: ['Code de prépaiement'],
-        placeholder: ['prepaymentCode'],
-      },
-    ],
-  });
 }
 
 function _addCandidateRows(odsBuilder, certificationCandidates) {
