@@ -100,6 +100,13 @@ function createBadgeCriterion(schema) {
   return schema.create('badge-criterion', {});
 }
 
+function markTargetProfileAsSimplifiedAccess(schema, request) {
+  const id = request.params.id;
+
+  const targetProfile = schema.targetProfiles.find(id);
+  return targetProfile.update({ isSimplifiedAccess: true });
+}
+
 export {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
@@ -112,4 +119,5 @@ export {
   findTargetProfileStages,
   updateTargetProfile,
   outdate,
+  markTargetProfileAsSimplifiedAccess,
 };

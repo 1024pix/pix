@@ -19,6 +19,7 @@ module.exports = {
         'areas',
         'imageUrl',
         'category',
+        'isSimplifiedAccess',
       ],
       skills: {
         ref: 'id',
