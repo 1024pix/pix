@@ -128,17 +128,16 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
-        const { userId } = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaign.id,
-        });
-
-        databaseBuilder.factory.buildSchoolingRegistration({
-          firstName: 'Joe',
-          lastName: 'Le taxi',
-          organizationId: campaign.organizationId,
-          userId,
-        });
-
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          {
+            firstName: 'Joe',
+            lastName: 'Le taxi',
+            organizationId: campaign.organizationId,
+          },
+          {
+            campaignId: campaign.id,
+          }
+        );
         await databaseBuilder.commit();
 
         const learningContent = [
@@ -170,53 +169,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participations[0]).to.include({
           firstName: 'Joe',
           lastName: 'Le taxi',
-        });
-      });
-    });
-
-    context('when there are no schooling registrations', function () {
-      beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
-        const { id: userId } = databaseBuilder.factory.buildUser({
-          firstName: 'Jane',
-          lastName: 'Le uber',
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaign.id,
-          userId,
-        });
-
-        await databaseBuilder.commit();
-
-        const learningContent = [
-          {
-            id: 'recArea1',
-            competences: [
-              {
-                id: 'recCompetence1',
-                tubes: [
-                  {
-                    id: 'recTube1',
-                    skills: [{ id: 'Skill1', name: '@Acquis1', challenges: [] }],
-                  },
-                ],
-              },
-            ],
-          },
-        ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
-        mockLearningContent(learningContentObjects);
-      });
-
-      it('returns the name from the schooling registration', async function () {
-        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
-          campaignId: campaign.id,
-        });
-
-        expect(participations).to.have.lengthOf(1);
-        expect(participations[0]).to.include({
-          firstName: 'Jane',
-          lastName: 'Le uber',
         });
       });
     });
@@ -338,12 +290,12 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
           { firstName: 'Jiji', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
           { firstName: 'Jojo', lastName: 'le rococo', organizationId },
           campaignParticipation,
           true
