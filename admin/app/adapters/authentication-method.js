@@ -2,7 +2,7 @@ import ApplicationAdapter from './application';
 
 export default class AuthenticationMethodAdapter extends ApplicationAdapter {
   deleteRecord(store, type, snapshot) {
-    if (snapshot.adapterOptions && snapshot.adapterOptions.reassignAuthenticationMethodToAnotherUser) {
+    if (snapshot.adapterOptions?.reassignAuthenticationMethodToAnotherUser) {
       const payload = {
         data: {
           data: {

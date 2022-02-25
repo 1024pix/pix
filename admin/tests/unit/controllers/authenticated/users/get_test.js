@@ -5,9 +5,9 @@ import EmberObject from '@ember/object';
 
 module('Unit | Controller | authenticated/users/get', function (hooks) {
   setupTest(hooks);
-  module('#reassignAuthenticationMethod', function () {
-    module('With Pole Emploi identity Provider', function () {
-      test('should display good error message when an 422 error occurred', async function (assert) {
+  module('#reassignAuthenticationMethodToAnotherUser', function () {
+    module('With Pole Emploi identity provider', function () {
+      test('should display error message when an 422 error occurred', async function (assert) {
         // given
         const identityProvider = 'POLE_EMPLOI';
         const controller = this.owner.lookup('controller:authenticated.users.get');
