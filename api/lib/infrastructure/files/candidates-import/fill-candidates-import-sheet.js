@@ -28,7 +28,6 @@ module.exports = async function fillCandidatesImportSheet({
 }) {
   const template = await _getCandidatesImportTemplate();
 
-  // TODO ne pas manipuler l'ods builder depuis fill-candidates-import-sheet mais session-xml-service
   const odsBuilder = new writeOdsUtils.OdsUtilsBuilder(template);
   _addSession(odsBuilder, session);
   _addColumns({
@@ -38,10 +37,7 @@ module.exports = async function fillCandidatesImportSheet({
   });
   _addCandidateRows(odsBuilder, session.certificationCandidates);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({
-    stringifiedXml: odsBuilder.build(),
-    odsFilePath: _getCandidatesImportTemplatePath(),
-  });
+  return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
 };
 
 async function _getCandidatesImportTemplate() {

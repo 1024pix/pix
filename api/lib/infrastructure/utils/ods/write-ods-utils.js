@@ -210,8 +210,16 @@ class OdsUtilsBuilder {
     return this;
   }
 
-  build() {
-    return _buildStringifiedXmlFromXmlDom(this.xmlDom);
+  async build({ templateFilePath }) {
+    const stringifiedXML = new XMLSerializer().serializeToString(this.xmlDom);
+    return this.generateODSBuffer({ stringifiedXML, templateFilePath });
+  }
+
+  async generateODSBuffer({ stringifiedXML, templateFilePath }) {
+    const inMemoryZippedTemplate = await loadOdsZip(templateFilePath);
+    await inMemoryZippedTemplate.file(CONTENT_XML_IN_ODS, stringifiedXML);
+    const odsBuffer = await inMemoryZippedTemplate.generateAsync({ type: 'nodebuffer' });
+    return odsBuffer;
   }
 }
 
