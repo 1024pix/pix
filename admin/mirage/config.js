@@ -10,6 +10,7 @@ import {
   updateTargetProfile,
   createBadge,
   createBadgeCriterion,
+  markTargetProfileAsSimplifiedAccess,
 } from './handlers/target-profiles';
 
 import { Response } from 'ember-cli-mirage';
@@ -343,4 +344,6 @@ export default function () {
     const tagName = params.data.attributes.name;
     return schema.create('tag', { name: tagName });
   });
+
+  this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
 }

@@ -12,6 +12,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
         name: 'Les compétences de BRO 2.0',
         outdated: true,
         ispublic: false,
+        isSimplifiedAccess: true,
       });
 
       const meta = { some: 'meta' };
@@ -25,6 +26,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             outdated: targetProfile.outdated,
             'is-public': targetProfile.isPublic,
             'owner-organization-id': targetProfile.ownerOrganizationId,
+            'is-simplified-access': targetProfile.isSimplifiedAccess,
           },
         },
         meta,

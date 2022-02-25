@@ -547,6 +547,20 @@ describe('Integration | Repository | Target-profile', function () {
       expect(outdated).to.equal(targetProfile.outdated);
     });
 
+    it('should update and return the target profile "isSimplifiedAccess" attribute', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.isSimplifiedAccess = true;
+      const result = await targetProfileRepository.update(targetProfile);
+
+      // then
+      expect(result).to.be.instanceOf(TargetProfile);
+      expect(result.isSimplifiedAccess).to.equal(true);
+    });
+
     it('should not update the target profile and throw an error while id not existing', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
