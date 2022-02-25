@@ -79,6 +79,11 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
 }
 
 function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations }) {
+  const INFORMATIVE_HEADER_ROW = 8;
+  const HEADER_ROW_SPAN = 3;
+  const CANDIDATE_TABLE_HEADER_ROW = 11;
+  const CANDIDATE_TABLE_FIRST_ROW = 12;
+
   if (!_.isEmpty(certificationCenterHabilitations)) {
     const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
       headerLabel: [name, '("oui" ou laisser vide)'],
@@ -87,12 +92,20 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
     odsBuilder.withColumnGroup({
       groupHeaderLabel: 'Certification(s) complémentaire(s)',
       columns: habilitationColumns,
+      startsAt: INFORMATIVE_HEADER_ROW,
+      headerRowSpan: HEADER_ROW_SPAN,
+      tableHeaderRow: CANDIDATE_TABLE_HEADER_ROW,
+      tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
     });
   }
   return odsBuilder;
 }
 
 function _addBillingColumns(odsBuilder) {
+  const INFORMATIVE_HEADER_ROW = 8;
+  const HEADER_ROW_SPAN = 3;
+  const CANDIDATE_TABLE_HEADER_ROW = 11;
+  const CANDIDATE_TABLE_FIRST_ROW = 12;
   return odsBuilder.withColumnGroup({
     groupHeaderLabel: 'Tarification',
     columns: [
@@ -105,6 +118,10 @@ function _addBillingColumns(odsBuilder) {
         placeholder: ['prepaymentCode'],
       },
     ],
+    startsAt: INFORMATIVE_HEADER_ROW,
+    headerRowSpan: HEADER_ROW_SPAN,
+    tableHeaderRow: CANDIDATE_TABLE_HEADER_ROW,
+    tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
   });
 }
 
