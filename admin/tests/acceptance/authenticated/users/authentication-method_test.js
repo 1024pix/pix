@@ -69,7 +69,6 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       // given
       const currentUser = server.create('user');
       await createAuthenticateSession({ userId: currentUser.id });
-
       const firstName = 'Alice';
       const lastName = 'Merveille';
       const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
@@ -89,6 +88,38 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
       assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Médiacentre")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
+      assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
+    });
+  });
+
+  module('when reassign Pole Emploi authentication method', function () {
+    test('should remove Pole Emploi authentication method information', async function (assert) {
+      // given
+      const currentUser = server.create('user');
+      await createAuthenticateSession({ userId: currentUser.id });
+
+      const firstName = 'Alice';
+      const lastName = 'Merveille';
+      const poleEmploiAuthenticationMethod = server.create('authentication-method', {
+        identityProvider: 'POLE_EMPLOI',
+      });
+      const user = server.create('user', {
+        firstName,
+        lastName,
+        authenticationMethods: [poleEmploiAuthenticationMethod],
+      });
+
+      // when
+      const screen = await visitScreen(`/users/${user.id}`);
+
+      await clickByName('Déplacer cette méthode de connexion');
+      await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
+      await clickByName('Valider le déplacement');
+
+      // then
+      assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
+      assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Pôle Emploi")).exists();
+      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
       assert.dom(screen.queryByText('Valider le déplacement')).doesNotExist();
     });
   });

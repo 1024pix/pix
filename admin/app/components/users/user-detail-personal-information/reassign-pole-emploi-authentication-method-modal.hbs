@@ -1,7 +1,10 @@
-<PixModal @title="Déplacer la méthode de connexion" @onCloseButtonClick={{@toggleReassignGarAuthenticationMethodModal}}>
+<PixModal
+  @title="Déplacer la méthode de connexion"
+  @onCloseButtonClick={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
+>
   <:content>
     <p class="reassign-authentication-method-modal__form-body__information">
-      Vous vous apprêtez à déplacer la méthode Médiacentre sur un autre utilisateur. Cela signifie qu'elle n'existera
+      Vous vous apprêtez à déplacer la méthode Pôle Emploi sur un autre utilisateur. Cela signifie qu'elle n'existera
       plus pour cet utilisateur.
     </p>
     <PixInput
@@ -18,9 +21,9 @@
       @size="small"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
-      @triggerAction={{@toggleReassignGarAuthenticationMethodModal}}
+      @triggerAction={{@toggleReassignPoleEmploiAuthenticationMethodModal}}
     >Annuler</PixButton>
-    <PixButton @type="submit" @size="small" {{on "click" @submitReassignGarAuthenticationMethod}}>
+    <PixButton @type="submit" @size="small" {{on "click" @submitReassignPoleEmploiAuthenticationMethod}}>
       Valider le déplacement
     </PixButton>
   </:footer>

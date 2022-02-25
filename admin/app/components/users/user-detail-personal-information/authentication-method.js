@@ -8,6 +8,7 @@ export default class AuthenticationMethod extends Component {
 
   @tracked showAddAuthenticationMethodModal = false;
   @tracked showReassignGarAuthenticationMethodModal = false;
+  @tracked showReassignPoleEmploiAuthenticationMethodModal = false;
   @tracked newEmail = '';
   @tracked targetUserId = '';
   @tracked showAlreadyExistingEmailError = false;
@@ -22,6 +23,12 @@ export default class AuthenticationMethod extends Component {
   @action
   toggleReassignGarAuthenticationMethodModal() {
     this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
+    this.targetUserId = '';
+  }
+
+  @action
+  toggleReassignPoleEmploiAuthenticationMethodModal() {
+    this.showReassignPoleEmploiAuthenticationMethodModal = !this.showReassignPoleEmploiAuthenticationMethodModal;
     this.targetUserId = '';
   }
 
@@ -54,7 +61,7 @@ export default class AuthenticationMethod extends Component {
   @action
   async submitReassignGarAuthenticationMethod(event) {
     event.preventDefault();
-    await this.args.reassignGarAuthenticationMethod(this.targetUserId);
+    await this.args.reassignAuthenticationMethod({ targetUserId: this.targetUserId, identityProvider: 'GAR' });
     this.showReassignGarAuthenticationMethodModal = false;
   }
 
@@ -66,5 +73,15 @@ export default class AuthenticationMethod extends Component {
   @action
   onChangeTargetUserId(event) {
     this.targetUserId = event.target.value;
+  }
+
+  @action
+  async submitReassignPoleEmploiAuthenticationMethod(event) {
+    event.preventDefault();
+    await this.args.reassignAuthenticationMethod({
+      targetUserId: this.targetUserId,
+      identityProvider: 'POLE_EMPLOI',
+    });
+    this.showReassignPoleEmploiAuthenticationMethodModal = false;
   }
 }

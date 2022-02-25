@@ -133,5 +133,23 @@ module('Integration | Component | users | user-detail-personal-information/authe
         assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
       });
     });
+
+    module('When user has Pole Emploi authentication method', function () {
+      test('it should display reassign authentication method button', async function (assert) {
+        // given
+        this.set('user', {
+          hasPoleEmploiAuthenticationMethod: true,
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+          <Users::UserDetailPersonalInformation::AuthenticationMethod
+            @user={{this.user}}
+          />`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
+      });
+    });
   });
 });
