@@ -23,9 +23,9 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
   const [profile] = await knex
     .with('campaignProfile', (qb) => {
       qb.select([
-        'users.id AS userId',
-        knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
-        knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+        'campaign-participations.userId',
+        'schooling-registrations.firstName',
+        'schooling-registrations.lastName',
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.campaignId',
         'campaign-participations.createdAt',
@@ -35,13 +35,11 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         'campaign-participations.pixScore',
       ])
         .from('campaign-participations')
-        .leftJoin('users', 'campaign-participations.userId', 'users.id')
-        .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
-        .leftJoin('schooling-registrations', function () {
-          this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-            'campaigns.organizationId': 'schooling-registrations.organizationId',
-          });
-        })
+        .join(
+          'schooling-registrations',
+          'schooling-registrations.id',
+          'campaign-participations.schoolingRegistrationId'
+        )
         .where({
           campaignId,
           'campaign-participations.id': campaignParticipationId,
