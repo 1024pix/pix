@@ -31,7 +31,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
   context('when requesting user is allowed to access campaign', function () {
     beforeEach(async function () {
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      databaseBuilder.factory.buildAssessmentFromParticipation({
+      databaseBuilder.factory.buildCampaignParticipation({
         participantExternalId: 'Ashitaka',
         campaignId,
       });
@@ -53,14 +53,13 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
       databaseBuilder.factory.buildMembership({ organizationId, userId });
 
       const participation1 = { participantExternalId: 'Yubaba', campaignId };
-      const participant1 = { id: 456, firstName: 'Chihiro', lastName: 'Ogino' };
-      databaseBuilder.factory.buildAssessmentFromParticipation(participation1, participant1);
-      databaseBuilder.factory.buildSchoolingRegistration({ userId: participant1.id, organizationId, division: '6eme' });
+      const participant1 = { firstName: 'Chihiro', lastName: 'Ogino', division: '6eme' };
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(participant1, participation1);
+      databaseBuilder.factory.buildSchoolingRegistration({ userId: participant1.id, organizationId });
 
       const participation2 = { participantExternalId: 'Meï', campaignId };
-      const participant2 = { id: 457, firstName: 'Tonari', lastName: 'No Totoro' };
-      databaseBuilder.factory.buildAssessmentFromParticipation(participation2, participant2);
-      databaseBuilder.factory.buildSchoolingRegistration({ userId: participant2.id, organizationId, division: '5eme' });
+      const participant2 = { firstName: 'Tonari', lastName: 'No Totoro', division: '5eme' };
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(participant2, participation2);
 
       await databaseBuilder.commit();
     });

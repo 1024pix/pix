@@ -20,22 +20,17 @@ const campaignParticipantActivityRepository = {
 function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
   qb.select(
     'campaign-participations.id AS campaignParticipationId',
-    'users.id AS userId',
-    knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
-    knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+    'campaign-participations.userId',
+    'schooling-registrations.firstName',
+    'schooling-registrations.lastName',
     'campaign-participations.participantExternalId',
     'campaign-participations.sharedAt',
     'campaign-participations.status',
     'campaigns.type AS campaignType'
   )
     .from('campaign-participations')
-    .join('users', 'users.id', 'campaign-participations.userId')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('schooling-registrations', function () {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-        'campaigns.organizationId': 'schooling-registrations.organizationId',
-      });
-    })
+    .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)
