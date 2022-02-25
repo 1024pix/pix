@@ -18,7 +18,7 @@ function _toDomain(authenticationMethodDTO) {
   return new AuthenticationMethod({
     ...authenticationMethodDTO,
     externalIdentifier,
-    authenticationComplement: authenticationComplement,
+    authenticationComplement,
   });
 }
 

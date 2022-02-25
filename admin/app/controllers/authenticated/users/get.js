@@ -10,17 +10,13 @@ export default class GetController extends Controller {
     GAR: 'Médiacentre',
   };
 
-  POLE_EMPLOI_METHOD_REASSIGN_IMPOSSIBLE = "L'utilisateur a déjà une méthode de connexion Pôle Emploi.";
-  GAR_METHOD_REASSIGN_IMPOSSIBLE = "L'utilisateur a déjà une méthode de connexion Médiacentre.";
-  BAD_REQUEST = 'Cette requête est impossible';
-
   ERROR_MESSAGES = {
     DEFAULT: 'Une erreur est survenue.',
     STATUS_422: {
-      POLE_EMPLOI: this.POLE_EMPLOI_METHOD_REASSIGN_IMPOSSIBLE,
-      GAR: this.GAR_METHOD_REASSIGN_IMPOSSIBLE,
+      POLE_EMPLOI: "L'utilisateur a déjà une méthode de connexion Pôle Emploi.",
+      GAR: "L'utilisateur a déjà une méthode de connexion Médiacentre.",
     },
-    STATUS_400: this.BAD_REQUEST,
+    STATUS_400: 'Cette requête est impossible',
     STATUS_404: "Cet utilisateur n'existe pas.",
   };
 
@@ -59,28 +55,26 @@ export default class GetController extends Controller {
 
   _handleResponseError(errorResponse, identityProvider) {
     const { errors } = errorResponse;
-    let errorMessages = [];
 
     if (errors) {
-      errorMessages = errors.map((error) => {
+      errors.map((error) => {
         switch (error.status) {
           case '400':
-            return this.ERROR_MESSAGES.STATUS_400;
+            this.notifications.error(this.ERROR_MESSAGES.STATUS_400);
+            break;
           case '404':
-            return this.ERROR_MESSAGES.STATUS_404;
+            this.notifications.error(this.ERROR_MESSAGES.STATUS_404);
+            break;
           case '422':
-            return this.ERROR_MESSAGES.STATUS_422[identityProvider];
+            this.notifications.error(this.ERROR_MESSAGES.STATUS_422[identityProvider]);
+            break;
           default:
-            return this.ERROR_MESSAGES.DEFAULT;
+            this.notifications.error(this.ERROR_MESSAGES.DEFAULT);
+            break;
         }
       });
     } else {
-      errorMessages.push(this.ERROR_MESSAGES.DEFAULT);
+      this.notifications.error(this.ERROR_MESSAGES.DEFAULT);
     }
-
-    const uniqueErrorMessages = new Set(errorMessages);
-    uniqueErrorMessages.forEach((errorMessage) => {
-      this.notifications.error(errorMessage);
-    });
   }
 }
