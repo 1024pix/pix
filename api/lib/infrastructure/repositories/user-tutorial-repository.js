@@ -4,7 +4,7 @@ const UserTutorial = require('../../domain/models/UserTutorial');
 const UserTutorialWithTutorial = require('../../domain/models/UserTutorialWithTutorial');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 
-const TABLE_NAME = 'user_tutorials';
+const TABLE_NAME = 'user-saved-tutorials';
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {

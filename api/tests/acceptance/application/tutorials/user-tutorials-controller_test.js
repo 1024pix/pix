@@ -56,7 +56,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
     });
 
     afterEach(async function () {
-      return knex('user_tutorials').delete();
+      return knex('user-saved-tutorials').delete();
     });
 
     describe('nominal case', function () {
@@ -119,7 +119,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
     describe('nominal case', function () {
       it('should respond with a 200 and return tutorials saved by user', async function () {
         // given
-        databaseBuilder.factory.buildUserTutorial({ id: 4242, userId: 4444, tutorialId: 'tutorialId' });
+        databaseBuilder.factory.buildUserSavedTutorials({ id: 4242, userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
 
         // when
@@ -358,7 +358,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
     describe('nominal case', function () {
       it('should respond with a 204', async function () {
         // given
-        databaseBuilder.factory.buildUserTutorial({ userId: 4444, tutorialId: 'tutorialId' });
+        databaseBuilder.factory.buildUserSavedTutorials({ userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
 
         // when
