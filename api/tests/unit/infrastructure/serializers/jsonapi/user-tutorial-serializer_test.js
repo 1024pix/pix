@@ -34,7 +34,11 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
     it('should serialize', function () {
       // given
       const tutorial = domainBuilder.buildTutorial({ id: 'tutorialId' });
-      const userTutorialWithTutorial = domainBuilder.buildUserTutorialWithTutorial({ id: 123, userId: 456, tutorial });
+      const userTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+        id: 123,
+        userId: 456,
+        tutorial,
+      });
       const expectedJsonUserTutorial = {
         data: {
           type: 'user-tutorials',

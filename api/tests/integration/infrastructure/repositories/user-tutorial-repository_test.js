@@ -1,7 +1,7 @@
 const { expect, knex, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
-const UserTutorialWithTutorial = require('../../../../lib/domain/models/UserTutorialWithTutorial');
+const UserTutorialWithTutorial = require('../../../../lib/domain/models/UserSavedTutorialWithTutorial');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 
 describe('Integration | Infrastructure | Repository | user-tutorial-repository', function () {

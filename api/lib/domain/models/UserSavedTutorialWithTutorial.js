@@ -1,4 +1,4 @@
-class UserTutorialWithTutorial {
+class UserSavedTutorialWithTutorial {
   constructor({ id, userId, tutorial } = {}) {
     this.id = id;
     this.userId = userId;
@@ -6,4 +6,4 @@ class UserTutorialWithTutorial {
   }
 }
 
-module.exports = UserTutorialWithTutorial;
+module.exports = UserSavedTutorialWithTutorial;
