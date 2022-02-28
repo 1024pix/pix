@@ -208,4 +208,22 @@ module.exports = {
   async findSnapshotForUsers(userIdsAndDates) {
     return _findSnapshotsForUsers(userIdsAndDates);
   },
+
+  async findInvalidatedAndDirectByUserId(userId) {
+    const invalidatedKnowledgeElements = await knex('knowledge-elements')
+      .where({
+        userId,
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        source: KnowledgeElement.SourceType.DIRECT,
+      })
+      .orderBy('createdAt', 'desc');
+
+    if (!invalidatedKnowledgeElements.length) {
+      return [];
+    }
+
+    return invalidatedKnowledgeElements.map(
+      (invalidatedKnowledgeElement) => new KnowledgeElement(invalidatedKnowledgeElement)
+    );
+  },
 };

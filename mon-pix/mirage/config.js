@@ -23,6 +23,8 @@ import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
+import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
+import loadRecommendedTutorialsRoutes from './routes/get-recommended-tutorials';
 
 /* eslint max-statements: off */
 export default function () {
@@ -43,6 +45,8 @@ export default function () {
   loadUserRoutes(this);
   loadAccountRecoveryRoutes(this);
   loadUserTutorialsRoutes(this);
+  loadSavedTutorialsRoutes(this);
+  loadRecommendedTutorialsRoutes(this);
 
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
