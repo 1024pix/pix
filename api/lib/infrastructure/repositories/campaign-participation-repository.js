@@ -27,6 +27,15 @@ const ATTRIBUTES_TO_UPDATE = [
 ];
 
 module.exports = {
+  async hasAssessmentParticipations(userId) {
+    const { count } = await knex('campaign-participations')
+      .count('campaign-participations.id')
+      .join('campaigns', 'campaigns.id', 'campaignId')
+      .where('campaigns.type', '=', Campaign.types.ASSESSMENT)
+      .andWhere({ userId })
+      .first();
+    return count > 0;
+  },
   async getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId) {
     const result = await knex('campaign-participations')
       .select('campaigns.code')

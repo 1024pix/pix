@@ -10,6 +10,63 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participation', function () {
+  describe('#hasAssessmentParticipations', function () {
+    let userId;
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return true if the user has participations to campaigns of type assement', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignParticipationRepository.hasAssessmentParticipations(userId);
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return false if the user does not have participations', async function () {
+      // given
+      const otherUser = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: otherUser.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignParticipationRepository.hasAssessmentParticipations(userId);
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return false if the user does not have participations to campaigns of type assement', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignParticipationRepository.hasAssessmentParticipations(userId);
+
+      // then
+      expect(result).to.equal(false);
+    });
+  });
+
   describe('#getCodeOfLastParticipationToProfilesCollectionCampaignForUser', function () {
     let userId;
     const expectedCode = 'GOOD';
