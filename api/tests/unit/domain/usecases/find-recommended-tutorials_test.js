@@ -55,7 +55,7 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
       };
 
       const skillRepository = {
-        get: sinon.stub().resolves([]),
+        findOperativeByIds: sinon.stub().resolves([]),
       };
 
       const tutorialRepository = {
@@ -66,8 +66,7 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
       await findRecommendedTutorials({ userId, knowledgeElementRepository, skillRepository, tutorialRepository });
 
       // Then
-      expect(skillRepository.get.firstCall).to.have.been.calledWith('skill1');
-      expect(skillRepository.get.secondCall).to.have.been.calledWith('skill2');
+      expect(skillRepository.findOperativeByIds.firstCall).to.have.been.calledWith(['skill1', 'skill2']);
     });
 
     it('should return associated tutorials', async function () {
@@ -93,11 +92,10 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
         domainBuilder.buildSkill({ id: 'skill2', tutorialIds: ['tuto3', 'tuto4'] }),
       ];
       const skillRepository = {
-        get: sinon.stub(),
+        findOperativeByIds: sinon.stub(),
       };
 
-      skillRepository.get.onFirstCall().resolves(skills[0]);
-      skillRepository.get.onSecondCall().resolves(skills[1]);
+      skillRepository.findOperativeByIds.onFirstCall().resolves(skills);
 
       const expectedTutorials = [
         domainBuilder.buildTutorial({ id: 'tuto1' }),
