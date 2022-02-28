@@ -36,7 +36,7 @@ describe('Unit | UseCase | find-saved-tutorials', function () {
   context('when there is one tutorial saved by current user', function () {
     it('should return user-tutorials with tutorials', async function () {
       // Given
-      const userTutorialWithTutorial = domainBuilder.buildUserTutorialWithTutorial();
+      const userTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial();
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       userTutorialRepository = { findWithTutorial: sinon.spy(async () => [userTutorialWithTutorial]) };
 
@@ -56,7 +56,7 @@ describe('Unit | UseCase | find-saved-tutorials', function () {
         // Given
         const userId = 456;
         const tutorial = domainBuilder.buildTutorial();
-        const userTutorialWithTutorial = domainBuilder.buildUserTutorialWithTutorial({ userId, tutorial });
+        const userTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({ userId, tutorial });
         const tutorialEvaluation = {
           id: 123,
           userId,

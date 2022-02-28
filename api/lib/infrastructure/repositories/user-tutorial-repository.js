@@ -1,7 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection');
 const Tutorial = require('../../domain/models/Tutorial');
 const UserSavedTutorial = require('../../domain/models/UserSavedTutorial');
-const UserTutorialWithTutorial = require('../../domain/models/UserTutorialWithTutorial');
+const UserSavedTutorialWithTutorial = require('../../domain/models/UserSavedTutorialWithTutorial');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 
 const TABLE_NAME = 'user-saved-tutorials';
@@ -26,7 +26,7 @@ module.exports = {
     const tutorials = await tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId));
     return tutorials.map((tutorial) => {
       const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      return new UserTutorialWithTutorial({
+      return new UserSavedTutorialWithTutorial({
         ...userSavedTutorial,
         tutorial: new Tutorial(tutorial),
       });
