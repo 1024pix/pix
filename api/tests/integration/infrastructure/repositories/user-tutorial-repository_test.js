@@ -1,6 +1,6 @@
 const { expect, knex, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
-const UserTutorial = require('../../../../lib/domain/models/UserTutorial');
+const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
 const UserTutorialWithTutorial = require('../../../../lib/domain/models/UserTutorialWithTutorial');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 
@@ -24,13 +24,13 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
       expect(userTutorials).to.have.length(1);
     });
 
-    it('should return the created user tutorial', async function () {
+    it('should return the created user saved tutorial', async function () {
       // when
       const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
 
       // then
       const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-      expect(userTutorial).to.be.instanceOf(UserTutorial);
+      expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
       expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
       expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
       expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
@@ -39,7 +39,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
     context('when the tutorialId already exists in the user list', function () {
       it('should not store the tutorialId', async function () {
         // given
-        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         // then
         const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
         expect(savedUserTutorials).to.have.length(1);
-        expect(userTutorial).to.be.instanceOf(UserTutorial);
+        expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
         expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
         expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
@@ -58,10 +58,10 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
   describe('#find', function () {
     context('when user has saved tutorials', function () {
-      it('should return user-tutorials belonging to given user', async function () {
+      it('should return user-saved-tutorials belonging to given user', async function () {
         // given
         const tutorialId = 'recTutorial';
-        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -71,7 +71,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         expect(userTutorials).to.have.length(1);
         expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
         expect(userTutorials[0]).to.have.property('userId', userId);
-        expect(userTutorials[0]).to.be.instanceOf(UserTutorial);
+        expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
         expect(userTutorials[0].tutorialId).to.equal(tutorialId);
       });
     });
@@ -88,7 +88,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
   describe('#findWithTutorial', function () {
     context('when user has saved tutorials', function () {
-      it('should return user-tutorials belonging to given user', async function () {
+      it('should return user-saved-tutorials belonging to given user', async function () {
         // given
         const tutorialId = 'recTutorial';
 
@@ -97,7 +97,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         };
         mockLearningContent(learningContent);
 
-        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
     context('when user has saved a tutorial not available anymore', function () {
       it('should return an empty list', async function () {
         mockLearningContent({ tutorials: [] });
-        databaseBuilder.factory.buildUserSavedTutorials({ tutorialId: 'recTutorial', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
         await databaseBuilder.commit();
 
         const userTutorialsWithTutorials = await userTutorialRepository.findWithTutorial({ userId });
@@ -140,9 +140,9 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
   describe('#removeFromUser', function () {
     const tutorialId = 'tutorialId';
 
-    it('should delete the user tutorial', async function () {
+    it('should delete the user saved tutorial', async function () {
       // given
-      databaseBuilder.factory.buildUserSavedTutorials({ tutorialId, userId });
+      databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
       await databaseBuilder.commit();
 
       // when

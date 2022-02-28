@@ -1,6 +1,6 @@
 const { knex } = require('../../../db/knex-database-connection');
 const Tutorial = require('../../domain/models/Tutorial');
-const UserTutorial = require('../../domain/models/UserTutorial');
+const UserSavedTutorial = require('../../domain/models/UserSavedTutorial');
 const UserTutorialWithTutorial = require('../../domain/models/UserTutorialWithTutorial');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 
@@ -8,40 +8,40 @@ const TABLE_NAME = 'user-saved-tutorials';
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
-    const userTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
-    if (userTutorials.length) {
-      return _toDomain(userTutorials[0]);
+    const userSavedTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
+    if (userSavedTutorials.length) {
+      return _toDomain(userSavedTutorials[0]);
     }
-    const savedUserTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId }).returning('*');
-    return _toDomain(savedUserTutorials[0]);
+    const savedUserSavedTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId }).returning('*');
+    return _toDomain(savedUserSavedTutorials[0]);
   },
 
   async find({ userId }) {
-    const userTutorials = await knex(TABLE_NAME).where({ userId });
-    return userTutorials.map(_toDomain);
+    const userSavedTutorials = await knex(TABLE_NAME).where({ userId });
+    return userSavedTutorials.map(_toDomain);
   },
 
   async findWithTutorial({ userId }) {
-    const userTutorials = await knex(TABLE_NAME).where({ userId });
-    const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
+    const userSavedTutorials = await knex(TABLE_NAME).where({ userId });
+    const tutorials = await tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId));
     return tutorials.map((tutorial) => {
-      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+      const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
       return new UserTutorialWithTutorial({
-        ...userTutorial,
+        ...userSavedTutorial,
         tutorial: new Tutorial(tutorial),
       });
     });
   },
 
-  async removeFromUser(userTutorial) {
-    return knex(TABLE_NAME).where(userTutorial).delete();
+  async removeFromUser(userSavedTutorial) {
+    return knex(TABLE_NAME).where(userSavedTutorial).delete();
   },
 };
 
-function _toDomain(userTutorial) {
-  return new UserTutorial({
-    id: userTutorial.id,
-    tutorialId: userTutorial.tutorialId,
-    userId: userTutorial.userId,
+function _toDomain(userSavedTutorial) {
+  return new UserSavedTutorial({
+    id: userSavedTutorial.id,
+    tutorialId: userSavedTutorial.tutorialId,
+    userId: userSavedTutorial.userId,
   });
 }

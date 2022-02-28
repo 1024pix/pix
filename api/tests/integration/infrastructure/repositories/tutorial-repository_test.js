@@ -45,7 +45,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     it('should associate userTutorial when it exists for provided user', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const userTutorial = databaseBuilder.factory.buildUserSavedTutorials({ userId, tutorialId: 'recTutorial0' });
+      const userTutorial = databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: 'recTutorial0' });
       await databaseBuilder.commit();
 
       const tutorial = {

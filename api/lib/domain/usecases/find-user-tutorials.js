@@ -9,13 +9,13 @@ module.exports = async function findUserTutorials({
 };
 
 function _retrieveTutorialEvaluations(tutorialEvaluations) {
-  return (userTutorial) => {
+  return (userSavedTutorial) => {
     const tutorialEvaluation = tutorialEvaluations.find(
-      (tutorialEvaluation) => tutorialEvaluation.tutorialId === userTutorial.tutorial.id
+      (tutorialEvaluation) => tutorialEvaluation.tutorialId === userSavedTutorial.tutorial.id
     );
     if (tutorialEvaluation) {
-      userTutorial.tutorial.tutorialEvaluation = tutorialEvaluation;
+      userSavedTutorial.tutorial.tutorialEvaluation = tutorialEvaluation;
     }
-    return userTutorial;
+    return userSavedTutorial;
   };
 }
