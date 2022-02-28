@@ -180,6 +180,120 @@ module('Integration | Component | certification-candidate-details-modal', functi
     });
   });
 
+  module('when @shouldDisplayPaymentOptions is true', function () {
+    test('it shows candidate details with payement options', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const candidate = store.createRecord('certification-candidate', {
+        firstName: 'Jean-Paul',
+        lastName: 'Candidat',
+        birthCity: 'Eu',
+        birthCountry: 'France',
+        email: 'jeanpauldeu@pix.fr',
+        resultRecipientEmail: 'suric@animal.fr',
+        externalId: '12345',
+        birthdate: '2000-12-25',
+        extraTimePercentage: 0.1,
+        birthInseeCode: 76255,
+        birthPostalCode: 76260,
+        sex: 'F',
+        complementaryCertifications: [],
+        billingMode: 'Prépayée',
+        prepaymentCode: 'prep123',
+      });
+
+      const closeModalStub = sinon.stub();
+      this.set('closeModal', closeModalStub);
+      this.set('candidate', candidate);
+      this.set('displayComplementaryCertification', false);
+      this.set('shouldDisplayPaymentOptions', true);
+
+      // when
+      await render(hbs`
+      <CertificationCandidateDetailsModal
+        @closeModal={{this.closeModal}}
+        @candidate={{this.candidate}}
+        @displayComplementaryCertification={{this.displayComplementaryCertification}}
+        @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+      />
+    `);
+
+      // then
+      assert.dom(screen.getByText('Détail du candidat')).exists();
+      assert.dom(screen.getByText('Jean-Paul')).exists();
+      assert.dom(screen.getByText('Candidat')).exists();
+      assert.dom(screen.getByText('Eu')).exists();
+      assert.dom(screen.getByText('76260')).exists();
+      assert.dom(screen.getByText('76255')).exists();
+      assert.dom(screen.getByText('Femme')).exists();
+      assert.dom(screen.getByText('France')).exists();
+      assert.dom(screen.getByText('jeanpauldeu@pix.fr')).exists();
+      assert.dom(screen.getByText('suric@animal.fr')).exists();
+      assert.dom(screen.getByText('12345')).exists();
+      assert.dom(screen.getByText('25/12/2000')).exists();
+      assert.dom(screen.getByText('10 %')).exists();
+      assert.dom(screen.getByText('Prépayée')).exists();
+      assert.dom(screen.getByText('prep123')).exists();
+    });
+  });
+
+  module('when @shouldDisplayPaymentOptions is false', function () {
+    test('it shows candidate details without payement options', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const candidate = store.createRecord('certification-candidate', {
+        firstName: 'Jean-Paul',
+        lastName: 'Candidat',
+        birthCity: 'Eu',
+        birthCountry: 'France',
+        email: 'jeanpauldeu@pix.fr',
+        resultRecipientEmail: 'suric@animal.fr',
+        externalId: '12345',
+        birthdate: '2000-12-25',
+        extraTimePercentage: 0.1,
+        birthInseeCode: 76255,
+        birthPostalCode: 76260,
+        sex: 'F',
+        complementaryCertifications: [],
+        billingMode: 'Prépayée',
+        prepaymentCode: 'prep123',
+      });
+
+      const closeModalStub = sinon.stub();
+      this.set('closeModal', closeModalStub);
+      this.set('candidate', candidate);
+      this.set('displayComplementaryCertification', false);
+      this.set('shouldDisplayPaymentOptions', false);
+
+      // when
+      await render(hbs`
+      <CertificationCandidateDetailsModal
+        @closeModal={{this.closeModal}}
+        @candidate={{this.candidate}}
+        @displayComplementaryCertification={{this.displayComplementaryCertification}}
+        @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+      />
+    `);
+
+      // then
+      assert.dom(screen.getByText('Détail du candidat')).exists();
+      assert.dom(screen.getByText('Jean-Paul')).exists();
+      assert.dom(screen.getByText('Candidat')).exists();
+      assert.dom(screen.getByText('Eu')).exists();
+      assert.dom(screen.getByText('76260')).exists();
+      assert.dom(screen.getByText('76255')).exists();
+      assert.dom(screen.getByText('Femme')).exists();
+      assert.dom(screen.getByText('France')).exists();
+      assert.dom(screen.getByText('jeanpauldeu@pix.fr')).exists();
+      assert.dom(screen.getByText('suric@animal.fr')).exists();
+      assert.dom(screen.getByText('12345')).exists();
+      assert.dom(screen.getByText('25/12/2000')).exists();
+      assert.dom(screen.getByText('10 %')).exists();
+      assert.dom(screen.queryByText('Prépayée')).doesNotExist();
+      assert.dom(screen.queryByText('prep123')).doesNotExist();
+    });
+  });
+
   module('when top close button is clicked', () => {
     test('it closes candidate details modal', async function (assert) {
       // given
