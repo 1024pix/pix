@@ -8,4 +8,8 @@ export default class UserTutorialsRecommendedRoute extends Route {
   redirect() {
     if (!this.featureToggles.featureToggles.isNewTutorialsPageEnabled) this.router.replaceWith('user-tutorials');
   }
+
+  model() {
+    return this.store.query('tutorial', { type: 'recommended' }, { reload: true });
+  }
 }

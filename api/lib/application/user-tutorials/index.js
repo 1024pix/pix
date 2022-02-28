@@ -39,6 +39,30 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/users/tutorials/saved',
+      config: {
+        handler: userTutorialsController.findSaved,
+        tags: ['api', 'tutorials'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des tutoriels enregistrés par l‘utilisateur courant\n',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/users/tutorials/recommended',
+      config: {
+        handler: userTutorialsController.findRecommended,
+        tags: ['api', 'tutorials'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des tutoriels recommandés pour l‘utilisateur courant\n',
+        ],
+      },
+    },
+    {
       method: 'DELETE',
       path: '/api/users/tutorials/{tutorialId}',
       config: {
