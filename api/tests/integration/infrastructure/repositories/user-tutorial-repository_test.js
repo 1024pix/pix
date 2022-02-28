@@ -15,43 +15,100 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
   describe('#addTutorial', function () {
     const tutorialId = 'tutorialId';
 
-    it('should store the tutorialId in the users list', async function () {
-      // when
-      await userTutorialRepository.addTutorial({ userId, tutorialId });
+    context('when the skillId is null', () => {
+      const skillId = null;
 
-      // then
-      const userTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-      expect(userTutorials).to.have.length(1);
-    });
-
-    it('should return the created user saved tutorial', async function () {
-      // when
-      const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
-
-      // then
-      const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-      expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
-      expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
-      expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
-      expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
-    });
-
-    context('when the tutorialId already exists in the user list', function () {
-      it('should not store the tutorialId', async function () {
-        // given
-        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
-        await databaseBuilder.commit();
-
+      it('should store the tutorialId in the users list', async function () {
         // when
-        const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
+        await userTutorialRepository.addTutorial({ userId, tutorialId, skillId });
+
+        // then
+        const userTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
+        expect(userTutorials).to.have.length(1);
+      });
+
+      it('should return the created user saved tutorial', async function () {
+        // when
+        const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId, skillId });
 
         // then
         const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
-        expect(savedUserTutorials).to.have.length(1);
         expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
         expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
         expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
+        expect(userTutorial.skillId).to.equal(savedUserTutorials[0].skillId);
+      });
+    });
+
+    context('when the skillId is provided', () => {
+      const skillId = 'skillId';
+
+      it('should store the tutorialId in the users list', async function () {
+        // when
+        await userTutorialRepository.addTutorial({ userId, tutorialId, skillId });
+
+        // then
+        const userTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
+        expect(userTutorials).to.have.length(1);
+      });
+
+      it('should return the created user saved tutorial', async function () {
+        // when
+        const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId, skillId });
+
+        // then
+        const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
+        expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
+        expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
+        expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
+        expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
+        expect(userTutorial.skillId).to.equal(savedUserTutorials[0].skillId);
+      });
+    });
+
+    context('when the tutorialId already exists in the user list', function () {
+      context('and the skillId is different', () => {
+        it('should not store a new user-saved-tutorial', async function () {
+          // given
+          const skillIdA = 'skillIdA';
+          const skillIdB = 'skillIdB';
+          databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId, skillId: skillIdA });
+          await databaseBuilder.commit();
+
+          // when
+          const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId, skillIdB });
+
+          // then
+          const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
+          expect(savedUserTutorials).to.have.length(1);
+          expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
+          expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
+          expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
+          expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
+          expect(userTutorial.skillId).to.equal(skillIdA);
+        });
+      });
+
+      context('and the skillId is the same', () => {
+        it('should not store a new user-saved-tutorial', async function () {
+          // given
+          const skillId = 'skillId';
+          databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId, skillId });
+          await databaseBuilder.commit();
+
+          // when
+          const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId, skillId });
+
+          // then
+          const savedUserTutorials = await knex('user-saved-tutorials').where({ userId, tutorialId });
+          expect(savedUserTutorials).to.have.length(1);
+          expect(userTutorial).to.be.instanceOf(UserSavedTutorial);
+          expect(userTutorial.id).to.equal(savedUserTutorials[0].id);
+          expect(userTutorial.userId).to.equal(savedUserTutorials[0].userId);
+          expect(userTutorial.tutorialId).to.equal(savedUserTutorials[0].tutorialId);
+          expect(userTutorial.skillId).to.equal(savedUserTutorials[0].skillId);
+        });
       });
     });
   });
@@ -73,6 +130,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         expect(userTutorials[0]).to.have.property('userId', userId);
         expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
         expect(userTutorials[0].tutorialId).to.equal(tutorialId);
+        expect(userTutorials[0].skillId).to.equal(null);
       });
     });
 
@@ -109,6 +167,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         expect(userTutorialsWithTutorials[0]).to.be.instanceOf(UserTutorialWithTutorial);
         expect(userTutorialsWithTutorials[0].tutorial).to.be.instanceOf(Tutorial);
         expect(userTutorialsWithTutorials[0].tutorial.id).to.equal(tutorialId);
+        expect(userTutorialsWithTutorials[0].skillId).to.equal(null);
       });
     });
 

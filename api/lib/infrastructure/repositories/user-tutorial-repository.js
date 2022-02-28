@@ -7,12 +7,12 @@ const tutorialDatasource = require('../datasources/learning-content/tutorial-dat
 const TABLE_NAME = 'user-saved-tutorials';
 
 module.exports = {
-  async addTutorial({ userId, tutorialId }) {
+  async addTutorial({ userId, tutorialId, skillId }) {
     const userSavedTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
     if (userSavedTutorials.length) {
       return _toDomain(userSavedTutorials[0]);
     }
-    const savedUserSavedTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId }).returning('*');
+    const savedUserSavedTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId, skillId }).returning('*');
     return _toDomain(savedUserSavedTutorials[0]);
   },
 
@@ -43,5 +43,6 @@ function _toDomain(userSavedTutorial) {
     id: userSavedTutorial.id,
     tutorialId: userSavedTutorial.tutorialId,
     userId: userSavedTutorial.userId,
+    skillId: userSavedTutorial.skillId,
   });
 }
