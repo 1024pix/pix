@@ -240,7 +240,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
     context('Success case', function () {
       beforeEach(async function () {
-        databaseBuilder.factory.buildUserSavedTutorials({ id: 10500, userId, tutorialId: tutorialWebId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
         await databaseBuilder.commit();
 
         options.headers = {
