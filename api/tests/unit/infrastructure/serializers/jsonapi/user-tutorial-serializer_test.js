@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
           id: 'userTutorialId',
           userId: 'userId',
           tutorialId: 'tutorialId',
+          skillId: 'skillId',
         };
         const expectedJsonUserTutorial = {
           data: {
@@ -18,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
             attributes: {
               'user-id': 'userId',
               'tutorial-id': 'tutorialId',
+              'skill-id': 'skillId',
             },
           },
         };
