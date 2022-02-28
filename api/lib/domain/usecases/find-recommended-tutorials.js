@@ -10,17 +10,9 @@ module.exports = async function findRecommendedTutorials({
     return [];
   }
 
-  const skills = await Promise.all(
-    invalidatedKnowledgeElements.map((invalidatedKnowledgeElement) => {
-      return skillRepository.get(invalidatedKnowledgeElement.skillId);
-    })
-  );
+  const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
 
-  const tutorials = await Promise.all(
-    skills.map((skill) => {
-      return tutorialRepository.findByRecordIds(skill.tutorialIds);
-    })
-  );
+  const tutorials = await Promise.all(skills.map((skill) => tutorialRepository.findByRecordIds(skill.tutorialIds)));
 
   return tutorials.flat();
 };
