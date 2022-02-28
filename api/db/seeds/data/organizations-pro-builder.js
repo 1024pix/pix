@@ -4,6 +4,7 @@ const { DEFAULT_PASSWORD } = require('./users-builder');
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;
 const PRO_MED_NUM_ID = 5;
+const PRO_ARCHIVED_ID = 15;
 
 function organizationsProBuilder({ databaseBuilder }) {
 
@@ -100,6 +101,48 @@ function organizationsProBuilder({ databaseBuilder }) {
     userId: proUser1.id,
     organizationId: PRO_MED_NUM_ID,
     organizationRole: Membership.roles.ADMIN,
+  });
+
+  /* ARCHIVÉE */
+  const pixMaster = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Clément',
+    lastName: 'Tine',
+    email: 'pix.master@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  const membership1 = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Colette',
+    lastName: 'Stérole',
+    email: 'coco.role@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  const membership2 = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Mick',
+    lastName: 'Émmaousse',
+    email: 'mimi.lasouris@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+
+  const archivedAt = new Date('2022-02-02');
+
+  databaseBuilder.factory.buildOrganization({
+    id: PRO_ARCHIVED_ID,
+    type: 'PRO',
+    name: 'Orga archivée',
+    archivedAt,
+    archivedBy: pixMaster.id,
+  });
+  databaseBuilder.factory.buildMembership({
+    userId: membership1.id,
+    organizationId: PRO_ARCHIVED_ID,
+    organizationRole: Membership.roles.ADMIN,
+    disabledAt: archivedAt,
+  });
+  databaseBuilder.factory.buildMembership({
+    userId: membership2.id,
+    organizationId: PRO_ARCHIVED_ID,
+    organizationRole: Membership.roles.MEMBER,
+    disabledAt: archivedAt,
   });
 }
 
