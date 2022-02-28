@@ -10,6 +10,107 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participation', function () {
+  describe('#getCodeOfLastParticipationToProfilesCollectionCampaignForUser', function () {
+    let userId;
+    const expectedCode = 'GOOD';
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return null if there is no participations', async function () {
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(null);
+    });
+
+    it('should return null if there is no participations to share', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: CampaignParticipationStatuses.SHARED,
+        userId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(null);
+    });
+
+    it('should return null if there is no campaigns of type profiles collection', async function () {
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: CampaignParticipationStatuses.TO_SHARE,
+        userId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(null);
+    });
+
+    it('should return null if there is no participations for the user', async function () {
+      const otherUser = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: CampaignParticipationStatuses.TO_SHARE,
+        userId: otherUser.id,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(null);
+    });
+
+    it('should return code of the last participation to a campaign of type PROFILES_COLLECTION for the user', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: expectedCode });
+      const otherCampaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'BAD' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaign.id,
+        status: CampaignParticipationStatuses.TO_SHARE,
+        createdAt: new Date(Date.parse('11/11/2011')),
+        userId,
+      }).id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: CampaignParticipationStatuses.TO_SHARE,
+        userId,
+        createdAt: new Date(Date.parse('12/11/2011')),
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(expectedCode);
+    });
+  });
   describe('#get', function () {
     let campaignId;
     let campaignParticipationId, campaignParticipationNotSharedId;
