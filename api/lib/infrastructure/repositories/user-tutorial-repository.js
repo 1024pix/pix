@@ -4,23 +4,25 @@ const UserTutorial = require('../../domain/models/UserTutorial');
 const UserTutorialWithTutorial = require('../../domain/models/UserTutorialWithTutorial');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 
+const TABLE_NAME = 'user_tutorials';
+
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
-    const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+    const userTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
     if (userTutorials.length) {
       return _toDomain(userTutorials[0]);
     }
-    const savedUserTutorials = await knex('user_tutorials').insert({ userId, tutorialId }).returning('*');
+    const savedUserTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId }).returning('*');
     return _toDomain(savedUserTutorials[0]);
   },
 
   async find({ userId }) {
-    const userTutorials = await knex('user_tutorials').where({ userId });
+    const userTutorials = await knex(TABLE_NAME).where({ userId });
     return userTutorials.map(_toDomain);
   },
 
   async findWithTutorial({ userId }) {
-    const userTutorials = await knex('user_tutorials').where({ userId });
+    const userTutorials = await knex(TABLE_NAME).where({ userId });
     const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
     return tutorials.map((tutorial) => {
       const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
@@ -32,7 +34,7 @@ module.exports = {
   },
 
   async removeFromUser(userTutorial) {
-    return knex('user_tutorials').where(userTutorial).delete();
+    return knex(TABLE_NAME).where(userTutorial).delete();
   },
 };
 
