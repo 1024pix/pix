@@ -20,7 +20,7 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 
 module.exports = {
   async save(request, h) {
-    const { userId } = request.auth.credentials;
+    const { userId: creatorId } = request.auth.credentials;
     const {
       name,
       type,
@@ -41,8 +41,8 @@ module.exports = {
       title,
       idPixLabel,
       customLandingPageText,
-      creatorId: userId,
-      ownerId,
+      creatorId,
+      ownerId: _getOwnerId(ownerId, creatorId),
       organizationId,
       targetProfileId,
       multipleSendings,
@@ -232,4 +232,8 @@ function _validateFilters(filters) {
   if (typeof filters.code === 'undefined') {
     throw new MissingQueryParamError('filter.code');
   }
+}
+
+function _getOwnerId(ownerId, defaultOwnerId) {
+  return ownerId ? ownerId : defaultOwnerId;
 }
