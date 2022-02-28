@@ -93,6 +93,20 @@
               {{if @candidate.extraTimePercentage (format-percentage @candidate.extraTimePercentage) "-"}}
             </span>
           </li>
+          {{#if @shouldDisplayPaymentOptions}}
+            <li class="certification-candidate-details-modal__row">
+              <span class="certification-candidate-details-modal__row__label">Tarification part Pix</span>
+              <span class="certification-candidate-details-modal__row__value" data-test-id="billing-mode-row">
+                {{if @candidate.billingMode @candidate.billingMode "-"}}
+              </span>
+            </li>
+            <li class="certification-candidate-details-modal__row">
+              <span class="certification-candidate-details-modal__row__label">Code de prépaiement</span>
+              <span class="certification-candidate-details-modal__row__value" data-test-id="prepayment-code-row">
+                {{if @candidate.prepaymentCode @candidate.prepaymentCode "-"}}
+              </span>
+            </li>
+          {{/if}}
           {{#if @displayComplementaryCertification}}
             <li class="certification-candidate-details-modal__row">
               <span class="certification-candidate-details-modal__row__label">Certifications complémentaires</span>
