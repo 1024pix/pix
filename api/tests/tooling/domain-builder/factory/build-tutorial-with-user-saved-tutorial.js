@@ -4,7 +4,7 @@ const TutorialWithUserSavedTutorial = require('../../../../lib/domain/models/Tut
 
 module.exports = function buildTutorialWithUserSavedTutorial({
   tutorial = buildTutorial(),
-  userSavedTutorial = buildUserSavedTutorial(),
+  userTutorial = buildUserSavedTutorial(),
 } = {}) {
-  return new TutorialWithUserSavedTutorial(tutorial, userSavedTutorial);
+  return new TutorialWithUserSavedTutorial({ ...tutorial, userTutorial });
 };

@@ -21,6 +21,7 @@ module.exports = {
     return userSavedTutorials.map(_toDomain);
   },
 
+  // TODO delete when tutorial V2 becomes main version
   async findWithTutorial({ userId }) {
     const userSavedTutorials = await knex(TABLE_NAME).where({ userId });
     const tutorials = await tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId));

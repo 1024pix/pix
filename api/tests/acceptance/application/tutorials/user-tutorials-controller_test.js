@@ -383,6 +383,139 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
     });
   });
 
+  describe('GET /api/users/tutorials/saved', function () {
+    let options;
+    const userId = 4444;
+
+    beforeEach(async function () {
+      nock.cleanAll();
+      cache.flushAll();
+      options = {
+        method: 'GET',
+        url: '/api/users/tutorials/saved',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+      };
+    });
+
+    describe('nominal case', function () {
+      it('should respond with a 200 and return tutorials saved for user', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent([
+          {
+            id: 'recArea1',
+            titleFrFr: 'area1_Title',
+            color: 'specialColor',
+            competences: [
+              {
+                id: 'recCompetence1',
+                name: 'Fabriquer un meuble',
+                index: '1.1',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [
+                      {
+                        id: 'recSkill1',
+                        nom: '@web1',
+                        challenges: [],
+                        tutorialIds: ['tuto1', 'tuto2'],
+                        tutorials: [
+                          {
+                            id: 'tuto1',
+                            locale: 'en-us',
+                            duration: '00:00:54',
+                            format: 'video',
+                            link: 'http://www.example.com/this-is-an-example.html',
+                            source: 'tuto.com',
+                            title: 'tuto1',
+                          },
+                          {
+                            id: 'tuto2',
+                            locale: 'en-us',
+                            duration: '00:01:51',
+                            format: 'video',
+                            link: 'http://www.example.com/this-is-an-example2.html',
+                            source: 'tuto.com',
+                            title: 'tuto2',
+                          },
+                        ],
+                      },
+                      {
+                        id: 'recSkill2',
+                        nom: '@web2',
+                        challenges: [],
+                        tutorialIds: ['tuto3'],
+                        tutorials: [
+                          {
+                            id: 'tuto3',
+                            locale: 'fr-fr',
+                            duration: '00:03:31',
+                            format: 'vidéo',
+                            link: 'http://www.example.com/this-is-an-example3.html',
+                            source: 'tuto.com',
+                            title: 'tuto3',
+                          },
+                        ],
+                      },
+                      {
+                        id: 'recSkill3',
+                        nom: '@web3',
+                        challenges: [],
+                        tutorialIds: ['tuto4'],
+                        tutorials: [
+                          {
+                            id: 'tuto4',
+                            locale: 'fr-fr',
+                            duration: '00:04:38',
+                            format: 'vidéo',
+                            link: 'http://www.example.com/this-is-an-example4.html',
+                            source: 'tuto.com',
+                            title: 'tuto4',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ]);
+        mockLearningContent(learningContentObjects);
+
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 500, tutorialId: 'tuto1', userId });
+
+        await databaseBuilder.commit();
+
+        const expectedUserSavedTutorials = [
+          {
+            attributes: {
+              duration: '00:00:54',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example.html',
+              source: 'tuto.com',
+              title: 'tuto1',
+            },
+            relationships: {
+              'user-tutorial': { data: { id: '500', type: 'user-tutorial' } },
+            },
+            id: 'tuto1',
+            type: 'tutorials',
+          },
+        ];
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
+      });
+    });
+  });
+
   describe('DELETE /api/users/tutorials/{tutorialId}', function () {
     let options;
 

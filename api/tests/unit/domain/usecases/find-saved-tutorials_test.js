@@ -3,28 +3,28 @@ const findSavedTutorials = require('../../../../lib/domain/usecases/find-saved-t
 
 describe('Unit | UseCase | find-saved-tutorials', function () {
   let tutorialEvaluationRepository;
-  let userTutorialRepository;
+  let tutorialRepository;
   const userId = 'userId';
 
   context('when there is no tutorial saved by current user', function () {
     beforeEach(function () {
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
-      userTutorialRepository = { findWithTutorial: sinon.spy(async () => []) };
+      tutorialRepository = { findWithUserTutorialForCurrentUser: sinon.spy(async () => []) };
     });
 
-    it('should call the userTutorialRepository', async function () {
+    it('should call the tutorialRepository', async function () {
       // When
-      await findSavedTutorials({ tutorialEvaluationRepository, userTutorialRepository, userId });
+      await findSavedTutorials({ tutorialEvaluationRepository, tutorialRepository, userId });
 
       // Then
-      expect(userTutorialRepository.findWithTutorial).to.have.been.calledWith({ userId });
+      expect(tutorialRepository.findWithUserTutorialForCurrentUser).to.have.been.calledWith({ userId });
     });
 
     it('should return an empty array', async function () {
       // When
       const tutorials = await findSavedTutorials({
         tutorialEvaluationRepository,
-        userTutorialRepository,
+        tutorialRepository,
         userId,
       });
 
@@ -36,43 +36,47 @@ describe('Unit | UseCase | find-saved-tutorials', function () {
   context('when there is one tutorial saved by current user', function () {
     it('should return tutorial with user-tutorials', async function () {
       // Given
-      const tutorialWithUserTutorial = domainBuilder.buildTutorialWithUserTutorial();
+      const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialWithUserSavedTutorial();
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
-      userTutorialRepository = { findWithTutorial: sinon.spy(async () => [tutorialWithUserTutorial]) };
+      tutorialRepository = {
+        findWithUserTutorialForCurrentUser: sinon.spy(async () => [tutorialWithUserSavedTutorial]),
+      };
 
       // When
       const tutorials = await findSavedTutorials({
         tutorialEvaluationRepository,
-        userTutorialRepository,
+        tutorialRepository,
         userId,
       });
 
       // Then
-      expect(tutorials).to.deep.equal([tutorialWithUserTutorial]);
+      expect(tutorials).to.deep.equal([tutorialWithUserSavedTutorial]);
     });
 
     context('when user has evaluated a tutorial', function () {
       it('should return tutorial with user-tutorials', async function () {
         // Given
-        const tutorialWithUserTutorial = domainBuilder.buildTutorialWithUserTutorial();
+        const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialWithUserSavedTutorial();
         const tutorialEvaluation = {
           id: 123,
-          userId: tutorialWithUserTutorial.userTutorial.userId,
-          tutorialId: tutorialWithUserTutorial.id,
+          userId: tutorialWithUserSavedTutorial.userTutorial.userId,
+          tutorialId: tutorialWithUserSavedTutorial.id,
         };
         tutorialEvaluationRepository = { find: sinon.spy(async () => [tutorialEvaluation]) };
-        userTutorialRepository = { findWithTutorial: sinon.spy(async () => [{ ...tutorialWithUserTutorial }]) };
+        tutorialRepository = {
+          findWithUserTutorialForCurrentUser: sinon.spy(async () => [tutorialWithUserSavedTutorial]),
+        };
 
         // When
         const tutorials = await findSavedTutorials({
           tutorialEvaluationRepository,
-          userTutorialRepository,
+          tutorialRepository,
           userId,
         });
 
         // Then
         const expectedTutorialWithUserTutorial = {
-          ...tutorialWithUserTutorial,
+          ...tutorialWithUserSavedTutorial,
           tutorialEvaluation,
         };
         expect(tutorials).to.deep.equal([expectedTutorialWithUserTutorial]);
