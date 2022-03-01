@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.177.0 (01/03/2022)
+
+
+### :rocket: Amélioration
+- [#4149](https://github.com/1024pix/pix/pull/4149) [FEATURE] Permettre d'identifier une organisation comme archivé (PIX-3816)
+- [#4136](https://github.com/1024pix/pix/pull/4136) [FEATURE] Lister les tutos recommandés et enregistrés (PIX-4382)
+
+### :building_construction: Tech
+- [#4142](https://github.com/1024pix/pix/pull/4142) [TECH] Corriger les erreurs pole emploi suite à la mise en place du refresh token (PIX-4259)
+- [#4150](https://github.com/1024pix/pix/pull/4150) [TECH] Supprimer la colonne canCollectProfiles de la BDD (PIX-4364)
+- [#4097](https://github.com/1024pix/pix/pull/4097) [TECH] Configure le proxy API pour limiter le temps d'indispo
+
 ## v3.176.1 (25/02/2022)
 
 
