@@ -8,7 +8,7 @@ module.exports = {
 
     const { userId, idToken } = await usecases.createUserFromPoleEmploi({ authenticationKey });
 
-    const accessToken = tokenService.createAccessTokenFromUser(userId, 'pole_emploi_connect').accessToken;
+    const accessToken = tokenService.createAccessTokenForPoleEmploi(userId);
     await userRepository.updateLastLoggedAt({ userId });
 
     const response = {
