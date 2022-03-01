@@ -4,6 +4,7 @@ const userTutorialRepository = require('./user-tutorial-repository');
 const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
+const TutorialWithUserSavedTutorial = require('../../domain/models/TutorialWithUserSavedTutorial');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 
 module.exports = {
@@ -17,6 +18,16 @@ module.exports = {
 
   async findByRecordIds(ids) {
     return _findByRecordIds({ ids });
+  },
+
+  async findWithUserTutorialForCurrentUser({ userId }) {
+    const userTutorials = await userTutorialRepository.find({ userId });
+    const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
+
+    return tutorials.map((tutorial) => {
+      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+      return new TutorialWithUserSavedTutorial({ ...tutorial, userTutorial });
+    });
   },
 
   async get(id) {

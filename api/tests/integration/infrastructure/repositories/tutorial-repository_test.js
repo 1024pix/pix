@@ -3,6 +3,8 @@ const { expect, mockLearningContent, databaseBuilder, catchErr } = require('../.
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
+const TutorialWithUserSavedTutorial = require('../../../../lib/domain/models/TutorialWithUserSavedTutorial');
+const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Repository | tutorial-repository', function () {
@@ -128,6 +130,59 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
   });
 
+  describe('#findWithUserTutorial', function () {
+    let userId;
+    beforeEach(function () {
+      userId = databaseBuilder.factory.buildUser().id;
+    });
+    context('when user has saved tutorials', function () {
+      it('should return tutorial with user tutorial belonging to given user', async function () {
+        // given
+        const tutorialId = 'recTutorial';
+
+        const learningContent = {
+          tutorials: [{ id: tutorialId }],
+        };
+        mockLearningContent(learningContent);
+
+        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+
+        // then
+        expect(tutorialWithUserSavedTutorial).to.have.length(1);
+        expect(tutorialWithUserSavedTutorial[0]).to.be.instanceOf(TutorialWithUserSavedTutorial);
+        expect(tutorialWithUserSavedTutorial[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
+        expect(tutorialWithUserSavedTutorial[0].userTutorial.userId).to.equal(userId);
+      });
+    });
+
+    context('when user has not saved tutorial', function () {
+      it('should return an empty list', async function () {
+        mockLearningContent({ tutorials: [] });
+
+        const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+
+        // then
+        expect(tutorialWithUserSavedTutorial).to.deep.equal([]);
+      });
+    });
+
+    context('when user has saved a tutorial not available anymore', function () {
+      it('should return an empty list', async function () {
+        mockLearningContent({ tutorials: [] });
+        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
+        await databaseBuilder.commit();
+
+        const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+
+        // then
+        expect(tutorialWithUserSavedTutorial).to.deep.equal([]);
+      });
+    });
+  });
   describe('#get', function () {
     context('when tutorial does not exist', function () {
       it('should throw a NotFoundError', async function () {
