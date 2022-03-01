@@ -31,7 +31,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     };
 
     tokenService = {
-      createAccessTokenFromUser: sinon.stub().returns(),
+      createAccessTokenForPoleEmploi: sinon.stub().returns(),
     };
 
     authenticationMethodRepository = {
@@ -93,7 +93,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
       // when
       await authenticatePoleEmploiUser({
@@ -121,7 +121,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should call get pole emploi user info with id token parameter', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
       // when
       await authenticatePoleEmploiUser({
@@ -142,11 +142,11 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       expect(authenticationService.getPoleEmploiUserInfo).to.have.been.calledWith('idToken');
     });
 
-    it('should call tokenService createAccessTokenFromUser function with external source and user parameters', async function () {
+    it('should call tokenService createAccessTokenForPoleEmploi function with user id', async function () {
       // given
       const user = new User({ id: 1, firstName: 'Tuck', lastName: 'Morris' });
       user.externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
-      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
       _fakePoleEmploiAPI({ authenticationService });
       userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
@@ -167,16 +167,14 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       // then
-      expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(1, 'pole_emploi_connect');
+      expect(tokenService.createAccessTokenForPoleEmploi).to.have.been.calledWith(1);
     });
 
     it('should return accessToken and idToken', async function () {
       // given
       const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
       const authenticatedUserId = 1;
-      tokenService.createAccessTokenFromUser
-        .withArgs(authenticatedUserId, 'pole_emploi_connect')
-        .returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+      tokenService.createAccessTokenForPoleEmploi.withArgs(authenticatedUserId).returns('access-token');
 
       // when
       const result = await authenticatePoleEmploiUser({
@@ -204,7 +202,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should save last logged at date', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
       // when
       await authenticatePoleEmploiUser({
@@ -230,7 +228,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
         const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
-        tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+        tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
         // when
         await authenticatePoleEmploiUser({
@@ -265,7 +263,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 123 });
         _fakePoleEmploiAPI({ authenticationService });
-        tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+        tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
         // when
         await authenticatePoleEmploiUser({
@@ -293,7 +291,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           // given
           const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
           userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
-          tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+          tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
           // when
           await authenticatePoleEmploiUser({
@@ -336,7 +334,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
             })
           );
-          tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 666 });
+          tokenService.createAccessTokenForPoleEmploi.returns('access-token');
 
           // when
           await authenticatePoleEmploiUser({

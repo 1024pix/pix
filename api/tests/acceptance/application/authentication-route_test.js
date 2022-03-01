@@ -20,26 +20,22 @@ const poleEmploiTokensRepository = require('../../../lib/infrastructure/reposito
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', function () {
-  const orgaRoleInDB = { id: 1, name: 'ADMIN' };
-
-  const userEmailAddress = 'user@example.net';
-  const userPassword = 'A124B2C3#!';
-
-  let server;
-  let userId;
-
-  beforeEach(async function () {
-    server = await createServer();
-    userId = databaseBuilder.factory.buildUser.withRawPassword({
-      email: userEmailAddress,
-      rawPassword: userPassword,
-      cgu: true,
-    }).id;
-    await databaseBuilder.commit();
-  });
-
   describe('POST /api/token', function () {
+    const orgaRoleInDB = { id: 1, name: 'ADMIN' };
+
+    const userEmailAddress = 'user@example.net';
+    const userPassword = 'A124B2C3#!';
+
+    let server;
+    let userId;
+
     beforeEach(async function () {
+      server = await createServer();
+      userId = databaseBuilder.factory.buildUser.withRawPassword({
+        email: userEmailAddress,
+        rawPassword: userPassword,
+        cgu: true,
+      }).id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
       await databaseBuilder.commit();
@@ -185,6 +181,12 @@ describe('Acceptance | Controller | authentication-controller', function () {
   });
 
   describe('POST /api/token-from-external-user', function () {
+    let server;
+
+    beforeEach(async function () {
+      server = await createServer();
+    });
+
     afterEach(async function () {
       await knex('authentication-methods').delete();
     });
@@ -277,61 +279,15 @@ describe('Acceptance | Controller | authentication-controller', function () {
   });
 
   describe('POST /api/pole-emploi/token', function () {
+    let server;
     let clock;
-    let options;
-    let getAccessTokenRequest;
-    let getAccessTokenResponse;
-    let idToken;
 
-    const firstName = 'John';
-    const lastName = 'Doe';
-    const externalIdentifier = 'idIdentiteExterne';
-
-    beforeEach(function () {
+    beforeEach(async function () {
+      server = await createServer();
       clock = sinon.useFakeTimers({
         now: Date.now(),
         toFake: ['Date'],
       });
-
-      const code = 'code';
-      const client_id = 'client_id';
-      const redirect_uri = 'redirect_uri';
-      const state_sent = 'state';
-      const state_received = 'state';
-
-      options = {
-        method: 'POST',
-        url: '/api/pole-emploi/token',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-        payload: querystring.stringify({
-          code,
-          client_id,
-          redirect_uri,
-          state_sent,
-          state_received,
-        }),
-      };
-
-      idToken = jsonwebtoken.sign(
-        {
-          given_name: firstName,
-          family_name: lastName,
-          nonce: 'nonce',
-          idIdentiteExterne: externalIdentifier,
-        },
-        'secret'
-      );
-
-      getAccessTokenResponse = {
-        access_token: 'access_token',
-        id_token: idToken,
-        expires_in: 60,
-        refresh_token: 'refresh_token',
-      };
-
-      getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
     });
 
     afterEach(function () {
@@ -341,16 +297,38 @@ describe('Acceptance | Controller | authentication-controller', function () {
     context('When the state sent does not match the state received', function () {
       it('should return http code 400', async function () {
         // given
-        options.payload = querystring.stringify({
-          code: 'code',
-          client_id: 'client_id',
-          redirect_uri: 'redirect_uri',
-          state_sent: 'a_state',
-          state_received: 'another_state',
-        });
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            idIdentiteExterne: 'idIdentiteExterne',
+          },
+          'secret'
+        );
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+        nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/pole-emploi/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            client_id: 'client_id',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'a_state',
+            state_received: 'another_state',
+          }),
+        });
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -365,24 +343,123 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
 
         it('should return http code 401', async function () {
+          // given
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           expect(response.statusCode).to.equal(401);
         });
 
         it('should return an authenticationKey in meta', async function () {
+          // given
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           expect(response.result.errors[0].meta).to.exist;
         });
 
         it('should return validate cgu in code', async function () {
+          // given
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           expect(response.result.errors[0].code).to.exist;
@@ -391,6 +468,25 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
         it('should return an authenticationKey in meta which match to stored poleEmploiTokens', async function () {
           // given
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           const poleEmploiTokens = new PoleEmploiTokens({
             accessToken: 'access_token',
             idToken: idToken,
@@ -399,7 +495,20 @@ describe('Acceptance | Controller | authentication-controller', function () {
           });
 
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           const key = response.result.errors[0].meta.authenticationKey;
@@ -409,10 +518,28 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
 
       context('When user and POLE EMPLOI authentication method exist', function () {
-        let userId;
-
-        beforeEach(async function () {
-          userId = databaseBuilder.factory.buildUser({
+        it('should update POLE_EMPLOI authentication method authentication complement', async function () {
+          // given
+          const firstName = 'John';
+          const lastName = 'Doe';
+          const externalIdentifier = 'idIdentiteExterne';
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: firstName,
+              family_name: lastName,
+              nonce: 'nonce',
+              idIdentiteExterne: externalIdentifier,
+            },
+            'secret'
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+          const userId = databaseBuilder.factory.buildUser({
             firstName,
             lastName,
           }).id;
@@ -424,13 +551,23 @@ describe('Acceptance | Controller | authentication-controller', function () {
             expiresIn: 1000,
             userId,
           });
-
           await databaseBuilder.commit();
-        });
 
-        it('should update POLE_EMPLOI authentication method authentication complement', async function () {
           // when
-          await server.inject(options);
+          await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           const authenticationMethods = await knex('authentication-methods').where({ userId });
@@ -446,8 +583,55 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
 
         it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+          // given
+          const firstName = 'John';
+          const lastName = 'John';
+          const externalIdentifier = 'idIdentiteExterne';
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: firstName,
+              family_name: lastName,
+              nonce: 'nonce',
+              idIdentiteExterne: externalIdentifier,
+            },
+            'secret'
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+          const userId = databaseBuilder.factory.buildUser({
+            firstName,
+            lastName,
+          }).id;
+
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+            externalIdentifier,
+            accessToken: 'old_access_token',
+            refreshToken: 'old_refresh_token',
+            expiresIn: 1000,
+            userId,
+          });
+          await databaseBuilder.commit();
+
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -459,15 +643,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
     });
 
     context('When user is connected to Pix', function () {
-      let authenticatedUser;
-
-      beforeEach(async function () {
-        authenticatedUser = databaseBuilder.factory.buildUser();
-        await databaseBuilder.commit();
-
-        options.headers['Authorization'] = generateValidRequestAuthorizationHeader(authenticatedUser.id);
-      });
-
       afterEach(async function () {
         await knex('authentication-methods').delete();
         await knex('users').delete();
@@ -475,15 +650,50 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
       context('When the user does not have a POLE_EMPLOI authentication method', function () {
         it('should create a POLE_EMPLOI authentication method for the authenticated user', async function () {
+          // given
+          const authenticatedUser = databaseBuilder.factory.buildUser();
+          await databaseBuilder.commit();
+
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           // when
-          await server.inject(options);
+          await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
           expect(authenticationMethods[0].identityProvider).to.equal(
             AuthenticationMethod.identityProviders.POLE_EMPLOI
           );
-          expect(authenticationMethods[0].externalIdentifier).to.equal(externalIdentifier);
+          expect(authenticationMethods[0].externalIdentifier).to.equal('idIdentiteExterne');
           expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(
             getAccessTokenResponse['access_token']
           );
@@ -496,8 +706,43 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
 
         it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+          // given
+          const authenticatedUser = databaseBuilder.factory.buildUser();
+          await databaseBuilder.commit();
+
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -510,6 +755,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
       context('When the user does have a POLE_EMPLOI authentication method', function () {
         it('should update POLE_EMPLOI authentication method authentication complement', async function () {
           // given
+          const externalIdentifier = 'idIdentiteExterne';
+          const authenticatedUser = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             externalIdentifier,
             accessToken: 'old_access_token',
@@ -517,11 +764,41 @@ describe('Acceptance | Controller | authentication-controller', function () {
             expiresIn: 1000,
             userId: authenticatedUser.id,
           });
-
           await databaseBuilder.commit();
 
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: externalIdentifier,
+            },
+            'secret'
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
           // when
-          await server.inject(options);
+          await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
@@ -538,16 +815,47 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
         it('should return a 409 Conflict if the authenticated user is not the expected one', async function () {
           // given
+          databaseBuilder.factory.buildUser();
           const otherUser = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             externalIdentifier: 'other_external_identifier',
             userId: otherUser.id,
           });
           await databaseBuilder.commit();
-          options.headers['Authorization'] = generateValidRequestAuthorizationHeader(otherUser.id);
+
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: 'John',
+              family_name: 'Doe',
+              nonce: 'nonce',
+              idIdentiteExterne: 'idIdentiteExterne',
+            },
+            'secret'
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/pole-emploi/token',
+            headers: {
+              Authorization: generateValidRequestAuthorizationHeader(otherUser.id),
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            payload: querystring.stringify({
+              code: 'code',
+              client_id: 'client_id',
+              redirect_uri: 'redirect_uri',
+              state_sent: 'state',
+              state_received: 'state',
+            }),
+          });
 
           // then
           expect(response.statusCode).to.equal(409);
@@ -555,8 +863,42 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
 
       it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            idIdentiteExterne: 'idIdentiteExterne',
+          },
+          'secret'
+        );
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+        const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
+        const authenticatedUser = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/pole-emploi/token',
+          headers: {
+            Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            client_id: 'client_id',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -569,10 +911,39 @@ describe('Acceptance | Controller | authentication-controller', function () {
     context('When user has an invalid token', function () {
       it('should be rejected by API', async function () {
         // given
-        options.headers['Authorization'] = 'invalid_token';
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            idIdentiteExterne: 'idIdentiteExterne',
+          },
+          'secret'
+        );
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+        nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/pole-emploi/token',
+          headers: {
+            Authorization: 'invalid_token',
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            client_id: 'client_id',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
 
         // expect
         expect(response.statusCode).to.equal(401);
@@ -582,6 +953,24 @@ describe('Acceptance | Controller | authentication-controller', function () {
     context('When pole-emploi request fail', function () {
       it('should return HTTP 500 with error detail', async function () {
         // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            idIdentiteExterne: 'externalIdentifier',
+          },
+          'secret'
+        );
+
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+
+        nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
         const errorData = {
           error: 'invalid_client',
           error_description: 'Invalid authentication method for accessing this endpoint.',
@@ -591,7 +980,20 @@ describe('Acceptance | Controller | authentication-controller', function () {
         nock(settings.poleEmploi.tokenUrl).post('/').reply(400, errorData);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/pole-emploi/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            client_id: 'client_id',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
 
         // expect
         expect(response.statusCode).to.equal(500);
@@ -601,7 +1003,12 @@ describe('Acceptance | Controller | authentication-controller', function () {
   });
 
   describe('POST /api/token/anonymous', function () {
+    let server;
     let options;
+
+    beforeEach(async function () {
+      server = await createServer();
+    });
 
     context('When is not simplified Access Campaign', function () {
       const campaignCode = 'RANDOM123';
@@ -686,12 +1093,14 @@ describe('Acceptance | Controller | authentication-controller', function () {
   });
 
   describe('POST /api/application/token', function () {
+    let server;
     let options;
     const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
     const OSMOSE_CLIENT_SECRET = 'graviteeOsmoseClientSecret';
     const SCOPE = 'organizations-certifications-result';
 
     beforeEach(async function () {
+      server = await createServer();
       options = {
         method: 'POST',
         url: '/api/application/token',
@@ -699,8 +1108,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           'content-type': 'application/x-www-form-urlencoded',
         },
       };
-
-      await databaseBuilder.commit();
     });
 
     it('should return an 200 with accessToken when clientId, client secret and scope are registred', async function () {

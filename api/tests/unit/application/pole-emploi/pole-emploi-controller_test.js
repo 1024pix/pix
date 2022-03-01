@@ -65,7 +65,7 @@ describe('Unit | Controller | pole-emplois-controller', function () {
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
       sinon.stub(usecases, 'createUserFromPoleEmploi').resolves({ userId, idToken: 1 });
-      sinon.stub(tokenService, 'createAccessTokenFromUser').resolves('an access token');
+      sinon.stub(tokenService, 'createAccessTokenForPoleEmploi').resolves('an access token');
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
       // when
@@ -86,10 +86,7 @@ describe('Unit | Controller | pole-emplois-controller', function () {
         .withArgs({ authenticationKey: 'abcde' })
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
-      sinon
-        .stub(tokenService, 'createAccessTokenFromUser')
-        .withArgs(userId, 'pole_emploi_connect')
-        .returns({ accessToken, expirationDelaySeconds: 1000 });
+      sinon.stub(tokenService, 'createAccessTokenForPoleEmploi').withArgs(userId).returns(accessToken);
 
       // when
       const result = await poleEmploiController.createUser(request, hFake);
