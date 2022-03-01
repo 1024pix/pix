@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | certification-candidate-details-modal', function (hooks) {
@@ -45,7 +44,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('displayComplementaryCertification', true);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
       <CertificationCandidateDetailsModal
         @closeModal={{this.closeModal}}
         @candidate={{this.candidate}}
@@ -54,20 +53,20 @@ module('Integration | Component | certification-candidate-details-modal', functi
     `);
 
       // then
-      assert.contains('Détail du candidat');
-      assert.contains('Jean-Paul');
-      assert.contains('Candidat');
-      assert.contains('Eu');
-      assert.contains('76260');
-      assert.contains('76255');
-      assert.contains('Femme');
-      assert.contains('France');
-      assert.contains('jeanpauldeu@pix.fr');
-      assert.contains('suric@animal.fr');
-      assert.contains('12345');
-      assert.contains('25/12/2000');
-      assert.contains('10 %');
-      assert.contains('Pix+Edu, Pix+Droit');
+      assert.dom(screen.getByText('Détail du candidat')).exists();
+      assert.dom(screen.getByText('Jean-Paul')).exists();
+      assert.dom(screen.getByText('Candidat')).exists();
+      assert.dom(screen.getByText('Eu')).exists();
+      assert.dom(screen.getByText('76260')).exists();
+      assert.dom(screen.getByText('76255')).exists();
+      assert.dom(screen.getByText('Femme')).exists();
+      assert.dom(screen.getByText('France')).exists();
+      assert.dom(screen.getByText('jeanpauldeu@pix.fr')).exists();
+      assert.dom(screen.getByText('suric@animal.fr')).exists();
+      assert.dom(screen.getByText('12345')).exists();
+      assert.dom(screen.getByText('25/12/2000')).exists();
+      assert.dom(screen.getByText('10 %')).exists();
+      assert.dom(screen.getByText('Pix+Edu, Pix+Droit')).exists();
     });
 
     module('when candidate has missing data', () => {
@@ -93,7 +92,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         this.set('displayComplementaryCertification', true);
 
         // when
-        await render(hbs`
+        const screen = await renderScreen(hbs`
         <CertificationCandidateDetailsModal
           @closeModal={{this.closeModal}}
           @candidate={{this.candidate}}
@@ -102,19 +101,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       `);
 
         // then
-        assert.dom('[data-test-id="birth-postal-code-row"]').hasText('-');
-        assert.dom('[data-test-id="birth-insee-code-row"]').hasText('-');
-        assert.dom('[data-test-id="birth-city-row"]').hasText('-');
-        assert.dom('[data-test-id="result-recipient-email-row"]').hasText('-');
-        assert.dom('[data-test-id="email-row"]').hasText('-');
-        assert.dom('[data-test-id="external-id-row"]').hasText('-');
-        assert.dom('[data-test-id="extra-time-row"]').hasText('-');
-        assert.dom('[data-test-id="sex-label-row"]').hasText('-');
-        assert.dom('[data-test-id="birth-date-row"]').hasText('-');
-        assert.dom('[data-test-id="first-name-row"]').hasText('-');
-        assert.dom('[data-test-id="last-name-row"]').hasText('-');
-        assert.dom('[data-test-id="birth-country-row"]').hasText('-');
-        assert.dom('[data-test-id="complementary-certifications-row"]').hasText('-');
+        assert.strictEqual(screen.getAllByText('-').length, 13);
       });
     });
   });
@@ -154,7 +141,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('displayComplementaryCertification', false);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
       <CertificationCandidateDetailsModal
         @closeModal={{this.closeModal}}
         @candidate={{this.candidate}}
@@ -163,20 +150,134 @@ module('Integration | Component | certification-candidate-details-modal', functi
     `);
 
       // then
-      assert.contains('Détail du candidat');
-      assert.contains('Jean-Paul');
-      assert.contains('Candidat');
-      assert.contains('Eu');
-      assert.contains('76260');
-      assert.contains('76255');
-      assert.contains('Femme');
-      assert.contains('France');
-      assert.contains('jeanpauldeu@pix.fr');
-      assert.contains('suric@animal.fr');
-      assert.contains('12345');
-      assert.contains('25/12/2000');
-      assert.contains('10 %');
-      assert.notContains('Pix+Edu, Pix+Droit');
+      assert.dom(screen.getByText('Détail du candidat')).exists();
+      assert.dom(screen.getByText('Jean-Paul')).exists();
+      assert.dom(screen.getByText('Candidat')).exists();
+      assert.dom(screen.getByText('Eu')).exists();
+      assert.dom(screen.getByText('76260')).exists();
+      assert.dom(screen.getByText('76255')).exists();
+      assert.dom(screen.getByText('Femme')).exists();
+      assert.dom(screen.getByText('France')).exists();
+      assert.dom(screen.getByText('jeanpauldeu@pix.fr')).exists();
+      assert.dom(screen.getByText('suric@animal.fr')).exists();
+      assert.dom(screen.getByText('12345')).exists();
+      assert.dom(screen.getByText('25/12/2000')).exists();
+      assert.dom(screen.getByText('10 %')).exists();
+      assert.dom(screen.queryByText('Pix+Edu, Pix+Droit')).doesNotExist();
+    });
+  });
+
+  module('when @shouldDisplayPaymentOptions is true', function () {
+    test('it shows candidate details with payement options', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const candidate = store.createRecord('certification-candidate', {
+        firstName: 'Jean-Paul',
+        lastName: 'Candidat',
+        birthCity: 'Eu',
+        birthCountry: 'France',
+        email: 'jeanpauldeu@pix.fr',
+        resultRecipientEmail: 'suric@animal.fr',
+        externalId: '12345',
+        birthdate: '2000-12-25',
+        extraTimePercentage: 0.1,
+        birthInseeCode: 76255,
+        birthPostalCode: 76260,
+        sex: 'F',
+        complementaryCertifications: [],
+        billingMode: 'Prépayée',
+        prepaymentCode: 'prep123',
+      });
+
+      const closeModalStub = sinon.stub();
+      this.set('closeModal', closeModalStub);
+      this.set('candidate', candidate);
+      this.set('displayComplementaryCertification', false);
+      this.set('shouldDisplayPaymentOptions', true);
+
+      // when
+      const screen = await renderScreen(hbs`
+      <CertificationCandidateDetailsModal
+        @closeModal={{this.closeModal}}
+        @candidate={{this.candidate}}
+        @displayComplementaryCertification={{this.displayComplementaryCertification}}
+        @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+      />
+    `);
+
+      // then
+      assert.dom(screen.getByText('Détail du candidat')).exists();
+      assert.dom(screen.getByText('Jean-Paul')).exists();
+      assert.dom(screen.getByText('Candidat')).exists();
+      assert.dom(screen.getByText('Eu')).exists();
+      assert.dom(screen.getByText('76260')).exists();
+      assert.dom(screen.getByText('76255')).exists();
+      assert.dom(screen.getByText('Femme')).exists();
+      assert.dom(screen.getByText('France')).exists();
+      assert.dom(screen.getByText('jeanpauldeu@pix.fr')).exists();
+      assert.dom(screen.getByText('suric@animal.fr')).exists();
+      assert.dom(screen.getByText('12345')).exists();
+      assert.dom(screen.getByText('25/12/2000')).exists();
+      assert.dom(screen.getByText('10 %')).exists();
+      assert.dom(screen.getByText('Prépayée')).exists();
+      assert.dom(screen.getByText('prep123')).exists();
+    });
+  });
+
+  module('when @shouldDisplayPaymentOptions is false', function () {
+    test('it shows candidate details without payement options', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const candidate = store.createRecord('certification-candidate', {
+        firstName: 'Jean-Paul',
+        lastName: 'Candidat',
+        birthCity: 'Eu',
+        birthCountry: 'France',
+        email: 'jeanpauldeu@pix.fr',
+        resultRecipientEmail: 'suric@animal.fr',
+        externalId: '12345',
+        birthdate: '2000-12-25',
+        extraTimePercentage: 0.1,
+        birthInseeCode: 76255,
+        birthPostalCode: 76260,
+        sex: 'F',
+        complementaryCertifications: [],
+        billingMode: 'Prépayée',
+        prepaymentCode: 'prep123',
+      });
+
+      const closeModalStub = sinon.stub();
+      this.set('closeModal', closeModalStub);
+      this.set('candidate', candidate);
+      this.set('displayComplementaryCertification', false);
+      this.set('shouldDisplayPaymentOptions', false);
+
+      // when
+      const screen = await renderScreen(hbs`
+      <CertificationCandidateDetailsModal
+        @closeModal={{this.closeModal}}
+        @candidate={{this.candidate}}
+        @displayComplementaryCertification={{this.displayComplementaryCertification}}
+        @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+      />
+    `);
+
+      // then
+      assert.dom(screen.getByText('Détail du candidat')).exists();
+      assert.dom(screen.getByText('Jean-Paul')).exists();
+      assert.dom(screen.getByText('Candidat')).exists();
+      assert.dom(screen.getByText('Eu')).exists();
+      assert.dom(screen.getByText('76260')).exists();
+      assert.dom(screen.getByText('76255')).exists();
+      assert.dom(screen.getByText('Femme')).exists();
+      assert.dom(screen.getByText('France')).exists();
+      assert.dom(screen.getByText('jeanpauldeu@pix.fr')).exists();
+      assert.dom(screen.getByText('suric@animal.fr')).exists();
+      assert.dom(screen.getByText('12345')).exists();
+      assert.dom(screen.getByText('25/12/2000')).exists();
+      assert.dom(screen.getByText('10 %')).exists();
+      assert.dom(screen.queryByText('Prépayée')).doesNotExist();
+      assert.dom(screen.queryByText('prep123')).doesNotExist();
     });
   });
 
@@ -189,13 +290,13 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('candidate', candidate);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <CertificationCandidateDetailsModal
           @closeModal={{this.closeModal}}
           @candidate={{this.candidate}}
         />
       `);
-      await clickByLabel('Fermer la fenêtre de détail du candidat');
+      await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);
