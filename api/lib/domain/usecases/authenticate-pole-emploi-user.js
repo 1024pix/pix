@@ -108,7 +108,6 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     await authenticationMethodRepository.create({ authenticationMethod });
   }
   const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(authenticatedUserId);
-
   await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
 }
