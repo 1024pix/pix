@@ -202,7 +202,7 @@ describe('Integration | Repository | Organization', function () {
       });
     });
 
-    describe('when a target profile is shared with the organisation', function () {
+    describe('when a target profile is shared with the organization', function () {
       let insertedOrganization;
       let sharedProfile;
 
