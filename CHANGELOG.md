@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.178.0 (01/03/2022)
+
+
+### :rocket: Amélioration
+- [#4148](https://github.com/1024pix/pix/pull/4148) [FEATURE] Voir la tarification et le code de prépaiement sur la page de détails d'un candidat (PIX-4199)
+- [#4145](https://github.com/1024pix/pix/pull/4145) [FEATURE] Pouvoir indiquer la tarification de la part Pix d'un candidat dans la modal d'ajout (PIX-4198).
+
+### :bug: Correction
+- [#4151](https://github.com/1024pix/pix/pull/4151) [BUGFIX] Mettre le créateur de la campagne en propriétaire par défaut sur Pix Orga (PIX-4478).
+
+### :coffee: Autre
+- [#4153](https://github.com/1024pix/pix/pull/4153)  [BUGFIX] Update ODS billing tooltip (PIX-4411)
+
 ## v3.177.0 (01/03/2022)
 
 
