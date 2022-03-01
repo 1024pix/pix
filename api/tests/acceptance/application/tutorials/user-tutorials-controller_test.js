@@ -15,6 +15,12 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
   let server;
 
   const learningContent = {
+    skills: [
+      {
+        id: 'skillId',
+        challenges: [{ id: 'k_challenge_id' }],
+      },
+    ],
     tutorials: [
       {
         id: 'tutorialId',
@@ -86,6 +92,41 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
           expectedUserTutorial.data.attributes['tutorial-id']
         );
+      });
+
+      describe('when skill id is given', function () {
+        it('should respond with a 201 and return user-tutorial created', async function () {
+          // given
+          options.payload = { data: { attributes: { 'skill-id': 'skillId' } } };
+          const expectedUserTutorial = {
+            data: {
+              type: 'user-tutorials',
+              id: '1',
+              attributes: {
+                'skill-id': 'skillId',
+                'tutorial-id': 'tutorialId',
+                'user-id': 4444,
+              },
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(201);
+          expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
+          expect(response.result.data.id).to.exist;
+          expect(response.result.data.attributes['user-id']).to.deep.equal(
+            expectedUserTutorial.data.attributes['user-id']
+          );
+          expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
+            expectedUserTutorial.data.attributes['tutorial-id']
+          );
+          expect(response.result.data.attributes['skill-id']).to.deep.equal(
+            expectedUserTutorial.data.attributes['skill-id']
+          );
+        });
       });
     });
 

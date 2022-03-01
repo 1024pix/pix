@@ -14,6 +14,13 @@ exports.register = async (server) => {
           params: Joi.object({
             tutorialId: identifiersType.tutorialId,
           }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                'skill-id': Joi.string().allow(null),
+              }),
+            }),
+          }).allow(null),
           options: {
             allowUnknown: true,
           },

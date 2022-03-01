@@ -15,7 +15,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
   describe('#addTutorial', function () {
     const tutorialId = 'tutorialId';
 
-    context('when the skillId is null', () => {
+    context('when the skillId is null', function () {
       const skillId = null;
 
       it('should store the tutorialId in the users list', async function () {
@@ -41,7 +41,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
       });
     });
 
-    context('when the skillId is provided', () => {
+    context('when the skillId is provided', function () {
       const skillId = 'skillId';
 
       it('should store the tutorialId in the users list', async function () {
@@ -68,7 +68,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
     });
 
     context('when the tutorialId already exists in the user list', function () {
-      context('and the skillId is different', () => {
+      context('and the skillId is different', function () {
         it('should not store a new user-saved-tutorial', async function () {
           // given
           const skillIdA = 'skillIdA';
@@ -90,7 +90,7 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         });
       });
 
-      context('and the skillId is the same', () => {
+      context('and the skillId is the same', function () {
         it('should not store a new user-saved-tutorial', async function () {
           // given
           const skillId = 'skillId';

@@ -7,8 +7,9 @@ module.exports = {
   async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
+    const userTutorial = userTutorialSerializer.deserialize(request.payload);
 
-    const userSavedTutorial = await usecases.addTutorialToUser({ userId, tutorialId });
+    const userSavedTutorial = await usecases.addTutorialToUser({ ...userTutorial, userId, tutorialId });
 
     return h.response(userTutorialSerializer.serialize(userSavedTutorial)).created();
   },
