@@ -259,6 +259,38 @@
             />
           </div>
 
+          {{#if @shouldDisplayPaymentOptions}}
+            <div
+              class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+            >
+              <label for="billing-mode" class="label">
+                <span class="required-field-indicator">*</span>
+                Tarification part Pix</label>
+              <PixSelect
+                id="billing-mode"
+                class="birth-country-selector"
+                @options={{this.billingModeOptions}}
+                @onChange={{fn @updateCandidateData @candidateData "billingMode"}}
+                @emptyOptionLabel={{"-- Choisissez --"}}
+                @emptyOptionNotSelectable={{true}}
+                required
+              />
+            </div>
+
+            <div
+              class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double"
+            >
+              <label for="prepayment-code" class="label">Code de prépaiement</label>
+              <Input
+                id="prepayment-code"
+                @type="text"
+                class="input"
+                @value={{@candidateData.prepaymentCode}}
+                {{on "input" (fn @updateCandidateData @candidateData "prepaymentCode")}}
+              />
+            </div>
+          {{/if}}
+
           {{#if this.complementaryCertifications.length}}
             <div class="new-certification-candidate-details-modal__form__field">
               <span class="label">Certifications complémentaires</span>

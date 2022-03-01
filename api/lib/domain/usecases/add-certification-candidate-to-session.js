@@ -1,6 +1,7 @@
 const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CpfBirthInformationValidationError,
+  CertificationCandidateAddError,
 } = require('../errors');
 
 module.exports = async function addCertificationCandidateToSession({
@@ -13,7 +14,12 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCpfCityRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
-  certificationCandidate.validate();
+
+  try {
+    certificationCandidate.validate();
+  } catch (error) {
+    throw CertificationCandidateAddError.fromInvalidCertificationCandidateError(error);
+  }
 
   const duplicateCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
     sessionId,
