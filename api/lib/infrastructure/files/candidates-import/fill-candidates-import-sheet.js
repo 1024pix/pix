@@ -76,8 +76,8 @@ function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCe
       validatorName: 'billingModeValidator',
       restrictedList: billingValidatorList,
       allowEmptyCell: false,
-      tooltipTitle: 'Code de prépaiement',
-      tooltipContentLines: ['Choix possibles:', ...billingValidatorList],
+      tooltipTitle: 'Tarification part Pix',
+      tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
     });
     stringifiedXml = _addBillingColumns(stringifiedXml);
   }
