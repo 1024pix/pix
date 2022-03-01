@@ -319,7 +319,7 @@ function _buildParticipations({ databaseBuilder }) {
 function _buildUsers({ databaseBuilder, users }) {
   return users.map((user) => {
     const databaseUser = databaseBuilder.factory.buildUser.withRawPassword({ ...user, rawPassword: DEFAULT_PASSWORD });
-    databaseBuilder.factory.buildSchoolingRegistration({ ...user, id: databaseUser.id, userId: databaseUser.id, organizationId: PRO_COMPANY_ID });
+    databaseBuilder.factory.buildSchoolingRegistration({ firstName: user.firstName + '-Prescrit', lastName: user.lastName + '-Prescrit', id: databaseUser.id, userId: databaseUser.id, organizationId: PRO_COMPANY_ID });
     return databaseUser;
   });
 }
@@ -346,7 +346,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
     const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: TO_SHARE });
     databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
   });
-  userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, status: SHARED }));
+  userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: SHARED }));
   userIdsCompletedShared2.forEach((user) => {
     const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: SHARED });
     databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
@@ -374,8 +374,8 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   const certifRegularUser4 = { id: CERTIF_REGULAR_USER4_ID, createdAt: new Date('2022-02-06') };
   const certifRegularUser5 = { id: CERTIF_REGULAR_USER5_ID, createdAt: new Date('2022-02-07') };
 
-  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].map((certifUser) => {
-    databaseBuilder.factory.buildSchoolingRegistration({ ...certifUser, userId: certifUser.id, organizationId: PRO_COMPANY_ID });
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].map((certifUser, index) => {
+    databaseBuilder.factory.buildSchoolingRegistration({ lastName: `Certif${index}`, firstName: `User${index}`, id: certifUser.id, userId: certifUser.id, organizationId: PRO_COMPANY_ID });
   });
 
   [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, schoolingRegistrationId: user.id, status: TO_SHARE }));
