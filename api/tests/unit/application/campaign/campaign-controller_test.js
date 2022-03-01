@@ -72,6 +72,56 @@ describe('Unit | Application | Controller | Campaign', function () {
       expect(response.source).to.equal(expectedResult);
       expect(response.statusCode).to.equal(201);
     });
+
+    it('should set the creator as the owner when no owner is provided', async function () {
+      // given
+      const connectedUserId = 1;
+      const request = {
+        auth: { credentials: { userId: connectedUserId } },
+        payload: {
+          data: {
+            attributes: {
+              name: 'name',
+              type: 'ASSESSMENT',
+              title: 'title',
+              'id-pix-label': 'idPixLabel',
+              'custom-landing-page-text': 'customLandingPageText',
+              'multiple-sendings': true,
+            },
+            relationships: {
+              'target-profile': { data: { id: '123' } },
+              organization: { data: { id: '456' } },
+            },
+          },
+        },
+        i18n: {
+          __: sinon.stub(),
+        },
+      };
+      const campaign = {
+        name: 'name',
+        type: 'ASSESSMENT',
+        title: 'title',
+        idPixLabel: 'idPixLabel',
+        customLandingPageText: 'customLandingPageText',
+        organizationId: 456,
+        targetProfileId: 123,
+        creatorId: 1,
+        ownerId: 1,
+        multipleSendings: true,
+      };
+
+      const expectedResult = Symbol('result');
+      const createdCampaign = Symbol('created campaign');
+      usecases.createCampaign.withArgs({ campaign }).resolves(createdCampaign);
+      campaignReportSerializer.serialize.withArgs(createdCampaign).returns(expectedResult);
+
+      // when
+      const response = await campaignController.save(request, hFake);
+
+      // then
+      expect(response.source).to.equal(expectedResult);
+    });
   });
 
   describe('#getCsvAssessmentResults', function () {
