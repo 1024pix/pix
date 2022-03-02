@@ -224,7 +224,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         />
       `);
 
-      await clickByLabel("Fermer la fenêtre d'ajout d'un candidat");
+      await clickByLabel('Fermer');
 
       // then
       sinon.assert.calledOnce(closeModalStub);

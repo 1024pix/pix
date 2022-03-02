@@ -1,33 +1,10 @@
 .certification-candidate-details-modal {
   min-width: 550px;
   max-width: 550px;
-
-  &__title {
-    font-family: $open-sans;
-    padding: 12px 32px;
-
-    h1 {
-      font-size: 1.25rem;
-      color: $grey-80;
-      margin: 0;
-      margin-bottom: 4px;
-    }
-  }
-
-  &__content {
-    font-size: 0.875rem;
-    color: $grey-70;
-    border-top: 1px solid $grey-20;
-    border-bottom: 1px solid $grey-20;
-    background-color: $grey-10;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
+  margin: 100px auto; // to fix in pix UI
 
   &__list {
     max-width: 100%;
-    margin: 0;
-    padding: 0;
   }
 
   &__row {
@@ -52,22 +29,12 @@
     }
   }
 
-  &__actions {
-    background-color: $grey-10;
-    padding: 16px 32px;
-    display: flex;
+  .pix-modal__footer {
     justify-content: center;
-    border-radius: 0 0 5px 5px;
-
-    .button--showed-as-link {
-      font-family: $roboto;
-      text-decoration: none;
-      margin-right: 24px;
-      font-size: 0.875rem;
-
-      &:hover {
-        color: inherit;
-      }
-    }
   }
+}
+
+// Necessary to override Pix UI's per component css reset
+.pix-modal li.certification-candidate-details-modal__row {
+  padding: 8px 32px;
 }

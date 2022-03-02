@@ -1,68 +1,62 @@
-<AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
-  <div class="add-issue-report-modal">
-    <div class="pix-modal__close-button">
-      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
-        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24" />
-      </button>
-    </div>
+<PixModal
+  class="add-issue-report-modal"
+  @title="Signalement du candidat : {{@report.firstName}} {{@report.lastName}}"
+  @onCloseButtonClick={{@closeModal}}
+>
+  <:content>
+    <form
+      id="add-issue-report-form"
+      {{on "submit" this.submitReport}}
+      class="pix-modal__container pix-modal__container--white"
+    >
+      <div class="add-issue-report-modal-content">
+        <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+          @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
 
-    <form {{on "submit" this.submitReport}} class="pix-modal__container pix-modal__container--white">
-      <div class="add-issue-report-modal__title">
-        <h1>Signalement du candidat</h1>
-        <h3>{{@report.firstName}} {{@report.lastName}}</h3>
+        <IssueReportModal::LateOrLeavingCertificationIssueReportFields
+          @lateOrLeavingCategory={{this.lateOrLeavingCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
+
+        <IssueReportModal::FraudCertificationIssueReportFields
+          @fraudCategory={{this.fraudCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+        />
+
+        <IssueReportModal::InChallengeCertificationIssueReportFields
+          @inChallengeCategory={{this.inChallengeCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
+
+        <IssueReportModal::TechnicalProblemCertificationIssueReportFields
+          @technicalProblemCategory={{this.technicalProblemCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
+
+        <IssueReportModal::OtherCertificationIssueReportFields
+          @otherCategory={{this.otherCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
       </div>
 
-      <div class="add-issue-report-modal__content">
-        <div class="add-issue-report-modal-content">
-          <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-            @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
+      {{#if this.showCategoryMissingError}}
+        <PixMessage @type="alert">Veuillez selectionner une catégorie</PixMessage>
+      {{/if}}
 
-          <IssueReportModal::LateOrLeavingCertificationIssueReportFields
-            @lateOrLeavingCategory={{this.lateOrLeavingCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
-
-          <IssueReportModal::FraudCertificationIssueReportFields
-            @fraudCategory={{this.fraudCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-          />
-
-          <IssueReportModal::InChallengeCertificationIssueReportFields
-            @inChallengeCategory={{this.inChallengeCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
-
-          <IssueReportModal::TechnicalProblemCertificationIssueReportFields
-            @technicalProblemCategory={{this.technicalProblemCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
-
-          <IssueReportModal::OtherCertificationIssueReportFields
-            @otherCategory={{this.otherCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
-        </div>
-
-        {{#if this.showCategoryMissingError}}
-          <PixMessage @type="alert">Veuillez selectionner une catégorie</PixMessage>
-        {{/if}}
-
-        {{#if this.showIssueReportSubmitError}}
-          <PixMessage @type="alert">Une erreur s'est produite lors de l'ajout du signalement. Merci de réessayer</PixMessage>
-        {{/if}}
-
-        <div class="add-issue-report-modal__actions">
-          <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">Annuler</PixButton>
-          <PixButton @type="submit" aria-label="Ajouter le signalement">Valider</PixButton>
-        </div>
-      </div>
+      {{#if this.showIssueReportSubmitError}}
+        <PixMessage @type="alert">Une erreur s'est produite lors de l'ajout du signalement. Merci de réessayer</PixMessage>
+      {{/if}}
     </form>
-  </div>
-</AppModal>
+  </:content>
+  <:footer>
+    <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">Annuler</PixButton>
+    <PixButton form="add-issue-report-form" @type="submit" aria-label="Ajouter le signalement">Valider</PixButton>
+  </:footer>
+</PixModal>

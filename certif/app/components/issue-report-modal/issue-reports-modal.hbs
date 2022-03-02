@@ -1,54 +1,38 @@
-<AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
-  <div class="add-issue-report-modal">
-    <div class="pix-modal__close-button">
-      <button
-        type="button"
-        aria-label="Fermer"
-        data-test-id="finalize-session-modal__close-cross"
-        {{on "click" @closeModal}}
-      >Fermer
-        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24" />
-      </button>
+<PixModal
+  @title="Signalement du candidat : {{@report.firstName}} {{@report.lastName}}"
+  @onCloseButtonClick={{@closeModal}}
+  class="issue-report-modal"
+>
+  <:content>
+    <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
+    <div class="issue-report-modal__frame">
+      <ul>
+        {{#each @report.certificationIssueReports as |issueReport|}}
+          <li class="issue-report-modal__report">
+            <p class="issue-report-modal__category-label">
+              {{issueReport.categoryCode}}&nbsp;{{issueReport.categoryLabel}}
+              <PixIconButton
+                @icon="trash"
+                aria-label="Supprimer le signalement"
+                @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
+              />
+            </p>
+            {{#if issueReport.subcategoryLabel}}
+              <p
+                class="issue-report-modal__subcategory-label"
+              >{{issueReport.subcategoryCode}}&nbsp;{{issueReport.subcategoryLabel}}</p>
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+      <PixButton @triggerAction={{fn @onClickIssueReport @report}}>
+        <FaIcon @icon="plus" />
+        Ajouter un signalement
+      </PixButton>
     </div>
 
-    <div class="pix-modal__container pix-modal__container--white">
-      <div class="add-issue-report-modal__title">
-        <h1>Signalement du candidat</h1>
-        <h3>{{@report.firstName}} {{@report.lastName}}</h3>
-      </div>
-
-      <div class="add-issue-report-modal__content">
-        <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
-        <div class="add-issue-report-modal__content--frame">
-          <ul>
-            {{#each @report.certificationIssueReports as |issueReport|}}
-              <li>
-                <p class="add-issue-report-modal-content__category-label">
-                  {{issueReport.categoryCode}}&nbsp;{{issueReport.categoryLabel}}
-                  <PixIconButton
-                    @icon="trash"
-                    aria-label="Supprimer le signalement"
-                    @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
-                  />
-                </p>
-                {{#if issueReport.subcategoryLabel}}
-                  <p
-                    class="add-issue-report-modal-content__subcategory-label"
-                  >{{issueReport.subcategoryCode}}&nbsp;{{issueReport.subcategoryLabel}}</p>
-                {{/if}}
-              </li>
-            {{/each}}
-          </ul>
-          <PixButton @triggerAction={{fn @onClickIssueReport @report}}>
-            <FaIcon @icon="plus" />
-            Ajouter un signalement
-          </PixButton>
-        </div>
-
-        {{#if this.showDeletionError}}
-          <PixMessage @type="alert">Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer</PixMessage>
-        {{/if}}
-      </div>
-    </div>
-  </div>
-</AppModal>
+    {{#if this.showDeletionError}}
+      <PixMessage @type="alert">Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer</PixMessage>
+    {{/if}}
+  </:content>
+</PixModal>
