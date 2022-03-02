@@ -1,7 +1,7 @@
 import { click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import visit from '../helpers/visit';
+import { visit } from '@ember/test-helpers';
 import { authenticateByEmail } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';

@@ -20,20 +20,32 @@ export default class LoginPeRoute extends Route {
     return `${protocol}//${host}${path}`;
   }
 
-  async afterModel(_, transition) {
+  beforeModel(transition) {
     if (!authEndpoint) {
       throw new Error('There is no authEndpoint configured.');
     }
 
     const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
-
-    if (queryParams.code) {
-      return await this._handleCallbackRequest(queryParams.code, queryParams.state);
-    } else if (queryParams.error) {
+    if (!queryParams.code && queryParams.error) {
       return this.replaceWith('login');
     }
 
-    return this._handleRedirectRequest();
+    if (!queryParams.code && !queryParams.error) {
+      return this._handleRedirectRequest();
+    }
+  }
+
+  async model(_, transition) {
+    const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
+    if (queryParams.code) {
+      return this._handleCallbackRequest(queryParams.code, queryParams.state);
+    }
+  }
+
+  afterModel({ shouldValidateCgu, authenticationKey } = {}) {
+    if (shouldValidateCgu && authenticationKey) {
+      return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
+    }
   }
 
   async _handleCallbackRequest(code, state) {
@@ -47,7 +59,7 @@ export default class LoginPeRoute extends Route {
       const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';
       const authenticationKey = get(response, 'errors[0].meta.authenticationKey');
       if (shouldValidateCgu && authenticationKey) {
-        return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
+        return { shouldValidateCgu, authenticationKey };
       }
       throw new Error(JSON.stringify(response.errors));
     } finally {

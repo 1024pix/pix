@@ -1,10 +1,9 @@
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { click, currentURL, find } from '@ember/test-helpers';
+import { click, currentURL, find, visit } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
-import visit from '../helpers/visit';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';

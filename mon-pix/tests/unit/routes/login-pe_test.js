@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
@@ -6,10 +7,12 @@ describe('Unit | Route | login-pe', function () {
   setupTest();
 
   let route;
+  const loginTransition = Symbol('login transition');
 
   beforeEach(function () {
     route = this.owner.lookup('route:login-pe');
     sinon.stub(route, 'replaceWith');
+    route.replaceWith.withArgs('login').returns(loginTransition);
   });
 
   context('when pole-emploi user disallow PIX to use data', function () {
@@ -17,7 +20,7 @@ describe('Unit | Route | login-pe', function () {
       error: 'access_denied',
     };
 
-    it('should redirect to login route if transition.to exist', async function () {
+    it('should redirect to login route if there is an error in transition.to', function () {
       // given
       const transition = {
         to: {
@@ -26,23 +29,23 @@ describe('Unit | Route | login-pe', function () {
       };
 
       // when
-      await route.afterModel(null, transition);
+      const transitionResult = route.beforeModel(transition);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'login');
+      expect(transitionResult).to.equal(loginTransition);
     });
 
-    it('should redirect to login route if transition exist', async function () {
+    it('should redirect to login route if there is an error in transition', function () {
       // given
       const transition = {
         queryParams,
       };
 
       // when
-      await route.afterModel(null, transition);
+      const transitionResult = route.beforeModel(transition);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'login');
+      expect(transitionResult).to.equal(loginTransition);
     });
   });
 });
