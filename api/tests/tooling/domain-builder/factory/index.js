@@ -116,7 +116,7 @@ module.exports = {
   buildUserDetailsForAdmin: require('./build-user-details-for-admin'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserScorecard: require('./build-user-scorecard'),
-  buildUserTutorialWithTutorial: require('./build-user-tutorial-with-tutorial'),
+  buildUserSavedTutorialWithTutorial: require('./build-user-saved-tutorial-with-tutorial'),
   buildUserWithSchoolingRegistration: require('./build-user-with-schooling-registration'),
   buildValidation: require('./build-validation'),
   buildValidator: require('./build-validator'),

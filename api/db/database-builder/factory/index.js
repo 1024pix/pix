@@ -60,7 +60,7 @@ module.exports = {
   buildUser: require('./build-user'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserPixRole: require('./build-user-pix-role'),
-  buildUserTutorial: require('./build-user-tutorial'),
+  buildUserSavedTutorial: require('./build-user-saved-tutorial'),
   campaignParticipationOverviewFactory: require('./campaign-participation-overview-factory'),
   knowledgeElementSnapshotFactory: require('./knowledge-elements-snapshot-factory'),
   poleEmploiSendingFactory: require('./pole-emploi-sending-factory'),

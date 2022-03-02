@@ -1,3 +1,4 @@
+const { NotFoundError } = require('../../domain/errors');
 const Skill = require('../../domain/models/Skill');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 
@@ -15,7 +16,11 @@ function _toDomain(skillData) {
 
 module.exports = {
   async get(id) {
-    return _toDomain(await skillDatasource.get(id));
+    try {
+      return _toDomain(await skillDatasource.get(id));
+    } catch (e) {
+      throw new NotFoundError('Erreur, compétence introuvable');
+    }
   },
 
   async list() {

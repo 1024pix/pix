@@ -64,10 +64,10 @@ describe('Unit | UseCase | find-tutorials', function () {
 
           beforeEach(async function () {
             // given
-            const userTutorial = { id: 1, userId: 'userId', tutorialId: 'tuto1' };
+            const userSavedTutorial = { id: 1, userId: 'userId', tutorialId: 'tuto1' };
             const tutorial1 = domainBuilder.buildTutorial({ id: 'tuto1' });
             const tutorial2 = domainBuilder.buildTutorial({ id: 'tuto2' });
-            tutorial2.userTutorial = userTutorial;
+            tutorial2.userTutorial = userSavedTutorial;
             const tutorial3 = domainBuilder.buildTutorial({ id: 'tuto3' });
 
             const inferredTutorial = domainBuilder.buildTutorial({ id: 'tutoInferred' });
@@ -84,7 +84,7 @@ describe('Unit | UseCase | find-tutorials', function () {
               tubeName: '@wikipédia',
               tubePracticalTitle: 'Practical Title wikipédia',
               tubePracticalDescription: 'Practical Description wikipédia',
-              userTutorial,
+              userTutorial: userSavedTutorial,
             };
 
             const expectedTutorial3 = {
