@@ -34,11 +34,11 @@ describe('Unit | UseCase | find-saved-tutorials', function () {
   });
 
   context('when there is one tutorial saved by current user', function () {
-    it('should return user-tutorials with tutorials', async function () {
+    it('should return tutorial with user-tutorials', async function () {
       // Given
-      const userTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial();
+      const tutorialWithUserTutorial = domainBuilder.buildTutorialWithUserTutorial();
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
-      userTutorialRepository = { findWithTutorial: sinon.spy(async () => [userTutorialWithTutorial]) };
+      userTutorialRepository = { findWithTutorial: sinon.spy(async () => [tutorialWithUserTutorial]) };
 
       // When
       const tutorials = await findSavedTutorials({
@@ -48,22 +48,20 @@ describe('Unit | UseCase | find-saved-tutorials', function () {
       });
 
       // Then
-      expect(tutorials).to.deep.equal([userTutorialWithTutorial]);
+      expect(tutorials).to.deep.equal([tutorialWithUserTutorial]);
     });
 
     context('when user has evaluated a tutorial', function () {
-      it('should return user-tutorials with tutorials', async function () {
+      it('should return tutorial with user-tutorials', async function () {
         // Given
-        const userId = 456;
-        const tutorial = domainBuilder.buildTutorial();
-        const userTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({ userId, tutorial });
+        const tutorialWithUserTutorial = domainBuilder.buildTutorialWithUserTutorial();
         const tutorialEvaluation = {
           id: 123,
-          userId,
-          tutorialId: tutorial.id,
+          userId: tutorialWithUserTutorial.userTutorial.userId,
+          tutorialId: tutorialWithUserTutorial.id,
         };
         tutorialEvaluationRepository = { find: sinon.spy(async () => [tutorialEvaluation]) };
-        userTutorialRepository = { findWithTutorial: sinon.spy(async () => [{ ...userTutorialWithTutorial }]) };
+        userTutorialRepository = { findWithTutorial: sinon.spy(async () => [{ ...tutorialWithUserTutorial }]) };
 
         // When
         const tutorials = await findSavedTutorials({
@@ -73,11 +71,11 @@ describe('Unit | UseCase | find-saved-tutorials', function () {
         });
 
         // Then
-        const expectedUserTutorialWithTutorial = {
-          ...userTutorialWithTutorial,
-          tutorial: { ...tutorial, tutorialEvaluation },
+        const expectedTutorialWithUserTutorial = {
+          ...tutorialWithUserTutorial,
+          tutorialEvaluation,
         };
-        expect(tutorials).to.deep.equal([expectedUserTutorialWithTutorial]);
+        expect(tutorials).to.deep.equal([expectedTutorialWithUserTutorial]);
       });
     });
   });
