@@ -1,6 +1,6 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
 const addTutorialEvaluation = require('../../../../lib/domain/usecases/add-tutorial-evaluation');
-const LearningContentNotFoundError = require('../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | add-tutorial-evaluation', function () {
   let tutorialRepository;
@@ -38,7 +38,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
       // Given
       tutorialRepository = {
         get: async () => {
-          throw new LearningContentNotFoundError();
+          throw new NotFoundError();
         },
       };
       const tutorialId = 'nonExistentTutorialId';
@@ -53,7 +53,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
 
       // Then
       expect(tutorialEvaluationRepository.addEvaluation).to.not.have.been.called;
-      expect(result).to.be.instanceOf(LearningContentNotFoundError);
+      expect(result).to.be.instanceOf(NotFoundError);
     });
   });
 });
