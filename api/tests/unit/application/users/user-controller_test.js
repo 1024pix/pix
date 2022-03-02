@@ -16,6 +16,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const userWithActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer');
 const userAnonymizedDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -424,13 +425,13 @@ describe('Unit | Controller | user-controller', function () {
       request = { auth: { credentials: { userId: 1 } } };
 
       sinon.stub(usecases, 'getCurrentUser');
-      sinon.stub(userSerializer, 'serialize');
+      sinon.stub(userWithActivitySerializer, 'serialize');
     });
 
     it('should get the current user', async function () {
       // given
       usecases.getCurrentUser.withArgs({ authenticatedUserId: 1 }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
+      userWithActivitySerializer.serialize.withArgs({}).returns('ok');
 
       // when
       const response = await userController.getCurrentUser(request);

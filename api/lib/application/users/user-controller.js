@@ -7,6 +7,7 @@ const profileSerializer = require('../../infrastructure/serializers/jsonapi/prof
 const participantResultSerializer = require('../../infrastructure/serializers/jsonapi/participant-result-serializer');
 const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const userWithActivitySerializer = require('../../infrastructure/serializers/jsonapi/user-with-activity-serializer');
 const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const userAnonymizedDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
@@ -40,7 +41,7 @@ module.exports = {
   getCurrentUser(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getCurrentUser({ authenticatedUserId }).then(userSerializer.serialize);
+    return usecases.getCurrentUser({ authenticatedUserId }).then(userWithActivitySerializer.serialize);
   },
 
   async getUserDetailsForAdmin(request) {
