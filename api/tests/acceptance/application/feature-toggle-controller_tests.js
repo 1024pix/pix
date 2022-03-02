@@ -21,6 +21,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
         data: {
           id: '0',
           attributes: {
+            'is-april-fool2022-enabled': false,
             'is-certification-billing-enabled': false,
             'is-email-validation-enabled': false,
             'is-complementary-certification-subscription-enabled': false,

@@ -176,6 +176,7 @@ module.exports = (function () {
       ),
       isCertificationBillingEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_BILLING),
       isNewTutorialsPageEnabled: isFeatureEnabled(process.env.FT_NEW_TUTORIALS_PAGE),
+      isAprilFool2022Enabled: isFeatureEnabled(process.env.FT_IS_APRIL_FOOL2022_ENABLED),
     },
 
     infra: {
