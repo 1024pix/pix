@@ -33,5 +33,26 @@
     "birthdate": "2010-10-10",
     "organizationId": 2,
     "userId": 12
+  },
+  {
+    "id": 5,
+    "firstName": "Tyrion",
+    "lastName": "Lannister",
+    "organizationId": 1,
+    "userId": 4
+  },
+  {
+    "id": 6,
+    "firstName": "Jaime",
+    "lastName": "Lannister",
+    "organizationId": 1,
+    "userId": 5
+  },
+  {
+    "id": 7,
+    "firstName": "Cersei",
+    "lastName": "Lannister",
+    "organizationId": 1,
+    "userId": 6
   }
 ]

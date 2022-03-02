@@ -16,21 +16,13 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the creation date, the sharing date and the participantExternalId', async function () {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'Freddy', lastName: 'Krugger' },
-          { campaignId },
-          false
-        );
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'Jason', lastName: 'Voorhees' },
-          {
-            campaignId,
-            createdAt: new Date('2020-01-01'),
-            sharedAt: new Date('2020-01-02'),
-            participantExternalId: 'Friday the 13th',
-          },
-          false
-        );
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          createdAt: new Date('2020-01-01'),
+          sharedAt: new Date('2020-01-02'),
+          participantExternalId: 'Friday the 13th',
+        });
 
         await databaseBuilder.commit();
 
@@ -48,11 +40,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the campaignParticipationId and campaignId', async function () {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'Jason', lastName: 'Voorhees' },
-          { campaignId },
-          false
-        );
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
 
         await databaseBuilder.commit();
 
@@ -69,16 +57,12 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the campaignParticipationId sharing status', async function () {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'Jason', lastName: 'Voorhees' },
-          {
-            campaignId,
-            createdAt: new Date('2020-01-01'),
-            sharedAt: new Date('2020-01-02'),
-            participantExternalId: 'Friday the 13th',
-          },
-          false
-        );
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          createdAt: new Date('2020-01-01'),
+          sharedAt: new Date('2020-01-02'),
+          participantExternalId: 'Friday the 13th',
+        });
 
         await databaseBuilder.commit();
 
@@ -89,38 +73,6 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         });
 
         expect(campaignProfile.isShared).to.equal(true);
-      });
-    });
-
-    context('user infos', function () {
-      beforeEach(function () {
-        mockLearningContent({ areas: [], competences: [], skills: [] });
-      });
-
-      it('return the first name and last name of the participant', async function () {
-        const campaignId = databaseBuilder.factory.buildCampaign().id;
-
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'Viggo', lastName: 'Tarasov' },
-          { campaignId },
-          false
-        );
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'John', lastName: 'Shaft' },
-          { campaignId },
-          false
-        );
-
-        await databaseBuilder.commit();
-
-        const campaignProfile = await CampaignProfileRepository.findProfile({
-          campaignId,
-          campaignParticipationId: campaignParticipation.id,
-          locale,
-        });
-
-        expect(campaignProfile.firstName).to.equal('John');
-        expect(campaignProfile.lastName).to.equal('Shaft');
       });
     });
 
@@ -210,11 +162,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the number of competences', async function () {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'John', lastName: 'Shaft' },
-          { campaignId },
-          false
-        );
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
 
         await databaseBuilder.commit();
 
@@ -230,11 +178,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the competences data according to given locale', async function () {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'John', lastName: 'Shaft' },
-          { campaignId },
-          false
-        );
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
 
         await databaseBuilder.commit();
 
@@ -373,11 +317,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('throws an NotFoundError error', async function () {
         const campaignId = databaseBuilder.factory.buildCampaign({ id: 1 }).id;
 
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { firstName: 'John', lastName: 'Shaft' },
-          { id: 3, campaignId },
-          false
-        ).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ id: 3, campaignId }).id;
 
         await databaseBuilder.commit();
         const error = await catchErr(CampaignProfileRepository.findProfile)({

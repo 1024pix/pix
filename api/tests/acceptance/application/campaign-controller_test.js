@@ -783,25 +783,29 @@ describe('Acceptance | API | Campaign Controller', function () {
             targetProfileId: targetProfile.id,
           });
 
-          const participantId1 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Barry',
-            lastName: 'White',
-            organizationId: organization.id,
-            userId: participantId1,
-            division: 'Division Barry',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Barry',
+              lastName: 'White',
+              organizationId: organization.id,
+              division: 'Division Barry',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
-          const participantId2 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Marvin',
-            lastName: 'Gaye',
-            organizationId: organization.id,
-            userId: participantId2,
-            division: 'Division Marvin',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Marvin',
+              lastName: 'Gaye',
+              organizationId: organization.id,
+              division: 'Division Marvin',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
           await databaseBuilder.commit();
 
@@ -842,35 +846,41 @@ describe('Acceptance | API | Campaign Controller', function () {
             targetProfileId: targetProfile.id,
           });
 
-          const participantId1 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Barry',
-            lastName: 'White',
-            organizationId: organization.id,
-            userId: participantId1,
-            division: 'Division Barry',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Barry',
+              lastName: 'White',
+              organizationId: organization.id,
+              division: 'Division Barry',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
-          const participantId2 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Marvin',
-            lastName: 'Gaye',
-            organizationId: organization.id,
-            userId: participantId2,
-            division: 'Division Marvin',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Marvin',
+              lastName: 'Gaye',
+              organizationId: organization.id,
+              division: 'Division Marvin',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
-          const participantId3 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId3 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Aretha',
-            lastName: 'Franklin',
-            organizationId: organization.id,
-            userId: participantId3,
-            division: 'Division Aretha',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Aretha',
+              lastName: 'Franklin',
+              organizationId: organization.id,
+              division: 'Division Aretha',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
           await databaseBuilder.commit();
 
@@ -914,25 +924,29 @@ describe('Acceptance | API | Campaign Controller', function () {
             targetProfileId: targetProfile.id,
           });
 
-          const participantId1 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Barry',
-            lastName: 'White',
-            organizationId: organization.id,
-            userId: participantId1,
-            group: 'L1',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Barry',
+              lastName: 'White',
+              organizationId: organization.id,
+              group: 'L1',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
-          const participantId2 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Marvin',
-            lastName: 'Gaye',
-            organizationId: organization.id,
-            userId: participantId2,
-            group: 'L2',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Marvin',
+              lastName: 'Gaye',
+              organizationId: organization.id,
+              group: 'L2',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
           await databaseBuilder.commit();
 
@@ -973,35 +987,41 @@ describe('Acceptance | API | Campaign Controller', function () {
             targetProfileId: targetProfile.id,
           });
 
-          const participantId1 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId1 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Barry',
-            lastName: 'White',
-            organizationId: organization.id,
-            userId: participantId1,
-            group: 'L1',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Barry',
+              lastName: 'White',
+              organizationId: organization.id,
+              group: 'L1',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
-          const participantId2 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId2 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Marvin',
-            lastName: 'Gaye',
-            organizationId: organization.id,
-            userId: participantId2,
-            group: 'L2',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Marvin',
+              lastName: 'Gaye',
+              organizationId: organization.id,
+              group: 'L2',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
-          const participantId3 = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participantId3 });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            firstName: 'Aretha',
-            lastName: 'Franklin',
-            organizationId: organization.id,
-            userId: participantId3,
-            group: 'L3',
-          });
+          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+            {
+              firstName: 'Aretha',
+              lastName: 'Franklin',
+              organizationId: organization.id,
+              group: 'L3',
+            },
+            {
+              campaignId: campaign.id,
+            }
+          );
 
           await databaseBuilder.commit();
 
@@ -1143,9 +1163,9 @@ describe('Acceptance | API | Campaign Controller', function () {
   });
 
   describe('GET /api/campaigns/{id}/participants-activity', function () {
-    const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
-    const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
-    const participant3 = { firstName: 'Mary', lastName: 'McClane', id: 14, email: 'mary.mclane@die.hard' };
+    const participant1 = { firstName: 'John', lastName: 'McClane', division: '5eme' };
+    const participant2 = { firstName: 'Holly', lastName: 'McClane', division: '4eme' };
+    const participant3 = { firstName: 'Mary', lastName: 'McClane', group: 'L1' };
 
     let campaign;
     let userId;
@@ -1154,7 +1174,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
-      campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId: organization.id });
+      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
       databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
 
@@ -1163,34 +1183,14 @@ describe('Acceptance | API | Campaign Controller', function () {
         campaignId: campaign.id,
       };
 
-      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant1);
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '5eme',
-        firstName: 'John',
-        lastName: 'McClane',
-        userId: participant1.id,
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(participant1, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(participant2, {
+        campaignId: campaign.id,
+        status: STARTED,
       });
-      databaseBuilder.factory.buildAssessmentFromParticipation(
-        { campaignId: campaign.id, status: STARTED },
-        participant2
-      );
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '4eme',
-        firstName: 'Holly',
-        lastName: 'McClane',
-        userId: participant2.id,
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(participant3, {
+        campaignId: campaign.id,
       });
-      databaseBuilder.factory.buildAssessmentFromParticipation({ campaignId: campaign.id }, participant3);
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        group: 'L1',
-        firstName: 'Mary',
-        lastName: 'McClane',
-        userId: participant3.id,
-      });
-
       return databaseBuilder.commit();
     });
 

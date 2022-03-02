@@ -55,17 +55,15 @@ module.exports = {
           'schooling-registrations.studentNumber',
           'schooling-registrations.division',
           'schooling-registrations.group',
-          knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
-          knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+          'schooling-registrations.firstName',
+          'schooling-registrations.lastName',
         ])
           .from('campaign-participations')
-          .leftJoin('users', 'campaign-participations.userId', 'users.id')
-          .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
-          .leftJoin('schooling-registrations', function () {
-            this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-              'campaigns.organizationId': 'schooling-registrations.organizationId',
-            });
-          })
+          .join(
+            'schooling-registrations',
+            'schooling-registrations.id',
+            'campaign-participations.schoolingRegistrationId'
+          )
           .where({ campaignId, isImproved: false });
       })
       .from('campaignParticipationWithUser');
