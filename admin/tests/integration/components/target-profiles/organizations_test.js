@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | TargetProfiles::Organizations', function (hooks) {
@@ -72,7 +72,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
-    await fillInByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
+    await fillByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
     await clickByLabel('Valider le rattachement');
 
     assert.dom('[placeholder="1, 2"]').hasValue('1, 2');
@@ -86,7 +86,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
-    await fillInByLabel("Rattacher les organisations d'un profil cible existant", 1);
+    await fillByLabel("Rattacher les organisations d'un profil cible existant", 1);
     await clickByLabel('Valider le rattachement à partir de ce profil cible');
 
     assert.dom('[placeholder="1135"]').hasValue('1');

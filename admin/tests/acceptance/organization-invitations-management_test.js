@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { clickByText } from '@1024pix/ember-testing-library';
+import { clickByText, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import moment from 'moment';
 
 module('Acceptance | organization invitations management', function (hooks) {
@@ -34,7 +33,7 @@ module('Acceptance | organization invitations management', function (hooks) {
 
       // when
       await visit(`/organizations/${organization.id}/invitations`);
-      await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
+      await fillByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
       await clickByText('Inviter');
@@ -59,7 +58,7 @@ module('Acceptance | organization invitations management', function (hooks) {
 
       // when
       await visit(`/organizations/${organization.id}/invitations`);
-      await fillInByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
+      await fillByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
       await clickByText('Inviter');

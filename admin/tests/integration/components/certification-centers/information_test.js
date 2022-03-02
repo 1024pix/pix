@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render as renderScreen, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 import { fillIn, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import repeat from 'lodash/repeat';
 import sinon from 'sinon';
 
@@ -243,9 +242,9 @@ module('Integration | Component | certification-centers/information', function (
     );
 
     await clickByLabel('Editer');
-    await fillInByLabel('Nom du centre', 'Centre SUP');
-    await fillInByLabel('Type', 'SUP');
-    await fillInByLabel('Identifiant externe', 'externalId');
+    await fillByLabel('Nom du centre', 'Centre SUP');
+    await fillByLabel('Type', 'SUP');
+    await fillByLabel('Identifiant externe', 'externalId');
     await clickByLabel('Espace surveillant');
     await clickByLabel('Pix+Droit');
 

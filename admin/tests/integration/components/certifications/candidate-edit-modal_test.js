@@ -1,13 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
-
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | certifications/candidate-edit-modal', function (hooks) {
@@ -263,14 +262,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
-      await fillInByLabel('* Nom de famille', 'Belmans');
-      await fillInByLabel('* Prénom', 'Gideona');
+      await fillByLabel('* Nom de famille', 'Belmans');
+      await fillByLabel('* Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await click('#female');
-      await fillInByLabel('Pays de naissance', '99100');
+      await fillByLabel('Pays de naissance', '99100');
       await click('#postal-code-choice');
-      await fillInByLabel('* Code postal de naissance', '75001');
-      await fillInByLabel('* Commune de naissance', 'PARIS 01');
+      await fillByLabel('* Code postal de naissance', '75001');
+      await fillByLabel('* Commune de naissance', 'PARIS 01');
 
       // when
       await clickByLabel('Annuler');
@@ -309,14 +308,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
-      await fillInByLabel('* Nom de famille', 'Belmans');
-      await fillInByLabel('* Prénom', 'Gideona');
+      await fillByLabel('* Nom de famille', 'Belmans');
+      await fillByLabel('* Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await click('#female');
-      await fillInByLabel('Pays de naissance', '99100');
+      await fillByLabel('Pays de naissance', '99100');
       await click('#postal-code-choice');
-      await fillInByLabel('* Code postal de naissance', '75001');
-      await fillInByLabel('* Commune de naissance', 'PARIS 01');
+      await fillByLabel('* Code postal de naissance', '75001');
+      await fillByLabel('* Commune de naissance', 'PARIS 01');
 
       // when
       await clickByLabel('Annuler');
@@ -381,14 +380,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`
       );
-      await fillInByLabel('* Nom de famille', 'Belmans');
-      await fillInByLabel('* Prénom', 'Gideon');
+      await fillByLabel('* Nom de famille', 'Belmans');
+      await fillByLabel('* Prénom', 'Gideon');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await click('#male');
-      await fillInByLabel('Pays de naissance', '99100');
+      await fillByLabel('Pays de naissance', '99100');
       await click('#postal-code-choice');
-      await fillInByLabel('* Code postal de naissance', '75001');
-      await fillInByLabel('* Commune de naissance', 'PARIS 01');
+      await fillByLabel('* Code postal de naissance', '75001');
+      await fillByLabel('* Commune de naissance', 'PARIS 01');
 
       // when
       await clickByLabel('Enregistrer');
@@ -423,8 +422,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillInByLabel('Pays de naissance', '99101');
-        await fillInByLabel('* Commune de naissance', 'Copenhague');
+        await fillByLabel('Pays de naissance', '99101');
+        await fillByLabel('* Commune de naissance', 'Copenhague');
         await clickByLabel('Enregistrer');
 
         // then
@@ -467,9 +466,9 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillInByLabel('Pays de naissance', '99100');
+        await fillByLabel('Pays de naissance', '99100');
         await click('#insee-code-choice');
-        await fillInByLabel('* Code Insee de naissance', '66212');
+        await fillByLabel('* Code Insee de naissance', '66212');
         await clickByLabel('Enregistrer');
 
         // then
@@ -512,10 +511,10 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillInByLabel('Pays de naissance', '99100');
+        await fillByLabel('Pays de naissance', '99100');
         await click('#postal-code-choice');
-        await fillInByLabel('* Code postal de naissance', '66440');
-        await fillInByLabel('* Commune de naissance', 'Torreilles');
+        await fillByLabel('* Code postal de naissance', '66440');
+        await fillByLabel('* Commune de naissance', 'Torreilles');
         await clickByLabel('Enregistrer');
 
         // then
@@ -557,7 +556,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillInByLabel('Pays de naissance', '99101');
+        await fillByLabel('Pays de naissance', '99101');
 
         // then
         assert.notContains('* Code Insee de naissance');

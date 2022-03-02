@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -132,7 +132,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
           // when
           await visit('/sessions/4');
-          await fillInByLabel(
+          await fillByLabel(
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
           );
@@ -157,7 +157,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
           // when
           await visit('/sessions/5');
-          await fillInByLabel(
+          await fillByLabel(
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
           );
