@@ -1,9 +1,8 @@
-import { click, find } from '@ember/test-helpers';
+import { click, find, visit } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
-import visit from '../helpers/visit';
 
 describe('Acceptance | Timed challenge', () => {
   setupApplicationTest();

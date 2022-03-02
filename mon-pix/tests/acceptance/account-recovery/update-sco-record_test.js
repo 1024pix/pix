@@ -2,11 +2,10 @@ import { describe } from 'mocha';
 import { expect } from 'chai';
 
 import { setupApplicationTest } from 'ember-mocha';
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import { Response } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-import visit from '../../helpers/visit';
 import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';

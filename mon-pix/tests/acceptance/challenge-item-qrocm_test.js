@@ -1,7 +1,6 @@
-import { click, find, findAll, currentURL, fillIn, triggerEvent } from '@ember/test-helpers';
+import { click, find, findAll, currentURL, fillIn, triggerEvent, visit } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 

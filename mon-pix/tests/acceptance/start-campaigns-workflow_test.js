@@ -3,12 +3,11 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
-import visit from '../helpers/visit';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 import { fillInByLabel } from '../helpers/fill-in-by-label';
@@ -804,6 +803,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await visit(`/connexion-pole-emploi?code=test&state=${state}`);
 
             // then
+            sinon.assert.notCalled(replaceLocationStub);
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });

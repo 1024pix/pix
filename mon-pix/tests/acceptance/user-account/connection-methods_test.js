@@ -1,10 +1,9 @@
 import { describe, it } from 'mocha';
 import { authenticateByEmail, authenticateByGAR, authenticateByUsername } from '../../helpers/authentication';
 import { expect } from 'chai';
-import visit from '../../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { triggerEvent } from '@ember/test-helpers';
+import { triggerEvent, visit } from '@ember/test-helpers';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';

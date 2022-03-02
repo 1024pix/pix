@@ -1,4 +1,4 @@
-import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
@@ -6,7 +6,6 @@ import {
   resumeCampaignOfTypeProfilesCollectionByCode,
   completeCampaignOfTypeProfilesCollectionByCode,
 } from '../helpers/campaign';
-import visit from '../helpers/visit';
 import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';

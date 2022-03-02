@@ -1,11 +1,10 @@
-import { click, currentURL, find } from '@ember/test-helpers';
+import { click, currentURL, find, visit } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
-import visit from '../helpers/visit';
 import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Navbar', function () {
