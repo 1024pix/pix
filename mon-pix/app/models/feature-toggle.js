@@ -4,4 +4,5 @@ export default class FeatureToggle extends Model {
   @attr('boolean') isEmailValidationEnabled;
   @attr('boolean') isEndTestScreenRemovalEnabled;
   @attr('boolean') isNewTutorialsPageEnabled;
+  @attr('boolean') isAprilFool2022Enabled;
 }
