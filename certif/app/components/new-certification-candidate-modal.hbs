@@ -201,27 +201,6 @@
         />
       </div>
 
-      {{#if this.complementaryCertifications.length}}
-        <div class="new-certification-candidate-modal__form__field">
-          <span class="label">Certifications complémentaires</span>
-          <div class="complementary-certifications-checkbox-list">
-            <ul>
-              {{#each this.complementaryCertifications as |complementaryCertification index|}}
-                <li>
-                  <label for={{concat "complementaryCertification_" index}}>
-                    <Input
-                      @type="checkbox"
-                      id={{concat "complementaryCertification_" index}}
-                      {{on "input" (fn this.updateComplementaryCertifications complementaryCertification)}}
-                    />
-                    {{complementaryCertification.name}}
-                  </label>
-                </li>
-              {{/each}}
-            </ul>
-          </div>
-        </div>
-      {{/if}}
       <div class="new-certification-candidate-modal__form__field">
         <label for="extra-time-percentage" class="label">Temps majoré (%)</label>
         <Input
