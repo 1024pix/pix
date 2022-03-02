@@ -54,7 +54,6 @@ const handlersToBeInjected = {
   handleCertificationScoring: require('./handle-certification-scoring'),
   handleCertificationRescoring: require('./handle-certification-rescoring'),
   handleCleaCertificationScoring: require('./handle-clea-certification-scoring'),
-  handlePixPlusCertificationsScoring: require('./handle-pix-plus-certifications-scoring'),
   handlePixPlusEduCertificationsScoring: require('./handle-pix-plus-edu-certifications-scoring'),
   handlePixPlusDroitCertificationsScoring: require('./handle-pix-plus-droit-certifications-scoring'),
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),

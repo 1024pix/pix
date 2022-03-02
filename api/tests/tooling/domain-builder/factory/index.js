@@ -78,7 +78,6 @@ module.exports = {
   buildParticipationForCampaignManagement: require('./build-participation-for-campaign-management'),
   buildPartnerCertification: require('./build-partner-certification'),
   buildPixPlusDroitCertificationResult: require('./build-pix-plus-droit-certification-result'),
-  buildPixPlusCertificationScoring: require('./build-pix-plus-certification-scoring'),
   buildPixPlusDroitCertificationScoring: require('./build-pix-plus-droit-certification-scoring'),
   buildPixPlusEduCertificationScoring: require('./build-pix-plus-edu-certification-scoring'),
   buildPixRole: require('./build-pix-role'),
