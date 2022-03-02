@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import moment from 'moment';
 import sinon from 'sinon';
-import queryByLabel from '../../../helpers/extended-ember-test-helpers/query-by-label';
-import getByLabel from '../../../helpers/extended-ember-test-helpers/get-by-label';
 
 module('Integration | Component | Sessions::JuryComment', function (hooks) {
   setupRenderingTest(hooks);
@@ -19,7 +17,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       this.comment = null;
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <Sessions::JuryComment
           @author={{this.author}}
           @date={{this.date}}
@@ -28,10 +26,10 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       `);
 
       // then
-      assert.dom(getByLabel('Texte du commentaire')).exists();
-      assert.dom(getByLabel('Texte du commentaire')).hasValue('');
-      assert.dom(getByLabel('Enregistrer')).exists();
-      assert.dom(queryByLabel('Annuler')).doesNotExist();
+      assert.dom(screen.getByText("Commentaire de l'équipe Certification")).exists();
+      assert.dom(screen.getByLabelText('Texte du commentaire')).hasValue('');
+      assert.dom(screen.getByText('Enregistrer')).exists();
+      assert.dom(screen.queryByText('Annuler')).doesNotExist();
     });
 
     module('when the form is submitted', function () {
@@ -47,7 +45,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           });
 
           // when
-          await render(hbs`
+          const screen = await renderScreen(hbs`
           <Sessions::JuryComment
               @author={{this.author}}
               @date={{this.date}}
@@ -60,7 +58,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // then
           assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
-          assert.ok(_isNotInEditMode());
+          assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
         });
       });
 
@@ -73,7 +72,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           this.onFormSubmit = sinon.stub().rejects();
 
           // when
-          await render(hbs`
+          const screen = await renderScreen(hbs`
             <Sessions::JuryComment
               @author={{this.author}}
               @date={{this.date}}
@@ -86,7 +85,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // then
           assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
-          assert.ok(_isInEditMode());
+          assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
         });
       });
     });
@@ -101,7 +100,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <Sessions::JuryComment
           @author={{this.author}}
           @date={{this.date}}
@@ -116,8 +115,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       assert.contains(
         "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon."
       );
-      assert.dom(getByLabel('Modifier')).exists();
-      assert.dom(getByLabel('Supprimer')).exists();
+      assert.dom(screen.getByText('Modifier')).exists();
+      assert.dom(screen.getByText('Supprimer')).exists();
     });
 
     module('when the "Modifier" button is clicked', function () {
@@ -129,7 +128,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
         // when
-        await render(hbs`
+        const screen = await renderScreen(hbs`
           <Sessions::JuryComment
             @author={{this.author}}
             @date={{this.date}}
@@ -139,14 +138,13 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         await clickByName('Modifier');
 
         // then
-        assert.dom(getByLabel('Texte du commentaire')).exists();
         assert
-          .dom(getByLabel('Texte du commentaire'))
+          .dom(screen.getByLabelText('Texte du commentaire'))
           .hasValue(
             "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon."
           );
-        assert.dom(getByLabel('Enregistrer')).exists();
-        assert.dom(getByLabel('Annuler')).exists();
+        assert.dom(screen.getByText('Enregistrer')).exists();
+        assert.dom(screen.getByText('Annuler')).exists();
       });
     });
 
@@ -159,7 +157,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
         // when
-        await render(hbs`
+        const screen = await renderScreen(hbs`
           <Sessions::JuryComment
             @author={{this.author}}
             @date={{this.date}}
@@ -170,7 +168,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         await clickByName('Annuler');
 
         // then
-        assert.ok(_isNotInEditMode());
+        assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
       });
 
       test('it should keep the comment unchanged', async function (assert) {
@@ -232,7 +231,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             });
 
             // when
-            await render(hbs`
+            const screen = await renderScreen(hbs`
               <Sessions::JuryComment
                 @author={{this.author}}
                 @date={{this.date}}
@@ -249,7 +248,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             assert.notContains(
               'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
             );
-            assert.ok(_isInEditMode());
+            assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
           });
         });
 
@@ -263,7 +262,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             this.onDeleteButtonClicked = sinon.stub().rejects();
 
             // when
-            await render(hbs`
+            const screen = await renderScreen(hbs`
               <Sessions::JuryComment
                 @author={{this.author}}
                 @date={{this.date}}
@@ -280,7 +279,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             assert.contains(
               'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
             );
-            assert.ok(_isNotInEditMode());
+            assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
+            assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
           });
         });
       });
@@ -295,7 +295,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           this.onDeleteButtonClicked = sinon.stub();
 
           // when
-          await render(hbs`
+          const screen = await renderScreen(hbs`
             <Sessions::JuryComment
               @author={{this.author}}
               @date={{this.date}}
@@ -312,7 +312,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           assert.contains(
             'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
           );
-          assert.ok(_isNotInEditMode());
+          assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
         });
       });
     });
@@ -348,24 +349,6 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
     });
   });
 });
-
-async function _isInEditMode() {
-  try {
-    await getByLabel('Enregistrer');
-    return true;
-  } catch (_error) {
-    throw new Error('Component should be in edit mode, but it is not.');
-  }
-}
-
-async function _isNotInEditMode() {
-  try {
-    await getByLabel('Modifier');
-    return true;
-  } catch (_error) {
-    throw new Error('Component should not be in edit mode, but it is.');
-  }
-}
 
 function _formatDate(dateString) {
   return moment(dateString).format('DD/MM/YYYY à HH:mm');
