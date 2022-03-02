@@ -1,6 +1,7 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
+const { expect, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
 const Skill = require('../../../../lib/domain/models/Skill');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | skill-repository', function () {
   describe('#list', function () {
@@ -101,6 +102,36 @@ describe('Integration | Repository | skill-repository', function () {
       expect(skills).to.have.lengthOf(2);
       expect(skills[0]).to.be.instanceof(Skill);
       expect(skills).to.deep.include.members([activeSkill, archivedSkill]);
+    });
+  });
+
+  describe('#get', function () {
+    let skill;
+
+    beforeEach(function () {
+      skill = domainBuilder.buildSkill();
+      const learningContent = {
+        skills: [skill],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('should return a skill by id', async function () {
+      // when
+      const actualSkill = await skillRepository.get(skill.id);
+
+      // then
+      expect(actualSkill).to.deep.equal(skill);
+    });
+
+    describe('when skillId is not found', function () {
+      it('should throw a Domain error', async function () {
+        // when
+        const error = await catchErr(skillRepository.get)('skillIdNotFound');
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError).and.have.property('message', 'Erreur, compétence introuvable');
+      });
     });
   });
 });

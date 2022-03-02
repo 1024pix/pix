@@ -7,18 +7,19 @@ module.exports = {
   async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
+    const userTutorial = userTutorialSerializer.deserialize(request.payload);
 
-    const userTutorial = await usecases.addTutorialToUser({ userId, tutorialId });
+    const userSavedTutorial = await usecases.addTutorialToUser({ ...userTutorial, userId, tutorialId });
 
-    return h.response(userTutorialSerializer.serialize(userTutorial)).created();
+    return h.response(userTutorialSerializer.serialize(userSavedTutorial)).created();
   },
 
   async find(request, h) {
     const { userId } = request.auth.credentials;
 
-    const userTutorials = await usecases.findUserTutorials({ userId });
+    const userSavedTutorials = await usecases.findUserTutorials({ userId });
 
-    return h.response(userTutorialSerializer.serialize(userTutorials));
+    return h.response(userTutorialSerializer.serialize(userSavedTutorials));
   },
 
   async findSaved(request, h) {

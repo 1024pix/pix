@@ -9,9 +9,9 @@ const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
     const tutorials = await _findByRecordIds({ ids, locale });
-    const userTutorials = await userTutorialRepository.find({ userId });
+    const userSavedTutorials = await userTutorialRepository.find({ userId });
     const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-    _.forEach(tutorials, _assignUserInformation(userTutorials, tutorialEvaluations));
+    _.forEach(tutorials, _assignUserInformation(userSavedTutorials, tutorialEvaluations));
     return tutorials;
   },
 
@@ -60,19 +60,19 @@ function _extractLangFromLocale(locale) {
   return locale && locale.split('-')[0];
 }
 
-function _getUserTutorial(userTutorials, tutorial) {
-  return _.find(userTutorials, (userTutorial) => userTutorial.tutorialId === tutorial.id);
+function _getUserSavedTutorial(userSavedTutorials, tutorial) {
+  return _.find(userSavedTutorials, (userSavedTutorial) => userSavedTutorial.tutorialId === tutorial.id);
 }
 
 function _getTutorialEvaluation(tutorialEvaluations, tutorial) {
   return _.find(tutorialEvaluations, (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorial.id);
 }
 
-function _assignUserInformation(userTutorials, tutorialEvaluations) {
+function _assignUserInformation(userSavedTutorials, tutorialEvaluations) {
   return (tutorial) => {
-    const userTutorial = _getUserTutorial(userTutorials, tutorial);
-    if (userTutorial) {
-      tutorial.userTutorial = userTutorial;
+    const userSavedTutorial = _getUserSavedTutorial(userSavedTutorials, tutorial);
+    if (userSavedTutorial) {
+      tutorial.userTutorial = userSavedTutorial;
     }
     const tutorialEvaluation = _getTutorialEvaluation(tutorialEvaluations, tutorial);
     if (tutorialEvaluation) {
