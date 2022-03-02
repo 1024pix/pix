@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import moment from 'moment';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import queryByLabel from '../../../helpers/extended-ember-test-helpers/query-by-label';
 import getByLabel from '../../../helpers/extended-ember-test-helpers/get-by-label';
 
@@ -56,7 +56,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               @onFormSubmit={{this.onFormSubmit}}
             />
           `);
-          await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
+          await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
           await clickByLabel('Enregistrer');
 
           // then
@@ -82,7 +82,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               @onFormSubmit={{this.onFormSubmit}}
             />
           `);
-          await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
+          await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
           await clickByLabel('Enregistrer');
 
           // then
@@ -189,7 +189,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           />
         `);
         await clickByLabel('Modifier');
-        await fillInByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
+        await fillByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
         await clickByLabel('Annuler');
 
         // then

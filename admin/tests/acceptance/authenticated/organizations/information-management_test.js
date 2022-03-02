@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { Response } from 'ember-cli-mirage';
 
 module('Acceptance | Organizations | Information management', function (hooks) {
@@ -24,7 +23,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       await clickByName('Éditer');
 
       // when
-      await fillInByLabel('* Nom', 'newOrganizationName');
+      await fillByLabel('* Nom', 'newOrganizationName');
       await clickByName('Enregistrer', { exact: true });
 
       // then

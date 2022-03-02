@@ -1,14 +1,11 @@
 import moment from 'moment';
-
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, find, findAll, triggerEvent, visit } from '@ember/test-helpers';
+import { click, currentURL, find, findAll, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, fillByLabel } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | authenticated/certification-centers/get', function (hooks) {
   setupApplicationTest(hooks);
@@ -191,7 +188,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await fillIn('#userEmailToAdd', spacesEmail);
+      await fillByLabel('Adresse e-mail du nouveau membre', spacesEmail);
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
@@ -210,7 +207,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await fillIn('#userEmailToAdd', 'an invalid email');
+      await fillByLabel('Adresse e-mail du nouveau membre', 'an invalid email');
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
@@ -230,7 +227,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await fillIn('#userEmailToAdd', 'test@example.net');
+      await fillByLabel('Adresse e-mail du nouveau membre', 'test@example.net');
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
@@ -249,7 +246,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
       const email = 'test@example.net';
       await visit(`/certification-centers/${certificationCenter.id}`);
-      await fillIn('#userEmailToAdd', email);
+      await fillByLabel('Adresse e-mail du nouveau membre', email);
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // when
@@ -296,9 +293,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
-      await fillInByLabel('Nom du centre', 'nouveau nom');
-      await fillInByLabel('Type', 'SUP');
-      await fillInByLabel('Identifiant externe', 'nouvel identifiant externe');
+      await fillByLabel('Nom du centre', 'nouveau nom');
+      await fillByLabel('Type', 'SUP');
+      await fillByLabel('Identifiant externe', 'nouvel identifiant externe');
       await clickByLabel('Espace surveillant');
       await clickByLabel('Enregistrer');
 
@@ -327,7 +324,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
-      await fillInByLabel('Nom du centre', 'Centre des réussites');
+      await fillByLabel('Nom du centre', 'Centre des réussites');
       await clickByLabel('Pix+Surf');
       await clickByLabel('Enregistrer');
 

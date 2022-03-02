@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -51,7 +51,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Texte du bouton de la page de fin de parcours', 'a'.repeat(256));
+      await fillByLabel('Texte du bouton de la page de fin de parcours', 'a'.repeat(256));
       // then
       assert.contains('La longueur du texte ne doit pas excéder 255 caractères');
     });
@@ -59,7 +59,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test('it should display an error text when the customResultPageButtonUrl is not a url', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('URL du bouton de la page de fin de parcours', 'a');
+      await fillByLabel('URL du bouton de la page de fin de parcours', 'a');
       // then
       assert.contains('Ce champ doit être une URL complète et valide');
     });
@@ -67,7 +67,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test('it should trim extra spaces written by user from title attibute', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Titre du parcours', ' text with space ');
+      await fillByLabel('Titre du parcours', ' text with space ');
       await clickByLabel('Enregistrer');
 
       // then
@@ -77,7 +77,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test("It should return 'null' when title is empty", async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Titre du parcours', '');
+      await fillByLabel('Titre du parcours', '');
       await clickByLabel('Enregistrer');
 
       // then
@@ -104,7 +104,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should display an error text when the name is empty', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('* Nom de la campagne', '');
+    await fillByLabel('* Nom de la campagne', '');
 
     // then
     assert.contains('Le nom ne peut pas être vide');
@@ -113,7 +113,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should display an error text when the name has more than 255 characters', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('* Nom de la campagne', 'a'.repeat(256));
+    await fillByLabel('* Nom de la campagne', 'a'.repeat(256));
     // then
     assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
   });
@@ -121,7 +121,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should trim extra spaces written by user from custom landing page attibute', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel("Texte de la page d'accueil", ' text with space ');
+    await fillByLabel("Texte de la page d'accueil", ' text with space ');
     await clickByLabel('Enregistrer');
 
     // then
@@ -131,7 +131,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test("It should return 'null' when custom landing page attribute is empty", async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel("Texte de la page d'accueil", '');
+    await fillByLabel("Texte de la page d'accueil", '');
     await clickByLabel('Enregistrer');
 
     // then
@@ -141,7 +141,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test("It should return 'null' when custom landing page attribute has only white space", async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel("Texte de la page d'accueil", ' ');
+    await fillByLabel("Texte de la page d'accueil", ' ');
     await clickByLabel('Enregistrer');
 
     // then
@@ -151,7 +151,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should call update when form is valid', async function (assert) {
     //when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('* Nom de la campagne', 'Nouveau nom');
+    await fillByLabel('* Nom de la campagne', 'Nouveau nom');
     await clickByLabel('Enregistrer');
 
     //then

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, fillIn, click } from '@ember/test-helpers';
+import { render, find, click } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -78,13 +79,13 @@ module('Integration | Component | Badges::Badge', function (hooks) {
 
       // when
       await click('button[type="button"]');
-      await fillIn('#title', 'mon titre mis à jour');
-      await fillIn('#key', 'ma clef mise à jour');
-      await fillIn('#message', 'mon message mis à jour');
-      await fillIn('#altMessage', 'mon message alternatif mis à jour');
-      await fillIn('#imageUrl', 'mon url image mise à jour');
-      await fillIn('#isCertifiable', 'false');
-      await fillIn('#isAlwaysVisible', 'true');
+      await fillByLabel('* Titre :', 'mon titre mis à jour');
+      await fillByLabel('* Clé :', 'ma clef mise à jour');
+      await fillByLabel('Message :', 'mon message mis à jour');
+      await fillByLabel('* Message Alternatif :', 'mon message alternatif mis à jour');
+      await fillByLabel("* Nom de l'image (svg) :", 'mon url image mise à jour');
+      await fillByLabel('Certifiable :', false);
+      await fillByLabel('Lacunes :', true);
       await click('button[type="submit"]');
 
       // then

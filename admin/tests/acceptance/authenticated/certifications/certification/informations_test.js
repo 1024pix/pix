@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentURL, visit } from '@ember/test-helpers';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -110,8 +110,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByLabel('Modifier les informations du candidat');
 
           // when
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('* Commune de naissance', 'Sunnydale');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Commune de naissance', 'Sunnydale');
           await clickByLabel('Enregistrer');
 
           // then
@@ -131,8 +131,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByLabel('Modifier les informations du candidat');
 
           // when
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('* Commune de naissance', 'Sunnydale');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Commune de naissance', 'Sunnydale');
           await clickByLabel('Enregistrer');
 
           // then
@@ -145,8 +145,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByLabel('Modifier les informations du candidat');
 
           // when
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('* Commune de naissance', 'Sunnydale');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Commune de naissance', 'Sunnydale');
           await clickByLabel('Enregistrer');
 
           // then
@@ -166,7 +166,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           );
           await visit(`/certifications/${certification.id}`);
           await clickByLabel('Modifier les informations du candidat');
-          await fillInByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Nom de famille', 'Summers');
 
           // when
           await clickByLabel('Enregistrer');
@@ -186,7 +186,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           );
           await visit(`/certifications/${certification.id}`);
           await clickByLabel('Modifier les informations du candidat');
-          await fillInByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Nom de famille', 'Summers');
 
           // when
           await clickByLabel('Enregistrer');
@@ -206,7 +206,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           );
           await visit(`/certifications/${certification.id}`);
           await clickByLabel('Modifier les informations du candidat');
-          await fillInByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Nom de famille', 'Summers');
           await clickByLabel('Enregistrer');
 
           // when
