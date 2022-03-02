@@ -61,7 +61,7 @@ async function _createNewCampaignParticipation(queryBuilder, campaignParticipati
 
     return id;
   } catch (error) {
-    if (error.constraint === 'campaign_participations_campaignid_userid_isimproved') {
+    if (error.constraint === 'campaign_participations_campaignid_userid_isimproved_deleted') {
       throw new AlreadyExistingCampaignParticipationError(
         `User ${campaignParticipation.userId} has already a campaign participation with campaign ${campaignParticipation.campaignId}`
       );
