@@ -20,6 +20,8 @@ module.exports = function buildCampaignParticipation({
   pixScore,
   status = SHARED,
   isImproved = false,
+  deletedAt = null,
+  deletedBy = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   schoolingRegistrationId = _.isUndefined(schoolingRegistrationId)
@@ -42,6 +44,8 @@ module.exports = function buildCampaignParticipation({
     pixScore,
     status,
     isImproved,
+    deletedAt,
+    deletedBy,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'campaign-participations',

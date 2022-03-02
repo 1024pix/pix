@@ -2,6 +2,7 @@ const _ = require('lodash');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const { PIX_MASTER_ID } = require('./users-builder');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -88,9 +89,11 @@ function _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipat
   });
 }
 
-function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false }) {
+function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false, deleted = false }) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
+  const deletedAt = deleted ? today : null;
+  const deletedBy = deleted ? PIX_MASTER_ID : null;
 
   const { id: userId } = user;
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -101,6 +104,8 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, sc
     createdAt: user.createdAt,
     status,
     sharedAt,
+    deletedAt,
+    deletedBy,
   });
 
   _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipationId, status, hasSomeFailures: _.sample([true, false]) });
