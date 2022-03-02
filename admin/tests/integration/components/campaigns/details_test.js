@@ -2,8 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
+import { clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaigns | details', function (hooks) {
   setupRenderingTest(hooks);
@@ -92,7 +92,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     //when
     await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
-    await clickByLabel('Editer');
+    await clickByName('Editer');
 
     //then
     assert.ok(this.toggleEditMode.called);

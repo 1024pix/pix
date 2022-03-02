@@ -3,9 +3,8 @@ import { module, test } from 'qunit';
 import { click, currentURL, find, findAll, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit as visitScreen, fillByLabel } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from '../../../helpers/test-init';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Acceptance | authenticated/certification-centers/get', function (hooks) {
   setupApplicationTest(hooks);
@@ -148,7 +147,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
-    await clickByLabel('Désactiver');
+    await clickByName('Désactiver');
 
     // then
     assert.notContains('Lili');
@@ -271,7 +270,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByName('Editer');
 
       // then
       assert.contains('Annuler');
@@ -289,15 +288,15 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         isSupervisorAccessEnabled: false,
       });
       await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByLabel('Editer');
+      await clickByName('Editer');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
       await fillByLabel('Nom du centre', 'nouveau nom');
       await fillByLabel('Type', 'SUP');
       await fillByLabel('Identifiant externe', 'nouvel identifiant externe');
-      await clickByLabel('Espace surveillant');
-      await clickByLabel('Enregistrer');
+      await clickByName('Espace surveillant');
+      await clickByName('Enregistrer');
 
       // then
       assert.contains('Habilitations aux certifications complémentaires');
@@ -320,13 +319,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       server.create('habilitation', { name: 'Pix+Autre' });
 
       const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
-      await clickByLabel('Editer');
+      await clickByName('Editer');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
       await fillByLabel('Nom du centre', 'Centre des réussites');
-      await clickByLabel('Pix+Surf');
-      await clickByLabel('Enregistrer');
+      await clickByName('Pix+Surf');
+      await clickByName('Enregistrer');
 
       // then
       assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
@@ -347,10 +346,10 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
       await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByLabel('Editer');
+      await clickByName('Editer');
 
       // when
-      await clickByLabel('Enregistrer');
+      await clickByName('Enregistrer');
 
       // then
       assert.contains('Habilitations aux certifications complémentaires');

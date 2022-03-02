@@ -2,8 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
-
+import { clickByName } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | neutralization', function (hooks) {
@@ -189,7 +188,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await visit(`/certifications/${certificationId}/neutralization`);
 
         // when
-        await clickByLabel('Dé-neutraliser');
+        await clickByName('Dé-neutraliser');
 
         // then
         assert.contains('Neutraliser');
@@ -218,7 +217,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await visit(`/certifications/${certificationId}/neutralization`);
 
         // when
-        await clickByLabel('Neutraliser');
+        await clickByName('Neutraliser');
 
         // then
         assert.contains('Dé-neutraliser');

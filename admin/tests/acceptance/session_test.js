@@ -2,12 +2,10 @@ import { module, test } from 'qunit';
 import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { FINALIZED } from 'pix-admin/models/session';
-
+import { clickByName } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import sinon from 'sinon';
-
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Acceptance | Session pages', function (hooks) {
   setupApplicationTest(hooks);
@@ -118,7 +116,7 @@ module('Acceptance | Session pages', function (hooks) {
           server.create('certification-center', { id: 1234 });
 
           // when
-          await clickByLabel(session.certificationCenterName);
+          await clickByName(session.certificationCenterName);
 
           // then
           // TODO: Fix this the next time the file is edited.

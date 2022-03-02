@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn } from '@ember/test-helpers';
+import { clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | Campaigns | participation-row', function (hooks) {
   setupRenderingTest(hooks);
@@ -87,7 +87,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         await render(
           hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
         );
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
       });
 
       test('it should display save and cancel button', async function (assert) {
@@ -100,7 +100,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         // when
 
         await fillIn('#participantExternalId', '4567890');
-        await clickByLabel('Enregistrer');
+        await clickByName('Enregistrer');
 
         // then
         assert.notContains('Enregistrer');
@@ -112,7 +112,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         // when
 
         await fillIn('#participantExternalId', '    ');
-        await clickByLabel('Enregistrer');
+        await clickByName('Enregistrer');
 
         // then
         assert.notContains('Enregistrer');
@@ -122,7 +122,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
         await fillIn('#participantExternalId', '');
-        await clickByLabel('Enregistrer');
+        await clickByName('Enregistrer');
 
         // then
         assert.notContains('Enregistrer');
@@ -134,7 +134,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         // when
 
         await fillIn('#participantExternalId', '4567890');
-        await clickByLabel('Annuler');
+        await clickByName('Annuler');
 
         // then
         assert.notContains('Enregistrer');

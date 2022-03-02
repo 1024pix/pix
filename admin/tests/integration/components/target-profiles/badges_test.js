@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, find, render } from '@ember/test-helpers';
+import { clickByName } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | TargetProfiles::Badges', function (hooks) {
   setupRenderingTest(hooks);
@@ -82,7 +82,7 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
 
       // when
       await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
-      await clickByLabel('Supprimer');
+      await clickByName('Supprimer');
     });
 
     test('should open confirm modal', function (assert) {

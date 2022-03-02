@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -81,8 +80,8 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
             // when
             await visit('/sessions/6');
-            await clickByLabel('Supprimer');
-            await clickByLabel('Confirmer');
+            await clickByName('Supprimer');
+            await clickByName('Confirmer');
 
             // then
             assert.notContains("Le surveillant prétend qu'une météorite est tombée sur le centre.");
@@ -113,8 +112,8 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
             // when
             await visit('/sessions/6');
-            await clickByLabel('Supprimer');
-            await clickByLabel('Confirmer');
+            await clickByName('Supprimer');
+            await clickByName('Confirmer');
 
             // then
             assert.contains("Le surveillant prétend qu'une météorite est tombée sur le centre.");
@@ -136,7 +135,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
           );
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.contains("Le surveillant prétend qu'une météorite est tombée sur le centre.");
@@ -161,7 +160,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
           );
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.contains("Une erreur est survenue pendant l'enregistrement du commentaire.");

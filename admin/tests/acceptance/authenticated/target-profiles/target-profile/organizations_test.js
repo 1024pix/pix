@@ -1,10 +1,9 @@
 import { visit } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from 'pix-admin/tests/helpers/extended-ember-test-helpers/click-by-label';
 
 module('Acceptance | Target Profiles | Target Profile | Organizations', function (hooks) {
   setupApplicationTest(hooks);
@@ -38,7 +37,7 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     await visit(`/target-profiles/${targetProfile.id}/organizations`);
 
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '42');
-    await clickByLabel('Valider le rattachement');
+    await clickByName('Valider le rattachement');
 
     assert.dom('[aria-label="Organisation"]').includesText('42');
   });
@@ -47,7 +46,7 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     await visit(`/target-profiles/${targetProfile.id}/organizations`);
 
     await fillByLabel("Rattacher les organisations d'un profil cible existant", '43');
-    await clickByLabel('Valider le rattachement à partir de ce profil cible');
+    await clickByName('Valider le rattachement à partir de ce profil cible');
 
     assert.dom('[aria-label="Organisation"]').includesText('Organization for target profile 43');
   });

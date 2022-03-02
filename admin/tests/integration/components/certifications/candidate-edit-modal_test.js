@@ -1,13 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | certifications/candidate-edit-modal', function (hooks) {
   setupRenderingTest(hooks);
@@ -272,7 +271,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('* Commune de naissance', 'PARIS 01');
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       assert.dom('#first-name').hasValue('Fabrice');
@@ -318,7 +317,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('* Commune de naissance', 'PARIS 01');
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       const afterCancelCandidateInformation = this.candidate.getInformation();
@@ -335,7 +334,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       );
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       assert.ok(this.onCancelButtonsClickedStub.called);
@@ -353,7 +352,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       );
 
       // when
-      await clickByLabel('Enregistrer');
+      await clickByName('Enregistrer');
 
       // then
       assert.notOk(this.onFormSubmitStub.called);
@@ -390,7 +389,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('* Commune de naissance', 'PARIS 01');
 
       // when
-      await clickByLabel('Enregistrer');
+      await clickByName('Enregistrer');
 
       // then
       assert.ok(this.onFormSubmitStub.called);
@@ -424,7 +423,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         // when
         await fillByLabel('Pays de naissance', '99101');
         await fillByLabel('* Commune de naissance', 'Copenhague');
-        await clickByLabel('Enregistrer');
+        await clickByName('Enregistrer');
 
         // then
         assert.deepEqual(this.candidate.getInformation(), {
@@ -469,7 +468,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         await fillByLabel('Pays de naissance', '99100');
         await click('#insee-code-choice');
         await fillByLabel('* Code Insee de naissance', '66212');
-        await clickByLabel('Enregistrer');
+        await clickByName('Enregistrer');
 
         // then
         assert.deepEqual(this.candidate.getInformation(), {
@@ -515,7 +514,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         await click('#postal-code-choice');
         await fillByLabel('* Code postal de naissance', '66440');
         await fillByLabel('* Commune de naissance', 'Torreilles');
-        await clickByLabel('Enregistrer');
+        await clickByName('Enregistrer');
 
         // then
         assert.deepEqual(this.candidate.getInformation(), {

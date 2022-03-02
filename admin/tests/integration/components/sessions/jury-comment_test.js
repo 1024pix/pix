@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import moment from 'moment';
 import sinon from 'sinon';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import queryByLabel from '../../../helpers/extended-ember-test-helpers/query-by-label';
 import getByLabel from '../../../helpers/extended-ember-test-helpers/get-by-label';
 
@@ -57,7 +56,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             />
           `);
           await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
@@ -83,7 +82,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             />
           `);
           await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
@@ -137,7 +136,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             @comment={{this.comment}}
           />
         `);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.dom(getByLabel('Texte du commentaire')).exists();
@@ -167,8 +166,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             @comment={{this.comment}}
           />
         `);
-        await clickByLabel('Modifier');
-        await clickByLabel('Annuler');
+        await clickByName('Modifier');
+        await clickByName('Annuler');
 
         // then
         assert.ok(_isNotInEditMode());
@@ -188,9 +187,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             @comment={{this.comment}}
           />
         `);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
         await fillByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
-        await clickByLabel('Annuler');
+        await clickByName('Annuler');
 
         // then
         assert.contains('Qui promène son chien est au bout de la laisse.');
@@ -213,7 +212,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             @comment={{this.comment}}
           />
         `);
-        await clickByLabel('Supprimer');
+        await clickByName('Supprimer');
 
         // then
         assert.contains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
@@ -241,8 +240,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
                 @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
               />
             `);
-            await clickByLabel('Supprimer');
-            await clickByLabel('Confirmer');
+            await clickByName('Supprimer');
+            await clickByName('Confirmer');
 
             // then
             assert.ok(this.onDeleteButtonClicked.calledOnce);
@@ -272,8 +271,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
                 @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
               />
             `);
-            await clickByLabel('Supprimer');
-            await clickByLabel('Confirmer');
+            await clickByName('Supprimer');
+            await clickByName('Confirmer');
 
             // then
             assert.ok(this.onDeleteButtonClicked.calledOnce);
@@ -304,8 +303,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
             />
           `);
-          await clickByLabel('Supprimer');
-          await clickByLabel('Annuler');
+          await clickByName('Supprimer');
+          await clickByName('Annuler');
 
           // then
           assert.ok(this.onDeleteButtonClicked.notCalled);

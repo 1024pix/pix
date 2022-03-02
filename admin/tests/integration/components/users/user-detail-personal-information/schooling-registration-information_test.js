@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module(
   'Integration | Component | users | user-detail-personal-information/schooling-registration-information',
@@ -138,7 +138,7 @@ module(
       await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // then
       sinon.assert.called(this.toggleDisplayDissociateModal);
