@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | users | user-detail-personal-information/user-overview', function (hooks) {
   setupRenderingTest(hooks);
@@ -165,7 +165,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
       // when
       await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-      await clickByLabel('Modifier');
+      await clickByName('Modifier');
 
       // then
       assert.contains('Editer');
@@ -178,7 +178,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
       // when
       await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-      await clickByLabel('Modifier');
+      await clickByName('Modifier');
 
       // then
       assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
@@ -192,7 +192,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.dom('.user-edit-form__email').hasValue(this.user.email);
@@ -204,7 +204,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.notContains('Identifiant :');
@@ -224,7 +224,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.dom('.user-edit-form__username').hasValue(this.user.username);
@@ -242,7 +242,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.contains('Adresse e-mail :');
@@ -262,7 +262,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.notContains('Adresse e-mail :');
@@ -275,7 +275,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
       // when
       await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-      await clickByLabel('Modifier');
+      await clickByName('Modifier');
 
       // then
       assert.notContains('CGU Pix Orga validé :');

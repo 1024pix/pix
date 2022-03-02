@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -68,7 +67,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       await fillByLabel('Titre du parcours', ' text with space ');
-      await clickByLabel('Enregistrer');
+      await clickByName('Enregistrer');
 
       // then
       assert.deepEqual(this.campaign.title, 'text with space');
@@ -78,7 +77,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       await fillByLabel('Titre du parcours', '');
-      await clickByLabel('Enregistrer');
+      await clickByName('Enregistrer');
 
       // then
       assert.strictEqual(this.campaign.title, null);
@@ -122,7 +121,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillByLabel("Texte de la page d'accueil", ' text with space ');
-    await clickByLabel('Enregistrer');
+    await clickByName('Enregistrer');
 
     // then
     assert.deepEqual(this.campaign.customLandingPageText, 'text with space');
@@ -132,7 +131,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillByLabel("Texte de la page d'accueil", '');
-    await clickByLabel('Enregistrer');
+    await clickByName('Enregistrer');
 
     // then
     assert.strictEqual(this.campaign.customLandingPageText, null);
@@ -142,7 +141,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillByLabel("Texte de la page d'accueil", ' ');
-    await clickByLabel('Enregistrer');
+    await clickByName('Enregistrer');
 
     // then
     assert.strictEqual(this.campaign.customLandingPageText, null);
@@ -152,7 +151,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     //when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillByLabel('* Nom de la campagne', 'Nouveau nom');
-    await clickByLabel('Enregistrer');
+    await clickByName('Enregistrer');
 
     //then
     assert.ok(this.campaign.save.called);
@@ -161,7 +160,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await clickByLabel('Annuler');
+    await clickByName('Annuler');
 
     // then
     assert.ok(this.onExit.called);

@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentURL, visit } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -107,12 +106,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         test('should save the candidate information data when modifying them', async function (assert) {
           // given
           await visit('/certifications/123');
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
 
           // when
           await fillByLabel('* Nom de famille', 'Summers');
           await fillByLabel('* Commune de naissance', 'Sunnydale');
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.contains('Prénom : Bora Horza');
@@ -128,12 +127,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         test('should display a success notification', async function (assert) {
           // given
           await visit('/certifications/123');
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
 
           // when
           await fillByLabel('* Nom de famille', 'Summers');
           await fillByLabel('* Commune de naissance', 'Sunnydale');
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.contains('Les informations du candidat ont bien été enregistrées.');
@@ -142,12 +141,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         test('should close the modal', async function (assert) {
           // given
           await visit('/certifications/123');
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
 
           // when
           await fillByLabel('* Nom de famille', 'Summers');
           await fillByLabel('* Commune de naissance', 'Sunnydale');
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.notContains('Editer les informations du candidat');
@@ -165,11 +164,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             422
           );
           await visit(`/certifications/${certification.id}`);
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
           await fillByLabel('* Nom de famille', 'Summers');
 
           // when
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.contains("Candidate's first name must not be blank or empty");
@@ -185,11 +184,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             422
           );
           await visit(`/certifications/${certification.id}`);
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
           await fillByLabel('* Nom de famille', 'Summers');
 
           // when
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
           assert.contains('Editer les informations du candidat');
@@ -205,12 +204,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             422
           );
           await visit(`/certifications/${certification.id}`);
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
           await fillByLabel('* Nom de famille', 'Summers');
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // when
-          await clickByLabel('Fermer');
+          await clickByName('Fermer');
 
           // then
           assert.contains('Prénom : Bora Horza');
@@ -231,7 +230,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it disables candidate informations edit button', async function (assert) {
         // when
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Modifier les résultats du candidat');
+        await clickByName('Modifier les résultats du candidat');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').isDisabled();
@@ -242,8 +241,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it re-enables candidate informations edit button', async function (assert) {
         // when
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Modifier les résultats du candidat');
-        await clickByLabel('Annuler la modification des résultats du candidat');
+        await clickByName('Modifier les résultats du candidat');
+        await clickByName('Annuler la modification des résultats du candidat');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
@@ -254,9 +253,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it also re-enables candidate informations edit button', async function (assert) {
         // when
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Modifier les résultats du candidat');
-        await clickByLabel('Enregistrer les résultats du candidat');
-        await clickByLabel('Confirmer');
+        await clickByName('Modifier les résultats du candidat');
+        await clickByName('Enregistrer les résultats du candidat');
+        await clickByName('Confirmer');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
@@ -424,7 +423,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await visit(`/certifications/${certification.id}`);
 
       // when
-      await clickByLabel("Voir les détails de l'utilisateur");
+      await clickByName("Voir les détails de l'utilisateur");
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -444,7 +443,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await visit(`/certifications/${certification.id}`);
 
         // when
-        await clickByLabel('Annuler la certification');
+        await clickByName('Annuler la certification');
 
         // then
         assert.contains(
@@ -455,10 +454,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('should not cancel the certification when aborting action in the confirmation popup', async function (assert) {
         // given
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Annuler la certification');
+        await clickByName('Annuler la certification');
 
         // when
-        await clickByLabel('Close');
+        await clickByName('Close');
 
         // then
         assert.contains('Validée');
@@ -468,10 +467,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('should cancel the certification when confirming action in the confirmation popup', async function (assert) {
         // given
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Annuler la certification');
+        await clickByName('Annuler la certification');
 
         // when
-        await clickByLabel('Confirmer');
+        await clickByName('Confirmer');
 
         // then
         assert.contains('Annulée');
@@ -489,7 +488,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await visit(`/certifications/${certification.id}`);
 
         // when
-        await clickByLabel('Désannuler la certification');
+        await clickByName('Désannuler la certification');
 
         // then
         assert.contains(
@@ -500,10 +499,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('should not uncancel the certification when aborting action in the confirmation popup', async function (assert) {
         // given
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Désannuler la certification');
+        await clickByName('Désannuler la certification');
 
         // when
-        await clickByLabel('Close');
+        await clickByName('Close');
 
         // then
         assert.contains('Annulée');
@@ -513,10 +512,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('should uncancel the certification when confirming action in the confirmation popup', async function (assert) {
         // given
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Désannuler la certification');
+        await clickByName('Désannuler la certification');
 
         // when
-        await clickByLabel('Confirmer');
+        await clickByName('Confirmer');
 
         // then
         assert.contains('Validée');

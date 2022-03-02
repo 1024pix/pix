@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn } from '@ember/test-helpers';
+import { clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | organizations/target-profiles-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -37,7 +37,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
     // when
     await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
     await fillIn('[aria-label="ID du ou des profil(s) cible(s)"]', '1');
-    await clickByLabel('Valider');
+    await clickByName('Valider');
 
     // then
     assert.ok(organization.attachTargetProfiles.calledWith({ 'target-profiles-to-attach': ['1'] }));

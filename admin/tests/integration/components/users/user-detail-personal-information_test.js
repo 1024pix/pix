@@ -5,8 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
-
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | users | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
@@ -81,7 +80,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
-      await clickByLabel('Anonymiser cet utilisateur');
+      await clickByName('Anonymiser cet utilisateur');
 
       // then
       assert.dom('.modal-dialog').exists();
@@ -92,7 +91,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       // given
       this.set('user', user);
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByLabel('Anonymiser cet utilisateur');
+      await clickByName('Anonymiser cet utilisateur');
 
       // when
       await click('.modal-dialog .btn-secondary');
@@ -125,7 +124,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // then
       assert.contains('Confirmer la dissociation');
@@ -151,10 +150,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       assert.notContains('Confirmer la dissociation');
@@ -181,10 +180,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // when
-      await clickByLabel('Oui, je dissocie');
+      await clickByName('Oui, je dissocie');
 
       // then
       assert.ok(destroyRecordStub.called);

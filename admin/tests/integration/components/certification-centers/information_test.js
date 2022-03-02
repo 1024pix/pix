@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
-import { render as renderScreen, fillByLabel } from '@1024pix/ember-testing-library';
+import { render as renderScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 import { fillIn, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import repeat from 'lodash/repeat';
 import sinon from 'sinon';
 
@@ -70,7 +69,7 @@ module('Integration | Component | certification-centers/information', function (
     await render(
       hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} @isEditMode={{this.isEditMode}} />`
     );
-    await clickByLabel('Editer');
+    await clickByName('Editer');
 
     // then
     assert.contains('Annuler');
@@ -97,8 +96,8 @@ module('Integration | Component | certification-centers/information', function (
         @updateCertificationCenter={{this.updateCertificationCenter}}
  />`
     );
-    await clickByLabel('Editer');
-    await clickByLabel('Enregistrer');
+    await clickByName('Editer');
+    await clickByName('Enregistrer');
 
     // then
     assert.contains('Editer');
@@ -120,9 +119,9 @@ module('Integration | Component | certification-centers/information', function (
 
     // when
     await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
-    await clickByLabel('Editer');
+    await clickByName('Editer');
 
-    await clickByLabel('Annuler');
+    await clickByName('Annuler');
 
     // then
     assert.contains('Editer');
@@ -150,7 +149,7 @@ module('Integration | Component | certification-centers/information', function (
     const screen = await renderScreen(
       hbs`<CertificationCenters::Information @availableHabilitations={{this.availableHabilitations}} @certificationCenter={{this.certificationCenter}} />`
     );
-    await clickByLabel('Editer');
+    await clickByName('Editer');
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Modifier un centre de certification' })).exists();
@@ -174,7 +173,7 @@ module('Integration | Component | certification-centers/information', function (
     // when
     await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#name', repeat('a', 256));
 
     // then
@@ -193,7 +192,7 @@ module('Integration | Component | certification-centers/information', function (
     // when
     await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#name', '');
 
     // then
@@ -212,7 +211,7 @@ module('Integration | Component | certification-centers/information', function (
     // when
     await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#external-id', repeat('a', 256));
 
     // then
@@ -241,15 +240,15 @@ module('Integration | Component | certification-centers/information', function (
         @certificationCenter={{this.certificationCenter}} />`
     );
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillByLabel('Nom du centre', 'Centre SUP');
     await fillByLabel('Type', 'SUP');
     await fillByLabel('Identifiant externe', 'externalId');
-    await clickByLabel('Espace surveillant');
-    await clickByLabel('Pix+Droit');
+    await clickByName('Espace surveillant');
+    await clickByName('Pix+Droit');
 
     // when
-    await clickByLabel('Enregistrer');
+    await clickByName('Enregistrer');
 
     // then
     sinon.assert.calledWithExactly(this.updateCertificationCenter, {
@@ -285,13 +284,13 @@ module('Integration | Component | certification-centers/information', function (
         @updateCertificationCenter={{this.updateCertificationCenter}} />`
     );
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#name', 'Centre SUP');
     await fillIn('#certification-center-type', 'SUP');
     await fillIn('#external-id', 'externalId');
-    await clickByLabel('Espace surveillant');
-    await clickByLabel('Cléa');
-    await clickByLabel('Annuler');
+    await clickByName('Espace surveillant');
+    await clickByName('Cléa');
+    await clickByName('Annuler');
 
     // then
     sinon.assert.notCalled(this.updateCertificationCenter);

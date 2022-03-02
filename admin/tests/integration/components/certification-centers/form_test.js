@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, find } from '@ember/test-helpers';
+import { clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | certification-centers/form', function (hooks) {
   setupRenderingTest(hooks);
@@ -60,7 +60,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       );
 
       // when
-      await clickByLabel('habilitation 2');
+      await clickByName('habilitation 2');
 
       // then
       assert.ok(this.certificationCenter.habilitations.includes(habilitation2));
@@ -82,7 +82,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       );
 
       // when
-      await clickByLabel('habilitation 2');
+      await clickByName('habilitation 2');
 
       // then
       assert.notOk(this.certificationCenter.habilitations.includes(habilitation2));

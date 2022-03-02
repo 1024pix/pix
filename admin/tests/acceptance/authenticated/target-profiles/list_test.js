@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import clickByLabel from 'pix-admin/tests/helpers/extended-ember-test-helpers/click-by-label';
+import { clickByName } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -89,7 +89,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       await visit('/target-profiles/list');
 
       // when
-      await clickByLabel('Profil Cible');
+      await clickByName('Profil Cible');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -104,7 +104,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       await visit('/target-profiles/list');
 
       // when
-      await clickByLabel('Nouveau profil cible');
+      await clickByName('Nouveau profil cible');
 
       // then
       // TODO: Fix this the next time the file is edited.

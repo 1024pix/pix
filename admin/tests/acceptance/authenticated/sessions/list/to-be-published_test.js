@@ -2,8 +2,7 @@ import { module, test } from 'qunit';
 import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
-
+import { clickByName } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | authenticated/sessions/list/to be published', function (hooks) {
@@ -124,7 +123,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       });
 
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
-      await clickByLabel('Publier toutes les sessions');
+      await clickByName('Publier toutes les sessions');
 
       // when
       await click('.modal-footer .btn-primary');
