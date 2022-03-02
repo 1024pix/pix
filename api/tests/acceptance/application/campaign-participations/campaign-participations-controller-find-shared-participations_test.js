@@ -56,22 +56,26 @@ describe('Acceptance | API | Campaign Participations | Results', function () {
         campaignId: campaign.id,
       };
 
-      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant1);
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '5eme',
-        firstName: 'John',
-        lastName: 'McClane',
-        userId: participant1.id,
-      });
-      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant2);
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '4eme',
-        firstName: 'Holly',
-        lastName: 'McClane',
-        userId: participant2.id,
-      });
+      databaseBuilder.factory.buildAssessmentFromParticipation(
+        campaignParticipation,
+        {
+          organizationId: organization.id,
+          division: '5eme',
+          firstName: 'John',
+          lastName: 'McClane',
+        },
+        participant1
+      );
+      databaseBuilder.factory.buildAssessmentFromParticipation(
+        campaignParticipation,
+        {
+          organizationId: organization.id,
+          division: '4eme',
+          firstName: 'Holly',
+          lastName: 'McClane',
+        },
+        participant2
+      );
 
       return databaseBuilder.commit();
     });

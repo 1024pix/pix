@@ -1,7 +1,6 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignParticipantActivityRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-activity-repository');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const Campaign = require('../../../../lib/domain/models/Campaign');
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -9,22 +8,22 @@ describe('Integration | Repository | Campaign Participant activity', function ()
   describe('#findPaginatedByCampaignId', function () {
     let campaign;
 
-    context('When there is an assessment for another campaign', function () {
+    context('When there is participations for another campaign', function () {
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        campaign = databaseBuilder.factory.buildCampaign();
         const otherCampaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildAssessmentFromParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The good',
           campaignId: campaign.id,
         });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The bad',
           campaignId: otherCampaign.id,
         });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The ugly',
           campaignId: campaign.id,
         });
@@ -44,10 +43,10 @@ describe('Integration | Repository | Campaign Participant activity', function ()
     context('When there are several participations for the same participant', function () {
       it('Returns one CampaignParticipantActivity with the most recent participation (isImproved = false)', async function () {
         //Given
-        const campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        const campaign = databaseBuilder.factory.buildCampaign();
         const user = databaseBuilder.factory.buildUser();
 
-        databaseBuilder.factory.buildAssessmentFromParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The bad',
           campaignId: campaign.id,
           status: STARTED,
@@ -55,7 +54,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
           isImproved: true,
         });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The good',
           campaignId: campaign.id,
           status: STARTED,
@@ -75,36 +74,11 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       });
     });
 
-    context('when the campaign is assessment', function () {
-      context('When there are several assessments for the same participant', function () {
-        beforeEach(async function () {
-          campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-          const user = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId: campaign.id,
-            status: STARTED,
-            userId: user.id,
-          });
-
-          await databaseBuilder.commit();
-        });
-
-        it('Returns one CampaignParticipantActivity with the most recent assessment', async function () {
-          const { campaignParticipantsActivities } =
-            await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-          const statuses = campaignParticipantsActivities.map((activity) => activity.status);
-
-          expect(statuses).to.have.lengthOf(1);
-          expect(statuses).to.exactlyContain([STARTED]);
-        });
-      });
-    });
-
-    context('when the campaign is profile collection', function () {
+    context('status', function () {
       context('when the participation is shared', function () {
         it('should return status shared', async function () {
-          campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
+          campaign = databaseBuilder.factory.buildCampaign();
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: SHARED });
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } =
@@ -115,7 +89,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
       context('when the participation is not shared', function () {
         it('should return status to share', async function () {
-          campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+          campaign = databaseBuilder.factory.buildCampaign();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: TO_SHARE });
           await databaseBuilder.commit();
 
@@ -124,25 +98,37 @@ describe('Integration | Repository | Campaign Participant activity', function ()
           expect(campaignParticipantsActivities[0].status).to.equal(TO_SHARE);
         });
       });
+
+      context('when the participation is started', function () {
+        it('should return status started', async function () {
+          campaign = databaseBuilder.factory.buildCampaign();
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: STARTED });
+          await databaseBuilder.commit();
+
+          const { campaignParticipantsActivities } =
+            await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+          expect(campaignParticipantsActivities[0].status).to.equal(STARTED);
+        });
+      });
     });
 
     context('order', function () {
-      it('should return participants activities ordered by last name then first name asc (including schooling registration data)', async function () {
+      it('should return participants activities ordered by last name then first name asc from schooling-registration', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId });
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId });
         const campaignParticipation = { campaignId: campaign.id };
         databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
           { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
           { firstName: 'jiji', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
           { firstName: 'Jojo', lastName: 'Le rococo', organizationId },
           campaignParticipation,
           true
@@ -167,37 +153,21 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('when there is a filter on division', function () {
       it('returns participants which have the correct division', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The good', campaignId: campaign.id },
-          { id: 1 }
+        campaign = databaseBuilder.factory.buildCampaign();
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: 'Good Guys Team' },
+          { participantExternalId: 'The good', campaignId: campaign.id }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: campaign.organizationId,
-          userId: 1,
-          division: 'Good Guys Team',
-        });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The bad', campaignId: campaign.id },
-          { id: 2 }
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: 'Bad Guys Team' },
+          { participantExternalId: 'The bad', campaignId: campaign.id }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: campaign.organizationId,
-          userId: 2,
-          division: 'Bad Guys Team',
-        });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The ugly', campaignId: campaign.id },
-          { id: 3 }
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: 'Ugly Guys Team' },
+          { participantExternalId: 'The ugly', campaignId: campaign.id }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: campaign.organizationId,
-          userId: 3,
-          division: 'Ugly Guys Team',
-        });
 
         await databaseBuilder.commit();
 
@@ -218,19 +188,17 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('when there is a filter on status', function () {
       it('returns participants which have the correct status', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        campaign = databaseBuilder.factory.buildCampaign({});
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The good', campaignId: campaign.id, status: STARTED },
-          { id: 1 }
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId },
+          { participantExternalId: 'The good', campaignId: campaign.id, status: STARTED }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 1 });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The bad', campaignId: campaign.id, status: TO_SHARE },
-          { id: 2 }
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId },
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: TO_SHARE }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 2 });
 
         await databaseBuilder.commit();
 
@@ -251,36 +219,22 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('when there is a filter on group', function () {
       it('returns participants which have the correct group', async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The good', campaignId: campaign.id },
-          { id: 1 }
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, group: 'L1' },
+          { participantExternalId: 'The good', campaignId: campaign.id }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: campaign.organizationId,
-          userId: 1,
-          group: 'L1',
-        });
 
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'STARTED' },
-          { id: 2 }
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, group: 'T1' },
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'STARTED' }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: campaign.organizationId,
-          userId: 2,
-          group: 'T1',
-        });
-        databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The ugly', campaignId: campaign.id, status: 'STARTED' },
-          { id: 3 }
+
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, group: 'T2' },
+          { participantExternalId: 'The ugly', campaignId: campaign.id, status: 'STARTED' }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: campaign.organizationId,
-          userId: 3,
-          group: 'T2',
-        });
 
         await databaseBuilder.commit();
 
@@ -301,11 +255,11 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('pagination', function () {
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        campaign = databaseBuilder.factory.buildCampaign();
 
         const participation = { campaignId: campaign.id };
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation);
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation);
+        databaseBuilder.factory.buildCampaignParticipation(participation);
+        databaseBuilder.factory.buildCampaignParticipation(participation);
 
         await databaseBuilder.commit();
       });
@@ -332,7 +286,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
       context('when there are zero rows', function () {
         beforeEach(async function () {
-          campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+          campaign = databaseBuilder.factory.buildCampaign();
 
           await databaseBuilder.commit();
         });

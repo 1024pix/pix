@@ -29,14 +29,13 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     let participant;
     let campaign;
     let campaignParticipation;
+    let schoolingRegistration;
     let writableStream;
     let csvPromise;
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const i18n = getI18n();
+    let i18n;
 
     beforeEach(async function () {
+      i18n = getI18n();
       organization = databaseBuilder.factory.buildOrganization({ showSkills: true });
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
@@ -56,7 +55,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       });
       domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1] });
 
-      participant = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
+      participant = databaseBuilder.factory.buildUser();
       const createdAt = new Date('2019-02-25T10:00:00Z');
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
@@ -101,14 +100,18 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         targetProfileId: targetProfile.id,
       });
 
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        createdAt,
-        sharedAt: new Date('2019-03-01T23:04:05Z'),
-        participantExternalId: '+Mon mail pro',
-        campaignId: campaign.id,
-        userId: participant.id,
-        masteryRate: 0.67,
-      });
+      schoolingRegistration = { firstName: '@Jean', lastName: '=Bono' };
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        schoolingRegistration,
+        {
+          createdAt,
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          participantExternalId: '+Mon mail pro',
+          campaignId: campaign.id,
+          userId: participant.id,
+          masteryRate: 0.67,
+        }
+      );
       databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
         userId: participant.id,
@@ -152,8 +155,8 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         `${campaign.id};` +
         `"'${campaign.name}";` +
         `"'${targetProfile.name}";` +
-        `"'${participant.lastName}";` +
-        `"'${participant.firstName}";` +
+        `"'${schoolingRegistration.lastName}";` +
+        `"'${schoolingRegistration.firstName}";` +
         `"'${campaignParticipation.participantExternalId}";` +
         '1;' +
         '2019-02-25;' +
