@@ -1,0 +1,55 @@
+/* stylelint-disable no-descending-specificity */
+
+.issue-report-modal {
+  min-width: 650px;
+  max-width: 650px;
+  margin: 100px auto; // to fix in pix UI
+
+  h2 {
+    font-size: 0.875rem;
+  }
+
+  &__frame {
+    max-height: 50vh;
+    overflow-y: scroll;
+    background-color: $white;
+    border: 1px solid $grey-22;
+    border-radius: 4px;
+    padding: 24px;
+
+    button {
+      font-weight: 500;
+
+      svg {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  &__category-label {
+    font-family: $roboto;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    line-height: 32px;
+
+    svg {
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__subcategory-label {
+    font-family: $roboto;
+    color: $grey-50;
+    padding: 0 0 0 16px;
+    margin: 8px 0 0 0;
+  }
+}
+
+// Override Pix UI reset CSS
+.pix-modal.issue-report-modal li.issue-report-modal__report {
+  padding-bottom: 18px;
+}
