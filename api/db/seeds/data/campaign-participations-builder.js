@@ -88,9 +88,11 @@ function _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipat
   });
 }
 
-function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false }) {
+function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false, deleted = false }) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
+  const deletedAt = deleted ? today : null;
+  const deletedBy = deleted ? 2 : null;
 
   const { id: userId } = user;
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -101,6 +103,8 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, sc
     createdAt: user.createdAt,
     status,
     sharedAt,
+    deletedAt,
+    deletedBy,
   });
 
   _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipationId, status, hasSomeFailures: _.sample([true, false]) });
