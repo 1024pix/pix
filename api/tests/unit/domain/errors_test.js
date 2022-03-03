@@ -495,6 +495,10 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.SchoolingRegistrationCannotBeDissociatedError).to.exist;
   });
 
+  it('should export an AlreadyAcceptedOrCancelledOrganizationInvitationError', function () {
+    expect(errors.AlreadyAcceptedOrCancelledOrganizationInvitationError).to.exist;
+  });
+
   describe('CertificationCandidateAddError', function () {
     context('#fromInvalidCertificationCandidateError', function () {
       it('should return a CertificationCandidateAddError', function () {

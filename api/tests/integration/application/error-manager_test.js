@@ -292,6 +292,16 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
       expect(responseDetail(response)).to.equal('This user has already a confirmed email.');
     });
+
+    it('responds Conflict when an AlreadyAcceptedOrCancelledOrganizationInvitationError occurs', async function () {
+      routeHandler.throws(new DomainErrors.AlreadyAcceptedOrCancelledOrganizationInvitationError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal(
+        "L'invitation à rejoindre l'organisation a déjà été acceptée ou annulée."
+      );
+    });
   });
 
   context('403 Forbidden', function () {

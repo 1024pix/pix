@@ -9,12 +9,11 @@ module.exports = function buildOrganizationInvitation({
   email = 'some.mail@example.net',
   status = OrganizationInvitation.StatusType.PENDING,
   code = 'INVIABC123',
-  role,
+  role = null,
   updatedAt = new Date('2020-01-01'),
 } = {}) {
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   email = email.toLowerCase();
-  role = null;
 
   const values = {
     id,
