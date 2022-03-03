@@ -24,6 +24,10 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
         customResultPageText: 'Finish',
         customResultPageButtonText: 'Click',
         customResultPageButtonUrl: 'www.pix.fr',
+        sharedParticipationsCount: 5,
+        totalParticipationsCount: 10,
+        isTypeProfilesCollection: false,
+        isTypeAssessment: true,
       };
 
       // when
@@ -52,6 +56,10 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
             'custom-result-page-text': campaignManagement.customResultPageText,
             'custom-result-page-button-text': campaignManagement.customResultPageButtonText,
             'custom-result-page-button-url': campaignManagement.customResultPageButtonUrl,
+            'shared-participations-count': campaignManagement.sharedParticipationsCount,
+            'total-participations-count': campaignManagement.totalParticipationsCount,
+            'is-type-profiles-collection': false,
+            'is-type-assessment': true,
           },
         },
       });
