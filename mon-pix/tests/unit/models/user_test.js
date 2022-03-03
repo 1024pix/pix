@@ -30,47 +30,4 @@ describe('Unit | Model | user model', function () {
       expect(fullName).to.equal('Manu Phillip');
     });
   });
-
-  describe('#hasAssessmentParticipations', () => {
-    it('should return true if the user has at least one participation', function () {
-      // given
-      const campaign = store.createRecord('campaign', { type: 'ASSESSMENT' });
-      const participation = store.createRecord('campaign-participation');
-      participation.campaign = campaign;
-      const model = store.createRecord('user');
-      model.campaignParticipations = [participation];
-
-      // when
-      const hasAssessmentParticipations = model.hasAssessmentParticipations;
-
-      // then
-      expect(hasAssessmentParticipations).to.equal(true);
-    });
-
-    it('should return false if the user has no assessment participation', function () {
-      // given
-      const campaign = store.createRecord('campaign', { type: 'PROFILE_COLLECTION' });
-      const participation = store.createRecord('campaign-participation');
-      participation.campaign = campaign;
-      const model = store.createRecord('user');
-      model.campaignParticipations = [participation];
-
-      // when
-      const hasAssessmentParticipations = model.hasAssessmentParticipations;
-
-      // then
-      expect(hasAssessmentParticipations).to.equal(false);
-    });
-
-    it('should return false if the user has no participation', function () {
-      // given
-      const model = store.createRecord('user');
-
-      // when
-      const hasAssessmentParticipations = model.hasAssessmentParticipations;
-
-      // then
-      expect(hasAssessmentParticipations).to.equal(false);
-    });
-  });
 });
