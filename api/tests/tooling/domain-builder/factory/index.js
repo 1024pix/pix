@@ -72,6 +72,7 @@ module.exports = {
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildMembership: require('./build-membership'),
   buildOrganization: require('./build-organization'),
+  buildOrganizationForAdmin: require('./build-organization-for-admin'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildOrganizationTag: require('./build-organization-tag'),
   buildParticipationForCampaignManagement: require('./build-participation-for-campaign-management'),
