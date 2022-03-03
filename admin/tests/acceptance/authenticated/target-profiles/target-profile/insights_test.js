@@ -1,4 +1,5 @@
 import { click, currentURL, fillIn, findAll, visit } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -87,7 +88,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
   module('stages', function () {
     test('should be able to add a new stage', async function (assert) {
-      await visit(`/target-profiles/${targetProfile.id}/insights`);
+      const screen = await visitScreen(`/target-profiles/${targetProfile.id}/insights`);
 
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
       // TODO: Fix this the next time the file is edited.
@@ -98,8 +99,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
       await click("button[data-test='Nouveau palier']");
 
-      assert.contains('Enregistrer');
-      assert.contains('Annuler');
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       const newTableRowCount = findAll('.insights__section:nth-child(2) tbody tr').length;
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal

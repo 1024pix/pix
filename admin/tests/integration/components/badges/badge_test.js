@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, click } from '@ember/test-helpers';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { find, click } from '@ember/test-helpers';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -48,7 +48,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
 
   test('should render all details about the badge', async function (assert) {
     //when
-    await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
+    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 
     //then
     assert.dom('.page-section__details').exists();
@@ -60,10 +60,13 @@ module('Integration | Component | Badges::Badge', function (hooks) {
     assert.ok(detailsContent.match(badge.altMessage), 'altMessage');
     assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
     assert.dom('.page-section__details img').exists();
-    assert.contains('L‘évalué doit obtenir 85% sur l‘ensemble des acquis du target profile');
-    assert.contains('Competence');
-    assert.contains('@skill2');
-    assert.contains('Mon tube');
+    assert.dom(screen.getByText('85%')).exists();
+    assert
+      .dom(screen.getByText('L‘évalué doit obtenir sur l‘ensemble des acquis du target profile', { exact: false }))
+      .exists();
+    assert.dom(screen.getByText('Competence')).exists();
+    assert.dom(screen.getByLabelText('@skill2')).exists();
+    assert.dom(screen.getByText('Mon tube')).exists();
   });
 
   module('#updateBadge', function () {

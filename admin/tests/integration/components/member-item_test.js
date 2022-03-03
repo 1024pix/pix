@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 import EmberObject from '@ember/object';
@@ -17,44 +17,56 @@ module('Integration | Component | member-item', function (hooks) {
 
   test('it should display a member', async function (assert) {
     // when
-    await render(hbs`<MemberItem @membership={{this.membership}} />`);
+    const screen = await render(hbs`<MemberItem @membership={{this.membership}} />`);
 
     // then
-    assert.contains('1');
-    assert.contains('Jojo');
-    assert.contains('La Gringue');
-    assert.contains('jojo@lagringue.fr');
-    assert.contains('Administrateur');
-    assert.contains('Modifier le rôle');
-    assert.contains('Désactiver');
+    assert.dom(screen.getByText('1')).exists();
+    assert.dom(screen.getByText('Jojo')).exists();
+    assert.dom(screen.getByText('La Gringue')).exists();
+    assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
+    assert.dom(screen.getByText('Administrateur')).exists();
+    assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
   });
 
-  module("when editing organization's role", function (hooks) {
-    hooks.beforeEach(async function () {
+  module("when editing organization's role", function () {
+    test('it should display save and cancel button', async function (assert) {
       // given
       this.updateMembership = sinon.spy();
 
       // when
-      await render(hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`);
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+      );
       await clickByName('Modifier le rôle');
-    });
 
-    test('it should display save and cancel button', async function (assert) {
       // then
-      assert.contains('Enregistrer');
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
       assert.dom('button[aria-label="Annuler"]').exists();
     });
 
     test('it should display the options when select is open', async function (assert) {
+      // given
+      this.updateMembership = sinon.spy();
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+      );
+      await clickByName('Modifier le rôle');
+
       // when
       await click('.ember-power-select-trigger');
 
       // then
-      assert.contains('Membre');
-      assert.contains('Administrateur');
+      assert.dom(screen.getByText('Membre')).exists();
+      assert.dom(screen.getByText('Administrateur')).exists();
     });
 
     test('it should update role on save', async function (assert) {
+      // given
+      this.updateMembership = sinon.spy();
+      await render(hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`);
+      await clickByName('Modifier le rôle');
+
       // when
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByName('Enregistrer');
@@ -68,34 +80,47 @@ module('Integration | Component | member-item', function (hooks) {
     });
 
     test('it should not update role on cancel', async function (assert) {
+      // given
+      this.updateMembership = sinon.spy();
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+      );
+      await clickByName('Modifier le rôle');
+
       // when
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByName('Annuler');
 
       // then
-      assert.contains('Administrateur');
+      assert.dom(screen.getByText('Administrateur')).exists();
       assert.notContains('Enregistrer');
       assert.notOk(this.updateMembership.called);
     });
   });
 
-  module('when deactivating membership', function (hooks) {
-    hooks.beforeEach(async function () {
+  module('when deactivating membership', function () {
+    test('should open confirm modal', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
-      // when
-      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
-      await clickByName('Désactiver');
-    });
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+      );
 
-    test('should open confirm modal', function (assert) {
+      // when
+      await clickByName('Désactiver');
+
       // then
       assert.dom('.modal-dialog').exists();
-      assert.contains("Désactivation d'un membre");
-      assert.contains('Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?');
+      assert.dom(screen.getByText("Désactivation d'un membre")).exists();
+      assert.dom(screen.getByText('Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?')).exists();
     });
 
     test('should close confirm modal on click on cancel', async function (assert) {
+      // given
+      this.disableMembership = sinon.spy();
+      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
+      await clickByName('Désactiver');
+
       // when
       await click('.modal-footer > button.btn-secondary');
 
@@ -104,6 +129,11 @@ module('Integration | Component | member-item', function (hooks) {
     });
 
     test('should disable membership on click on confirm', async function (assert) {
+      // given
+      this.disableMembership = sinon.spy();
+      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
+      await clickByName('Désactiver');
+
       // when
       await click('.modal-footer > button.btn-primary');
 

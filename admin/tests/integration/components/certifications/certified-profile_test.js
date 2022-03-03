@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -19,10 +20,10 @@ module('Integration | Component | certifications/certified-profile', function (h
     this.set('certifiedProfile', certifiedProfile);
 
     // when
-    await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+    const screen = await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
 
     // then
-    assert.contains('Profil certifié vide.');
+    assert.dom(screen.getByText('Profil certifié vide.')).exists();
   });
 
   module('when certified profile is not empty', function () {
@@ -50,17 +51,19 @@ module('Integration | Component | certifications/certified-profile', function (h
       this.set('certifiedProfile', certifiedProfile);
 
       // when
-      await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+      const screen = await render(
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+      );
 
       // then
-      assert.contains('Niveau 1');
-      assert.contains('Niveau 2');
-      assert.contains('Niveau 3');
-      assert.contains('Niveau 4');
-      assert.contains('Niveau 5');
-      assert.contains('Niveau 6');
-      assert.contains('Niveau 7');
-      assert.contains('Niveau 8');
+      assert.dom(screen.getByText('Niveau 1')).exists();
+      assert.dom(screen.getByText('Niveau 2')).exists();
+      assert.dom(screen.getByText('Niveau 3')).exists();
+      assert.dom(screen.getByText('Niveau 4')).exists();
+      assert.dom(screen.getByText('Niveau 5')).exists();
+      assert.dom(screen.getByText('Niveau 6')).exists();
+      assert.dom(screen.getByText('Niveau 7')).exists();
+      assert.dom(screen.getByText('Niveau 8')).exists();
     });
 
     test('it should display data about area and competence', async function (assert) {
@@ -87,11 +90,13 @@ module('Integration | Component | certifications/certified-profile', function (h
       this.set('certifiedProfile', certifiedProfile);
 
       // when
-      await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+      const screen = await render(
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+      );
 
       // then
-      assert.contains('area1');
-      assert.contains('competence1');
+      assert.dom(screen.getByText('area1')).exists();
+      assert.dom(screen.getByText('competence1')).exists();
     });
 
     test('it should display the expected iconography depending on the state of the skill in a tube', async function (assert) {
@@ -146,12 +151,14 @@ module('Integration | Component | certifications/certified-profile', function (h
       this.set('certifiedProfile', certifiedProfile);
 
       // when
-      await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+      const screen = await render(
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+      );
 
       // then
       const iconSkill1 = find('[aria-label="skill1"]').getAttribute('data-icon');
       const iconSkill2 = find('[aria-label="skill2"]').getAttribute('data-icon');
-      assert.contains('tube1');
+      assert.dom(screen.getByText('tube1')).exists();
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(iconSkill1, 'check-double');

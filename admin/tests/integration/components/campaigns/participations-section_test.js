@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -39,12 +39,12 @@ module('Integration | Component | Campaigns | participations-section', function 
     participations.meta = { rowCount: 2 };
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Campaigns::ParticipationsSection @participations={{participations}} @idPixLabel={{idPixLabel}}/>`
     );
 
     // then
-    assert.contains('identifiant');
+    assert.dom(screen.getByText('identifiant')).exists();
   });
 
   test('it should an empty table when no participations', async function (assert) {
@@ -54,9 +54,9 @@ module('Integration | Component | Campaigns | participations-section', function 
     participations.meta = { rowCount: 2 };
 
     // when
-    await render(hbs`<Campaigns::ParticipationsSection @participations={{participations}}/>`);
+    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{participations}}/>`);
 
     // then
-    assert.contains('Aucune participation');
+    assert.dom(screen.getByText('Aucune participation')).exists();
   });
 });

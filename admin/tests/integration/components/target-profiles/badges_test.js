@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find, render } from '@ember/test-helpers';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { click, find } from '@ember/test-helpers';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -22,27 +22,27 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     this.set('badges', [badge]);
 
     // when
-    await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+    const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
 
     // then
     assert.dom('table').exists();
     assert.dom('thead').exists();
     assert.dom('tbody').exists();
-    assert.contains('ID');
-    assert.contains('Image');
-    assert.contains('Clé');
-    assert.contains('Nom');
-    assert.contains('Message');
-    assert.contains('Actions');
+    assert.dom(screen.getByText('ID')).exists();
+    assert.dom(screen.getByText('Image')).exists();
+    assert.dom(screen.getByText('Clé')).exists();
+    assert.dom(screen.getByText('Nom')).exists();
+    assert.dom(screen.getByText('Message')).exists();
+    assert.dom(screen.getByText('Actions')).exists();
     assert.dom('tbody tr').exists({ count: 1 });
     assert.strictEqual(find('tbody tr td:first-child').textContent, '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
     assert.strictEqual(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
     assert.strictEqual(find('tbody tr td:nth-child(2) img').getAttribute('alt'), 'My alt message');
-    assert.contains('My key');
-    assert.contains('My title');
-    assert.contains('My message');
-    assert.contains('Voir détail');
+    assert.dom(screen.getByText('My key')).exists();
+    assert.dom(screen.getByText('My title')).exists();
+    assert.dom(screen.getByText('My message')).exists();
+    assert.dom(screen.getByText('Voir détail')).exists();
     assert.notContains('Aucun résultat thématique associé');
   });
 
@@ -51,11 +51,11 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     this.set('badges', []);
 
     // when
-    await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+    const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
 
     // then
     assert.dom('table').doesNotExist();
-    assert.contains('Aucun résultat thématique associé');
+    assert.dom(screen.getByText('Aucun résultat thématique associé')).exists();
   });
 
   module('when deleting a badge', function (hooks) {
@@ -85,11 +85,21 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       await clickByName('Supprimer');
     });
 
-    test('should open confirm modal', function (assert) {
+    test('should open confirm modal', async function (assert) {
+      // when
+      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+      await clickByName('Supprimer');
+
       // then
       assert.dom('.modal-dialog').exists();
-      assert.contains("Suppression d'un résultat thématique");
-      assert.contains('Êtes-vous sûr de vouloir supprimer ce résultat thématique ?');
+      assert.dom(screen.getByText("Suppression d'un résultat thématique")).exists();
+      assert
+        .dom(
+          screen.getByText(
+            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
+          )
+        )
+        .exists();
     });
 
     test('should close confirm modal on click on cancel', async function (assert) {

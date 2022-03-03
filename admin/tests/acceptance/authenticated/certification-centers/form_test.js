@@ -41,9 +41,9 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
 
     // then
     assert.strictEqual(currentURL(), '/certification-centers/99');
-    assert.contains(name);
-    assert.contains(type.label);
-    assert.contains(externalId);
+    assert.dom(screen.getByRole('heading', { name })).exists();
+    assert.dom(screen.getByText(type.label)).exists();
+    assert.dom(screen.getByText(externalId)).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
 
     assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour CléA Numérique' })).exists();

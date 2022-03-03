@@ -40,12 +40,12 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.contains('Center 1');
-    assert.contains('ABCDEF');
-    assert.contains('Établissement scolaire');
+    assert.dom(screen.getByRole('heading', { name: 'Center 1' })).exists();
+    assert.dom(screen.getByText('ABCDEF')).exists();
+    assert.dom(screen.getByText('Établissement scolaire')).exists();
   });
 
   test('should display Certification center habilitations', async function (assert) {
@@ -62,11 +62,11 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.contains('Pix+Edu');
-    assert.contains('Pix+Surf');
+    assert.dom(screen.getByText('Pix+Edu')).exists();
+    assert.dom(screen.getByText('Pix+Surf')).exists();
   });
 
   test('should highlight the habilitations of the current certification center', async function (assert) {
@@ -115,17 +115,17 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });
 
     assert.dom('[aria-label="Membre"]:first-child td:nth-child(2)').hasText(certificationCenterMembership1.user.id);
 
-    assert.contains(certificationCenterMembership1.user.firstName);
-    assert.contains(certificationCenterMembership1.user.lastName);
-    assert.contains(certificationCenterMembership1.user.email);
-    assert.contains(expectedDate1);
+    assert.dom(screen.getByText(certificationCenterMembership1.user.firstName)).exists();
+    assert.dom(screen.getByText(certificationCenterMembership1.user.lastName)).exists();
+    assert.dom(screen.getByText(certificationCenterMembership1.user.email)).exists();
+    assert.dom(screen.getByText(expectedDate1)).exists();
   });
 
   test('should be possible to desactive a certification center membership', async function (assert) {
@@ -165,12 +165,12 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
 
       // when
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
       // then
-      assert.contains('Ajouter un membre');
+      assert.dom(screen.getByText('Ajouter un membre')).exists();
       assert.dom('[aria-label="Adresse e-mail du nouveau membre"]').exists();
-      assert.contains('Valider');
+      assert.dom(screen.getByText('Valider')).exists();
       assert.dom('.error').notExists;
     });
 
@@ -203,14 +203,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'an invalid email');
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.contains("L'adresse e-mail saisie n'est pas valide.");
+      assert.dom(screen.getByText("L'adresse e-mail saisie n'est pas valide.")).exists();
       assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
     });
 
@@ -267,14 +267,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await clickByName('Editer');
 
       // then
-      assert.contains('Annuler');
-      assert.contains('Enregistrer');
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
     });
 
     test('should send edited certification center to the API', async function (assert) {
@@ -287,7 +287,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
         isSupervisorAccessEnabled: false,
       });
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
@@ -299,10 +299,10 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await clickByName('Enregistrer');
 
       // then
-      assert.contains('Habilitations aux certifications complémentaires');
-      assert.contains('nouveau nom');
-      assert.contains('Établissement supérieur');
-      assert.contains('nouvel identifiant externe');
+      assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'nouveau nom' })).exists();
+      assert.dom(screen.getByText('Établissement supérieur')).exists();
+      assert.dom(screen.getByText('nouvel identifiant externe')).exists();
       assert.strictEqual(find('span[aria-label="Espace surveillant"]').textContent, 'oui');
     });
 
@@ -330,9 +330,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       // then
       assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
       assert.dom(screen.getByLabelText('Non-habilité pour Pix+Autre')).exists();
-      assert.contains('Habilitations aux certifications complémentaires');
-      assert.contains('Centre des réussites');
-      assert.contains('Centre de certification mis à jour avec succès.');
+      assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Centre des réussites' })).exists();
+      assert.dom(screen.getByText('Centre de certification mis à jour avec succès.')).exists();
     });
 
     test('should display an error notification when the certification has not been updated in API', async function (assert) {
@@ -345,15 +345,17 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer');
 
       // when
       await clickByName('Enregistrer');
 
       // then
-      assert.contains('Habilitations aux certifications complémentaires');
-      assert.contains("Une erreur est survenue, le centre de certification n'a pas été mis à jour.");
+      assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
+      assert
+        .dom(screen.getByText("Une erreur est survenue, le centre de certification n'a pas été mis à jour."))
+        .exists();
     });
   });
 });

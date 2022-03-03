@@ -1,5 +1,5 @@
 import { visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -26,10 +26,10 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     });
 
     test('should list organizations', async function (assert) {
-      await visit(`/target-profiles/${targetProfile.id}/organizations`);
+      const screen = await visitScreen(`/target-profiles/${targetProfile.id}/organizations`);
 
-      assert.contains('My organization');
-      assert.contains('My other organization');
+      assert.dom(screen.getByText('My organization')).exists();
+      assert.dom(screen.getByText('My other organization')).exists();
     });
   });
 

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -56,10 +56,10 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
         });
 
         // when
-        await visit('/sessions/3');
+        const screen = await visitScreen('/sessions/3');
 
         // then
-        assert.contains("Commentaire de l'équipe Certification");
+        assert.dom(screen.getByText("Commentaire de l'équipe Certification")).exists();
       });
 
       module('When the comment is deleted', function () {
@@ -111,13 +111,13 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             );
 
             // when
-            await visit('/sessions/6');
+            const screen = await visitScreen('/sessions/6');
             await clickByName('Supprimer');
             await clickByName('Confirmer');
 
             // then
-            assert.contains("Le surveillant prétend qu'une météorite est tombée sur le centre.");
-            assert.contains('Une erreur est survenue pendant la suppression du commentaire.');
+            assert.dom(screen.getByText("Le surveillant prétend qu'une météorite est tombée sur le centre.")).exists();
+            assert.dom(screen.getByText('Une erreur est survenue pendant la suppression du commentaire.')).exists();
           });
         });
       });
@@ -130,7 +130,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           server.create('session', { id: '4', juryComment: null, juryCommentedAt: null, juryCommentAuthor: null });
 
           // when
-          await visit('/sessions/4');
+          const screen = await visitScreen('/sessions/4');
           await fillByLabel(
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
@@ -138,7 +138,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           await clickByName('Enregistrer');
 
           // then
-          assert.contains("Le surveillant prétend qu'une météorite est tombée sur le centre.");
+          assert.dom(screen.getByText("Le surveillant prétend qu'une météorite est tombée sur le centre.")).exists();
         });
       });
 
@@ -155,7 +155,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           );
 
           // when
-          await visit('/sessions/5');
+          const screen = await visitScreen('/sessions/5');
           await fillByLabel(
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
@@ -163,7 +163,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           await clickByName('Enregistrer');
 
           // then
-          assert.contains("Une erreur est survenue pendant l'enregistrement du commentaire.");
+          assert.dom(screen.getByText("Une erreur est survenue pendant l'enregistrement du commentaire.")).exists();
         });
       });
     });

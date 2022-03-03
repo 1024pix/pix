@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaigns | details', function (hooks) {
   setupRenderingTest(hooks);
@@ -33,18 +32,21 @@ module('Integration | Component | Campaigns | details', function (hooks) {
       };
 
       // when
-      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      const screen = await render(
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      );
+
       // expect
-      assert.contains('Créée le 01/02/2020 par Jon Snow');
-      assert.contains('Type : Évaluation');
-      assert.contains('Code : MYCODE');
-      assert.contains('My target profile');
-      assert.contains('My organization');
-      assert.contains('Archivée le 01/03/2020');
-      assert.contains('welcome');
-      assert.contains('tadaaa');
-      assert.contains('Click here');
-      assert.contains('www.pix.fr');
+      assert.dom(screen.getByText('Créée le 01/02/2020 par Jon Snow')).exists();
+      assert.dom(screen.getByText('Type : Évaluation')).exists();
+      assert.dom(screen.getByText('Code : MYCODE')).exists();
+      assert.dom(screen.getByText('My target profile')).exists();
+      assert.dom(screen.getByText('My organization')).exists();
+      assert.dom(screen.getByText('Archivée le 01/03/2020')).exists();
+      assert.dom(screen.getByText('welcome')).exists();
+      assert.dom(screen.getByText('tadaaa')).exists();
+      assert.dom(screen.getByText('Texte du bouton de la page de fin de parcours : Click here')).exists();
+      assert.dom(screen.getByText('URL du bouton de la page de fin de parcours : www.pix.fr')).exists();
     });
 
     test('should display the number of shared results', async function (assert) {
@@ -53,10 +55,14 @@ module('Integration | Component | Campaigns | details', function (hooks) {
         sharedParticipationsCount: 5,
         isTypeAssessment: true,
       };
+
       // when
-      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      const screen = await render(
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      );
+
       // then
-      assert.contains('5 résultats reçus');
+      assert.dom(screen.getByText('5 résultats reçus')).exists();
     });
   });
 
@@ -67,10 +73,12 @@ module('Integration | Component | Campaigns | details', function (hooks) {
         type: 'COLLECTION_PROFILE',
       };
       // when
-      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      const screen = await render(
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      );
 
       // then
-      assert.contains('Collecte de profils');
+      assert.dom(screen.getByText('Type : Collecte de profils')).exists();
     });
 
     test('should display the number of shared profiles', async function (assert) {
@@ -81,9 +89,12 @@ module('Integration | Component | Campaigns | details', function (hooks) {
       };
 
       // when
-      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      const screen = await render(
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      );
+
       // then
-      assert.contains('5 profils reçus');
+      assert.dom(screen.getByText('5 profils reçus')).exists();
     });
   });
 
@@ -106,9 +117,12 @@ module('Integration | Component | Campaigns | details', function (hooks) {
     };
 
     // when
-    await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+    const screen = await render(
+      hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+    );
+
     // then
-    assert.contains('10 participants');
+    assert.dom(screen.getByText('10 participants')).exists();
   });
 
   module('when campaign is multiple sendings', function () {
@@ -119,9 +133,12 @@ module('Integration | Component | Campaigns | details', function (hooks) {
       };
 
       // when
-      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      const screen = await render(
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      );
+
       // then
-      assert.contains('Envoi multiple : Oui');
+      assert.dom(screen.getByText('Envoi multiple : Oui')).exists();
     });
 
     test("should display 'Non' when 'multipleSendings' is false", async function (assert) {
@@ -131,9 +148,12 @@ module('Integration | Component | Campaigns | details', function (hooks) {
       };
 
       // when
-      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      const screen = await render(
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      );
+
       // then
-      assert.contains('Envoi multiple : Non');
+      assert.dom(screen.getByText('Envoi multiple : Non')).exists();
     });
   });
 });
