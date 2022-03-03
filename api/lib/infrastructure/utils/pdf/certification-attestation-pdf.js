@@ -322,7 +322,7 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
     });
     yCoordinate -= 15;
 
-    viewModel.pixPlusEduTemporaryBadgeMessage.forEach((text, index) => {
+    viewModel.pixPlusEduTemporaryBadgeMessage?.forEach((text, index) => {
       page.drawText(text, {
         x: 350,
         y: yCoordinate - index * 10,
