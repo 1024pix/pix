@@ -42,6 +42,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         certificationCourseId: partnerCertificationScoring.certificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
         acquired: true,
+        temporaryPartnerKey: null,
       });
     });
 
@@ -69,6 +70,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         certificationCourseId: partnerCertificationScoring.certificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
         acquired: false,
+        temporaryPartnerKey: null,
       });
     });
 
