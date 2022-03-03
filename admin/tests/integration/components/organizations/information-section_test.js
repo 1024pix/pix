@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
@@ -13,9 +14,10 @@ module('Integration | Component | organizations/information-section', function (
     this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false });
 
     // when
-    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+    const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
+    assert.dom(screen.queryByText('Archivée le', { exact: false })).doesNotExist();
     assert.dom('.organization__information').exists();
   });
 
@@ -99,6 +101,22 @@ module('Integration | Component | organizations/information-section', function (
     assert.contains('CFA');
     assert.contains('PRIVE');
     assert.contains('AGRICULTURE');
+  });
+
+  module('when organization is archived', function () {
+    test('it should display who archived it', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const archivedAt = new Date('2022-02-22');
+      const organization = store.createRecord('organization', { archivistFullName: 'Rob Lochon', archivedAt });
+      this.set('organization', organization);
+
+      // when
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+      // expect
+      assert.dom(screen.getByText('Archivée le 22/02/2022 par Rob Lochon.')).exists();
+    });
   });
 
   module('Edit organization', function (hooks) {

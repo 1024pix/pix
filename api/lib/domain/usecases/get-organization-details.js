@@ -1,3 +1,3 @@
-module.exports = function getOrganizationDetails({ organizationId, organizationRepository }) {
-  return organizationRepository.get(organizationId);
+module.exports = function getOrganizationDetails({ organizationId, organizationForAdminRepository }) {
+  return organizationForAdminRepository.get(organizationId);
 };

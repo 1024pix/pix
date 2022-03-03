@@ -16,7 +16,15 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
       // given
       const externalId = '1234567A';
       const organization = databaseBuilder.factory.buildOrganization({ externalId });
-      const expectedOrganization = _.omit(organization, ['createdAt', 'updatedAt', 'email', 'tags', 'createdBy']);
+      const expectedOrganization = _.omit(organization, [
+        'createdAt',
+        'updatedAt',
+        'email',
+        'tags',
+        'createdBy',
+        'archivedBy',
+        'archivedAt',
+      ]);
 
       await databaseBuilder.commit();
 

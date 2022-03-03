@@ -30,6 +30,8 @@ describe('Integration | Repository | UserOrgaSettings', function () {
     'createdAt',
     'updatedAt',
     'createdBy',
+    'archivedAt',
+    'archivedBy',
   ];
 
   let user;

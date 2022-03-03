@@ -2,6 +2,7 @@ import { memberAction } from 'ember-api-actions';
 import Model, { hasMany, attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { equal } from '@ember/object/computed';
+import dayjs from 'dayjs';
 
 export default class Organization extends Model {
   @attr() name;
@@ -17,6 +18,8 @@ export default class Organization extends Model {
   @attr() createdBy;
   @attr('string') documentationUrl;
   @attr('boolean') showSkills;
+  @attr() archivistFullName;
+  @attr() archivedAt;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
@@ -28,6 +31,10 @@ export default class Organization extends Model {
   async hasMember(userEmail) {
     const memberships = await this.memberships;
     return !!memberships.findBy('user.email', userEmail);
+  }
+
+  get archivedFormattedDate() {
+    return dayjs(this.archivedAt).format('DD/MM/YYYY');
   }
 
   attachTargetProfiles = memberAction({
