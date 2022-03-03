@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_EMPLOI_CLEA badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_EMPLOI_CLEA],
+        acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA }],
       });
 
       // when
@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_EMPLOI_CLEA_V2 badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_EMPLOI_CLEA_V2],
+        acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA_V2 }],
       });
 
       // when
@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return undefined if no clea badge has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredPartnerCertificationKeys: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
+        acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE_1' }, { partnerKey: 'OTHER_BADGE_2' }],
       });
 
       // when
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_DROIT_MAITRE_CERTIF badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_DROIT_MAITRE_CERTIF],
+        acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
       });
 
       // when
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_DROIT_EXPERT_CERTIF badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredPartnerCertificationKeys: ['OTHER_BADGE', PIX_DROIT_EXPERT_CERTIF],
+        acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
       });
 
       // when
@@ -97,7 +97,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return undefined if no Pix+ Droit badge has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredPartnerCertificationKeys: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
+        acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE_1' }, { partnerKey: 'OTHER_BADGE_2' }],
       });
 
       // when
@@ -120,14 +120,14 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       it(`should return the acquired ${badgeKey} badge`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          acquiredPartnerCertificationKeys: ['OTHER_BADGE', badgeKey],
+          acquiredPartnerCertificationKeys: [{ partnerKey: 'OTHER_BADGE' }, { temporaryPartnerKey: badgeKey }],
         });
 
         // when
         const acquiredPixPlusEduCertification = certificationAttestation.getAcquiredPixPlusEduCertification();
 
         // expect
-        expect(acquiredPixPlusEduCertification).to.deep.equal(badgeKey);
+        expect(acquiredPixPlusEduCertification).to.deep.equal({ temporaryPartnerKey: badgeKey });
       });
     });
 
@@ -160,7 +160,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          acquiredPartnerCertificationKeys: [badgeKey],
+          acquiredPartnerCertificationKeys: [{ partnerKey: badgeKey }],
         });
 
         // when

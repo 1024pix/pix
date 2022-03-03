@@ -341,7 +341,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             deliveredAt: new Date('2021-05-05'),
             certificationCenter: 'Centre des poules bien dodues',
             pixScore: 51,
-            acquiredPartnerCertificationKeys: [badgeKey],
+            acquiredPartnerCertificationKeys: [{ partnerKey: badgeKey, temporaryPartnerKey: null }],
             sessionId: 789,
           };
           await _buildValidCertificationAttestation(certificationAttestationData);
@@ -391,7 +391,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [PIX_DROIT_MAITRE_CERTIF],
+        acquiredPartnerCertificationKeys: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, temporaryPartnerKey: null }],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);

@@ -109,11 +109,14 @@ class AttestationViewModel {
     let pixPlusEduTemporaryBadgeMessage;
     if (certificate.getAcquiredPixPlusEduCertification()) {
       hasAcquiredPixPlusEduCertification = true;
-      pixPlusEduCertificationImagePath = getImagePathByBadgeKey(certificate.getAcquiredPixPlusEduCertification());
-      pixPlusEduTemporaryBadgeMessage = toArrayOfFixedLengthStringsConservingWords(
-        `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
-        45
-      );
+      const { partnerKey, temporaryPartnerKey } = certificate.getAcquiredPixPlusEduCertification();
+      pixPlusEduCertificationImagePath = getImagePathByBadgeKey(partnerKey || temporaryPartnerKey);
+      if (!partnerKey) {
+        pixPlusEduTemporaryBadgeMessage = toArrayOfFixedLengthStringsConservingWords(
+          `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
+          45
+        );
+      }
     }
 
     const sortedCompetenceTree = sortBy(certificate.resultCompetenceTree.areas, 'code');

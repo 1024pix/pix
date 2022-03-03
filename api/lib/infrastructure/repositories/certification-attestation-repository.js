@@ -152,12 +152,18 @@ async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
   const partnerCertifications = await knex
-    .select('partnerKey')
+    .select('partnerKey', 'temporaryPartnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', handledBadgeKeys);
+    .whereIn('partnerKey', handledBadgeKeys)
+    .orWhereIn('temporaryPartnerKey', handledBadgeKeys);
 
-  return partnerCertifications.map((partnerCertification) => partnerCertification.partnerKey);
+  return partnerCertifications.map(({ partnerKey, temporaryPartnerKey }) => {
+    return {
+      partnerKey,
+      temporaryPartnerKey,
+    };
+  });
 }
 
 function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertificationKeys) {
