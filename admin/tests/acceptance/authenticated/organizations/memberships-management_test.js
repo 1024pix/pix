@@ -80,9 +80,9 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByName('Ajouter un membre');
 
       // then
-      assert.contains('John');
-      assert.contains('Doe');
-      assert.contains('user@example.com');
+      assert.dom(screen.getByText('John')).exists();
+      assert.dom(screen.getByText('Doe')).exists();
+      assert.dom(screen.getByText('user@example.com')).exists();
       assert.dom('#userEmailToAdd').hasNoValue();
     });
 
@@ -107,7 +107,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
-      assert.contains('Denise');
+      assert.dom(screen.getByText('Denise')).exists();
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
 
@@ -128,7 +128,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
-      assert.contains('Erica');
+      assert.dom(screen.getByText('Erica')).exists();
       assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
     });
   });
@@ -143,7 +143,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
     test("should update member's role", async function (assert) {
       // given / when
-      await visit(`/organizations/${organization.id}/team`);
+      const screen = await visitScreen(`/organizations/${organization.id}/team`);
       await clickByName('Modifier le rôle');
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByName('Enregistrer');
@@ -152,7 +152,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(membership.organizationRole, 'MEMBER');
-      assert.contains('Le rôle du membre a été mis à jour avec succès.');
+      assert.dom(screen.getByText('Le rôle du membre a été mis à jour avec succès.')).exists();
     });
   });
 
@@ -164,13 +164,13 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
     test('should deactivate a member', async function (assert) {
       // given / when
-      await visit(`/organizations/${organization.id}/team`);
+      const screen = await visitScreen(`/organizations/${organization.id}/team`);
       await clickByName('Désactiver');
       await click('.modal-footer > button.btn-primary');
 
       // then
-      assert.contains('Le membre a été désactivé avec succès.');
-      assert.contains('Aucun résultat');
+      assert.dom(screen.getByText('Le membre a été désactivé avec succès.')).exists();
+      assert.dom(screen.getByText('Aucun résultat')).exists();
     });
   });
 });

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/target-profiles | list-items', function (hooks) {
@@ -15,14 +15,14 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
   test('it should display header with name, id and status', async function (assert) {
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::ListItems @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
     );
 
     // then
-    assert.contains('ID');
-    assert.contains('Nom');
-    assert.contains('Statut');
+    assert.dom(screen.getByText('ID')).exists();
+    assert.dom(screen.getByText('Nom')).exists();
+    assert.dom(screen.getByText('Statut')).exists();
   });
 
   test('it should display search inputs', async function (assert) {
@@ -80,12 +80,12 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     this.targetProfiles = targetProfiles;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
     );
 
     // then
-    assert.contains('Obsolète');
+    assert.dom(screen.getByText('Obsolète')).exists();
   });
 
   test('it should display target profile status as "Actif" when target profile is not outdated', async function (assert) {
@@ -97,11 +97,11 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     this.targetProfiles = targetProfiles;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
     );
 
     // then
-    assert.contains('Actif');
+    assert.dom(screen.getByText('Actif')).exists();
   });
 });

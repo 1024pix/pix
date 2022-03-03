@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -86,7 +86,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
         tubes: [tube],
         skills: [skill],
       });
-      await visit('/target-profiles/list');
+      const screen = await visitScreen('/target-profiles/list');
 
       // when
       await clickByName('Profil Cible');
@@ -95,7 +95,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/target-profiles/1');
-      assert.contains('Competence 1');
+      assert.dom(screen.getByText('Competence 1')).exists();
     });
 
     test('it should redirect to target profile creation form on click "Nouveau profil cible', async function (assert) {

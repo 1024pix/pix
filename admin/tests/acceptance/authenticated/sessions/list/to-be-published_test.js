@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, click } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { clickByName } from '@1024pix/ember-testing-library';
@@ -43,31 +44,28 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
     test('it should display sessions to publish informations', async function (assert) {
       assert.expect(7);
       // given
-      const sessionDate = '2021-01-01';
-      const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
       server.create('to-be-published-session', {
         id: '1',
         certificationCenterName: 'Centre SCO des Anne-Étoiles',
         finalizedAt,
-        sessionDate,
-        sessionTime,
+        sessionDate: '2021-01-01',
+        sessionTime: '17:00:00',
       });
       server.create('to-be-published-session', {
         id: '2',
         certificationCenterName: 'Centre SUP et rieur',
         finalizedAt,
-        sessionDate,
-        sessionTime,
+        sessionDate: '2022-10-03',
+        sessionTime: '11:10:00',
       });
 
       // when
-      await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
       // then
-
-      _assertSessionInformationsAreDisplayed(assert);
-      _assertPublishAllSessionsButtonDisplayed(assert);
+      _assertSessionInformationsAreDisplayed(assert, screen);
+      _assertPublishAllSessionsButtonDisplayed(assert, screen);
     });
 
     test('it should publish a session', async function (assert) {
@@ -90,14 +88,14 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         sessionDate,
         sessionTime,
       });
-      await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
       await click('[aria-label="Publier la session numéro 2"]');
 
       // when
       await click('.modal-footer .btn-primary');
 
       // then
-      _assertFirstSessionIsDisplayed(assert);
+      _assertFirstSessionIsDisplayed(assert, screen);
       _assertSecondSessionIsNotDisplayed(assert);
     });
 
@@ -122,7 +120,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         sessionTime,
       });
 
-      await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
       await clickByName('Publier toutes les sessions');
 
       // when
@@ -130,27 +128,27 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
 
       // then
       _assertPublishAllSessionsButtonHidden(assert);
-      _assertNoSessionInList(assert);
+      _assertNoSessionInList(assert, screen);
       _assertConfirmModalIsClosed(assert);
     });
   });
 });
 
-function _assertPublishAllSessionsButtonDisplayed(assert) {
-  assert.contains('Publier toutes les sessions');
+function _assertPublishAllSessionsButtonDisplayed(assert, screen) {
+  assert.dom(screen.getByText('Publier toutes les sessions')).exists();
 }
 
-function _assertSessionInformationsAreDisplayed(assert) {
-  assert.contains('Centre SCO des Anne-Étoiles');
-  assert.contains('Centre SUP et rieur');
-  assert.contains('1');
-  assert.contains('2');
-  assert.contains('01/01/2021 à 17:00:00');
-  assert.contains('01/02/2021');
+function _assertSessionInformationsAreDisplayed(assert, screen) {
+  assert.dom(screen.getByText('Centre SCO des Anne-Étoiles')).exists();
+  assert.dom(screen.getByText('Centre SUP et rieur')).exists();
+  assert.dom(screen.getByText('1')).exists();
+  assert.dom(screen.getByText('2')).exists();
+  assert.dom(screen.getByText('01/01/2021 à 17:00:00')).exists();
+  assert.dom(screen.getByText('03/10/2022 à 11:10:00')).exists();
 }
 
-function _assertFirstSessionIsDisplayed(assert) {
-  assert.contains('Centre SCO des Anne-Étoiles');
+function _assertFirstSessionIsDisplayed(assert, screen) {
+  assert.dom(screen.getByText('Centre SCO des Anne-Étoiles')).exists();
 }
 
 function _assertSecondSessionIsNotDisplayed(assert) {
@@ -161,8 +159,8 @@ function _assertPublishAllSessionsButtonHidden(assert) {
   assert.notContains('Publier toutes les sessions');
 }
 
-function _assertNoSessionInList(assert) {
-  assert.contains('Aucun résultat');
+function _assertNoSessionInList(assert, screen) {
+  assert.dom(screen.getByText('Aucun résultat')).exists();
 }
 
 function _assertConfirmModalIsClosed(assert) {

@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
-import { clickByText, fillByLabel } from '@1024pix/ember-testing-library';
+import { clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -17,10 +16,10 @@ module('Acceptance | organization invitations management', function (hooks) {
     await createAuthenticateSession({ userId: user.id });
 
     // when
-    await visit(`/organizations/${organization.id}`);
+    const screen = await visit(`/organizations/${organization.id}`);
 
     // then
-    assert.contains('Invitations');
+    assert.dom(screen.getByText('Invitations')).exists();
   });
 
   module('inviting a member', function () {
@@ -32,15 +31,15 @@ module('Acceptance | organization invitations management', function (hooks) {
       const now = new Date();
 
       // when
-      await visit(`/organizations/${organization.id}/invitations`);
+      const screen = await visit(`/organizations/${organization.id}/invitations`);
       await fillByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
       await clickByText('Inviter');
 
       // then
-      assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
-      assert.contains(moment(now).format('DD/MM/YYYY [-] HH:mm'));
+      assert.dom(screen.getByText("Un email a bien a été envoyé à l'adresse user@example.com.")).exists();
+      assert.dom(screen.getByText(moment(now).format('DD/MM/YYYY [-] HH:mm'))).exists();
       assert.dom('#userEmailToInvite').hasNoValue();
     });
 
@@ -57,7 +56,7 @@ module('Acceptance | organization invitations management', function (hooks) {
       );
 
       // when
-      await visit(`/organizations/${organization.id}/invitations`);
+      const screen = await visit(`/organizations/${organization.id}/invitations`);
       await fillByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
@@ -65,7 +64,7 @@ module('Acceptance | organization invitations management', function (hooks) {
 
       // then
       assert.notContains(moment(now).format('DD/MM/YYYY [-] HH:mm'));
-      assert.contains('Une erreur s’est produite, veuillez réessayer.');
+      assert.dom(screen.getByText('Une erreur s’est produite, veuillez réessayer.')).exists();
     });
   });
 });

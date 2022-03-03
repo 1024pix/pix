@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
-import { render as renderScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, render } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
@@ -36,18 +36,17 @@ module('Integration | Component | certification-centers/information', function (
     this.certificationCenter = certificationCenter;
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       hbs`<CertificationCenters::Information
       @availableHabilitations={{this.availableHabilitations}}
       @certificationCenter={{this.certificationCenter}} />`
     );
 
     // then
-    assert.contains('Type');
-    assert.contains('Identifiant externe');
-    assert.contains('Centre SCO');
-    assert.contains('SCO');
-    assert.contains('AX129');
+    assert.dom(screen.getByText('Type :')).exists();
+    assert.dom(screen.getByText('Identifiant externe :')).exists();
+    assert.dom(screen.getByText('Centre SCO')).exists();
+    assert.dom(screen.getByText('AX129')).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'non');
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
@@ -66,15 +65,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('isEditMode', false);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} @isEditMode={{this.isEditMode}} />`
     );
     await clickByName('Editer');
 
     // then
-    assert.contains('Annuler');
-    assert.contains('Enregistrer');
-    assert.contains('Nom du centre');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+    assert.dom(screen.getByText('Nom du centre')).exists();
   });
 
   test('it exits edition mode when click on Save button', async function (assert) {
@@ -90,7 +89,7 @@ module('Integration | Component | certification-centers/information', function (
     this.updateCertificationCenter = sinon.stub();
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
@@ -100,7 +99,7 @@ module('Integration | Component | certification-centers/information', function (
     await clickByName('Enregistrer');
 
     // then
-    assert.contains('Editer');
+    assert.dom(screen.getByText('Editer les informations')).exists();
     assert.notContains('Annuler');
     assert.notContains('Enregistrer');
     assert.notContains('Nom du centre');
@@ -118,13 +117,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
     await clickByName('Editer');
 
     await clickByName('Annuler');
 
     // then
-    assert.contains('Editer');
+    assert.dom(screen.getByText('Editer les informations')).exists();
     assert.notContains('Annuler');
     assert.notContains('Enregistrer');
     assert.notContains('Nom du centre');
@@ -146,7 +147,7 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       hbs`<CertificationCenters::Information @availableHabilitations={{this.availableHabilitations}} @certificationCenter={{this.certificationCenter}} />`
     );
     await clickByName('Editer');
@@ -171,13 +172,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
 
     await clickByName('Editer');
     await fillIn('#name', repeat('a', 256));
 
     // then
-    assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
+    assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
   });
 
   test('it should reject empty name', async function (assert) {
@@ -190,13 +193,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
 
     await clickByName('Editer');
     await fillIn('#name', '');
 
     // then
-    assert.contains('Le nom ne peut pas être vide');
+    assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
   });
 
   test('it rejects invalid output on externalId', async function (assert) {
@@ -209,13 +214,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
 
     await clickByName('Editer');
     await fillIn('#external-id', repeat('a', 256));
 
     // then
-    assert.contains("La longueur de l'identifiant externe ne doit pas excéder 255 caractères");
+    assert.dom(screen.getByText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères")).exists();
   });
 
   test('it should call updateCertificationCenter with certification center data on save', async function (assert) {
@@ -233,7 +240,7 @@ module('Integration | Component | certification-centers/information', function (
 
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
-    await renderScreen(
+    await render(
       hbs`<CertificationCenters::Information
         @availableHabilitations={{this.availableHabilitations}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
@@ -277,7 +284,7 @@ module('Integration | Component | certification-centers/information', function (
     this.updateCertificationCenter = sinon.stub();
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
         @availableHabilitations={{this.availableHabilitations}}
@@ -294,9 +301,8 @@ module('Integration | Component | certification-centers/information', function (
 
     // then
     sinon.assert.notCalled(this.updateCertificationCenter);
-    assert.contains('Centre SCO');
-    assert.contains('SCO');
-    assert.contains('AX129');
+    assert.dom(screen.getByText('Centre SCO')).exists();
+    assert.dom(screen.getByText('AX129')).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();

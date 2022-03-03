@@ -19,7 +19,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
     test('should be able to edit organization information', async function (assert) {
       // given
       const organization = this.server.create('organization', { name: 'oldOrganizationName' });
-      await visit(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await clickByName('Éditer');
 
       // when
@@ -27,7 +27,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       await clickByName('Enregistrer', { exact: true });
 
       // then
-      assert.contains('newOrganizationName');
+      assert.dom(screen.getByRole('heading', { name: 'newOrganizationName' })).exists();
     });
   });
 

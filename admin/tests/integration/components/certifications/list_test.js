@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, findAll, find } from '@ember/test-helpers';
+import { findAll, find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | certifications/list', function (hooks) {
@@ -70,10 +71,10 @@ module('Integration | Component | certifications/list', function (hooks) {
     this.certifications = [juryCertificationSummaryProcessed];
 
     // when
-    await render(hbs`<Certifications::List @certifications={{certifications}} />`);
+    const screen = await render(hbs`<Certifications::List @certifications={{certifications}} />`);
 
     // then
-    assert.contains('CléA Numérique Pix+ Droit Maître');
+    assert.dom(screen.getByText('CléA Numérique Pix+ Droit Maître', { exact: false })).exists();
   });
 
   module('when displayHasSeenEndTestScreenColumn is true', function () {
@@ -85,12 +86,12 @@ module('Integration | Component | certifications/list', function (hooks) {
       this.certifications = [juryCertificationSummaryProcessed];
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{true}}/>`
       );
 
       // then
-      assert.contains('Ecran de fin de test vu');
+      assert.dom(screen.getByLabelText('Ecran de fin de test vu')).exists();
     });
   });
 

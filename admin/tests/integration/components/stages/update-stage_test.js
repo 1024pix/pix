@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -33,7 +34,10 @@ module('Integration | Component | UpdateStage', function (hooks) {
 
   test('it should display the items', async function (assert) {
     // when
-    await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
+    const screen = await render(
+      hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`
+    );
+
     // then
     assert.strictEqual(this.element.querySelector('label[for="threshold"]').textContent.trim(), 'Seuil');
     assert.strictEqual(this.element.querySelector('label[for="title"]').textContent.trim(), 'Titre');
@@ -51,8 +55,8 @@ module('Integration | Component | UpdateStage', function (hooks) {
     assert.strictEqual(this.element.querySelector('#message').value, 'Ceci est un message');
     assert.strictEqual(this.element.querySelector('#prescriberTitle').value, 'Ceci est un titre');
     assert.strictEqual(this.element.querySelector('#prescriberDescription').value, 'Ceci est une description');
-    assert.contains('Annuler');
-    assert.contains('Enregistrer');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
   });
 
   test('it should display an error text when the title has more than 255 characters', async function (assert) {

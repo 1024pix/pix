@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | Insights', function (hooks) {
@@ -20,11 +20,11 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       this.set('model', model);
 
       // when
-      await render(hbs`<TargetProfiles::Insights @model={{this.model}}/>`);
+      const screen = await render(hbs`<TargetProfiles::Insights @model={{this.model}}/>`);
 
       // then
-      assert.contains('Résultats thématiques');
-      assert.contains('Aucun résultat thématique associé');
+      assert.dom(screen.getByText('Résultats thématiques')).exists();
+      assert.dom(screen.getByText('Aucun résultat thématique associé')).exists();
     });
 
     test('it should display the stages title and an empty list', async function (assert) {
@@ -32,11 +32,11 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       this.set('model', model);
 
       // when
-      await render(hbs`<TargetProfiles::Insights @model={{this.model}}/>`);
+      const screen = await render(hbs`<TargetProfiles::Insights @model={{this.model}}/>`);
 
       // then
-      assert.contains('Paliers');
-      assert.contains('Aucun palier associé');
+      assert.dom(screen.getByText('Paliers')).exists();
+      assert.dom(screen.getByText('Aucun palier associé')).exists();
     });
   });
 });

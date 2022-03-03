@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, visit, click, fillIn } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -42,13 +43,13 @@ module('Acceptance | Session List', function (hooks) {
       server.createList('with-required-action-session', 10);
 
       // when
-      await visit('/sessions/list');
+      const screen = await visitScreen('/sessions/list');
 
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/sessions/list');
-      assert.contains('Sessions à traiter (10)');
+      assert.dom(screen.getByText('Sessions à traiter (10)')).exists();
     });
 
     module('#Pagination', function (hooks) {

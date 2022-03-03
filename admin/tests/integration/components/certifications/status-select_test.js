@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, render } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -15,10 +16,12 @@ module('Integration | Component | certifications/status-select', function (hooks
         this.set('certification', certification);
 
         // when
-        await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
+        const screen = await render(
+          hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`
+        );
 
         // then
-        assert.contains('Statut :');
+        assert.dom(screen.getByText('Statut :')).exists();
       });
 
       test('it displays a select list', async function (assert) {

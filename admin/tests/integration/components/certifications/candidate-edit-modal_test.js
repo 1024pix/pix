@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
@@ -24,12 +24,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       this.countries = [];
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`
       );
 
       // then
-      assert.contains('Editer les informations du candidat');
+      assert.dom(screen.getByText('Editer les informations du candidat')).exists();
     });
 
     test('it should not display the modal', async function (assert) {
@@ -550,7 +550,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
           run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
         ];
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
@@ -560,7 +560,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         // then
         assert.notContains('* Code Insee de naissance');
         assert.notContains('* Code postal de naissance');
-        assert.contains('* Commune de naissance');
+        assert.dom(screen.getByLabelText('* Commune de naissance')).exists();
       });
     });
 
@@ -579,7 +579,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           })
         );
         this.countries = [];
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
@@ -587,7 +587,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         await click('#insee-code-choice');
 
         // then
-        assert.contains('* Code Insee de naissance');
+        assert.dom(screen.getByLabelText('* Code Insee de naissance')).exists();
         assert.notContains('* Code postal de naissance');
         assert.notContains('* Commune de naissance');
       });
@@ -608,7 +608,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           })
         );
         this.countries = [];
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`
         );
 
@@ -617,8 +617,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // then
         assert.notContains('Code INSEE de naissance');
-        assert.contains('* Code postal de naissance');
-        assert.contains('* Commune de naissance');
+        assert.dom(screen.getByLabelText('* Code postal de naissance')).exists();
+        assert.dom(screen.getByLabelText('* Commune de naissance')).exists();
       });
     });
   });

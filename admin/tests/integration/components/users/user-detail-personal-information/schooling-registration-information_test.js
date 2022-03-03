@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
@@ -18,14 +17,14 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.contains('John');
-      assert.contains('Doe');
-      assert.contains('02/10/2020');
+      assert.dom(screen.getByText('John')).exists();
+      assert.dom(screen.getByText('Doe')).exists();
+      assert.dom(screen.getByText('02/10/2020')).exists();
     });
 
     test('should display schooling registration’s division', async function (assert) {
@@ -36,12 +35,12 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.contains('3A');
+      assert.dom(screen.getByText('3A')).exists();
     });
 
     test('should display schooling registration’s group', async function (assert) {
@@ -52,12 +51,12 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.contains('groupe 2');
+      assert.dom(screen.getByText('groupe 2')).exists();
     });
 
     test('should display schooling registration’s organization info', async function (assert) {
@@ -68,12 +67,12 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.contains('Dragon & Co');
+      assert.dom(screen.getByText('Dragon & Co')).exists();
       assert.dom('[href="/organizations/42"]').exists();
     });
 
@@ -85,13 +84,13 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.contains('01/01/2020');
-      assert.contains('02/01/2020');
+      assert.dom(screen.getByText('01/01/2020')).exists();
+      assert.dom(screen.getByText('02/01/2020')).exists();
     });
 
     test('should display schooling registration as active', async function (assert) {

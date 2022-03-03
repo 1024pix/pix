@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | organizations/campaigns-section', function (hooks) {
@@ -12,7 +12,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', []);
 
       // when
-      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom(screen.getByText('Aucune campagne')).exists();
@@ -37,7 +37,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom(screen.getByText('ID')).exists();
@@ -76,7 +76,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom('[aria-label="campagne"]').exists({ count: 2 });
@@ -112,7 +112,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom(screen.getByText('C1')).exists();
@@ -149,7 +149,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
       assert.dom(screen.getByText('-')).exists();
