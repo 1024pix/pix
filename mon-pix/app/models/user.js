@@ -12,6 +12,7 @@ export default class User extends Model {
   @attr('boolean') hasSeenNewDashboardInfo;
   @attr('boolean') hasSeenFocusedChallengeTooltip;
   @attr('boolean') hasSeenOtherChallengesTooltip;
+  @attr('boolean') hasAssessmentParticipations;
   @attr('string') lang;
   @attr('boolean') isAnonymous;
 
@@ -25,10 +26,5 @@ export default class User extends Model {
   // methods
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
-  }
-
-  get hasAssessmentParticipations() {
-    const participations = this.campaignParticipations.toArray();
-    return participations.some((participation) => participation.campaign.get('isAssessment'));
   }
 }
