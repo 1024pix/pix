@@ -590,15 +590,23 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 
   describe('GET /api/organizations/{id}', function () {
-    let organization;
-    let options;
     let pixMasterUserId;
 
     context('Expected output', function () {
       beforeEach(async function () {
         pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
 
-        organization = databaseBuilder.factory.buildOrganization({
+        await databaseBuilder.commit();
+      });
+
+      it('should return the matching organization as JSON API', async function () {
+        // given
+        const archivist = databaseBuilder.factory.buildUser({
+          firstName: 'Jean',
+          lastName: 'Bonneau',
+        });
+        const archivedAt = new Date('2019-04-28T02:42:00Z');
+        const organization = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
           name: 'Organization catalina',
           logoUrl: 'some logo url',
@@ -609,19 +617,9 @@ describe('Acceptance | Application | organization-controller', function () {
           email: 'sco.generic.account@example.net',
           createdBy: pixMasterUserId,
           documentationUrl: 'https://pix.fr/',
+          archivedBy: archivist.id,
+          archivedAt,
         });
-
-        await databaseBuilder.commit();
-
-        options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterUserId) },
-        };
-      });
-
-      it('should return the matching organization as JSON API', async function () {
-        // given
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
         await databaseBuilder.commit();
@@ -642,6 +640,8 @@ describe('Acceptance | Application | organization-controller', function () {
               'show-nps': organization.showNPS,
               'form-nps-url': organization.formNPSUrl,
               'show-skills': false,
+              'archivist-full-name': 'Jean Bonneau',
+              'archived-at': archivedAt,
             },
             id: organization.id.toString(),
             relationships: {
@@ -684,18 +684,23 @@ describe('Acceptance | Application | organization-controller', function () {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organization.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterUserId) },
+        });
 
         // then
         expect(response.result).to.deep.equal(expectedResult);
       });
 
       it('should return a 404 error when organization was not found', function () {
-        // given
-        options.url = '/api/organizations/999';
-
-        // when
-        const promise = server.inject(options);
+        // given & when
+        const promise = server.inject({
+          method: 'GET',
+          url: `/api/organizations/999`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterUserId) },
+        });
 
         // then
         return promise.then((response) => {
@@ -714,11 +719,12 @@ describe('Acceptance | Application | organization-controller', function () {
 
     describe('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', function () {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const promise = server.inject(options);
+        // given & when
+        const promise = server.inject({
+          method: 'GET',
+          url: `/api/organizations/999`,
+          headers: { authorization: 'invalid.access.token' },
+        });
 
         // then
         return promise.then((response) => {
@@ -729,10 +735,13 @@ describe('Acceptance | Application | organization-controller', function () {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function () {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
-        const promise = server.inject(options);
+        const promise = server.inject({
+          method: 'GET',
+          url: `/api/organizations/999`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(nonPixMAsterUserId) },
+        });
 
         // then
         return promise.then((response) => {
