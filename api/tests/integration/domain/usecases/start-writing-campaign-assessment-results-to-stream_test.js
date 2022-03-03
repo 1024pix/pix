@@ -87,8 +87,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       });
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({ name: '+Profile 1' });
-      [skillWeb1, skillWeb2, skillWeb3].map((skill) => {
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill.id });
+      [skillWeb1, skillWeb2, skillWeb3].forEach((skill) => {
+        databaseBuilder.factory.buildTargetProfileSkill({
+          targetProfileId: targetProfile.id,
+          skillId: skill.id,
+        });
       });
 
       campaign = databaseBuilder.factory.buildCampaign({
