@@ -46,19 +46,28 @@ module.exports = {
     );
 
     const exists = await knex
-      .select('acquired')
+      .select('*')
       .from('partner-certifications')
       .where({
         certificationCourseId: partnerCertificationScoring.certificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
       })
+      .orWhere({
+        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
+      })
       .first();
 
     if (exists) {
       return partnerCertificationToSave
-        .where({
-          certificationCourseId: partnerCertificationScoring.certificationCourseId,
-          partnerKey: partnerCertificationScoring.partnerKey,
+        .query(function (qb) {
+          qb.where({
+            certificationCourseId: partnerCertificationScoring.certificationCourseId,
+            partnerKey: partnerCertificationScoring.partnerKey,
+          }).orWhere({
+            certificationCourseId: partnerCertificationScoring.certificationCourseId,
+            temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
+          });
         })
         .save(null, { transacting: domainTransaction.knexTransaction, method: 'update' });
     }
@@ -67,8 +76,8 @@ module.exports = {
   },
 };
 
-function _adaptModelToDB({ certificationCourseId, partnerKey, acquired }) {
-  return { certificationCourseId, partnerKey, acquired };
+function _adaptModelToDB({ certificationCourseId, partnerKey, temporaryPartnerKey, acquired }) {
+  return { certificationCourseId, partnerKey, temporaryPartnerKey, acquired };
 }
 
 async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction) {
