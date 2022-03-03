@@ -1,233 +1,98 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const acceptOrganizationInvitation = require('../../../../lib/domain/usecases/accept-organization-invitation');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Membership = require('../../../../lib/domain/models/Membership');
-const {
-  AlreadyExistingOrganizationInvitationError,
-  AlreadyExistingMembershipError,
-} = require('../../../../lib/domain/errors');
+const OrganizationInvitedUser = require('../../../../lib/domain/models/OrganizationInvitedUser');
+const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | accept-organization-invitation', function () {
-  let userRepository;
-  let membershipRepository;
-  let organizationInvitationRepository;
-  let userOrgaSettingsRepository;
+  let organizationInvitedUserRepository, organizationInvitationRepository;
 
   beforeEach(function () {
-    userRepository = {
-      getByEmail: sinon.stub(),
-    };
-    membershipRepository = {
-      create: sinon.stub(),
-      findByOrganizationId: sinon.stub(),
-      updateById: sinon.stub(),
+    organizationInvitedUserRepository = {
+      get: sinon.stub(),
+      save: sinon.stub(),
     };
     organizationInvitationRepository = {
-      getByIdAndCode: sinon.stub(),
       markAsAccepted: sinon.stub(),
     };
-    userOrgaSettingsRepository = {
-      createOrUpdate: sinon.stub(),
-    };
   });
 
-  context('when invitation is already accepted', function () {
-    it('should throw an AlreadyExistingOrganizationInvitationError', async function () {
+  context('when the user`s membership already exist', function () {
+    it('should mark the invitation as accepted', async function () {
       // given
-      const status = OrganizationInvitation.StatusType.ACCEPTED;
-      const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
-      organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitation);
+      const code = '123AZE';
+      const email = 'user@example.net';
+      const organization = domainBuilder.buildOrganization();
+      const organizationInvitation = domainBuilder.buildOrganizationInvitation({
+        organizationId: organization.id,
+        code,
+      });
+      const user = domainBuilder.buildUser();
+      const membership = domainBuilder.buildMembership({ user, organization, organizationRole: 'ADMIN' });
+
+      const organizationInvitedUser = new OrganizationInvitedUser({
+        userId: user.id,
+        invitation: { code, id: organizationInvitation.id },
+        currentRole: membership.organizationRole,
+        status: organizationInvitation.status,
+      });
+      organizationInvitedUserRepository.get
+        .withArgs({ organizationInvitationId: organizationInvitation.id, email })
+        .resolves(organizationInvitedUser);
 
       // when
-      const err = await catchErr(acceptOrganizationInvitation)({
+      const error = await catchErr(acceptOrganizationInvitation)({
         organizationInvitationId: organizationInvitation.id,
-        organizationInvitationRepository,
-      });
-
-      // then
-      expect(err).to.be.instanceOf(AlreadyExistingOrganizationInvitationError);
-    });
-  });
-
-  context('when invitation is not accepted yet', function () {
-    const email = 'random@email.com';
-    let pendingOrganizationInvitation;
-    let userToInvite;
-
-    beforeEach(function () {
-      pendingOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
-      organizationInvitationRepository.getByIdAndCode.resolves(pendingOrganizationInvitation);
-
-      userToInvite = domainBuilder.buildUser({ email });
-      userRepository.getByEmail.withArgs(email).resolves(userToInvite);
-    });
-
-    it('should update user organization settings', async function () {
-      // given
-      const expectedUserId = userToInvite.id;
-      const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
-      membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([{ user: { id: 2 } }]);
-
-      // when
-      await acceptOrganizationInvitation({
-        organizationInvitationId,
         code,
         email,
-        userRepository,
-        membershipRepository,
         organizationInvitationRepository,
-        userOrgaSettingsRepository,
+        organizationInvitedUserRepository,
       });
 
       // then
-      expect(userOrgaSettingsRepository.createOrUpdate).to.have.been.calledWith({
-        userId: expectedUserId,
-        organizationId,
-      });
+      expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitation.id);
+      expect(error).to.be.instanceOf(AlreadyExistingMembershipError);
+    });
+  });
+
+  it('should return the membership id and role', async function () {
+    // given
+    const code = '123AZE';
+    const email = 'user@example.net';
+    const organization = domainBuilder.buildOrganization();
+    const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
+      organizationId: organization.id,
+      code,
+    }).id;
+    const user = domainBuilder.buildUser();
+
+    const organizationInvitedUser = new OrganizationInvitedUser({
+      userId: user.id,
+      invitation: { code, id: organizationInvitationId },
+    });
+    organizationInvitedUserRepository.get
+      .withArgs({ organizationInvitationId, email })
+      .resolves(organizationInvitedUser);
+
+    sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
+
+    const membership = domainBuilder.buildMembership({ user, organization, organizationRole: 'MEMBER' });
+    organizationInvitedUser.currentMembershipId = membership.id;
+    organizationInvitedUser.currentRole = membership.organizationRole;
+
+    // when
+    const result = await acceptOrganizationInvitation({
+      organizationInvitationId,
+      code,
+      email,
+      organizationInvitationRepository,
+      organizationInvitedUserRepository,
     });
 
-    context('when the user is the first one to join the organization', function () {
-      it('should create a membership with ADMIN role', async function () {
-        // given
-        const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
-        membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([]);
-
-        // when
-        await acceptOrganizationInvitation({
-          organizationInvitationId,
-          code,
-          email,
-          userRepository,
-          membershipRepository,
-          organizationInvitationRepository,
-          userOrgaSettingsRepository,
-        });
-
-        // then
-        expect(membershipRepository.create).to.have.been.calledWith(
-          userToInvite.id,
-          organizationId,
-          Membership.roles.ADMIN
-        );
-        expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
-      });
-    });
-
-    context('when the user is not the first one to join the organization', function () {
-      it('should create a membership with MEMBER role', async function () {
-        // given
-        const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
-        membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([{ user: { id: 2 } }]);
-
-        // when
-        await acceptOrganizationInvitation({
-          organizationInvitationId,
-          code,
-          email,
-          userRepository,
-          membershipRepository,
-          organizationInvitationRepository,
-          userOrgaSettingsRepository,
-        });
-
-        // then
-        expect(membershipRepository.create).to.have.been.calledWith(
-          userToInvite.id,
-          organizationId,
-          Membership.roles.MEMBER
-        );
-        expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
-      });
-    });
-
-    context('when the role is already defined in the invitation', function () {
-      it('should create a membership according to the invitation role', async function () {
-        // given
-        pendingOrganizationInvitation.role = Membership.roles.ADMIN;
-        const { id: organizationInvitationId, organizationId, code, role } = pendingOrganizationInvitation;
-        membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([{ user: { id: 3 } }]);
-
-        // when
-        await acceptOrganizationInvitation({
-          organizationInvitationId,
-          code,
-          email,
-          userRepository,
-          membershipRepository,
-          organizationInvitationRepository,
-          userOrgaSettingsRepository,
-        });
-
-        // then
-        expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, role);
-        expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
-      });
-    });
-
-    context('when user already belongs to organization', function () {
-      let membership;
-
-      beforeEach(function () {
-        membership = domainBuilder.buildMembership({ user: userToInvite, organizationRole: Membership.roles.MEMBER });
-        membershipRepository.findByOrganizationId
-          .withArgs({
-            organizationId: pendingOrganizationInvitation.organizationId,
-          })
-          .resolves([membership]);
-      });
-
-      context('when no role is defined in the invitation', function () {
-        it('should mark invitation as accepted and throw an AlreadyExistingMembershipError', async function () {
-          // given
-          const { id: organizationInvitationId, code } = pendingOrganizationInvitation;
-
-          // when
-          const err = await catchErr(acceptOrganizationInvitation)({
-            organizationInvitationId,
-            code,
-            email,
-            userRepository,
-            membershipRepository,
-            organizationInvitationRepository,
-          });
-
-          // then
-          expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
-          expect(err).to.be.instanceOf(AlreadyExistingMembershipError);
-        });
-      });
-
-      context('when the role is already defined in the invitation', function () {
-        it('should update a membership according to the invitation role', async function () {
-          // given
-          pendingOrganizationInvitation.role = Membership.roles.ADMIN;
-          const { id: organizationInvitationId, code } = pendingOrganizationInvitation;
-          membershipRepository.updateById.resolves({
-            organizationRole: pendingOrganizationInvitation.role,
-            ...membership,
-          });
-
-          // when
-          await acceptOrganizationInvitation({
-            organizationInvitationId,
-            code,
-            email,
-            userRepository,
-            membershipRepository,
-            organizationInvitationRepository,
-            userOrgaSettingsRepository,
-          });
-
-          // then
-          expect(membershipRepository.updateById).to.have.been.calledWith({
-            id: membership.id,
-            membership: { organizationRole: pendingOrganizationInvitation.role },
-          });
-          expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
-        });
-      });
+    // then
+    expect(organizationInvitedUserRepository.save).to.have.been.calledWith({ organizationInvitedUser });
+    expect(result).to.deep.equal({
+      id: organizationInvitedUser.currentMembershipId,
+      isAdmin: false,
     });
   });
 });
