@@ -85,6 +85,7 @@ const dependencies = {
   membershipRepository: require('../../infrastructure/repositories/membership-repository'),
   obfuscationService: require('../../domain/services/obfuscation-service'),
   organizationMemberIdentityRepository: require('../../infrastructure/repositories/organization-member-identity-repository'),
+  organizationForAdminRepository: require('../../infrastructure/repositories/organization-for-admin-repository'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
   organizationInvitedUserRepository: require('../../infrastructure/repositories/organization-invited-user-repository'),
