@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.179.0 (03/03/2022)
+
+
+### :rocket: Amélioration
+- [#4141](https://github.com/1024pix/pix/pull/4141) [FEATURE] Utiliser seulement les données du prescrit côté Pix Orga (PIX-4387).
+
+### :building_construction: Tech
+- [#4080](https://github.com/1024pix/pix/pull/4080) [TECH] Refacto du accept organization invitation
+- [#4114](https://github.com/1024pix/pix/pull/4114) [TECH] Suppression du wrapper sur le `visit` de ember/test-helpers.
+- [#4147](https://github.com/1024pix/pix/pull/4147) [TECH] Ajout du `skillId` dans la table `user-saved-tutorials` (PIX-4335)
+
+### :bug: Correction
+- [#4104](https://github.com/1024pix/pix/pull/4104) [BUGFIX] [A11Y] Permettre l'affichage des modales de Pix Certif avec le CSS désactivé (PIX-3910)
+
 ## v3.178.0 (01/03/2022)
 
 
