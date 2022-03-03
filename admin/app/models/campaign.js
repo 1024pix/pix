@@ -1,5 +1,4 @@
 import Model, { attr } from '@ember-data/model';
-
 export default class Campaign extends Model {
   @attr('string') name;
   @attr('string') title;
@@ -20,12 +19,8 @@ export default class Campaign extends Model {
   @attr('string') customResultPageText;
   @attr('string') customResultPageButtonText;
   @attr('string') customResultPageButtonUrl;
-
-  get isTypeProfilesCollection() {
-    return this.type === 'PROFILES_COLLECTION';
-  }
-
-  get isTypeAssessment() {
-    return this.type === 'ASSESSMENT';
-  }
+  @attr('number') sharedParticipationsCount;
+  @attr('number') totalParticipationsCount;
+  @attr('boolean') isTypeProfilesCollection;
+  @attr('boolean') isTypeAssessment;
 }

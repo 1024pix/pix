@@ -8,3 +8,15 @@
   padding-inline: 0;
   margin: 0;
 }
+
+.campaign-title {
+  display: flex;
+
+  & h1 {
+    margin-right: 8px;
+  }
+
+  &__tag {
+    margin-right: 8px;
+  }
+}

@@ -3,16 +3,21 @@ const campaignManagementRepository = require('../../../../lib/infrastructure/rep
 const _ = require('lodash');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const { knex } = require('../../../../lib/infrastructure/bookshelf');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign-Management', function () {
   describe('#get', function () {
     it('should return campaign details with target profile', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
+      const owner = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization = databaseBuilder.factory.buildOrganization({});
       const campaign = databaseBuilder.factory.buildCampaign({
         creatorId: user.id,
+        ownerId: owner.id,
         targetProfileId: targetProfile.id,
         organizationId: organization.id,
       });
@@ -33,6 +38,9 @@ describe('Integration | Repository | Campaign-Management', function () {
         creatorFirstName: user.firstName,
         creatorLastName: user.lastName,
         creatorId: user.id,
+        ownerId: owner.id,
+        ownerFirstName: owner.firstName,
+        ownerLastName: owner.lastName,
         organizationId: organization.id,
         organizationName: organization.name,
         targetProfileId: targetProfile.id,
@@ -42,16 +50,20 @@ describe('Integration | Repository | Campaign-Management', function () {
         customResultPageText: null,
         customResultPageButtonText: null,
         customResultPageButtonUrl: null,
+        sharedParticipationsCount: 0,
+        totalParticipationsCount: 0,
       });
     });
 
     it('should return campaign details without target profile', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
+      const owner = databaseBuilder.factory.buildUser();
       const organization = databaseBuilder.factory.buildOrganization({});
       const campaign = databaseBuilder.factory.buildCampaign({
         type: Campaign.types.PROFILES_COLLECTION,
         creatorId: user.id,
+        ownerId: owner.id,
         organizationId: organization.id,
       });
       await databaseBuilder.commit();
@@ -60,7 +72,7 @@ describe('Integration | Repository | Campaign-Management', function () {
       const result = await campaignManagementRepository.get(campaign.id);
 
       // then
-      expect(result).to.deep.equal({
+      expect(result).to.deep.include({
         id: campaign.id,
         name: campaign.name,
         code: campaign.code,
@@ -71,6 +83,9 @@ describe('Integration | Repository | Campaign-Management', function () {
         creatorFirstName: user.firstName,
         creatorLastName: user.lastName,
         creatorId: user.id,
+        ownerId: owner.id,
+        ownerFirstName: owner.firstName,
+        ownerLastName: owner.lastName,
         organizationId: organization.id,
         organizationName: organization.name,
         targetProfileId: null,
@@ -80,6 +95,65 @@ describe('Integration | Repository | Campaign-Management', function () {
         customResultPageText: null,
         customResultPageButtonText: null,
         customResultPageButtonUrl: null,
+        totalParticipationsCount: 0,
+        sharedParticipationsCount: 0,
+      });
+    });
+
+    describe('When there are participation', function () {
+      context('when campaign type is ASSESSMENT', function () {
+        it('should return total and shared participations count', async function () {
+          //given
+          const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: STARTED,
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: TO_SHARE,
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+          // when
+          const result = await campaignManagementRepository.get(campaign.id);
+
+          expect(result.totalParticipationsCount).to.equal(3);
+          expect(result.sharedParticipationsCount).to.equal(1);
+        });
+
+        context('when campaign type is PROFILES_COLLECTION', function () {
+          it('should return total and shared participations count', async function () {
+            //given
+            const userId = databaseBuilder.factory.buildUser().id;
+            const organization = databaseBuilder.factory.buildOrganization({});
+            const campaign = databaseBuilder.factory.buildCampaign({
+              creatorId: userId,
+              organizationId: organization.id,
+              type: Campaign.types.PROFILES_COLLECTION,
+            });
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId: campaign.id,
+              status: SHARED,
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const result = await campaignManagementRepository.get(campaign.id);
+
+            expect(result.totalParticipationsCount).to.equal(1);
+            expect(result.sharedParticipationsCount).to.equal(1);
+          });
+        });
       });
     });
   });
@@ -195,7 +269,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         });
 
         // then
-        expect(campaignManagements[0]).to.deep.equal({
+        expect(campaignManagements[0]).to.deep.includes({
           id: campaign.id,
           name: campaign.name,
           code: campaign.code,
