@@ -166,6 +166,15 @@
           </ul>
         {{/if}}
 
+        {{#if @organization.archivistFullName}}
+          <PixMessage class="organization-information-section__archived-message" @type="warning">
+            Archivée le
+            {{@organization.archivedFormattedDate}}
+            par
+            {{@organization.archivistFullName}}.
+          </PixMessage>
+        {{/if}}
+
         <div class="organization-information-section__content">
           <div class="organization-information-section__details">
             <p>

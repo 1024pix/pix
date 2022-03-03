@@ -22,12 +22,14 @@ const {
 const moment = require('moment');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
+const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 
 module.exports = {
-  getOrganizationDetails: (request) => {
+  async getOrganizationDetails(request) {
     const organizationId = request.params.id;
 
-    return usecases.getOrganizationDetails({ organizationId }).then(organizationSerializer.serialize);
+    const organizationDetails = await usecases.getOrganizationDetails({ organizationId });
+    return organizationForAdminSerializer.serialize(organizationDetails);
   },
 
   create: (request) => {

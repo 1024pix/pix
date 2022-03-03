@@ -20,6 +20,7 @@ const campaignManagementSerializer = require('../../../../lib/infrastructure/ser
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
+const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
@@ -39,18 +40,19 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const organizationId = 1234;
       const request = { params: { id: organizationId } };
 
-      sinon.stub(usecases, 'getOrganizationDetails');
-      sinon.stub(organizationSerializer, 'serialize');
-      usecases.getOrganizationDetails.resolves();
-      organizationSerializer.serialize.returns();
+      const organizationDetails = Symbol('organizationDetails');
+      const organizationDetailsSerialized = Symbol('organizationDetailsSerialized');
+      sinon.stub(usecases, 'getOrganizationDetails').withArgs({ organizationId }).resolves(organizationDetails);
+      sinon
+        .stub(organizationForAdminSerializer, 'serialize')
+        .withArgs(organizationDetails)
+        .returns(organizationDetailsSerialized);
 
       // when
-      await organizationController.getOrganizationDetails(request, hFake);
+      const result = await organizationController.getOrganizationDetails(request, hFake);
 
       // then
-      expect(usecases.getOrganizationDetails).to.have.been.calledOnce;
-      expect(usecases.getOrganizationDetails).to.have.been.calledWith({ organizationId });
-      expect(organizationSerializer.serialize).to.have.been.calledOnce;
+      expect(result).to.equal(organizationDetailsSerialized);
     });
   });
 
