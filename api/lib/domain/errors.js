@@ -1053,6 +1053,12 @@ class MissingBadgeCriterionError extends DomainError {
   }
 }
 
+class CampaignParticipationDeletedError extends DomainError {
+  constructor(message = 'La participation est supprimée.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1080,6 +1086,7 @@ module.exports = {
   AuthenticationKeyForPoleEmploiTokenExpired,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
+  CampaignParticipationDeletedError,
   CancelledOrganizationInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,

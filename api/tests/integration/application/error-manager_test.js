@@ -164,6 +164,13 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
+
+    it('responds Precondition Failed when a CampaignParticipationDeletedError occurs', async function () {
+      routeHandler.throws(new DomainErrors.CampaignParticipationDeletedError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('404 Not Found', function () {
