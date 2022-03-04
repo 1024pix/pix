@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-export default class Archived extends Component {
+export default class Disabled extends Component {
   get isCompleted() {
     return ['TO_SHARE', 'SHARED'].includes(this.args.model.status);
   }

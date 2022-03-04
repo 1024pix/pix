@@ -160,12 +160,12 @@
         "stages": "{count} { count, plural, =0 {étoile} =1 {étoile} other {étoiles} } sur {total}",
         "started-at": "Commencé le {date}",
         "tag": {
-          "archived": "Archivé",
+          "disabled": "Inactif",
           "completed": "À envoyer",
           "finished": "Terminé",
           "started": "En cours"
         },
-        "text-archived": "Parcours archivé par votre organisation.'<br>'Vos résultats n'ont pas pu être envoyés."
+        "text-archived": "Parcours désactivé par votre organisation.'<br>'Vous ne pouvez plus envoyer vos résultats."
       }
     },
     "certificate": {

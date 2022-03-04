@@ -160,12 +160,12 @@
         "stages": "{count} { count, plural, =0 {star} =1 {star} other {stars} } out of {total}",
         "started-at": "Started the {date}",
         "tag": {
-          "archived": "Archived",
+          "disabled": "Disabled",
           "completed": "To be submitted",
           "finished": "Finished",
           "started": "In progress"
         },
-        "text-archived": "Your customised test has been archived by your organisation.'<br>'Your results could not be submitted."
+        "text-archived": "Your customised test has been disabled by your organisation.'<br>'Your results could not be submitted."
       }
     },
     "certificate": {
