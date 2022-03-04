@@ -104,6 +104,26 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
+  describe('PUT /api/admin/organizations/:id/archived', function () {
+    it('should call the controller to archive the organization', async function () {
+      // given
+      const method = 'PUT';
+      const url = '/api/admin/organizations/1/archived';
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'archiveOrganization').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(organizationController.archiveOrganization).to.have.been.calledOnce;
+    });
+  });
+
   describe('POST /api/organizations/:id/invitations', function () {
     it('should call the organization controller to send invitations', async function () {
       // given
