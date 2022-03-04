@@ -12,7 +12,7 @@ class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
   }
 
   isAcquired() {
-    return this.hasAcquiredPixCertification && this.reproducibilityRate.isEqualOrAbove(75);
+    return this.hasAcquiredPixCertification && this.reproducibilityRate.isEqualOrAbove(70);
   }
 }
 
