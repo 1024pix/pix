@@ -1,6 +1,8 @@
 const {
   SCO_COLLEGE_CERTIF_CENTER_ID,
   SCO_COLLEGE_CERTIF_CENTER_NAME,
+  SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
+  SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME,
   DROIT_CERTIF_CENTER_ID,
   DROIT_CERTIF_CENTER_NAME,
   SUP_CERTIF_CENTER_NAME,
@@ -15,6 +17,7 @@ const NO_PROBLEM_FINALIZED_SESSION_ID = 5;
 const PROBLEMS_FINALIZED_SESSION_ID = 6;
 const NO_CERTIF_CENTER_SESSION_ID = 7;
 const PUBLISHED_SESSION_ID = 8;
+const SCO_NO_MANAGING_STUDENTS_AEFE_SESSION_ID = 12;
 const PIX_DROIT_SESSION_ID = 9;
 const PUBLISHED_SCO_SESSION_ID = 10;
 const COMPLEMENTARY_CERTIFICATIONS_SESSION_ID = 11;
@@ -188,6 +191,21 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
     publishedAt: new Date('2018-01-03T00:00:00Z'),
   });
+
+  databaseBuilder.factory.buildSession({
+    id: SCO_NO_MANAGING_STUDENTS_AEFE_SESSION_ID,
+    certificationCenter: SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME,
+    certificationCenterId: SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
+    address,
+    room,
+    examiner,
+    date,
+    time,
+    description: 'Certification AEFE',
+    finalizedAt: null,
+    publishedAt: null,
+  });
+
   databaseBuilder.factory.buildSession({
     id: PIX_DROIT_SESSION_ID,
     certificationCenter: DROIT_CERTIF_CENTER_NAME,
@@ -210,6 +228,7 @@ module.exports = {
   NO_CERTIF_CENTER_SESSION_ID,
   PUBLISHED_SESSION_ID,
   PUBLISHED_SCO_SESSION_ID,
+  SCO_NO_MANAGING_STUDENTS_AEFE_SESSION_ID,
   PIX_DROIT_SESSION_ID,
   COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 };
