@@ -2,9 +2,9 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () {
   context('#isAcquired', function () {
-    it('returns true when Pix+ Edu certification is acquired and reproducibility rate is over 75', function () {
+    it('returns true when Pix+ Edu certification is acquired and reproducibility rate is over 70', function () {
       // given
-      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 76 });
+      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 71 });
       const pixPlusEduCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         hasAcquiredPixCertification: true,
         reproducibilityRate,
@@ -17,9 +17,9 @@ describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () 
       expect(isAcquired).to.be.true;
     });
 
-    it('returns true when Pix+ Edu certification is acquired and reproducibility rate is equal 75', function () {
+    it('returns true when Pix+ Edu certification is acquired and reproducibility rate is equal 70', function () {
       // given
-      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 75 });
+      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 70 });
       const pixPlusEduCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         hasAcquiredPixCertification: true,
         reproducibilityRate,
@@ -32,9 +32,9 @@ describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () 
       expect(isAcquired).to.be.true;
     });
 
-    it('returns false when Pix+ Edu certification is not acquired even if reproducibility rate is over 75', function () {
+    it('returns false when Pix+ Edu certification is not acquired even if reproducibility rate is over 70', function () {
       // given
-      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 75 });
+      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 70 });
       const pixPlusEduCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         hasAcquiredPixCertification: false,
         reproducibilityRate,
@@ -47,9 +47,9 @@ describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () 
       expect(isAcquired).to.be.false;
     });
 
-    it('returns false when reproducibility rate is under 75 even if Pix+ Edu certification is acquired', function () {
+    it('returns false when reproducibility rate is under 70 even if Pix+ Edu certification is acquired', function () {
       // given
-      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 74 });
+      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 69 });
       const pixPlusEduCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         hasAcquiredPixCertification: true,
         reproducibilityRate,
