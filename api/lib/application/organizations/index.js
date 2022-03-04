@@ -86,6 +86,29 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'PUT',
+      path: '/api/admin/organizations/{id}/archived',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.archiveOrganization,
+        tags: ['api', 'organizations'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            "- Elle permet d'archiver une organisation",
+        ],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/organizations/{id}',
       config: {
