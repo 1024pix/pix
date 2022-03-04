@@ -31,9 +31,12 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   complementaryCertifications: Joi.array().required(),
   billingMode: Joi.when('$isCertificationBillingEnabled', {
     is: true,
-    then: Joi.string()
-      .valid(...Object.values(BILLING_MODES))
-      .required(),
+    then: Joi.when('$isSessionCertificationCenterScoNonManagingStudent', {
+      is: false,
+      then: Joi.string()
+        .valid(...Object.values(BILLING_MODES))
+        .required(),
+    }),
     otherwise: Joi.valid(null),
   }),
   prepaymentCode: Joi.when('billingMode', {
@@ -139,10 +142,13 @@ class CertificationCandidate {
     }
   }
 
-  validate() {
+  validate(isSessionCertificationCenterScoNonManagingStudent) {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       allowUnknown: true,
-      context: { isCertificationBillingEnabled: featureToggles.isCertificationBillingEnabled },
+      context: {
+        isCertificationBillingEnabled: featureToggles.isCertificationBillingEnabled,
+        isSessionCertificationCenterScoNonManagingStudent,
+      },
     });
     if (error) {
       throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
