@@ -164,17 +164,17 @@ async function _checkOrgaAndCertifCenterExist({ organizationId, certificationCen
 async function _getRegistrationsGroupedByDivisions({ organizationId, transaction }) {
   const registrationData = await transaction
     .select({
-      id: 'schooling-registrations.id',
-      firstName: 'schooling-registrations.firstName',
-      lastName: 'schooling-registrations.lastName',
-      birthdate: 'schooling-registrations.birthdate',
-      birthCity: 'schooling-registrations.birthCity',
-      birthProvinceCode: 'schooling-registrations.birthProvinceCode',
-      birthCountry: 'schooling-registrations.birthCountryCode',
-      division: 'schooling-registrations.division',
-      userId: 'schooling-registrations.userId',
+      id: 'organization-learners.id',
+      firstName: 'organization-learners.firstName',
+      lastName: 'organization-learners.lastName',
+      birthdate: 'organization-learners.birthdate',
+      birthCity: 'organization-learners.birthCity',
+      birthProvinceCode: 'organization-learners.birthProvinceCode',
+      birthCountry: 'organization-learners.birthCountryCode',
+      division: 'organization-learners.division',
+      userId: 'organization-learners.userId',
     })
-    .from('schooling-registrations')
+    .from('organization-learners')
     .where({ organizationId })
     .whereNotNull('userId');
 
@@ -211,7 +211,7 @@ async function _createSessionsWithCandidates({ certificationCenterId, registrati
       birthProvinceCode: registration.birthProvinceCode,
       birthCountry: registration.birthCountry,
       userId: registration.userId,
-      schoolingRegistrationId: registration.id,
+      organizationLearnerId: registration.id,
     });
   }
   const chunkSize = _getChunkSize(certificationCandidatesData[0]);
