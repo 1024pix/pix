@@ -12,6 +12,7 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   certificationCenterRepository,
+  sessionRepository,
 }) {
   const linkedCandidateInSessionExists =
     await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
@@ -20,9 +21,15 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
     throw new CertificationCandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
+  const isSessionCertificationCenterScoNonManagingStudent =
+    await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
+      sessionId,
+    });
+
   const certificationCandidates =
     await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
       sessionId,
+      isSessionCertificationCenterScoNonManagingStudent,
       odsBuffer,
       certificationCpfService,
       certificationCpfCountryRepository,

@@ -77,14 +77,17 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = [
 ];
 
 // ALL
-function getTransformationStructsForPixCertifCandidatesImport({ complementaryCertifications }) {
+function getTransformationStructsForPixCertifCandidatesImport({
+  complementaryCertifications,
+  isSessionCertificationCenterScoNonManagingStudent,
+}) {
   const transformationStruct = [..._TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
 
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
     _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct);
   }
 
-  if (featureToggles.isCertificationBillingEnabled) {
+  if (featureToggles.isCertificationBillingEnabled && !isSessionCertificationCenterScoNonManagingStudent) {
     _includeBillingColumns(transformationStruct);
   }
 
