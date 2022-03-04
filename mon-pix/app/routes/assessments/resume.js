@@ -61,9 +61,6 @@ export default class ResumeRoute extends Route {
     if (userHasReachedCheckpoint && !userHasSeenCheckpoint) {
       return this._routeToCheckpoint(assessment);
     }
-    if (userHasReachedCheckpoint && userHasSeenCheckpoint) {
-      return this._routeToNextChallenge(assessment);
-    }
     return this._routeToNextChallenge(assessment);
   }
 
