@@ -142,7 +142,7 @@ class CertificationCandidate {
     }
   }
 
-  validate(isSessionCertificationCenterScoNonManagingStudent) {
+  validate(isSessionCertificationCenterScoNonManagingStudent = false) {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       allowUnknown: true,
       context: {
