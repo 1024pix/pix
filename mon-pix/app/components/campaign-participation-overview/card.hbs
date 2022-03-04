@@ -4,6 +4,6 @@
   <CampaignParticipationOverview::Card::ToShare @model={{@model}} />
 {{else if (eq @model.cardStatus "ENDED")}}
   <CampaignParticipationOverview::Card::Ended @model={{@model}} />
-{{else if (eq @model.cardStatus "ARCHIVED")}}
-  <CampaignParticipationOverview::Card::Archived @model={{@model}} />
+{{else if (eq @model.cardStatus "DISABLED")}}
+  <CampaignParticipationOverview::Card::Disabled @model={{@model}} />
 {{/if}}
