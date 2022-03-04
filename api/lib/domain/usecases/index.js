@@ -165,6 +165,7 @@ module.exports = injectDependencies(
     attachOrganizationsFromExistingTargetProfile: require('./attach-organizations-from-existing-target-profile'),
     attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),
     archiveCampaign: require('./archive-campaign'),
+    archiveOrganization: require('./archive-organization'),
     outdateTargetProfile: require('./outdate-target-profile'),
     assignCertificationOfficerToJurySession: require('./assign-certification-officer-to-jury-session'),
     authenticateAnonymousUser: require('./authenticate-anonymous-user'),
