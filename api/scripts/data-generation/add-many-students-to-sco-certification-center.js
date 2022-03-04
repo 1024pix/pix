@@ -21,7 +21,7 @@ async function addManyStudentsToScoCertificationCenter(numberOfStudents) {
   const manyStudents = _.times(numberOfStudents, _buildSchoolingRegistration);
   try {
     await knex
-      .batchInsert('schooling-registrations', manyStudents)
+      .batchInsert('organization-learners', manyStudents)
       .transacting(DomainTransaction.emptyTransaction().knexTransaction);
   } catch (err) {
     throw new SchoolingRegistrationsCouldNotBeSavedError();
