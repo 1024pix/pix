@@ -233,7 +233,7 @@ describe('Acceptance | User dashboard page', function () {
             createdAt: new Date('2020-04-20T04:05:06Z'),
           });
           campaignParticipation.assessment.update({ state: 'completed' });
-          user.update({ campaignParticipations: [campaignParticipation] });
+          user.update({ codeForLastProfileToShare: campaign.code });
 
           await authenticateByEmail(user);
         });
