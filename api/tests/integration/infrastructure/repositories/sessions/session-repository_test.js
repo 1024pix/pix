@@ -506,4 +506,102 @@ describe('Integration | Repository | Session', function () {
       expect(sessionFlagged.publishedAt).to.deep.equal(publishedAt);
     });
   });
+
+  describe('#isSessionCertificationCenterScoNonManagingStudent', function () {
+    context('when the certification center is not SCO', function () {
+      it('should return false', async function () {
+        // given
+        databaseBuilder.factory.buildOrganization({
+          type: 'PRO',
+          isManagingStudents: false,
+          name: 'PRO_ORGANIZATION',
+          externalId: 'EXTERNAL_ID',
+        });
+
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          name: 'PRO_CERTIFICATION_CENTER',
+          type: 'PRO',
+          externalId: 'EXTERNAL_ID',
+        });
+
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+          finalizedAt: null,
+          publishedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
+          sessionId: session.id,
+        });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+    context('when the certification center is not linked to any organization', function () {
+      it('should return false', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          name: 'PRO_CERTIFICATION_CENTER',
+          type: 'PRO',
+          externalId: 'EXTERNAL_ID',
+        });
+
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+          finalizedAt: null,
+          publishedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
+          sessionId: session.id,
+        });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+    context('when the certification center is SCO and not managing students', function () {
+      it('should return true', async function () {
+        // given
+        databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          isManagingStudents: false,
+          name: 'SCO_NOT_MANAGING_STUDENTS',
+          externalId: 'EXTERNAL_ID',
+        });
+
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          name: 'SCO_NOT_MANAGING_STUDENTS',
+          externalId: 'EXTERNAL_ID',
+          type: 'SCO',
+        });
+
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+          finalizedAt: null,
+          publishedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
+          sessionId: session.id,
+        });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+  });
 });

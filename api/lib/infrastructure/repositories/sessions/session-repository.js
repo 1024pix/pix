@@ -130,6 +130,18 @@ module.exports = {
     publishedSession = await publishedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },
+
+  async isSessionCertificationCenterScoNonManagingStudent({ sessionId }) {
+    const result = await knex
+      .select('organizations.type', 'organizations.isManagingStudents')
+      .from('sessions')
+      .where('sessions.id', '=', sessionId)
+      .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+      .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
+      .first();
+
+    return result.type === 'SCO' && !result.isManagingStudents;
+  },
 };
 
 function _toDomain(results) {
