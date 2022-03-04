@@ -6,7 +6,7 @@
     "participantExternalId": "Le parricide",
     "sharedAt": "2019-04-22T06:00:00Z",
     "userId": 4,
-    "schoolingRegistrationId": 5,
+    "organizationLearnerId": 5,
     "validatedSkillsCount": 1,
     "masteryRate": 0.5
   },
@@ -16,7 +16,7 @@
     "status": "TO_SHARE",
     "participantExternalId": "Le régicide",
     "userId": 5,
-    "schoolingRegistrationId": 6
+    "organizationLearnerId": 6
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "status": "STARTED",
     "participantExternalId": "La reine",
     "userId": 6,
-    "schoolingRegistrationId": 7
+    "organizationLearnerId": 7
   },
   {
     "id": 4,
@@ -32,7 +32,7 @@
     "status": "STARTED",
     "participantExternalId": "La reine",
     "userId": 6,
-    "schoolingRegistrationId": 7
+    "organizationLearnerId": 7
   },
   {
     "id": 5,
@@ -40,13 +40,13 @@
     "status": "TO_SHARE",
     "participantExternalId": "La régicide",
     "userId": 5,
-    "schoolingRegistrationId": 6
+    "organizationLearnerId": 6
   },
   {
     "id": 6,
     "campaignId": 2,
     "status": "TO_SHARE",
     "userId": 5,
-    "schoolingRegistrationId": 6
+    "organizationLearnerId": 6
   }
 ]
