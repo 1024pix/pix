@@ -8,6 +8,7 @@ const {
   AssessmentNotCompletedError,
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
+  CampaignParticipationDeletedError,
 } = require('../../../../lib/domain/errors');
 const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 
@@ -83,7 +84,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
   });
 
   describe('share', function () {
-    context('when the campaign is not archived', function () {
+    context('when the campaign is not archived nor deleted', function () {
       let clock;
       const now = new Date('2021-09-25');
 
@@ -174,6 +175,18 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
         expect(error).to.be.an.instanceOf(ArchivedCampaignError);
         expect(error.message).to.equals('Cannot share results on an archived campaign.');
+      });
+    });
+
+    context('when the participation is deleted', function () {
+      it('throws a CampaignParticipationDeletedError', async function () {
+        const campaign = domainBuilder.buildCampaign();
+        const campaignParticipation = new CampaignParticipation({ campaign, deletedAt: new Date() });
+
+        const error = await catchErr(campaignParticipation.share, campaignParticipation)();
+
+        expect(error).to.be.an.instanceOf(CampaignParticipationDeletedError);
+        expect(error.message).to.equals('Cannot share results on a deleted participation.');
       });
     });
   });
