@@ -33,15 +33,15 @@ function _getParticipantsResultList(campaignId, targetProfile, filters) {
 
 function _getParticipations(qb, campaignId, targetProfile, filters) {
   qb.select(
-    'schooling-registrations.firstName',
-    'schooling-registrations.lastName',
+    'organization-learners.firstName',
+    'organization-learners.lastName',
     'campaign-participations.participantExternalId',
     'campaign-participations.masteryRate',
     'campaign-participations.id AS campaignParticipationId',
     'campaign-participations.userId'
   )
     .from('campaign-participations')
-    .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
+    .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.isImproved', '=', false)
@@ -54,14 +54,14 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
 function _filterByDivisions(qb, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+    qb.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
 }
 
 function _filterByGroups(qb, filters) {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    qb.whereIn(knex.raw('LOWER("schooling-registrations"."group")'), groupsLowerCase);
+    qb.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
   }
 }
 

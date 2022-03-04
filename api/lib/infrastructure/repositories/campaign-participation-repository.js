@@ -8,23 +8,7 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../DomainTransaction');
 
-const _ = require('lodash');
-
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
-
-const ATTRIBUTES_TO_UPDATE = [
-  'createdAt',
-  'participantExternalId',
-  'sharedAt',
-  'status',
-  'campaignId',
-  'userId',
-  'validatedSkillsCount',
-  'pixScore',
-  'status',
-  'masteryRate',
-  'schoolingRegistrationId',
-];
 
 module.exports = {
   async hasAssessmentParticipations(userId) {
@@ -73,18 +57,14 @@ module.exports = {
       .with('campaignParticipationWithUser', (qb) => {
         qb.select([
           'campaign-participations.*',
-          'schooling-registrations.studentNumber',
-          'schooling-registrations.division',
-          'schooling-registrations.group',
-          'schooling-registrations.firstName',
-          'schooling-registrations.lastName',
+          'organization-learners.studentNumber',
+          'organization-learners.division',
+          'organization-learners.group',
+          'organization-learners.firstName',
+          'organization-learners.lastName',
         ])
           .from('campaign-participations')
-          .join(
-            'schooling-registrations',
-            'schooling-registrations.id',
-            'campaign-participations.schoolingRegistrationId'
-          )
+          .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
           .where({ campaignId, isImproved: false });
       })
       .from('campaignParticipationWithUser');
@@ -209,7 +189,18 @@ function _rowToResult(row) {
 }
 
 function _getAttributes(campaignParticipation) {
-  return _.pick(campaignParticipation, ATTRIBUTES_TO_UPDATE);
+  return {
+    createdAt: campaignParticipation.createdAt,
+    participantExternalId: campaignParticipation.participantExternalId,
+    sharedAt: campaignParticipation.sharedAt,
+    status: campaignParticipation.status,
+    campaignId: campaignParticipation.campaignId,
+    userId: campaignParticipation.userId,
+    validatedSkillsCount: campaignParticipation.validatedSkillsCount,
+    pixScore: campaignParticipation.pixScore,
+    masteryRate: campaignParticipation.masteryRate,
+    organizationLearnerId: campaignParticipation.schoolingRegistrationId,
+  };
 }
 
 function mapToParticipationByStatus(row = {}, campaignType) {

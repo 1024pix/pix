@@ -33,11 +33,11 @@ async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber
     : prescriber.memberships[0].organization.id;
   const atLeastOneSchoolingRegistration = await knex('organizations')
     .select('organizations.id')
-    .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
+    .join('organization-learners', 'organization-learners.organizationId', 'organizations.id')
     .where((qb) => {
       qb.where('organizations.id', currentOrganizationId);
       if (settings.features.newYearSchoolingRegistrationsImportDate) {
-        qb.where('schooling-registrations.createdAt', '>=', settings.features.newYearSchoolingRegistrationsImportDate);
+        qb.where('organization-learners.createdAt', '>=', settings.features.newYearSchoolingRegistrationsImportDate);
       }
     })
     .first();

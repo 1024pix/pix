@@ -199,14 +199,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       // when
       await higherSchoolingRegistrationRepository.updateStudentNumber(id, 54321);
-      const [schoolingRegistration] = await knex.select('studentNumber').from('schooling-registrations').where({ id });
+      const [schoolingRegistration] = await knex.select('studentNumber').from('organization-learners').where({ id });
       expect(schoolingRegistration.studentNumber).to.equal('54321');
     });
   });
 
   describe('#addStudents', function () {
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     context('when there is no schooling registrations for the given organizationId and student number', function () {
@@ -233,7 +233,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           higherSchoolingRegistration2,
         ]);
 
-        const results = await knex('schooling-registrations')
+        const results = await knex('organization-learners')
           .select('*', 'status AS studyScheme')
           .where({ organizationId: organization.id })
           .orderBy('studentNumber');
@@ -265,7 +265,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             { ...higherSchoolingRegistration, lastName: 'Ishii updated' },
           ]);
 
-          const results = await knex('schooling-registrations')
+          const results = await knex('organization-learners')
             .select('*', 'status AS studyScheme')
             .where({ organizationId: organization.id })
             .orderBy('studentNumber');
@@ -294,7 +294,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             });
             await higherSchoolingRegistrationRepository.addStudents([higherSchoolingRegistration]);
 
-            const result = await knex('schooling-registrations')
+            const result = await knex('organization-learners')
               .select('isDisabled')
               .where({ organizationId: organization.id })
               .where({ studentNumber: '4' })
@@ -321,7 +321,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           });
           await higherSchoolingRegistrationRepository.addStudents([{ ...higherSchoolingRegistration }]);
 
-          const results = await knex('schooling-registrations')
+          const results = await knex('organization-learners')
             .select('*', 'status AS studyScheme')
             .where({ organizationId: organization2.id })
             .orderBy('studentNumber');
@@ -335,7 +335,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
   describe('#replaceStudents', function () {
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     context('when there is no schooling registrations for the given organizationId and student number', function () {
@@ -362,7 +362,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           higherSchoolingRegistration2,
         ]);
 
-        const results = await knex('schooling-registrations')
+        const results = await knex('organization-learners')
           .select('*', 'status AS studyScheme')
           .where({ organizationId: organization.id })
           .orderBy('studentNumber');
@@ -394,7 +394,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             { ...higherSchoolingRegistration, lastName: 'Ishii updated' },
           ]);
 
-          const results = await knex('schooling-registrations')
+          const results = await knex('organization-learners')
             .select('*', 'status AS studyScheme')
             .where({ organizationId: organization.id })
             .orderBy('studentNumber');
@@ -424,7 +424,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           });
           await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration]);
 
-          const result = await knex('schooling-registrations')
+          const result = await knex('organization-learners')
             .select('isDisabled')
             .where({ organizationId: organization.id })
             .where({ studentNumber: '4' })
@@ -453,7 +453,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           { ...higherSchoolingRegistration },
         ]);
 
-        const results = await knex('schooling-registrations')
+        const results = await knex('organization-learners')
           .select('*', 'status AS studyScheme')
           .where({ organizationId: organization2.id })
           .orderBy('studentNumber');
@@ -482,7 +482,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           });
           await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration]);
 
-          const result = await knex('schooling-registrations')
+          const result = await knex('organization-learners')
             .select('isDisabled', 'updatedAt')
             .where({ studentNumber: '4' })
             .first();
@@ -507,7 +507,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [1]);
         } catch (err) {} // eslint-disable-line no-empty
 
-        const result = await knex('schooling-registrations').select('isDisabled').where({ studentNumber: '4' }).first();
+        const result = await knex('organization-learners').select('isDisabled').where({ studentNumber: '4' }).first();
 
         expect(result.isDisabled).to.be.false;
       });

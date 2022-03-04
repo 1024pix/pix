@@ -24,8 +24,8 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
     .with('campaignProfile', (qb) => {
       qb.select([
         'campaign-participations.userId',
-        'schooling-registrations.firstName',
-        'schooling-registrations.lastName',
+        'organization-learners.firstName',
+        'organization-learners.lastName',
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.campaignId',
         'campaign-participations.createdAt',
@@ -35,11 +35,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         'campaign-participations.pixScore',
       ])
         .from('campaign-participations')
-        .join(
-          'schooling-registrations',
-          'schooling-registrations.id',
-          'campaign-participations.schoolingRegistrationId'
-        )
+        .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
         .where({
           campaignId,
           'campaign-participations.id': campaignParticipationId,

@@ -10,19 +10,15 @@ module.exports = {
           'campaign-participations.*',
           'assessments.state',
           _assessmentRankByCreationDate(),
-          'schooling-registrations.firstName',
-          'schooling-registrations.lastName',
-          'schooling-registrations.studentNumber',
-          'schooling-registrations.division',
-          'schooling-registrations.group',
+          'organization-learners.firstName',
+          'organization-learners.lastName',
+          'organization-learners.studentNumber',
+          'organization-learners.division',
+          'organization-learners.group',
         ])
           .from('campaign-participations')
           .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
-          .join(
-            'schooling-registrations',
-            'schooling-registrations.id',
-            'campaign-participations.schoolingRegistrationId'
-          )
+          .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
           .where({ campaignId: campaignId, isImproved: false });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')

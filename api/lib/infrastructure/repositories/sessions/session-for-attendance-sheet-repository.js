@@ -25,7 +25,7 @@ module.exports = {
         'birthdate', "certification-candidates"."birthdate",
         'externalId', "certification-candidates"."externalId",
         'extraTimePercentage', "certification-candidates"."extraTimePercentage",
-        'division', "schooling-registrations".division)
+        'division', "organization-learners".division)
         order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
         `),
       })
@@ -33,11 +33,7 @@ module.exports = {
       .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
       .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-      .leftJoin(
-        'schooling-registrations',
-        'schooling-registrations.id',
-        'certification-candidates.schoolingRegistrationId'
-      )
+      .leftJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
       .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
       .where({ 'sessions.id': idSession })
       .first();
