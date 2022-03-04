@@ -170,7 +170,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
     afterEach(async function () {
       await knex('authentication-methods').delete();
-      await knex('schooling-registrations').delete();
+      await knex('organization-learners').delete();
       await knex('campaigns').delete();
       await knex('users').delete();
     });
@@ -292,7 +292,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             });
 
             // then
-            const schoolingRegistrationInDB = await knex('schooling-registrations').where({
+            const schoolingRegistrationInDB = await knex('organization-learners').where({
               id: schoolingRegistration.id,
             });
             expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
@@ -345,7 +345,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             });
 
             // then
-            const schoolingRegistrationInDB = await knex('schooling-registrations').where({
+            const schoolingRegistrationInDB = await knex('organization-learners').where({
               id: schoolingRegistration.id,
             });
             expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);

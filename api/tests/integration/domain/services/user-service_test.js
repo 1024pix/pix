@@ -150,7 +150,7 @@ describe('Integration | Domain | Services | user-service', function () {
     });
 
     afterEach(async function () {
-      await knex('schooling-registrations').delete();
+      await knex('organization-learners').delete();
       await knex('authentication-methods').delete();
       await knex('users').delete();
     });
@@ -175,12 +175,12 @@ describe('Integration | Domain | Services | user-service', function () {
 
       it('should update updatedAt column in schooling-registration row', async function () {
         // given
-        await knex('schooling-registrations')
+        await knex('organization-learners')
           .update({ updatedAt: new Date('2019-01-01') })
           .where({ id: schoolingRegistrationId });
         const { updatedAt: beforeUpdatedAt } = await knex
           .select('updatedAt')
-          .from('schooling-registrations')
+          .from('organization-learners')
           .where({ id: schoolingRegistrationId })
           .first();
 
@@ -198,7 +198,7 @@ describe('Integration | Domain | Services | user-service', function () {
         // then
         const { updatedAt: afterUpdatedAt } = await knex
           .select('updatedAt')
-          .from('schooling-registrations')
+          .from('organization-learners')
           .where({ id: schoolingRegistrationId })
           .first();
         expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
@@ -254,7 +254,7 @@ describe('Integration | Domain | Services | user-service', function () {
 
         // then
         expect(error).to.be.instanceOf(SchoolingRegistrationNotFound);
-        const foundSchoolingRegistrations = await knex('schooling-registrations').where('id', schoolingRegistrationId);
+        const foundSchoolingRegistrations = await knex('organization-learners').where('id', schoolingRegistrationId);
         expect(foundSchoolingRegistrations[0].userId).to.equal(userId);
         const foundUser = await knex('users').where({ email: user.email });
         expect(foundUser).to.have.lengthOf(0);

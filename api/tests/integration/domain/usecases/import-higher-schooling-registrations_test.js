@@ -15,7 +15,7 @@ const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumn
 
 describe('Integration | UseCase | ImportHigherSchoolingRegistration', function () {
   afterEach(function () {
-    return knex('schooling-registrations').delete();
+    return knex('organization-learners').delete();
   });
 
   context('when there is no schooling registrations for the organization', function () {
@@ -35,7 +35,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', function (
         higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
       });
 
-      const registrations = await knex('schooling-registrations').where({ organizationId: organization.id });
+      const registrations = await knex('organization-learners').where({ organizationId: organization.id });
       expect(registrations).to.have.lengthOf(2);
     });
   });
@@ -66,7 +66,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', function (
           higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
         });
 
-        const [registration] = await knex('schooling-registrations').where({ organizationId: organization.id });
+        const [registration] = await knex('organization-learners').where({ organizationId: organization.id });
         expect(registration.email).to.equal('thebride@example.net');
       });
     });
