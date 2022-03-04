@@ -328,7 +328,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         .where({ id: campaignParticipationId })
         .first();
 
-      expect(campaignParticipation.schoolingRegistrationId).to.equals(schoolingRegistrationId);
+      expect(campaignParticipation.organizationLearnerId).to.equals(schoolingRegistrationId);
     });
   });
 

@@ -60,7 +60,15 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       });
 
       // then
-      const candidates = await knex('certification-candidates').select();
+      const candidates = await knex('certification-candidates').select([
+        'firstName',
+        'lastName',
+        'birthdate',
+        'sex',
+        'birthINSEECode',
+        'organizationLearnerId AS schoolingRegistrationId',
+        'sessionId',
+      ]);
       const actualCandidates = candidatesToBeCompared(candidates);
       const expectedCandidates = candidatesToBeCompared(scoCandidates);
       expect(actualCandidates).to.exactlyContain(expectedCandidates);

@@ -26,16 +26,16 @@ module.exports = {
     const knexConn = domainTransaction.knexTransaction || knex;
     const results = await knexConn
       .select({
-        nationalStudentId: 'schooling-registrations.nationalStudentId',
+        nationalStudentId: 'organization-learners.nationalStudentId',
         userId: 'users.id',
         updatedAt: 'users.updatedAt',
       })
       .count('certification-courses.id as certificationCount')
-      .from('schooling-registrations')
-      .join('users', 'users.id', 'schooling-registrations.userId')
+      .from('organization-learners')
+      .join('users', 'users.id', 'organization-learners.userId')
       .leftJoin('certification-courses', 'certification-courses.userId', 'users.id')
       .whereIn('nationalStudentId', nationalStudentIds)
-      .groupBy('schooling-registrations.nationalStudentId', 'users.id', 'users.updatedAt')
+      .groupBy('organization-learners.nationalStudentId', 'users.id', 'users.updatedAt')
       .orderBy('users.id');
 
     return this._toStudents(results);

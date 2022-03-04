@@ -208,12 +208,25 @@ module.exports = {
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, [
-    'createdAt',
-    'certificationCourse',
-    'complementaryCertifications',
-    'userId',
-  ]);
+  return {
+    authorizedToStart: certificationCandidateToSave.authorizedToStart,
+    billingMode: certificationCandidateToSave.billingMode,
+    birthCity: certificationCandidateToSave.birthCity,
+    birthCountry: certificationCandidateToSave.birthCountry,
+    birthINSEECode: certificationCandidateToSave.birthINSEECode,
+    birthPostalCode: certificationCandidateToSave.birthPostalCode,
+    birthProvinceCode: certificationCandidateToSave.birthProvinceCode,
+    birthdate: certificationCandidateToSave.birthdate,
+    email: certificationCandidateToSave.email,
+    externalId: certificationCandidateToSave.externalId,
+    extraTimePercentage: certificationCandidateToSave.extraTimePercentage,
+    firstName: certificationCandidateToSave.firstName,
+    lastName: certificationCandidateToSave.lastName,
+    prepaymentCode: certificationCandidateToSave.prepaymentCode,
+    resultRecipientEmail: certificationCandidateToSave.resultRecipientEmail,
+    organizationLearnerId: certificationCandidateToSave.schoolingRegistrationId,
+    sex: certificationCandidateToSave.sex,
+  };
 }
 
 function _toDomain(candidateData) {
@@ -221,5 +234,9 @@ function _toDomain(candidateData) {
     .filter((certificationData) => certificationData !== null)
     .map((certification) => new ComplementaryCertification(certification));
 
-  return new CertificationCandidate({ ...candidateData, complementaryCertifications });
+  return new CertificationCandidate({
+    ...candidateData,
+    schoolingRegistrationId: candidateData.organizationLearnerId,
+    complementaryCertifications,
+  });
 }

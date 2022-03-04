@@ -6,15 +6,15 @@ const CampaignToStartParticipation = require('../../../../lib/domain/models/Camp
 const pick = require('lodash/pick');
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-
-const campaignParticipationAttributes = [
+const campaignParticipationDBAttributes = [
   'id',
   'campaignId',
   'userId',
   'status',
-  'schoolingRegistrationId',
+  'organizationLearnerId AS schoolingRegistrationId',
   'participantExternalId',
 ];
+
 const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', 'isImproving'];
 
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     afterEach(async function () {
       await knex('assessments').delete();
       await knex('campaign-participations').delete();
-      await knex('schooling-registrations').delete();
+      await knex('organization-learners').delete();
     });
 
     it('returns campaign participation id', async function () {
@@ -62,7 +62,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         const campaignParticipation = await knex('campaign-participations')
-          .select(campaignParticipationAttributes)
+          .select(campaignParticipationDBAttributes)
           .first();
 
         expect(campaignParticipation).to.deep.equal(
@@ -107,7 +107,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //THEN
         const campaignParticipation = await knex('campaign-participations')
-          .select(['id', ...campaignParticipationAttributes])
+          .select(['id', ...campaignParticipationDBAttributes])
           .first();
 
         const assessment = await knex('assessments')
@@ -144,8 +144,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         //THEN
-        const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
-        expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+        const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
+        expect(campaignParticipation.organizationLearnerId).to.equal(schoolingRegistrationId);
       });
     });
 
@@ -172,7 +172,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         //THEN
-        const schoolingRegistration = await knex('schooling-registrations')
+        const schoolingRegistration = await knex('organization-learners')
           .select('firstName', 'lastName', 'userId', 'organizationId')
           .first();
 
@@ -205,9 +205,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         //THEN
-        const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
-        const schoolingRegistration = await knex('schooling-registrations').select('id').first();
-        expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistration.id);
+        const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
+        const schoolingRegistration = await knex('organization-learners').select('id').first();
+        expect(campaignParticipation.organizationLearnerId).to.equal(schoolingRegistration.id);
       });
     });
 
@@ -316,7 +316,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         const campaignParticipation = await knex('campaign-participations')
-          .select(campaignParticipationAttributes)
+          .select(campaignParticipationDBAttributes)
           .first();
 
         expect(campaignParticipation).to.deep.equal(
@@ -738,7 +738,14 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
 function getExpectedCampaignParticipation(campaignParticipationId, campaignParticipant) {
   return {
-    ...pick(campaignParticipant.campaignParticipation, campaignParticipationAttributes),
+    ...pick(campaignParticipant.campaignParticipation, [
+      'id',
+      'campaignId',
+      'userId',
+      'status',
+      'schoolingRegistrationId',
+      'participantExternalId',
+    ]),
     id: campaignParticipationId,
   };
 }

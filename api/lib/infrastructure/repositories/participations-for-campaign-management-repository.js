@@ -8,14 +8,14 @@ module.exports = {
     const query = knex('campaign-participations')
       .select({
         id: 'campaign-participations.id',
-        lastName: 'schooling-registrations.lastName',
-        firstName: 'schooling-registrations.firstName',
+        lastName: 'organization-learners.lastName',
+        firstName: 'organization-learners.firstName',
         participantExternalId: 'campaign-participations.participantExternalId',
         status: 'campaign-participations.status',
         createdAt: 'campaign-participations.createdAt',
         sharedAt: 'campaign-participations.sharedAt',
       })
-      .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
+      .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
       .where('campaignId', campaignId)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc']);
 

@@ -104,9 +104,7 @@ module.exports = {
         withRelated: [
           {
             schoolingRegistrations: (query) => {
-              query
-                .leftJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
-                .orderBy('id');
+              query.leftJoin('organizations', 'organization-learners.organizationId', 'organizations.id').orderBy('id');
             },
           },
           'schoolingRegistrations.organization',
