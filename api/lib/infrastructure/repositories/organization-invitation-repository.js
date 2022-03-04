@@ -61,6 +61,7 @@ module.exports = {
       .where({ id })
       .update({
         status: OrganizationInvitation.StatusType.CANCELLED,
+        updatedAt: new Date(),
       })
       .returning('*');
 
