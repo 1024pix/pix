@@ -1037,4 +1037,21 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(result).to.be.equal(serializedMembersIdentities);
     });
   });
+
+  describe('#archiveOrganization', function () {
+    it('should call the usecase to cancel all pending invitations', async function () {
+      // given
+      const organizationId = 1234;
+      const request = { params: { id: organizationId } };
+
+      sinon.stub(usecases, 'archiveOrganization').resolves();
+
+      // when
+      await organizationController.archiveOrganization(request, hFake);
+
+      // then
+      expect(usecases.archiveOrganization).to.have.been.calledOnce;
+      expect(usecases.archiveOrganization).to.have.been.calledWith({ organizationId });
+    });
+  });
 });
