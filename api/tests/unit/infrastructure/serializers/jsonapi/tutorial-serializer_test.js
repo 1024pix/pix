@@ -68,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       expect(result).to.deep.equal(expectedSerializedResult);
     });
 
-    it('should return a serialized JSON data object, with userTutorial related to', function () {
+    it('should return a serialized JSON data object, with userSavedTutorial related to', function () {
       // given
       const userId = 456;
       const tutorialId = 123;
