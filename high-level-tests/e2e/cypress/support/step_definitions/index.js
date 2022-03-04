@@ -8,7 +8,7 @@ Given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'target-profiles');
   cy.task('db:fixture', 'target-profiles_skills');
   cy.task('db:fixture', 'campaigns');
-  cy.task('db:fixture', 'schooling-registrations');
+  cy.task('db:fixture', 'organization-learners');
   cy.task('db:fixture', 'campaign-participations');
   cy.task('db:fixture', 'certification-centers');
   cy.task('db:fixture', 'sessions');
