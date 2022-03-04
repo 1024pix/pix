@@ -1253,6 +1253,67 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
+  describe('PUT /api/admin/organizations/{id}/archived', function () {
+    it('should cancel all pending invitations and return a 204', async function () {
+      // given
+      const adminUser = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.buildMembership({
+        userId: adminUser.id,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.ACCEPTED,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.CANCELLED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'PUT',
+        url: `/api/admin/organizations/${organizationId}/archived`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(adminUser.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      const pendingInvitations = await knex('organization-invitations').where({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+      const cancelledInvitations = await knex('organization-invitations').where({
+        organizationId,
+        status: OrganizationInvitation.StatusType.CANCELLED,
+      });
+      expect(pendingInvitations).to.have.lengthOf(0);
+      expect(cancelledInvitations).to.have.lengthOf(4);
+    });
+  });
+
   describe('GET /api/organizations/{id}/target-profiles', function () {
     context('when user is authenticated', function () {
       let user;
