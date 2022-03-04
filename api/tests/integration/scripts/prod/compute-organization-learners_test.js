@@ -4,7 +4,7 @@ const computeOrganizationLearners = require('../../../../scripts/prod/compute-or
 describe('computeOrganizationLearners', function () {
   afterEach(async function () {
     await knex('campaign-participations').delete();
-    await knex('schooling-registrations').delete();
+    await knex('organization-learners').delete();
   });
 
   it('does not update campaign participation already linked', async function () {
@@ -20,9 +20,9 @@ describe('computeOrganizationLearners', function () {
     await databaseBuilder.commit();
 
     await computeOrganizationLearners(1, false);
-    const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+    const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
 
-    expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+    expect(campaignParticipation.organizationLearnerId).to.equal(schoolingRegistrationId);
   });
 
   it('does not update campaign participation with schooling registration in another organization', async function () {
@@ -43,10 +43,10 @@ describe('computeOrganizationLearners', function () {
 
     await computeOrganizationLearners(1, false);
 
-    const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
-    const schoolingRegistration = await knex('schooling-registrations')
+    const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
+    const schoolingRegistration = await knex('organization-learners')
       .select('organizationId')
-      .where({ id: campaignParticipation.schoolingRegistrationId })
+      .where({ id: campaignParticipation.organizationLearnerId })
       .first();
     expect(schoolingRegistration.organizationId).to.equal(organizationId);
   });
@@ -69,10 +69,10 @@ describe('computeOrganizationLearners', function () {
 
     await computeOrganizationLearners(1, false);
 
-    const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
-    const schoolingRegistration = await knex('schooling-registrations')
+    const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
+    const schoolingRegistration = await knex('organization-learners')
       .select('userId')
-      .where({ id: campaignParticipation.schoolingRegistrationId })
+      .where({ id: campaignParticipation.organizationLearnerId })
       .first();
     expect(schoolingRegistration.userId).to.equal(userId);
   });
@@ -87,16 +87,16 @@ describe('computeOrganizationLearners', function () {
         campaignId,
         schoolingRegistrationId: null,
       });
-      const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildSchoolingRegistration({
         userId,
         organizationId,
       });
       await databaseBuilder.commit();
 
       await computeOrganizationLearners(1, false);
-      const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+      const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
 
-      expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+      expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearnerId);
     });
   });
 
@@ -113,7 +113,7 @@ describe('computeOrganizationLearners', function () {
       await databaseBuilder.commit();
 
       await computeOrganizationLearners(1, false);
-      const schoolingRegistration = await knex('schooling-registrations')
+      const schoolingRegistration = await knex('organization-learners')
         .select('userId', 'organizationId', 'firstName', 'lastName')
         .first();
 
@@ -135,10 +135,10 @@ describe('computeOrganizationLearners', function () {
       await databaseBuilder.commit();
 
       await computeOrganizationLearners(1, false);
-      const schoolingRegistration = await knex('schooling-registrations').select('id').first();
-      const campaignParticipation = await knex('campaign-participations').select('schoolingRegistrationId').first();
+      const schoolingRegistration = await knex('organization-learners').select('id').first();
+      const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
 
-      expect(campaignParticipation.schoolingRegistrationId).to.equal(schoolingRegistration.id);
+      expect(campaignParticipation.organizationLearnerId).to.equal(schoolingRegistration.id);
     });
 
     context('when organization is managing students', function () {
@@ -154,7 +154,7 @@ describe('computeOrganizationLearners', function () {
         await databaseBuilder.commit();
 
         await computeOrganizationLearners(1, false);
-        const schoolingRegistration = await knex('schooling-registrations').select('isDisabled').first();
+        const schoolingRegistration = await knex('organization-learners').select('isDisabled').first();
 
         expect(schoolingRegistration.isDisabled).to.be.true;
       });
@@ -173,7 +173,7 @@ describe('computeOrganizationLearners', function () {
         await databaseBuilder.commit();
 
         await computeOrganizationLearners(1, false);
-        const schoolingRegistration = await knex('schooling-registrations').select('isDisabled').first();
+        const schoolingRegistration = await knex('organization-learners').select('isDisabled').first();
 
         expect(schoolingRegistration.isDisabled).to.be.false;
       });
@@ -190,7 +190,7 @@ describe('computeOrganizationLearners', function () {
         campaignId,
         schoolingRegistrationId: null,
       });
-      const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildSchoolingRegistration({
         userId,
         organizationId,
       });
@@ -201,7 +201,7 @@ describe('computeOrganizationLearners', function () {
         campaignId,
         schoolingRegistrationId: null,
       });
-      const { id: schoolingRegistrationId2 } = databaseBuilder.factory.buildSchoolingRegistration({
+      const { id: organizationLearnerId2 } = databaseBuilder.factory.buildSchoolingRegistration({
         userId: userId2,
         organizationId,
       });
@@ -210,12 +210,12 @@ describe('computeOrganizationLearners', function () {
 
       await computeOrganizationLearners(1, false);
       const campaignParticipations = await knex('campaign-participations')
-        .select('schoolingRegistrationId')
+        .select('organizationLearnerId')
         .orderBy('id');
 
       expect(campaignParticipations).to.deep.equal([
-        { schoolingRegistrationId },
-        { schoolingRegistrationId: schoolingRegistrationId2 },
+        { organizationLearnerId },
+        { organizationLearnerId: organizationLearnerId2 },
       ]);
     });
 
@@ -240,11 +240,11 @@ describe('computeOrganizationLearners', function () {
 
       await computeOrganizationLearners(1, false);
       const campaignParticipations = await knex('campaign-participations')
-        .select('schoolingRegistrationId')
+        .select('organizationLearnerId')
         .orderBy('id');
-      const { id: schoolingRegistrationId } = await knex('schooling-registrations').select('id').first();
+      const { id: organizationLearnerId } = await knex('organization-learners').select('id').first();
 
-      expect(campaignParticipations).to.deep.equal([{ schoolingRegistrationId }, { schoolingRegistrationId }]);
+      expect(campaignParticipations).to.deep.equal([{ organizationLearnerId }, { organizationLearnerId }]);
     });
   });
 });

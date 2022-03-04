@@ -22,12 +22,12 @@ async function computeOrganizationLearners(concurrency = 1, log = true) {
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('users', 'users.id', 'campaign-participations.userId')
     .join('organizations', 'organizations.id', 'campaigns.organizationId')
-    .leftJoin('schooling-registrations', function () {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-        'campaigns.organizationId': 'schooling-registrations.organizationId',
+    .leftJoin('organization-learners', function () {
+      this.on({ 'campaign-participations.userId': 'organization-learners.userId' }).andOn({
+        'campaigns.organizationId': 'organization-learners.organizationId',
       });
     })
-    .where({ 'campaign-participations.schoolingRegistrationId': null })
+    .where({ 'campaign-participations.organizationLearnerId': null })
     .groupBy('campaigns.organizationId', 'organizations.isManagingStudents');
   count = 0;
   total = campaignParticipationsByOrganizations.length;
@@ -80,11 +80,11 @@ async function _getOrCreateLearner({
     return schoolingRegistration.id;
   }
 
-  const [newlyCreatedSchoolingRegistrationId] = await domainTransaction
-    .knexTransaction('schooling-registrations')
+  const [newlyCreatedOrganizationLearnerId] = await domainTransaction
+    .knexTransaction('organization-learners')
     .insert({ userId, organizationId, firstName, lastName, isDisabled: organizationIsManagingStudents })
     .returning('id');
-  return newlyCreatedSchoolingRegistrationId;
+  return newlyCreatedOrganizationLearnerId;
 }
 
 module.exports = computeOrganizationLearners;
