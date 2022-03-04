@@ -10,7 +10,6 @@ describe('Unit | UseCase | cancel-organization-invitation', function () {
     organizationInvitationRepository = {
       get: sinon.stub(),
       markAsCancelled: sinon.stub(),
-      updateModificationDate: sinon.stub(),
     };
   });
 
@@ -49,27 +48,28 @@ describe('Unit | UseCase | cancel-organization-invitation', function () {
     });
 
     context('when invitation is pending', function () {
-      it('should cancel organization invitation and update modification date', async function () {
+      it('should return the cancelled organization invitation', async function () {
         // given
         const status = OrganizationInvitation.StatusType.PENDING;
         const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
         const organizationInvitationId = organizationInvitation.id;
+        const cancelledOrganizationInvitation = Symbol('the cancelled invitation');
 
         organizationInvitationRepository.get.resolves(organizationInvitation);
+        organizationInvitationRepository.markAsCancelled
+          .withArgs({
+            id: organizationInvitationId,
+          })
+          .resolves(cancelledOrganizationInvitation);
 
         // when
-        await cancelOrganizationInvitation({
+        const result = await cancelOrganizationInvitation({
           organizationInvitationId,
           organizationInvitationRepository,
         });
 
         // then
-        expect(organizationInvitationRepository.markAsCancelled).to.have.been.calledWith({
-          id: organizationInvitationId,
-        });
-        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitationId
-        );
+        expect(result).to.be.equal(cancelledOrganizationInvitation);
       });
     });
   });
