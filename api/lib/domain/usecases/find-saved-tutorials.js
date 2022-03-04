@@ -1,21 +1,18 @@
-module.exports = async function findSavedTutorials({
-  tutorialEvaluationRepository,
-  userTutorialRepository,
-  userId,
-} = {}) {
+module.exports = async function findSavedTutorials({ tutorialEvaluationRepository, tutorialRepository, userId } = {}) {
   const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-  const userTutorialsWithTutorial = await userTutorialRepository.findWithTutorial({ userId });
-  return userTutorialsWithTutorial.map(_retrieveTutorialEvaluations(tutorialEvaluations));
+  const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+  return tutorialWithUserSavedTutorial.map(_setTutorialEvaluation(tutorialEvaluations));
 };
 
-function _retrieveTutorialEvaluations(tutorialEvaluations) {
-  return (userTutorial) => {
+function _setTutorialEvaluation(tutorialEvaluations) {
+  return (tutorialWithUserSavedTutorial) => {
     const tutorialEvaluation = tutorialEvaluations.find(
-      (tutorialEvaluation) => tutorialEvaluation.tutorialId === userTutorial.tutorial.id
+      (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorialWithUserSavedTutorial.id
     );
-    if (tutorialEvaluation) {
-      userTutorial.tutorial.tutorialEvaluation = tutorialEvaluation;
-    }
-    return userTutorial;
+    if (!tutorialEvaluation) return tutorialWithUserSavedTutorial;
+    return {
+      ...tutorialWithUserSavedTutorial,
+      tutorialEvaluation,
+    };
   };
 }
