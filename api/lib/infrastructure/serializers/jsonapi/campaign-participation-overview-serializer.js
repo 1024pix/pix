@@ -16,7 +16,7 @@ module.exports = {
         'status',
         'campaignCode',
         'campaignTitle',
-        'campaignArchivedAt',
+        'disabledAt',
         'masteryRate',
         'validatedStagesCount',
         'totalStagesCount',
