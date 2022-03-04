@@ -36,7 +36,7 @@ module.exports = function buildAccountRecoveryDemand({
   const values = {
     id,
     userId: actualUserId,
-    schoolingRegistrationId: actualSchoolingRegistrationId,
+    organizationLearnerId: actualSchoolingRegistrationId,
     oldEmail,
     newEmail,
     temporaryKey,
@@ -45,8 +45,20 @@ module.exports = function buildAccountRecoveryDemand({
     updatedAt,
   };
 
-  return databaseBuffer.pushInsertable({
+  databaseBuffer.pushInsertable({
     tableName: 'account-recovery-demands',
     values,
   });
+
+  return {
+    id,
+    userId: actualUserId,
+    schoolingRegistrationId: actualSchoolingRegistrationId,
+    oldEmail,
+    newEmail,
+    temporaryKey,
+    used,
+    createdAt,
+    updatedAt,
+  };
 };
