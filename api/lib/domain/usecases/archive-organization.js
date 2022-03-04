@@ -5,6 +5,5 @@ module.exports = async function archiveOrganization({ organizationId, organizati
 
   await bluebird.mapSeries(pendingInvitations, async (invitation) => {
     await organizationInvitationRepository.markAsCancelled({ id: invitation.id });
-    await organizationInvitationRepository.updateModificationDate(invitation.id);
   });
 };

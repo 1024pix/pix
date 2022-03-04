@@ -9,7 +9,6 @@ describe('Unit | UseCase | archive-organization', function () {
     organizationInvitationRepository = {
       findPendingByOrganizationId: sinon.stub(),
       markAsCancelled: sinon.stub(),
-      updateModificationDate: sinon.stub(),
     };
   });
 
@@ -43,10 +42,6 @@ describe('Unit | UseCase | archive-organization', function () {
       expect(organizationInvitationRepository.markAsCancelled).to.have.been.calledWith({
         id: 3,
       });
-      expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledThrice;
-      expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(1);
-      expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(2);
-      expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(3);
     });
   });
 });
