@@ -42,7 +42,7 @@ module('Integration | Component | member-item', function (hooks) {
     test('it should display save and cancel button', async function (assert) {
       // then
       assert.contains('Enregistrer');
-      assert.dom('button[aria-label="Annuler"]');
+      assert.dom('button[aria-label="Annuler"]').exists();
     });
 
     test('it should display the options when select is open', async function (assert) {
