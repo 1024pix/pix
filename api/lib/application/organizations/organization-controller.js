@@ -308,4 +308,10 @@ module.exports = {
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
   },
+
+  async archiveOrganization(request) {
+    const organizationId = request.params.id;
+    await usecases.archiveOrganization({ organizationId });
+    return null;
+  },
 };
