@@ -8,15 +8,20 @@ module.exports = async function addCertificationCandidateToSession({
   sessionId,
   certificationCandidate,
   complementaryCertifications,
+  sessionRepository,
   certificationCandidateRepository,
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
+  const isSessionCertificationCenterScoNonManagingStudent =
+    await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
+      sessionId,
+    });
 
   try {
-    certificationCandidate.validate();
+    certificationCandidate.validate(isSessionCertificationCenterScoNonManagingStudent);
   } catch (error) {
     throw CertificationCandidateAddError.fromInvalidCertificationCandidateError(error);
   }
