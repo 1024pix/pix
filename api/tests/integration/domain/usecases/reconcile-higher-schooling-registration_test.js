@@ -100,7 +100,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
           });
 
           // then
-          const [schoolingRegistration] = await knex('schooling-registrations');
+          const [schoolingRegistration] = await knex('organization-learners');
           expect(schoolingRegistration.userId).to.equal(userId);
           expect(schoolingRegistration.firstName).to.equal('first name');
         });

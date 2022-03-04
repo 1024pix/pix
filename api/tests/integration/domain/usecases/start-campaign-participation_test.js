@@ -7,7 +7,7 @@ describe('Integration | UseCases | startCampaignParticipation', function () {
   afterEach(async function () {
     await knex('assessments').delete();
     await knex('campaign-participations').delete();
-    await knex('schooling-registrations').delete();
+    await knex('organization-learners').delete();
   });
 
   it('start a new participation', async function () {
