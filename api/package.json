@@ -77,7 +77,7 @@
     "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "@ls-lint/ls-lint": "^1.10.0",
+    "@ls-lint/ls-lint": "^1.11.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
