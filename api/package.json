@@ -40,7 +40,7 @@
     "hash-int": "^1.0.0",
     "i18n": "^0.14.2",
     "iconv-lite": "^0.6.3",
-    "joi": "^17.4.2",
+    "joi": "^17.6.0",
     "js-yaml": "^4.1.0",
     "json2csv": "^5.0.6",
     "jsonapi-serializer": "^3.6.7",
