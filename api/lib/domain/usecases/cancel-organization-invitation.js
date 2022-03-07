@@ -10,6 +10,5 @@ module.exports = async function cancelOrganizationInvitation({
     throw new UncancellableOrganizationInvitationError();
   }
 
-  await organizationInvitationRepository.markAsCancelled({ id: organizationInvitationId });
-  return await organizationInvitationRepository.updateModificationDate(organizationInvitationId);
+  return await organizationInvitationRepository.markAsCancelled({ id: organizationInvitationId });
 };
