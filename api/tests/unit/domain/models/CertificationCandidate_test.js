@@ -230,24 +230,22 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     context('when isCertificationBillingEnabled feature toggle is on', function () {
       context('when the certification center is SCO', function () {
-        context('when the certification center is not managing students', function () {
-          context('when the billing mode is null', function () {
-            it('should not throw an error', async function () {
-              // given
-              sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
-              const certificationCandidate = domainBuilder.buildCertificationCandidate({
-                billingMode: null,
-              });
-              const isSessionCertificationCenterScoNonManagingStudent = true;
-
-              // when
-              const call = () => {
-                certificationCandidate.validate(isSessionCertificationCenterScoNonManagingStudent);
-              };
-
-              // then
-              expect(call).to.not.throw();
+        context('when the billing mode is null', function () {
+          it('should not throw an error', async function () {
+            // given
+            sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              billingMode: null,
             });
+            const isSco = true;
+
+            // when
+            const call = () => {
+              certificationCandidate.validate(isSco);
+            };
+
+            // then
+            expect(call).to.not.throw();
           });
         });
 
@@ -255,16 +253,13 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           it('should throw an error if billingMode is null', async function () {
             // given
             sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
-            const isSessionCertificationCenterScoNonManagingStudent = false;
+            const isSco = false;
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               billingMode: null,
             });
 
             // when
-            const error = await catchErr(
-              certificationCandidate.validate,
-              certificationCandidate
-            )(isSessionCertificationCenterScoNonManagingStudent);
+            const error = await catchErr(certificationCandidate.validate, certificationCandidate)(isSco);
 
             // then
             expect(error).to.be.instanceOf(InvalidCertificationCandidate);
@@ -278,13 +273,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               billingMode: 'NOT_ALLOWED_VALUE',
             });
-            const isSessionCertificationCenterScoNonManagingStudent = false;
+            const isSco = false;
 
             // when
-            const error = await catchErr(
-              certificationCandidate.validate,
-              certificationCandidate
-            )(isSessionCertificationCenterScoNonManagingStudent);
+            const error = await catchErr(certificationCandidate.validate, certificationCandidate)(isSco);
 
             // then
             expect(error).to.be.instanceOf(InvalidCertificationCandidate);

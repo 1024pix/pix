@@ -15,13 +15,10 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCpfCityRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
-  const isSessionCertificationCenterScoNonManagingStudent =
-    await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
-      sessionId,
-    });
+  const isSco = await sessionRepository.isSco({ sessionId });
 
   try {
-    certificationCandidate.validate(isSessionCertificationCenterScoNonManagingStudent);
+    certificationCandidate.validate(isSco);
   } catch (error) {
     throw CertificationCandidateAddError.fromInvalidCertificationCandidateError(error);
   }
