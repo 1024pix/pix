@@ -2,20 +2,12 @@ const { checkEventTypes } = require('./check-event-types');
 const bluebird = require('bluebird');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted');
-const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
+const PixPlusDroitCertificationScoring = require('../models/PixPlusDroitCertificationScoring');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 const { PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
 const { featureToggles } = require('../../config');
-const {
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../models/Badge').keys;
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
@@ -24,23 +16,15 @@ async function _isAllowedToBeScored({
   certificationCourseId,
   complementaryCertificationCourseRepository,
 }) {
-  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    if (certifiableBadgeKey === PIX_DROIT_MAITRE_CERTIF || certifiableBadgeKey === PIX_DROIT_EXPERT_CERTIF) {
-      return await complementaryCertificationCourseRepository.hasComplementaryCertification({
-        certificationCourseId,
-        complementaryCertificationName: PIX_PLUS_DROIT,
-      });
-    } else if (
-      certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-      certifiableBadgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
-    ) {
-      return true;
-    }
-
+  if (![PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(certifiableBadgeKey)) {
     return false;
+  }
+
+  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
+    return await complementaryCertificationCourseRepository.hasComplementaryCertification({
+      certificationCourseId,
+      complementaryCertificationName: PIX_PLUS_DROIT,
+    });
   }
 
   return true;
@@ -60,7 +44,7 @@ async function _allowedToBeScoredBadgeKeys({
   );
 }
 
-async function handlePixPlusCertificationsScoring({
+async function handlePixPlusDroitCertificationsScoring({
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
@@ -82,18 +66,18 @@ async function handlePixPlusCertificationsScoring({
     const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
       certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey);
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
-    const pixPlusCertificationScoring = _buildPixPlusCertificationScoring(
+    const pixPlusDroitCertificationScoring = _buildPixPlusDroitCertificationScoring(
       certificationCourseId,
       pixPlusChallenges,
       pixPlusAnswers,
       certifiableBadgeKey,
       assessmentResult
     );
-    await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring });
+    await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusDroitCertificationScoring });
   }
 }
 
-function _buildPixPlusCertificationScoring(
+function _buildPixPlusDroitCertificationScoring(
   certificationCourseId,
   challenges,
   answers,
@@ -105,7 +89,8 @@ function _buildPixPlusCertificationScoring(
     numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),
     numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
   });
-  return new PixPlusCertificationScoring({
+
+  return new PixPlusDroitCertificationScoring({
     certificationCourseId,
     reproducibilityRate,
     certifiableBadgeKey,
@@ -113,5 +98,5 @@ function _buildPixPlusCertificationScoring(
   });
 }
 
-handlePixPlusCertificationsScoring.eventTypes = eventTypes;
-module.exports = handlePixPlusCertificationsScoring;
+handlePixPlusDroitCertificationsScoring.eventTypes = eventTypes;
+module.exports = handlePixPlusDroitCertificationsScoring;

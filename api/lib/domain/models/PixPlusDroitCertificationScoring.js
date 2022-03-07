@@ -1,6 +1,6 @@
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 
-class PixPlusCertificationScoring extends PartnerCertificationScoring {
+class PixPlusDroitCertificationScoring extends PartnerCertificationScoring {
   constructor({ certificationCourseId, certifiableBadgeKey, reproducibilityRate, hasAcquiredPixCertification } = {}) {
     super({
       certificationCourseId,
@@ -16,4 +16,4 @@ class PixPlusCertificationScoring extends PartnerCertificationScoring {
   }
 }
 
-module.exports = PixPlusCertificationScoring;
+module.exports = PixPlusDroitCertificationScoring;
