@@ -84,11 +84,6 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
                   related: `/api/users/${userModelObject.id}/scorecards`,
                 },
               },
-              'campaign-participations': {
-                links: {
-                  related: `/api/users/${userModelObject.id}/campaign-participations`,
-                },
-              },
               'is-certifiable': {
                 links: {
                   related: `/api/users/${userModelObject.id}/is-certifiable`,

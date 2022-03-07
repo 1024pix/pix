@@ -87,11 +87,6 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
                 related: `/api/users/${user.id}/scorecards`,
               },
             },
-            'campaign-participations': {
-              links: {
-                related: `/api/users/${user.id}/campaign-participations`,
-              },
-            },
             'is-certifiable': {
               links: {
                 related: `/api/users/${user.id}/is-certifiable`,

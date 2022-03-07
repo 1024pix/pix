@@ -24,7 +24,6 @@ module.exports = {
         'pixScore',
         'scorecards',
         'profile',
-        'campaignParticipations',
         'hasSeenAssessmentInstructions',
         'isCertifiable',
         'hasSeenNewDashboardInfo',
@@ -75,15 +74,6 @@ module.exports = {
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/users/${parent.id}/profile`;
-          },
-        },
-      },
-      campaignParticipations: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/users/${parent.id}/campaign-participations`;
           },
         },
       },
