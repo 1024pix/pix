@@ -1218,7 +1218,6 @@
         "send": "J'envoie mes résultats"
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
-      "archived": "Ce parcours a été archivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible.",
       "badge-card": {
         "acquired": "Obtenu",
         "not-acquired": "Non obtenu"
@@ -1232,6 +1231,7 @@
         "result-by-skill": "Votre résultat pour la compétence",
         "percentage": "{rate, number, ::percent}"
       },
+      "disabled-share": "Ce parcours a été désactivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible.",
       "error": "Oups, une erreur est survenue !",
       "improve": {
         "title": "Envie d'améliorer vos résultats ?",
