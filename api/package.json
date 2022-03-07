@@ -18,7 +18,7 @@
   "dependencies": {
     "@hapi/accept": "^5.0.2",
     "@hapi/hapi": "^20.2.1",
-    "@hapi/inert": "^6.0.4",
+    "@hapi/inert": "^6.0.5",
     "@hapi/oppsy": "^3.0.0",
     "@hapi/vision": "^6.1.0",
     "@joi/date": "^2.1.0",
