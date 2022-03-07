@@ -159,9 +159,12 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
   });
 
   describe('#markAsCancelled', function () {
-    it('should return an Organization-invitation domain object', async function () {
+    it('should return the cancelled organization invitation', async function () {
       // given
+      const now = new Date('2021-01-02');
+      const clock = sinon.useFakeTimers(now);
       const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        updatedAt: new Date('2020-01-01T00:00:00Z'),
         status: OrganizationInvitation.StatusType.PENDING,
       });
       await databaseBuilder.commit();
@@ -178,6 +181,8 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(organizationInvitationSaved.email).to.equal(organizationInvitation.email);
       expect(organizationInvitationSaved.status).to.equal(OrganizationInvitation.StatusType.CANCELLED);
       expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
+      expect(organizationInvitationSaved.updatedAt).to.be.deep.equal(now);
+      clock.restore();
     });
 
     it('should throw a not found error', async function () {
