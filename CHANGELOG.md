@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.180.0 (07/03/2022)
+
+
+### :rocket: Amélioration
+- [#4169](https://github.com/1024pix/pix/pull/4169) [FEATURE] Annule toutes les invitations en attente en archivant une organisation (PIX-4281). 
+- [#4088](https://github.com/1024pix/pix/pull/4088) [FEATURE] Afficher des statistiques de participations à une campagne dans le détail d'une campagne dans Pix Admin(PIX-4362).
+- [#4157](https://github.com/1024pix/pix/pull/4157) [FEATURE] Voir si une organisation est archivée et qui a fait l'action d'archivage dans Pix Admin (PIX-4186).
+
+### :building_construction: Tech
+- [#4172](https://github.com/1024pix/pix/pull/4172) [TECH] Refacto mettre à jour la date de modification dès qu'on annule une invitation
+- [#4159](https://github.com/1024pix/pix/pull/4159) [TECH] Utiliser la bonne erreur dans les tests de l'use-case add-tutorial-evaluation. 
+- [#4160](https://github.com/1024pix/pix/pull/4160) [TECH] Ajouter les informations de suppression sur une participation à une campagne (PIX-4435)
+
+### :bug: Correction
+- [#4166](https://github.com/1024pix/pix/pull/4166) [BUGFIX] L'inscription de candidats est rejetée sur un centre SCO qui ne gère pas de liste d'élèves parce que la facturation n'est pas renseignée (PIX-4500).
+- [#4165](https://github.com/1024pix/pix/pull/4165) [BUGFIX] Enlever le message du focus apparaissant sur certains challenges libres (PIX-4471)
+- [#4156](https://github.com/1024pix/pix/pull/4156) [BUGFIX] Pouvoir revoir le détail des tutos enregistrés sur la route v2
+
 ## v3.179.0 (03/03/2022)
 
 
