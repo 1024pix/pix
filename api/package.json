@@ -68,7 +68,7 @@
     "sharp": "^0.30.2",
     "sib-api-v3-sdk": "^8.2.1",
     "uuid": "^8.3.2",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "xlsx": "^0.16.1",
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.4.23",
