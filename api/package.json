@@ -74,7 +74,7 @@
     "xml2js": "^0.4.23",
     "xmldom": "^0.6.0",
     "xregexp": "^5.1.0",
-    "yargs": "^17.2.1"
+    "yargs": "^17.3.1"
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "^1.11.0",
