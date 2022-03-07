@@ -7,6 +7,7 @@ const {
   PROBLEMS_FINALIZED_SESSION_ID,
   PUBLISHED_SESSION_ID,
   PUBLISHED_SCO_SESSION_ID,
+  SCO_NO_MANAGING_STUDENTS_AEFE_SESSION_ID,
   PIX_DROIT_SESSION_ID,
   COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 } = require('./certification-sessions-builder');
@@ -18,7 +19,8 @@ const {
 } = require('./users');
 const {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID } = require('./certification-centers-builder');
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+} = require('./certification-centers-builder');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { BILLING_MODES } = require('../../../../lib/domain/models/CertificationCandidate');
 
@@ -196,6 +198,13 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildCertificationCandidate({
     id: SUCCESS_SCO_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataSuccessWithUserSco,
     sessionId,
+  });
+
+  databaseBuilder.factory.buildCertificationCandidate({
+    firstName: 'John',
+    lastName: 'Doe',
+    sessionId: SCO_NO_MANAGING_STUDENTS_AEFE_SESSION_ID,
+    userId: null,
   });
 
   // Candidates for Pix+Droit certification

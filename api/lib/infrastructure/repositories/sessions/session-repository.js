@@ -5,6 +5,7 @@ const BookshelfSession = require('../../orm-models/Session');
 const bookshelfToDomainConverter = require('../../utils/bookshelf-to-domain-converter');
 const { NotFoundError } = require('../../../domain/errors');
 const Session = require('../../../domain/models/Session');
+const CertificationCenter = require('../../../domain/models/CertificationCenter');
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 
 module.exports = {
@@ -129,6 +130,17 @@ module.exports = {
     let publishedSession = await new BookshelfSession({ id }).save({ publishedAt }, { patch: true });
     publishedSession = await publishedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
+  },
+
+  async isSco({ sessionId }) {
+    const result = await knex
+      .select('certification-centers.type')
+      .from('sessions')
+      .where('sessions.id', '=', sessionId)
+      .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+      .first();
+
+    return result.type === CertificationCenter.types.SCO;
   },
 };
 
