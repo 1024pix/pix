@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
     beforeEach(function () {
       const isCampaignMultipleSendings = true;
       const isRegistrationActive = true;
+      const isCampaignArchived = false;
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({
           skillId: 'skill1',
@@ -32,6 +33,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         participantExternalId: 'greg@lafleche.fr',
         masteryRate: 0.5,
         estimatedFlashLevel: -2.4672347856,
+        isDeleted: false,
       };
 
       const competences = [
@@ -68,7 +70,8 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         participationResults,
         targetProfile,
         isCampaignMultipleSendings,
-        isRegistrationActive
+        isRegistrationActive,
+        isCampaignArchived
       );
     });
 
@@ -85,6 +88,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'stage-count': 3,
             'can-retry': true,
             'can-improve': false,
+            'is-disabled': false,
             'participant-external-id': 'greg@lafleche.fr',
             'estimated-flash-level': -2.4672347856,
           },

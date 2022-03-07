@@ -197,6 +197,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             'stage-count': 2,
             'can-retry': false,
             'can-improve': false,
+            'is-disabled': false,
             'participant-external-id': 'participantExternalId',
             'estimated-flash-level': undefined,
           },

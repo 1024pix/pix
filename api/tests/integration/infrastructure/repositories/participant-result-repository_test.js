@@ -267,6 +267,79 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       });
     });
 
+    context('computes isDisabled', function () {
+      it('returns true when campaign is archived', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          archivedAt: new Date(),
+        });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          deletedAt: null,
+        });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          locale: 'FR',
+        });
+
+        // then
+        expect(participantResult).to.contain({ isDisabled: true });
+      });
+
+      it('returns true when participation is deleted', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ archivedAt: null });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          deletedAt: new Date(),
+        });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          locale: 'FR',
+        });
+
+        // then
+        expect(participantResult).to.contain({ isDisabled: true });
+      });
+
+      it('returns false when campaign is not archived and participation is not deleted', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ archivedAt: null });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          deletedAt: null,
+        });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          locale: 'FR',
+        });
+
+        // then
+        expect(participantResult).to.contain({ isDisabled: false });
+      });
+    });
+
     it('compute the number of skills, the number of skill tested and the number of skill validated', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });

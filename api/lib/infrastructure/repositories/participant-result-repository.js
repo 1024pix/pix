@@ -10,14 +10,22 @@ const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, locale }) {
-    const [participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive] = await Promise.all([
-      _getParticipationResults(userId, campaignId),
-      _getTargetProfile(campaignId, locale),
-      _isCampaignMultipleSendings(campaignId),
-      _isRegistrationActive(userId, campaignId),
-    ]);
+    const [participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive, isCampaignArchived] =
+      await Promise.all([
+        _getParticipationResults(userId, campaignId),
+        _getTargetProfile(campaignId, locale),
+        _isCampaignMultipleSendings(campaignId),
+        _isRegistrationActive(userId, campaignId),
+        _isCampaignArchived(campaignId),
+      ]);
 
-    return new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
+    return new AssessmentResult(
+      participationResults,
+      targetProfile,
+      isCampaignMultipleSendings,
+      isRegistrationActive,
+      isCampaignArchived
+    );
   },
 };
 
@@ -31,6 +39,7 @@ async function _getParticipationResults(userId, campaignId) {
     masteryRate,
     isFlash,
     assessmentId,
+    isDeleted,
   } = await _getParticipationAttributes(userId, campaignId);
 
   const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
@@ -50,6 +59,7 @@ async function _getParticipationResults(userId, campaignId) {
     masteryRate,
     acquiredBadgeIds: acquiredBadgeIds.map(({ badgeId }) => badgeId),
     estimatedFlashLevel,
+    isDeleted,
   };
 }
 
@@ -64,6 +74,7 @@ async function _getParticipationAttributes(userId, campaignId) {
       knex.raw('CAST("masteryRate" AS FLOAT)'),
       'method',
       'assessments.id AS assessmentId',
+      'deletedAt',
     ])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
@@ -85,6 +96,7 @@ async function _getParticipationAttributes(userId, campaignId) {
     masteryRate,
     method,
     assessmentId,
+    deletedAt,
   } = participationAttributes;
 
   return {
@@ -96,6 +108,7 @@ async function _getParticipationAttributes(userId, campaignId) {
     masteryRate,
     isFlash: method === Assessment.methods.FLASH,
     assessmentId,
+    isDeleted: Boolean(deletedAt),
   };
 }
 
@@ -183,6 +196,11 @@ async function _findTargetedSkillIds(targetProfileId) {
 async function _isCampaignMultipleSendings(campaignId) {
   const campaign = await knex('campaigns').select('multipleSendings').where({ 'campaigns.id': campaignId }).first();
   return campaign.multipleSendings;
+}
+
+async function _isCampaignArchived(campaignId) {
+  const campaign = await knex('campaigns').select('archivedAt').where({ 'campaigns.id': campaignId }).first();
+  return Boolean(campaign.archivedAt);
 }
 
 async function _isRegistrationActive(userId, campaignId) {
