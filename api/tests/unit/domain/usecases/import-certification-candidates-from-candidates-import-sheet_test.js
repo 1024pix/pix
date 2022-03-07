@@ -21,7 +21,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       saveInSession: sinon.stub(),
     };
     sessionRepository = {
-      isSessionCertificationCenterScoNonManagingStudent: sinon.stub(),
+      isSco: sinon.stub(),
     };
     certificationCandidatesOdsService = {
       extractCertificationCandidatesFromCandidatesImportSheet: sinon.stub(),
@@ -81,7 +81,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ complementaryCertifications });
           const certificationCandidates = [certificationCandidate];
 
-          sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+          sessionRepository.isSco.resolves(false);
 
           certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist
             .withArgs({ sessionId })
@@ -90,7 +90,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
               sessionId,
-              isSessionCertificationCenterScoNonManagingStudent: false,
+              isSco: false,
               odsBuffer,
               certificationCpfService,
               certificationCpfCountryRepository,

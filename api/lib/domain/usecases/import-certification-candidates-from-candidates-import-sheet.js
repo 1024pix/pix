@@ -21,15 +21,12 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
     throw new CertificationCandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
-  const isSessionCertificationCenterScoNonManagingStudent =
-    await sessionRepository.isSessionCertificationCenterScoNonManagingStudent({
-      sessionId,
-    });
+  const isSco = await sessionRepository.isSco({ sessionId });
 
   const certificationCandidates =
     await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
       sessionId,
-      isSessionCertificationCenterScoNonManagingStudent,
+      isSco,
       odsBuffer,
       certificationCpfService,
       certificationCpfCountryRepository,
