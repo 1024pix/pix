@@ -9,12 +9,8 @@ describe('Unit | Route | User-Dashboard', function () {
   setupTest();
 
   describe('#model', function () {
-    it('should returns the model that contains campaignParticipations, campaignParticipationOverviews and scorecards', async function () {
+    it('should returns the model that contains campaignParticipationOverviews and scorecards', async function () {
       // given
-      const campaignParticipations = [EmberObject.create({ id: 123 }), EmberObject.create({ id: 456 })];
-      const hasManyReloadStub = sinon.stub().withArgs('campaignParticipations').resolves(campaignParticipations);
-      const hasManyStub = sinon.stub().returns({ reload: hasManyReloadStub });
-
       const scorecards = [EmberObject.create({ id: 3 }), EmberObject.create({ id: 8 })];
       const profile = EmberObject.create({ scorecards });
       const belongsToReloadStub = sinon.stub().returns(profile);
@@ -23,7 +19,6 @@ describe('Unit | Route | User-Dashboard', function () {
       const currentUserStub = Service.create({
         user: {
           belongsTo: belongsToStub,
-          hasMany: hasManyStub,
         },
       });
 
@@ -38,7 +33,6 @@ describe('Unit | Route | User-Dashboard', function () {
       const model = await route.model();
 
       // then
-      expect(model.campaignParticipations).to.deep.equal(campaignParticipations);
       expect(model.campaignParticipationOverviews).to.deep.equal(campaignParticipationOverviews);
       expect(model.scorecards).to.deep.equal(scorecards);
     });
