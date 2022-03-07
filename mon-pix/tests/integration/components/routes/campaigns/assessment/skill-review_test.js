@@ -19,7 +19,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   context('When user want to share his/her results', function () {
     it('should see the button to share', async function () {
       // Given
-      const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [] };
+      const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
@@ -32,10 +32,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     context('when a skill has been reset after campaign completion and before sending results', function () {
       it('displays an error message and a resume button on share', async function () {
         // Given
-        const campaignParticipationResult = {
-          isShared: false,
-          campaignParticipationBadges: [],
-        };
+        const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
         this.set('model', { campaign, campaignParticipationResult });
 
         const store = this.owner.lookup('service:store');
@@ -56,10 +53,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     context('when an error occurred during share', function () {
       it('displays an error message and a go home button', async function () {
         // Given
-        const campaignParticipationResult = {
-          isShared: false,
-          campaignParticipationBadges: [],
-        };
+        const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
         this.set('model', { campaign, campaignParticipationResult });
 
         const store = this.owner.lookup('service:store');
@@ -106,7 +100,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
     beforeEach(async function () {
       // Given
       campaign = { isFlash: true };
-      const campaignParticipationResult = { estimatedFlashLevel };
+      const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false };
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
@@ -513,6 +507,44 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       it('should not display NPS Block', function () {
         expect(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.not.exist;
+      });
+    });
+  });
+
+  describe('The disabled block', function () {
+    context('when participation is disabled', function () {
+      beforeEach(async function () {
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          isDisabled: true,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should display disabled block', function () {
+        // Then
+        expect(contains("Ce parcours a été désactivé par l'organisateur.")).to.exist;
+      });
+    });
+
+    context('when participation is not disabled', function () {
+      beforeEach(async function () {
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          isDisabled: false,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should not display disabled block', function () {
+        // Then
+        expect(contains("Ce parcours a été désactivé par l'organisateur.")).to.not.exist;
       });
     });
   });

@@ -2,17 +2,17 @@
   <AssessmentBanner @title={{@model.campaign.title}} @displayHomeLink={{false}} />
 </div>
 
-{{#if @model.campaign.isArchived}}
+{{#if @model.campaignParticipationResult.isDisabled}}
   <PixBlock class="skill-review__result-abstract-container">
-    <div class="skill-review__campaign-archived">
+    <div class="skill-review__disabled-share">
       <img
-        class="skill-review__campaign-archived-image"
+        class="skill-review-disabled-share__image"
         src="{{this.rootURL}}/images/illustrations/fat-bee.svg"
         alt=""
         role="none"
       />
-      <p class="skill-review__campaign-archived-text">
-        {{t "pages.skill-review.archived" htmlSafe=true}}
+      <p class="skill-review-disabled-share__text">
+        {{t "pages.skill-review.disabled-share" htmlSafe=true}}
       </p>
       <LinkTo @route="index" class="skill-review-share__back-to-home link">
         {{t "pages.skill-review.actions.continue"}}

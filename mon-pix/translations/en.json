@@ -1218,7 +1218,6 @@
         "send": "Submit my results"
       },
       "already-shared": "Thank you, your results have been submitted!",
-      "archived": "This customised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
       "badge-card": {
         "acquired": "Awarded",
         "not-acquired": "Not awarded"
@@ -1232,6 +1231,7 @@
         "result-by-skill": "Your results for the competence",
         "percentage": "{rate, number, ::percent}"
       },
+      "disabled-share": "This customised test has been disabled by the organiser.'<br>' It is no longer possible to submit results.",
       "error": "Oops, an error occurred!",
       "improve": {
         "title": "Want to improve your results?",
