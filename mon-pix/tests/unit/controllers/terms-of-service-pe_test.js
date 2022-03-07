@@ -23,7 +23,7 @@ describe('Unit | Controller | terms-of-service-pe', function () {
       await controller.send('submit');
 
       // then
-      sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oidc', {
+      sinon.assert.calledWith(controller.session.authenticate, 'authenticator:pole-emploi', {
         authenticationKey: 'authenticationKey',
       });
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
