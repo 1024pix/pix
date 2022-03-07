@@ -55,7 +55,7 @@
     "node-stream-zip": "^1.15.0",
     "papaparse": "^5.3.1",
     "pdf-lib": "^1.16.0",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "pino": "^7.6.5",
     "randomstring": "^1.1.5",
     "redis": "^3.1.2",
