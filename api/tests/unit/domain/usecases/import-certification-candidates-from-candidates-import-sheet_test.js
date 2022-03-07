@@ -11,6 +11,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCountryRepository;
   let complementaryCertificationRepository;
   let certificationCenterRepository;
+  let sessionRepository;
   let domainTransaction;
 
   beforeEach(function () {
@@ -18,6 +19,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
       deleteBySessionId: sinon.stub(),
       saveInSession: sinon.stub(),
+    };
+    sessionRepository = {
+      isSco: sinon.stub(),
     };
     certificationCandidatesOdsService = {
       extractCertificationCandidatesFromCandidatesImportSheet: sinon.stub(),
@@ -77,12 +81,16 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ complementaryCertifications });
           const certificationCandidates = [certificationCandidate];
 
+          sessionRepository.isSco.resolves(false);
+
           certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist
             .withArgs({ sessionId })
             .resolves(false);
+
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
               sessionId,
+              isSco: false,
               odsBuffer,
               certificationCpfService,
               certificationCpfCountryRepository,
@@ -103,6 +111,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfCityRepository,
             complementaryCertificationRepository,
             certificationCenterRepository,
+            sessionRepository,
           });
 
           // then

@@ -506,4 +506,62 @@ describe('Integration | Repository | Session', function () {
       expect(sessionFlagged.publishedAt).to.deep.equal(publishedAt);
     });
   });
+
+  describe('#isSco', function () {
+    context('when the certification center is not SCO', function () {
+      it('should return false', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          name: 'PRO_CERTIFICATION_CENTER',
+          type: 'PRO',
+          externalId: 'EXTERNAL_ID',
+        });
+
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+          finalizedAt: null,
+          publishedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSco({
+          sessionId: session.id,
+        });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    context('when the certification center is SCO', function () {
+      it('should return true', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          name: 'SCO',
+          externalId: 'EXTERNAL_ID',
+          type: 'SCO',
+        });
+
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+          finalizedAt: null,
+          publishedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSco({
+          sessionId: session.id,
+        });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+  });
 });

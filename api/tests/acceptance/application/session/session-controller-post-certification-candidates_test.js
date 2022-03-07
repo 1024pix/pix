@@ -32,8 +32,21 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         birthCity: null,
       });
       userId = databaseBuilder.factory.buildUser().id;
-      const { id: certificationCenterId, name: certificationCenter } =
-        databaseBuilder.factory.buildCertificationCenter();
+
+      databaseBuilder.factory.buildOrganization({
+        type: 'PRO',
+        name: 'PRO_ORGANIZATION',
+        externalId: 'EXTERNAL_ID',
+      });
+
+      const { id: certificationCenterId, name: certificationCenter } = databaseBuilder.factory.buildCertificationCenter(
+        {
+          name: 'PRO_CERTIFICATION_CENTER',
+          type: 'PRO',
+          externalId: 'EXTERNAL_ID',
+        }
+      );
+
       sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
       certificationCpfCountry = databaseBuilder.factory.buildCertificationCpfCountry({

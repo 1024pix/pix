@@ -14,6 +14,7 @@ module.exports = {
 
 async function extractCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
+  isSco,
   odsBuffer,
   certificationCpfService,
   certificationCpfCountryRepository,
@@ -24,6 +25,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
   const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImport({
     complementaryCertifications: certificationCenter.habilitations,
+    isSco,
   });
   try {
     await readOdsUtils.validateOdsHeaders({
@@ -93,7 +95,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       });
 
       try {
-        certificationCandidate.validate();
+        certificationCandidate.validate(isSco);
       } catch (err) {
         _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
       }
