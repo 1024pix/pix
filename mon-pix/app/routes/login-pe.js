@@ -50,7 +50,7 @@ export default class LoginPeRoute extends Route {
 
   async _handleCallbackRequest(code, state) {
     try {
-      await this.session.authenticate('authenticator:oidc', {
+      await this.session.authenticate('authenticator:pole-emploi', {
         code,
         redirectUri: this.redirectUri,
         state,
