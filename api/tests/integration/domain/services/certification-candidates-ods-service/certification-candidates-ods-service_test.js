@@ -94,7 +94,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
   it('should return extracted and validated certification candidates', async function () {
     // given
-    const isSessionCertificationCenterScoNonManagingStudent = true;
+    const isSco = true;
     const odsFilePath = `${__dirname}/attendance_sheet_extract_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
 
@@ -102,7 +102,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const actualCertificationCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         sessionId,
-        isSessionCertificationCenterScoNonManagingStudent,
+        isSco,
         odsBuffer,
         certificationCpfService,
         certificationCpfCountryRepository,
@@ -424,7 +424,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
   context('when billing feature toggle is enabled', function () {
     it('should return extracted and validated certification candidates with billing information', async function () {
       // given
-      const isSessionCertificationCenterScoNonManagingStudent = false;
+      const isSco = false;
       sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(false);
       sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
 
@@ -512,7 +512,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       const actualCertificationCandidates =
         await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
           sessionId,
-          isSessionCertificationCenterScoNonManagingStudent,
+          isSco,
           odsBuffer,
           certificationCpfService,
           certificationCpfCountryRepository,
@@ -527,7 +527,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     it('should return extracted and validated certification candidates without billing information when certification center is AEFE', async function () {
       // given
       sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(true);
-      const isSessionCertificationCenterScoNonManagingStudent = true;
+      const isSco = true;
       const odsFilePath = `${__dirname}/attendance_sheet_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
 
@@ -535,7 +535,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       const actualCertificationCandidates =
         await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
           sessionId,
-          isSessionCertificationCenterScoNonManagingStudent,
+          isSco,
           odsBuffer,
           certificationCpfService,
           certificationCpfCountryRepository,
