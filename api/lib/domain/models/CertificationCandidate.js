@@ -31,7 +31,7 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   complementaryCertifications: Joi.array().required(),
   billingMode: Joi.when('$isCertificationBillingEnabled', {
     is: true,
-    then: Joi.when('$isSessionCertificationCenterScoNonManagingStudent', {
+    then: Joi.when('$isSco', {
       is: false,
       then: Joi.string()
         .valid(...Object.values(BILLING_MODES))
@@ -142,12 +142,12 @@ class CertificationCandidate {
     }
   }
 
-  validate(isSessionCertificationCenterScoNonManagingStudent = false) {
+  validate(isSco = false) {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       allowUnknown: true,
       context: {
         isCertificationBillingEnabled: featureToggles.isCertificationBillingEnabled,
-        isSessionCertificationCenterScoNonManagingStudent,
+        isSco,
       },
     });
     if (error) {

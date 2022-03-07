@@ -22,7 +22,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       saveInSession: sinon.stub(),
     };
     sessionRepository = {
-      isSessionCertificationCenterScoNonManagingStudent: sinon.stub(),
+      isSco: sinon.stub(),
     };
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
@@ -34,7 +34,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   context('when certification candidate does not pass JOI validation', function () {
     it('should throw an CertificationCandidateAddError error', async function () {
       // given
-      sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+      sessionRepository.isSco.resolves(false);
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
         birthdate: 'WrongDateFormat',
         sessionId: null,
@@ -62,7 +62,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     context('when a candidate already exists in session with personal info', function () {
       it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
         // given
-        sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+        sessionRepository.isSco.resolves(false);
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves(['one match']);
 
@@ -92,7 +92,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     context('when no candidate exists with personal info', function () {
       it('should save the certification candidate and the complementary certifications', async function () {
         // given
-        sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+        sessionRepository.isSco.resolves(false);
         const complementaryCertifications = [
           domainBuilder.buildComplementaryCertification(),
           domainBuilder.buildComplementaryCertification(),
@@ -132,7 +132,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
 
       it('should return the certification candidate updated with sessionId', async function () {
         //given
-        sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+        sessionRepository.isSco.resolves(false);
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
@@ -163,7 +163,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
 
       it('should validate the certification candidate', async function () {
         // given
-        sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+        sessionRepository.isSco.resolves(false);
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         certificationCandidate.validate = sinon.stub();
         const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
@@ -196,7 +196,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       context('when birth information validation fail', function () {
         it('should throw a CpfBirthInformationValidationError', async function () {
           // given
-          sessionRepository.isSessionCertificationCenterScoNonManagingStudent.resolves(false);
+          sessionRepository.isSco.resolves(false);
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
             sessionId: null,
             complementaryCertifications: [],
