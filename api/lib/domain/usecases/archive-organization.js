@@ -1,9 +1,7 @@
-const bluebird = require('bluebird');
+const OrganizationToArchive = require('../models/OrganizationToArchive');
 
-module.exports = async function archiveOrganization({ organizationId, organizationInvitationRepository }) {
-  const pendingInvitations = await organizationInvitationRepository.findPendingByOrganizationId({ organizationId });
-
-  await bluebird.mapSeries(pendingInvitations, async (invitation) => {
-    await organizationInvitationRepository.markAsCancelled({ id: invitation.id });
-  });
+module.exports = async function archiveOrganization({ organizationId, organizationToArchiveRepository }) {
+  const organizationToArchive = new OrganizationToArchive({ id: organizationId });
+  organizationToArchive.archive();
+  await organizationToArchiveRepository.save(organizationToArchive);
 };
