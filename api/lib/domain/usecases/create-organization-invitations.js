@@ -1,6 +1,7 @@
 const bluebird = require('bluebird');
 
 const organizationInvitationService = require('../../domain/services/organization-invitation-service');
+const { OrganizationArchivedError } = require('../errors');
 
 module.exports = async function createOrganizationInvitations({
   organizationId,
@@ -9,6 +10,12 @@ module.exports = async function createOrganizationInvitations({
   organizationRepository,
   organizationInvitationRepository,
 }) {
+  const organization = await organizationRepository.get(organizationId);
+
+  if (organization.archivedAt) {
+    throw new OrganizationArchivedError();
+  }
+
   const trimmedEmails = emails.map((email) => email.trim());
   const uniqueEmails = [...new Set(trimmedEmails)];
 
