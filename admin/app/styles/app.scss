@@ -5,12 +5,14 @@
 @import 'ember-power-select';
 @import 'ember-power-select/themes/bootstrap';
 
+/* Pix UI */
+@import 'fonts';
+
 /* global */
 @import 'globals/palette';
 @import 'globals/global';
 @import 'globals/utils';
 @import 'globals/button';
-@import 'globals/fonts';
 @import 'globals/form';
 @import 'globals/nav';
 @import 'globals/page';
