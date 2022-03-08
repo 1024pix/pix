@@ -682,6 +682,12 @@ class ObjectValidationError extends DomainError {
   }
 }
 
+class OrganizationArchivedError extends DomainError {
+  constructor(message = "L'organisation est archivée.") {
+    super(message);
+  }
+}
+
 class UserCouldNotBeReconciledError extends DomainError {
   constructor(message = "Cet utilisateur n'a pas pu être rattaché à une organisation.") {
     super(message);
@@ -1156,6 +1162,7 @@ module.exports = {
   NotFoundError,
   NotImplementedError,
   ObjectValidationError,
+  OrganizationArchivedError,
   OrganizationTagNotFound,
   OrganizationAlreadyExistError,
   OrganizationNotFoundError,
