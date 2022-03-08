@@ -1,4 +1,5 @@
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 const moduleUnderTest = require('../../../../lib/application/campaign-participations');
 const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
@@ -45,6 +46,34 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('PATCH /api/admin/update-participant-external-id', function () {
+    it('should exist', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(campaignParticipationController, 'updateParticipantExternalId')
+        .callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'PATCH';
+      const payload = {
+        data: {
+          attributes: {
+            'participant-external-id': 'new ext id',
+          },
+        },
+      };
+      const url = '/api/admin/campaign-participations/123';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
