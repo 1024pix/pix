@@ -1,6 +1,7 @@
 const { knex } = require('../bookshelf');
 const ParticipationForCampaignManagement = require('../../domain/models/ParticipationForCampaignManagement');
 const { fetchPage } = require('../utils/knex-utils');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
   async findPaginatedParticipationsForCampaignManagement({ campaignId, page }) {
@@ -24,5 +25,13 @@ module.exports = {
       (attributes) => new ParticipationForCampaignManagement(attributes)
     );
     return { models: participationsForCampaignManagement, meta: { ...pagination } };
+  },
+
+  async updateParticipantExternalId({ campaignParticipationId, participantExternalId }) {
+    try {
+      await knex('campaign-participations').where('id', campaignParticipationId).update({ participantExternalId });
+    } catch (error) {
+      throw new NotFoundError(`La participation avec l'id ${campaignParticipationId} n'existe pas.`);
+    }
   },
 };
