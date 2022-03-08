@@ -12,6 +12,10 @@ module.exports = {
       await knex('campaigns')
         .where({ organizationId: organizationToArchive.id, archivedAt: null })
         .update({ archivedAt: organizationToArchive.archiveDate });
+
+      await knex('memberships')
+        .where({ organizationId: organizationToArchive.id, disabledAt: null })
+        .update({ disabledAt: organizationToArchive.archiveDate });
     }
   },
 };
