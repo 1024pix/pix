@@ -178,6 +178,7 @@ describe('Integration | Repository | Organization', function () {
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
+          archivedAt: null,
         };
 
         await databaseBuilder.commit();
