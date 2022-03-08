@@ -81,5 +81,38 @@ describe('Integration | Repository | OrganizationToArchive', function () {
       const previousArchivedCampaigns = await knex('campaigns').where({ archivedAt: previousDate });
       expect(previousArchivedCampaigns).to.have.lengthOf(1);
     });
+
+    it('should disable active memberships', async function () {
+      // given
+      const now = new Date('2022-02-02');
+      const previousDate = new Date('2021-01-01');
+      const organizationId = 1;
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+
+      databaseBuilder.factory.buildUser({ id: 7 });
+      databaseBuilder.factory.buildMembership({ id: 1, userId: 7, organizationId });
+      databaseBuilder.factory.buildUser({ id: 8 });
+      databaseBuilder.factory.buildMembership({ id: 2, userId: 8, organizationId });
+      databaseBuilder.factory.buildUser({ id: 9 });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: 9, disabledAt: previousDate });
+
+      await databaseBuilder.commit();
+
+      const organizationToArchive = new OrganizationToArchive({ id: organizationId });
+      organizationToArchive.archiveDate = now;
+
+      // when
+      await organizationToArchiveRepository.save(organizationToArchive);
+
+      // then
+      const activeMembers = await knex('memberships').where({ disabledAt: null });
+      expect(activeMembers).to.have.lengthOf(0);
+
+      const newlyDisabledMembers = await knex('memberships').where({ disabledAt: now });
+      expect(newlyDisabledMembers).to.have.lengthOf(2);
+
+      const previouslyDisabledMembers = await knex('memberships').where({ disabledAt: previousDate });
+      expect(previouslyDisabledMembers).to.have.lengthOf(1);
+    });
   });
 });
