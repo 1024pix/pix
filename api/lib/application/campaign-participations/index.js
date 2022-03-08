@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const campaignParticipationController = require('./campaign-participation-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
@@ -162,6 +163,24 @@ exports.register = async function (server) {
             "- Récupération des résultats d'une campagne d'évaluation",
         ],
         tags: ['api', 'campaign-assessment-participation-result-minimal'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/admin/campaign-participations/{id}',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignParticipationId,
+          }),
+        },
+        handler: campaignParticipationController.updateParticipantExternalId,
+        tags: ['api', 'campaign', 'participations', 'admin'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+            "- Elle permet de mettre à jour l'identifaint externe d'une participation ",
+        ],
       },
     },
   ]);
