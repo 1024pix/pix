@@ -1,0 +1,13 @@
+<section class="dashboard-section" ...attributes>
+  <div class="dashboard-section__header{{if this.hasLink "--with-button"}}">
+    <div>
+      <h2 class="dashboard-section__title">{{@title}}</h2>
+      <p class="dashboard-section__subtitle">{{@subtitle}}</p>
+    </div>
+    {{#if this.hasLink}}
+      <LinkTo @route={{@linkRoute}} class="dashboard-section__button">{{@linkText}}</LinkTo>
+    {{/if}}
+  </div>
+
+  {{yield}}
+</section>

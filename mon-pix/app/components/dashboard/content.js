@@ -15,7 +15,7 @@ export default class Content extends Component {
   }
 
   get hasNewInformationToShow() {
-    return this.codeForLastProfileToShare || !this.hasUserSeenNewDashboardInfo;
+    return Boolean(this.codeForLastProfileToShare || !this.hasSeenNewDashboardInfo);
   }
 
   get hasCampaignParticipationOverviews() {
@@ -65,7 +65,7 @@ export default class Content extends Component {
     return this.currentUser.user.codeForLastProfileToShare;
   }
 
-  get hasUserSeenNewDashboardInfo() {
+  get hasSeenNewDashboardInfo() {
     return this.currentUser.user.hasSeenNewDashboardInfo;
   }
 
