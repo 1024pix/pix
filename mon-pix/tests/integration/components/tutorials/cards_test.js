@@ -16,7 +16,7 @@ describe('Integration | Component | Tutorials | Cards', function () {
     await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
 
     // then
-    expect(find('.user-tutorials-content-v2__container')).to.exist;
+    expect(find('.user-tutorials-content-v2__cards')).to.exist;
     expect(findAll('.tutorial-card-v2').length).to.equal(0);
   });
 
@@ -48,7 +48,7 @@ describe('Integration | Component | Tutorials | Cards', function () {
     await render(hbs`<Tutorials::Cards @tutorials={{this.tutorials}} />`);
 
     // then
-    expect(find('.user-tutorials-content-v2__container')).to.exist;
+    expect(find('.user-tutorials-content-v2__cards')).to.exist;
     expect(findAll('.tutorial-card-v2').length).to.equal(2);
   });
 });
