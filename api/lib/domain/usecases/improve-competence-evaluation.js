@@ -14,6 +14,7 @@ module.exports = async function improveCompetenceEvaluation({
     competenceId,
     userId,
     domainTransaction,
+    forUpdate: true,
   });
 
   if (competenceEvaluation.assessment.isStarted() && competenceEvaluation.assessment.isImproving) {

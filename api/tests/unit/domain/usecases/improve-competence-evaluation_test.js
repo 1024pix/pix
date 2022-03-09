@@ -4,6 +4,8 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { MAX_REACHABLE_LEVEL } = require('../../../../lib/domain/constants');
 const { ImproveCompetenceEvaluationForbiddenError } = require('../../../../lib/domain/errors');
 
+const domainTransaction = Symbol('DomainTransaction');
+
 describe('Unit | UseCase | Improve Competence Evaluation', function () {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
   let getCompetenceLevel;
@@ -11,9 +13,6 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
   let expectedAssessment;
   let createdAssessment;
   const assessmentId = 'created-assessment-id';
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const domainTransaction = Symbol('DomainTransaction');
 
   beforeEach(function () {
     const currentAssessment = new Assessment({
@@ -63,6 +62,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
       competenceId,
       userId,
       domainTransaction,
+      forUpdate: true,
     });
   });
 
