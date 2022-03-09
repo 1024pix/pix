@@ -124,20 +124,28 @@
   width: 100%;
   min-height: inherit;
   display: flex;
+  flex-direction: column;
 
   &__container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    @include device-is('desktop') {
+      max-width: 1320px;
+    }
+  }
+
+  &__cards {
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: min-content;
     row-gap: 16px;
-    margin: 0 24px;
     width: 100%;
 
     @include device-is('desktop') {
       grid-template-columns: 1fr 1fr;
       column-gap: 24px;
-      max-width: 1320px;
-      padding: 0 20px;
       margin: 0 auto;
     }
   }

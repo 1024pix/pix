@@ -110,7 +110,7 @@ describe('Integration | Component | Tutorials | Pagination-Control', function ()
   });
 
   describe('Display start and end items index of the page', function () {
-    it('it should display start and end index of the first page (full)', async function () {
+    it('should display start and end index of the first page (full)', async function () {
       // given
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 50 }));
 
