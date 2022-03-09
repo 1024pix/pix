@@ -153,7 +153,7 @@ describe('Acceptance | User dashboard page', function () {
     });
 
     it('should display the link to profile', function () {
-      expect(find('.dashboard-content-main-section__button')).to.exist;
+      expect(contains(this.intl.t('pages.dashboard.recommended-competences.profile-link'))).to.exist;
     });
   });
 
