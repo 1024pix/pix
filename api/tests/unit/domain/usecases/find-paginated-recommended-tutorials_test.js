@@ -9,9 +9,15 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
     const knowledgeElementRepository = {
       findInvalidatedAndDirectByUserId: sinon.stub().resolves([]),
     };
+    const skillRepository = {
+      findOperativeByIds: sinon.stub().resolves([]),
+    };
+    const tutorialRepository = {
+      findByRecordIds: sinon.stub().resolves([]),
+    };
 
     // When
-    await findRecommendedTutorials({ userId, knowledgeElementRepository });
+    await findRecommendedTutorials({ userId, knowledgeElementRepository, skillRepository, tutorialRepository });
 
     // Then
     expect(knowledgeElementRepository.findInvalidatedAndDirectByUserId).to.have.been.calledWith(userId);
@@ -28,6 +34,12 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
       const knowledgeElementRepository = {
         findInvalidatedAndDirectByUserId: sinon.stub().resolves([]),
       };
+      const skillRepository = {
+        findOperativeByIds: sinon.stub().resolves([]),
+      };
+      const tutorialRepository = {
+        findByRecordIds: sinon.stub().resolves([]),
+      };
 
       const expectedPagination = {
         page: 1,
@@ -37,7 +49,13 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
       };
 
       // When
-      const tutorials = await findRecommendedTutorials({ userId, knowledgeElementRepository, page });
+      const tutorials = await findRecommendedTutorials({
+        userId,
+        knowledgeElementRepository,
+        skillRepository,
+        tutorialRepository,
+        page,
+      });
 
       // Then
       expect(tutorials.results).to.have.lengthOf(0);
