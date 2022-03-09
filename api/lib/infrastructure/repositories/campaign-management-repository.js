@@ -34,6 +34,7 @@ module.exports = {
         customResultPageText: 'campaigns.customResultPageText',
         customResultPageButtonText: 'campaigns.customResultPageButtonText',
         customResultPageButtonUrl: 'campaigns.customResultPageButtonUrl',
+        multipleSendings: 'campaigns.multipleSendings',
       })
       .join('users', 'users.id', 'campaigns.creatorId')
       .join('users AS ownerUser', 'ownerUser.id', 'campaigns.ownerId')
@@ -84,6 +85,7 @@ module.exports = {
       'customResultPageText',
       'customResultPageButtonText',
       'customResultPageButtonUrl',
+      'multipleSendings',
     ]);
     return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
   },

@@ -52,6 +52,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         customResultPageButtonUrl: null,
         sharedParticipationsCount: 0,
         totalParticipationsCount: 0,
+        multipleSendings: false,
       });
     });
 
@@ -168,6 +169,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         customResultPageText: null,
         customResultPageButtonText: null,
         customResultPageButtonUrl: null,
+        multipleSendings: false,
       });
       await databaseBuilder.commit();
 
@@ -178,6 +180,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         customResultPageText: 'Congrats you finished !',
         customResultPageButtonText: 'Continue here',
         customResultPageButtonUrl: 'www.next-step.net',
+        multipleSendings: true,
       };
       const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
       // when
@@ -193,14 +196,20 @@ describe('Integration | Repository | Campaign-Management', function () {
       const campaign = databaseBuilder.factory.buildCampaign({
         code: 'SOMECODE',
         name: 'some name',
+        multipleSendings: false,
       });
       await databaseBuilder.commit();
 
       const campaignAttributes = {
         code: 'NEWCODE',
         name: 'new name',
+        multipleSendings: true,
       };
-      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, name: 'new name' });
+      const expectedCampaign = databaseBuilder.factory.buildCampaign({
+        ...campaign,
+        name: 'new name',
+        multipleSendings: true,
+      });
 
       // when
       await campaignManagementRepository.update({ campaignId: campaign.id, campaignAttributes });
