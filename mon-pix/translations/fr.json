@@ -50,6 +50,17 @@
       "test": "Votre test est en cours de chargement"
     },
     "or": "ou",
+    "pagination": {
+      "action": {
+        "next": "Aller à la page suivante",
+        "previous": "Aller à la page précédente",
+        "select-page-size": "Nombre d'éléments à afficher par page"
+      },
+      "page-info": "{start, number}-{end, number} sur {total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
+      "page-results": "{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
+      "page-number": "Page {current, number} / {total, number}",
+      "result-by-page": "Voir"
+    },
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Aller au contenu",
