@@ -1,4 +1,5 @@
 const organizationInvitationService = require('../services/organization-invitation-service');
+const { OrganizationArchivedError } = require('../errors');
 
 module.exports = async function createOrganizationInvitationByAdmin({
   organizationId,
@@ -8,6 +9,12 @@ module.exports = async function createOrganizationInvitationByAdmin({
   organizationRepository,
   organizationInvitationRepository,
 }) {
+  const organization = await organizationRepository.get(organizationId);
+
+  if (organization.archivedAt) {
+    throw new OrganizationArchivedError();
+  }
+
   return organizationInvitationService.createOrganizationInvitation({
     organizationId,
     email,
