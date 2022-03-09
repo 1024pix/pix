@@ -48,7 +48,6 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           title: 'Campaign ABCD',
           code: 'ABCD',
-          archivedAt: new Date('2020-01-03'),
           organizationId,
           targetProfileId: targetProfile.id,
         });
@@ -78,7 +77,6 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           isShared: true,
           campaignCode: 'ABCD',
           campaignTitle: 'Campaign ABCD',
-          campaignArchivedAt: new Date('2020-01-03'),
           organizationName: 'Organization ABCD',
           targetProfileId: targetProfile.id,
           masteryRate: 0.1,
@@ -193,6 +191,54 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         expect(campaignParticipation.status).to.equal(CampaignParticipationStatuses.TO_SHARE);
       });
 
+      it('retrieves the delete date', async function () {
+        const deletedAt = new Date('2022-03-05');
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          targetProfileId: targetProfile.id,
+        });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          status: CampaignParticipationStatuses.TO_SHARE,
+          deletedAt,
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: participationId,
+          state: Assessment.states.ABORTED,
+        });
+        await databaseBuilder.commit();
+
+        const {
+          campaignParticipationOverviews: [campaignParticipation],
+        } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        expect(campaignParticipation.disabledAt).to.deep.equal(deletedAt);
+      });
+
+      it('retrieves archived date', async function () {
+        const archivedAt = new Date('2020-05-26T09:54:00Z');
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          targetProfileId: targetProfile.id,
+          archivedAt,
+        });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          status: CampaignParticipationStatuses.TO_SHARE,
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: participationId,
+          state: Assessment.states.ABORTED,
+        });
+        await databaseBuilder.commit();
+
+        const {
+          campaignParticipationOverviews: [campaignParticipation],
+        } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        expect(campaignParticipation.disabledAt).to.deep.equal(archivedAt);
+      });
+
       it('retrieves pagination information', async function () {
         const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({
           userId,
@@ -225,6 +271,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
       let toShareParticipation;
       let endedParticipation;
       let archivedParticipation;
+      let deletedParticipation;
 
       beforeEach(async function () {
         const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
@@ -234,6 +281,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           targetProfileId: targetProfile.id,
           archivedAt: new Date('2020-01-02'),
         });
+        const { id: campaign5Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
         onGoingParticipation = campaignParticipationOverviewFactory.build({
           userId,
           assessmentState: Assessment.states.STARTED,
@@ -255,6 +303,12 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           userId,
           sharedAt: null,
           campaignId: campaign4Id,
+        });
+        deletedParticipation = campaignParticipationOverviewFactory.build({
+          userId,
+          sharedAt: null,
+          campaignId: campaign5Id,
+          deletedAt: new Date('2022-01-01'),
         });
 
         await databaseBuilder.commit();
@@ -293,14 +347,17 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         });
       });
 
-      context('the filter is ARCHIVED', function () {
-        it('returns participation where the campaign is archived', async function () {
-          const states = ['ARCHIVED'];
+      context('the filter is DISABLED', function () {
+        it('returns participation where the campaign is archived or the participation deleted', async function () {
+          const states = ['DISABLED'];
           const { campaignParticipationOverviews } =
             await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
 
-          expect(campaignParticipationOverviews[0].id).to.equal(archivedParticipation.id);
-          expect(campaignParticipationOverviews).to.have.lengthOf(1);
+          expect(campaignParticipationOverviews).to.have.lengthOf(2);
+          expect(campaignParticipationOverviews.map(({ id }) => id)).to.exactlyContain([
+            archivedParticipation.id,
+            deletedParticipation.id,
+          ]);
         });
       });
 
@@ -507,7 +564,6 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         // then
         expect(campaignParticipationOverviews).to.deep.equal([
           {
-            campaignArchivedAt: null,
             campaignCode: 'FLASH',
             campaignTitle: 'Campaign FLASH',
             createdAt: new Date('2020-01-01T00:00:00Z'),
@@ -519,6 +575,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             status: 'SHARED',
             targetProfile: undefined,
             targetProfileId: undefined,
+            disabledAt: null,
           },
         ]);
       });

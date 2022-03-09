@@ -9,13 +9,13 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('string') status;
   @attr('string') campaignCode;
   @attr('string') campaignTitle;
-  @attr('date') campaignArchivedAt;
+  @attr('date') disabledAt;
   @attr('number') masteryRate;
   @attr('number') totalStagesCount;
   @attr('number') validatedStagesCount;
 
   get cardStatus() {
-    if (this.campaignArchivedAt) return 'ARCHIVED';
+    if (this.disabledAt) return 'DISABLED';
     else if (this.isShared) return 'ENDED';
     else if (this.status === 'TO_SHARE') return 'TO_SHARE';
     else return 'ONGOING';

@@ -21,7 +21,7 @@ describe('Unit | Route | User-Tests', function () {
           userId: 1,
           'page[number]': 1,
           'page[size]': 100,
-          'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED', 'ARCHIVED'],
+          'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED', 'DISABLED'],
         })
         .returns(campaignParticipationOverviews);
 

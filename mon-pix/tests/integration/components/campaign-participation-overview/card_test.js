@@ -64,13 +64,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     });
   });
 
-  context('when the participation status is ARCHIVED', function () {
-    it('should display CardArchived', async function () {
+  context('when the participation status is DISABLED', function () {
+    it('should display CardDisabled', async function () {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-18T15:16:20.109Z',
-        campaignArchivedAt: '2020-12-10T15:16:20.109Z',
-        status: 'STARTED',
+        disabledAt: '2020-12-10T15:16:20.109Z',
         campaignTitle: 'My campaign',
         organizationName: 'My organization',
       });
@@ -78,7 +77,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('ARCHIVÉ')).to.exist;
+      expect(contains('INACTIF')).to.exist;
     });
   });
 });

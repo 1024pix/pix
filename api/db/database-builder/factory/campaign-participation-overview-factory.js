@@ -3,13 +3,24 @@ const buildCampaign = require('./build-campaign');
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildTargetProfileSkill = require('./build-target-profile-skill');
 const buildTargetProfile = require('./build-target-profile');
+const buildUser = require('./build-user');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 module.exports = {
-  build({ userId, createdAt, sharedAt, assessmentCreatedAt, assessmentState, campaignId, id } = {}) {
+  build({
+    userId,
+    createdAt,
+    sharedAt,
+    assessmentCreatedAt,
+    assessmentState,
+    campaignId,
+    deletedAt,
+    deletedBy,
+    id,
+  } = {}) {
     const status = assessmentState === Assessment.states.COMPLETED ? TO_SHARE : STARTED;
 
     const campaignParticipation = buildCampaignParticipation({
@@ -18,6 +29,8 @@ module.exports = {
       createdAt: createdAt,
       sharedAt: sharedAt,
       status: sharedAt ? SHARED : status,
+      deletedAt,
+      deletedBy,
     });
 
     buildAssessment({
@@ -124,6 +137,40 @@ module.exports = {
       campaignId: campaign.id,
       createdAt: createdAt,
       sharedAt: sharedAt || createdAt,
+      status: STARTED,
+    });
+
+    buildAssessment({
+      userId,
+      campaignParticipationId: campaignParticipation.id,
+      createdAt: assessmentCreatedAt,
+    });
+
+    return campaignParticipation;
+  },
+
+  buildDeleted({
+    userId,
+    createdAt,
+    sharedAt,
+    assessmentCreatedAt,
+    deletedAt = new Date('1998-07-01'),
+    deletedBy = buildUser().id,
+    targetProfileSkills,
+  } = {}) {
+    const targetProfile = buildTargetProfile();
+    targetProfileSkills.forEach((skill) =>
+      buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill })
+    );
+    const campaign = buildCampaign({ targetProfileId: targetProfile.id });
+
+    const campaignParticipation = buildCampaignParticipation({
+      userId,
+      campaignId: campaign.id,
+      createdAt: createdAt,
+      sharedAt: sharedAt || createdAt,
+      deletedAt,
+      deletedBy,
       status: STARTED,
     });
 
