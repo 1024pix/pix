@@ -67,8 +67,18 @@ module.exports = {
       });
   },
 
-  async getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction });
+  async getByCompetenceIdAndUserId({
+    competenceId,
+    userId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+    forUpdate = false,
+  }) {
+    const competenceEvaluation = await _getByCompetenceIdAndUserId({
+      competenceId,
+      userId,
+      domainTransaction,
+      forUpdate,
+    });
     if (competenceEvaluation === null) {
       throw new NotFoundError();
     }
@@ -100,17 +110,25 @@ async function _getByCompetenceIdAndUserId({
   competenceId,
   userId,
   domainTransaction = DomainTransaction.emptyTransaction(),
+  forUpdate = false,
 }) {
-  return BookshelfCompetenceEvaluation.where({ competenceId, userId })
-    .orderBy('createdAt', 'asc')
-    .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
-    .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
-    .catch((bookshelfError) => {
-      if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
-        return null;
-      }
-      throw bookshelfError;
-    });
+  try {
+    const result = await BookshelfCompetenceEvaluation.where({ competenceId, userId })
+      .orderBy('createdAt', 'asc')
+      .fetch({
+        transacting: domainTransaction.knexTransaction,
+        lock: forUpdate ? 'forUpdate' : undefined,
+      });
+
+    await result.related('assessment').fetch();
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result);
+  } catch (bookshelfError) {
+    if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
+      return null;
+    }
+    throw bookshelfError;
+  }
 }
 
 function _selectOnlyOneCompetenceEvaluationByCompetence(competenceEvaluations) {
