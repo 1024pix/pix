@@ -54,13 +54,13 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       @onCancel={{this.onCancel}}/>`);
 
     // then
-    assert.dom(screen.getByLabelText('Nom * :')).exists();
+    assert.dom(screen.getByLabelText('Nom (obligatoire) :')).exists();
     assert.dom(screen.getByLabelText('Public :')).exists();
-    assert.dom(screen.getByLabelText('Fichier JSON Pix Editor * :')).exists();
+    assert.dom(screen.getByLabelText('Importer un profil cible .JSON')).exists();
     assert.dom(screen.getByLabelText("Identifiant de l'organisation de référence :")).exists();
     assert.dom(screen.getByLabelText("Lien de l'image du profil cible :")).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Créer le profil cible' })).exists();
     assert.dom(screen.getByLabelText('Commentaire (usage interne) :')).exists();
   });
 
