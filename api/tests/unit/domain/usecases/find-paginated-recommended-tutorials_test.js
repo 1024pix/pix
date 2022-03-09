@@ -1,8 +1,8 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const findRecommendedTutorials = require('../../../../lib/domain/usecases/find-recommended-tutorials');
+const findRecommendedTutorials = require('../../../../lib/domain/usecases/find-paginated-recommended-tutorials');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | UseCase | find-recommended-tutorials', function () {
+describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
   it('should find all KE related to a user', async function () {
     // Given
     const userId = 1;
@@ -21,15 +21,27 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
     it('should return an empty array', async function () {
       // Given
       const userId = 1;
+      const page = {
+        number: 1,
+        size: 2,
+      };
       const knowledgeElementRepository = {
         findInvalidatedAndDirectByUserId: sinon.stub().resolves([]),
       };
 
+      const expectedPagination = {
+        page: 1,
+        pageSize: 2,
+        rowCount: 0,
+        pageCount: 0,
+      };
+
       // When
-      const tutorials = await findRecommendedTutorials({ userId, knowledgeElementRepository });
+      const tutorials = await findRecommendedTutorials({ userId, knowledgeElementRepository, page });
 
       // Then
-      expect(tutorials).to.have.lengthOf(0);
+      expect(tutorials.results).to.have.lengthOf(0);
+      expect(tutorials.pagination).to.deep.equal(expectedPagination);
     });
   });
 
@@ -59,7 +71,7 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
       };
 
       const tutorialRepository = {
-        findByRecordIds: sinon.stub(),
+        findByRecordIds: sinon.stub().resolves([]),
       };
 
       // When
@@ -94,6 +106,10 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
       const skillRepository = {
         findOperativeByIds: sinon.stub(),
       };
+      const page = {
+        number: 1,
+        size: 2,
+      };
 
       skillRepository.findOperativeByIds.onFirstCall().resolves(skills);
 
@@ -104,12 +120,18 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
         domainBuilder.buildTutorial({ id: 'tuto4' }),
       ];
 
+      const expectedPagination = {
+        page: 1,
+        pageSize: 2,
+        rowCount: 4,
+        pageCount: 2,
+      };
+
       const tutorialRepository = {
         findByRecordIds: sinon.stub(),
       };
 
-      tutorialRepository.findByRecordIds.onFirstCall().resolves([expectedTutorials[0], expectedTutorials[1]]);
-      tutorialRepository.findByRecordIds.onSecondCall().resolves([expectedTutorials[2], expectedTutorials[3]]);
+      tutorialRepository.findByRecordIds.resolves(expectedTutorials);
 
       // When
       const tutorials = await findRecommendedTutorials({
@@ -117,12 +139,13 @@ describe('Unit | UseCase | find-recommended-tutorials', function () {
         knowledgeElementRepository,
         skillRepository,
         tutorialRepository,
+        page,
       });
 
       //Then
-      expect(tutorialRepository.findByRecordIds.firstCall).to.have.been.calledWith(['tuto1', 'tuto2']);
-      expect(tutorialRepository.findByRecordIds.secondCall).to.have.been.calledWith(['tuto3', 'tuto4']);
-      expect(tutorials).to.deep.equal(expectedTutorials);
+      expect(tutorialRepository.findByRecordIds).to.have.been.calledWith(['tuto1', 'tuto2', 'tuto3', 'tuto4']);
+      expect(tutorials.results).to.deep.equal([expectedTutorials[0], expectedTutorials[1]]);
+      expect(tutorials.pagination).to.deep.equal(expectedPagination);
     });
   });
 });
