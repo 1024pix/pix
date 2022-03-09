@@ -78,7 +78,7 @@ describe('Unit | Controller | User-tutorials', function () {
     it('should call the expected usecase', async function () {
       // given
       const userId = 'userId';
-      sinon.stub(usecases, 'findRecommendedTutorials').returns([]);
+      sinon.stub(usecases, 'findPaginatedRecommendedTutorials').returns([]);
 
       const request = {
         auth: { credentials: { userId } },
@@ -88,8 +88,27 @@ describe('Unit | Controller | User-tutorials', function () {
       await userTutorialsController.findRecommended(request, hFake);
 
       // then
-      const findUserTutorialsArgs = usecases.findRecommendedTutorials.firstCall.args[0];
-      expect(findUserTutorialsArgs).to.have.property('userId', userId);
+      const findPaginatedRecommendedTutorialsArgs = usecases.findPaginatedRecommendedTutorials.firstCall.args[0];
+      expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
+    });
+  });
+
+  describe('#findSaved', function () {
+    it('should call the expected usecase', async function () {
+      // given
+      const userId = 'userId';
+      sinon.stub(usecases, 'findSavedTutorials').returns([]);
+
+      const request = {
+        auth: { credentials: { userId } },
+      };
+
+      // when
+      await userTutorialsController.findSaved(request, hFake);
+
+      // then
+      const findSavedTutorialsArgs = usecases.findSavedTutorials.firstCall.args[0];
+      expect(findSavedTutorialsArgs).to.have.property('userId', userId);
     });
   });
 
