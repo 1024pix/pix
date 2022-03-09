@@ -135,5 +135,50 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
     });
+
+    it('should return a serialized JSON data object with pagination', function () {
+      // given
+      const tutorialId = 123;
+
+      const tutorials = [
+        domainBuilder.buildTutorial({
+          id: tutorialId,
+        }),
+      ];
+      const pagination = {
+        page: 1,
+        pageSize: 10,
+        rowCount: 1,
+        pageCount: 1,
+      };
+
+      const expectedSerializedResult = {
+        data: [
+          {
+            id: tutorialId.toString(),
+            type: 'tutorials',
+            attributes: {
+              duration: '00:01:30',
+              format: 'video',
+              link: 'https://youtube.fr',
+              source: 'Youtube',
+              title: 'Savoir regarder des vidéos youtube.',
+            },
+          },
+        ],
+        meta: {
+          page: 1,
+          pageSize: 10,
+          rowCount: 1,
+          pageCount: 1,
+        },
+      };
+
+      // when
+      const result = serializer.serialize(tutorials, pagination);
+
+      // then
+      expect(result).to.deep.equal(expectedSerializedResult);
+    });
   });
 });
