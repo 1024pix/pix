@@ -30,7 +30,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
           const model = store.createRecord('campaign-participation-overview', {
             status: 'TO_SHARE',
             isShared: false,
-            campaignArchivedAt: null,
+            disabledAt: null,
           });
           // when / then
           expect(model.cardStatus).to.equal('TO_SHARE');
@@ -42,7 +42,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             status: 'SHARED',
-            campaignArchivedAt: null,
+            disabledAt: null,
             isShared: true,
           });
           // when / then
@@ -51,16 +51,16 @@ describe('Unit | Model | Campaign-Participation-Overview', function () {
       });
     });
 
-    context('when the campaign is archived"', () => {
-      it('should return the status "archived"', function () {
+    context('when the participation is disabled"', () => {
+      it('should return the status "disabled"', function () {
         // given
         const model = store.createRecord('campaign-participation-overview', {
           status: 'SHARED',
           isShared: true,
-          campaignArchivedAt: new Date('2021-01-01'),
+          disabledAt: new Date('2021-01-01'),
         });
         // when / then
-        expect(model.cardStatus).to.equal('ARCHIVED');
+        expect(model.cardStatus).to.equal('DISABLED');
       });
     });
   });

@@ -39,6 +39,7 @@ function _findByUserId({ userId }) {
         targetProfileId: 'campaigns.targetProfileId',
         campaignArchivedAt: 'campaigns.archivedAt',
         organizationName: 'organizations.name',
+        deletedAt: 'campaign-participations.deletedAt',
         participationState: _computeCampaignParticipationState(),
       })
         .from('campaign-participations')
@@ -59,7 +60,8 @@ function _computeCampaignParticipationState() {
   return knex.raw(
     `
   CASE
-    WHEN campaigns."archivedAt" IS NOT NULL THEN 'ARCHIVED'
+    WHEN campaigns."archivedAt" IS NOT NULL THEN 'DISABLED'
+    WHEN "campaign-participations"."deletedAt" IS NOT NULL THEN 'DISABLED'
     WHEN "campaign-participations"."status" = ? THEN 'ONGOING'
     WHEN "campaign-participations"."status" = ? THEN 'ENDED'
     ELSE 'TO_SHARE'
@@ -74,7 +76,7 @@ function _computeCampaignParticipationOrder() {
     WHEN "participationState" = 'TO_SHARE' THEN 1
     WHEN "participationState" = 'ONGOING'  THEN 2
     WHEN "participationState" = 'ENDED'    THEN 3
-    WHEN "participationState" = 'ARCHIVED' THEN 4
+    WHEN "participationState" = 'DISABLED' THEN 4
   END`;
 }
 

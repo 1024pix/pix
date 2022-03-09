@@ -13,6 +13,7 @@ class CampaignParticipationOverview {
     campaignCode,
     campaignTitle,
     campaignArchivedAt,
+    deletedAt,
     targetProfile,
     masteryRate,
   } = {}) {
@@ -25,9 +26,12 @@ class CampaignParticipationOverview {
     this.status = status;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
-    this.campaignArchivedAt = campaignArchivedAt;
     this.targetProfile = targetProfile;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
+
+    const dates = [deletedAt, campaignArchivedAt].filter((a) => a != null);
+
+    this.disabledAt = _.min(dates) || null;
   }
 
   get validatedStagesCount() {

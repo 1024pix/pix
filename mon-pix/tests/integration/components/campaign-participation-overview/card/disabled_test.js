@@ -19,7 +19,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
-          campaignArchivedAt: '2020-01-03',
+          disabledAt: '2020-01-03',
           status: 'STARTED',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
@@ -29,14 +29,15 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
 
         // when
         await render(
-          hbs`<CampaignParticipationOverview::Card::Archived @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
         );
 
         // then
         expect(contains('My organization')).to.exist;
         expect(contains('My campaign')).to.exist;
-        expect(contains("Parcours archivé par votre organisation.\nVos résultats n'ont pas pu être envoyés.")).to.exist;
-        expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.archived').toUpperCase())).to.exist;
+        expect(contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')).to
+          .exist;
+        expect(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase())).to.exist;
         expect(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' })))
           .to.exist;
       });
@@ -47,7 +48,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
-          campaignArchivedAt: '2020-01-03',
+          disabledAt: '2020-01-03',
           status: 'TO_SHARE',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
@@ -57,7 +58,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
 
         // when
         await render(
-          hbs`<CampaignParticipationOverview::Card::Archived @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
         );
 
         // then
@@ -71,7 +72,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
           createdAt: '2020-01-01',
-          campaignArchivedAt: '2020-01-03',
+          disabledAt: '2020-01-03',
           status: 'TO_SHARE',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
@@ -83,7 +84,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        await render(hbs`<CampaignParticipationOverview::Card::Archived @model={{campaignParticipationOverview}} />`);
+        await render(hbs`<CampaignParticipationOverview::Card::Disabled @model={{campaignParticipationOverview}} />`);
 
         // then
 
