@@ -1,0 +1,23 @@
+.card {
+  box-shadow: 0 4px 8px rgba(7, 20, 46, 0.08);
+  border-radius: 8px;
+  background: #FFFFFF;
+
+  &__title {
+    color: #FFFFFF;
+    font-family: $font-open-sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: $font-semi-bold;
+    line-height: 28px;
+    letter-spacing: 0;
+    padding: 11px 32px;
+    background: #344563;
+    border-radius: 8px 8px 0 0;
+  }
+
+  &__content {
+    padding: 11px 32px;
+    font-family: $font-roboto;
+  }
+}
