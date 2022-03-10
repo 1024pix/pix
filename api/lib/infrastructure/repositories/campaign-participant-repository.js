@@ -84,7 +84,7 @@ async function get({ userId, campaignId, domainTransaction }) {
 
   const schoolingRegistrationId = await _getSchoolingRegistrationId(campaignId, userId, domainTransaction);
 
-  const previousCampaignParticipation = await _getPreviousCampaignParticipation(campaignId, userId, domainTransaction);
+  const previousCampaignParticipation = await _findPreviousCampaignParticipation(campaignId, userId, domainTransaction);
 
   return new CampaignParticipant({
     userIdentity,
@@ -139,12 +139,21 @@ async function _getSchoolingRegistrationId(campaignId, userId, domainTransaction
   return id;
 }
 
-async function _getPreviousCampaignParticipation(campaignId, userId, domainTransaction) {
-  return domainTransaction
+async function _findPreviousCampaignParticipation(campaignId, userId, domainTransaction) {
+  const campaignParticipationAttributes = await domainTransaction
     .knexTransaction('campaign-participations')
-    .select('id', 'participantExternalId', 'validatedSkillsCount', 'status')
+    .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt')
     .where({ campaignId, userId, isImproved: false })
     .first();
+
+  if (!campaignParticipationAttributes) return null;
+  return {
+    id: campaignParticipationAttributes.id,
+    participantExternalId: campaignParticipationAttributes.participantExternalId,
+    validatedSkillsCount: campaignParticipationAttributes.validatedSkillsCount,
+    status: campaignParticipationAttributes.status,
+    isDeleted: Boolean(campaignParticipationAttributes.deletedAt),
+  };
 }
 
 module.exports = {

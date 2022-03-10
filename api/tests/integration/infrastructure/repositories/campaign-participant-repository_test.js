@@ -481,9 +481,14 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           participantExternalId: 'something',
           validatedSkillsCount: 1,
           status: 'SHARED',
+          isDeleted: true,
         };
         databaseBuilder.factory.buildCampaignParticipation({
-          ...expectedAttributes,
+          id: 10,
+          participantExternalId: 'something',
+          validatedSkillsCount: 1,
+          status: 'SHARED',
+          deletedAt: new Date(),
           userId,
           campaignId: campaignToStartParticipation.id,
         });
@@ -499,6 +504,28 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         expect(campaignParticipant.previousCampaignParticipation).to.deep.equal(expectedAttributes);
+      });
+    });
+
+    context('when there is no previous campaign participation', function () {
+      it('return null', async function () {
+        const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+          organizationId,
+          idPixLabel: 'externalId',
+        });
+        const { id: userId } = databaseBuilder.factory.buildUser();
+
+        await databaseBuilder.commit();
+
+        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignParticipantRepository.get({
+            userId,
+            campaignId: campaignToStartParticipation.id,
+            domainTransaction,
+          });
+        });
+
+        expect(campaignParticipant.previousCampaignParticipation).to.be.null;
       });
     });
 

@@ -69,7 +69,12 @@ class CampaignParticipant {
         `User ${this.userIdentity.id} has already a campaign participation with campaign ${this.campaignToStartParticipation.id}`
       );
     }
-    if (this.previousCampaignParticipation && this.previousCampaignParticipation.status !== 'SHARED') {
+
+    if (this.previousCampaignParticipation?.isDeleted) {
+      throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
+    }
+
+    if (['STARTED', 'TO_SHARE'].includes(this.previousCampaignParticipation?.status)) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
     }
     if (this._canImproveResults()) {
