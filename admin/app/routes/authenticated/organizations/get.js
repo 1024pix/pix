@@ -4,6 +4,6 @@ export default class GetRoute extends Route {
   @service store;
 
   model(params) {
-    return this.store.findRecord('organization', params.organization_id);
+    return this.store.findRecord('organization', params.organization_id, { reload: true });
   }
 }

@@ -3,11 +3,11 @@ import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/organizations/get/invitations', function (hooks) {
+module('Unit | Route | authenticated/organizations/get/team', function (hooks) {
   setupTest(hooks);
 
   test('it exists', function (assert) {
-    const route = this.owner.lookup('route:authenticated/organizations/get/invitations');
+    const route = this.owner.lookup('route:authenticated/organizations/get/team');
     assert.ok(route);
   });
 
@@ -15,7 +15,7 @@ module('Unit | Route | authenticated/organizations/get/invitations', function (h
     test('it should transition to target-profiles route when organization is archived', async function (assert) {
       // given
       const organization = EmberObject.create({ archivistFullName: 'Clément Tine' });
-      const route = this.owner.lookup('route:authenticated/organizations/get/invitations');
+      const route = this.owner.lookup('route:authenticated/organizations/get/team');
       sinon.stub(route.router, 'replaceWith');
       sinon.stub(route, 'modelFor').returns(organization);
 
