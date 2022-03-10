@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.182.0 (10/03/2022)
+
+
+### :rocket: Amélioration
+- [#4168](https://github.com/1024pix/pix/pull/4168) [FEATURE] Afficher le niveau définitif d'une certification Pix+Edu (PIX-4494).
+- [#4184](https://github.com/1024pix/pix/pull/4184) [FEATURE] Empêcher l'envoi des résultats d'une campagne d'évaluation si la participation est supprimée (PIX-4441).
+
+### :bug: Correction
+- [#4180](https://github.com/1024pix/pix/pull/4180) [BUGFIX] Erreur 500 lorsqu'on retente une compétence (PIX-4526)
+
+### :coffee: Autre
+- [#4164](https://github.com/1024pix/pix/pull/4164) [CLEAN] Nettoyage des return manquants coté API.
+
 ## v3.181.0 (10/03/2022)
 
 
