@@ -110,4 +110,30 @@ module('Integration | Component | Campaigns | details', function (hooks) {
     // then
     assert.contains('10 participants');
   });
+
+  module('when campaign is multiple sendings', function () {
+    test("should display 'Oui' when 'multipleSendings' is true", async function (assert) {
+      // given
+      this.campaign = {
+        multipleSendings: true,
+      };
+
+      // when
+      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      // then
+      assert.contains('Envoi multiple : Oui');
+    });
+
+    test("should display 'Non' when 'multipleSendings' is false", async function (assert) {
+      // given
+      this.campaign = {
+        multipleSendings: false,
+      };
+
+      // when
+      await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+      // then
+      assert.contains('Envoi multiple : Non');
+    });
+  });
 });

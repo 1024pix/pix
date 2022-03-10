@@ -108,6 +108,19 @@
         {{/if}}
         <p class="form__instructions">Si une URL pour le bouton est saisie, le texte est également requis.</p>
       {{/if}}
+
+      {{#unless @campaign.totalParticipationsCount}}
+        <div class="form-field campaign-edit-form__checkbox">
+          <label for="multipleSendings" class="form-field__label">Envoi multiple</label>
+          <Input
+            id="multipleSendings"
+            @type="checkbox"
+            class={{if (v-get this.form "multipleSendings" "isInvalid") "form-control is-invalid" "form-control"}}
+            @checked={{this.form.multipleSendings}}
+          />
+        </div>
+      {{/unless}}
+
     </div>
 
     <div class="form-actions">
