@@ -280,6 +280,7 @@ __Plus d'infos :)__
     customLandingPageText: null,
     idPixLabel: null,
     createdAt: new Date('2020-01-07'),
+    multipleSendings: true,
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -332,7 +333,8 @@ function _buildUsers({ databaseBuilder, users }) {
 }
 
 function _buildParticipationsInDifferentStatus({ databaseBuilder, user }) {
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 22, user, schoolingRegistrationId: user.id, status: STARTED, deleted: true }); //deleted
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 22, user, schoolingRegistrationId: user.id, status: STARTED, deleted: true }); //deleted + started
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 21, user, schoolingRegistrationId: user.id, status: SHARED, deleted: true }); //deleted + shared
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 2, user, schoolingRegistrationId: user.id, status: STARTED }); //started
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 12, user, schoolingRegistrationId: user.id, status: TO_SHARE }); //to share
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 13, user, schoolingRegistrationId: user.id, status: SHARED });//archived + shared
