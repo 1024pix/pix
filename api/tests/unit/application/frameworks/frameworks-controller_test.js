@@ -6,6 +6,7 @@ const frameworksController = require('../../../../lib/application/frameworks/fra
 describe('Unit | Controller | frameworks-controller', function () {
   beforeEach(function () {
     sinon.stub(usecases, 'getPixFramework');
+    sinon.stub(usecases, 'getFrameworks').returns([{}]);
     sinon.stub(frameworkSerializer, 'serialize');
   });
 
@@ -44,6 +45,24 @@ describe('Unit | Controller | frameworks-controller', function () {
       // then
       expect(usecases.getPixFramework).to.have.been.called;
       expect(usecases.getPixFramework).to.have.been.calledWithExactly('en');
+      expect(frameworkSerializer.serialize).to.have.been.called;
+    });
+  });
+
+  describe('#getFrameworks', function () {
+    it('should fetch and return frameworks, serialized as JSONAPI', async function () {
+      // given
+      const userId = 42;
+      const request = {
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        pre: { userId },
+      };
+
+      // when
+      await frameworksController.getFrameworks(request, hFake);
+
+      // then
+      expect(usecases.getFrameworks).to.have.been.called;
       expect(frameworkSerializer.serialize).to.have.been.called;
     });
   });
