@@ -325,7 +325,7 @@ function _buildUsers({ databaseBuilder, users }) {
 }
 
 function _buildParticipationsInDifferentStatus({ databaseBuilder, user }) {
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, schoolingRegistrationId: user.id, status: STARTED, deleted: true }); //deleted
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 22, user, schoolingRegistrationId: user.id, status: STARTED, deleted: true }); //deleted
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 2, user, schoolingRegistrationId: user.id, status: STARTED }); //started
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 12, user, schoolingRegistrationId: user.id, status: TO_SHARE }); //to share
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 13, user, schoolingRegistrationId: user.id, status: SHARED });//archived + shared

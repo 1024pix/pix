@@ -572,4 +572,48 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       }
     );
   });
+
+  describe('#isDisabled', function () {
+    context('when participation is deleted', function () {
+      it('returns true', function () {
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          isDeleted: true,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false, false);
+
+        expect(assessmentResult.isDisabled).to.be.true;
+      });
+    });
+
+    context('when campaign is archived', function () {
+      it('returns true', function () {
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          isDeleted: false,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false, true);
+
+        expect(assessmentResult.isDisabled).to.be.true;
+      });
+    });
+
+    context('when campaign is not archived and participation is not deleted', function () {
+      it('returns false', function () {
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          isDeleted: false,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false, false);
+
+        expect(assessmentResult.isDisabled).to.be.false;
+      });
+    });
+  });
 });

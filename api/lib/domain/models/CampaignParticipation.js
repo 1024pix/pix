@@ -4,6 +4,7 @@ const {
   AssessmentNotCompletedError,
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
+  CampaignParticipationDeletedError,
 } = require('../errors');
 const CampaignParticipationStatuses = require('./CampaignParticipationStatuses');
 
@@ -14,6 +15,7 @@ class CampaignParticipation {
     participantExternalId,
     status,
     sharedAt,
+    deletedAt,
     assessments,
     campaign,
     user,
@@ -27,6 +29,7 @@ class CampaignParticipation {
     this.status = status;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
+    this.deletedAt = deletedAt;
     this.campaign = campaign;
     this.user = user;
     this.assessments = assessments;
@@ -53,6 +56,10 @@ class CampaignParticipation {
 
   get isShared() {
     return this.status === CampaignParticipationStatuses.SHARED;
+  }
+
+  get isDeleted() {
+    return Boolean(this.deletedAt);
   }
 
   get lastAssessment() {
@@ -90,6 +97,9 @@ class CampaignParticipation {
     }
     if (this.campaign.isArchived()) {
       throw new ArchivedCampaignError('Cannot share results on an archived campaign.');
+    }
+    if (this.isDeleted) {
+      throw new CampaignParticipationDeletedError('Cannot share results on a deleted participation.');
     }
     if (this.campaign.isAssessment() && lastAssessmentNotCompleted(this)) {
       throw new AssessmentNotCompletedError();

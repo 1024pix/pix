@@ -427,24 +427,27 @@
   }
 }
 
-.skill-review__campaign-archived {
+.skill-review__disabled-share {
   position: relative;
   text-align: center;
   margin-bottom: 10px;
 }
 
-.skill-review__campaign-archived-image {
-  margin-top: -50px;
-}
+.skill-review-disabled-share {
 
-.skill-review__campaign-archived-text {
-  font-size: 1.375rem;
-  line-height: 30px;
-  max-width: 640px;
-  margin: 30px auto 60px;
-  font-family: $font-open-sans;
-  font-weight: $font-light;
-  color: $grey-35;
+  &__image {
+    margin-top: -50px;
+  }
+
+  &__text {
+    font-size: 1.375rem;
+    line-height: 30px;
+    max-width: 640px;
+    margin: 30px auto 60px;
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+    color: $grey-35;
+  }
 }
 
 .stage-congrats {

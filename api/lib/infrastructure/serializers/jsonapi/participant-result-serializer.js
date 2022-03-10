@@ -18,6 +18,7 @@ module.exports = {
         'stageCount',
         'canRetry',
         'canImprove',
+        'isDisabled',
       ],
       campaignParticipationBadges: {
         ref: 'id',
