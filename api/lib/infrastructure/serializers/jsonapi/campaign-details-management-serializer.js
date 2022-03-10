@@ -26,6 +26,7 @@ module.exports = {
         'totalParticipationsCount',
         'isTypeProfilesCollection',
         'isTypeAssessment',
+        'multipleSendings',
       ],
       meta,
     }).serialize(campaignManagement);
