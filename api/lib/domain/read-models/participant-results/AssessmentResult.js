@@ -34,8 +34,8 @@ class AssessmentResult {
       this.reachedStage = new ReachedStage(this.masteryRate, targetProfile.stages);
     }
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt);
-    this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive);
     this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);
+    this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive);
   }
 
   _computeMasteryRate(masteryRate) {
@@ -65,7 +65,8 @@ class AssessmentResult {
       isCampaignMultipleSendings &&
       this._timeBeforeRetryingPassed(sharedAt) &&
       this.masteryRate < constants.MAX_MASTERY_RATE &&
-      isRegistrationActive
+      isRegistrationActive &&
+      !this.isDisabled
     );
   }
 
