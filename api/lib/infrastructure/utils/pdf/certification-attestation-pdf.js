@@ -322,14 +322,16 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
     });
     yCoordinate -= 15;
 
-    viewModel.pixPlusEduTemporaryBadgeMessage?.forEach((text, index) => {
-      page.drawText(text, {
-        x: 350,
-        y: yCoordinate - index * 10,
-        size: 7,
-        color: rgb(37 / 255, 56 / 255, 88 / 255),
+    if (viewModel.pixPlusEduTemporaryBadgeMessage.length) {
+      viewModel.pixPlusEduTemporaryBadgeMessage.forEach((text, index) => {
+        page.drawText(text, {
+          x: 350,
+          y: yCoordinate - index * 10,
+          size: 7,
+          color: rgb(37 / 255, 56 / 255, 88 / 255),
+        });
       });
-    });
+    }
   }
 }
 

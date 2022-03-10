@@ -37,13 +37,14 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
       // then
       const partnerCertificationSaved = await knex(PARTNER_CERTIFICATIONS_TABLE_NAME).select();
-      expect(partnerCertificationSaved).to.have.length(1);
-      expect(partnerCertificationSaved[0]).to.deep.equal({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
-        partnerKey: partnerCertificationScoring.partnerKey,
-        acquired: true,
-        temporaryPartnerKey: null,
-      });
+      expect(partnerCertificationSaved).to.deep.equal([
+        {
+          certificationCourseId: partnerCertificationScoring.certificationCourseId,
+          partnerKey: partnerCertificationScoring.partnerKey,
+          acquired: true,
+          temporaryPartnerKey: null,
+        },
+      ]);
     });
 
     it('should update the existing certification partner if it exists by partnerKey', async function () {

@@ -510,9 +510,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         ...privateCertificateData,
       });
 
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate.certifiedBadgeImages).to.deep.equal(expectedPrivateCertificate.certifiedBadgeImages);
     });
 
     it('should get the certified badge images of pixPlusDroitMaitre and pixPlusDroitExpert when those certifications were acquired', async function () {
