@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import ENV from '../../../config/environment';
 
-describe('Unit | Authenticator | oauth2', function () {
+describe('Unit | Authenticator | oauth2', function () {
   setupTest();
 
   it('should have token and token revocation endpoints', function () {

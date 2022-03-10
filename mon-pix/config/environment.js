@@ -209,6 +209,9 @@ module.exports = function (environment) {
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
+
+    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat-r.pe-qvr.fr';
+    ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost.fr:4200/';
   }
 
   if (environment === 'production') {
