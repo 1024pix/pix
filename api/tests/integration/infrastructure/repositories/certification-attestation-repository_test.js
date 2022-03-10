@@ -63,7 +63,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
       await _buildIncomplete(certificationAttestationData);
@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
@@ -121,7 +121,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -150,7 +150,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
@@ -183,7 +183,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -216,7 +216,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
 
@@ -296,7 +296,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [],
+        acquiredPartnerCertifications: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
@@ -341,7 +341,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             deliveredAt: new Date('2021-05-05'),
             certificationCenter: 'Centre des poules bien dodues',
             pixScore: 51,
-            acquiredPartnerCertificationKeys: [badgeKey],
+            acquiredPartnerCertifications: [{ partnerKey: badgeKey, temporaryPartnerKey: null }],
             sessionId: 789,
           };
           await _buildValidCertificationAttestation(certificationAttestationData);
@@ -391,7 +391,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertificationKeys: [PIX_DROIT_MAITRE_CERTIF],
+        acquiredPartnerCertifications: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, temporaryPartnerKey: null }],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);

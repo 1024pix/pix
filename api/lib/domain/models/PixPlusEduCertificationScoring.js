@@ -4,7 +4,8 @@ class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
   constructor({ certificationCourseId, certifiableBadgeKey, reproducibilityRate, hasAcquiredPixCertification } = {}) {
     super({
       certificationCourseId,
-      partnerKey: certifiableBadgeKey,
+      partnerKey: null,
+      temporaryPartnerKey: certifiableBadgeKey,
     });
 
     this.reproducibilityRate = reproducibilityRate;

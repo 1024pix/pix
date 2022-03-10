@@ -30,9 +30,9 @@ module.exports = {
     }
 
     const competenceTree = await competenceTreeRepository.get();
-    const acquiredPartnerCertificationKeys = await _getAcquiredPartnerCertificationKeys(certificationCourseDTO.id);
+    const acquiredPartnerCertifications = await _getAcquiredPartnerCertification(certificationCourseDTO.id);
 
-    return _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertificationKeys);
+    return _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertifications);
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
@@ -139,7 +139,7 @@ function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
   return mostRecent;
 }
 
-async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
+async function _getAcquiredPartnerCertification(certificationCourseId) {
   const handledBadgeKeys = [
     PIX_EMPLOI_CLEA,
     PIX_EMPLOI_CLEA_V2,
@@ -152,15 +152,16 @@ async function _getAcquiredPartnerCertificationKeys(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
   const partnerCertifications = await knex
-    .select('partnerKey')
+    .select('partnerKey', 'temporaryPartnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', handledBadgeKeys);
+    .whereIn('partnerKey', handledBadgeKeys)
+    .orWhereIn('temporaryPartnerKey', handledBadgeKeys);
 
-  return partnerCertifications.map((partnerCertification) => partnerCertification.partnerKey);
+  return partnerCertifications;
 }
 
-function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertificationKeys) {
+function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertifications) {
   const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
     (competenceMark) => new CompetenceMark({ ...competenceMark })
   );
@@ -175,6 +176,6 @@ function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertif
   return new CertificationAttestation({
     ...certificationCourseDTO,
     resultCompetenceTree,
-    acquiredPartnerCertificationKeys,
+    acquiredPartnerCertifications,
   });
 }

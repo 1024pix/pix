@@ -24,9 +24,9 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
       );
     });
 
-    it('should throw an ObjectValidationError when partnerKey is not valid', function () {
+    it('should not throw an ObjectValidationError when partnerKey is null', function () {
       // when
-      expect(() => new PartnerCertificationScoring({ ...validArguments, partnerKey: null })).to.throw(
+      expect(() => new PartnerCertificationScoring({ ...validArguments, partnerKey: null })).to.not.throw(
         ObjectValidationError
       );
     });

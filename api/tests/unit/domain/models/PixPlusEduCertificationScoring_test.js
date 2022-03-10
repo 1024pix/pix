@@ -1,6 +1,25 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const PixPlusEduCertificationScoring = require('../../../../lib/domain/models/PixPlusEduCertificationScoring');
 
 describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () {
+  context('#constructor', function () {
+    it('set partnerKey and temporaryPartnerKey', function () {
+      // given
+      const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 71 });
+
+      // when
+      const pixPlusEduCertificationScoring = new PixPlusEduCertificationScoring({
+        certificationCourseId: 1,
+        certifiableBadgeKey: 'BADGE',
+        reproducibilityRate,
+        hasAcquiredPixCertification: false,
+      });
+
+      // then
+      expect(pixPlusEduCertificationScoring.temporaryPartnerKey).to.equal('BADGE');
+      expect(pixPlusEduCertificationScoring.partnerKey).to.be.null;
+    });
+  });
   context('#isAcquired', function () {
     it('returns true when Pix+ Edu certification is acquired and reproducibility rate is over 70', function () {
       // given
