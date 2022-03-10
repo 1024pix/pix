@@ -35,7 +35,7 @@ export default class CompetenceEvaluation extends ApplicationAdapter {
     if (query.improve) {
       const url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
 
-      return this.ajax(url, 'POST', { data: { userId: query.userId, competenceId: query.competenceId } });
+      return this.ajax(url, 'PUT', { data: { userId: query.userId, competenceId: query.competenceId } });
     }
 
     return super.queryRecord(...arguments);
