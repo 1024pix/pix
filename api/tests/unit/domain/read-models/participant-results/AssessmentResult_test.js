@@ -289,18 +289,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       it('returns false', function () {
         const isCampaignMultipleSendings = false;
         const isRegistrationActive = true;
+        const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
+          isDeleted: false,
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
         const assessmentResult = new AssessmentResult(
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive
+          isRegistrationActive,
+          isCampaignArchived
         );
 
         expect(assessmentResult.canRetry).to.be.false;
@@ -311,18 +314,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
         const isRegistrationActive = false;
+        const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
+          isDeleted: false,
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
         const assessmentResult = new AssessmentResult(
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive
+          isRegistrationActive,
+          isCampaignArchived
         );
 
         expect(assessmentResult.canRetry).to.be.false;
@@ -333,18 +339,71 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
         const isRegistrationActive = true;
+        const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: null,
+          isDeleted: false,
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
         const assessmentResult = new AssessmentResult(
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive
+          isRegistrationActive,
+          isCampaignArchived
+        );
+
+        expect(assessmentResult.canRetry).to.be.false;
+      });
+    });
+
+    context('when the participation is deleted', function () {
+      it('returns false', function () {
+        const isCampaignMultipleSendings = true;
+        const isRegistrationActive = true;
+        const isCampaignArchived = false;
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          masteryRate: '0.34',
+          sharedAt: new Date('2020-01-01T05:06:07Z'),
+          isDeleted: true,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(
+          participationResults,
+          targetProfile,
+          isCampaignMultipleSendings,
+          isRegistrationActive,
+          isCampaignArchived
+        );
+
+        expect(assessmentResult.canRetry).to.be.false;
+      });
+    });
+
+    context('when campaign is archived', function () {
+      it('returns false', function () {
+        const isCampaignMultipleSendings = true;
+        const isRegistrationActive = true;
+        const isCampaignArchived = true;
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          masteryRate: '0.34',
+          sharedAt: new Date('2020-01-01T05:06:07Z'),
+          isDeleted: false,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(
+          participationResults,
+          targetProfile,
+          isCampaignMultipleSendings,
+          isRegistrationActive,
+          isCampaignArchived
         );
 
         expect(assessmentResult.canRetry).to.be.false;
@@ -357,18 +416,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         it('returns false', function () {
           const isCampaignMultipleSendings = true;
           const isRegistrationActive = true;
+          const isCampaignArchived = false;
           const participationResults = {
             knowledgeElements: [],
             acquiredBadgeIds: [],
             masteryRate: '0.34',
             sharedAt: new Date('2020-01-03T05:06:07Z'),
+            isDeleted: false,
           };
           const targetProfile = { competences: [], stages: [], badges: [] };
           const assessmentResult = new AssessmentResult(
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            isRegistrationActive
+            isRegistrationActive,
+            isCampaignArchived
           );
 
           expect(assessmentResult.canRetry).to.be.false;
@@ -380,11 +442,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
         const isRegistrationActive = true;
+        const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
           masteryRate: '1',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
+          isDeleted: false,
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
 
@@ -392,7 +456,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive
+          isRegistrationActive,
+          isCampaignArchived
         );
 
         expect(assessmentResult.canRetry).to.be.false;
@@ -405,18 +470,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
           const isRegistrationActive = true;
+          const isCampaignArchived = false;
           const participationResults = {
             knowledgeElements: [],
             acquiredBadgeIds: [],
             masteryRate: '0.45',
             sharedAt: new Date('2019-12-12'),
+            isDeleted: false,
           };
           const targetProfile = { competences: [], stages: [], badges: [] };
           const assessmentResult = new AssessmentResult(
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            isRegistrationActive
+            isRegistrationActive,
+            isCampaignArchived
           );
 
           expect(assessmentResult.canRetry).to.be.true;
@@ -430,18 +498,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
           const isRegistrationActive = true;
+          const isCampaignArchived = false;
           const participationResults = {
             knowledgeElements: [],
             acquiredBadgeIds: [],
             masteryRate: '0.34',
             sharedAt: new Date('2020-01-01T05:06:07Z'),
+            isDeleted: false,
           };
           const targetProfile = { competences: [], stages: [], badges: [] };
           const assessmentResult = new AssessmentResult(
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            isRegistrationActive
+            isRegistrationActive,
+            isCampaignArchived
           );
 
           expect(assessmentResult.canRetry).to.be.true;
