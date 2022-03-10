@@ -52,7 +52,7 @@ describe('Acceptance | API | Campaign Management Controller', function () {
   describe('PATCH /api/admin/campaigns/{id}', function () {
     it('should return the updated campaign', async function () {
       // given
-      const campaign = databaseBuilder.factory.buildCampaign({ name: 'odlName' });
+      const campaign = databaseBuilder.factory.buildCampaign({ name: 'odlName', multipleSendings: false });
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       await databaseBuilder.commit();
 
@@ -70,6 +70,7 @@ describe('Acceptance | API | Campaign Management Controller', function () {
               'custom-result-page-button-text': null,
               'custom-result-page-button-url': null,
               'custom-result-page-text': null,
+              'multiple-sendings': true,
             },
           },
         },
@@ -78,6 +79,7 @@ describe('Acceptance | API | Campaign Management Controller', function () {
       // then
       expect(response.statusCode).to.equal(204);
       expect(updatedCampaign.name).to.equal('newName');
+      expect(updatedCampaign.multipleSendings).to.be.true;
     });
   });
 });
