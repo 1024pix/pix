@@ -5,6 +5,7 @@ const Campaign = require('../../../../lib/domain/models/Campaign');
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
 const UNDEFINED_VALUE = undefined;
+const NOT_BOOLEAN_VALUE = 'NOT_BOOLEAN_VALUE';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(1);
@@ -22,6 +23,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
     idPixLabel: 'Mail Pro',
     customResultPageButtonText: null,
     customResultPageButtonUrl: null,
+    multipleSendings: false,
   };
 
   const campaignOfTypeAssessment = {
@@ -36,6 +38,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
     targetProfileId: 44,
     customResultPageButtonText: null,
     customResultPageButtonUrl: null,
+    multipleSendings: false,
   };
 
   describe('#validate', function () {
@@ -288,6 +291,42 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             });
           });
 
+          context('on multipleSendigs attribute', function () {
+            // given
+            const expectedRequiredError = {
+              attribute: 'multipleSendings',
+              message: 'MULTIPLE_SENDINGS_CHOICE_IS_REQUIRED',
+            };
+
+            it('should reject with error when multipleSendings not a boolean', function () {
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  multipleSendings: NOT_BOOLEAN_VALUE,
+                });
+                expect.fail('should have thrown an error');
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedRequiredError);
+              }
+            });
+
+            it('should reject with error when multipleSendings is undefined', function () {
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  multipleSendings: UNDEFINED_VALUE,
+                });
+                expect.fail('should have thrown an error');
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedRequiredError);
+              }
+            });
+          });
+
           it('should reject with errors on all fields (but only once by field) when all fields are missing', function () {
             try {
               // when
@@ -296,11 +335,12 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 name: MISSING_VALUE,
                 creatorId: MISSING_VALUE,
                 organizationId: MISSING_VALUE,
+                multipleSendings: MISSING_VALUE,
               });
               expect.fail('should have thrown an error');
             } catch (entityValidationErrors) {
               // then
-              expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
+              expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4);
             }
           });
 
@@ -313,6 +353,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 type: MISSING_VALUE,
                 title: MISSING_VALUE,
                 idPixLabel: MISSING_VALUE,
+                multipleSendings: MISSING_VALUE,
                 organizationId: 1,
               };
 
@@ -322,7 +363,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 expect.fail('should have thrown an error');
               } catch (entityValidationErrors) {
                 // then
-                expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
+                expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4);
               }
             });
           });
