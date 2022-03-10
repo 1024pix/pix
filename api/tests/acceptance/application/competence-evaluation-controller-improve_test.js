@@ -12,7 +12,7 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
     server = await createServer();
   });
 
-  describe('POST /api/competence-evaluations/improve', function () {
+  describe('PUT /api/competence-evaluations/improve', function () {
     const competenceId = 'recABCD123';
 
     context('When user is authenticated', function () {
@@ -35,7 +35,7 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
           beforeEach(async function () {
             // given
             const options = {
-              method: 'POST',
+              method: 'PUT',
               url: '/api/competence-evaluations/improve',
               headers: {
                 authorization: generateValidRequestAuthorizationHeader(userId),
@@ -76,7 +76,7 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
             await databaseBuilder.commit();
 
             const options = {
-              method: 'POST',
+              method: 'PUT',
               url: '/api/competence-evaluations/improve',
               headers: {
                 authorization: generateValidRequestAuthorizationHeader(userId),
@@ -97,7 +97,7 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
         it('should return 404 error', async function () {
           // given
           const options = {
-            method: 'POST',
+            method: 'PUT',
             url: '/api/competence-evaluations/improve',
             headers: {
               authorization: generateValidRequestAuthorizationHeader(userId),
@@ -118,7 +118,7 @@ describe('Acceptance | API | Improve Competence Evaluation', function () {
       it('should return 401 error', async function () {
         // given
         const options = {
-          method: 'POST',
+          method: 'PUT',
           url: '/api/competence-evaluations/improve',
           headers: {
             authorization: null,

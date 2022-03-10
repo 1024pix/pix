@@ -16,7 +16,7 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'POST',
+      method: 'PUT',
       path: '/api/competence-evaluations/improve',
       config: {
         handler: competenceEvaluationController.improve,
