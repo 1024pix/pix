@@ -7,13 +7,19 @@ const {
   TARGET_PROFILE_PIX_DROIT_ID,
 } = require('./target-profiles-builder');
 const {
-  CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID,
-  CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID,
+  CERTIF_REGULAR_USER1_ID,
+  CERTIF_REGULAR_USER2_ID,
+  CERTIF_REGULAR_USER3_ID,
+  CERTIF_REGULAR_USER4_ID,
+  CERTIF_REGULAR_USER5_ID,
 } = require('./certification/users');
 const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { DEFAULT_PASSWORD } = require('./users-builder');
-const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
+const {
+  participateToAssessmentCampaign,
+  participateToProfilesCollectionCampaign,
+} = require('./campaign-participations-builder');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -43,7 +49,8 @@ function _buildCampaigns({ databaseBuilder }) {
     idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
-    customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
+    customResultPageText:
+      'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
     customResultPageButtonUrl: 'https://pix.fr/',
     customResultPageButtonText: 'Voir Pix !',
     createdAt: new Date('2020-01-09'),
@@ -120,7 +127,8 @@ __Plus d'infos :)__
     assessmentMethod: 'SMART_RANDOM',
     idPixLabel: null,
     customLandingPageText: null,
-    customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
+    customResultPageText:
+      'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
     customResultPageButtonUrl: 'https://pix.fr/',
     customResultPageButtonText: 'Voir Pix !',
     createdAt: new Date('2020-01-13'),
@@ -289,7 +297,6 @@ __Plus d'infos :)__
     customLandingPageText: null,
     createdAt: new Date('2020-01-04'),
   });
-
 }
 
 function _buildParticipations({ databaseBuilder }) {
@@ -375,7 +382,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   const certifRegularUser4 = { id: CERTIF_REGULAR_USER4_ID, createdAt: new Date('2022-02-06') };
   const certifRegularUser5 = { id: CERTIF_REGULAR_USER5_ID, createdAt: new Date('2022-02-07') };
 
-  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].map((certifUser, index) => {
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((certifUser, index) => {
     databaseBuilder.factory.buildSchoolingRegistration({ lastName: `Certif${index}`, firstName: `User${index}`, id: certifUser.id, userId: certifUser.id, organizationId: PRO_COMPANY_ID });
   });
 
