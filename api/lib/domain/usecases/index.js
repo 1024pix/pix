@@ -72,6 +72,7 @@ const dependencies = {
   endTestScreenRemovalService: require('../services/end-test-screen-removal-service'),
   flashAssessmentResultRepository: require('../../infrastructure/repositories/flash-assessment-result-repository'),
   flashAlgorithmService: require('../../domain/services/algorithm-methods/flash'),
+  frameworkRepository: require('../../infrastructure/repositories/framework-repository'),
   getCompetenceLevel: require('../../domain/services/get-competence-level'),
   sessionForSupervisorKitRepository: require('../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository'),
   groupRepository: require('../../infrastructure/repositories/group-repository'),
