@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
         totalParticipationsCount: 10,
         isTypeProfilesCollection: false,
         isTypeAssessment: true,
+        multipleSendings: false,
       };
 
       // when
@@ -60,6 +61,7 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
             'total-participations-count': campaignManagement.totalParticipationsCount,
             'is-type-profiles-collection': false,
             'is-type-assessment': true,
+            'multiple-sendings': campaignManagement.multipleSendings,
           },
         },
       });
