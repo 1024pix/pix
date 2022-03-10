@@ -2,7 +2,7 @@
   <AssessmentBanner @title={{@model.campaign.title}} @displayHomeLink={{false}} />
 </div>
 
-{{#if @model.campaignParticipationResult.isDisabled}}
+{{#if this.showDisabledBlock}}
   <PixBlock class="skill-review__result-abstract-container">
     <div class="skill-review__disabled-share">
       <img
