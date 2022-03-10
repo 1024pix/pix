@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.181.0 (10/03/2022)
+
+
+### :rocket: Amélioration
+- [#4170](https://github.com/1024pix/pix/pull/4170) [FEATURE] Afficher une carte au statut INACTIF si mon parcours est supprimé par le prescripteur ou si la campange est archivée (PIX-4438).
+- [#4173](https://github.com/1024pix/pix/pull/4173) [FEATURE] Permettre d'archiver toutes les campagnes en archivant une organisation sur Pix Admin (PIX-4280).
+- [#4177](https://github.com/1024pix/pix/pull/4177) [FEATURE] Désactiver tous les membres actifs lors de l'archivage d'une organisation  (PIX-3818).
+- [#4155](https://github.com/1024pix/pix/pull/4155) [FEATURE] Mettre le taux de repro de Pix+Edu à 70% (PIX-4483).
+
+### :building_construction: Tech
+- [#4181](https://github.com/1024pix/pix/pull/4181) [TECH] Configure le proxy API pour limiter le temps d'indispo sur certif, orga, admin
+- [#4176](https://github.com/1024pix/pix/pull/4176) [TECH] Utiliser la nouvelle version LTS de node 16.14.
+
+### :coffee: Autre
+- [#3859](https://github.com/1024pix/pix/pull/3859) [ADR] Utiliser PgBoss pour lancer des taches asynchrones (PIX-3141).
+
 ## v3.180.0 (07/03/2022)
 
 
