@@ -81,6 +81,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ArchivedCampaignError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.CampaignParticipationDeletedError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
     return new HttpErrors.PreconditionFailedError('Assessment is already rated.');
   }

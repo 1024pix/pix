@@ -5,7 +5,13 @@ const constants = require('../../constants');
 const moment = require('moment');
 
 class AssessmentResult {
-  constructor(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive) {
+  constructor(
+    participationResults,
+    targetProfile,
+    isCampaignMultipleSendings,
+    isRegistrationActive,
+    isCampaignArchived
+  ) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
     const { competences } = targetProfile;
 
@@ -29,6 +35,7 @@ class AssessmentResult {
     }
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt);
     this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive);
+    this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);
   }
 
   _computeMasteryRate(masteryRate) {
@@ -60,6 +67,10 @@ class AssessmentResult {
       this.masteryRate < constants.MAX_MASTERY_RATE &&
       isRegistrationActive
     );
+  }
+
+  _computeIsDisabled(isCampaignArchived, isParticipationDeleted) {
+    return isCampaignArchived || isParticipationDeleted;
   }
 
   _timeBeforeRetryingPassed(sharedAt) {

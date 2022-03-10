@@ -9,6 +9,7 @@ export default class CampaignParticipationResult extends Model {
   @attr('number') stageCount;
   @attr('boolean') canRetry;
   @attr('boolean') canImprove;
+  @attr('boolean') isDisabled;
   @attr('boolean') isShared;
   @attr('string') participantExternalId;
   @attr('number') estimatedFlashLevel;
