@@ -73,13 +73,7 @@ class UserEraser {
         this.queryBuilder.delete_answers_from_assessment_ids(this.assessmentIds),
         this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessmentIds),
       ])
-      .then((queries) =>
-        Promise.all(
-          queries.map((query) => {
-            this.client.query_and_log(query);
-          })
-        )
-      )
+      .then((queries) => Promise.all(queries.map((query) => this.client.query_and_log(query))))
       .then(() => this.queryBuilder.delete_assessment_results_from_assessment_ids(this.assessmentIds))
       .then((query) => this.client.query_and_log(query));
   }

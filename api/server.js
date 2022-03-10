@@ -81,7 +81,7 @@ const setupErrorHandling = function (server) {
 
 const setupAuthentication = function (server) {
   server.auth.scheme(authentication.schemeName, authentication.scheme);
-  authentication.strategies.map((strategy) => {
+  authentication.strategies.forEach((strategy) => {
     server.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
   });
   server.auth.default(authentication.defaultStrategy);
