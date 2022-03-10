@@ -15,22 +15,23 @@ class CertifiedBadgeImage {
     this.levelName = levelName;
   }
 
+  static finalFromPath(path) {
+    return new CertifiedBadgeImage({
+      path,
+      isTemporaryBadge: false,
+    });
+  }
+
   static fromPartnerKey(partnerKey, temporaryPartnerKey) {
     const badgeKey = partnerKey || temporaryPartnerKey;
     const isTemporaryBadge = !partnerKey;
 
     if (badgeKey === PIX_DROIT_MAITRE_CERTIF) {
-      return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
-        isTemporaryBadge,
-      });
+      return CertifiedBadgeImage.finalFromPath('https://images.pix.fr/badges-certifies/pix-droit/maitre.svg');
     }
 
     if (badgeKey === PIX_DROIT_EXPERT_CERTIF) {
-      return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-        isTemporaryBadge,
-      });
+      return CertifiedBadgeImage.finalFromPath('https://images.pix.fr/badges-certifies/pix-droit/expert.svg');
     }
 
     if (badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
