@@ -9,8 +9,13 @@ const {
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2, PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } =
-  require('../../../../lib/domain/models/Badge').keys;
+const {
+  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_EXPERT_CERTIF,
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+} = require('../../../../lib/domain/models/Badge').keys;
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', function () {
@@ -461,6 +466,153 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         );
       });
     });
+
+    it('should get the certified badge image of pixPlusDroitMaitre when this certifications was acquired', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDF-G',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        certifiedBadgeImages: [
+          domainBuilder.buildCertifiedBadgeImage.notTemporary({
+            path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+          }),
+        ],
+      };
+
+      const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+        privateCertificateData,
+        acquiredBadges: [PIX_DROIT_MAITRE_CERTIF],
+        notAcquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
+      });
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+
+      expect(privateCertificate.certifiedBadgeImages).to.deep.equal(expectedPrivateCertificate.certifiedBadgeImages);
+    });
+
+    it('should get the certified badge images of pixPlusDroitMaitre and pixPlusDroitExpert when those certifications were acquired', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDE-F',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        certifiedBadgeImages: [
+          domainBuilder.buildCertifiedBadgeImage.notTemporary({
+            path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+          }),
+          domainBuilder.buildCertifiedBadgeImage.notTemporary({
+            path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+          }),
+        ],
+      };
+
+      const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+        privateCertificateData,
+        acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF],
+        notAcquiredBadges: [],
+      });
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+      );
+    });
+
+    it('should get the certified badge image when there is temporary partner key and no partner key', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDF-G',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        certifiedBadgeImages: [
+          domainBuilder.buildCertifiedBadgeImage.temporary({
+            path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+            levelName: 'Initié (entrée dans le métier)',
+          }),
+        ],
+      };
+
+      const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+        privateCertificateData,
+        temporaryAcquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
+        acquiredBadges: [],
+        notAcquiredBadges: [],
+      });
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+      );
+    });
   });
 
   describe('#findByUserId', function () {
@@ -729,6 +881,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
   privateCertificateData,
   acquiredBadges,
   notAcquiredBadges,
+  temporaryAcquiredBadges,
 }) {
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   const sessionId = databaseBuilder.factory.buildSession({
@@ -763,6 +916,14 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     databaseBuilder.factory.buildPartnerCertification({
       certificationCourseId: certificateId,
       partnerKey: badgeKey,
+      acquired: true,
+    });
+  });
+  temporaryAcquiredBadges?.forEach((badgeKey) => {
+    databaseBuilder.factory.buildBadge({ key: badgeKey });
+    databaseBuilder.factory.buildPartnerCertification({
+      certificationCourseId: certificateId,
+      temporaryPartnerKey: badgeKey,
       acquired: true,
     });
   });

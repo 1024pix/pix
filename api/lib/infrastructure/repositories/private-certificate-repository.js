@@ -133,13 +133,18 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
   const results = await knex
-    .select('partnerKey')
+    .select('partnerKey', 'temporaryPartnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
     .whereIn('partnerKey', handledBadgeKeys)
+    .orWhereIn('temporaryPartnerKey', handledBadgeKeys)
     .orderBy('partnerKey');
 
-  return _.compact(_.map(results, ({ partnerKey }) => CertifiedBadgeImage.fromPartnerKey(partnerKey)));
+  return _.compact(
+    _.map(results, ({ partnerKey, temporaryPartnerKey }) =>
+      CertifiedBadgeImage.fromPartnerKey(partnerKey, temporaryPartnerKey)
+    )
+  );
 }
 
 function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages }) {

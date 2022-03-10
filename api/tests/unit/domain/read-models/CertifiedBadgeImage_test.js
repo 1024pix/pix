@@ -10,52 +10,67 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
-const badgeInfos = {
+const pixPlusDroitBadgesInfos = {
   [PIX_DROIT_MAITRE_CERTIF]: {
     path: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
-    isTemporaryBadge: false,
   },
   [PIX_DROIT_EXPERT_CERTIF]: {
     path: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-    isTemporaryBadge: false,
   },
+};
+
+const pixPlusEduBadgesInfos = {
   [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
-    isTemporaryBadge: true,
     levelName: 'Initié (entrée dans le métier)',
   },
   [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
-    isTemporaryBadge: true,
     levelName: 'Confirmé',
   },
   [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
-    isTemporaryBadge: true,
     levelName: 'Confirmé',
   },
   [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
-    isTemporaryBadge: true,
     levelName: 'Avancé',
   },
   [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]: {
     path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
-    isTemporaryBadge: true,
     levelName: 'Expert',
   },
 };
 
 describe('Unit | Domain | Models | CertifiedBadgeImage', function () {
   describe('#fromPartnerKey', function () {
-    for (const partnerKey in badgeInfos) {
-      it(`returns badge infos for ${partnerKey}`, function () {
-        // when
-        const result = CertifiedBadgeImage.fromPartnerKey(partnerKey);
+    context('when badge is final', function () {
+      const badges = { ...pixPlusDroitBadgesInfos, ...pixPlusEduBadgesInfos };
+      for (const badgeKey in badges) {
+        it(`returns final badge image for partner key ${badgeKey}`, function () {
+          // when
+          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey);
 
-        // then
-        expect(result).to.deepEqualInstance(new CertifiedBadgeImage(badgeInfos[partnerKey]));
-      });
-    }
+          // then
+          const { path, levelName } = badges[badgeKey];
+
+          expect(result).to.deepEqualInstance(new CertifiedBadgeImage({ path, levelName, isTemporaryBadge: false }));
+        });
+      }
+    });
+    context('when badge is temporary', function () {
+      const badges = { ...pixPlusEduBadgesInfos };
+      for (const badgeKey in badges) {
+        it(`returns temporary badge image for temporary partner key ${badgeKey}`, function () {
+          // when
+          const result = CertifiedBadgeImage.fromPartnerKey(null, badgeKey);
+
+          // then
+          const { path, levelName } = badges[badgeKey];
+
+          expect(result).to.deepEqualInstance(new CertifiedBadgeImage({ path, levelName, isTemporaryBadge: true }));
+        });
+      }
+    });
   });
 });

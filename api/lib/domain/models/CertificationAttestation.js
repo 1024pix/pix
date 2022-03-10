@@ -26,7 +26,7 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    acquiredPartnerCertificationKeys,
+    acquiredPartnerCertifications,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -42,7 +42,7 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.acquiredPartnerCertificationKeys = acquiredPartnerCertificationKeys;
+    this.acquiredPartnerCertifications = acquiredPartnerCertifications;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -54,23 +54,24 @@ class CertificationAttestation {
   }
 
   getAcquiredCleaCertification() {
-    return this.acquiredPartnerCertificationKeys.find((key) => key === PIX_EMPLOI_CLEA || key === PIX_EMPLOI_CLEA_V2);
+    return this.acquiredPartnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_EMPLOI_CLEA || partnerKey === PIX_EMPLOI_CLEA_V2
+    )?.partnerKey;
   }
 
   getAcquiredPixPlusDroitCertification() {
-    return this.acquiredPartnerCertificationKeys.find(
-      (key) => key === PIX_DROIT_MAITRE_CERTIF || key === PIX_DROIT_EXPERT_CERTIF
-    );
+    return this.acquiredPartnerCertifications.find(
+      ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF || partnerKey === PIX_DROIT_EXPERT_CERTIF
+    )?.partnerKey;
   }
 
   getAcquiredPixPlusEduCertification() {
-    return this.acquiredPartnerCertificationKeys.find(
-      (key) =>
-        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
-        key === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
-        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
-        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-        key === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    return (
+      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) ||
+      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME) ||
+      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME) ||
+      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) ||
+      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
     );
   }
 
@@ -80,26 +81,45 @@ class CertificationAttestation {
       return null;
     }
 
-    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
+    const { partnerKey, temporaryPartnerKey } = acquiredPixPlusEduCertification;
+    if (
+      partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
+      temporaryPartnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE
+    ) {
       return 'Initié (entrée dans le métier)';
     }
     if (
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
-        acquiredPixPlusEduCertification
+        partnerKey
+      ) ||
+      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
+        temporaryPartnerKey
       )
     ) {
       return 'Confirmé';
     }
-    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
+    if (
+      partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
+      temporaryPartnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
+    ) {
       return 'Avancé';
     }
-    if (acquiredPixPlusEduCertification === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
+    if (
+      partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT ||
+      temporaryPartnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+    ) {
       return 'Expert';
     }
   }
 
   hasAcquiredAnyComplementaryCertifications() {
-    return this.acquiredPartnerCertificationKeys.length > 0;
+    return this.acquiredPartnerCertifications.length > 0;
+  }
+
+  _findByPartnerKeyOrTemporaryPartnerKey(key) {
+    return this.acquiredPartnerCertifications.find(
+      ({ partnerKey, temporaryPartnerKey }) => partnerKey === key || temporaryPartnerKey === key
+    );
   }
 }
 
