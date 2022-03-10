@@ -271,13 +271,11 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
   });
 
   describe('#canRetry', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
-    const now = new Date('2020-01-05T05:06:07Z');
-    let clock;
+    let clock, originalConstantValue, now;
 
     beforeEach(function () {
+      originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+      now = new Date('2020-01-05T05:06:07Z');
       clock = sinon.useFakeTimers(now);
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 4;
     });
@@ -289,14 +287,21 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
     context('when the campaign does not allow multiple sendings', function () {
       it('returns false', function () {
+        const isCampaignMultipleSendings = false;
+        const isRegistrationActive = true;
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
-          sharedAt: new Date('2020-01-04'),
+          masteryRate: '0.34',
+          sharedAt: new Date('2020-01-01T05:06:07Z'),
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
-
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+        const assessmentResult = new AssessmentResult(
+          participationResults,
+          targetProfile,
+          isCampaignMultipleSendings,
+          isRegistrationActive
+        );
 
         expect(assessmentResult.canRetry).to.be.false;
       });
@@ -305,18 +310,19 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when participant is disabled', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
+        const isRegistrationActive = false;
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
-          sharedAt: new Date('2020-01-04'),
+          masteryRate: '0.34',
+          sharedAt: new Date('2020-01-01T05:06:07Z'),
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
-
         const assessmentResult = new AssessmentResult(
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          false
+          isRegistrationActive
         );
 
         expect(assessmentResult.canRetry).to.be.false;
@@ -330,10 +336,10 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
+          masteryRate: '0.34',
           sharedAt: null,
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
-
         const assessmentResult = new AssessmentResult(
           participationResults,
           targetProfile,
@@ -350,18 +356,19 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       function () {
         it('returns false', function () {
           const isCampaignMultipleSendings = true;
+          const isRegistrationActive = true;
           const participationResults = {
             knowledgeElements: [],
             acquiredBadgeIds: [],
-            sharedAt: new Date('2020-01-01T04:06:07Z'),
+            masteryRate: '0.34',
+            sharedAt: new Date('2020-01-03T05:06:07Z'),
           };
           const targetProfile = { competences: [], stages: [], badges: [] };
-
           const assessmentResult = new AssessmentResult(
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            false
+            isRegistrationActive
           );
 
           expect(assessmentResult.canRetry).to.be.false;
@@ -372,24 +379,20 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when the mastery rate equals to 1', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const competences = [
-          { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1'] },
-        ];
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
-        ];
+        const isRegistrationActive = true;
         const participationResults = {
-          knowledgeElements,
+          knowledgeElements: [],
           acquiredBadgeIds: [],
-          sharedAt: new Date('2020-01-01'),
+          masteryRate: '1',
+          sharedAt: new Date('2020-01-01T05:06:07Z'),
         };
-        const targetProfile = { competences, stages: [], badges: [] };
+        const targetProfile = { competences: [], stages: [], badges: [] };
 
         const assessmentResult = new AssessmentResult(
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          false
+          isRegistrationActive
         );
 
         expect(assessmentResult.canRetry).to.be.false;
@@ -402,23 +405,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
           const isRegistrationActive = true;
-          const competences = [
-            {
-              id: 'rec1',
-              name: 'C1',
-              index: '1.1',
-              areaName: 'Domaine1',
-              areaColor: 'Couleur1',
-              skillIds: ['skill1', 'skill2', 'skill3'],
-            },
-          ];
           const participationResults = {
             knowledgeElements: [],
             acquiredBadgeIds: [],
             masteryRate: '0.45',
             sharedAt: new Date('2019-12-12'),
           };
-          const targetProfile = { competences, stages: [], badges: [] };
+          const targetProfile = { competences: [], stages: [], badges: [] };
           const assessmentResult = new AssessmentResult(
             participationResults,
             targetProfile,
@@ -437,23 +430,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
           const isRegistrationActive = true;
-          const competences = [
-            {
-              id: 'rec1',
-              name: 'C1',
-              index: '1.1',
-              areaName: 'Domaine1',
-              areaColor: 'Couleur1',
-              skillIds: ['skill1', 'skill2', 'skill3'],
-            },
-          ];
           const participationResults = {
             knowledgeElements: [],
             acquiredBadgeIds: [],
             masteryRate: '0.34',
             sharedAt: new Date('2020-01-01T05:06:07Z'),
           };
-          const targetProfile = { competences, stages: [], badges: [] };
+          const targetProfile = { competences: [], stages: [], badges: [] };
           const assessmentResult = new AssessmentResult(
             participationResults,
             targetProfile,
