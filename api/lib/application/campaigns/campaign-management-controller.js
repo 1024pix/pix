@@ -2,6 +2,7 @@ const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const campaignDetailsManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-details-management-serializer');
 const participationForCampaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer');
+const commonDeserializer = require('../../infrastructure/serializers/jsonapi/deserializer');
 
 module.exports = {
   async getCampaignDetails(request) {
@@ -24,22 +25,11 @@ module.exports = {
 
   async updateCampaignDetailsManagement(request, h) {
     const campaignId = request.params.id;
-    const {
-      name,
-      title,
-      'custom-landing-page-text': customLandingPageText,
-      'custom-result-page-button-text': customResultPageButtonText,
-      'custom-result-page-button-url': customResultPageButtonUrl,
-      'custom-result-page-text': customResultPageText,
-    } = request.payload.data.attributes;
+
+    const campaignDetailsManagement = await commonDeserializer.deserialize(request.payload);
     await usecases.updateCampaignDetailsManagement({
       campaignId,
-      name,
-      title,
-      customLandingPageText,
-      customResultPageText,
-      customResultPageButtonText,
-      customResultPageButtonUrl,
+      ...campaignDetailsManagement,
     });
     return h.response({}).code(204);
   },
