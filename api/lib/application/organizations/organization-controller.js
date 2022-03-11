@@ -311,7 +311,8 @@ module.exports = {
 
   async archiveOrganization(request) {
     const organizationId = request.params.id;
-    await usecases.archiveOrganization({ organizationId });
-    return null;
+    const userId = extractUserIdFromRequest(request);
+    const archivedOrganization = await usecases.archiveOrganization({ organizationId, userId });
+    return organizationForAdminSerializer.serialize(archivedOrganization);
   },
 };

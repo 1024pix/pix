@@ -1254,41 +1254,31 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 
   describe('PUT /api/admin/organizations/{id}/archived', function () {
-    it('should cancel all pending invitations and return a 204', async function () {
+    it('should return the archived organization', async function () {
       // given
       const adminUser = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildOrganization({ id: 2 });
 
-      databaseBuilder.factory.buildMembership({
-        userId: adminUser.id,
+      // Invitations
+      databaseBuilder.factory.buildOrganizationInvitation({
         organizationId,
-        organizationRole: Membership.roles.ADMIN,
+        status: OrganizationInvitation.StatusType.PENDING,
       });
-
       databaseBuilder.factory.buildOrganizationInvitation({
         organizationId,
         status: OrganizationInvitation.StatusType.PENDING,
       });
 
-      databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
+      // Campaigns
+      databaseBuilder.factory.buildCampaign({ id: 1, organizationId });
+      databaseBuilder.factory.buildCampaign({ id: 2, organizationId });
 
-      databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
-
-      databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
-        status: OrganizationInvitation.StatusType.ACCEPTED,
-      });
-
-      databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
-        status: OrganizationInvitation.StatusType.CANCELLED,
-      });
+      // Memberships
+      databaseBuilder.factory.buildUser({ id: 7 });
+      databaseBuilder.factory.buildMembership({ id: 1, userId: 7, organizationId });
+      databaseBuilder.factory.buildUser({ id: 8 });
+      databaseBuilder.factory.buildMembership({ id: 2, userId: 8, organizationId });
 
       await databaseBuilder.commit();
 
@@ -1300,17 +1290,9 @@ describe('Acceptance | Application | organization-controller', function () {
       });
 
       // then
-      expect(response.statusCode).to.equal(204);
-      const pendingInvitations = await knex('organization-invitations').where({
-        organizationId,
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
-      const cancelledInvitations = await knex('organization-invitations').where({
-        organizationId,
-        status: OrganizationInvitation.StatusType.CANCELLED,
-      });
-      expect(pendingInvitations).to.have.lengthOf(0);
-      expect(cancelledInvitations).to.have.lengthOf(4);
+      expect(response.statusCode).to.equal(200);
+      const archivedOrganization = response.result.data.attributes;
+      expect(archivedOrganization['archivist-full-name']).to.equal(`${adminUser.firstName} ${adminUser.lastName}`);
     });
   });
 
