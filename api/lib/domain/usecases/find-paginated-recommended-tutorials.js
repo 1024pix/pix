@@ -1,17 +1,6 @@
-const paginate = require('../../infrastructure/utils/paginate');
+const paginateModule = require('../../infrastructure/utils/paginate');
 
-module.exports = async function findPaginatedRecommendedTutorials({
-  userId,
-  knowledgeElementRepository,
-  skillRepository,
-  tutorialRepository,
-  page,
-}) {
-  const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
-
-  const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
-
-  const tutorials = await tutorialRepository.findByRecordIds(skills.flatMap((skill) => skill.tutorialIds));
-
-  return paginate(tutorials, page);
+module.exports = async function findPaginatedRecommendedTutorials({ userId, tutorialRepository, page }) {
+  const tutorials = await tutorialRepository.findRecommendedByUserId(userId);
+  return paginateModule.paginate(tutorials, page);
 };

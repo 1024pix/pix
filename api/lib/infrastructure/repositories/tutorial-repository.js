@@ -6,6 +6,8 @@ const tutorialDatasource = require('../datasources/learning-content/tutorial-dat
 const { NotFoundError } = require('../../domain/errors');
 const TutorialWithUserSavedTutorial = require('../../domain/models/TutorialWithUserSavedTutorial');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const knowledgeElementRepository = require('./knowledge-element-repository');
+const skillRepository = require('./skill-repository');
 
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
@@ -44,6 +46,14 @@ module.exports = {
     const lang = _extractLangFromLocale(locale);
     tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
     return _.map(tutorialData, _toDomain);
+  },
+
+  async findRecommendedByUserId(userId) {
+    const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
+
+    const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
+
+    return this.findByRecordIds(skills.flatMap((skill) => skill.tutorialIds));
   },
 };
 
