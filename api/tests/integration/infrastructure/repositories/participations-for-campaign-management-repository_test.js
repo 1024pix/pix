@@ -1,7 +1,8 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, knex } = require('../../../test-helper');
 const participationsForCampaignManagementRepository = require('../../../../lib/infrastructure/repositories/participations-for-campaign-management-repository');
 const _ = require('lodash');
 const ParticipationForCampaignManagement = require('../../../../lib/domain/models/ParticipationForCampaignManagement');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Participations-For-Campaign-Management', function () {
   describe('#findPaginatedParticipationsForCampaignManagement', function () {
@@ -160,6 +161,69 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         // then
         expect(participationsForCampaignManagement).to.have.lengthOf(2);
         expect(pagination).to.include(expectedPagination);
+      });
+    });
+  });
+
+  describe('#updateParticipantExternalId', function () {
+    context('When campaign participation is not null', function () {
+      it('should update  ', async function () {
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+        const newParticipantExternalId = 'newExternal';
+        await databaseBuilder.commit();
+
+        await participationsForCampaignManagementRepository.updateParticipantExternalId({
+          campaignParticipationId,
+          participantExternalId: newParticipantExternalId,
+        });
+        const { participantExternalId } = await knex('campaign-participations')
+          .select('*')
+          .where('id', campaignParticipationId)
+          .first();
+
+        // then
+        expect(participantExternalId).to.equal(newParticipantExternalId);
+      });
+    });
+
+    context('When campaign participation is null', function () {
+      it('should update  ', async function () {
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+        const newParticipantExternalId = null;
+        await databaseBuilder.commit();
+
+        await participationsForCampaignManagementRepository.updateParticipantExternalId({
+          campaignParticipationId,
+          participantExternalId: newParticipantExternalId,
+        });
+        const { participantExternalId } = await knex('campaign-participations')
+          .select('*')
+          .where('id', campaignParticipationId)
+          .first();
+
+        // then
+        expect(participantExternalId).to.equal(null);
+      });
+    });
+
+    context('campaign participation does not exist', function () {
+      it('should throw an error', async function () {
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+        await databaseBuilder.commit();
+
+        const unexistingCampaignParticipationId = 90;
+        const newParticipantExternalId = 'newExternal';
+
+        const error = await catchErr(participationsForCampaignManagementRepository.updateParticipantExternalId)({
+          unexistingCampaignParticipationId,
+          participantExternalId: newParticipantExternalId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
