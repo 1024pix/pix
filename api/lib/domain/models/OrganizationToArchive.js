@@ -5,10 +5,11 @@ class OrganizationToArchive {
     this.id = id;
   }
 
-  archive({ archiveDate = new Date() } = {}) {
+  archive({ archiveDate = new Date(), archivedBy } = {}) {
     this.previousInvitationStatus = OrganizationInvitation.StatusType.PENDING;
     this.newInvitationStatus = OrganizationInvitation.StatusType.CANCELLED;
     this.archiveDate = archiveDate;
+    this.archivedBy = archivedBy;
   }
 }
 
