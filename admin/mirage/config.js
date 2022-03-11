@@ -18,7 +18,11 @@ import { createMembership } from './handlers/memberships';
 import { getBadge } from './handlers/badges';
 import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
-import { findPaginatedOrganizationMemberships, getOrganizationInvitations } from './handlers/organizations';
+import {
+  archiveOrganization,
+  findPaginatedOrganizationMemberships,
+  getOrganizationInvitations,
+} from './handlers/organizations';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 
 export default function () {
@@ -346,4 +350,6 @@ export default function () {
   });
 
   this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
+
+  this.post('/admin/organizations/:id/archive', archiveOrganization);
 }
