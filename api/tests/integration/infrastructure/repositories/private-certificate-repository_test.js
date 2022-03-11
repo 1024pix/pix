@@ -400,7 +400,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
-          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
+          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, 'should_be_ignored'],
           notAcquiredBadges: [PIX_DROIT_MAITRE_CERTIF],
         });
 
@@ -497,8 +497,15 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData,
-        acquiredBadges: [PIX_DROIT_MAITRE_CERTIF],
+        acquiredBadges: [PIX_DROIT_MAITRE_CERTIF, 'should_be_ignored'],
         notAcquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
+      });
+
+      await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+        privateCertificateData: {},
+        acquiredBadges: [],
+        notAcquiredBadges: [],
+        temporaryAcquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
       });
 
       // when
@@ -546,7 +553,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData,
-        acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF],
+        acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF, 'should_be_ignored'],
         notAcquiredBadges: [],
       });
 
@@ -596,7 +603,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData,
         temporaryAcquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
-        acquiredBadges: [],
+        acquiredBadges: ['should_be_ignored'],
         notAcquiredBadges: [],
       });
 
@@ -911,7 +918,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     createdAt: new Date('2021-01-01'),
   });
 
-  [...acquiredBadges, 'should_be_ignored'].forEach((badgeKey) => {
+  acquiredBadges?.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
     databaseBuilder.factory.buildPartnerCertification({
       certificationCourseId: certificateId,
