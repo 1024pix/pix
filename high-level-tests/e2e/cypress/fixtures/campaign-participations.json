@@ -37,7 +37,7 @@
   {
     "id": 5,
     "campaignId": 4,
-    "status": "STARTED",
+    "status": "TO_SHARE",
     "participantExternalId": "La régicide",
     "userId": 5,
     "schoolingRegistrationId": 6

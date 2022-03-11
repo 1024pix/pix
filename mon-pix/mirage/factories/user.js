@@ -189,6 +189,9 @@ export default Factory.extend({
   hasSeenNewDashboardInfo: trait({
     hasSeenNewDashboardInfo: true,
   }),
+  withAssessmentParticipations: trait({
+    hasAssessmentParticipations: true,
+  }),
   certifiable: trait({
     afterCreate(user, server) {
       user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': true }) });

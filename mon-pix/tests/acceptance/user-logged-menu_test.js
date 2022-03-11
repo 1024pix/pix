@@ -16,7 +16,7 @@ describe('Acceptance | User account', function () {
   beforeEach(async function () {
     //given
     server.create('campaign-participation-overview', { assessmentState: 'completed' });
-    user = server.create('user', 'withEmail', 'campaignParticipations');
+    user = server.create('user', 'withEmail', 'withAssessmentParticipations');
     await authenticateByEmail(user);
   });
 

@@ -12,23 +12,19 @@ export default class User extends Model {
   @attr('boolean') hasSeenNewDashboardInfo;
   @attr('boolean') hasSeenFocusedChallengeTooltip;
   @attr('boolean') hasSeenOtherChallengesTooltip;
+  @attr('boolean') hasAssessmentParticipations;
+  @attr('string') codeForLastProfileToShare;
   @attr('string') lang;
   @attr('boolean') isAnonymous;
 
   // includes
   @belongsTo('is-certifiable') isCertifiable;
   @belongsTo('profile', { async: false }) profile;
-  @hasMany('campaign-participation') campaignParticipations;
   @hasMany('certification') certifications;
   @hasMany('scorecard') scorecards;
 
   // methods
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
-  }
-
-  get hasAssessmentParticipations() {
-    const participations = this.campaignParticipations.toArray();
-    return participations.some((participation) => participation.campaign.get('isAssessment'));
   }
 }
