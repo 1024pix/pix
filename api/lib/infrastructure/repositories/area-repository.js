@@ -3,17 +3,19 @@ const areaDatasource = require('../datasources/learning-content/area-datasource'
 const competenceRepository = require('./competence-repository');
 const _ = require('lodash');
 
+function _toDomain(areaData) {
+  return new Area({
+    id: areaData.id,
+    code: areaData.code,
+    name: areaData.name,
+    title: areaData.titleFrFr,
+    color: areaData.color,
+  });
+}
+
 async function list() {
   const areaDataObjects = await areaDatasource.list();
-  return areaDataObjects.map((areaDataObject) => {
-    return new Area({
-      id: areaDataObject.id,
-      code: areaDataObject.code,
-      name: areaDataObject.name,
-      title: areaDataObject.titleFrFr,
-      color: areaDataObject.color,
-    });
-  });
+  return areaDataObjects.map(_toDomain);
 }
 
 async function listWithPixCompetencesOnly({ locale } = {}) {
@@ -24,7 +26,18 @@ async function listWithPixCompetencesOnly({ locale } = {}) {
   return _.filter(areas, ({ competences }) => !_.isEmpty(competences));
 }
 
+async function findByFrameworkId(frameworkId) {
+  const areaDatas = await areaDatasource.findByFrameworkId(frameworkId);
+  const areas = areaDatas.map(_toDomain);
+  const competences = await competenceRepository.list();
+  areas.forEach((area) => {
+    area.competences = _.filter(competences, { area: { id: area.id } });
+  });
+  return areas;
+}
+
 module.exports = {
   list,
   listWithPixCompetencesOnly,
+  findByFrameworkId,
 };
