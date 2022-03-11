@@ -31,7 +31,7 @@ describe('Integration | Scripts | select-category-for-target-profiles.js', funct
         .select('category')
         .whereIn('id', targetProfilesId)
         .distinct('category');
-      expect(targetProfilesCategories).deep.equal([{ category: categories.COMPETENCES }]);
+      expect(targetProfilesCategories).to.deep.equal([{ category: categories.COMPETENCES }]);
     });
 
     it('should not set category on other target profiles', async function () {
@@ -97,7 +97,7 @@ ${secondTargetProfileId},COMPETENCES`;
       await setCategoriesToTargetProfiles(csvData);
 
       const targetProfiles = await knex('target-profiles').select(['id', 'category']).whereNotNull('category');
-      expect(targetProfiles).deep.equal([
+      expect(targetProfiles).to.deep.have.members([
         { id: firstTargetProfileId, category: categories.DISCIPLINE },
         { id: secondTargetProfileId, category: categories.COMPETENCES },
       ]);
