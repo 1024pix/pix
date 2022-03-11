@@ -1,5 +1,7 @@
 const paginate = require('../../infrastructure/utils/paginate');
-const { PageInput, Page } = require('../../infrastructure/utils/paginate');
+
+/** @typedef {import('../../infrastructure/utils/paginate').PageInput} PageInput */
+/** @typedef {import('../../infrastructure/utils/paginate').Page} Page */
 
 /**
  * @param {Object} params
