@@ -112,10 +112,10 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .select('partnerKey', 'temporaryPartnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', handledBadgeKeys)
-    .orWhereIn('temporaryPartnerKey', handledBadgeKeys)
+    .where(function () {
+      this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);
+    })
     .orderBy('partnerKey');
-
   return _.compact(
     _.map(results, ({ partnerKey, temporaryPartnerKey }) =>
       CertifiedBadgeImage.fromPartnerKey(partnerKey, temporaryPartnerKey)
