@@ -42,6 +42,7 @@ async function prepareCampaigns(campaignsData) {
       name: campaignData.name,
       title: campaignData.title,
       customLandingPageText: campaignData.customLandingPageText,
+      multipleSendings: campaignData.multipleSendings,
     };
 
     campaignValidator.validate(campaign);
