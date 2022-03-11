@@ -15,7 +15,6 @@ const {
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
 } = require('../../../../lib/domain/models/Badge').keys;
-const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -508,8 +507,8 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           ...shareableCertificateData,
         });
 
-        expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedShareableCertificate, ['resultCompetenceTree'])
+        expect(shareableCertificate.certifiedBadgeImages).to.deep.equal(
+          expectedShareableCertificate.certifiedBadgeImages
         );
       });
 
@@ -545,6 +544,15 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
           notAcquiredBadges: [],
         });
+
+        const otherCertificateId = databaseBuilder.factory.buildCertificationCourse().id;
+        databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
+        databaseBuilder.factory.buildPartnerCertification({
+          certificationCourseId: otherCertificateId,
+          temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          acquired: true,
+        });
+        await databaseBuilder.commit();
 
         // when
         const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');

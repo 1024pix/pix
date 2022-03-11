@@ -155,8 +155,9 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
     .select('partnerKey', 'temporaryPartnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', handledBadgeKeys)
-    .orWhereIn('temporaryPartnerKey', handledBadgeKeys);
+    .where(function () {
+      this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);
+    });
 
   return partnerCertifications;
 }
