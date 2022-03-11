@@ -48,7 +48,7 @@ module.exports = {
     return skillDatas.map(_toDomain);
   },
 
-  async findInvalidatedAndOperativeByUserId(userId) {
+  async findInvalidatedAndOperativeByUserId() {
     return [];
   },
 };
