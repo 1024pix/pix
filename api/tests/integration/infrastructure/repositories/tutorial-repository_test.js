@@ -5,6 +5,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const TutorialWithUserSavedTutorial = require('../../../../lib/domain/models/TutorialWithUserSavedTutorial');
 const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Repository | tutorial-repository', function () {
@@ -318,6 +319,166 @@ describe('Integration | Repository | tutorial-repository', function () {
 
       // then
       expect(tutorials).to.have.lengthOf(0);
+    });
+  });
+
+  describe('#findRecommendedByUserId', function () {
+    let userId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    describe('when there are no invalidated and direct KE', function () {
+      it('should return an empty page', async function () {
+        // given
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto1',
+              duration: '00:00:54',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example.html',
+              source: 'tuto.com',
+              title: 'tuto1',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              tutorialIds: ['tuto1', 'tuto2'],
+              status: 'actif',
+            },
+          ],
+        });
+
+        // when
+        const results = await tutorialRepository.findRecommendedByUserId(userId);
+
+        // then
+        expect(results).to.deep.equal([]);
+      });
+    });
+
+    describe('when there are only validated KE', function () {
+      it('should return an empty page', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill1',
+          userId,
+          status: KnowledgeElement.StatusType.VALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto1',
+              duration: '00:00:54',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example.html',
+              source: 'tuto.com',
+              title: 'tuto1',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              tutorialIds: ['tuto1', 'tuto2'],
+              status: 'actif',
+            },
+          ],
+        });
+
+        // when
+        const results = await tutorialRepository.findRecommendedByUserId(userId);
+
+        // then
+        expect(results).to.deep.equal([]);
+      });
+    });
+
+    describe('when there is one invalidated KE', function () {
+      it('should return all fields from recommended tutorials', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill1',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill4',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto1',
+            },
+            {
+              id: 'tuto2',
+            },
+            {
+              id: 'tuto5',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              tutorialIds: ['tuto1', 'tuto2'],
+              status: 'actif',
+            },
+            {
+              id: 'recSkill4',
+              tutorialIds: ['tuto5'],
+              status: 'archivé',
+            },
+          ],
+        });
+
+        // when
+        const results = await tutorialRepository.findRecommendedByUserId(userId);
+
+        // then
+        expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1', 'tuto5']);
+      });
+    });
+
+    describe('when there is one invalidated KE but skill is not operative', function () {
+      it('should return an empty list', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill3',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto4',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill3',
+              tutorialIds: ['tuto4'],
+              status: 'périmé',
+            },
+          ],
+        });
+
+        // when
+        const results = await tutorialRepository.findRecommendedByUserId(userId);
+
+        // then
+        expect(results).to.deep.equal([]);
+      });
     });
   });
 });
