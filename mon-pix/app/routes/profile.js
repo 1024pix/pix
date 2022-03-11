@@ -13,6 +13,5 @@ export default class ProfileRoute extends Route.extend(SecuredRouteMixin) {
     // This reloads are necessary to keep the ui in sync when the
     // user navigates back to this route
     user.belongsTo('profile').reload();
-    user.hasMany('campaignParticipations').reload();
   }
 }

@@ -153,7 +153,7 @@ describe('Acceptance | User dashboard page', function () {
     });
 
     it('should display the link to profile', function () {
-      expect(find('.dashboard-content-main-section__button')).to.exist;
+      expect(contains(this.intl.t('pages.dashboard.recommended-competences.profile-link'))).to.exist;
     });
   });
 
@@ -233,7 +233,7 @@ describe('Acceptance | User dashboard page', function () {
             createdAt: new Date('2020-04-20T04:05:06Z'),
           });
           campaignParticipation.assessment.update({ state: 'completed' });
-          user.update({ campaignParticipations: [campaignParticipation] });
+          user.update({ codeForLastProfileToShare: campaign.code });
 
           await authenticateByEmail(user);
         });

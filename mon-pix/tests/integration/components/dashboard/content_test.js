@@ -19,6 +19,20 @@ describe('Integration | Component | Dashboard | Content', function () {
       profile: {
         pixScore,
       },
+      hasSeenNewDashboardInfo: false,
+    };
+  }
+
+  class CurrentUserWithCodeStub extends Service {
+    user = {
+      firstName: 'Banana',
+      email: 'banana.split@example.net',
+      fullName: 'Banana Split',
+      profile: {
+        pixScore,
+      },
+      hasSeenNewDashboardInfo: false,
+      codeForLastProfileToShare: 'SNAP1234',
     };
   }
 
@@ -27,6 +41,9 @@ describe('Integration | Component | Dashboard | Content', function () {
       firstName: 'Banana',
       email: 'banana.split@example.net',
       fullName: 'Banana Split',
+      profile: {
+        pixScore,
+      },
       hasSeenNewDashboardInfo: true,
     };
   }
@@ -425,6 +442,30 @@ describe('Integration | Component | Dashboard | Content', function () {
       // then
       expect(find('.dashboard-content__score')).to.exist;
       expect(find('.hexagon-score-content__pix-score').textContent).to.contains(pixScore);
+    });
+  });
+
+  describe('participation to a profile collection campaign to resume', function () {
+    it('should display the banner to resume participation', async function () {
+      // given
+      this.owner.register('service:currentUser', CurrentUserWithCodeStub);
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(contains(this.intl.t('pages.dashboard.campaigns.resume.action'))).to.exist;
+    });
+
+    it('should not display the banner when there is no code', async function () {
+      // given
+      this.owner.register('service:currentUser', CurrentUserStub);
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(contains(this.intl.t('pages.dashboard.campaigns.resume.action'))).not.to.exist;
     });
   });
 });

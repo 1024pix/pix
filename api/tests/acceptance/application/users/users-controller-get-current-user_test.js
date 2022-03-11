@@ -6,11 +6,24 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
   let options;
   let server;
   let user;
+  let expectedCode;
 
   beforeEach(async function () {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser();
+    const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'SOMECODE' });
+    const assessmentCampaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
+    expectedCode = campaign.code;
+    databaseBuilder.factory.buildCampaignParticipation({
+      campaignId: campaign.id,
+      status: 'TO_SHARE',
+      userId: user.id,
+    });
+    databaseBuilder.factory.buildCampaignParticipation({
+      campaignId: assessmentCampaign.id,
+      userId: user.id,
+    });
 
     options = {
       method: 'GET',
@@ -45,6 +58,8 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
             'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
             'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
+            'has-assessment-participations': true,
+            'code-for-last-profile-to-share': expectedCode,
           },
           relationships: {
             memberships: {
@@ -70,11 +85,6 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             scorecards: {
               links: {
                 related: `/api/users/${user.id}/scorecards`,
-              },
-            },
-            'campaign-participations': {
-              links: {
-                related: `/api/users/${user.id}/campaign-participations`,
               },
             },
             'is-certifiable': {

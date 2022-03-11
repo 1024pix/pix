@@ -27,6 +27,26 @@ const ATTRIBUTES_TO_UPDATE = [
 ];
 
 module.exports = {
+  async hasAssessmentParticipations(userId) {
+    const { count } = await knex('campaign-participations')
+      .count('campaign-participations.id')
+      .join('campaigns', 'campaigns.id', 'campaignId')
+      .where('campaigns.type', '=', Campaign.types.ASSESSMENT)
+      .andWhere({ userId })
+      .first();
+    return count > 0;
+  },
+  async getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId) {
+    const result = await knex('campaign-participations')
+      .select('campaigns.code')
+      .join('campaigns', 'campaigns.id', 'campaignId')
+      .where({ userId })
+      .andWhere({ status: TO_SHARE })
+      .andWhere({ 'campaigns.type': Campaign.types.PROFILES_COLLECTION })
+      .orderBy('campaign-participations.createdAt', 'desc')
+      .first();
+    return result?.code || null;
+  },
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const campaignParticipation = await BookshelfCampaignParticipation.where({ id }).fetch({
       withRelated: ['campaign', 'assessments'],
