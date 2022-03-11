@@ -47,4 +47,8 @@ module.exports = {
     const skillDatas = await skillDatasource.findOperativeByRecordIds(skillIds);
     return skillDatas.map(_toDomain);
   },
+
+  async findInvalidatedAndOperativeByUserId(userId) {
+    return [];
+  },
 };

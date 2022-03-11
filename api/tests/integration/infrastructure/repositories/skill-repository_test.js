@@ -1,4 +1,4 @@
-const { expect, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, mockLearningContent, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const Skill = require('../../../../lib/domain/models/Skill');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -133,5 +133,31 @@ describe('Integration | Repository | skill-repository', function () {
         expect(error).to.be.instanceOf(NotFoundError).and.have.property('message', 'Erreur, compétence introuvable');
       });
     });
+  });
+
+  describe('#findInvalidatedAndOperativeByUserId', function () {
+    let userId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    describe('when there are no invalidated and direct KE', function () {
+      it('should return an empty array', async function () {
+        // given
+        mockLearningContent({
+          skills: [],
+        });
+
+        // when
+        const results = await skillRepository.findInvalidatedAndOperativeByUserId(userId);
+
+        // then
+        expect(results).to.deep.equal([]);
+      });
+    });
+
+    it('should return skills where user gave wrong answers', async function () {});
   });
 });
