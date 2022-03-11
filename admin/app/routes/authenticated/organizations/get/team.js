@@ -1,6 +1,9 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class OrganizationTeamRoute extends Route {
+  @service router;
+
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
@@ -9,6 +12,13 @@ export default class OrganizationTeamRoute extends Route {
     email: { refreshModel: true },
     organizationRole: { refreshModel: true },
   };
+
+  beforeModel() {
+    const organization = this.modelFor('authenticated.organizations.get');
+    if (organization.get('archivistFullName')) {
+      return this.router.replaceWith('authenticated.organizations.get.target-profiles');
+    }
+  }
 
   async model(params) {
     const organization = this.modelFor('authenticated.organizations.get');

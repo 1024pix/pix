@@ -29,6 +29,7 @@ function buildOrganization({
   showNPS = false,
   formNPSUrl = 'https://pix.fr',
   showSkills = false,
+  archivedAt = null,
 } = {}) {
   return new Organization({
     id,
@@ -48,6 +49,7 @@ function buildOrganization({
     showNPS,
     formNPSUrl,
     showSkills,
+    archivedAt,
   });
 }
 

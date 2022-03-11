@@ -15,13 +15,16 @@
   />
 
   <nav class="navbar">
-    <LinkTo @route="authenticated.organizations.get.team" @model={{@model}} class="navbar-item">
-      Équipe
-    </LinkTo>
 
-    <LinkTo @route="authenticated.organizations.get.invitations" @model={{@model}} class="navbar-item">
-      Invitations
-    </LinkTo>
+    {{#unless @model.archivistFullName}}
+      <LinkTo @route="authenticated.organizations.get.team" @model={{@model}} class="navbar-item">
+        Équipe
+      </LinkTo>
+
+      <LinkTo @route="authenticated.organizations.get.invitations" @model={{@model}} class="navbar-item">
+        Invitations
+      </LinkTo>
+    {{/unless}}
 
     <LinkTo @route="authenticated.organizations.get.target-profiles" @model={{@model}} class="navbar-item">
       Profils cibles
