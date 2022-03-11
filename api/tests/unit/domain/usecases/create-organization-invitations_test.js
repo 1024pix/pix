@@ -1,14 +1,18 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
 const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
 
 const createOrganizationInvitations = require('../../../../lib/domain/usecases/create-organization-invitations');
+const { OrganizationArchivedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization-invitations', function () {
-  let organizationInvitationRepository;
-  let organizationRepository;
+  let organizationInvitationRepository, organizationRepository;
 
   beforeEach(function () {
+    const organization = domainBuilder.buildOrganization();
+    organizationRepository = {
+      get: sinon.stub().resolves(organization),
+    };
     sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
   });
 
@@ -54,6 +58,26 @@ describe('Unit | UseCase | create-organization-invitations', function () {
 
       // then
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledTwice;
+    });
+
+    it('should throw an organization archived error when it is archived', async function () {
+      // given
+      const archivedOrganization = domainBuilder.buildOrganization({ archivedAt: '2022-02-02' });
+      const emails = ['member01@organization.org'];
+      organizationRepository.get.resolves(archivedOrganization);
+
+      // when
+      const error = await catchErr(createOrganizationInvitations)({
+        organizationId: archivedOrganization.id,
+        emails,
+        organizationRepository,
+        organizationInvitationRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(OrganizationArchivedError);
+      expect(error.message).to.be.equal("L'organisation est archivée.");
+      expect(organizationInvitationService.createOrganizationInvitation).to.not.have.been.called;
     });
   });
 });

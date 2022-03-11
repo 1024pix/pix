@@ -30,6 +30,7 @@ class Organization {
     showNPS,
     formNPSUrl,
     showSkills,
+    archivedAt,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -49,6 +50,7 @@ class Organization {
     this.showNPS = showNPS;
     this.formNPSUrl = formNPSUrl;
     this.showSkills = showSkills;
+    this.archivedAt = archivedAt;
   }
 
   get isSup() {

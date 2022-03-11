@@ -23,7 +23,6 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
         'tags',
         'createdBy',
         'archivedBy',
-        'archivedAt',
       ]);
 
       await databaseBuilder.commit();

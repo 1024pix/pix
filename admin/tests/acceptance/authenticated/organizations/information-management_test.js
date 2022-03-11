@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -28,6 +28,50 @@ module('Acceptance | Organizations | Information management', function (hooks) {
 
       // then
       assert.contains('newOrganizationName');
+    });
+  });
+
+  module('when organization is archived', function () {
+    test('should redirect to organization target profiles page', async function (assert) {
+      // given
+      const organization = this.server.create('organization', {
+        name: 'oldOrganizationName',
+        archivistFullName: 'Clément Tine',
+      });
+
+      // when
+      await visit(`/organizations/${organization.id}`);
+
+      // then
+      assert.strictEqual(currentURL(), `/organizations/${organization.id}/target-profiles`);
+    });
+
+    test('should not allow user to access team page', async function (assert) {
+      // given
+      const organization = this.server.create('organization', {
+        name: 'oldOrganizationName',
+        archivistFullName: 'Clément Tine',
+      });
+
+      // when
+      await visit(`/organizations/${organization.id}/team`);
+
+      // then
+      assert.strictEqual(currentURL(), `/organizations/${organization.id}/target-profiles`);
+    });
+
+    test('should not allow user to access invitation page', async function (assert) {
+      // given
+      const organization = this.server.create('organization', {
+        name: 'oldOrganizationName',
+        archivistFullName: 'Clément Tine',
+      });
+
+      // when
+      await visit(`/organizations/${organization.id}/invitations`);
+
+      // then
+      assert.strictEqual(currentURL(), `/organizations/${organization.id}/target-profiles`);
     });
   });
 });
