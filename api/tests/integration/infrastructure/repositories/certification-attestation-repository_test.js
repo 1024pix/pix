@@ -371,6 +371,47 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           );
         });
       });
+
+      it(`should get the appropriate certified badge when acquired`, async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+        const certificationAttestationData = {
+          id: 123,
+          acquiredPartnerCertifications: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null }],
+        };
+        const certificationAttestationData2 = {
+          id: 124,
+          acquiredPartnerCertifications: [
+            { partnerKey: null, temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE },
+          ],
+        };
+        databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
+        databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
+        await _buildValidCertificationAttestation(certificationAttestationData);
+        await _buildValidCertificationAttestation(certificationAttestationData2);
+
+        databaseBuilder.factory.buildPartnerCertification({
+          certificationCourseId: 123,
+          partnerKey: PIX_DROIT_EXPERT_CERTIF,
+          acquired: true,
+        });
+
+        databaseBuilder.factory.buildPartnerCertification({
+          certificationCourseId: 124,
+          temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          acquired: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const certificationAttestation = await certificationAttestationRepository.get(123);
+
+        // then
+        expect(certificationAttestation.acquiredPartnerCertifications).to.deep.equals([
+          { partnerKey: PIX_DROIT_EXPERT_CERTIF },
+        ]);
+      });
     });
 
     it('should only take into account acquired ones', async function () {
