@@ -15,6 +15,9 @@
             <th>Date de début</th>
             <th>Statut</th>
             <th>Date d'envoi</th>
+            {{#if @idPixLabel}}
+              <th>Actions</th>
+            {{/if}}
           </tr>
         </thead>
 
@@ -22,20 +25,11 @@
           <tbody>
             {{#each @participations as |participation|}}
               <tr aria-label="participation">
-                <td>{{participation.lastName}}</td>
-                <td>{{participation.firstName}}</td>
-                {{#if @idPixLabel}}
-                  <td>{{participation.participantExternalId}}</td>
-                {{/if}}
-                <td>{{moment-format participation.createdAt "DD/MM/YYYY"}}</td>
-                <td>{{participation.displayedStatus}}</td>
-                <td>
-                  {{#if participation.sharedAt}}
-                    {{moment-format participation.sharedAt "DD/MM/YYYY"}}
-                  {{else}}
-                    -
-                  {{/if}}
-                </td>
+                <Campaigns::ParticipationRow
+                  @participation={{participation}}
+                  @idPixLabel={{@idPixLabel}}
+                  @updateParticipantExternalId={{@updateParticipantExternalId}}
+                />
               </tr>
             {{/each}}
           </tbody>

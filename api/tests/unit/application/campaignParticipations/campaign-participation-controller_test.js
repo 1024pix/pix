@@ -356,4 +356,36 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       expect(response).to.equal(expectedResults);
     });
   });
+
+  describe('#updateParticipantExternalId', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'updateParticipantExternalId');
+    });
+
+    it('should call usecase and serializer with expected parameters', async function () {
+      //given
+      const request = {
+        params: {
+          id: 123,
+        },
+        payload: {
+          data: {
+            attributes: {
+              'participant-external-id': 'Pixer123',
+            },
+          },
+        },
+      };
+      // when
+      const response = await campaignParticipationController.updateParticipantExternalId(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(usecases.updateParticipantExternalId).to.have.been.calledOnce;
+      expect(usecases.updateParticipantExternalId).to.have.been.calledWithMatch({
+        campaignParticipationId: 123,
+        participantExternalId: 'Pixer123',
+      });
+    });
+  });
 });

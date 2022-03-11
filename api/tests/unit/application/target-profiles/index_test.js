@@ -457,7 +457,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('PATCH /api/target-profiles', function () {
+  describe('PATCH /api/admin/target-profiles', function () {
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));

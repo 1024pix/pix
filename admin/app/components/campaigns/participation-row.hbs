@@ -1,0 +1,58 @@
+<td>{{@participation.lastName}}</td>
+<td>{{@participation.firstName}}</td>
+{{#if @idPixLabel}}
+  <td>
+    {{#if this.isEditionMode}}
+      <PixInput
+        id="participantExternalId"
+        type="text"
+        aria-label="Modifier"
+        value={{@participation.participantExternalId}}
+        onchange={{this.handleChange}}
+        class="table-admin-input form-control"
+      />
+    {{else}}
+      {{@participation.participantExternalId}}
+    {{/if}}
+  </td>
+{{/if}}
+<td>{{moment-format @participation.createdAt "DD/MM/YYYY"}}</td>
+<td>{{@participation.displayedStatus}}</td>
+<td>
+  {{if @participation.sharedAt (moment-format @participation.sharedAt "DD/MM/YYYY") "-"}}
+</td>
+{{#if @idPixLabel}}
+  <td>
+    <div class="participation-item-actions">
+      {{#if this.isEditionMode}}
+        <div class="participation-item-actions__modify">
+          <PixButton
+            @size="small"
+            @triggerAction={{this.updateParticipantExternalId}}
+            class="participation-item-actions__button participation-item-actions__button--save"
+          >
+            Enregistrer
+          </PixButton>
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancelUpdateParticipantExternalId}}
+            aria-label="Annuler"
+            class="participation-item-actions__button--icon"
+          >
+            <FaIcon @icon="times" />
+          </PixButton>
+        </div>
+      {{else}}
+        <PixButton
+          @triggerAction={{this.editParticipantExternalId}}
+          @size="small"
+          class="participation-item-actions__button"
+        >
+          <FaIcon @icon="edit" />Modifier
+        </PixButton>
+      {{/if}}
+    </div>
+  </td>
+{{/if}}

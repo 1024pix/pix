@@ -135,4 +135,12 @@ module.exports = {
     });
     return campaignAssessmentResultMinimalSerializer.serialize(paginatedParticipations);
   },
+
+  async updateParticipantExternalId(request, h) {
+    const campaignParticipationId = request.params.id;
+    const participantExternalId = request.payload.data.attributes['participant-external-id'];
+
+    await usecases.updateParticipantExternalId({ campaignParticipationId, participantExternalId });
+    return h.response({}).code(204);
+  },
 };
