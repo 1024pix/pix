@@ -23,6 +23,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
         name: 'CampaignName',
         organizationId: organizationId1,
         creatorId: '789',
+        multipleSendings: false,
       };
 
       // when
@@ -40,6 +41,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
         name: 'CampaignName',
         organizationId: organizationId1,
         creatorId: '789',
+        multipleSendings: false,
       };
 
       // when
@@ -58,12 +60,14 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
         organizationId: organizationId1,
         customLandingPageText: 'customLandingPageText1',
         creatorId,
+        multipleSendings: false,
       };
       const campaignData2 = {
         name: 'Name2',
         organizationId: organizationId2,
         customLandingPageText: undefined,
         creatorId,
+        multipleSendings: false,
       };
 
       // when
@@ -88,6 +92,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       const campaignData = {
         name: '',
         organizationId: organizationId1,
+        multipleSendings: false,
       };
 
       // when
