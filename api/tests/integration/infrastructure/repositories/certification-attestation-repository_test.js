@@ -409,7 +409,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
         // then
         expect(certificationAttestation.acquiredPartnerCertifications).to.deep.equals([
-          { partnerKey: PIX_DROIT_EXPERT_CERTIF },
+          { partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null },
         ]);
       });
     });
