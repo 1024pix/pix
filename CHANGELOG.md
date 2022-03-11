@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.183.0 (11/03/2022)
+
+
+### :rocket: Amélioration
+- [#4178](https://github.com/1024pix/pix/pull/4178) [FEATURE] Bloquer le rattachement de membres et l'invitation de nouveaux membres (Pix-4282).
+- [#4179](https://github.com/1024pix/pix/pull/4179) [FEATURE] Modifier l'id externe d'une participation depuis Pix Admin(Pix-4430)
+
+### :bug: Correction
+- [#4186](https://github.com/1024pix/pix/pull/4186) [BUGFIX] Les badges de tous les utilisateurs apparaissent sur les certificats (PIX-4548)
+
 ## v3.182.0 (10/03/2022)
 
 
