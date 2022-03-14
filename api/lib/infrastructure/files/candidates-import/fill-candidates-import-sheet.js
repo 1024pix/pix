@@ -1,6 +1,5 @@
 const writeOdsUtils = require('../../utils/ods/write-ods-utils');
 const readOdsUtils = require('../../utils/ods/read-ods-utils');
-const sessionXmlService = require('../../../domain/services/session-xml-service');
 const { featureToggles } = require('../../../../lib/config');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -17,6 +16,11 @@ const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES)
   CertificationCandidate.translateBillingMode
 );
 
+const INFORMATIVE_HEADER_ROW = 8;
+const HEADER_ROW_SPAN = 3;
+const CANDIDATE_TABLE_HEADER_ROW = 11;
+const CANDIDATE_TABLE_FIRST_ROW = 12;
+
 module.exports = async function fillCandidatesImportSheet({
   session,
   certificationCenterHabilitations,
@@ -24,22 +28,16 @@ module.exports = async function fillCandidatesImportSheet({
 }) {
   const template = await _getCandidatesImportTemplate();
 
-  const templateWithSession = _addSession(template, session);
-  const templateWithSessionAndColumns = _addColumns({
-    stringifiedXml: templateWithSession,
+  const odsBuilder = new writeOdsUtils.OdsUtilsBuilder(template);
+  _addSession(odsBuilder, session);
+  _addColumns({
+    odsBuilder,
     certificationCenterHabilitations,
     isScoCertificationCenter,
   });
+  _addCandidateRows(odsBuilder, session.certificationCandidates);
 
-  const templateWithSessionAndColumnsAndCandidates = _addCandidates(
-    templateWithSessionAndColumns,
-    session.certificationCandidates
-  );
-
-  return writeOdsUtils.makeUpdatedOdsByContentXml({
-    stringifiedXml: templateWithSessionAndColumnsAndCandidates,
-    odsFilePath: _getCandidatesImportTemplatePath(),
-  });
+  return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
 };
 
 async function _getCandidatesImportTemplate() {
@@ -47,85 +45,81 @@ async function _getCandidatesImportTemplate() {
   return readOdsUtils.getContentXml({ odsFilePath: templatePath });
 }
 
-function _addSession(stringifiedXml, session) {
+function _addSession(odsBuilder, session) {
   const sessionData = SessionData.fromSession(session);
-  const templateWithSession = sessionXmlService.getUpdatedXmlWithSessionData({
-    stringifiedXml,
-    sessionData,
-    sessionTemplateValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
-  });
-  return templateWithSession;
+  return odsBuilder.withData(sessionData, IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES);
 }
 
-function _addColumns({ stringifiedXml, certificationCenterHabilitations, isScoCertificationCenter }) {
+function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter }) {
   if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
-    stringifiedXml = writeOdsUtils.addTooltipOnCell({
-      stringifiedXml,
-      targetCellAddress: "'Liste des candidats'.O13",
-      tooltipName: 'val-prepayment-code',
-      tooltipTitle: 'Code de prépaiement',
-      tooltipContentLines: [
-        "(Requis notamment dans le cas d'un achat de crédits combinés)",
-        'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
-        'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
-      ],
-    });
-
-    stringifiedXml = writeOdsUtils.addValidatorRestrictedList({
-      stringifiedXml,
-      validatorName: 'billingModeValidator',
-      restrictedList: billingValidatorList,
-      allowEmptyCell: false,
-      tooltipTitle: 'Tarification part Pix',
-      tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
-    });
-    stringifiedXml = _addBillingColumns(stringifiedXml);
+    odsBuilder
+      .withTooltipOnCell({
+        targetCellAddress: "'Liste des candidats'.O13",
+        tooltipName: 'val-prepayment-code',
+        tooltipTitle: 'Code de prépaiement',
+        tooltipContentLines: [
+          "(Requis notamment dans le cas d'un achat de crédits combinés)",
+          'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
+          'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
+        ],
+      })
+      .withValidatorRestrictedList({
+        validatorName: 'billingModeValidator',
+        restrictedList: billingValidatorList,
+        allowEmptyCell: false,
+        tooltipTitle: 'Tarification part Pix',
+        tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
+      })
+      .withColumnGroup({
+        groupHeaderLabel: 'Tarification',
+        columns: [
+          {
+            headerLabel: ['Tarification part Pix'],
+            placeholder: ['billingMode'],
+          },
+          {
+            headerLabel: ['Code de prépaiement'],
+            placeholder: ['prepaymentCode'],
+          },
+        ],
+        startsAt: INFORMATIVE_HEADER_ROW,
+        headerRowSpan: HEADER_ROW_SPAN,
+        tableHeaderRow: CANDIDATE_TABLE_HEADER_ROW,
+        tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
+      });
   }
   if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    stringifiedXml = _addComplementaryCertificationColumns(certificationCenterHabilitations, stringifiedXml);
+    odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations });
   }
 
-  return stringifiedXml;
+  return odsBuilder;
 }
 
-function _addComplementaryCertificationColumns(certificationCenterHabilitations, updatedStringifiedXml) {
+function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations }) {
   if (!_.isEmpty(certificationCenterHabilitations)) {
     const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
       headerLabel: [name, '("oui" ou laisser vide)'],
       placeholder: [name],
     }));
-    updatedStringifiedXml = sessionXmlService.addColumnGroup({
-      stringifiedXml: updatedStringifiedXml,
+    odsBuilder.withColumnGroup({
       groupHeaderLabel: 'Certification(s) complémentaire(s)',
       columns: habilitationColumns,
+      startsAt: INFORMATIVE_HEADER_ROW,
+      headerRowSpan: HEADER_ROW_SPAN,
+      tableHeaderRow: CANDIDATE_TABLE_HEADER_ROW,
+      tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
     });
   }
-  return updatedStringifiedXml;
+  return odsBuilder;
 }
 
-function _addBillingColumns(updatedStringifiedXml) {
-  return sessionXmlService.addColumnGroup({
-    stringifiedXml: updatedStringifiedXml,
-    groupHeaderLabel: 'Tarification',
-    columns: [
-      {
-        headerLabel: ['Tarification part Pix'],
-        placeholder: ['billingMode'],
-      },
-      {
-        headerLabel: ['Code de prépaiement'],
-        placeholder: ['prepaymentCode'],
-      },
-    ],
-  });
-}
-
-function _addCandidates(updatedStringifiedXml, certificationCandidates) {
+function _addCandidateRows(odsBuilder, certificationCandidates) {
+  const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
   const candidatesData = _getCandidatesData(certificationCandidates);
-  return sessionXmlService.getUpdatedXmlWithCertificationCandidatesData({
-    stringifiedXml: updatedStringifiedXml,
-    candidatesData,
-    candidateTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
+  return odsBuilder.updateXmlRows({
+    rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
+    rowTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
+    dataToInject: candidatesData,
   });
 }
 
