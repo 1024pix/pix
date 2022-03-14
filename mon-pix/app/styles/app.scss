@@ -4,8 +4,8 @@
 @import 'ember-burger-menu/variables';
 @import 'ember-burger-menu/structure';
 @import 'ember-burger-menu/animations/push';
-@import "ember-modal-dialog/ember-modal-structure";
-@import "ember-modal-dialog/ember-modal-appearance";
+@import 'ember-modal-dialog/ember-modal-structure';
+@import 'ember-modal-dialog/ember-modal-appearance';
 
 /* globals */
 @import 'globals/a11y';
@@ -90,6 +90,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/signup-form';
 @import 'components/sitemap/content';
 @import 'components/timed-challenge-instructions';
+@import 'components/focused-certification-challenge-instructions';
 @import 'components/timeout-gauge';
 @import 'components/tooltip';
 @import 'components/tutorial-card';
