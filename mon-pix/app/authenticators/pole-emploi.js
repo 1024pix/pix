@@ -6,11 +6,10 @@ import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
-import config from 'mon-pix/ember-simple-auth-oidc/config';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
-const { host, clientId, afterLogoutUri, endSessionEndpoint } = config;
+const { host, clientId, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
 
 export default BaseAuthenticator.extend({
   session: service(),

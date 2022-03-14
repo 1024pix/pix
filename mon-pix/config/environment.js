@@ -42,7 +42,7 @@ module.exports = function (environment) {
       disableInputsInitializer: true,
     },
 
-    'ember-simple-auth-oidc': {
+    poleEmploi: {
       afterLogoutUri: process.env.POLE_EMPLOI_AFTER_LOGOUT_URI,
       authEndpoint: '/connexion/oauth2/authorize',
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
@@ -185,8 +185,8 @@ module.exports = function (environment) {
       ENV.matomo.debug = true;
     }
 
-    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat-r.pe-qvr.fr';
-    ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost.fr:4200/';
+    ENV.poleEmploi.host = 'https://authentification-candidat-r.pe-qvr.fr';
+    ENV.poleEmploi.afterLogoutUri = 'http://localhost.fr:4200/';
   }
 
   if (environment === 'test') {
@@ -210,8 +210,8 @@ module.exports = function (environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
 
-    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat-r.pe-qvr.fr';
-    ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost.fr:4200/';
+    ENV.poleEmploi.host = 'https://authentification-candidat-r.pe-qvr.fr';
+    ENV.poleEmploi.afterLogoutUri = 'http://localhost.fr:4200/';
   }
 
   if (environment === 'production') {
