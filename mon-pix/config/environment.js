@@ -186,7 +186,7 @@ module.exports = function (environment) {
     }
 
     ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat-r.pe-qvr.fr';
-    ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost:8080/';
+    ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost.fr:4200/';
   }
 
   if (environment === 'test') {
