@@ -50,6 +50,17 @@
       "test": "Your test is loading"
     },
     "or": "or",
+    "pagination": {
+      "action": {
+        "next": "Go to next page",
+        "previous": "Go to previous page",
+        "select-page-size": "Select the number of items by page"
+      },
+      "page-info": "{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
+      "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
+      "page-number": "Page {current, number} / {total, number}",
+      "result-by-page": "See"
+    },
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Skip to main content",

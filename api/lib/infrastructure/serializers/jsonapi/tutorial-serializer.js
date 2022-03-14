@@ -3,7 +3,7 @@ const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes')
 const userTutorialAttributes = require('./user-tutorial-attributes');
 
 module.exports = {
-  serialize(tutorial = {}) {
+  serialize(tutorial = {}, pagination) {
     return new Serializer('tutorials', {
       attributes: [
         'duration',
@@ -22,6 +22,7 @@ module.exports = {
       typeForAttribute(attribute) {
         return attribute === 'userTutorial' ? 'user-tutorial' : attribute;
       },
+      meta: pagination,
     }).serialize(tutorial);
   },
 };
