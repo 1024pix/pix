@@ -104,6 +104,26 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(code).to.equal(null);
     });
 
+    it('should return null if participations are deleted', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: CampaignParticipationStatuses.TO_SHARE,
+        deletedAt: new Date(),
+        userId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(null);
+    });
+
     it('should return null if there is no campaigns of type profiles collection', async function () {
       const campaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
       databaseBuilder.factory.buildCampaignParticipation({
