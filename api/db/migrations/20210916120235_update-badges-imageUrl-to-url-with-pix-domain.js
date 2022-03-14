@@ -10,4 +10,6 @@ exports.up = function (knex) {
   );
 };
 
-exports.down = function () {};
+exports.down = function () {
+  return;
+};
