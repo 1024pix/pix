@@ -52,4 +52,6 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = function (_) {};
+exports.down = function () {
+  return;
+};
