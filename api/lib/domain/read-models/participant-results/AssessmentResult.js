@@ -24,7 +24,12 @@ class AssessmentResult {
     this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
     this.testedSkillsCount = knowledgeElements.length;
     this.validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
-    this.masteryRate = this._computeMasteryRate(participationResults.masteryRate);
+    this.masteryRate = this._computeMasteryRate(
+      participationResults.masteryRate,
+      this.isShared,
+      this.totalSkillsCount,
+      this.validatedSkillsCount
+    );
 
     this.competenceResults = competences.map((competence) => _buildCompetenceResults(competence, knowledgeElements));
     this.badgeResults = targetProfile.badges.map((badge) => new BadgeResult(badge, participationResults));
@@ -33,23 +38,29 @@ class AssessmentResult {
     if (targetProfile.stages.length > 0) {
       this.reachedStage = new ReachedStage(this.masteryRate, targetProfile.stages);
     }
-    this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt);
-    this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive);
+    this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt, this.isShared);
     this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);
+    this.canRetry = this._computeCanRetry(
+      isCampaignMultipleSendings,
+      sharedAt,
+      isRegistrationActive,
+      this.masteryRate,
+      this.isDisabled
+    );
   }
 
-  _computeMasteryRate(masteryRate) {
-    if (this.isShared) {
+  _computeMasteryRate(masteryRate, isShared, totalSkillsCount, validatedSkillsCount) {
+    if (isShared) {
       return masteryRate;
-    } else if (this.totalSkillsCount > 0) {
-      const rate = (this.validatedSkillsCount / this.totalSkillsCount).toPrecision(2);
+    } else if (totalSkillsCount > 0) {
+      const rate = (validatedSkillsCount / totalSkillsCount).toPrecision(2);
       return parseFloat(rate);
     } else {
       return 0;
     }
   }
 
-  _computeCanImprove(knowledgeElements, assessmentCreatedAt) {
+  _computeCanImprove(knowledgeElements, assessmentCreatedAt, isShared) {
     const isImprovementPossible =
       knowledgeElements.filter((knowledgeElement) => {
         const isOldEnoughToBeImproved =
@@ -57,15 +68,16 @@ class AssessmentResult {
           constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
         return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
       }).length > 0;
-    return isImprovementPossible && !this.isShared;
+    return isImprovementPossible && !isShared;
   }
 
-  _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive) {
+  _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive, masteryRate, isDisabled) {
     return (
       isCampaignMultipleSendings &&
       this._timeBeforeRetryingPassed(sharedAt) &&
-      this.masteryRate < constants.MAX_MASTERY_RATE &&
-      isRegistrationActive
+      masteryRate < constants.MAX_MASTERY_RATE &&
+      isRegistrationActive &&
+      !isDisabled
     );
   }
 
@@ -74,7 +86,8 @@ class AssessmentResult {
   }
 
   _timeBeforeRetryingPassed(sharedAt) {
-    if (!this.isShared) return false;
+    const isShared = Boolean(sharedAt);
+    if (!isShared) return false;
     return sharedAt && moment().diff(sharedAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }

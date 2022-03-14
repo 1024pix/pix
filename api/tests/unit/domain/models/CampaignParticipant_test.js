@@ -376,6 +376,27 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           `User ${userIdentity.id} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
         );
       });
+
+      it('throws a ForbiddenAccess exception when the previous participation is deleted', async function () {
+        const userIdentity = { id: 1 };
+        const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+          multipleSendings: true,
+          idPixLabel: null,
+        });
+
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          userIdentity,
+          previousCampaignParticipation: {
+            status: 'SHARED',
+            isDeleted: true,
+          },
+        });
+        const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
+
+        expect(error).to.be.an.instanceof(ForbiddenAccess);
+        expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+      });
     });
 
     it('throws a ForbiddenAccess exception when the campaign is archived', async function () {
