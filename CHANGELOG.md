@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.184.0 (14/03/2022)
+
+
+### :rocket: Amélioration
+- [#4171](https://github.com/1024pix/pix/pull/4171) [FEATURE] Refactore le bandeau de reprise de collecte de reprise et le menu "Mes parcours" (PIX-4437)
+
+### :bug: Correction
+- [#4192](https://github.com/1024pix/pix/pull/4192) [BUGFIX] Corriger le téléchargement d'une attestation de certification pour un candidat possèdant un badge Pix+ Édu définitif (PIX-4553).
+- [#4189](https://github.com/1024pix/pix/pull/4189) [BUGFIX] Suppression d'un glitch au survol d'une carte de compétence (PIX-4550).
+
+### :coffee: Autre
+- [#4174](https://github.com/1024pix/pix/pull/4174) [API] Supprimer les `userId` des schooling-registrations crééent automatiquement  (PIX-4503)
+
 ## v3.183.0 (11/03/2022)
 
 
