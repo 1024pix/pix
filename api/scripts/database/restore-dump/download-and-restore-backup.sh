@@ -51,6 +51,12 @@ if [ -z "${DATABASE_URL}" ]; then
     exit 1
 fi
 
+if [ "${ACTUALLY_RESTORE}" != "TRUE"  ]; then
+  echo "You're about to restore a dump to $DATABASE_URL (all data will be previously deleted)"
+  echo "If you actually want so, launch this script again with ACTUALLY_RESTORE=TRUE ./download-and-restore-backup.sh"
+  exit 1
+fi
+
 # Install DB client if not yet installed
 if ! command -v psql --version &> /dev/null
 then
