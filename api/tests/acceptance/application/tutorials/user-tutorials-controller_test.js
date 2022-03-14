@@ -215,6 +215,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
   describe('GET /api/users/tutorials/recommended', function () {
     let options;
     const userId = 4444;
+    let learningContentObjects;
 
     beforeEach(async function () {
       nock.cleanAll();
@@ -226,92 +227,92 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
       };
+      learningContentObjects = learningContentBuilder.buildLearningContent([
+        {
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      nom: '@web1',
+                      challenges: [],
+                      tutorialIds: ['tuto1', 'tuto2'],
+                      tutorials: [
+                        {
+                          id: 'tuto1',
+                          locale: 'en-us',
+                          duration: '00:00:54',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example.html',
+                          source: 'tuto.com',
+                          title: 'tuto1',
+                        },
+                        {
+                          id: 'tuto2',
+                          locale: 'en-us',
+                          duration: '00:01:51',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example2.html',
+                          source: 'tuto.com',
+                          title: 'tuto2',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'recSkill2',
+                      nom: '@web2',
+                      challenges: [],
+                      tutorialIds: ['tuto3'],
+                      tutorials: [
+                        {
+                          id: 'tuto3',
+                          locale: 'fr-fr',
+                          duration: '00:03:31',
+                          format: 'vidéo',
+                          link: 'http://www.example.com/this-is-an-example3.html',
+                          source: 'tuto.com',
+                          title: 'tuto3',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'recSkill3',
+                      nom: '@web3',
+                      challenges: [],
+                      tutorialIds: ['tuto4'],
+                      tutorials: [
+                        {
+                          id: 'tuto4',
+                          locale: 'fr-fr',
+                          duration: '00:04:38',
+                          format: 'vidéo',
+                          link: 'http://www.example.com/this-is-an-example4.html',
+                          source: 'tuto.com',
+                          title: 'tuto4',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ]);
     });
 
     describe('nominal case', function () {
       it('should respond with a 200 and return tutorials recommended for user', async function () {
         // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent([
-          {
-            id: 'recArea1',
-            titleFrFr: 'area1_Title',
-            color: 'specialColor',
-            competences: [
-              {
-                id: 'recCompetence1',
-                name: 'Fabriquer un meuble',
-                index: '1.1',
-                tubes: [
-                  {
-                    id: 'recTube1',
-                    skills: [
-                      {
-                        id: 'recSkill1',
-                        nom: '@web1',
-                        challenges: [],
-                        tutorialIds: ['tuto1', 'tuto2'],
-                        tutorials: [
-                          {
-                            id: 'tuto1',
-                            locale: 'en-us',
-                            duration: '00:00:54',
-                            format: 'video',
-                            link: 'http://www.example.com/this-is-an-example.html',
-                            source: 'tuto.com',
-                            title: 'tuto1',
-                          },
-                          {
-                            id: 'tuto2',
-                            locale: 'en-us',
-                            duration: '00:01:51',
-                            format: 'video',
-                            link: 'http://www.example.com/this-is-an-example2.html',
-                            source: 'tuto.com',
-                            title: 'tuto2',
-                          },
-                        ],
-                      },
-                      {
-                        id: 'recSkill2',
-                        nom: '@web2',
-                        challenges: [],
-                        tutorialIds: ['tuto3'],
-                        tutorials: [
-                          {
-                            id: 'tuto3',
-                            locale: 'fr-fr',
-                            duration: '00:03:31',
-                            format: 'vidéo',
-                            link: 'http://www.example.com/this-is-an-example3.html',
-                            source: 'tuto.com',
-                            title: 'tuto3',
-                          },
-                        ],
-                      },
-                      {
-                        id: 'recSkill3',
-                        nom: '@web3',
-                        challenges: [],
-                        tutorialIds: ['tuto4'],
-                        tutorials: [
-                          {
-                            id: 'tuto4',
-                            locale: 'fr-fr',
-                            duration: '00:04:38',
-                            format: 'vidéo',
-                            link: 'http://www.example.com/this-is-an-example4.html',
-                            source: 'tuto.com',
-                            title: 'tuto4',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ]);
         mockLearningContent(learningContentObjects);
 
         databaseBuilder.factory.buildKnowledgeElement({
@@ -379,12 +380,88 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedUserTutorials);
+        expect(response.result.meta).to.deep.equal({
+          page: 1,
+          pageSize: 10,
+          rowCount: 3,
+          pageCount: 1,
+        });
+      });
+    });
+
+    describe('with pagination', function () {
+      it('should respond with a 200 and return paginated recommended tutorials for a user ', async function () {
+        // given
+        options.url = '/api/users/tutorials/recommended?page[number]=1&page[size]=2';
+        mockLearningContent(learningContentObjects);
+
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          source: KnowledgeElement.SourceType.DIRECT,
+          skillId: 'recSkill1',
+        });
+
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          status: KnowledgeElement.StatusType.VALIDATED,
+          source: KnowledgeElement.SourceType.INFERRED,
+          skillId: 'recSkill2',
+        });
+
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          source: KnowledgeElement.SourceType.DIRECT,
+          skillId: 'recSkill3',
+        });
+
+        await databaseBuilder.commit();
+
+        const expectedUserTutorials = [
+          {
+            attributes: {
+              duration: '00:00:54',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example.html',
+              source: 'tuto.com',
+              title: 'tuto1',
+            },
+            id: 'tuto1',
+            type: 'tutorials',
+          },
+          {
+            attributes: {
+              duration: '00:01:51',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example2.html',
+              source: 'tuto.com',
+              title: 'tuto2',
+            },
+            id: 'tuto2',
+            type: 'tutorials',
+          },
+        ];
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal(expectedUserTutorials);
+        expect(response.result.meta).to.deep.equal({
+          page: 1,
+          pageSize: 2,
+          rowCount: 3,
+          pageCount: 2,
+        });
       });
     });
   });
 
   describe('GET /api/users/tutorials/saved', function () {
     let options;
+    let learningContentObjects;
     const userId = 4444;
 
     beforeEach(async function () {
@@ -397,95 +474,96 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
       };
+
+      learningContentObjects = learningContentBuilder.buildLearningContent([
+        {
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      nom: '@web1',
+                      challenges: [],
+                      tutorialIds: ['tuto1', 'tuto2'],
+                      tutorials: [
+                        {
+                          id: 'tuto1',
+                          locale: 'en-us',
+                          duration: '00:00:54',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example.html',
+                          source: 'tuto.com',
+                          title: 'tuto1',
+                        },
+                        {
+                          id: 'tuto2',
+                          locale: 'en-us',
+                          duration: '00:01:51',
+                          format: 'video',
+                          link: 'http://www.example.com/this-is-an-example2.html',
+                          source: 'tuto.com',
+                          title: 'tuto2',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'recSkill2',
+                      nom: '@web2',
+                      challenges: [],
+                      tutorialIds: ['tuto3'],
+                      tutorials: [
+                        {
+                          id: 'tuto3',
+                          locale: 'fr-fr',
+                          duration: '00:03:31',
+                          format: 'vidéo',
+                          link: 'http://www.example.com/this-is-an-example3.html',
+                          source: 'tuto.com',
+                          title: 'tuto3',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'recSkill3',
+                      nom: '@web3',
+                      challenges: [],
+                      tutorialIds: ['tuto4'],
+                      tutorials: [
+                        {
+                          id: 'tuto4',
+                          locale: 'fr-fr',
+                          duration: '00:04:38',
+                          format: 'vidéo',
+                          link: 'http://www.example.com/this-is-an-example4.html',
+                          source: 'tuto.com',
+                          title: 'tuto4',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ]);
     });
 
     describe('nominal case', function () {
       it('should respond with a 200 and return tutorials saved for user', async function () {
         // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent([
-          {
-            id: 'recArea1',
-            titleFrFr: 'area1_Title',
-            color: 'specialColor',
-            competences: [
-              {
-                id: 'recCompetence1',
-                name: 'Fabriquer un meuble',
-                index: '1.1',
-                tubes: [
-                  {
-                    id: 'recTube1',
-                    skills: [
-                      {
-                        id: 'recSkill1',
-                        nom: '@web1',
-                        challenges: [],
-                        tutorialIds: ['tuto1', 'tuto2'],
-                        tutorials: [
-                          {
-                            id: 'tuto1',
-                            locale: 'en-us',
-                            duration: '00:00:54',
-                            format: 'video',
-                            link: 'http://www.example.com/this-is-an-example.html',
-                            source: 'tuto.com',
-                            title: 'tuto1',
-                          },
-                          {
-                            id: 'tuto2',
-                            locale: 'en-us',
-                            duration: '00:01:51',
-                            format: 'video',
-                            link: 'http://www.example.com/this-is-an-example2.html',
-                            source: 'tuto.com',
-                            title: 'tuto2',
-                          },
-                        ],
-                      },
-                      {
-                        id: 'recSkill2',
-                        nom: '@web2',
-                        challenges: [],
-                        tutorialIds: ['tuto3'],
-                        tutorials: [
-                          {
-                            id: 'tuto3',
-                            locale: 'fr-fr',
-                            duration: '00:03:31',
-                            format: 'vidéo',
-                            link: 'http://www.example.com/this-is-an-example3.html',
-                            source: 'tuto.com',
-                            title: 'tuto3',
-                          },
-                        ],
-                      },
-                      {
-                        id: 'recSkill3',
-                        nom: '@web3',
-                        challenges: [],
-                        tutorialIds: ['tuto4'],
-                        tutorials: [
-                          {
-                            id: 'tuto4',
-                            locale: 'fr-fr',
-                            duration: '00:04:38',
-                            format: 'vidéo',
-                            link: 'http://www.example.com/this-is-an-example4.html',
-                            source: 'tuto.com',
-                            title: 'tuto4',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ]);
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 500, tutorialId: 'tuto1', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 101, userId: 4444, tutorialId: 'tuto1' });
 
         await databaseBuilder.commit();
 
@@ -499,7 +577,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               title: 'tuto1',
             },
             relationships: {
-              'user-tutorial': { data: { id: '500', type: 'user-tutorial' } },
+              'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
             },
             id: 'tuto1',
             type: 'tutorials',
