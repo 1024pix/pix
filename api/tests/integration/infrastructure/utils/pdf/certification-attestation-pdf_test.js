@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
   });
 
-  it('should generate full attestation with Pix+ Édu badge', async function () {
+  it('should generate full attestation with Pix+ Édu temporary badge', async function () {
     // given
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
@@ -57,6 +57,33 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       lastName: 'Bon',
       resultCompetenceTree,
       acquiredPartnerCertifications: [{ temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }],
+    });
+    const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu_temporary.pdf';
+
+    // when
+    const { buffer } = await getCertificationAttestationsPdfBuffer({
+      certificates: [certificate],
+      creationDate: new Date('2021-01-01'),
+    });
+
+    // Note: to update the reference pdf, you can run the test with the following lines.
+    //
+    // const { writeFile } = require('fs/promises');
+    // await writeFile(referencePdfPath, buffer);
+
+    // then
+    expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
+  });
+
+  it('should generate full attestation with Pix+ Édu definitive badge', async function () {
+    // given
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    const certificate = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
+      resultCompetenceTree,
+      acquiredPartnerCertifications: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu.pdf';
 
