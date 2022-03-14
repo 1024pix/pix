@@ -164,4 +164,37 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       });
     });
   });
+
+  module('get sortedCertificationJurySummaries', function () {
+    test('should return jury certification summaries sorted by numberOfCertificationIssueReportsWithRequiredAction in descending order', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const firstJuryCertificationSummary = store.createRecord('jury-certification-summary', {
+        numberOfCertificationIssueReportsWithRequiredAction: 0,
+      });
+      const secondJuryCertificationSummary = store.createRecord('jury-certification-summary', {
+        numberOfCertificationIssueReportsWithRequiredAction: 3,
+      });
+      const thirdJuryCertificationSummary = store.createRecord('jury-certification-summary', {
+        numberOfCertificationIssueReportsWithRequiredAction: 1,
+      });
+      controller.set('model', {
+        juryCertificationSummaries: [
+          firstJuryCertificationSummary,
+          secondJuryCertificationSummary,
+          thirdJuryCertificationSummary,
+        ],
+      });
+
+      // when
+      const sortedCertificationJurySummaries = controller.sortedCertificationJurySummaries;
+
+      // then
+      assert.deepEqual(sortedCertificationJurySummaries, [
+        secondJuryCertificationSummary,
+        thirdJuryCertificationSummary,
+        firstJuryCertificationSummary,
+      ]);
+    });
+  });
 });
