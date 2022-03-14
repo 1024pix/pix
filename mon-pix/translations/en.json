@@ -1488,6 +1488,11 @@
       "saved-empty": {
         "title": "No tutorials saved yet",
         "description": "You need to save a tutorial for it to be displayed here."
+      },
+      "recommended-empty": {
+        "title": "{firstName}, find your favorite tutorials here",
+        "description": "In order to recommend you the tutorials adapted to your level, you have to start a skill test.",
+        "link": "Let's go"
       }
     }
   }
