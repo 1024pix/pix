@@ -1,13 +1,11 @@
 import Route from '@ember/routing/route';
-
-import getAbsoluteUrl from 'ember-simple-auth-oidc/utils/absoluteUrl';
 import { inject as service } from '@ember/service';
 
 import { v4 } from 'uuid';
-import config from 'ember-simple-auth-oidc/config';
 import get from 'lodash/get';
+import ENV from 'mon-pix/config/environment';
 
-const { host, clientId, authEndpoint } = config;
+const { host, clientId, authEndpoint } = ENV.poleEmploi;
 
 export default class LoginPeRoute extends Route {
   @service session;
@@ -107,6 +105,6 @@ export default class LoginPeRoute extends Route {
 
     const updatedAuthEndpoint = `${authEndpoint}?realm=%2Findividu`;
 
-    this.location.replace(`${getAbsoluteUrl(host)}${updatedAuthEndpoint}&${search}`);
+    this.location.replace(`${host}${updatedAuthEndpoint}&${search}`);
   }
 }
