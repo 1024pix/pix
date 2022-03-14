@@ -512,11 +512,12 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   });
 
   describe('The disabled block', function () {
-    context('when participation is disabled', function () {
+    context('when participation is disabled and not shared', function () {
       beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           isDisabled: true,
+          isShared: false,
         };
         this.set('model', { campaign, campaignParticipationResult });
 
@@ -530,11 +531,12 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
     });
 
-    context('when participation is not disabled', function () {
+    context('when participation is disabled but already shared', function () {
       beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
-          isDisabled: false,
+          isDisabled: true,
+          isShared: true,
         };
         this.set('model', { campaign, campaignParticipationResult });
 
@@ -544,7 +546,26 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       it('should not display disabled block', function () {
         // Then
-        expect(contains("Ce parcours a été désactivé par l'organisateur.")).to.not.exist;
+        expect(contains('Merci, vos résultats ont bien été envoyés !')).to.exist;
+      });
+    });
+
+    context('when participation is not disabled', function () {
+      beforeEach(async function () {
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          isDisabled: false,
+          isShared: false,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should not display disabled block', function () {
+        // Then
+        expect(contains("J'envoie mes résultats")).to.exist;
       });
     });
   });
