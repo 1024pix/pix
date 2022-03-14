@@ -111,12 +111,65 @@ describe('Unit | Controller | Assessments | Challenge', function () {
   });
 
   describe('#displayChallenge', function () {
+    context('when challenge is focused and assessment is of type certification', function () {
+      [
+        {
+          answer: undefined,
+          hasUserConfirmedCertificationFocusWarning: false,
+          expectedResult: false,
+        },
+        {
+          answer: undefined,
+          hasUserConfirmedCertificationFocusWarning: true,
+          expectedResult: true,
+        },
+        {
+          answer: 'toto',
+          hasUserConfirmedCertificationFocusWarning: true,
+          expectedResult: true,
+        },
+      ].forEach((data) => {
+        const _hasUserConfirmedCertificationFocusWarning = data.hasUserConfirmedCertificationFocusWarning
+          ? 'user has confirmed certification focus warning'
+          : 'user has not confirmed certification focus warning';
+        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
+
+        it(`should be ${data.expectedResult} when ${_hasUserConfirmedCertificationFocusWarning}, ${_hasAnswer}`, function () {
+          // given
+          const focusedCertificationChallengeManager = this.owner.lookup(
+            'service:focused-certification-challenges-manager'
+          );
+          sinon
+            .stub(focusedCertificationChallengeManager, 'has')
+            .returns(data.hasUserConfirmedCertificationFocusWarning);
+
+          const challenge = {
+            id: 'rec_123',
+            timer: undefined,
+            focused: true,
+          };
+
+          const answer = data.answer;
+
+          const assessment = { isCertification: true };
+
+          controller.model = { challenge, answer, assessment };
+          controller.hasUserConfirmedCertificationFocusWarning = data.hasUserConfirmedCertificationFocusWarning;
+
+          // when
+          const result = controller.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
+        });
+      });
+    });
     context('when challenge is not focused and has no timer', function () {
       [
-        { answer: undefined, hasUserConfirmedWarning: false, expectedResult: true },
-        { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
+        { answer: undefined, hasUserConfirmedTimedChallengeWarning: false, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedTimedChallengeWarning: false, expectedResult: true },
       ].forEach((data) => {
-        const _hasUserConfirmedWarning = data.hasUserConfirmedWarning
+        const _hasUserConfirmedWarning = data.hasUserConfirmedTimedChallengeWarning
           ? 'user has confirmed warning'
           : 'user has not confirmed warning';
         const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
@@ -134,7 +187,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const assessment = {};
 
           controller.model = { challenge, answer, assessment };
-          controller.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+          controller.hasUserConfirmedTimedChallengeWarning = data.hasUserConfirmedTimedChallengeWarning;
 
           // when
           const result = controller.displayChallenge;
@@ -147,11 +200,11 @@ describe('Unit | Controller | Assessments | Challenge', function () {
 
     context('when challenge has timer', function () {
       [
-        { answer: undefined, hasUserConfirmedWarning: true, expectedResult: true },
-        { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
-        { answer: undefined, hasUserConfirmedWarning: false, expectedResult: false },
+        { answer: undefined, hasUserConfirmedTimedChallengeWarning: true, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedTimedChallengeWarning: false, expectedResult: true },
+        { answer: undefined, hasUserConfirmedTimedChallengeWarning: false, expectedResult: false },
       ].forEach((data) => {
-        const _hasUserConfirmedWarning = data.hasUserConfirmedWarning
+        const _hasUserConfirmedWarning = data.hasUserConfirmedTimedChallengeWarning
           ? 'user has confirmed warning'
           : 'user has not confirmed warning';
         const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
@@ -167,7 +220,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const assessment = {};
 
           controller.model = { challenge, answer, assessment };
-          controller.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+          controller.hasUserConfirmedTimedChallengeWarning = data.hasUserConfirmedTimedChallengeWarning;
 
           // when
           const result = controller.displayChallenge;
