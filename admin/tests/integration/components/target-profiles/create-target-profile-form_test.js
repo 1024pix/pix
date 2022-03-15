@@ -123,7 +123,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       @onSubmit={{this.onSubmit}}
       @onCancel={{this.onCancel}}/>`);
 
-    await triggerEvent('#skillsList', 'change');
+    await triggerEvent('#skillsList', 'change', { files: [new Blob(['file'])] });
 
     // then
     assert.ok(onLoadFile.called);
