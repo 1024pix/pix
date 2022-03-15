@@ -1253,7 +1253,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('PUT /api/admin/organizations/{id}/archived', function () {
+  describe('POST /api/admin/organizations/{id}/archive', function () {
     it('should return the archived organization', async function () {
       // given
       const adminUser = databaseBuilder.factory.buildUser.withPixRolePixMaster();
@@ -1284,8 +1284,8 @@ describe('Acceptance | Application | organization-controller', function () {
 
       // when
       const response = await server.inject({
-        method: 'PUT',
-        url: `/api/admin/organizations/${organizationId}/archived`,
+        method: 'POST',
+        url: `/api/admin/organizations/${organizationId}/archive`,
         headers: { authorization: generateValidRequestAuthorizationHeader(adminUser.id) },
       });
 
