@@ -391,7 +391,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId(userId);
+        const results = await tutorialRepository.findRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -429,7 +429,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId(userId);
+        const results = await tutorialRepository.findRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -455,12 +455,15 @@ describe('Integration | Repository | tutorial-repository', function () {
           tutorials: [
             {
               id: 'tuto1',
+              locale: 'fr-fr',
             },
             {
               id: 'tuto2',
+              locale: 'fr-fr',
             },
             {
               id: 'tuto5',
+              locale: 'fr-fr',
             },
           ],
           skills: [
@@ -478,10 +481,61 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId(userId);
+        const results = await tutorialRepository.findRecommendedByUserId({ userId });
 
         // then
         expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1', 'tuto5']);
+      });
+
+      it('should return tutorial related to user locale', async function () {
+        // given
+        const locale = 'en-us';
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill1',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill4',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto1',
+              locale: 'en-us',
+            },
+            {
+              id: 'tuto2',
+              locale: 'en-us',
+            },
+            {
+              id: 'tuto5',
+              locale: 'fr-fr',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              tutorialIds: ['tuto1', 'tuto2'],
+              status: 'actif',
+            },
+            {
+              id: 'recSkill4',
+              tutorialIds: ['tuto5'],
+              status: 'archivé',
+            },
+          ],
+        });
+
+        // when
+        const results = await tutorialRepository.findRecommendedByUserId({ userId, locale });
+
+        // then
+        expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1']);
       });
     });
 
@@ -511,7 +565,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId(userId);
+        const results = await tutorialRepository.findRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
