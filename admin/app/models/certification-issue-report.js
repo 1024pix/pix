@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
 import isNull from 'lodash/isNull';
 
 export const certificationIssueReportCategories = {
@@ -125,4 +126,12 @@ export default class CertificationIssueReportModel extends Model {
   get canBeResolved() {
     return this.isImpactful && !this.isResolved;
   }
+
+  resolve = memberAction({
+    type: 'patch',
+    before(resolution) {
+      const payload = { data: { resolution } };
+      return payload;
+    },
+  });
 }

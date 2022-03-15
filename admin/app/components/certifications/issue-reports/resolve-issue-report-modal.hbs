@@ -1,0 +1,7 @@
+<PixModal @title="Résoudre un signalement" @onCloseButtonClick={{@toggleResolveModal}}>
+  <:footer>
+    <PixButton @type="submit" @size="small" {{on "click" this.resolve}}>
+      Ok
+    </PixButton>
+  </:footer>
+</PixModal>
