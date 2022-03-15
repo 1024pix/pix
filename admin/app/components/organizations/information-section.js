@@ -98,6 +98,7 @@ class Form extends Object.extend(Validations) {
 
 export default class OrganizationInformationSection extends Component {
   @tracked isEditMode = false;
+  @tracked showArchivingConfirmationModal = false;
 
   constructor() {
     super(...arguments);
@@ -121,6 +122,11 @@ export default class OrganizationInformationSection extends Component {
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
     this._initForm();
+  }
+
+  @action
+  toggleArchivingConfirmationModal() {
+    this.showArchivingConfirmationModal = !this.showArchivingConfirmationModal;
   }
 
   @action
@@ -149,6 +155,12 @@ export default class OrganizationInformationSection extends Component {
 
     this.isEditMode = false;
     return this.args.onSubmit();
+  }
+
+  @action
+  archiveOrganization() {
+    this.toggleArchivingConfirmationModal();
+    this.args.archiveOrganization();
   }
 
   _initForm() {

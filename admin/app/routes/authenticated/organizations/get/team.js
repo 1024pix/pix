@@ -15,7 +15,7 @@ export default class OrganizationTeamRoute extends Route {
 
   beforeModel() {
     const organization = this.modelFor('authenticated.organizations.get');
-    if (organization.get('archivistFullName')) {
+    if (organization.isArchived) {
       return this.router.replaceWith('authenticated.organizations.get.target-profiles');
     }
   }

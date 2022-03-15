@@ -37,6 +37,10 @@ export default class Organization extends Model {
     return dayjs(this.archivedAt).format('DD/MM/YYYY');
   }
 
+  get isArchived() {
+    return !!this.archivistFullName;
+  }
+
   attachTargetProfiles = memberAction({
     path: 'target-profiles',
     type: 'post',

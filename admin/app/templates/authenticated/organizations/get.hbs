@@ -12,11 +12,12 @@
     @organization={{@model}}
     @onLogoUpdated={{this.updateOrganizationInformation}}
     @onSubmit={{this.updateOrganizationInformation}}
+    @archiveOrganization={{this.archiveOrganization}}
   />
 
   <nav class="navbar">
 
-    {{#unless @model.archivistFullName}}
+    {{#unless @model.isArchived}}
       <LinkTo @route="authenticated.organizations.get.team" @model={{@model}} class="navbar-item">
         Équipe
       </LinkTo>
