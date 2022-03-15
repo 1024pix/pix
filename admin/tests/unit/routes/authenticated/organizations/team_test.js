@@ -14,7 +14,7 @@ module('Unit | Route | authenticated/organizations/get/team', function (hooks) {
   module('#beforeModel', function () {
     test('it should transition to target-profiles route when organization is archived', async function (assert) {
       // given
-      const organization = EmberObject.create({ archivistFullName: 'Clément Tine' });
+      const organization = EmberObject.create({ isArchived: true });
       const route = this.owner.lookup('route:authenticated/organizations/get/team');
       sinon.stub(route.router, 'replaceWith');
       sinon.stub(route, 'modelFor').returns(organization);

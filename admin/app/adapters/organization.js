@@ -21,4 +21,13 @@ export default class OrganizationAdapter extends ApplicationAdapter {
 
     return this.ajax(url, 'GET');
   }
+
+  updateRecord(store, type, snapshot) {
+    if (snapshot?.adapterOptions?.archiveOrganization) {
+      const url = `${this.host}/${this.namespace}/admin/organizations/${snapshot.id}/archive`;
+      return this.ajax(url, 'POST');
+    }
+
+    return super.updateRecord(...arguments);
+  }
 }

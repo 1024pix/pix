@@ -503,6 +503,10 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.AlreadyAcceptedOrCancelledOrganizationInvitationError).to.exist;
   });
 
+  it('should export an MissingAttributesError', function () {
+    expect(errors.MissingAttributesError).to.exist;
+  });
+
   describe('CertificationCandidateAddError', function () {
     context('#fromInvalidCertificationCandidateError', function () {
       it('should return a CertificationCandidateAddError', function () {

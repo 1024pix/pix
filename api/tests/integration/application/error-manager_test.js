@@ -777,6 +777,14 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
       expect(responseDetail(response)).to.equal("L'organisation est archivée.");
     });
+
+    it('responds UnprocessableEntityError when an MissingAttributes error occurs', async function () {
+      routeHandler.throws(new DomainErrors.MissingAttributesError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+      expect(responseDetail(response)).to.equal('Attributs manquants.');
+    });
   });
 
   context('should respond 401 Unauthorized', function () {
