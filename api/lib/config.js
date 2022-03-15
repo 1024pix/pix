@@ -171,9 +171,6 @@ module.exports = (function () {
 
     featureToggles: {
       isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
-      isComplementaryCertificationSubscriptionEnabled: isFeatureEnabled(
-        process.env.FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED
-      ),
       isCertificationBillingEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_BILLING),
       isNewTutorialsPageEnabled: isFeatureEnabled(process.env.FT_NEW_TUTORIALS_PAGE),
     },
