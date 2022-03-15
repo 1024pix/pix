@@ -143,7 +143,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.contains('Editer');
+      assert.contains('Éditer');
     });
 
     test('it should toggle edition mode on click to edit button', async function (assert) {
@@ -151,7 +151,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
 
       // then
       assert.dom('.organization__edit-form').exists();
@@ -162,7 +162,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
 
       // then
       assert.dom('input#name').hasValue(organization.name);
@@ -180,7 +180,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#name', '');
 
       // then
@@ -192,7 +192,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#name', 'a'.repeat(256));
 
       // then
@@ -204,7 +204,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#externalId', 'a'.repeat(256));
 
       // then
@@ -216,7 +216,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#provinceCode', 'a'.repeat(256));
 
       // then
@@ -228,7 +228,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#email', 'a'.repeat(256));
 
       // then
@@ -240,7 +240,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#email', 'not-valid-email-format');
 
       // then
@@ -252,7 +252,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#credit', 'credit');
 
       // then
@@ -262,7 +262,7 @@ module('Integration | Component | organizations/information-section', function (
     test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
 
       // when
       await clickByLabel('Annuler');
@@ -276,7 +276,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('#documentationUrl', 'not-valid-url-format');
 
       // then
@@ -287,7 +287,7 @@ module('Integration | Component | organizations/information-section', function (
       // given
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
@@ -313,7 +313,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(
         hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
       );
-      await clickByLabel('Editer');
+      await clickByLabel('Éditer');
 
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');

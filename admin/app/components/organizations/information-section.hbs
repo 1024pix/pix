@@ -166,7 +166,7 @@
           </ul>
         {{/if}}
 
-        {{#if @organization.archivistFullName}}
+        {{#if @organization.isArchived}}
           <PixMessage class="organization-information-section__archived-message" @type="warning">
             Archivée le
             {{@organization.archivedFormattedDate}}
@@ -227,12 +227,25 @@
                 Non spécifié
               {{/if}}
             </p>
-            <PixButton
-              @backgroundColor="transparent-light"
-              @isBorderVisible={{true}}
-              @size="small"
-              @triggerAction={{this.toggleEditMode}}
-            >Editer</PixButton>
+            <div class="form-actions">
+              <PixButton
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @size="small"
+                @triggerAction={{this.toggleEditMode}}
+              >
+                Éditer
+              </PixButton>
+              {{#unless @organization.isArchived}}
+                <PixButton
+                  @backgroundColor="red"
+                  @size="small"
+                  @triggerAction={{this.toggleArchivingConfirmationModal}}
+                >
+                  Archiver l'organisation
+                </PixButton>
+              {{/unless}}
+            </div>
           </div>
           <div>
             <PixButtonLink
@@ -247,6 +260,14 @@
           </div>
         </div>
       </div>
+    {{/if}}
+
+    {{#if this.showArchivingConfirmationModal}}
+      <Organizations::ArchivingConfirmationModal
+        @organizationName={{@organization.name}}
+        @toggleArchivingConfirmationModal={{this.toggleArchivingConfirmationModal}}
+        @archiveOrganization={{this.archiveOrganization}}
+      />
     {{/if}}
   </div>
 </section>
