@@ -104,11 +104,11 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('PUT /api/admin/organizations/:id/archived', function () {
+  describe('POST /api/admin/organizations/:id/archive', function () {
     it('should call the controller to archive the organization', async function () {
       // given
-      const method = 'PUT';
-      const url = '/api/admin/organizations/1/archived';
+      const method = 'POST';
+      const url = '/api/admin/organizations/1/archive';
 
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(organizationController, 'archiveOrganization').callsFake((request, h) => h.response('ok').code(204));

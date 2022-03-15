@@ -86,8 +86,8 @@ exports.register = async (server) => {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/admin/organizations/{id}/archived',
+      method: 'POST',
+      path: '/api/admin/organizations/{id}/archive',
       config: {
         pre: [
           {
