@@ -245,7 +245,9 @@ describe('Unit | Domain | Service | Token Service', function () {
       );
 
       // when
-      setTimeout(async () => {}, 100);
+      setTimeout(async () => {
+        return;
+      }, 100);
       const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
 
       // then
@@ -304,7 +306,9 @@ describe('Unit | Domain | Service | Token Service', function () {
       );
 
       // when
-      setTimeout(async () => {}, 100);
+      setTimeout(async () => {
+        return;
+      }, 100);
       const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
 
       // then
