@@ -10,6 +10,7 @@ export default class NewController extends Controller {
 
   @tracked isFileInvalid = false;
   @tracked isSaving = false;
+  @tracked filename = '';
 
   @action
   goBackToTargetProfileList() {
@@ -19,21 +20,26 @@ export default class NewController extends Controller {
   }
 
   @action
-  saveFileObject(event) {
+  saveFileObject(files) {
     const reader = new FileReader();
 
-    reader.readAsText(event.target.files[0]);
+    reader.readAsText(files[0]);
+    reader.onload = this._onFileLoad.bind(this);
+    this.filename = files[0].name;
+  }
 
-    reader.onload = (evt) => {
-      try {
-        const json = JSON.parse(evt.target.result);
-        const skillIds = json.flatMap((tube) => tube.skills);
-        this.isFileInvalid = false;
-        this.model.skillIds = skillIds;
-      } catch (e) {
-        this.isFileInvalid = true;
+  _onFileLoad(event) {
+    try {
+      const json = JSON.parse(event.target.result);
+      const skillIds = json.flatMap((tube) => tube.skills);
+      if (skillIds.length === 0) {
+        throw new Error('Ce fichier ne contient aucun acquis !');
       }
-    };
+      this.isFileInvalid = false;
+      this.model.skillIds = skillIds;
+    } catch (e) {
+      this.isFileInvalid = true;
+    }
   }
 
   @action

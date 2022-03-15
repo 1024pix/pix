@@ -25,66 +25,93 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
   });
 
   module('#saveFileObject', function (hooks) {
+    const filename = 'myfile';
+    const files = [{ name: filename }];
+
     hooks.beforeEach(function () {
       sinon.restore();
+      sinon.stub(FileReader.prototype, 'readAsText');
     });
 
     test('should read the file', async function (assert) {
-      const event = {
-        target: {
-          files: [Symbol('myFile')],
-        },
-      };
+      controller.saveFileObject(files);
 
-      sinon.stub(FileReader.prototype, 'readAsText');
-
-      controller.saveFileObject(event);
-
-      assert.ok(FileReader.prototype.readAsText.calledWith(event.target.files[0]));
+      assert.ok(FileReader.prototype.readAsText.calledWith(files[0]));
     });
 
-    test('should parse the file', async function (assert) {
-      controller.model = {};
-      const event = {
-        target: {
-          files: [Symbol('myFile')],
-          result: [JSON.stringify([{ skills: ['skill1'] }, { skills: ['skill2'] }])],
-        },
-      };
+    test('should set filename', async function (assert) {
+      controller.saveFileObject(files);
 
-      let onLoadFunction;
-      sinon.stub(FileReader.prototype, 'readAsText');
-      sinon.stub(FileReader.prototype, 'onload').set(function (onload) {
-        onLoadFunction = onload;
-      });
-
-      controller.saveFileObject(event);
-
-      onLoadFunction(event);
-
-      assert.deepEqual(controller.model.skillIds, ['skill1', 'skill2']);
-      assert.false(controller.isFileInvalid);
+      assert.strictEqual(controller.filename, filename);
     });
-    test('should cannot parse the file', async function (assert) {
-      controller.model = {};
-      const event = {
-        target: {
-          files: [Symbol('myFile')],
-          result: [JSON.stringify('toto')],
-        },
-      };
+  });
 
-      let onLoadFunction;
-      sinon.stub(FileReader.prototype, 'readAsText');
-      sinon.stub(FileReader.prototype, 'onload').set(function (onload) {
-        onLoadFunction = onload;
+  module('#_onFileLoad', function (hooks) {
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
+
+    module('when json file is valid', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.restore();
+
+        // given
+        controller.model = {};
+        controller.isFileInvalid = true;
+        const event = {
+          target: {
+            result: [{ skills: ['skill1'] }, { skills: ['skill2'] }],
+          },
+        };
+        const skillsList = [{ skills: ['skill1'] }, { skills: ['skill2'] }];
+
+        // when
+        sinon.stub(JSON, 'parse').returns(skillsList);
+        controller._onFileLoad(event);
       });
 
-      controller.saveFileObject(event);
+      test('it should set isFileInvalid to false', function (assert) {
+        assert.notOk(controller.isFileInvalid);
+      });
 
-      onLoadFunction(event);
+      test('it should fill skillIds list', function (assert) {
+        assert.deepEqual(controller.model.skillIds, ['skill1', 'skill2']);
+      });
+    });
 
-      assert.true(controller.isFileInvalid);
+    module('when json file is invalid', function () {
+      test('it should set isFileInvalid to true', function (assert) {
+        controller.isFileInvalid = false;
+        const event = {
+          target: {
+            result: [],
+          },
+        };
+
+        // when
+        sinon.stub(JSON, 'parse').throws();
+        controller._onFileLoad(event);
+
+        assert.ok(controller.isFileInvalid);
+      });
+    });
+
+    module('when skillIds list is empty', function () {
+      test('it should set isFileInvalid to true', function (assert) {
+        // given
+        controller.isFileInvalid = false;
+        const event = {
+          target: {
+            result: [],
+          },
+        };
+
+        // when
+        sinon.stub(JSON, 'parse').returns([]);
+        controller._onFileLoad(event);
+
+        assert.ok(controller.isFileInvalid);
+      });
     });
   });
 

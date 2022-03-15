@@ -54,10 +54,19 @@
 
     <Card class="create-target-profile__card" @title="2. Sélection des sujets">
       <div class="create-target-profile__inline-layout">
-        <div class="file-upload-group">
-          <label class="file-upload-group__label {{if @isFileInvalid "s-invalid"}}">Importer un profil cible .JSON
-            <Input class="file-upload-group__input" {{on "change" @onLoadFile}} @type="file" id="skillsList" />
-          </label>
+        <div class="file-upload-group form-field">
+          <div class="file-upload-group__button">
+            <PixButtonUpload
+              @id="skillsList"
+              @onChange={{@onLoadFile}}
+              accept=".json"
+              @backgroundColor="transparent-light"
+              @isBorderVisible="true"
+            >
+              Importer un profil cible .JSON
+            </PixButtonUpload>
+            <span>{{@filename}}</span>
+          </div>
           {{#if @isFileInvalid}}
             <p class="form-field__error">Le fichier Pix Editor n'est pas au bon format.</p>
           {{/if}}
