@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.185.0 (15/03/2022)
+
+
+### :rocket: Amélioration
+- [#4196](https://github.com/1024pix/pix/pull/4196) [FEATURE] Ajout du visuel de la page vide de tutoriels recommandés (PIX-4338).
+- [#4183](https://github.com/1024pix/pix/pull/4183) [FEATURE] Ajout de la pagination sur l'onglet Mes Tutos Recommandés (PIX-4294)
+- [#4191](https://github.com/1024pix/pix/pull/4191) [FEATURE] Ne prend plus en compte les parcours supprimés dans le bandeau de reprise (PIX-4439).
+- [#4187](https://github.com/1024pix/pix/pull/4187) [FEATURE] Ne pas pouvoir repasser son parcours si la participation a été supprimée (PIX-4442).
+
+### :building_construction: Tech
+- [#4200](https://github.com/1024pix/pix/pull/4200) [TECH] Ajout d'une page de maintenance spécifique pour les opérations planifiées
+- [#4175](https://github.com/1024pix/pix/pull/4175) [TECH] Monter de version les packages de l'API.
+- [#4091](https://github.com/1024pix/pix/pull/4091) [TECH] Eviter les conversions inutiles XML/texte dans l'export des candidats (PIX-4378).
+
 ## v3.184.0 (14/03/2022)
 
 
