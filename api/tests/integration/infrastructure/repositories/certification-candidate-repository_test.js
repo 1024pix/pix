@@ -505,22 +505,29 @@ describe('Integration | Repository | CertificationCandidate', function () {
     });
 
     context('when there are more than one certification candidate with the given info in the session', function () {
-      let commonCandidateInfo;
-
-      beforeEach(function () {
-        commonCandidateInfo = {
+      it('should find two candidates', async function () {
+        //given
+        const commonCandidateInfo = {
           lastName: 'Bideau',
           firstName: 'Charlie',
           birthdate: '1999-10-17',
           sessionId,
         };
-        databaseBuilder.factory.buildCertificationCandidate(commonCandidateInfo);
-        databaseBuilder.factory.buildCertificationCandidate(commonCandidateInfo);
 
-        return databaseBuilder.commit();
-      });
+        databaseBuilder.factory.buildSchoolingRegistration({ id: 666 });
+        databaseBuilder.factory.buildSchoolingRegistration({ id: 777 });
 
-      it('should find two candidates', async function () {
+        const certificationCandidates1 = databaseBuilder.factory.buildCertificationCandidate({
+          ...commonCandidateInfo,
+          schoolingRegistrationId: 777,
+        });
+        const certificationCandidates2 = databaseBuilder.factory.buildCertificationCandidate({
+          ...commonCandidateInfo,
+          schoolingRegistrationId: 666,
+        });
+
+        await databaseBuilder.commit();
+
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
           commonCandidateInfo
@@ -530,6 +537,13 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(actualCandidates).to.have.lengthOf(2);
         expect(actualCandidates[0].lastName).to.equal(commonCandidateInfo.lastName);
         expect(actualCandidates[1].lastName).to.equal(commonCandidateInfo.lastName);
+        expect([
+          actualCandidates[0].schoolingRegistrationId,
+          actualCandidates[1].schoolingRegistrationId,
+        ]).to.have.members([
+          certificationCandidates1.schoolingRegistrationId,
+          certificationCandidates2.schoolingRegistrationId,
+        ]);
         expect(actualCandidates[0].id).to.not.equal(actualCandidates[1].id);
       });
     });

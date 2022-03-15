@@ -136,10 +136,9 @@ module.exports = {
 
   async findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
     const results = await CertificationCandidateBookshelf.where({ sessionId, birthdate }).fetchAll();
-    const certificationCandidates = bookshelfToDomainConverter.buildDomainObjects(
-      CertificationCandidateBookshelf,
-      results
-    );
+
+    const certificationCandidates = _buildCertificationCandidates(results);
+
     const normalizedInputNames = {
       lastName: normalize(lastName),
       firstName: normalize(firstName),
@@ -156,7 +155,7 @@ module.exports = {
   findOneBySessionIdAndUserId({ sessionId, userId }) {
     return CertificationCandidateBookshelf.where({ sessionId, userId })
       .fetchAll()
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results)[0]);
+      .then((results) => _buildCertificationCandidates(results)[0]);
   },
 
   async doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
@@ -206,6 +205,16 @@ module.exports = {
     return _toDomain(candidateData);
   },
 };
+
+function _buildCertificationCandidates(results) {
+  if (results?.models[0]) {
+    results.models.forEach((model, index) => {
+      results.models[index].attributes.schoolingRegistrationId = model.attributes.organizationLearnerId;
+    });
+  }
+
+  return bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results);
+}
 
 function _adaptModelToDb(certificationCandidateToSave) {
   return {
