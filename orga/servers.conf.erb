@@ -38,20 +38,37 @@ server {
 
   root /app/dist/;
 
-  # in case of 503, serve this URI
-  error_page 503 /maintenance_page.html;
   location = /maintenance_page.html {
     # maintenance page is at the root of the project
     root /app/;
   }
 
-  <% if ENV['MAINTENANCE'] == 'enabled' %>
+  location = /maintenance_scheduled.html {
+    # maintenance page is at the root of the project
+    root /app/;
+  }
+
+  <% if ENV['MAINTENANCE_PLANIFIEE'] == 'enabled' %>
+
+  # in case of 503, serve this URI
+  error_page 503 /maintenance_scheduled.html;
+
+  location / {
+    return 503;
+  }
+
+  <% elsif ENV['MAINTENANCE'] == 'enabled'%>
+  # in case of 503, serve this URI
+  error_page 503 /maintenance_page.html;
 
   location / {
     return 503;
   }
 
   <% else %>
+
+  # in case of 503, serve this URI
+  error_page 503 /maintenance_page.html;
 
   location = /index.html {
     # index.html should never be cached
