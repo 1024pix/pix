@@ -4,11 +4,32 @@ export default class UserTutorialsSavedRoute extends Route {
   @service featureToggles;
   @service router;
 
+  queryParams = {
+    pageNumber: { refreshModel: true },
+    pageSize: { refreshModel: true },
+  };
+
   redirect() {
     if (!this.featureToggles.featureToggles.isNewTutorialsPageEnabled) this.router.replaceWith('user-tutorials');
   }
 
-  model() {
-    return this.store.query('tutorial', { type: 'saved' }, { reload: true });
+  model(params) {
+    return this.store.query(
+      'tutorial',
+      {
+        type: 'saved',
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
+      },
+      { reload: true }
+    );
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('pageNumber', 1);
+    }
   }
 }
