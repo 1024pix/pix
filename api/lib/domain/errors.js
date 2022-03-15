@@ -646,6 +646,12 @@ class MissingOrInvalidCredentialsError extends DomainError {
   }
 }
 
+class MissingAttributesError extends DomainError {
+  constructor(message = 'Attributs manquants.') {
+    super(message);
+  }
+}
+
 class MissingAssessmentId extends DomainError {
   constructor(message = 'AssessmentId manquant ou incorrect') {
     super(message);
@@ -1150,6 +1156,7 @@ module.exports = {
   MembershipCreationError,
   MembershipUpdateError,
   MissingAssessmentId,
+  MissingAttributesError,
   MissingBadgeCriterionError,
   MissingOrInvalidCredentialsError,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,

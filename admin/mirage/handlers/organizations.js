@@ -25,6 +25,13 @@ function findPaginatedOrganizationMemberships(schema, request) {
   return json;
 }
 
+function archiveOrganization(schema, request) {
+  const id = request.params.id;
+
+  const organization = schema.organizations.find(id);
+  return organization.update({ archivistFullName: 'Clément Tine', archivedAt: new Date('2022-02-02') });
+}
+
 function _getPaginationFromQueryParams(queryParams) {
   return {
     pageSize: parseInt(get(queryParams, 'page[size]', 10)),
@@ -39,4 +46,4 @@ function _applyPagination(memberships, { page, pageSize }) {
   return slice(memberships, start, end);
 }
 
-export { getOrganizationInvitations, findPaginatedOrganizationMemberships };
+export { archiveOrganization, getOrganizationInvitations, findPaginatedOrganizationMemberships };

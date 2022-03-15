@@ -1039,19 +1039,31 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#archiveOrganization', function () {
-    it('should call the usecase to cancel all pending invitations', async function () {
+    it('should call the usecase to archive the organization with the user id', async function () {
       // given
       const organizationId = 1234;
-      const request = { params: { id: organizationId } };
+      const userId = 10;
+      const request = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+        params: { id: organizationId },
+      };
 
-      sinon.stub(usecases, 'archiveOrganization').resolves();
+      const archivedOrganization = Symbol('archivedOrganization');
+      const archivedOrganizationSerialized = Symbol('archivedOrganizationSerialized');
+      sinon.stub(usecases, 'archiveOrganization').resolves(archivedOrganization);
+      sinon
+        .stub(organizationForAdminSerializer, 'serialize')
+        .withArgs(archivedOrganization)
+        .returns(archivedOrganizationSerialized);
 
       // when
-      await organizationController.archiveOrganization(request, hFake);
+      const response = await organizationController.archiveOrganization(request, hFake);
 
       // then
-      expect(usecases.archiveOrganization).to.have.been.calledOnce;
-      expect(usecases.archiveOrganization).to.have.been.calledWith({ organizationId });
+      expect(usecases.archiveOrganization).to.have.been.calledOnceWithExactly({ organizationId, userId });
+      expect(response).to.deep.equal(archivedOrganizationSerialized);
     });
   });
 });

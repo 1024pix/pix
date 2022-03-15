@@ -1,0 +1,14 @@
+.pix-modal {
+
+  li.archiving-confirmation-modal__information {
+    list-style: disc;
+  }
+
+  ul.archiving-confirmation-modal__list {
+    margin: 0 0 10px 10px;
+  }
+
+  &__overlay {
+    z-index: 1000;
+  }
+}

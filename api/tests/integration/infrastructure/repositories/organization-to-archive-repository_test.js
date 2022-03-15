@@ -1,16 +1,18 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const OrganizationToArchive = require('../../../../lib/domain/models/OrganizationToArchive');
 const organizationToArchiveRepository = require('../../../../lib/infrastructure/repositories/organization-to-archive-repository');
+const { MissingAttributesError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | OrganizationToArchive', function () {
   describe('#save', function () {
     it('should update invitation status for given organization', async function () {
       // given
-      const organizationId = 1;
+      const now = new Date('2022-02-02');
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       const pendingStatus = 'PENDING';
       const cancelledStatus = 'CANCELLED';
       const acceptedStatus = 'ACCEPTED';
-      databaseBuilder.factory.buildOrganization({ id: organizationId });
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
 
       databaseBuilder.factory.buildOrganizationInvitation({ id: 1, organizationId, status: pendingStatus });
       databaseBuilder.factory.buildOrganizationInvitation({ id: 2, organizationId, status: pendingStatus });
@@ -25,9 +27,13 @@ describe('Integration | Repository | OrganizationToArchive', function () {
 
       await databaseBuilder.commit();
 
-      const organizationToArchive = new OrganizationToArchive({ id: organizationId });
+      const organizationToArchive = new OrganizationToArchive({
+        id: organizationId,
+      });
       organizationToArchive.previousInvitationStatus = pendingStatus;
       organizationToArchive.newInvitationStatus = cancelledStatus;
+      organizationToArchive.archiveDate = now;
+      organizationToArchive.archivedBy = pixMasterUserId;
 
       // when
       await organizationToArchiveRepository.save(organizationToArchive);
@@ -53,6 +59,7 @@ describe('Integration | Repository | OrganizationToArchive', function () {
     it('should update active campaigns', async function () {
       // given
       const now = new Date('2022-02-02');
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       const previousDate = new Date('2021-01-01');
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
@@ -65,6 +72,7 @@ describe('Integration | Repository | OrganizationToArchive', function () {
 
       const organizationToArchive = new OrganizationToArchive({ id: organizationId });
       organizationToArchive.archiveDate = now;
+      organizationToArchive.archivedBy = pixMasterUserId;
 
       // when
       await organizationToArchiveRepository.save(organizationToArchive);
@@ -85,6 +93,7 @@ describe('Integration | Repository | OrganizationToArchive', function () {
     it('should disable active memberships', async function () {
       // given
       const now = new Date('2022-02-02');
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       const previousDate = new Date('2021-01-01');
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
@@ -100,6 +109,7 @@ describe('Integration | Repository | OrganizationToArchive', function () {
 
       const organizationToArchive = new OrganizationToArchive({ id: organizationId });
       organizationToArchive.archiveDate = now;
+      organizationToArchive.archivedBy = pixMasterUserId;
 
       // when
       await organizationToArchiveRepository.save(organizationToArchive);
@@ -113,6 +123,55 @@ describe('Integration | Repository | OrganizationToArchive', function () {
 
       const previouslyDisabledMembers = await knex('memberships').where({ disabledAt: previousDate });
       expect(previouslyDisabledMembers).to.have.lengthOf(1);
+    });
+
+    it('should archive organization', async function () {
+      // given
+      const now = new Date('2022-02-02');
+      const organizationId = 1;
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+      databaseBuilder.factory.buildOrganization({ id: 2 });
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+
+      await databaseBuilder.commit();
+
+      const organizationToArchive = new OrganizationToArchive({ id: organizationId });
+      organizationToArchive.archiveDate = now;
+      organizationToArchive.archivedBy = pixMasterUserId;
+
+      // when
+      await organizationToArchiveRepository.save(organizationToArchive);
+
+      // then
+      const archivedOrganization = await knex('organizations').where({ id: organizationId }).first();
+      expect(archivedOrganization.archivedBy).to.equal(pixMasterUserId);
+      expect(archivedOrganization.archivedAt).to.deep.equal(now);
+
+      const organizations = await knex('organizations').where({ archivedBy: null });
+      expect(organizations).to.have.length(1);
+      expect(organizations[0].id).to.equal(2);
+    });
+
+    describe('when attributes missing', function () {
+      it('should throw MissingAttributesError', async function () {
+        // given
+        const organizationId = 1;
+        databaseBuilder.factory.buildOrganization({ id: organizationId });
+        databaseBuilder.factory.buildOrganization({ id: 2 });
+        const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+
+        await databaseBuilder.commit();
+
+        const organizationToArchive = new OrganizationToArchive({ id: organizationId });
+        organizationToArchive.archiveDate = null;
+        organizationToArchive.archivedBy = pixMasterUserId;
+
+        // when
+        const error = await catchErr(organizationToArchiveRepository.save)(organizationToArchive);
+
+        // then
+        expect(error).to.be.instanceOf(MissingAttributesError);
+      });
     });
   });
 });
