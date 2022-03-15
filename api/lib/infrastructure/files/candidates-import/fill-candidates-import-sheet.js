@@ -88,9 +88,7 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
         tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
       });
   }
-  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations });
-  }
+  odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations });
 
   return odsBuilder;
 }
