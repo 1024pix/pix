@@ -50,12 +50,13 @@ module.exports = {
     return _.map(tutorialData, _toDomain);
   },
 
-  async findRecommendedByUserId(userId) {
+  async findRecommendedByUserId({ userId, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
-
     const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
 
-    return this.findByRecordIds(skills.flatMap((skill) => skill.tutorialIds));
+    const tutorialsIds = skills.flatMap((skill) => skill.tutorialIds);
+
+    return _findByRecordIds({ ids: tutorialsIds, locale });
   },
 };
 
