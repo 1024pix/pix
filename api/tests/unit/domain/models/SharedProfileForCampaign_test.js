@@ -9,8 +9,9 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
           campaignAllowsRetry: true,
           isRegistrationActive: false,
-          scorecards: [],
-          sharedAt: new Date('2020-01-01'),
+          campaignParticipation: {
+            sharedAt: new Date('2020-01-01'),
+          },
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -22,8 +23,9 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
           campaignAllowsRetry: false,
           isRegistrationActive: true,
-          scorecards: [],
-          sharedAt: new Date('2020-01-01'),
+          campaignParticipation: {
+            sharedAt: new Date('2020-01-01'),
+          },
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -36,8 +38,9 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           const sharedProfileForCampaign = new SharedProfileForCampaign({
             campaignAllowsRetry: true,
             isRegistrationActive: true,
-            scorecards: [],
-            sharedAt: null,
+            campaignParticipation: {
+              sharedAt: null,
+            },
           });
 
           expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -49,8 +52,10 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           const sharedProfileForCampaign = new SharedProfileForCampaign({
             campaignAllowsRetry: true,
             isRegistrationActive: true,
-            scorecards: [],
             sharedAt: new Date('2020-01-01'),
+            campaignParticipation: {
+              sharedAt: new Date('2020-01-01'),
+            },
           });
 
           expect(sharedProfileForCampaign.canRetry).to.equal(true);
