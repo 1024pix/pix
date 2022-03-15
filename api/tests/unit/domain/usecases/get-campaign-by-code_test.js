@@ -3,7 +3,11 @@ const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | get-campaign-by-code', function () {
   const code = 'QWERTY123';
-  const campaignToJoinRepository = { getByCode: () => {} };
+  const campaignToJoinRepository = {
+    getByCode: () => {
+      return;
+    },
+  };
 
   beforeEach(function () {
     sinon.stub(campaignToJoinRepository, 'getByCode');

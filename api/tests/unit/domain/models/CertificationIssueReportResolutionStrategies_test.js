@@ -1439,7 +1439,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -1498,7 +1500,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const challengeRepository = {
           get: sinon.stub().resolves(notFocusedChallenge),
