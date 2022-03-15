@@ -443,6 +443,53 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           .exists();
       });
     });
+
+    module('when Resolve button is clicked on issue report', function () {
+      test('it should open resolution modal', async function (assert) {
+        // given
+        const certificationIssueReport = this.server.create('certification-issue-report', {
+          category: 'OTHER',
+          description: 'Un signalement impactant',
+          isImpactful: true,
+          resolvedAt: null,
+        });
+        certification.update({ certificationIssueReports: [certificationIssueReport] });
+
+        await visit(`/certifications/${certification.id}`);
+        this.server.patch(`/certification-issue-reports/${certificationIssueReport.id}`, () => new Response({}), 204);
+
+        // when
+        await clickByLabel('Résoudre');
+
+        // then
+        assert.contains('Résoudre un signalement');
+      });
+      module('and Resolve button is clicked', function () {
+        test('it should do foo', async function (assert) {
+          // given
+          const certificationIssueReport = this.server.create('certification-issue-report', {
+            category: 'OTHER',
+            description: 'Un signalement impactant',
+            isImpactful: true,
+            resolvedAt: null,
+          });
+          certification.update({ certificationIssueReports: [certificationIssueReport] });
+
+          await visit(`/certifications/${certification.id}`);
+          this.server.patch(`/certification-issue-reports/${certificationIssueReport.id}`, () => new Response({}), 204);
+
+          // when
+          await clickByLabel('Résoudre');
+          await clickByLabel('OK');
+
+          // then
+          assert.ok(true);
+          assert.contains('resolved!');
+          // assert.dom('.certification-issue-report__resolution-status--resolved').exists();
+          // assert.dom('.certification-issue-report__resolution-status--unresolved').doesNotExist();
+        });
+      });
+    });
   });
 
   module('when go to user detail button is clicked', function () {
