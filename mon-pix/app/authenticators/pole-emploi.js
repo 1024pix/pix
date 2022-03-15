@@ -11,9 +11,9 @@ import fetch from 'fetch';
 
 const { host, clientId, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
 
-export default BaseAuthenticator.extend({
-  session: service(),
-  location: service(),
+export default class PoleEmploiAuthenticator extends BaseAuthenticator {
+  @service session;
+  @service location;
 
   async authenticate({ code, redirectUri, state, authenticationKey }) {
     let request;
@@ -77,7 +77,7 @@ export default BaseAuthenticator.extend({
       user_id: decodedAccessToken.user_id,
       redirectUri,
     };
-  },
+  }
 
   restore(data) {
     return new RSVP.Promise((resolve, reject) => {
@@ -86,7 +86,7 @@ export default BaseAuthenticator.extend({
       }
       reject();
     });
-  },
+  }
 
   async invalidate() {
     const idToken = this.session.get('data.authenticated.id_token');
@@ -105,5 +105,5 @@ export default BaseAuthenticator.extend({
       params.push(`id_token_hint=${idToken}`);
     }
     this.location.replace(`${host}${endSessionEndpoint}?${params.join('&')}`);
-  },
-});
+  }
+}
