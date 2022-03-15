@@ -150,33 +150,33 @@
     }
   }
 
-  &__saved-empty {
+  &__saved-empty,
+  &__recommended-empty {
     align-items: center;
     display: flex;
     align-self: center;
-    margin: 0 auto;
+    margin: 75px auto 0 auto;
     flex-direction: column-reverse;
+    max-width: 1037px;
     row-gap: 20px;
     padding: 0 20px;
+    text-align: center;
 
     @include device-is('desktop') {
       flex-direction: row;
       column-gap: 100px;
+      text-align: left;
     }
   }
 }
 
-.user-tutorials-saved-empty-v2 {
+.user-tutorials-saved-empty-v2,
+.user-tutorials-recommended-empty-v2 {
 
   &__title,
   &__description {
     color: $grey-90;
     font-family: $font-open-sans;
-    text-align: center;
-
-    @include device-is('desktop') {
-      text-align: left;
-    }
   }
 
   &__title {
@@ -185,6 +185,10 @@
 
   &__description {
     font-size: 1.2rem;
+  }
+
+  &__link {
+    display: inline-flex;
   }
 }
 
