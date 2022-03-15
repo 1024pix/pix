@@ -224,7 +224,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -497,7 +499,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -555,7 +559,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const challengeWithoutEmbed = domainBuilder.buildChallenge({ embedUrl: null });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutEmbed),
@@ -777,7 +783,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -835,7 +843,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const challengeWithoutAttachment = domainBuilder.buildChallenge({ attachments: [] });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutAttachment),
@@ -1058,7 +1068,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -1116,7 +1128,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const notTimedChallenge = domainBuilder.buildChallenge({});
         const certificationIssueReportRepository = {
-          save: () => {},
+          save: () => {
+            return;
+          },
         };
         const challengeRepository = {
           get: sinon.stub().resolves(notTimedChallenge),

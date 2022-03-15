@@ -13,7 +13,9 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
   beforeEach(function () {
     stubbedClient = {
-      lockDisposer: sinon.stub().resolves(() => {}),
+      lockDisposer: sinon.stub().resolves(() => {
+        return;
+      }),
     };
     sinon.stub(RedisCache, 'createClient').withArgs(REDIS_URL).returns(stubbedClient);
     redisCache = new RedisCache(REDIS_URL);
@@ -103,7 +105,9 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         it('should wait and retry to get the value from the cache', function () {
           // given
           stubbedClient.lockDisposer.rejects(new Redlock.LockError());
-          const handler = () => {};
+          const handler = () => {
+            return;
+          };
 
           // when
           const promise = redisCache.get(CACHE_KEY, handler);
