@@ -6,20 +6,22 @@
         class="form-field"
         @id="targetProfileName"
         @label="Nom (obligatoire) : "
-        required
+        required={{true}}
+        aria-required={{true}}
         {{on "change" this.updateTargetProfileName}}
       />
       <div class="form-field form-group">
         <PixSelect
           class="form-control"
           @id="targetProfileCategory"
-          @label={{"Catégorie :"}}
+          @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
           @selectedOption={{@targetProfile.category}}
           @options={{this.optionsList}}
           @emptyOptionLabel={{"-"}}
           @emptyOptionNotSelectable={{true}}
           required={{true}}
+          aria-required={{true}}
         />
       </div>
 
@@ -42,7 +44,8 @@
           @id="organizationId"
           @label="Identifiant de l'organisation de référence : "
           @errorMessage=""
-          required
+          required={{true}}
+          aria-required={{true}}
           placeholder="7777"
           {{on "change" this.updateOwnerOrganizationId}}
         />
