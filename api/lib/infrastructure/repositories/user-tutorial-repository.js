@@ -3,6 +3,7 @@ const Tutorial = require('../../domain/models/Tutorial');
 const UserSavedTutorial = require('../../domain/models/UserSavedTutorial');
 const UserSavedTutorialWithTutorial = require('../../domain/models/UserSavedTutorialWithTutorial');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
+const { fetchPage } = require('../utils/knex-utils');
 
 const TABLE_NAME = 'user-saved-tutorials';
 
@@ -19,6 +20,13 @@ module.exports = {
   async find({ userId }) {
     const userSavedTutorials = await knex(TABLE_NAME).where({ userId });
     return userSavedTutorials.map(_toDomain);
+  },
+
+  async findPaginated({ userId, page }) {
+    const query = knex(TABLE_NAME).where({ userId });
+    const { results, pagination } = await fetchPage(query, page);
+    const userSavedTutorials = results.map(_toDomain);
+    return { models: userSavedTutorials, meta: pagination };
   },
 
   // TODO delete when tutorial V2 becomes main version
