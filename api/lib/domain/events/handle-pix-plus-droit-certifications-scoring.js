@@ -6,7 +6,6 @@ const PixPlusDroitCertificationScoring = require('../models/PixPlusDroitCertific
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 const { PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
-const { featureToggles } = require('../../config');
 const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../models/Badge').keys;
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
@@ -20,14 +19,10 @@ async function _isAllowedToBeScored({
     return false;
   }
 
-  if (featureToggles.isComplementaryCertificationSubscriptionEnabled) {
-    return await complementaryCertificationCourseRepository.hasComplementaryCertification({
-      certificationCourseId,
-      complementaryCertificationName: PIX_PLUS_DROIT,
-    });
-  }
-
-  return true;
+  return await complementaryCertificationCourseRepository.hasComplementaryCertification({
+    certificationCourseId,
+    complementaryCertificationName: PIX_PLUS_DROIT,
+  });
 }
 
 async function _allowedToBeScoredBadgeKeys({
