@@ -1,7 +1,8 @@
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, MissingAttributesError } = require('../../domain/errors');
 const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin');
 const Tag = require('../../domain/models/Tag');
 const { knex } = require('../../../db/knex-database-connection');
+const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
 
 function _toDomain(rawOrganization) {
   const organization = new OrganizationForAdmin({
@@ -69,5 +70,25 @@ module.exports = {
     });
 
     return _toDomain(organization);
+  },
+
+  async archive({ id, archivedBy }) {
+    if (!archivedBy) {
+      throw new MissingAttributesError();
+    }
+
+    const archiveDate = new Date();
+
+    await knex('organization-invitations')
+      .where({ organizationId: id, status: OrganizationInvitation.StatusType.PENDING })
+      .update({ status: OrganizationInvitation.StatusType.CANCELLED });
+
+    await knex('campaigns').where({ organizationId: id, archivedAt: null }).update({ archivedAt: archiveDate });
+
+    await knex('memberships').where({ organizationId: id, disabledAt: null }).update({ disabledAt: archiveDate });
+
+    await knex('organizations')
+      .where({ id: id, archivedBy: null })
+      .update({ archivedBy: archivedBy, archivedAt: archiveDate });
   },
 };

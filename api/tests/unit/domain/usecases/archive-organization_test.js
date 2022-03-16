@@ -1,14 +1,11 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const archiveOrganization = require('../../../../lib/domain/usecases/archive-organization');
-const OrganizationToArchive = require('../../../../lib/domain/models/OrganizationToArchive');
 
 describe('Unit | UseCase | archive-organization', function () {
   it('should archive the organization', async function () {
     // given
-    const organizationToArchiveRepository = {
-      save: sinon.stub(),
-    };
     const organizationForAdminRepository = {
+      archive: sinon.stub(),
       get: sinon.stub(),
     };
     const now = new Date('2022-02-22');
@@ -16,29 +13,32 @@ describe('Unit | UseCase | archive-organization', function () {
     const organizationId = 1;
     const pixMasterUser = domainBuilder.buildUser({
       id: 123,
+      firstName: 'Clémen',
+      lastName: 'Tine',
     });
-    const expectOrganizationForAdmin = domainBuilder.buildOrganizationForAdmin({
+    const expectedArchivedOrganization = domainBuilder.buildOrganizationForAdmin({
       archivedAt: now,
+      archivistFirstName: pixMasterUser.firstName,
+      archivistLastName: pixMasterUser.lastName,
     });
 
-    organizationToArchiveRepository.save.resolves();
-    organizationForAdminRepository.get.resolves(expectOrganizationForAdmin);
+    organizationForAdminRepository.archive.resolves();
+    organizationForAdminRepository.get.resolves(expectedArchivedOrganization);
 
     // when
     const archivedOrganizationForAdmin = await archiveOrganization({
       organizationId,
       userId: pixMasterUser.id,
-      organizationToArchiveRepository,
       organizationForAdminRepository,
     });
 
     // then
-    const expectedOrganizationToArchive = new OrganizationToArchive({ id: organizationId });
-    expectedOrganizationToArchive.archive({ archivedBy: pixMasterUser.id });
-
-    expect(organizationToArchiveRepository.save).to.have.been.calledWith(expectedOrganizationToArchive);
+    expect(organizationForAdminRepository.archive).to.have.been.calledWith({
+      id: organizationId,
+      archivedBy: pixMasterUser.id,
+    });
     expect(organizationForAdminRepository.get).to.have.been.calledWith(organizationId);
-    expect(archivedOrganizationForAdmin).to.deep.equal(expectOrganizationForAdmin);
+    expect(archivedOrganizationForAdmin).to.deep.equal(expectedArchivedOrganization);
     clock.restore();
   });
 });
