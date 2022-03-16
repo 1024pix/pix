@@ -3,6 +3,7 @@ import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCompetenceEvaluationsByAssessment from './routes/get-competence-evaluations-by-assessment';
+import getFeatureToggles from './routes/get-feature-toggles';
 import getProgression from './routes/get-progression';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
@@ -82,9 +83,7 @@ export default function () {
 
   this.post('/pole-emplois/users', postPoleEmploiUser);
 
-  this.get('/feature-toggles', (schema) => {
-    return schema.featureToggles.findOrCreateBy({ id: 0 });
-  });
+  this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);
 
