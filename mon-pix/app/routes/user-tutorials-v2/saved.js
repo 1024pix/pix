@@ -29,7 +29,7 @@ export default class UserTutorialsSavedRoute extends Route {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.set('pageNumber', 1);
+      controller.set('pageNumber', null);
     }
   }
 }

@@ -30,7 +30,7 @@ export default class UserTutorialsRecommendedRoute extends Route {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.set('pageNumber', 1);
+      controller.set('pageNumber', null);
     }
   }
 }
