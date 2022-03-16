@@ -3,6 +3,7 @@ const userTutorialsController = require('../../../../lib/application/user-tutori
 const usecases = require('../../../../lib/domain/usecases');
 const userTutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-tutorial-serializer');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Controller | User-tutorials', function () {
   describe('#add', function () {
@@ -78,10 +79,18 @@ describe('Unit | Controller | User-tutorials', function () {
     it('should call the expected usecase', async function () {
       // given
       const userId = 'userId';
+      const extractedParams = {
+        page: {
+          number: '1',
+          size: '200',
+        },
+      };
       sinon.stub(usecases, 'findPaginatedRecommendedTutorials').returns([]);
-
+      sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
       const request = {
         auth: { credentials: { userId } },
+        'page[number]': '1',
+        'page[size]': '200',
       };
 
       // when
@@ -90,6 +99,10 @@ describe('Unit | Controller | User-tutorials', function () {
       // then
       const findPaginatedRecommendedTutorialsArgs = usecases.findPaginatedRecommendedTutorials.firstCall.args[0];
       expect(findPaginatedRecommendedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedRecommendedTutorialsArgs.page).to.deep.equal({
+        number: '1',
+        size: '200',
+      });
     });
   });
 
@@ -97,18 +110,31 @@ describe('Unit | Controller | User-tutorials', function () {
     it('should call the expected usecase', async function () {
       // given
       const userId = 'userId';
-      sinon.stub(usecases, 'findSavedTutorials').returns([]);
+      const extractedParams = {
+        page: {
+          number: '1',
+          size: '200',
+        },
+      };
+      sinon.stub(usecases, 'findPaginatedSavedTutorials').returns([]);
+      sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
 
       const request = {
         auth: { credentials: { userId } },
+        'page[number]': '1',
+        'page[size]': '200',
       };
 
       // when
       await userTutorialsController.findSaved(request, hFake);
 
       // then
-      const findSavedTutorialsArgs = usecases.findSavedTutorials.firstCall.args[0];
-      expect(findSavedTutorialsArgs).to.have.property('userId', userId);
+      const findPaginatedSavedTutorialsArgs = usecases.findPaginatedSavedTutorials.firstCall.args[0];
+      expect(findPaginatedSavedTutorialsArgs).to.have.property('userId', userId);
+      expect(findPaginatedSavedTutorialsArgs.page).to.deep.equal({
+        number: '1',
+        size: '200',
+      });
     });
   });
 
