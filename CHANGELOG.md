@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.186.0 (16/03/2022)
+
+
+### :rocket: Amélioration
+- [#4202](https://github.com/1024pix/pix/pull/4202) [FEATURE] Recommander des tutoriels de la même langue que celle de l'utilisateur (PIX-4552).
+- [#4185](https://github.com/1024pix/pix/pull/4185) [FEATURE] Ajout de la possibilité de basculer une campagne en envoi multiple dans PixAdmin (PIX-4421).
+- [#4198](https://github.com/1024pix/pix/pull/4198) [FEATURE] Ajout de la pagination pour les tutoriels enregistrés (PIX-4545)
+- [#4188](https://github.com/1024pix/pix/pull/4188) [FEATURE] Permettre d'archiver une organisation sur Pix Admin (PIX-3817).
+
+### :building_construction: Tech
+- [#4203](https://github.com/1024pix/pix/pull/4203) [TECH] Supprime le dossier components dans le dossier templates de mon-pix (PIX-4559).
+- [#3813](https://github.com/1024pix/pix/pull/3813) [TECH] Importer des données d'une BDD ponctuellement.
+
 ## v3.185.0 (15/03/2022)
 
 
