@@ -166,4 +166,26 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     // then
     assert.ok(this.onExit.called);
   });
+
+  module('Multiple sendings checkbox', function () {
+    test('it should display multiple sendings checkbox when campaign has no participations', async function (assert) {
+      //given
+      this.campaign.totalParticipationsCount = 0;
+
+      // when
+      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      // then
+      assert.contains('Envoi multiple');
+    });
+
+    test('it should not display multiple sendings checkbox when campaign has participations', async function (assert) {
+      //given
+      this.campaign.totalParticipationsCount = 1;
+
+      // when
+      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      // then
+      assert.dom('label[for="multipleSendings"]').doesNotExist();
+    });
+  });
 });

@@ -169,6 +169,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
             'custom-result-page-text': null,
             'custom-result-page-button-text': null,
             'custom-result-page-button-url': null,
+            'multiple-sendings': false,
           },
         },
       };
@@ -270,6 +271,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
             'custom-result-page-text': null,
             'custom-result-page-button-text': null,
             'custom-result-page-button-url': null,
+            'multiple-sendings': false,
           },
         },
       };

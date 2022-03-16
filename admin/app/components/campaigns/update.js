@@ -71,6 +71,7 @@ class Form extends Object.extend(Validations) {
   @tracked customResultPageText;
   @tracked customResultPageButtonText;
   @tracked customResultPageButtonUrl;
+  @tracked multipleSendings;
 }
 
 export default class Update extends Component {
@@ -85,6 +86,7 @@ export default class Update extends Component {
     this.form.customResultPageText = this.args.campaign.customResultPageText;
     this.form.customResultPageButtonText = this.args.campaign.customResultPageButtonText;
     this.form.customResultPageButtonUrl = this.args.campaign.customResultPageButtonUrl;
+    this.form.multipleSendings = this.args.campaign.multipleSendings;
   }
 
   async _checkFormValidation() {
@@ -106,6 +108,7 @@ export default class Update extends Component {
     campaign.customResultPageText = customResultPageTextTrim || null;
     campaign.customResultPageButtonText = customResultPageButtonTextTrim || null;
     campaign.customResultPageButtonUrl = customResultPageButtonUrlTrim || null;
+    campaign.multipleSendings = this.form.multipleSendings;
 
     try {
       await campaign.save();

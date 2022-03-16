@@ -28,6 +28,7 @@ describe('Unit | UseCase | update-campaign-details-management', function () {
       customResultPageText: 'new result text',
       customResultPageButtonText: 'new result button text',
       customResultPageButtonUrl: 'new result button url',
+      multipleSendings: false,
     };
 
     await updateCampaignDetailsManagement({ campaignId, ...campaignAttributes, campaignManagementRepository });

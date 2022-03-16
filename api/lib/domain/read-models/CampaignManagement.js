@@ -25,6 +25,7 @@ class CampaignManagement {
     shared,
     started,
     completed,
+    multipleSendings,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -50,6 +51,7 @@ class CampaignManagement {
     this.ownerId = ownerId;
     this.sharedParticipationsCount = shared;
     this.totalParticipationsCount = this.sharedParticipationsCount + (started || 0) + completed;
+    this.multipleSendings = multipleSendings;
   }
 
   get isTypeProfilesCollection() {
