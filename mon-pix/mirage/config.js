@@ -1,4 +1,5 @@
 import getCampaigns from './routes/get-campaigns';
+import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
@@ -87,10 +88,7 @@ export default function () {
 
   this.post('/shared-certifications', postSharedCertifications);
 
-  this.get('/certification-candidates/:id/subscriptions', (schema, request) => {
-    const certificationCandidateId = request.params.id;
-    return schema.certificationCandidateSubscriptions.find(certificationCandidateId);
-  });
+  this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');
 }
