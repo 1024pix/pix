@@ -20,6 +20,7 @@ import loadSchoolingRegistrationUserAssociationRoutes from './routes/schooling-r
 import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-registration-dependent-users/index';
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
+import patchTermsOfServiceAcceptance from './routes/patch-terms-of-service-acceptance';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import putUpdateEmail from './routes/put-update-email';
 import putVerificationCode from './routes/put-verification-code';
@@ -76,13 +77,7 @@ export default function () {
 
   this.post('/users/:id/update-email', putUpdateEmail);
 
-  this.patch('/users/:id/pix-terms-of-service-acceptance', (schema, request) => {
-    const userId = request.params.id;
-    const user = schema.users.find(userId);
-    user.update({ mustValidateTermsOfService: false, lastTermsOfServiceValidatedAt: '2020-06-06' });
-
-    return user;
-  });
+  this.patch('/users/:id/pix-terms-of-service-acceptance', patchTermsOfServiceAcceptance);
 
   this.post('/pole-emplois/users', (schema) => {
     const createdUser = schema.users.create({
