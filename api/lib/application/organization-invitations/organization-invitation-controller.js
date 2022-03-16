@@ -17,13 +17,13 @@ module.exports = {
   },
 
   async sendScoInvitation(request, h) {
-    const { uai: uai, 'first-name': firstName, 'last-name': lastName } = request.payload.data.attributes;
+    const { uai, 'first-name': firstName, 'last-name': lastName } = request.payload.data.attributes;
 
     const locale = extractLocaleFromRequest(request);
 
-    const organizationSCOInvitation = await usecases.sendScoInvitation({ uai, firstName, lastName, locale });
+    const organizationScoInvitation = await usecases.sendScoInvitation({ uai, firstName, lastName, locale });
 
-    return h.response(scoOrganizationInvitationSerializer.serialize(organizationSCOInvitation)).created();
+    return h.response(scoOrganizationInvitationSerializer.serialize(organizationScoInvitation)).created();
   },
 
   async getOrganizationInvitation(request) {

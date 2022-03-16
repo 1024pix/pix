@@ -11,6 +11,7 @@ const {
   OrganizationWithoutEmailError,
   OrganizationNotFoundError,
   ManyOrganizationsFoundError,
+  OrganizationArchivedError,
 } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {
@@ -132,7 +133,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 409 when OrganizationWithoutEmailError', async function () {
+      it('should respond an HTTP response with status code 412 when OrganizationWithoutEmailError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationWithoutEmailError());
 
@@ -152,6 +153,17 @@ describe('Integration | Application | Organization-invitations | organization-in
 
         // then
         expect(response.statusCode).to.equal(409);
+      });
+
+      it('should respond an HTTP response with status code 422 when OrganizationArchivedError', async function () {
+        // given
+        usecases.sendScoInvitation.rejects(new OrganizationArchivedError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/sco', payload);
+
+        // then
+        expect(response.statusCode).to.equal(422);
       });
     });
   });
