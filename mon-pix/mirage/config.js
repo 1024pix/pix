@@ -21,6 +21,7 @@ import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-reg
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
+import putUpdateEmail from './routes/put-update-email';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -74,18 +75,7 @@ export default function () {
     return new Response(204);
   });
 
-  this.post('/users/:id/update-email', () => {
-    const response = {
-      data: {
-        type: 'email-verification-codes',
-        attributes: {
-          email: 'new-email@example.net',
-        },
-      },
-    };
-
-    return response;
-  });
+  this.post('/users/:id/update-email', putUpdateEmail);
 
   this.patch('/users/:id/pix-terms-of-service-acceptance', (schema, request) => {
     const userId = request.params.id;
