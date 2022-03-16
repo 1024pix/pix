@@ -24,6 +24,7 @@ import patchTermsOfServiceAcceptance from './routes/patch-terms-of-service-accep
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import putUpdateEmail from './routes/put-update-email';
 import putVerificationCode from './routes/put-verification-code';
+import postPoleEmploiUser from './routes/post-pole-emploi-user';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -79,21 +80,7 @@ export default function () {
 
   this.patch('/users/:id/pix-terms-of-service-acceptance', patchTermsOfServiceAcceptance);
 
-  this.post('/pole-emplois/users', (schema) => {
-    const createdUser = schema.users.create({
-      firstName: 'Paul',
-      lastName: 'Emploi',
-    });
-
-    return {
-      access_token:
-        'aaa.' +
-        btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) +
-        '.bbb',
-      id_token: 'id_token',
-      user_id: createdUser.id,
-    };
-  });
+  this.post('/pole-emplois/users', postPoleEmploiUser);
 
   this.get('/feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
