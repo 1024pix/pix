@@ -3,26 +3,7 @@
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
   <div class="campaign-landing-page__container rounded-panel--over-background-banner">
-
-    {{#if @model.isAssessment}}
-      <CampaignStartBlock
-        @campaign={{@model}}
-        @startCampaignParticipation={{this.startCampaignParticipation}}
-        @titleText={{t "pages.campaign-landing.assessment.title"}}
-        @announcementText={{t "pages.campaign-landing.assessment.announcement" htmlSafe=true}}
-        @buttonText={{t "pages.campaign-landing.assessment.action"}}
-        @legalText={{t "pages.campaign-landing.assessment.legal"}}
-      />
-    {{else}}
-      <CampaignStartBlock
-        @campaign={{@model}}
-        @startCampaignParticipation={{this.startCampaignParticipation}}
-        @titleText={{t "pages.campaign-landing.profiles-collection.title"}}
-        @announcementText={{t "pages.campaign-landing.profiles-collection.announcement" htmlSafe=true}}
-        @buttonText={{t "pages.campaign-landing.profiles-collection.action"}}
-        @legalText={{t "pages.campaign-landing.profiles-collection.legal"}}
-      />
-    {{/if}}
+    <CampaignStartBlock @campaign={{@model}} @startCampaignParticipation={{this.startCampaignParticipation}} />
 
     {{#if @model.isAssessment}}
       <div class="rounded-panel campaign-landing-page__container__details">

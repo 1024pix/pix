@@ -15,18 +15,27 @@
     {{/if}}
   </div>
 
-  <form {{action @startCampaignParticipation on="submit"}}>
+  <form {{on "submit" this.start}}>
     <div class="campaign-landing-page__start__text">
-      <h1 class="campaign-landing-page__start__text__title">{{@titleText}}</h1>
-      <h2 class="campaign-landing-page__start__text__announcement">{{{@announcementText}}}</h2>
+      <h1 class="campaign-landing-page__start__text__title">{{this.titleText}}</h1>
+      <h2 class="campaign-landing-page__start__text__announcement">{{{this.announcementText}}}</h2>
       <PixButton
         @type="submit"
         class="campaign-landing-page__start-button"
         @loading-color="white"
-      >{{@buttonText}}</PixButton>
-      <p class="campaign-landing-page__start__text__legal">{{@legalText}}</p>
+      >{{this.buttonText}}</PixButton>
+      <p class="campaign-landing-page__start__text__legal">{{this.legalText}}</p>
     </div>
   </form>
+
+  {{#if this.showWarningMessage}}
+    <div class="campaign-landing-page__start__warning">
+      <span>{{this.warningMessage}}</span>
+      <a href="#" class="link" {{on "click" this.disconnect}}>
+        {{t "pages.campaign-landing.warning-message-logout"}}
+      </a>
+    </div>
+  {{/if}}
 
   {{#if @campaign.customLandingPageText}}
     <div class="campaign-landing-page__start__custom-text">
