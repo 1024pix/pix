@@ -1,20 +1,28 @@
 import { Response } from 'ember-cli-mirage';
 import getAuthenticatedUser from './get-authenticated-user';
-import isCertifiable from './is-certifiable';
+import getCampaignParticipationResult from './get-campaign-participation-result';
 import getScorecards from './get-scorecards';
 import getProfile from './get-profile';
 import getUserCampaignParticipations from './get-user-campaign-participations';
 import getUserCampaignParticipationOverviews from './get-user-campaign-participation-overviews';
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
+import isCertifiable from './is-certifiable';
 import resetScorecard from './reset-scorecard';
-import getCampaignParticipationResult from './get-campaign-participation-result';
+import patchTermsOfServiceAcceptance from './patch-terms-of-service-acceptance';
+import putVerificationCode from './put-verification-code';
+import putUpdateEmail from './put-update-email';
 
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);
 
   config.post('/users');
   config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
+  config.post('/users/:id/update-email', putUpdateEmail);
+
+  config.patch('/users/:id/pix-terms-of-service-acceptance', patchTermsOfServiceAcceptance);
+
+  config.put('/users/:id/email/verification-code', putVerificationCode);
 
   config.get('/users/:userId/campaigns/:campaignId/campaign-participations', getUserCampaignParticipationToCampaign);
   config.get('/users/:userId/campaigns/:campaignId/profile', getUserSharedProfileForCampaign);
