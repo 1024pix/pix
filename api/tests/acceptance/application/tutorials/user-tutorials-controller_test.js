@@ -225,6 +225,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         url: '/api/users/tutorials/recommended',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
+          'accept-language': 'fr',
         },
       };
       learningContentObjects = learningContentBuilder.buildLearningContent([
@@ -249,7 +250,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                       tutorials: [
                         {
                           id: 'tuto1',
-                          locale: 'en-us',
+                          locale: 'fr-fr',
                           duration: '00:00:54',
                           format: 'video',
                           link: 'http://www.example.com/this-is-an-example.html',
@@ -258,7 +259,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                         },
                         {
                           id: 'tuto2',
-                          locale: 'en-us',
+                          locale: 'fr-fr',
                           duration: '00:01:51',
                           format: 'video',
                           link: 'http://www.example.com/this-is-an-example2.html',
@@ -293,6 +294,15 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                         {
                           id: 'tuto4',
                           locale: 'fr-fr',
+                          duration: '00:04:38',
+                          format: 'vidéo',
+                          link: 'http://www.example.com/this-is-an-example4.html',
+                          source: 'tuto.com',
+                          title: 'tuto4',
+                        },
+                        {
+                          id: 'tuto5',
+                          locale: 'en-us',
                           duration: '00:04:38',
                           format: 'vidéo',
                           link: 'http://www.example.com/this-is-an-example4.html',

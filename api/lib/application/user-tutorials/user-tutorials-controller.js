@@ -3,6 +3,7 @@ const userTutorialSerializer = require('../../infrastructure/serializers/jsonapi
 const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
 const userTutorialRepository = require('../../infrastructure/repositories/user-tutorial-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
   async add(request, h) {
@@ -37,8 +38,8 @@ module.exports = {
   async findRecommended(request, h) {
     const { userId } = request.auth.credentials;
     const { page } = queryParamsUtils.extractParameters(request.query);
-
-    const userRecommendedTutorials = await usecases.findPaginatedRecommendedTutorials({ userId, page });
+    const locale = extractLocaleFromRequest(request);
+    const userRecommendedTutorials = await usecases.findPaginatedRecommendedTutorials({ userId, page, locale });
 
     return h.response(
       tutorialSerializer.serialize(userRecommendedTutorials.results, userRecommendedTutorials.pagination)

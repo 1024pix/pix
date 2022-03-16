@@ -85,12 +85,16 @@ describe('Unit | Controller | User-tutorials', function () {
           size: '200',
         },
       };
+      const headers = {
+        'accept-language': 'fr',
+      };
       sinon.stub(usecases, 'findPaginatedRecommendedTutorials').returns([]);
       sinon.stub(queryParamsUtils, 'extractParameters').returns(extractedParams);
       const request = {
         auth: { credentials: { userId } },
         'page[number]': '1',
         'page[size]': '200',
+        headers,
       };
 
       // when
@@ -103,6 +107,7 @@ describe('Unit | Controller | User-tutorials', function () {
         number: '1',
         size: '200',
       });
+      expect(findPaginatedRecommendedTutorialsArgs.locale).to.equal('fr');
     });
   });
 
