@@ -3,6 +3,32 @@ const paginateModule = require('../../../../lib/infrastructure/utils/paginate');
 const findRecommendedTutorials = require('../../../../lib/domain/usecases/find-paginated-recommended-tutorials');
 
 describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
+  it('should call tutorial repository with userId and locale', async function () {
+    // given
+    const userId = 1;
+    const page = {
+      number: 1,
+      size: 2,
+    };
+    const tutorialRepository = {
+      findRecommendedByUserId: sinon.stub().resolves([]),
+    };
+    const locale = 'fr-fr';
+
+    sinon.stub(paginateModule, 'paginate').returns({ results: [], pagination: {} });
+
+    // when
+    await findRecommendedTutorials({
+      userId,
+      tutorialRepository,
+      page,
+      locale,
+    });
+
+    // then
+    expect(tutorialRepository.findRecommendedByUserId).to.have.been.calledWith({ userId, locale });
+  });
+
   describe('when there are no recommended tutorials', function () {
     it('should return empty page data', async function () {
       // Given
@@ -41,6 +67,7 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
     it('should return a paginated list of tutorials', async function () {
       // Given
       const userId = 1;
+      const locale = 'fr-fr';
       const page = {
         number: 1,
         size: 2,
@@ -75,10 +102,11 @@ describe('Unit | UseCase | find-paginated-recommended-tutorials', function () {
         userId,
         tutorialRepository,
         page,
+        locale,
       });
 
       //Then
-      expect(tutorialRepository.findRecommendedByUserId).to.have.been.calledWith(userId);
+      expect(tutorialRepository.findRecommendedByUserId).to.have.been.calledWith({ userId, locale });
       expect(tutorials.results).to.deep.equal(expectedTutorials.slice(0, 2));
       expect(tutorials.pagination).to.deep.equal(expectedPagination);
       expect(paginateModule.paginate).to.have.been.calledWith(expectedTutorials, page);
