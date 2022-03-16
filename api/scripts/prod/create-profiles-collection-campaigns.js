@@ -37,6 +37,7 @@ async function prepareCampaigns(campaignsData) {
         type: Campaign.types.PROFILES_COLLECTION,
         name: campaignData.name,
         customLandingPageText: campaignData.customLandingPageText,
+        multipleSendings: campaignData.multipleSendings,
       };
 
       campaignValidator.validate(campaign);

@@ -23,6 +23,7 @@ function buildCampaign({
   customResultPageButtonText = null,
   customResultPageButtonUrl = null,
   customResultPageText = null,
+  multipleSendings = false,
 } = {}) {
   return new Campaign({
     id,
@@ -44,6 +45,7 @@ function buildCampaign({
     customResultPageButtonText,
     customResultPageButtonUrl,
     customResultPageText,
+    multipleSendings,
   });
 }
 
@@ -67,6 +69,7 @@ buildCampaign.ofTypeAssessment = function ({
   customResultPageButtonText = null,
   customResultPageButtonUrl = null,
   customResultPageText = null,
+  multipleSendings = false,
 } = {}) {
   return new Campaign({
     id,
@@ -88,6 +91,7 @@ buildCampaign.ofTypeAssessment = function ({
     customResultPageButtonText,
     customResultPageButtonUrl,
     customResultPageText,
+    multipleSendings,
   });
 };
 
@@ -109,6 +113,7 @@ buildCampaign.ofTypeProfilesCollection = function ({
   customResultPageButtonText = null,
   customResultPageButtonUrl = null,
   customResultPageText = null,
+  multipleSendings = false,
 } = {}) {
   return new Campaign({
     id,
@@ -130,6 +135,7 @@ buildCampaign.ofTypeProfilesCollection = function ({
     customResultPageButtonText,
     customResultPageButtonUrl,
     customResultPageText,
+    multipleSendings,
   });
 };
 

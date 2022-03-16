@@ -24,6 +24,7 @@ describe('Integration | Scripts | create-assessment-campaigns', function () {
         name: 'CampaignName',
         externalId,
         creatorId,
+        multipleSendings: false,
       };
 
       // when
@@ -47,6 +48,7 @@ describe('Integration | Scripts | create-assessment-campaigns', function () {
         title: 'title1',
         customLandingPageText: 'customLandingPageText1',
         creatorId,
+        multipleSendings: false,
       };
       const campaignData2 = {
         targetProfileId: targetProfileId2,
@@ -55,6 +57,7 @@ describe('Integration | Scripts | create-assessment-campaigns', function () {
         title: 'title2',
         customLandingPageText: 'customLandingPageText2',
         creatorId,
+        multipleSendings: false,
       };
 
       // when
@@ -80,6 +83,7 @@ describe('Integration | Scripts | create-assessment-campaigns', function () {
       const campaignData = {
         targetProfileId: 'foireux',
         externalId,
+        multipleSendings: false,
       };
 
       // when

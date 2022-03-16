@@ -106,6 +106,7 @@ exports.register = async function (server) {
                 'custom-result-page-text': Joi.string().required().allow(null),
                 'custom-result-page-button-text': Joi.string().required().allow(null),
                 'custom-result-page-button-url': Joi.string().required().allow(null),
+                'multiple-sendings': Joi.boolean().required(),
               },
             },
           }),

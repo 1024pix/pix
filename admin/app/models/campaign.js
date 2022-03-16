@@ -23,4 +23,5 @@ export default class Campaign extends Model {
   @attr('number') totalParticipationsCount;
   @attr('boolean') isTypeProfilesCollection;
   @attr('boolean') isTypeAssessment;
+  @attr('boolean') multipleSendings;
 }

@@ -110,6 +110,11 @@ const campaignValidationJoiSchema = Joi.object({
     'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
     'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
   }),
+
+  multipleSendings: Joi.boolean().required().messages({
+    'any.required': 'MULTIPLE_SENDINGS_CHOICE_IS_REQUIRED',
+    'boolean.base': 'MULTIPLE_SENDINGS_CHOICE_IS_REQUIRED',
+  }),
 });
 
 module.exports = {
