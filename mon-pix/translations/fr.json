@@ -127,6 +127,7 @@
     "campaign-landing": {
       "title": "Présentation",
       "assessment": {
+        "title-with-username": "<span>{userFirstName}</span>,<br> commencez votre parcours",
         "title": "Commencez votre parcours",
         "action": "Je commence",
         "announcement": "Démarrez votre parcours d'évaluation personnalisé.'<br>' Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
@@ -151,11 +152,14 @@
         "legal": "En cliquant sur “Je commence”, les informations relatives à votre avancée dans le parcours seront transmises à l’organisateur du parcours pour lui permettre de vous accompagner. A la fin du parcours, en cliquant sur le bouton “J’envoie mes résultats” vos résultats seront transmis à l’organisateur."
       },
       "profiles-collection": {
+        "title-with-username": "<span>{userFirstName}</span>,<br> envoyez votre profil",
         "title": "Envoyez votre profil",
         "action": "C'est parti !",
         "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.",
         "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
-      }
+      },
+      "warning-message": "Vous n'êtes pas { firstName } { lastName } ?",
+      "warning-message-logout": "Se déconnecter"
     },
     "campaign-participation": {
       "title": "Parcours"
