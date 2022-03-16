@@ -22,6 +22,7 @@ import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import putUpdateEmail from './routes/put-update-email';
+import putVerificationCode from './routes/put-verification-code';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -71,9 +72,7 @@ export default function () {
 
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
-  this.put('/users/:id/email/verification-code', () => {
-    return new Response(204);
-  });
+  this.put('/users/:id/email/verification-code', putVerificationCode);
 
   this.post('/users/:id/update-email', putUpdateEmail);
 
