@@ -170,12 +170,12 @@ function _buildCertificationCourse(databaseBuilder, {
     databaseBuilder.factory.buildCertificationIssueReport({
       certificationCourseId,
       category: CertificationIssueReportCategories.OTHER,
-      description: examinerComment,
+      description: examinerComment + ' (deuxième fois)',
     });
     databaseBuilder.factory.buildCertificationIssueReport({
       certificationCourseId,
       category: CertificationIssueReportCategories.OTHER,
-      description: examinerComment,
+      description: examinerComment + ' (première fois)',
       resolvedAt: '2020-05-01T00:00:00Z',
     });
     databaseBuilder.factory.buildCertificationIssueReport({
