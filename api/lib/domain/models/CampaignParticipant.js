@@ -44,7 +44,6 @@ class CampaignParticipant {
 
     this.campaignParticipation = CampaignParticipation.start({
       campaign: this.campaignToStartParticipation,
-      campaignId: this.campaignToStartParticipation.id,
       userId: this.userIdentity.id,
       schoolingRegistrationId: this.schoolingRegistrationId,
       participantExternalId: participantExternalIdToUse,
