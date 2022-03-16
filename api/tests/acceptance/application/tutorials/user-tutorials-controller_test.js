@@ -590,6 +590,71 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
+        expect(response.result.meta).to.deep.equal({
+          page: 1,
+          pageSize: 10,
+          rowCount: 1,
+          pageCount: 1,
+        });
+      });
+    });
+
+    describe('with pagination', function () {
+      it('should respond with a 200 and return paginated saved tutorials for a user ', async function () {
+        // given
+        options.url = '/api/users/tutorials/saved?page[number]=1&page[size]=2';
+
+        mockLearningContent(learningContentObjects);
+
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 101, userId: 4444, tutorialId: 'tuto1' });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 102, userId: 4444, tutorialId: 'tuto2' });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 103, userId: 4444, tutorialId: 'tuto3' });
+
+        await databaseBuilder.commit();
+
+        const expectedUserSavedTutorials = [
+          {
+            attributes: {
+              duration: '00:00:54',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example.html',
+              source: 'tuto.com',
+              title: 'tuto1',
+            },
+            relationships: {
+              'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
+            },
+            id: 'tuto1',
+            type: 'tutorials',
+          },
+          {
+            attributes: {
+              duration: '00:01:51',
+              format: 'video',
+              link: 'http://www.example.com/this-is-an-example2.html',
+              source: 'tuto.com',
+              title: 'tuto2',
+            },
+            relationships: {
+              'user-tutorial': { data: { id: '102', type: 'user-tutorial' } },
+            },
+            id: 'tuto2',
+            type: 'tutorials',
+          },
+        ];
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal(expectedUserSavedTutorials);
+        expect(response.result.meta).to.deep.equal({
+          page: 1,
+          pageSize: 2,
+          rowCount: 3,
+          pageCount: 2,
+        });
       });
     });
   });
