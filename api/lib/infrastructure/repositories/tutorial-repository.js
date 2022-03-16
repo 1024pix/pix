@@ -22,14 +22,16 @@ module.exports = {
     return _findByRecordIds({ ids });
   },
 
-  async findWithUserTutorialForCurrentUser({ userId }) {
-    const userTutorials = await userTutorialRepository.find({ userId });
+  async findPaginatedWithUserTutorialForCurrentUser({ userId, page }) {
+    const { models: userTutorials, meta } = await userTutorialRepository.findPaginated({ userId, page });
     const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
 
-    return tutorials.map((tutorial) => {
+    const tutorialsWithUserSavedTutorial = tutorials.map((tutorial) => {
       const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
       return new TutorialWithUserSavedTutorial({ ...tutorial, userTutorial });
     });
+
+    return { models: tutorialsWithUserSavedTutorial, meta };
   },
 
   async get(id) {
