@@ -1,7 +1,20 @@
-module.exports = async function findSavedTutorials({ tutorialEvaluationRepository, tutorialRepository, userId } = {}) {
+module.exports = async function findPaginatedSavedTutorials({
+  tutorialEvaluationRepository,
+  tutorialRepository,
+  userId,
+  page,
+} = {}) {
   const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-  const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
-  return tutorialWithUserSavedTutorial.map(_setTutorialEvaluation(tutorialEvaluations));
+  const { models: tutorialWithUserSavedTutorial, meta } =
+    await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+      userId,
+      page,
+    });
+  const savedTutorials = tutorialWithUserSavedTutorial.map(_setTutorialEvaluation(tutorialEvaluations));
+  return {
+    results: savedTutorials,
+    meta,
+  };
 };
 
 function _setTutorialEvaluation(tutorialEvaluations) {

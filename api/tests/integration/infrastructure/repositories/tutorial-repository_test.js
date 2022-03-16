@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, mockLearningContent, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } = require('../../../test-helper');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
@@ -131,7 +131,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
   });
 
-  describe('#findWithUserTutorial', function () {
+  describe('#findPaginatedWithUserTutorial', function () {
     let userId;
     beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
@@ -150,7 +150,10 @@ describe('Integration | Repository | tutorial-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+        const { models: tutorialWithUserSavedTutorial } =
+          await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+            userId,
+          });
 
         // then
         expect(tutorialWithUserSavedTutorial).to.have.length(1);
@@ -164,7 +167,10 @@ describe('Integration | Repository | tutorial-repository', function () {
       it('should return an empty list', async function () {
         mockLearningContent({ tutorials: [] });
 
-        const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+        const { models: tutorialWithUserSavedTutorial } =
+          await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+            userId,
+          });
 
         // then
         expect(tutorialWithUserSavedTutorial).to.deep.equal([]);
@@ -177,13 +183,44 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
         await databaseBuilder.commit();
 
-        const tutorialWithUserSavedTutorial = await tutorialRepository.findWithUserTutorialForCurrentUser({ userId });
+        const { models: tutorialWithUserSavedTutorial } =
+          await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+            userId,
+          });
 
         // then
         expect(tutorialWithUserSavedTutorial).to.deep.equal([]);
       });
     });
+
+    context('when user-tutorials amount exceed page size', function () {
+      it('should return page size number of user-tutorials', async function () {
+        // given
+        const page = { number: 2, size: 2 };
+        const tutorials = [
+          domainBuilder.buildTutorial({ id: 'tutorializé' }),
+          domainBuilder.buildTutorial({ id: 'tutorialidé' }),
+          domainBuilder.buildTutorial({ id: 'tutorialain' }),
+          domainBuilder.buildTutorial({ id: 'tutorialadin' }),
+        ];
+        mockLearningContent({ tutorials });
+        tutorials.forEach((tutorial) =>
+          databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: tutorial.id })
+        );
+        const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
+        await databaseBuilder.commit();
+
+        // when
+        const { models: foundTutorials, meta: pagination } =
+          await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({ userId, page });
+
+        // then
+        expect(foundTutorials).to.have.lengthOf(2);
+        expect(pagination).to.include(expectedPagination);
+      });
+    });
   });
+
   describe('#get', function () {
     context('when tutorial does not exist', function () {
       it('should throw a NotFoundError', async function () {
