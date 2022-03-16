@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, find } from '@ember/test-helpers';
+import { visit, find, findAll } from '@ember/test-helpers';
 import { authenticateByEmail } from '../../helpers/authentication';
 
 describe('Acceptance | User-tutorials-v2 | Saved', function () {
@@ -11,15 +11,20 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
   let user;
 
   beforeEach(async function () {
+    const numberOfTutorials = 100;
     user = server.create('user', 'withEmail');
     server.create('feature-toggle', { id: 0, isNewTutorialsPageEnabled: true });
     await authenticateByEmail(user);
+    await server.db.tutorials.remove();
+    server.createList('tutorial', numberOfTutorials);
   });
 
   describe('When there are tutorials saved', () => {
-    it('should display tutorial cards', async function () {
+    it('should display paginated tutorial cards', async function () {
       await visit('/mes-tutos-v2/enregistres');
-      expect(find('.tutorial-card-v2')).to.exist;
+      expect(findAll('.tutorial-card-v2')).to.exist;
+      expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
+      expect(find('.page-navigation .page-number').textContent).to.contain('Page 1 / 10');
     });
   });
 });
