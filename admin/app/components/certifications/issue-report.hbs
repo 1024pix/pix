@@ -24,8 +24,7 @@
     </div>
     {{#if (and @issueReport.isImpactful @issueReport.resolvedAt)}}
       <div class="certification-issue-report__details__resolution-message">
-        Résolution :
-        {{#if @issueReport.resolution}}{{@issueReport.resolution}}{{else}}-{{/if}}
+        Résolution : {{#if @issueReport.resolution}}{{@issueReport.resolution}}{{else}}-{{/if}}
       </div>
     {{/if}}
   </div>
