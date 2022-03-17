@@ -10,6 +10,7 @@ const {
   getAllTutorials,
   getAllSkills,
   associateTutorialToUserSavedTutorial,
+  associateSkillsToTutorial,
 } = require('../../../scripts/fill-skill-id-in-user-saved-tutorials');
 const UserSavedTutorial = require('../../../lib/domain/models/UserSavedTutorial');
 const UserSavedTutorialWithTutorial = require('../../../lib/domain/models/UserSavedTutorialWithTutorial');
@@ -238,6 +239,29 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
 
       // then
       expect(skills).to.be.lengthOf(3);
+    });
+  });
+
+  describe('#associateSkillsToTutorial', function () {
+    it('should associate skillIds to related tutorial', async function () {
+      // given
+      const tutorials = [
+        domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
+        domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
+        domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
+      ];
+      const skills = [
+        domainBuilder.buildSkill({ id: 'skill1', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'] }),
+        domainBuilder.buildSkill({ id: 'skill2', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'] }),
+      ];
+
+      // when
+      const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
+
+      // then
+      expect(tutorialsWithSkillIds[0].skillIds).to.deep.equal(['skill1', 'skill2']);
+      expect(tutorialsWithSkillIds[1].skillIds).to.deep.equal(['skill1']);
+      expect(tutorialsWithSkillIds[2].skillIds).to.deep.equal(['skill2']);
     });
   });
 
