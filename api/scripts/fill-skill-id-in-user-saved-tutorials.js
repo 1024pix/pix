@@ -1,5 +1,6 @@
 const { knex } = require('../tests/test-helper');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
+const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
 
 if (require.main === module) {
   main().then(
@@ -25,6 +26,11 @@ function _toDomain(userSavedTutorial) {
   });
 }
 
+async function getAllTutorials() {
+  return tutorialDatasource.list();
+}
+
 module.exports = {
   getAllUserSavedTutorialsWithoutSkillId,
+  getAllTutorials,
 };
