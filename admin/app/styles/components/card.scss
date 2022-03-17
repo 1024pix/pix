@@ -1,0 +1,21 @@
+.card {
+  box-shadow: 0 4px 8px rgba(7, 20, 46, 0.08);
+  border-radius: 8px;
+  background: $white;
+
+  &__title {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    font-weight: $font-semi-bold;
+    line-height: 28px;
+    padding: 11px 32px;
+    background: $grey-70;
+    border-radius: 8px 8px 0 0;
+  }
+
+  &__content {
+    padding: 11px 32px;
+    font-family: $font-roboto;
+  }
+}

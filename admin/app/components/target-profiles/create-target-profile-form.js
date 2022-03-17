@@ -15,4 +15,19 @@ export default class UpdateTargetProfile extends Component {
   onCategoryChange(event) {
     this.args.targetProfile.category = event.target.value;
   }
+
+  @action
+  updateTargetProfileName(event) {
+    this.args.targetProfile.name = event.target.value;
+  }
+
+  @action
+  updateOwnerOrganizationId(event) {
+    this.args.targetProfile.ownerOrganizationId = event.target.value;
+  }
+
+  @action
+  updateImageUrl(event) {
+    this.args.targetProfile.imageUrl = event.target.value;
+  }
 }

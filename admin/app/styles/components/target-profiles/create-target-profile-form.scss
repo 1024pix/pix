@@ -1,17 +1,76 @@
 .create-target-profile {
+  color: $grey-70;
+
+  &__card {
+    margin-bottom: $spacing-m;
+  }
+
+  &__checkbox-container {
+    align-items: center;
+  }
 
   &__checkbox {
+    margin: 0 $spacing-xs;
+    width: $spacing-s;
+    height: $spacing-s;
+  }
+
+  &__is-public-checkbox {
     display: flex;
     align-items: center;
+  }
 
-    & > input[type=checkbox] {
-      margin: 0 8px;
-      width: 16px;
-      height: 16px;
-    }
+  &__checkbox-label {
+    margin: 0;
+    font-family: $font-roboto;
+    font-weight: normal;
+    font-size: 0.875rem;
+    line-height: 20px;
+  }
+
+  &__is-public-label {
+    font-family: $font-roboto;
+    font-weight: $font-normal;
+    font-size: 0.875rem;
+    line-height: 21px;
   }
 
   &__instructions {
     margin: 0;
+  }
+
+  &__inline-layout {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin: 0;
+    }
+  }
+
+  .file-upload-group {
+    margin-bottom: 0;
+
+    &__button {
+      display: flex;
+      align-items: center;
+
+      > .pix-button {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  .input-url {
+    margin-bottom: $spacing-s;
+  }
+
+  &__multi-select {
+    max-width: 300px;
+    margin-left: $spacing-s;
+  }
+
+  .textarea-label {
+    font-size: 0.875rem;
   }
 }
