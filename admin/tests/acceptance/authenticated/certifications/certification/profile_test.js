@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+import { visit } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -63,14 +64,14 @@ module('Acceptance | authenticated/certifications/certification/profile', functi
       });
 
       // when
-      await visit('/certifications/123/profile');
+      const screen = await visit('/certifications/123/profile');
 
       // then
-      assert.contains('ID du compte Pix du candidat: 456');
-      assert.contains('ID de la certification du candidat: 123');
-      assert.contains('area1');
-      assert.contains('competence1');
-      assert.contains('tube1');
+      assert.dom(screen.getByText('ID du compte Pix du candidat: 456')).exists();
+      assert.dom(screen.getByText('ID de la certification du candidat: 123')).exists();
+      assert.dom(screen.getByText('area1')).exists();
+      assert.dom(screen.getByText('competence1')).exists();
+      assert.dom(screen.getByText('tube1')).exists();
     });
   });
 });

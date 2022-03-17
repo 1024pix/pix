@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, triggerEvent, render } from '@ember/test-helpers';
+import { click, triggerEvent } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -44,7 +45,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
   test('it should display the items', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::CreateTargetProfileForm
+    const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}
       @isFileInvalid={{this.isFileInvalid}}
 
@@ -53,14 +54,14 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       @onCancel={{this.onCancel}}/>`);
 
     // then
-    assert.contains('Nom * :');
-    assert.contains('Public :');
-    assert.contains('Fichier JSON Pix Editor * :');
-    assert.contains("Identifiant de l'organisation de référence :");
-    assert.contains("Lien de l'image du profil cible :");
-    assert.contains('Annuler');
-    assert.contains('Enregistrer');
-    assert.contains('Commentaire (usage interne) :');
+    assert.dom(screen.getByLabelText('Nom * :')).exists();
+    assert.dom(screen.getByLabelText('Public :')).exists();
+    assert.dom(screen.getByLabelText('Fichier JSON Pix Editor * :')).exists();
+    assert.dom(screen.getByLabelText("Identifiant de l'organisation de référence :")).exists();
+    assert.dom(screen.getByLabelText("Lien de l'image du profil cible :")).exists();
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+    assert.dom(screen.getByLabelText('Commentaire (usage interne) :')).exists();
   });
 
   test('it should display json file error text', async function (assert) {
@@ -68,7 +69,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     this.set('isFileInvalid', true);
 
     // when
-    await render(hbs`<TargetProfiles::CreateTargetProfileForm
+    const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}
       @isFileInvalid={{this.isFileInvalid}}
 
@@ -77,7 +78,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       @onCancel={{this.onCancel}}/>`);
 
     // then
-    assert.contains("Le fichier Pix Editor n'est pas au bon format.");
+    assert.dom(screen.getByText("Le fichier Pix Editor n'est pas au bon format.")).exists();
   });
 
   test('it should call onSubmit when form is valid', async function (assert) {

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function (hooks) {
@@ -11,10 +11,10 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     this.targetProfile = { areas: [] };
 
     // when
-    await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}}/>`);
+    const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}}/>`);
 
     // then
-    assert.contains('Profil cible vide.');
+    assert.dom(screen.getByText('Profil cible vide.')).exists();
   });
 
   test('it should display competences of areas', async function (assert) {
@@ -37,11 +37,11 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     };
 
     // when
-    await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
+    const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
 
     // then
-    assert.contains('Competence 1');
-    assert.contains('Competence 2');
+    assert.dom(screen.getByText('Competence 1')).exists();
+    assert.dom(screen.getByText('Competence 2')).exists();
   });
 
   test('it should display tubes of competences', async function (assert) {
@@ -61,12 +61,12 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     };
 
     // when
-    await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
+    const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
 
     // then
-    assert.contains('Area 1');
-    assert.contains('Tube 1');
-    assert.contains('Tube 2');
+    assert.dom(screen.getByText('Area 1')).exists();
+    assert.dom(screen.getByText('Tube 1')).exists();
+    assert.dom(screen.getByText('Tube 2')).exists();
   });
 
   test('it should display skills of tubes', async function (assert) {

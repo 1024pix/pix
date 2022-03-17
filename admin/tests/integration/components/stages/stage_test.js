@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Stages::Stage', function (hooks) {
   let stage;
@@ -30,13 +31,13 @@ module('Integration | Component | Stages::Stage', function (hooks) {
 
   test('should render all details about the stage when the isEditMode is false', async function (assert) {
     //when
-    await render(
+    const screen = await render(
       hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
     );
 
     //then
     assert.dom('button').exists();
-    assert.contains('Editer');
+    assert.dom(screen.getByRole('button', { name: 'Editer' })).exists();
     assert.dom('.page-section__details').exists();
   });
 
@@ -56,13 +57,13 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     this.set('isEditMode', true);
 
     //when
-    await render(
+    const screen = await render(
       hbs`<Stages::Stage @model={{this.stage}} @toggleEditMode = {{this.toggleEditMode}} @isEditMode={{this.isEditMode}}/>`
     );
 
     //then
-    assert.contains('Annuler');
-    assert.contains('Enregistrer');
-    assert.contains('Titre pour le prescripteur');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+    assert.dom(screen.getByText('Titre pour le prescripteur')).exists();
   });
 });

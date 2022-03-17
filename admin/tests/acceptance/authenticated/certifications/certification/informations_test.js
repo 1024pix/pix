@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentURL, visit } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -53,24 +52,25 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   test('it displays candidate information', async function (assert) {
     // when
-    await visit(`/certifications/${certification.id}`);
+    const screen = await visitScreen(`/certifications/${certification.id}`);
 
     // then
-    assert.contains('Prénom : Bora Horza');
-    assert.contains('Nom de famille : Gobuchul');
-    assert.contains('Date de naissance : 24/07/1987');
-    assert.contains('Sexe : M');
-    assert.contains('Commune de naissance : Sorpen');
-    assert.contains('Code INSEE de naissance : 99217');
-    assert.contains('Code postal de naissance : ');
-    assert.contains('Pays de naissance : JAPON');
-    assert.contains('Certification CléA numérique : Non passée');
-    assert.contains('Certification Pix+ Droit Maître : Non passée');
-    assert.contains('Certification Pix+ Droit Expert : Non passée');
-    assert.contains('Certification Pix+ Édu Initié (entrée dans le métier) : Non passée');
-    assert.contains('Certification Pix+ Édu Confirmé : Non passée');
-    assert.contains('Certification Pix+ Édu Avancé : Non passée');
-    assert.contains('Certification Pix+ Édu Expert : Non passée');
+    assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
+    assert.dom(screen.getByText('Nom de famille : Gobuchul')).exists();
+    assert.dom(screen.getByText('Date de naissance : 24/07/1987')).exists();
+    assert.dom(screen.getByText('Sexe : M')).exists();
+    assert.dom(screen.getByText('Commune de naissance : Sorpen')).exists();
+    assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
+    assert.dom(screen.getByText('Code postal de naissance :')).exists();
+    assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
+    assert.dom(screen.getByText('Certification CléA numérique :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Droit Maître :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Droit Expert :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Initié (entrée dans le métier) :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Confirmé :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Avancé :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Expert :')).exists();
+    assert.strictEqual(screen.getAllByText('Non passée').length, 7);
   });
 
   module('Candidate information edition', function () {
@@ -94,10 +94,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
 
         // when
-        await visit('/certifications/456');
+        const screen = await visitScreen('/certifications/456');
 
         // then
-        assert.contains('Voir avec PO/Dev pour modifier les infos candidat.');
+        assert.dom(screen.getByText('Voir avec PO/Dev pour modifier les infos candidat.')).exists();
         assert.dom('button[aria-label="Modifier les informations du candidat"]').isDisabled();
       });
     });
@@ -106,48 +106,48 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       module('when editing candidate information succeeds', function () {
         test('should save the candidate information data when modifying them', async function (assert) {
           // given
-          await visit('/certifications/123');
-          await clickByLabel('Modifier les informations du candidat');
+          const screen = await visitScreen('/certifications/123');
+          await clickByName('Modifier les informations du candidat');
 
           // when
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('* Commune de naissance', 'Sunnydale');
-          await clickByLabel('Enregistrer');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Commune de naissance', 'Sunnydale');
+          await clickByName('Enregistrer');
 
           // then
-          assert.contains('Prénom : Bora Horza');
-          assert.contains('Nom de famille : Summers');
-          assert.contains('Date de naissance : 24/07/1987');
-          assert.contains('Sexe : M');
-          assert.contains('Commune de naissance : Sunnydale');
-          assert.contains('Code INSEE de naissance : 99217');
-          assert.contains('Code postal de naissance : ');
-          assert.contains('Pays de naissance : JAPON');
+          assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
+          assert.dom(screen.getByText('Nom de famille : Summers')).exists();
+          assert.dom(screen.getByText('Date de naissance : 24/07/1987')).exists();
+          assert.dom(screen.getByText('Sexe : M')).exists();
+          assert.dom(screen.getByText('Commune de naissance : Sunnydale')).exists();
+          assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
+          assert.dom(screen.getByText('Code postal de naissance :')).exists();
+          assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
         });
 
         test('should display a success notification', async function (assert) {
           // given
-          await visit('/certifications/123');
-          await clickByLabel('Modifier les informations du candidat');
+          const screen = await visitScreen('/certifications/123');
+          await clickByName('Modifier les informations du candidat');
 
           // when
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('* Commune de naissance', 'Sunnydale');
-          await clickByLabel('Enregistrer');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Commune de naissance', 'Sunnydale');
+          await clickByName('Enregistrer');
 
           // then
-          assert.contains('Les informations du candidat ont bien été enregistrées.');
+          assert.dom(screen.getByText('Les informations du candidat ont bien été enregistrées.')).exists();
         });
 
         test('should close the modal', async function (assert) {
           // given
           await visit('/certifications/123');
-          await clickByLabel('Modifier les informations du candidat');
+          await clickByName('Modifier les informations du candidat');
 
           // when
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await fillInByLabel('* Commune de naissance', 'Sunnydale');
-          await clickByLabel('Enregistrer');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await fillByLabel('* Commune de naissance', 'Sunnydale');
+          await clickByName('Enregistrer');
 
           // then
           assert.notContains('Editer les informations du candidat');
@@ -164,15 +164,15 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
             422
           );
-          await visit(`/certifications/${certification.id}`);
-          await clickByLabel('Modifier les informations du candidat');
-          await fillInByLabel('* Nom de famille', 'Summers');
+          const screen = await visitScreen(`/certifications/${certification.id}`);
+          await clickByName('Modifier les informations du candidat');
+          await fillByLabel('* Nom de famille', 'Summers');
 
           // when
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
-          assert.contains("Candidate's first name must not be blank or empty");
+          assert.dom(screen.getByText("Candidate's first name must not be blank or empty")).exists();
         });
 
         test('should leave the modal opened', async function (assert) {
@@ -184,15 +184,15 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
             422
           );
-          await visit(`/certifications/${certification.id}`);
-          await clickByLabel('Modifier les informations du candidat');
-          await fillInByLabel('* Nom de famille', 'Summers');
+          const screen = await visitScreen(`/certifications/${certification.id}`);
+          await clickByName('Modifier les informations du candidat');
+          await fillByLabel('* Nom de famille', 'Summers');
 
           // when
-          await clickByLabel('Enregistrer');
+          await clickByName('Enregistrer');
 
           // then
-          assert.contains('Editer les informations du candidat');
+          assert.dom(screen.getByText('Editer les informations du candidat')).exists();
         });
 
         test('should leave candidate information untouched when aborting the edition', async function (assert) {
@@ -204,23 +204,23 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
             422
           );
-          await visit(`/certifications/${certification.id}`);
-          await clickByLabel('Modifier les informations du candidat');
-          await fillInByLabel('* Nom de famille', 'Summers');
-          await clickByLabel('Enregistrer');
+          const screen = await visitScreen(`/certifications/${certification.id}`);
+          await clickByName('Modifier les informations du candidat');
+          await fillByLabel('* Nom de famille', 'Summers');
+          await clickByName('Enregistrer');
 
           // when
-          await clickByLabel('Fermer');
+          await clickByName('Fermer');
 
           // then
-          assert.contains('Prénom : Bora Horza');
-          assert.contains('Nom de famille : Gobuchul');
-          assert.contains('Date de naissance : 24/07/1987');
-          assert.contains('Sexe : M');
-          assert.contains('Commune de naissance : Sorpen');
-          assert.contains('Code INSEE de naissance : 99217');
-          assert.contains('Code postal de naissance : ');
-          assert.contains('Pays de naissance : JAPON');
+          assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
+          assert.dom(screen.getByText('Nom de famille : Gobuchul')).exists();
+          assert.dom(screen.getByText('Date de naissance : 24/07/1987')).exists();
+          assert.dom(screen.getByText('Sexe : M')).exists();
+          assert.dom(screen.getByText('Commune de naissance : Sorpen')).exists();
+          assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
+          assert.dom(screen.getByText('Code postal de naissance :')).exists();
+          assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
         });
       });
     });
@@ -231,7 +231,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it disables candidate informations edit button', async function (assert) {
         // when
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Modifier les résultats du candidat');
+        await clickByName('Modifier les résultats du candidat');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').isDisabled();
@@ -242,8 +242,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it re-enables candidate informations edit button', async function (assert) {
         // when
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Modifier les résultats du candidat');
-        await clickByLabel('Annuler la modification des résultats du candidat');
+        await clickByName('Modifier les résultats du candidat');
+        await clickByName('Annuler la modification des résultats du candidat');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
@@ -254,9 +254,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it also re-enables candidate informations edit button', async function (assert) {
         // when
         await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Modifier les résultats du candidat');
-        await clickByLabel('Enregistrer les résultats du candidat');
-        await clickByLabel('Confirmer');
+        await clickByName('Modifier les résultats du candidat');
+        await clickByName('Enregistrer les résultats du candidat');
+        await clickByName('Confirmer');
 
         // then
         assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
@@ -286,10 +286,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [certificationIssueReport] });
 
       // when
-      await visit('/certifications/123');
+      const screen = await visitScreen('/certifications/123');
 
       // then
-      assert.contains('Signalements');
+      assert.dom(screen.getByText('Signalements')).exists();
     });
 
     test('should display the issue reports, impactful and non impactful', async function (assert) {
@@ -310,13 +310,25 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       // when
-      await visit('/certifications/123');
+      const screen = await visitScreen('/certifications/123');
 
       // then
-      assert.contains('Signalement(s) impactant(s)');
-      assert.contains('Un signalement super impactant');
-      assert.contains('Signalement(s) non impactant(s)');
-      assert.contains('Un signalement pas du tout impactant');
+      assert.dom(screen.getByText('1 Signalement(s) impactant(s)')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement super impactant'
+          )
+        )
+        .exists();
+      assert.dom(screen.getByText('1 Signalement(s) non impactant(s)')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Modification infos candidat : Ajout/modification du temps majoré - Un signalement pas du tout impactant'
+          )
+        )
+        .exists();
     });
 
     test('should hide "Signalement(s) non impactant(s)" sub-section when no not impactful issue reports exist', async function (assert) {
@@ -329,11 +341,17 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
 
       // when
-      await visit('/certifications/123');
+      const screen = await visitScreen('/certifications/123');
 
       // then
-      assert.contains('Signalement(s) impactant(s)');
-      assert.contains('Un signalement super impactant');
+      assert.dom(screen.getByText('1 Signalement(s) impactant(s)')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement super impactant'
+          )
+        )
+        .exists();
       assert.notContains('Signalement(s) non impactant(s)');
     });
 
@@ -348,11 +366,17 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [certificationIssueReportNonImpactful] });
 
       // when
-      await visit('/certifications/123');
+      const screen = await visitScreen('/certifications/123');
 
       // then
-      assert.contains('Signalement(s) non impactant(s)');
-      assert.contains('Un signalement pas du tout impactant');
+      assert.dom(screen.getByText('1 Signalement(s) non impactant(s)')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Modification infos candidat : Ajout/modification du temps majoré - Un signalement pas du tout impactant'
+          )
+        )
+        .exists();
       assert.notContains('Signalement(s) impactant(s)');
     });
 
@@ -407,13 +431,16 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         certification.update({ certificationIssueReports: [certificationIssueReport] });
 
         // when
-        await visit('/certifications/123');
+        const screen = await visitScreen('/certifications/123');
 
         // then
-        assert.contains('Problème technique sur une question');
-        assert.contains("L'image ne s'affiche pas");
-        assert.contains('image disparue');
-        assert.contains('Question 666');
+        assert
+          .dom(
+            screen.getByText(
+              "Problème technique sur une question : L'image ne s'affiche pas - image disparue - Question 666"
+            )
+          )
+          .exists();
       });
     });
   });
@@ -424,7 +451,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await visit(`/certifications/${certification.id}`);
 
       // when
-      await clickByLabel("Voir les détails de l'utilisateur");
+      await clickByName("Voir les détails de l'utilisateur");
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -441,41 +468,45 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display confirmation popup for cancellation when certification is not yet cancelled and cancellation button is clicked', async function (assert) {
         // given
-        await visit(`/certifications/${certification.id}`);
+        const screen = await visitScreen(`/certifications/${certification.id}`);
 
         // when
-        await clickByLabel('Annuler la certification');
+        await clickByName('Annuler la certification');
 
         // then
-        assert.contains(
-          'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.'
-        );
+        assert
+          .dom(
+            screen.getByText(
+              'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.'
+            )
+          )
+          .exists();
       });
 
       test('should not cancel the certification when aborting action in the confirmation popup', async function (assert) {
         // given
-        await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Annuler la certification');
+        const screen = await visitScreen(`/certifications/${certification.id}`);
+        await clickByName('Annuler la certification');
 
         // when
-        await clickByLabel('Close');
+        await clickByName('Close');
 
         // then
-        assert.contains('Validée');
-        assert.contains('Annuler la certification');
+        assert.dom(screen.getByText('Validée')).exists();
+        assert.dom(screen.getByText('Annuler la certification')).exists();
       });
 
       test('should cancel the certification when confirming action in the confirmation popup', async function (assert) {
         // given
-        await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Annuler la certification');
+        const screen = await visitScreen(`/certifications/${certification.id}`);
+        await clickByName('Annuler la certification');
 
         // when
-        await clickByLabel('Confirmer');
+        await clickByName('Confirmer');
 
         // then
-        assert.contains('Annulée');
-        assert.contains('Désannuler la certification');
+        assert.dom(screen.getByText('Annulée')).exists();
+        assert.dom(screen.getByText('Désannuler la certification')).exists();
       });
     });
 
@@ -486,41 +517,45 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display confirmation popup for uncancellation when certification is cancelled and uncancellation button is clicked', async function (assert) {
         // given
-        await visit(`/certifications/${certification.id}`);
+        const screen = await visitScreen(`/certifications/${certification.id}`);
 
         // when
-        await clickByLabel('Désannuler la certification');
+        await clickByName('Désannuler la certification');
 
         // then
-        assert.contains(
-          'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.'
-        );
+        assert
+          .dom(
+            screen.getByText(
+              'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.'
+            )
+          )
+          .exists();
       });
 
       test('should not uncancel the certification when aborting action in the confirmation popup', async function (assert) {
         // given
-        await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Désannuler la certification');
+        const screen = await visitScreen(`/certifications/${certification.id}`);
+        await clickByName('Désannuler la certification');
 
         // when
-        await clickByLabel('Close');
+        await clickByName('Close');
 
         // then
-        assert.contains('Annulée');
-        assert.contains('Désannuler la certification');
+        assert.dom(screen.getByText('Annulée')).exists();
+        assert.dom(screen.getByText('Désannuler la certification')).exists();
       });
 
       test('should uncancel the certification when confirming action in the confirmation popup', async function (assert) {
         // given
-        await visit(`/certifications/${certification.id}`);
-        await clickByLabel('Désannuler la certification');
+        const screen = await visitScreen(`/certifications/${certification.id}`);
+        await clickByName('Désannuler la certification');
 
         // when
-        await clickByLabel('Confirmer');
+        await clickByName('Confirmer');
 
         // then
-        assert.contains('Validée');
-        assert.contains('Annuler la certification');
+        assert.dom(screen.getByText('Validée')).exists();
+        assert.dom(screen.getByText('Annuler la certification')).exists();
       });
     });
   });

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, fillIn, click } from '@ember/test-helpers';
+import { find, click } from '@ember/test-helpers';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -47,7 +48,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
 
   test('should render all details about the badge', async function (assert) {
     //when
-    await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
+    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 
     //then
     assert.dom('.page-section__details').exists();
@@ -59,10 +60,13 @@ module('Integration | Component | Badges::Badge', function (hooks) {
     assert.ok(detailsContent.match(badge.altMessage), 'altMessage');
     assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
     assert.dom('.page-section__details img').exists();
-    assert.contains('L‘évalué doit obtenir 85% sur l‘ensemble des acquis du target profile');
-    assert.contains('Competence');
-    assert.contains('@skill2');
-    assert.contains('Mon tube');
+    assert.dom(screen.getByText('85%')).exists();
+    assert
+      .dom(screen.getByText('L‘évalué doit obtenir sur l‘ensemble des acquis du target profile', { exact: false }))
+      .exists();
+    assert.dom(screen.getByText('Competence')).exists();
+    assert.dom(screen.getByLabelText('@skill2')).exists();
+    assert.dom(screen.getByText('Mon tube')).exists();
   });
 
   module('#updateBadge', function () {
@@ -78,13 +82,13 @@ module('Integration | Component | Badges::Badge', function (hooks) {
 
       // when
       await click('button[type="button"]');
-      await fillIn('#title', 'mon titre mis à jour');
-      await fillIn('#key', 'ma clef mise à jour');
-      await fillIn('#message', 'mon message mis à jour');
-      await fillIn('#altMessage', 'mon message alternatif mis à jour');
-      await fillIn('#imageUrl', 'mon url image mise à jour');
-      await fillIn('#isCertifiable', 'false');
-      await fillIn('#isAlwaysVisible', 'true');
+      await fillByLabel('* Titre :', 'mon titre mis à jour');
+      await fillByLabel('* Clé :', 'ma clef mise à jour');
+      await fillByLabel('Message :', 'mon message mis à jour');
+      await fillByLabel('* Message Alternatif :', 'mon message alternatif mis à jour');
+      await fillByLabel("* Nom de l'image (svg) :", 'mon url image mise à jour');
+      await fillByLabel('Certifiable :', false);
+      await fillByLabel('Lacunes :', true);
       await click('button[type="submit"]');
 
       // then

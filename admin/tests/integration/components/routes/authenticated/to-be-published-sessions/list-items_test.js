@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -33,13 +34,15 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     this.toBePublishedSessions = [firstSession, secondSession, thirdSession];
 
     // when
-    await render(hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`);
+    const screen = await render(
+      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+    );
 
     // then
     assert.dom('table tbody tr').exists({ count: 3 });
-    assert.contains('Centre SCO des Anne-Étoiles');
-    assert.contains('Pix Center');
-    assert.contains('Hogwarts');
+    assert.dom(screen.getByText('Centre SCO des Anne-Étoiles')).exists();
+    assert.dom(screen.getByText('Pix Center')).exists();
+    assert.dom(screen.getByText('Hogwarts')).exists();
   });
 
   test('it should "Aucun résultat" if there are no sessions to show', async function (assert) {
@@ -47,10 +50,12 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     this.toBePublishedSessions = [];
 
     // when
-    await render(hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`);
+    const screen = await render(
+      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+    );
 
     // then
-    assert.contains('Aucun résultat');
+    assert.dom(screen.getByText('Aucun résultat')).exists();
   });
 
   test('it should show confirmation modal when one clicks on "Publier" button', async function (assert) {
@@ -63,13 +68,15 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       finalizedAt: new Date('2021-01-02T03:00:00Z'),
     };
     this.toBePublishedSessions = [session];
-    await render(hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`);
+    const screen = await render(
+      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`
+    );
 
     // when
     await click('[aria-label="Publier la session numéro 1"]');
 
     // then
-    assert.contains('Souhaitez-vous publier la session ?');
+    assert.dom(screen.getByText('Souhaitez-vous publier la session ?')).exists();
   });
 
   test('it should call provided publishModel "action" with the right published session as argument', async function (assert) {

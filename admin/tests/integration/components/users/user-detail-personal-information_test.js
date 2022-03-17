@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
-
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | users | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
@@ -18,10 +17,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         this.set('user', { schoolingRegistrations: [] });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.contains('Aucun résultat');
+        assert.dom(screen.getByText('Aucun résultat')).exists();
       });
     });
 
@@ -78,21 +77,23 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should show modal', async function (assert) {
       // given
       this.set('user', user);
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
-      await clickByLabel('Anonymiser cet utilisateur');
+      await clickByName('Anonymiser cet utilisateur');
 
       // then
       assert.dom('.modal-dialog').exists();
-      assert.contains('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.');
+      assert
+        .dom(screen.getByText('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.'))
+        .exists();
     });
 
     test('should close the modal to cancel action', async function (assert) {
       // given
       this.set('user', user);
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByLabel('Anonymiser cet utilisateur');
+      await clickByName('Anonymiser cet utilisateur');
 
       // when
       await click('.modal-dialog .btn-secondary');
@@ -122,13 +123,13 @@ module('Integration | Component | users | user-detail-personal-information', fun
       });
       this.set('user', user);
 
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // then
-      assert.contains('Confirmer la dissociation');
+      assert.dom(screen.getByText('Confirmer la dissociation')).exists();
     });
 
     test('should close the modal on click on cancel button', async function (assert) {
@@ -151,10 +152,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       assert.notContains('Confirmer la dissociation');
@@ -181,10 +182,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
       this.set('user', user);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
-      await clickByLabel('Dissocier');
+      await clickByName('Dissocier');
 
       // when
-      await clickByLabel('Oui, je dissocie');
+      await clickByName('Oui, je dissocie');
 
       // then
       assert.ok(destroyRecordStub.called);
@@ -205,13 +206,13 @@ module('Integration | Component | users | user-detail-personal-information', fun
       });
 
       this.set('user', user);
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
       await click('button[data-test-remove-email]');
 
       // then
-      assert.contains('Confirmer la suppression');
+      assert.dom(screen.getByText('Confirmer la suppression')).exists();
     });
 
     test('should close the modal on click on cancel button', async function (assert) {

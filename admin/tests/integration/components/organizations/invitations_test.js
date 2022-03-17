@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 
@@ -31,12 +31,12 @@ module('Integration | Component | organization-invitations', function (hooks) {
     ]);
 
     // when
-    await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
+    const screen = await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
 
     // then
-    assert.contains('Membre');
-    assert.contains('Administrateur');
-    assert.contains('-');
+    assert.dom(screen.getByText('Membre')).exists();
+    assert.dom(screen.getByText('Administrateur')).exists();
+    assert.dom(screen.getByText('-')).exists();
     assert.notContains('Aucune invitation en attente');
   });
 
@@ -45,9 +45,9 @@ module('Integration | Component | organization-invitations', function (hooks) {
     this.set('invitations', []);
 
     // when
-    await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
+    const screen = await render(hbs`<Organizations::Invitations @invitations={{invitations}}/>`);
 
     // then
-    assert.contains('Aucune invitation en attente');
+    assert.dom(screen.getByText('Aucune invitation en attente')).exists();
   });
 });

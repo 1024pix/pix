@@ -1,8 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -22,14 +20,15 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
   test('it should display the items', async function (assert) {
     // when
-    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+    const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+
     // then
     assert.dom('label[for="name"]').hasText('* Nom de la campagne');
     assert.dom('label[for="customLandingPageText"]').hasText("Texte de la page d'accueil");
     assert.dom('textarea#customLandingPageText').hasAttribute('maxLength', '5000');
     assert.dom('input#name').hasValue('Ceci est un nom');
-    assert.contains('Annuler');
-    assert.contains('Enregistrer');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
   });
 
   module('when campaign is of type assessment', function (hooks) {
@@ -40,6 +39,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test('it should display items for assessment', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+
       // then
       assert.dom('label[for="title"]').hasText('Titre du parcours');
       assert.dom('label[for="customResultPageText"]').hasText('Texte de la page de fin de parcours');
@@ -50,25 +50,27 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
     test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function (assert) {
       // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Texte du bouton de la page de fin de parcours', 'a'.repeat(256));
+      const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      await fillByLabel('Texte du bouton de la page de fin de parcours', 'a'.repeat(256));
+
       // then
-      assert.contains('La longueur du texte ne doit pas excéder 255 caractères');
+      assert.dom(screen.getByText('La longueur du texte ne doit pas excéder 255 caractères')).exists();
     });
 
     test('it should display an error text when the customResultPageButtonUrl is not a url', async function (assert) {
       // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('URL du bouton de la page de fin de parcours', 'a');
+      const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      await fillByLabel('URL du bouton de la page de fin de parcours', 'a');
+
       // then
-      assert.contains('Ce champ doit être une URL complète et valide');
+      assert.dom(screen.getByText('Ce champ doit être une URL complète et valide')).exists();
     });
 
     test('it should trim extra spaces written by user from title attibute', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Titre du parcours', ' text with space ');
-      await clickByLabel('Enregistrer');
+      await fillByLabel('Titre du parcours', ' text with space ');
+      await clickByName('Enregistrer');
 
       // then
       assert.deepEqual(this.campaign.title, 'text with space');
@@ -77,8 +79,8 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test("It should return 'null' when title is empty", async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillInByLabel('Titre du parcours', '');
-      await clickByLabel('Enregistrer');
+      await fillByLabel('Titre du parcours', '');
+      await clickByName('Enregistrer');
 
       // then
       assert.strictEqual(this.campaign.title, null);
@@ -93,6 +95,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     test('it should display items for profiles collection', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+
       // then
       assert.dom('label[for="title"]').doesNotExist();
       assert.dom('label[for="customResultPageText"]').doesNotExist();
@@ -103,26 +106,27 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
   test('it should display an error text when the name is empty', async function (assert) {
     // when
-    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('* Nom de la campagne', '');
+    const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+    await fillByLabel('* Nom de la campagne', '');
 
     // then
-    assert.contains('Le nom ne peut pas être vide');
+    assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
   });
 
   test('it should display an error text when the name has more than 255 characters', async function (assert) {
     // when
-    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('* Nom de la campagne', 'a'.repeat(256));
+    const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+    await fillByLabel('* Nom de la campagne', 'a'.repeat(256));
+
     // then
-    assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
+    assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
   });
 
   test('it should trim extra spaces written by user from custom landing page attibute', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel("Texte de la page d'accueil", ' text with space ');
-    await clickByLabel('Enregistrer');
+    await fillByLabel("Texte de la page d'accueil", ' text with space ');
+    await clickByName('Enregistrer');
 
     // then
     assert.deepEqual(this.campaign.customLandingPageText, 'text with space');
@@ -131,8 +135,8 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test("It should return 'null' when custom landing page attribute is empty", async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel("Texte de la page d'accueil", '');
-    await clickByLabel('Enregistrer');
+    await fillByLabel("Texte de la page d'accueil", '');
+    await clickByName('Enregistrer');
 
     // then
     assert.strictEqual(this.campaign.customLandingPageText, null);
@@ -141,8 +145,8 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test("It should return 'null' when custom landing page attribute has only white space", async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel("Texte de la page d'accueil", ' ');
-    await clickByLabel('Enregistrer');
+    await fillByLabel("Texte de la page d'accueil", ' ');
+    await clickByName('Enregistrer');
 
     // then
     assert.strictEqual(this.campaign.customLandingPageText, null);
@@ -151,8 +155,8 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should call update when form is valid', async function (assert) {
     //when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillInByLabel('* Nom de la campagne', 'Nouveau nom');
-    await clickByLabel('Enregistrer');
+    await fillByLabel('* Nom de la campagne', 'Nouveau nom');
+    await clickByName('Enregistrer');
 
     //then
     assert.ok(this.campaign.save.called);
@@ -161,7 +165,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await clickByLabel('Annuler');
+    await clickByName('Annuler');
 
     // then
     assert.ok(this.onExit.called);
@@ -173,9 +177,10 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       this.campaign.totalParticipationsCount = 0;
 
       // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+
       // then
-      assert.contains('Envoi multiple');
+      assert.dom(screen.getByText('Envoi multiple')).exists();
     });
 
     test('it should not display multiple sendings checkbox when campaign has participations', async function (assert) {
@@ -184,6 +189,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+
       // then
       assert.dom('label[for="multipleSendings"]').doesNotExist();
     });

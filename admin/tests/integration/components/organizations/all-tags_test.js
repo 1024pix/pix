@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 
 module('Integration | Component | organizations/all-tags', function (hooks) {
@@ -19,11 +18,11 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
     this.set('model', { organization, allTags: [tag1, tag2] });
 
     // when
-    await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
+    const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
 
     // then
-    assert.contains('MEDNUM');
-    assert.contains('AEFE');
+    assert.dom(screen.getByText('MEDNUM')).exists();
+    assert.dom(screen.getByText('AEFE')).exists();
   });
 
   test('it should display tags in alphabetical order', async function (assert) {
@@ -85,7 +84,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
 
         // when
         await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
-        await clickByLabel('AGRICULTURE');
+        await clickByName('AGRICULTURE');
 
         // then
         assert.ok(save.called);
@@ -106,7 +105,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
 
         // when
         await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
-        await clickByLabel('MEDNUM');
+        await clickByName('MEDNUM');
 
         // then
         assert.ok(save.called);

@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | users | user-detail-personal-information/user-overview', function (hooks) {
   setupRenderingTest(hooks);
@@ -20,10 +19,10 @@ module('Integration | Component | users | user-detail-personal-information/user-
         });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('Modifier');
+        assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       });
     });
 
@@ -33,10 +32,10 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { firstName: 'John' });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains(this.user.firstName);
+        assert.dom(screen.getByText(this.user.firstName)).exists();
       });
 
       test('should display user’s last name', async function (assert) {
@@ -44,10 +43,10 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { lastName: 'Snow' });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains(this.user.lastName);
+        assert.dom(screen.getByText(this.user.lastName)).exists();
       });
 
       test('should display user’s email', async function (assert) {
@@ -55,10 +54,10 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { email: 'john.snow@winterfell.got' });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains(this.user.email);
+        assert.dom(screen.getByText(this.user.email)).exists();
       });
 
       test('should display user’s username', async function (assert) {
@@ -66,10 +65,10 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { username: 'kingofthenorth' });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains(this.user.username);
+        assert.dom(screen.getByText(this.user.username)).exists();
       });
     });
 
@@ -79,21 +78,21 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { cgu: true });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('OUI');
+        assert.dom(screen.getByText('OUI')).exists();
       });
 
       test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
         // given
-        this.set('user', { cgu: false });
+        this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: true, cgu: false });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('NON');
+        assert.dom(screen.getByText('NON')).exists();
       });
 
       test('should display "OUI" when user accepted Pix Orga terms of service', async function (assert) {
@@ -101,21 +100,21 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { pixOrgaTermsOfServiceAccepted: true });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('OUI');
+        assert.dom(screen.getByText('OUI')).exists();
       });
 
       test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
         // given
-        this.set('user', { pixOrgaTermsOfServiceAccepted: false });
+        this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: false, cgu: true });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('NON');
+        assert.dom(screen.getByText('NON')).exists();
       });
 
       test('should display "OUI" when user accepted Pix Certif terms of service', async function (assert) {
@@ -123,21 +122,21 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', { pixCertifTermsOfServiceAccepted: true });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('OUI');
+        assert.dom(screen.getByText('OUI')).exists();
       });
 
       test('should display "NON" when user not accepted Pix Certif terms of service', async function (assert) {
         // given
-        this.set('user', { pixCertifTermsOfServiceAccepted: false });
+        this.set('user', { pixCertifTermsOfServiceAccepted: false, pixOrgaTermsOfServiceAccepted: true, cgu: true });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
         // then
-        assert.contains('NON');
+        assert.dom(screen.getByText('NON')).exists();
       });
     });
   });
@@ -164,12 +163,12 @@ module('Integration | Component | users | user-detail-personal-information/user-
       });
 
       // when
-      await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-      await clickByLabel('Modifier');
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+      await clickByName('Modifier');
 
       // then
-      assert.contains('Editer');
-      assert.contains('Annuler');
+      assert.dom(screen.getByRole('button', { name: 'Editer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     });
 
     test('should display user’s first name and last name in edit mode', async function (assert) {
@@ -178,7 +177,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
       // when
       await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-      await clickByLabel('Modifier');
+      await clickByName('Modifier');
 
       // then
       assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
@@ -192,7 +191,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.dom('.user-edit-form__email').hasValue(this.user.email);
@@ -204,7 +203,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.notContains('Identifiant :');
@@ -224,7 +223,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.dom('.user-edit-form__username').hasValue(this.user.username);
@@ -241,11 +240,11 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', user);
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        await clickByName('Modifier');
 
         // then
-        assert.contains('Adresse e-mail :');
+        assert.dom(screen.getByText('Adresse e-mail :')).exists();
       });
     });
 
@@ -262,7 +261,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
         // when
         await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
-        await clickByLabel('Modifier');
+        await clickByName('Modifier');
 
         // then
         assert.notContains('Adresse e-mail :');
@@ -275,7 +274,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
       // when
       await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-      await clickByLabel('Modifier');
+      await clickByName('Modifier');
 
       // then
       assert.notContains('CGU Pix Orga validé :');

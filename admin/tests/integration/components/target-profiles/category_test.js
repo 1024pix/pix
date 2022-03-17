@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | TargetProfiles::Category', function (hooks) {
@@ -8,49 +8,49 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type COMPETENCES', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::Category @category="COMPETENCES"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category="COMPETENCES"/>`);
 
     // then
-    assert.contains('Les 16 compétences');
+    assert.dom(screen.getByText('Les 16 compétences')).exists();
   });
 
   test('it should display the tag for type SUBJECT', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::Category @category="SUBJECT"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category="SUBJECT"/>`);
 
     // then
-    assert.contains('Thématiques');
+    assert.dom(screen.getByText('Thématiques')).exists();
   });
 
   test('it should display the tag for type DISCIPLINE', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::Category @category="DISCIPLINE"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category="DISCIPLINE"/>`);
 
     // then
-    assert.contains('Disciplinaires');
+    assert.dom(screen.getByText('Disciplinaires')).exists();
   });
 
   test('it should display the tag for type CUSTOM', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::Category @category="CUSTOM"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category="CUSTOM"/>`);
 
     // then
-    assert.contains('Parcours sur-mesure');
+    assert.dom(screen.getByText('Parcours sur-mesure')).exists();
   });
 
   test('it should display the tag for type PREDEFINED', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::Category @category="PREDEFINED"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category="PREDEFINED"/>`);
 
     // then
-    assert.contains('Parcours prédéfinis');
+    assert.dom(screen.getByText('Parcours prédéfinis')).exists();
   });
 
   test('it should display the tag for type OTHER', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::Category @category="OTHER"/>`);
+    const screen = await render(hbs`<TargetProfiles::Category @category="OTHER"/>`);
 
     // then
-    assert.contains('Autres');
+    assert.dom(screen.getByText('Autres')).exists();
   });
 });

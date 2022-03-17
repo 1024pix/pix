@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | users | user-detail-personal-information/authentication-method', function (hooks) {
   setupRenderingTest(hooks);
@@ -13,7 +13,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       this.set('user', { hasEmailAuthenticationMethod: true });
 
       // when
-      const screen = await renderScreen(hbs`
+      const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
@@ -27,7 +27,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       this.set('user', { hasUsernameAuthenticationMethod: true });
 
       // when
-      const screen = await renderScreen(hbs`
+      const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
@@ -41,7 +41,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       this.set('user', { hasPoleEmploiAuthenticationMethod: true });
 
       // when
-      const screen = await renderScreen(hbs`
+      const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
@@ -55,7 +55,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       this.set('user', { hasGarAuthenticationMethod: true });
 
       // when
-      const screen = await renderScreen(hbs`
+      const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
@@ -89,7 +89,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
           });
 
           // when
-          const screen = await renderScreen(hbs`
+          const screen = await render(hbs`
           <Users::UserDetailPersonalInformation::AuthenticationMethod
             @user={{this.user}}
           />`);
@@ -124,7 +124,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
 
         // when
-        const screen = await renderScreen(hbs`
+        const screen = await render(hbs`
           <Users::UserDetailPersonalInformation::AuthenticationMethod
             @user={{this.user}}
           />`);
@@ -142,7 +142,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
 
         // when
-        const screen = await renderScreen(hbs`
+        const screen = await render(hbs`
           <Users::UserDetailPersonalInformation::AuthenticationMethod
             @user={{this.user}}
           />`);

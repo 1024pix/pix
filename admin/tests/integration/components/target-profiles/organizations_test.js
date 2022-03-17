@@ -1,10 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | TargetProfiles::Organizations', function (hooks) {
   setupRenderingTest(hooks);
@@ -23,13 +21,13 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     this.organizations = organizations;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
     );
 
     // then
-    assert.contains('Orga1');
-    assert.contains('Orga2');
+    assert.dom(screen.getByText('Orga1')).exists();
+    assert.dom(screen.getByText('Orga2')).exists();
   });
 
   test('it should display organization informations', async function (assert) {
@@ -40,14 +38,14 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     this.organizations = organizations;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
     );
 
     // then
-    assert.contains('Orga1');
-    assert.contains('123');
-    assert.contains('O1');
+    assert.dom(screen.getByText('Orga1')).exists();
+    assert.dom(screen.getByText('123')).exists();
+    assert.dom(screen.getByText('O1')).exists();
   });
 
   test('it displays a message when there is no organizations', async function (assert) {
@@ -57,11 +55,11 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     this.organizations = [];
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
 
-    assert.contains('Aucun résultat');
+    assert.dom(screen.getByText('Aucun résultat')).exists();
   });
 
   test('it should display a field to attach organizations', async function (assert) {
@@ -72,8 +70,8 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
-    await fillInByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
-    await clickByLabel('Valider le rattachement');
+    await fillByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
+    await clickByName('Valider le rattachement');
 
     assert.dom('[placeholder="1, 2"]').hasValue('1, 2');
   });
@@ -86,8 +84,8 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`
     );
-    await fillInByLabel("Rattacher les organisations d'un profil cible existant", 1);
-    await clickByLabel('Valider le rattachement à partir de ce profil cible');
+    await fillByLabel("Rattacher les organisations d'un profil cible existant", 1);
+    await clickByName('Valider le rattachement à partir de ce profil cible');
 
     assert.dom('[placeholder="1135"]').hasValue('1');
   });
