@@ -1,9 +1,17 @@
-const { expect, databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  learningContentBuilder,
+  mockLearningContent,
+  domainBuilder,
+} = require('../../test-helper');
 const {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
+  associateTutorialToUserSavedTutorial,
 } = require('../../../scripts/fill-skill-id-in-user-saved-tutorials');
 const UserSavedTutorial = require('../../../lib/domain/models/UserSavedTutorial');
+const UserSavedTutorialWithTutorial = require('../../../lib/domain/models/UserSavedTutorialWithTutorial');
 
 describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', function () {
   describe('#getAllUserSavedTutorialsWithoutSkillId', function () {
@@ -126,6 +134,21 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
 
       // then
       expect(tutorials).to.be.lengthOf(5);
+    });
+  });
+
+  describe('#associateTutorialToUserSagedTutorial', function () {
+    it('should retrieve one UserSavedTutorialWithTutorial', async function () {
+      // given
+      const tutorials = [domainBuilder.buildTutorial({ id: 'tuto1' }), domainBuilder.buildTutorial({ id: 'tuto2' })];
+      const userSavedTutorial = domainBuilder.buildUserSavedTutorial({ tutorialId: 'tuto1' });
+
+      // when
+      const userSavedTutorialWithTutorial = associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials);
+
+      // then
+      expect(userSavedTutorialWithTutorial).to.be.instanceOf(UserSavedTutorialWithTutorial);
+      expect(userSavedTutorialWithTutorial.tutorial.id).to.equal(userSavedTutorial.tutorialId);
     });
   });
 });
