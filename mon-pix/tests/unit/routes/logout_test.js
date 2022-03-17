@@ -16,8 +16,8 @@ describe('Unit | Route | logout', () => {
     campaignStorageStub = { clearAll: sinon.stub() };
   });
 
-  it('should disconnect the user', function () {
-    // Given
+  it('should disconnect the authenticated user no matter the connexion source', function () {
+    // given
     const invalidateStub = sinon.stub();
     sessionStub = Service.create({
       isAuthenticated: true,
@@ -33,53 +33,15 @@ describe('Unit | Route | logout', () => {
     route.set('session', sessionStub);
     route.set('campaignStorage', campaignStorageStub);
 
-    // When
+    // when
     route.beforeModel();
 
-    // Then
+    // then
     sinon.assert.calledOnce(invalidateStub);
   });
 
-  it('should redirect to home when source of connexion is pix', function () {
-    // Given
-    const invalidateStub = sinon.stub();
-
-    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
-
-    const route = this.owner.lookup('route:logout');
-    route.set('session', sessionStub);
-    route.set('campaignStorage', campaignStorageStub);
-    route._redirectToHome = sinon.stub();
-    route.source = 'pix';
-
-    // When
-    route.afterModel();
-
-    // Then
-    sinon.assert.calledOnce(route._redirectToHome);
-  });
-
-  it('should redirect to disconnected page when source of connexion is external', function () {
-    // Given
-    const invalidateStub = sinon.stub();
-
-    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
-
-    const route = this.owner.lookup('route:logout');
-    route.set('session', sessionStub);
-    route.set('campaignStorage', campaignStorageStub);
-    route._redirectToDisconnectedPage = sinon.stub();
-    route.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
-
-    // When
-    route.afterModel();
-
-    // Then
-    sinon.assert.calledOnce(route._redirectToDisconnectedPage);
-  });
-
   it('should erase campaign storage', function () {
-    // Given
+    // given
     const invalidateStub = sinon.stub();
     sessionStub = Service.create({
       invalidate: invalidateStub,
@@ -92,10 +54,48 @@ describe('Unit | Route | logout', () => {
     route.set('campaignStorage', campaignStorageStub);
     route.set('session', sessionStub);
 
-    // When
+    // when
     route.beforeModel();
 
-    // Then
+    // then
     sinon.assert.calledOnce(campaignStorageStub.clearAll);
+  });
+
+  it('should redirect to home when source of connexion is pix', function () {
+    // given
+    const invalidateStub = sinon.stub();
+
+    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
+
+    const route = this.owner.lookup('route:logout');
+    route.set('session', sessionStub);
+    route.set('campaignStorage', campaignStorageStub);
+    route._redirectToHome = sinon.stub();
+    route.source = 'pix';
+
+    // when
+    route.afterModel();
+
+    // then
+    sinon.assert.calledOnce(route._redirectToHome);
+  });
+
+  it('should redirect to disconnected page when source of connexion is external', function () {
+    // given
+    const invalidateStub = sinon.stub();
+
+    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
+
+    const route = this.owner.lookup('route:logout');
+    route.set('session', sessionStub);
+    route.set('campaignStorage', campaignStorageStub);
+    route._redirectToDisconnectedPage = sinon.stub();
+    route.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+
+    // when
+    route.afterModel();
+
+    // then
+    sinon.assert.calledOnce(route._redirectToDisconnectedPage);
   });
 });
