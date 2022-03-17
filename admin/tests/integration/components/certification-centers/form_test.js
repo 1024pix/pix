@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, find } from '@ember/test-helpers';
+import { fillIn, find } from '@ember/test-helpers';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | certification-centers/form', function (hooks) {
   setupRenderingTest(hooks);
@@ -17,17 +17,17 @@ module('Integration | Component | certification-centers/form', function (hooks) 
 
   test('it renders the new certification center form component', async function (assert) {
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
     );
 
     // then
-    assert.contains('Nom du centre');
-    assert.contains("Type d'établissement");
-    assert.contains('Identifiant externe');
+    assert.dom(screen.getByText('Nom du centre')).exists();
+    assert.dom(screen.getByText("Type d'établissement")).exists();
+    assert.dom(screen.getByText('Identifiant externe')).exists();
     assert.true(find('#supervisor-portal').checked);
-    assert.contains('Annuler');
-    assert.contains('Ajouter');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByText('Ajouter')).exists();
   });
 
   module('#selectCertificationCenterType', function () {
@@ -60,7 +60,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       );
 
       // when
-      await clickByLabel('habilitation 2');
+      await clickByName('habilitation 2');
 
       // then
       assert.ok(this.certificationCenter.habilitations.includes(habilitation2));
@@ -82,7 +82,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       );
 
       // when
-      await clickByLabel('habilitation 2');
+      await clickByName('habilitation 2');
 
       // then
       assert.notOk(this.certificationCenter.habilitations.includes(habilitation2));

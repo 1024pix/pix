@@ -2,12 +2,10 @@ import { module, test } from 'qunit';
 import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { FINALIZED } from 'pix-admin/models/session';
-
+import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import sinon from 'sinon';
-
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Acceptance | Session pages', function (hooks) {
   setupApplicationTest(hooks);
@@ -118,7 +116,7 @@ module('Acceptance | Session pages', function (hooks) {
           server.create('certification-center', { id: 1234 });
 
           // when
-          await clickByLabel(session.certificationCenterName);
+          await clickByName(session.certificationCenterName);
 
           // then
           // TODO: Fix this the next time the file is edited.
@@ -128,11 +126,14 @@ module('Acceptance | Session pages', function (hooks) {
       });
 
       module('Buttons section', function () {
-        test('it shows all buttons', function (assert) {
+        test('it shows all buttons', async function (assert) {
+          // when
+          const screen = await visitScreen('/sessions/1');
+
           // then
-          assert.contains("M'assigner la session");
-          assert.contains('Lien de téléchargement des résultats');
-          assert.contains('Résultats transmis au prescripteur');
+          assert.dom(screen.getByText("M'assigner la session")).exists();
+          assert.dom(screen.getByText('Lien de téléchargement des résultats')).exists();
+          assert.dom(screen.getByText('Résultats transmis au prescripteur')).exists();
         });
 
         module('copy link button', function () {
@@ -153,30 +154,26 @@ module('Acceptance | Session pages', function (hooks) {
       });
     });
 
-    module('Certifications tab', function (hooks) {
-      let juryCertificationSummary;
-
-      hooks.beforeEach(async () => {
-        // given
-        juryCertificationSummary = server.create('jury-certification-summary', {
-          firstName: 'Anne',
-          lastName: 'Pix1',
-          isPublished: true,
-        });
-        session.update({ juryCertificationSummaries: [juryCertificationSummary] });
-
-        // when
-        await visit('/sessions/1/certifications');
-      });
-
+    module('Certifications tab', function () {
       module('Certification section', function () {
-        test('it shows certifications informations', function (assert) {
+        test('it shows certifications informations', async function (assert) {
+          // given
+          const juryCertificationSummary = server.create('jury-certification-summary', {
+            firstName: 'Anne',
+            lastName: 'Pix1',
+            isPublished: true,
+          });
+          session.update({ juryCertificationSummaries: [juryCertificationSummary] });
+
+          // when
+          const screen = await visitScreen('/sessions/1/certifications');
+
           // then
           const circle = document.querySelector(
             '[data-test-id="certification-list"] tbody tr td:last-child div svg circle'
           );
-          assert.contains(juryCertificationSummary.firstName);
-          assert.contains(juryCertificationSummary.lastName);
+          assert.dom(screen.getByText(juryCertificationSummary.firstName)).exists();
+          assert.dom(screen.getByText(juryCertificationSummary.lastName)).exists();
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line qunit/no-assert-equal
           assert.equal(circle.attributes.fill.value, '#39B97A');

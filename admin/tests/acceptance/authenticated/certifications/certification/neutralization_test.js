@@ -1,9 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
-
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | neutralization', function (hooks) {
@@ -27,10 +25,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       // when
-      await visit(`/certifications/${certificationId}/neutralization`);
+      const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
       // then
-      assert.contains('Aucune épreuve posée.');
+      assert.dom(screen.getByText('Aucune épreuve posée.')).exists();
     });
   });
 
@@ -75,11 +73,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
 
         // when
-        await visit(`/certifications/${certificationId}/neutralization`);
+        const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
         // then
-        assert.contains('recCGEqqWBQnzD3NZ');
-        assert.contains('recABCEdeef1234');
+        assert.dom(screen.getByText('recCGEqqWBQnzD3NZ')).exists();
+        assert.dom(screen.getByText('recABCEdeef1234')).exists();
       });
 
       test('it renders the challenge info', async function (assert) {
@@ -103,11 +101,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
 
         // when
-        await visit(`/certifications/${certificationId}/neutralization`);
+        const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
         // then
-        assert.contains('1');
-        assert.contains('recCGEqqWBQnzD3NZ');
+        assert.dom(screen.getByText('1')).exists();
+        assert.dom(screen.getByText('recCGEqqWBQnzD3NZ')).exists();
       });
 
       test('it renders a "Neutraliser" button when challenge is not neutralized', async function (assert) {
@@ -132,10 +130,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
 
         // when
-        await visit(`/certifications/${certificationId}/neutralization`);
+        const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
         // then
-        assert.contains('Neutraliser');
+        assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
       });
 
       test('it renders a "Dé-neutraliser" button when challenge is neutralized', async function (assert) {
@@ -160,10 +158,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
 
         // when
-        await visit(`/certifications/${certificationId}/neutralization`);
+        const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
         // then
-        assert.contains('Dé-neutraliser');
+        assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
       });
 
       test('it toggles the "Dé-neutraliser" button into a "Neutraliser" button when deneutralizing a neutralized challenge', async function (assert) {
@@ -186,13 +184,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           status: 'started',
           listChallengesAndAnswers,
         });
-        await visit(`/certifications/${certificationId}/neutralization`);
+        const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
         // when
-        await clickByLabel('Dé-neutraliser');
+        await clickByName('Dé-neutraliser');
 
         // then
-        assert.contains('Neutraliser');
+        assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
       });
 
       test('it toggles the "Neutraliser" button into a "Dé-neutraliser" button when neutralizing a deneutralized challenge', async function (assert) {
@@ -215,13 +213,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           status: 'started',
           listChallengesAndAnswers,
         });
-        await visit(`/certifications/${certificationId}/neutralization`);
+        const screen = await visit(`/certifications/${certificationId}/neutralization`);
 
         // when
-        await clickByLabel('Neutraliser');
+        await clickByName('Neutraliser');
 
         // then
-        assert.contains('Dé-neutraliser');
+        assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
       });
     });
 

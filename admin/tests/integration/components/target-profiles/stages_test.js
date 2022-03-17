@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find, render } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -19,20 +20,22 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     this.set('targetProfile', { imageUrl: 'data:,' });
 
     // when
-    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`);
+    const screen = await render(
+      hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`
+    );
 
     // then
     assert.dom('table').exists();
     assert.dom('thead').exists();
     assert.dom('tbody').exists();
-    assert.contains('ID');
-    assert.contains('Image');
-    assert.contains('Seuil');
-    assert.contains('Titre');
-    assert.contains('Message');
-    assert.contains('Titre prescripteur');
-    assert.contains('Description prescripteur');
-    assert.contains('Actions');
+    assert.dom(screen.getByText('ID')).exists();
+    assert.dom(screen.getByText('Image')).exists();
+    assert.dom(screen.getByText('Seuil')).exists();
+    assert.dom(screen.getByText('Titre')).exists();
+    assert.dom(screen.getByText('Message')).exists();
+    assert.dom(screen.getByText('Titre prescripteur')).exists();
+    assert.dom(screen.getByText('Description prescripteur')).exists();
+    assert.dom(screen.getByText('Actions')).exists();
     assert.dom('tbody tr').exists({ count: 1 });
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
@@ -61,11 +64,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     this.set('stages', []);
 
     // when
-    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+    const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
 
     // then
     assert.dom('table').doesNotExist();
-    assert.contains('Aucun palier associé');
+    assert.dom(screen.getByText('Aucun palier associé')).exists();
   });
 
   test('it should display a message when there is no stages with threshold 0', async function (assert) {
@@ -73,11 +76,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     this.set('stages', []);
 
     // when
-    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+    const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
 
     // then
     assert.dom('table').doesNotExist();
-    assert.contains('Aucun palier associé');
+    assert.dom(screen.getByText('Aucun palier associé')).exists();
   });
 
   test('it should display a warning when there is no threshold at 0', async function (assert) {
@@ -91,9 +94,9 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     this.set('stages', [stage]);
 
     // when
-    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+    const screen = await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
 
     // then
-    assert.contains("Attention ! Il n'y a pas de palier à 0");
+    assert.dom(screen.getByText("Attention ! Il n'y a pas de palier à 0")).exists();
   });
 });

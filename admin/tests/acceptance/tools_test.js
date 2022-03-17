@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -40,41 +40,45 @@ module('Acceptance | tools', function (hooks) {
   module('Refresh cache content', function () {
     test('it request the cache refresh', async function (assert) {
       // given
-      await visit('/tools');
+      const screen = await visitScreen('/tools');
 
       // when
       await clickByName('Recharger le cache');
 
       // then
-      assert.contains('La demande de rechargement du cache a bien été prise en compte.');
+      assert.dom(screen.getByText('La demande de rechargement du cache a bien été prise en compte.')).exists();
     });
   });
 
   module('Create release and refresh cache content', function () {
     test('it request the release creation and refresh cache', async function (assert) {
       // given
-      await visit('/tools');
+      const screen = await visitScreen('/tools');
 
       // when
       await clickByName('Créer une nouvelle version du référentiel et recharger le cache');
 
       // then
-      assert.contains(
-        'La création de la version du référentiel et le rechargement du cache a bien été prise en compte.'
-      );
+      assert
+        .dom(
+          screen.getByText(
+            'La création de la version du référentiel et le rechargement du cache a bien été prise en compte.'
+          )
+        )
+        .exists();
     });
   });
 
   test('it should be possible to create a new tag', async function (assert) {
     // given
-    await visit('/tools');
+    const screen = await visitScreen('/tools');
 
     // when
     await fillByLabel('Nom du tag', 'Mon super tag');
     await clickByName('Créer le tag');
 
     // then
-    assert.contains('Le tag a bien été créé !');
+    assert.dom(screen.getByText('Le tag a bien été créé !')).exists();
     assert.dom('#tagNameInput').hasNoValue();
   });
 });

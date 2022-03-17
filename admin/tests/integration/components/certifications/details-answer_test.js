@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
@@ -25,10 +25,12 @@ module('Integration | Component | certifications/details-answer', function (hook
     });
 
     // when
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    const screen = await render(
+      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+    );
 
     // then
-    assert.contains('Succès partiel');
+    assert.dom(screen.getByText('Succès partiel')).exists();
   });
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
@@ -39,10 +41,12 @@ module('Integration | Component | certifications/details-answer', function (hook
     });
 
     // when
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    const screen = await render(
+      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+    );
 
     // then
-    assert.contains('Neutralisée');
+    assert.dom(screen.getByText('Neutralisée')).exists();
   });
 
   test('info are correctly displayed', async function (assert) {
@@ -53,14 +57,16 @@ module('Integration | Component | certifications/details-answer', function (hook
     });
 
     // when
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+    const screen = await render(
+      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+    );
 
     // then
-    assert.contains('5');
-    assert.contains('@skill6');
-    assert.contains('rec1234');
-    assert.contains('coucou');
-    assert.contains('Succès partiel');
+    assert.dom(screen.getByText('5')).exists();
+    assert.dom(screen.getByText('@skill6')).exists();
+    assert.dom(screen.getByText('rec1234')).exists();
+    assert.dom(screen.getByText('coucou')).exists();
+    assert.dom(screen.getByText('Succès partiel')).exists();
   });
 
   module('when chalenge has been skipped automatically', function () {
@@ -76,14 +82,16 @@ module('Integration | Component | certifications/details-answer', function (hook
       });
 
       // when
-      await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+      const screen = await render(
+        hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+      );
 
       // then
-      assert.contains('5');
-      assert.contains('@skill6');
-      assert.contains('rec1234');
-      assert.contains('coucou');
-      assert.contains('Abandon');
+      assert.dom(screen.getByText('5')).exists();
+      assert.dom(screen.getByText('@skill6')).exists();
+      assert.dom(screen.getByText('rec1234')).exists();
+      assert.dom(screen.getByText('coucou')).exists();
+      assert.dom(screen.getByText('Abandon')).exists();
     });
   });
 

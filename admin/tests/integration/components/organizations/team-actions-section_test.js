@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Integration | Component | organization-team-actions-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -22,8 +21,8 @@ module('Integration | Component | organization-team-actions-section', function (
       @triggerFiltering={{noop}}
       @onChangeUserEmailToAdd={{noop}} />`);
 
-    await fillInByLabel('Ajouter un membre', 'user@example.net');
-    await clickByLabel('Ajouter un membre');
+    await fillByLabel('Ajouter un membre', 'user@example.net');
+    await clickByName('Ajouter un membre');
 
     // then
     sinon.assert.called(addMembershipStub);

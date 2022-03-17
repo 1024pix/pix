@@ -1,4 +1,5 @@
-import { find, visit } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -8,11 +9,9 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let currentUser;
-  let badge;
-
-  hooks.beforeEach(async function () {
-    currentUser = server.create('user');
+  test('should display the badge', async function (assert) {
+    // given
+    const currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
     const tube = this.server.create('tube', { practicalTitle: 'Practical title of tube' });
@@ -36,7 +35,7 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
       skillSets: [skillSet],
     });
 
-    badge = this.server.create('badge', {
+    const badge = this.server.create('badge', {
       id: 1,
       title: 'My badge',
       imageUrl: 'https://images.pix/fr/badges/AG2R.svg',
@@ -45,19 +44,19 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
       badgeCriteria: [criterionCampaignParticipation, criterionEverySkillSet],
       skillSets: [skillSet],
     });
-  });
 
-  test('should display the badge', async function (assert) {
-    await visit(`/badges/${badge.id}`);
+    // when
+    const screen = await visit(`/badges/${badge.id}`);
 
+    // then
     const badgeElement = find('.page-section__details');
     assert.ok(badgeElement.textContent.match(badge.title));
-    assert.contains('20');
-    assert.contains('Internet for dummies');
-    assert.contains('AG2R.svg');
-    assert.contains('@skill2');
-    assert.contains('Certifiable');
-    assert.contains('Lacunes');
-    assert.contains('Practical title of tube');
+    assert.dom(screen.getByText('20%')).exists();
+    assert.dom(screen.getByText('Internet for dummies')).exists();
+    assert.dom(screen.getByText('AG2R.svg', { exact: false })).exists();
+    assert.dom(screen.getByLabelText('@skill2')).exists();
+    assert.dom(screen.getByText('Certifiable')).exists();
+    assert.dom(screen.getByText('Lacunes')).exists();
+    assert.dom(screen.getByText('Practical title of tube')).exists();
   });
 });

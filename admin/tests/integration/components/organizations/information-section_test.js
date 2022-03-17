@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { fillIn } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | organizations/information-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -17,7 +16,7 @@ module('Integration | Component | organizations/information-section', function (
     const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.dom(screen.queryByText('Archivée le', { exact: false })).doesNotExist();
+    assert.dom(screen.queryByText('Archivée le')).doesNotExist();
     assert.dom('.organization__information').exists();
   });
 
@@ -27,10 +26,10 @@ module('Integration | Component | organizations/information-section', function (
     this.set('organization', organization);
 
     // when
-    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+    const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.contains('350');
+    assert.dom(screen.getByText('350')).exists();
   });
 
   module('Displaying whether or not the items of this campaign will be exported in results', function () {
@@ -65,10 +64,10 @@ module('Integration | Component | organizations/information-section', function (
     this.set('organization', organization);
 
     // when
-    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+    const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.contains('https://pix.fr');
+    assert.dom(screen.getByText('https://pix.fr')).exists();
   });
 
   test('it should display empty documentation link message', async function (assert) {
@@ -77,10 +76,10 @@ module('Integration | Component | organizations/information-section', function (
     this.set('organization', organization);
 
     // when
-    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+    const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.contains('Non spécifié');
+    assert.dom(screen.getByText('Lien vers la documentation : Non spécifié', { exact: false })).exists();
   });
 
   test('it should display tags', async function (assert) {
@@ -95,12 +94,12 @@ module('Integration | Component | organizations/information-section', function (
     this.set('organization', organization);
 
     // when
-    await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+    const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // expect
-    assert.contains('CFA');
-    assert.contains('PRIVE');
-    assert.contains('AGRICULTURE');
+    assert.dom(screen.getByText('CFA')).exists();
+    assert.dom(screen.getByText('PRIVE')).exists();
+    assert.dom(screen.getByText('AGRICULTURE')).exists();
   });
 
   module('when organization is archived', function () {
@@ -140,10 +139,10 @@ module('Integration | Component | organizations/information-section', function (
 
     test('it should display edit organization button', async function (assert) {
       // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.contains('Éditer');
+      assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
     });
 
     test('it should toggle edition mode on click to edit button', async function (assert) {
@@ -151,7 +150,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
 
       // then
       assert.dom('.organization__edit-form').exists();
@@ -162,7 +161,7 @@ module('Integration | Component | organizations/information-section', function (
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
 
       // then
       assert.dom('input#name').hasValue(organization.name);
@@ -177,95 +176,95 @@ module('Integration | Component | organizations/information-section', function (
 
     test("it should show error message if organization's name is empty", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#name', '');
 
       // then
-      assert.contains('Le nom ne peut pas être vide');
+      assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
     });
 
     test("it should show error message if organization's name is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#name', 'a'.repeat(256));
 
       // then
-      assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
+      assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
     });
 
     test("it should show error message if organization's external id is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#externalId', 'a'.repeat(256));
 
       // then
-      assert.contains("La longueur de l'identifiant externe ne doit pas excéder 255 caractères");
+      assert.dom(screen.getByText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères")).exists();
     });
 
     test("it should show error message if organization's province code is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#provinceCode', 'a'.repeat(256));
 
       // then
-      assert.contains('La longueur du département ne doit pas excéder 255 caractères');
+      assert.dom(screen.getByText('La longueur du département ne doit pas excéder 255 caractères')).exists();
     });
 
     test("it should show error message if organization's email is longer than 255 characters", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#email', 'a'.repeat(256));
 
       // then
-      assert.contains("La longueur de l'email ne doit pas excéder 255 caractères.");
+      assert.dom(screen.getByText("La longueur de l'email ne doit pas excéder 255 caractères.")).exists();
     });
 
     test("it should show error message if organization's email is not valid", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#email', 'not-valid-email-format');
 
       // then
-      assert.contains("L'e-mail n'a pas le bon format.");
+      assert.dom(screen.getByText("L'e-mail n'a pas le bon format.")).exists();
     });
 
     test("it should show error message if organization's credit is not valid", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#credit', 'credit');
 
       // then
-      assert.contains('Le nombre de crédits doit être un nombre supérieur ou égal à 0.');
+      assert.dom(screen.getByText('Le nombre de crédits doit être un nombre supérieur ou égal à 0.')).exists();
     });
 
     test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
       await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
       assert.dom('.organization__data').exists();
@@ -273,65 +272,65 @@ module('Integration | Component | organizations/information-section', function (
 
     test("it should show error message if organization's documentationUrl is not valid", async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('#documentationUrl', 'not-valid-url-format');
 
       // then
-      assert.contains("Le lien n'est pas valide.");
+      assert.dom(screen.getByText("Le lien n'est pas valide.")).exists();
     });
 
     test('it should revert changes on click to cancel button', async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
-      await clickByLabel('Gestion d’élèves/étudiants');
+      await clickByName('Gestion d’élèves/étudiants');
       await fillIn('input#documentationUrl', 'new documentationUrl');
-      await clickByLabel("Affichage des acquis dans l'export de résultats");
+      await clickByName("Affichage des acquis dans l'export de résultats");
 
       // when
-      await clickByLabel('Annuler');
+      await clickByName('Annuler');
 
       // then
-      assert.contains(organization.name);
-      assert.contains(organization.externalId);
-      assert.contains(organization.provinceCode);
+      assert.dom(screen.getByText(organization.name)).exists();
+      assert.dom(screen.getByText(organization.externalId)).exists();
+      assert.dom(screen.getByText(organization.provinceCode)).exists();
       assert.dom('.organization__isManagingStudents').hasText('Non');
-      assert.contains(organization.documentationUrl);
+      assert.dom(screen.getByText(organization.documentationUrl)).exists();
       assert.dom('.organization__showSkills').hasText('Non');
     });
 
     test('it should submit the form if there is no error', async function (assert) {
       // given
       this.set('onSubmit', () => {});
-      await render(
+      const screen = await render(
         hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
       );
-      await clickByLabel('Éditer');
+      await clickByName('Éditer');
 
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
       await fillIn('input#credit', 50);
-      await clickByLabel('Gestion d’élèves/étudiants');
+      await clickByName('Gestion d’élèves/étudiants');
       await fillIn('input#documentationUrl', 'https://pix.fr/');
 
       // when
-      await clickByLabel('Enregistrer');
+      await clickByName('Enregistrer');
 
       // then
       assert.dom('.organization__name').hasText('new name');
-      assert.contains('new externalId');
+      assert.dom(screen.getByText('new externalId')).exists();
       assert.notContains('Département : ');
-      assert.contains('50');
+      assert.dom(screen.getByText('50')).exists();
       assert.dom('.organization__isManagingStudents').hasText('Oui');
-      assert.contains('https://pix.fr/');
+      assert.dom(screen.getByText('https://pix.fr/')).exists();
     });
   });
 

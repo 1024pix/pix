@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -37,44 +38,44 @@ module('Integration | Component | confirm-popup', function (hooks) {
   });
 
   test('should display default title if it is not defined', async function (assert) {
-    await render(hbs`<ConfirmPopup @show={{this.display}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} />`);
 
-    assert.contains('Merci de confirmer');
+    assert.dom(screen.getByText('Merci de confirmer')).exists();
   });
 
   test('should display title in parameter if it is defined', async function (assert) {
     this.title = 'Titre de test';
 
-    await render(hbs`<ConfirmPopup @show={{this.display}} @title={{this.title}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} @title={{this.title}} />`);
 
-    assert.contains(this.title);
+    assert.dom(screen.getByText(this.title)).exists();
   });
 
   test('should display default closeTitle if it is not defined', async function (assert) {
-    await render(hbs`<ConfirmPopup @show={{this.display}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} />`);
 
-    assert.contains('Annuler');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
   });
 
   test('should display closeTitle in parameter if it is defined', async function (assert) {
     this.closeTitle = "Titre du bouton d'annulation";
 
-    await render(hbs`<ConfirmPopup @show={{this.display}} @closeTitle={{this.closeTitle}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} @closeTitle={{this.closeTitle}} />`);
 
-    assert.contains(this.closeTitle);
+    assert.dom(screen.getByText(this.closeTitle)).exists();
   });
 
   test('should display default submitTitle if it is not defined', async function (assert) {
-    await render(hbs`<ConfirmPopup @show={{this.display}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} />`);
 
-    assert.contains('Confirmer');
+    assert.dom(screen.getByRole('button', { name: 'Confirmer' })).exists();
   });
 
   test('should display submitTitle  in parameter if it is defined', async function (assert) {
     this.submitTitle = 'Titre du bouton dde confirmation';
 
-    await render(hbs`<ConfirmPopup @show={{this.display}} @submitTitle={{this.submitTitle}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} @submitTitle={{this.submitTitle}} />`);
 
-    assert.contains(this.submitTitle);
+    assert.dom(screen.getByText(this.submitTitle)).exists();
   });
 });

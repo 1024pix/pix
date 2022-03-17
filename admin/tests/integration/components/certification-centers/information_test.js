@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, render } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import repeat from 'lodash/repeat';
 import sinon from 'sinon';
 
@@ -38,18 +36,17 @@ module('Integration | Component | certification-centers/information', function (
     this.certificationCenter = certificationCenter;
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       hbs`<CertificationCenters::Information
       @availableHabilitations={{this.availableHabilitations}}
       @certificationCenter={{this.certificationCenter}} />`
     );
 
     // then
-    assert.contains('Type');
-    assert.contains('Identifiant externe');
-    assert.contains('Centre SCO');
-    assert.contains('SCO');
-    assert.contains('AX129');
+    assert.dom(screen.getByText('Type :')).exists();
+    assert.dom(screen.getByText('Identifiant externe :')).exists();
+    assert.dom(screen.getByText('Centre SCO')).exists();
+    assert.dom(screen.getByText('AX129')).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'non');
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
@@ -68,15 +65,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('isEditMode', false);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} @isEditMode={{this.isEditMode}} />`
     );
-    await clickByLabel('Editer');
+    await clickByName('Editer');
 
     // then
-    assert.contains('Annuler');
-    assert.contains('Enregistrer');
-    assert.contains('Nom du centre');
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+    assert.dom(screen.getByText('Nom du centre')).exists();
   });
 
   test('it exits edition mode when click on Save button', async function (assert) {
@@ -92,17 +89,17 @@ module('Integration | Component | certification-centers/information', function (
     this.updateCertificationCenter = sinon.stub();
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
  />`
     );
-    await clickByLabel('Editer');
-    await clickByLabel('Enregistrer');
+    await clickByName('Editer');
+    await clickByName('Enregistrer');
 
     // then
-    assert.contains('Editer');
+    assert.dom(screen.getByText('Editer les informations')).exists();
     assert.notContains('Annuler');
     assert.notContains('Enregistrer');
     assert.notContains('Nom du centre');
@@ -120,13 +117,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
-    await clickByLabel('Editer');
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
+    await clickByName('Editer');
 
-    await clickByLabel('Annuler');
+    await clickByName('Annuler');
 
     // then
-    assert.contains('Editer');
+    assert.dom(screen.getByText('Editer les informations')).exists();
     assert.notContains('Annuler');
     assert.notContains('Enregistrer');
     assert.notContains('Nom du centre');
@@ -148,10 +147,10 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       hbs`<CertificationCenters::Information @availableHabilitations={{this.availableHabilitations}} @certificationCenter={{this.certificationCenter}} />`
     );
-    await clickByLabel('Editer');
+    await clickByName('Editer');
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Modifier un centre de certification' })).exists();
@@ -173,13 +172,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#name', repeat('a', 256));
 
     // then
-    assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
+    assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
   });
 
   test('it should reject empty name', async function (assert) {
@@ -192,13 +193,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#name', '');
 
     // then
-    assert.contains('Le nom ne peut pas être vide');
+    assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
   });
 
   test('it rejects invalid output on externalId', async function (assert) {
@@ -211,13 +214,15 @@ module('Integration | Component | certification-centers/information', function (
     this.set('certificationCenter', certificationCenter);
 
     // when
-    await render(hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`);
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#external-id', repeat('a', 256));
 
     // then
-    assert.contains("La longueur de l'identifiant externe ne doit pas excéder 255 caractères");
+    assert.dom(screen.getByText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères")).exists();
   });
 
   test('it should call updateCertificationCenter with certification center data on save', async function (assert) {
@@ -235,22 +240,22 @@ module('Integration | Component | certification-centers/information', function (
 
     this.set('certificationCenter', certificationCenter);
     this.updateCertificationCenter = sinon.stub();
-    await renderScreen(
+    await render(
       hbs`<CertificationCenters::Information
         @availableHabilitations={{this.availableHabilitations}}
         @updateCertificationCenter={{this.updateCertificationCenter}}
         @certificationCenter={{this.certificationCenter}} />`
     );
 
-    await clickByLabel('Editer');
-    await fillInByLabel('Nom du centre', 'Centre SUP');
-    await fillInByLabel('Type', 'SUP');
-    await fillInByLabel('Identifiant externe', 'externalId');
-    await clickByLabel('Espace surveillant');
-    await clickByLabel('Pix+Droit');
+    await clickByName('Editer');
+    await fillByLabel('Nom du centre', 'Centre SUP');
+    await fillByLabel('Type', 'SUP');
+    await fillByLabel('Identifiant externe', 'externalId');
+    await clickByName('Espace surveillant');
+    await clickByName('Pix+Droit');
 
     // when
-    await clickByLabel('Enregistrer');
+    await clickByName('Enregistrer');
 
     // then
     sinon.assert.calledWithExactly(this.updateCertificationCenter, {
@@ -279,26 +284,25 @@ module('Integration | Component | certification-centers/information', function (
     this.updateCertificationCenter = sinon.stub();
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       hbs`<CertificationCenters::Information
         @certificationCenter={{this.certificationCenter}}
         @availableHabilitations={{this.availableHabilitations}}
         @updateCertificationCenter={{this.updateCertificationCenter}} />`
     );
 
-    await clickByLabel('Editer');
+    await clickByName('Editer');
     await fillIn('#name', 'Centre SUP');
     await fillIn('#certification-center-type', 'SUP');
     await fillIn('#external-id', 'externalId');
-    await clickByLabel('Espace surveillant');
-    await clickByLabel('Cléa');
-    await clickByLabel('Annuler');
+    await clickByName('Espace surveillant');
+    await clickByName('Cléa');
+    await clickByName('Annuler');
 
     // then
     sinon.assert.notCalled(this.updateCertificationCenter);
-    assert.contains('Centre SCO');
-    assert.contains('SCO');
-    assert.contains('AX129');
+    assert.dom(screen.getByText('Centre SCO')).exists();
+    assert.dom(screen.getByText('AX129')).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();

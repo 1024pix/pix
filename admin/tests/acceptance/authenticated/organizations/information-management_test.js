@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { Response } from 'ember-cli-mirage';
 
 module('Acceptance | Organizations | Information management', function (hooks) {
@@ -20,15 +19,15 @@ module('Acceptance | Organizations | Information management', function (hooks) {
     test('should be able to edit organization information', async function (assert) {
       // given
       const organization = this.server.create('organization', { name: 'oldOrganizationName' });
-      await visit(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await clickByName('Éditer');
 
       // when
-      await fillInByLabel('* Nom', 'newOrganizationName');
+      await fillByLabel('* Nom', 'newOrganizationName');
       await clickByName('Enregistrer', { exact: true });
 
       // then
-      assert.contains('newOrganizationName');
+      assert.dom(screen.getByRole('heading', { name: 'newOrganizationName' })).exists();
     });
   });
 

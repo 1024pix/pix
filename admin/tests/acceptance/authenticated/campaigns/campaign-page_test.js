@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -29,11 +30,11 @@ module('Acceptance | Campaign Page', function (hooks) {
       server.create('campaign', { id: 1, name: 'Campaign name' });
 
       // when
-      await visit('/campaigns/1');
+      const screen = await visit('/campaigns/1');
 
       // then
       assert.strictEqual(currentURL(), '/campaigns/1/participations');
-      assert.contains('Campaign name');
+      assert.dom(screen.getByRole('heading', { name: 'Campaign name' })).exists();
     });
   });
 });
