@@ -1,6 +1,7 @@
 const { knex } = require('../tests/test-helper');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
 const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
+const skillDatasource = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 
 if (require.main === module) {
@@ -31,6 +32,10 @@ async function getAllTutorials() {
   return tutorialDatasource.list();
 }
 
+async function getAllSkills() {
+  return skillDatasource.list();
+}
+
 function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
   const tutorial = tutorials.find((tutorial) => tutorial.id === userSavedTutorial.tutorialId);
   return new UserSavedTutorialWithTutorial({ ...userSavedTutorial, tutorial });
@@ -39,5 +44,6 @@ function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
 module.exports = {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
+  getAllSkills,
   associateTutorialToUserSavedTutorial,
 };
