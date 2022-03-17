@@ -2,18 +2,18 @@ import RSVP from 'rsvp';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
 
-import OIDCAuthenticator from 'ember-simple-auth-oidc/authenticators/oidc';
-import getAbsoluteUrl from 'ember-simple-auth-oidc/utils/absoluteUrl';
+import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
+
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
-import config from 'ember-simple-auth-oidc/config';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
-const { host, clientId, afterLogoutUri, endSessionEndpoint } = config;
+const { host, clientId, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
 
-export default OIDCAuthenticator.extend({
-  session: service(),
+export default class PoleEmploiAuthenticator extends BaseAuthenticator {
+  @service session;
+  @service location;
 
   async authenticate({ code, redirectUri, state, authenticationKey }) {
     let request;
@@ -77,7 +77,7 @@ export default OIDCAuthenticator.extend({
       user_id: decodedAccessToken.user_id,
       redirectUri,
     };
-  },
+  }
 
   restore(data) {
     return new RSVP.Promise((resolve, reject) => {
@@ -86,9 +86,11 @@ export default OIDCAuthenticator.extend({
       }
       reject();
     });
-  },
+  }
 
-  singleLogout(idToken) {
+  async invalidate() {
+    const idToken = this.session.get('data.authenticated.id_token');
+
     if (!endSessionEndpoint) {
       return;
     }
@@ -96,13 +98,12 @@ export default OIDCAuthenticator.extend({
     const params = [];
 
     if (afterLogoutUri) {
-      params.push(`redirect_uri=${getAbsoluteUrl(afterLogoutUri)}`);
+      params.push(`redirect_uri=${afterLogoutUri}`);
     }
 
     if (idToken) {
       params.push(`id_token_hint=${idToken}`);
     }
-
-    location.replace(`${getAbsoluteUrl(endSessionEndpoint, host)}?${params.join('&')}`);
-  },
-});
+    this.location.replace(`${host}${endSessionEndpoint}?${params.join('&')}`);
+  }
+}
