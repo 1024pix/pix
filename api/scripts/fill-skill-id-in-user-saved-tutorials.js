@@ -36,6 +36,20 @@ async function getAllSkills() {
   return skillDatasource.list();
 }
 
+function _skillHasTutorialId(skill, tutorialId) {
+  return skill.tutorialIds.includes(tutorialId);
+}
+
+function associateSkillsToTutorial(skills, tutorials) {
+  return tutorials.map((tutorial) => {
+    const skillIds = skills.filter((skill) => _skillHasTutorialId(skill, tutorial.id)).map((skill) => skill.id);
+    return {
+      ...tutorial,
+      skillIds,
+    };
+  });
+}
+
 function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
   const tutorial = tutorials.find((tutorial) => tutorial.id === userSavedTutorial.tutorialId);
   return new UserSavedTutorialWithTutorial({ ...userSavedTutorial, tutorial });
@@ -46,4 +60,5 @@ module.exports = {
   getAllTutorials,
   getAllSkills,
   associateTutorialToUserSavedTutorial,
+  associateSkillsToTutorial,
 };
