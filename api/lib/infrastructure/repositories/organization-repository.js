@@ -156,11 +156,11 @@ module.exports = {
       .then((organizations) => organizations.models.map((model) => _toDomain(model.toJSON())));
   },
 
-  findScoOrganizationByUai(uai) {
+  findScoOrganizationByUai({ uai }) {
     return BookshelfOrganization.query((qb) =>
       qb.where({ type: Organization.types.SCO }).whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`)
     )
-      .fetchAll({ columns: ['id', 'type', 'externalId', 'email'] })
+      .fetchAll({ columns: ['id', 'type', 'externalId', 'email', 'archivedAt'] })
       .then((organizations) => organizations.models.map((model) => _toDomain(model.toJSON())));
   },
 
