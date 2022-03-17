@@ -1,6 +1,7 @@
-const { catchErr, expect, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } = require('../../../test-helper');
+const { NotFoundError, MissingAttributesError } = require('../../../../lib/domain/errors');
 const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
+const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
 
 describe('Integration | Repository | Organization-for-admin', function () {
@@ -151,6 +152,159 @@ describe('Integration | Repository | Organization-for-admin', function () {
           archivistLastName: archivist.lastName,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
+      });
+    });
+  });
+
+  describe('#archive', function () {
+    let clock;
+    const now = new Date('2022-02-02');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should cancel all pending invitations of a given organization', async function () {
+      // given
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const pendingStatus = OrganizationInvitation.StatusType.PENDING;
+      const cancelledStatus = OrganizationInvitation.StatusType.CANCELLED;
+      const acceptedStatus = OrganizationInvitation.StatusType.ACCEPTED;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.buildOrganizationInvitation({ id: 1, organizationId, status: pendingStatus });
+      databaseBuilder.factory.buildOrganizationInvitation({ id: 2, organizationId, status: pendingStatus });
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: acceptedStatus,
+      });
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: cancelledStatus,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+
+      // then
+      const pendingInvitations = await knex('organization-invitations').where({
+        organizationId,
+        status: pendingStatus,
+      });
+      const cancelledInvitations = await knex('organization-invitations').where({
+        organizationId,
+        status: cancelledStatus,
+      });
+      const acceptedInvitations = await knex('organization-invitations').where({
+        organizationId,
+        status: acceptedStatus,
+      });
+      expect(pendingInvitations).to.have.lengthOf(0);
+      expect(acceptedInvitations).to.have.lengthOf(1);
+      expect(cancelledInvitations).to.have.lengthOf(3);
+    });
+
+    it('should archive active campaigns of a given organization', async function () {
+      // given
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const previousDate = new Date('2021-01-01');
+      const organizationId = 1;
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+
+      databaseBuilder.factory.buildCampaign({ id: 1, organizationId });
+      databaseBuilder.factory.buildCampaign({ id: 2, organizationId });
+      databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: previousDate });
+
+      await databaseBuilder.commit();
+
+      // when
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+
+      // then
+      const activeCampaigns = await knex('campaigns').where({
+        archivedAt: null,
+      });
+      expect(activeCampaigns).to.have.lengthOf(0);
+
+      const newlyArchivedCampaigns = await knex('campaigns').where({ archivedAt: now });
+      expect(newlyArchivedCampaigns).to.have.lengthOf(2);
+
+      const previousArchivedCampaigns = await knex('campaigns').where({ archivedAt: previousDate });
+      expect(previousArchivedCampaigns).to.have.lengthOf(1);
+    });
+
+    it('should disable active members of a given organization', async function () {
+      // given
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const previousDate = new Date('2021-01-01');
+      const organizationId = 1;
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+
+      databaseBuilder.factory.buildUser({ id: 7 });
+      databaseBuilder.factory.buildMembership({ id: 1, userId: 7, organizationId });
+      databaseBuilder.factory.buildUser({ id: 8 });
+      databaseBuilder.factory.buildMembership({ id: 2, userId: 8, organizationId });
+      databaseBuilder.factory.buildUser({ id: 9 });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: 9, disabledAt: previousDate });
+
+      await databaseBuilder.commit();
+
+      // when
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+
+      // then
+      const activeMembers = await knex('memberships').where({ disabledAt: null });
+      expect(activeMembers).to.have.lengthOf(0);
+
+      const newlyDisabledMembers = await knex('memberships').where({ disabledAt: now });
+      expect(newlyDisabledMembers).to.have.lengthOf(2);
+
+      const previouslyDisabledMembers = await knex('memberships').where({ disabledAt: previousDate });
+      expect(previouslyDisabledMembers).to.have.lengthOf(1);
+    });
+
+    it('should archive organization', async function () {
+      // given
+      const organizationId = 1;
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+      databaseBuilder.factory.buildOrganization({ id: 2 });
+      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+
+      await databaseBuilder.commit();
+
+      // when
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+
+      // then
+      const archivedOrganization = await knex('organizations').where({ id: organizationId }).first();
+      expect(archivedOrganization.archivedBy).to.equal(pixMasterUserId);
+      expect(archivedOrganization.archivedAt).to.deep.equal(now);
+
+      const organizations = await knex('organizations').where({ archivedBy: null });
+      expect(organizations).to.have.length(1);
+      expect(organizations[0].id).to.equal(2);
+    });
+
+    describe('when attributes missing', function () {
+      it('should throw MissingAttributesError', async function () {
+        // given
+        const organizationId = 1;
+        databaseBuilder.factory.buildOrganization({ id: organizationId });
+        databaseBuilder.factory.buildOrganization({ id: 2 });
+
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(organizationForAdminRepository.archive)({ id: organizationId });
+
+        // then
+        expect(error).to.be.instanceOf(MissingAttributesError);
       });
     });
   });
