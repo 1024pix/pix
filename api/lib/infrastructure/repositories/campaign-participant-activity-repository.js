@@ -33,6 +33,7 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
     .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
+    .whereNull('campaign-participations.deletedAt')
     .modify(_filterByDivisions, filters)
     .modify(_filterByStatus, filters)
     .modify(_filterByGroup, filters);
@@ -46,6 +47,7 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
     .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
+    .whereNull('campaign-participations.deletedAt')
     .modify(_filterByDivisions, filters)
     .modify(_filterByStatus, filters)
     .modify(_filterByGroup, filters);
