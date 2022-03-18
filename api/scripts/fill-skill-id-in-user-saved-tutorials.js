@@ -5,14 +5,34 @@ const knowledgeElementRepository = require('../lib/infrastructure/repositories/k
 const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
 const skillDatasource = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
 
-if (require.main === module) {
-  main().then(
-    () => process.exit(0),
-    (err) => {
-      console.error(err);
-      process.exit(1);
+async function main() {
+  console.log('Starting filling skillId to user saved tutorials');
+
+  const userSavedTutorialsWithoutSkillId = await getAllUserSavedTutorialsWithoutSkillId();
+  const tutorials = await getAllTutorials();
+  const skills = await getAllSkills();
+
+  const tutorialsWithSkills = associateSkillsToTutorial(skills, tutorials);
+
+  for (const userSavedTutorialWithoutSkillId of userSavedTutorialsWithoutSkillId) {
+    const userSavedTutorial = associateTutorialToUserSavedTutorial(
+      userSavedTutorialWithoutSkillId,
+      tutorialsWithSkills
+    );
+    if (!userSavedTutorial.tutorial) {
+      continue;
     }
-  );
+
+    const skillId = await getMostRelevantSkillId(userSavedTutorial);
+
+    if (!skillId) {
+      continue;
+    }
+
+    await knex('user-saved-tutorials').update({ skillId }).where({ id: userSavedTutorial.id });
+  }
+
+  console.log('End filling skillId to user saved tutorials');
 }
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
@@ -73,6 +93,16 @@ async function getMostRelevantSkillId(userSavedTutorialWithTutorial) {
   return mostRelevantKnowledgeElement?.skillId;
 }
 
+if (require.main === module) {
+  main().then(
+    () => process.exit(0),
+    (err) => {
+      console.error(err);
+      process.exit(1);
+    }
+  );
+}
+
 module.exports = {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
@@ -80,4 +110,5 @@ module.exports = {
   associateTutorialToUserSavedTutorial,
   associateSkillsToTutorial,
   getMostRelevantSkillId,
+  main,
 };
