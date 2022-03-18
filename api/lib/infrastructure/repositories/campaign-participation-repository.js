@@ -149,14 +149,11 @@ module.exports = {
   async countParticipationsByStatus(campaignId, campaignType) {
     const row = await knex('campaign-participations')
       .select([
-        // eslint-disable-next-line knex/avoid-injections
-        knex.raw(`sum(case when status = '${SHARED}' then 1 else 0 end) as shared`),
-        // eslint-disable-next-line knex/avoid-injections
-        knex.raw(`sum(case when status = '${TO_SHARE}' then 1 else 0 end) as completed`),
-        // eslint-disable-next-line knex/avoid-injections
-        knex.raw(`sum(case when status = '${STARTED}' then 1 else 0 end) as started`),
+        knex.raw(`sum(case when status = ? then 1 else 0 end) as shared`, SHARED),
+        knex.raw(`sum(case when status = ? then 1 else 0 end) as completed`, TO_SHARE),
+        knex.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
       ])
-      .where({ campaignId, isImproved: false })
+      .where({ campaignId, isImproved: false, deletedAt: null })
       .groupBy('campaignId')
       .first();
 
