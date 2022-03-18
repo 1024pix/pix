@@ -34,6 +34,40 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
         ]);
       });
 
+      it('should return the cumulative sum of participation for the campaign while excluding dates with deleted participations', async function () {
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-01-02' });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          createdAt: '2021-01-03',
+          deletedAt: '2021-01-03',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-01-04' });
+        databaseBuilder.factory.buildCampaignParticipation({ createdAt: '2021-01-01' });
+        await databaseBuilder.commit();
+
+        const activityByDate = await campaignParticipationsStatsRepository.getParticipationsActivityByDate(campaignId);
+
+        expect(activityByDate.startedParticipations).deep.equal([
+          { day: '2021-01-02', count: 1 },
+          { day: '2021-01-04', count: 2 },
+        ]);
+      });
+
+      it('should return empty array when participation is deleted ', async function () {
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          createdAt: '2021-01-03',
+          deletedAt: '2021-01-03',
+        });
+        await databaseBuilder.commit();
+
+        const activityByDate = await campaignParticipationsStatsRepository.getParticipationsActivityByDate(campaignId);
+
+        expect(activityByDate.startedParticipations).deep.equal([]);
+      });
+
       it('should return the cumulative sum of shared participation for the campaign', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
         databaseBuilder.factory.buildCampaignParticipation({
