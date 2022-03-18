@@ -80,7 +80,12 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   async resolveIssueReport(issueReport, resolutionLabel) {
-    await issueReport.resolve(resolutionLabel);
+    try {
+      await issueReport.resolve(resolutionLabel);
+      this.notifications.success('Le signalement a été résolu.');
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue :\n' + error.errors[0].detail);
+    }
     await this.certification.reload();
   }
 
