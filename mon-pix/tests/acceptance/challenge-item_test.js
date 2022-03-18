@@ -199,6 +199,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               assessment = certificationCourse.assessment;
 
               await visit(`/assessments/${assessment.id}/challenges/0`);
+              await click('.focused-certification-challenge-instructions-action__confirmation-button');
 
               // when
               await triggerEvent(document, 'focusedout');
