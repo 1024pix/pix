@@ -26,7 +26,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
     // Then
-    assert.dom(screen.getByRole('button', { name: 'Ok' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
   });
   module('when clicking on Cancel button', function () {
     test('it should close the modal', async function (assert) {
@@ -53,7 +53,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
       assert.ok(true);
     });
   });
-  module('when clicking on OK button', function () {
+  module('when clicking on "Résoudre le signalement" button', function () {
     test('it should close the modal', async function (assert) {
       // Given
       const store = this.owner.lookup('service:store');
@@ -71,7 +71,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
       // When
-      await clickByName('Ok');
+      await clickByName('Résoudre le signalement');
 
       // Then
       sinon.assert.calledOnce(this.closeResolveModal);
@@ -96,7 +96,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
         // When
-        await clickByName('Ok');
+        await clickByName('Résoudre le signalement');
 
         // Then
         sinon.assert.calledWith(this.resolveIssueReport, this.issueReport);
@@ -121,8 +121,8 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
         // When
-        await fillByLabel('Motif', 'This is a fraud, its certification has been revoked');
-        await clickByName('Ok');
+        await fillByLabel('Résolution', 'This is a fraud, its certification has been revoked');
+        await clickByName('Résoudre le signalement');
 
         // Then
         sinon.assert.calledWith(

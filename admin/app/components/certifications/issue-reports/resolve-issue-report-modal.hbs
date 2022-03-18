@@ -1,17 +1,23 @@
 <PixModal @title="Résoudre un signalement" @onCloseButtonClick={{@toggleResolveModal}}>
-  <:footer>
-    <PixInput
-      @id="label"
-      @label="Motif"
+  <:content>
+    <PixTextarea
+      @id="resolve-reason"
+      @label="Résolution"
       type="text"
       maxLength="255"
       {{on "change" this.onChangeLabel}}
     />
-    <PixButton @type="submit" @size="small" {{on "click" this.resolve}}>
-      Ok
-    </PixButton>
-    <PixButton @type="submit" @size="small" {{on "click" @toggleResolveModal}}>
+  </:content>
+
+  <:footer>
+    <PixButton
+      @type="submit"
+      @size="small"
+      class="pix-button--background-transparent-light"
+      {{on "click" @toggleResolveModal}}
+    >
       Annuler
     </PixButton>
+    <PixButton @size="small" @triggerAction={{this.resolve}}>Résoudre le signalement</PixButton>
   </:footer>
 </PixModal>

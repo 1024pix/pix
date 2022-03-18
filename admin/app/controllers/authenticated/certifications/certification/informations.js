@@ -84,7 +84,7 @@ export default class CertificationInformationsController extends Controller {
       await issueReport.resolve(resolutionLabel);
       this.notifications.success('Le signalement a été résolu.');
     } catch (error) {
-      this.notifications.error('Une erreur est survenue :\n' + error.errors[0].detail);
+      this.notifications.error('Une erreur est survenue :\n' + error?.errors[0]?.detail);
     }
     await this.certification.reload();
   }
