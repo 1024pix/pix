@@ -24,17 +24,13 @@
     </div>
     {{#if (and @issueReport.isImpactful @issueReport.resolvedAt)}}
       <div class="certification-issue-report__details__resolution-message">
-        Résolution : {{#if @issueReport.resolution}}{{@issueReport.resolution}}{{else}}-{{/if}}
+        Résolution :
+        {{#if @issueReport.resolution}}{{@issueReport.resolution}}{{else}}-{{/if}}
       </div>
     {{/if}}
   </div>
   {{#if @issueReport.canBeResolved}}
-    <PixButton
-      @size="small"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.toggleResolveModal}}
-    >Résoudre
+    <PixButton @size="small" @isBorderVisible={{true}} @triggerAction={{this.toggleResolveModal}}>Résoudre
     </PixButton>
   {{/if}}
   {{#if this.showResolveModal}}
