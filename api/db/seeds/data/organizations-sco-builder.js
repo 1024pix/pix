@@ -334,6 +334,35 @@ function _buildHighSchools({ databaseBuilder }) {
     nationalStudentId: '123456789BB',
     createdAt: new Date('2020-08-14'),
   });
+
+  // siblings using the same computer and in different school
+  const bigSister = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Sister',
+    lastName: 'Big',
+    email: 'sister@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: 'Sister',
+    lastName: 'Big',
+    birthdate: '2008-02-01',
+    division: '3B',
+    group: null,
+    organizationId: SCO_HIGH_SCHOOL_ID,
+    userId: bigSister.id,
+    nationalStudentId: '987654321EE',
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: 'Brother',
+    lastName: 'Little',
+    birthdate: '2010-10-10',
+    division: '5A',
+    group: null,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    userId: null,
+    nationalStudentId: '987654321NN',
+  });
+
 }
 
 function _buildAgri({ databaseBuilder }) {
