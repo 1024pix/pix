@@ -24,6 +24,7 @@ module.exports = function buildChallenge({
   difficulty = 0,
   responsive = 'Smartphone/Tablette',
   genealogy = 'Prototype 1',
+  focused = false,
   // includes
   answer,
   validator = new Validator(),
@@ -52,6 +53,7 @@ module.exports = function buildChallenge({
     alternativeInstruction,
     genealogy,
     responsive,
+    focused,
     // includes
     answer,
     validator,
