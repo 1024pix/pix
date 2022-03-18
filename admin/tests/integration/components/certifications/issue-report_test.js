@@ -17,7 +17,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
       // Then
-      assert.dom(screen.getByRole('button', { name: 'Résoudre' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
     });
   });
 
@@ -35,7 +35,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
       // Then
-      assert.dom(screen.queryByText('Résoudre')).doesNotExist();
+      assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
     });
   });
 });

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -443,11 +443,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                 );
 
                 const screen = await visitScreen(`/certifications/${certification.id}`);
-                await clickByName('Résoudre');
-                await fillByLabel('Motif', 'Fraude');
+                await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
+                await fillByLabel('Résolution', 'Fraude');
 
                 // when
-                await clickByName('Ok');
+                await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
 
                 // then
                 assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
@@ -472,15 +472,16 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               );
 
               const screen = await visitScreen(`/certifications/${certification.id}`);
-              await clickByName('Résoudre');
-              await fillByLabel('Motif', 'Fraude');
+
+              await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
+              await fillByLabel('Résolution', 'Fraude');
 
               // when
-              await clickByName('Ok');
+              await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
 
               // then
-              assert.dom(screen.getByText('error')).exists();
-              assert.dom('.certification-issue-report__details').not.containsText('Fraud');
+              assert.dom(screen.getByText(/une erreur est survenue/i)).exists();
+              assert.dom(screen.queryByLabelText('Fraud')).doesNotExist();
             });
           });
         });
