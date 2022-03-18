@@ -15,20 +15,19 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is enabled', () => {
-    test('it displays candidate information', async function (assert) {
-      // given
-      this.set('displayComplementaryCertification', true);
-      const candidate = _buildCertificationCandidate({
-        birthdate: new Date('2019-04-28'),
-      });
+  test('it displays candidate information', async function (assert) {
+    // given
+    this.set('displayComplementaryCertification', true);
+    const candidate = _buildCertificationCandidate({
+      birthdate: new Date('2019-04-28'),
+    });
 
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+    const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-      this.set('certificationCandidates', [certificationCandidate]);
+    this.set('certificationCandidates', [certificationCandidate]);
 
-      // when
-      const screen = await renderScreen(hbs`
+    // when
+    const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
@@ -37,60 +36,32 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         </EnrolledCandidates>
       `);
 
-      // then
-      assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();
-      assert.dom(screen.getByRole('cell', { name: certificationCandidate.lastName })).exists();
-      assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
-      assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
-      assert.dom(screen.getByRole('cell', { name: '3000 %' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'Pix+Edu, Pix+Droit' })).exists();
-      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
-      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
-      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
-      assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
-    });
-
-    test('it displays a dash where there is no certification', async function (assert) {
-      // given
-      this.set('displayComplementaryCertification', true);
-      const candidate = _buildCertificationCandidate({
-        complementaryCertifications: null,
-      });
-
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-      this.set('certificationCandidates', [certificationCandidate]);
-
-      // when
-      const screen = await renderScreen(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{certificationCandidates}}
-          @displayComplementaryCertification={{displayComplementaryCertification}}
-          >
-        </EnrolledCandidates>
-      `);
-
-      // then
-      assert.dom(screen.getByRole('cell', { name: '-' })).exists();
-    });
+    // then
+    assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidate.lastName })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
+    assert.dom(screen.getByRole('cell', { name: '3000 %' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Pix+Edu, Pix+Droit' })).exists();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
   });
 
-  module('when feature toggle FT_IS_COMPLEMENTARY_CERTIFICATION_SUBSCRIPTION_ENABLED is disabled', () => {
-    test('it display candidate information without complementary certification', async function (assert) {
-      // given
-      this.set('displayComplementaryCertification', false);
+  test('it displays a dash where there is no certification', async function (assert) {
+    // given
+    this.set('displayComplementaryCertification', true);
+    const candidate = _buildCertificationCandidate({
+      complementaryCertifications: null,
+    });
 
-      const candidate = _buildCertificationCandidate({
-        birthdate: new Date('2019-04-28'),
-      });
+    const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+    this.set('certificationCandidates', [certificationCandidate]);
 
-      this.set('certificationCandidates', [certificationCandidate]);
-
-      // when
-      const screen = await renderScreen(hbs`
+    // when
+    const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
@@ -99,12 +70,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         </EnrolledCandidates>
       `);
 
-      // then
-      assert.dom(screen.queryByRole('columnheader', { name: 'Certifications complémentaires' })).doesNotExist();
-      assert
-        .dom(screen.queryByRole('cell', { name: certificationCandidate.complementaryCertificationsList }))
-        .doesNotExist();
-    });
+    // then
+    assert.dom(screen.getByRole('cell', { name: '-' })).exists();
   });
 
   test('it should display details button', async function (assert) {
