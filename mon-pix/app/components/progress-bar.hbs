@@ -24,7 +24,11 @@
     </div>
   </div>
 {{else}}
-  <div class="assessment-progress" role="progressbar" aria-label="{{t "pages.challenge.parts.progress"}}">
+  <div
+    class="assessment-progress {{if @shouldBlurProgressBar "blur-progress-bar"}}"
+    role="progressbar"
+    aria-label="{{t "pages.challenge.parts.progress"}}"
+  >
     <div class="assessment-progress__label">{{t "pages.challenge.progress-bar.label"}}</div>
     <div class="assessment-progress__value">
       {{this.currentStepNumber}}
