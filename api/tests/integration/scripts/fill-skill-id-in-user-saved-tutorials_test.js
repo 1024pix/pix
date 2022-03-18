@@ -11,9 +11,11 @@ const {
   getAllSkills,
   associateTutorialToUserSavedTutorial,
   associateSkillsToTutorial,
+  getMostRelevantSkillId,
 } = require('../../../scripts/fill-skill-id-in-user-saved-tutorials');
 const UserSavedTutorial = require('../../../lib/domain/models/UserSavedTutorial');
 const UserSavedTutorialWithTutorial = require('../../../lib/domain/models/UserSavedTutorialWithTutorial');
+const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
 describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', function () {
   describe('#getAllUserSavedTutorialsWithoutSkillId', function () {
@@ -277,6 +279,78 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
       // then
       expect(userSavedTutorialWithTutorial).to.be.instanceOf(UserSavedTutorialWithTutorial);
       expect(userSavedTutorialWithTutorial.tutorial.id).to.equal(userSavedTutorial.tutorialId);
+    });
+  });
+
+  describe('#getMostRelevantSkillId', function () {
+    describe('when there is only one skillId in tutorial', function () {
+      it('should return it', async function () {
+        // given
+        const tutorial = domainBuilder.buildTutorial();
+        tutorial.skillIds = ['skill1'];
+        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({ tutorial });
+
+        // when
+        const skillId = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+
+        // then
+        expect(skillId).to.equal('skill1');
+      });
+    });
+
+    describe('when there are skillIds in tutorial', function () {
+      it('should return invalidate direct skill', async function () {
+        // given
+        const directInvalidatedSkillIdYoungest = 'directInvalidatedSkillYoungest';
+        const directInvalidatedSkillIdOldest = 'directInvalidatedSkillOldest';
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          source: KnowledgeElement.SourceType.DIRECT,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          skillId: directInvalidatedSkillIdYoungest,
+          createdAt: new Date('2022-03-18'),
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          source: KnowledgeElement.SourceType.DIRECT,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          skillId: directInvalidatedSkillIdOldest,
+          createdAt: new Date('2022-03-16'),
+        });
+        await databaseBuilder.commit();
+        const tutorial = domainBuilder.buildTutorial();
+        tutorial.skillIds = ['skill1', 'skill2', directInvalidatedSkillIdOldest, directInvalidatedSkillIdYoungest];
+        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+          userId,
+          tutorial,
+        });
+
+        // when
+        const skillId = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+
+        // then
+        expect(skillId).to.equal(directInvalidatedSkillIdYoungest);
+      });
+
+      describe('when user does not have invalidated direct knowledge element', function () {
+        it('should return undefined', async function () {
+          // given
+          await databaseBuilder.commit();
+          const tutorial = domainBuilder.buildTutorial();
+          tutorial.skillIds = ['skill1', 'skill2'];
+          const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+            userId: 123,
+            tutorial,
+          });
+
+          // when
+          const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+
+          // then
+          expect(result).to.equal(undefined);
+        });
+      });
     });
   });
 });

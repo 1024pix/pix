@@ -1,8 +1,9 @@
 const { knex } = require('../tests/test-helper');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
+const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
+const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
 const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
 const skillDatasource = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
-const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 
 if (require.main === module) {
   main().then(
@@ -55,10 +56,28 @@ function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
   return new UserSavedTutorialWithTutorial({ ...userSavedTutorial, tutorial });
 }
 
+async function getMostRelevantSkillId(userSavedTutorialWithTutorial) {
+  const tutorialSkillIds = userSavedTutorialWithTutorial.tutorial.skillIds;
+
+  if (tutorialSkillIds.length === 1) {
+    return tutorialSkillIds[0];
+  }
+
+  const invalidatedDirectKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(
+    userSavedTutorialWithTutorial.userId
+  );
+
+  const mostRelevantKnowledgeElement = invalidatedDirectKnowledgeElements.find((knowledgeElement) =>
+    tutorialSkillIds.includes(knowledgeElement.skillId)
+  );
+  return mostRelevantKnowledgeElement?.skillId;
+}
+
 module.exports = {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
   getAllSkills,
   associateTutorialToUserSavedTutorial,
   associateSkillsToTutorial,
+  getMostRelevantSkillId,
 };
