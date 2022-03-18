@@ -9,7 +9,7 @@ const {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
 } = require('../errors');
-const { features, featureToggles } = require('../../config');
+const { features } = require('../../config');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -138,10 +138,7 @@ async function _startNewCertification({
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
-  if (
-    certificationCenter.isHabilitatedClea &&
-    (!featureToggles.isComplementaryCertificationSubscriptionEnabled || certificationCandidate.isGrantedCleA())
-  ) {
+  if (certificationCenter.isHabilitatedClea && certificationCandidate.isGrantedCleA()) {
     if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
       const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
       if (cleAComplementaryCertification) {
@@ -155,10 +152,7 @@ async function _startNewCertification({
     domainTransaction,
   });
 
-  if (
-    certificationCenter.isHabilitatedPixPlusDroit &&
-    (!featureToggles.isComplementaryCertificationSubscriptionEnabled || certificationCandidate.isGrantedPixPlusDroit())
-  ) {
+  if (certificationCenter.isHabilitatedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit()) {
     const pixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
       badgeAcquisition.isPixDroit()
     );

@@ -2,7 +2,6 @@ const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper
 const { handlePixPlusDroitCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const { PIX_PLUS_DROIT } = require('../../../../lib/domain/models/ComplementaryCertification');
 const { PIX_DROIT_MAITRE_CERTIF } = require('../../../../lib/domain/models/Badge').keys;
-const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring', function () {
   const certificationAssessmentRepository = {};
@@ -37,134 +36,93 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
     );
   });
 
-  it('should score Pix+ Droit certifications when feature toggle is disabled', async function () {
-    // given
-    sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(false);
-    const event = domainBuilder.buildCertificationScoringCompletedEvent({
-      certificationCourseId: 123,
-      userId: 456,
-    });
+  context('when there is no Pix+ Droit complementary certification', function () {
+    it('should not score Pix+ Droit certifications', async function () {
+      // given
+      const event = domainBuilder.buildCertificationScoringCompletedEvent({
+        certificationCourseId: 123,
+        userId: 456,
+      });
 
-    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-      certificationCourseId: 123,
-      userId: 456,
-      createdAt: new Date('2020-01-01'),
-      certificationChallenges: [
-        domainBuilder.buildCertificationChallengeWithType({
-          certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
-          challengeId: 'chal1',
-        }),
-      ],
-      certificationAnswersByDate: [domainBuilder.buildAnswer.ok({ challengeId: 'chal1' })],
-    });
-    certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(certificationAssessment);
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationCourseId: 123,
+        userId: 456,
+        createdAt: new Date('2020-01-01'),
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
+            challengeId: 'chal1',
+          }),
+        ],
+        certificationAnswersByDate: [domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1' })],
+      });
+      certificationAssessmentRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(certificationAssessment);
 
-    assessmentResultRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(domainBuilder.buildAssessmentResult());
+      complementaryCertificationCourseRepository.hasComplementaryCertification
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_DROIT,
+        })
+        .resolves(false);
 
-    // when
-    await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
+      // when
+      await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
 
-    // then
-    const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
-      certificationCourseId: 123,
-      certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
-      reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-      hasAcquiredPixCertification: true,
-    });
-    expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-      partnerCertificationScoring: expectedPartnerCertificationScoring,
+      // then
+      expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
     });
   });
 
-  it('should not score Pix+ Droit certifications when feature toggle is enabled and there is no Pix+ Droit complementary certification', async function () {
-    // given
-    sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
-    const event = domainBuilder.buildCertificationScoringCompletedEvent({
-      certificationCourseId: 123,
-      userId: 456,
-    });
-
-    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-      certificationCourseId: 123,
-      userId: 456,
-      createdAt: new Date('2020-01-01'),
-      certificationChallenges: [
-        domainBuilder.buildCertificationChallengeWithType({
-          certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
-          challengeId: 'chal1',
-        }),
-      ],
-      certificationAnswersByDate: [domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1' })],
-    });
-    certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(certificationAssessment);
-
-    complementaryCertificationCourseRepository.hasComplementaryCertification
-      .withArgs({
+  context('when there is a Pix+ Droit complementary certification', function () {
+    it('should score Pix+ Droit certifications', async function () {
+      // given
+      const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
-        complementaryCertificationName: PIX_PLUS_DROIT,
-      })
-      .resolves(false);
+        userId: 456,
+      });
 
-    // when
-    await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
-
-    // then
-    expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
-  });
-
-  it('should score Pix+ Droit certifications when feature toggle is enabled and there is a Pix+ Droit complementary certification', async function () {
-    // given
-    sinon.stub(featureToggles, 'isComplementaryCertificationSubscriptionEnabled').value(true);
-    const event = domainBuilder.buildCertificationScoringCompletedEvent({
-      certificationCourseId: 123,
-      userId: 456,
-    });
-
-    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-      certificationCourseId: 123,
-      userId: 456,
-      createdAt: new Date('2020-01-01'),
-      certificationChallenges: [
-        domainBuilder.buildCertificationChallengeWithType({
-          certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
-          challengeId: 'chal1',
-        }),
-      ],
-      certificationAnswersByDate: [domainBuilder.buildAnswer.ok({ challengeId: 'chal1' })],
-    });
-    certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(certificationAssessment);
-
-    complementaryCertificationCourseRepository.hasComplementaryCertification
-      .withArgs({
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationCourseId: 123,
-        complementaryCertificationName: PIX_PLUS_DROIT,
-      })
-      .resolves(true);
+        userId: 456,
+        createdAt: new Date('2020-01-01'),
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
+            challengeId: 'chal1',
+          }),
+        ],
+        certificationAnswersByDate: [domainBuilder.buildAnswer.ok({ challengeId: 'chal1' })],
+      });
+      certificationAssessmentRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(certificationAssessment);
 
-    assessmentResultRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(domainBuilder.buildAssessmentResult());
+      complementaryCertificationCourseRepository.hasComplementaryCertification
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_DROIT,
+        })
+        .resolves(true);
 
-    // when
-    await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
+      assessmentResultRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(domainBuilder.buildAssessmentResult());
 
-    // then
-    const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
-      certificationCourseId: 123,
-      certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
-      reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-      hasAcquiredPixCertification: true,
-    });
-    expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-      partnerCertificationScoring: expectedPartnerCertificationScoring,
+      // when
+      await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
+
+      // then
+      const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
+        certificationCourseId: 123,
+        certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
+        reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
+        hasAcquiredPixCertification: true,
+      });
+      expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
+        partnerCertificationScoring: expectedPartnerCertificationScoring,
+      });
     });
   });
 
@@ -280,6 +238,12 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.validated());
+      complementaryCertificationCourseRepository.hasComplementaryCertification
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_DROIT,
+        })
+        .resolves(true);
 
       // when
       await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
