@@ -418,9 +418,45 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       module('when Resolve button is clicked on issue report', function () {
-        module('when a label is keyed', function () {
-          module('when Resolve button is clicked', function () {
-            test('it should set issue as resolved with label', async function (assert) {
+        module('when Resolve button is clicked', function () {
+          module('when the api returns ok', function () {
+            module('when a label is keyed', function () {
+              test('it should set issue as resolved with label', async function (assert) {
+                // given
+                const certificationIssueReport = this.server.create('certification-issue-report', {
+                  category: 'OTHER',
+                  description: 'Un signalement impactant',
+                  isImpactful: true,
+                  resolvedAt: null,
+                });
+                certification.update({ certificationIssueReports: [certificationIssueReport] });
+                this.server.patch(
+                  `/certification-issue-reports/${certificationIssueReport.id}`,
+                  (schema) => {
+                    const certificationIssueReportToUpdate = schema.certificationIssueReports.find(
+                      certificationIssueReport.id
+                    );
+                    certificationIssueReportToUpdate.update({ resolvedAt: new Date(), resolution: 'Fraud' });
+                    return new Response({});
+                  },
+                  204
+                );
+
+                const screen = await visitScreen(`/certifications/${certification.id}`);
+                await clickByName('Résoudre');
+                await fillByLabel('Motif', 'Fraude');
+
+                // when
+                await clickByName('Ok');
+
+                // then
+                assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
+                assert.dom('.certification-issue-report__details').containsText('Fraud');
+              });
+            });
+          });
+          module('when the api returns an error', function () {
+            test('it should display an error notification', async function (assert) {
               // given
               const certificationIssueReport = this.server.create('certification-issue-report', {
                 category: 'OTHER',
@@ -431,17 +467,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               certification.update({ certificationIssueReports: [certificationIssueReport] });
               this.server.patch(
                 `/certification-issue-reports/${certificationIssueReport.id}`,
-                (schema) => {
-                  const certificationIssueReportToUpdate = schema.certificationIssueReports.find(
-                    certificationIssueReport.id
-                  );
-                  certificationIssueReportToUpdate.update({ resolvedAt: new Date(), resolution: 'Fraud' });
-                  return new Response({});
-                },
-                204
+                () => new Response({}),
+                500
               );
 
-              await visitScreen(`/certifications/${certification.id}`);
+              const screen = await visitScreen(`/certifications/${certification.id}`);
               await clickByName('Résoudre');
               await fillByLabel('Motif', 'Fraude');
 
@@ -449,7 +479,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               await clickByName('Ok');
 
               // then
-              assert.dom('.certification-issue-report__details').containsText('Fraud');
+              assert.dom(screen.getByText('error')).exists();
+              assert.dom('.certification-issue-report__details').not.containsText('Fraud');
             });
           });
         });
