@@ -487,7 +487,7 @@
         }
       },
       "has-focused-out-of-window": {
-        "certification": "We have detected a page switch.'<br>'Your answer will not be validated.",
+        "certification": "We have detected a page switch. Your answer will not be validated.'<br>'If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
         "default": "We have detected a page switch.'<br>'During a certification test, your answer would not be validated."
       },
       "parts": {
