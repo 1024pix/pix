@@ -9,7 +9,6 @@ export const NOT_TAKEN = 'not_taken';
 export const partnerCertificationStatusToDisplayName = {
   [ACQUIRED]: 'Validée',
   [REJECTED]: 'Rejetée',
-  [NOT_TAKEN]: 'Non passée',
 };
 export const STARTED = 'started';
 export const ERROR = 'error';

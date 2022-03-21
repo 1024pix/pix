@@ -14,32 +14,47 @@ module('Unit | Model | certification', function (hooks) {
   const certificationStatusesAndExpectedLabel = new Map([
     [ACQUIRED, 'Validée'],
     [REJECTED, 'Rejetée'],
-    [NOT_TAKEN, 'Non passée'],
   ]);
 
   [
-    { name: 'cleaCertificationStatus', labelField: 'cleaCertificationStatusLabel' },
-    { name: 'pixPlusDroitMaitreCertificationStatus', labelField: 'pixPlusDroitMaitreCertificationStatusLabel' },
-    { name: 'pixPlusDroitExpertCertificationStatus', labelField: 'pixPlusDroitExpertCertificationStatusLabel' },
-    { name: 'pixPlusEduInitieCertificationStatus', labelField: 'pixPlusEduInitieCertificationStatusLabel' },
-    { name: 'pixPlusEduAvanceCertificationStatus', labelField: 'pixPlusEduAvanceCertificationStatusLabel' },
-    { name: 'pixPlusEduExpertCertificationStatus', labelField: 'pixPlusEduExpertCertificationStatusLabel' },
-    { name: 'pixPlusEduConfirmeCertificationStatus', labelField: 'pixPlusEduConfirmeCertificationStatusLabel' },
-  ].forEach(function ({ name, labelField }) {
-    module(`#${name}`, function () {
+    { domainName: 'cleaCertificationStatus', displayName: 'cleaCertificationStatusLabel' },
+    { domainName: 'pixPlusDroitMaitreCertificationStatus', displayName: 'pixPlusDroitMaitreCertificationStatusLabel' },
+    { domainName: 'pixPlusDroitExpertCertificationStatus', displayName: 'pixPlusDroitExpertCertificationStatusLabel' },
+    { domainName: 'pixPlusEduInitieCertificationStatus', displayName: 'pixPlusEduInitieCertificationStatusLabel' },
+    { domainName: 'pixPlusEduAvanceCertificationStatus', displayName: 'pixPlusEduAvanceCertificationStatusLabel' },
+    { domainName: 'pixPlusEduExpertCertificationStatus', displayName: 'pixPlusEduExpertCertificationStatusLabel' },
+    { domainName: 'pixPlusEduConfirmeCertificationStatus', displayName: 'pixPlusEduConfirmeCertificationStatusLabel' },
+  ].forEach(function ({ domainName, displayName }) {
+    module(`#${domainName}`, function () {
       certificationStatusesAndExpectedLabel.forEach((expectedLabel, status) => {
-        module(`when ${labelField} is ${status}`, function () {
-          test(`${name} should be ${expectedLabel}`, function (assert) {
+        module(`when ${displayName} is ${status}`, function () {
+          test(`${domainName} should be ${expectedLabel}`, function (assert) {
             // given
             const certification = store.createRecord('certification', {
-              [name]: status,
+              [domainName]: status,
             });
 
             // when
-            const label = certification[labelField];
+            const label = certification[displayName];
 
+            // then
             assert.strictEqual(label, expectedLabel);
           });
+        });
+      });
+
+      module(`when ${domainName} is not passed`, function () {
+        test(`${domainName} should be hidden`, function (assert) {
+          // given
+          const certification = store.createRecord('certification', {
+            [domainName]: NOT_TAKEN,
+          });
+
+          // when
+          const label = certification[displayName];
+
+          // then
+          assert.false(Boolean(label));
         });
       });
     });
