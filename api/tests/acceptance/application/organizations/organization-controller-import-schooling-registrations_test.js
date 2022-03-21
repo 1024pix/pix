@@ -50,7 +50,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
     });
 
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     context('When a XML SIECLE file is loaded', function () {
@@ -126,7 +126,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Luciole', 'Harry']);
         });
@@ -188,7 +188,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await server.inject(options);
 
           // then
-          const schoolingRegistration = await knex('schooling-registrations')
+          const schoolingRegistration = await knex('organization-learners')
             .where({ nationalStudentId: '0000000001Y' })
             .first();
           expect(schoolingRegistration.isDisabled).to.be.true;
@@ -310,7 +310,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(1);
           expect(schoolingRegistrations[0].lastName).to.equal('HANDMADE');
         });
@@ -368,7 +368,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({
+          const schoolingRegistrations = await knex('organization-learners').where({
             nationalStudentId: '00000000124',
           });
           expect(schoolingRegistrations).to.have.lengthOf(2);
@@ -443,7 +443,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
         });
@@ -543,7 +543,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
         });
@@ -654,7 +654,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
@@ -766,7 +766,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(1);
           expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX']);
           expect(response.statusCode).to.equal(400);
@@ -810,7 +810,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(400);
         });
@@ -836,7 +836,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
         });
@@ -888,7 +888,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
             await server.inject(options);
 
             // then
-            const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+            const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
             expect(schoolingRegistrations).to.have.lengthOf(2);
             expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
           });
@@ -920,7 +920,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
           expect(_.map(schoolingRegistrations, 'sex')).to.have.members(['F', 'M']);
@@ -943,7 +943,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
           expect(response.result.errors[0].code).to.equal('FIELD_REQUIRED');
@@ -965,7 +965,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
@@ -988,7 +988,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
@@ -1016,7 +1016,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
             const response = await server.inject(options);
 
             // then
-            const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+            const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
 
             expect(schoolingRegistrations).to.have.lengthOf(0);
             expect(response.statusCode).to.equal(412);

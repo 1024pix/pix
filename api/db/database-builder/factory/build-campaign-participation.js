@@ -35,7 +35,7 @@ module.exports = function buildCampaignParticipation({
     id,
     campaignId,
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId: schoolingRegistrationId,
     createdAt,
     sharedAt,
     participantExternalId,
@@ -47,8 +47,23 @@ module.exports = function buildCampaignParticipation({
     deletedAt,
     deletedBy,
   };
-  return databaseBuffer.pushInsertable({
+  databaseBuffer.pushInsertable({
     tableName: 'campaign-participations',
     values,
   });
+
+  return {
+    id,
+    campaignId,
+    userId,
+    schoolingRegistrationId,
+    createdAt,
+    sharedAt,
+    participantExternalId,
+    validatedSkillsCount,
+    masteryRate,
+    pixScore,
+    status,
+    isImproved,
+  };
 };

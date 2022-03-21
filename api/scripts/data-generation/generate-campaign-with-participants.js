@@ -265,7 +265,7 @@ async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, 
     schoolingRegistrationData.push(schoolingRegistrationSpecificBuilder({ userId, organizationId, identifier }));
   }
   const chunkSize = _getChunkSize(schoolingRegistrationData[0]);
-  return trx.batchInsert('schooling-registrations', schoolingRegistrationData.flat(), chunkSize).returning('id');
+  return trx.batchInsert('organization-learners', schoolingRegistrationData.flat(), chunkSize).returning('id');
 }
 
 function _buildBaseSchoolingRegistration({ userId, organizationId, identifier }) {

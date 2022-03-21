@@ -7,6 +7,7 @@ const DomainTransaction = require('../DomainTransaction');
 const _toDomain = (accountRecoveryDemandDTO) => {
   return new AccountRecoveryDemand({
     ...accountRecoveryDemandDTO,
+    schoolingRegistrationId: accountRecoveryDemandDTO.organizationLearnerId,
   });
 };
 
@@ -18,7 +19,7 @@ module.exports = {
   async findByTemporaryKey(temporaryKey) {
     const accountRecoveryDemandDTO = await knex
       .where({ temporaryKey })
-      .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
+      .select('id', 'organizationLearnerId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
       .from('account-recovery-demands')
       .first();
 
@@ -31,7 +32,7 @@ module.exports = {
 
   async findByUserId(userId) {
     const accountRecoveryDemandsDTOs = await knex
-      .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
+      .select('id', 'organizationLearnerId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
       .from('account-recovery-demands')
       .where({ userId });
 
@@ -39,7 +40,12 @@ module.exports = {
   },
 
   async save(accountRecoveryDemand) {
-    const result = await knex('account-recovery-demands').insert(accountRecoveryDemand).returning('*');
+    const result = await knex('account-recovery-demands')
+      .insert({
+        ..._.omit(accountRecoveryDemand, 'schoolingRegistrationId'),
+        organizationLearnerId: accountRecoveryDemand.schoolingRegistrationId,
+      })
+      .returning('*');
 
     return _toDomain(result[0]);
   },

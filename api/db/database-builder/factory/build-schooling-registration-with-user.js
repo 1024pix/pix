@@ -52,7 +52,7 @@ module.exports = function buildSchoolingRegistrationWithUser({
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: 'schooling-registrations',
+    tableName: 'organization-learners',
     values,
   });
 };

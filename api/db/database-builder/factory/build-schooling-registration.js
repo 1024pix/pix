@@ -66,7 +66,7 @@ module.exports = function buildSchoolingRegistration({
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: 'schooling-registrations',
+    tableName: 'organization-learners',
     values,
   });
 };

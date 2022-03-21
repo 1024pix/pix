@@ -572,7 +572,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
       });
 
-      const results = await knex('schooling-registrations').select();
+      const results = await knex('organization-learners').select();
       const expectedDisabled = results.find((result) => result.id === schoolingRegistration.id);
       expect(expectedDisabled.isDisabled).to.be.true;
       const expectedActive = results.find((result) => result.id === otherSchoolingRegistration.id);
@@ -592,7 +592,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
       });
 
-      const expectedDisabled = await knex('schooling-registrations').where('id', schoolingRegistration.id).first();
+      const expectedDisabled = await knex('organization-learners').where('id', schoolingRegistration.id).first();
       expect(expectedDisabled.updatedAt).to.not.equal(schoolingRegistration.updatedAt);
     });
 
@@ -612,7 +612,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
       });
 
-      const schoolingRegistrationNotDisabled = await knex('schooling-registrations')
+      const schoolingRegistrationNotDisabled = await knex('organization-learners')
         .where('id', schoolingRegistration.id)
         .first();
       expect(schoolingRegistrationNotDisabled.isDisabled).to.be.false;
@@ -654,7 +654,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       afterEach(function () {
-        return knex('schooling-registrations').delete();
+        return knex('organization-learners').delete();
       });
 
       it('should create all schoolingRegistrations', async function () {
@@ -726,7 +726,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           });
 
           // then
-          const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({
+          const updated_organization_schoolingRegistrations = await knex('organization-learners').where({
             organizationId,
           });
 
@@ -785,10 +785,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           });
 
           // then
-          const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({
+          const updated_organization_schoolingRegistrations = await knex('organization-learners').where({
             organizationId,
           });
-          const not_updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({
+          const not_updated_organization_schoolingRegistrations = await knex('organization-learners').where({
             organizationId: otherOrganizationId,
           });
 
@@ -838,7 +838,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           });
 
           // then
-          const expectedEnabled = await knex('schooling-registrations').where({ id }).first();
+          const expectedEnabled = await knex('organization-learners').where({ id }).first();
 
           expect(expectedEnabled.isDisabled).to.be.false;
         });
@@ -871,7 +871,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const expected = await knex('schooling-registrations')
+        const expected = await knex('organization-learners')
           .where({ nationalStudentId: 'INE1', organizationId: organizationId })
           .first();
 
@@ -908,7 +908,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const expected = await knex('schooling-registrations')
+        const expected = await knex('organization-learners')
           .where({ nationalStudentId: 'INE1', organizationId: organizationId })
           .first();
 
@@ -942,10 +942,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const expected1 = await knex('schooling-registrations')
+        const expected1 = await knex('organization-learners')
           .where({ nationalStudentId: 'INE1', organizationId })
           .first();
-        const expected2 = await knex('schooling-registrations')
+        const expected2 = await knex('organization-learners')
           .where({ nationalStudentId: 'INE2', organizationId })
           .first();
 
@@ -984,7 +984,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       afterEach(function () {
-        return knex('schooling-registrations').delete();
+        return knex('organization-learners').delete();
       });
 
       it('should create schoolingRegistration and reconcile it thanks to another schoolingRegistration', async function () {
@@ -1003,7 +1003,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const newSchoolingRegistration = await knex('schooling-registrations').where({
+        const newSchoolingRegistration = await knex('organization-learners').where({
           organizationId,
           nationalStudentId,
         });
@@ -1027,7 +1027,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const newSchoolingRegistration = await knex('schooling-registrations')
+        const newSchoolingRegistration = await knex('organization-learners')
           .where({ organizationId, nationalStudentId })
           .first();
         expect(newSchoolingRegistration.userId).to.equal(userId);
@@ -1053,7 +1053,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           });
 
           // then
-          const alreadyReconciledSchoolingRegistrations = await knex('schooling-registrations')
+          const alreadyReconciledSchoolingRegistrations = await knex('organization-learners')
             .where({
               nationalStudentId: schoolingRegistrationFromFile.nationalStudentId,
               organizationId: organizationId,
@@ -1101,7 +1101,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       afterEach(function () {
-        return knex('schooling-registrations').delete();
+        return knex('organization-learners').delete();
       });
 
       it('should update and create all schoolingRegistrations', async function () {
@@ -1115,7 +1115,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+        const actualSchoolingRegistrations = await knex('organization-learners').where({ organizationId });
         expect(actualSchoolingRegistrations).to.have.lengthOf(2);
 
         expect(_.map(actualSchoolingRegistrations, 'firstName')).to.have.members([
@@ -1155,7 +1155,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       afterEach(function () {
-        return knex('schooling-registrations').delete();
+        return knex('organization-learners').delete();
       });
 
       it('should return a SchoolingRegistrationsCouldNotBeSavedError on unicity errors', async function () {
@@ -1201,12 +1201,12 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         const schoolingRegistrationId =
           databaseBuilder.factory.buildSchoolingRegistration(baseSchoolingRegistration).id;
         await databaseBuilder.commit();
-        await knex('schooling-registrations')
+        await knex('organization-learners')
           .update({ updatedAt: new Date('2019-01-01') })
           .where({ id: schoolingRegistrationId });
         const { updatedAt: beforeUpdatedAt } = await knex
           .select('updatedAt')
-          .from('schooling-registrations')
+          .from('organization-learners')
           .where({ id: schoolingRegistrationId })
           .first();
 
@@ -1227,7 +1227,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // then
         const { updatedAt: afterUpdatedAt } = await knex
           .select('updatedAt')
-          .from('schooling-registrations')
+          .from('organization-learners')
           .where({ id: schoolingRegistrationId })
           .first();
 
@@ -1254,7 +1254,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        const schoolingRegistrations = await knex.from('schooling-registrations');
+        const schoolingRegistrations = await knex.from('organization-learners');
         expect(schoolingRegistrations).to.deep.equal([]);
       });
     });
@@ -1377,7 +1377,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
   describe('#reconcileUserToSchoolingRegistration', function () {
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     let organization;
@@ -1457,7 +1457,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
   describe('#reconcileUserAndOrganization', function () {
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     context('when the schoolingRegistration is active', function () {

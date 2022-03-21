@@ -35,20 +35,20 @@ function _setSchoolingRegistrationFilters(
   { lastName, firstName, studentNumber, divisions, groups, connexionType } = {}
 ) {
   if (lastName) {
-    qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
+    qb.whereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (firstName) {
-    qb.whereRaw('LOWER("schooling-registrations"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+    qb.whereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
   }
   if (studentNumber) {
-    qb.whereRaw('LOWER("schooling-registrations"."studentNumber") LIKE ?', `%${studentNumber.toLowerCase()}%`);
+    qb.whereRaw('LOWER("organization-learners"."studentNumber") LIKE ?', `%${studentNumber.toLowerCase()}%`);
   }
   if (!_.isEmpty(divisions)) {
     qb.whereIn('division', divisions);
   }
   if (groups) {
     qb.whereIn(
-      knex.raw('LOWER("schooling-registrations"."group")'),
+      knex.raw('LOWER("organization-learners"."group")'),
       groups.map((group) => group.toLowerCase())
     );
   }
@@ -86,7 +86,7 @@ module.exports = {
 
   findByOrganizationId({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
     const knexConn = transaction.knexTransaction || knex;
-    return knexConn('schooling-registrations')
+    return knexConn('organization-learners')
       .where({ organizationId })
       .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
       .then((schoolingRegistrations) =>
@@ -127,10 +127,10 @@ module.exports = {
   },
 
   async isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ userId, schoolingRegistrationId }) {
-    const exist = await Bookshelf.knex('schooling-registrations')
-      .select('schooling-registrations.id')
-      .join('organizations', 'schooling-registrations.organizationId', 'organizations.id')
-      .where({ userId, type: 'SCO', 'schooling-registrations.id': schoolingRegistrationId })
+    const exist = await Bookshelf.knex('organization-learners')
+      .select('organization-learners.id')
+      .join('organizations', 'organization-learners.organizationId', 'organizations.id')
+      .where({ userId, type: 'SCO', 'organization-learners.id': schoolingRegistrationId })
       .first();
 
     return Boolean(exist);
@@ -138,7 +138,7 @@ module.exports = {
 
   async disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId }) {
     const knexConn = domainTransaction.knexTransaction;
-    await knexConn('schooling-registrations')
+    await knexConn('organization-learners')
       .where({ organizationId, isDisabled: false })
       .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
   },
@@ -167,7 +167,7 @@ module.exports = {
         isDisabled: false,
       }));
 
-      await knexConn('schooling-registrations')
+      await knexConn('organization-learners')
         .insert(schoolingRegistrationsToSave)
         .onConflict(['organizationId', 'nationalStudentId'])
         .merge();
@@ -246,9 +246,9 @@ module.exports = {
   },
 
   async getSchoolingRegistrationForAdmin(schoolingRegistrationId) {
-    const schoolingRegistration = await knex('schooling-registrations')
+    const schoolingRegistration = await knex('organization-learners')
       .select(
-        'schooling-registrations.id as id',
+        'organization-learners.id as id',
         'firstName',
         'lastName',
         'birthdate',
@@ -256,13 +256,13 @@ module.exports = {
         'group',
         'organizationId',
         'organizations.name as organizationName',
-        'schooling-registrations.createdAt as createdAt',
-        'schooling-registrations.updatedAt as updatedAt',
+        'organization-learners.createdAt as createdAt',
+        'organization-learners.updatedAt as updatedAt',
         'isDisabled',
         'organizations.isManagingStudents as organizationIsManagingStudents'
       )
-      .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
-      .where({ 'schooling-registrations.id': schoolingRegistrationId })
+      .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
+      .where({ 'organization-learners.id': schoolingRegistrationId })
       .first();
 
     if (!schoolingRegistration) {
@@ -285,7 +285,7 @@ module.exports = {
     organizationId,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    const schoolingRegistration = await knex('schooling-registrations')
+    const schoolingRegistration = await knex('organization-learners')
       .transacting(domainTransaction)
       .first('*')
       .where({ userId, organizationId });
@@ -312,7 +312,7 @@ module.exports = {
       .where({ nationalStudentId, birthdate })
       .whereNotNull('userId')
       .select()
-      .from('schooling-registrations')
+      .from('organization-learners')
       .orderBy('updatedAt', 'desc')
       .first();
 
@@ -327,30 +327,28 @@ module.exports = {
     const { models, pagination } = await BookshelfSchoolingRegistration.where({ organizationId })
       .query((qb) => {
         qb.select(
-          'schooling-registrations.id',
-          'schooling-registrations.firstName',
-          'schooling-registrations.lastName',
-          'schooling-registrations.birthdate',
-          'schooling-registrations.division',
-          'schooling-registrations.group',
-          'schooling-registrations.studentNumber',
-          'schooling-registrations.userId',
-          'schooling-registrations.organizationId',
+          'organization-learners.id',
+          'organization-learners.firstName',
+          'organization-learners.lastName',
+          'organization-learners.birthdate',
+          'organization-learners.division',
+          'organization-learners.group',
+          'organization-learners.studentNumber',
+          'organization-learners.userId',
+          'organization-learners.organizationId',
           'users.username',
           'users.email',
           'authentication-methods.externalIdentifier as samlId'
         );
-        qb.orderByRaw(
-          'LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC'
-        );
-        qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
+        qb.orderByRaw('LOWER("organization-learners"."lastName") ASC, LOWER("organization-learners"."firstName") ASC');
+        qb.leftJoin('users', 'organization-learners.userId', 'users.id');
         qb.leftJoin('authentication-methods', function () {
           this.on('users.id', 'authentication-methods.userId').andOnVal(
             'authentication-methods.identityProvider',
             AuthenticationMethod.identityProviders.GAR
           );
         });
-        qb.where('schooling-registrations.isDisabled', false);
+        qb.where('organization-learners.isDisabled', false);
         qb.modify(_setSchoolingRegistrationFilters, filter);
       })
       .fetchPage({
@@ -389,12 +387,12 @@ module.exports = {
   },
 
   async isActive({ userId, campaignId }) {
-    const registration = await knex('schooling-registrations')
-      .select('schooling-registrations.isDisabled')
-      .join('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+    const registration = await knex('organization-learners')
+      .select('organization-learners.isDisabled')
+      .join('organizations', 'organizations.id', 'organization-learners.organizationId')
       .join('campaigns', 'campaigns.organizationId', 'organizations.id')
       .where({ 'campaigns.id': campaignId })
-      .andWhere({ 'schooling-registrations.userId': userId })
+      .andWhere({ 'organization-learners.userId': userId })
       .first();
     return !registration?.isDisabled;
   },

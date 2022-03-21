@@ -8,7 +8,7 @@ const modelName = 'SchoolingRegistration';
 module.exports = Bookshelf.model(
   modelName,
   {
-    tableName: 'schooling-registrations',
+    tableName: 'organization-learners',
     hasTimestamps: ['createdAt', 'updatedAt'],
 
     user() {

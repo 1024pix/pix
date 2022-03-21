@@ -7,9 +7,9 @@ async function findByCampaignId(campaignId) {
     .select('division')
     .groupBy('division')
     .join('campaign-participations', 'campaigns.id', 'campaign-participations.campaignId')
-    .innerJoin('schooling-registrations', function () {
-      this.on('schooling-registrations.userId', '=', 'campaign-participations.userId').andOn(
-        'schooling-registrations.organizationId',
+    .innerJoin('organization-learners', function () {
+      this.on('organization-learners.userId', '=', 'campaign-participations.userId').andOn(
+        'organization-learners.organizationId',
         '=',
         'campaigns.organizationId'
       );
@@ -19,7 +19,7 @@ async function findByCampaignId(campaignId) {
 }
 
 async function findByOrganizationIdForCurrentSchoolYear({ organizationId }) {
-  const divisionRows = await knex('schooling-registrations')
+  const divisionRows = await knex('organization-learners')
     .distinct('division')
     .where({ organizationId, isDisabled: false })
     .whereNotNull('division')

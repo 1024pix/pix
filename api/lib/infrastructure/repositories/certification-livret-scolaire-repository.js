@@ -6,12 +6,12 @@ module.exports = {
     const result = await knex
       .select({
         id: 'certification-courses.id',
-        firstName: 'schooling-registrations.firstName',
-        middleName: 'schooling-registrations.middleName',
-        thirdName: 'schooling-registrations.thirdName',
-        lastName: 'schooling-registrations.lastName',
-        birthdate: 'schooling-registrations.birthdate',
-        nationalStudentId: 'schooling-registrations.nationalStudentId',
+        firstName: 'organization-learners.firstName',
+        middleName: 'organization-learners.middleName',
+        thirdName: 'organization-learners.thirdName',
+        lastName: 'organization-learners.lastName',
+        birthdate: 'organization-learners.birthdate',
+        nationalStudentId: 'organization-learners.nationalStudentId',
         date: 'certification-courses.createdAt',
         verificationCode: 'certification-courses.verificationCode',
         deliveredAt: 'sessions.publishedAt',
@@ -26,7 +26,7 @@ module.exports = {
         )`),
       })
       .from('certification-courses')
-      .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
+      .innerJoin('organization-learners', 'organization-learners.userId', 'certification-courses.userId')
       .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
       .innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
@@ -48,15 +48,15 @@ module.exports = {
       )
 
       .where({ 'certification-courses.isCancelled': false })
-      .where({ 'schooling-registrations.isDisabled': false })
+      .where({ 'organization-learners.isDisabled': false })
       .where(
-        'schooling-registrations.organizationId',
+        'organization-learners.organizationId',
         '=',
         knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai)
       )
 
       .groupBy(
-        'schooling-registrations.id',
+        'organization-learners.id',
         'certification-courses.id',
         'sessions.id',
         'assessments.id',
