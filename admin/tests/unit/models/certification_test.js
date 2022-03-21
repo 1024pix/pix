@@ -28,10 +28,7 @@ module('Unit | Model | certification', function (hooks) {
           // when
           const label = certification.cleaCertificationStatusLabel;
 
-          // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.strictEqual(label, expectedLabel);
         });
       });
     });
@@ -55,9 +52,7 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.strictEqual(label, expectedLabel);
         });
       });
     });
@@ -81,9 +76,7 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusDroitExpertCertificationStatusLabel;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.strictEqual(label, expectedLabel);
         });
       });
     });
@@ -107,9 +100,7 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusEduInitieCertificationStatusLabel;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.strictEqual(label, expectedLabel);
         });
       });
     });
@@ -135,9 +126,7 @@ module('Unit | Model | certification', function (hooks) {
             const label = certification.pixPlusEduConfirmeCertificationStatusLabel;
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(label, expectedLabel);
+            assert.strictEqual(label, expectedLabel);
           });
         }
       );
@@ -162,9 +151,7 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusEduAvanceCertificationStatusLabel;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.strictEqual(label, expectedLabel);
         });
       });
     });
@@ -188,9 +175,7 @@ module('Unit | Model | certification', function (hooks) {
           const label = certification.pixPlusEduExpertCertificationStatusLabel;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.strictEqual(label, expectedLabel);
         });
       });
     });
@@ -207,9 +192,7 @@ module('Unit | Model | certification', function (hooks) {
       const isPublishedLabel = certification.publishedText;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(isPublishedLabel, 'Oui');
+      assert.strictEqual(isPublishedLabel, 'Oui');
     });
 
     test('it should return "non" when isPublished is false', function (assert) {
@@ -222,9 +205,7 @@ module('Unit | Model | certification', function (hooks) {
       const isPublishedLabel = certification.publishedText;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(isPublishedLabel, 'Non');
+      assert.strictEqual(isPublishedLabel, 'Non');
     });
   });
 
@@ -375,9 +356,7 @@ module('Unit | Model | certification', function (hooks) {
       const juryCertificationSummary = store.createRecord('certification', { completedAt: null });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(juryCertificationSummary.completionDate, null);
+      assert.strictEqual(juryCertificationSummary.completionDate, null);
     });
 
     test('it should a formatted date when completedAt is defined', function (assert) {
@@ -385,9 +364,7 @@ module('Unit | Model | certification', function (hooks) {
       const juryCertificationSummary = store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
+      assert.strictEqual(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
     });
   });
 
