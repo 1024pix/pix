@@ -19,6 +19,12 @@ export default class ListController extends Controller {
     );
   }
 
+  get sortedCertificationJurySummaries() {
+    return this.model.juryCertificationSummaries
+      .sortBy('numberOfCertificationIssueReportsWithRequiredAction')
+      .reverse();
+  }
+
   @action
   displayCertificationStatusUpdateConfirmationModal() {
     const sessionIsPublished = this.model.isPublished;
