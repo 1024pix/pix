@@ -1,5 +1,4 @@
 const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipation');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const Campaign = require('../../domain/models/Campaign');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -44,12 +43,7 @@ module.exports = {
     const knexConn = domainTransaction.knexTransaction || knex;
     const attributes = _getAttributes(campaignParticipation);
 
-    const updatedCampaignParticipation = await knexConn
-      .from('campaign-participations')
-      .where({ id: campaignParticipation.id })
-      .update(attributes);
-
-    return new CampaignParticipation(updatedCampaignParticipation);
+    await knexConn.from('campaign-participations').where({ id: campaignParticipation.id }).update(attributes);
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {

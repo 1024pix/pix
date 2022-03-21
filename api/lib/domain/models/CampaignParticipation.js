@@ -18,7 +18,6 @@ class CampaignParticipation {
     deletedAt,
     assessments,
     campaign,
-    user,
     userId,
     validatedSkillsCount,
     pixScore,
@@ -31,7 +30,6 @@ class CampaignParticipation {
     this.sharedAt = sharedAt;
     this.deletedAt = deletedAt;
     this.campaign = campaign;
-    this.user = user;
     this.assessments = assessments;
     this.userId = userId;
     this.status = status;

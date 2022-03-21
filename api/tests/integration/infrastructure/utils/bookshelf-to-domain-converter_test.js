@@ -6,6 +6,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Tag = require('../../../../lib/domain/models/Tag');
+const Organization = require('../../../../lib/domain/models/Organization');
 
 const BookshelfUser = require('../../../../lib/infrastructure/orm-models/User');
 const BookshelfCampaign = require('../../../../lib/infrastructure/orm-models/Campaign');
@@ -129,14 +130,12 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should support nested relationships', async function () {
       // given
-      const campaignId = databaseBuilder.factory.buildCampaign().id;
-      const userId = databaseBuilder.factory.buildUser().id;
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
-      databaseBuilder.factory.buildKnowledgeElement({ userId });
-      databaseBuilder.factory.buildKnowledgeElement({ userId });
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       await databaseBuilder.commit();
       const bookshelfObject = await BookshelfCampaignParticipation.where({ id: campaignParticipationId }).fetch({
-        withRelated: ['user.knowledgeElements'],
+        withRelated: ['campaign.organization'],
       });
 
       // when
@@ -146,8 +145,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       );
 
       // then
-      expect(domainObject.user.knowledgeElements).to.be.instanceOf(Array);
-      expect(domainObject.user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
+      expect(domainObject.campaign.organization).to.be.instanceOf(Organization);
     });
   });
 });
