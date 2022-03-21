@@ -18,6 +18,18 @@ function _createUserWithSharedCampaignParticipation(userName, campaignId, shared
   return { userId, campaignParticipation };
 }
 
+function _createUserWithSharedCampaignParticipationDeleted(userName, campaignId, sharedAt, deletedAt) {
+  const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
+  const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    userId,
+    sharedAt,
+    deletedAt,
+  });
+
+  return { userId, campaignParticipation };
+}
+
 function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -159,19 +171,10 @@ describe('Integration | Repository | Campaign collective result repository', fun
           );
 
           // then
-          const pickedAttributes = [
-            'areaCode',
-            'competenceId',
-            'id',
-            'competenceName',
-            'areaColor',
-            'targetedSkillsCount',
-            'averageValidatedSkills',
-          ];
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
           expect(result.id).to.equal(campaignId);
           const competenceACollectiveResult = result.campaignCompetenceCollectiveResults[0];
-          expect(_.pick(competenceACollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceACollectiveResult).to.deep.include({
             areaCode: '1',
             areaColor: 'jaffa',
             competenceId: 'recCompetenceA',
@@ -181,7 +184,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceBCollectiveResult = result.campaignCompetenceCollectiveResults[1];
-          expect(_.pick(competenceBCollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceBCollectiveResult).to.deep.include({
             areaCode: '1',
             areaColor: 'jaffa',
             competenceId: 'recCompetenceB',
@@ -191,7 +194,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceCCollectiveResult = result.campaignCompetenceCollectiveResults[2];
-          expect(_.pick(competenceCCollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceCCollectiveResult).to.deep.include({
             areaCode: '1',
             areaColor: 'jaffa',
             competenceId: 'recCompetenceC',
@@ -201,7 +204,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceECollectiveResult = result.campaignCompetenceCollectiveResults[3];
-          expect(_.pick(competenceECollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceECollectiveResult).to.deep.include({
             areaCode: '2',
             areaColor: 'emerald',
             competenceId: 'recCompetenceE',
@@ -211,7 +214,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceFCollectiveResult = result.campaignCompetenceCollectiveResults[4];
-          expect(_.pick(competenceFCollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceFCollectiveResult).to.deep.include({
             areaCode: '2',
             areaColor: 'emerald',
             competenceId: 'recCompetenceF',
@@ -254,19 +257,10 @@ describe('Integration | Repository | Campaign collective result repository', fun
           );
 
           // then
-          const pickedAttributes = [
-            'areaCode',
-            'competenceId',
-            'id',
-            'competenceName',
-            'areaColor',
-            'targetedSkillsCount',
-            'averageValidatedSkills',
-          ];
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
           expect(result.id).to.equal(campaignId);
           const competenceACollectiveResult = result.campaignCompetenceCollectiveResults[0];
-          expect(_.pick(competenceACollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceACollectiveResult).to.deep.include({
             areaCode: '1',
             areaColor: 'jaffa',
             competenceId: 'recCompetenceA',
@@ -276,7 +270,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceBCollectiveResult = result.campaignCompetenceCollectiveResults[1];
-          expect(_.pick(competenceBCollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceBCollectiveResult).to.deep.include({
             areaCode: '1',
             areaColor: 'jaffa',
             competenceId: 'recCompetenceB',
@@ -286,7 +280,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceCCollectiveResult = result.campaignCompetenceCollectiveResults[2];
-          expect(_.pick(competenceCCollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceCCollectiveResult).to.deep.include({
             areaCode: '1',
             areaColor: 'jaffa',
             competenceId: 'recCompetenceC',
@@ -296,7 +290,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceECollectiveResult = result.campaignCompetenceCollectiveResults[3];
-          expect(_.pick(competenceECollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceECollectiveResult).to.deep.include({
             areaCode: '2',
             areaColor: 'emerald',
             competenceId: 'recCompetenceE',
@@ -306,7 +300,91 @@ describe('Integration | Repository | Campaign collective result repository', fun
             averageValidatedSkills: 0,
           });
           const competenceFCollectiveResult = result.campaignCompetenceCollectiveResults[4];
-          expect(_.pick(competenceFCollectiveResult, pickedAttributes)).to.deep.equal({
+          expect(competenceFCollectiveResult).to.deep.include({
+            areaCode: '2',
+            areaColor: 'emerald',
+            competenceId: 'recCompetenceF',
+            id: `${campaignId}_recCompetenceF`,
+            competenceName: 'Competence F',
+            targetedSkillsCount: 1,
+            averageValidatedSkills: 0,
+          });
+        });
+      });
+
+      context('when there a deleted participations', function () {
+        beforeEach(function () {
+          const goliath = _createUserWithSharedCampaignParticipationDeleted(
+            'Fred',
+            campaignId,
+            new Date('2019-02-10'),
+            new Date('2022-01-01')
+          );
+
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId: goliath.userId,
+            competenceId: 'recCompetenceA',
+            skillId: 'recUrl1',
+            status: 'validated',
+            campaignId,
+            createdAt: new Date('2019-02-01'),
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should resolves a collective result synthesis with default values for all competences', async function () {
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(
+            campaignId,
+            targetProfile
+          );
+
+          // then
+          expect(result).to.be.an.instanceof(CampaignCollectiveResult);
+          expect(result.id).to.equal(campaignId);
+          const competenceACollectiveResult = result.campaignCompetenceCollectiveResults[0];
+          expect(competenceACollectiveResult).to.deep.include({
+            areaCode: '1',
+            areaColor: 'jaffa',
+            competenceId: 'recCompetenceA',
+            id: `${campaignId}_recCompetenceA`,
+            competenceName: 'Competence A',
+            targetedSkillsCount: 5,
+            averageValidatedSkills: 0,
+          });
+          const competenceBCollectiveResult = result.campaignCompetenceCollectiveResults[1];
+          expect(competenceBCollectiveResult).to.deep.include({
+            areaCode: '1',
+            areaColor: 'jaffa',
+            competenceId: 'recCompetenceB',
+            id: `${campaignId}_recCompetenceB`,
+            competenceName: 'Competence B',
+            targetedSkillsCount: 4,
+            averageValidatedSkills: 0,
+          });
+          const competenceCCollectiveResult = result.campaignCompetenceCollectiveResults[2];
+          expect(competenceCCollectiveResult).to.deep.include({
+            areaCode: '1',
+            areaColor: 'jaffa',
+            competenceId: 'recCompetenceC',
+            id: `${campaignId}_recCompetenceC`,
+            competenceName: 'Competence C',
+            targetedSkillsCount: 1,
+            averageValidatedSkills: 0,
+          });
+          const competenceECollectiveResult = result.campaignCompetenceCollectiveResults[3];
+          expect(competenceECollectiveResult).to.deep.include({
+            areaCode: '2',
+            areaColor: 'emerald',
+            competenceId: 'recCompetenceE',
+            id: `${campaignId}_recCompetenceE`,
+            competenceName: 'Competence E',
+            targetedSkillsCount: 1,
+            averageValidatedSkills: 0,
+          });
+          const competenceFCollectiveResult = result.campaignCompetenceCollectiveResults[4];
+          expect(competenceFCollectiveResult).to.deep.include({
             areaCode: '2',
             areaColor: 'emerald',
             competenceId: 'recCompetenceF',
