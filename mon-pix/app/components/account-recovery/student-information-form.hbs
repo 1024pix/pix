@@ -19,13 +19,17 @@
     <div class="account-recovery__content--form-fields">
       <div class="student-information-form__tooltip">
         <PixTooltip
-          @text={{t "pages.account-recovery.find-sco-record.student-information.form.tooltip" htmlSafe=true}}
           @position="top-left"
           @isLight={{true}}
           @isWide={{true}}
           aria-label={{t "pages.account-recovery.find-sco-record.student-information.form.tooltip" htmlSafe=true}}
         >
-          <FaIcon @icon="question-circle" />
+          <:triggerElement>
+            <FaIcon @icon="question-circle" tabindex="0" />
+          </:triggerElement>
+          <:tooltip>
+            {{t "pages.account-recovery.find-sco-record.student-information.form.tooltip" htmlSafe=true}}
+          </:tooltip>
         </PixTooltip>
       </div>
       <FormTextfield
