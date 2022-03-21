@@ -19,6 +19,19 @@ function _createUserWithSharedCampaignParticipation(userName, campaignId, shared
   return { userId, campaignParticipation };
 }
 
+function _createUserWithSharedCampaignParticipationDeleted(userName, campaignId, sharedAt, deletedAt) {
+  const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
+  const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    userId,
+    status: SHARED,
+    sharedAt,
+    deletedAt,
+  });
+
+  return { userId, campaignParticipation };
+}
+
 function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -157,6 +170,41 @@ describe('Integration | Repository | Campaign analysis repository', function () 
 
           databaseBuilder.factory.buildKnowledgeElement({
             userId: goliathId,
+            skillId: 'recUrl1',
+            status: 'validated',
+            campaignId,
+            createdAt: new Date('2019-02-01'),
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should resolves an analysis with null average scores', async function () {
+          // when
+          const tutorials = [];
+          const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
+            campaignId,
+            targetProfile,
+            tutorials
+          );
+
+          // then
+          const tubeARecommendation = actualAnalysis.campaignTubeRecommendations[0];
+          expect(tubeARecommendation.averageScore).to.be.null;
+          const tubeBRecommendation = actualAnalysis.campaignTubeRecommendations[1];
+          expect(tubeBRecommendation.averageScore).to.be.null;
+        });
+      });
+
+      context('when there a deleted participation', function () {
+        beforeEach(function () {
+          const shareDate = new Date('2019-01-02');
+          const deletedDate = new Date('2019-01-03');
+
+          const user = _createUserWithSharedCampaignParticipationDeleted('Fred', campaignId, shareDate, deletedDate);
+
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId: user.id,
             skillId: 'recUrl1',
             status: 'validated',
             campaignId,
