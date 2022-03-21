@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.187.0 (21/03/2022)
+
+
+### :rocket: Amélioration
+- [#4199](https://github.com/1024pix/pix/pull/4199) [FEATURE] Voir un écran intermédiaire avant de débuter une épreuve focus (PIX-4402)
+- [#4211](https://github.com/1024pix/pix/pull/4211) [FEATURE] Augmentation de l'espace entre le score max et l'icone dans l'hexagone de score (PIX-4565).
+- [#4182](https://github.com/1024pix/pix/pull/4182) [FEATURE] Ajout de la vue de la page de création de profil cible sur Pix Admin (PIX-4543)
+
+### :building_construction: Tech
+- [#4208](https://github.com/1024pix/pix/pull/4208) [TECH] Supprimer le `user` du modèle `CampaignParticipation`.
+- [#4152](https://github.com/1024pix/pix/pull/4152) [TECH] Renommer la table schooling-registrations par organization-learners (PIX-4137).
+- [#4133](https://github.com/1024pix/pix/pull/4133) [TECH] Supprimer la prévention des attaques par réponse utilisateur trop longue. 
+- [#4206](https://github.com/1024pix/pix/pull/4206) [TECH] Eviter le crash de container lorsqu'on récupère les profiles cibles.
+- [#4209](https://github.com/1024pix/pix/pull/4209) [TECH] Supprimer le modèle/repo OrganizationToArchive
+- [#4204](https://github.com/1024pix/pix/pull/4204) [TECH] Suppression du toggle des certification complémentaires (PIX-4542)
+- [#4193](https://github.com/1024pix/pix/pull/4193) [TECH] Supprimer la dépendance ember-simple-auth-oidc (PIX-4204)
+
+### :coffee: Autre
+- [#4163](https://github.com/1024pix/pix/pull/4163) [CLEAN] Nettoyage des tests de Pix Admin avec Testing Library.
+
 ## v3.186.0 (16/03/2022)
 
 
