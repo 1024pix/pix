@@ -7,7 +7,7 @@
       @errorMessage={{this.newEmailValidationMessage}}
       @value={{this.newEmail}}
       type="email"
-      {{on "focusout" this.validateNewEmail}}
+      {{on "change" this.validateNewEmail}}
       autocomplete="off"
       required
     />
@@ -19,7 +19,7 @@
     <PixInputPassword
       @id="update-email-with-validation__password"
       @label={{t "pages.user-account.account-update-email-with-validation.fields.password.label"}}
-      @value={{this.password}}
+      {{on "change" this.passwordChanged}}
       autocomplete="off"
       required
     />
