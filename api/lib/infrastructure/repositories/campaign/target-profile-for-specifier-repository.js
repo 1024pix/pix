@@ -11,6 +11,10 @@ async function availableForOrganization(organizationId) {
 }
 
 function _fetchTargetProfiles(organizationId) {
+  const selectTargetProfileSharesIdsBelongToOrganization = knex
+    .select('targetProfileId')
+    .from('target-profile-shares')
+    .where({ organizationId });
   return knex('target-profiles')
     .select([
       'target-profiles.id',
@@ -24,12 +28,11 @@ function _fetchTargetProfiles(organizationId) {
     .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
     .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
     .leftJoin('stages', 'stages.targetProfileId', 'target-profiles.id')
-    .leftJoin('target-profile-shares', 'target-profile-shares.targetProfileId', 'target-profiles.id')
     .where({ outdated: false })
     .where((qb) => {
       qb.orWhere({ isPublic: true });
       qb.orWhere({ ownerOrganizationId: organizationId });
-      qb.orWhere({ organizationId });
+      qb.orWhereIn('target-profiles.id', selectTargetProfileSharesIdsBelongToOrganization);
     })
     .groupBy('target-profiles.id');
 }
