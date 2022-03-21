@@ -28,7 +28,8 @@ export default class EmailWithValidationForm extends Component {
   }
 
   @action
-  validateNewEmail() {
+  validateNewEmail(event) {
+    this.newEmail = event.target.value;
     this.newEmail = this.newEmail.trim();
     const isInvalidInput = !isEmailValid(this.newEmail);
 
@@ -64,6 +65,11 @@ export default class EmailWithValidationForm extends Component {
         this.hasRequestedUpdate = false;
       }
     }
+  }
+
+  @action
+  passwordChanged(event) {
+    this.password = event.target.value;
   }
 
   handleSubmitError(response) {
