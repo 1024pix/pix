@@ -11,171 +11,35 @@ module('Unit | Model | certification', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#cleaCertificationStatusLabel', function () {
-    const cleaStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    cleaStatusesAndExpectedLabel.forEach((expectedLabel, cleaStatus) => {
-      module(`when cleaCertificationStatus is ${cleaStatus}`, function () {
-        test(`cleaCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            cleaCertificationStatus: cleaStatus,
-          });
+  const certificationStatusesAndExpectedLabel = new Map([
+    [ACQUIRED, 'Validée'],
+    [REJECTED, 'Rejetée'],
+    [NOT_TAKEN, 'Non passée'],
+  ]);
 
-          // when
-          const label = certification.cleaCertificationStatusLabel;
-
-          assert.strictEqual(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusDroitMaitreCertificationStatusLabel', function () {
-    const pixPlusDroitMaitreStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusDroitMaitreStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitMaitreCertificationStatus) => {
-      module(`when pixPlusDroitMaitreCertificationStatus is ${pixPlusDroitMaitreCertificationStatus}`, function () {
-        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
-
-          // then
-          assert.strictEqual(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusDroitExpertCertificationStatusLabel', function () {
-    const pixPlusDroitExpertStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusDroitExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitExpertCertificationStatus) => {
-      module(`when pixPlusDroitExpertCertificationStatus is ${pixPlusDroitExpertCertificationStatus}`, function () {
-        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusDroitExpertCertificationStatusLabel;
-
-          // then
-          assert.strictEqual(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusEduInitieCertificationStatusLabel', function () {
-    const pixPlusEduInitieStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduInitieStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduInitieCertificationStatus) => {
-      module(`when pixPlusEduInitieCertificationStatusLabel is ${pixPlusEduInitieCertificationStatus}`, function () {
-        test(`pixPlusEduInitieCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusEduInitieCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusEduInitieCertificationStatusLabel;
-
-          // then
-          assert.strictEqual(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusEduConfirmeCertificationStatusLabel', function () {
-    const pixPlusEduConfirmeStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduConfirmeStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduConfirmeCertificationStatus) => {
-      module(
-        `when pixPlusEduConfirmeCertificationStatusLabel is ${pixPlusEduConfirmeCertificationStatus}`,
-        function () {
-          test(`pixPlusEduConfirmeCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+  [
+    { name: 'cleaCertificationStatus', labelField: 'cleaCertificationStatusLabel' },
+    { name: 'pixPlusDroitMaitreCertificationStatus', labelField: 'pixPlusDroitMaitreCertificationStatusLabel' },
+    { name: 'pixPlusDroitExpertCertificationStatus', labelField: 'pixPlusDroitExpertCertificationStatusLabel' },
+    { name: 'pixPlusEduInitieCertificationStatus', labelField: 'pixPlusEduInitieCertificationStatusLabel' },
+    { name: 'pixPlusEduAvanceCertificationStatus', labelField: 'pixPlusEduAvanceCertificationStatusLabel' },
+    { name: 'pixPlusEduExpertCertificationStatus', labelField: 'pixPlusEduExpertCertificationStatusLabel' },
+    { name: 'pixPlusEduConfirmeCertificationStatus', labelField: 'pixPlusEduConfirmeCertificationStatusLabel' },
+  ].forEach(function ({ name, labelField }) {
+    module(`#${name}`, function () {
+      certificationStatusesAndExpectedLabel.forEach((expectedLabel, status) => {
+        module(`when ${labelField} is ${status}`, function () {
+          test(`${name} should be ${expectedLabel}`, function (assert) {
             // given
             const certification = store.createRecord('certification', {
-              pixPlusEduConfirmeCertificationStatus,
+              [name]: status,
             });
 
             // when
-            const label = certification.pixPlusEduConfirmeCertificationStatusLabel;
+            const label = certification[labelField];
 
-            // then
             assert.strictEqual(label, expectedLabel);
           });
-        }
-      );
-    });
-  });
-
-  module('#pixPlusEduAvanceCertificationStatusLabel', function () {
-    const pixPlusEduAvanceStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduAvanceStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduAvanceCertificationStatus) => {
-      module(`when pixPlusEduAvanceCertificationStatusLabel is ${pixPlusEduAvanceCertificationStatus}`, function () {
-        test(`pixPlusEduAvanceCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusEduAvanceCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusEduAvanceCertificationStatusLabel;
-
-          // then
-          assert.strictEqual(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusEduExpertCertificationStatusLabel', function () {
-    const pixPlusEduExpertStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduExpertCertificationStatus) => {
-      module(`when pixPlusEduExpertCertificationStatusLabel is ${pixPlusEduExpertCertificationStatus}`, function () {
-        test(`pixPlusEduExpertCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusEduExpertCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusEduExpertCertificationStatusLabel;
-
-          // then
-          assert.strictEqual(label, expectedLabel);
         });
       });
     });
