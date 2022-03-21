@@ -21,8 +21,8 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
   qb.select(
     'campaign-participations.id AS campaignParticipationId',
     'campaign-participations.userId',
-    'schooling-registrations.firstName',
-    'schooling-registrations.lastName',
+    'organization-learners.firstName',
+    'organization-learners.lastName',
     'campaign-participations.participantExternalId',
     'campaign-participations.sharedAt',
     'campaign-participations.status',
@@ -30,7 +30,7 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
   )
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
+    .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)
@@ -43,9 +43,9 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
     .select('campaign-participations.id')
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('schooling-registrations', function () {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
-        'campaigns.organizationId': 'schooling-registrations.organizationId',
+    .leftJoin('organization-learners', function () {
+      this.on({ 'campaign-participations.userId': 'organization-learners.userId' }).andOn({
+        'campaigns.organizationId': 'organization-learners.organizationId',
       });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
@@ -58,7 +58,7 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
 function _filterByDivisions(qb, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+    qb.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
 }
 
@@ -70,7 +70,7 @@ function _filterByStatus(qb, filters) {
 function _filterByGroup(qb, filters) {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    qb.whereIn(knex.raw('LOWER("schooling-registrations"."group")'), groupsLowerCase);
+    qb.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
   }
 }
 

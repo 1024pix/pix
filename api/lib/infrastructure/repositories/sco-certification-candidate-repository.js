@@ -1,18 +1,17 @@
-const { knex } = require('../bookshelf');
-const _ = require('lodash');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async addNonEnrolledCandidatesToSession({ sessionId, scoCertificationCandidates }) {
-    const schoolingRegistrationIds = scoCertificationCandidates.map((candidate) => candidate.schoolingRegistrationId);
+    const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.schoolingRegistrationId);
 
     const alreadyEnrolledCandidate = await knex
-      .select(['schoolingRegistrationId'])
+      .select(['organizationLearnerId'])
       .from('certification-candidates')
-      .whereIn('schoolingRegistrationId', schoolingRegistrationIds)
+      .whereIn('organizationLearnerId', organizationLearnerIds)
       .where({ sessionId });
 
     const alreadyEnrolledCandidateSchoolingRegistrationIds = alreadyEnrolledCandidate.map(
-      (candidate) => candidate.schoolingRegistrationId
+      (candidate) => candidate.organizationLearnerId
     );
 
     const scoCandidateToDTO = _scoCandidateToDTOForSession(sessionId);
@@ -29,12 +28,12 @@ module.exports = {
     const rows = await knex
       .select(['certification-candidates.id'])
       .from('certification-candidates')
-      .join('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
+      .join('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
       .where({
-        'schooling-registrations.organizationId': organizationId,
-        'schooling-registrations.isDisabled': false,
+        'organization-learners.organizationId': organizationId,
+        'organization-learners.isDisabled': false,
       })
-      .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
+      .whereRaw('LOWER("organization-learners"."division") = ?', division.toLowerCase())
       .orderBy('certification-candidates.lastName', 'ASC')
       .orderBy('certification-candidates.firstName', 'ASC');
 
@@ -44,18 +43,15 @@ module.exports = {
 
 function _scoCandidateToDTOForSession(sessionId) {
   return (scoCandidate) => {
-    const pickedAttributes = _.pick(scoCandidate, [
-      'firstName',
-      'lastName',
-      'birthdate',
-      'schoolingRegistrationId',
-      'sex',
-      'birthINSEECode',
-      'birthCity',
-      'birthCountry',
-    ]);
     return {
-      ...pickedAttributes,
+      firstName: scoCandidate.firstName,
+      lastName: scoCandidate.lastName,
+      birthdate: scoCandidate.birthdate,
+      organizationLearnerId: scoCandidate.schoolingRegistrationId,
+      sex: scoCandidate.sex,
+      birthINSEECode: scoCandidate.birthINSEECode,
+      birthCity: scoCandidate.birthCity,
+      birthCountry: scoCandidate.birthCountry,
       sessionId,
     };
   };

@@ -12,7 +12,7 @@ const {
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
   describe('#addManyDivisionsAndStudentsToScoCertificationCenter', function () {
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     it('should insert many divisions and schooling registrations', async function () {
@@ -50,5 +50,5 @@ function _getNumberOfSchoolingRegistrations() {
 }
 
 function _getDistinctDivisions() {
-  return knex('schooling-registrations').distinct('division');
+  return knex('organization-learners').distinct('division');
 }

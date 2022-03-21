@@ -12,7 +12,7 @@ const {
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function () {
   describe('#addManyStudentsToScoCertificationCenter', function () {
     afterEach(function () {
-      return knex('schooling-registrations').delete();
+      return knex('organization-learners').delete();
     });
 
     it('should insert 2 sco certification centers', async function () {

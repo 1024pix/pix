@@ -136,10 +136,9 @@ module.exports = {
 
   async findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
     const results = await CertificationCandidateBookshelf.where({ sessionId, birthdate }).fetchAll();
-    const certificationCandidates = bookshelfToDomainConverter.buildDomainObjects(
-      CertificationCandidateBookshelf,
-      results
-    );
+
+    const certificationCandidates = _buildCertificationCandidates(results);
+
     const normalizedInputNames = {
       lastName: normalize(lastName),
       firstName: normalize(firstName),
@@ -156,7 +155,7 @@ module.exports = {
   findOneBySessionIdAndUserId({ sessionId, userId }) {
     return CertificationCandidateBookshelf.where({ sessionId, userId })
       .fetchAll()
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results)[0]);
+      .then((results) => _buildCertificationCandidates(results)[0]);
   },
 
   async doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
@@ -207,13 +206,36 @@ module.exports = {
   },
 };
 
+function _buildCertificationCandidates(results) {
+  if (results?.models[0]) {
+    results.models.forEach((model, index) => {
+      results.models[index].attributes.schoolingRegistrationId = model.attributes.organizationLearnerId;
+    });
+  }
+
+  return bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results);
+}
+
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, [
-    'createdAt',
-    'certificationCourse',
-    'complementaryCertifications',
-    'userId',
-  ]);
+  return {
+    authorizedToStart: certificationCandidateToSave.authorizedToStart,
+    billingMode: certificationCandidateToSave.billingMode,
+    birthCity: certificationCandidateToSave.birthCity,
+    birthCountry: certificationCandidateToSave.birthCountry,
+    birthINSEECode: certificationCandidateToSave.birthINSEECode,
+    birthPostalCode: certificationCandidateToSave.birthPostalCode,
+    birthProvinceCode: certificationCandidateToSave.birthProvinceCode,
+    birthdate: certificationCandidateToSave.birthdate,
+    email: certificationCandidateToSave.email,
+    externalId: certificationCandidateToSave.externalId,
+    extraTimePercentage: certificationCandidateToSave.extraTimePercentage,
+    firstName: certificationCandidateToSave.firstName,
+    lastName: certificationCandidateToSave.lastName,
+    prepaymentCode: certificationCandidateToSave.prepaymentCode,
+    resultRecipientEmail: certificationCandidateToSave.resultRecipientEmail,
+    organizationLearnerId: certificationCandidateToSave.schoolingRegistrationId,
+    sex: certificationCandidateToSave.sex,
+  };
 }
 
 function _toDomain(candidateData) {
@@ -221,5 +243,9 @@ function _toDomain(candidateData) {
     .filter((certificationData) => certificationData !== null)
     .map((certification) => new ComplementaryCertification(certification));
 
-  return new CertificationCandidate({ ...candidateData, complementaryCertifications });
+  return new CertificationCandidate({
+    ...candidateData,
+    schoolingRegistrationId: candidateData.organizationLearnerId,
+    complementaryCertifications,
+  });
 }

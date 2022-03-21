@@ -18,7 +18,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
   });
 
   afterEach(function () {
-    return knex('schooling-registrations').delete();
+    return knex('organization-learners').delete();
   });
 
   describe('POST organizations/:id/schooling-registrations/import-csv', function () {
@@ -52,7 +52,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         };
 
         const response = await server.inject(options);
-        const registrations = await knex('schooling-registrations').where({ organizationId: organization.id });
+        const registrations = await knex('organization-learners').where({ organizationId: organization.id });
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: {

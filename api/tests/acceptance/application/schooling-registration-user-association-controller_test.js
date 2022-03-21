@@ -438,7 +438,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(204);
-          const schoolingRegistrationInDB = await knex('schooling-registrations')
+          const schoolingRegistrationInDB = await knex('organization-learners')
             .where({
               firstName: schoolingRegistration.firstName,
               lastName: schoolingRegistration.lastName,

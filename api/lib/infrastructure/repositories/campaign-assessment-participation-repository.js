@@ -23,8 +23,8 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
     .with('campaignAssessmentParticipation', (qb) => {
       qb.select([
         'campaign-participations.userId',
-        'schooling-registrations.firstName',
-        'schooling-registrations.lastName',
+        'organization-learners.firstName',
+        'organization-learners.lastName',
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.campaignId',
         'campaign-participations.createdAt',
@@ -37,11 +37,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
       ])
         .from('campaign-participations')
         .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
-        .join(
-          'schooling-registrations',
-          'schooling-registrations.id',
-          'campaign-participations.schoolingRegistrationId'
-        )
+        .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
         .where({
           'campaign-participations.id': campaignParticipationId,
         });

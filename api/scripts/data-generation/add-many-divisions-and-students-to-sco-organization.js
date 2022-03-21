@@ -42,7 +42,7 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
   });
 
   try {
-    await knex.batchInsert('schooling-registrations', manyStudents);
+    await knex.batchInsert('organization-learners', manyStudents);
   } catch (err) {
     throw new SchoolingRegistrationsCouldNotBeSavedError();
   }

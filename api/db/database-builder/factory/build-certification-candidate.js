@@ -47,14 +47,38 @@ module.exports = function buildCertificationCandidate({
     extraTimePercentage,
     createdAt,
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId: schoolingRegistrationId,
     authorizedToStart,
     billingMode,
     prepaymentCode,
   };
 
-  return databaseBuffer.pushInsertable({
+  databaseBuffer.pushInsertable({
     tableName: 'certification-candidates',
     values,
   });
+
+  return {
+    id,
+    firstName,
+    lastName,
+    sex,
+    birthPostalCode,
+    birthINSEECode,
+    birthCity,
+    birthProvinceCode,
+    birthCountry,
+    email,
+    resultRecipientEmail,
+    birthdate,
+    sessionId,
+    externalId,
+    extraTimePercentage,
+    createdAt,
+    userId,
+    schoolingRegistrationId,
+    authorizedToStart,
+    billingMode,
+    prepaymentCode,
+  };
 };

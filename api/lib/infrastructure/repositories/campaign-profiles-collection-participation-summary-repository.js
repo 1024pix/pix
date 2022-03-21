@@ -13,16 +13,16 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
       .select(
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.userId AS userId',
-        knex.raw('LOWER("schooling-registrations"."firstName") AS "lowerFirstName"'),
-        knex.raw('LOWER("schooling-registrations"."lastName") AS "lowerLastName"'),
-        'schooling-registrations.firstName AS firstName',
-        'schooling-registrations.lastName AS lastName',
+        knex.raw('LOWER("organization-learners"."firstName") AS "lowerFirstName"'),
+        knex.raw('LOWER("organization-learners"."lastName") AS "lowerLastName"'),
+        'organization-learners.firstName AS firstName',
+        'organization-learners.lastName AS lastName',
         'campaign-participations.participantExternalId',
         'campaign-participations.sharedAt',
         'campaign-participations.pixScore AS pixScore'
       )
       .from('campaign-participations')
-      .join('schooling-registrations', 'schooling-registrations.id', 'campaign-participations.schoolingRegistrationId')
+      .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
       .where('campaign-participations.campaignId', '=', campaignId)
       .where('campaign-participations.isImproved', '=', false)
       .whereRaw('"campaign-participations"."sharedAt" IS NOT NULL')
@@ -78,11 +78,11 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
 function _filterQuery(qb, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+    qb.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    qb.whereIn(knex.raw('LOWER("schooling-registrations"."group")'), groupsLowerCase);
+    qb.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
   }
 }
 

@@ -37,28 +37,24 @@ module.exports = {
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
     const certificationCourseDTOs = await _selectCertificationAttestations()
-      .select({ schoolingRegistrationId: 'schooling-registrations.id' })
+      .select({ organizationLearnerId: 'organization-learners.id' })
       .innerJoin('certification-candidates', function () {
         this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
           'certification-candidates.userId': 'certification-courses.userId',
         });
       })
-      .innerJoin(
-        'schooling-registrations',
-        'schooling-registrations.id',
-        'certification-candidates.schoolingRegistrationId'
-      )
-      .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+      .innerJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
+      .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
       .where({
-        'schooling-registrations.organizationId': organizationId,
-        'schooling-registrations.isDisabled': false,
+        'organization-learners.organizationId': organizationId,
+        'organization-learners.isDisabled': false,
       })
-      .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
+      .whereRaw('LOWER("organization-learners"."division") = ?', division.toLowerCase())
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
       .modify(_checkOrganizationIsScoIsManagingStudents)
       .groupBy(
-        'schooling-registrations.id',
+        'organization-learners.id',
         'certification-courses.id',
         'sessions.id',
         'assessments.id',
@@ -130,7 +126,7 @@ function _checkOrganizationIsScoIsManagingStudents(qb) {
 }
 
 function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
-  const groupedBySchoolingRegistration = _.groupBy(DTOs, 'schoolingRegistrationId');
+  const groupedBySchoolingRegistration = _.groupBy(DTOs, 'organizationLearnerId');
 
   const mostRecent = [];
   for (const certificationsForOneSchoolingRegistration of Object.values(groupedBySchoolingRegistration)) {

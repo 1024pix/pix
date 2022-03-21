@@ -27,7 +27,7 @@ async function save(campaignParticipant, domainTransaction) {
 
 async function _createNewSchoolingRegistration(schoolingRegistration, queryBuilder) {
   if (schoolingRegistration) {
-    const [newlyCreatedSchoolingRegistrationId] = await queryBuilder('schooling-registrations')
+    const [newlyCreatedSchoolingRegistrationId] = await queryBuilder('organization-learners')
       .insert({
         userId: schoolingRegistration.userId,
         organizationId: schoolingRegistration.organizationId,
@@ -54,7 +54,7 @@ async function _createNewCampaignParticipation(queryBuilder, campaignParticipati
         campaignId: campaignParticipation.campaignId,
         userId: campaignParticipation.userId,
         status: campaignParticipation.status,
-        schoolingRegistrationId: campaignParticipation.schoolingRegistrationId,
+        organizationLearnerId: campaignParticipation.schoolingRegistrationId,
         participantExternalId: campaignParticipation.participantExternalId,
       })
       .returning('id');
@@ -132,9 +132,9 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
 async function _getSchoolingRegistrationId(campaignId, userId, domainTransaction) {
   const [id] = await domainTransaction
     .knexTransaction('campaigns')
-    .join('schooling-registrations', 'schooling-registrations.organizationId', 'campaigns.organizationId')
+    .join('organization-learners', 'organization-learners.organizationId', 'campaigns.organizationId')
     .where({ 'campaigns.id': campaignId, userId, isDisabled: false })
-    .pluck('schooling-registrations.id');
+    .pluck('organization-learners.id');
 
   return id;
 }

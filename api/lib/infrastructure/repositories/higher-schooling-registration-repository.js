@@ -64,7 +64,7 @@ module.exports = {
 };
 
 async function _disableAllRegistrations(queryBuilder, organizationId) {
-  await queryBuilder('schooling-registrations')
+  await queryBuilder('organization-learners')
     .update({ isDisabled: true, updatedAt: knex.raw('CURRENT_TIMESTAMP') })
     .where({ organizationId, isDisabled: false });
 }
@@ -78,7 +78,7 @@ async function _upsertStudents(queryBuilder, higherSchoolingRegistrations) {
   }));
 
   try {
-    await queryBuilder('schooling-registrations')
+    await queryBuilder('organization-learners')
       .insert(registrationsToInsert)
       .onConflict(['organizationId', 'studentNumber'])
       .merge();
