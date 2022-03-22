@@ -4,6 +4,7 @@ const _ = require('lodash');
 const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors');
 const AnswerStatus = require('./AnswerStatus');
 const NeutralizationAttempt = require('./NeutralizationAttempt');
+const CertificationAnswerStatusChangeAttempt = require('./CertificationAnswerStatusChangeAttempt');
 
 const states = {
   COMPLETED: 'completed',
@@ -89,6 +90,20 @@ class CertificationAssessment {
     } else {
       throw new ChallengeToBeDeneutralizedNotFoundError();
     }
+  }
+
+  validateAnswerByNumberIfFocusedOut(questionNumber) {
+    const challengeAnswer = this.getAnswerByQuestionNumber(questionNumber);
+    if (!challengeAnswer) {
+      return CertificationAnswerStatusChangeAttempt.failed(questionNumber);
+    }
+
+    if (challengeAnswer.result.isFOCUSEDOUT()) {
+      challengeAnswer.result = AnswerStatus.OK;
+      return CertificationAnswerStatusChangeAttempt.changed(questionNumber);
+    }
+
+    return CertificationAnswerStatusChangeAttempt.skipped(questionNumber);
   }
 
   listCertifiableBadgePixPlusKeysTaken() {
