@@ -15,15 +15,15 @@ module.exports = async function sendScoInvitation({
   organizationRepository,
   organizationInvitationRepository,
 }) {
-  const organizationsFound = await organizationRepository.findScoOrganizationByUai({ uai: uai.trim() });
+  const organizationsFound = await organizationRepository.findScoOrganizationsByUai({ uai: uai.trim() });
 
-  _checkIfManyOrganizationsFoundError(organizationsFound, uai);
+  _checkIfManyOrganizationsFound(organizationsFound, uai);
 
-  _checkIfOrganizationNotFoundError(organizationsFound, uai);
+  _checkIfOrganizationNotFound(organizationsFound, uai);
 
-  _checkIfOrganizationWithoutEmailError(organizationsFound, uai);
+  _checkIfOrganizationWithoutEmail(organizationsFound, uai);
 
-  _checkIfOrganizationIsArchivedError(organizationsFound);
+  _checkIfOrganizationIsArchived(organizationsFound);
 
   const email = organizationsFound[0].email;
   const organizationId = organizationsFound[0].id;
@@ -39,28 +39,28 @@ module.exports = async function sendScoInvitation({
   });
 };
 
-function _checkIfOrganizationNotFoundError(organizationsFound, uai) {
+function _checkIfOrganizationNotFound(organizationsFound, uai) {
   if (organizationsFound.length === 0) {
     const errorMessage = `L'UAI/RNE ${uai} de l'établissement n’est pas reconnu.`;
     throw new OrganizationNotFoundError(errorMessage);
   }
 }
 
-function _checkIfManyOrganizationsFoundError(organizationsFound, uai) {
+function _checkIfManyOrganizationsFound(organizationsFound, uai) {
   if (organizationsFound.length > 1) {
     const errorMessage = `Plusieurs établissements de type SCO ont été retrouvés pour L'UAI/RNE ${uai}.`;
     throw new ManyOrganizationsFoundError(errorMessage);
   }
 }
 
-function _checkIfOrganizationWithoutEmailError(organizationsFound, uai) {
+function _checkIfOrganizationWithoutEmail(organizationsFound, uai) {
   if (organizationsFound.length === 1 && _.isEmpty(organizationsFound[0].email)) {
     const errorMessage = `Nous n’avons pas d’adresse e-mail de contact associée à l'établissement concernant l'UAI/RNE ${uai}.`;
     throw new OrganizationWithoutEmailError(errorMessage);
   }
 }
 
-function _checkIfOrganizationIsArchivedError(organizationsFound) {
+function _checkIfOrganizationIsArchived(organizationsFound) {
   if (organizationsFound.length === 1 && !!organizationsFound[0].archivedAt) {
     throw new OrganizationArchivedError();
   }

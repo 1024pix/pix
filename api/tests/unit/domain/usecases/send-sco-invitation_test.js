@@ -13,7 +13,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
 
   beforeEach(function () {
     organizationRepository = {
-      findScoOrganizationByUai: sinon.stub(),
+      findScoOrganizationsByUai: sinon.stub(),
     };
   });
 
@@ -31,7 +31,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
     });
 
     sinon.stub(organizationInvitationService, 'createScoOrganizationInvitation').resolves();
-    organizationRepository.findScoOrganizationByUai.withArgs({ uai }).resolves([organization]);
+    organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([organization]);
 
     await usecases.sendScoInvitation({
       firstName,
@@ -60,7 +60,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
         const uai = '1234567A';
         domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
 
-        organizationRepository.findScoOrganizationByUai.withArgs({ uai }).resolves([]);
+        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([]);
 
         const requestErr = await catchErr(usecases.sendScoInvitation)({
           uai,
@@ -78,7 +78,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
         const uai = '1234567A';
         const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai, email: null });
 
-        organizationRepository.findScoOrganizationByUai.withArgs({ uai }).resolves([organization]);
+        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([organization]);
 
         const requestErr = await catchErr(usecases.sendScoInvitation)({
           uai,
@@ -99,7 +99,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
         const organization1 = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
         const organization2 = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
 
-        organizationRepository.findScoOrganizationByUai.withArgs({ uai }).resolves([organization1, organization2]);
+        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([organization1, organization2]);
 
         // when
         const requestErr = await catchErr(usecases.sendScoInvitation)({
@@ -125,7 +125,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
           archivedAt: '2022-02-02',
         });
 
-        organizationRepository.findScoOrganizationByUai.withArgs({ uai }).resolves([archivedOrganization]);
+        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([archivedOrganization]);
 
         // when
         const requestErr = await catchErr(usecases.sendScoInvitation)({
