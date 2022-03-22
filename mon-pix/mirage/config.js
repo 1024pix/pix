@@ -1,8 +1,10 @@
 import getCampaigns from './routes/get-campaigns';
+import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCompetenceEvaluationsByAssessment from './routes/get-competence-evaluations-by-assessment';
+import getFeatureToggles from './routes/get-feature-toggles';
 import getProgression from './routes/get-progression';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
@@ -21,6 +23,7 @@ import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-reg
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
+import postPoleEmploiUser from './routes/post-pole-emploi-user';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -70,57 +73,13 @@ export default function () {
 
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
-  this.put('/users/:id/email/verification-code', () => {
-    return new Response(204);
-  });
+  this.post('/pole-emplois/users', postPoleEmploiUser);
 
-  this.post('/users/:id/update-email', () => {
-    const response = {
-      data: {
-        type: 'email-verification-codes',
-        attributes: {
-          email: 'new-email@example.net',
-        },
-      },
-    };
-
-    return response;
-  });
-
-  this.patch('/users/:id/pix-terms-of-service-acceptance', (schema, request) => {
-    const userId = request.params.id;
-    const user = schema.users.find(userId);
-    user.update({ mustValidateTermsOfService: false, lastTermsOfServiceValidatedAt: '2020-06-06' });
-
-    return user;
-  });
-
-  this.post('/pole-emplois/users', (schema) => {
-    const createdUser = schema.users.create({
-      firstName: 'Paul',
-      lastName: 'Emploi',
-    });
-
-    return {
-      access_token:
-        'aaa.' +
-        btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) +
-        '.bbb',
-      id_token: 'id_token',
-      user_id: createdUser.id,
-    };
-  });
-
-  this.get('/feature-toggles', (schema) => {
-    return schema.featureToggles.findOrCreateBy({ id: 0 });
-  });
+  this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);
 
-  this.get('/certification-candidates/:id/subscriptions', (schema, request) => {
-    const certificationCandidateId = request.params.id;
-    return schema.certificationCandidateSubscriptions.find(certificationCandidateId);
-  });
+  this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');
 }
