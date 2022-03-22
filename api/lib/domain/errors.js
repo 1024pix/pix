@@ -333,8 +333,13 @@ class InvalidCertificationIssueReportForSaving extends DomainError {
   }
 }
 
-class DeprecatedCertificationIssueReportSubcategory extends DomainError {
+class DeprecatedCertificationIssueReportCategoryError extends DomainError {
   constructor(message = 'La catégorie de signalement choisie est dépréciée.') {
+    super(message);
+  }
+}
+class DeprecatedCertificationIssueReportSubcategoryError extends DomainError {
+  constructor(message = 'La sous-catégorie de signalement choisie est dépréciée.') {
     super(message);
   }
 }
@@ -1138,7 +1143,8 @@ module.exports = {
   CpfBirthInformationValidationError,
   CsvImportError,
   CsvParsingError,
-  DeprecatedCertificationIssueReportSubcategory,
+  DeprecatedCertificationIssueReportCategoryError,
+  DeprecatedCertificationIssueReportSubcategoryError,
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
