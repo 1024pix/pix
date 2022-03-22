@@ -138,6 +138,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
       assert.dom(screen.getByLabelText('* Tarification part Pix')).exists();
       assert.dom(screen.getByLabelText('Code de prépaiement')).exists();
+      assert.dom(screen.getByLabelText('Information du code de prépaiement')).exists();
     });
   });
 
