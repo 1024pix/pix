@@ -1,7 +1,11 @@
 # Pix Changelog
 
-## v3.187.0 (21/03/2022)
+## v3.188.1 (22/03/2022)
 
+### :bug: Correction
+- [#4230](https://github.com/1024pix/pix/pull/4230) [BUGFIX] Suppression de l'écran intermédiaire avant de débuter une épreuve focus (PIX-4402)
+
+## v3.187.0 (21/03/2022)
 
 ### :rocket: Amélioration
 - [#4199](https://github.com/1024pix/pix/pull/4199) [FEATURE] Voir un écran intermédiaire avant de débuter une épreuve focus (PIX-4402)

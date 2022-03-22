@@ -14,8 +14,6 @@ export default class ChallengeController extends Controller {
   @service intl;
   @service store;
   @service currentUser;
-  @service focusedCertificationChallengesManager;
-
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
@@ -63,14 +61,6 @@ export default class ChallengeController extends Controller {
     return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
   }
 
-  get displayFocusedCertificationChallengeWarning() {
-    return this.isFocusedCertificationChallengeWithoutAnswer && !this.hasConfirmedFocusScreenForCurrentChallenge;
-  }
-
-  get shouldBlurBanner() {
-    return this.model.challenge.focused && !this.hasConfirmedFocusScreenForCurrentChallenge;
-  }
-
   @action
   setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
@@ -81,17 +71,6 @@ export default class ChallengeController extends Controller {
     this.hasFocusedOutOfWindow = true;
     this.model.assessment.lastQuestionState = 'focusedout';
     await this.model.assessment.save({ adapterOptions: { updateLastQuestionState: true } });
-  }
-
-  get isFocusedCertificationChallengeWithoutAnswer() {
-    return this._isFocusedCertificationChallenge && !this.model.answer;
-  }
-
-  get hasConfirmedFocusScreenForCurrentChallenge() {
-    const challengeId = this.model.challenge.id;
-    const hasUserConfirmedFocuseChallenge = this.focusedCertificationChallengesManager.has(challengeId);
-
-    return hasUserConfirmedFocuseChallenge;
   }
 
   @action
@@ -126,7 +105,7 @@ export default class ChallengeController extends Controller {
   }
 
   get displayChallenge() {
-    if (!this._isTimedChallenge && !this._isFocusedCertificationChallenge) {
+    if (!this._isTimedChallenge) {
       return true;
     }
 
@@ -134,39 +113,11 @@ export default class ChallengeController extends Controller {
       if (this.hasUserConfirmedWarning || this.model.answer || this.model.assessment.hasTimeoutChallenge) return true;
     }
 
-    if (this._isFocusedCertificationChallenge) {
-      if (this.hasConfirmedFocusScreenForCurrentChallenge) {
-        this._subscribeOnBlurEvent();
-        return true;
-      }
-      if (this.model.answer) return true;
-    }
-
     return false;
-  }
-
-  _subscribeOnBlurEvent() {
-    window.onblur = () => {
-      this.hasFocusedOutOfWindow = true;
-      this._unsubscribeOnBlurEvent();
-    };
-  }
-  _unsubscribeOnBlurEvent() {
-    window.onblur = null;
   }
 
   get _isTimedChallenge() {
     return isInteger(this.model.challenge.timer);
-  }
-
-  get _isFocusedCertificationChallenge() {
-    return this.model.assessment.isCertification && this.model.challenge.focused;
-  }
-
-  @action
-  setUserFocusCertificationChallengeConfirmation() {
-    const challengeId = this.model.challenge.id;
-    this.focusedCertificationChallengesManager.add(challengeId);
   }
 
   @action
