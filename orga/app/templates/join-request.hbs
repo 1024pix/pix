@@ -8,7 +8,7 @@
       <p class="join-request__success">
         Un e-mail contenant la démarche à suivre a été envoyé
         <br />
-        à l'adresse email de votre établissement.
+        à l'adresse e-mail de votre établissement.
         <br />
         Si vous ne le recevez pas, vérifiez les courriers indésirables,<br />
         ou
@@ -26,26 +26,12 @@
         devenir administrateur de l'espace Pix Orga.
       </p>
 
-      {{#if this.isOrganizationNotFound}}
-        <div class="join-request__error-message error-message">
-          L'UAI/RNE de l'établissement n’est pas reconnu. Merci de
+      {{#if this.errorMessage}}
+        <p class="join-request__error-message error-message">
+          {{this.errorMessage}}
+          Merci de
           <a href="https://support.pix.fr/support/tickets/new">contacter le support</a>.
-        </div>
-      {{/if}}
-
-      {{#if this.organizationHasNoEmail}}
-        <div class="join-request__error-message error-message">
-          Nous n’avons pas d’adresse e-mail de contact associée à votre établissement, merci de
-          <a href="https://support.pix.fr/support/tickets/new">contacter le support</a>
-          pour récupérer votre accès.
-        </div>
-      {{/if}}
-
-      {{#if this.hasErrorMessage}}
-        <div class="join-request__error-message error-message">
-          Une erreur est survenue. Merci de
-          <a href="https://support.pix.fr/support/tickets/new">contacter le support</a>.
-        </div>
+        </p>
       {{/if}}
 
       <Auth::JoinRequestForm @onSubmit={{this.createScoOrganizationInvitation}} />

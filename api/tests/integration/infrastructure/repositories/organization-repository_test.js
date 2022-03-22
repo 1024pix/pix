@@ -374,16 +374,28 @@ describe('Integration | Repository | Organization', function () {
     });
   });
 
-  describe('#findScoOrganizationByUai', function () {
+  describe('#findScoOrganizationsByUai', function () {
     let organizations;
 
     beforeEach(async function () {
       organizations = _.map(
         [
           { type: 'PRO', name: 'organization 1', externalId: '1234567', email: null },
-          { type: 'SCO', name: 'organization 2', externalId: '1234568', email: 'sco.generic.account@example.net' },
+          {
+            type: 'SCO',
+            name: 'organization 2',
+            externalId: '1234568',
+            email: 'sco.generic.account@example.net',
+            archivedAt: new Date(),
+          },
           { type: 'SUP', name: 'organization 3', externalId: '1234569', email: null },
-          { type: 'SCO', name: 'organization 4', externalId: '0595401A', email: 'sco2.generic.account@example.net' },
+          {
+            type: 'SCO',
+            name: 'organization 4',
+            externalId: '0595401A',
+            email: 'sco2.generic.account@example.net',
+            archivedAt: null,
+          },
           { type: 'SCO', name: 'organization 5', externalId: '0587996a', email: 'sco3.generic.account@example.net' },
           { type: 'SCO', name: 'organization 6', externalId: '058799Aa', email: 'sco4.generic.account@example.net' },
         ],
@@ -401,7 +413,7 @@ describe('Integration | Repository | Organization', function () {
       const organizationSCO = organizations[1];
 
       // when
-      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+      const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
 
       // then
       expect(foundOrganization).to.have.lengthOf(1);
@@ -417,7 +429,7 @@ describe('Integration | Repository | Organization', function () {
       const organizationSCO = organizations[3];
 
       // when
-      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+      const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
 
       // then
       expect(foundOrganization).to.have.lengthOf(1);
@@ -433,7 +445,7 @@ describe('Integration | Repository | Organization', function () {
       const organizationSCO = organizations[4];
 
       // when
-      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+      const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
 
       // then
       expect(foundOrganization).to.have.lengthOf(1);
@@ -449,7 +461,7 @@ describe('Integration | Repository | Organization', function () {
       const organizationSCO = organizations[5];
 
       // when
-      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+      const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
 
       // then
       expect(foundOrganization).to.have.lengthOf(1);
@@ -465,7 +477,7 @@ describe('Integration | Repository | Organization', function () {
       const organizationSCO = organizations[5];
 
       // when
-      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+      const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
 
       // then
       expect(foundOrganization).to.have.lengthOf(1);
@@ -473,6 +485,31 @@ describe('Integration | Repository | Organization', function () {
       expect(foundOrganization[0].externalId).to.equal(organizationSCO.externalId);
       expect(foundOrganization[0].type).to.equal(organizationSCO.type);
       expect(foundOrganization[0].email).to.equal(organizationSCO.email);
+    });
+
+    it('should return archivedAt null value', async function () {
+      // given
+      const uai = '0595401A';
+
+      // when
+      const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
+
+      // then
+      expect(foundOrganization[0].archivedAt).to.deep.equal(null);
+    });
+
+    context('when organization is archived', function () {
+      it('should return archivedAt attribute', async function () {
+        // given
+        const uai = '1234568';
+        const organizationSCO = organizations[1];
+
+        // when
+        const foundOrganization = await organizationRepository.findScoOrganizationsByUai({ uai });
+
+        // then
+        expect(foundOrganization[0].archivedAt).to.deep.equal(organizationSCO.archivedAt);
+      });
     });
   });
 
