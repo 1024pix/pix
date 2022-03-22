@@ -11,11 +11,7 @@ async function neutralizeIfTimedChallengeStrategy({
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(
-      certificationIssueReportRepository,
-      certificationIssueReport,
-      questionNumber
-    );
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -36,11 +32,7 @@ async function neutralizeIfEmbedStrategy({
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(
-      certificationIssueReportRepository,
-      certificationIssueReport,
-      questionNumber
-    );
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -62,11 +54,7 @@ async function neutralizeIfImageStrategy({
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(
-      certificationIssueReportRepository,
-      certificationIssueReport,
-      questionNumber
-    );
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -88,11 +76,7 @@ async function neutralizeIfAttachmentStrategy({
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(
-      certificationIssueReportRepository,
-      certificationIssueReport,
-      questionNumber
-    );
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -102,6 +86,40 @@ async function neutralizeIfAttachmentStrategy({
   }
 
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+}
+
+async function neutralizeOrValidateIfFocusedChallengeStrategy({
+  certificationIssueReport,
+  certificationAssessment,
+  certificationIssueReportRepository,
+  challengeRepository,
+}) {
+  const questionNumber = certificationIssueReport.questionNumber;
+  const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+  if (!recId) {
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+  }
+
+  const challenge = await challengeRepository.get(recId);
+
+  if (!challenge.isFocused()) {
+    return _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport);
+  }
+
+  const certificationChallengeAnswer = certificationAssessment.getAnswerByQuestionNumber(questionNumber);
+  if (certificationChallengeAnswer.result.isFOCUSEDOUT()) {
+    return _validateAnswerAndResolve(
+      certificationAssessment,
+      certificationIssueReportRepository,
+      certificationIssueReport
+    );
+  }
+  if (certificationChallengeAnswer.result.isSKIPPED()) {
+    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+  }
+
+  return _resolveWithNeitherSkippedNorFocusedOutAnswer(certificationIssueReportRepository, certificationIssueReport);
 }
 
 async function neutralizeWithoutCheckingStrategy({
@@ -124,6 +142,7 @@ class CertificationIssueReportResolutionStrategies {
     neutralizeIfAttachment = neutralizeIfAttachmentStrategy,
     doNotResolve = doNotResolveStrategy,
     neutralizeIfTimedChallenge = neutralizeIfTimedChallengeStrategy,
+    neutralizeOrValidateIfFocusedChallenge = neutralizeOrValidateIfFocusedChallengeStrategy,
     certificationIssueReportRepository,
     challengeRepository,
   }) {
@@ -133,6 +152,7 @@ class CertificationIssueReportResolutionStrategies {
     this._neutralizeIfAttachment = neutralizeIfAttachment;
     this._doNotResolve = doNotResolve;
     this._neutralizeIfTimedChallenge = neutralizeIfTimedChallenge;
+    this._neutralizeOrValidateIfFocusedChallenge = neutralizeOrValidateIfFocusedChallenge;
     this._certificationIssueReportRepository = certificationIssueReportRepository;
     this._challengeRepository = challengeRepository;
   }
@@ -158,6 +178,8 @@ class CertificationIssueReportResolutionStrategies {
         return await this._neutralizeIfAttachment(strategyParameters);
       case CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED:
         return await this._neutralizeIfTimedChallenge(strategyParameters);
+      case CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT:
+        return await this._neutralizeOrValidateIfFocusedChallenge(strategyParameters);
       default:
         return await this._doNotResolve(strategyParameters);
     }
@@ -171,6 +193,7 @@ module.exports = {
   neutralizeIfAttachmentStrategy,
   doNotResolveStrategy,
   neutralizeIfTimedChallengeStrategy,
+  neutralizeOrValidateIfFocusedChallengeStrategy,
   CertificationIssueReportResolutionStrategies,
 };
 
@@ -183,15 +206,27 @@ function _neutralizeAndResolve(certificationAssessment, certificationIssueReport
   } else if (neutralizationAttempt.wasSkipped()) {
     return _resolveWithAnswerIsCorrect(certificationIssueReportRepository, certificationIssueReport);
   } else {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(
-      certificationIssueReportRepository,
-      certificationIssueReport,
-      questionNumber
-    );
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
   }
 }
 
-async function _resolveWithNoQuestionFoundWithQuestionNumber(
+function _validateAnswerAndResolve(
+  certificationAssessment,
+  certificationIssueReportRepository,
+  certificationIssueReport
+) {
+  const questionNumber = certificationIssueReport.questionNumber;
+  const certificationAnswerChangeAttempt = certificationAssessment.validateAnswerByNumberIfFocusedOut(questionNumber);
+  if (certificationAnswerChangeAttempt.hasSucceeded()) {
+    return _resolveWithAnswerValidated(certificationIssueReportRepository, certificationIssueReport);
+  } else if (certificationAnswerChangeAttempt.wasSkipped()) {
+    return _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport);
+  } else {
+    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+  }
+}
+
+async function _resolveWithNoSuchQuestion(
   certificationIssueReportRepository,
   certificationIssueReport,
   questionNumber
@@ -229,6 +264,12 @@ async function _resolveWithNoEmbedInChallenge(certificationIssueReportRepository
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
+async function _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport) {
+  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car ce n'est pas une question focus");
+  await certificationIssueReportRepository.save(certificationIssueReport);
+  return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
+}
+
 async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolve("Cette question n' a pas été neutralisée car elle n'est pas chronométrée");
   await certificationIssueReportRepository.save(certificationIssueReport);
@@ -239,4 +280,21 @@ async function _resolveWithAnswerIsCorrect(certificationIssueReportRepository, c
   certificationIssueReport.resolve("Cette question n'a pas été neutralisée car la réponse est correcte");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
+}
+
+async function _resolveWithNeitherSkippedNorFocusedOutAnswer(
+  certificationIssueReportRepository,
+  certificationIssueReport
+) {
+  certificationIssueReport.resolve(
+    "Cette question n'a pas été neutralisée car la réponse n'a pas été abandonnée ou le focus n'a pas été perdu"
+  );
+  await certificationIssueReportRepository.save(certificationIssueReport);
+  return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
+}
+
+async function _resolveWithAnswerValidated(certificationIssueReportRepository, certificationIssueReport) {
+  certificationIssueReport.resolve('Cette réponse a été acceptée automatiquement');
+  await certificationIssueReportRepository.save(certificationIssueReport);
+  return CertificationIssueReportResolutionAttempt.resolvedWithEffect();
 }
