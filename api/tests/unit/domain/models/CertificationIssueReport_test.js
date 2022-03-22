@@ -190,6 +190,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
             CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
             CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
           ].includes(subcategory)
         ) {
           it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, function () {
