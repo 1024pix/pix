@@ -52,6 +52,10 @@ class CertificationAssessment {
     return _.find(this.certificationChallenges, { challengeId }) || null;
   }
 
+  getAnswerByQuestionNumber(questionNumber) {
+    return this.certificationAnswersByDate[questionNumber - 1];
+  }
+
   neutralizeChallengeByRecId(recId) {
     const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: recId });
     if (challengeToBeNeutralized) {
@@ -62,7 +66,7 @@ class CertificationAssessment {
   }
 
   neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {
-    const toBeNeutralizedChallengeAnswer = this.certificationAnswersByDate[questionNumber - 1];
+    const toBeNeutralizedChallengeAnswer = this.getAnswerByQuestionNumber(questionNumber);
     if (!toBeNeutralizedChallengeAnswer) {
       return NeutralizationAttempt.failure(questionNumber);
     }
@@ -112,7 +116,7 @@ class CertificationAssessment {
   }
 
   getChallengeRecIdByQuestionNumber(questionNumber) {
-    return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
+    return this.getAnswerByQuestionNumber(questionNumber)?.challengeId;
   }
 
   skipUnansweredChallenges() {

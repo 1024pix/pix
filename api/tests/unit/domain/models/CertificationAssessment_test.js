@@ -635,7 +635,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(2);
 
       // then
-      expect(recId).to.equal(null);
+      expect(recId).to.be.undefined;
     });
   });
 
@@ -740,6 +740,67 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
           (certificationChallenge) => certificationChallenge.challengeId === 'rec789'
         ).isNeutralized
       ).to.be.false;
+    });
+  });
+
+  describe('#getAnswerByQuestionNumber', function () {
+    it('should return the answer by question number', function () {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec789',
+          }),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec789',
+          }),
+        ],
+      });
+
+      // when
+      const certificationAssessmentAnswer = certificationAssessment.getAnswerByQuestionNumber(2);
+
+      // then
+      expect(certificationAssessmentAnswer).to.deep.equal(
+        domainBuilder.buildAnswer({
+          challengeId: 'rec456',
+        })
+      );
+    });
+
+    it('should return undefined when there is no such question', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({
+        challengeId: 'rec123',
+      });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+          }),
+        ],
+        certificationAnswersByDate: [answer],
+      });
+
+      // when
+      const certificationAssessmentAnswer = certificationAssessment.getAnswerByQuestionNumber(3);
+
+      // then
+      expect(certificationAssessmentAnswer).to.be.undefined;
     });
   });
 });
