@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 
-module.exports = async function getFramework({
+module.exports = async function getFrameworkAreas({
   frameworkId,
   challengeRepository,
   skillRepository,

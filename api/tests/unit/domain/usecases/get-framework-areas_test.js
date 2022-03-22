@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | get-framework', function () {
+describe('Unit | UseCase | get-framework-areas', function () {
   let expectedChallengeResult,
     expectedSkillResult,
     expectedTubesResult,
@@ -44,7 +44,7 @@ describe('Unit | UseCase | get-framework', function () {
 
   it('should get the framework', async function () {
     // when
-    const response = await usecases.getFramework({
+    const response = await usecases.getFrameworkAreas({
       challengeRepository,
       skillRepository,
       tubeRepository,
@@ -152,7 +152,7 @@ describe('Unit | UseCase | get-framework', function () {
       };
 
       // when
-      const { tubes } = await usecases.getFramework({
+      const { tubes } = await usecases.getFrameworkAreas({
         challengeRepository,
         skillRepository,
         tubeRepository,

@@ -1,6 +1,6 @@
 const { expect, hFake, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const pixFrameworkSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/pix-framework-serializer');
+const frameworkAreasSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer');
 const frameworkSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-serializer');
 const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
 
@@ -10,9 +10,9 @@ describe('Unit | Controller | frameworks-controller', function () {
   beforeEach(function () {
     sinon.stub(usecases, 'getPixFramework');
     sinon.stub(usecases, 'getFrameworks').returns([{}]);
-    sinon.stub(pixFrameworkSerializer, 'serialize');
+    sinon.stub(frameworkAreasSerializer, 'serialize');
     sinon.stub(frameworkSerializer, 'serialize');
-    sinon.stub(usecases, 'getFramework');
+    sinon.stub(usecases, 'getFrameworkAreas');
   });
 
   describe('#getPixFramework', function () {
@@ -29,7 +29,7 @@ describe('Unit | Controller | frameworks-controller', function () {
       // then
       expect(usecases.getPixFramework).to.have.been.called;
       expect(usecases.getPixFramework).to.have.been.calledWithExactly('fr-fr');
-      expect(pixFrameworkSerializer.serialize).to.have.been.called;
+      expect(frameworkAreasSerializer.serialize).to.have.been.called;
     });
 
     it('should extract the locale and pass it to the usecases', async function () {
@@ -48,7 +48,7 @@ describe('Unit | Controller | frameworks-controller', function () {
       // then
       expect(usecases.getPixFramework).to.have.been.called;
       expect(usecases.getPixFramework).to.have.been.calledWithExactly('en');
-      expect(pixFrameworkSerializer.serialize).to.have.been.called;
+      expect(frameworkAreasSerializer.serialize).to.have.been.called;
     });
   });
 
@@ -69,7 +69,7 @@ describe('Unit | Controller | frameworks-controller', function () {
     });
   });
 
-  describe('#getFramework', function () {
+  describe('#getFrameworkAreas', function () {
     it('should fetch and return framework, serialized as JSONAPI', async function () {
       // given
       const frameworkId = 'frameworkId';
@@ -82,12 +82,12 @@ describe('Unit | Controller | frameworks-controller', function () {
       };
 
       // when
-      await frameworksController.getFramework(request, hFake);
+      await frameworksController.getFrameworkAreas(request, hFake);
 
       // then
-      expect(usecases.getFramework).to.have.been.called;
-      expect(usecases.getFramework).to.have.been.calledWithExactly({ frameworkId });
-      expect(pixFrameworkSerializer.serialize).to.have.been.called;
+      expect(usecases.getFrameworkAreas).to.have.been.called;
+      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkId });
+      expect(frameworkAreasSerializer.serialize).to.have.been.called;
     });
   });
 });
