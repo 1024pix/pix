@@ -258,11 +258,28 @@
             required
           />
         </div>
-
         <div
-          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
+          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double new-certification-candidate-modal__form__field__tooltip"
         >
-          <label for="prepayment-code" class="label">Code de prépaiement</label>
+          <label for="prepayment-code" class="label">
+            Code de prépaiement
+          </label>
+          <PixTooltip @id="tooltip-prepayment-code" @position="left" @isWide={{true}} class="label">
+            <:triggerElement>
+              <FaIcon
+                @icon="info-circle"
+                tabindex="0"
+                aria-describedby="tooltip-prepayment-code"
+                aria-label="Information du code de prépaiement"
+              />
+            </:triggerElement>
+            <:tooltip>
+              (Requis notamment dans le cas d'un achat de crédits combinés)<br />
+              Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br
+              />
+              Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.
+            </:tooltip>
+          </PixTooltip>
           <Input
             id="prepayment-code"
             @type="text"
