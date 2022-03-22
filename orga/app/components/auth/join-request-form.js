@@ -2,9 +2,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import InputValidator from '../../utils/input-validator';
-
-const isStringValid = (value) => (value ? Boolean(value.trim()) : undefined);
+import isEmpty from 'lodash/isEmpty';
 
 export default class JoinRequestForm extends Component {
   @service session;
@@ -13,17 +11,49 @@ export default class JoinRequestForm extends Component {
   @tracked uai;
   @tracked firstName;
   @tracked lastName;
+  @tracked firstNameValidationMessage = null;
+  @tracked lastNameValidationMessage = null;
+  @tracked uaiValidationMessage = null;
 
   @tracked isLoading = false;
 
   validation = {
-    firstName: new InputValidator(isStringValid, 'Votre prénom n’est pas renseigné.'),
-    lastName: new InputValidator(isStringValid, 'Votre nom n’est pas renseigné.'),
+    firstName: 'Votre prénom n’est pas renseigné.',
+    lastName: 'Votre nom n’est pas renseigné.',
+    uai: "L'UAI/RNE n'est pas renseigné.",
   };
 
   @action
-  validateInput(key, value) {
-    this.validation[key].validate({ value, resetServerMessage: true });
+  validateFirstName(event) {
+    this.firstNameValidationMessage = null;
+    this.firstName = event.target.value?.trim();
+    const isInvalidInput = isEmpty(this.firstName);
+
+    if (isInvalidInput) {
+      this.firstNameValidationMessage = this.validation.firstName;
+    }
+  }
+
+  @action
+  validateLastName(event) {
+    this.lastNameValidationMessage = null;
+    this.lastName = event.target.value?.trim();
+    const isInvalidInput = isEmpty(this.lastName);
+
+    if (isInvalidInput) {
+      this.lastNameValidationMessage = this.validation.lastName;
+    }
+  }
+
+  @action
+  validateUai(event) {
+    this.uaiValidationMessage = null;
+    this.uai = event.target.value?.trim();
+    const isInvalidInput = isEmpty(this.uai);
+
+    if (isInvalidInput) {
+      this.uaiValidationMessage = this.validation.uai;
+    }
   }
 
   @action

@@ -54,7 +54,7 @@
       width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
 
-    
+
     &-icon {
       color: $blue;
       margin-right: 8px;
@@ -179,7 +179,7 @@ p.label {
 }
 
 .error-message {
-  color: red;
+  color: $red;
   font-family: $roboto;
   font-size: 0.75rem;
 }

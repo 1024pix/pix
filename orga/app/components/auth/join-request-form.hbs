@@ -4,51 +4,44 @@
     <p class="join-request-form__information">Tous les champs sont obligatoires.</p>
 
     <div class="input-container">
-      <label for="uai" class="label">UAI/RNE de l'établissement</label>
-      {{#if this.validation.uai.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.uai.message}}</div>
-      {{/if}}
-      <Input
-        id="uai"
+      <PixInput
+        @id="uai"
+        @label="UAI/RNE de l'établissement"
         name="uai"
-        @type="text"
-        class="input {{if this.validation.uai.hasError "input--error"}}"
-        @value={{this.uai}}
-        required="true"
+        type="text"
+        {{on "focusout" this.validateUai}}
+        @errorMessage={{this.uaiValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="off"
       />
     </div>
 
     <div class="input-container">
-      <label for="firstName" class="label">Votre prénom</label>
-      {{#if this.validation.firstName.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.firstName.message}}</div>
-      {{/if}}
-      <Input
-        id="firstName"
+      <PixInput
+        @id="firstName"
+        @label="Votre prénom"
         name="firstName"
-        @type="text"
-        class="input {{if this.validation.firstName.hasError "input--error"}}"
-        @value={{this.firstName}}
+        type="firstName"
+        {{on "focusout" this.validateFirstName}}
+        @errorMessage={{this.firstNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
         autocomplete="given-name"
-        required="true"
-        {{on "focusout" (fn this.validateInput "firstName" this.firstName)}}
       />
     </div>
 
     <div class="input-container">
-      <label for="lastName" class="label">Votre nom</label>
-      {{#if this.validation.lastName.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.lastName.message}}</div>
-      {{/if}}
-      <Input
-        id="lastName"
+      <PixInput
+        @id="lastName"
+        @label="Votre nom"
         name="lastName"
-        @type="text"
-        class="input {{if this.validation.lastName.hasError "input--error"}}"
-        @value={{this.lastName}}
+        type="lastName"
+        {{on "focusout" this.validateLastName}}
+        @errorMessage={{this.lastNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
         autocomplete="family-name"
-        required="true"
-        {{on "focusout" (fn this.validateInput "lastName" this.lastName)}}
       />
     </div>
 

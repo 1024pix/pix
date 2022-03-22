@@ -1,14 +1,14 @@
 .join-request-form {
+  font-family: $roboto;
 
   &__information {
-    font-family: $roboto;
     font-size: 0.875rem;
-    margin: 0 0 24px;
+    margin: 14px 0 24px 0;
+    text-align: center;
   }
 
   &__legal-information {
     color: $blue-zodiac;
-    font-family: $roboto;
     font-size: 0.6875rem;
     max-width: 500px;
   }
