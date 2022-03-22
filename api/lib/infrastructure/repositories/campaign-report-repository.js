@@ -56,10 +56,10 @@ module.exports = {
         knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
         knex.raw('ARRAY_AGG("stages"."id")  AS "stageIds"'),
         knex.raw(
-          '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."isImproved" IS FALSE) AS "participationsCount"'
+          '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "participationsCount"'
         ),
         knex.raw(
-          '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) AS "sharedParticipationsCount"'
+          '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "sharedParticipationsCount"'
         )
       )
       .join('users', 'users.id', 'campaigns.ownerId')
