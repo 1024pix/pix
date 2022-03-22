@@ -20,7 +20,12 @@ class SharedProfileForCampaign {
     this.sharedAt = campaignParticipation.sharedAt;
     this.pixScore = campaignParticipation.pixScore || 0;
     this.scorecards = this._buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId);
-    this.canRetry = this._computeCanRetry(campaignAllowsRetry, this.sharedAt, isRegistrationActive);
+    this.canRetry = this._computeCanRetry(
+      campaignAllowsRetry,
+      this.sharedAt,
+      isRegistrationActive,
+      campaignParticipation.deletedAt
+    );
   }
 
   _buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId) {
@@ -37,8 +42,8 @@ class SharedProfileForCampaign {
     });
   }
 
-  _computeCanRetry(campaignAllowsRetry, sharedAt, isRegistrationActive) {
-    return campaignAllowsRetry && Boolean(sharedAt) && isRegistrationActive;
+  _computeCanRetry(campaignAllowsRetry, sharedAt, isRegistrationActive, deletedAt) {
+    return campaignAllowsRetry && Boolean(sharedAt) && isRegistrationActive && !deletedAt;
   }
 }
 
