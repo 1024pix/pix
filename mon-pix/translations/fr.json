@@ -487,7 +487,7 @@
         }
       },
       "has-focused-out-of-window": {
-        "certification": "Nous avons détecté un changement de page.'<br>'Votre réponse sera comptée comme fausse.",
+        "certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse.'<br>'Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.",
         "default": "Nous avons détecté un changement de page.'<br>'En certification, votre réponse ne serait pas validée."
       },
       "parts": {
