@@ -30,6 +30,19 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
       });
+
+      it('returns false if campaign participation is deleted', function () {
+        const sharedProfileForCampaign = new SharedProfileForCampaign({
+          campaignAllowsRetry: true,
+          isRegistrationActive: true,
+          campaignParticipation: {
+            sharedAt: new Date('2020-01-01'),
+            deletedAt: new Date('2020-01-01'),
+          },
+        });
+
+        expect(sharedProfileForCampaign.canRetry).to.equal(false);
+      });
     });
 
     context('when participant is  active', function () {
