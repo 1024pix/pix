@@ -5,7 +5,7 @@ const CampaignReport = require('../../../../lib/domain/read-models/CampaignRepor
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
-const { STARTED } = CampaignParticipationStatuses;
+const { STARTED, SHARED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign-Report', function () {
   describe('#get', function () {
@@ -87,6 +87,20 @@ describe('Integration | Repository | Campaign-Report', function () {
       expect(result.participationsCount).to.equal(1);
     });
 
+    it('should only count non-deleted participations', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, deletedAt: '2022-03-21' });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, deletedAt: null });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.get(campaign.id);
+
+      // then
+      expect(result.participationsCount).to.equal(1);
+    });
+
     it('should only count shared participations not improved', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -103,6 +117,46 @@ describe('Integration | Repository | Campaign-Report', function () {
         status: STARTED,
         isImproved: false,
       });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.get(campaign.id);
+
+      // then
+      expect(result.sharedParticipationsCount).to.equal(0);
+    });
+
+    it('should only count shared participations not deleted', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        sharedAt: '2022-03-21',
+        status: SHARED,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        sharedAt: '2022-03-10',
+        status: SHARED,
+        deletedAt: '2022-03-21',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.get(campaign.id);
+
+      // then
+      expect(result.sharedParticipationsCount).to.equal(1);
+    });
+
+    it('should not count any shared participations when participation is deleted', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        sharedAt: '2022-03-10',
+        status: SHARED,
+        deletedAt: '2022-03-21',
+      });
+
       await databaseBuilder.commit();
 
       // when
