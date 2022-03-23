@@ -114,7 +114,6 @@ function _filterMostRecentValidatedAssessmentResult(qb) {
       knex
         .select(1)
         .from({ 'last-assessment-results': 'assessment-results' })
-        .where('last-assessment-results.status', AssessmentResult.status.VALIDATED)
         .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
         .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
     )
