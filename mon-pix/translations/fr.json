@@ -10,7 +10,19 @@
       "r31": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R31)",
       "r32": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R32)",
       "r33": "Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.",
-      "r70": "Une erreur est survenue. Déconnectez-vous et recommencez."
+      "r70": "Une erreur est survenue. Déconnectez-vous et recommencez.",
+      "r90": {
+        "account-belonging-to-another-user": "Il semblerait qu'un élève utilise déjà ce compte.",
+        "details": {
+          "if-account-belonging-to-user": "Si le compte vous appartient bien,",
+          "contact-support": {
+            "link-text": " contactez le support ",
+            "link-url": "https://support.pix.org/fr/support/tickets/new"
+          },
+          "code": "(en spécifiant le code R90)",
+          "disconnect-user": "Sinon déconnectez-vous et rejoignez la campagne depuis votre compte"
+        }
+      }
     },
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
     "register-error": {
