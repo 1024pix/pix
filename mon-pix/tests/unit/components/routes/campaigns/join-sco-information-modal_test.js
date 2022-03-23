@@ -10,6 +10,53 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
   setupIntl();
 
   describe('When reconciliation error is provided', function () {
+    describe('When error is a 422 status', function () {
+      it('should set isAccountBelongingToAnotherUser to true', function () {
+        // given
+        const reconciliationError = {
+          status: '422',
+        };
+
+        // when
+        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          reconciliationError,
+        });
+
+        // then
+        expect(component.isAccountBelongingToAnotherUser).to.be.true;
+      });
+
+      it('should not display continue button', function () {
+        // given
+        const reconciliationError = {
+          status: '422',
+        };
+
+        // when
+        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          reconciliationError,
+        });
+
+        // then
+        expect(component.displayContinueButton).to.be.false;
+      });
+
+      it('should set is isInformationMode to false', function () {
+        // given
+        const reconciliationError = {
+          status: '422',
+        };
+
+        // when
+        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          reconciliationError,
+        });
+
+        // then
+        expect(component.isInformationMode).to.be.false;
+      });
+    });
+
     describe('When error is a 409 status', function () {
       const reconciliationError = {
         status: '409',

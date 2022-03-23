@@ -13,7 +13,28 @@
   </div>
 
   <div class="join-error-modal__body" {{on-key "Escape" @closeModal}}>
-    <div class="join-error-modal-body__message" aria-live="polite">{{this.message}}</div>
+    {{#if this.message}}
+      <div class="join-error-modal-body__message" aria-live="polite">{{this.message}}</div>
+    {{/if}}
+    {{#if this.isAccountBelongingToAnotherUser}}
+      <p>
+        {{t "api-error-messages.join-error.r90.account-belonging-to-another-user"}}
+        <ul class="join-error-modal-body__list">
+          <li>
+            {{t "api-error-messages.join-error.r90.details.if-account-belonging-to-user"}}
+            <a
+              href="{{t "api-error-messages.join-error.r90.details.contact-support.link-url"}}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{t "api-error-messages.join-error.r90.details.contact-support.link-text"}}
+            </a>
+            {{t "api-error-messages.join-error.r90.details.code"}}
+          </li>
+          <li>{{t "api-error-messages.join-error.r90.details.disconnect-user"}}</li>
+        </ul>
+      </p>
+    {{/if}}
   </div>
 
   <div class="join-error-modal__footer">
@@ -26,7 +47,11 @@
         {{t "pages.join.sco.associate"}}
       </PixButton>
     {{else}}
-      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.goToHome}}>
+      <PixButton
+        @backgroundColor="{{if this.displayContinueButton "transparent-light" "blue"}}"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.goToHome}}
+      >
         {{t "common.actions.quit"}}
       </PixButton>
       {{#if this.displayContinueButton}}
