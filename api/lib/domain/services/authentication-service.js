@@ -4,9 +4,13 @@ const get = require('lodash/get');
 const settings = require('../../config');
 const httpAgent = require('../../infrastructure/http/http-agent');
 
-const { GeneratePoleEmploiTokensError } = require('../errors');
+const {
+  GeneratePoleEmploiTokensError,
+  GenerateNeoTokensError
+} = require('../errors');
 
 const PoleEmploiTokens = require('../models/PoleEmploiTokens');
+const NeoTokens = require('../models/NeoTokens');
 
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
@@ -64,6 +68,52 @@ async function getPoleEmploiUserInfo(idToken) {
   };
 }
 
+async function generateNeoTokens({ code, clientId, redirectUri }) {
+  const data = {
+    client_secret: settings.neo.clientSecret,
+    grant_type: 'authorization_code',
+    code,
+    client_id: clientId,
+    redirect_uri: redirectUri,
+  };
+
+  const tokensResponse = await httpAgent.post({
+    url: settings.neo.tokenUrl,
+    payload: querystring.stringify(data),
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  });
+
+  if (!tokensResponse.isSuccessful) {
+    const errorMessage = _getErrorMessage(tokensResponse.data);
+    throw new GenerateNeoTokensError(errorMessage, tokensResponse.code);
+  }
+
+  return new NeoTokens({
+    accessToken: tokensResponse.data['access_token'],
+    refreshToken: tokensResponse.data['refresh_token'],
+    expiresIn: tokensResponse.data['expires_in'],
+    scope: tokensResponse.data['scope'],
+  });
+}
+
+async function getNeoUserInfo(accessToken) {
+  const infoResponse = await httpAgent.get({
+      url: settings.neo.userInfoUrl,
+      headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+
+  if (!infoResponse.isSuccessful) {
+    const errorMessage = _getErrorMessage(infoResponse.data);
+    throw new GenerateNeoTokensError(errorMessage, infoResponse.code);
+  }
+
+  return {
+    firstName: infoResponse.data.firstName,
+    lastName: infoResponse.data.lastName,
+    externalIdentityId: infoResponse.data.externalId,
+  };
+}
+
 function _getErrorMessage(data) {
   let message;
 
@@ -80,5 +130,7 @@ function _getErrorMessage(data) {
 module.exports = {
   generatePoleEmploiTokens,
   getPoleEmploiUserInfo,
+  generateNeoTokens,
+  getNeoUserInfo,
   getUserByUsernameAndPassword,
 };

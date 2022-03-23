@@ -381,6 +381,17 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
+  async findByNeoExternalIdentifier(externalIdentityId) {
+    const bookshelfUser = await BookshelfUser.query((qb) => {
+      qb.innerJoin('authentication-methods', function () {
+        this.on('users.id', 'authentication-methods.userId')
+          .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.NEO)
+          .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
+      });
+    }).fetch({ require: false, withRelated: 'authenticationMethods' });
+    return bookshelfUser ? _toDomain(bookshelfUser) : null;
+  },
+
   async findAnotherUserByEmail(userId, email) {
     return BookshelfUser.where('id', '!=', userId)
       .where({ email: email.toLowerCase() })

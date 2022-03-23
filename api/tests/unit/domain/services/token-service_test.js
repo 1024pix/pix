@@ -35,6 +35,26 @@ describe('Unit | Domain | Service | Token Service', function () {
     });
   });
 
+  describe('#createAccessTokenForNeo', function () {
+    it('should create access token with user id and source', function () {
+      // given
+      const userId = 123;
+      settings.authentication.secret = 'a secret';
+      settings.neo.accessTokenLifespanMs = 1000;
+      const accessToken = 'valid access token';
+      const firstParameter = { user_id: userId, source: 'neo_connect' };
+      const secondParameter = 'a secret';
+      const thirdParameter = { expiresIn: 1 };
+      sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
+
+      // when
+      const result = tokenService.createAccessTokenForNeo(userId);
+
+      // then
+      expect(result).to.be.deep.equal(accessToken);
+    });
+  });
+
   describe('#createAccessTokenForPoleEmploi', function () {
     it('should create access token with user id and source', function () {
       // given

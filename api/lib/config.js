@@ -208,6 +208,22 @@ module.exports = (function () {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
 
+    neo: {
+      clientId: process.env.NEO_CLIENT_ID,
+      clientSecret: process.env.NEO_CLIENT_SECRET,
+      tokenUrl: process.env.NEO_TOKEN_URL,
+      sendingUrl: process.env.NEO_SENDING_URL,
+      userInfoUrl: process.env.NEO_USER_INFO_URL,
+      temporaryStorage: {
+        expirationDelaySeconds:
+          parseInt(process.env.NEO_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
+        redisUrl: process.env.REDIS_URL,
+      },
+      neoSendingsLimit: _getNumber(process.env.NEO_SENDING_LIMIT, 100),
+      neoIdentityProvider: process.env.NEO_IDENTITY_PROVIDER || 'NEO',
+      accessTokenLifespanMs: ms(process.env.NEO_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
+
     temporaryStorage: {
       expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,
@@ -280,6 +296,11 @@ module.exports = (function () {
     config.authentication.secret = 'test-jwt-key';
 
     config.temporaryKey.secret = 'test-jwt-key';
+
+    config.neo.clientSecret = 'PIX_NEO_CLIENT_SECRET';
+    config.neo.tokenUrl = 'http://neo.tokenUrl.fr';
+    config.neo.sendingUrl = 'http://neo.sendingUrl.fr';
+    config.neo.userInfoUrl = 'http://neo.userInfoUrl.fr';
 
     config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';

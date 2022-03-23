@@ -176,6 +176,31 @@ exports.register = async (server) => {
         tags: ['api', 'Pôle emploi'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/neo/token',
+      config: {
+        auth: { mode: 'optional' },
+        payload: {
+          allow: 'application/x-www-form-urlencoded',
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            code: Joi.string().required(),
+            client_id: Joi.string().required(),
+            redirect_uri: Joi.string().required(),
+            state_sent: Joi.string().required(),
+            state_received: Joi.string().required(),
+          }),
+        },
+        handler: AuthenticationController.authenticateNeoUser,
+        notes: [
+          "- Cette route permet de récupérer l'access token d'un élève avec Neo.\n" +
+            "- Elle retournera également un access token Pix correspondant à l'utilisateur.",
+        ],
+        tags: ['api', 'NEO'],
+      },
+    },
   ]);
 };
 

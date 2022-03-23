@@ -8,7 +8,8 @@ const AuthenticationMethod = require('../../domain/models/AuthenticationMethod')
 function _toDomain(authenticationMethodDTO) {
   const externalIdentifier =
     authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR ||
-    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
+    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI ||
+    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.NEO
       ? authenticationMethodDTO.externalIdentifier
       : undefined;
   const authenticationComplement = _toAuthenticationComplement(
@@ -29,6 +30,10 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
 
   if (identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) {
     return new AuthenticationMethod.PoleEmploiAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
+  if (identityProvider === AuthenticationMethod.identityProviders.NEO) {
+    return new AuthenticationMethod.NeoAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
   return undefined;
@@ -235,6 +240,20 @@ module.exports = {
     if (!authenticationMethodDTO) {
       throw new AuthenticationMethodNotFoundError(
         `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`
+      );
+    }
+    return _toDomain(authenticationMethodDTO);
+  },
+
+  async updateNeoAuthenticationComplementByUserId({ authenticationComplement, userId }) {
+    const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
+      .where({ userId, identityProvider: AuthenticationMethod.identityProviders.NEO })
+      .update({ authenticationComplement, updatedAt: new Date() })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(
+        `No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.NEO} for user ${userId}.`
       );
     }
     return _toDomain(authenticationMethodDTO);

@@ -115,6 +115,42 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
     });
   });
 
+  it('should update Neo authentication method user id', async function () {
+    // given
+    const originUserId = domainBuilder.buildUser({ id: 1 }).id;
+    const neoAuthenticationMethodFromOriginUser =
+      domainBuilder.buildAuthenticationMethod.withNeoAsIdentityProvider({
+        userId: originUserId,
+      });
+    const targetUserId = domainBuilder.buildUser({ id: 2 }).id;
+    const garAuthenticationMethodFromTargetUser = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+      userId: targetUserId,
+    });
+
+    authenticationMethodRepository.getByIdAndUserId
+      .withArgs({ id: neoAuthenticationMethodFromOriginUser.id, userId: originUserId })
+      .resolves(neoAuthenticationMethodFromOriginUser);
+    authenticationMethodRepository.findByUserId
+      .withArgs({ userId: targetUserId })
+      .resolves([garAuthenticationMethodFromTargetUser]);
+
+    // when
+    await reassignAuthenticationMethodToAnotherUser({
+      originUserId,
+      targetUserId,
+      authenticationMethodId: neoAuthenticationMethodFromOriginUser.id,
+      userRepository,
+      authenticationMethodRepository,
+    });
+
+    // then
+    expect(authenticationMethodRepository.updateAuthenticationMethodUserId).to.have.been.calledOnceWith({
+      originUserId,
+      identityProvider: 'NEO',
+      targetUserId,
+    });
+  });
+
   it('should update pole emploi authentication method user id', async function () {
     // given
     const originUserId = domainBuilder.buildUser({ id: 1 }).id;

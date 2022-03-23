@@ -181,11 +181,18 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
+class AuthenticationKeyForNeoTokenExpired extends DomainError {
+  constructor(message = 'This authentication key for Neo token has expired.') {
+    super(message);
+  }
+}
+
 class AuthenticationKeyForPoleEmploiTokenExpired extends DomainError {
   constructor(message = 'This authentication key for pole emploi token has expired.') {
     super(message);
   }
 }
+
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {
     super(message);
@@ -890,6 +897,14 @@ class UserNotFoundError extends NotFoundError {
   }
 }
 
+class UserAccountNotFoundForNeoError extends DomainError {
+  constructor({ message = "L'utilisateur n'a pas de compte Pix", responseCode, authenticationKey }) {
+    super(message);
+    this.responseCode = responseCode;
+    this.authenticationKey = authenticationKey;
+  }
+}
+
 class UserAccountNotFoundForPoleEmploiError extends DomainError {
   constructor({ message = "L'utilisateur n'a pas de compte Pix", responseCode, authenticationKey }) {
     super(message);
@@ -951,6 +966,14 @@ class GeneratePoleEmploiTokensError extends DomainError {
   }
 }
 
+class GenerateNeoTokensError extends DomainError {
+  constructor(message, status) {
+    super(message);
+    this.status = parseInt(status, 10);
+    this.title = 'Neo tokens generation fails.';
+  }
+}
+
 class InvalidMembershipOrganizationRoleError extends DomainError {
   constructor(message = 'Le rôle du membre est invalide.') {
     super(message);
@@ -959,6 +982,12 @@ class InvalidMembershipOrganizationRoleError extends DomainError {
 
 class TooManyRows extends DomainError {
   constructor(message = 'Plusieurs enregistrements ont été retrouvés.') {
+    super(message);
+  }
+}
+
+class UnexpectedNeoStateError extends DomainError {
+  constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
   }
 }
@@ -1095,6 +1124,7 @@ module.exports = {
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
+  AuthenticationKeyForNeoTokenExpired,
   AuthenticationKeyForPoleEmploiTokenExpired,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
@@ -1137,6 +1167,7 @@ module.exports = {
   FileValidationError,
   ForbiddenAccess,
   GeneratePoleEmploiTokensError,
+  GenerateNeoTokensError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
@@ -1191,8 +1222,10 @@ module.exports = {
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   TooManyRows,
+  UnexpectedNeoStateError,
   UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
+  UserAccountNotFoundForNeoError,
   UserAccountNotFoundForPoleEmploiError,
   UnknownCountryForStudentEnrollmentError,
   UserAlreadyExistsWithAuthenticationMethodError,

@@ -2,11 +2,13 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const {
   GeneratePoleEmploiTokensError,
+  GenerateNeoTokensError,
   PasswordNotMatching,
   UserNotFoundError,
 } = require('../../../../lib/domain/errors');
 
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+const NeoTokens = require('../../../../lib/domain/models/NeoTokens');
 const User = require('../../../../lib/domain/models/User');
 
 const settings = require('../../../../lib/config');
@@ -120,6 +122,80 @@ describe('Unit | Domain | Services | authentication-service', function () {
 
         // then
         expect(error).to.be.an.instanceof(PasswordNotMatching);
+      });
+    });
+  });
+
+  describe('#generateNeoTokens', function () {
+    beforeEach(function () {
+      sinon.stub(httpAgent, 'post');
+    });
+
+    it('should return access token, id token and validity period', async function () {
+      // given
+      const code = 'code';
+      const clientId = 'clientId';
+      const redirectUri = 'redirectUri';
+
+      const expectedUrl = settings.neo.tokenUrl;
+      const expectedData = `client_secret=${settings.neo.clientSecret}&grant_type=authorization_code&code=${code}&client_id=${clientId}&redirect_uri=${redirectUri}`;
+      const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
+
+      const neoTokens = new NeoTokens({
+        accessToken: 'accessToken',
+        expiresIn: 60,
+        refreshToken: 'refreshToken',
+      });
+
+      const response = {
+        isSuccessful: true,
+        data: {
+          access_token: neoTokens.accessToken,
+          expires_in: neoTokens.expiresIn,
+          refresh_token: neoTokens.refreshToken,
+        },
+      };
+      httpAgent.post.resolves(response);
+
+      // when
+      const result = await authenticationService.generateNeoTokens({ code, clientId, redirectUri });
+
+      // then
+      expect(httpAgent.post).to.have.been.calledWith({
+        url: expectedUrl,
+        payload: expectedData,
+        headers: expectedHeaders,
+      });
+      expect(result).to.be.an.instanceOf(NeoTokens);
+      expect(result).to.deep.equal(neoTokens);
+    });
+
+    context('when PE tokens generation fails', function () {
+      it('should log error and throw GenerateNeoTokensError', async function () {
+        // given
+        const code = 'code';
+        const clientId = 'clientId';
+        const redirectUri = 'redirectUri';
+
+        const errorData = {
+          error: 'invalid_client',
+          error_description: 'Invalid authentication method for accessing this endpoint.',
+        };
+        const expectedMessage = `${errorData.error} ${errorData.error_description}`;
+
+        const response = {
+          isSuccessful: false,
+          code: 400,
+          data: errorData,
+        };
+        httpAgent.post.resolves(response);
+
+        // when
+        const error = await catchErr(authenticationService.generateNeoTokens)({ code, clientId, redirectUri });
+
+        // then
+        expect(error).to.be.an.instanceOf(GenerateNeoTokensError);
+        expect(error.message).to.equal(expectedMessage);
       });
     });
   });

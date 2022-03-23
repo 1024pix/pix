@@ -686,6 +686,98 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     });
   });
 
+  describe('#updateNeoAuthenticationComplementByUserId', function () {
+    context('When authentication method exists', function () {
+      let neoAuthenticationMethod;
+
+      beforeEach(function () {
+        const userId = databaseBuilder.factory.buildUser().id;
+        neoAuthenticationMethod =
+          databaseBuilder.factory.buildAuthenticationMethod.withNeoAsIdentityProvider({
+            id: 123,
+            externalIdentifier: 'identifier',
+            accessToken: 'to_be_updated',
+            refreshToken: 'to_be_updated',
+            expiredDate: Date.now(),
+            userId,
+          });
+        return databaseBuilder.commit();
+      });
+
+      it('should update the neo authentication complement in database', async function () {
+        // given
+        const userId = neoAuthenticationMethod.userId;
+        const expiredDate = Date.now();
+        const authenticationComplement = new AuthenticationMethod.NeoAuthenticationComplement({
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+        });
+
+        // when
+        await authenticationMethodRepository.updateNeoAuthenticationComplementByUserId({
+          authenticationComplement,
+          userId,
+        });
+
+        // then
+        const [updatedAuthenticationComplement] = await knex('authentication-methods')
+          .pluck('authenticationComplement')
+          .where({ id: 123 });
+        expect(updatedAuthenticationComplement.accessToken).to.equal('new_access_token');
+        expect(updatedAuthenticationComplement.refreshToken).to.equal('new_refresh_token');
+        expect(updatedAuthenticationComplement.expiredDate).to.deep.equal(expiredDate);
+      });
+
+      it('should return the updated AuthenticationMethod', async function () {
+        // given
+        const userId = neoAuthenticationMethod.userId;
+        const expiredDate = Date.now();
+        const authenticationComplement = new AuthenticationMethod.NeoAuthenticationComplement({
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+        });
+
+        // when
+        const updatedAuthenticationMethod =
+          await authenticationMethodRepository.updateNeoAuthenticationComplementByUserId({
+            authenticationComplement,
+            userId,
+          });
+
+        // then
+        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withNeoAsIdentityProvider({
+          id: 123,
+          externalIdentifier: 'identifier',
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+          userId,
+          updatedAt: new Date(),
+        });
+        expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
+      });
+    });
+
+    context('When authentication method does not exist', function () {
+      it('should throw a AuthenticationMethodNotFoundError', async function () {
+        // given
+        const userId = 12345;
+        const authenticationComplement = {};
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.updateNeoAuthenticationComplementByUserId)({
+          authenticationComplement,
+          userId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+      });
+    });
+  });
+
   describe('#updatePoleEmploiAuthenticationComplementByUserId', function () {
     context('When authentication method exists', function () {
       let poleEmploiAuthenticationMethod;

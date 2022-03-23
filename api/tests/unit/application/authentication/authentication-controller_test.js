@@ -1,6 +1,7 @@
 const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const NeoTokens = require('../../../../lib/domain/models/NeoTokens');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
@@ -103,6 +104,133 @@ describe('Unit | Application | Controller | Authentication', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.source.data.attributes['access-token']).to.equal(accessToken);
+    });
+  });
+
+  describe('#authenticateNeoUser', function () {
+    const code = 'ABCD';
+    const client_id = 'CLIENT_ID';
+    const redirect_uri = 'http://redirectUri.fr';
+    const state_sent = 'state';
+    const state_received = 'state';
+
+    const pixAccessToken = 'pixAccessToken';
+    const neoTokens = new NeoTokens({
+      accessToken: 'neoAccessToken',
+      expiresIn: 60,
+      idToken: 'idToken',
+      refreshToken: 'refreshToken',
+    });
+
+    let request;
+
+    beforeEach(function () {
+      request = {
+        payload: {
+          code,
+          client_id,
+          redirect_uri,
+          state_sent,
+          state_received,
+        },
+      };
+
+      sinon.stub(usecases, 'authenticateNeoUser');
+    });
+
+    it('should call usecase with payload parameters', async function () {
+      // given
+      usecases.authenticateNeoUser.resolves({ pixAccessToken, neoTokens });
+      const expectedParameters = {
+        authenticatedUserId: undefined,
+        clientId: client_id,
+        code,
+        redirectUri: redirect_uri,
+        stateReceived: state_received,
+        stateSent: state_sent,
+      };
+
+      // when
+      await authenticationController.authenticateNeoUser(request, hFake);
+
+      // then
+      expect(usecases.authenticateNeoUser).to.have.been.calledWith(expectedParameters);
+    });
+
+    it('should return PIX access token', async function () {
+      // given
+      usecases.authenticateNeoUser.resolves({ pixAccessToken, neoTokens });
+      const expectedResult = {
+        access_token: pixAccessToken,
+      };
+
+      // when
+      const response = await authenticationController.authenticateNeoUser(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(expectedResult);
+    });
+
+    it('should return UnauthorizedError if pixAccessToken is not exist', async function () {
+      // given
+      const authenticationKey = 'aaa-bbb-ccc';
+      usecases.authenticateNeoUser.resolves({ authenticationKey });
+      const expectedErrorMessage = "L'utilisateur n'a pas de compte Pix";
+      const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
+      const expectedMeta = { authenticationKey };
+
+      // when
+      const error = await catchErr(authenticationController.authenticateNeoUser)(request, hFake);
+
+      // then
+      expect(error).to.be.an.instanceOf(UnauthorizedError);
+      expect(error.message).to.equal(expectedErrorMessage);
+      expect(error.code).to.equal(expectedResponseCode);
+      expect(error.meta).to.deep.equal(expectedMeta);
+    });
+  });
+
+  describe('#authenticateApplication', function () {
+    it('should return an OAuth 2 token response', async function () {
+      // given
+      const access_token = 'jwt.access.token';
+      const client_id = Symbol('clientId');
+      const client_secret = Symbol('clientSecret');
+      const scope = Symbol('scope');
+
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: {
+          grant_type: 'password',
+          client_id,
+          client_secret,
+          scope,
+        },
+      };
+      sinon.stub(tokenService, 'extractClientId').returns(client_id);
+      sinon
+        .stub(usecases, 'authenticateApplication')
+        .withArgs({ clientId: client_id, clientSecret: client_secret, scope })
+        .resolves(access_token);
+
+      // when
+      const response = await authenticationController.authenticateApplication(request, hFake);
+
+      // then
+      const expectedResponseResult = {
+        token_type: 'bearer',
+        access_token,
+        client_id,
+      };
+      expect(response.source).to.deep.equal(expectedResponseResult);
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers).to.deep.equal({
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Cache-Control': 'no-store',
+        Pragma: 'no-cache',
+      });
     });
   });
 

@@ -19,6 +19,11 @@ function createAccessTokenFromUser(userId, source) {
   return { accessToken, expirationDelaySeconds };
 }
 
+function createAccessTokenForNeo(userId) {
+  const expirationDelaySeconds = settings.neo.accessTokenLifespanMs / 1000;
+  return _createAccessToken({ userId, source: 'neo_connect', expirationDelaySeconds });
+}
+
 function createAccessTokenForPoleEmploi(userId) {
   const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'pole_emploi_connect', expirationDelaySeconds });
@@ -190,6 +195,7 @@ async function extractPayloadFromPoleEmploiIdToken(idToken) {
 
 module.exports = {
   createAccessTokenFromUser,
+  createAccessTokenForNeo,
   createAccessTokenForPoleEmploi,
   createAccessTokenForSaml,
   createAccessTokenFromApplication,

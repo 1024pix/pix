@@ -27,6 +27,7 @@ module.exports = [
   require('./application/healthcheck'),
   require('./application/lcms'),
   require('./application/memberships'),
+  require('./application/neo'),
   require('./application/organization-invitations'),
   require('./application/organizations'),
   require('./application/passwords'),

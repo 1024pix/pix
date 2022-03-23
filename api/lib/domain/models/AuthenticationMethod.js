@@ -5,6 +5,7 @@ const identityProviders = {
   PIX: 'PIX',
   GAR: 'GAR',
   POLE_EMPLOI: 'POLE_EMPLOI',
+  NEO: 'NEO',
 };
 
 class PixAuthenticationComplement {
@@ -23,6 +24,23 @@ class PixAuthenticationComplement {
 }
 
 class PoleEmploiAuthenticationComplement {
+  constructor({ accessToken, refreshToken, expiredDate } = {}) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.expiredDate = expiredDate;
+
+    validateEntity(
+      Joi.object({
+        accessToken: Joi.string().required(),
+        refreshToken: Joi.string().optional(),
+        expiredDate: Joi.date().required(),
+      }),
+      this
+    );
+  }
+}
+
+class NeoAuthenticationComplement {
   constructor({ accessToken, refreshToken, expiredDate } = {}) {
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
@@ -97,4 +115,5 @@ class AuthenticationMethod {
 AuthenticationMethod.identityProviders = identityProviders;
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.PoleEmploiAuthenticationComplement = PoleEmploiAuthenticationComplement;
+AuthenticationMethod.NeoAuthenticationComplement = NeoAuthenticationComplement;
 module.exports = AuthenticationMethod;
