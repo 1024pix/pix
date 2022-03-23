@@ -12,10 +12,9 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
       // given
       const emailWithSpaces = '   lea@example.net   ';
       const component = createGlimmerComponent('component:user-account/email-with-validation-form');
-      component.newEmail = emailWithSpaces;
 
       // when
-      component.validateNewEmail();
+      component.validateNewEmail({ target: { value: emailWithSpaces } });
 
       // then
       expect(component.newEmail).to.equal(emailWithSpaces.trim());

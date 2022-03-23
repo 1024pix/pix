@@ -50,19 +50,25 @@
           <p class="verification-code__code">{{@certification.verificationCode}}</p>
 
           {{#if (is-clipboard-supported)}}
-            <PixTooltip @text={{this.tooltipText}} @position="bottom" @isInline={{true}}>
-              <CopyButton
-                @clipboardText={{@certification.verificationCode}}
-                @success={{this.clipboardSuccess}}
-                @classNames="icon-button"
-              >
-                <FaIcon
-                  class="verification-code__copy-button"
-                  @icon="copy"
-                  @prefix="far"
-                  alt={{t "pages.certificate.verification-code.alt"}}
-                />
-              </CopyButton>
+            <PixTooltip @position="bottom" @isInline={{true}} @id="verification-code-copy-button-tooltip">
+              <:triggerElement>
+                <CopyButton
+                  @clipboardText={{@certification.verificationCode}}
+                  @success={{this.clipboardSuccess}}
+                  @classNames="icon-button"
+                  aria-describedby="verification-code-copy-button-tooltip"
+                >
+                  <FaIcon
+                    class="verification-code__copy-button"
+                    @icon="copy"
+                    @prefix="far"
+                    alt={{t "pages.certificate.verification-code.alt"}}
+                  />
+                </CopyButton>
+              </:triggerElement>
+              <:tooltip>
+                {{this.tooltipText}}
+              </:tooltip>
             </PixTooltip>
           {{/if}}
         </span>
