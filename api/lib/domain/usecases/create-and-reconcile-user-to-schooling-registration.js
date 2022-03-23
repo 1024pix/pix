@@ -88,11 +88,11 @@ async function _validateData({ isUsernameMode, password, userAttributes, userRep
   validationErrors.push(_validatePassword(password));
 
   if (isUsernameMode) {
-    try {
-      await userRepository.isUsernameAvailable(userAttributes.username);
-    } catch (err) {
-      validationErrors.push(_manageUsernameAvailabilityError(err));
-    }
+    // try {
+    //   await userRepository.isUsernameAvailable(userAttributes.username);
+    // } catch (err) {
+    //   validationErrors.push(_manageUsernameAvailabilityError(err));
+    // }
   } else {
     try {
       await userRepository.checkIfEmailIsAvailable(userAttributes.email);
