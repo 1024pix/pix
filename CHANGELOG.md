@@ -2,15 +2,18 @@
 
 ## v3.189.0 (23/03/2022)
 
+### :rocket: Amélioration
+- [#4527](https://github.com/1024pix/pix/pull/4527) [FEATURE] Empêcher l'activation/récupération d'une organisation SCO si celle-ci est archivée sur Pix Orga (PIX-4527).
+- [#4217](https://github.com/1024pix/pix/pull/4217) [FEATURE] Mettre à jour le wording en cas de défocus en certif (PIX-4558)
 
 ### :building_construction: Tech
 - [#4220](https://github.com/1024pix/pix/pull/4220) [TECH] Monter pix-ui en v11 sur mon-pix (PIX-4614)
+- [#4207](https://github.com/1024pix/pix/pull/4207) [TECH] Nettoyage du dossier Mirage dans mon-pix.
+- [#4222](https://github.com/1024pix/pix/pull/4222) [TECH] Monter de version de Pix-UI dans Pix Admin (Pix-4604).
 
 ### :bug: Correction
 - [#4214](https://github.com/1024pix/pix/pull/4214) [BUGFIX] Ne pas afficher l'attestation des certifications annulées  (PIX-4563).
-
-### :coffee: Autre
-- [#4230](https://github.com/1024pix/pix/pull/4230) Revert #4199
+- [#4195](https://github.com/1024pix/pix/pull/4195) [BUGFIX] Les signalements à ne pas résoudre sont affichés en haut de la liste dans Pix Admin (PIX-4495).
 
 ## v3.188.1 (22/03/2022)
 
