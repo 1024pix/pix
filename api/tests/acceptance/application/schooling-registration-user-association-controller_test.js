@@ -447,6 +447,72 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             .select();
           expect(schoolingRegistrationInDB.userId).to.be.undefined;
         });
+
+        context('When student is trying to be reconciled on another account', function () {
+          it('should return a 422 error (short code R90 when student id and birthdate are different)', async function () {
+            // given
+            const sisterSchool = databaseBuilder.factory.buildOrganization({ id: 7, type: 'SCO' });
+            const brotherSchool = databaseBuilder.factory.buildOrganization({ id: 666, type: 'SCO' });
+            const littleBrotherCampaign = databaseBuilder.factory.buildCampaign({
+              organizationId: brotherSchool.id,
+              code: 'BROTHER',
+            });
+
+            const bigSisterAccount = databaseBuilder.factory.buildUser({
+              firstName: 'Emmy',
+              lastName: 'Barbier',
+              birthdate: '2008-02-01',
+              email: 'emmy.barbier@example.net',
+            });
+            databaseBuilder.factory.buildSchoolingRegistration({
+              firstName: 'Emmy',
+              lastName: 'Barbier',
+              birthdate: '2008-02-01',
+              organizationId: sisterSchool.id,
+              nationalStudentId: 'BBCC',
+              userId: bigSisterAccount.id,
+            });
+
+            const littleBrother = databaseBuilder.factory.buildSchoolingRegistration({
+              firstName: 'Nicolas',
+              lastName: 'Barbier',
+              birthdate: '2010-02-01',
+              organizationId: brotherSchool.id,
+              nationalStudentId: 'AABB',
+              userId: null,
+            });
+            await databaseBuilder.commit();
+
+            // when
+            const response = await server.inject({
+              method: 'POST',
+              url: '/api/schooling-registration-user-associations?withReconciliation=false',
+              headers: { authorization: generateValidRequestAuthorizationHeader(bigSisterAccount.id) },
+              payload: {
+                data: {
+                  attributes: {
+                    'campaign-code': littleBrotherCampaign.code,
+                    'first-name': littleBrother.firstName,
+                    'last-name': littleBrother.lastName,
+                    birthdate: littleBrother.birthdate,
+                  },
+                },
+              },
+            });
+
+            // then
+            expect(response.statusCode).to.equal(422);
+            expect(response.result.errors[0]).to.deep.equal({
+              detail: "Cet utilisateur n'est pas autorisé à se réconcilier avec ce compte",
+              code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER',
+              meta: {
+                shortCode: 'R90',
+              },
+              status: '422',
+              title: 'Unprocessable entity',
+            });
+          });
+        });
       });
     });
   });

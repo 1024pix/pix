@@ -57,6 +57,7 @@ module.exports = {
         samlId: { shortCode: 'R33', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
         anotherStudentIsAlreadyReconciled: { shortCode: 'R70', code: 'USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION' },
       },
+      ACCOUNT_BELONGING_TO_ANOTHER_USER: { shortCode: 'R90', code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER' },
     },
     LOGIN_OR_REGISTER: {
       IN_SAME_ORGANIZATION: {
