@@ -15,6 +15,7 @@ export default class JoinScoInformationModal extends Component {
   @service campaignStorage;
 
   @tracked message = null;
+  @tracked isAccountBelongingToAnotherUser = false;
   @tracked displayContinueButton = true;
 
   constructor(owner, args) {
@@ -27,13 +28,19 @@ export default class JoinScoInformationModal extends Component {
       });
     }
     if (this.args.reconciliationError) {
-      this.isInformationMode = false;
       const error = this.args.reconciliationError;
-      this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
-      const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-      this.message =
-        this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htmlSafe: true }) ||
-        defaultMessage;
+      this.isInformationMode = false;
+
+      if (error.status === '422') {
+        this.displayContinueButton = false;
+        this.isAccountBelongingToAnotherUser = true;
+      } else {
+        this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
+        const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+        this.message =
+          this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htmlSafe: true }) ||
+          defaultMessage;
+      }
     }
   }
 
