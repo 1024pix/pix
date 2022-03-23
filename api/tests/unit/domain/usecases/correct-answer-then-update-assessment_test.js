@@ -845,4 +845,45 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       });
     });
   });
+
+  context('when the challenge is not focused', function () {
+    let focusedOutAnswer;
+    let assessment;
+    let answerSaved;
+
+    beforeEach(function () {
+      // Given
+      focusedOutAnswer = domainBuilder.buildAnswer({ isFocusedOut: true });
+      const nonFocusedChallenge = domainBuilder.buildChallenge({
+        id: focusedOutAnswer.challengeId,
+        validator,
+        focused: false,
+      });
+      challengeRepository.get.resolves(nonFocusedChallenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+      });
+      assessment.type = Assessment.types.CERTIFICATION;
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.findByChallengeAndAssessment
+        .withArgs({ assessmentId: assessment.id, challengeId: nonFocusedChallenge.id })
+        .resolves(true);
+      answerSaved = domainBuilder.buildAnswer(focusedOutAnswer);
+      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
+    });
+
+    it('should not return focused out answer', async function () {
+      // When
+      const { result } = await correctAnswerThenUpdateAssessment({
+        answer: focusedOutAnswer,
+        userId,
+        ...dependencies,
+      });
+
+      // Then
+      expect(result).not.to.equal(AnswerStatus.FOCUSEDOUT);
+      expect(result).to.deep.equal(AnswerStatus.OK);
+    });
+  });
 });
