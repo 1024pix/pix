@@ -91,6 +91,23 @@ describe('Integration | Repository | Division', function () {
         expect(divisions).to.deep.equal([{ name: '5eme1' }]);
       });
     });
+
+    context('when participants has no division', function () {
+      it('returns empty array', async function () {
+        const division = null;
+        const campaign = databaseBuilder.factory.buildCampaign();
+
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: division },
+          { campaignId: campaign.id }
+        );
+        await databaseBuilder.commit();
+
+        const divisions = await divisionRepository.findByCampaignId(campaign.id);
+
+        expect(divisions).to.deep.equal([]);
+      });
+    });
   });
 
   describe('#findByOrganizationIdForCurrentSchoolYear', function () {

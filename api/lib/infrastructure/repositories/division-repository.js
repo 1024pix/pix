@@ -4,8 +4,9 @@ const { knex } = require('../bookshelf');
 async function findByCampaignId(campaignId) {
   const divisions = await knex('campaigns')
     .where({ 'campaigns.id ': campaignId })
-    .select('division')
-    .groupBy('division')
+    .whereNotNull('division')
+    .distinct('division')
+    .orderBy('division', 'asc')
     .join('campaign-participations', 'campaigns.id', 'campaign-participations.campaignId')
     .innerJoin('organization-learners', function () {
       this.on('organization-learners.userId', '=', 'campaign-participations.userId').andOn(
