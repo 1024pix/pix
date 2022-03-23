@@ -4,14 +4,7 @@ const Scorecard = require('./Scorecard');
 const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
 
 class SharedProfileForCampaign {
-  constructor({
-    campaignParticipation,
-    campaignAllowsRetry,
-    isRegistrationActive,
-    userId,
-    competencesWithArea,
-    knowledgeElementsGroupedByCompetenceId,
-  }) {
+  constructor({ campaignParticipation }) {
     if (!campaignParticipation) {
       throw new NoCampaignParticipationForUserAndCampaign();
     }
@@ -19,13 +12,18 @@ class SharedProfileForCampaign {
     this.id = campaignParticipation.id;
     this.sharedAt = campaignParticipation.sharedAt;
     this.pixScore = campaignParticipation.pixScore || 0;
+  }
+
+  build({
+    campaignAllowsRetry,
+    isRegistrationActive,
+    competencesWithArea,
+    knowledgeElementsGroupedByCompetenceId,
+    userId,
+    deletedAt,
+  }) {
     this.scorecards = this._buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId);
-    this.canRetry = this._computeCanRetry(
-      campaignAllowsRetry,
-      this.sharedAt,
-      isRegistrationActive,
-      campaignParticipation.deletedAt
-    );
+    this.canRetry = this._computeCanRetry(campaignAllowsRetry, this.sharedAt, isRegistrationActive, deletedAt);
   }
 
   _buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId) {
