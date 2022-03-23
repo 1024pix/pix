@@ -16,7 +16,6 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
   describe('POST /api/schooling-registration-dependent-users', function () {
     let organization;
     let campaign;
-    let options;
     let schoolingRegistration;
 
     beforeEach(async function () {
@@ -30,35 +29,28 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
       await databaseBuilder.commit();
-
-      options = {
-        method: 'POST',
-        url: '/api/schooling-registration-dependent-users',
-        payload: {
-          data: {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
-              password: 'P@ssw0rd',
-            },
-          },
-        },
-      };
     });
 
     context('when creation is with email', function () {
-      const email = 'angie@example.net';
-
-      beforeEach(async function () {
-        options.payload.data.attributes.email = email;
-        options.payload.data.attributes['with-username'] = false;
-      });
-
       it('should return an 204 status after having successfully created user and associated user to schoolingRegistration', async function () {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/schooling-registration-dependent-users',
+          payload: {
+            data: {
+              attributes: {
+                'campaign-code': campaign.code,
+                'first-name': schoolingRegistration.firstName,
+                'last-name': schoolingRegistration.lastName,
+                birthdate: schoolingRegistration.birthdate,
+                password: 'P@ssw0rd',
+                email: 'angie@example.net',
+                'with-username': false,
+              },
+            },
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(204);
@@ -78,12 +70,24 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
           });
           await databaseBuilder.commit();
 
-          options.payload.data.attributes['first-name'] = schoolingRegistrationAlreadyLinked.firstName;
-          options.payload.data.attributes['last-name'] = schoolingRegistrationAlreadyLinked.lastName;
-          options.payload.data.attributes['birthdate'] = schoolingRegistrationAlreadyLinked.birthdate;
-
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/schooling-registration-dependent-users',
+            payload: {
+              data: {
+                attributes: {
+                  'campaign-code': campaign.code,
+                  'first-name': schoolingRegistrationAlreadyLinked.firstName,
+                  'last-name': schoolingRegistrationAlreadyLinked.lastName,
+                  birthdate: schoolingRegistrationAlreadyLinked.birthdate,
+                  password: 'P@ssw0rd',
+                  email: 'angie@example.net',
+                  'with-username': false,
+                },
+              },
+            },
+          });
 
           // then
           expect(response.statusCode).to.equal(409);
@@ -95,11 +99,24 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
 
       context('when a field is not valid', function () {
         it('should respond with a 422 - Unprocessable Entity', async function () {
-          // given
-          options.payload.data.attributes.email = 'not valid email';
-
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/schooling-registration-dependent-users',
+            payload: {
+              data: {
+                attributes: {
+                  'campaign-code': campaign.code,
+                  'first-name': schoolingRegistration.firstName,
+                  'last-name': schoolingRegistration.lastName,
+                  birthdate: schoolingRegistration.birthdate,
+                  password: 'P@ssw0rd',
+                  email: 'not valid email',
+                  'with-username': false,
+                },
+              },
+            },
+          });
 
           // then
           expect(response.statusCode).to.equal(422);
@@ -108,16 +125,25 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     });
 
     context('when creation is with username', function () {
-      const username = 'angie.go1234';
-
-      beforeEach(async function () {
-        options.payload.data.attributes.username = username;
-        options.payload.data.attributes['with-username'] = true;
-      });
-
       it('should return a 204 status after having successfully created user and associated user to schoolingRegistration', async function () {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/schooling-registration-dependent-users',
+          payload: {
+            data: {
+              attributes: {
+                'campaign-code': campaign.code,
+                'first-name': schoolingRegistration.firstName,
+                'last-name': schoolingRegistration.lastName,
+                birthdate: schoolingRegistration.birthdate,
+                password: 'P@ssw0rd',
+                username: 'angie.go1234',
+                'with-username': true,
+              },
+            },
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(204);
@@ -126,11 +152,28 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       context('when username is already taken', function () {
         it('should respond with a 422 - Unprocessable entity', async function () {
           // given
+          const username = 'angie.go1234';
           databaseBuilder.factory.buildUser({ username });
           await databaseBuilder.commit();
 
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/schooling-registration-dependent-users',
+            payload: {
+              data: {
+                attributes: {
+                  'campaign-code': campaign.code,
+                  'first-name': schoolingRegistration.firstName,
+                  'last-name': schoolingRegistration.lastName,
+                  birthdate: schoolingRegistration.birthdate,
+                  password: 'P@ssw0rd',
+                  username,
+                  'with-username': true,
+                },
+              },
+            },
+          });
 
           // then
           expect(response.statusCode).to.equal(422);
