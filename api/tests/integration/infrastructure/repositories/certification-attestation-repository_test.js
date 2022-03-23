@@ -278,7 +278,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
     });
 
-    it('should take into account the latest validated assessment result of the certification', async function () {
+    it('should take into account the latest validated assessment result of a student', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -303,11 +303,15 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestation = await certificationAttestationRepository.get(123);
+      const certificationAttestation = await certificationAttestationRepository.get(certificationAttestationData.id);
 
       // then
-      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestation);
-      expect(certificationAttestation).to.deepEqualInstance(expectedCertificationAttestation);
+      const expectedCertificationAttestation =
+        domainBuilder.buildCertificationAttestation(certificationAttestationData);
+      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
+      expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+        'resultCompetenceTree',
+      ]);
     });
 
     context('acquired certifiable badges', function () {
@@ -918,7 +922,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       ]);
     });
 
-    it('should take into account the latest validated assessment result of a certification', async function () {
+    it('should take into account the latest validated assessment result of the certification', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -961,9 +965,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         domainBuilder.buildCertificationAttestation(certificationAttestationData);
       expect(certificationAttestations).to.have.length(1);
       expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
+      expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+        'resultCompetenceTree',
+      ]);
     });
 
     it('should take into account the latest certification of a schooling registration', async function () {
@@ -1192,8 +1196,13 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
     publishedAt: certificationAttestationData.deliveredAt,
     certificationCenter: certificationAttestationData.certificationCenter,
     certificationCenterId,
+  });
+  const mostRecentSessionId = databaseBuilder.factory.buildSession({
+    publishedAt: certificationAttestationData.deliveredAt,
+    certificationCenter: certificationAttestationData.certificationCenter,
+    certificationCenterId,
   }).id;
-  databaseBuilder.factory.buildCertificationCourse({
+  const mostRecentCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
     lastName: certificationAttestationData.lastName,
@@ -1207,6 +1216,7 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   }).id;
+  databaseBuilder.factory.buildCertificationCourse({ sessionId: mostRecentSessionId });
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;
@@ -1214,29 +1224,50 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'validated',
-    createdAt: new Date('2020-01-02'),
+    createdAt: new Date('2019-01-01'),
   }).id;
   const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
-    pixScore: certificationAttestationData.pixScore + 20,
+    pixScore: certificationAttestationData.pixScore,
     status: 'validated',
-    createdAt: new Date('2020-01-01'),
+    createdAt: new Date('2019-01-02'),
   }).id;
-  const assessmentResultId3 = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
-    pixScore: 0,
-    status: 'rejected',
-    createdAt: new Date('2020-01-03'),
-  }).id;
-
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId: assessmentResultId1,
   });
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId: assessmentResultId2,
   });
+
+  const mostRecentAssessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: mostRecentCertificationCourseId,
+  }).id;
+  const mostRecentAssessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
+    assessmentId: mostRecentAssessmentId,
+    pixScore: certificationAttestationData.pixScore,
+    status: 'validated',
+    createdAt: new Date('2020-01-02'),
+  }).id;
+  const mostRecentAssessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
+    assessmentId: mostRecentAssessmentId,
+    pixScore: certificationAttestationData.pixScore + 20,
+    status: 'validated',
+    createdAt: new Date('2020-01-01'),
+  }).id;
+  const mostRecentAssessmentResultId3 = databaseBuilder.factory.buildAssessmentResult({
+    assessmentId: mostRecentAssessmentId,
+    pixScore: 0,
+    status: 'rejected',
+    createdAt: new Date('2020-01-03'),
+  }).id;
   databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId: assessmentResultId3,
+    assessmentResultId: mostRecentAssessmentResultId1,
+  });
+  databaseBuilder.factory.buildCompetenceMark({
+    assessmentResultId: mostRecentAssessmentResultId2,
+  });
+  databaseBuilder.factory.buildCompetenceMark({
+    assessmentResultId: mostRecentAssessmentResultId3,
   });
 
   await databaseBuilder.commit();
