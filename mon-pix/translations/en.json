@@ -10,7 +10,19 @@
       "r31": "{ value }",
       "r32": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code R32)",
       "r33": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your customised test.",
-      "r70": "An error occurred. Please log out and try again."
+      "r70": "An error occurred. Please log out and try again.",
+      "r90": {
+        "account-belonging-to-another-user": "It looks like a pupil is already using this account.",
+        "details": {
+          "if-account-belonging-to-user": "If the account is yours, please contact the",
+          "contact-support": {
+            "link-text": " support team ",
+            "link-url": "https://support.pix.org/en/support/tickets/new"
+          },
+          "code": "(specifying code R90)",
+          "disconnect-user": "Else, logout and access the customised test again from your own account"
+        }
+      }
     },
     "login-unauthorized-error": "There was an error in the email address or username/password entered.",
     "register-error": {
