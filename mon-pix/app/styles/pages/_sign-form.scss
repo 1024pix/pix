@@ -192,6 +192,34 @@
     }
   }
 
+  &__neo-connect-link {
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background-color: $neo;
+    color: $white;
+    padding: 7px 10px 7px 13px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid transparent;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px $neo;
+    }
+
+    img {
+      width: 30px;
+    }
+
+    span {
+      padding: 0 3px 0 10px;
+    }
+  }
+
   &__forgotten-password-link {
     align-self: flex-end;
     margin: 5px 0 20px 0;

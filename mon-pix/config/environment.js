@@ -50,6 +50,14 @@ module.exports = function (environment) {
       expiresIn: 60000, // Short expire time (60s) for testing purpose
       host: process.env.POLE_EMPLOI_AUTHENTICATION_URL,
     },
+    neo: {
+      afterLogoutUri: process.env.NEO_AFTER_LOGOUT_URI,
+      authEndpoint: '/auth/oauth2/auth',
+      clientId: process.env.NEO_CLIENT_ID,
+      endSessionEndpoint: '/auth/logout',
+      expiresIn: 60000, // Short expire time (60s) for testing purpose
+      host: process.env.NEO_AUTHENTICATION_URL,
+    },
 
     APP: {
       // Here you can pass flags/options to your application instance

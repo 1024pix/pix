@@ -60,15 +60,24 @@
       </PixButton>
     </div>
 
-    {{#if this.displayPoleEmploiButton}}
+    {{#if this.hasOIDC}}
       <div class="sign-form-body__bottom-decoration">
         <span>{{t "pages.sign-in.or"}}</span>
       </div>
 
-      <LinkTo @route="login-pe" class="sign-form-body__pe-connect-link" data-test-pole-emploi>
-        <img src="{{this.rootURL}}/images/logo/pe-connect-logo.svg" alt="{{t "pages.sign-in.pole-emploi.link.img"}}" />
-        <span>{{t "pages.sign-in.pole-emploi.title"}}</span>
-      </LinkTo>
+      {{#if this.displayPoleEmploiButton}}
+        <LinkTo @route="login-pe" class="sign-form-body__pe-connect-link" data-test-pole-emploi>
+          <img src="{{this.rootURL}}/images/logo/pe-connect-logo.svg" alt="{{t "pages.sign-in.pole-emploi.link.img"}}" />
+          <span>{{t "pages.sign-in.pole-emploi.title"}}</span>
+        </LinkTo>
+      {{/if}}
+
+      {{#if this.displayNEOButton}}
+        <LinkTo @route="login-neo" class="sign-form-body__neo-connect-link" data-test-neo>
+          <img src="{{this.rootURL}}/images/logo/neo-connect-logo.png" alt="{{t "pages.sign-in.neo.link.img"}}" />
+          <span>{{t "pages.sign-in.neo.title"}}</span>
+        </LinkTo>
+      {{/if}}
     {{/if}}
 
   </form>

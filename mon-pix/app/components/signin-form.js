@@ -21,8 +21,16 @@ export default class SigninForm extends Component {
     return this.url.homeUrl;
   }
 
+  get hasOIDC() {
+    return this.displayPoleEmploiButton || this.displayNEOButton;
+  }
+
   get displayPoleEmploiButton() {
     return this.url.isFrenchDomainExtension;
+  }
+
+  get displayNEOButton() {
+    return true;
   }
 
   @action

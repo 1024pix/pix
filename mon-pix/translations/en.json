@@ -1160,6 +1160,12 @@
           "img": "pôle emploi connect"
         }
       },
+      "neo": {
+        "title": "Sign-in with NEO",
+        "link": {
+          "img": "Neo connect"
+        }
+      },
       "subtitle": {
         "link": "Create an account",
         "text": "Don’t have a Pix account yet?"
@@ -1286,6 +1292,16 @@
         "error-message": "Please agree to the terms and conditions of use."
       },
       "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix."
+    },
+    "terms-of-service-neo": {
+      "title": "Terms and conditions of use",
+      "cgu": "I agree to the '<a href=\"https://fixme.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
+      "form": {
+        "button": "Continue",
+        "error-message": "Please agree to the terms and conditions of use.",
+        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
+      },
+      "message": ""
     },
     "terms-of-service-pe": {
       "title": "Terms and conditions of use",
