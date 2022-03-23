@@ -7,11 +7,14 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
     context('when participant is disabled', function () {
       it('cannot retry', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
-          campaignAllowsRetry: true,
-          isRegistrationActive: false,
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
+        });
+
+        sharedProfileForCampaign.build({
+          campaignAllowsRetry: true,
+          isRegistrationActive: false,
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -21,11 +24,14 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
     context('when the campaign does not allow retry', function () {
       it('return false', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
-          campaignAllowsRetry: false,
-          isRegistrationActive: true,
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
+        });
+
+        sharedProfileForCampaign.build({
+          campaignAllowsRetry: false,
+          isRegistrationActive: true,
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -33,12 +39,15 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
 
       it('returns false if campaign participation is deleted', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
-          campaignAllowsRetry: true,
-          isRegistrationActive: true,
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
-            deletedAt: new Date('2020-01-01'),
           },
+        });
+
+        sharedProfileForCampaign.build({
+          campaignAllowsRetry: true,
+          isRegistrationActive: true,
+          deletedAt: new Date('2020-01-01'),
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -49,11 +58,14 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
       context('when participation is not shared', function () {
         it('return false', function () {
           const sharedProfileForCampaign = new SharedProfileForCampaign({
-            campaignAllowsRetry: true,
-            isRegistrationActive: true,
             campaignParticipation: {
               sharedAt: null,
             },
+          });
+
+          sharedProfileForCampaign.build({
+            campaignAllowsRetry: true,
+            isRegistrationActive: true,
           });
 
           expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -63,12 +75,14 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
       context('when the profile has been shared', function () {
         it('return true', function () {
           const sharedProfileForCampaign = new SharedProfileForCampaign({
-            campaignAllowsRetry: true,
-            isRegistrationActive: true,
-            sharedAt: new Date('2020-01-01'),
             campaignParticipation: {
               sharedAt: new Date('2020-01-01'),
             },
+          });
+
+          sharedProfileForCampaign.build({
+            campaignAllowsRetry: true,
+            isRegistrationActive: true,
           });
 
           expect(sharedProfileForCampaign.canRetry).to.equal(true);
