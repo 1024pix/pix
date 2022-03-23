@@ -10,41 +10,28 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
   setupIntl();
 
   describe('When reconciliation error is provided', function () {
-    const reconciliationError = {
-      status: '409',
-      meta: { shortCode: 'R11', value: 'j***@example.net', userId: 1 },
-    };
+    describe('When error is a 409 status', function () {
+      const reconciliationError = {
+        status: '409',
+        meta: { shortCode: 'R11', value: 'j***@example.net', userId: 1 },
+      };
 
-    it('should set is isInformationMode to false', function () {
-      // when
-      const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
-        reconciliationError,
+      it('should set is isInformationMode to false', function () {
+        // when
+        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          reconciliationError,
+        });
+
+        // then
+        expect(component.isInformationMode).to.be.false;
       });
 
-      // then
-      expect(component.isInformationMode).to.be.false;
-    });
-
-    it('should display error message', function () {
-      // given
-      const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r11', {
-        value: reconciliationError.meta.value,
-        htmlSafe: true,
-      });
-
-      // when
-      const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
-        reconciliationError,
-      });
-
-      // then
-      expect(component.message).to.deep.equal(expectedErrorMessage);
-    });
-
-    describe('When error is not related to samlId', function () {
-      it('should display continue button', function () {
+      it('should display error message', function () {
         // given
-        reconciliationError.meta.shortCode = 'R12';
+        const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r11', {
+          value: reconciliationError.meta.value,
+          htmlSafe: true,
+        });
 
         // when
         const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
@@ -52,22 +39,37 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
         });
 
         // then
-        expect(component.displayContinueButton).to.be.true;
+        expect(component.message).to.deep.equal(expectedErrorMessage);
       });
-    });
 
-    describe('When error is related to samlId', function () {
-      it('should not display continue button', function () {
-        // given
-        reconciliationError.meta.shortCode = 'R13';
+      describe('When error is not related to samlId', function () {
+        it('should display continue button', function () {
+          // given
+          reconciliationError.meta.shortCode = 'R12';
 
-        // when
-        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
-          reconciliationError,
+          // when
+          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+            reconciliationError,
+          });
+
+          // then
+          expect(component.displayContinueButton).to.be.true;
         });
+      });
 
-        // then
-        expect(component.displayContinueButton).to.be.false;
+      describe('When error is related to samlId', function () {
+        it('should not display continue button', function () {
+          // given
+          reconciliationError.meta.shortCode = 'R13';
+
+          // when
+          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+            reconciliationError,
+          });
+
+          // then
+          expect(component.displayContinueButton).to.be.false;
+        });
       });
     });
   });
