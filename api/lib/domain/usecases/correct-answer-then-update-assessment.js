@@ -108,6 +108,7 @@ function _evaluateAnswer({ challenge, answer, assessment }) {
   return examiner.evaluate({
     answer,
     challengeFormat: challenge.format,
+    isFocusedChallenge: challenge.focused,
     isCertificationEvaluation: assessment.isCertification(),
   });
 }
