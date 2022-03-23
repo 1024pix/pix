@@ -93,6 +93,23 @@ describe('Integration | Repository | Group', function () {
         expect(groups).to.deep.equal([{ name: 'AB5' }]);
       });
     });
+
+    context('when participants has no group', function () {
+      it('returns empty array', async function () {
+        const group = null;
+        const campaign = databaseBuilder.factory.buildCampaign();
+
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, group: group },
+          { campaignId: campaign.id }
+        );
+        await databaseBuilder.commit();
+
+        const groups = await groupRepository.findByCampaignId(campaign.id);
+
+        expect(groups).to.deep.equal([]);
+      });
+    });
   });
 
   describe('#findByOrganizationId', function () {
