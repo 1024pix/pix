@@ -1,6 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-const SharedProfileForCampaign = require('../../../../lib/domain/models/SharedProfileForCampaign');
+const SharedProfileForCampaign = require('../../../../lib/domain/read-models/SharedProfileForCampaign');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 
 describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
