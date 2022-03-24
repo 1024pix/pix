@@ -6,7 +6,7 @@
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner send-profile-header">
 
     <div class="send-profile-header__announcement">
-      {{#if this.model.campaignParticipation.deletedAt}}
+      {{#if this.isDisabled}}
         <img
           class="send-profile-header__image"
           src="{{rootURL}}/images/illustrations/fat-bee.svg"
@@ -28,7 +28,7 @@
       {{/if}}
     </div>
 
-    {{#unless this.model.campaignParticipation.deletedAt}}
+    {{#unless this.isDisabled}}
       <ProfileSharingForm
         @sendProfile={{action "sendProfile"}}
         @campaignParticipation={{this.model.campaignParticipation}}
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    {{#unless this.model.campaignParticipation.deletedAt}}
+    {{#unless this.isDisabled}}
       <ProfileSharingForm
         @sendProfile={{action "sendProfile"}}
         @campaignParticipation={{this.model.campaignParticipation}}

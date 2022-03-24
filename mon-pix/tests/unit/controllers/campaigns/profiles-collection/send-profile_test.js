@@ -13,12 +13,13 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
     set: sinon.stub().resolves(),
   };
 
-  const campaignParticipationShared = { ...campaignParticipation, isShared: true };
+  const campaignParticipationShared = { ...campaignParticipation, isShared: true, deletedAt: null };
 
   const model = {
     campaign: {
       id: 1243,
       code: 'CODECAMPAIGN',
+      isArchived: false,
     },
     campaignParticipation,
   };
@@ -28,6 +29,27 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
     controller = this.owner.lookup('controller:campaigns.profiles-collection.send-profile');
     controller.model = model;
     campaignParticipation.save.resolves(campaignParticipationShared);
+  });
+
+  describe('#isDisabled', function () {
+    it('should return false if campaignParticipation is not deleted and campaign is not archived', function () {
+      // then
+      expect(controller.isDisabled).to.equal(false);
+    });
+    it('should return true if campaignParticipation is deleted', function () {
+      // given
+      controller.model.campaignParticipation.deletedAt = new Date();
+
+      // then
+      expect(controller.isDisabled).to.equal(true);
+    });
+    it('should return true if campaign is archived', function () {
+      // given
+      controller.model.campaign.isArchived = true;
+
+      // then
+      expect(controller.isDisabled).to.equal(true);
+    });
   });
 
   describe('#sendProfile', function () {
