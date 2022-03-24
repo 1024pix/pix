@@ -17,13 +17,13 @@ module.exports = async function sendScoInvitation({
 }) {
   const organizationsFound = await organizationRepository.findScoOrganizationsByUai({ uai: uai.trim() });
 
-  _checkIfManyOrganizationsFound(organizationsFound, uai);
+  _ensureThereIsNoMoreThanOneOrganization(organizationsFound, uai);
 
-  _checkIfOrganizationNotFound(organizationsFound, uai);
+  _ensureThereIsAtLeastOneOrganization(organizationsFound, uai);
 
-  _checkIfOrganizationWithoutEmail(organizationsFound, uai);
+  _ensureOrganizationHasAnEmail(organizationsFound, uai);
 
-  _checkIfOrganizationIsArchived(organizationsFound);
+  _ensureOrganizationIsNotArchived(organizationsFound);
 
   const email = organizationsFound[0].email;
   const organizationId = organizationsFound[0].id;
@@ -39,28 +39,28 @@ module.exports = async function sendScoInvitation({
   });
 };
 
-function _checkIfOrganizationNotFound(organizationsFound, uai) {
+function _ensureThereIsAtLeastOneOrganization(organizationsFound, uai) {
   if (organizationsFound.length === 0) {
     const errorMessage = `L'UAI/RNE ${uai} de l'établissement n’est pas reconnu.`;
     throw new OrganizationNotFoundError(errorMessage);
   }
 }
 
-function _checkIfManyOrganizationsFound(organizationsFound, uai) {
+function _ensureThereIsNoMoreThanOneOrganization(organizationsFound, uai) {
   if (organizationsFound.length > 1) {
     const errorMessage = `Plusieurs établissements de type SCO ont été retrouvés pour L'UAI/RNE ${uai}.`;
     throw new ManyOrganizationsFoundError(errorMessage);
   }
 }
 
-function _checkIfOrganizationWithoutEmail(organizationsFound, uai) {
+function _ensureOrganizationHasAnEmail(organizationsFound, uai) {
   if (organizationsFound.length === 1 && _.isEmpty(organizationsFound[0].email)) {
     const errorMessage = `Nous n’avons pas d’adresse e-mail de contact associée à l'établissement concernant l'UAI/RNE ${uai}.`;
     throw new OrganizationWithoutEmailError(errorMessage);
   }
 }
 
-function _checkIfOrganizationIsArchived(organizationsFound) {
+function _ensureOrganizationIsNotArchived(organizationsFound) {
   if (organizationsFound.length === 1 && !!organizationsFound[0].archivedAt) {
     throw new OrganizationArchivedError();
   }
