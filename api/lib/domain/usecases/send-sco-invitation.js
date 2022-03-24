@@ -32,20 +32,20 @@ module.exports = async function sendScoInvitation({
 
 async function _getOrganizationForUAI(organizationRepository, uai) {
   const organizationsFound = await organizationRepository.findScoOrganizationsByUai({ uai: uai.trim() });
-  _ensureThereIsNoMoreThanOneOrganization(organizationsFound, uai);
-  _ensureThereIsAtLeastOneOrganization(organizationsFound, uai);
+  _ensureThereIsNoMoreThanOneOrganization(organizationsFound.length, uai);
+  _ensureThereIsAtLeastOneOrganization(organizationsFound.length, uai);
   return organizationsFound[0];
 }
 
-function _ensureThereIsAtLeastOneOrganization(organizationsFound, uai) {
-  if (organizationsFound.length === 0) {
+function _ensureThereIsAtLeastOneOrganization(organizationCount, uai) {
+  if (organizationCount === 0) {
     const errorMessage = `L'UAI/RNE ${uai} de l'établissement n’est pas reconnu.`;
     throw new OrganizationNotFoundError(errorMessage);
   }
 }
 
-function _ensureThereIsNoMoreThanOneOrganization(organizationsFound, uai) {
-  if (organizationsFound.length > 1) {
+function _ensureThereIsNoMoreThanOneOrganization(organizationCount, uai) {
+  if (organizationCount > 1) {
     const errorMessage = `Plusieurs établissements de type SCO ont été retrouvés pour L'UAI/RNE ${uai}.`;
     throw new ManyOrganizationsFoundError(errorMessage);
   }
