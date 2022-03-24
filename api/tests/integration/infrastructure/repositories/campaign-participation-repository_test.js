@@ -92,7 +92,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         campaignId: campaign.id,
         status: CampaignParticipationStatuses.SHARED,
         userId,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
@@ -112,7 +112,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         status: CampaignParticipationStatuses.TO_SHARE,
         deletedAt: new Date(),
         userId,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
@@ -130,7 +130,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         campaignId: campaign.id,
         status: CampaignParticipationStatuses.TO_SHARE,
         userId,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
@@ -149,7 +149,27 @@ describe('Integration | Repository | Campaign Participation', function () {
         campaignId: campaign.id,
         status: CampaignParticipationStatuses.TO_SHARE,
         userId: otherUser.id,
-      }).id;
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId
+      );
+
+      // then
+      expect(code).to.equal(null);
+    });
+
+    it('should return null if campaign is archived', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', archivedAt: new Date() });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: CampaignParticipationStatuses.TO_SHARE,
+        userId,
+        createdAt: new Date(),
+      });
       await databaseBuilder.commit();
 
       // when
@@ -170,13 +190,13 @@ describe('Integration | Repository | Campaign Participation', function () {
         status: CampaignParticipationStatuses.TO_SHARE,
         createdAt: new Date(Date.parse('11/11/2011')),
         userId,
-      }).id;
+      });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         status: CampaignParticipationStatuses.TO_SHARE,
         userId,
         createdAt: new Date(Date.parse('12/11/2011')),
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
@@ -188,6 +208,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(code).to.equal(expectedCode);
     });
   });
+
   describe('#get', function () {
     let campaignId;
     let campaignParticipationId, campaignParticipationNotSharedId;
