@@ -1,0 +1,38 @@
+<fieldset class="non-blocking-candidate-issue-certification-issue-report-fields">
+  <div class="non-blocking-candidate-issue-certification-issue-report-fields__radio-button__tooltip">
+    <input
+      id="input-radio-for-category-candidate-issue"
+      type="radio"
+      name="candidate-issue"
+      checked={{@nonBlockingCandidateIssueCategory.isChecked}}
+      {{on "click" (fn @toggleOnCategory @nonBlockingCandidateIssueCategory)}}
+    />
+    <label for="input-radio-for-category-candidate-issue"><span
+      >{{@nonBlockingCandidateIssueCategory.categoryCode}}&nbsp;</span>{{@nonBlockingCandidateIssueCategory.categoryLabel}}</label>
+    <PixTooltip @id="tooltip-candidate-issue" @position="right" @isWide={{true}}>
+      <:triggerElement>
+        <FaIcon
+          @icon="info-circle"
+          tabindex="0"
+          aria-describedby="tooltip-candidate-issue"
+          aria-label="Incident technique"
+        />
+      </:triggerElement>
+      <:tooltip>
+        <span>a quitté temporairement, sous surveillance, la salle d’examen, est arrivé en retard, a rencontré des
+          difficultés pour se connecter à la session, a dû se reconnecter à la session, avait oublié son mot de passe...</span>
+      </:tooltip>
+    </PixTooltip>
+  </div>
+  {{#if @nonBlockingCandidateIssueCategory.isChecked}}
+    <div class="non-blocking-candidate-issue-certification-issue-report-fields__details">
+      <label for="text-area-for-category-candidate-issue">Décrivez l'incident rencontré</label>
+      <PixTextarea
+        id="text-area-for-category-candidate-issue"
+        @value={{@nonBlockingCandidateIssueCategory.description}}
+        @maxlength={{@maxlength}}
+        required="true"
+      />
+    </div>
+  {{/if}}
+</fieldset>
