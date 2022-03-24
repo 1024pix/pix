@@ -8,6 +8,7 @@ export default class CertificationJoiner extends Component {
   @service router;
   @service currentUser;
   @service intl;
+  @service focusedCertificationChallengesManager;
 
   @tracked inputAccessCode = null;
   @tracked errorMessage = null;
@@ -52,6 +53,7 @@ export default class CertificationJoiner extends Component {
     });
     try {
       await newCertificationCourse.save();
+      this.focusedCertificationChallengesManager.clear();
       this.router.replaceWith('certifications.resume', newCertificationCourse.id);
     } catch (err) {
       newCertificationCourse.deleteRecord();
