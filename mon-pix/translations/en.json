@@ -127,6 +127,7 @@
     "campaign-landing": {
       "title": "Presentation",
       "assessment": {
+        "title-with-username": "<span>{userFirstName}</span>,<br> begin your customised test",
         "title": "Begin your customised test",
         "action": "Begin",
         "announcement": "Start your customised test.'<br>' Sign up or log in to the Pix platform and start your test.",
@@ -151,11 +152,14 @@
         "legal": "By clicking on “Begin“, information about your progress will be shared with the organiser so they can assist you if necessary. At the end of your customised test, your results will be shared with your organisation when clicking on “Submit my results“."
       },
       "profiles-collection": {
+        "title-with-username": "<span>{userFirstName}</span>,<br> submit your profile",
         "title": "Submit your profile",
         "action": "Let’s go!",
         "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organisation.",
         "legal": "Information about your progress will be sent to the organiser so they can help you if necessary. It will only be sent with your permission."
-      }
+      },
+      "warning-message": "If you are not { firstName } { lastName },",
+      "warning-message-logout": "please log out"
     },
     "campaign-participation": {
       "title": "Customised test"

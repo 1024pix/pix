@@ -51,6 +51,10 @@
     @include device-is('tablet') {
       font-size: 3rem;
     }
+
+    span {
+      font-weight: $font-semi-bold;
+    }
   }
 
   &__announcement {
@@ -98,6 +102,13 @@
   @include device-is('tablet') {
     margin: 30px;
   }
+}
+
+.campaign-landing-page__start__warning {
+  color: $grey-90;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 40px;
 }
 
 /* ------------------------ DETAILS ------------------------ */
