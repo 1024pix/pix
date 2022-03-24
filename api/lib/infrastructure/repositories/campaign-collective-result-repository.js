@@ -38,7 +38,7 @@ module.exports = {
 async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
   const results = await knex('campaign-participations')
     .select('userId', 'sharedAt')
-    .where({ campaignId, status: SHARED, isImproved: false });
+    .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
 
   const userIdsAndDates = [];
   for (const result of results) {
