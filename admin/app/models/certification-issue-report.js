@@ -1,4 +1,6 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
+import isNull from 'lodash/isNull';
 
 export const certificationIssueReportCategories = {
   OTHER: 'OTHER',
@@ -116,4 +118,20 @@ export default class CertificationIssueReportModel extends Model {
   get subcategoryCode() {
     return subcategoryToCode[this.subcategory];
   }
+
+  get isResolved() {
+    return !isNull(this.resolvedAt);
+  }
+
+  get canBeResolved() {
+    return this.isImpactful && !this.isResolved;
+  }
+
+  resolve = memberAction({
+    type: 'patch',
+    before(resolution) {
+      const payload = { data: { resolution } };
+      return payload;
+    },
+  });
 }
