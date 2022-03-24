@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -416,6 +416,76 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert.dom('.certification-issue-report__resolution-status--resolved').doesNotExist();
         assert.dom('.certification-issue-report__resolution-status--unresolved').exists();
       });
+
+      module('when Resolve button is clicked on issue report', function () {
+        module('when Resolve button is clicked', function () {
+          module('when the api returns ok', function () {
+            module('when a label is keyed', function () {
+              test('it should set issue as resolved with label', async function (assert) {
+                // given
+                const certificationIssueReport = this.server.create('certification-issue-report', {
+                  category: 'OTHER',
+                  description: 'Un signalement impactant',
+                  isImpactful: true,
+                  resolvedAt: null,
+                });
+                certification.update({ certificationIssueReports: [certificationIssueReport] });
+                this.server.patch(
+                  `/certification-issue-reports/${certificationIssueReport.id}`,
+                  (schema) => {
+                    const certificationIssueReportToUpdate = schema.certificationIssueReports.find(
+                      certificationIssueReport.id
+                    );
+                    certificationIssueReportToUpdate.update({ resolvedAt: new Date(), resolution: 'Fraud' });
+                    return new Response({});
+                  },
+                  204
+                );
+
+                const screen = await visitScreen(`/certifications/${certification.id}`);
+                await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
+                await fillByLabel('Résolution', 'Fraude');
+
+                // when
+                await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
+
+                // then
+                assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
+                assert.dom('.certification-issue-report__details').containsText('Fraud');
+              });
+            });
+          });
+          module('when the api returns an error', function () {
+            test('it should display an error notification', async function (assert) {
+              // given
+              const certificationIssueReport = this.server.create('certification-issue-report', {
+                category: 'OTHER',
+                description: 'Un signalement impactant',
+                isImpactful: true,
+                resolvedAt: null,
+              });
+              certification.update({ certificationIssueReports: [certificationIssueReport] });
+              this.server.patch(
+                `/certification-issue-reports/${certificationIssueReport.id}`,
+                () => new Response({}),
+                500
+              );
+
+              const screen = await visitScreen(`/certifications/${certification.id}`);
+
+              await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
+              await fillByLabel('Résolution', 'Fraude');
+
+              // when
+              await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
+
+              // then
+              assert.dom(screen.getByText(/une erreur est survenue/i)).exists();
+              assert.dom(screen.queryByLabelText('Fraud')).doesNotExist();
+            });
+          });
+        });
+      });
     });
 
     module('IN_CHALLENGE issue report', function () {
@@ -454,9 +524,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await clickByName("Voir les détails de l'utilisateur");
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/users/888');
+      assert.strictEqual(currentURL(), '/users/888');
     });
   });
 

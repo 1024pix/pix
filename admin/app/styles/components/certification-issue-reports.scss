@@ -26,6 +26,10 @@
   &__list {
     padding-left: 0;
 
+    button:last-of-type {
+      margin-left: auto;
+    }
+
     &--last {
       margin-bottom: 0;
     }

@@ -32,7 +32,7 @@ exports.register = async (server) => {
           }),
           payload: Joi.object({
             data: {
-              resolution: Joi.string().max(255),
+              resolution: Joi.string().max(255).allow(null).optional(),
             },
           }),
         },

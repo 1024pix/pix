@@ -29,4 +29,16 @@
       </div>
     {{/if}}
   </div>
+  {{#if @issueReport.canBeResolved}}
+    <PixButton @size="small" @isBorderVisible={{true}} @triggerAction={{this.toggleResolveModal}}>Résoudre le
+      signalement</PixButton>
+  {{/if}}
+  {{#if this.showResolveModal}}
+    <Certifications::IssueReports::ResolveIssueReportModal
+      @toggleResolveModal={{this.toggleResolveModal}}
+      @issueReport={{@issueReport}}
+      @resolveIssueReport={{@resolveIssueReport}}
+      @closeResolveModal={{this.closeResolveModal}}
+    />
+  {{/if}}
 </li>

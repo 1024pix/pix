@@ -11,6 +11,7 @@ import find from 'lodash/find';
 import ENV from 'pix-admin/config/environment';
 
 import { tracked } from '@glimmer/tracking';
+
 const PIX_COUNT_BY_LEVEL = 8;
 
 export default class CertificationInformationsController extends Controller {
@@ -75,6 +76,17 @@ export default class CertificationInformationsController extends Controller {
 
   get isModifyButtonDisabled() {
     return this.editingCandidateResults || this.certification.wasRegisteredBeforeCPF;
+  }
+
+  @action
+  async resolveIssueReport(issueReport, resolutionLabel) {
+    try {
+      await issueReport.resolve(resolutionLabel);
+      this.notifications.success('Le signalement a été résolu.');
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue :\n' + error?.errors[0]?.detail);
+    }
+    await this.certification.reload();
   }
 
   @action
