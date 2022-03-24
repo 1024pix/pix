@@ -358,6 +358,29 @@ describe('Integration | Repository | Campaign-Report', function () {
           expect(campaignReports[0].participationsCount).to.equal(1);
         });
 
+        it('should only count participations not deleted', async function () {
+          // given
+          const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({
+            userId,
+            campaignId: campaign.id,
+            deletedAt: new Date(),
+          });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isImproved: false });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: campaignReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({
+            organizationId,
+            filter,
+            page,
+          });
+
+          // then
+          expect(campaignReports[0].participationsCount).to.equal(1);
+        });
+
         it('should only count shared participations not improved', async function () {
           // given
           const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
@@ -386,6 +409,36 @@ describe('Integration | Repository | Campaign-Report', function () {
 
           // then
           expect(campaignReports[0].sharedParticipationsCount).to.equal(0);
+        });
+
+        it('should only count shared participations not deleted', async function () {
+          // given
+          const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({
+            userId,
+            campaignId: campaign.id,
+            sharedAt: new Date(),
+            isImproved: false,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            userId,
+            campaignId: campaign.id,
+            isImproved: false,
+            sharedAt: new Date(),
+            deletedAt: new Date(),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: campaignReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({
+            organizationId,
+            filter,
+            page,
+          });
+
+          // then
+          expect(campaignReports[0].sharedParticipationsCount).to.equal(1);
         });
 
         it('should return correct participations count and shared participations count', async function () {
