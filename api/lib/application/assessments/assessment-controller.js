@@ -93,10 +93,12 @@ module.exports = {
   async updateLastChallengeState(request) {
     const assessmentId = request.params.id;
     const lastQuestionState = request.params.state;
-    await assessmentRepository.updateLastQuestionState({
-      id: assessmentId,
-      lastQuestionState,
+    const challengeId = request.payload?.data?.attributes?.['challenge-id'];
+
+    await DomainTransaction.execute(async (domainTransaction) => {
+      await usecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState, domainTransaction });
     });
+
     return null;
   },
 

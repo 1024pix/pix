@@ -373,6 +373,7 @@ module.exports = injectDependencies(
     updateCampaignDetailsManagement: require('./update-campaign-details-management'),
     updateCertificationCenter: require('./update-certification-center'),
     updateExpiredPassword: require('./update-expired-password'),
+    updateLastQuestionState: require('./update-last-question-state'),
     updateMembership: require('./update-membership'),
     updateOrganizationInformation: require('./update-organization-information'),
     updateParticipantExternalId: require('./update-participant-external-id'),
