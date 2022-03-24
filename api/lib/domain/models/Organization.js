@@ -80,6 +80,10 @@ class Organization {
   get isScoAndHasExternalId() {
     return this.isSco && Boolean(this.externalId);
   }
+
+  get isArchived() {
+    return this.archivedAt !== null;
+  }
 }
 
 Organization.types = types;
