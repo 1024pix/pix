@@ -64,6 +64,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       status: SHARED,
       participantExternalId: 'mail pro',
       sharedAt: new Date('2018-02-06T14:12:44Z'),
+      deletedAt: new Date('2018-02-06T14:12:44Z'),
       createdAt: new Date('2018-02-05T14:12:44Z'),
       campaign,
       assessments: [{ id: 4, createdAt: new Date('2018-02-06T14:12:44Z') }],
@@ -82,6 +83,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             'is-shared': true,
             'participant-external-id': 'mail pro',
             'shared-at': new Date('2018-02-06T14:12:44Z'),
+            'deleted-at': new Date('2018-02-06T14:12:44Z'),
             'created-at': new Date('2018-02-05T14:12:44Z'),
           },
           relationships: {
