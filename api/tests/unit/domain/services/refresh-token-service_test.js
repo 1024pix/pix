@@ -1,9 +1,9 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
-const temporaryStorage = require('../../../../lib/infrastructure/temporary-storage');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
+const temporaryStorage = refreshTokenService.temporaryStorageForTests;
 
 describe('Unit | Domain | Service | Refresh Token Service', function () {
   describe('#createRefreshTokenFromUserId', function () {
