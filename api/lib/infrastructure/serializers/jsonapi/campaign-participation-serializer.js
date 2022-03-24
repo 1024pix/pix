@@ -14,7 +14,7 @@ module.exports = {
         return campaignParticipationForSerialization;
       },
 
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'assessment'],
+      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'assessment', 'deletedAt'],
       campaign: {
         ref: 'id',
         attributes: ['code', 'title', 'type'],

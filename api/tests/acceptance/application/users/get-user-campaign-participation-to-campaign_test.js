@@ -45,6 +45,7 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
             'is-shared': true,
             'participant-external-id': campaignParticipation.participantExternalId,
             'shared-at': campaignParticipation.sharedAt,
+            'deleted-at': campaignParticipation.deletedAt,
             'created-at': campaignParticipation.createdAt,
           },
           relationships: {
