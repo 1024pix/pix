@@ -16,6 +16,25 @@ class TemporaryStorage {
   async delete(/* key */) {
     throw new Error('Method #delete(key) must be overridden');
   }
+
+  withPrefix(prefix) {
+    const storage = this;
+    return {
+      async save({ key, ...args }) {
+        key = key ?? TemporaryStorage.generateKey();
+        await storage.save({ key: prefix + key, ...args });
+        return key;
+      },
+
+      get(key) {
+        return storage.get(prefix + key);
+      },
+
+      delete(key) {
+        return storage.delete(prefix + key);
+      },
+    };
+  }
 }
 
 module.exports = TemporaryStorage;
