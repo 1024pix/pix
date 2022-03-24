@@ -1,4 +1,4 @@
-const SharedProfileForCampaign = require('../models/SharedProfileForCampaign');
+const SharedProfileForCampaign = require('../read-models/SharedProfileForCampaign');
 const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
 
 module.exports = async function getUserProfileSharedForCampaign({
