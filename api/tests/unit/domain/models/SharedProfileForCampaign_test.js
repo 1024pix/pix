@@ -1,8 +1,50 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 const SharedProfileForCampaign = require('../../../../lib/domain/models/SharedProfileForCampaign');
+const Scorecard = require('../../../../lib/domain/models/Scorecard');
 
 describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
+  describe('#scorecards', function () {
+    context('when participant has knowledge elements', function () {
+      it('return scorecards', function () {
+        const userId = 1;
+        const competence = { id: 1, name: 'Useful competence' };
+        const knowledgeElements = [domainBuilder.buildKnowledgeElement({ competenceId: competence.id })];
+        const expectedScorecard = Scorecard.buildFrom({ userId, competence, knowledgeElements });
+
+        const sharedProfileForCampaign = new SharedProfileForCampaign({
+          userId,
+          campaignParticipation: {
+            sharedAt: new Date('2020-01-01'),
+          },
+          competencesWithArea: [competence],
+          knowledgeElementsGroupedByCompetenceId: {
+            [competence.id]: knowledgeElements,
+          },
+        });
+
+        expect(sharedProfileForCampaign.scorecards).to.deep.equal([expectedScorecard]);
+      });
+    });
+
+    context('when participant does not have knowledge elements', function () {
+      it('return empty array', function () {
+        const userId = 1;
+        const competence = { id: 1, name: 'Useful competence' };
+
+        const sharedProfileForCampaign = new SharedProfileForCampaign({
+          userId,
+          campaignParticipation: {
+            sharedAt: new Date('2020-01-01'),
+          },
+          competencesWithArea: [competence],
+        });
+
+        expect(sharedProfileForCampaign.scorecards).to.deep.equal([]);
+      });
+    });
+  });
+
   describe('#canRetry', function () {
     context('when participant is disabled', function () {
       it('cannot retry', function () {
