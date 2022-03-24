@@ -10,9 +10,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
-        });
-
-        sharedProfileForCampaign.build({
           campaignAllowsRetry: true,
           isRegistrationActive: false,
         });
@@ -27,9 +24,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
-        });
-
-        sharedProfileForCampaign.build({
           campaignAllowsRetry: false,
           isRegistrationActive: true,
         });
@@ -41,13 +35,10 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
+            deletedAt: new Date('2020-01-01'),
           },
-        });
-
-        sharedProfileForCampaign.build({
           campaignAllowsRetry: true,
           isRegistrationActive: true,
-          deletedAt: new Date('2020-01-01'),
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -61,9 +52,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
             campaignParticipation: {
               sharedAt: null,
             },
-          });
-
-          sharedProfileForCampaign.build({
             campaignAllowsRetry: true,
             isRegistrationActive: true,
           });
@@ -78,9 +66,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
             campaignParticipation: {
               sharedAt: new Date('2020-01-01'),
             },
-          });
-
-          sharedProfileForCampaign.build({
             campaignAllowsRetry: true,
             isRegistrationActive: true,
           });

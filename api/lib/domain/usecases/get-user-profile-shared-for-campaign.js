@@ -1,4 +1,5 @@
 const SharedProfileForCampaign = require('../models/SharedProfileForCampaign');
+const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
 
 module.exports = async function getUserProfileSharedForCampaign({
   userId,
@@ -15,9 +16,9 @@ module.exports = async function getUserProfileSharedForCampaign({
     userId,
   });
 
-  const sharedProfileForCampaign = new SharedProfileForCampaign({
-    campaignParticipation,
-  });
+  if (!campaignParticipation) {
+    throw new NoCampaignParticipationForUserAndCampaign();
+  }
 
   const [
     { multipleSendings: campaignAllowsRetry },
@@ -34,14 +35,12 @@ module.exports = async function getUserProfileSharedForCampaign({
     }),
   ]);
 
-  sharedProfileForCampaign.build({
+  return new SharedProfileForCampaign({
+    campaignParticipation,
     campaignAllowsRetry,
     isRegistrationActive,
     competencesWithArea,
     knowledgeElementsGroupedByCompetenceId,
     userId,
-    deletedAt: campaignParticipation.deletedAt,
   });
-
-  return sharedProfileForCampaign;
 };

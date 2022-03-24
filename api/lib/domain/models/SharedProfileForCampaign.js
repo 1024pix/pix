@@ -1,29 +1,26 @@
 const map = require('lodash/map');
 const isEmpty = require('lodash/isEmpty');
 const Scorecard = require('./Scorecard');
-const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
 
 class SharedProfileForCampaign {
-  constructor({ campaignParticipation }) {
-    if (!campaignParticipation) {
-      throw new NoCampaignParticipationForUserAndCampaign();
-    }
-
-    this.id = campaignParticipation.id;
-    this.sharedAt = campaignParticipation.sharedAt;
-    this.pixScore = campaignParticipation.pixScore || 0;
-  }
-
-  build({
+  constructor({
+    campaignParticipation,
     campaignAllowsRetry,
     isRegistrationActive,
     competencesWithArea,
     knowledgeElementsGroupedByCompetenceId,
     userId,
-    deletedAt,
   }) {
+    this.id = campaignParticipation?.id;
+    this.sharedAt = campaignParticipation?.sharedAt;
+    this.pixScore = campaignParticipation?.pixScore || 0;
     this.scorecards = this._buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId);
-    this.canRetry = this._computeCanRetry(campaignAllowsRetry, this.sharedAt, isRegistrationActive, deletedAt);
+    this.canRetry = this._computeCanRetry(
+      campaignAllowsRetry,
+      this.sharedAt,
+      isRegistrationActive,
+      campaignParticipation?.deletedAt
+    );
   }
 
   _buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId) {
