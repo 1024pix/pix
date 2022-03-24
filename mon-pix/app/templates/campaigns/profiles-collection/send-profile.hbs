@@ -6,20 +6,36 @@
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner send-profile-header">
 
     <div class="send-profile-header__announcement">
-      <h1 class="send-profile-header__title">
-        {{t "pages.send-profile.first-title"}}
-      </h1>
-      <p class="send-profile-header__instruction">
-        {{t "pages.send-profile.instructions" htmlSafe=true}}
-      </p>
+      {{#if this.model.campaignParticipation.deletedAt}}
+        <img
+          class="send-profile-header__image"
+          src="{{rootURL}}/images/illustrations/fat-bee.svg"
+          alt={{t "pages.profile-already-shared.first-title"}}
+        />
+        <p class="send-profile-disabled-share__text">
+          {{t "pages.send-profile.disabled-share" htmlSafe=true}}
+        </p>
+        <LinkTo @route="index" class="send-profile-disabled-share__back-to-home link">
+          {{t "pages.send-profile.form.continue"}}
+        </LinkTo>
+      {{else}}
+        <h1 class="send-profile-header__title">
+          {{t "pages.send-profile.first-title"}}
+        </h1>
+        <p class="send-profile-header__instruction">
+          {{t "pages.send-profile.instructions" htmlSafe=true}}
+        </p>
+      {{/if}}
     </div>
 
-    <ProfileSharingForm
-      @sendProfile={{action "sendProfile"}}
-      @campaignParticipation={{this.model.campaignParticipation}}
-      @campaign={{this.model.campaign}}
-      @errorMessage={{this.errorMessage}}
-    />
+    {{#unless this.model.campaignParticipation.deletedAt}}
+      <ProfileSharingForm
+        @sendProfile={{action "sendProfile"}}
+        @campaignParticipation={{this.model.campaignParticipation}}
+        @campaign={{this.model.campaign}}
+        @errorMessage={{this.errorMessage}}
+      />
+    {{/unless}}
 
     <div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
       <HexagonScore @pixScore={{this.model.user.profile.pixScore}} />
@@ -33,11 +49,13 @@
       </div>
     </div>
 
-    <ProfileSharingForm
-      @sendProfile={{action "sendProfile"}}
-      @campaignParticipation={{this.model.campaignParticipation}}
-      @campaign={{this.model.campaign}}
-      @errorMessage={{this.errorMessage}}
-    />
+    {{#unless this.model.campaignParticipation.deletedAt}}
+      <ProfileSharingForm
+        @sendProfile={{action "sendProfile"}}
+        @campaignParticipation={{this.model.campaignParticipation}}
+        @campaign={{this.model.campaign}}
+        @errorMessage={{this.errorMessage}}
+      />
+    {{/unless}}
   </div>
 </div>
