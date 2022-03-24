@@ -220,4 +220,22 @@ describe('Unit | Domain | Models | Organization', function () {
       expect(organization.isScoAndHasExternalId).is.false;
     });
   });
+
+  describe('get#isArchived', function () {
+    it('should return true when organization has an archive date', function () {
+      // given
+      const organization = domainBuilder.buildOrganization({ archivedAt: new Date('2013-05-22T23:42:00Z') });
+
+      // when / then
+      expect(organization.isArchived).is.true;
+    });
+
+    it('should return false when organization does not have an archive date', function () {
+      // given
+      const organization = domainBuilder.buildOrganization({ archivedAt: null });
+
+      // when / then
+      expect(organization.isArchived).is.false;
+    });
+  });
 });

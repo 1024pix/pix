@@ -59,7 +59,7 @@ function _ensureOrganizationHasAnEmail(organization, uai) {
 }
 
 function _ensureOrganizationIsNotArchived(organization) {
-  if (organization.archivedAt) {
+  if (organization.isArchived) {
     throw new OrganizationArchivedError();
   }
 }
