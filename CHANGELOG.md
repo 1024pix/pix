@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.190.0 (24/03/2022)
+
+
+### :rocket: Amélioration
+- [#4162](https://github.com/1024pix/pix/pull/4162) [FEATURE] Résoudre manuellement un signalement - Admin (PIX-4466).
+- [#4215](https://github.com/1024pix/pix/pull/4215) [FEATURE] Ajouter le nom du user sur la landing page(PIX-4431)
+- [#4223](https://github.com/1024pix/pix/pull/4223) [FEATURE] Ne plus prendre en compte les participations supprimées dans le rapport d'analyse d'une campagne (PIX-4577)
+
+### :bug: Correction
+- [#4234](https://github.com/1024pix/pix/pull/4234) [BUGFIX] Permettre l'affichage des classes/groupes d'une campagne même s'il y en a certain(e)s à null (PIX-4618).
+
 ## v3.189.0 (23/03/2022)
 
 ### :rocket: Amélioration
