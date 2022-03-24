@@ -6,8 +6,10 @@ const logger = require('../logger');
 const REDIS_CLIENT_OPTIONS = {};
 
 module.exports = class RedisClient {
-  constructor(redisUrl, clientName) {
-    this._clientName = clientName;
+  constructor(redisUrl, { name, prefix } = {}) {
+    this._clientName = name;
+
+    this._prefix = prefix ?? '';
 
     this._client = redis.createClient(redisUrl, REDIS_CLIENT_OPTIONS);
 
@@ -22,12 +24,19 @@ module.exports = class RedisClient {
       { retryCount: 0 }
     );
 
-    this.get = promisify(this._client.get).bind(this._client);
-    this.set = promisify(this._client.set).bind(this._client);
-    this.del = promisify(this._client.del).bind(this._client);
+    this.get = promisify(this._wrapWithPrefix(this._client.get)).bind(this._client);
+    this.set = promisify(this._wrapWithPrefix(this._client.set)).bind(this._client);
+    this.del = promisify(this._wrapWithPrefix(this._client.del)).bind(this._client);
     this.ping = promisify(this._client.ping).bind(this._client);
     this.flushall = promisify(this._client.flushall).bind(this._client);
     this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);
+  }
+
+  _wrapWithPrefix(fn) {
+    const prefix = this._prefix;
+    return function (key, ...args) {
+      return fn.call(this, prefix + key, ...args);
+    };
   }
 
   subscribe(channel) {

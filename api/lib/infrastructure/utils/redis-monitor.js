@@ -4,7 +4,7 @@ const RedisClient = require('./RedisClient');
 class RedisMonitor {
   constructor() {
     if (settings.caching.redisUrl) {
-      this._client = new RedisClient(settings.caching.redisUrl, 'redis-monitor');
+      this._client = new RedisClient(settings.caching.redisUrl, { name: 'redis-monitor' });
     }
   }
 

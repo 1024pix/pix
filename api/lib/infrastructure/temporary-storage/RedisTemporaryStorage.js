@@ -12,7 +12,7 @@ class RedisTemporaryStorage extends TemporaryStorage {
   }
 
   static createClient(redisUrl) {
-    return new RedisClient(redisUrl, 'temporary-storage');
+    return new RedisClient(redisUrl, { name: 'temporary-storage', prefix: 'temporary-storage:' });
   }
 
   async save({ key, value, expirationDelaySeconds }) {
