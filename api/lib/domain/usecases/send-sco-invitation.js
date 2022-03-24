@@ -15,11 +15,7 @@ module.exports = async function sendScoInvitation({
   organizationRepository,
   organizationInvitationRepository,
 }) {
-  const organizationsFound = await organizationRepository.findScoOrganizationsByUai({ uai: uai.trim() });
-  _ensureThereIsNoMoreThanOneOrganization(organizationsFound, uai);
-  _ensureThereIsAtLeastOneOrganization(organizationsFound, uai);
-
-  const organizationForUAI = organizationsFound[0];
+  const organizationForUAI = await _getOrganizationForUAI(organizationRepository, uai);
   _ensureOrganizationHasAnEmail(organizationForUAI, uai);
   _ensureOrganizationIsNotArchived(organizationForUAI);
 
@@ -33,6 +29,13 @@ module.exports = async function sendScoInvitation({
     organizationInvitationRepository,
   });
 };
+
+async function _getOrganizationForUAI(organizationRepository, uai) {
+  const organizationsFound = await organizationRepository.findScoOrganizationsByUai({ uai: uai.trim() });
+  _ensureThereIsNoMoreThanOneOrganization(organizationsFound, uai);
+  _ensureThereIsAtLeastOneOrganization(organizationsFound, uai);
+  return organizationsFound[0];
+}
 
 function _ensureThereIsAtLeastOneOrganization(organizationsFound, uai) {
   if (organizationsFound.length === 0) {
