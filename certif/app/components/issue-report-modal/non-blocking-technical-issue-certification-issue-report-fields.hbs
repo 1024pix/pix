@@ -1,0 +1,37 @@
+<fieldset class="non-blocking-technical-issue-certification-issue-report-fields">
+  <div class="non-blocking-technical-issue-certification-issue-report-fields__radio-button__tooltip">
+    <input
+      id="input-radio-for-category-technical-issue"
+      type="radio"
+      name="technical-issue"
+      checked={{@nonBlockingTechnicalIssueCategory.isChecked}}
+      {{on "click" (fn @toggleOnCategory @nonBlockingTechnicalIssueCategory)}}
+    />
+    <label for="input-radio-for-category-technical-issue"><span
+      >{{@nonBlockingTechnicalIssueCategory.categoryCode}}&nbsp;</span>{{@nonBlockingTechnicalIssueCategory.categoryLabel}}</label>
+    <PixTooltip @id="tooltip-technical-issue" @position="right" @isWide={{true}}>
+      <:triggerElement>
+        <FaIcon
+          @icon="info-circle"
+          tabindex="0"
+          aria-describedby="tooltip-technical-issue"
+          aria-label="Incident technique"
+        />
+      </:triggerElement>
+      <:tooltip>
+        <span>l’ordinateur s’est éteint, lenteur significative du réseau et/ou de l’appareil, etc.</span>
+      </:tooltip>
+    </PixTooltip>
+  </div>
+  {{#if @nonBlockingTechnicalIssueCategory.isChecked}}
+    <div class="non-blocking-technical-issue-certification-issue-report-fields__details">
+      <label for="text-area-for-category-technical-issue">Décrivez l'incident rencontré</label>
+      <PixTextarea
+        id="text-area-for-category-technical-issue"
+        @value={{@nonBlockingTechnicalIssueCategory.description}}
+        @maxlength={{@maxlength}}
+        required="true"
+      />
+    </div>
+  {{/if}}
+</fieldset>
