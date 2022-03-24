@@ -9,13 +9,12 @@ describe('Integration | Repository | UserEmailRepository', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const newEmail = 'user@example.net';
       const code = '999999';
-      const expectedKey = 'VERIFY-EMAIL-' + userId;
 
       // when
       const key = await userEmailRepository.saveEmailModificationDemand({ userId, code, newEmail });
 
       // then
-      expect(key).to.equal(expectedKey);
+      expect(key).to.equal(userId);
     });
   });
 
