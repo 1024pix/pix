@@ -60,6 +60,24 @@ describe('Integration | Repository | Group', function () {
         expect(groups).to.deep.equal([]);
       });
     });
+
+    context('when participation is deleted', function () {
+      it('should not return group', async function () {
+        const group = 'AB5';
+        const campaign = databaseBuilder.factory.buildCampaign();
+
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, group: group },
+          { campaignId: campaign.id, deletedAt: new Date() }
+        );
+
+        await databaseBuilder.commit();
+
+        const groups = await groupRepository.findByCampaignId(campaign.id);
+
+        expect(groups).to.deep.equal([]);
+      });
+    });
   });
 
   describe('#findByOrganizationId', function () {
