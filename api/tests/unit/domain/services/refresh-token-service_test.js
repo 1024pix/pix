@@ -19,7 +19,10 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       };
       const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
 
-      sinon.stub(temporaryStorage, 'save').withArgs({ value, expirationDelaySeconds }).resolves(validRefreshToken);
+      sinon
+        .stub(temporaryStorage, 'save')
+        .withArgs(sinon.match({ key: sinon.match(/^[-0-9a-f]+$/), value, expirationDelaySeconds }))
+        .resolves(validRefreshToken);
 
       // when
       const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source });
