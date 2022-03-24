@@ -28,6 +28,19 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     });
   });
 
+  describe('#delete', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.delete('key');
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
   describe('#generateKey', function () {
     it('should return a key from static method', function () {
       // when
